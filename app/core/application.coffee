@@ -70,9 +70,10 @@ Application = {
     if $.browser.msie and parseInt($.browser.version) is 10
       $("html").addClass("ie10")
     @tracker = new Tracker()
-    @facebookHandler = new FacebookHandler()
-    @gplusHandler = new GPlusHandler()
-    @githubHandler = new GitHubHandler()
+    unless me.onChinaInfra()
+      @facebookHandler = new FacebookHandler()
+      @gplusHandler = new GPlusHandler()
+      @githubHandler = new GitHubHandler()
     locale.load(me.get('preferredLanguage', true)).then =>
       @tracker.promptForCookieConsent()
     preferredLanguage = me.get('preferredLanguage') or 'en'

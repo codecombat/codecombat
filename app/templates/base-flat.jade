@@ -153,10 +153,11 @@ mixin accountLinks
                 if !me.isStudent()
                   li
                     a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                li
-                  a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
-                li
-                  a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
+                if !me.onChinaInfra()
+                  li
+                    a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
+                  li
+                    a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
 
       #final-footer.small.text-center(dir="ltr")
         span(data-i18n="nav.copyright_prefix")

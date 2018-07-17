@@ -19,11 +19,12 @@ scope = 'https://www.googleapis.com/auth/plus.login email'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
+    if me.onChinaInfra() then throw new Error('No Google+ support in China region.')
     @accessToken = storage.load GPLUS_TOKEN_KEY, false
     super()
 
   token: -> @accessToken?.access_token
-    
+
   startedLoading: false
   apiLoaded: false
   connected: false
@@ -46,14 +47,14 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
                   emails: [{value: 'some@email.com'}]
                 })
             }
-              
+
       auth:
         authorize: (opts, cb) ->
           cb({access_token: '1234'})
-          
+
     @startedLoading = true
     @apiLoaded = true
-    
+
   fakeConnect: ->
     @accessToken = {access_token: '1234'}
     @trigger 'connect'
@@ -65,7 +66,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       options.success.bind(options.context)()
     else
       @once 'load-api', options.success, options.context
-    
+
     if not @startedLoading
       po = document.createElement('script')
       po.type = 'text/javascript'
@@ -86,7 +87,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
         else
           @connected = false
           @trigger 'load-api'
-    
+
 
   connect: (options={}) ->
     options.success ?= _.noop
@@ -107,7 +108,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       @accessToken = e
       @trigger 'connect'
       options.success.bind(options.context)()
-      
+
 
   loadPerson: (options={}) ->
     options.success ?= _.noop
@@ -123,7 +124,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
             value = value[key]
           if value
             attrs[userProp] = value
-    
+
         if r.emails?.length
           attrs.email = r.emails[0].value
         @trigger 'load-person', attrs
@@ -133,9 +134,9 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   renderButtons: ->
     return false unless gapi?.plusone?
     gapi.plusone.go?()  # Handles +1 button
-  
+
   # Friends logic, not in use
-    
+
   loadFriends: (friendsCallback) ->
     return friendsCallback() unless @loggedIn
     expiresIn = if @accessToken then parseInt(@accessToken.expires_at) - new Date().getTime()/1000 else -1

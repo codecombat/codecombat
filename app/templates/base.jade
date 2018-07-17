@@ -86,7 +86,7 @@ block footer
       if me.isAdmin()
         a(href='/admin') Admin
 
-      if usesSocialMedia
+      if usesSocialMedia && !me.onChinaInfra()
         .share-buttons
           if !isIE
             .g-plusone(data-href="http://codecombat.com", data-size="medium")

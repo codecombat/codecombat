@@ -11,8 +11,10 @@ userPropsToSave =
   'email': 'email'
   'id': 'facebookID'
 
-
 module.exports = FacebookHandler = class FacebookHandler extends CocoClass
+  constructor: ->
+    if me.onChinaInfra() then throw new Error('No Facebook support in China region.')
+    super()
 
   token: -> @authResponse?.accessToken
 
@@ -20,7 +22,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
   apiLoaded: false
   connected: false
   person: null
-  
+
   fakeAPI: ->
     window.FB =
       login: (cb, options) ->
@@ -43,7 +45,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
       options.success.bind(options.context)()
     else
       @once 'load-api', options.success, options.context
-    
+
     if not @startedLoading
       # Load the SDK asynchronously
       @startedLoading = true
@@ -56,7 +58,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
         js.id = id
         js.async = true
         js.src = '//connect.facebook.net/en_US/sdk.js'
-    
+
         #js.src = '//connect.facebook.net/en_US/all/debug.js'
         ref.parentNode.insertBefore js, ref
         return
