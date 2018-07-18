@@ -84,6 +84,44 @@ describe 'GET /db/prepaid', ->
       expect(body.length).toEqual(4)
       done()
 
+fdescribe 'PUT /db/prepaid/:handle', ->
+  beforeEach utils.wrap (done) ->
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    user = yield utils.initUser()
+    @prepaid = yield utils.makePrepaid({ creator: user.id })
+    done()
+
+  it 'does not work for non-admins', utils.wrap (done) ->
+    nonAdminUser = yield utils.initUser() 
+    yield utils.loginUser(nonAdminUser)
+    @url=getURL("/db/prepaid/#{@prepaid._id}")
+    [res, body] = yield request.putAsync({url: @url, json: {
+      startDate: moment("2018-1-1","YYYY-MM-DD").toISOString()
+      endDate: moment("2019-1-1","YYYY-MM-DD").toISOString()
+      maxRedeemers: 10
+    }})
+    expect(res.statusCode).toBe(403)
+    done()
+
+  it 'works for admins', utils.wrap (done) ->
+    @url = getURL("/db/prepaid/#{@prepaid._id}")
+    [res, body] = yield request.putAsync ({url: @url, json: {
+      startDate: moment("2018-1-1","YYYY-MM-DD").toISOString()
+      endDate: moment("2019-1-1","YYYY-MM-DD").toISOString()
+      maxRedeemers: 10
+    }})
+    expect(res.statusCode).toBe(200)
+    prepaid = yield Prepaid.findById(res.body._id)
+    expect(prepaid).toBeDefined()
+    expect(prepaid.get('startDate')).toBeDefined()
+    expect(prepaid.get('startDate')).toBe(moment("2018-1-1","YYYY-MM-DD").toISOString())
+    expect(prepaid.get('endDate')).toBeDefined()
+    expect(prepaid.get('endDate')).toBe(moment("2019-1-1","YYYY-MM-DD").toISOString())
+    expect(prepaid.get('maxRedeemers')).toBeDefined()
+    expect(prepaid.get('maxRedeemers')).toBe(10)
+    done()
+
 describe 'GET /db/prepaid/:handle/creator', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([Course, CourseInstance, Payment, Prepaid, User])
