@@ -375,24 +375,7 @@ module.exports = class PlayLevelView extends RootView
     return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
-    # TODO: remove these multiplayer equipment definitions once usesConfiguredMultiplayerHero is deployed
-    if e.level.get('slug') is 'zero-sum'
-      sorcerer = '52fd1524c7e6cf99160e7bc9'
-      if e.session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
-        sorcerer = '53e126a4e06b897606d38bef'
-      e.session.set 'heroConfig', {"thangType":sorcerer,"inventory":{"misc-0":"53e2396a53457600003e3f0f","programming-book":"546e266e9df4a17d0d449be5","minion":"54eb5dbc49fa2d5c905ddf56","feet":"53e214f153457600003e3eab","right-hand":"54eab7f52b7506e891ca7202","left-hand":"5463758f3839c6e02811d30f","wrists":"54693797a2b1f53ce79443e9","gloves":"5469425ca2b1f53ce7944421","torso":"546d4a549df4a17d0d449a97","neck":"54693274a2b1f53ce79443c9","eyes":"546941fda2b1f53ce794441d","head":"546d4ca19df4a17d0d449abf"}}
-    else if e.level.get('slug') is 'ace-of-coders'
-      goliath = '55e1a6e876cb0948c96af9f8'
-      e.session.set 'heroConfig', {"thangType":goliath,"inventory":{
-        "eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"
-      }}
-    else if e.level.get('slug') is 'the-battle-of-sky-span'
-      wizard = '52fc1460b2b91c0d5a7b6af3'
-      e.session.set 'heroConfig', {"thangType":wizard,"inventory":{}}
-    else if e.level.get('slug') is 'assembly-speed'
-      raider = '55527eb0b8abf4ba1fe9a107'
-      e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
-    else if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size(e.session.get('heroConfig')?.inventory ? {}) and e.level.get('assessment') isnt 'open-ended'
+    if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size(e.session.get('heroConfig')?.inventory ? {}) and e.level.get('assessment') isnt 'open-ended'
       # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
       _.defer =>
         return if _.size(e.session.get('heroConfig')?.inventory ? {})
