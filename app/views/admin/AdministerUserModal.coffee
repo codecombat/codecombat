@@ -56,7 +56,6 @@ module.exports = class AdministerUserModal extends ModalView
     @currentCouponID = stripe.couponID
     @none = not (@free or @freeUntil or @coupon)
     @trialRequest = @trialRequests.first()
-    @prepaidTableState = 'viewMode'
     @prepaidTableState={}
     super()
 
@@ -226,24 +225,25 @@ module.exports = class AdministerUserModal extends ModalView
     prepaidId= @$(e.target).data('prepaid-id')  
     prepaidStartDate= @$el.find('#'+'startDate-'+prepaidId).val()
     prepaidEndDate= @$el.find('#'+'endDate-'+prepaidId).val()
-    prePaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
+    prepaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
     @prepaids.each (prepaid) =>
       if (prepaid.get('_id') == prepaidId) 
         #validations
-        unless prepaidStartDate and prepaidEndDate and prePaidTotalLicenses
-          return
+        unless prepaidStartDate and prepaidEndDate and prepaidTotalLicenses
+          return 
         if(prepaidStartDate >= prepaidEndDate)
           alert('End date cannot be on or before start date')
           return
-        if(prePaidTotalLicenses < (prepaid.get('redeemers') || []).length)
+        if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length)
           alert('Total number of licenses cannot be less than used licenses')
           return
         prepaid.set('startDate', moment.timezone.tz(prepaidStartDate, "America/Los_Angeles").toISOString())
         prepaid.set('endDate',  moment.timezone.tz(prepaidEndDate, "America/Los_Angeles").toISOString())
-        prepaid.set('maxRedeemers', prePaidTotalLicenses)
+        prepaid.set('maxRedeemers', prepaidTotalLicenses)
         options = {}
         prepaid.patch(options)
-        @listenTo prepaid, 'sync', ->
+        @listenTo prepaid, 'sync', -> 
           @prepaidTableState[prepaidId] = 'viewMode'
           @renderSelectors('#'+prepaidId)
+        return
  

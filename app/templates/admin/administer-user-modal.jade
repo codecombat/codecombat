@@ -63,8 +63,8 @@ block modal-body-content
         th End (PT)
         th Used
       for prepaid in view.prepaids.models
-       - var controlId=prepaid.id
-        tr(id=controlId)
+        - var prepaidControlId=prepaid.id
+        tr(id=prepaidControlId)
           td= prepaid.id
           td
             if prepaid.creator
@@ -78,22 +78,22 @@ block modal-body-content
           td
             if prepaid.get('startDate')
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
-                - var controlId='startDate-'+prepaid.id
-                input(id= controlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz('America/Los_Angeles').format('YYYY-MM-DD'))
+                - var startDateControlId='startDate-'+prepaid.id
+                input(id= startDateControlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz('America/Los_Angeles').format('YYYY-MM-DD'))
               else
                 = moment.timezone(prepaid.get('startDate')).tz('America/Los_Angeles').format('l')
           td
             if prepaid.get('endDate')
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
-                - var controlId='endDate-'+prepaid.id
-                input(id= controlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz('America/Los_Angeles').format('YYYY-MM-DD'))
+                - var endDateControlId='endDate-'+prepaid.id
+                input(id= endDateControlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz('America/Los_Angeles').format('YYYY-MM-DD'))
               else
                 = moment.timezone(prepaid.get('endDate')).tz('America/Los_Angeles').format('l')
           td
             if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
-              - var controlId='totalLicenses-'+prepaid.id
+              - var totalLicensesControlId='totalLicenses-'+prepaid.id
               = (prepaid.get('redeemers') || []).length + ' / ' 
-              input(id=controlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:3em")
+              input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
             else
               = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
           td
