@@ -84,7 +84,7 @@ describe 'GET /db/prepaid', ->
       expect(body.length).toEqual(4)
       done()
 
-fdescribe 'PUT /db/prepaid/:handle', ->
+describe 'PUT /db/prepaid/:handle', ->
   beforeEach utils.wrap (done) ->
     @admin = yield utils.initAdmin()
     yield utils.loginUser(@admin)
