@@ -64,7 +64,6 @@ module.exports = class LevelSetupManager extends CocoClass
 
   loadModals: ->
     # build modals and prevent them from disappearing.
-    # TODO: refactor down to this
     if @level.usesConfiguredMultiplayerHero()
      @onInventoryModalPlayClicked()
      return
