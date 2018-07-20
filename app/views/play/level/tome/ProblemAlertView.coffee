@@ -53,7 +53,7 @@ module.exports = class ProblemAlertView extends CocoView
 
   setProblemMessage: ->
     if @problem?
-      format = (s) -> marked(s.replace(/</g, '&lt;').replace(/>/g, '&gt;')) if s?
+      format = (s) -> marked(s) if s?
       message = @problem.message
       # Add time to problem message if hint is for a missing null check
       # NOTE: This may need to be updated with Aether error hint changes
