@@ -1,13 +1,13 @@
-props = 
+props =
   permissions: []
   anonymous: true
   preferredLanguage: 'en'
-  
+
 exports.serverConfig =
   codeNinja: false
   static: true
 
-exports.features = 
+exports.features =
   playViewsOnly: false
 
 exports.me =
@@ -17,6 +17,7 @@ exports.me =
   isTeacher: () -> false
   isAdmin: () -> false
   level: () -> 1
+  onChinaInfra: -> false
   gems: () -> 0
   getPhotoURL: () -> ''
   displayName: () -> ''
@@ -25,7 +26,7 @@ exports.me =
   isOnPremiumServer: () -> false
   freeOnly: -> false
 
-exports.view = 
+exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
   isMobile: () -> false
   showAds: () -> false

@@ -268,6 +268,7 @@ module.exports.setup = (app) ->
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin','licensor']), mw.prepaids.post)
   app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
+  app.put('/db/prepaid/:handle', mw.auth.checkHasPermission(['admin']), mw.prepaids.put)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
   app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner)
   app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke)
