@@ -140,7 +140,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     subscribers_only: "Hanya untuk yang pelanggan!"
     subscribe_unlock: "Berlangganan untuk membuka!"
     subscriber_heroes: "Berlangganan sekarang untuk segera membuka Amara, Hushbaum, and Hattori!"
-    subscriber_gems: "Subscribe today to purchase this hero with permata!"
+    subscriber_gems: "Berlangganan sekarang untuk membeli jagoan ini dengan permata!"
     anonymous: "Pemain tak bernama"
     level_difficulty: "Kesulitan: "
     awaiting_levels_adventurer_prefix: "Kami meliris level baru setiap minggunya"
