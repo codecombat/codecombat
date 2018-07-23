@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Português (Portugal)", englishDescription: "Portuguese (Portugal)", translation:
   new_home:
-    slogan: "O jogo mais cativante para aprender programação."
+    slogan: "O jogo mais cativante para aprender programação." # {change}
     classroom_edition: "Edição de Turma:"
     learn_to_code: "Aprender a programar:"
     play_now: "Jogar Agora"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     accessible_to: "Acessível a"
     everyone: "todos"
     democratizing: "Democratizar o processo de aprender a programar está na base da nossa filosofia. Todos devem poder aprender a programar."
-    forgot_learning: "Acho que eles se esqueceram que estavam a aprender alguma coisa."
+    forgot_learning: "Acho que eles se esqueceram que estavam a aprender alguma coisa." # {change}
     wanted_to_do: "Programar é algo que sempre quis fazer e nunca pensei que poderia aprender isso na escola."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Porque é que aprender através de jogos é importante?"
     games_reward: "Os jogos recompensam o esforço produtivo."
     encourage: "Jogar é algo que encoraja a interação, a descoberta e a tentativa erro. Um bom jogo desafia o jogador a dominar habilidades com o tempo, que é o mesmo processo fundamental que os estudantes atravessam quando aprendem."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     retrostyle_blurb: "'RetroStyle Games'"
     bryukh_title: "Designer de Jogos"
     bryukh_blurb: "Constrói puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...e a nossa comunidade open source"
     community_subtitle: "Mais de 500 contribuidores ajudaram a construir o CodeCombat, com mais a se juntarem todas as semanas!"
     community_description_3: "O CodeCombat é um"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    empty_credits: "Exhausted Licenses"
     license_remaining: "licença restante"
     licenses_remaining: "licenças restantes"
-    one_license_used: "1 licença foi usada"
-    num_licenses_used: "__numLicensesUsed__ licenças foram usadas"
+    one_license_used: "1 licença foi usada" # {change}
+    num_licenses_used: "__numLicensesUsed__ licenças foram usadas" # {change}
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"

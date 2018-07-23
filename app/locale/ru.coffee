@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
   new_home:
-    slogan: "Самая захватывающая игра для обучения программированию."
+    slogan: "Самая захватывающая игра для обучения программированию." # {change}
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
     play_now: "Играть сейчас"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     accessible_to: "Доступно для"
     everyone: "каждого"
     democratizing: "Демократизация обучения программированию лежит в основе нашей философии. Каждый должен иметь возможность научиться программированию."
-    forgot_learning: "Я думаю, что они забудут, что они действительно что-то изучают."
+    forgot_learning: "Я думаю, что они забудут, что они действительно что-то изучают." # {change}
     wanted_to_do: " Программирование – это то, чем я всегда хотел заниматься, но не предполагал, что смогу изучать это в школе."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Почему важно обучение с помощью игр?"
     games_reward: "Игры поощряют эффективное упорство."
     encourage: "Игровой процесс побуждает к взаимодействию, исследованию, учит методу проб и ошибок. Хорошая игра заставляет игрока со временем развивать свои навыки, то же самое происходит и в процессе обучения."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...и наше open-source сообщество"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"
@@ -1558,7 +1561,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     license_remaining: "Оставшееся время лицензии"
     licenses_remaining: "Оставшееся время лицензий"
     one_license_used: "1 лицензия была использована"
-    num_licenses_used: "__numLicensesUsed__ лицензий было использовано"
+    num_licenses_used: "__numLicensesUsed__ лицензий было использовано" # {change}
     starter_licenses: "стартовые лицензии"
     start_date: "дата начала:"
     end_date: "дата конца:"

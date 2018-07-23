@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Español (América Latina)", englishDescription: "Spanish (Latin America)", translation:
   new_home:
-    slogan: "El juego más interesante para aprender programación."
+    slogan: "El juego más interesante para aprender programación." # {change}
     classroom_edition: "Versión para el Aula:"
     learn_to_code: "Aprende a programar:"
     play_now: "Jugar Ahora"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     accessible_to: "Comprensible para"
     everyone: "todos"
     democratizing: "Democratizar el proceso de aprender a programar es la esencia de nuestra filosofía. Todos deberían poder aprender a programar"
-    forgot_learning: "Creo que ellos en realidad olvidaron de que estaban aprendiendo algo."
+    forgot_learning: "Creo que ellos en realidad olvidaron de que estaban aprendiendo algo." # {change}
     wanted_to_do: "Programar es algo que siempre quise hacer, y que nunca pensé que sería capaz de aprenderlo en la escuela ."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "¿Por qué el aprendizaje mediante juegos es importante?"
     games_reward: "Los juegos recompensan el esfuerzo productivo."
     encourage: "El juego es un medio que incentiva la interacción, el descubrimiento, y la prueba-error. Un buen juego desafía al jugador a dominar habilidades con el paso del tiempo, que es un proceso crítico similar al que los estudiantes atraviesan mientran aprenden"
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrostyle_blurb: "Juegos con estilo Retro"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"

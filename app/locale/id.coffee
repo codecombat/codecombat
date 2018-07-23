@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Indonesian", translation:
   new_home:
-    slogan: "Game untuk belajar pemrograman paling menyenangkan."
+    slogan: "Game untuk belajar pemrograman paling menyenangkan." # {change}
     classroom_edition: "Edisi Ruang Kelas:"
     learn_to_code: "Belajar membuat kode:"
     play_now: "Mainkan Sekarang"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     accessible_to: "Dapat diakses oleh"
     everyone: "semua orang"
     democratizing: "Mendemokrasikan proses belajar membuat kode adalah inti dari filsafat kami. Semua orang mampu untuk belajar membuat kode."
-    forgot_learning: "Saya pikir mereka benar-benar lupa bahwa mereka sebenarnya mempelajari sesuatu."
+    forgot_learning: "Saya pikir mereka benar-benar lupa bahwa mereka sebenarnya mempelajari sesuatu." # {change}
     wanted_to_do: " Belajar membuat kode adalah sesuatu yang selalu saya ingin lakukan, dan saya tidak pernah berpikir saya akan bisa mempelajarinya di sekolah."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Mengapa belajar melalui bermain sangatlah penting?"
     games_reward: "Permainan memberikan imbalan terhadap perjuangan yang produktif."
     encourage: "Gaming adalah perantara yang mendorong interaksi, penemuan, dan mencoba-coba. Sebuah permainan yang baik menantang pemain untuk menguasai keterampilan dari waktu ke waktu, yang merupakan proses penting sama yang dilalui siswa saat mereka belajar."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     retrostyle_blurb: "Permainan RetroStyle"
     bryukh_title: "Perancang Permainan"
     bryukh_blurb: "Merancang teka-teki"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...dan komunitas sumber terbuka kami"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     empty_credits: "Lisensi Habis"
     license_remaining: "lisensi yang tersisa"
     licenses_remaining: "lisensi yang tersisa"
-    one_license_used: "1 lisensi telah dipakai"
-    num_licenses_used: "__numLicensesUsed__ lisensi telah terpakai"
+    one_license_used: "1 lisensi telah dipakai" # {change}
+    num_licenses_used: "__numLicensesUsed__ lisensi telah terpakai" # {change}
     starter_licenses: "lisensi awal"
     start_date: "tanggal mulai:"
     end_date: "tanggal berakhir:"
@@ -1713,7 +1716,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_quest_teach_methods: "Bantu siswa anda belajar bagaimana cara `memanggil method`."
     teacher_quest_teach_methods_step1: "Dapatkan minimal 75% dari satu kelas untuk melewati level pertama, __Dungeons of Kithgard__"
     teacher_quest_teach_methods_step2: "Cetak [Panduan Memulai Cepat Siswa](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) di Pusat Sumber Daya."
-#    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."  # Help me with this
+#    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Dapatkan minimal 75% dari satu kelas melalui __True Names__."
     teacher_quest_teach_strings_step2: "Gunakan Pemilih Level Guru di halaman [Panduan Kursus](/teachers/courses) untuk melihat __True Names__."
     teacher_quest_teach_loops: "Jaga siswa anda dalam perulangan lingkaran mengenai `perulangan`"

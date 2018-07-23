@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak", translation:
   new_home:
-    slogan: "Najpútavejšia hra,  pri ktorej sa naučíš programovať."
+    slogan: "Najpútavejšia hra,  pri ktorej sa naučíš programovať." # {change}
     classroom_edition: "Verzia pre triedy:"
     learn_to_code: "Nauč sa programovať:"
     play_now: "Hraj teraz"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     accessible_to: "Prístupné"
     everyone: "pre každého"
     democratizing: "Demokratizácia procesu výuky programovania je jadrom našej filozofie. Každému by malo byť umožnené naučiť sa programovať."
-    forgot_learning: "Moji študenti zabudli, že sa učia programovať. Brali to ako hru."
+    forgot_learning: "Moji študenti zabudli, že sa učia programovať. Brali to ako hru." # {change}
     wanted_to_do: "Vždy som sa chcel naučiť programovať a nikdy som nemyslel, že to bude v škole."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Prečo je učenie sa hrou také dôležité?"
     games_reward: "Hry odmeňujú tvorivé úsilie."
     encourage: "Hra podporuje interaktivitu, objavovanie a metódu pokusov a omylov. Dobrá hra núti hráča, aby sa časom jeho schopnosti zdokonaľovali, čo je ktitické aj v procese učenia."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     retrostyle_blurb: "Retro hry"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...a naša komunita open-source"
     community_subtitle: "Vyše  500 spolupracovníkov pomohlo s tvorbou CodeCombatu. Každý týždeň pribúdajú ďalší."
     community_description_3: "CodeCombat je"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"

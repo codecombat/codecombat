@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
   new_home:
-    slogan: "最引人入胜的编程游戏。"
+    slogan: "最引人入胜的编程游戏。" # {change}
     classroom_edition: "教育版："
     learn_to_code: "学习编程："
     play_now: "开始游戏"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     accessible_to: "提供给"
     everyone: "每个人"
     democratizing: "我们的核心理念是普及编程学习。每个人都应该有机会学习编程。"
-    forgot_learning: "我觉得他们甚至忘了自己在学东西。"
+    forgot_learning: "我觉得他们甚至忘了自己在学东西。" # {change}
     wanted_to_do: "写代码是我一直想做的事情。我从没想过我能在学校学习它。"
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "为什么通过游戏来学习编程很重要？"
     games_reward: "游戏能获得高效的奋斗。"
     encourage: "游戏是鼓励交流、发现、试错的媒介。好的游戏能够让玩家学习到技能，正如学生在学习过程中所做的那样。"
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     retrostyle_blurb: "复古风格的游戏"
     bryukh_title: "游戏设计师"
     bryukh_blurb: "构建拼图"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     empty_credits: "许可已用完"
     license_remaining: "剩余许可证"
     licenses_remaining: "剩余许可证"
-    one_license_used: "1个许可证已被使用"
-    num_licenses_used: "__numLicensesUsed__个许可证已被使用"
+    one_license_used: "1个许可证已被使用" # {change}
+    num_licenses_used: "__numLicensesUsed__个许可证已被使用" # {change}
 #    starter_licenses: "starter licenses"
     start_date: "起始日期："
     end_date: "结束日期："

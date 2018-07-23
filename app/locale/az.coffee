@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Azerbaijani", translation:
   new_home:
-    slogan: "Proqramlaşdırma üzrə ən maraqlı oyun."
+    slogan: "Proqramlaşdırma üzrə ən maraqlı oyun." # {change}
     classroom_edition: "Sinif  Nəşri:"
     learn_to_code: "Kodlaşdırmağı öyrən:"
     play_now: "İndi Oynamaq"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Aze
 #    accessible_to: "Accessible to"
 #    everyone: "everyone"
 #    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
-#    forgot_learning: "I think they actually forgot that they were actually learning something."
+#    forgot_learning: "I think they actually forgot that they were learning something."
 #    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
 #    why_games: "Why is learning through games important?"
 #    games_reward: "Games reward the productive struggle."
 #    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Aze
 #    retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Aze
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"

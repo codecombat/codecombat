@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Ελληνικά", englishDescription: "Greek", translation:
   new_home:
-    slogan: "Το πιο συναρπαστικό παιχνίδι για εκμάθηση προγραμματισμού."
+    slogan: "Το πιο συναρπαστικό παιχνίδι για εκμάθηση προγραμματισμού." # {change}
     classroom_edition: "Έκδοση Αίθουσας Διδασκαλίας:"
     learn_to_code: "Μάθε να προγραμματίζεις:"
     play_now: "Παίξε Τώρα"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     accessible_to: "Προσβάσιμο στον"
     everyone: "καθένα"
     democratizing: "Ο εκδημοκρατισμός της διαδικασίας της μάθησης προγραμματισμού βρίσκεται στον πυρήνα της φιλοσοφίας μας. Ο καθένας θα πρέπει να μπορεί να μάθει να προγραμματίζει."
-    forgot_learning: "Νομίζω ότι πραγματικά ξέχασαν ότι πράγματι μάθαιναν κάτι."
+    forgot_learning: "Νομίζω ότι πραγματικά ξέχασαν ότι πράγματι μάθαιναν κάτι." # {change}
     wanted_to_do: "Ο προγραμματισμός είναι κάτι που πάντα ήθελα να κάνω και ποτέ δεν πίστευα ότι θα μπορούσα να το μάθω στο σχολείο."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Γιατί η μάθηση μέσω των παιχνιδιών είναι σημαντική;"
     games_reward: "Τα παιχνίδια ανταμείβουν την παραγωγική προσπάθεια."
     encourage: "Το παιχνίδι είναι ένα μέσο που ενθαρρύνει την αλληλεπίδραση, την ανακάλυψη και τη δοκιμή-και-λάθος. Ένα καλό παιχνίδι προκαλεί τον παίκτη να κατακτήσει δεξιότητες με την πάροδο του χρόνου, η οποία είναι η ίδια κρίσιμη διαδικασία που οι μαθητές περνούν καθώς μαθαίνουν."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     retrostyle_blurb: "Ρετρό Παιχνίδια"
     bryukh_title: "Σχεδιαστής Παιχνιδιού"
     bryukh_blurb: "Δημιουργός Γρίφων"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...και η κοινότητά μας του ανοικτού κώδικα"
     community_subtitle: "Περισσότεροι από 500 συνεισφέροντες βοήθησαν στην οικοδόμηση του CodeCombat, με περισσότερες συμμετοχές κάθε εβδομάδα!"
     community_description_3: "Το CodeCombat είναι ένα"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     empty_credits: "Εξαντλημένες Άδειες"
     license_remaining: "εναπομείναν άδεια"
     licenses_remaining: "εναπομείναντες άδειες"
-    one_license_used: "1 άδεια έχει χρησιμοποιηθεί"
-    num_licenses_used: "__numLicensesUsed__ άδεις έχουν χρησιμοποιηθεί"
+    one_license_used: "1 άδεια έχει χρησιμοποιηθεί" # {change}
+    num_licenses_used: "__numLicensesUsed__ άδεις έχουν χρησιμοποιηθεί" # {change}
     starter_licenses: "άδειες εκκίνησης"
     start_date: "ημερομηνία αρχής:"
     end_date: "ημερομηνία τέλους:"

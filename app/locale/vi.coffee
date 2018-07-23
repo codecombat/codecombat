@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
   new_home:
-    slogan: "Trò chơi hấp dẫn nhất để học lập trình."
+    slogan: "Trò chơi hấp dẫn nhất để học lập trình." # {change}
     classroom_edition: "Phiên bản Lớp học:"
     learn_to_code: "Học lập trình:"
     play_now: "Chơi ngay"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     accessible_to: "Tiếp cận dễ dàng"
     everyone: "cho mọi người"
     democratizing: "Xã hội hóa quá trình học lập trình là tôn chỉ của chúng tôi. Mọi người đều có thể học code."
-    forgot_learning: "Tôi nghĩ học viên không để ý rằng họ thực sự đang học."
+    forgot_learning: "Tôi nghĩ học viên không để ý rằng họ thực sự đang học." # {change}
     wanted_to_do: "Lập trình là điều mà em luôn muốn làm, em không thể nghĩ rằng em có thể học nó ngay tại trường."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Tại sao học thông qua chơi game lại quan trọng?"
     games_reward: "Game cổ vũ một cách tích cực."
     encourage: "Game là môi trường khuyến khích sự tương tác, khám phá, và tinh thần không sợ thất bại. Một tựa game hay sẽ thử thách người chơi giúp họ dần dần hoàn thiện kĩ năng, điều này cũng giống như quá trình học tập của một học sinh trong lớp học vậy."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...và cộng đồng mã nguồn mở của chúng tôi"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
