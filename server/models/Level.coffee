@@ -67,6 +67,15 @@ LevelSchema.post 'save', (doc) ->
   query["levels.#{doc.get('original')}"] = {$exists: true}
   Campaign.update(query, update, {multi:true}).exec()
 
+# TODO: introduced parallel to User privateProperties filtering for level passwords, but we don't call toObject in the places where we load levels, so this is not active yet.
+LevelSchema.set 'toObject',
+  transform: (doc, ret, options) ->
+    req = options.req
+    includePrivates = req?.user?.isAdmin()
+    delete ret[prop] for prop in LevelSchema.statics.privateProperties unless includePrivates
+    return ret
+
+LevelSchema.statics.privateProperties = ['password']
 LevelSchema.statics.postEditableProperties = ['name']
 LevelSchema.statics.jsonSchema = jsonSchema
 
@@ -128,7 +137,8 @@ LevelSchema.statics.editableProperties = [
   'practiceThresholdMinutes'
   'primerLanguage'
   'studentPlayInstructions'
+  'password'
+  'mirrorMatch'
 ]
-
 
 module.exports = Level = mongoose.model('level', LevelSchema)
