@@ -8,6 +8,19 @@ block modal-header-content
 block modal-body-content
         
   .text-center
+    if view.user.prepaidType() === 'course'
+      .license-details
+        strong(data-i18n="teacher.license_status")
+        span.spr :
+        .small-details
+          span.spr(data-i18n="teacher.full_license")
+          span (
+          span= view.studentStatusString(view.user)
+          span )
+        .small-details
+          button.revoke-student-btn.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license")
+        
+
     .edit-student-details
       strong(data-i18n="teacher.student_details")
       span.spr :
