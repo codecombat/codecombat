@@ -588,9 +588,8 @@ module.exports = class TeacherClassView extends RootView
 
       requests = []
 
-      for prepaid in availablePrepaids
-        for i in _.range(prepaid.openSpots())
-          break unless _.size(unenrolledStudents) > 0
+      for prepaid in availablePrepaids when Math.min(_.size(unenrolledStudents), prepaid.openSpots()) > 0
+        for i in [0...Math.min(_.size(unenrolledStudents), prepaid.openSpots())]
           user = unenrolledStudents.shift()
           requests.push(prepaid.redeem(user))
 
