@@ -162,6 +162,9 @@ module.exports = class LevelLoader extends CocoClass
         url += "?course=#{@courseID}"
         if @courseInstanceID
           url += "&courseInstance=#{@courseInstanceID}"
+      if password = utils.getQueryVariable 'password'
+        delimiter = if /\?/.test(url) then '&' else '?'
+        url += delimiter + 'password=' + password
 
     session = new LevelSession().setURL url
     if @headless and not @level.isType('web-dev')

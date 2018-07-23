@@ -34,7 +34,7 @@ module.exports = class CastButtonView extends CocoView
     # WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a
     # mirror level is added to
     # Keep server/middleware/levels.coffee mirror list in sync with this one
-    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games']
+    @loadMirrorSession() if @options.level.get('mirrorMatch') or @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games']  # TODO: remove slug list once these levels are configured as mirror matches
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.isType('course-ladder')
     # Show publish CourseVictoryModal if they've already published

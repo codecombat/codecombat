@@ -78,6 +78,10 @@ module.exports = class Level extends CocoModel
   denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
     isHero = /Hero Placeholder/.test(levelThang.id) and @isType('hero', 'hero-ladder', 'hero-coop') and @get('assessment') isnt 'open-ended'
+
+    if isHero and @usesConfiguredMultiplayerHero()
+      isHero = false  # Don't use the hero from the session, but rather the one configured in this level
+
     if isHero and otherSession
       # If it's a hero and there's another session, find the right session for it.
       # If there is no other session (playing against default code, or on single player), clone all placeholders.
@@ -270,7 +274,7 @@ module.exports = class Level extends CocoModel
     return {width: width, height: height}
 
   isLadder: -> return Level.isLadder(@attributes)
-    
+
   @isLadder: (level) -> level.type?.indexOf('ladder') > -1
 
   isProject: -> Level.isProject(@attributes)
@@ -313,7 +317,14 @@ module.exports = class Level extends CocoModel
         achieved = score >= thresholdValue
       if achieved
         return threshold
-        
+
   isSummative: -> @get('assessment') in ['open-ended', 'cumulative']
+
+  usesConfiguredMultiplayerHero: ->
+    # For hero-ladder levels where we have configured Hero Placeholder inventory equipment, we must have intended to use it instead of letting the player choose their hero/equipment.
+    return false unless @isType 'hero-ladder'
+    return false unless levelThang = _.find @get('thangs'), id: 'Hero Placeholder'
+    equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
+    return equips?.config?.inventory?
 
 _.assign(Level, LevelLib)
