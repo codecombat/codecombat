@@ -1,6 +1,6 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   new_home:
-    slogan: "The most engaging game for learning programming."
+    slogan: "The most engaging way to learn real code." # {change}
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
     play_now: "Play Now"
@@ -22,8 +22,9 @@
     accessible_to: "Accessible to"
     everyone: "everyone"
     democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
-    forgot_learning: "I think they actually forgot that they were actually learning something."
+    forgot_learning: "I think they actually forgot that they were learning something." # {change}
     wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
+    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Why is learning through games important?"
     games_reward: "Games reward the productive struggle."
     encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
@@ -1451,7 +1452,7 @@
     removing_course: "Removing course"
     solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
     solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
-    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Resource Hub for information on how to evaluate these projects." 
+    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Resource Hub for information on how to evaluate these projects."
     students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"
