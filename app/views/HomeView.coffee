@@ -165,7 +165,6 @@ module.exports = class HomeView extends RootView
   afterInsert: ->
     super()
     # scroll to the current hash, once everything in the browser is set up
-    # Duplicate of `AboutView` method.
     f = =>
       return if @destroyed
       link = $(document.location.hash)
