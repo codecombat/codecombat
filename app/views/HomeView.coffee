@@ -162,6 +162,17 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
     super()
 
+  afterInsert: ->
+    super()
+    # scroll to the current hash, once everything in the browser is set up
+    # Duplicate of `AboutView` method.
+    f = =>
+      return if @destroyed
+      link = $(document.location.hash)
+      if link.length
+        @scrollToLink(document.location.hash, 0)
+    _.delay(f, 100)
+
   destroy: ->
     $(window).off 'resize', @fitToPage
     super()
