@@ -767,11 +767,8 @@ module.exports = class TeacherClassView extends RootView
   studentStatusString: (student) ->
     status = student.prepaidStatus()
     expires = student.get('coursePrepaid')?.endDate
-    string = switch status
-      when 'not-enrolled' then $.i18n.t('teacher.status_not_enrolled')
-      when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
-      when 'expired' then $.i18n.t('teacher.status_expired')
-    return string.replace('{{date}}', moment(expires).utc().format('ll'))
+    date = if expires? then moment(expires).utc().format('ll') else ''
+    utils.formatStudentLicenseStatusDate(status, date)
 
   getTopScore: ({level, session}) ->
     return unless level and session
