@@ -767,7 +767,8 @@ module.exports = class TeacherClassView extends RootView
   studentStatusString: (student) ->
     status = student.prepaidStatus()
     expires = student.get('coursePrepaid')?.endDate
-    utils.formatStudentStatusDate(status, expires, 'll')
+    date = if expires? then moment(expires).utc().format('ll') else ''
+    utils.formatStudentLicenseStatusDate(status, date)
 
   getTopScore: ({level, session}) ->
     return unless level and session

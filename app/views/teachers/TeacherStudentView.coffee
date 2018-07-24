@@ -403,7 +403,8 @@ module.exports = class TeacherStudentView extends RootView
     status = @user.prepaidStatus()
     return "" unless @user.get('coursePrepaid')
     expires = @user.get('coursePrepaid')?.endDate
-    utils.formatStudentStatusDate(status, expires, 'l')
+    date = if expires? then moment(expires).utc().format('l') else ''
+    utils.formatStudentLicenseStatusDate(status, date)
 
 
   # TODO: Hookup enroll/assign functionality

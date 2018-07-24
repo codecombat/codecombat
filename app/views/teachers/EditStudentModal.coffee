@@ -59,7 +59,8 @@ module.exports = class EditStudentModal extends ModalView
   studentStatusString: (student) ->
     status = student.prepaidStatus()
     expires = student.get('coursePrepaid')?.endDate
-    utils.formatStudentStatusDate(status, expires, 'll')
+    date = if expires? then moment(expires).utc().format('ll') else ''
+    utils.formatStudentLicenseStatusDate(status, date)
 
   onClickEnrollStudentButton: ->
     return unless me.id is @classroom.get('ownerID')
