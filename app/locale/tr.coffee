@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", translation:
   new_home:
-    slogan: "Programlama öğrenmek için en çekici oyun."
+    slogan: "Programlama öğrenmek için en çekici oyun." # {change}
     classroom_edition: "Sınıf Sürümü:"
     learn_to_code: "Kodlama öğren:"
     play_now: "Şimdi Oyna"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     accessible_to: "Erişilebilir"
     everyone: "herkes"
     democratizing: "Kodlamayı öğrenme işlemini demokratikleştirmek felsefemizin temelidir. Herkes kodlama öğrenebilmeli."
-    forgot_learning: "Aslında birşeyler öğrenmeye çalıştıklarını unuttuklarını düşünüyorum."
+    forgot_learning: "Aslında birşeyler öğrenmeye çalıştıklarını unuttuklarını düşünüyorum." # {change}
     wanted_to_do: " Kodlama her zaman yapmak istediğim birşeydi ve hiçbir zaman bunu okulda öğrenebileceğimi düşünmemiştim."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Neden oyun ile öğrenmek önemlidir?"
     games_reward: "Oyun üretken mücadeleyi ödüllendirir."
     encourage: "Oyun etkileşimi, keşfetmeyi ve deneme yanılmayı teşvik eden bir ortamdır. İyi bir oyun oyuncuya, zamanla yeteneklerinde ustalaşması için meydan okur, bu da öğrencinin öğrenirken geçirdiği kritik süreçler ile aynıdır."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"

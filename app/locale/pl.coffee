@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "polski", englishDescription: "Polish", translation:
   new_home:
-    slogan: "Najlepsza gra do nauki programowania!"
+    slogan: "Najlepsza gra do nauki programowania!" # {change}
     classroom_edition: "Wersja szkolna:"
     learn_to_code: "Naucz się programowania:"
     play_now: "Zagraj teraz!"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     accessible_to: "Dostępne dla"
     everyone: "każdego"
     democratizing: "Powszechny dostęp do nauki programowania jest podstawą naszej filozofii. Każdy powinien nauczyć się programować."
-    forgot_learning: "Moi uczniowie tak bardzo wciągneli się w grę, aż zapomnieli że właśnie uczą się programowania."
+    forgot_learning: "Moi uczniowie tak bardzo wciągneli się w grę, aż zapomnieli że właśnie uczą się programowania." # {change}
     wanted_to_do: " Zawsze chciałem nauczyć się programowania, nie sądziłem że uda mi się to w szkole."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Dlaczego nauka przez gry jest tak ważna?"
     games_reward: "Gry wynagradzają rozwiązywanie prawdziwych problemów."
     encourage: "Gry są medium, które zachęca do interakcji oraz odkrywania metodą prób i błędów. Dobra gra potrafi zachęcić gracza do rozwijania swoich umiejętności, co jest takim samym krytycznym procesem jak podczas nauki."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...oraz nasza społeczność 'open-source'"
     community_subtitle: "Ponad 500 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
     community_description_3: "CodeCombat jest "
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
     starter_licenses: "licencje startowe"
     start_date: "data rozpoczęcia:"
     end_date: "data zakonczenia:"

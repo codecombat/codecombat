@@ -1,6 +1,6 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   new_home:
-    slogan: "The most engaging way to learn real code." # {change}
+    slogan: "The most engaging way to learn real code."
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
     play_now: "Play Now"
@@ -22,7 +22,7 @@
     accessible_to: "Accessible to"
     everyone: "everyone"
     democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
-    forgot_learning: "I think they actually forgot that they were learning something." # {change}
+    forgot_learning: "I think they actually forgot that they were learning something."
     wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
     builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Why is learning through games important?"
@@ -1560,8 +1560,8 @@
     empty_credits: "Exhausted Licenses"
     license_remaining: "license remaining"
     licenses_remaining: "licenses remaining"
-    one_license_used: "1 out of __totalLicenses__ licenses has been used" # {change}
-    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"  # {change}
+    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
     starter_licenses: "starter licenses"
     start_date: "start date:"
     end_date: "end date:"

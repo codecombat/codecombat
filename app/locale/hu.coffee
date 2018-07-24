@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", translation:
   new_home:
-    slogan: "A legvonzóbb játék, amivel megtanulhatsz programozni."
+    slogan: "A legvonzóbb játék, amivel megtanulhatsz programozni." # {change}
     classroom_edition: "Tantermi változat:"
     learn_to_code: "Tanulj meg kódolni:"
     play_now: "Játssz Most"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     accessible_to: "Hozzáférhető"
     everyone: "mindenki számára"
     democratizing: "A programozni tanulás demokratizálása filozófiánk lényege. Mindenki számára hozzáférhetővé kell tenni ezt az ismeretanyagot."
-    forgot_learning: "Azt hiszem teljesen megfeledkeztek róla, hogy valójában tanulnak valamit."
+    forgot_learning: "Azt hiszem teljesen megfeledkeztek róla, hogy valójában tanulnak valamit." # {change}
     wanted_to_do: "Mindig is szerettem volna kódolni, de sosem gondoltam volna, hogy a suliban megtanulhatom."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Miért fontos játékokon keresztül tanulni?"
     games_reward: "A játékok jutalmazzák a kreatív erőfeszítést."
     encourage: "A játék olyan közeg, ami elősegíti az interakciót, a kezdeményezést, és a kísérletezést. Egy jó játék ösztönzi a játékost,hogy idővel egyre jobb legyen bizonyos képességekben. Ez ugyanaz a fontos folyamat, melyen a tanulás során megyünk keresztül."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...és a nyílt támogatói közösségünk"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
     start_date: "Kezdő dátum:"
     end_date: "Befejező dátum:"

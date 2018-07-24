@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Italiano", englishDescription: "Italian", translation:
   new_home:
-    slogan: "Il più avvincente gioco per imparare a programmare."
+    slogan: "Il più avvincente gioco per imparare a programmare." # {change}
     classroom_edition: "Edizione Scuola:"
     learn_to_code: "Impara a programmare:"
     play_now: "Gioca Ora"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     accessible_to: "Accessibile a"
     everyone: "tutti"
     democratizing: "Democratizzare il processo di apprendimento della programmazione è il cuore della nostra filosofia. Tutti dovrebbero essere capaci di imparare a scrivere codice."
-    forgot_learning: "Penso che abbiano dimenticato che stiano imparando qualcosa."
+    forgot_learning: "Penso che abbiano dimenticato che stiano imparando qualcosa." # {change}
     wanted_to_do: " Programmare è qualcosa che ho sempre voluto fare, e non pensavo fosse possibile per me insegnarlo a scuola."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Perchè imparare attraverso il gioco è importante?"
 #    games_reward: "Games reward the productive struggle."
 #    encourage: "Gaming is a medium that encourages interaction, discovery, and trial-and-error. A good game challenges the player to master skills over time, which is the same critical process students go through as they learn."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     retrostyle_blurb: "Giochi retrò"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...e la nostra comunità open-source"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
     community_description_3: "CodeCombat è un"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"

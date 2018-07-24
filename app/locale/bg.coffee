@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "български език", englishDescription: "Bulgarian", translation:
   new_home:
-    slogan: "Най-завладяващата игра за учене на програмиране."
+    slogan: "Най-завладяващата игра за учене на програмиране." # {change}
     classroom_edition: "За училища:"
     learn_to_code: "Научи се да програмираш:"
     play_now: "Започни играта"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "български език", englishDescri
     accessible_to: "Достъпна за"
     everyone: "всеки"
     democratizing: "Демократизирането на процеса на учене на програмиране е в сърцето на философията ни. Всеки трябва да може да се научи да пише код."
-    forgot_learning: "Мисля, че те всъщност забравиха, че всъщност учат нещо."
+    forgot_learning: "Мисля, че те всъщност забравиха, че всъщност учат нещо." # {change}
     wanted_to_do: "Писането на код е нещо, което винаги съм искал да правя, и не мислех, че ще мога да науча това в училище."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Защо ученето чрез игра е важно?"
     games_reward: "Игрите награждават продуктивното усилие."
     encourage: "Игрите са медиум, който окуражава взаимодействието, откритията и процеса на проба и грешка. Добрата игра предизвиква играча да овладява умения с течение на времето - което е същия важен процес, през който учениците минават докато учат."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "български език", englishDescri
     retrostyle_blurb: "Игра Ретро Стил"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "български език", englishDescri
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
