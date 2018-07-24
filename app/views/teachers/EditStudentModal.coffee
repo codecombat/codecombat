@@ -1,6 +1,7 @@
 require('app/styles/teachers/edit-student-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
+Prepaids = require 'collections/Prepaids'
 template = require 'templates/teachers/edit-student-modal'
 auth = require 'core/auth'
 
@@ -11,7 +12,8 @@ module.exports = class EditStudentModal extends ModalView
   events:
     'click .send-recovery-email-btn:not(.disabled)': 'onClickSendRecoveryEmail'
     'click .change-password-btn:not(.disabled)': 'onClickChangePassword'
-    'click .revoke-student-btn:not(.disabled)': 'onClickRevokeStudentButton'
+    'click .revoke-student-btn': 'onClickRevokeStudentButton'
+    'click .enroll-student-btn:not(.disabled)': 'onClickEnrollStudentButton'
     'input .new-password-input': 'onChangeNewPasswordInput'
 
   initialize: ({ @user, @classroom }) ->
@@ -23,6 +25,9 @@ module.exports = class EditStudentModal extends ModalView
       newPassword: ""
       errorMessage: ""
     })
+    @prepaids = new Prepaids()
+    @prepaids.comparator = 'endDate'
+    @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @listenTo @state, 'change', @render
     @listenTo @classroom, 'save-password:success', ->
       @state.set { passwordChanged: true, errorMessage: "" }
@@ -44,10 +49,10 @@ module.exports = class EditStudentModal extends ModalView
     prepaid.revoke(@user, {
       success: =>
         @user.unset('coursePrepaid')
+        @prepaids.fetchMineAndShared().done(=> @render())
       error: (prepaid, jqxhr) =>
         msg = jqxhr.responseJSON.message
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-      complete: => @render()
     })
 
   # TODO: Same logic as in `TeacherClassView.coffee`
@@ -59,6 +64,19 @@ module.exports = class EditStudentModal extends ModalView
       when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
       when 'expired' then $.i18n.t('teacher.status_expired')
     return string.replace('{{date}}', moment(expires).utc().format('ll'))
+
+  onClickEnrollStudentButton: ->
+    return unless me.id is @classroom.get('ownerID')
+    prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
+    prepaid.redeem(@user, {
+      success: (prepaid) =>
+        @user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
+      error: (prepaid, jqxhr) =>
+        msg = jqxhr.responseJSON.message
+        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+      complete: => 
+        @render()
+    })
 
   onClickChangePassword: ->
     @classroom.setStudentPassword(@user, @state.get('newPassword'))
