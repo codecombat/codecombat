@@ -1520,7 +1520,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    students_not_assigned: "Students who have not been assigned {{courseName}}"
     course_overview: "Vue d'ensemble de cours"
     copy_class_code: "Copier le code de la classe"
-#    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code."
+    class_code_blurb: "Les étudiants peuvent rejoindre leur classe en utilisant ce code propre à la classe. Pas d'adresse mél est requise quand on crée un compte d'étudiant avec ce code propre à sa classe."
     copy_class_url: "Copier l'URL de la classe"
 #    class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
 #    add_students_manually: "Invite Students by Email"
@@ -1759,7 +1759,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 
-#  share_licenses:
+  share_licenses:
 #    share_licenses: "Share Licenses"
 #    shared_by: "Shared By:"
 #    add_teacher_label: "Enter exact teacher email:"
@@ -1767,13 +1767,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
 #    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
 #    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
-#    already_shared: "You've already shared these licenses with that teacher."
+    already_shared: "Vous avez déjà partagé ces licences avec ce Professeur."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
 #    one_license_used: "(1 license used)"
-#    licenses_used: "(__licensesUsed__ licenses used)"
-#    more_info: "More info"
+    licenses_used: "(__licensesUsed__ licences utilisées)"
+    more_info: " Plus d informations"
 
   sharing:
     game: "Jeu"
@@ -2447,7 +2447,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
 
-#  esper:
+  esper:
 #    line_no: "Line $1: "
 #    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
 #    reference_error: "ReferenceError: "
@@ -2470,7 +2470,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    target_a_unit: "Target a unit."
 #    attack_capitalization: "Attack $1, not $2. (Capital letters are important.)"
 #    empty_while: "Empty while statement. Put 4 spaces in front of statements inside the while statement."
-#    line_of_site: "`$1`'s argument `$2` has a problem. Is there an enemy within your line-of-sight yet?"
+    line_of_site: "`$1`er argument `$2` a un problème. Y-a-t-il encore un ennemi dans votre ligne de mire?"
 #    need_a_after_while: "Need a `$1` after `$2`."
 #    too_much_indentation: "Too much indentation at the beginning of this line."
 #    missing_hero: "Missing `$1` keyword; should be `$2`."
@@ -2514,7 +2514,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    try_herofindnearestenemy: "Try `$1`"
 #    there_is_no_function: "There is no function `$1`, but `$2` has a method `$3`."
 #    attacks_argument_enemy_has: "`$1`'s argument `$2` has a problem."
-#    is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
+    is_there_an_enemy: "Y-a-t-il encore un ennemi dans votre ligne de mire?"
 #    target_is_null_is: "Target is $1. Is there always a target to attack? (Use $2?)"
 #    hero_has_no_method: "`$1` has no method `$2`."
 #    there_is_a_problem: "There is a problem with your code."
