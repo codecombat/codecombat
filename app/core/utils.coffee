@@ -671,6 +671,16 @@ emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
 isValidEmail = (email) ->
   emailRegex.test(email?.trim().toLowerCase())
 
+formatStudentStatusDate = (status, expires, format) ->
+    string = switch status
+      when 'not-enrolled' then $.i18n.t('teacher.status_not_enrolled')
+      when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
+      when 'expired' then $.i18n.t('teacher.status_expired')
+    if expires
+      string.replace('{{date}}', moment(expires).utc().format(format))
+    else
+      string.replace('{{date}}', "Never")
+
 module.exports = {
   ageOfConsent
   capitalLanguages
@@ -685,6 +695,7 @@ module.exports = {
   findNextLevel
   findNextAssessmentForLevel
   formatDollarValue
+  formatStudentStatusDate
   functionCreators
   getByPath
   getCourseBundlePrice

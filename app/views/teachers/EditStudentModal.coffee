@@ -3,6 +3,7 @@ ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 Prepaids = require 'collections/Prepaids'
 template = require 'templates/teachers/edit-student-modal'
+utils = require 'core/utils'
 auth = require 'core/auth'
 
 module.exports = class EditStudentModal extends ModalView
@@ -55,15 +56,10 @@ module.exports = class EditStudentModal extends ModalView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
     })
 
-  # TODO: Same logic as in `TeacherClassView.coffee`
   studentStatusString: (student) ->
     status = student.prepaidStatus()
     expires = student.get('coursePrepaid')?.endDate
-    string = switch status
-      when 'not-enrolled' then $.i18n.t('teacher.status_not_enrolled')
-      when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
-      when 'expired' then $.i18n.t('teacher.status_expired')
-    return string.replace('{{date}}', moment(expires).utc().format('ll'))
+    utils.formatStudentStatusDate(status, expires, 'll')
 
   onClickEnrollStudentButton: ->
     return unless me.id is @classroom.get('ownerID')
@@ -77,6 +73,7 @@ module.exports = class EditStudentModal extends ModalView
       complete: => 
         @render()
     })
+    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id, ['Mixpanel']
 
   onClickChangePassword: ->
     @classroom.setStudentPassword(@user, @state.get('newPassword'))

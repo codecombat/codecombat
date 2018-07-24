@@ -7,9 +7,6 @@ block modal-header-content
     
 block modal-body-content
 
-  - var unusedEnrollments = view.prepaids.totalMaxRedeemers() - view.prepaids.totalRedeemers()
-  - var noLicenses = unusedEnrollments == 0
-
   .text-center
     .license-details
       strong(data-i18n="teacher.license_status")
@@ -18,17 +15,17 @@ block modal-body-content
         .small-details
           span(data-i18n="teacher.status_not_enrolled")
         .small-details
-          if noLicenses
-            button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license", data-event-action="Teachers Class Enrollment Enroll Student")
+          if view.prepaids.totalAvailable() == 0
+            button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license")
             .small-details.not-enough-enrollments
               span(data-i18n='teacher.not_enough_enrollments')
           else
-            button.enroll-student-btn.btn.btn-navy(data-i18n="teacher.apply_license", data-event-action="Teachers Class Enrollment Enroll Student")
+            button.enroll-student-btn.btn.btn-navy(data-i18n="teacher.apply_license")
       else
         .small-details
           if view.user.prepaidType() === 'course'
             span.spr(data-i18n="teacher.full_license")
-          else if view.user.prepaidType() === 'started_license'
+          else if view.user.prepaidType() === 'starter_license'
             span.spr(data-i18n="teacher.starter_license")
           span (
           span= view.studentStatusString(view.user)
