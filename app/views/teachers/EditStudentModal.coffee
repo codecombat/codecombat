@@ -56,9 +56,9 @@ module.exports = class EditStudentModal extends ModalView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
     })
 
-  studentStatusString: (student) ->
-    status = student.prepaidStatus()
-    expires = student.get('coursePrepaid')?.endDate
+  studentStatusString: ->
+    status = @user.prepaidStatus()
+    expires = @user.get('coursePrepaid')?.endDate
     date = if expires? then moment(expires).utc().format('ll') else ''
     utils.formatStudentLicenseStatusDate(status, date)
 

@@ -7,13 +7,26 @@ block modal-header-content
     
 block modal-body-content
 
+  - var status = view.user.prepaidStatus()
+  - var prepaidType = view.user.prepaidType()
+
   .text-center
     .license-details
       strong(data-i18n="teacher.license_status")
       span.spr :
-      if view.user.prepaidStatus() !== 'enrolled'
+      if status == "not-enrolled"
         .small-details
           span(data-i18n="teacher.status_not_enrolled")
+      else
+        .small-details
+          if prepaidType === 'course'
+            span.spr(data-i18n="teacher.full_license")
+          else if prepaidType === 'starter_license'
+            span.spr(data-i18n="teacher.starter_license")
+          span (
+          span(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
+          span )
+      if status !== 'enrolled'
         .small-details
           if view.prepaids.totalAvailable() == 0
             button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license")
@@ -22,14 +35,6 @@ block modal-body-content
           else
             button.enroll-student-btn.btn.btn-navy(data-i18n="teacher.apply_license")
       else
-        .small-details
-          if view.user.prepaidType() === 'course'
-            span.spr(data-i18n="teacher.full_license")
-          else if view.user.prepaidType() === 'starter_license'
-            span.spr(data-i18n="teacher.starter_license")
-          span (
-          span= view.studentStatusString(view.user)
-          span )
         .small-details
           button.revoke-student-btn.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license")
         
