@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Українська", englishDescription: "Ukrainian", translation:
   new_home:
-    slogan: "Найзахопливіша гра для вивчення програмування."
+    slogan: "Найзахопливіша гра для вивчення програмування." # {change}
     classroom_edition: "Класна версія:"
     learn_to_code: "Вчитися кодувати:"
     play_now: "Грати зараз"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     accessible_to: "Доступно"
     everyone: "кожному"
     democratizing: "Навчання, доступне кожному, — наша головна мета. Кожен повинен мати можливість навчитись програмувати."
-    forgot_learning: "Таке враження, що, граючи, вони забули, що це навчання."
+    forgot_learning: "Таке враження, що, граючи, вони забули, що це навчання." # {change}
     wanted_to_do: " Програмування — те, чим я завжди хотів займатись, ніколи не думав, що буду вчити це в школі."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Чому навчання через гру важливе?"
     games_reward: "Гра — винагорода за зусилля."
     encourage: "Гра заохочує спілкуватись, відкривати щось нове і вчитись на помилках. Хороша гра змушує гравця весь час покращувати власні навички, що подібно до процесу роботи учнів під час навчання."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...і наша open-source спільнота"
     community_subtitle: "Більше 500 помічників допомогли створити CodeCombat, і кожного тижня приєднуються нові!"
     community_description_3: "CodeCombat - це"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
     starter_licenses: "початкові ліцензії"
     start_date: "дата початку:"
     end_date: "дата закінчення:"

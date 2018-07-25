@@ -403,15 +403,8 @@ module.exports = class TeacherStudentView extends RootView
     status = @user.prepaidStatus()
     return "" unless @user.get('coursePrepaid')
     expires = @user.get('coursePrepaid')?.endDate
-    string = switch status
-      when 'not-enrolled' then $.i18n.t('teacher.status_not_enrolled')
-      when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
-      when 'expired' then $.i18n.t('teacher.status_expired')
-    if expires
-      return string.replace('{{date}}', moment(expires).utc().format('l'))
-    else
-      # this probably doesn't happen
-      return string.replace('{{date}}', "Never")
+    date = if expires? then moment(expires).utc().format('l') else ''
+    utils.formatStudentLicenseStatusDate(status, date)
 
 
   # TODO: Hookup enroll/assign functionality

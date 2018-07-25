@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Philippines)", translation:
   new_home:
-    slogan: "Ang pinaka nakaka engganyong laro para matuto ng programming."
+    slogan: "Ang pinaka nakaka engganyong laro para matuto ng programming." # {change}
     classroom_edition: "Pang Silid-Aralan:"
     learn_to_code: "Matuto mag-code:"
     play_now: "Maglaro Na"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
     accessible_to: "Magagamit ng"
     everyone: "lahat"
     democratizing: "Ang pagpapalaganap ng proseso upang matuto mag code ay kritikal sa aming pilosopiya. Lahat ay dapat matuto mag code."
-    forgot_learning: "Tingin ko nalimutan nilang nag-aaral sila sa kanilang ginagawang mga aktibidad"
+    forgot_learning: "Tingin ko nalimutan nilang nag-aaral sila sa kanilang ginagawang mga aktibidad" # {change}
     wanted_to_do: " Matagal ko nang gusto mag-code, at hindi ko ina-akalang matutuo ako sa eskwela."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Bakit importante matuto sa pamamagitan ng laro?"
     games_reward: "Ang paglalaro ay nag-rereward sa produktibong pagsisikap"
     encourage: "Ang paglalaro ay isang paraan na humihikayat masikalamuha(interaction), pagtuklas(discovery), at pag-alam ng tama at mali(trial-and-error). Ang isang magandang laro ay hinahamon ang manlalaro na galingan ang kasayanan habang tumatagal, na kailangan ng mga estudyante habang nag-aaral."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
 #    retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"

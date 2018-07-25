@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "rot13", englishDescription: "English with the letters jumbled", translation:
   new_home:
-    slogan: "Gur zbfg ratntvat tnzr sbe yrneavat cebtenzzvat."
+    slogan: "Gur zbfg ratntvat jnl gb yrnea erny pbqr." # {punatr}
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
     play_now: "Cynl Abj"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     accessible_to: "Npprffvoyr gb"
     everyone: "rirelbar"
     democratizing: "Qrzbpengvmvat gur cebprff bs yrneavat pbqvat vf ng gur pber bs bhe cuvybfbcul. Rirelbar fubhyq or noyr gb yrnea gb pbqr."
-    forgot_learning: "V guvax gurl npghnyyl sbetbg gung gurl jrer npghnyyl yrneavat fbzrguvat."
+    forgot_learning: "V guvax gurl npghnyyl sbetbg gung gurl jrer yrneavat fbzrguvat." # {punatr}
     wanted_to_do: " Pbqvat vf fbzrguvat V'ir nyjnlf jnagrq gb qb, naq V arire gubhtug V jbhyq or noyr gb yrnea vg va fpubby."
+    builds_concepts_up: "V yvxr ubj PbqrPbzong ohvyqf gur pbaprcgf hc. Vg'f ernyyl rnfl gb haqrefgnaq naq sha gb svther vg bhg."
     why_games: "Jul vf yrneavat guebhtu tnzrf vzcbegnag?"
     games_reward: "Tnzrf erjneq gur cebqhpgvir fgehttyr."
     encourage: "Tnzvat vf n zrqvhz gung rapbhentrf vagrenpgvba, qvfpbirel, naq gevny-naq-reebe. N tbbq tnzr punyyratrf gur cynlre gb znfgre fxvyyf bire gvzr, juvpu vf gur fnzr pevgvpny cebprff fghqragf tb guebhtu nf gurl yrnea."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     retrostyle_blurb: "ErgebFglyr Tnzrf"
     bryukh_title: "Tnzr Qrfvtare"
     bryukh_blurb: "Pbafgehpgf chmmyrf"
+    daniela_title: "Pbagrag Pensgre"
+    daniela_blurb: "Perngrf fgbevrf"
     community_title: "...naq bhe bcra-fbhepr pbzzhavgl"
     community_subtitle: "Bire 500 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
     community_description_3: "PbqrPbzong vf n"
@@ -1449,7 +1452,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     removing_course: "Erzbivat pbhefr"
     solution_arena_blurb: "Fghqragf ner rapbhentrq gb fbyir neran yriryf perngviryl. Gur fbyhgvba cebivqrq orybj zrrgf gur erdhverzragf bs gur neran yriry."
     solution_challenge_blurb: "Fghqragf ner rapbhentrq gb fbyir bcra-raqrq punyyratr yriryf perngviryl. Bar cbffvoyr fbyhgvba vf qvfcynlrq orybj."
-    solution_project_blurb: "Fghqragf ner rapbhentrq gb ohvyq n perngvir cebwrpg va guvf yriry. Cyrnfr ersre gb pheevphyhz thvqrf va gur Erfbhepr Uho sbe vasbezngvba ba ubj gb rinyhngr gurfr cebwrpgf."   # {punatr}
+    solution_project_blurb: "Fghqragf ner rapbhentrq gb ohvyq n perngvir cebwrpg va guvf yriry. Cyrnfr ersre gb pheevphyhz thvqrf va gur Erfbhepr Uho sbe vasbezngvba ba ubj gb rinyhngr gurfr cebwrpgf."
     students_code_blurb: "N pbeerpg fbyhgvba gb rnpu yriry vf cebivqrq jurer nccebcevngr. Va fbzr pnfrf, vg’f cbffvoyr sbe n fghqrag gb fbyir n yriry hfvat qvssrerag pbqr. Fbyhgvbaf ner abg fubja sbe yriryf gur fghqrag unf abg fgnegrq."
     course_solution: "Pbhefr Fbyhgvba"
     level_overview_solutions: "Yriry Bireivrj naq Fbyhgvbaf"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     empty_credits: "Rkunhfgrq Yvprafrf"
     license_remaining: "yvprafr erznvavat"
     licenses_remaining: "yvprafrf erznvavat"
-    one_license_used: "1 yvprafr unf orra hfrq"
-    num_licenses_used: "__ahzYvprafrfHfrq__ yvprafrf unir orra hfrq"
+    one_license_used: "1 bhg bs __gbgnyYvprafrf__ yvprafrf unf orra hfrq" # {punatr}
+    num_licenses_used: "__ahzYvprafrfHfrq__ bhg bs __gbgnyYvprafrf__ yvprafrf unir orra hfrq"  # {punatr}
     starter_licenses: "fgnegre yvprafrf"
     start_date: "fgneg qngr:"
     end_date: "raq qngr:"

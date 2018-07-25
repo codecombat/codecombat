@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", translation:
   new_home:
-    slogan: "Het meest uitdagende spel om mee te leren programmeren."
+    slogan: "Het meest uitdagende spel om mee te leren programmeren." # {change}
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
     play_now: "Speel"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     accessible_to: "Toegankelijk voor"
     everyone: "iedereen"
     democratizing: "Programmeerles toegankelijk maken is onze filosofie. Iedereen moet de kans krijgen om te leren programmeren."
-    forgot_learning: "Volgens mij hadden ze niet meer door dat ze eigenlijk bezig waren met leren."
+    forgot_learning: "Volgens mij hadden ze niet meer door dat ze eigenlijk bezig waren met leren." # {change}
     wanted_to_do: " Ik wilde altijd al leren programmeren, maar op school was hier nooit aandacht voor."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Waarom is spelenderwijs leren belangrijk?"
     games_reward: "Games vergroten de productiviteit."
     encourage: "Iedereen wordt geboren als klein onderzoekertje dat de wereld ontdekt door vallen en opstaan. Deze intrinsieke motivatie om te leren ziet men ook terug in een spelomgeving. Voor de speler wordt 'leren' een middel om het spel te winnen, in plaats van een doel op zich."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     retrostyle_blurb: "RetroStijl Games"
 #    bryukh_title: "Game Designer"
     bryukh_blurb: "Maakt puzzels"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     empty_credits: "Licenties zijn gebruikt"
     license_remaining: "licentie over"
     licenses_remaining: "licenties over"
-    one_license_used: "er is 1 licentie gebruikt"
-    num_licenses_used: "__numLicensesUsed__ licenties zijn gebruikt"
+    one_license_used: "er is 1 licentie gebruikt" # {change}
+    num_licenses_used: "__numLicensesUsed__ licenties zijn gebruikt" # {change}
     starter_licenses: "starterslicenties"
     start_date: "startdatum:"
     end_date: "einddatum:"

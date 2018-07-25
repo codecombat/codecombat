@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription: "German (Germany)", translation:
   new_home:
-    slogan: "Das beste Spiel um Programmieren zu lernen."
+    slogan: "Das beste Spiel um Programmieren zu lernen." # {change}
     classroom_edition: "Klassenraum Edition:"
     learn_to_code: "Lerne zu Programmieren:"
     play_now: "Jetzt spielen"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     accessible_to: "Zugänglich für "
     everyone: "jeden"
     democratizing: "Jeder sollte Programmieren lernen können. Wir wollen den den Prozess der Programmierenlernens demokratisieren."
-    forgot_learning: "Ich glaube sie vergessen sogar, dass sie gerade etwas lernen."
+    forgot_learning: "Ich glaube sie vergessen sogar, dass sie gerade etwas lernen." # {change}
     wanted_to_do: " Programmieren ist etwas was ich immer wollte und ich hätte nie gedacht, dass ich es in der Schule lernen könnte."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Warum ist Lernen durch Spiele wichtig?"
     games_reward: "Spiele belohnen die produktive Anstrengung."
     encourage: "Spiele sind ein Medium, das Interaktionen, Entdeckungen und Versuch-und-Irrtum fördert. Ein gutes Spiel fordert den Spieler dazu auf Fähigkeiten über die Zeit hinweg zu erwerben, was der selbe entscheidende Prozess ist, durch den Schüler gehen, während sie etwas lernen."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Game Designer"
     bryukh_blurb: "Rätselkonstruktör"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...und unsere Open-Source Community"
     community_subtitle: "Mehr als 500 Unterstützer haben mitgeholfen, CodeCombat zu erstellen, und es werden jede Woche mehr!"
     community_description_3: "CodeCombat ist ein"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     empty_credits: "Verbrauchte Lizenzen"
     license_remaining: "Lizenz übrig"
     licenses_remaining: "Lizenzen übrig"
-    one_license_used: "1 Lizenz wurde verwendet"
-    num_licenses_used: "__numLicensesUsed__ Lizenzen wurden verwendet"
+    one_license_used: "1 Lizenz wurde verwendet" # {change}
+    num_licenses_used: "__numLicensesUsed__ Lizenzen wurden verwendet" # {change}
     starter_licenses: "Starterlizenzen"
     start_date: "Startdatum:"
     end_date: "Enddatum:"

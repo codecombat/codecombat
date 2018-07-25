@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
   new_home:
-    slogan: "המשחק הכי מלהיב ללימוד תכנות."
+    slogan: "המשחק הכי מלהיב ללימוד תכנות." # {change}
     classroom_edition: "המהדורה הכיתתית:"
     learn_to_code: "למדו לכתוב קוד:"
     play_now: "שחק עכשיו"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     accessible_to: "נגיש"
     everyone: "לכל אחד"
     democratizing: "דמוקרטיזציה של תהליך למידת הקידוד היא עמוד תווך בפילוסופיה שלנו. יש לאפשר לכל אחד ללמוד כיצד לכתוב קוד."
-    forgot_learning: "נראה לי שהם שכחו בעצם שהם ממש לומדים."
+    forgot_learning: "נראה לי שהם שכחו בעצם שהם ממש לומדים." # {change}
     wanted_to_do: " תמיד רציתי לקודד, ואף פעם לא חשבתי שאוכל ללמוד את זה בבית הספר."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "למה חשוב ללמוד באמצעות משחקים?"
     games_reward: "משחקים נותנים סיפוק על מאמץ פרודוקטיבי."
     encourage: "משחקים הם מדיום שמעודד אינטראקציה, גילויים וניסוי ותעייה. משחק טוב דוחף את השחקן ללמוד כישורים לאורך זמן, וזהו אותו תהליך קריטי שהסטודנטים חווים כשהם לומדים."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     retrostyle_blurb: "משחקי רטרו"
     bryukh_title: "מעצב משחק"
     bryukh_blurb: "בונה פאזלים"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...וקהילת הקוד הפתוח שלנו"
     community_subtitle: "למעלה מ-500 תורמים כבר עוזרים לבנות את CodeCombat, ותורמים נוספים מצטרפים מדי שבוע!"
     community_description_3: "CodeCombat הוא"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     empty_credits: "רישיונות שנוצלו"
     license_remaining: "רישיון נותר"
     licenses_remaining: "רישיונות נותרו"
-    one_license_used: "רישיון 1 נוצל"
-    num_licenses_used: "__numLicensesUsed__ רישיונות נוצלו"
+    one_license_used: "רישיון 1 נוצל" # {change}
+    num_licenses_used: "__numLicensesUsed__ רישיונות נוצלו" # {change}
     starter_licenses: "רישיונות למתחילים"
     start_date: "תאריך התחלה:"
     end_date: "תאריך סיום:"

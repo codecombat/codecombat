@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "dansk", englishDescription: "Danish", translation:
   new_home:
-    slogan: "Det mest engagerende spil for at lære programmering."
+    slogan: "Det mest engagerende spil for at lære programmering." # {change}
     classroom_edition: "Klasseværelse Udgave:"
     learn_to_code: "Lær at kode:"
     play_now: "Spil Nu"
@@ -22,8 +22,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     accessible_to: "Tilgængelig til"
     everyone: "alle"
     democratizing: "At demokratisere processen med at lære programmering er kernen i vores filosofi. Alle bør være i stand til at lære at kode."
-    forgot_learning: "Jeg tror faktisk, at de glemte, at de faktisk var ved at lære noget."
+    forgot_learning: "Jeg tror faktisk, at de glemte, at de faktisk var ved at lære noget." # {change}
     wanted_to_do: " Programmering er noget, jeg har altid ønsket mig at kunne, og jeg troede aldrig, jeg ville være i stand til at lære det i skolen."
+#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Hvorfor er læring gennem spil vigtig?"
     games_reward: "Spil belønner den produktive kamp."
     encourage: "Gaming er et medium, der tilskynder interaktion, opdagelse, og trial-and-error. Et godt spil udfordrer spilleren til at mestre færdigheder over tid, hvilket er den samme kritiske proces elever går igennem når de lærer."
@@ -942,6 +943,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     retrostyle_blurb: "Retro Spil"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
+#    daniela_title: "Content Crafter"
+#    daniela_blurb: "Creates stories"
     community_title: "...og vores open source fællesskab"
     community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1557,8 +1560,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
-#    one_license_used: "1 license has been used"
-#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
