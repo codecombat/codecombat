@@ -221,7 +221,7 @@ block content
             a.login-button(data-i18n="login.log_in")
 
     if !serverConfig.static
-      h3.text-center(data-i18n="new_home.computer_science")
+      h3#concepts.text-center(data-i18n="new_home.computer_science")
       #courses-row.row
         - var conceptsSeen = {};
         for course, courseIndex in view.courses.models
