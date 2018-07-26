@@ -53,7 +53,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
     s.replace /```([a-z]+)[^`]+```/gm, (a, l) =>
       return '' if l isnt @language
       a
-  
+
   onLoaded: ->
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
