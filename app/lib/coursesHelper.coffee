@@ -1,6 +1,21 @@
 Levels = require 'collections/Levels'
 utils = require 'core/utils'
 
+courseShortName = (course) ->
+  switch
+    when /game-dev/.test(course.get('slug')) then 'GD'
+    when /web-dev/.test(course.get('slug')) then 'WD'
+    else 'CS'
+
+shortenCourseName = (course) ->
+  acronym = courseShortName(course)
+  number = course.get('name')?.match(/\d+/)
+  if number
+    acronym + number
+  else
+    # Handle `intro to computer science` slug
+    acronym + "1"
+
 module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
   #   number of students in that course instance who have completed ALL of
@@ -225,12 +240,11 @@ module.exports =
     labels = []
     courseLabelIndexes = CS: 0, GD: 0, WD: 0
     for course in courses
-      acronym = switch
-        when /game-dev/.test(course.get('slug')) then 'GD'
-        when /web-dev/.test(course.get('slug')) then 'WD'
-        else 'CS'
+      acronym = courseShortName(course)
       labels.push acronym + ++courseLabelIndexes[acronym]
     labels
+  
+  shortenCourseName: shortenCourseName
 
 progressMixin =
   get: (options={}) ->
