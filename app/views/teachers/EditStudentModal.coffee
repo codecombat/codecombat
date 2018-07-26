@@ -36,6 +36,10 @@ module.exports = class EditStudentModal extends ModalView
       @state.set({ errorMessage: error.message })
       # TODO: Show an error. (password too short)
 
+  onLoaded: ->
+    @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is "available"))
+    super()
+
   onClickSendRecoveryEmail: ->
     email = @user.get('email')
     auth.sendRecoveryEmail(email).then =>
