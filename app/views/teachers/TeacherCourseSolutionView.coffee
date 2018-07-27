@@ -8,7 +8,6 @@ Levels = require 'collections/Levels'
 utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
-courseHelper = require('lib/coursesHelper')
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -25,7 +24,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   getTitle: ->
     title = $.i18n.t('teacher.course_solution')
-    title += " " + courseHelper.shortenCourseName(@course)
+    title += " " + @course.acronym()
     if @language != "html"
       title +=  " " + utils.capitalLanguages[@language]
     title
