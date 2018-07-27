@@ -94,7 +94,7 @@ module.exports = (env) => {
       ],
       extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass', '.vue'],
       alias: { // Replace Backbone's underscore with lodash
-        'underscore': 'node_modules/lodash'
+        'underscore': 'lodash'
       }
     },
     node: {

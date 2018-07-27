@@ -37,15 +37,12 @@
     "postinstall": "bower install && webpack",
     "webpack": "webpack",
     "bower": "bower",
-    "dev": "webpack --watch & npm run nodemon",
-    "nodemon": "nodemon",
+    "dev": "webpack --watch",
     "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
-    "jasmine": "jasmine",
     "proxy": "COCO_PROXY='true' nodemon",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
-    "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json",
-    "coverage": "node ./bin/coverage.js"
+    "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json"
   },
   "main": "index.js",
   "keywords": [
