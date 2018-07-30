@@ -22,7 +22,12 @@ module.exports = class TeacherCourseSolutionView extends RootView
     solutionIndex = link.data('solution-index')
     tracker.trackEvent('Click Teacher Course Solution Tab', {levelSlug, solutionIndex})
 
-  getTitle: -> $.i18n.t('teacher.course_solution')
+  getTitle: ->
+    title = $.i18n.t('teacher.course_solution')
+    title += " " + @course.acronym()
+    if @language != "html"
+      title +=  " " + utils.capitalLanguages[@language]
+    title
 
   initialize: (options, @courseID, @language) ->
     if me.isTeacher() or me.isAdmin()
