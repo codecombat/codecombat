@@ -260,6 +260,11 @@ module.exports = class World
         system.start @thangs
       catch err
         console.error "Error starting system!", system, err
+    # Silently clamp health after systems run.
+    hero = _.find(@thangs, (thang) -> thang.id == 'Hero Placeholder')
+    if hero? and level.recommendedHealth?
+      hero.maxHealth = Math.max(hero.maxHealth, level.recommendedHealth)
+      hero.health = hero.maxHealth
 
   loadSystemsFromLevel: (level) ->
     # Remove old Systems
