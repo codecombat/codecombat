@@ -262,8 +262,11 @@ module.exports = class World
         console.error "Error starting system!", system, err
     # Silently clamp health after systems run.
     hero = _.find(@thangs, (thang) -> thang.id == 'Hero Placeholder')
-    if hero? and level.recommendedHealth?
-      hero.maxHealth = Math.max(hero.maxHealth, level.recommendedHealth)
+    if hero?
+      if level.recommendedHealth?
+        hero.maxHealth = Math.max(hero.maxHealth, level.recommendedHealth)
+      if level.maximumHealth?
+        hero.maxHealth = Math.min(hero.maxHealth, level.maximumHealth)
       hero.health = hero.maxHealth
 
   loadSystemsFromLevel: (level) ->
