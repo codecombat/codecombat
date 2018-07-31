@@ -110,7 +110,7 @@ module.exports = class CampaignView extends RootView
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
     @levelScoreMap = {}
-
+    
     if utils.getQueryVariable('hour_of_code')
       if me.isStudent() or me.isTeacher()
         if @terrain is 'dungeon'
@@ -181,9 +181,9 @@ module.exports = class CampaignView extends RootView
       @courseLevelsFake = {}
       @courseInstanceID = utils.getQueryVariable('course-instance')
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
-      jqxhr = @courseInstance.fetch()
-      @supermodel.trackRequest(jqxhr)
-      new Promise(jqxhr.then).then(=>
+      @jqxhr = @courseInstance.fetch()
+      @supermodel.trackRequest(@jqxhr)
+      new Promise(@jqxhr.then).then(=>
         courseID = @courseInstance.get('courseID')
 
         @course = new Course(_id: courseID)
@@ -622,7 +622,13 @@ module.exports = class CampaignView extends RootView
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
-      level.locked = false if not @course? and @campaign?.get('name') in ['Auditions', 'Intro']
+      new Promise(@jqxhr.then).then(=>
+        # In certain race condition, orderedLevels are initialized but course is not yet initialized (which is done asynchronously).
+        # In that scenario, the below condition is wrongly met and all levels are unlocked. 
+        # Added this inside a promise so that this executes only after the asynchronous call that initiailizes course is completed  
+        if not @course? and @campaign?.get('name') in ['Auditions', 'Intro']
+          level.locked = false 
+      )
       level.locked = false if me.isInGodMode()
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
