@@ -120,6 +120,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'requiredProperties'
   'restrictedProperties'
   'recommendedHealth'
+  'maximumHealth'
   'concepts'
   'primaryConcepts'
   'picoCTFProblem'
