@@ -123,6 +123,7 @@ LevelSchema.statics.editableProperties = [
   'requiredProperties'
   'restrictedProperties'
   'recommendedHealth'
+  'maximumHealth'
   'allowedHeroes'
   'tasks'
   'helpVideos'
