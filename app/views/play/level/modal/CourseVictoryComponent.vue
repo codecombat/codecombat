@@ -272,7 +272,7 @@
     
     .combo-img
       position: absolute
-      max-block-size: 70px
+      width: 70px
       top: -4px
       left: -4px
     
