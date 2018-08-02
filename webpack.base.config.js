@@ -134,7 +134,7 @@ module.exports = (env) => {
           from: 'app/assets',
           to: '.'
         },{ // Ace
-          context: 'node_modules/ace-builds/src-min-noconflict',
+          context: 'bower_components/ace-builds/src-min-noconflict',
           from: '**/*',
           to: 'javascripts/ace'
         },{ // Esper

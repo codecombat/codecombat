@@ -1,6 +1,5 @@
 express = require 'express'
 path = require 'path'
-authentication = require 'passport'
 useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 log = require 'winston'
@@ -18,7 +17,6 @@ Promise = require 'bluebird'
 Promise.promisifyAll(request, {multiArgs: true})
 Promise.promisifyAll(fs)
 wrap = require 'co-express'
-codePlayTags = require './server-code-play-tags'
 morgan = require 'morgan'
 timeout = require('connect-timeout')
 
@@ -102,16 +100,6 @@ setupExpressMiddleware = (app) ->
   app.use require('cookie-session')
     key: 'codecombat.sess'
     secret: config.cookie_secret
-
-
-# setupPassportMiddleware = (app) ->
-#   app.use(authentication.initialize())
-#   if config.picoCTF
-#     app.use authentication.authenticate('local', failureRedirect: config.picoCTF_login_URL)
-#     require('./server/lib/picoctf').init app
-#   else
-#     app.use(authentication.session())
-#   auth.setup()
 
 setupCountryTaggingMiddleware = (app) ->
   app.use (req, res, next) ->
@@ -239,7 +227,6 @@ exports.setupMiddleware = (app) ->
 
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
-  # setupPassportMiddleware app
   setupFeaturesMiddleware app
 
   setupCountryRedirectMiddleware app, 'china', config.chinaDomain
@@ -280,9 +267,6 @@ getStaticTemplate = (file) ->
 
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
-  if req.features.codePlay
-    template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
-    template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
 
   res.status(200).send template
 

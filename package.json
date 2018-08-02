@@ -56,7 +56,6 @@
     "@sendgrid/mail": "^6.2.1",
     "@vimeo/player": "^2.2.0",
     "JQDeferred": "~2.1.0",
-    "ace-builds": "ajaxorg/ace-builds#ba3b91e04a5aa559d56ac70964f9054baa0f4caf",
     "aether": "~0.5.21",
     "algoliasearch": "^3.13.1",
     "async": "2.5.0",
