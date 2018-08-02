@@ -37,15 +37,12 @@
     "postinstall": "bower install && webpack",
     "webpack": "webpack",
     "bower": "bower",
-    "dev": "webpack --watch & npm run nodemon",
-    "nodemon": "nodemon",
+    "dev": "webpack --watch",
     "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
-    "jasmine": "jasmine",
     "proxy": "COCO_PROXY='true' nodemon",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
-    "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json",
-    "coverage": "node ./bin/coverage.js"
+    "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json"
   },
   "main": "index.js",
   "keywords": [
@@ -59,7 +56,6 @@
     "@sendgrid/mail": "^6.2.1",
     "@vimeo/player": "^2.2.0",
     "JQDeferred": "~2.1.0",
-    "ace-builds": "ajaxorg/ace-builds#ba3b91e04a5aa559d56ac70964f9054baa0f4caf",
     "aether": "~0.5.21",
     "algoliasearch": "^3.13.1",
     "async": "2.5.0",
