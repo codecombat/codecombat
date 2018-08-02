@@ -9,6 +9,8 @@
 [![Build Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
 [![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
 
+**NOTE: The process for setting up the dev environment has changed. Please refer to [the docs for details](../../wiki/Dev-Setup:-General-Information).**
+
 CodeCombat is a multiplayer programming game for learning how to code.
 **See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
 setup guide, extensive documentation, and much more to get started hacking!**
