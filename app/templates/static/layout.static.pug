@@ -25,21 +25,7 @@ html(lang='en')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
     script.
       var DEXECURE_URL = "/dexecure-c167a5675c.js";
-      //- TODO: temporarily turning off Dexacure and unregister previous registrations
-      //- "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
-      "serviceWorker" in navigator && navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        (registrations||[]).forEach(function(r) {
-          if (r.active && r.active.scriptURL && r.active.scriptURL.indexOf(DEXECURE_URL) >= 0) {
-            try {
-              r.unregister();
-              console.log("Unregistered service worker:", r.active.scriptURL);
-            } catch (e) {
-              console.error("Unable to unregister service worker:", r.active.scriptURL);
-              console.error(e);
-            }
-          }
-        });
-      });
+      "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
     script.
       window.javascriptsPath = '/#{shaTag}/javascripts/';
     if chunkPaths[viewName]
