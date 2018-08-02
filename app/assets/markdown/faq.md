@@ -107,7 +107,7 @@ Our game development and web development courses are all project-based! Teachers
 ### What do you offer in the Web Development and Game Development courses?
 **Web Development**
 In our Web Development courses, students learn the fundamentals of building
-interactive websites using HTML, CSS, and JavaScript. All webpages are automatically published to a custom URL so that students can easily share their finished project with friends and family. Check out this example poster by one of the students from our summer coding camp -- the result of just an hour’s work by a student who had no prior experience with web development!
+interactive websites using HTML, CSS, and JavaScript. All webpages are automatically published to a custom URL so that students can easily share their finished project with friends and family. Check out [this example poster](https://codecombat.com/play/web-dev-level/579fbd99f380c444007e63d1) by one of the students from our summer coding camp -- the result of just an hour’s work by a student who had no prior experience with web development!
 
 **Game Development**
 What’s even more fun than playing a game? Making your own! In our Game Development courses, students learn how to build their own CodeCombat-style game levels and unleash them on friends and family to play with a mouse and keyboard. Over time, they’ll unlock the tools needed to create challenging puzzles and practice their game design skills to become the next star game designer. Final projects for each course can be shared are published to a custom URL so that students can easily share their games with friends and family.
