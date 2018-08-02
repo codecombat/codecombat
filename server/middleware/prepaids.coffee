@@ -62,6 +62,11 @@ module.exports =
       prepaid.set('maxRedeemers',parseInt(maxRedeemers))
     database.validateDoc(prepaid)
     prepaid = yield prepaid.save()
+    # Propagate the prepaid changes to all redeemers
+    for redeemer in prepaid.get('redeemers')
+      user = yield User.findById redeemer.userID
+      user.set('coursePrepaid', _.pick(prepaid.toObject(), '_id', 'startDate','endDate'))
+      user.save()
     res.status(200).send(prepaid.toObject())
 
   redeem: wrap (req, res) ->
