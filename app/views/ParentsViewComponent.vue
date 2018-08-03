@@ -10,28 +10,21 @@
         button
           h3 Refer a Teacher
   .container
-    .row
-      #focus-quote
-        h3.text-center Unlock Their Future With The Tutor Your Kids Will Thank You For
+    .row.focus-quote
+      h3.text-center Unlock Their Future With The Tutor Your Kids Will Thank You For
     #value-prop.row
       .col-lg-4.col-md-4
-        .thumbnail
-          img(src="/images/pages/about/forest.png").img-responsive
-          h3 The most effective way to learn type based code
-          p Students will cover material aligned with national curriculum standards, covering topics from computational thinking and algorithms, to big data and cybersecurity. They will come out having a grasp on how the internet of things works, and the personal and global impact of computer science.
+        img(src="/images/pages/about/forest.png").img-responsive
+        h3 The most effective way to learn type based code
+        p Students will cover material aligned with national curriculum standards, covering topics from computational thinking and algorithms, to big data and cybersecurity. They will come out having a grasp on how the internet of things works, and the personal and global impact of computer science.
       .col-lg-4.col-md-4
-        .thumbnail
-          #three-img
-            img(src="/images/pages/about/forest.png")
-            img(src="/images/pages/about/forest.png")
-            img(src="/images/pages/about/forest.png")
-          h3 Help them create their best future
-          p Computer Science isn’t just about coding and engineering, but also about learning how to navigate and become citizens in the digital world. The problem-to-solution methods taught by programming are something something blah blah blah just a few more words come on brain think of things
+        img(src="/images/pages/parents/best_future.png").img-responsive
+        h3 Help them create their best future
+        p Computer Science isn’t just about coding and engineering, but also about learning how to navigate and become citizens in the digital world. The problem-to-solution methods taught by programming are something something blah blah blah just a few more words come on brain think of things
       .col-lg-4.col-md-4
-        .thumbnail
-          img(src="/images/pages/about/forest.png").img-responsive
-          h3 You've got growing super heroes, so we have heroes too
-          p CodeCombat isn’t just more homework, it’s a game that your kids will love to play. We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as any other CS classroom, while wrapping it up in a game they love. Your kids are the heroes of the future, they might as well have fun while they’re doing it.
+        img(src="/images/pages/about/forest.png").img-responsive
+        h3 You've got growing super heroes, so we have heroes too
+        p CodeCombat isn’t just more homework, it’s a game that your kids will love to play. We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as any other CS classroom, while wrapping it up in a game they love. Your kids are the heroes of the future, they might as well have fun while they’re doing it.
     .row.text-center
       .refer-btn
           button
@@ -75,6 +68,24 @@
       .refer-btn
           button
             h3 Refer a Teacher
+    .row.focus-quote
+      h3.text-center CodeCombat's Mission
+    
+    .row
+      .col-md-4.col-sm-12
+        img.img-responsive(src="/images/pages/about/forest.png")
+        h4 Level up computer science education in and out of the classroom
+        p We’ve built mechanics so that kids learn coding in a way that’s cross translational,  meaning that they know more than just how to pass our levels. These are actual skills that can be applied outside of the game.
+        p We have an amazing education specialist on our team who works closely with teachers to meet children where they are in the educational landscape and CodeCombat is a College Board endorsed provider for AP Computer Science principles.
+      .col-md-4.col-sm-12
+        img.img-responsive(src="/images/pages/about/forest.png")
+        h4 How and Why We Began
+        p 30% of teenagers in secondary school fail to reach proficiency in one subject across maths, reading, or science. We believe in doing better for our kids. So we created CodeCombat. CodeCombat was built to be the most engaging way to teach coding to students. A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code and 2/3rds of all students were asking for more edtech to be available in their school. There were 7 million job openings in 2015 required coding skills and with barriers to entry becoming higher, we built codecombat to because every child should be given a chance to create their best future.
+      .col-md-4.col-sm-12
+        img.img-responsive(src="/images/pages/about/forest.png")
+        h4 We’re parents too
+        p Here at CodeCombat, we’re experts in the CS field. Our CEO, Nick, graduated Summa Cum Laude from Oberlin College in 2008. Our CTO, Matt, has been building software for the past 15 years and started off at Microsoft.
+        p But more than that, we’re parents too. Nick and Matt each have two growing superheros. At CodeCombat we’re parents. We’re coders. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do.
 
 </template>
 
@@ -87,10 +98,9 @@ module.exports = Vue.extend({
 <style lang="sass">
 @import "../styles/style-flat-variables"
 
-.thumbnail
-  background-color: white
-  padding: 0
-  border: 0
+$red: #7D0101
+$blue: #0E4C60
+$green: #20572B
 
 .refer-btn
   margin: 36px auto
@@ -141,10 +151,10 @@ module.exports = Vue.extend({
   .refer-btn
     margin-bottom: 72px
 
-#focus-quote
-  margin-top: 36px
-  padding: 20px
+.focus-quote
   h3
+    margin-top: 36px
+    padding: 20px
     color: #0E4C60
     margin: 0 auto
     @media (min-width: 992px)
@@ -152,12 +162,20 @@ module.exports = Vue.extend({
 
 #value-prop
   img
-    width: 100%
-    height: auto
-#three-img
-  img
-    width: 33%
-    height: auto
+    width: auto
+    max-height: 250px
+  h3
+    margin: 10px 0
+  div:nth-of-type(1)
+    h3
+      color: $red
+  div:nth-of-type(2)
+    h3
+      color: $blue
+  div:nth-of-type(3)
+    h3
+      color: $green
+
 #deep-dive
   .row
     margin-top: 20px
@@ -180,17 +198,17 @@ module.exports = Vue.extend({
 
 #dive-graphic-1
   margin-top: 50px
-  background-color: #7D0101
+  background-color: $red
   div
     right: 100%
 
 #dive-graphic-2
-  background-color: #0E4C60
+  background-color: $blue
   div
     left: 100%
 
 #dive-graphic-3
-  background-color: #20572B
+  background-color: $green
   div
     right: 100%
 
