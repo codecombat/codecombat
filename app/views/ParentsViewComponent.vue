@@ -1,5 +1,5 @@
 <template lang="jade">
-#parent-view
+#parent-view.style-flat
   #jumbotron.container-fluid
     .container
       .row
@@ -38,23 +38,43 @@
             h3 Refer a Teacher
 
   #deep-dive.container
-    #flags.row.text-center
-      .col-lg-6.col-md-3.col-sm-12
-        img.img-responsive(src="/images/pages/about/forest.png").img-circle
-        h3 experiment
-      .col-lg-2.col-md-3
+    .row.text-center
+      #dive-graphic-1.col-lg-6.col-md-12.col-sm-12
+        div
+        img.img-responsive(src="/images/pages/about/forest.png").img-circle.deep-img
+        h2 Coding, not just for Engineers
+      .col-lg-2.col-md-4.col-sm-12.pad-down
         div.img-flag
           h5 Exploration Scientists
-        p flags
-      .col-lg-2.col-md-3
+        p.small Apollo got to the moon first through a lot of clever code, and the Curiosity Rover needs a team of exception people. As we explore the known world we are using and communicating with coders to help advance across the final frontier.
+      .col-lg-2.col-md-4.col-sm-12
+        div.img-flag
+          h5 Medical and Healthcare
+        p.small From mapping of the human genome, to computational analysis of single neurons, coding allows us to understand the body in ways we’ve never been able to before. Coding knowledge is needed for the interpretation and use of medical imaging, and Google has recently launched an AI to help doctors make better decisions.
+      .col-lg-2.col-md-4.col-sm-12.pad-down
+        div.img-flag
+          h5 Filmmaking and Animation
+        p.small From the robotics of Jurassic Park to the incredible Animation of Dreamworks and Pixar, computer knowledge has allowed us to create characters that transport us to another world.
+  
+    .row
+      #dive-graphic-2.col-lg-6.col-md-12.col-sm-12.col-lg-push-6.text-center
         div
-          img.img-responsive(src="/images/pages/parents/flag.png")
-        h5 flags
-      .col-lg-2.col-md3
+        h2 The Reason For Game Based Learning
+        img.img-responsive(src="/images/pages/about/forest.png").deep-img
+      .col-lg-6.col-md-12.col-sm-12.col-lg-pull-6
+        p There’s a reason we moved away from blackboard learning. Sure it may look like a game, but multiple studies repeatedly found that game based learning promoted cognitive development in kids, while also proving to be more effective in helping students learn and retain knowledge, concentrate and perform at a higher level of achievement.
+        p Game based learning is also good for teaching resilience, cognitive reasoning, and develop executive functions. Early studies have even shown the effectiveness of using games to teach science. What all this means is that educational games can be the most effective method for teaching kids to be the creators of their best future.
+    .row
+      #dive-graphic-3.col-lg-6.col-md-12.col-sm-12.text-center
         div
-          img.img-responsive(src="/images/pages/parents/flag.png")
-        h5 flags
-
+        img.img-responsive(src="/images/pages/about/forest.png").deep-img
+        h2 The Reason For Game Based Learning
+      .col-lg-6.col-md-12.col-sm-12
+        p We’re in almost 14,000 schools across the work and in 190 many countries because we know that in the future coding is going to be as fundamental a school as learning to read and write. Unfortunately, schools often find it difficult to find computer science teachers who can teach CS to an entire study body. We’ve worked closely with teachers to design and develop our levels, but your kids need <b>you</b> to help them learn. Neuroscience and researchers are in agreement about the positive effects of game based learning for kids, but <b>only</b> when it’s implemented correctly. Teacher participation is critical in ensuring those positive outcomes, so WE NEED YOUR HELP to create that connection between students and teachers.
+    .row.text-center
+      .refer-btn
+          button
+            h3 Refer a Teacher
 
 </template>
 
@@ -65,6 +85,8 @@ module.exports = Vue.extend({
 </script>
 
 <style lang="sass">
+@import "../styles/style-flat-variables"
+
 .thumbnail
   background-color: white
   padding: 0
@@ -78,11 +100,24 @@ module.exports = Vue.extend({
     border: 0
     h3
       padding: 20px
+.deep-img
+  width: 50%
+  margin: 0 auto
 
 .img-flag
   background: url("/images/pages/parents/flag.png") no-repeat center
   background-size: cover
+  height: 165px
   width: 165px
+  position: relative
+  margin: 0 auto
+  h5
+    position: absolute
+    top: 35%
+
+.pad-down
+  @media (min-width : 992px)
+    padding-top: 40px
 
 #jumbotron
   background-image: url("/images/pages/parents/jumbotron_students.png")
@@ -108,10 +143,12 @@ module.exports = Vue.extend({
 
 #focus-quote
   margin-top: 36px
+  padding: 20px
   h3
     color: #0E4C60
-    max-width: 50%
     margin: 0 auto
+    @media (min-width: 992px)
+      max-width: 60%
 
 #value-prop
   img
@@ -121,4 +158,40 @@ module.exports = Vue.extend({
   img
     width: 33%
     height: auto
+#deep-dive
+  .row
+    margin-top: 20px
+
+// These are styles universal with the deep dive sections.
+#dive-graphic-1, #dive-graphic-2, #dive-graphic-3
+  min-height: 250px
+  position: relative
+  padding: 20px 30px
+  img
+    padding: 10px
+  h2
+    color: white
+  div
+    height: 100%
+    position: absolute
+    width: 2000px
+    background-color: inherit
+    top: 0
+
+#dive-graphic-1
+  margin-top: 50px
+  background-color: #7D0101
+  div
+    right: 100%
+
+#dive-graphic-2
+  background-color: #0E4C60
+  div
+    left: 100%
+
+#dive-graphic-3
+  background-color: #20572B
+  div
+    right: 100%
+
 </style>
