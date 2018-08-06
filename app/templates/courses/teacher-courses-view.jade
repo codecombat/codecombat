@@ -114,3 +114,14 @@ mixin course-info(course)
         a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Python
+
+    if view.courseChangeLog[course.id] && Object.keys(view.courseChangeLog[course.id]).length > 0
+      p
+        div.course-change-log
+          i.btn-link.show-change-log.small(data-i18n="courses.show_change_log") 
+          div.hidden.change-log
+            each messages, date in view.courseChangeLog[course.id]
+              span.semibold.small #{date}
+              ul
+                each m in messages
+                  li.small #{m.m}
