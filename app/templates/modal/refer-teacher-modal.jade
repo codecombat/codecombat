@@ -1,22 +1,33 @@
+extends /templates/core/modal-base-flat
 
-form.modal-body
-  .modal-body-content
-    label.control-label.text-h4(for="name-input")
-      span Your Name
-    input(type="email" name="name-input")
+block modal-header
+  .modal-header
+    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
+    h3 Refer Teacher
 
-    label.control-label.text-h4(for="teacher-email-input")
-      span Teacher's Email
-    input(type="email" name="teacher-email-input")
+block modal-body
+  form.modal-body
+    .form-group
+      label.control-label.text-h4(for="name-input")
+        span Your Name
+      input.form-control.input-lg(type="text" name="name-input")
+    .form-group
+      label.control-label.text-h4(for="your-email-input")
+        span Your Email
+      input.form-control.input-lg(type="email" name="your-email-input")
+    .form-group
+      label.control-label.text-h4(for="teacher-email-input")
+        span Teacher's Email
+      input.form-control.input-lg(type="email" name="teacher-email-input")
+    .form-group
+      label.control-label.text-h4(for="custom-input")
+        span Message
+      textarea.form-control(type="text" name="custom-input" rows=6) I just found CodeCombat and wondered if you had heard about it. It's a web based computer science program that has teacher aligned curriculum so you don't need to do any extra work.&#13;&#10;&#13;&#10;Basic computer literacy is so important and I think this would be a great way to get students engaged in computer science.
 
-    label.control-label.text-h4(for="custom-input")
-      span Custom Input
-    textarea(type="email" name="custom-input")
+    .row.footer-btn
+      button.send-teacher-email-button.btn.btn-lg.btn-navy(type='submit')
+        span Send
+      img.pull-right(src="/images/pages/parents/anya_reading.png")
 
-  .history-nav-buttons
-    button.send-teacher-email-button.btn.btn-lg.btn-navy(type='submit')
-
-    button.back-btn.btn.btn-lg.btn-navy-alt(type='button')
-      span(data-i18n="common.back")
-
+block modal-footer
 

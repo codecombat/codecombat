@@ -1,5 +1,7 @@
+require("app/styles/modal/refer-teacher-modal.sass")
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
+
 
 module.exports = class ReferTeacherModal extends ModalView
     id: 'refer-teacher-modal'
@@ -8,7 +10,6 @@ module.exports = class ReferTeacherModal extends ModalView
 
     events:
         'change input[name="name-input"]': 'onChangeName'
-        'click .back-btn': 'onClickBackButton'
 
     initialize: ->
         @state = new State({
@@ -21,5 +22,3 @@ module.exports = class ReferTeacherModal extends ModalView
     onChangeName: (e) ->
         console.log("Changed", e.value)
     
-    onClickBackButton: ->
-        @trigger 'nav-back'

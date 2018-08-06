@@ -98,6 +98,10 @@ $red: #7D0101
 $blue: #0E4C60
 $green: #20572B
 
+#parent-view
+  @media (min-width: 1200px)
+      overflow-x: hidden
+
 .refer-btn
   margin: 36px auto
   
