@@ -7,7 +7,7 @@
           h3.quote "CodeCombat is an awesome game that inspired me to code"
           h3.text-right - T. Galantis, Age 12
       .refer-btn.row.pull-right
-        button.btn.btn-warning.btn-lg Refer a Teacher
+        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
   .container
     .row.focus-quote
       h3.text-center Unlock Their Future With The Tutor Your Kids Will Thank You For
@@ -26,7 +26,7 @@
         p CodeCombat isn’t just more homework, it’s a game that your kids will love to play. We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as any other CS classroom, while wrapping it up in a game they love. Your kids are the heroes of the future, they might as well have fun while they’re doing it.
     .row.text-center
       .refer-btn
-        button.btn.btn-warning.btn-lg Refer a Teacher
+        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a aTeacher
 
   #deep-dive.container
     .row.text-center
@@ -64,7 +64,7 @@
         p We’re in almost 14,000 schools across the work and in 190 many countries because we know that in the future coding is going to be as fundamental a school as learning to read and write. Unfortunately, schools often find it difficult to find computer science teachers who can teach CS to an entire study body. We’ve worked closely with teachers to design and develop our levels, but your kids need <b>you</b> to help them learn. Neuroscience and researchers are in agreement about the positive effects of game based learning for kids, but <b>only</b> when it’s implemented correctly. Teacher participation is critical in ensuring those positive outcomes, so WE NEED YOUR HELP to create that connection between students and teachers.
     .row.text-center
       .refer-btn
-        button.btn.btn-warning.btn-lg Refer a Teacher
+        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
     .row.focus-quote
       h3.text-center CodeCombat's Mission
     
@@ -88,7 +88,6 @@
 
 <script lang="coffee">
 module.exports = Vue.extend({
-
 })
 </script>
 
