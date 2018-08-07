@@ -115,7 +115,7 @@ mixin course-info(course)
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Python
 
-    if view.courseChangeLog[course.id] && Object.keys(view.courseChangeLog[course.id]).length > 0
+    if Object.keys(view.courseChangeLog[course.id] || []).length > 0
       p
         div.course-change-log
           i.btn-link.show-change-log.small(data-i18n="courses.show_change_log") 
@@ -124,4 +124,4 @@ mixin course-info(course)
               span.semibold.small #{date}
               ul
                 each m in messages
-                  li.small #{m.m}
+                  li.small #{m.message}

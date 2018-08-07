@@ -8,5 +8,5 @@ module.exports = {
     fetchJson("/db/course", options)
 
   fetchChangeLog: (options = {}) ->
-    fetchJson("/db/course/change_log", options)
+    fetchJson("/db/course/change-log", options)
 }

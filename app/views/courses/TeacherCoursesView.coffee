@@ -60,11 +60,13 @@ module.exports = class TeacherCoursesView extends RootView
     yield api.courses.fetchChangeLog()
     .then((changeLogInfo) => 
       @courses.models.forEach (course) =>
-        changeLog = _.filter(changeLogInfo, { 'c' : course.get('slug') })
-        @courseChangeLog[course.id] = _.mapValues(_.groupBy(changeLog, 'd'))
+        changeLog = _.filter(changeLogInfo, { 'id' : course.get('_id') })
+        changeLog = _.sortBy(changeLog, 'date')
+        @courseChangeLog[course.id] = _.mapValues(_.groupBy(changeLog, 'date'))
+      @render?()  
     )
     .catch((e) =>
-      console.log(e)
+      console.error(e)
     )
 
   onClickGuideButton: (e) ->
