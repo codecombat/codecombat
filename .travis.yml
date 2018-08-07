@@ -34,6 +34,11 @@ before_script:
   - until [ $n -ge 60 ]; do curl http://localhost:3000 && break; n=$[$n+1]; sleep 1; done
 script:
   - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots"
+  - kill -9 %1
+  - COCO_CHINA_INFRASTRUCTURE='true' node index.js --unittest &
+  - n=0
+  - until [ $n -ge 60 ]; do curl http://localhost:3000 && break; n=$[$n+1]; sleep 1; done
+  - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots"
 notifications:
   slack:
     rooms:
