@@ -39,7 +39,7 @@ module.exports =
     return new Promise(jqxhr.then)
 
   sendParentTeacherSignup: ({teacherEmail, parentEmail, parentName, customContent}) ->
-    jqxhr = $.ajax('/contact/send-parent-to-teacher-signup', {
+    jqxhr = $.ajax('/contact/send-parent-refer-teacher', {
       method: 'POST'
       data: {teacherEmail, parentEmail, parentName, customContent}
     })

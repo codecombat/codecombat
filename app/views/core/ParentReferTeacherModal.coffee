@@ -10,6 +10,10 @@ module.exports = class ParentReferTeacherModal extends ModalView
   closeButton: true
 
   events:
+    'change input[name="parent-name"]': 'onChangeParentName'
+    'change input[name="parent-email"]': 'onChangeParentEmail'
+    'change input[name="teacher-email"]': 'onChangeTeacherEmail'
+    'change #custom-content': 'onChangeCustomContent'
     'submit': 'sendEmail'
 
   initialize: ->
@@ -17,26 +21,34 @@ module.exports = class ParentReferTeacherModal extends ModalView
       parentName: ''
       parentEmail: ''
       teacherEmail: ''
-      customText: ''
-      emailSending: false
+      customContent: ''
     )
 
-  sendEmail: (e) ->
-    e.preventDefault()
+  afterRender: ->
+    @state.set({customContent:  @$('#custom-content').val()})
+  onChangeParentName: (e) ->
+    @state.set({parentName: @$(e.currentTarget).val()})
+  onChangeParentEmail: (e) ->
+    @state.set({parentEmail: @$(e.currentTarget).val()})
+  onChangeTeacherEmail: (e) ->
+    @state.set({teacherEmail: @$(e.currentTarget).val()})
+  onChangeCustomContent: (e) ->
+    @state.set({customContent: @$(e.currentTarget).val()})
 
-    @state.set({ emailSending: true })
-    # TODO VERIFICATION
-    
+  sendEmail: (e) ->
     contact.sendParentTeacherSignup({
-      teacherEmail: 'spyr1014@gmail.com',
-      parentEmail: 'andrewflashanimator@gmail.com',
-      parentName: 'Bob Franky',
-      customContent: 'I just think this is absolutely fantastic! \n I want more of this.'
+      teacherEmail: @state.get('teacherEmail'),
+      parentEmail: @state.get('parentEmail'),
+      parentName: @state.get('parentName'),
+      customContent: @state.get('customContent')
     })
-      .then( =>
-        @state.set({ emailSending: false })
-      )
-      .catch( =>
-        @state.set({ error: true }))
+      # .then( =>
+      #   @state.set({ emailSending: false, completed: true })
+      # )
+      # .catch( =>
+      #   @state.set({ error: true, emailSending: false }
+      # )
+    
+    true # Refreshes page
       
   
