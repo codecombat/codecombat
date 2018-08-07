@@ -1,7 +1,7 @@
 RootComponent = require 'views/core/RootComponent'
 template = require 'templates/base-flat'
 ParentsViewComponent = require('./ParentsViewComponent.vue').default
-ReferTeacherModal = require('views/core/ReferTeacherModal')
+ParentReferTeacherModal = require('views/core/ParentReferTeacherModal')
 
 module.exports = class ParentView extends RootComponent
   id: 'parents-view'
@@ -14,4 +14,4 @@ module.exports = class ParentView extends RootComponent
       @vueComponent.$on('referTeacher', => @onReferTeacher())
     
   onReferTeacher: () ->
-    @openModalView new ReferTeacherModal()
+    @openModalView new ParentReferTeacherModal()

@@ -26,7 +26,7 @@
         p CodeCombat isn’t just more homework, it’s a game that your kids will love to play. We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as any other CS classroom, while wrapping it up in a game they love. Your kids are the heroes of the future, they might as well have fun while they’re doing it.
     .row.text-center
       .refer-btn
-        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a aTeacher
+        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
 
   #deep-dive.container
     .row.text-center
