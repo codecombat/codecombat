@@ -5,35 +5,38 @@ contact = require 'core/contact'
 
 
 module.exports = class ParentReferTeacherModal extends ModalView
-    id: 'parent-refer-teacher-modal'
-    template: require 'templates/modal/parent-refer-teacher-modal'
-    closeButton: true
+  id: 'parent-refer-teacher-modal'
+  template: require 'templates/modal/parent-refer-teacher-modal'
+  closeButton: true
 
-    events:
-        'submit': 'sendEmail'
+  events:
+    'submit': 'sendEmail'
 
-    initialize: ->
-        @state = new State({
-            name: '',
-            teacherEmail: '',
-            customText: '',
-            emailSending: false,
-        })
-        @listenTo @state, 'all', _.debounce(@render)
+  initialize: ->
+    @state = new State(
+      parentName: ''
+      parentEmail: ''
+      teacherEmail: ''
+      customText: ''
+      emailSending: false
+    )
 
-    sendEmail: ->
-        @state.set({ emailSending: true })
-        console.log("Sending email test")
-        contact.sendParentTeacherSignup({
-            teacherEmail: 'spyr1014@gmail.com',
-            parentEmail: 'andrewflashanimator@gmail.com',
-            parentName: 'Bob Franky',
-            customContent: 'I just think this is absolutely fantastic! \n I want more of this.'
-        })
-            .then( =>
-                @state.set({ emailSending: false })
-            )
-            .catch( =>
-                @state.set({ error: true }))
-        
+  sendEmail: (e) ->
+    e.preventDefault()
+
+    @state.set({ emailSending: true })
+    # TODO VERIFICATION
     
+    contact.sendParentTeacherSignup({
+      teacherEmail: 'spyr1014@gmail.com',
+      parentEmail: 'andrewflashanimator@gmail.com',
+      parentName: 'Bob Franky',
+      customContent: 'I just think this is absolutely fantastic! \n I want more of this.'
+    })
+      .then( =>
+        @state.set({ emailSending: false })
+      )
+      .catch( =>
+        @state.set({ error: true }))
+      
+  
