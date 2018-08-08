@@ -38,7 +38,6 @@
     "webpack": "webpack",
     "bower": "bower",
     "dev": "webpack --watch",
-    "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
     "proxy": "COCO_PROXY='true' nodemon",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
