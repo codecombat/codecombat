@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "start": "node ./index.js",
-    "test": "COCO_TRAVIS_TEST=1 npm run webpack && ./node_modules/.bin/karma start",
+    "test": "COCO_TRAVIS_TEST=1 npm run webpack && ./node_modules/.bin/karma start --single-run --reporters dots",
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
