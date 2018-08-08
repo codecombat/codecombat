@@ -31,7 +31,8 @@
   ],
   "scripts": {
     "start": "node ./index.js",
-    "test": "./node_modules/.bin/karma start",
+    "test": "COCO_TRAVIS_TEST=1 npm run webpack && ./node_modules/.bin/karma start",
+    "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
     "postinstall": "bower install && webpack",
@@ -167,7 +168,7 @@
     "karma-coffee-preprocessor": "^1.0.1",
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-jasmine": "^1.1.1",
+    "karma-jasmine": "^1.1.2",
     "nock": "^2.17.0",
     "node-sass": "^4.0.0",
     "nodemon": "1.6.1",
