@@ -1434,6 +1434,8 @@
     start_challenge: "Start Challenge"
     locked: "Locked"
     concepts_used: "Concepts Used:"
+    show_change_log: "Show changes to this course's levels"
+    hide_change_log: "Hide changes to this course's levels"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
