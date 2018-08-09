@@ -26,4 +26,10 @@ module.exports = {
       method: 'PUT'
       json: options
     })
+
+  editClient: (client, options={}) ->
+    fetchJson('/db/api-clients', _.assign({}, options, {
+      method: 'PUT'
+      json: client
+    }))
 }
