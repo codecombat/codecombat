@@ -53,15 +53,63 @@ div.licensor.container(v-else)
       td.border {{prepaid.endDate}}
       td.border {{prepaid.used}} / {{prepaid.maxRedeemers || 0}}
 
-  h3 Create API Client
+  h3 Create/Edit API Client
   form#client-form
     .form-group
       label.small
       | Client name
       =" "
-      input(type="text", name="clientNameCreate")
+      input(type="text", name="clientName")
+    .form-group
+      label.small
+      | minimumLicenseDays
+      =" "
+      input(type="number", value="365", name="minimumLicenseDays")
+    .form-group
+      label.small
+      | manageLicensesViaUI
+      =" "
+      select(name="manageLicensesViaUI")
+        option(value="true") True
+        option(value="false") False
+    .form-group
+      label.small
+      | manageLicensesViaAPI
+      =" "
+      select(name="manageLicensesViaAPI")
+        option(value="true") True
+        option(value="false") False
+    .form-group
+      label.small
+      | revokeLicensesViaUI
+      =" "
+      select(name="revokeLicensesViaUI")
+        option(value="false") False
+        option(value="true") True
+    .form-group
+      label.small
+      | revokeLicensesViaAPI
+      =" "
+      select(name="revokeLicensesViaAPI")
+        option(value="false") False
+        option(value="true") True
+    .form-group
+      label.small
+      | manageSubscriptionViaAPI
+      =" "
+      select(name="manageSubscriptionViaAPI")
+        option(value="false") False
+        option(value="true") True
+    .form-group
+      label.small
+      | revokeSubscriptionViaAPI
+      =" "
+      select(name="revokeSubscriptionViaAPI")
+        option(value="false") False
+        option(value="true") True
     .form-group
       button.btn.btn-primary(v-on:click.prevent="onCreateApiClient", name="createClient") Create API Client
+      button.btn.btn-primary(v-on:click.prevent="onEditApiClient", name="editClient") Edit API Client
       h4.small *It will create a new API client and generate its secret
 
   h3 Toggle API Client Feature Flags
@@ -98,14 +146,21 @@ div.licensor.container(v-else)
       th.border ID
       th.border Slug
       th.border Name
+      th.border minimumLicenseDays
       th.border No of license days assigned by client
       th.border No of users to whom licenses have been assigned
     tr(v-for="client in clients")
       td.border {{client._id}}
       td.border {{client.slug}}
       td.border {{client.name}}
+      td.border {{client.minimumLicenseDays}}
       td.border {{client.licenses}}
       td.border {{client.users}}
+  label.border(v-if = "clients.length == 1" v-for = "client in clients")
+    | Client permissions:
+    =" "
+    h4.small(v-for = "(value, key) in client.permissions")
+      | {{key}}: {{value}}
   label.border(v-if="clients.length == 1" v-for="client in clients")
     | Client secret:
     =" "
@@ -310,14 +365,23 @@ module.exports = Vue.extend({
 
     onCreateApiClient: co.wrap ->
         el = $('#client-form')
-        requiredProps = ['clientNameCreate']
+        requiredProps = ['clientName', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
         data = @runValidation(el, requiredProps)
         unless data
             return
 
         try
             attrs = {
-                name: data.clientNameCreate
+                name: data.clientName
+                minimumLicenseDays: parseInt(data.minimumLicenseDays)
+                permissions: {
+                    manageLicensesViaUI: (data.manageLicensesViaUI == 'true')
+                    manageLicensesViaAPI: (data.manageLicensesViaAPI == 'true')
+                    revokeLicensesViaUI: (data.revokeLicensesViaUI == 'true')
+                    revokeLicensesViaAPI: (data.revokeLicensesViaAPI == 'true')
+                    manageSubscriptionViaAPI: (data.manageSubscriptionViaAPI == 'true')
+                    revokeSubscriptionViaAPI: (data.revokeSubscriptionViaAPI == 'true')
+                }
             }
             apiCLient = yield api.apiClients.post(attrs)
             yield api.apiClients.createSecret({clientID: apiCLient._id})
@@ -346,6 +410,38 @@ module.exports = Vue.extend({
       catch err
         console.log(err)
         forms.setErrorToProperty(el, 'updateClientFeatures', 'Something went wrong')
+    
+    onEditApiClient: co.wrap ->
+      el = $('#client-form')
+      requiredProps = ['clientName', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
+
+      try
+        apiClient = yield api.apiClients.getByName(data.clientName)
+        unless apiClient.length>0
+          forms.setErrorToProperty(el, 'editClient', 'API client not found')
+          return
+        attrs = {
+          name: data.clientName
+          minimumLicenseDays: parseInt(data.minimumLicenseDays)
+          permissions: {
+            manageLicensesViaUI: (data.manageLicensesViaUI == 'true')
+            manageLicensesViaAPI: (data.manageLicensesViaAPI == 'true')
+            revokeLicensesViaUI: (data.revokeLicensesViaUI == 'true')
+            revokeLicensesViaAPI: (data.revokeLicensesViaAPI == 'true')
+            manageSubscriptionViaAPI: (data.manageSubscriptionViaAPI == 'true')
+            revokeSubscriptionViaAPI: (data.revokeSubscriptionViaAPI == 'true')
+          }
+        }
+        attrs.id = apiClient[0]._id
+        apiClient = yield api.apiClients.editClient(attrs)
+        alert("API client updated")
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'editClient', 'Something went wrong')
+        return
 
     onShowApiClient: co.wrap ->
         el = $('#client-show-form')
