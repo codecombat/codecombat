@@ -13,7 +13,6 @@ template = require 'templates/courses/teacher-courses-view'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
 utils = require 'core/utils'
 api = require 'core/api'
-co = require('co')
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
@@ -45,7 +44,6 @@ module.exports = class TeacherCoursesView extends RootView
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
     @campaignLevelNumberMap = {}
     @courseChangeLog = {}
-    @fetchChangeLog()
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
 
   onLoaded: ->
@@ -54,11 +52,11 @@ module.exports = class TeacherCoursesView extends RootView
         key: level.get('original'), practice: level.get('practice') ? false, assessment: level.get('assessment') ? false
       @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
+    @fetchChangeLog()
     @render?()
 
-  fetchChangeLog: co.wrap ->
-    yield api.courses.fetchChangeLog()
-    .then((changeLogInfo) => 
+  fetchChangeLog: ->
+    api.courses.fetchChangeLog().then((changeLogInfo) =>
       @courses.models.forEach (course) =>
         changeLog = _.filter(changeLogInfo, { 'id' : course.get('_id') })
         changeLog = _.sortBy(changeLog, 'date')
