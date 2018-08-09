@@ -13,7 +13,7 @@ userPropsToSave =
 
 module.exports = FacebookHandler = class FacebookHandler extends CocoClass
   constructor: ->
-    if me.onChinaInfra() then throw new Error('No Facebook support in China region.')
+    unless me.useSocialSignOn() then throw new Error('Social single sign on not supported')
     super()
 
   token: -> @authResponse?.accessToken

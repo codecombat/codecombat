@@ -40,7 +40,8 @@ compile = (contents, locals, filename, cb) ->
   try
     fn = new Function(out.body + '\n return template;')()
     locals = _.merge({_, i18n}, locals, require './static-mock')
-    locals.me.onChinaInfra = -> true if locals.chinaInfra and locals.me?.onChinaInfra
+    # TODO: how do we eventually use dynamic global feature flags here?
+    locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     str = fn(locals)
   catch e
     console.log "Compile", filename, basePath

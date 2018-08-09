@@ -70,7 +70,7 @@ Application = {
     if $.browser.msie and parseInt($.browser.version) is 10
       $("html").addClass("ie10")
     @tracker = new Tracker()
-    unless me.onChinaInfra()
+    if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
       @githubHandler = new GitHubHandler()

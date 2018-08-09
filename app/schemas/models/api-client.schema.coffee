@@ -12,6 +12,14 @@ APIClientSchema = {
       type: 'string'
       description: 'hashed version of a secret key that is required for API calls'
     }
+  features:
+    type: 'object'
+    description: 'Feature flags applied to users created by this APIClient'
+    # key is the feature id
+    additionalProperties: c.object({}, {
+      enabled: {type: 'boolean', description: 'Whether to apply feature flag', default: false}
+      updated: c.date()
+    })
   }
 }
 

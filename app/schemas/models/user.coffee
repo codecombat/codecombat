@@ -1,4 +1,6 @@
 c = require './../schemas'
+FeatureSchema = require './feature.schema'
+
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
 UserSchema = c.object
@@ -298,6 +300,15 @@ _.extend UserSchema.properties,
       studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
       studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
+
+  features:
+    type: 'object'
+    description: 'Feature flags applied to this user'
+    # key is the feature id
+    additionalProperties: c.object(FeatureSchema,
+      apiClientID: c.objectId(description: 'Feature ancestor', links: [{rel: 'extra', href: '/db/api-client/{($)}'}])
+      updated: c.date()
+    )
 
 c.extendBasicProperties UserSchema, 'user'
 

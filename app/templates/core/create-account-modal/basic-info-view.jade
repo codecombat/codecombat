@@ -87,7 +87,7 @@ form#basic-info-form.modal-body.basic-info
             .col-xs-7.col-xs-offset-3
           .alert.alert-danger= error
 
-    if !me.onChinaInfra()
+    if me.useSocialSignOn()
       .hr-text
         hr
         span(data-i18n="general.or")
