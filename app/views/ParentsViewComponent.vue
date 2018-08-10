@@ -7,26 +7,26 @@
           h3.quote "CodeCombat is an awesome game that inspired me to code"
           h3.text-right - T. Galantis, Age 12
       .refer-btn.row.pull-right
-        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
+        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
   .container
     .row.focus-quote
       h3.text-center Unlock Their Future With The Tutor Your Kids Will Thank You For
     #value-prop.row
       .col-lg-4.col-md-4
         img.img-responsive(src="/images/pages/about/forest.png")
-        h3 The most effective way to learn type based code
+        h4 The most effective way to learn type based code
         p Students will cover material aligned with national curriculum standards, covering topics from computational thinking and algorithms, to big data and cybersecurity. They will come out having a grasp on how the internet of things works, and the personal and global impact of computer science.
       .col-lg-4.col-md-4
         img.img-responsive(src="/images/pages/parents/best_future.png")
-        h3 Help them create their best future
+        h4 Help them create their best future
         p Computer Science isn’t just about coding and engineering, but also about learning how to navigate and become citizens in the digital world. The problem-to-solution methods taught by programming are something something blah blah blah just a few more words come on brain think of things
       .col-lg-4.col-md-4
         img.img-responsive(src="/images/pages/parents/cheering_warriors.png")
-        h3 You've got growing super heroes, so we have heroes too
+        h4 You've got growing super heroes, so we have heroes too
         p CodeCombat isn’t just more homework, it’s a game that your kids will love to play. We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as any other CS classroom, while wrapping it up in a game they love. Your kids are the heroes of the future, they might as well have fun while they’re doing it.
     .row.text-center
       .refer-btn
-        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
+        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
 
   #deep-dive.container
     .row.text-center
@@ -64,7 +64,7 @@
         p We’re in almost 14,000 schools across the work and in 190 many countries because we know that in the future coding is going to be as fundamental a school as learning to read and write. Unfortunately, schools often find it difficult to find computer science teachers who can teach CS to an entire study body. We’ve worked closely with teachers to design and develop our levels, but your kids need <b>you</b> to help them learn. Neuroscience and researchers are in agreement about the positive effects of game based learning for kids, but <b>only</b> when it’s implemented correctly. Teacher participation is critical in ensuring those positive outcomes, so WE NEED YOUR HELP to create that connection between students and teachers.
     .row.text-center
       .refer-btn
-        button.btn.btn-warning.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
+        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
     .row.focus-quote
       h3.text-center CodeCombat's Mission
     
@@ -104,12 +104,11 @@ $green: #20572B
 
 .refer-btn
   margin: 36px auto
-  
   button
-    background-color: rgba(242, 190, 25, 1)
     border: 0
     h3
       padding: 20px
+      color: white
 .deep-img
   margin: 0 auto
   max-height: 200px
@@ -150,8 +149,6 @@ $green: #20572B
 
   .refer-btn
     margin-bottom: 72px
-    button
-      color: black
 
 .focus-quote
   h3
@@ -168,13 +165,13 @@ $green: #20572B
   h3
     margin: 10px 0
   div:nth-of-type(1)
-    h3
+    h4
       color: $red
   div:nth-of-type(2)
-    h3
+    h4
       color: $blue
   div:nth-of-type(3)
-    h3
+    h4
       color: $green
 
 #deep-dive
