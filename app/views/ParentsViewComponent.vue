@@ -34,18 +34,23 @@
         div
         img.img-responsive.img-circle.deep-img(src="/images/pages/parents/deepdive1.png")
         h2 Coding, not just for Engineers
-      .col-lg-2.col-md-4.col-sm-12.pad-down
-        div.img-flag
-          h5 Medical and Healthcare
-        p.small From mapping of the human genome, to MRI machines, coding allows us to understand the body in ways we’ve never been able to before.
-      .col-lg-2.col-md-4.col-sm-12
-        div.img-flag
-          h5 Exploration Scientists
-        p.small Apollo got to the moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars.
-      .col-lg-2.col-md-4.col-sm-12.pad-down
-        div.img-flag
-          h5 Filmmaking and Animation
-        p.small From the robotics of Jurassic Park to the incredible Animation of Dreamworks and Pixar, films wouldn’t be the same without computer science and the creatives behind the scenes.
+      
+      .col-lg-6.col-md-12.col-sm-12
+        .row
+          img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
+          .col-lg-8.col-md-12.col-sm-12
+            h5 Medical and Healthcare
+            p.small From mapping of the human genome, to MRI machines, coding allows us to understand the body in ways we’ve never been able to before.
+        .row
+          img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
+          .col-lg-8.col-md-12.col-sm-12
+            h5 Exploration Scientists
+            p.small Apollo got to the moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars.
+        .row
+          img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
+          .col-lg-8.col-md-12.col-sm-12
+            h5 Filmmaking and Animation
+            p.small From the robotics of Jurassic Park to the incredible Animation of Dreamworks and Pixar, films wouldn’t be the same without computer science and the creatives behind the scenes.
   
     .row
       #dive-graphic-2.col-lg-6.col-md-12.col-sm-12.col-lg-push-6.text-center
@@ -130,21 +135,6 @@ $green: #20572B
   margin: 0 auto
   max-height: 200px
 
-.img-flag
-  background: url("/images/pages/parents/flag.png") no-repeat center
-  background-size: cover
-  height: 165px
-  width: 165px
-  position: relative
-  margin: 0 auto
-  h5
-    position: absolute
-    top: 35%
-
-.pad-down
-  @media (min-width : 992px)
-    padding-top: 40px
-
 #jumbotron
   background-image: url("/images/pages/parents/jumbotron_students.png")
   background-position: 50% 55%
@@ -216,8 +206,12 @@ $green: #20572B
     @media (max-width: 1200px)
       display: none
 
+.flag-img
+  max-height: 100px
+  width: auto
+  margin: -20px 0 20px 0
+
 #dive-graphic-1
-  margin-top: 50px
   background-color: $red
   div
     right: 100%
