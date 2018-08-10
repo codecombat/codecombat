@@ -1,5 +1,5 @@
 c = require './../schemas'
-FeatureSchema = require './feature.schema'
+{FeatureAuthoritySchema, FeatureRecipientSchema} = require './feature.schema'
 
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
@@ -303,12 +303,18 @@ _.extend UserSchema.properties,
 
   features:
     type: 'object'
-    description: 'Feature flags applied to this user'
-    # key is the feature id
-    additionalProperties: c.object(FeatureSchema,
-      apiClientID: c.objectId(description: 'Feature ancestor', links: [{rel: 'extra', href: '/db/api-client/{($)}'}])
-      updated: c.date()
-    )
+    title: 'Feature Flags'
+    properties:
+      authority:
+        type: 'object'
+        description: 'Feature flags applied to associated users'
+        # key is the feature id
+        additionalProperties: FeatureAuthoritySchema
+      recipient:
+        type: 'object'
+        description: 'Features flags applied to this user'
+        # key is the feature id
+        additionalProperties: FeatureRecipientSchema
 
 c.extendBasicProperties UserSchema, 'user'
 

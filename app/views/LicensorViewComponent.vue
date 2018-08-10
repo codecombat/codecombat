@@ -69,7 +69,7 @@ div.licensor.container(v-else)
     .form-group
       table.table.table-condensed#features-table(v-for="client in ownedClients")
         tr.border
-          th Client
+          th API Client
           th Enabled
           th Name
           th Type
@@ -222,13 +222,15 @@ module.exports = Vue.extend({
         url: '/db/feature'
         success: (@features) =>
           showGlobalToggles = getQueryVariable('showGlobalToggles', false)
-          for client in @ownedClients
+          for i in [0...@ownedClients.length]
+            client = @ownedClients[i]
             client.features ?= {}
             for feature in @features
-              if showGlobalToggles or feature.type is 'user'
+              if showGlobalToggles or feature.type isnt 'global'
                 client.features[feature._id] = _.assign(_.cloneDeep(feature), client.features[feature._id] ? {})
               else
                 delete client.features[feature._id]
+            Vue.set(@ownedClients, i, client) # https://vuejs.org/v2/guide/list.html#Caveats
         error: (data) =>
           noty text: 'Failed to find fetch features', type: 'error'
           console.error(data)
@@ -273,7 +275,7 @@ module.exports = Vue.extend({
                     licensorAdded: me.id
             })
             prepaid = yield api.prepaids.post(attrs)
-            alert("License created")
+            noty text: 'License created', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'addLicense', 'Something went wrong')
@@ -319,7 +321,7 @@ module.exports = Vue.extend({
             }
             apiCLient = yield api.apiClients.post(attrs)
             yield api.apiClients.createSecret({clientID: apiCLient._id})
-            alert("Client created")
+            noty text: 'Client created', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'createClient', 'Something went wrong')
@@ -341,7 +343,7 @@ module.exports = Vue.extend({
             if currentSetting isnt feature.enabled
               yield api.apiClients.updateFeature({clientID: client._id, featureID: feature._id}, {enabled: feature.enabled})
               currentFeature.enabled = feature.enabled
-        alert("Feature flags updated")
+        noty text: 'Feature flags updated', timeout: 3000, type: 'success'
       catch err
         console.log(err)
         forms.setErrorToProperty(el, 'updateClientFeatures', 'Something went wrong')
@@ -408,7 +410,7 @@ module.exports = Vue.extend({
             if data.strictSSL
                 attrs.strictSSL = (data.strictSSL == 'true')
             oauthProvider = yield api.oauth.post(attrs)
-            alert("OAuth Provider created")
+            noty text: 'OAuth Provider created', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'createProvider', 'Something went wrong')
@@ -435,7 +437,7 @@ module.exports = Vue.extend({
             }
             attrs.id = oauthProvider[0]._id
             oauthProvider = yield api.oauth.editProvider(attrs)
-            alert("OAuth Provider updated")
+            noty text: 'OAuth Provider updated', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'editProvider', 'Something went wrong')

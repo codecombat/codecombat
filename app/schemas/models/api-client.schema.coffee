@@ -1,4 +1,5 @@
 c = require './../schemas'
+{FeatureAuthoritySchema} = require './feature.schema'
 
 APIClientSchema = {
   description: 'Third parties who can make API calls, usually on behalf of a user.'
@@ -12,14 +13,11 @@ APIClientSchema = {
       type: 'string'
       description: 'hashed version of a secret key that is required for API calls'
     }
-  features:
-    type: 'object'
-    description: 'Feature flags applied to users created by this APIClient'
-    # key is the feature id
-    additionalProperties: c.object({}, {
-      enabled: {type: 'boolean', description: 'Whether to apply feature flag', default: false}
-      updated: c.date()
-    })
+    features:
+      type: 'object'
+      description: 'Feature flags applied to associated users'
+      # key is the feature id
+      additionalProperties: FeatureAuthoritySchema
   }
 }
 
