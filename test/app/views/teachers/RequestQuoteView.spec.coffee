@@ -106,7 +106,7 @@ describe 'RequestQuoteView', ->
 
         describe 'signup form', ->
           beforeEach ->
-            return if window.features.chinaInfra
+            return if window.features.chinaUx
             application.facebookHandler.fakeAPI()
             application.gplusHandler.fakeAPI()
 
@@ -114,14 +114,14 @@ describe 'RequestQuoteView', ->
             expect(view.$('input[name="name"]').val()).toBe('A B')
 
           it 'includes a facebook button which will sign them in immediately', ->
-            return pending() if window.features.chinaInfra
+            return pending() if window.features.chinUx
             view.$('#facebook-signup-btn').click()
             request = jasmine.Ajax.requests.mostRecent()
             expect(request.method).toBe('PUT')
             expect(request.url).toBe('/db/user?facebookID=abcd&facebookAccessToken=1234')
 
           it 'includes a gplus button which will sign them in immediately', ->
-            return pending() if window.features.chinaInfra
+            return pending() if window.features.chinaUx
             view.$('#gplus-signup-btn').click()
             request = jasmine.Ajax.requests.mostRecent()
             expect(request.method).toBe('PUT')

@@ -88,7 +88,7 @@ describe 'CreateTeacherAccountView', ->
       AuthModal = require 'views/core/AuthModal'
       expect(view.openModalView.calls.argsFor(0)[0] instanceof AuthModal).toBe(true)
 
-  if !window.features.chinaInfra
+  if !window.features.chinaUx
     describe 'clicking the Facebook button', ->
 
       beforeEach ->
@@ -155,7 +155,7 @@ describe 'CreateTeacherAccountView', ->
                 expect(_.isEqual(expected, actual)).toBe(true)
                 done()
 
-  if !window.features.chinaInfra
+  if !window.features.chinaUx
     describe 'clicking the G+ button', ->
 
       beforeEach ->
