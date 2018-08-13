@@ -2566,3 +2566,23 @@
     unit_9: "Unit 9: AP Review"
     unit_10: "Unit 10: Post-AP"
     unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+  parent_landing:
+    slogan_quote: '"CodeCombat is an awesome game that inspired me to code"'
+    quote_attr: "T. Galantis, Age 12"
+    refer_teacher: "Refer a Teacher"
+    focus_quote: "Unlock Their Future With The Tutor Your Kids Will Thank You For"
+    value_head1: "The most effective way to learn type based code"
+    value_copy1: "CodeCombat teaches the two most common coding languages. Students will cover material aligned with national curriculum standards, and cover topics from computational thinking and algorithms, to big data and cybersecurity."
+    value_head2: "Help them create their best future"
+    value_copy2: "Students will learn how to navigate and become citizens in the digital world. Problem-to-solution methods taught by programming support creative learning and help your child develop resilience and determination."
+    value_head3: "You've got growing super heroes, so we have heroes too"
+    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as any other CS classroom, while wrapping it up in a game they love."
+    dive_head1: "Coding, not just for Engineers"
+    medical_flag: "Medical and Healthcare"
+    medical_flag_copy: "From mapping of the human genome, to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
+    explore_flag: "Exploration Scientists"
+    explore_flag_copy: "Apollo got to the moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
+    filmaking_flag: "Filmmaking and Animation"
+    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible Animation of Dreamworks and Pixar, films wouldn’t be the same without computer science and the creatives behind the scenes."
+    

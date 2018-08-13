@@ -4,59 +4,57 @@
     .container
       .row
         #slogan.col-lg-6.col-md-6
-          h3.quote "CodeCombat is an awesome game that inspired me to code"
-          h3.text-right - T. Galantis, Age 12
+          h3.quote(data-i18n="parent_landing.slogan_quote")
+          h3.text-right(data-i18n="parent_landing.quote_attr")
       .refer-btn.row.pull-right
-        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
+        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')" data-i18n="parent_landing.refer_teacher")
   .container
     .row.focus-quote
-      h3.text-center Unlock Their Future With The Tutor Your Kids Will Thank You For
+      h3.text-center(data-i18n="parent_landing.focus_quote") 
     #value-prop.row
       .col-lg-4.col-md-4
         img.img-responsive(src="/images/pages/parents/valueprop1.png")
-        h4 The most effective way to learn type based code
-        p CodeCombat teaches the two most common coding languages. Students will cover material aligned with national curriculum standards, and cover topics from computational thinking and algorithms, to big data and cybersecurity.
+        h4(data-i18n="parent_landing.value_head1")
+        p(data-i18n="parent_landing.value_copy1")
       .col-lg-4.col-md-4
         img.img-responsive(src="/images/pages/parents/valueprop2.png")
-        h4 Help them create their best future
-        p Students will learn how to navigate and become citizens in the digital world. Problem-to-solution methods taught by programming support creative learning and help your child develop resilience and determination.
+        h4(data-i18n="parent_landing.value_head2")
+        p(data-i18n="parent_landing.value_copy2")
       .col-lg-4.col-md-4
         img.img-responsive(src="/images/pages/parents/valueprop3.png")
-        h4 You've got growing super heroes, so we have heroes too
-        p We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as any other CS classroom, while wrapping it up in a game they love.
+        h4(data-i18n="parent_landing.value_head3")
+        p(data-i18n="parent_landing.value_copy3")
     .row.text-center
       .refer-btn
-        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
+        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')", data-i18n="parent_landing.refer_teacher")
 
   #deep-dive.container
     .row.text-center
       #dive-graphic-1.col-lg-5.col-md-12.col-sm-12
         div
-        img.img-responsive.img-circle.deep-img(src="/images/pages/parents/deepdive1.png")
-        h2 Coding, not just for Engineers
+        h2(data-i18n="parent_landing.dive_head1")
       
-      .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1
+      .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1.flags
         .row
           img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
           .col-lg-8.col-md-12.col-sm-12
-            h5 Medical and Healthcare
-            p.small From mapping of the human genome, to MRI machines, coding allows us to understand the body in ways we’ve never been able to before.
+            h5(data-i18n="parent_landing.medical_flag")
+            p.small(data-i18n="parent_landing.medical_flag_copy")
         .row
           img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
           .col-lg-8.col-md-12.col-sm-12
-            h5 Exploration Scientists
-            p.small Apollo got to the moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars.
+            h5(data-i18n="parent_landing.explore_flag")
+            p.small(data-i18n="parent_landing.explore_flag_copy")
         .row
           img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
           .col-lg-8.col-md-12.col-sm-12
-            h5 Filmmaking and Animation
-            p.small From the robotics of Jurassic Park to the incredible Animation of Dreamworks and Pixar, films wouldn’t be the same without computer science and the creatives behind the scenes.
+            h5(data-i18n="parent_landing.filmaking_flag")
+            p.small(data-i18n="parent_landing.filmaking_flag_copy")
   
     .row
       #dive-graphic-2.col-lg-6.col-md-12.col-sm-12.col-lg-push-6.text-center
         div
-        h2 The Reason For Game Based Learning
-        img.img-responsive.deep-img(src="/images/pages/parents/deepdive2.png")
+        h2 Why Games are Important for Learning
       .col-lg-5.col-md-12.col-sm-12.col-lg-pull-6
         p
           span.spr Multiple studies repeatedly found that game based learning promoted
@@ -77,8 +75,7 @@
     .row
       #dive-graphic-3.col-lg-5.col-md-12.col-sm-12.text-center
         div
-        img.img-responsive.deep-img(src="/images/pages/parents/deepdive3.png")
-        h2 The Reason For Game Based Learning
+        h2 How to be the Ultimate Team
       .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1
         p
           a(href="https://www.theatlantic.com/technology/archive/2012/05/six-reasons-non-computer-nerd-might-want-learn-code/328102/") In the future
@@ -119,8 +116,14 @@ module.exports = Vue.extend({
 $red: #7D0101
 $blue: #0E4C60
 $green: #20572B
+
 .row
   margin: 25px 0
+
+.flags
+  text-align: center
+  @media (min-width: 1200px)
+    text-align: left
 
 #parent-view
   @media (min-width: 1200px)
@@ -194,11 +197,14 @@ $green: #20572B
 
 // These are styles universal with the deep dive sections.
 #dive-graphic-1, #dive-graphic-2, #dive-graphic-3
-  min-height: 250px
+  min-height: 280px
   position: relative
   padding: 20px 30px
   h2
     color: white
+    text-shadow: 1px 1px 3px black
+    position: absolute
+    bottom: 20px
   div
     height: 100%
     position: absolute
@@ -214,17 +220,19 @@ $green: #20572B
   margin: -20px 0 20px 0
 
 #dive-graphic-1
-  background-color: $red
+  background: $red no-repeat url("/images/pages/parents/deepdive1.png")
+  background-position: center right
   div
     right: 100%
 
 #dive-graphic-2
-  background-color: $blue
+  background: $blue no-repeat url("/images/pages/parents/deepdive2.png")
   div
     left: 100%
 
 #dive-graphic-3
-  background-color: $green
+  background: $green no-repeat url("/images/pages/parents/deepdive3.png")
+  background-position: center right
   div
     right: 100%
 
