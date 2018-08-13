@@ -54,54 +54,54 @@
     .row
       #dive-graphic-2.col-lg-6.col-md-12.col-sm-12.col-lg-push-6.text-center
         div
-        h2 Why Games are Important for Learning
+        h2(data-i18n="parent_landing.dive_head2")
       .col-lg-5.col-md-12.col-sm-12.col-lg-pull-6
         p
-          span.spr Multiple studies repeatedly found that game based learning promoted
-          a(href="https://www.learntechlib.org/p/19982/") cognitive development
-          span.spl.spr in kids, while also proving to be
-          a(href="http://webcache.googleusercontent.com/search?q=cache:v-UZ4U5_b7cJ:www.ejmste.com/A-Study-of-the-Effects-of-Digital-Learning-on-Learning-Motivation-and-Learning-Outcome,69635,0,2.html+&amp;cd=1&amp;hl=en&amp;ct=clnk&amp;gl=us") more effective
-          span.spl.spr in helping students
-          a(href="https://www.healio.com/nursing/journals/jcen/2016-8-47-8/%7B4c67edb9-1a9c-432d-af17-0f2856f3ce2c%7D/importance-of-gamification-in-increasing-learning") learn and retain knowledge
-          span.spr ,
-          a(href="http://www.sun.ac.za/english/learning-teaching/ctl/Documents/Gamification%20in%20education.pdf") concentrate
-          span.spl and perform at a higher level of achievement.
+          span.spr(data-i18n="parent_landing.dive_par1")
+          a(href="https://www.learntechlib.org/p/19982/", data-i18n="parent_landing.dive_link1")
+          span.spl.spr(data-i18n="parent_landing.dive_par2")
+          a(href="http://webcache.googleusercontent.com/search?q=cache:v-UZ4U5_b7cJ:www.ejmste.com/A-Study-of-the-Effects-of-Digital-Learning-on-Learning-Motivation-and-Learning-Outcome,69635,0,2.html+&amp;cd=1&amp;hl=en&amp;ct=clnk&amp;gl=us", data-i18n="parent_landing.dive_link2")
+          span.spl.spr(data-i18n="parent_landing.dive_par3")
+          a(href="https://www.healio.com/nursing/journals/jcen/2016-8-47-8/%7B4c67edb9-1a9c-432d-af17-0f2856f3ce2c%7D/importance-of-gamification-in-increasing-learning", data-i18n="parent_landing.dive_link3")
+          span.spr(data-i18n="parent_landing.dive_par4")
+          a(href="http://www.sun.ac.za/english/learning-teaching/ctl/Documents/Gamification%20in%20education.pdf", data-i18n="parent_landing.dive_link4")
+          span.spl(data-i18n="parent_landing.dive_par5")
         p
-          span.spr Game based learning is also good for teaching
-          a(href="https://mitpress.mit.edu/books/ecology-games") resilience
-          span.spr , cognitive reasoning, and develop
-          a(href="https://link.springer.com/chapter/10.1007/978-3-319-26508-7_20") executive functions
-          span . Science is just telling us what you teachers already know. Kids learn best by playing. 
+          span.spr(data-i18n="parent_landing.dive_par6")
+          a(href="https://mitpress.mit.edu/books/ecology-games", data-i18n="parent_landing.dive_link5")
+          span.spr(data-i18n="parent_landing.dive_par7")
+          a(href="https://link.springer.com/chapter/10.1007/978-3-319-26508-7_20", data-i18n="parent_landing.dive_link6") 
+          span(data-i18n="parent_landing.dive_par8")
     .row
       #dive-graphic-3.col-lg-5.col-md-12.col-sm-12.text-center
         div
-        h2 How to be the Ultimate Team
+        h2(data-i18n="parent_landing.dive_head3")
       .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1
         p
-          a(href="https://www.theatlantic.com/technology/archive/2012/05/six-reasons-non-computer-nerd-might-want-learn-code/328102/") In the future
-          span.spl coding is going to be as fundamental a school as learning to read and write. We’ve worked closely with teachers to design and develop our levels, now your kids need you to help them learn. Educational technology works best when the teachers can implement it correctly which means that as a parent, students need your help to create that connection.
+          a(href="https://www.theatlantic.com/technology/archive/2012/05/six-reasons-non-computer-nerd-might-want-learn-code/328102/", data-i18n="parent_landing.dive_3_link1")
+          span.spl(data-i18n="parent_landing.dive_3_paragraph")
     .row.text-center
       .refer-btn
-        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')") Refer a Teacher
+        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')", data-i18n="parent_landing.refer_teacher")
     .row.focus-quote
-      h3.text-center CodeCombat's Mission
+      h3.text-center(data-i18n="parent_landing.mission")
     
     #mission.row
       .col-md-4.col-sm-12
         img.img-responsive(src="/images/pages/parents/mission1.png")
         p
-          b Level up computer science education in and out of the classroom
-        p Our education specialist works closely with teachers to meet children where they are in the educational landscape. Kids learn coding skills that can be applied outside of the game because it’s more than just copy and paste. They learn how to solve problems. And because we’ve worked with teachers, we’ve made sure that CodeCombat supports all different learning styles. 
+          b(data-i18n="parent_landing.mission1_heading")
+        p(data-i18n="parent_landing.mission1_copy")
       .col-md-4.col-sm-12
         img.img-responsive(src="/images/pages/parents/mission2.png")
         p
-          b How and Why We Began
-        p CodeCombat was built to be the most engaging way to teach coding to students. A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills and with barriers to entry becoming higher, we built codecombat to because every child should be given a chance to create their best future. 
+          b(data-i18n="parent_landing.mission2_heading")
+        p(data-i18n="parent_landing.mission2_copy")
       .col-md-4.col-sm-12
         img.img-responsive(src="/images/pages/parents/mission3.png")
         p
-          b We’re parents too
-        p Here at CodeCombat, we’re experts in the CS field. But more than that, we’re parents too. Nick and Matt each have two growing superheros. At CodeCombat we’re parents. We’re coders. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do.
+          b(data-i18n="parent_landing.mission3_heading")
+        p(data-i18n="parent_landing.mission3_copy")
 
 </template>
 
