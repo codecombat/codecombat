@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
   new_home:
-    slogan: "Самая захватывающая игра для обучения программированию." # {change}
+    slogan: "Самый захватывающий способ обучения реальному программированию."
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
     play_now: "Играть сейчас"
@@ -22,7 +22,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     accessible_to: "Доступно для"
     everyone: "каждого"
     democratizing: "Демократизация обучения программированию лежит в основе нашей философии. Каждый должен иметь возможность научиться программированию."
-    forgot_learning: "Я думаю, что они забудут, что они действительно что-то изучают." # {change}
+    forgot_learning: "Я думаю, что они действительно забудут, что они что-то изучают."
     wanted_to_do: " Программирование – это то, чем я всегда хотел заниматься, но не предполагал, что смогу изучать это в школе."
 #    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Почему важно обучение с помощью игр?"
@@ -50,10 +50,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     setup_a_class: "Настройка класса"
     have_an_account: "Уже есть аккаунт?"
     logged_in_as: "Вы вошли как"
-    computer_science: "Курсы информатики для всех возрастов" # {change}
+    computer_science: "Наши курсы самостоятельного обучения охватывают от базового синтаксиса до передовых концепций"
     ffa: "Бесплатно для всех учеников"
     coming_soon: "Скоро!"
-    courses_available_in: "Курсы доступны на JavaScript и Python. В веб-разработке применяются HTML, CSS, jQuery и Bootstrap." # {change}
+    courses_available_in: "Курсы доступны на JavaScript и Python. В курсах веб-разработки применяются HTML, CSS и jQuery."
     boast: "Награды и достаточно сложные задачи очаруют как игроков, так и программистов."
     winning: "Выигрышная комбинация ролевой игры и домашнего задания по программированию, у которой получилось сделать обучение дружественным к детям и по-настоящему увлекательным."
     run_class: "Всё, что вам нужно, чтобы уже сегодня запустить класс информатики в вашей школе без предварительной подготовки."
