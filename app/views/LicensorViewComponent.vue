@@ -82,7 +82,6 @@ div.licensor.container(v-else)
     .form-group
       button.btn.btn-primary(v-on:click.prevent="onUpdateApiClientFeatures", name="updateClientFeatures") Update Client Feature Flags
       h4.small *Users created by this API Client will have this feature flag applied on their browser refresh or login
-      h4.small *Only user feature flags can be updated dynamically
 
   h3 Show API Client
   form#client-show-form
