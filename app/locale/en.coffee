@@ -2610,3 +2610,11 @@
     mission1_copy: "Our education specialist works closely with teachers to meet children where they are in the educational landscape. Kids learn coding skills that can be applied outside of the game because it’s more than just copy and paste. They learn how to solve problems. And because we’ve worked with teachers, we’ve made sure that CodeCombat supports all different learning styles."
     mission2_copy: "CodeCombat was built to be the most engaging way to teach coding to students. A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills and with barriers to entry becoming higher, we built codecombat to because every child should be given a chance to create their best future."
     mission3_copy: "Here at CodeCombat, we’re experts in the CS field. But more than that, we’re parents too. Nick and Matt each have two growing superheros. At CodeCombat we’re parents. We’re coders. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+  parent_modal:
+    refer_teacher: "Refer Teacher"
+    name: "Your Name"
+    parent_email: "Your Email"
+    teacher_email: "Teacher's Email"
+    message: "Message"
+    custom_message: "I just found CodeCombat and wondered if you had heard about it. It's a web based computer science program that has teacher aligned curriculum so you don't need to do any extra work.\n\nBasic computer literacy is so important and I think this would be a great way to get students engaged in computer science."
+    send: "Send"
