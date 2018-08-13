@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
   new_home:
-    slogan: "Самая захватывающая игра для обучения программированию." # {change}
+    slogan: "Самый захватывающий способ обучения реальному программированию."
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
     play_now: "Играть сейчас"
@@ -22,7 +22,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     accessible_to: "Доступно для"
     everyone: "каждого"
     democratizing: "Демократизация обучения программированию лежит в основе нашей философии. Каждый должен иметь возможность научиться программированию."
-    forgot_learning: "Я думаю, что они забудут, что они действительно что-то изучают." # {change}
+    forgot_learning: "Я думаю, что они действительно забудут, что они что-то изучают."
     wanted_to_do: " Программирование – это то, чем я всегда хотел заниматься, но не предполагал, что смогу изучать это в школе."
 #    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Почему важно обучение с помощью игр?"
@@ -50,10 +50,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     setup_a_class: "Настройка класса"
     have_an_account: "Уже есть аккаунт?"
     logged_in_as: "Вы вошли как"
-    computer_science: "Курсы информатики для всех возрастов" # {change}
+    computer_science: "Наши курсы самостоятельного обучения охватывают от базового синтаксиса до передовых концепций"
     ffa: "Бесплатно для всех учеников"
     coming_soon: "Скоро!"
-    courses_available_in: "Курсы доступны на JavaScript и Python. В веб-разработке применяются HTML, CSS, jQuery и Bootstrap." # {change}
+    courses_available_in: "Курсы доступны на JavaScript и Python. В курсах веб-разработки применяются HTML, CSS и jQuery."
     boast: "Награды и достаточно сложные задачи очаруют как игроков, так и программистов."
     winning: "Выигрышная комбинация ролевой игры и домашнего задания по программированию, у которой получилось сделать обучение дружественным к детям и по-настоящему увлекательным."
     run_class: "Всё, что вам нужно, чтобы уже сегодня запустить класс информатики в вашей школе без предварительной подготовки."
@@ -94,8 +94,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     open_source: "Открытый исходный код (GitHub)"
     support: "Поддержка"
     faqs: "Часто задаваемые вопросы"
-#    copyright_prefix: "Copyright"
-#    copyright_suffix: "All Rights Reserved."
+    copyright_prefix: "Авторское право"
+    copyright_suffix: "Все права защищены."
     help_pref: "Нужна помощь? Напишите"
     help_suff: "и мы свяжемся!"
     resource_hub: "Ресурсы"
@@ -228,12 +228,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     signup_switch: "Хотите создать аккаунт?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Вы успешно подписались"
     create_student_header: "Создать учётную запись Ученика"
     create_teacher_header: "Создать учётную запись Учителя"
     create_individual_header: "Создать личную учётную запись"
     email_announcements: "Получать оповещения о новых уровнях и возможностях на CodeCombat"
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "Войдите или создайте учётную запись для продолжения"
     teacher_email_announcements: "Сообщайте мне о новых учебных материалах, планах и курсах!"
     creating: "Создаём учётную запись..."
     sign_up: "Регистрация"
@@ -418,7 +418,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   units:
     second: "секунда"
     seconds: "секунд(ы)"
-#    sec: "sec"
+    sec: "сек"
     minute: "минута"
     minutes: "минут(ы)"
     hour: "час"
@@ -607,22 +607,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     project_published_noty: "Ваш уровень опубликован!"
     keep_editing: "Продолжить редактировать"
 
-#  apis:
-#    methods: "Methods"
-#    events: "Events"
+  apis:
+    methods: "Методы"
+    events: "События"
 #    spawnable: "Spawnable"
-#    html: "HTML"
-#    math: "Math"
-#    array: "Array"
-#    object: "Object"
-#    string: "String"
-#    function: "Function"
-#    vector: "Vector"
-#    date: "Date"
-#    jquery: "jQuery"
-#    json: "JSON"
-#    number: "Number"
-#    webjavascript: "JavaScript"
+    html: "HTML"
+    math: "Математика"
+    array: "Массивы"
+    object: "Объект"
+    string: "Строка"
+    function: "Функция"
+    vector: "Вектор"
+    date: "Дата"
+    jquery: "jQuery"
+    json: "JSON"
+    number: "Цифра"
+    webjavascript: "JavaScript"
 
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
@@ -679,9 +679,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     damage_dealt: "Нанесено повреждений"
     difficulty: "Сложность"
     gold_collected: "Собрано золота"
-#    survival_time: "Survived"
-#    defeated: "Enemies Defeated"
-#    code_length: "Lines of Code"
+    survival_time: "Прожито"
+    defeated: "Врагов побеждено"
+    code_length: "Строчек кода"
 #    score_display: "__scoreType__: __score__"
 
   inventory:
@@ -695,9 +695,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     restricted: "(запрещён на этом уровне)"
     equip: "Надеть"
     unequip: "Снять"
-#    warrior_only: "Warrior Only"
-#    ranger_only: "Ranger Only"
-#    wizard_only: "Wizard Only"
+    warrior_only: "Только воин"
+    ranger_only: "Только рейнджер"
+    wizard_only: "Только волшебник"
 
   buy_gems:
     few_gems: "Немного самоцветов"
@@ -915,7 +915,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor_config_behaviors_description: "Автозавершение кавычек, квадратных и фигурных скобок."
 
   about:
-#    learn_more: "Learn More"
+    learn_more: "Узнать больше"
     main_title: "Чтобы научиться программировать, необходимо (много) писать код."
     main_description: "Задача CodeCombat в том, чтобы вы проходили обучение с улыбкой на лице."
     mission_link: "Миссия"
@@ -1096,7 +1096,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign licenses and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
     create_account: "Создать аккаунт учителя"
     create_account_subtitle: "Получите доступ к инструментам, доступным только учителям, для использования CodeCombat в класной комнате. <strong>Подготовьте класс</strong>, добавьте ваших учеников и <strong>наблюдайте за их прогрессом</strong>!"
-#    convert_account_title: "Update to Teacher Account"
+    convert_account_title: "Улучшить до аккаунта учителя"
     not: "Нет"
 
   versions:

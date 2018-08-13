@@ -1,196 +1,239 @@
 <template lang="jade">
 div.licensor.container(v-if="!$store.getters['me/isAdmin'] && !$store.getters['me/isLicensor']")
-    h4 You must be logged in as a licensor or admin to view this page.
+  h4 You must be logged in as a licensor or admin to view this page.
 div.licensor.container(v-else)
-    h3 Create New License
-    form#prepaid-form
-        h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
-        .form-group
-            label.small
-            | Teacher email
-            =" "
-            input.form-control(type="email", name="email")
-        .form-group
-            label.small
-            span Number of Licenses
-            =" "
-            input(type="number", min="1", name="maxRedeemers")
-        .form-group
-            label.small
-            span Start Date
-            =" "
-            input(type="date", v-bind:value="timestampStart", name="startDate")
-        .form-group
-            label.small
-            span End Date
-            =" "
-            input(type="date", v-bind:value="timestampEnd", name="endDate")
-        .form-group
-            button.btn.btn-primary(v-on:click.prevent="onCreateLicense", name="addLicense") Add Licenses
+  h3 Create New License
+  form#prepaid-form
+    h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
+    .form-group
+      label.small
+      | Teacher email
+      =" "
+      input.form-control(type="email", name="email")
+    .form-group
+      label.small
+      span Number of Licenses
+      =" "
+      input(type="number", min="1", name="maxRedeemers")
+    .form-group
+      label.small
+      span Start Date
+      =" "
+      input(type="date", v-bind:value="timestampStart", name="startDate")
+    .form-group
+      label.small
+      span End Date
+      =" "
+      input(type="date", v-bind:value="timestampEnd", name="endDate")
+    .form-group
+      button.btn.btn-primary(v-on:click.prevent="onCreateLicense", name="addLicense") Add Licenses
 
-    h3 Show Licenses
-    form#prepaid-show-form
-        .form-group
-            label.small
-            | Teacher email
-            =" "
-            input.form-control(type="email", name="getEmail")
-        .form-group
-            button.btn.btn-primary(v-on:click.prevent="onShowLicense", name="showLicense") Show Licenses
-    table.table.table-condensed#prepaid-table(v-if = "prepaids.length > 0")
-      tr
-        th.border ID
-        th.border Creator
-        th.border Type
-        th.border Start (PT)
-        th.border End (PT)
-        th.border Used
-      tr(v-for = "prepaid in prepaids")
-        td.border {{prepaid._id}}
-        td.border {{prepaid.creator}}
-        td.border {{prepaid.type}}
-        td.border {{prepaid.startDate}}
-        td.border {{prepaid.endDate}}
-        td.border {{prepaid.used}} / {{prepaid.maxRedeemers || 0}}
+  h3 Show Licenses
+  form#prepaid-show-form
+    .form-group
+      label.small
+      | Teacher email
+      =" "
+      input.form-control(type="email", name="getEmail")
+    .form-group
+      button.btn.btn-primary(v-on:click.prevent="onShowLicense", name="showLicense") Show Licenses
+  table.table.table-condensed#prepaid-table(v-if="prepaids.length > 0")
+    tr
+      th.border ID
+      th.border Creator
+      th.border Type
+      th.border Start (PT)
+      th.border End (PT)
+      th.border Used
+    tr(v-for="prepaid in prepaids")
+      td.border {{prepaid._id}}
+      td.border {{prepaid.creator}}
+      td.border {{prepaid.type}}
+      td.border {{prepaid.startDate}}
+      td.border {{prepaid.endDate}}
+      td.border {{prepaid.used}} / {{prepaid.maxRedeemers || 0}}
 
-    h3 Create API Client
-    form#client-form
-        .form-group
-            label.small
-            | Client name
-            =" "
-            input(type="text", name="clientNameCreate")
-        .form-group
-            button.btn.btn-primary(v-on:click.prevent="onCreateApiClient", name="createClient") Create API Client
-            h4.small *It will create a new API client and generate its secret
+  h3 Create API Client
+  form#client-form
+    .form-group
+      label.small
+      | Client name
+      =" "
+      input(type="text", name="clientNameCreate")
+    .form-group
+      button.btn.btn-primary(v-on:click.prevent="onCreateApiClient", name="createClient") Create API Client
+      h4.small *It will create a new API client and generate its secret
 
-    h3 Show API Client
-    form#client-show-form
-        .form-group
-            label.small
-            | Client name
-            =" "
-            input(type="text", name="clientNameShow")
-        .form-group
-            button.btn.btn-primary(v-on:click.prevent="onShowApiClient", name="showClient") Show API Client
-            button.btn.btn-primary(v-on:click.prevent="onShowAllApiClient", name="showAllClient") Show All API Clients
-    table.table.table-condensed#client-table(v-if = "clients.length == 1")
-        tr
-            th.border ID
-            th.border Slug
-            th.border Name
-            th.border No of license days assigned by client
-            th.border No of users to whom licenses have been assigned
-        tr(v-for = "client in clients")
-            td.border {{client._id}}
-            td.border {{client.slug}}
-            td.border {{client.name}}
-            td.border {{client.licenses}}
-            td.border {{client.users}}
-    label.border(v-if = "clients.length == 1" v-for = "client in clients")
-        | Client secret:
-        =" "
-        h4.small
-            | {{client.secret}}
-    table.table.table-condensed#client-table(v-if = "clients.length > 1")
-        tr
-            th.border Name
-        tr(v-for = "client in clients")
-            td.border {{client.name}}
-      
-    h3 Create/Edit OAuth Provider
-    #oauth-form.form
-        .form-group
-            label.small
-            | Provider Name
-            =" "
-            input(type="text", name="oauthName")
-        .form-group
-            label.small
-            | Lookup Url Template
-            =" "
-            input(type="text", name="lookupUrlTemplate")
-        .form-group
-            label.small
-            | Lookup Id Property
-            =" "
-            input(type="text" name="lookupIdProperty")
-        .form-group
-            label.small
-            | Token Url
-            =" "
-            input(type="text" name="tokenUrl")
-        .form-group
-            label.small
-            | Token Method
-            =" "
-            select(name="tokenMethod")
-                option(value='') None
-                option(value="get") GET
-                option(value="post") POST
-        .form-group
-            label.small
-            | Token Auth User (Our client ID to access token url)
-            =" "
-            input(type="text" name="tokenAuthUser")
-        .form-group
-            label.small
-            | Token Auth Password (Our client password to access token url)
-            =" "
-            input(type="text" name="tokenAuthPass")
-        .form-group
-            label.small
-            | Strict SSL
-            =" "
-            select(name="strictSSL")
-                option(value='') None
-                option(value="true") True
-                option(value="false") False
-        .form-group
-            label.small
-            | Redirect Url After Login
-            =" "
-            input(type="text" name="redirectAfterLogin")
-        .form-group
-            button.btn.btn-primary(v-on:click.prevent="onCreateOauth", name="createProvider") Create Provider
-            button.btn.btn-primary(v-on:click.prevent="onEditOauth", name="editProvider") Edit Provider
-            h4.small *Edit will not remove any values that you leave blank here, it will only update if you populate any field
+  h3 Toggle API Client Feature Flags
+  form#client-features-form
+    .form-group
+      table.table.table-condensed#features-table(v-for="client in ownedClients")
+        tr.border
+          th API Client
+          th Enabled
+          th Name
+          th Type
+        tr.border(v-for="feature in client.features")
+          td.center {{client.name}}
+          td.center
+            input(type="checkbox" v-model="feature.enabled" v-bind:name="client._id+feature.name")
+          td.center {{feature.name}}
+          td.center {{feature.type}}
+    .form-group
+      button.btn.btn-primary(v-on:click.prevent="onUpdateApiClientFeatures", name="updateClientFeatures") Update Client Feature Flags
+      h4.small *Users created by this API Client will have this feature flag applied on their browser refresh or login
+      h4.small *Only user feature flags can be updated dynamically
 
-    h3 Show OAuthProvider
-    form#oauth-show-form
-        .form-group
-            label.small
-            | Provider name
-            =" "
-            input(type="text", name="oauthNameShow")
-        .form-group
-            button.btn.btn-primary(v-on:click.prevent="onShowOauth", name="showProvider") Show Provider
-            button.btn.btn-primary(v-on:click.prevent="onShowAllOauth", name="showAllProvider") Show All Providers
-    table.table.table-condensed#o-auth-table(v-if = "oauthProvider.length == 1" v-for = "oauth in oauthProvider")
-        tr
-            th.border(v-for="(value, key) in oauth") {{key}}
-        tr
-            td.border(v-for="(value, key) in oauth") {{value}}
-    table.table.table-condensed#o-auth-table(v-if = "oauthProvider.length > 1")
-        tr
-            th.border Name
-        tr(v-for = "oauth in oauthProvider")
-            td.border {{oauth.name}}
-  
+  h3 Show API Client
+  form#client-show-form
+    .form-group
+      label.small
+      | Client name
+      =" "
+      input(type="text", name="clientNameShow")
+    .form-group
+      button.btn.btn-primary(v-on:click.prevent="onShowApiClient", name="showClient") Show API Client
+      button.btn.btn-primary(v-on:click.prevent="onShowAllApiClient", name="showAllClient") Show All API Clients
+  table.table.table-condensed#client-table(v-if="clients.length == 1")
+    tr
+      th.border ID
+      th.border Slug
+      th.border Name
+      th.border No of license days assigned by client
+      th.border No of users to whom licenses have been assigned
+    tr(v-for="client in clients")
+      td.border {{client._id}}
+      td.border {{client.slug}}
+      td.border {{client.name}}
+      td.border {{client.licenses}}
+      td.border {{client.users}}
+  label.border(v-if="clients.length == 1" v-for="client in clients")
+    | Client secret:
+    =" "
+    h4.small
+      | {{client.secret}}
+  table.table.table-condensed#client-table(v-if="clients.length > 1")
+    tr
+      th.border Name
+    tr(v-for="client in clients")
+      td.border {{client.name}}
+
+  h3 Create/Edit OAuth Provider
+  #oauth-form.form
+    .form-group
+      label.small
+      | Provider Name
+      =" "
+      input(type="text", name="oauthName")
+    .form-group
+      label.small
+      | Lookup Url Template
+      =" "
+      input(type="text", name="lookupUrlTemplate")
+    .form-group
+      label.small
+      | Lookup Id Property
+      =" "
+      input(type="text" name="lookupIdProperty")
+    .form-group
+      label.small
+      | Token Url
+      =" "
+      input(type="text" name="tokenUrl")
+    .form-group
+      label.small
+      | Token Method
+      =" "
+      select(name="tokenMethod")
+        option(value='') None
+        option(value="get") GET
+        option(value="post") POST
+    .form-group
+      label.small
+      | Token Auth User (Our client ID to access token url)
+      =" "
+      input(type="text" name="tokenAuthUser")
+    .form-group
+      label.small
+      | Token Auth Password (Our client password to access token url)
+      =" "
+      input(type="text" name="tokenAuthPass")
+    .form-group
+      label.small
+      | Strict SSL
+      =" "
+      select(name="strictSSL")
+        option(value='') None
+        option(value="true") True
+        option(value="false") False
+    .form-group
+      label.small
+      | Redirect Url After Login
+      =" "
+      input(type="text" name="redirectAfterLogin")
+    .form-group
+      button.btn.btn-primary(v-on:click.prevent="onCreateOauth", name="createProvider") Create Provider
+      button.btn.btn-primary(v-on:click.prevent="onEditOauth", name="editProvider") Edit Provider
+      h4.small *Edit will not remove any values that you leave blank here, it will only update if you populate any field
+
+  h3 Show OAuthProvider
+  form#oauth-show-form
+    .form-group
+      label.small
+      | Provider name
+      =" "
+      input(type="text", name="oauthNameShow")
+    .form-group
+      button.btn.btn-primary(v-on:click.prevent="onShowOauth", name="showProvider") Show Provider
+      button.btn.btn-primary(v-on:click.prevent="onShowAllOauth", name="showAllProvider") Show All Providers
+  table.table.table-condensed#o-auth-table(v-if="oauthProvider.length == 1" v-for="oauth in oauthProvider")
+    tr
+      th.border(v-for="(value, key) in oauth") {{key}}
+    tr
+      td.border(v-for="(value, key) in oauth") {{value}}
+  table.table.table-condensed#o-auth-table(v-if="oauthProvider.length > 1")
+    tr
+      th.border Name
+    tr(v-for="oauth in oauthProvider")
+      td.border {{oauth.name}}
 </template>
 
 <script lang="coffee">
 co = require('co')
 api = require 'core/api'
 moment.timezone = require('moment-timezone')
-Prepaids = require 'collections/Prepaids'
 forms = require 'core/forms'
+{getQueryVariable} = require('core/utils')
 
 module.exports = Vue.extend({
   data: ->
     prepaids: []
+    features: []
     clients: []
+    ownedClients: []
     oauthProvider: []
+
+  created: ->
+    return unless me.isAdmin() or me.isLicensor()
+    api.apiClients.getAll().then (clients) =>
+      @ownedClients = clients.filter((c) -> c.creator is me.id)
+      $.ajax
+        type: 'GET',
+        url: '/db/feature'
+        success: (@features) =>
+          showGlobalToggles = getQueryVariable('showGlobalToggles', false)
+          for i in [0...@ownedClients.length]
+            client = @ownedClients[i]
+            client.features ?= {}
+            for feature in @features
+              if showGlobalToggles or feature.type isnt 'global'
+                client.features[feature._id] = _.assign(_.cloneDeep(feature), client.features[feature._id] ? {})
+              else
+                delete client.features[feature._id]
+            Vue.set(@ownedClients, i, client) # https://vuejs.org/v2/guide/list.html#Caveats
+        error: (data) =>
+          noty text: 'Failed to find fetch features', type: 'error'
+          console.error(data)
 
   methods:
     runValidation: (element, requiredProps) ->
@@ -232,7 +275,7 @@ module.exports = Vue.extend({
                     licensorAdded: me.id
             })
             prepaid = yield api.prepaids.post(attrs)
-            alert("License created")
+            noty text: 'License created', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'addLicense', 'Something went wrong')
@@ -259,7 +302,7 @@ module.exports = Vue.extend({
                 prepaid.startDate = moment.timezone(prepaid.startDate).tz('America/Los_Angeles').format('l')
                 prepaid.endDate = moment.timezone(prepaid.endDate).tz('America/Los_Angeles').format('l')
                 Vue.set(prepaid, 'used' , (prepaid.redeemers || []).length)
-            
+
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'showLicense', 'Something went wrong')
@@ -278,11 +321,32 @@ module.exports = Vue.extend({
             }
             apiCLient = yield api.apiClients.post(attrs)
             yield api.apiClients.createSecret({clientID: apiCLient._id})
-            alert("Client created")
+            noty text: 'Client created', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'createClient', 'Something went wrong')
             return
+
+    onUpdateApiClientFeatures: co.wrap ->
+      el = $('#client-features-form')
+      requiredProps = []
+      for client in @ownedClients
+        for featureId, feature of client.features
+          requiredProps.push client._id + feature.name
+      data = @runValidation(el, requiredProps)
+      return unless data
+      try
+        for client in @ownedClients
+          for featureId, feature of client.features
+            currentFeature = @features.find((f) -> featureId is f._id)
+            currentSetting = currentFeature.enabled ? false
+            if currentSetting isnt feature.enabled
+              yield api.apiClients.updateFeature({clientID: client._id, featureID: feature._id}, {enabled: feature.enabled})
+              currentFeature.enabled = feature.enabled
+        noty text: 'Feature flags updated', timeout: 3000, type: 'success'
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'updateClientFeatures', 'Something went wrong')
 
     onShowApiClient: co.wrap ->
         el = $('#client-show-form')
@@ -290,7 +354,7 @@ module.exports = Vue.extend({
         data = @runValidation(el, requiredProps)
         unless data
             return
-        
+
         try
             this.clients = yield api.apiClients.getByName(data.clientNameShow)
             unless this.clients.length > 0
@@ -317,7 +381,7 @@ module.exports = Vue.extend({
 
     onShowAllApiClient: co.wrap ->
         el = $('#client-show-form')
-        
+
         try
             this.clients = yield api.apiClients.getAll()
             unless this.clients.length > 0
@@ -328,7 +392,7 @@ module.exports = Vue.extend({
             console.log(err)
             forms.setErrorToProperty(el, 'showAllClient', 'Something went wrong')
             return
-   
+
     onCreateOauth: co.wrap ->
         el = $('#oauth-form')
         requiredProps = ['oauthName', 'lookupUrlTemplate', 'tokenUrl']
@@ -346,12 +410,12 @@ module.exports = Vue.extend({
             if data.strictSSL
                 attrs.strictSSL = (data.strictSSL == 'true')
             oauthProvider = yield api.oauth.post(attrs)
-            alert("OAuth Provider created")
+            noty text: 'OAuth Provider created', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'createProvider', 'Something went wrong')
             return
-    
+
     onEditOauth: co.wrap ->
         el = $('#oauth-form')
         requiredProps = ['oauthName']
@@ -373,7 +437,7 @@ module.exports = Vue.extend({
             }
             attrs.id = oauthProvider[0]._id
             oauthProvider = yield api.oauth.editProvider(attrs)
-            alert("OAuth Provider updated")
+            noty text: 'OAuth Provider updated', timeout: 3000, type: 'success'
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'editProvider', 'Something went wrong')
@@ -395,7 +459,7 @@ module.exports = Vue.extend({
             console.log(err)
             forms.setErrorToProperty(el, 'showProvider', 'Something went wrong')
             return
-    
+
     onShowAllOauth: co.wrap ->
         el = $('#oauth-show-form')
 
@@ -408,21 +472,19 @@ module.exports = Vue.extend({
             console.log(err)
             forms.setErrorToProperty(el, 'showAllProvider', 'Something went wrong')
             return
-        
+
 
   computed:
         timestampStart: ->
             return moment.timezone().tz('America/Los_Angeles').format('YYYY-MM-DD')
         timestampEnd: ->
             return moment.timezone().tz('America/Los_Angeles').add(1, 'year').format('YYYY-MM-DD')
-    
+
 })
 
 </script>
 
 <style lang="sass">
-
-.border
+  .border
     border: thin solid grey
-
 </style>

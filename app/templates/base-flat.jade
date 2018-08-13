@@ -153,7 +153,7 @@ mixin accountLinks
                 if !me.isStudent()
                   li
                     a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                if !me.onChinaInfra()
+                if me.useSocialSignOn()
                   li
                     a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
                   li
