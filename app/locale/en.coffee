@@ -2602,7 +2602,7 @@
     dive_link6: "executive functions"
     dive_head3: "How to be the Ultimate Team"
     dive_3_link1: "In the future"
-    dive_3_paragraph: "coding is going to be as fundamental a school as learning to read and write. We’ve worked closely with teachers to design and develop our levels, now your kids need you to help them learn. Educational technology works best when the teachers can implement it correctly which means that as a parent, students need your help to create that connection."
+    dive_3_paragraph: "coding is going to be as fundamental as learning to read and write. We’ve worked closely with teachers to design and develop our levels, but your kids need you to help them. Educational technology like CodeCombat works best when the teachers can implement it correctly which means that as a parent, students need you to create that connection."
     mission: "CodeCombat's Mission"
     mission1_heading: "Level up computer science education in and out of the classroom"
     mission2_heading: "How and Why We Began"
