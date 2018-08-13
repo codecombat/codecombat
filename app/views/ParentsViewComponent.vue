@@ -30,12 +30,12 @@
 
   #deep-dive.container
     .row.text-center
-      #dive-graphic-1.col-lg-6.col-md-12.col-sm-12
+      #dive-graphic-1.col-lg-5.col-md-12.col-sm-12
         div
         img.img-responsive.img-circle.deep-img(src="/images/pages/parents/deepdive1.png")
         h2 Coding, not just for Engineers
       
-      .col-lg-6.col-md-12.col-sm-12
+      .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1
         .row
           img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
           .col-lg-8.col-md-12.col-sm-12
@@ -57,7 +57,7 @@
         div
         h2 The Reason For Game Based Learning
         img.img-responsive.deep-img(src="/images/pages/parents/deepdive2.png")
-      .col-lg-6.col-md-12.col-sm-12.col-lg-pull-6
+      .col-lg-5.col-md-12.col-sm-12.col-lg-pull-6
         p
           span.spr Multiple studies repeatedly found that game based learning promoted
           a(href="https://www.learntechlib.org/p/19982/") cognitive development
@@ -75,11 +75,11 @@
           a(href="https://link.springer.com/chapter/10.1007/978-3-319-26508-7_20") executive functions
           span . Science is just telling us what you teachers already know. Kids learn best by playing. 
     .row
-      #dive-graphic-3.col-lg-6.col-md-12.col-sm-12.text-center
+      #dive-graphic-3.col-lg-5.col-md-12.col-sm-12.text-center
         div
         img.img-responsive.deep-img(src="/images/pages/parents/deepdive3.png")
         h2 The Reason For Game Based Learning
-      .col-lg-6.col-md-12.col-sm-12
+      .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1
         p
           a(href="https://www.theatlantic.com/technology/archive/2012/05/six-reasons-non-computer-nerd-might-want-learn-code/328102/") In the future
           span.spl coding is going to be as fundamental a school as learning to read and write. We’ve worked closely with teachers to design and develop our levels, now your kids need you to help them learn. Educational technology works best when the teachers can implement it correctly which means that as a parent, students need your help to create that connection.
@@ -119,6 +119,8 @@ module.exports = Vue.extend({
 $red: #7D0101
 $blue: #0E4C60
 $green: #20572B
+.row
+  margin: 25px 0
 
 #parent-view
   @media (min-width: 1200px)
@@ -171,9 +173,11 @@ $green: #20572B
     width: 100%
   h3
     margin: 10px 0
-  div h4
-    text-align: center
-    padding: 10px
+  div
+    padding: 0 30px
+    h4
+      text-align: center
+      padding: 10px
   div:nth-of-type(1)
     h4
       color: $red
@@ -186,15 +190,13 @@ $green: #20572B
 
 #deep-dive
   .row
-    margin-top: 20px
+    margin: 40px 0
 
 // These are styles universal with the deep dive sections.
 #dive-graphic-1, #dive-graphic-2, #dive-graphic-3
   min-height: 250px
   position: relative
   padding: 20px 30px
-  img
-    padding: 10px
   h2
     color: white
   div
@@ -226,6 +228,9 @@ $green: #20572B
   div
     right: 100%
 
-#mission div img
-  width: 100%
+#mission
+  div
+    padding: 0 30px
+    img
+      width: 100%
 </style>
