@@ -82,7 +82,6 @@ div.licensor.container(v-else)
     .form-group
       button.btn.btn-primary(v-on:click.prevent="onUpdateApiClientFeatures", name="updateClientFeatures") Update Client Feature Flags
       h4.small *Users created by this API Client will have this feature flag applied on their browser refresh or login
-      h4.small *Only user feature flags can be updated dynamically
 
   h3 Show API Client
   form#client-show-form
@@ -208,8 +207,8 @@ forms = require 'core/forms'
 module.exports = Vue.extend({
   data: ->
     prepaids: []
-    features: []
     clients: []
+    currentFeatureSettings: {}
     ownedClients: []
     oauthProvider: []
 
@@ -220,14 +219,15 @@ module.exports = Vue.extend({
       $.ajax
         type: 'GET',
         url: '/db/feature'
-        success: (@features) =>
+        success: (features) =>
           showGlobalToggles = getQueryVariable('showGlobalToggles', false)
           for i in [0...@ownedClients.length]
             client = @ownedClients[i]
             client.features ?= {}
-            for feature in @features
+            for feature in features
               if showGlobalToggles or feature.type isnt 'global'
                 client.features[feature._id] = _.assign(_.cloneDeep(feature), client.features[feature._id] ? {})
+                @currentFeatureSettings[feature._id] = client.features[feature._id]?.enabled ? false
               else
                 delete client.features[feature._id]
             Vue.set(@ownedClients, i, client) # https://vuejs.org/v2/guide/list.html#Caveats
@@ -338,11 +338,10 @@ module.exports = Vue.extend({
       try
         for client in @ownedClients
           for featureId, feature of client.features
-            currentFeature = @features.find((f) -> featureId is f._id)
-            currentSetting = currentFeature.enabled ? false
-            if currentSetting isnt feature.enabled
-              yield api.apiClients.updateFeature({clientID: client._id, featureID: feature._id}, {enabled: feature.enabled})
-              currentFeature.enabled = feature.enabled
+            newSetting = data[client._id + feature.name]?[0] is 'on'
+            if @currentFeatureSettings[featureId] isnt newSetting
+              yield api.apiClients.updateFeature({clientID: client._id, featureID: feature._id}, {enabled: newSetting})
+              @currentFeatureSettings[featureId] = newSetting
         noty text: 'Feature flags updated', timeout: 3000, type: 'success'
       catch err
         console.log(err)
