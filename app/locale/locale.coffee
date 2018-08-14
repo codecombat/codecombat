@@ -46,6 +46,7 @@ module.exports =
   'mi': { nativeDescription: 'te reo Māori', englishDescription: 'Māori' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
   'hi': { nativeDescription: 'मानक हिन्दी', englishDescription: 'Hindi' }
+  'mn': { nativeDescription: 'Монгол хэл', englishDescription: 'Mongolian' }
   'ms': { nativeDescription: 'Bahasa Melayu', englishDescription: 'Bahasa Malaysia' }
   'my': { nativeDescription: 'မြန်မာစကား', englishDescription: 'Myanmar language' }
   'nl': { nativeDescription: 'Nederlands', englishDescription: 'Dutch' }

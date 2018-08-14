@@ -270,7 +270,7 @@ block content
         h5(data-i18n="teachers_quote.finish_signup")
         p(data-i18n="teachers_quote.finish_signup_p")
 
-        if !me.onChinaInfra()
+        if me.useSocialSignOn()
           #social-network-signups
             button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
               span.spr(data-i18n="teachers_quote.signup_with")

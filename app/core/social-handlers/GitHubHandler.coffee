@@ -9,7 +9,7 @@ module.exports = class GitHubHandler extends CocoClass
     'auth:log-in-with-github': 'commenceGitHubLogin'
 
   constructor: ->
-    if me.onChinaInfra() then throw new Error('No GitHub support in China region.')
+    unless me.useSocialSignOn() then throw new Error('Social single sign on not supported')
     super arguments...
     @clientID = if application.isProduction() then '9b405bf5fb84590d1f02' else 'fd5c9d34eb171131bc87'
     @redirectURI = if application.isProduction() then 'http://codecombat.com/github/auth_callback' else 'http://localhost:3000/github/auth_callback'

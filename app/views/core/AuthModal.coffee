@@ -26,7 +26,7 @@ module.exports = class AuthModal extends ModalView
     @previousFormInputs = options.initialValues or {}
     @previousFormInputs.emailOrUsername ?= @previousFormInputs.email or @previousFormInputs.username
 
-    unless me.onChinaInfra()
+    if me.useSocialSignOn()
       # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
       application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-login-btn').attr('disabled', false) })
       application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })

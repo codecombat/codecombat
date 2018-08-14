@@ -19,7 +19,7 @@ scope = 'https://www.googleapis.com/auth/plus.login email'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
-    if me.onChinaInfra() then throw new Error('No Google+ support in China region.')
+    unless me.useSocialSignOn() then throw new Error('Social single sign on not supported')
     @accessToken = storage.load GPLUS_TOKEN_KEY, false
     super()
 
