@@ -37,3 +37,10 @@ module.exports =
       data: {teacherEmail, sessionId, levelName, codeLanguage: _.string.titleize(codeLanguage).replace('script', 'Script')}
     })
     return new Promise(jqxhr.then)
+
+  sendParentTeacherSignup: ({teacherEmail, parentEmail, parentName, customContent}) ->
+    jqxhr = $.ajax('/contact/send-parent-refer-teacher', {
+      method: 'POST'
+      data: {teacherEmail, parentEmail, parentName, customContent}
+    })
+    return new Promise(jqxhr.then)
