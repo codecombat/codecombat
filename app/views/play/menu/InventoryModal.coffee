@@ -4,6 +4,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/play/menu/inventory-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
+subscribeForGemsPrompt = require 'templates/play/modal/subscribe-for-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 ThangTypeLib = require 'lib/ThangTypeLib'
@@ -43,6 +44,7 @@ module.exports = class InventoryModal extends ModalView
     'click #subscriber-item-viewed': 'onClickSubscribeItemViewed'
     'click #close-modal': 'hide'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
+    'click .start-subscription-button': 'onSubscribeButtonClicked'
     'click': 'onClickedSomewhere'
     'update #unequipped .nano': 'onScrollUnequipped'
 
@@ -627,7 +629,7 @@ module.exports = class InventoryModal extends ModalView
     affordable = item.affordable
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button unless me.freeOnly() or application.getHocCampaign()
+      @askToBuyGemsOrSubscribe button unless me.freeOnly() or application.getHocCampaign()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)
@@ -666,12 +668,18 @@ module.exports = class InventoryModal extends ModalView
     createAccountModal = new CreateAccountModal supermodel: @supermodel
     return @openModalView createAccountModal
 
-  askToBuyGems: (unlockButton) ->
+  askToBuyGemsOrSubscribe: (unlockButton) ->
     @$el.find('.unlock-button').popover 'destroy'
     if me.isStudent()
       popoverTemplate = earnGemsPromptTemplate {}
-    else
+    else if me.canBuyGems()
       popoverTemplate = buyGemsPromptTemplate {}
+    else
+      if not me.hasSubscription() # user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
+        popoverTemplate = subscribeForGemsPrompt {}
+      else # user has subscription and yet not enough gems, just ask him to keep playing for more gems
+        popoverTemplate = earnGemsPromptTemplate {}
+
     unlockButton.popover(
       animation: true
       trigger: 'manual'
@@ -688,6 +696,10 @@ module.exports = class InventoryModal extends ModalView
     @playSound 'menu-button-click'
     return @askToSignUp() if me.get('anonymous')
     @openModalView new BuyGemsModal()
+
+  onSubscribeButtonClicked: (e) ->
+    @openModalView new SubscribeModal()
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
 
   onClickedSomewhere: (e) ->
     return if @destroyed
