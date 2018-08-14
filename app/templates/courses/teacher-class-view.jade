@@ -580,7 +580,7 @@ mixin enrollmentStatusTab
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
       th
       th
-      if !/@codeninjas.com$/i.test(me.get('email'))
+      if !me.get('clientPermissions') || (me.get('clientPermissions').manageLicensesViaUI && me.get('clientPermissions').revokeLicensesViaUI)
         th
           button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
     tbody
@@ -601,14 +601,14 @@ mixin enrollmentStatusTab
             span.spr :
             strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
           td.enroll-col
-            if status !== 'enrolled'
+            if status !== 'enrolled' && (!me.get('clientPermissions') || me.get('clientPermissions').manageLicensesViaUI)
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
             else
               if student.prepaidType() === 'course'
                 span(data-i18n="teacher.full_license")
               else if student.prepaidType() === 'starter_license'
                 span(data-i18n="teacher.starter_license")
-          if !/@codeninjas.com$/i.test(me.get('email'))
+          if !me.get('clientPermissions') || (me.get('clientPermissions').manageLicensesViaUI && me.get('clientPermissions').revokeLicensesViaUI)
             td.revoke-col
               if status === 'enrolled' && student.prepaidType() === 'course'
                 button.revoke-student-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)

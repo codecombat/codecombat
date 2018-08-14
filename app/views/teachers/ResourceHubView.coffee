@@ -6,3 +6,6 @@ module.exports = class ResourceHubView extends RootView
   template: require 'templates/teachers/resource-hub-view'
 
   getTitle: -> return $.i18n.t('teacher.resource_hub')
+
+  initialize: ->
+    me.getClientCreatorPermissions()?.then(() => @render?())

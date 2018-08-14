@@ -64,49 +64,49 @@ div.licensor.container(v-else)
       label.small
       | minimumLicenseDays
       =" "
-      input(type="number", value="365", name="minimumLicenseDays")
+      input(type="number", :value="defaultClientVal.minimumLicenseDays.default", name="minimumLicenseDays")
     .form-group
       label.small
       | manageLicensesViaUI
       =" "
       select(name="manageLicensesViaUI")
-        option(value="true") True
-        option(value="false") False
+        option(:value="defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
+        option(:value="!defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
     .form-group
       label.small
       | manageLicensesViaAPI
       =" "
       select(name="manageLicensesViaAPI")
-        option(value="true") True
-        option(value="false") False
+        option(:value="defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
     .form-group
       label.small
       | revokeLicensesViaUI
       =" "
       select(name="revokeLicensesViaUI")
-        option(value="false") False
-        option(value="true") True
+        option(:value="defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
+        option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
     .form-group
       label.small
       | revokeLicensesViaAPI
       =" "
       select(name="revokeLicensesViaAPI")
-        option(value="false") False
-        option(value="true") True
+        option(:value="defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
     .form-group
       label.small
       | manageSubscriptionViaAPI
       =" "
       select(name="manageSubscriptionViaAPI")
-        option(value="false") False
-        option(value="true") True
+        option(:value="defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
     .form-group
       label.small
       | revokeSubscriptionViaAPI
       =" "
       select(name="revokeSubscriptionViaAPI")
-        option(value="false") False
-        option(value="true") True
+        option(:value="defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
     .form-group
       button.btn.btn-primary(v-on:click.prevent="onCreateApiClient", name="createClient") Create API Client
       button.btn.btn-primary(v-on:click.prevent="onEditApiClient", name="editClient") Edit API Client
@@ -258,6 +258,7 @@ api = require 'core/api'
 moment.timezone = require('moment-timezone')
 forms = require 'core/forms'
 {getQueryVariable} = require('core/utils')
+clientSchema = require '../schemas/models/api-client.schema'
 
 module.exports = Vue.extend({
   data: ->
@@ -266,6 +267,7 @@ module.exports = Vue.extend({
     currentFeatureSettings: {}
     ownedClients: []
     oauthProvider: []
+    defaultClientVal: clientSchema.properties
 
   created: ->
     return unless me.isAdmin() or me.isLicensor()

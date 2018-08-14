@@ -46,6 +46,7 @@ module.exports = class StarterLicenseUpsellView extends RootView
     # Listen for language change
     @listenTo me, 'change:preferredLanguage', ->
       @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }
+    me.getClientCreatorPermissions()?.then(() => @render?())
       
   onLoaded: ->
     @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }

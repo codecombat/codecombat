@@ -6,3 +6,6 @@ module.exports = class ApCsPrinciplesView extends RootView
   template: require 'templates/teachers/ap-cs-principles-view'
 
   getTitle: -> 'AP CS Principles'
+
+  initialize: ->
+    me.getClientCreatorPermissions()?.then(() => @render?())
