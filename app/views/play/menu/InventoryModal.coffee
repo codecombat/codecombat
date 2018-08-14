@@ -672,13 +672,14 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('.unlock-button').popover 'destroy'
     if me.isStudent()
       popoverTemplate = earnGemsPromptTemplate {}
-    else if me.onChinaInfra()
+    else if me.canBuyGems()
+      popoverTemplate = buyGemsPromptTemplate {}
+    else
       if not me.hasSubscription() # user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
         popoverTemplate = subscribeForGemsPrompt {}
       else # user has subscription and yet not enough gems, just ask him to keep playing for more gems
         popoverTemplate = earnGemsPromptTemplate {}
-    else
-      popoverTemplate = buyGemsPromptTemplate {}
+
     unlockButton.popover(
       animation: true
       trigger: 'manual'
