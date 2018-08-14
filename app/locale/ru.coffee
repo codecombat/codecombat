@@ -99,7 +99,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     help_pref: "Нужна помощь? Напишите"
     help_suff: "и мы свяжемся!"
     resource_hub: "Ресурсы"
-#    apcsp: "AP CS Principles"
+    apcsp: "AP CS Принципы"
 
   modal:
     close: "Закрыть"
@@ -118,8 +118,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   play:
     play_as: "Играть за" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Добавьте игровую разработку в ваши классы!"
+    request_licenses: "Связаться с нашими специалистами и узнать больше."
     compete: "Соревноваться!" # Course details page
     spectate: "Наблюдать" # Ladder page
     players: "игроки" # Hover over a level on /play
@@ -137,6 +137,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     poll: "Опрос" # Tooltip on poll button from /play
     next: "Далее" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
+    change_hero_or_language: "Выбрать героя или язык"
     buy_gems: "Купить самоцветы"
     subscribers_only: "Только для подписчиков!"
     subscribe_unlock: "Подписаться для разблокировки!"
@@ -154,8 +155,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     brain_pop_challenge: "Испытай себя играя снова с использованием различных языков программирования!"
     replay: "Повторить"
     back_to_classroom: "Назад в класс"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    teacher_button: "Для учителей"
+    get_more_codecombat: "Получить больше возможностей от CodeCombat"
 
   code:
     if: "если" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -488,7 +489,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory: "Победа"
     victory_title_prefix: "Уровень "
     victory_title_suffix: " пройден"
-    victory_sign_up: "Зарегистрируйтесь, чтобы сохранить прогресс"
+    victory_sign_up: "Зарегистрироваться и сохранить"
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатную учётную запись!"
     victory_rate_the_level: "Насколько интересным был этот уровень?"
     victory_return_to_ladder: "Вернуться к рейтингу"
