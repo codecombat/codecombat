@@ -5,7 +5,7 @@ require('app/app.js')
 window.userObject = {_id:'1'};
 window.serverConfig  = {picoCTF: false, production: false, buildInfo: { sha: 'dev' }};
 window.StripeCheckout = {configure: function (){}};
-window.features = { freeOnly: false }
+window.features = { freeOnly: false, chinaInfra: DEF_CHINA_INFRA }
 window.serverSession = {};
 initialize = require('core/initialize');
 initialize.init();

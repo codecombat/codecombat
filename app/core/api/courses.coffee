@@ -6,4 +6,7 @@ module.exports = {
 
   getAll: (options={}) ->
     fetchJson("/db/course", options)
+
+  fetchChangeLog: (options = {}) ->
+    fetchJson("/db/course/change-log", options)
 }
