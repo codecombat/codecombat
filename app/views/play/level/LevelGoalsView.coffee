@@ -26,6 +26,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   events:
     'mouseenter': ->
+      return @onSurfacePlaybackRestarted() if @playbackEnded
       @mouseEntered = true
       @updatePlacement()
 
