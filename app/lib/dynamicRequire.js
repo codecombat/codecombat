@@ -32,7 +32,6 @@ module.exports = {
   'views/admin/DesignElementsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/DesignElementsView') },
   'views/teachers/DynamicAPCSPView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/DynamicAPCSPView') },
   'views/minigames/ConditionalMinigameView': function() { return import(/* webpackChunkName: "artisans" */ 'views/minigames/ConditionalMinigameView') },
-  'views/ParentsView': function () { return import(/* webpackChunkName: "ParentsView" */ 'views/ParentsView') },
   'views/artisans/ArtisansView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArtisansView') },
   'views/artisans/LevelTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelTasksView') },
   'views/artisans/SolutionProblemsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SolutionProblemsView') },
