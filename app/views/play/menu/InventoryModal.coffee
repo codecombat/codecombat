@@ -418,6 +418,7 @@ module.exports = class InventoryModal extends ModalView
 
 
   showItemDetails: (item, showExtra) ->
+    item.heroStatModifier = @selectedHero.getHeroStats()
     @itemDetailsView.setItem(item)
     @$el.find('#item-details-extra > *').addClass('secret')
     @$el.find("##{showExtra}-item-viewed").removeClass('secret')

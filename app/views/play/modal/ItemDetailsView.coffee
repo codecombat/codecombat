@@ -27,6 +27,9 @@ module.exports = class ItemDetailsView extends CocoView
       @componentConfigs = (c.config for c in @item.get('components') when c.config)
 
       stats = @item.getFrontFacingStats()
+      if stats.tooltipDisplay?
+        @$el.find('.stat-label').addClass('has-tooltip').tooltip()
+        @$el.find('.stat').addClass('has-tooltip').tooltip()
       props = (p for p in stats.props when not @propDocs[p])
       if props.length > 0 or ('cast' in stats.props)
 
