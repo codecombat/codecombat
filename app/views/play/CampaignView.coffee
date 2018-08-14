@@ -1345,7 +1345,7 @@ module.exports = class CampaignView extends RootView
       return isStudentOrTeacher and not application.getHocCampaign()
 
     if what in ['buy-gems']
-      return not (isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
+      return not (isIOS or me.freeOnly() or isStudentOrTeacher or me.onChinaInfra() or (application.getHocCampaign() and me.isAnonymous()))
 
     if what in ['premium']
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))

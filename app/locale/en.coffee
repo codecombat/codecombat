@@ -716,6 +716,10 @@
     purchase: "Purchase"
     purchased: "Purchased"
 
+  subscribe_for_gems:
+    prompt_title: "Not Enough Gems!"
+    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+
   earn_gems:
     prompt_title: "Not Enough Gems"
     prompt_body: "Keep playing to earn more!"
