@@ -40,6 +40,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
+    me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 
   camelCaseLanguage: (language) ->

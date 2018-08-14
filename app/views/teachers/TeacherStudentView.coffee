@@ -52,7 +52,7 @@ module.exports = class TeacherStudentView extends RootView
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
     @singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
     @levelProgressMap = {}
-
+    me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 
   onLoaded: ->

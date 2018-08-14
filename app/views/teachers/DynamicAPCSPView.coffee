@@ -16,7 +16,7 @@ module.exports = class DynamicAPCSPView extends RootView
     @name ?= 'index'
     @content = ''
     @loadingData = true
-    
+    me.getClientCreatorPermissions()?.then(() => @render?())
     unless @cannotAccess()
       if _.string.startsWith(@name, 'markdown/')
         unless _.string.endsWith(@name, '.md')

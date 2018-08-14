@@ -22,7 +22,7 @@ APIClientSchema = {
       type: 'object'
       description: 'permissions assigned to the API client'
       properties: {
-        manageLicensesViaUI: { type: 'boolean', default: true}
+        manageLicensesViaUI: { type: 'boolean', default: false}
         manageLicensesViaAPI: { type: 'boolean', default: true}
         revokeLicensesViaUI: { type: 'boolean', default: false}
         revokeLicensesViaAPI : { type: 'boolean', default: false}
