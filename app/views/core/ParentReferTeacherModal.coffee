@@ -25,7 +25,9 @@ module.exports = class ParentReferTeacherModal extends ModalView
     )
 
   afterRender: ->
-    @state.set({customContent:  @$('#custom-content').val()})
+    super()
+    @state.set({customContent:  $.i18n.t("parent_modal.custom_message")})
+
   onChangeParentName: (e) ->
     @state.set({parentName: @$(e.currentTarget).val()})
   onChangeParentEmail: (e) ->
