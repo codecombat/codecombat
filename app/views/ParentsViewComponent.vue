@@ -10,7 +10,7 @@
         button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')" data-i18n="parent_landing.refer_teacher")
   .container
     .row.focus-quote
-      h3.text-center(data-i18n="parent_landing.focus_quote") 
+      h2.text-center(data-i18n="parent_landing.focus_quote")
     #value-prop.row
       .col-lg-4.col-md-4
         img.img-responsive(src="/images/pages/parents/valueprop1.png")
@@ -33,8 +33,10 @@
       #dive-graphic-1.col-lg-5.col-md-12.col-sm-12
         div
         h2(data-i18n="parent_landing.dive_head1")
-      
+
       .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1.flags
+        .row
+          p(data-i18n="parent_landing.dive_intro")
         .row
           img(src="/images/pages/parents/flag.png").col-lg-4.flag-img
           .col-lg-8.col-md-12.col-sm-12
@@ -50,7 +52,7 @@
           .col-lg-8.col-md-12.col-sm-12
             h5(data-i18n="parent_landing.filmaking_flag")
             p.small(data-i18n="parent_landing.filmaking_flag_copy")
-  
+
     .row
       #dive-graphic-2.col-lg-6.col-md-12.col-sm-12.col-lg-push-6.text-center
         div
@@ -70,7 +72,7 @@
           span.spr(data-i18n="parent_landing.dive_par6")
           a(href="https://mitpress.mit.edu/books/ecology-games", data-i18n="parent_landing.dive_link5")
           span.spr(data-i18n="parent_landing.dive_par7")
-          a(href="https://link.springer.com/chapter/10.1007/978-3-319-26508-7_20", data-i18n="parent_landing.dive_link6") 
+          a(href="https://link.springer.com/chapter/10.1007/978-3-319-26508-7_20", data-i18n="parent_landing.dive_link6")
           span(data-i18n="parent_landing.dive_par8")
     .row
       #dive-graphic-3.col-lg-5.col-md-12.col-sm-12.text-center
@@ -78,14 +80,15 @@
         h2(data-i18n="parent_landing.dive_head3")
       .col-lg-6.col-md-12.col-sm-12.col-sm-offset-1
         p
+          span.spr(data-i18n="parent_landing.dive_3_par1")
           a(href="https://www.theatlantic.com/technology/archive/2012/05/six-reasons-non-computer-nerd-might-want-learn-code/328102/", data-i18n="parent_landing.dive_3_link1")
-          span.spl(data-i18n="parent_landing.dive_3_paragraph")
+          span.spr(data-i18n="parent_landing.dive_3_par2")
     .row.text-center
       .refer-btn
         button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')", data-i18n="parent_landing.refer_teacher")
     .row.focus-quote
       h3.text-center(data-i18n="parent_landing.mission")
-    
+
     #mission.row
       .col-md-4.col-sm-12
         img.img-responsive(src="/images/pages/parents/mission1.png")
@@ -155,7 +158,7 @@ $green: #20572B
     padding: 20px
     margin-top: 72px
     margin-bottom: 72px
-    
+
     h3:first-child
       margin-bottom: 20px
 
@@ -163,13 +166,13 @@ $green: #20572B
     margin-bottom: 72px
 
 .focus-quote
-  h3
+  h2
     margin-top: 36px
     padding: 20px
     color: #0E4C60
     margin: 0 auto
     @media (min-width: 992px)
-      max-width: 60%
+      // max-width: 60%
 
 #value-prop
   img
@@ -193,7 +196,7 @@ $green: #20572B
 
 #deep-dive
   .row
-    margin: 40px 0
+    margin: 0 0 20px 0
 
 // These are styles universal with the deep dive sections.
 #dive-graphic-1, #dive-graphic-2, #dive-graphic-3
