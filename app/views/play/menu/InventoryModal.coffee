@@ -463,7 +463,7 @@ module.exports = class InventoryModal extends ModalView
         delete equipment[slot]
 
   calculateRequiredGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign()
+    return {} if me.isStudent() and not application.getHocCampaign() and not me.hasClassRoomItemsFeatureOn()
     return @requiredGearPerSlot if @requiredGearPerSlot
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
     requiredProperties = @options.level.get('requiredProperties') ? []
@@ -484,7 +484,7 @@ module.exports = class InventoryModal extends ModalView
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign()
+    return {} if me.isStudent() and not application.getHocCampaign() and not me.hasClassRoomItemsFeatureOn()
     return @restrictedGearPerSlot if @restrictedGearPerSlot
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}

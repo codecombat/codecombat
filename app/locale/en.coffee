@@ -139,6 +139,7 @@
     next: "Next"  # Go from choose hero to choose inventory before playing a level
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
     change_hero_or_language: "Change Hero or Language"
+    change_hero: "Change Hero"
     buy_gems: "Buy Gems"
     subscribers_only: "Subscribers Only!"
     subscribe_unlock: "Subscribe to Unlock!"
