@@ -74,7 +74,8 @@ module.exports = class PlayHeroesModal extends ModalView
     hero.unlockBySubscribing = hero.attributes.slug in ['samurai', 'ninja', 'librarian']
     hero.premium = not hero.free and not hero.unlockBySubscribing
     hero.locked = not me.ownsHero(original) and not (hero.unlockBySubscribing and me.isPremium())
-    hero.purchasable = hero.locked and me.isPremium()
+    # students with classroom feature on should be allowed to purchase heroes with their gems.
+    hero.purchasable = hero.locked and (me.isPremium() or (me.isStudent() and me.hasClassRoomItemsFeatureOn()))
     if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
       hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()

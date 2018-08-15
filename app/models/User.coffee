@@ -106,6 +106,8 @@ module.exports = class User extends CocoModel
       return true
     return false
 
+  hasClassRoomItemsFeatureOn: -> true # just a place holder to test class room items, until dynamic feature toggling is implemented
+
   setRole: (role, force=false) ->
     oldRole = @get 'role'
     return if oldRole is role or (oldRole and not force)
