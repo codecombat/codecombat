@@ -17,11 +17,12 @@ The course begins by demonstrating some new game mechanics and techniques, which
 ### Scope and Sequence
 
 1. [Mechanics: Spawn and Goals](#mechanics-spawn-and-goals)
-2. [Mechanics: Time, Randomness, Defeat](#mechanics-time-randomness-defeat)
-3. [Mechanics: Manual Goals and More Events](#mechanics-manual-goals-and-more-events)
-4. [Integration Practice](#integration-practice)
-5. [Arcade Game](#arcade-game)
-6. [Game Development 2 Project](#game-development-2-project)
+2. [User Interface Elements and Databases](#user-interface-elements-and-databases)
+3. [Mechanics: Time, Randomness, Defeat](#mechanics-time-randomness-defeat)
+4. [Mechanics: Manual Goals and More Events](#mechanics-manual-goals-and-more-events)
+5. [Integration Practice](#integration-practice)
+6. [Arcade Game](#arcade-game)
+7. [Game Development 2 Project](#game-development-2-project)
 
 ## Mechanics: Spawn and Goals
 
@@ -29,18 +30,18 @@ The course begins by demonstrating some new game mechanics and techniques, which
 
 In order to expand the student’s options when building their own games, students will need to learn functions and methods that they can use. The mechanics modules introduce no new programming techniques but instead focus on novel ways to use functions and callbacks to support new gameplay mechanics.
 
-### Discussion
+### Opening Discussion
 
 **What are some ways that character behave in various sorts of games?**
 
-Examples:
+Sample Responses:
 
 *   CodeCombat characters can attack nearest, defend, or run away
 *   CodeCombat skeletons run away when the player is carrying a light orb
 *   Minecraft animals will tend to be complacent until they are attacked
 *   Minecraft enemies will tend to explore until they see the character. When close enough, the creeper will explode.
 
-**How would some of these behaviors look like in code?**
+**How would some of these behaviors be written in code?**
 This can be an opportunity to write pseudo-code, which is not necessarily “valid” code in a specific language but communicates the logic and general structure of code that students may later write.
 
 Example of a Minecraft enemy:
@@ -55,9 +56,9 @@ else
     attack player
 ```
 
-### Review
+### Preview
 
-This set of levels explore two things:
+Tell students that this set of levels explores:
 
 *   Using the “spawn” event, which allows students to define their own behaviors for units in their games, and
 *   Changing parameters for goals they learned in GD1.
@@ -81,23 +82,101 @@ Students should play the first seven levels:
 *   Jailbreak
 *   Risk and Reward
 
-### Discussion
+### Closing Discussion
 
-*   When would you use the “spawn” event?
-*   In a game, when would you want to specify how many enemies to defeat or items to collect?
-  *   Example: a game where you want to allow players to both pass and excel. Players must defeat a certain number of enemies or collect a certain number of things to win the game, but they could go for more to get a high score?
+**When would you use the “spawn” event?**
+
+Sample Responses:
+
+* The "spawn" event is used to control a unit's behavior when it is spawned into the game.
+* The "spawn" event is used to assign values to a unit's properties when it's first created.
+
+**In a game, when would you want to specify how many enemies to defeat or items to collect?**
+
+Sample Response:
+
+*   A game where you want to allow players to both pass and excel. Players must defeat a certain number of enemies or collect a certain number of things to win the game, but they could go for more to get a high score.
+
+## User Interface Elements and Databases
+
+### Summary
+
+These levels introduce UI elements that allow the game to show interesting information to the player. These levels also introduce the game.time property and the `db.add(key, value)` command. Until now, every time a student loads and plays a level, the game is reset. In real games, programmers use databases to store **persistent** information, which is tracked between plays of the game, even by different players.
+
+
+### Opening Discussion
+
+**What are some ways that games give you feedback about how you are doing?**
+
+Sample Responses:
+
+*   Display the time you’ve taken or how much time is left.
+*   Display the number of enemies you’ve defeated.
+*   Display the number of points, coins, or other items you’ve collected.
+
+**What are some examples of information you'd want to save between plays of a game?**
+
+Sample Responses:
+* High Scores
+* Character level and experience.
+* Loot that you found.
+
+### Preview
+
+Tell students that this set of levels explores:
+
+*   Using UI elements to show interesting information to the player, and
+*   Using a database to store information between plays.
+
+Before beginning, students should be familiar with the following concepts:
+
+*   Objects and object properties. (GD1)
+
+### Levels
+
+Students should play the next two levels:
+
+*   Seeing is Believing
+*   Persistence Pays
+
+### Closing Discussion
+
+**Besides “time” and “defeated”, what other stats might you want to display in the UI of your game?**
+
+Sample Responses:
+
+*   Points
+*   Gems
+
+**Besides “plays”, “wins” and “total defeated”, what other stats might you want to track across plays?**
+
+*   Points
+*   Goals Achieved
 
 ## Mechanics: Time, Randomness, Defeat
 
-### Discussion
+### Summary
+
+Games often use mechanics based off of **time** and **randomness**.
+
+Time is used to do things like gradually spawn enemies, or make the game get progressively more difficult the longer the player survives.
+
+If your game is the same every time the player plays, it might get boring... but randomness can add variety, surprise, and a bit of luck to spice things up every time someone plays.
+
+Using the **defeat** event, you can have something interesting happen when an enemy or ally is defeated.
+
+### Opening Discussion
 
 **How do games behave based on time?**
 
-There are two in particular: regular events (changing the game state based on time of day) or one-time events (the mission is unsuccessful if not completed in 5 minutes).
+Sample Responses:
+
+*   Regular events (e.g., changing the game state based on time of day)
+*   One-time events (e.g., the mission is unsuccessful if not completed in 5 minutes).
 
 **When do games behave inconsistently, or randomly?**
 
-Examples:
+Sample Responses:
 
 *   A deck of cards is shuffled
 *   A character randomly moves about an area
@@ -105,7 +184,7 @@ Examples:
 
 **What sorts of things can happen in a game when a character is defeated?**
 
-Examples:
+Sample Responses:
 
 *   The score changes (up or down)
 *   The win state changes (win or lose)
@@ -113,29 +192,40 @@ Examples:
 *   Character behavior changes
 *   Events happen
 
-### Review
+### Preview
 
-Concepts which can be reviewed to help students prepare for these levels:
+Tell students that this set of levels explores:
+
+* Using the game.time property to create spawn timers.
+* Using the game.randomInteger method to spawn an enemy at a random location.
+* Using the "defeat" event so enemies drop loot.
+
+
+Before beginning, students should be familiar with the following concepts:
 
 *   Arithmetic (CS2)
 
 ### Levels
 
-Students should play the next three levels:
+Students should play the next five levels:
 
 *   Adventure Time
+*   Teatime
 *   Random Riposte
 *   Agony of Defeat
+*   Lernaean Hybrid
 
-### Discussion
+### Closing Discussion
 
 **Why must the time-checking loop in Adventure Time happen at the end of the code?**
 
-Because it’s an infinite loop so any code underneath will never be executed.
+Sample Response:
+
+*   Because it’s an infinite loop so any code underneath will never be executed.
 
 **Aside from location, what else in the game can be set randomly, given a random integer?**
 
-Examples:
+Sample Responses:
 
 *   Time: such as in conjunction with Adventure time, spawn enemies at random intervals
 *   Type: if a random number between 1 and 2 is lower than 1, spawn a friend, otherwise an enemy
@@ -168,26 +258,28 @@ This function returns between 0 and 1024\. Using Math, we can create algorithms 
 
 **What other things in CodeCombat can you do when an enemy is defeated?**
 
-Examples:
+Sample Responses:
+
 *   Spawn more enemies
 *   Have the player say something
 
 ## Mechanics: Manual Goals and More Events
 
-### Discussion
+### Opening Discussion
 
 **What are various ways that games are considered “won” or “lost”? How would that look in code?**
 
 Encourage thinking about goals which don’t include the ones provided by CodeCombat so far (defeat enemies, survive, collect, get to a location).
 
-Examples:
+Sample Responses:
+
 *   Complete a series of quests
 *   Get a higher score or better time than an opponent
 *   Solve a puzzle
 
 **What are examples of things that are removed from the game environment during gameplay?**
 
-Examples:
+Sample Responses:
 
 *   You navigate to a new area or room, everything that was in the old area or room should be removed
 *   Some short time after an enemy is defeated, the enemy’s body should be removed.
@@ -196,7 +288,7 @@ Examples:
 
 **When something is collected in a game, what sorts of things can happen?**
 
-Examples:
+Sample Responses:
 
 *   Character behavior may change  (other characters in a game might say something if an item were stolen! Or they may give you a quest, or behave differently than before.)
 *   Player attributes could change (speed, power, health, abilities, especially Mario games)
@@ -204,42 +296,65 @@ Examples:
 
 **What things can happen when two things (characters, objects) collide in a game?**
 
-Examples:
+Sample Responses:
 
 *   The player could lose the game(Flappy bird colliding with a wall, Pac-Man colliding with a ghost while not powered up)
 *   Damage (if one character runs into something damaging, such as lava or spikes, they could lose health)
 *   Speed
-
 *   A character running into the wall will stop moving
 *   A ball that hits a wall might keep moving but in another direction
 
+### Preview
+
+Tell students that this set of levels explores:
+
+* Creating custom goals using the game.addManualGoal method.
+* The difference between "destroy" and "defeat" methods.
+* Keeping score with the "collect" event.
+* Making things happen when units "collide" with game objects.
+
+Before beginning, students should be familiar with the following concepts:
+
+* Assigning to variables (CS1)
+* Events and Event Handlers (CS2)
+* Arithmetic (CS2)
+* if Statements (CS2)
+
 ### Levels
 
-Students should play the next four levels:
+Students should play the next eight levels:
 
 *   Stick Shift
+*   Don’t Touch Them
 *   From Dust to Dust
+*   Cages
 *   Accounts Department
+*   Hot Gems
 *   Berserker
+*   Freeze Tag
 
-### Discussion
+### Closing Discussion
 
 **How can manual goals be used to recreate the built-in goal methods?**
 
-* Defeat: use “defeat” event to track how many enemies are defeated, set goal success to true when high enough.
-* Move: in a while true loop, check the player position, and when it’s close enough to the position, set goal success to true.
-* Survive: If the player emits a “defeat” event, set goal success to false.
-* Collect: use “collect” event to track how many items are collected, set goal success to true when high enough.
+Sample Responses:
+
+*   Defeat: use “defeat” event to track how many enemies are defeated, set goal success to true when high enough.
+*   Move: in a while true loop, check the player position, and when it’s close enough to the position, set goal success to true.
+*   Survive: If the player emits a “defeat” event, set goal success to false.
+*   Collect: use “collect” event to track how many items are collected, set goal success to true when high enough.
 
 As an exercise, try writing out the code for these.
 
 **What is the difference between defeat and destroy?**
 
-Destroy completely removes the thing from the game. Defeat is for units and disables them, but they are still “in” the game.
+Sample Response:
+
+*   Destroy completely removes the thing from the game. Defeat is for units and disables them, but they are still “in” the game.
 
 **What else can happen when something is collected or collided with?**
 
-Examples:
+Sample Responses:
 
 *   Spawn more enemies
 *   Change the layout of the map (spawn, destroy)
@@ -248,7 +363,9 @@ Examples:
 
 **For any given event, what is the “target” property? What is “other”?**
 
-The target is whatever thing the event was attached to. The “other” is any other thing which is involved in the action. For example, if you set up an event handler for “collision” on the player, “target” is always the player, and “other” is always the thing or unit that the player collided with. If you set up an event handler for “collect” on the player, “target” is yet again always the player, and “other” is the item which the player has collected.
+Sample Response:
+
+*   The target is whatever thing the event was attached to. The “other” is any other thing which is involved in the action. For example, if you set up an event handler for “collision” on the player, “target” is always the player, and “other” is always the thing or unit that the player collided with. If you set up an event handler for “collect” on the player, “target” is yet again always the player, and “other” is the item which the player has collected.
 
 ## Integration Practice
 
@@ -267,30 +384,32 @@ Students should play these levels:
 
 These levels are getting fairly complex. For each function in the code, have students, in groups or as individuals, discuss and explain:
 
-*   What is the function doing
-*   What mechanic or mechanics it is using (randomness, game time, etc)
-*   How the function relates to the rest of the code (is calling, is being called by, is set up by)
+*   What is the function doing?
+*   What mechanic or mechanics it is using? (randomness, game time, etc)
+*   How the function related to the rest of the code? (is calling, is being called by, is set up by)
 
-### Discussion
+### Closing Discussion
 
 **What is the benefit of breaking up code in these ways?**
 
-Examples:
+Sample Responses:
 
 *   Code reuse
 *   Explanatory: the names of functions explain what that block of code does
 
 **How else could this code have been organized?**
 
-*   How else could the functions have been named?
-*   How else could the functions have been broken up?
-*   What would they look like as one big function?
+Sample Responses:
+
+*   The functions could have been named differently. (Encourage students to give an example.)
+*   The functions could have been broken up differently. (Encourage students to give an example.)
+*   The functions could have been written as one big function.
 
 ## Arcade Game
 
 ### Summary
 
-This series of levels walks students step-by-step through creating a Pacman-style arcade game. This helps them see and practice integrating these concepts into a more complex project, and prepares them for doing the same sort of iterative process in this course’s final project.
+This series of levels walks students step-by-step through creating a Pac-Man-style arcade game. This helps them see and practice integrating these concepts into a more complex project, and prepares them for doing the same sort of iterative process in this course’s final project.
 
 ### Levels
 
@@ -310,18 +429,18 @@ As in the previous module, have students explain for each function:
 *   What mechanic or mechanics it is using (randomness, game time, etc)?
 *   How the function relates to the rest of the code (is calling, is being called by, is set up by)?
 
-### Discussion
+### Closing Discussion
 
 **What is the difference between building a program piece-by-piece vs all at once?**
 
 This discussion serves to highlight how at each stage of development, this level was “playable”. It could be played, tested, and changed. Each stage focused on a different aspect of the game. The benefits to iterative development are many:
 
-* The program is always usable. When you can run the program at any time, you can:
-  * Demonstrate your work to others at any stage.
-  * Stay flexible in terms of what ends up being the “final” version. In work or in school, you may run out of time, but partial work is always preferable to something that doesn’t work at all.
-  * Test what you are building and adjust your plan as you go.
-  * Always understand what state the program is in
-* When testing continually, bugs tend to be the latest code addition. If you build the code all at once and then start testing, the issues will be many, compounded, and all over the place. It will be much harder.
+*   The program is always usable. When you can run the program at any time, you can:
+  *   Demonstrate your work to others at any stage.
+  *   Stay flexible in terms of what ends up being the “final” version. In work or in school, you may run out of time, but partial work is always preferable to something that doesn’t work at all.
+  *   Test what you are building and adjust your plan as you go.
+  *   Always understand what state the program is in
+*   When testing continually, bugs tend to be the latest code addition. If you build the code all at once and then start testing, the issues will be many, compounded, and all over the place. It will be much harder.
 
 In all likelihood, many students will still try to build their projects (such as Game Development 2) all in one go. This will likely lead to frustration when the game gets into a broken state and it takes a great deal of effort to get it out of that state. When this happens, reinforce the benefits of building iteratively by encouraging the student to start from a simpler place and build up gradually, piece by piece.
 

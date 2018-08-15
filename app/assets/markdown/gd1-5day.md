@@ -42,6 +42,14 @@ During the Game Development 1 course, the students will learn how to create thei
 
 ## Day 1
 
+Levels:
+1. Over the Garden Wall
+2. Click Gait
+3. Hero's Journey
+4. A-maze-ing
+5. Gemtacular
+6. Vorpal Mouse
+
 ### Introduction
 
 **Discussion Question #0a: Do you play games? What are your favorite games?**
@@ -242,6 +250,16 @@ This level also uses two new goal types, but we'll go into those more in the nex
 
 ## Day 2
 
+Levels:
+7. Crushing It
+8. Give and Take
+9. Army Training
+10. Ranger Danger
+11. Hedge Magic
+12. Forest Incursion
+13. Throwing Fire
+14. Them Bones
+
 ### Review
 - Last time we learned how to:
     - Spawn game PIECES with `spawnXY`.
@@ -429,6 +447,11 @@ This level introduces the `"generator"`, `"skeleton"`, and `"lightstone"` spawna
 
 ## Day 3
 
+Levels:
+15. Behavior Driven Development
+16. Time to Live
+17. Tabula Rasa
+
 ### Review
 
 What types of goals are available for building our games?
@@ -523,54 +546,8 @@ This level introduces using an argument to configure a timed survival goal, and 
 - New generator configuration:
     - `spawnType`
 
-### Level 17: Seeing Is Believing
 
-#### Discussion
-
-This level introduces UI elements, allowing the game to show interesting information to the player. It also introduces the `game.time` property.
-
-- Students can use the `ui.track(object, propertyName)` command to show information to the player.
-- The `object` argument is an object you want to show the property of, like `game`.
-- The `propertyName` argument is a **string** that is the same as the name of a property to show, like `"time"`.
-- So, to show the `game.time` property, students should use `ui.track(game, "time")`.
-- The `game.defeated` property is a special helper property in this level to make things simpler. In Game Dev 2, the students will learn to track how many enemies are defeated themselves.
-
-#### Playing the Level
-
-- Don't destroy the generators until you have defeated at least 10 munchkins!
-
-#### Reflection
-
-- New command:
-    - `ui.track`
-
-- New property:
-    - `game.time`
-
-
-### Level 18: Persistence Pays
-
-#### Discussion
-
-This level introduces the `db.add(key, value)` command. Until now, every time a student loads and plays a level, the game is reset. In real games, programmers use databases like Amazon DynamoDB to store **persistent** information, which is tracked between plays of the game, even by different players.
-
-- `db.add` takes two arguments, a `key` and a `value`.
-- The `key` is a string, which is used like a variable, it's a name in the database to store the `value` under.
-- The `value`, for `db.add`, is a number.
-- The `db.add` command increments, or adds to, the existing value stored under the `key`. So if the student called `db.add("plays", 1)` twice, the value stored at the `"plays"` key in the database would be `2`.
-- Later levels will show how to store other types of data in the database.
-
-#### Playing the Level
-
-- At the bottom of the code for this level is some complicated code you haven't learned about yet. We define a **function** called `onVictory` and then assign that function as a **handler** for the `"victory"` event.
-- Don't worry if this is confusing! It's a preview of what students will learn in Game Dev 2. For now, just put your `db.add(game, "defeated")` code inside the `onVictory` function, where the comments tell you to!
-
-#### Reflection
-
-- New command:
-    - `db.add`
-
-### Level 19: "Tabula Rasa"
+### Level 17: "Tabula Rasa"
 
 #### The FINAL PROJECT!
 
@@ -585,8 +562,6 @@ Every game should, at least:
 1. Spawn a player piece.
 2. Add one or more goals for the player to complete.
 3. Use some combination of obstacles, enemies, collectables, and other pieces to create a fun challenge for the player.
-
-In addition, students can use the `db.add` command to track how many people have played their game. They can also use the `game.defeated` property if they want to track how many enemies have been defeated by their players in total! In the Game Dev 2 course, students will learn how to react to events as they occur in the game, and will be able to use the database to track even more interesting statistics about their games.
 
 Students should go through the following steps to create their games:
 
