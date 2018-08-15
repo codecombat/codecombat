@@ -81,4 +81,6 @@
       .alert.alert-danger#restricted-item-viewed.secret(data-i18n="inventory.restricted")
     if !me.isStudent()
       button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active(data-i18n="play.change_hero_or_language")
+    if me.isStudent() && me.hasClassRoomItemsFeatureOn()
+      button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active(data-i18n="play.change_hero")
     button#play-level-button.btn.btn-lg.btn-success.choose-inventory-active(data-i18n="common.play")
