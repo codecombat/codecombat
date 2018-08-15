@@ -1,11 +1,10 @@
-extends /templates/core/modal-base-flat
+<template lang="jade">
 
-block modal-header
+#refer-teacher-modal.modal-content.style-flat
   .modal-header
     span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
     h3(data-i18n="parent_modal.refer_teacher")
 
-block modal-body
   form.modal-body
     .form-group
       label.control-label.text-h4(for="parent-name")
@@ -29,5 +28,36 @@ block modal-body
         span(data-i18n="parent_modal.send")
       img.pull-right(src="/images/pages/parents/anya_reading.png")
 
-block modal-footer
+</template>
 
+<script lang="coffee">
+module.exports = Vue.extend({
+})
+</script>
+
+
+<style lang="sass" scoped>
+@import "app/styles/style-flat-variables"
+
+// This overrides the vue components modal-content style.
+.modal-content
+  border-width: 0px !important
+  padding: 0 !important
+
+.modal-body
+  padding-bottom: 0
+
+.modal-header
+  background-color: $navy
+  text-align: center
+  h3, span
+    color: white
+    
+.footer-btn
+  position: relative
+  button
+      position: absolute
+      bottom: 0
+      left: 0
+      margin: 20px
+</style>

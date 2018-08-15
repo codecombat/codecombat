@@ -1,13 +1,13 @@
-require("app/styles/modal/parent-refer-teacher-modal.sass")
-ModalView = require 'views/core/ModalView'
+ModalComponent = require 'views/core/ModalComponent'
 State = require 'models/State'
 contact = require 'core/contact'
+ParentReferTeacherModalComponent = require('views/core/ParentReferTeacherModalComponent.vue').default
 
-
-module.exports = class ParentReferTeacherModal extends ModalView
+module.exports = class ParentReferTeacherModal extends ModalComponent
   id: 'parent-refer-teacher-modal'
-  template: require 'templates/modal/parent-refer-teacher-modal'
+  template: require 'templates/core/modal-base-flat'
   closeButton: true
+  VueComponent: ParentReferTeacherModalComponent
 
   events:
     'change input[name="parent-name"]': 'onChangeParentName'
@@ -44,12 +44,6 @@ module.exports = class ParentReferTeacherModal extends ModalView
       parentName: @state.get('parentName'),
       customContent: @state.get('customContent')
     })
-      # .then( =>
-      #   @state.set({ emailSending: false, completed: true })
-      # )
-      # .catch( =>
-      #   @state.set({ error: true, emailSending: false }
-      # )
     
     true # Refreshes page
       
