@@ -36,26 +36,22 @@ module.exports = Vue.extend({
 </script>
 
 
-<style lang="sass" scoped>
+<style lang="sass">
 @import "app/styles/style-flat-variables"
-
-// This overrides the vue components modal-content style.
-.modal-content
-  border-width: 0px !important
-  padding: 0 !important
-
-.modal-body
+#refer-teacher-modal
+  border-width: 0px
+  padding: 0
   padding-bottom: 0
 
-.modal-header
-  background-color: $navy
-  text-align: center
-  h3, span
-    color: white
-    
-.footer-btn
-  position: relative
-  button
+  .modal-header
+    background-color: $navy
+    text-align: center
+    h3, span
+      color: white
+      
+  .footer-btn
+    position: relative
+    button
       position: absolute
       bottom: 0
       left: 0
