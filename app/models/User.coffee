@@ -86,8 +86,6 @@ module.exports = class User extends CocoModel
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 
-  onChinaInfra: -> features?.chinaInfra ? false
-
   getClientCreatorPermissions: ->
     clientID = @get('clientCreator')
     if !clientID and /@codeninjas.com$/i.test(me.get('email'))
