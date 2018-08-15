@@ -59,7 +59,7 @@ block content
       // TODO: collect CodeCombat userids for these guys so we can include a tiled list
       ul.diplomats
         each stats, languageCode in view.languageStats
-          if !(stats.completion < 0.02 && !stats.diplomats.length)
+          if (stats.completion >= 0.02 || (stats.diplomats || []).length > 0)
             li
               a(href=stats.githubURL)
                 span= stats.englishDescription
