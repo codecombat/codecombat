@@ -482,7 +482,6 @@ module.exports = class InventoryModal extends ModalView
         delete equipment[slot]
 
   calculateRequiredGearPerSlot: ->
-    console.log("Inside calculateRequiredGearPerSlot")
     return {} if me.isStudent() and not application.getHocCampaign() and not me.showHeroAndInventoryModals()
     return @requiredGearPerSlot if @requiredGearPerSlot
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
@@ -504,7 +503,6 @@ module.exports = class InventoryModal extends ModalView
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
-    console.log("Inside calculateRestrictedGearPerSlot")
     return {} if me.isStudent() and not application.getHocCampaign() and not me.showHeroAndInventoryModals()
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     return @restrictedGearPerSlot if @restrictedGearPerSlot
