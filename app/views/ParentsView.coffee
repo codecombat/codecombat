@@ -10,4 +10,4 @@ module.exports = class ParentView extends RootComponent
   propsData: {}
 
   initialize: ->
-    @propsData["onReferTeacher"] = () => @openModalView new ParentReferTeacherModal()
+    @propsData = { onReferTeacher: () => @openModalView new ParentReferTeacherModal() }

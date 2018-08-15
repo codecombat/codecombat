@@ -7,7 +7,7 @@
           h3.quote(data-i18n="parent_landing.slogan_quote")
           h3.text-right(data-i18n="parent_landing.quote_attr")
       .refer-btn.row.pull-right
-        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')" data-i18n="parent_landing.refer_teacher")
+        button.btn.btn-forest.btn-lg(v-on:click="onReferTeacher" data-i18n="parent_landing.refer_teacher")
   .container
     .row.focus-quote
       h2.text-center(data-i18n="parent_landing.focus_quote")
@@ -26,7 +26,7 @@
         p(data-i18n="parent_landing.value_copy3")
     .row.text-center
       .refer-btn
-        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')", data-i18n="parent_landing.refer_teacher")
+        button.btn.btn-forest.btn-lg(v-on:click="onReferTeacher", data-i18n="parent_landing.refer_teacher")
 
   #deep-dive.container
     .row.text-center
@@ -85,7 +85,7 @@
           span.spr(data-i18n="parent_landing.dive_3_par2")
     .row.text-center
       .refer-btn
-        button.btn.btn-forest.btn-lg(v-on:click="$emit('referTeacher')", data-i18n="parent_landing.refer_teacher")
+        button.btn.btn-forest.btn-lg(v-on:click="onReferTeacher", data-i18n="parent_landing.refer_teacher")
     .row.focus-quote
       h3.text-center(data-i18n="parent_landing.mission")
 
@@ -110,139 +110,140 @@
 
 <script lang="coffee">
 module.exports = Vue.extend({
-  props: ['onReferTeacher']
+  props: {'onReferTeacher': Function }
 })
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 @import "../styles/style-flat-variables"
 
 $red: #7D0101
 $blue: #0E4C60
 $green: #20572B
 
-.row
-  margin: 25px 0
-
-.flags
-  text-align: center
-  @media (min-width: 1200px)
-    text-align: left
-
 #parent-view
-  @media (min-width: 1200px)
-      overflow-x: hidden
+  .row
+    margin: 25px 0
 
-.refer-btn
-  margin: 36px auto
-  button
-    border: 0
-    h3
-      padding: 20px
-      color: white
-.deep-img
-  margin: 0 auto
-  max-height: 200px
+  .flags
+    text-align: center
+    @media (min-width: 1200px)
+      text-align: left
 
-#jumbotron
-  background-image: url("/images/pages/parents/jumbotron_students.png")
-  background-position: 50% 55%
-
-  @media (min-width : 1200px)
-    background-size: 100% auto
-
-  @media (max-width : 1200px)
-    background-size: 1200px auto
-
-  #slogan
-    background-color: rgba(242, 190, 25, 0.65)
-    padding: 20px
-    margin-top: 72px
-    margin-bottom: 72px
-
-    h3:first-child
-      margin-bottom: 20px
+  #parent-view
+    @media (min-width: 1200px)
+        overflow-x: hidden
 
   .refer-btn
-    margin-bottom: 72px
-
-.focus-quote
-  h2
-    margin-top: 36px
-    padding: 20px
-    color: #0E4C60
+    margin: 36px auto
+    button
+      border: 0
+      h3
+        padding: 20px
+        color: white
+  .deep-img
     margin: 0 auto
-    @media (min-width: 992px)
-      // max-width: 60%
+    max-height: 200px
 
-#value-prop
-  img
-    width: 100%
-  h3
-    margin: 10px 0
-  div
-    padding: 0 30px
-    h4
-      text-align: center
-      padding: 10px
-  div:nth-of-type(1)
-    h4
-      color: $red
-  div:nth-of-type(2)
-    h4
-      color: $blue
-  div:nth-of-type(3)
-    h4
-      color: $green
+  #jumbotron
+    background-image: url("/images/pages/parents/jumbotron_students.png")
+    background-position: 50% 55%
 
-#deep-dive
-  .row
-    margin: 0 0 20px 0
+    @media (min-width : 1200px)
+      background-size: 100% auto
 
-// These are styles universal with the deep dive sections.
-#dive-graphic-1, #dive-graphic-2, #dive-graphic-3
-  min-height: 280px
-  position: relative
-  padding: 20px 30px
-  h2
-    color: white
-    text-shadow: 1px 1px 3px black
-    position: absolute
-    bottom: 20px
-  div
-    height: 100%
-    position: absolute
-    width: 2000px
-    background-color: inherit
-    top: 0
-    @media (max-width: 1200px)
-      display: none
+    @media (max-width : 1200px)
+      background-size: 1200px auto
 
-.flag-img
-  max-height: 100px
-  width: auto
-  margin: -20px 0 20px 0
+    #slogan
+      background-color: rgba(242, 190, 25, 0.65)
+      padding: 20px
+      margin-top: 72px
+      margin-bottom: 72px
 
-#dive-graphic-1
-  background: $red no-repeat url("/images/pages/parents/deepdive1.png")
-  background-position: center right
-  div
-    right: 100%
+      h3:first-child
+        margin-bottom: 20px
 
-#dive-graphic-2
-  background: $blue no-repeat url("/images/pages/parents/deepdive2.png")
-  div
-    left: 100%
+    .refer-btn
+      margin-bottom: 72px
 
-#dive-graphic-3
-  background: $green no-repeat url("/images/pages/parents/deepdive3.png")
-  background-position: center right
-  div
-    right: 100%
+  .focus-quote
+    h2
+      margin-top: 36px
+      padding: 20px
+      color: #0E4C60
+      margin: 0 auto
+      @media (min-width: 992px)
+        // max-width: 60%
 
-#mission
-  div
-    padding: 0 30px
+  #value-prop
     img
       width: 100%
+    h3
+      margin: 10px 0
+    div
+      padding: 0 30px
+      h4
+        text-align: center
+        padding: 10px
+    div:nth-of-type(1)
+      h4
+        color: $red
+    div:nth-of-type(2)
+      h4
+        color: $blue
+    div:nth-of-type(3)
+      h4
+        color: $green
+
+  #deep-dive
+    .row
+      margin: 0 0 20px 0
+
+  // These are styles universal with the deep dive sections.
+  #dive-graphic-1, #dive-graphic-2, #dive-graphic-3
+    min-height: 280px
+    position: relative
+    padding: 20px 30px
+    h2
+      color: white
+      text-shadow: 1px 1px 3px black
+      position: absolute
+      bottom: 20px
+    div
+      height: 100%
+      position: absolute
+      width: 2000px
+      background-color: inherit
+      top: 0
+      @media (max-width: 1200px)
+        display: none
+
+  .flag-img
+    max-height: 100px
+    width: auto
+    margin: -20px 0 20px 0
+
+  #dive-graphic-1
+    background: $red no-repeat url("/images/pages/parents/deepdive1.png")
+    background-position: center right
+    div
+      right: 100%
+
+  #dive-graphic-2
+    background: $blue no-repeat url("/images/pages/parents/deepdive2.png")
+    div
+      left: 100%
+
+  #dive-graphic-3
+    background: $green no-repeat url("/images/pages/parents/deepdive3.png")
+    background-position: center right
+    div
+      right: 100%
+
+  #mission
+    div
+      padding: 0 30px
+      img
+        width: 100%
 </style>
