@@ -34,6 +34,7 @@ before_script:
   - until [ $n -ge 60 ]; do curl http://localhost:3000 && break; n=$[$n+1]; sleep 1; done
 script:
   - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots"
+  - npm run test-china
 notifications:
   slack:
     rooms:

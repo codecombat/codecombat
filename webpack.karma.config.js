@@ -19,6 +19,11 @@ module.exports = (env) => {
     output: _.merge({}, baseConfig.output, {
       chunkFilename: 'javascripts/chunks/[name].bundle.js',
     }),
+    plugins: [
+      new webpack.DefinePlugin({
+        DEF_CHINA_INFRA: process.env.COCO_CHINA_INFRASTRUCTURE ? 'true' : 'false',
+      })
+    ]
     // TODO: Get sourcemaps working with Karma
     // devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   })

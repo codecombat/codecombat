@@ -9,7 +9,7 @@ block content
         .alert.alert-info.m-y-2
           span.spr(data-i18n="signup.login_switch")
           a.login-link(data-i18n="login.log_in")
-        if !me.onChinaInfra()
+        if me.useSocialSignOn()
           #social-network-signups.m-y-2
             button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
               span.spr(data-i18n="teachers_quote.connect_with")

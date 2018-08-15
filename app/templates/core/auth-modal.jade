@@ -55,7 +55,7 @@
     .wait.secret
       h3(data-i18n="login.logging_in")
 
-  if !me.onChinaInfra()
+  if me.useSocialSignOn()
     .auth-network-logins
       // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
       //div.network-login
