@@ -7,11 +7,7 @@ module.exports = class ParentView extends RootComponent
   id: 'parents-view'
   template: template
   VueComponent: ParentsViewComponent
-    
-  afterRender: ->
-    super()
-    if (@vueComponent)
-      @vueComponent.$on('referTeacher', => @onReferTeacher())
-    
-  onReferTeacher: () ->
-    @openModalView new ParentReferTeacherModal()
+  propsData: {}
+
+  initialize: ->
+    @propsData["onReferTeacher"] = () => @openModalView new ParentReferTeacherModal()

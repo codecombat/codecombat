@@ -110,6 +110,7 @@
 
 <script lang="coffee">
 module.exports = Vue.extend({
+  props: ['onReferTeacher']
 })
 </script>
 
