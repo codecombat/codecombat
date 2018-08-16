@@ -276,7 +276,7 @@ module.exports = class TeacherClassView extends RootView
         html: true
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
-    
+
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
 
