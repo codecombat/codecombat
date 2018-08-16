@@ -40,7 +40,7 @@ notifications:
     rooms:
       - secure: o/fVW216/h0hacMz3y4+NvvJEY8w6li690MggGvjV7zH89eP2oT3UmHikBxrhm0ooEP0blPlaLJ6seeY9LLRLsebBO3yQbpSSOvF3aAs0VoW3+r9oPwJYBvOg1dcwAHUcJiR5+HLzv+l4PL4SJsnp66hRDqUUB08F3FkUz96JN0=
     template:
-      - Tests failed <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} <!here>
+      - Tests failed <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} <!subteam^S7QGF5W03|engteam>
     on_success: never
     on_failure: always
     on_start: never
