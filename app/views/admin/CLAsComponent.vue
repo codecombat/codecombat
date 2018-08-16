@@ -28,8 +28,7 @@ export default Vue.extend({
   },
   created() {
     api.clas.getAll()
-      .then(clas => _.sortBy(clas, (cla) => (cla.githubUsername || 'zzzzzz').toLowerCase()))
-      .then(clas => _.uniq(clas, true, 'githubUsername'))
+      .then(clas => _.uniq(_.sortBy(clas, (cla) => new Date(cla.created)).reverse(), true, 'githubUsername'))
       .then(clas => this.clas = clas)
   }
 });
