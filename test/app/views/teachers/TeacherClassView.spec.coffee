@@ -131,7 +131,7 @@ describe 'TeacherClassView', ->
             expect(@view.enrollStudents).toHaveBeenCalled()
             users = @view.enrollStudents.calls.argsFor(0)[0]
             expect(users.size()).toBe(1)
-            expect(users.first().id).toBe(@view.students.first().id)
+            expect(users.first().id).toBe(@view.students.rest()[0].id) # TODO: Make test less brittle
 
       ###
         describe 'Revoke button', ->
