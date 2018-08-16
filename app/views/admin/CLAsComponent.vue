@@ -16,23 +16,23 @@ div#admin-clas-view.container
         td {{dateFormat(cla.created)}}
 </template>
 
-<script lang="coffee">
-co = require('co')
-api = require 'core/api'
+<script>
+import api from 'core/api';
 
-module.exports = Vue.extend({
-  data: ->
+export default Vue.extend({
+  data: () => ({
     clas: []
-
-  methods:
-    dateFormat: (s) -> moment(s).format('llll')
-
-  created: co.wrap ->
-    clas = yield api.clas.getAll()
-    clas = _.sortBy(clas, (cla) -> (cla.githubUsername || 'zzzzzz').toLowerCase())
-    clas = _.uniq(clas, true, 'githubUsername')
-    @clas = clas
-})
+  }),
+  methods: {
+    dateFormat: s => moment(s).format('llll')
+  },
+  created() {
+    api.clas.getAll()
+      .then(clas => _.sortBy(clas, (cla) => (cla.githubUsername || 'zzzzzz').toLowerCase()))
+      .then(clas => _.uniq(clas, true, 'githubUsername'))
+      .then(clas => this.clas = clas)
+  }
+});
 
 </script>
 
