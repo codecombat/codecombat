@@ -134,7 +134,10 @@ module.exports = class TeacherClassesView extends RootView
     latestHourTime = new Date() - -21 * 24 * 60 * 60 * 1000
     @upcomingOfficeHours = _.sortBy (oh for oh in officeHours when earliestHourTime < oh.time < latestHourTime), 'time'
     @howManyOfficeHours = if storage.load('hide-office-hours') then 'none' else 'some'
-    me.getClientCreatorPermissions()?.then(() => @render?())
+    me.getClientCreatorPermissions()?.then(() => 
+      @calculateQuestCompletion()
+      @render?()
+    )
 
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
@@ -180,7 +183,7 @@ module.exports = class TeacherClassesView extends RootView
 
 
       classCompletion['add_students'] = if students > 0 then 1.0 else 0.0
-      if @prepaids.length > 0 or !me.get('clientPermissions')?.manageLicensesViaUI
+      if @prepaids.length > 0 or !me.canManageLicensesViaUI()
         classCompletion['reach_gamedev'] = 1.0
       else
         classCompletion['reach_gamedev'] = 0.0
