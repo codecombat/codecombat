@@ -440,7 +440,7 @@ module.exports = Vue.extend({
         }
         attrs.id = apiClient[0]._id
         apiClient = yield api.apiClients.editClient(attrs)
-        alert("API client updated")
+        noty text: 'API Client updated', timeout: 3000, type: 'success'
       catch err
         console.log(err)
         forms.setErrorToProperty(el, 'editClient', 'Something went wrong')

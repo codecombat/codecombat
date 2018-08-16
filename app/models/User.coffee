@@ -88,16 +88,26 @@ module.exports = class User extends CocoModel
 
   getClientCreatorPermissions: ->
     clientID = @get('clientCreator')
-    if !clientID and /@codeninjas.com$/i.test(me.get('email'))
-      clientID = "57fff652b0783842003fed00"  # hard coded for code ninjas since a lot of their users do not have clientCreator set
+    if !clientID
+      clientID = utils.getApiClientIdFromEmail(@get('email'))
     if clientID
       api.apiClients.getByHandle(clientID)
       .then((apiClient) => 
-        @set 'clientPermissions', apiClient.permissions
+        @clientPermissions = apiClient.permissions
       )
       .catch((e) =>
         console.error(e)
       )
+
+  canManageLicensesViaUI: ->
+    if !@clientPermissions or @clientPermissions.manageLicensesViaUI
+      return true
+    return false
+
+  canRevokeLicensesViaUI: ->
+    if !@clientPermissions or (@clientPermissions.manageLicensesViaUI and @clientPermissions.revokeLicensesViaUI)
+      return true
+    return false
 
   setRole: (role, force=false) ->
     oldRole = @get 'role'

@@ -19,7 +19,7 @@
           li(class= path.indexOf('/teachers/courses') === 0 ? 'active' : '')
             a(href='/teachers/courses')
               small.label(data-i18n='teacher.courses')
-          if !me.get('clientPermissions') || me.get('clientPermissions').manageLicensesViaUI
+          if me.canManageLicensesViaUI()
             li(class= path.indexOf('/teachers/licenses') === 0 ? 'active' : '')
               a(href='/teachers/licenses')
                 small.label(data-i18n='teacher.enrollments')
