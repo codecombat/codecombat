@@ -147,6 +147,11 @@
     "yamljs": "^0.2.8"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-preset-env": "^1.7.0",
     "bower": "~1.6.4",
     "bundle-loader": "^0.5.5",
     "commonjs-require-definition": "0.2.0",
