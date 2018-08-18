@@ -177,8 +177,10 @@ div.licensor.container(v-else)
       | {{client.secret}}
   table.table.table-condensed#client-table(v-if="clients.length > 1")
     tr
+      th.border ID
       th.border Name
     tr(v-for="client in clients")
+      td.border {{client._id}}
       td.border {{client.name}}
 
   h3 Create/Edit OAuth Provider
