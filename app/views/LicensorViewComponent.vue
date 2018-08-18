@@ -372,6 +372,10 @@ module.exports = Vue.extend({
         unless data
             return
 
+        if data.minimumLicenseDays < 1
+          forms.setErrorToProperty(el, 'minimumLicenseDays', 'minimumLicenseDays should be greater than 0')
+          return
+        
         try
             attrs = {
                 name: data.clientName
@@ -420,6 +424,10 @@ module.exports = Vue.extend({
       unless data
         return
 
+      if data.minimumLicenseDays < 1
+        forms.setErrorToProperty(el, 'minimumLicenseDays', 'minimumLicenseDays should be greater than 0')
+        return
+      
       try
         apiClient = yield api.apiClients.getByName(data.clientName)
         unless apiClient.length>0
