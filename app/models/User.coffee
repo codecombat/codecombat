@@ -99,10 +99,7 @@ module.exports = class User extends CocoModel
         console.error(e)
       )
 
-  canManageLicensesViaUI: ->
-    if !@clientPermissions or @clientPermissions.manageLicensesViaUI
-      return true
-    return false
+  canManageLicensesViaUI: -> @clientPermissions?.manageLicensesViaUI ? true
 
   canRevokeLicensesViaUI: ->
     if !@clientPermissions or (@clientPermissions.manageLicensesViaUI and @clientPermissions.revokeLicensesViaUI)
