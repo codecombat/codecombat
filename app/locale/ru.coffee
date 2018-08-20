@@ -2496,7 +2496,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     attempted_to_assign: "Попытка присвоить свойству режим, при котором его можно только считать."
     unexpected_early_end: "Неожиданный конец программы."
     you_need_a_string: "Вам нужна строка для сборки; одна из $1"
-    unable_to_get_property: "Не удаётся получить свойству '$1'. Ссылка либо является пустой, либо неопределенной" # TODO: Do we translate undefined/null?
+    unable_to_get_property: "Не удаётся получить свойство '$1'. Ссылка либо является пустой, либо неопределенной" # TODO: Do we translate undefined/null?
     code_never_finished_its: "Либо ваша программа работает слишком медленно, либо в вашем коде есть бесконечный цикл."
     unclosed_string: "Незавершённая строка."
     unmatched: "Несовпадает '$1'."
@@ -2505,7 +2505,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     indentation_error: "Ошибка отступа."
     need_a_on_the: "Необходимо `:` в конце строки после `$1`."
     attempt_to_call_undefined: "попытка вызова '$1' (нулевое значение)"
-    unterminated: "Незавершённая `$1`"
+    unterminated: "Незавершённое `$1`"
 #    target_an_enemy_variable: "Target an $1 variable, not the string $2. (Try using $3.)"
 #    error_use_the_variable: "Use the variable name like `$1` instead of a string like `$2`"
 #    indentation_unindent_does_not: "Indentation unindent does not match any outer indentation level"
