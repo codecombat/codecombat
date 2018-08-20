@@ -2524,7 +2524,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     missing_var_use_var: "`$1` отсутствует. Используй `$2` для создания новой переменной."
     you_do_not_have: "Ты не имеешь предмета с умением $1."
     put_each_command_on: "Помести каждую команду в отдельную строку"
-    are_you_missing_a: "Пропустил ли ты '$1' после '$2'? "
+    are_you_missing_a: "Не пропустил ли ты '$1' после '$2'? "
     your_parentheses_must_match: "Скобки должны совпадать."
 
 #  apcsp:
