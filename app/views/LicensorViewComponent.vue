@@ -62,9 +62,9 @@ div.licensor.container(v-else)
       input(type="text", name="clientName")
     .form-group
       label.small
-      | licenseTimeGranted
+      | licenseDaysGranted
       =" "
-      input(type="number", :value="defaultClientVal.licenseTimeGranted.default", name="licenseTimeGranted")
+      input(type="number", :value="defaultClientVal.licenseDaysGranted.default", name="licenseDaysGranted")
     .form-group
       label.small
       | minimumLicenseDays
@@ -155,15 +155,15 @@ div.licensor.container(v-else)
       th.border minimumLicenseDays
       th.border License days used by client
       th.border License days remaining
-      th.border No of users having active licenses
+      th.border Users having active licenses
     tr(v-for="client in clients")
       td.border {{client._id}}
       td.border {{client.slug}}
       td.border {{client.name}}
-      td.border {{client.licenseTimeGranted}}
+      td.border {{client.licenseDaysGranted}}
       td.border {{client.minimumLicenseDays}}
-      td.border {{client.licenseTimeUsed}}
-      td.border {{client.licenseTimeRemaining}}
+      td.border {{client.licenseDaysUsed}}
+      td.border {{client.licenseDaysRemaining}}
       td.border {{client.activeLicenses}}
   label.border(v-if = "clients.length == 1" v-for = "client in clients")
     | Client permissions:
@@ -378,7 +378,7 @@ module.exports = Vue.extend({
 
     onCreateApiClient: co.wrap ->
       el = $('#client-form')
-      requiredProps = ['clientName', 'licenseTimeGranted', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
+      requiredProps = ['clientName', 'licenseDaysGranted', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
       data = @runValidation(el, requiredProps)
       unless data
         return
@@ -387,10 +387,14 @@ module.exports = Vue.extend({
           forms.setErrorToProperty(el, 'minimumLicenseDays', 'minimumLicenseDays should be greater than 0')
           return
 
+      if data.licenseDaysGranted < 0
+        forms.setErrorToProperty(el, 'licenseDaysGranted', 'licenseDaysGranted should be greater than or equal to 0')
+        return
+      
       try
         attrs = {
           name: data.clientName
-          licenseTimeGranted: parseInt(data.licenseTimeGranted)
+          licenseDaysGranted: parseInt(data.licenseDaysGranted)
           minimumLicenseDays: parseInt(data.minimumLicenseDays)
           permissions: {
             manageLicensesViaUI: (data.manageLicensesViaUI == 'true')
@@ -431,13 +435,17 @@ module.exports = Vue.extend({
     
     onEditApiClient: co.wrap ->
       el = $('#client-form')
-      requiredProps = ['clientName', 'licenseTimeGranted', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
+      requiredProps = ['clientName', 'licenseDaysGranted', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
       data = @runValidation(el, requiredProps)
       unless data
         return
 
       if data.minimumLicenseDays < 1
         forms.setErrorToProperty(el, 'minimumLicenseDays', 'minimumLicenseDays should be greater than 0')
+        return
+      
+      if data.licenseDaysGranted < 0
+        forms.setErrorToProperty(el, 'licenseDaysGranted', 'licenseDaysGranted should be greater than or equal to 0')
         return
       
       try
@@ -447,7 +455,7 @@ module.exports = Vue.extend({
           return
         attrs = {
           name: data.clientName
-          licenseTimeGranted: parseInt(data.licenseTimeGranted)
+          licenseDaysGranted: parseInt(data.licenseDaysGranted)
           minimumLicenseDays: parseInt(data.minimumLicenseDays)
           permissions: {
             manageLicensesViaUI: (data.manageLicensesViaUI == 'true')
@@ -480,9 +488,9 @@ module.exports = Vue.extend({
           return 
         for client in this.clients
           stats = yield api.apiClients.getLicenseStats(client._id)
-          Vue.set(client, 'licenseTimeUsed', stats.licenseTimeUsed)
+          Vue.set(client, 'licenseDaysUsed', stats.licenseDaysUsed)
           Vue.set(client, 'activeLicenses', stats.activeLicenses)
-          Vue.set(client, 'licenseTimeRemaining', stats.licenseTimeRemaining)
+          Vue.set(client, 'licenseDaysRemaining', stats.licenseDaysRemaining)
       catch err
         console.log(err)
         forms.setErrorToProperty(el, 'showClient', 'Something went wrong')

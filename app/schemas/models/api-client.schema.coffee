@@ -34,7 +34,7 @@ APIClientSchema = {
       type: 'integer'
       default: 365
     }
-    licenseTimeGranted: {
+    licenseDaysGranted: {
       type: 'integer'
       description: 'The APIClient can grant licenses to its users for this number of days'
       default: 0
