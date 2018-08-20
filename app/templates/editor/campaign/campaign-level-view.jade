@@ -48,6 +48,10 @@
   if analytics.recentSessions.loading
     div Loading...
   else
+    div
+      .input-group.input-group-sm
+        input.form-control#input-session-num(type='number', min=100, max=10000, style='width:100px;', value=view.limit)
+        button.btn.btn-default.btn-sm#recent-button(style='margin-left:10px;') Reload recent
     div(style='font-size:10pt') Latest #{analytics.recentSessions.data.length} sessions for this level
     div(style='font-size:10pt') Double-click row to open player and session
     table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
