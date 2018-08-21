@@ -89,6 +89,9 @@ module.exports = class TeacherCourseSolutionView extends RootView
         assessment: level.get('assessment') ? false
       })
     @levelNumberMap = utils.createLevelNumberMap(levels)
+    if @course?.attributes?.slug == "web-development-2"
+      # Filter out non numbered levels.
+      @levels.models = @levels.models.filter((l) => l.get('original') of @levelNumberMap)
     @render?()
 
   afterRender: ->
