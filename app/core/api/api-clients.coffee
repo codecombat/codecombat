@@ -35,4 +35,8 @@ module.exports = {
       method: 'PUT'
       json: client
     }))
+
+  getLicenseStats: (clientID, options={}) ->
+    fetchJson("/db/api-clients/#{clientID}/license-stats", options)
+
 }
