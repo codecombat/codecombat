@@ -328,3 +328,18 @@ block content
             a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
               span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
               span.sr-only(data-i18n="play.next")
+  
+  unless me.get('country') && me.inEU()
+    script(type="text/javascript").
+      window.userLeap = {
+        appId: 'SkzysH6qmm',
+      onReady() {
+          userLeap.setVisitorStage('prospect') // Sets the visitor stage
+        },
+      };
+      (function(l,e,a,p) {
+        a=l.createElement('script');
+        a.async=1;a.src=e+'?id='+window.userLeap.appId;
+        p=l.getElementsByTagName('script')[0];
+        p.parentNode.insertBefore(a, p);
+      })(document, 'https://userleap.com/shim.js');
