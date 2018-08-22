@@ -678,6 +678,11 @@ formatStudentLicenseStatusDate = (status, date) ->
       when 'expired' then $.i18n.t('teacher.status_expired')
     string.replace('{{date}}', date or 'Never')
 
+getApiClientIdFromEmail = (email) ->
+  if /@codeninjas.com$/i.test(email) # hard coded for code ninjas since a lot of their users do not have clientCreator set
+    clientID = '57fff652b0783842003fed00'
+    return clientID
+
 module.exports = {
   ageOfConsent
   capitalLanguages
@@ -694,6 +699,7 @@ module.exports = {
   formatDollarValue
   formatStudentLicenseStatusDate
   functionCreators
+  getApiClientIdFromEmail
   getByPath
   getCourseBundlePrice
   getCoursePraise

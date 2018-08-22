@@ -53,6 +53,7 @@ module.exports = class TeacherCoursesView extends RootView
       @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @fetchChangeLog()
+    me.getClientCreatorPermissions()?.then(() => @render?())
     @render?()
 
   fetchChangeLog: ->

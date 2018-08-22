@@ -74,6 +74,8 @@ module.exports = class EnrollmentsView extends RootView
     @debouncedRender = _.debounce @render, 0
     @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
+
+    me.getClientCreatorPermissions()?.then(() => @render?())
     
     leadPriorityRequest = me.getLeadPriority()
     @supermodel.trackRequest leadPriorityRequest

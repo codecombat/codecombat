@@ -53,15 +53,68 @@ div.licensor.container(v-else)
       td.border {{prepaid.endDate}}
       td.border {{prepaid.used}} / {{prepaid.maxRedeemers || 0}}
 
-  h3 Create API Client
+  h3 Create/Edit API Client
   form#client-form
     .form-group
       label.small
       | Client name
       =" "
-      input(type="text", name="clientNameCreate")
+      input(type="text", name="clientName")
+    .form-group
+      label.small
+      | licenseDaysGranted
+      =" "
+      input(type="number", :value="defaultClientVal.licenseDaysGranted.default", name="licenseDaysGranted")
+    .form-group
+      label.small
+      | minimumLicenseDays
+      =" "
+      input(type="number", :value="defaultClientVal.minimumLicenseDays.default", name="minimumLicenseDays")
+    .form-group
+      label.small
+      | manageLicensesViaUI
+      =" "
+      select(name="manageLicensesViaUI")
+        option(:value="defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
+        option(:value="!defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
+    .form-group
+      label.small
+      | manageLicensesViaAPI
+      =" "
+      select(name="manageLicensesViaAPI")
+        option(:value="defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
+    .form-group
+      label.small
+      | revokeLicensesViaUI
+      =" "
+      select(name="revokeLicensesViaUI")
+        option(:value="defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
+        option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
+    .form-group
+      label.small
+      | revokeLicensesViaAPI
+      =" "
+      select(name="revokeLicensesViaAPI")
+        option(:value="defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
+    .form-group
+      label.small
+      | manageSubscriptionViaAPI
+      =" "
+      select(name="manageSubscriptionViaAPI")
+        option(:value="defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
+    .form-group
+      label.small
+      | revokeSubscriptionViaAPI
+      =" "
+      select(name="revokeSubscriptionViaAPI")
+        option(:value="defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
+        option(:value="!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
     .form-group
       button.btn.btn-primary(v-on:click.prevent="onCreateApiClient", name="createClient") Create API Client
+      button.btn.btn-primary(v-on:click.prevent="onEditApiClient", name="editClient") Edit API Client
       h4.small *It will create a new API client and generate its secret
 
   h3 Toggle API Client Feature Flags
@@ -98,14 +151,25 @@ div.licensor.container(v-else)
       th.border ID
       th.border Slug
       th.border Name
-      th.border No of license days assigned by client
-      th.border No of users to whom licenses have been assigned
+      th.border License days granted to client
+      th.border minimumLicenseDays
+      th.border License days used by client
+      th.border License days remaining
+      th.border Users having active licenses
     tr(v-for="client in clients")
       td.border {{client._id}}
       td.border {{client.slug}}
       td.border {{client.name}}
-      td.border {{client.licenses}}
-      td.border {{client.users}}
+      td.border {{client.licenseDaysGranted}}
+      td.border {{client.minimumLicenseDays}}
+      td.border {{client.licenseDaysUsed}}
+      td.border {{client.licenseDaysRemaining}}
+      td.border {{client.activeLicenses}}
+  label.border(v-if = "clients.length == 1" v-for = "client in clients")
+    | Client permissions:
+    =" "
+    h4.small(v-for = "(value, key) in client.permissions")
+      | {{key}}: {{value}}
   label.border(v-if="clients.length == 1" v-for="client in clients")
     | Client secret:
     =" "
@@ -113,8 +177,10 @@ div.licensor.container(v-else)
       | {{client.secret}}
   table.table.table-condensed#client-table(v-if="clients.length > 1")
     tr
+      th.border ID
       th.border Name
     tr(v-for="client in clients")
+      td.border {{client._id}}
       td.border {{client.name}}
 
   h3 Create/Edit OAuth Provider
@@ -203,6 +269,7 @@ api = require 'core/api'
 moment.timezone = require('moment-timezone')
 forms = require 'core/forms'
 {getQueryVariable} = require('core/utils')
+clientSchema = require '../schemas/models/api-client.schema'
 
 module.exports = Vue.extend({
   data: ->
@@ -211,6 +278,7 @@ module.exports = Vue.extend({
     currentClientFeatures: {}
     ownedClients: []
     oauthProvider: []
+    defaultClientVal: clientSchema.properties
 
   created: ->
     return unless me.isAdmin() or me.isLicensor()
@@ -238,95 +306,113 @@ module.exports = Vue.extend({
 
   methods:
     runValidation: (element, requiredProps) ->
-        forms.clearFormAlerts(element)
-        data = forms.formToObject(element[0])
-        result = tv4.validateMultiple(data, {required: requiredProps})
-        unless result.valid
-            forms.applyErrorsToForm(element, result.errors)
-            return
-        return data
+      forms.clearFormAlerts(element)
+      data = forms.formToObject(element[0])
+      result = tv4.validateMultiple(data, {required: requiredProps})
+      unless result.valid
+        forms.applyErrorsToForm(element, result.errors)
+        return
+      return data
 
     onCreateLicense: co.wrap ->
-        el = $('#prepaid-form')
-        requiredProps = ['email', 'maxRedeemers','startDate', 'endDate']
-        data = @runValidation(el, requiredProps)
-        unless data
-            return
-        unless forms.validateEmail(data.email)
-            forms.setErrorToProperty(el, 'email', 'Please enter a valid email address')
-            return
-        unless data.maxRedeemers > 0
-            forms.setErrorToProperty(el, 'maxRedeemers', 'No of licenses should be greater than 0')
-            return
-        unless data.endDate > data.startDate
-            forms.setErrorToProperty(el, 'endDate', 'End Date should be greater than Start Date')
-            return
-        try
-            email = data.email
-            user = yield api.users.getByEmail({email})
-            attrs = data
-            attrs.maxRedeemers = parseInt(data.maxRedeemers)
-            attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-            attrs.startDate = moment.timezone.tz(attrs.startDate, "America/Los_Angeles").toISOString()
-            attrs.endDate = moment.timezone.tz(attrs.endDate, "America/Los_Angeles").toISOString()
-            _.extend(attrs, {
-                type: 'course'
-                creator: user._id
-                properties:
-                    licensorAdded: me.id
-            })
-            prepaid = yield api.prepaids.post(attrs)
-            noty text: 'License created', timeout: 3000, type: 'success'
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'addLicense', 'Something went wrong')
-            return
+      el = $('#prepaid-form')
+      requiredProps = ['email', 'maxRedeemers','startDate', 'endDate']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
+      unless forms.validateEmail(data.email)
+        forms.setErrorToProperty(el, 'email', 'Please enter a valid email address')
+        return
+      unless data.maxRedeemers > 0
+        forms.setErrorToProperty(el, 'maxRedeemers', 'No of licenses should be greater than 0')
+        return
+      unless data.endDate > data.startDate
+        forms.setErrorToProperty(el, 'endDate', 'End Date should be greater than Start Date')
+        return
+      try
+        email = data.email
+        user = yield api.users.getByEmail({email})
+        attrs = data
+        attrs.maxRedeemers = parseInt(data.maxRedeemers)
+        attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
+        attrs.startDate = moment.timezone.tz(attrs.startDate, "America/Los_Angeles").toISOString()
+        attrs.endDate = moment.timezone.tz(attrs.endDate, "America/Los_Angeles").toISOString()
+        _.extend(attrs, {
+          type: 'course'
+          creator: user._id
+          properties:
+            licensorAdded: me.id
+        })
+        prepaid = yield api.prepaids.post(attrs)
+        noty text: 'License created', timeout: 3000, type: 'success'
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'addLicense', 'Something went wrong')
+        return
 
     onShowLicense: co.wrap ->
-        el = $('#prepaid-show-form')
-        requiredProps = ['getEmail']
-        data = @runValidation(el, requiredProps)
-        unless data
-            return
-        unless forms.validateEmail(data.getEmail)
-            forms.setErrorToProperty(el, 'getEmail', 'Please enter a valid email address')
-            return
+      el = $('#prepaid-show-form')
+      requiredProps = ['getEmail']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
+      unless forms.validateEmail(data.getEmail)
+        forms.setErrorToProperty(el, 'getEmail', 'Please enter a valid email address')
+        return
 
-        try
-            email = data.getEmail
-            user = yield api.users.getByEmail({email})
-            this.prepaids = yield api.prepaids.getByCreator(user._id, {data: {allTypes: true}})
-            unless this.prepaids.length>0
-                forms.setErrorToProperty(el, 'showLicense', 'No licenses found for this user')
-                return
-            for prepaid in this.prepaids
-                prepaid.startDate = moment.timezone(prepaid.startDate).tz('America/Los_Angeles').format('l')
-                prepaid.endDate = moment.timezone(prepaid.endDate).tz('America/Los_Angeles').format('l')
-                Vue.set(prepaid, 'used' , (prepaid.redeemers || []).length)
+      try
+        email = data.getEmail
+        user = yield api.users.getByEmail({email})
+        this.prepaids = yield api.prepaids.getByCreator(user._id, {data: {allTypes: true}})
+        unless this.prepaids.length>0
+          forms.setErrorToProperty(el, 'showLicense', 'No licenses found for this user')
+          return
+        for prepaid in this.prepaids
+          prepaid.startDate = moment.timezone(prepaid.startDate).tz('America/Los_Angeles').format('l')
+          prepaid.endDate = moment.timezone(prepaid.endDate).tz('America/Los_Angeles').format('l')
+          Vue.set(prepaid, 'used' , (prepaid.redeemers || []).length)
 
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'showLicense', 'Something went wrong')
-            return
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'showLicense', 'Something went wrong')
+        return
 
     onCreateApiClient: co.wrap ->
-        el = $('#client-form')
-        requiredProps = ['clientNameCreate']
-        data = @runValidation(el, requiredProps)
-        unless data
-            return
+      el = $('#client-form')
+      requiredProps = ['clientName', 'licenseDaysGranted', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
 
-        try
-            attrs = {
-                name: data.clientNameCreate
-            }
-            apiCLient = yield api.apiClients.post(attrs)
-            yield api.apiClients.createSecret({clientID: apiCLient._id})
-            noty text: 'Client created', timeout: 3000, type: 'success'
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'createClient', 'Something went wrong')
-            return
+      if data.minimumLicenseDays < 1
+          forms.setErrorToProperty(el, 'minimumLicenseDays', 'minimumLicenseDays should be greater than 0')
+          return
+
+      if data.licenseDaysGranted < 0
+        forms.setErrorToProperty(el, 'licenseDaysGranted', 'licenseDaysGranted should be greater than or equal to 0')
+        return
+      
+      try
+        attrs = {
+          name: data.clientName
+          licenseDaysGranted: parseInt(data.licenseDaysGranted)
+          minimumLicenseDays: parseInt(data.minimumLicenseDays)
+          permissions: {
+            manageLicensesViaUI: (data.manageLicensesViaUI == 'true')
+            manageLicensesViaAPI: (data.manageLicensesViaAPI == 'true')
+            revokeLicensesViaUI: (data.revokeLicensesViaUI == 'true')
+            revokeLicensesViaAPI: (data.revokeLicensesViaAPI == 'true')
+            manageSubscriptionViaAPI: (data.manageSubscriptionViaAPI == 'true')
+            revokeSubscriptionViaAPI: (data.revokeSubscriptionViaAPI == 'true')
+          }
+        }
+        apiCLient = yield api.apiClients.post(attrs)
+        yield api.apiClients.createSecret({clientID: apiCLient._id})
+        noty text: 'Client created', timeout: 3000, type: 'success'
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'createClient', 'Something went wrong')
+        return
 
     onUpdateApiClientFeatures: co.wrap ->
       el = $('#client-features-form')
@@ -347,138 +433,170 @@ module.exports = Vue.extend({
       catch err
         console.log(err)
         forms.setErrorToProperty(el, 'updateClientFeatures', 'Something went wrong')
+    
+    onEditApiClient: co.wrap ->
+      el = $('#client-form')
+      requiredProps = ['clientName', 'licenseDaysGranted', 'minimumLicenseDays', 'manageLicensesViaUI', 'manageLicensesViaAPI', 'revokeLicensesViaUI', 'revokeLicensesViaAPI', 'manageSubscriptionViaAPI', 'revokeSubscriptionViaAPI']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
+
+      if data.minimumLicenseDays < 1
+        forms.setErrorToProperty(el, 'minimumLicenseDays', 'minimumLicenseDays should be greater than 0')
+        return
+      
+      if data.licenseDaysGranted < 0
+        forms.setErrorToProperty(el, 'licenseDaysGranted', 'licenseDaysGranted should be greater than or equal to 0')
+        return
+      
+      try
+        apiClient = yield api.apiClients.getByName(data.clientName)
+        unless apiClient.length>0
+          forms.setErrorToProperty(el, 'editClient', 'API client not found')
+          return
+        attrs = {
+          name: data.clientName
+          licenseDaysGranted: parseInt(data.licenseDaysGranted)
+          minimumLicenseDays: parseInt(data.minimumLicenseDays)
+          permissions: {
+            manageLicensesViaUI: (data.manageLicensesViaUI == 'true')
+            manageLicensesViaAPI: (data.manageLicensesViaAPI == 'true')
+            revokeLicensesViaUI: (data.revokeLicensesViaUI == 'true')
+            revokeLicensesViaAPI: (data.revokeLicensesViaAPI == 'true')
+            manageSubscriptionViaAPI: (data.manageSubscriptionViaAPI == 'true')
+            revokeSubscriptionViaAPI: (data.revokeSubscriptionViaAPI == 'true')
+          }
+        }
+        attrs.id = apiClient[0]._id
+        apiClient = yield api.apiClients.editClient(attrs)
+        noty text: 'API Client updated', timeout: 3000, type: 'success'
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'editClient', 'Something went wrong')
+        return
 
     onShowApiClient: co.wrap ->
-        el = $('#client-show-form')
-        requiredProps = ['clientNameShow']
-        data = @runValidation(el, requiredProps)
-        unless data
-            return
+      el = $('#client-show-form')
+      requiredProps = ['clientNameShow']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
 
-        try
-            this.clients = yield api.apiClients.getByName(data.clientNameShow)
-            unless this.clients.length > 0
-                forms.setErrorToProperty(el, 'showClient', 'No API CLient found')
-                return
-            for client in this.clients
-                clientPrepaids = yield api.prepaids.getByClient(client._id)
-                if clientPrepaids.length > 0
-                    Vue.set(client, 'users', clientPrepaids.length)
-                    licenses = 0
-                    for clientPrepaid in clientPrepaids
-                        start = new Date(clientPrepaid.startDate)
-                        end = new Date(clientPrepaid.endDate)
-                        licenses += Math.ceil(Math.abs(end.getTime() - start.getTime()) / (1000 * 3600 * 24))
-                    Vue.set(client, 'licenses', licenses)
-                else
-                    Vue.set(client, 'users', 0)
-                    Vue.set(client, 'licenses', 0)
-
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'showClient', 'Something went wrong')
-            return
+      try
+        this.clients = yield api.apiClients.getByName(data.clientNameShow)
+        unless this.clients.length > 0
+          forms.setErrorToProperty(el, 'showClient', 'No API CLient found')
+          return 
+        for client in this.clients
+          stats = yield api.apiClients.getLicenseStats(client._id)
+          Vue.set(client, 'licenseDaysUsed', stats.licenseDaysUsed)
+          Vue.set(client, 'activeLicenses', stats.activeLicenses)
+          Vue.set(client, 'licenseDaysRemaining', stats.licenseDaysRemaining)
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'showClient', 'Something went wrong')
+        return
 
     onShowAllApiClient: co.wrap ->
-        el = $('#client-show-form')
+      el = $('#client-show-form')
 
-        try
-            this.clients = yield api.apiClients.getAll()
-            unless this.clients.length > 0
-                forms.setErrorToProperty(el, 'showAllClient', 'No API CLient found')
-                return
+      try
+        this.clients = yield api.apiClients.getAll()
+        unless this.clients.length > 0
+          forms.setErrorToProperty(el, 'showAllClient', 'No API CLient found')
+          return
 
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'showAllClient', 'Something went wrong')
-            return
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'showAllClient', 'Something went wrong')
+        return
 
     onCreateOauth: co.wrap ->
-        el = $('#oauth-form')
-        requiredProps = ['oauthName', 'lookupUrlTemplate', 'tokenUrl']
-        data = @runValidation(el, requiredProps)
-        unless data
-            return
+      el = $('#oauth-form')
+      requiredProps = ['oauthName', 'lookupUrlTemplate', 'tokenUrl']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
 
-        try
-            attrs = _.pick(data, 'lookupUrlTemplate', 'tokenUrl', 'tokenMethod', 'lookupIdProperty', 'redirectAfterLogin')
-            attrs.name = data.oauthName
-            attrs.tokenAuth = {
-                user: data.tokenAuthUser
-                pass: data.tokenAuthPass
-            }
-            if data.strictSSL
-                attrs.strictSSL = (data.strictSSL == 'true')
-            oauthProvider = yield api.oauth.post(attrs)
-            noty text: 'OAuth Provider created', timeout: 3000, type: 'success'
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'createProvider', 'Something went wrong')
-            return
+      try
+        attrs = _.pick(data, 'lookupUrlTemplate', 'tokenUrl', 'tokenMethod', 'lookupIdProperty', 'redirectAfterLogin')
+        attrs.name = data.oauthName
+        attrs.tokenAuth = {
+          user: data.tokenAuthUser
+          pass: data.tokenAuthPass
+        }
+        if data.strictSSL
+          attrs.strictSSL = (data.strictSSL == 'true')
+        oauthProvider = yield api.oauth.post(attrs)
+        noty text: 'OAuth Provider created', timeout: 3000, type: 'success'
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'createProvider', 'Something went wrong')
+        return
 
     onEditOauth: co.wrap ->
-        el = $('#oauth-form')
-        requiredProps = ['oauthName']
-        data = @runValidation(el, requiredProps)
-        unless data
-            return
+      el = $('#oauth-form')
+      requiredProps = ['oauthName']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
 
-        try
-            oauthProvider = yield api.oauth.getByName(data.oauthName)
-            unless oauthProvider.length>0
-                forms.setErrorToProperty(el, 'editProvider', 'OAuth Provider not found')
-                return
-            attrs = _.pick(data, 'lookupUrlTemplate', 'tokenUrl', 'tokenMethod', 'lookupIdProperty', 'redirectAfterLogin')
-            if data.strictSSL
-                attrs.strictSSL = (data.strictSSL == 'true')
-            attrs.tokenAuth = {
-                user: data.tokenAuthUser
-                pass: data.tokenAuthPass
-            }
-            attrs.id = oauthProvider[0]._id
-            oauthProvider = yield api.oauth.editProvider(attrs)
-            noty text: 'OAuth Provider updated', timeout: 3000, type: 'success'
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'editProvider', 'Something went wrong')
-           return
+      try
+        oauthProvider = yield api.oauth.getByName(data.oauthName)
+        unless oauthProvider.length>0
+          forms.setErrorToProperty(el, 'editProvider', 'OAuth Provider not found')
+          return
+        attrs = _.pick(data, 'lookupUrlTemplate', 'tokenUrl', 'tokenMethod', 'lookupIdProperty', 'redirectAfterLogin')
+        if data.strictSSL
+          attrs.strictSSL = (data.strictSSL == 'true')
+        attrs.tokenAuth = {
+          user: data.tokenAuthUser
+          pass: data.tokenAuthPass
+        }
+        attrs.id = oauthProvider[0]._id
+        oauthProvider = yield api.oauth.editProvider(attrs)
+        noty text: 'OAuth Provider updated', timeout: 3000, type: 'success'
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'editProvider', 'Something went wrong')
+        return
 
     onShowOauth: co.wrap ->
-        el = $('#oauth-show-form')
-        requiredProps = ['oauthNameShow']
-        data = @runValidation(el, requiredProps)
-        unless data
-            return
+      el = $('#oauth-show-form')
+      requiredProps = ['oauthNameShow']
+      data = @runValidation(el, requiredProps)
+      unless data
+        return
 
-        try
-            this.oauthProvider = yield api.oauth.getByName(data.oauthNameShow)
-            unless this.oauthProvider.length > 0
-                forms.setErrorToProperty(el, 'showProvider', 'No OAuth Provider found')
-                return
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'showProvider', 'Something went wrong')
-            return
+      try
+        this.oauthProvider = yield api.oauth.getByName(data.oauthNameShow)
+        unless this.oauthProvider.length > 0
+          forms.setErrorToProperty(el, 'showProvider', 'No OAuth Provider found')
+          return
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'showProvider', 'Something went wrong')
+        return
 
     onShowAllOauth: co.wrap ->
-        el = $('#oauth-show-form')
+      el = $('#oauth-show-form')
 
-        try
-            this.oauthProvider = yield api.oauth.getAll()
-            unless this.oauthProvider.length > 0
-                forms.setErrorToProperty(el, 'showAllProvider', 'No OAuth Provider found')
-                return
-        catch err
-            console.log(err)
-            forms.setErrorToProperty(el, 'showAllProvider', 'Something went wrong')
-            return
+      try
+        this.oauthProvider = yield api.oauth.getAll()
+        unless this.oauthProvider.length > 0
+          forms.setErrorToProperty(el, 'showAllProvider', 'No OAuth Provider found')
+          return
+      catch err
+        console.log(err)
+        forms.setErrorToProperty(el, 'showAllProvider', 'Something went wrong')
+        return
 
 
   computed:
-        timestampStart: ->
-            return moment.timezone().tz('America/Los_Angeles').format('YYYY-MM-DD')
-        timestampEnd: ->
-            return moment.timezone().tz('America/Los_Angeles').add(1, 'year').format('YYYY-MM-DD')
+    timestampStart: ->
+        return moment.timezone().tz('America/Los_Angeles').format('YYYY-MM-DD')
+    timestampEnd: ->
+        return moment.timezone().tz('America/Los_Angeles').add(1, 'year').format('YYYY-MM-DD')
 
 })
 
