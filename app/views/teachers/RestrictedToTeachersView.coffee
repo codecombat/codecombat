@@ -5,4 +5,5 @@ module.exports = class RestrictedToTeachersView extends RootView
   template: require 'templates/teachers/restricted-to-teachers-view'
 
   initialize: ->
+    me.getClientCreatorPermissions()?.then(() => @render?())
     window.tracker?.trackEvent 'Restricted To Teachers Loaded', category: 'Students', ['Mixpanel']

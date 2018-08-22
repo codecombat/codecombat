@@ -14,6 +14,7 @@ module.exports = class MarkdownResourceView extends RootView
     super(options)
     @content = ''
     @loadingData = true
+    me.getClientCreatorPermissions()?.then(() => @render?())
     $.get '/markdown/' + @name + '.md', (data) =>
       unless /<!doctype html>/i.test(data)
         renderer = new marked.Renderer()

@@ -21,6 +21,13 @@ block content
           h5(data-i18n='teacher.what_is_a_teacher_account')
           p(data-i18n='teacher.teacher_account_explanation')
 
+  else if !me.canManageLicensesViaUI()
+    .alert.alert-danger.text-center
+      .container
+        h3 You cannot access this page.
+        p
+          | Your APIClient does not have the necessary permissions to access this page.
+
   else
     if !me.isTeacher() && !me.isAdmin()
       .alert.alert-danger.text-center

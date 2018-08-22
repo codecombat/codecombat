@@ -3,6 +3,7 @@ CocoModel = require './CocoModel'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
+api = require 'core/api'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -84,6 +85,26 @@ module.exports = class User extends CocoModel
 
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
+
+  getClientCreatorPermissions: ->
+    clientID = @get('clientCreator')
+    if !clientID
+      clientID = utils.getApiClientIdFromEmail(@get('email'))
+    if clientID
+      api.apiClients.getByHandle(clientID)
+      .then((apiClient) => 
+        @clientPermissions = apiClient.permissions
+      )
+      .catch((e) =>
+        console.error(e)
+      )
+
+  canManageLicensesViaUI: -> @clientPermissions?.manageLicensesViaUI ? true
+
+  canRevokeLicensesViaUI: ->
+    if !@clientPermissions or (@clientPermissions.manageLicensesViaUI and @clientPermissions.revokeLicensesViaUI)
+      return true
+    return false
 
   setRole: (role, force=false) ->
     oldRole = @get 'role'

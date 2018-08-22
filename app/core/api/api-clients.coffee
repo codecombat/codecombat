@@ -26,4 +26,17 @@ module.exports = {
       method: 'PUT'
       json: options
     })
+
+  getByHandle: (clientID, options={}) ->
+    fetchJson("/db/api-clients/#{clientID}", options)
+
+  editClient: (client, options={}) ->
+    fetchJson('/db/api-clients', _.assign({}, options, {
+      method: 'PUT'
+      json: client
+    }))
+
+  getLicenseStats: (clientID, options={}) ->
+    fetchJson("/db/api-clients/#{clientID}/license-stats", options)
+
 }
