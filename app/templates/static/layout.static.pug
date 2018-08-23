@@ -5,7 +5,6 @@ html(lang='en')
     meta(charset='utf-8')
     meta(name='viewport', content='width=1024')
     meta(http-equiv='Accept-CH', content='Viewport-Width')
-    // Dexecure
     title CodeCombat - Learn how to code by playing a game
     meta(name='description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
     meta(property='og:title', content='CodeCombat: Learn to Code by Playing a Game')
@@ -24,8 +23,10 @@ html(lang='en')
     link(rel='shortcut icon', href='/images/favicon.ico')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
     script.
-      var DEXECURE_URL = "/dexecure-c167a5675c.js";
-      "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
+      if (me.useDexecure()) {
+        var DEXECURE_URL = "/dexecure-c167a5675c.js";
+        "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
+      }
     script.
       window.javascriptsPath = '/#{shaTag}/javascripts/';
     if chunkPaths[viewName]
