@@ -17,6 +17,7 @@ exports.me =
   isTeacher: () -> false
   isAdmin: () -> false
   level: () -> 1
+  useDexecure: -> true
   useSocialSignOn: -> true
   gems: () -> 0
   getPhotoURL: () -> ''
