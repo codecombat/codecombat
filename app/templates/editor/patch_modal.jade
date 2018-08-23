@@ -21,5 +21,7 @@ block modal-footer
     if isPatchRecipient
       if status != 'accepted'
         button.btn.btn-primary#accept-button(data-i18n="general.accept")
+        if isLevel && me.isAdmin()
+          button.btn.btn-warning#accept-save-button(data-i18n="general.accept_and_save")
       if status != 'rejected'
         button.btn.btn-danger#reject-button(data-i18n="general.reject")
