@@ -22,11 +22,10 @@ html(lang='en')
     link(href='https://plus.google.com/115285980638641924488', rel='publisher')
     link(rel='shortcut icon', href='/images/favicon.ico')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
-    script.
-      if (me.useDexecure()) {
+    if me.useDexecure()
+      script.
         var DEXECURE_URL = "/dexecure-c167a5675c.js";
         "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
-      }
     script.
       window.javascriptsPath = '/#{shaTag}/javascripts/';
     if chunkPaths[viewName]
