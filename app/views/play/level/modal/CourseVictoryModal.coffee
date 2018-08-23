@@ -11,6 +11,8 @@ api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
 CourseVictoryComponent = require('./CourseVictoryComponent').default
+CourseRewardsView = require './CourseRewardsView'
+Achievements = require 'collections/Achievements'
 
 module.exports = class CourseVictoryModal extends ModalView
   id: 'course-victory-modal'
@@ -24,7 +26,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @session = options.session
     @level = options.level
-
+    
     if @courseInstanceID
       @classroom = new Classroom()
       @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID, {}))
@@ -67,6 +69,16 @@ module.exports = class CourseVictoryModal extends ModalView
       goalStates = @session.get('state').goalStates
       succeededConcepts = concepts.filter((c) => goalStates[c]?.status is 'success')
       _.assign(properties, {concepts, succeededConcepts})
+
+    if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev')
+      @achievements = options.achievements
+      if not @achievements
+        @achievements = new Achievements()
+        @achievements.fetchRelatedToLevel(@session.get('level').original)
+        @achievements = @supermodel.loadCollection(@achievements, 'achievements').model
+        @listenToOnce @achievements, 'sync', ->
+          @render?()
+
     window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
     if @level.isProject()
       @galleryURL = urls.projectGallery({ @courseInstanceID })
@@ -78,13 +90,20 @@ module.exports = class CourseVictoryModal extends ModalView
 
   onLoaded: ->
     super()
+    
+    @views = []
+
+    if me.showGemsAndXp() and @achievements.length > 0
+      rewardsView = new CourseRewardsView({level: @level, session:@session, achievements:@achievements, supermodel: @supermodel})
+      rewardsView.on 'continue', @onViewContinue, @
+      @views.push(rewardsView)
+
     # update level sessions so that stats are correct
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
 
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id
-      @views = []
 
       progressView = new ProgressView({
         level: @level
@@ -103,27 +122,13 @@ module.exports = class CourseVictoryModal extends ModalView
       progressView.once 'to-map', @onToMap, @
       progressView.once 'ladder', @onLadder, @
       progressView.once 'publish', @onPublish, @
-      for view in @views
-        view.on 'continue', @onViewContinue, @
+    
       @views.push(progressView)
 
+    if @views.length > 0
       @showView(_.first(@views))
-
     else
-      propsData = {
-        nextLevel: @nextLevel.toJSON(),
-        nextAssessment: @nextAssessment.toJSON()
-        level: @level.toJSON(),
-        session: @session.toJSON(),
-        course: @course.toJSON(),
-        @courseInstanceID,
-        stats: @classroom?.statsForSessions(@levelSessions, @course.id)
-      }
-      new CourseVictoryComponent({
-        el: @$el.find('.modal-content')[0]
-        propsData,
-        store
-      })
+      @showVictoryComponent() 
 
   afterRender: ->
     super()
@@ -138,8 +143,27 @@ module.exports = class CourseVictoryModal extends ModalView
     @currentView = view
 
   onViewContinue: ->
-    index = _.indexOf(@views, @currentView)
-    @showView(@views[index+1])
+    if @level.isLadder() or @level.isProject()
+      index = _.indexOf(@views, @currentView)
+      @showView(@views[index+1])
+    else
+      @showVictoryComponent()
+  
+  showVictoryComponent: ->
+    propsData = {
+      nextLevel: @nextLevel.toJSON(),
+      nextAssessment: @nextAssessment.toJSON()
+      level: @level.toJSON(),
+      session: @session.toJSON(),
+      course: @course.toJSON(),
+      @courseInstanceID,
+      stats: @classroom?.statsForSessions(@levelSessions, @course.id)
+    }
+    new CourseVictoryComponent({
+      el: @$el.find('.modal-content')[0]
+      propsData,
+      store
+    })
 
   onNextLevel: ->
     window.tracker?.trackEvent 'Play Level Victory Modal Next Level', category: 'Students', levelSlug: @level.get('slug'), nextLevelSlug: @nextLevel.get('slug'), []
