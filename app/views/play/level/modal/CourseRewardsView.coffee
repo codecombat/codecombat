@@ -6,6 +6,10 @@ EarnedAchievement = require 'models/EarnedAchievement'
 utils = require 'core/utils'
 User = require 'models/User'
 
+# This view is to show gems/xp/items earned after completing a level in classroom version.
+# It is similar to that on HeroVictoryModal for home version, but excluding some which is not required here.
+# TODO: Move this into a reusable component to be used by both home and classroom versions.
+
 module.exports = class CourseRewardsView extends CocoView
   id: 'course-rewards-view'
   className: 'modal-content' 
