@@ -501,7 +501,6 @@ module.exports = class InventoryModal extends ModalView
 
   calculateRestrictedGearPerSlot: ->
     return {} if me.isStudent() and not application.getHocCampaign()
-    @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     return @restrictedGearPerSlot if @restrictedGearPerSlot
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
