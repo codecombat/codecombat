@@ -501,7 +501,6 @@ module.exports = class User extends CocoModel
   useDexecure: -> not (features?.chinaInfra ? false)
   useSocialSignOn: -> not (features?.chinaUx ? false)
   showGemsAndXp: -> features?.classroomItems ? false
-  useSocialSignOn: -> not (features?.chinaUx ? false)
   showHeroAndInventoryModals: -> features?.classroomItems ? false
 
 
