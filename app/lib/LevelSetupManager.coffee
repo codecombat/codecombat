@@ -100,7 +100,9 @@ module.exports = class LevelSetupManager extends CocoClass
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
       unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
         firstModal = @heroesModal
-    firstModal = @inventoryModal if !me.hasClassRoomItemsFeatureOn() and me.isStudent()
+    else if me.isStudent()
+          firstModal = @inventoryModal 
+  
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
     @options.parent.openModalView(firstModal)
