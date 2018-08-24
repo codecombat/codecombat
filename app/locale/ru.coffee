@@ -1002,7 +1002,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     project_based_title: "Проектно-ориентированные курсы"
     project_based_description: "Курсы по Веб-разработке и Разработке Игр имеют различные финальные проекты."
     great_for_clubs_title: "Отлично подходит для клубов и факультативов"
-    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ Начальных лицензий."
+    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ начальных лицензий."
     low_price_title: "Всего __starterLicensePrice__ за одного учащегося"
     low_price_description: "Стартовые Лицензии активны в течение __starterLicenseLengthMonths__ месяцев с момента покупки."
     three_great_courses: "Стартовая Лицензия включает в себя три замечательных курса:"
