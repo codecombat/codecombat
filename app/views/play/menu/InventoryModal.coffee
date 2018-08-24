@@ -454,10 +454,7 @@ module.exports = class InventoryModal extends ModalView
     console.log("Inside requireLevelEquipment")
     console.log(@items)
     # This is called frequently to make sure the player isn't using any restricted items and knows she must equip any required items.
-    #TODO remove this condition
-    unless me.showHeroAndInventoryModals()
-      return unless @inserted and @itemsProgrammablePropertiesConfigured
-    console.log("Inside execution of requireLevelEquipment")
+    return unless @inserted and @itemsProgrammablePropertiesConfigured
     equipment = if @supermodel.finished() then @getCurrentEquipmentConfig() else @equipment  # Make sure we're using latest equipment.
     hadRequired = @remainingRequiredEquipment?.length
     @remainingRequiredEquipment = []
@@ -482,7 +479,7 @@ module.exports = class InventoryModal extends ModalView
         delete equipment[slot]
 
   calculateRequiredGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign() and not me.showHeroAndInventoryModals()
+    return {} if me.isStudent() and not application.getHocCampaign()
     return @requiredGearPerSlot if @requiredGearPerSlot
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
     requiredProperties = @options.level.get('requiredProperties') ? []
@@ -503,7 +500,7 @@ module.exports = class InventoryModal extends ModalView
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign() and not me.showHeroAndInventoryModals()
+    return {} if me.isStudent() and not application.getHocCampaign()
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     return @restrictedGearPerSlot if @restrictedGearPerSlot
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
@@ -582,7 +579,6 @@ module.exports = class InventoryModal extends ModalView
     null
 
   setHero: (@selectedHero) ->
-    console.log("Inside setHero")
     if @selectedHero.loading
       @listenToOnce @selectedHero, 'sync', => @setHero? @selectedHero
       return
