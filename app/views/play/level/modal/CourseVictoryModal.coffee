@@ -129,22 +129,7 @@ module.exports = class CourseVictoryModal extends ModalView
       @showView(_.first(@views))
     else
       @showVictoryComponent() 
-      propsData = {
-        nextLevel: @nextLevel.toJSON(),
-        nextAssessment: @nextAssessment.toJSON()
-        level: @level.toJSON(),
-        session: @session,
-        course: @course.toJSON(),
-        @courseInstanceID,
-        stats: @classroom?.statsForSessions(@levelSessions, @course.id)
-        supermodel: @supermodel,
-        parent: @
-      }
-      new CourseVictoryComponent({
-        el: @$el.find('.modal-content')[0]
-        propsData,
-        store
-      })
+      
 
   afterRender: ->
     super()
@@ -174,6 +159,8 @@ module.exports = class CourseVictoryModal extends ModalView
       course: @course.toJSON(),
       @courseInstanceID,
       stats: @classroom?.statsForSessions(@levelSessions, @course.id)
+      supermodel: @supermodel,
+      parent: @
     }
     new CourseVictoryComponent({
       el: @$el.find('.modal-content')[0]
