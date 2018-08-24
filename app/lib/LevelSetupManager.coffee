@@ -112,7 +112,7 @@ module.exports = class LevelSetupManager extends CocoClass
   #- Modal events
 
   onceHeroLoaded: (e) ->
-     @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
+    @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
     @options.parent.openModalView(@inventoryModal)
