@@ -19,11 +19,18 @@ block content
     .form.form-inline
       .row.lineUnder
         .form-group.campaign-mix
-          input(id="careAboutFrames", type="checkbox", checked=!!view.careAboutFrames, disabled=!!view.tests) 
+          input(id="careAboutFrames", type="checkbox", checked=!!view.careAboutFrames, disabled=view.runningTests) 
           label(for="careAboutFrames") Check frame counts
         .form-group.campaign-mix
           label(for="cores") Threads:
-          input(id="cores", type="number", min="1", max="16", value=view.cores, disabled=!!view.tests)
+          input(id="cores", type="number", min="1", max="16", value=view.cores, disabled=view.runningTests)
+        .form-group.campaign-mix
+          input(id='envProd', type="checkbox", checked=view.envProd, disabled=view.runningTests)
+          label(for='envProd') Production
+        .form-group.campaign-mix
+          input(id='envDev', type="checkbox", checked=view.envDev, disabled=view.runningTests)
+          label(for='envDev') Development
+        div Running Tests? #{view.runningTests}
 
     if view.levelsByCampaign
       .form.form-inline
@@ -31,16 +38,16 @@ block content
           each campaignInfo, campaign in view.levelsByCampaign
             .form-group.campaign-mix
               - var campaignID = "campaign-" + campaign + "-checkbox";
-              input(id=campaignID, type="checkbox", checked=campaignInfo.checked, disabled=!!view.tests)
+              input(id=campaignID, type="checkbox", checked=campaignInfo.checked, disabled=view.runningTests)
               label(for=campaignID)= campaign + ': ' + campaignInfo.levels.length
         .row
           each codeLanguage in view.codeLanguages
             .form-group.code-language-mix
               - var codeLanguageID = "code-language-" + codeLanguage.id + "-checkbox";
-              input(id=codeLanguageID, type="checkbox", checked=codeLanguage.checked, disabled=!!view.tests)
+              input(id=codeLanguageID, type="checkbox", checked=codeLanguage.checked, disabled=view.runningTests)
               label(for=codeLanguageID)= codeLanguage.id
           .pull-right
-            button.btn.btn-primary#go-button(disabled=!!view.tests) Start Tests
+            button.btn.btn-primary#go-button(disabled=view.runningTests) Start Tests
 
     if view.levelsToLoad && !view.tests
       .progress
@@ -67,14 +74,17 @@ block content
           if !test.goals
             h2.test-running= test.level.get('name')
               small= ' in ' + test.language + ''
+              small= ' on ' + (test.devEnv ? 'dev' : 'prod') + ' environment'
           else if test.isSuccessful()
             h2.test-success= test.level.get('name')
               small= ' in ' + test.language + ''
+              small= ' on ' + (test.devEnv ? 'dev' : 'prod') + ' environment'
           else
             h2.test-failed= test.level.get('name')
               small= ' in ' + test.language + ''
+              small= ' on ' + (test.devEnv ? 'dev' : 'prod') + ' environment'
 
-          div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
+          div.row(class=(view.runningTests || id > 0 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
             div.col-xs-8
               if test.solution
                 pre.solution #{test.solution.source}
@@ -116,8 +126,8 @@ block content
                   div.test-running ~ #{test.simulationFrameRate.toFixed(1)} FPS
                 else
                   div.test-failed ✘ #{test.simulationFrameRate.toFixed(1)} FPS
-
         else
-          h1 Loading Level...
+          h2.test-loading= test.levelID
+            small= ' level loading ..'
 
         // TODO: show last frame hash
