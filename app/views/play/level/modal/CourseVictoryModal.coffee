@@ -160,7 +160,7 @@ module.exports = class CourseVictoryModal extends ModalView
       @courseInstanceID,
       stats: @classroom?.statsForSessions(@levelSessions, @course.id)
       supermodel: @supermodel,
-      parent: @
+      parent: @options.parent
     }
     new CourseVictoryComponent({
       el: @$el.find('.modal-content')[0]
@@ -225,3 +225,4 @@ module.exports = class CourseVictoryModal extends ModalView
     return if application.testing
     if @level.get('type') is 'course-ladder' and @session.readyToRank() or not @session.inLeague(@courseInstanceID)
       api.levelSessions.submitToRank({ session: @session.id, courseInstanceID: @courseInstanceID })
+      
