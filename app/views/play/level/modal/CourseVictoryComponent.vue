@@ -96,22 +96,26 @@
   PieChart = require('core/components/PieComponent').default
   utils = require 'core/utils'
   thangTypeConstants = require 'lib/ThangTypeConstants'
+  LevelSetupManager = require 'lib/LevelSetupManager'
+  Level = require 'models/Level'
+  LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
-    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats'],
+    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent'],
     components: {
       PieChart
     }
     computed: {
       challengeLink: ->
-        if me.isSessionless()
-          link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
-        else
-          link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
-          link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
-        return link
+        if !me.showHeroAndInventoryModals()
+          if me.isSessionless()
+            link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
+          else
+            link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
+            link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
+          return link
       mapLink: ->
         if me.isSessionless()
           link = "/teachers/courses"
@@ -119,12 +123,13 @@
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         return link
       nextLevelLink: ->
-        if me.isSessionless()
-          link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
-        else
-          link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
-          link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
-        return link
+        if !me.showHeroAndInventoryModals()
+          if me.isSessionless()
+            link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
+          else
+            link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
+            link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
+          return link
       nextLevelLinkClasses: ->
         if @assessmentNext
           { 'btn-default': true }
@@ -147,7 +152,7 @@
       conceptGoals: ->
         return @level.goals.filter((g) => g.concepts?.length)
       conceptGoalsCompleted: ->
-        return @conceptGoals.filter((g) => @session.state.goalStates[g.id].status is 'success').length
+        return @conceptGoals.filter((g) => @session.toJSON().state.goalStates[g.id].status is 'success').length
       percentConceptsCompleted: ->
         return 100 * @conceptGoalsCompleted / @conceptGoals.length
       allConceptsUsed: ->
@@ -180,6 +185,11 @@
             },
             []
         )
+        if me.showHeroAndInventoryModals()
+          @setupManager?.destroy()
+          @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextAssessment.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,invokedFromCourseVictory:true
+          unless @setupManager?.navigatingToPlay
+            @setupManager.open()
       onBackToMap: ->
         window.tracker?.trackEvent(
           'Play Level Victory Modal Back to Map',
@@ -199,6 +209,12 @@
             },
             []
         )
+        if me.showHeroAndInventoryModals()
+            @setupManager?.destroy()
+            @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,invokedFromCourseVictory:true
+            unless @setupManager?.navigatingToPlay
+              @setupManager.open()
+                 
       onReplayLevel: ->
         window.tracker?.trackEvent(
                 'Play Level Victory Modal Replay',
