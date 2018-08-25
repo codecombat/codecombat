@@ -100,6 +100,7 @@
     help_suff: "and we'll get in touch!"
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
+    parent: "Parents"
 
   modal:
     close: "Close"
