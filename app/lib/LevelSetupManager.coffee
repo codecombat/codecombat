@@ -67,10 +67,11 @@ module.exports = class LevelSetupManager extends CocoClass
     if @level.usesConfiguredMultiplayerHero()
      @onInventoryModalPlayClicked()
      return
-
-    if @level.isType('course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
-      @onInventoryModalPlayClicked()
-      return
+  
+    if @level.isType('course','course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
+      if @level.isType('course') and not me.showHeroAndInventoryModals()
+        @onInventoryModalPlayClicked()
+        return
 
     if @level.isSummative()
       @onInventoryModalPlayClicked()
@@ -100,6 +101,7 @@ module.exports = class LevelSetupManager extends CocoClass
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
       unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
         firstModal = @heroesModal
+    
      
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
