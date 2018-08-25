@@ -367,6 +367,7 @@
     rejected: "Rejected"
     withdrawn: "Withdrawn"
     accept: "Accept"
+    accept_and_save: "Accept&Save"
     reject: "Reject"
     withdraw: "Withdraw"
     submitter: "Submitter"

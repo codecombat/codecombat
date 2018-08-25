@@ -13,7 +13,7 @@ block modal-body-content
     .changes-stub
     form#save-level-form.form-inline
       .form-group.commit-message
-        input.form-control#level-commit-message(name="commit-message", type="text")
+        input.form-control#level-commit-message(name="commit-message", type="text", value=commitMessage)
       if level.isPublished()
         .checkbox
           label
