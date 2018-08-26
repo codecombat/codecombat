@@ -65,7 +65,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   nav:
     map: "Kaart"
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
+    play: "Levels" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
 #    courses: "Courses"
     blog: "Blog"
@@ -75,7 +75,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     profile: "Profiel"
 #    home: "Home"
     contribute: "Help mee"
-#    legal: "Legal"
+    legal: "Juridisch"
 #    privacy: "Privacy Notice"
     about: "Over"
     contact: "Contact"
@@ -89,15 +89,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     other: "Overig"
     learn_to_code: "Leer programmeren!"
 #    toggle_nav: "Toggle navigation"
-#    schools: "Schools"
+    schools: "Scholen"
 #    get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
     support: "Ondersteuning"
 #    faqs: "FAQs"
 #    copyright_prefix: "Copyright"
-#    copyright_suffix: "All Rights Reserved."
+    copyright_suffix: "Alle Rechten Voorbehouden."
     help_pref: "Hulp nodig? Email"
-#    help_suff: "and we'll get in touch!"
+    help_suff: "en we nemen contact op!"
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
 
@@ -108,13 +108,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   not_found:
     page_not_found: "Pagina niet gevonden"
 
-#  diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+  diplomat_suggestion:
+    title: "Help CodeCombat te vertalen!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "We hebben jouw taalkennis nodig."
 #    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
 #    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    learn_more: "Kom meer te weten over vertalen als Diplomaat"
+    subscribe_as_diplomat: "Schrijf je in als Diplomaat"
 
   play:
     play_as: "Speel als" # Ladder page
@@ -133,10 +133,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
+    settings: "Instellingen" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    next: "Volgende" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Verander je held" # Go back from choose inventory to choose hero
     buy_gems: "Koop edelstenen"
     subscribers_only: "Aleen voor abonnees!"
     subscribe_unlock: "Abonneer je om vrij te spelen!"
@@ -155,7 +155,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     replay: "Speel nog een keer"
 #    back_to_classroom: "Back to Classroom"
     teacher_button: "Voor docenten"
-#    get_more_codecombat: "Get More CodeCombat"
+    get_more_codecombat: "Krijg meer CodeCombat"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -207,25 +207,25 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    nil: "nil"
 #    None: "None"
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
+  share_progress_modal:
+    blurb: "Het gaat geweldig! Vertel je ouders hoeveel je geleerd hebt met CodeCombat."
+    email_invalid: "Verkeer email adres."
+    form_blurb: "Vul het email adres van je ouders hieronder in en we laten het ze weten!"
+    form_label: "Email Adres"
+    placeholder: "email adres"
 #    title: "Excellent Work, Apprentice"
 
   login:
     sign_up: "Maak een Account"
     email_or_username: "Email or gebruikersnaam"
     log_in: "Log In"
-#    logging_in: "Logging In"
+    logging_in: "Aan het inloggen"
     log_out: "Log uit"
     forgot_password: "Wachtwoord vergeten?"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with Google"
-#    signup_switch: "Want to create an account?"
+    finishing: "Aan het afronden"
+    sign_in_with_facebook: "Log in met Facebook"
+    sign_in_with_gplus: "Log in met Google"
+    signup_switch: "Wil je een account aanmaken?"
 
 #  signup:
 #    complete_subscription: "Complete Subscription"
@@ -308,38 +308,38 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
-#    recovery_sent: "Recovery email sent."
+  recover:
+    recover_account_title: "Herstel Account"
+    send_password: "Stuur Nieuw Wachtwoord"
+    recovery_sent: "Herstel email verstuurd."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Primair"
+    secondary: "Secondair"
+    armor: "Pantser"
+    accessories: "Accessoires"
+    misc: "Overig"
+    books: "Boeken"
 
-#  common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    coming_soon: "Coming soon!"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+  common:
+    back: "Terug" # When used as an action verb, like "Navigate backward"
+    coming_soon: "Binnenkort!"
+    continue: "Ga door" # When used as an action verb, like "Continue forward"
+    next: "Volgende"
 #    default_code: "Default Code"
 #    loading: "Loading..."
 #    overview: "Overview"
-#    processing: "Processing..."
-#    solution: "Solution"
-#    table_of_contents: "Table of Contents"
-#    intro: "Intro"
-#    saving: "Saving..."
-#    sending: "Sending..."
-#    send: "Send"
-#    sent: "Sent"
-#    cancel: "Cancel"
-#    save: "Save"
-#    publish: "Publish"
+    processing: "Verwerken..."
+    solution: "Oplossing"
+    table_of_contents: "Inhoudsopgave"
+    intro: "Introductie"
+    saving: "Opslaan..."
+    sending: "Versturen..."
+    send: "Stuur"
+    sent: "Verstuurd"
+    cancel: "Annuleren"
+    save: "Opslaan"
+    publish: "Publiceren"
 #    create: "Create"
 #    fork: "Fork"
 #    play: "Play" # When used as an action verb, like "Play next level"
@@ -354,15 +354,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    save_changes: "Save Changes"
 #    required_field: "required"
 
-#  general:
-#    and: "and"
-#    name: "Name"
-#    date: "Date"
+  general:
+    and: "en"
+    name: "Naam"
+    date: "Datum"
 #    body: "Body"
-#    version: "Version"
+    version: "Versie"
 #    pending: "Pending"
-#    accepted: "Accepted"
-#    rejected: "Rejected"
+    accepted: "Geaccepteerd"
+    rejected: "Afgewezen"
 #    withdrawn: "Withdrawn"
 #    accept: "Accept"
 #    reject: "Reject"
@@ -429,8 +429,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    weeks: "weeks"
 #    month: "month"
 #    months: "months"
-#    year: "year"
-#    years: "years"
+    year: "jaar"
+#    years: "jaren"
 
 #  play_level:
 #    back_to_map: "Back to Map"
