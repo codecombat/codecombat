@@ -467,7 +467,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     skip: "Sla over"
     game_menu: "Spelmenu"
     restart: "Opnieuw"
-   goals: "Doelen"
+    goals: "Doelen"
     goal: "Doel"
 #    challenge_level_goals: "Challenge Level Goals"
 #    challenge_level_goal: "Challenge Level Goal"
