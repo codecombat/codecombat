@@ -23,6 +23,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     super options
     @level = options.level
     @buildTime = options.buildTime
+    @commitMessage = options.commitMessage ? ""
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -30,6 +31,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
+    context.commitMessage = @commitMessage
     @hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
     @lastContext = context
     context

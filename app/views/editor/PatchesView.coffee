@@ -57,7 +57,7 @@ module.exports = class PatchesView extends CocoView
     patch = _.find @patches.models, {id: row.data('patch-id')}
     modal = new PatchModal(patch, @model)
     @openModalView(modal)
-    @listenTo modal, 'accepted-patch', -> @trigger 'accepted-patch'
+    @listenTo modal, 'accepted-patch', (attrs) -> @trigger 'accepted-patch', attrs
     @listenTo modal, 'hide', ->
       f = => @reloadPatches()
       setTimeout(f, 400)

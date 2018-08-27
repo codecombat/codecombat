@@ -809,7 +809,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   premium_features:
     get_premium: "Werde<br>CodeCombat<br>Abonnent" # Fit into the banner on the /features page
-    master_coder: "Schließe jetzt ein Abbonent ab und werde Master Coder!"
+    master_coder: "Schließe jetzt ein Abonnement ab und werde Master Coder!"
 #    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Abonniere heute"
     hero_blurb_1: "Du bekommst Zugang zu __premiumHeroesCount__ extrastarken Helden nur für Abonnenten! Nutze die Macht von Okar Stompfoot, die tödliche Präzision von Naria von Blatt oder beschwöre \"hinreißende\" Skelette mit Nalfar Cryptor."

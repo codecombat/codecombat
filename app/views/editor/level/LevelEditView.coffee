@@ -149,7 +149,12 @@ module.exports = class LevelEditView extends RootView
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
-    @listenTo @patchesView, 'accepted-patch', -> location.reload() unless key.shift  # Reload to make sure changes propagate, unless secret shift shortcut
+    @listenTo @patchesView, 'accepted-patch', (attrs) ->
+      if attrs?.save
+        f = => @startCommittingLevel(attrs)
+        setTimeout f, 400 # Give some time for closing patch modal
+      else
+        location.reload() unless key.shift  # Reload to make sure changes propagate, unless secret shift shortcut
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   openRevertModal: (e) ->
@@ -223,7 +228,7 @@ module.exports = class LevelEditView extends RootView
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   startCommittingLevel: (e) ->
-    @openModalView new SaveLevelModal level: @level, supermodel: @supermodel, buildTime: @levelBuildTime
+    @openModalView new SaveLevelModal level: @level, supermodel: @supermodel, buildTime: @levelBuildTime, commitMessage: e?.commitMessage
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   showArtisanGuide: (e) ->

@@ -1330,13 +1330,13 @@ module.exports = class CampaignView extends RootView
       return !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds && me.get('role') isnt 'student'
 
     if what in ['status-line']
-      return !isStudentOrTeacher
+      return me.showGemsAndXp() or !isStudentOrTeacher
 
     if what in ['gems']
-      return !isStudentOrTeacher
+      return me.showGemsAndXp() or !isStudentOrTeacher
 
     if what in ['level', 'xp']
-      return !isStudentOrTeacher
+      return me.showGemsAndXp() or !isStudentOrTeacher
 
     if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans', 'poll']
       return !isStudentOrTeacher

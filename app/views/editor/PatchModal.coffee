@@ -16,7 +16,8 @@ module.exports = class PatchModal extends ModalView
   events:
     'click #withdraw-button': 'withdrawPatch'
     'click #reject-button': 'rejectPatch'
-    'click #accept-button': 'acceptPatch'
+    'click #accept-button': 'onAcceptPatch'
+    'click #accept-save-button': 'onAcceptAndSavePatch'
 
   shortcuts:
     'a, shift+a': 'acceptPatch'
@@ -52,6 +53,7 @@ module.exports = class PatchModal extends ModalView
     c = super()
     c.isPatchCreator = @patch.get('creator') is auth.me.id
     c.isPatchRecipient = @targetModel.hasWriteAccess()
+    c.isLevel = @patch.get("target")?.collection is "level"
     c.status = @patch.get 'status'
     c.patch = @patch
     c.deltaWorked = @deltaWorked
@@ -64,12 +66,19 @@ module.exports = class PatchModal extends ModalView
     @insertSubView(@deltaView, changeEl)
     super()
 
-  acceptPatch: ->
+  onAcceptPatch: ->
+    @acceptPatch false
+
+  onAcceptAndSavePatch: ->
+    commitMessage = @patch.get("commitMessage") or ""
+    @acceptPatch true, commitMessage
+
+  acceptPatch: (save=false, commitMessage) ->
     delta = @deltaView.getApplicableDelta()
     modelDeltas.applyDelta(@targetModel, delta)
     @targetModel.saveBackupNow()
     @patch.setStatus('accepted')
-    @trigger 'accepted-patch'
+    @trigger 'accepted-patch', {save, commitMessage}
     @hide()
 
   rejectPatch: ->
