@@ -1,87 +1,56 @@
-###### Last updated: 02/24/2017
+
+###### Last updated: 08/24/18
 
 ##### Lesson Plans
 # Introduction to Computer Science
 
-### Curriculum Summary
-- Level: Beginner
-- 4 x 45-60 minute coding sessions
+_Level: Beginner_  
+_Time: 4 x 50 to 60-minute sessions_
 
-
-#### Overview
-With the right environment, learning the basics of formal syntax and typing code can be fun and intuitive for students as early as 3rd grade. Instead of block-based visual programming languages that hinder a student’s proper understanding of code, CodeCombat introduces real coding from the very first level. By strengthening their typing, syntax and debugging skills, we empower students to feel capable of building real programs successfully.
+###  Overview
+This course is designed to be a gentle introduction to basic programming concepts, such as algorithms, syntax, loops, and variables, through the engaging and familiar experience of a video game. In each level, players use computational thinking and computer programming to navigate the hero to the goal without running into spikes or being spotted by ogres.
 
 _This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript._
 
-### Scope and Sequence
+### Lessons
+| Module                                                     | Levels             | Objectives                                         | 
+|------------------------------------------------------------|--------------------|----------------------------------------------------|
+| [1. Basic Syntax](#lesson-1---basic-syntax)                           |                1-8 | Sequencing, syntax, strings, comments, arguments   |
+| [2. Loops](#lesson-2---loops)                                         |               9-14 | Repeat code sequences using while-true loops       |
+| [3. Variables](#lesson-3---variables)                                 |              15-17 | Save and access data using variables               |
+| [4. Capstone Challenge - Multiplayer Arena](#capstone-challenge---multiplayer-arena) |                 18 | Master course concepts                             |
 
-| Module                                                     |             Levels | Transfer Goals               |
-| ---------------------------------------------------------- | :----------------- | :--------------------------- |
-| [1. Basic Syntax](#basic-syntax)                           |                1-6 | Call functions in order      |
-| [2. Loops](#loops)                                         |               7-14 | Repeat code sequences        |
-| [3. Variables](#variables)                                 |              15-20 | Save and access data         |
-| [4. Review - Multiplayer Arena](#review-multiplayer-arena) |                 21 | Master syntax and sequencing |
 
-### Core Vocabulary
+### Key Terms
 
-**Basic Syntax** - the basic spelling and grammar of a language, and must be carefully paid attention to in order for code to properly execute. For example, while Python and JavaScript are used to do similar things in Course 1, the syntax for them is noticeably different, because they are different programming languages.
+**Algorithm** - a step-by-step set of instructions for completing a task. When algorithms are written using code, computers can follow them.
+
+**Basic Syntax** - the rules for correct spelling, grammar, and punctuation in a programming language. The syntax must be exactly right for code to execute properly. The syntax is language-specific; for example, while Python and JavaScript are used to do similar things in Course 1, the syntax for them is noticeably different.
 
 **Object** - a character or thing that can perform actions.
 
-**String** - a type of programming data that represents text. In both Python and JavaScript, strings are represented by text inside quotes. In Course 1, strings are used to identify objects for the hero to attack.
-
-**Function** - an action performed by an object.
-
-**Argument** - extra information passed into a method in order to modify what the method does. In both Python and JavaScript, arguments are represented by code that is inside the parentheses after a method. In Course 1, arguments must be used to define enemies before the hero can attack them, and can also be used to move multiple times without writing new lines of code.
-
 **Property** - data about or belonging to an object.
 
-**While Loop** - used to repeat actions without the player needing to write the same lines of code over and over. In Python, the code that is looped must be indented underneath the while true statement. In JavaScript, the code that is looped must be enclosed by curly brackets {}. In Course 1, while loops repeat forever, and are used to navigate mazes made up of identical paths, as well as attack objects that take a lot of hits to defeat (strong Doors, for example).
+**Method** - an action performed by an object.
 
-**Variable** - a symbol that represents data, and the value of the variable can change as you store new data in it. In Course 1, variables are used to first define an enemy, and then passed along as an argument to the attack method so that the hero can attack the right enemy.
+**Argument** - extra information passed into a method to modify what the method does. In both Python and JavaScript, arguments are represented by code that is inside the parentheses after a method. For example, in the method `hero.moveLeft(3)`, the argument _3_ is a number that tells how many spaces the hero should move. In the method `hero.Attack("Brak")`, the argument _"Brak"_ is a string that tells the name of the character that should be attacked. 
 
-##### Module 1
-## Basic Syntax 
+**String** - a type of data that represents text. In both Python and JavaScript, strings are represented by text inside quotes. In Course 1, strings are used to identify objects for the hero to attack.
+
+**Loop** - a programming structure used to repeat actions without the player needing to write the same lines of code over and over. In Python, the code that loops must be indented. In JavaScript, the code that loops must be enclosed by curly brackets {}. There are different kinds of loops:
+- **For Loops** repeat a block of code a certain number of times.
+- **While Loops** repeat a block of code while a certain condition is true, such as ` while gems < 4 `. In Course 1, a type of while loop called a **while True loop** is used to repeat a block of code infinitely until the level is complete.
+
+**Variable** - a symbol that represents data. The value of a variable can be modified over the course of the program. In Course 1, variables are used to name enemies, then passed along as arguments to the attack method so that the hero can attack the correct enemy.
+
+******
+## Lesson 1 - Basic Syntax
+#### _(Levels 1-8)_
 ### Summary
 
-The puzzles in these levels are framed as mazes for students to solve using Computational Thinking and computer programming. They are designed to be a gentle introduction to Python syntax through a relatable medium. 
+These levels introduce basic concepts and vocabulary, including syntax, strings, and arguments. Students find that sequencing is critical to coding because when a computer runs a program, it executes every command in the order it is given, from start to finish. Students are also introduced to commenting code, a common practice used by programmers to document and communicate about their work.
 
-The hero starts at a particular place and has to navigate to the goal without running into spikes or being spotted by ogres. 
-
-Some students may want to delete their code every time and only type the next step. Explain to them that the code must contain all the instructions from start to finish, like a story: it has a beginning, a middle, and an end. Every time you click Start, the hero returns to the beginning. 
-
-### Transfer goals
-
-- Use Python syntax
-- Call functions
-- Understand that order matters
-
-### Standards 
-
-- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-- **CCSS.Math.Practice.MP6** Attend to precision.
-
-### Instructive Activity: Basic Syntax (10 mins)
-
-#### Explain (3 mins)
-
-**Syntax** is how we write code. Just like spelling and grammar are important in writing prose, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn’t exactly correct, but computers aren’t that smart, and they need you to write with no mistakes. 
-
-- code example: `hero.moveRight()`
-- vocabulary:   (object) (function)
-- read aloud: “hero dot move right”
-
-**Objects** are the building blocks of Python. They are things or characters that can perform actions. Your hero is an object. It can perform the moving actions.
-
-**Functions** are actions an object can do. `moveRight()` is a function. Function names are always followed by parentheses. The order of functions matters!
-
-#### Interact (5 mins): Recycling Robot
-
-Practice giving written instructions using Python functions in order.
-
-**Materials:** Desk or table, recycling bin, balls of paper to recycle
-
-You (the teacher) are going to be the robot that the class controls using functions. The goal of this exercise is for the class to collectively write a program like this: 
+The opening classroom activity introduces Python syntax and the importance of order in a sequence of instructions, or algorithm.  As the teacher, you will imitate a robot that executes the commands given by the class. By the end of the activity, the class will collaboratively write a program something like this: 
 
 ``` python
 teacher.pickUpBall()
@@ -93,322 +62,490 @@ teacher.moveForward()
 teacher.dropBall()
 ```
 
-The experience should introduce them to Python syntax (including the dot between the object and function, and the parentheses at the end) and the importance of order in a sequence of instructions. 
+#### Materials
+- Desk or table
+- Recycling bin
+- Balls of paper to recycle
+- Optional: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+
+#### Learning Objectives
+
+- Use correct syntax when writing code.
+- Use proper sequencing when writing code.
+- Use arguments to input information into a method.
+- Use strings to input text data.
+- Use comments to document code.
+- Understand and use basic vocabulary: algorithm, argument, code, method, program, sequence, syntax, string
+
+#### Standards
+
+- **CSTA: 1A-AP-10** Develop programs with sequences and simple loops, to express ideas or address a problem.
+- **CCSS-Math: MP.1** Make sense of problems and persevere in solving them.
+- **CCSS-Math: MP.6** Attend to precision.
+
+### Opening Activity (15 minutes): _Recycling Robot_
+#### Explain
+
+Explain the following terms to students:
+- **Syntax** is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn’t exactly correct, but computers aren’t that smart, and they need you to write very precisely. 
+- **Sequence** is the order of the commands in a program. Computers follow commands in exactly the order they are written.
+- **Objects** are the building blocks of Python. They are things or characters that can perform actions. In the game, your hero is an object. The actions an object performs are called **methods**. For example, `moveRight()` is a method. Method names are always followed by parentheses.
+
+Write the sample code `hero.moveRight()` on the board, and describe the components:
+* This is read aloud as “hero dot move right”, where `hero` is the object, and `moveRight` is the method.
+* The period, capitalization, and parentheses are essential parts of the syntax that must be exactly right:
+    * Period: separates the object from the method
+    * Capital letters: used to show the start of a new word when a period or space can't be used (this is called "camel case")
+    * Parentheses: create a place where a programmer could add extra details, or **arguments** to a method.
+
+#### Interact
 
 At the front of the class, set some scrunched up paper balls on a flat surface. Place the recycling bin a few steps away. Explain that you are a recycling robot, and the class’s job is to program you. 
 
-The robot is a Python object. What is your name in Python? Whatever you choose, make sure it starts with a lower-case letter. Write it on the board. 
+The robot is a Python object. Choose a name for yourself and write it on the board, beginning with a lowercase letter. For example:
 
 `teacher`
 
-To make the robot perform an action, you have to call a function. Write a dot after your object name, then decide as a class what the first action should be. After the dot, write the function name followed by empty parentheses. Off to one side, draw a “Run” button.  
+To make the robot perform an action, students have to call a method. Write a dot after your object name, then have the class decide what the first action should be. After the dot, write the method name using camel case followed by empty parentheses. For example:
 
 `teacher.pickUpBall()`
 
-Have a volunteer press the “Run” button to run the program and test that it works. 
+Off to one side, draw a “Run” button and have a volunteer press it. As a robot, execute the program _precisely_ as the students have written it.
 
-_It is important that you reset yourself and the paper balls every time the code is changed, and run the whole program from the beginning._
+Invite students to work together to add commands to the program one at a time until you can successfully get a ball into the recycling bin. They can test the program at any time by pressing the "Run" button. Each time they press "Run", you should execute every command from start to finish exactly as written. If there is an error in the syntax, make a funny beeping sound and stop. After each test, reset yourself and have the class revise, or _debug_, the program until it works.
 
-Invite students to add code to the program one at a time. If there is an error in the syntax, make a funny beeping sound and stop. Have the class work together to write and rewrite the program until you successfully get a ball in the recycling bin. 
+#### Discuss
 
-#### Reflect (2 mins)
+Use one or more of the following discussion questions to prompt a brief reflection:
 
-**Why is syntax important?** (It lets you be specific about exactly what you want to happen.)
+**Why are sequence and syntax important?**
 
-**Does order matter?** (yes)
+Sample Response:
+> Computers only do exactly what you tell them, so the sequence is important because if the computer does the steps in the wrong order, the program doesn't turn out right. If there is an error in the syntax, the computer doesn't know how to read it at all.
 
-**Can a human understand the directions even if there’s a mistake in the syntax?** (sometimes)
+**How is the way a computer reads instructions different from the way a human would read them?**
 
-**Can a computer?** (no)
-
-### Coding Time (30-45 mins)
-
-**First time students will need to create accounts**
-For additional information on helping students create account, see our [Teacher Getting Started Guide](http://files.codecombat.com/docs/resources/TeacherGettingStartedGuide.pdf).
-
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
+Sample Response:
+> Humans can use their own knowledge and other clues to figure things out if they don't make sense. Computers can only execute exactly what they are told.
 
 
-```
+### Coding Time (30-40 minutes)
 
-Circulate to assist. Draw students’ attention to the instructions and tips.
+Tell students they will be playing Levels 1 - 8 today. Allow students to move through these levels at their own pace. Circulate and assist, calling attention to the Hints button in the top right corner of each level as needed.
 
-If student have trouble breaking the problem down, refer to the [Engineering Cycle Worksheet [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce the steps to solving each puzzle.
+_We recommend stopping students after Level 8 and using the next lesson plan to introduce the next concepts before beginning Level 9._
 
-### Written reflection (5 mins)
+#### Look Out For:
+- Initially, some students may want to type and run one command at a time. Explain to them that the code must contain all the instructions for the program from start to finish, like a story: it has a beginning, a middle, and an end. Every time you click Start, the hero returns to the beginning of the level, and the full program runs again. 
 
-Select appropriate prompt(s) for the students respond to, referring to their notes.
 
-**Tell me how to play CodeCombat.**
+### Closure (5 minutes)
 
->You have to move to the gem without hitting the spikes. I learned that you have to type “hero.” then the moving code. You have to spell it right and put () at the end. But it shows you the things you can type and you can click on them instead. You click RUN to make it go. You can try as many times as you need.
+Use one or more of the following questions to prompt reflection. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
-**What’s the difference between an object and a function?**
+**Explain how to play CodeCombat to someone who has never played before. Use as many programming terms as you can.**
 
->The object is the hero and she has functions that are things she can do. The object has a dot after it and the function has (). 
+Sample Response:
+>You have to move to the gem without hitting the spikes by writing a program. I learned that you have to type the object name first, like “hero.” then the method to make them do an action. You have to spell it right and put () at the end. You click RUN to make it go. It runs the whole program every time, and you can fix the code and try again as many times as you need.
+
+**What’s the difference between an object and a method?**
+
+Sample Response:
+>The object is the hero, and she has methods that are things she can do. The object has a dot after it, and the method has (). 
 
 **How can you tell when you’ve made a mistake in your code? How do you fix it?**
 
->Sometimes the code doesn’t won’t run because there is a mistake in it. They put a red ! next to the mistake and try to help you. You have to read the code to figure out what’s wrong.
+Sample Response:
+>Sometimes the code won’t run because there is a mistake in it. They put a red `!` next to the mistake and try to help you. You have to read the code to figure out what’s wrong.
 
-**Why is your hero in the Kithgard Dungeon? What is your quest? Are you a good guy or a bad guy?**
-_(write your own backstory)_
+**How do comments work, and what are they for?**
 
->I went into the Kithgard Dungeon to steal gems from the ogres. I need to get a lot of gems to pay the ransom for my village, otherwise a big bully monster will destroy it and my family will be homeless. I think I’m a good guy but the ogres probably think I’m bad because I’m stealing from them. 
+Sample Response:
+>Comments are lines you write in the program that the computer doesn't read. If you start a line with the # symbol, the computer doesn't see it. You can write comments to remind yourself how you did something or to leave a note for another human who might want to understand your code.
 
 
-##### Module 2
-## Loops
+### Differentiation
 
+#### Additional Supports:
+- Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
+- Students struggling with a given level will be automatically directed to additional practice levels within the game.
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+
+#### Extension Activities:
+
+- Have students come up with a backstory for their hero. For example, why are they in the Kithgard Dungeon? What is their quest? What obstacles have they faced along their journey, before reaching the dungeon? Have them produce a written narrative, video, short play, or other creative artifact to share their backstory with others.
+
+******
+## Lesson 2 - Loops
+#### _(Levels 9-14)_
 ### Summary
 
-Up to now, students have had to write long sequences of actions with no shortcuts. These levels introduce loops, which allow them to achieve more with fewer lines of code. 
+In prior levels, students have had to write long sequences of actions with no shortcuts. Levels 9-14 introduce loops, which allow them to achieve more with fewer lines of code. Specifically, students use **while True loops** which allow a block of code to be repeated infinitely until the level is completed.
 
-The puzzles in this section are harder to solve than in the first module. Encourage collaboration among your students, as they first must understand what their goal is, then devise a strategy for solving the level, then put that plan into action. 
+The puzzles in this section are harder to solve than in the first module. Encourage collaboration among your students as they first must understand what their goal is, then devise a strategy for solving the level, then put that plan into action. Consider using the [Pair Programming approach](https://codecombat.com/teachers/resources/pair-programming) or the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
 
-### Transfer Goals
+#### Materials
+- Optional: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
+- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-- Write an infinite loop
-- Break a problem into smaller pieces
-- Decide which parts of an action repeat
 
-### Standards
-- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-- **CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.
+#### Learning Objectives
 
-### Instructive Activity: Loops (10 mins)
+- Write a program that includes an infinite loop.
+- Decompose a problem into smaller pieces and identify which pieces should be repeated.
+- Understand and use key terms: evaluate, expression, loop, while loop, while True loop
 
-#### Explain (3 mins)
+#### Standards
 
-A **loop** is a way of repeating code. One way of writing loops uses the keyword _while,_ followed by an **expression** that can be evaluated as True or False. _while_ is a special word that tells the computer to evaluate (or solve) what comes after it, and then do the actions indented underneath until the expression becomes False.
+- **CSTA: 1A-AP-10** Develop programs with sequences and simple loops, to express ideas or address a problem.
+- **CCSS-Math: MP.1** Make sense of problems and persevere in solving them.
+- **CCSS-Math: MP.6** Attend to precision.
+- **CCSS-Math: MP.8** Look for and express regularity in repeated reasoning.
 
-These levels in CodeCombat require an **infinite loop**, or a loop that repeats forever.  For that, we need an expression that is always true. Luckily, _True_ is a Python shortcut that always evaluates as True!
+### Opening Activity (10 minutes): _Real Life Loops_
+#### Explain
 
-Below, `while` is the keyword, and `True` is the expression.
+Explain that a **loop** is a way of repeating code. One type of loop is a **while loop**, which uses the word `while` followed by an **expression** that can be evaluated as True or False. `while` is a special word that tells the computer to repeat the commands inside the loop until the expression becomes False.
+
+For example, the statement `while gems < 4` would tell the computer to keep repeating a set of actions until the player had collected 4 gems, and then stop.
+
+#### Interact
+
+As a class, brainstorm ways of writing a repeating action in English. Examples are shown:
+
+>Keep walking **until** you get to the door.
+>Bounce the ball **five times**.
+>Hang up **all** of your shirts.
+
+Circle the English words that tell you the action repeats. Then, rewrite one of the statements using `while`. For example:
+
+>_While you are not at the door, keep walking._  
+>_While bounces are less than 5, bounce the ball._  
+>_While there are still shirts out, hang up a shirt._
+
+Have the class rewrite the remaining statements using `while`. You might pair students and assign each pair to rewrite one statement, then share out.
+
+Now, show how you would write each statement using code. Explain that you can put as many lines as needed inside the loop. In Python, all lines must be indented 4 spaces to be included in the loop. You might provide the first two examples, then have the class complete the rest. For example:
+
+Keep walking **until** you get to the door.
 ``` python
-while True: 
-    hero.moveRight()  # action
-    hero.moveUp()     # another action
+    while distanceToDoor > 0: 
+        hero.walk()
 ```
 
-You can put as many lines of code as you want inside the loop. They all have to be indented with four spaces. That’s how Python knows they’re part of the loop. Indentation is an important part of Python! Whenever you have a problem with your code, check the indentation first. 
-
-#### Interact (5 mins)
-
-As a class, think of as many ways as possible of writing a repeating action in English. (Use the following examples if students have a hard time thinking of their own.) 
-
-Circle the English words that tell you it’s a loop. Rewrite these instructions using `while`. Check indentation. Label each part as keyword, expression, or action. Here are some examples to get you started:
-
-Keep walking **until** you get to the door. _While you are not at the door, keep walking._
+Bounce the ball **five times**.
 ``` python
-while door == 0: 
-    walk()
+    while bounces < 5: 
+        ball.bounce()
 ```
 
-Bounce the ball five **times**. _While bounces are less than 5, bounce the ball._
+Hang up **all** of your shirts.
+``` python
+    while clothes > 0: 
+        hero.hangUp(shirt)
+```
+
+Finally, help students understand the purpose of a loop. For one of your examples, contrast the code that uses the `while` loop with the code that would be needed without a loop. For instance, to accomplish the task, "Bounce the ball five times", you would need to write very tedious code:
 
 ``` python
-while bounces < 5: 
+    ball.bounce()
+    ball.bounce()
+    ball.bounce()
+    ball.bounce()
     ball.bounce()
 ```
 
-Put away **every** toy. _While there are still toys out, put a toy away._
+And, for the other examples, you would need to know the exact distance to the door, or the exact number of shirts, in order to know how many times to write the command. With a while loop, you can accomplish the task even if you don't know how many times an action needs to happen.
 
+#### Explain
+
+Tell students that these levels in CodeCombat require an **infinite loop**, or a loop that repeats forever until the level is beaten. For that, we need an expression that is always true. Luckily, `True` is a Python expression that always evaluates as True! So, we can use a **while True loop**
+
+In the example below, `while` is the keyword, and `True` is the expression:
 ``` python
-while toys > 0: 
-    putAway(toy)
+    while True: 
+        hero.moveRight()
+        hero.moveUp()
 ```
+#### Discuss
 
-Have students take turns writing, checking, and labelling the code until it becomes easy. 
+Use one or more of the following discussion questions to prompt reflection:
 
-#### Reflect (2 mins)
+**What is a loop? When might you want to use one?**
 
-**What is a loop?** (a way of repeating actions)
+Sample Response:
+> A way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task.
 
-**What is an expression?** (something that is True or False, usually using =, <, or >)
+**Give an example of an expression. Describe a case when it evaluates to True and a case when it evaluates to False.** 
 
-**How do you write a loop that never ends?** (Use `while True`)
+Sample Response:
+> The expression `while pizza < 5` would evaluate to True if I have 3 pizzas, and to False if I have 6 pizzas.
 
-### Coding Time (30-45 mins)
+### Coding Time (30-40 minutes)
 
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Tell students they will be playing levels 9 - 14 today. Allow students to move through these levels at their own pace. Circulate and assist, calling attention to the Hints button in the top right corner of each level as needed.
 
+_We recommend stopping students after Level 14 and using the next lesson plan to introduce the next concepts before beginning Level 15._
+
+#### Look Out For:
+- If students are struggling to find errors in their code, have them check for correct indentation and colons.
+- Have students check that their loop includes all of the actions they want to repeat and only those actions.
+
+### Closure (5 minutes)
+
+Use one or more of the following questions to prompt reflection. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
+
+**Explain how you can tell when to use a loop in a program.**
+
+Sample Response:
+>You have to look for actions that repeat. Sometimes it is just one action, and sometimes it is a set of actions. You put whatever the repeatable actions are inside the loop.
+
+**What are the things you have to remember to write a while loop?**
+
+Sample Response:
+>You have to type `while` and then the expression, like `while True` or `while gems < 4`, and remember to put a colon after it. On the next line, put four spaces before the code for the action you want to repeat. If you want more than one line to repeat, they all have to have four spaces. 
+
+**Choose one level and explain how you used a loop to solve it.**
+
+Sample Response:
+>  I used `while True` loops to make my code repeat forever. I had to remember to put four spaces on each line. It’s faster because I didn't have to type the same line of code a bunch of times. For example, in the Haunted Kithmaze, you go to a dead end if you just put `hero.moveRight()` in the loop because it just goes right, right, right forever. Instead, you have to put `hero.moveRight()` and then `hero.moveUp()` so it goes right, up, right, up. 
+
+### Differentiation
+
+#### Additional Supports:
+- Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
+- Students struggling with a given level will be automatically directed to additional practice levels within the game.
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+
+#### Extension Activities:
+
+- Encourage students to think about loops as they move through their day-to-day activities. If they were to describe their daily actions in code, where might they use a while loop? Create an Everyday Loops poster and have students add their own examples, written in English and in code. For example:
+
+    Keep chopping until you have 2 cups of diced carrots.
+``` python
+    while carrots < 2: 
+        hero.chop(carrots)
 ```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
+- Have students come up with a backstory for their hero. For example, why are they in the Kithgard Dungeon? What is their quest? What obstacles have they faced along their journey, before reaching the dungeon? Have them produce a written narrative, video, short play, or other creative artifact to share their backstory with others.
 
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students’ attention to the instructions and tips.
-
-Focus on debugging, employing appropriate strategies for getting yourself unstuck. Use your class/school’s growth mindset guidelines, use the [Engineering Cycle Worksheet [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) as an unblocking tool, or ask them to follow this list:
-
-1. Read the comments line by line
-2. Read your code line by line
-3. Read the hints
-4. Explain the problem you’re having to a neighbor
-5. Press the reload button and try again
-6. Ask the teacher
-
-### Written Reflection (5 mins)
-
-**Tell me how you used a shortcut to save time and effort.**
-
->I used while True to make my code repeat forever. I had to remember to put four spaces on each line. It’s good because you don’t have to type all the code. 
-
-**What are the things you have to remember to write an infinite loop?**
-
->You have to type while True, and remember to put a : after it. On the next line, put four spaces before your code. If you want more than one line to repeat, they all have to have four spaces. 
-
-**Can you give me tips about solving these kinds of levels? Give an example.**
->You have to see what are the things that repeat. Sometimes it is just one thing, and sometimes it is lots of things. For example, in the Haunted Kithmaze you go to a dead end if you just put moveRight() in the loop because it just goes right, right, right forever. You also have to do moveUp() so it goes right, up, right, up. 
-
-
-##### Module 3
-## Variables
-
+## Lesson 3 - Variables
+#### _(Levels 15 - 17)_
 ### Summary
 
-These levels introduce the game mechanic of attacking. Attacks will not work unless you specify whom to attack (`hero.attack()` is wrong; `hero.attack(jeremy)` is correct.) 
+Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like "School Supplies", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called "School Supplies". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings.  
 
-Some of these puzzles can be hard for some students to wrap their heads around. Make sure they read the instructions thoroughly and understand the goal of each level. The challenge depends on not knowing the names of the objects you want to manipulate. Think of variables like nicknames for referring to objects when you don’t know what else to call them.  
+In these levels, variables are used to name enemies, so that the hero knows which character to attack.
 
-### Transfer Goals
-- Create a variable
-- Use a variable as an argument
-- Choose appropriate variable names
+#### Materials
+- shoebox, or other small container, with a blank label
+- assortment of school supplies
+- Optional: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-### Standards
 
-- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-- **CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+#### Learning Objectives
 
-### Instructive Activity: Variables (10 mins)
+- Create and clearly name a variable to store data.
+- Use a variable as an argument in a method.
+- Understand and use key terms: variable, value, data
 
-#### Explain (3 mins)
+#### Standards
 
-A **variable** holds your data for later. You make a variable by giving it a name, then saying what **value** it should hold. 
+- **CSTA: 1B-AP-09** Create programs that use variables to store and modify data.
+- **CSTA: 2-AP-11** Create clearly named variables that represent different data types and perform operations on their values.
+- **CCSS-Math: MP.1** Make sense of problems and persevere in solving them.
+- **CCSS-Math: MP.2** Reason abstractly and quantitatively.
+
+### Opening Activity (10 minutes):is 
+#### Explain
+
+Tell students that working with variables is like organizing things in shoeboxes in a closet. Show an image of an organized closet full of labeled boxes, or ask students to share personal examples of how they organize their things,  highlighting examples where they use labels to remember what is in each container. Elicit the idea that the labels help you group similar items together, and find them again later.
+
+#### Interact
+
+Show the class your shoebox and the objects inside - pens, glue, ruler, etc. Ask them to suggest a name for the box, and write their best idea on the label. For example, they might label it "School Supplies".
+
+Change some of the contents of the box, and ask students to notice that "School Supplies" is still a clear and accurate name for the box, even though some of the contents have changed.
+
+Suggest some unclear or inaccurate names for the box, such as "Markers", "Stuff", or "Snacks". Ask students what's wrong with each name, highlighting the idea that they are too narrow ("Markers"), too broad ("Stuff"), or inaccurate ("Snacks"). 
+
+#### Explain
+
+Make the connection back to variables, explaining that the label "School Supplies" is the **variable** and the objects inside are the **value**. The value can change, but whatever is in the box will always be called "School Supplies". If you were asked to bring your school supplies to class, you'd know to bring everything in that box. 
+
+In a computer program, variables hold data that might change over the course of the program. For example, you might want your hero to attack the nearest enemy, no matter who that enemy is. The nearest enemy will probably change during the level. 
+
+You define a variable by giving it a name, then setting it equal to the first **value** it should hold. Display the example:
 
 `enemy = “Kratt”`
 
-The variable `enemy` holds (`=`) the value `"Kratt"`
+Explain that the variable `enemy` holds (`=`) the value `"Kratt"`
 
-Now you can use your variable instead of the value itself!
+Now you can use your variable in place of the value itself: `hero.attack(enemy)` is the same as `hero.attack("Kratt")`
 
-`hero.attack("Kratt")` is the same as `hero.attack(enemy)`
+This is useful when there is more than one enemy in a level. For example, if you define the variable `enemy` as whatever enemy is closest to your hero, like this:
 
-So a variable can stand in for a value. 
+`enemy = hero.findNearestEnemy()`
+`hero.attack(enemy)`
 
-Variables can also be changed and checked. You could say `score = 0`, and then later `score = 1`. Or you could use your variable is in the expression for loop, i.e. `while score < 10:` 
+then you'll always attack whatever enemy is closest to you, no matter what the enemy's name is.
 
-#### Interact (5 mins)
-
-As a class, discuss your preconceptions of the word “variable.” 
-
-In math, it is a symbol that stands in for a number, which you are usually solving for.
-
-In science, it’s a part of an experiment that can change and be observed. 
-
-Which aspects of coding variables are like the math kind, and which are like science? 
-
-#### Reflect (2 mins)
-
-**How do you create a variable?** (variable = something)
-
-**What can you use a variable for?** (Standing in for a value, checking it in a loop)
-
-**Can you use a variable before you create it?** (No, it won’t exist yet!)
-
-### Coding Time (30-45 mins)
-
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
+Finally, mention that for now, a variable can hold only one value, even though our shoebox could hold lots of things. Later, they'll learn ways to store multiple simialr values under one variable; for now, the value is a single number or a single string. 
 
 
-```
+#### Discuss
 
-Circulate to assist. Draw students’ attention to the instructions and tips.
+Use one or more of the following discussion questions to prompt reflection:
 
-Focus on clearly communicating the goal of the level, and describing the problem they are currently facing. Remind students to read their code from start to end before asking you for help. Most problems can be solved by inserting missing quotation marks or fixing indentation. 
+**What are variables used for?**
 
-### Written Reflection (5 mins)
+Sample Response:
+> Storing a value that might change later.
+
+**How do variables in programming compare to variables in math or science.**
+
+Sample Response:
+> It's similar to science because in science a variable is a part of an experiment that can be changed. Like you might have "temperature" as a variable in your experiment, and test different values for "temperature".
+> It's similar to math because in math a variable is a symbol that stands in for a number that changes value. Like in *x* + 5 = *y*, the variable *x* could be any value, and the value of the variable *y* would change too, depending on the value of *x*.
+
+
+### Coding Time (30-40 minutes)
+
+Tell students they will be playing Levels 15-17 today. Allow students to move through these levels at their own pace. Circulate and assist as they work, calling attention to the Hints button in the top right corner of each level as needed.
+
+_We recommend stopping students after Level 17 and using the next lesson plan to introduce the next concepts before beginning Level 18._
+
+#### Look Out For:
+- In these levels, the values of the variables are strings. If students run into errors, have them check that they have used quotation marks correctly.
+- Loops are also needed for these levels. Have students double check that they have correctly indented the code within their loops. 
+- In these levels, the enemies typically require two hits to be defeated. If their hero does not survive, have students check to be sure they have attacked each enemy twice.
+
+
+### Closure (5 minutes)
+
+Use one or more of the following questions to prompt reflection. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
 **What was the hardest puzzle you solved today? How did you solve it?**
->15 was a hard level. There were lots of enemies and I died. So I did a loop for attack, but I didn’t know the name of who to attack. So I clicked on the glasses and it said I could use `findNearestEnemy`, but it didn’t work without saying `enemy =`. Then I could `attack(enemy)` and it worked. 
 
-**Write a user manual for findNearestEnemy.**
+Sample Response:
+>15 was a hard level. There were lots of enemies and I died. So I made a loop for attack, but I didn’t know the name of who to attack. So I clicked on the glasses and it said I could use `findNearestEnemy`, but it didn’t work without saying `enemy =`. Then I could `attack(enemy)` and it worked. 
 
->The hero can see which enemy is closest by writing `hero.findNearestEnemy()`. But you have to remember which one it is in a variable. You can say `enemy = hero.findNearestEnemy()`. Then you can attack the enemy on the next line by saying `hero.attack(enemy)`. 
+**What does the method `findNearestEnemy` do? When do you use it?**
+
+Sample Response:
+>The hero can see which enemy is closest by writing `hero.findNearestEnemy()`. But you have to name a variable for it so you can call it. You can say `enemy = hero.findNearestEnemy()`. Then you can attack the closest enemy on the next line by saying `hero.attack(enemy)`. If you put both of those lines inside a loop, the program will keep updating who the nearest enemy is, and you'll keep attacking new enemies!
+
+### Differentiation
+
+#### Additional Supports:
+- Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
+- Students struggling with a given level will be automatically directed to additional practice levels within the game.
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem-solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+
+#### Extension Activities:
+
+- This lesson uses a shoebox analogy. Have students come up with their own analogies by completing the following sentence frame in as many ways as possible: A variable is like a _(blank)_ because _(blank)_. To push them creatively, set a minimum of 8 ideas, to help them get past their first or most obvious idea.
 
 
-##### Module 4
-## Review - Multiplayer Arena
-### Summary 
+## Capstone Challenge - Multiplayer Arena
+#### _(Level 18)_
+### Summary
 
-The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Wakka Maul arena and attempt multiple solutions until time is called. 
+The arena level is an opportunity for students to creatively apply all the concepts they have learned to develop a program that solves a problem. Students first develop an algorithm that will defeat a computer opponent, then they compete against classmates, refining their algorithm to beat the level as quickly as possible. The friendly competition in this level is intended to motivate students to apply an iterative development process, creating and testing multiple possible solutions. Students can also work collaboratively using a pair programming approach, which may make the competition more comfortable for some students.
 
-See the [Arena Levels Guide](/teachers/resources/arenas) for more details.
+#### Materials
+- Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
+- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-### Transfer Goals
-- Write accurate Python syntax
-- Debug Python programs
-- Refine solutions based on observations
 
-### Standards
-- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-- **CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-- **CCSS.Math.Practice.MP6** Attend to precision.
+#### Learning Objectives
 
-### Coding Time (40-55 mins)
+- Use an iterative process to develop a program that solves a problem.
+- Develop a program with sequences, simple loops, and variables.
+- Test and debug a program.
 
-Have students navigate to the last level, **Wakka Maul**, and complete it at their own pace. 
+#### Standards
 
-#### Rankings
+- **CSTA 1A-AP-10** Develop programs with sequences and simple loops, to express ideas or address a problem.
+- **CSTA 1B-AP-09** Create programs that use variables to store and modify data.
+- **CSTA: 1B-AP-13** Use an iterative process to plan the development of a program by including others' perspectives and considering user preferences.
+- **CSTA: 1B-AP-15** Test and debug (identify and fix errors) a program or algorithm to ensure it runs as intended.
+- **CSTA: 3B-AP-09** Implement an artificial intelligence algorithm to play a game against a human opponent or solve a problem.
+* **CCSS-Math: MP.1** Make sense of problems and persevere in solving them.
+* **CCSS-Math: MP.2** Reason abstractly and quantitatively.
+* **CCSS-Math: MP.6** Attend to precision.
 
-Once students beat the default computer they will be put in for the class ranking. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the computer and other students in your CodeCombat class (not strangers).
+### Opening Discussion (5 minutes): _Introduction to Arenas_
 
-Note that the class rankings are plainly visible. If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead: 
+#### Explain
 
-- Write a walkthrough or guide to your favorite level
-- Write a review of the game
-- Design a new level
+Tell students that they're going to put all their learning together today in a special activity called an Arena. Explain and demonstrate how the Arena works, making sure to cover the following points:
 
-#### Dividing the Class
+- They'll be writing an artificial intelligence program to beat a complicated level in a race against an opponent. They'll test and revise their program over and over the get the best time they can. Encourage them to submit code, observe the output, and look for places where revisions could help a goal to be achieved more quickly, help a player to stay alive longer, etc. Then they should make the changes and submit again, as many times as they like.
+- First, they should click to select the Red (Human) or Blue (Ogre) team. (We suggest randomly assigning half of the students to each team.)
+- The first time they play, they should choose "Warm-Up" to play against the computer. They should keep revising and improving their program until it is good enough to beat the computer.
+- Once they beat the computer, they can choose "Easy" to play against their classmates.
 
-Students must choose a team to join: Red or Blue.  It is important to divide the class as most students will choose red. It doesn’t matter if the sides are even, but it is important that there ARE players for both sides. 
 
-- Divide the class into two randomly by drawing from a deck of cards.
-- Students who turn in their work early join the blue team, and latecomers play red.
+#### Discuss
 
-#### Refining the Code
+Use one or more of the following discussion questions to help prepare students for success:
 
-Code for Wakka Maul can be submitted more than once. Encourage your students to submit code, observe how it fares against their classmates, and then make improvements and resubmit. In addition, students who have finished the code for one team can go on to create code for the other team.
+**What steps will you follow to plan and create your program?**
 
-### Reflect (5 mins)
+Sample Response:
+> Observe the level, locate the goal, identify items to collect and enemies to defeat, plan the shortest route to complete those tasks, then use the coding skills I've learned to write a program step-by-step that will complete all the tasks and get to the goal.
 
-**Class discussion: How is coding a solution different from controlling a hero in real time?**
+**What will you do if your program doesn't beat the computer the first time?**
 
-You have been playing a game that requires you to think about a whole plan in advance, then let the hero carry out your instructions without intervention. This differs dramatically from the traditional way of playing video games by directly controlling the hero and making decisions while the game is running. Talk about how these differences feel. Which is more fun? Which is harder? How does your strategy change? How do you deal with mistakes? 
+Sample Response:
+> If it doesn't work, I'll rerun it and watch to see where it goes wrong, then I'll try to find a way to improve that part and resubmit the code. If it still doesn't work, I'll try it again!
+
+### Coding Time (40-50 mins)
+
+Have students navigate to the last level, **Wakka Maul**, and complete it at their own pace.  Circulate and assist as they work.
+
+
+#### Good to Know
+
+- Some students may be uncomfortable with competition, especially given that the rankings are visible to the class. Consider using Pair Programming - competition is often more comfortable when you have a partner.
+- Students will only compete against the AI and other students in the same CodeCombat class (not strangers).
+- Once students have beaten one of the AIs, they will be put into the class rankings.
+- Red teams only fight against blue teams, and there will be top rankings for each.
+- Once students have submitted code, other students can click the “Fight” link next to any student in the ranking to challenge that student!
+- If you leave your teacher account on the arena ladder page, it will simulate more matches between your students.
+
+#### Look Out For:
+- The Arena is more open-ended than the regular levels. If students are unsure of how to get started, remind them that programming is an iterative process and guide them toward decomposing the problem into simpler pieces, planning a solution for just one part of the level at a time.
+- If a student is frustrated at losing, encourage them to analyze the winning player's strategy. What can they learn from it, and how can they use it to improve the next iteration of their own code?
+
+### Closure (5 minutes)
+
+Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
+
+**In CodeCombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is  different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
+
+Sample Responses:
+> CodeCombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
+
+> In this game, I get to look through the whole level first and plan out how I want to beat it. Then I get to design a way to make my plan work. It feels different than making it up as I go along in regular video games.
+
+**What did you do when your code didn't beat your opponent? How did you decide what changes to make?**
+
+Sample Response:
+
+> I reran the code and watched to see if I could take any shortcuts. Then I changed the code and ran it again to see if it helped.
+
+> I looked for ways to stay alive longer. I called more friends to help and picked up more potion. Adding those things to my program helped me make it to the end.
