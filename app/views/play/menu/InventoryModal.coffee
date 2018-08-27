@@ -642,7 +642,6 @@ module.exports = class InventoryModal extends ModalView
 
       me.set('purchased', purchased)
       me.set('spent', (me.get('spent') ? 0) + item.get('gems'))
-
       #- ...then rerender key bits
       @itemGroups.lockedItems.remove(item)
       @itemGroups.requiredPurchaseItems.remove(item)
@@ -656,8 +655,8 @@ module.exports = class InventoryModal extends ModalView
       @setUpDraggableEventsForAvailableEquipment()
       @itemDetailsView.setItem(item)
       @onScrollUnequipped true
-
-      Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
+      if not me.isStudent()
+        Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
       @playSound 'menu-button-unlock-start'
       button.addClass('confirm').text($.i18n.t('play.confirm'))
