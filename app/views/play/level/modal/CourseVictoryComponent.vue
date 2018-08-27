@@ -152,7 +152,7 @@
       conceptGoals: ->
         return @level.goals.filter((g) => g.concepts?.length)
       conceptGoalsCompleted: ->
-        return @conceptGoals.filter((g) => @session.toJSON().state.goalStates[g.id].status is 'success').length
+        return @conceptGoals.filter((g) => @session.state.goalStates[g.id].status is 'success').length
       percentConceptsCompleted: ->
         return 100 * @conceptGoalsCompleted / @conceptGoals.length
       allConceptsUsed: ->
