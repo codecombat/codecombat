@@ -939,7 +939,7 @@ module.exports = class CampaignView extends RootView
     courseID = $(e.target).parents('.course-version').data 'course-id'
     courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
 
-    if(me.showHeroAndInventoryModals()) # don't got to play level directly, go through set up manager which will check if any modals need to be displayed before going to PlayLevelView. 
+    if(me.showHeroAndInventoryModalsToStudents()) # don't got to play level directly, go through set up manager which will check if any modals need to be displayed before going to PlayLevelView. 
       @startLevel levelElement, courseID, courseInstanceID
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
     else

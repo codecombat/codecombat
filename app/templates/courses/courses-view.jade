@@ -40,7 +40,7 @@ block content
             .text-center
               h1(data-i18n="courses.welcome_to_page")
 
-            if !me.showHeroAndInventoryModals()
+            if me.showAvatarOnStudentDashboard()
               .current-hero-container.text-center.row
                 .hero-avatar
                   img(src=view.hero.getPortraitURL())
