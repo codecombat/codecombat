@@ -68,8 +68,7 @@ module.exports = class LevelSetupManager extends CocoClass
      @onInventoryModalPlayClicked()
      return
   
-    if @level.isType('course','course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
-      if @level.isType('course') and not me.showHeroAndInventoryModals()
+    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (@level.isType('course') and not me.showHeroAndInventoryModals()) or window.serverConfig.picoCTF
         @onInventoryModalPlayClicked()
         return
 
@@ -109,7 +108,7 @@ module.exports = class LevelSetupManager extends CocoClass
     @trigger 'open'
       #    @inventoryModal.onShown() # replace?
 
-  #- Modal events
+#- Modal events
 
   onceHeroLoaded: (e) ->
      @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
