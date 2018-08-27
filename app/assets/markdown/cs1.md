@@ -1,5 +1,5 @@
 
-###### Last updated: 08/24/18
+###### Last updated: 08/27/18
 
 ##### Lesson Plans
 # Introduction to Computer Science
@@ -336,6 +336,7 @@ Sample Response:
 ```
 - Have students come up with a backstory for their hero. For example, why are they in the Kithgard Dungeon? What is their quest? What obstacles have they faced along their journey, before reaching the dungeon? Have them produce a written narrative, video, short play, or other creative artifact to share their backstory with others.
 
+******
 ## Lesson 3 - Variables
 #### _(Levels 15 - 17)_
 ### Summary
@@ -457,7 +458,7 @@ Sample Response:
 
 - This lesson uses a shoebox analogy. Have students come up with their own analogies by completing the following sentence frame in as many ways as possible: A variable is like a _(blank)_ because _(blank)_. To push them creatively, set a minimum of 8 ideas, to help them get past their first or most obvious idea.
 
-
+******
 ## Capstone Challenge - Multiplayer Arena
 #### _(Level 18)_
 ### Summary
