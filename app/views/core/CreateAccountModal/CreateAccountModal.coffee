@@ -130,7 +130,7 @@ module.exports = class CreateAccountModal extends ModalView
           @signupState.set { screen: 'segment-check' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          if me.showHeroAndInventoryModals() # if classroomItems feature is on, don't display hero selection option, go to confirmation directly
+          if me.skipHeroSelectOnStudentSignUp()
             @signupState.set { screen: 'confirmation', accountCreated: true }
           else
             @signupState.set { screen: 'extras', accountCreated: true }
@@ -152,7 +152,7 @@ module.exports = class CreateAccountModal extends ModalView
       'nav-back': -> @signupState.set { screen: 'basic-info' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          if me.showHeroAndInventoryModals() # if classroomItems feature is on, don't display hero selection option, go to confirmation directly
+          if me.skipHeroSelectOnStudentSignUp()
             @signupState.set { screen: 'confirmation', accountCreated: true }
           else
             @signupState.set { screen: 'extras', accountCreated: true }

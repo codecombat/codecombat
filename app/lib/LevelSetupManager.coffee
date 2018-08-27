@@ -67,8 +67,8 @@ module.exports = class LevelSetupManager extends CocoClass
     if @level.usesConfiguredMultiplayerHero()
      @onInventoryModalPlayClicked()
      return
-  
-    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (@level.isType('course') and not me.showHeroAndInventoryModals()) or window.serverConfig.picoCTF
+
+    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (@level.isType('course') and not me.showHeroAndInventoryModalsToStudents()) or window.serverConfig.picoCTF
         @onInventoryModalPlayClicked()
         return
 
@@ -100,15 +100,15 @@ module.exports = class LevelSetupManager extends CocoClass
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
       unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
         firstModal = @heroesModal
-    
-     
+
+
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
     @options.parent.openModalView(firstModal)
     @trigger 'open'
-      #    @inventoryModal.onShown() # replace?
+    #    @inventoryModal.onShown() # replace?
 
-#- Modal events
+  #- Modal events
 
   onceHeroLoaded: (e) ->
      @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
@@ -133,7 +133,7 @@ module.exports = class LevelSetupManager extends CocoClass
     PlayLevelView = 'views/play/level/PlayLevelView'
     LadderView = 'views/ladder/LadderView'
     viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
-    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}?" 
+    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}?"
     route += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
     if @options.courseID? and @options.courseInstanceID?
       route += "&course=#{@options.courseID}&course-instance=#{@options.courseInstanceID}"

@@ -109,7 +109,7 @@
     }
     computed: {
       challengeLink: ->
-        if !me.showHeroAndInventoryModals()
+        if !me.showHeroAndInventoryModalsToStudents()
           if me.isSessionless()
             link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
           else
@@ -123,7 +123,7 @@
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         return link
       nextLevelLink: ->
-        if !me.showHeroAndInventoryModals()
+        if !me.showHeroAndInventoryModalsToStudents()
           if me.isSessionless()
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
           else
@@ -185,7 +185,7 @@
             },
             []
         )
-        if me.showHeroAndInventoryModals()
+        if me.showHeroAndInventoryModalsToStudents()
           @setupManager?.destroy()
           @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextAssessment.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,invokedFromCourseVictory:true
           unless @setupManager?.navigatingToPlay
@@ -209,7 +209,7 @@
             },
             []
         )
-        if me.showHeroAndInventoryModals()
+        if me.showHeroAndInventoryModalsToStudents()
             @setupManager?.destroy()
             @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,invokedFromCourseVictory:true
             unless @setupManager?.navigatingToPlay
