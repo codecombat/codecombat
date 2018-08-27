@@ -125,7 +125,7 @@ Use one or more of the following discussion questions to prompt a brief reflecti
 Sample Response:
 > Computers only do exactly what you tell them, so the sequence is important because if the computer does the steps in the wrong order, the program doesn't turn out right. If there is an error in the syntax, the computer doesn't know how to read it at all.
 
-**How is the way a computer reads instructions different from the way a human would read them?**
+**How is the way a computer reads instructions different from the way a human would understand them?**
 
 Sample Response:
 > Humans can use their own knowledge and other clues to figure things out if they don't make sense. Computers can only execute exactly what they are told.
@@ -186,7 +186,7 @@ Sample Response:
 
 In prior levels, students have had to write long sequences of actions with no shortcuts. Levels 9-14 introduce loops, which allow them to achieve more with fewer lines of code. Specifically, students use **while True loops** which allow a block of code to be repeated infinitely until the level is completed.
 
-The puzzles in this section are harder to solve than in the first module. Encourage collaboration among your students as they first must understand what their goal is, then devise a strategy for solving the level, then put that plan into action. Consider using the [Pair Programming approach](https://codecombat.com/teachers/resources/pair-programming) or the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+The puzzles in this section are harder to solve than in the first module. Encourage collaboration among your students as they first must understand what their goal is, then devise a strategy for solving the level, then put that plan into action. Consider using the [Pair Programming approach](https://codecombat.com/teachers/resources/pair-programming) or the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf).
 
 #### Materials
 - Optional: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -217,7 +217,7 @@ For example, the statement `while gems < 4` would tell the computer to keep repe
 
 #### Interact
 
-As a class, brainstorm ways of writing a repeating action in English. Examples are shown:
+As a class, brainstorm ways of writing a repeating action in English. For example:
 
 >Keep walking **until** you get to the door.
 >Bounce the ball **five times**.
@@ -265,7 +265,7 @@ And, for the other examples, you would need to know the exact distance to the do
 
 #### Explain
 
-Tell students that these levels in CodeCombat require an **infinite loop**, or a loop that repeats forever until the level is beaten. For that, we need an expression that is always true. Luckily, `True` is a Python expression that always evaluates as True! So, we can use a **while True loop**
+Tell students that these levels in CodeCombat require an **infinite loop**, or a loop that repeats forever until the level is beaten. For that, we need an expression that is always true. Luckily, `True` is a Python expression that always evaluates as True! So, we can use a **while True loop**.
 
 In the example below, `while` is the keyword, and `True` is the expression:
 ``` python
@@ -366,7 +366,7 @@ In these levels, variables are used to name enemies, so that the hero knows whic
 - **CCSS-Math: MP.1** Make sense of problems and persevere in solving them.
 - **CCSS-Math: MP.2** Reason abstractly and quantitatively.
 
-### Opening Activity (10 minutes):is 
+### Opening Activity (10 minutes):
 #### Explain
 
 Tell students that working with variables is like organizing things in shoeboxes in a closet. Show an image of an organized closet full of labeled boxes, or ask students to share personal examples of how they organize their things,  highlighting examples where they use labels to remember what is in each container. Elicit the idea that the labels help you group similar items together, and find them again later.
@@ -400,7 +400,7 @@ This is useful when there is more than one enemy in a level. For example, if you
 
 then you'll always attack whatever enemy is closest to you, no matter what the enemy's name is.
 
-Finally, mention that for now, a variable can hold only one value, even though our shoebox could hold lots of things. Later, they'll learn ways to store multiple simialr values under one variable; for now, the value is a single number or a single string. 
+Finally, mention that for now, a variable can hold only one value, even though our shoebox could hold lots of things. Later, they'll learn ways to store multiple similar values under one variable; for now, the value is a single number or a single string. 
 
 
 #### Discuss
@@ -412,7 +412,7 @@ Use one or more of the following discussion questions to prompt reflection:
 Sample Response:
 > Storing a value that might change later.
 
-**How do variables in programming compare to variables in math or science.**
+**How do variables in programming compare to variables in math or science?**
 
 Sample Response:
 > It's similar to science because in science a variable is a part of an experiment that can be changed. Like you might have "temperature" as a variable in your experiment, and test different values for "temperature".
