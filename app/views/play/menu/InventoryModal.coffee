@@ -300,11 +300,13 @@ module.exports = class InventoryModal extends ModalView
   #- Select/equip event handlers
 
   onItemSlotClick: (e) ->
+    @closePopover()
     return if @remainingRequiredEquipment?.length  # Don't let them select a slot if we need them to first equip some require gear.
     #@playSound 'menu-button-click'
     @selectItemSlot($(e.target).closest('.item-slot'))
 
   onUnequippedItemClick: (e) ->
+    @closePopover()
     return if @justDoubleClicked
     return if @justClickedEquipItemButton
     itemEl = $(e.target).closest('.item')
@@ -722,8 +724,11 @@ module.exports = class InventoryModal extends ModalView
 
   onClickedSomewhere: (e) ->
     return if @destroyed
-    @$el.find('.unlock-button').popover 'destroy'
+    @closePopover()
 
+  closePopover: ->
+    return if @destroyed
+    @$el.find('.unlock-button').popover 'destroy'
 
   #- Dynamic portrait loading
 
