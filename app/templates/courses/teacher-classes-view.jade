@@ -106,16 +106,17 @@ mixin classRow(classroom)
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
 
     .flex-right
-      .progress-col
-        if classroom.get('members').length == 0
-          +addStudentsButton(classroom)
-        else
-          - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
-          - var courseLabelsArray = view.helper.courseLabelsArray(courses);
-          each trimCourse, index in classroom.getSortedCourses() || []
-            - var course = view.courses.get(trimCourse._id);
-            - var label = courseLabelsArray[index];
-            +progressDot(classroom, course, label)
+      //- TODO: disabling while we investigate server performance issues and 504 timeouts
+      //- .progress-col
+      //-   if classroom.get('members').length == 0
+      //-     +addStudentsButton(classroom)
+      //-   else
+      //-     - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
+      //-     - var courseLabelsArray = view.helper.courseLabelsArray(courses);
+      //-     each trimCourse, index in classroom.getSortedCourses() || []
+      //-       - var course = view.courses.get(trimCourse._id);
+      //-       - var label = courseLabelsArray[index];
+      //-       +progressDot(classroom, course, label)
       .view-class-arrow
         a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
 
@@ -142,7 +143,9 @@ mixin progressDot(classroom, course, label)
     - started = courseInstance.started
     - dotClass = complete === total ? 'forest' : started ? 'gold' : '';
     - var progressDotContext = {total: total, complete: complete, loading: !courseInstance.sessionsLoaded};
-    .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
+    //- TODO: disabling while we investigate server performance issues and 504 timeouts
+    //- .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
+    .progress-dot(class=dotClass)
       +progressDotLabel(label)
 
 mixin progressDotLabel(label)
