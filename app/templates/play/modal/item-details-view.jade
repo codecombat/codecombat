@@ -41,8 +41,9 @@ if item && !item.owned
   if item.unequippable
     button.btn.big-font.disabled.unequippable(data-i18n="inventory."+item.get('heroClass').toLowerCase()+"_only")
   else
-    button#selected-item-unlock-button.btn.big-font(data-item-id=item.id, class=(item.get('subscriber') && !me.isPremium() ? "subscribe-button" : "unlock-button"))
-      if item.get('subscriber') && !me.isPremium()
+    - var showSubscribe = item.get('subscriber') && !me.isPremium() && !me.isStudent() && !me.showHeroAndInventoryModalsToStudents()
+    button#selected-item-unlock-button.btn.big-font(data-item-id=item.id, class=(showSubscribe ? "subscribe-button" : "unlock-button"))
+      if showSubscribe
         span(data-i18n="subscribe.subscribe_title")
       else
         span(data-i18n="play.unlock")
