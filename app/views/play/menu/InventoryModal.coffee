@@ -703,7 +703,6 @@ module.exports = class InventoryModal extends ModalView
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
 
   onClickedSomewhere: (e) ->
-    return if @destroyed
     @closePopover()
 
   closePopover: ->
