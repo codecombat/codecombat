@@ -41,7 +41,7 @@ if item && !item.owned
   if item.unequippable
     button.btn.big-font.disabled.unequippable(data-i18n="inventory."+item.get('heroClass').toLowerCase()+"_only")
   else
-    - var showSubscribe = item.get('subscriber') && !me.isPremium() && !me.isStudent() && !me.showHeroAndInventoryModalsToStudents()
+    - var showSubscribe = item.get('subscriber') && !me.isPremium() && !me.isStudent()
     button#selected-item-unlock-button.btn.big-font(data-item-id=item.id, class=(showSubscribe ? "subscribe-button" : "unlock-button"))
       if showSubscribe
         span(data-i18n="subscribe.subscribe_title")
