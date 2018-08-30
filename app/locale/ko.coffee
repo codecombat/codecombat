@@ -63,7 +63,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    go_to_courses: "Go to My Courses"
 #    want_coco: "Want CodeCombat at your school?"
 
-nav:
+  nav:
     map: "맵"
     play: "레벨" # The top nav bar entry where players choose which levels to play
     community: "커뮤니티"
@@ -101,14 +101,14 @@ nav:
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
 
-modal:
+  modal:
     close: "닫기"
     okay: "확인"
 
-not_found:
+  not_found:
     page_not_found: "페이지를 찾을 수 없습니다"
 
-diplomat_suggestion:
+  diplomat_suggestion:
     title: "코드 컴뱃 번역을 도와주세요!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "우리는 당신의 언어 능력이 필요합니다."
     pitch_body: "우리는 영어로 코드 컴뱃을 개발하기 시작했지만, 이미 전세계의 유저들이 코드 컴뱃을 이용하고 있습니다. 그 중 많은 사람들이 한국어로 플레이하기를 바랍니다. 혹시 당신이 영어/한국어에 모두 능숙하다면, 외교관(Diplomate)으로 코드 컴뱃에 참여해서 모든 레벨 뿐만 아니라 웹사이트를 한국어로 번역할 수 있습니다."
@@ -116,7 +116,7 @@ diplomat_suggestion:
     learn_more: "외교관에 대해서 좀 더 자세히 알아보기"
     subscribe_as_diplomat: "외교관을 위한 정기 구독"
 
-play:
+  play:
     play_as: "같이 플레이" # Ladder page
 #   get_course_for_class: "Assign Game Development and more to your classes!"
 #   request_licenses: "Contact our school specialists for details."
@@ -207,7 +207,7 @@ play:
 #    nil: "nil"
 #    None: "None"
 
-share_progress_modal:
+  share_progress_modal:
     blurb: "당신은 큰 진전을 보이고 있습니다! 당신이 코드컴뱃으로 얼마나 많이 배웠는지 부모님께 자랑하십시오."
     email_invalid: "이메일 주소가 올바르지 않습니다."
     form_blurb: "아래에 부모님의 이메일 주소를 입력하고 우리는 그것들을 보여줍니다!"
@@ -215,7 +215,7 @@ share_progress_modal:
     placeholder: "이메일"
     title: "우수한, 초심자"
 
-login:
+  login:
     sign_up: "계정 생성"
     email_or_username: "이메일 또는 사용자 이름"
     log_in: "로그인"
@@ -227,7 +227,7 @@ login:
     sign_in_with_gplus: "G+로 로그인"
     signup_switch: "새로운 계정을 만드세요."
 
-signup:
+  signup:
     complete_subscription: "구독 완료"
     create_student_header: "학생 계정 생성"
     create_teacher_header: "교사 계정 생성"
@@ -308,12 +308,12 @@ signup:
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
-recover:
+  recover:
     recover_account_title: "계정 복구"
     send_password: "복구 비밀번호 전송"
     recovery_sent: "메일 전송 완료"
 
-items:
+  items:
     primary: "주 장비"
     secondary: "보조 장비"
     armor: "갑옷"
@@ -321,7 +321,7 @@ items:
     misc: "잡동사니"
     books: "책"
 
-common:
+  common:
     back: "뒤로가기" # When used as an action verb, like "Navigate backward"
     coming_soon: "개발 중!"
     continue: "계속" # When used as an action verb, like "Continue forward"
@@ -354,7 +354,7 @@ common:
     save_changes: "변경사항 저장"
     required_field: "필수"
 
-general:
+  general:
     and: "그리고"
     name: "이름"
     date: "날짜"
@@ -415,7 +415,7 @@ general:
 #    fewer: "Fewer"
 #    with: "with"
 
-units:
+  units:
     second: "초"
     seconds: "초"
     sec: "초"
@@ -432,7 +432,7 @@ units:
     year: "년"
     years: "년"
 
-play_level:
+  play_level:
     back_to_map: "맵으로 돌아가기"
 #    directions: "Directions"
 #    edit_level: "Edit Level"
@@ -650,7 +650,7 @@ play_level:
 #    goal_collect: "Collect all the items."
 #    goal_collect_amount: "Collect __amount__ items."
 
-game_menu:
+  game_menu:
     inventory_tab: "인벤토리"
     save_load_tab: "저장하기/불러오기"
     options_tab: "옵션"
@@ -666,7 +666,7 @@ game_menu:
     multiplayer_caption: "친구들과 플레이 하세요!"
     auth_caption: "진행사항을 저장하세요"
 
-leaderboard:
+  leaderboard:
     view_other_solutions: "리더보드 보기"
     scores: "점수"
     top_players: "상위 플레이어"
@@ -684,7 +684,7 @@ leaderboard:
 #    code_length: "Lines of Code"
 #    score_display: "__scoreType__: __score__"
 
-inventory:
+  inventory:
     equipped_item: "장착됨"
     required_purchase_title: "구매 필요"
     available_item: "사용 가능"
@@ -699,7 +699,7 @@ inventory:
 #    ranger_only: "Ranger Only"
 #    wizard_only: "Wizard Only"
 
-buy_gems:
+  buy_gems:
     few_gems: "gem 몇개"
     pile_gems: "gem 묶음"
     chest_gems: "gem 상자"
@@ -715,11 +715,11 @@ buy_gems:
     purchase: "구매하기"
     purchased: "구매함"
 
-earn_gems:
+  earn_gems:
     prompt_title: "젬이 충분하지 않습니다."
     prompt_body: "더 얻기 위해 계속 플레이 하세요."
 
-subscribe:
+  subscribe:
 #    best_deal: "Best Deal!"
 #    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
@@ -830,7 +830,7 @@ subscribe:
 #    list_support: "Get Premium support to help you debug tricky code"
 #    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
-choose_hero:
+  choose_hero:
     choose_hero: "영웅을 선택하세요"
     programming_language: "프로그래밍 언어"
     programming_language_description: "어떤 프로그래밍 언어를 사용하실건가요?"
@@ -866,7 +866,7 @@ choose_hero:
     level_to_unlock: "레벨 해금:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "특정 영웅만이 이 레벨을 플레이할 수 있습니다."
 
-skill_docs:
+  skill_docs:
 #    function: "function" # skill types
     method: "메소드"
 #    snippet: "snippet"
@@ -895,11 +895,11 @@ skill_docs:
     returns: "뒤로가기"
     granted_by: "부여"
 
-save_load:
+  save_load:
     granularity_saved_games: "저장됨"
     granularity_change_history: "기록"
 
-options:
+  options:
     general_options: "일반 옵션" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "볼륨"
     music_label: "음악"
@@ -914,7 +914,7 @@ options:
     editor_config_behaviors_label: "자동 기능"
     editor_config_behaviors_description: "괄호, 인용부호, 따옴표 자동 완성."
 
-about:
+  about:
 #    learn_more: "Learn More"
     main_title: "프로그래밍을 배우고 싶다면 많은 코드를 작성해 보아야 합니다."
     main_description: "CodeCombat에서 우리의 임무는 당신이 미소를 짓고 있는지 확인하는 것입니다."
@@ -1099,7 +1099,7 @@ about:
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
 
-versions:
+  versions:
     save_version_title: "새로운 버전을 저장합니다"
     new_major_version: "신규 버전"
     submitting_patch: "패치 적용중..."
@@ -1109,7 +1109,7 @@ versions:
     cla_agree: "동의 합니다"
     owner_approve: "변경 사항이 표시 되기 전에 소유자가 이를 승인 해야합니다."
 
-contact:
+  contact:
     contact_us: "코드컴뱃에 전할 말"
     welcome: "언제든 의견을 보내주세요. 이 양식을 이메일에 사용해 주세요!"
     forum_prefix: "공개적으로 논의할 사항이라면 우리 포럼에서 해주세요 : "
@@ -1125,7 +1125,7 @@ contact:
     where_reply: "우리는 어디에서 대답 해야합니까?"
     send: "의견 보내기"
 
-account_settings:
+  account_settings:
     title: "계정 설정"
     not_logged_in: "로그인하시거나 계정을 생성하세요."
     me_tab: "나"
@@ -1166,7 +1166,7 @@ account_settings:
     password_mismatch: "비밀번호가 일치하지 않습니다."
     password_repeat: "비밀번호를 한번 더 입력해 주세요."
 
-keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "단축키"
     space: "스페이스"
     enter: "엔터"
@@ -1187,7 +1187,7 @@ keyboard_shortcuts:
     beautify: "서식을 표준화하여 코드를 아름답게합니다."
     maximize_editor: "코드 에디터 최대/최소."
 
-community:
+  community:
     main_title: "코드 컴뱃 커뮤니티"
     introduction: "아래에서 당신이 참여할 수있는 방법을 확인하고 가장 재미있어보이는것을 결정합니다. 우리는 당신과 함께 협력하는것을 기대합니다!"
     level_editor_prefix: "코드컴뱃을 사용"
@@ -1206,7 +1206,7 @@ community:
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "프로젝트에 기여하기"
 
-clans:
+  clans:
     clan: "클랜"
     clans: "클랜들"
     new_name: "새로운 클랜 이름"
@@ -1265,7 +1265,7 @@ clans:
     track_concepts8: "으로 참여"
     private_require_sub: "비공개 클랜을 만들거나 참여해서 구독하는것을 권장합니다."
 
-courses:
+  courses:
     create_new_class: "새로운 클래스 만들기"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
     unnamed_class: "이름없는 클래스"
@@ -1814,7 +1814,7 @@ courses:
 #    paste: "Paste"
 #    back_to_editing: "Back to Editing"
 
-classes:
+  classes:
     archmage_title: "대마법사"
     archmage_title_description: "(코더)"
     archmage_summary: "당신이 만약 코딩 교육 게임에 관심있는 개발자라면, 코드컴뱃을 돕는 대마법사가 되어주십시오!"
@@ -1835,7 +1835,7 @@ classes:
     ambassador_summary: "포럼 사용자를 관리하는것과 질문들에 대한 방향을 제공합니다. 우리의 대사는 세계에 코드컴뱃을 나타냅니다."
 #    teacher_title: "Teacher"
 
-editor:
+  editor:
     main_title: "코드 컴뱃 에디터들"
     article_title: "기사 에디터들"
     thang_title: "Thang 에디터"
@@ -1921,7 +1921,7 @@ editor:
 #    add_system_title: "Add Systems to Level"
 #    done_adding: "Done Adding"
 
-article:
+  article:
     edit_btn_preview: "미리보기"
     edit_article_title: "기사 편집하기"
 
@@ -1997,7 +1997,7 @@ article:
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-ladder:
+  ladder:
     my_matches: "나의 경기들"
     simulate: "시뮬레이션"
     simulation_explanation: "시뮬레이션을 통해 더 빨리 랭킹 평가를 받을 수 있습니다."
@@ -2165,7 +2165,7 @@ ladder:
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
-loading_error:
+  loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다."
     connection_failure: "연결 실패"
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
@@ -2185,7 +2185,7 @@ loading_error:
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 
-resources:
+  resources:
     level: "레벨"
 #    patch: "Patch"
 #    patches: "Patches"
@@ -2342,7 +2342,7 @@ resources:
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
 
-legal:
+  legal:
 #    page_title: "Legal"
     opensource_intro: "코드 컴뱃은 무료이며 전적으로 오픈 소스를 기반으로 합니다."
     opensource_description_prefix: "코드 컴뱃의"
@@ -2401,7 +2401,7 @@ legal:
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 
-ladder_prizes:
+  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
