@@ -7,6 +7,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     'surface:mouse-out': 'onMouseOut'
     'surface:mouse-over': 'onMouseOver'
     'surface:stage-mouse-down': 'onMouseDown'
+    'surface:copy-coordinates': 'onCopyCoordinates'
     'camera:zoom-updated': 'onZoomUpdated'
     'level:flag-color-selected': 'onFlagColorSelected'
 
@@ -60,6 +61,14 @@ module.exports = class CoordinateDisplay extends createjs.Container
     wop.y = Math.round wop.y
     Backbone.Mediator.publish 'tome:focus-editor', {}
     Backbone.Mediator.publish 'surface:coordinate-selected', wop
+
+  #MMN Copy Coordinates Action
+  onCopyCoordinates: (e) =>
+    console.log "MMN Copy Event"
+    e?.preventDefault?()
+    return unless @mouseInBounds and @lastPos and not @destroyed
+    text = "#{@lastPos.x}, #{@lastPos.y}"
+    navigator.clipboard.writeText(text)
 
   onZoomUpdated: (e) ->
     return unless @lastPos

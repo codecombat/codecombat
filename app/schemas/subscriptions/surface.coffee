@@ -157,6 +157,9 @@ module.exports =  # /app/lib/surface
       y: {type: 'number'}
     canvas: {type: 'object'}
 
+  #MMN copy coordinates event
+  'surface:copy-coordinates': c.object {title: 'Copy Coordinates', description: 'Published when we want to copy the coordinates moused over on the stage'}
+
   'surface:ticked': c.object {required: ['dt']},
     dt: {type: 'number'}
 

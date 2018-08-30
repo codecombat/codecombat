@@ -226,6 +226,11 @@ module.exports = class SpellView extends CocoView
       name: 'open-fullscreen-editor'
       bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
       exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
+    #MMN Copy Coordinates command
+    addCommand
+      name: 'copy-coordinates'
+      bindKey: {win: 'Ctrl-Shift-S', mac: 'Command-Shift-C|Ctrl-Shift-S'}
+      exec: -> Backbone.Mediator.publish 'surface:copy-coordinates', {}
     addCommand
       # TODO: Restrict to beginner campaign levels like we do backspaceThrottle
       name: 'enter-skip-delimiters'
