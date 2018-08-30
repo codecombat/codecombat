@@ -950,6 +950,8 @@ module.exports = class CampaignView extends RootView
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
+    if(me.showHeroAndInventoryModalsToStudents())
+      session.set('codeLanguage', @classroom.get('aceConfig').language)
     @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session, courseID: courseID, courseInstanceID: courseInstanceID 
     unless @setupManager?.navigatingToPlay
       @$levelInfo?.find('.level-info, .progress').toggleClass('hide')

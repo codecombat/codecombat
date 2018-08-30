@@ -55,6 +55,8 @@ module.exports = class LevelSetupManager extends CocoClass
     @fillSessionWithDefaults()
 
   fillSessionWithDefaults: ->
+    if @options.codeLanguage
+      @session.set('codeLanguage', @options.codeLanguage)
     heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
     @session.set('heroConfig', heroConfig)
     if @level.loaded
