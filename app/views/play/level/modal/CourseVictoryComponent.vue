@@ -103,7 +103,7 @@
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
-    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent'],
+    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
     components: {
       PieChart
     }
@@ -187,7 +187,7 @@
         )
         if me.showHeroAndInventoryModalsToStudents()
           @setupManager?.destroy()
-          @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextAssessment.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,invokedFromCourseVictory:true
+          @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextAssessment.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,codeLanguage:@codeLanguage
           unless @setupManager?.navigatingToPlay
             @setupManager.open()
       onBackToMap: ->
@@ -211,7 +211,7 @@
         )
         if me.showHeroAndInventoryModalsToStudents()
             @setupManager?.destroy()
-            @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,invokedFromCourseVictory:true
+            @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID, codeLanguage:@codeLanguage
             unless @setupManager?.navigatingToPlay
               @setupManager.open()
                  

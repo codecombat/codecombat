@@ -161,6 +161,7 @@ module.exports = class CourseVictoryModal extends ModalView
       stats: @classroom?.statsForSessions(@levelSessions, @course.id)
       supermodel: @supermodel,
       parent: @options.parent
+      codeLanguage: @session.get('codeLanguage')
     }
     new CourseVictoryComponent({
       el: @$el.find('.modal-content')[0]
