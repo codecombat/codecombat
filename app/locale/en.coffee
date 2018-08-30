@@ -2351,7 +2351,7 @@
 
   legal:
     page_title: "Legal"
-    opensource_intro: "CodeCombat is part of the open source community."  # {change}
+    opensource_introduction: "CodeCombat is part of the open source community."
     opensource_description_prefix: "Check out "
     github_url: "our GitHub"
     opensource_description_center: "and help out if you like! CodeCombat is built on dozens of open source projects, and we love them. See "
@@ -2374,8 +2374,8 @@
     contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
     cla_url: "CLA"
     contributor_description_suffix: "to which you should agree before contributing."
-    code_title: "Code - MIT"
-    code_description_prefix: "All code owned by CodeCombat or hosted on codecombat.com, both in the GitHub repository or in the codecombat.com database, is licensed under the"
+    code_title: "Client-Side Code - MIT" # {change}
+    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
     mit_license_url: "MIT license"
     code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."
     art_title: "Art/Music - Creative Commons "
