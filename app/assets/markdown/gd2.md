@@ -213,7 +213,7 @@ Students should play the next five levels:
 *   Teatime
 *   Random Riposte
 *   Agony of Defeat
-*   Lernaean Hybrid
+*   Lernaean Hydra
 
 ### Closing Discussion
 
