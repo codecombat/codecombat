@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "rot13", englishDescription: "English with the letters jumbled", translation:
   new_home:
-    slogan: "Gur zbfg ratntvat jnl gb yrnea erny pbqr." # {punatr}
+    slogan: "Gur zbfg ratntvat jnl gb yrnea erny pbqr."
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
     play_now: "Cynl Abj"
@@ -22,7 +22,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     accessible_to: "Npprffvoyr gb"
     everyone: "rirelbar"
     democratizing: "Qrzbpengvmvat gur cebprff bs yrneavat pbqvat vf ng gur pber bs bhe cuvybfbcul. Rirelbar fubhyq or noyr gb yrnea gb pbqr."
-    forgot_learning: "V guvax gurl npghnyyl sbetbg gung gurl jrer yrneavat fbzrguvat." # {punatr}
+    forgot_learning: "V guvax gurl npghnyyl sbetbg gung gurl jrer yrneavat fbzrguvat."
     wanted_to_do: " Pbqvat vf fbzrguvat V'ir nyjnlf jnagrq gb qb, naq V arire gubhtug V jbhyq or noyr gb yrnea vg va fpubby."
     builds_concepts_up: "V yvxr ubj PbqrPbzong ohvyqf gur pbaprcgf hc. Vg'f ernyyl rnfl gb haqrefgnaq naq sha gb svther vg bhg."
     why_games: "Jul vf yrneavat guebhtu tnzrf vzcbegnag?"
@@ -137,6 +137,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     poll: "Cbyy"  # Gbbygvc ba cbyy ohggba sebz /cynl
     next: "Arkg"  # Tb sebz pubbfr ureb gb pubbfr vairagbel orsber cynlvat n yriry
     change_hero: "Punatr Ureb"  # Tb onpx sebz pubbfr vairagbel gb pubbfr ureb
+    change_hero_or_language: "Punatr Ureb be Ynathntr"
     buy_gems: "Ohl Trzf"
     subscribers_only: "Fhofpevoref Bayl!"
     subscribe_unlock: "Fhofpevor gb Haybpx!"
@@ -535,7 +536,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     tip_toggle_play: "Gbttyr cynl/cnhfrq jvgu Pgey+C."
     tip_scrub_shortcut: "Hfr Pgey+[ naq Pgey+] gb erjvaq naq snfg-sbejneq."
     tip_guide_exists: "Pyvpx gur thvqr, vafvqr tnzr zrah (ng gur gbc bs gur cntr), sbe hfrshy vasb."
-    tip_open_source: "PbqrPbzong vf 100% bcra fbhepr!"
+    tip_open_source: "PbqrPbzong vf cneg bs gur bcra fbhepr pbzzhavgl!"   
     tip_tell_friends: "Rawblvat PbqrPbzong? Gryy lbhe sevraqf nobhg hf!"
     tip_beta_launch: "PbqrPbzong ynhapurq vgf orgn va Bpgbore, 2013."
     tip_think_solution: "Guvax bs gur fbyhgvba, abg gur ceboyrz."
@@ -714,6 +715,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     buy_premium: "Ohl Cerzvhz"
     purchase: "Chepunfr"
     purchased: "Chepunfrq"
+
+  subscribe_for_gems:
+    prompt_title: "Abg Rabhtu Trzf!"
+    prompt_body: "Fhofpevor gb Cerzvhz gb trg trzf naq npprff gb rira zber yriryf!"
 
   earn_gems:
     prompt_title: "Abg Rabhtu Trzf"
@@ -1433,6 +1438,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     start_challenge: "Fgneg Punyyratr"
     locked: "Ybpxrq"
     concepts_used: "Pbaprcgf Hfrq:"
+    show_change_log: "Fubj punatrf gb guvf pbhefr'f yriryf"
+    hide_change_log: "Uvqr punatrf gb guvf pbhefr'f yriryf"
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
@@ -1560,8 +1567,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     empty_credits: "Rkunhfgrq Yvprafrf"
     license_remaining: "yvprafr erznvavat"
     licenses_remaining: "yvprafrf erznvavat"
-    one_license_used: "1 bhg bs __gbgnyYvprafrf__ yvprafrf unf orra hfrq" # {punatr}
-    num_licenses_used: "__ahzYvprafrfHfrq__ bhg bs __gbgnyYvprafrf__ yvprafrf unir orra hfrq"  # {punatr}
+    one_license_used: "1 bhg bs __gbgnyYvprafrf__ yvprafrf unf orra hfrq"
+    num_licenses_used: "__ahzYvprafrfHfrq__ bhg bs __gbgnyYvprafrf__ yvprafrf unir orra hfrq"
     starter_licenses: "fgnegre yvprafrf"
     start_date: "fgneg qngr:"
     end_date: "raq qngr:"
@@ -1928,7 +1935,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   contribute:
     page_title: "Pbagevohgvat"
-    intro_blurb: "PbqrPbzong vf 100% bcra fbhepr! Uhaqerqf bs qrqvpngrq cynlref unir urycrq hf ohvyq gur tnzr vagb jung vg vf gbqnl. Wbva hf naq jevgr gur arkg puncgre va PbqrPbzong'f dhrfg gb grnpu gur jbeyq gb pbqr!"
+    intro_blurb: "PbqrPbzong vf cneg bs gur bcra fbhepr pbzzhavgl! Uhaqerqf bs qrqvpngrq cynlref unir urycrq hf ohvyq gur tnzr vagb jung vg vf gbqnl. Wbva hf naq jevgr gur arkg puncgre va PbqrPbzong'f dhrfg gb grnpu gur jbeyq gb pbqr!" 
     alert_account_message_intro: "Url gurer!"
     alert_account_message: "Gb fhofpevor sbe pynff rznvyf, lbh'yy arrq gb or ybttrq va svefg."
     archmage_introduction: "Bar bs gur orfg cnegf nobhg ohvyqvat tnzrf vf gurl flagurfvmr fb znal qvssrerag guvatf. Tencuvpf, fbhaq, erny-gvzr argjbexvat, fbpvny argjbexvat, naq bs pbhefr znal bs gur zber pbzzba nfcrpgf bs cebtenzzvat, sebz ybj-yriry qngnonfr znantrzrag, naq freire nqzvavfgengvba gb hfre snpvat qrfvta naq vagresnpr ohvyqvat. Gurer'f n ybg gb qb, naq vs lbh'er na rkcrevraprq cebtenzzre jvgu n unaxrevat gb ernyyl qvir vagb gur avggl-tevggl bs PbqrPbzong, guvf pynff zvtug or sbe lbh. Jr jbhyq ybir gb unir lbhe uryc ohvyqvat gur orfg cebtenzzvat tnzr rire."
@@ -2342,7 +2349,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   legal:
     page_title: "Yrtny"
-    opensource_intro: "PbqrPbzong vf pbzcyrgryl bcra fbhepr."
+    opensource_intro: "PbqrPbzong vf cneg bs gur bcra fbhepr pbzzhavgl."
     opensource_description_prefix: "Purpx bhg "
     github_url: "bhe TvgUho"
     opensource_description_center: "naq uryc bhg vs lbh yvxr! PbqrPbzong vf ohvyg ba qbmraf bs bcra fbhepr cebwrpgf, naq jr ybir gurz. Frr "
@@ -2565,3 +2572,57 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unit_9: "Havg 9: NC Erivrj"
     unit_10: "Havg 10: Cbfg-NC"
     unit_10_activity_1: "Havg 10 Npgvivgl: Jro Dhvm"
+
+  parent_landing:
+    slogan_quote: '"PbqrPbzong vf ernyyl sha, naq lbh yrnea n ybg."'
+    quote_attr: "5gu Tenqre, Bnxynaq"
+    refer_teacher: "Ersre n Grnpure"
+    focus_quote: "Haybpx lbhe puvyq'f shgher jvgu gur ghgbe gurl'yy gunax lbh sbe"
+    value_head1: "Gur zbfg rssrpgvir jnl gb yrnea glcrq pbqr"
+    value_copy1: "Xvqf cynlvat PbqrPbzong pbire zngrevny nyvtarq jvgu angvbany pheevphyhz fgnaqneqf, naq yrnea ubj gb cebtenz nytbevguzf, ohvyq jrofvgrf naq rira qrfvta gurve bja tnzrf."
+    value_head2: "Uryc lbhe puvyq perngr gurve orfg shgher"
+    value_copy2: "Lbhe xvqf jvyy yrnea ubj gb anivtngr naq orpbzr pvgvmraf va gur qvtvgny jbeyq. Vgrengvir ceboyrz fbyivat fhccbegf pevgvpny guvaxvat, naq urycf lbhe puvyq qrirybc erfvyvrapr naq qrgrezvangvba."
+    value_head3: "Ebyr zbqryf sbe tebjvat fhcreurebrf"
+    value_copy3: "Jr xabj ubj vzcbegnag sha naq ratntrzrag vf sbe gur qrirybcvat oenva, fb jr’ir cnpxrq va nf zhpu yrneavat nf jr pna, juvyr jenccvat vg hc va n tnzr gurl'yy ybir."
+    dive_head1: "Abg whfg sbe fbsgjner ratvarref"
+    dive_intro: "Pbzchgre fpvrapr fxvyyf unir n jvqr enatr bs nccyvpngvbaf. Gnxr n ybbx ng n srj rknzcyrf orybj!"
+    medical_flag: "Zrqvpny Nccyvpngvbaf"
+    medical_flag_copy: "Sebz znccvat bs gur uhzna trabzr, gb ZEV znpuvarf, pbqvat nyybjf hf gb haqrefgnaq gur obql va jnlf jr’ir arire orra noyr gb orsber."
+    explore_flag: "Fcnpr Rkcybengvba"
+    explore_flag_copy: "Ncbyyb tbg gb gur zbba gunaxf gb uneqjbexvat uhzna pbzchgref, naq fpvragvfgf hfr pbzchgre cebtenzf gb nanylmr gur tenivgl bs cynargf naq frnepu sbe arj fgnef."
+    filmaking_flag: "Svyzznxvat naq Navzngvba"
+    filmaking_flag_copy: "Sebz gur ebobgvpf bs Whenffvp Cnex gb gur vaperqvoyr navzngvba bs Qernzjbexf naq Cvkne, svyzf jbhyqa’g or gur fnzr jvgubhg gur qvtvgny perngvirf oruvaq gur fprarf."
+    dive_head2: "Jul tnzrf ner vzcbegnag sbe yrneavat"
+    dive_par1: "Zhygvcyr fghqvrf unir sbhaq gung tnzr-onfrq yrneavat cebzbgrq"
+    dive_link1: "pbtavgvir qrirybczrag"
+    dive_par2: "va xvqf, juvyr nyfb cebivat gb or"
+    dive_link2: "zber rssrpgvir"
+    dive_par3: "va urycvat fghqragf"
+    dive_link3: "yrnea naq ergnva xabjyrqtr"
+    dive_par4: ","
+    dive_link4: "pbapragengr"
+    dive_par5: "naq cresbez ng n uvture yriry bs npuvrirzrag."
+    dive_par6: "Tnzr onfrq yrneavat vf nyfb tbbq sbe grnpuvat"
+    dive_link5: "erfvyvrapr"
+    dive_par7: ", pbtavgvir ernfbavat, naq qrirybc"
+    dive_par8: ". Fpvrapr vf whfg gryyvat hf jung yrnearef nyernql xabj. Puvyqera yrnea orfg ol cynlvat."
+    dive_link6: "rkrphgvir shapgvbaf"
+    dive_head3: "Grnz hc jvgu grnpuref"
+    dive_3_par1: "Va gur shgher, "
+    dive_3_link1: "pbqvat vf tbvat gb or nf shaqnzragny nf yrneavat gb ernq naq jevgr"
+    dive_3_par2: ". Jr’ir jbexrq pybfryl jvgu grnpuref gb qrfvta naq qrirybc bhe yriryf, naq jr pna'g jnvg gb trg lbhe xvqf yrneavat. Rqhpngvbany grpuabybtl yvxr PbqrPbzong jbexf orfg jura gur grnpuref pna vzcyrzrag vg pbafvfgragyl. Uryc hf znxr gung pbaarpgvba ol vagebqhpvat hf gb lbhe puvyqera'f grnpuref!"
+    mission: "Bhe zvffvba: gb grnpu naq ratntr"
+    mission1_heading: "Pbqvat sbe gbqnl'f trarengvba"
+    mission2_heading: "Cercnevat sbe gur shgher"
+    mission3_heading: "Fhccbegrq ol cneragf yvxr lbh"
+    mission1_copy: "Bhe rqhpngvba fcrpvnyvfgf jbex pybfryl jvgu grnpuref gb zrrg puvyqera jurer gurl ner va gur rqhpngvbany ynaqfpncr. Xvqf yrnea pbqvat fxvyyf gung pna or nccyvrq bhgfvqr bs gur tnzr orpnhfr gurl yrnea ubj gb fbyir ceboyrzf, ab znggre jung gurve yrneavat fglyr vf."
+    mission2_copy: "N 2016 fheirl fubjrq gung 64% bs tveyf va 3-5gu tenqr jnag gb yrnea ubj gb pbqr. Gurer jrer 7 zvyyvba wbo bcravatf va 2015 erdhverq pbqvat fxvyyf. Jr ohvyg PbqrPbzong orpnhfr rirel puvyq fubhyq or tvira n punapr gb perngr gurve orfg shgher."
+    mission3_copy: "Ng PbqrPbzong jr’er cneragf. Jr’er pbqref. Ohg zbfg bs nyy, jr’er crbcyr jub oryvrir va tvivat bhe xvqf gur orfg bccbeghavgl sbe fhpprff va jungrire vg vf gurl qrpvqr gb qb."
+  parent_modal:
+    refer_teacher: "Ersre Grnpure"
+    name: "Lbhe Anzr"
+    parent_email: "Lbhe Rznvy"
+    teacher_email: "Grnpure'f Rznvy"
+    message: "Zrffntr"
+    custom_message: "V whfg sbhaq PbqrPbzong naq gubhtug vg'q or n terng cebtenz sbe lbhe pynffebbz! Vg'f n pbzchgre fpvrapr yrneavat cyngsbez jvgu fgnaqneqf-nyvtarq pheevphyhz.\a\aPbzchgre yvgrenpl vf fb vzcbegnag naq V guvax guvf jbhyq or n terng jnl gb trg fghqragf ratntrq va yrneavat gb pbqr."
+    send: "Fraq Rznvy"

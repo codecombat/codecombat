@@ -137,6 +137,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     poll: "Anket" # Tooltip on poll button from /play
     next: "İleri" # Go from choose hero to choose inventory before playing a level
     change_hero: "Kahramanı Değiştir" # Go back from choose inventory to choose hero
+#    change_hero_or_language: "Change Hero or Language"
     buy_gems: "Değerli Taş Satın Al"
     subscribers_only: "Sadece Aboneler!"
     subscribe_unlock: "Kilidini açmak için Abone ol!"
@@ -535,7 +536,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tip_toggle_play: "Ctrl+P ile oynat/beklet."
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] kullanarak geriye veya ileriye sar."
     tip_guide_exists: "Gerekli bilgiler için oyun menüsünün içindeki (sayfanın başında) rehbere tıkla."
-    tip_open_source: "CodeCombat %100 açık kaynaktır!"
+    tip_open_source: "CodeCombat %100 açık kaynaktır!" # {change}
     tip_tell_friends: "CodeCombat'ı sevdin mi? Arkadaşlarına bizden bahset!"
     tip_beta_launch: "CodeCombat ilk beta sürümünü Ekim 2013'te başlattı."
     tip_think_solution: "Sorunu değil, çözümü düşün."
@@ -714,6 +715,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    buy_premium: "Buy Premium"
 #    purchase: "Purchase"
 #    purchased: "Purchased"
+
+#  subscribe_for_gems:
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
 #  earn_gems:
 #    prompt_title: "Not Enough Gems"
@@ -1433,6 +1438,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
 #    concepts_used: "Concepts Used:"
+#    show_change_log: "Show changes to this course's levels"
+#    hide_change_log: "Hide changes to this course's levels"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1928,7 +1935,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   contribute:
     page_title: "Katkıda Bulunma"
-#    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
+#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
     alert_account_message_intro: "Merhaba!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
@@ -2342,7 +2349,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   legal:
     page_title: "Hukuki"
-    opensource_intro: "CodeCombat ücretsiz oynanılabilir ve tamamen açık kaynaklıdır."
+    opensource_intro: "CodeCombat ücretsiz oynanılabilir ve tamamen açık kaynaklıdır." # {change}
     opensource_description_prefix: "İster "
     github_url: "GitHub'ımıza"
     opensource_description_center: "bakıver ve hoşuna giderse yardım edebilirsin! CodeCombat bir sürü açık kaynaklı projeden yararlanılarak inşa edilmiştir, hepsini seviyoruz. Bu projeleri görmek istersen "
@@ -2565,3 +2572,58 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    unit_9: "Unit 9: AP Review"
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+#  parent_landing:
+#    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
+#    quote_attr: "5th Grader, Oakland"
+#    refer_teacher: "Refer a Teacher"
+#    focus_quote: "Unlock your child's future with the tutor they'll thank you for"
+#    value_head1: "The most effective way to learn typed code"
+#    value_copy1: "Kids playing CodeCombat cover material aligned with national curriculum standards, and learn how to program algorithms, build websites and even design their own games."
+#    value_head2: "Help your child create their best future"
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. Iterative problem solving supports critical thinking, and helps your child develop resilience and determination."
+#    value_head3: "Role models for growing superheroes"
+#    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can, while wrapping it up in a game they'll love."
+#    dive_head1: "Not just for software engineers"
+#    dive_intro: "Computer science skills have a wide range of applications. Take a look at a few examples below!"
+#    medical_flag: "Medical Applications"
+#    medical_flag_copy: "From mapping of the human genome, to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
+#    explore_flag: "Space Exploration"
+#    explore_flag_copy: "Apollo got to the moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
+#    filmaking_flag: "Filmmaking and Animation"
+#    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible animation of Dreamworks and Pixar, films wouldn’t be the same without the digital creatives behind the scenes."
+#    dive_head2: "Why games are important for learning"
+#    dive_par1: "Multiple studies have found that game-based learning promoted"
+#    dive_link1: "cognitive development"
+#    dive_par2: "in kids, while also proving to be"
+#    dive_link2: "more effective"
+#    dive_par3: "in helping students"
+#    dive_link3: "learn and retain knowledge"
+#    dive_par4: ","
+#    dive_link4: "concentrate"
+#    dive_par5: "and perform at a higher level of achievement."
+#    dive_par6: "Game based learning is also good for teaching"
+#    dive_link5: "resilience"
+#    dive_par7: ", cognitive reasoning, and develop"
+#    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
+#    dive_link6: "executive functions"
+#    dive_head3: "Team up with teachers"
+#    dive_3_par1: "In the future, "
+#    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
+#    dive_3_par2: ". We’ve worked closely with teachers to design and develop our levels, and we can't wait to get your kids learning. Educational technology like CodeCombat works best when the teachers can implement it consistently. Help us make that connection by introducing us to your children's teachers!"
+#    mission: "Our mission: to teach and engage"
+#    mission1_heading: "Coding for today's generation"
+#    mission2_heading: "Preparing for the future"
+#    mission3_heading: "Supported by parents like you"
+#    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn coding skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
+#    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
+#    mission3_copy: "At CodeCombat we’re parents. We’re coders. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+
+#  parent_modal:
+#    refer_teacher: "Refer Teacher"
+#    name: "Your Name"
+#    parent_email: "Your Email"
+#    teacher_email: "Teacher's Email"
+#    message: "Message"
+#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
+#    send: "Send Email"

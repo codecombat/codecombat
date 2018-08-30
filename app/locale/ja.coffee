@@ -137,6 +137,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     poll: "投票" # Tooltip on poll button from /play
     next: "次へ" # Go from choose hero to choose inventory before playing a level
     change_hero: "ヒーローの選択" # Go back from choose inventory to choose hero
+#    change_hero_or_language: "Change Hero or Language"
     buy_gems: "ジェムを購入"
     subscribers_only: "サブスクリプション限定!"
     subscribe_unlock: "サブスクリプションで解放!"
@@ -535,7 +536,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_toggle_play: "Ctrl+Pで、プレイ／ポーズをトグルする"
     tip_scrub_shortcut: "Ctrl+[ と Ctrl+] で早戻し、早送りする"
     tip_guide_exists: "ゲームメニュー内のガイド（ページの上部）をクリックし、便利な情報 を見よう。"
-    tip_open_source: "CodeCombatは、100％オープンソースです！"
+    tip_open_source: "CodeCombatは、100％オープンソースです！" # {change}
     tip_tell_friends: "コードコンバットを楽しんでますか？このことを友達にも伝えましょう！"
     tip_beta_launch: "CodeCombatは、2013年10月にベータ版を開始しました。"
     tip_think_solution: "問題より、解決策を考えろ。"
@@ -714,6 +715,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     buy_premium: "プラチナを購入"
     purchase: "購入"
     purchased: "購入完了"
+
+#  subscribe_for_gems:
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
     prompt_title: "ジェムが足りません"
@@ -1433,6 +1438,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
 #    concepts_used: "Concepts Used:"
+#    show_change_log: "Show changes to this course's levels"
+#    hide_change_log: "Hide changes to this course's levels"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1928,7 +1935,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   contribute:
     page_title: "コントリビュート"
-    intro_blurb: "CodeCombat は100%オープンソースです！何百もの熱心なプレイヤーが私たちがゲームを作るのを手伝っています。私たちと一緒に CodeCombat の次のチャプターを作って世界中のプレイヤーにプログラミングを教えましょう！"
+    intro_blurb: "CodeCombat は100%オープンソースです！何百もの熱心なプレイヤーが私たちがゲームを作るのを手伝っています。私たちと一緒に CodeCombat の次のチャプターを作って世界中のプレイヤーにプログラミングを教えましょう！" # {change}
     alert_account_message_intro: "やあ、こんにちは!"
     alert_account_message: "クラスのメールを購読するには,まずログインが必要です。"
     archmage_introduction: "ゲームを作る上で一番重要なのは、たくさんの要素を合成することです。グラフィック、サウンド、リアルタイムネットワーキング、ソーシャルネットワーキング、一般的なプログラミング、ローレベルのデータベースマネジメント、管理画面のデザインやインターフェイスなど多岐に渡ります。やらなくてはいけないことはたくさんあります。もしあなたが経験豊富なプログラマであればアーキメイジになって CodeCombat のコアにコミットしましょう。ぜひとも私たちの最高のプログラミングゲームを手伝ってください。"
@@ -2342,7 +2349,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   legal:
 #    page_title: "Legal"
-#    opensource_intro: "CodeCombat is completely open source."
+#    opensource_intro: "CodeCombat is part of the open source community."
 #    opensource_description_prefix: "Check out "
 #    github_url: "our GitHub"
 #    opensource_description_center: "and help out if you like! CodeCombat is built on dozens of open source projects, and we love them. See "
@@ -2565,3 +2572,58 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    unit_9: "Unit 9: AP Review"
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+#  parent_landing:
+#    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
+#    quote_attr: "5th Grader, Oakland"
+#    refer_teacher: "Refer a Teacher"
+#    focus_quote: "Unlock your child's future with the tutor they'll thank you for"
+#    value_head1: "The most effective way to learn typed code"
+#    value_copy1: "Kids playing CodeCombat cover material aligned with national curriculum standards, and learn how to program algorithms, build websites and even design their own games."
+#    value_head2: "Help your child create their best future"
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. Iterative problem solving supports critical thinking, and helps your child develop resilience and determination."
+#    value_head3: "Role models for growing superheroes"
+#    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can, while wrapping it up in a game they'll love."
+#    dive_head1: "Not just for software engineers"
+#    dive_intro: "Computer science skills have a wide range of applications. Take a look at a few examples below!"
+#    medical_flag: "Medical Applications"
+#    medical_flag_copy: "From mapping of the human genome, to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
+#    explore_flag: "Space Exploration"
+#    explore_flag_copy: "Apollo got to the moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
+#    filmaking_flag: "Filmmaking and Animation"
+#    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible animation of Dreamworks and Pixar, films wouldn’t be the same without the digital creatives behind the scenes."
+#    dive_head2: "Why games are important for learning"
+#    dive_par1: "Multiple studies have found that game-based learning promoted"
+#    dive_link1: "cognitive development"
+#    dive_par2: "in kids, while also proving to be"
+#    dive_link2: "more effective"
+#    dive_par3: "in helping students"
+#    dive_link3: "learn and retain knowledge"
+#    dive_par4: ","
+#    dive_link4: "concentrate"
+#    dive_par5: "and perform at a higher level of achievement."
+#    dive_par6: "Game based learning is also good for teaching"
+#    dive_link5: "resilience"
+#    dive_par7: ", cognitive reasoning, and develop"
+#    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
+#    dive_link6: "executive functions"
+#    dive_head3: "Team up with teachers"
+#    dive_3_par1: "In the future, "
+#    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
+#    dive_3_par2: ". We’ve worked closely with teachers to design and develop our levels, and we can't wait to get your kids learning. Educational technology like CodeCombat works best when the teachers can implement it consistently. Help us make that connection by introducing us to your children's teachers!"
+#    mission: "Our mission: to teach and engage"
+#    mission1_heading: "Coding for today's generation"
+#    mission2_heading: "Preparing for the future"
+#    mission3_heading: "Supported by parents like you"
+#    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn coding skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
+#    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
+#    mission3_copy: "At CodeCombat we’re parents. We’re coders. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+
+#  parent_modal:
+#    refer_teacher: "Refer Teacher"
+#    name: "Your Name"
+#    parent_email: "Your Email"
+#    teacher_email: "Teacher's Email"
+#    message: "Message"
+#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
+#    send: "Send Email"
