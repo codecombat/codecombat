@@ -1430,13 +1430,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     assessments: "评估"
     challenges: "挑战"
     level_name: "级别名称："
-#    keep_trying: "Keep Trying"
-#    start_challenge: "Start Challenge"
-#    locked: "Locked"
-#    concepts_used: "Concepts Used:"
+    keep_trying: "不断尝试"
+    start_challenge: "开始挑战"
+    locked: "锁定"
+    concepts_used: "使用概念"
 
   project_gallery:
-#    no_projects_published: "Be the first to publish a project in this course!"
+    no_projects_published: "在课程中首先发布一个项目"
     view_project: "查看项目"
     edit_project: "编辑项目"
 
