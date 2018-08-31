@@ -933,17 +933,26 @@ module.exports = class CampaignView extends RootView
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
 
   onClickCourseVersion: (e) ->
+    levelElement = $(e.target).parents('.level-info-container')
     levelSlug = $(e.target).parents('.level-info-container').data 'level-slug'
+    levelOriginal = levelElement.data('level-original')
     courseID = $(e.target).parents('.course-version').data 'course-id'
     courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
-    url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
-    Backbone.Mediator.publish 'router:navigate', route: url
 
-  startLevel: (levelElement) ->
+    if(me.showHeroAndInventoryModalsToStudents()) # don't got to play level directly, go through set up manager which will check if any modals need to be displayed before going to PlayLevelView. 
+      @startLevel levelElement, courseID, courseInstanceID
+      window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
+    else
+      url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
+      Backbone.Mediator.publish 'router:navigate', route: url
+
+  startLevel: (levelElement, courseID=null, courseInstanceID=null) ->
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
+    if(me.showHeroAndInventoryModalsToStudents())
+      session.set('codeLanguage', @classroom.get('aceConfig').language)
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session, courseID: courseID, courseInstanceID: courseInstanceID 
     unless @setupManager?.navigatingToPlay
       @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
       @listenToOnce @setupManager, 'open', ->

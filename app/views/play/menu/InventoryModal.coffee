@@ -288,11 +288,13 @@ module.exports = class InventoryModal extends ModalView
   #- Select/equip event handlers
 
   onItemSlotClick: (e) ->
+    @closePopover()
     return if @remainingRequiredEquipment?.length  # Don't let them select a slot if we need them to first equip some require gear.
     #@playSound 'menu-button-click'
     @selectItemSlot($(e.target).closest('.item-slot'))
 
   onUnequippedItemClick: (e) ->
+    @closePopover()
     return if @justDoubleClicked
     return if @justClickedEquipItemButton
     itemEl = $(e.target).closest('.item')
@@ -463,7 +465,7 @@ module.exports = class InventoryModal extends ModalView
         delete equipment[slot]
 
   calculateRequiredGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign()
+    return {} if me.isStudent() and not application.getHocCampaign() and not me.showGearRestrictionsInClassroom()
     return @requiredGearPerSlot if @requiredGearPerSlot
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
     requiredProperties = @options.level.get('requiredProperties') ? []
@@ -484,7 +486,7 @@ module.exports = class InventoryModal extends ModalView
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
-    return {} if me.isStudent() and not application.getHocCampaign()
+    return {} if me.isStudent() and not application.getHocCampaign() and not me.showGearRestrictionsInClassroom()
     return @restrictedGearPerSlot if @restrictedGearPerSlot
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
@@ -642,7 +644,6 @@ module.exports = class InventoryModal extends ModalView
 
       me.set('purchased', purchased)
       me.set('spent', (me.get('spent') ? 0) + item.get('gems'))
-
       #- ...then rerender key bits
       @itemGroups.lockedItems.remove(item)
       @itemGroups.requiredPurchaseItems.remove(item)
@@ -656,8 +657,8 @@ module.exports = class InventoryModal extends ModalView
       @setUpDraggableEventsForAvailableEquipment()
       @itemDetailsView.setItem(item)
       @onScrollUnequipped true
-
-      Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
+      if not me.isStudent()
+        Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
       @playSound 'menu-button-unlock-start'
       button.addClass('confirm').text($.i18n.t('play.confirm'))
@@ -702,9 +703,11 @@ module.exports = class InventoryModal extends ModalView
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
 
   onClickedSomewhere: (e) ->
+    @closePopover()
+
+  closePopover: ->
     return if @destroyed
     @$el.find('.unlock-button').popover 'destroy'
-
 
   #- Dynamic portrait loading
 

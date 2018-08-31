@@ -7,7 +7,7 @@
 .modal-body
   .container-fluid
     .row
-      for achievement in view.achievements.models
+      for achievement in achievements
         if achievement.get('hidden')
           - continue;
         - var animate = achievement.completed && !achievement.completedAWhileAgo
@@ -35,7 +35,7 @@
 
             if rewards.items
               for item in rewards.items
-                - var item = view.thangTypes[item];
+                - var item = thangTypes[item];
                 unless item.get('subscriber') && me.freeOnly()
                   .reward-panel.item(data-item-thang-type=item.get('original'), class=item.get('subscriber') ? 'premium' : '')
                     if item.get('subscriber')

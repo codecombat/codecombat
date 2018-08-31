@@ -55,6 +55,8 @@ module.exports = class LevelSetupManager extends CocoClass
     @fillSessionWithDefaults()
 
   fillSessionWithDefaults: ->
+    if @options.codeLanguage
+      @session.set('codeLanguage', @options.codeLanguage)
     heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
     @session.set('heroConfig', heroConfig)
     if @level.loaded
@@ -68,9 +70,9 @@ module.exports = class LevelSetupManager extends CocoClass
      @onInventoryModalPlayClicked()
      return
 
-    if @level.isType('course', 'course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
-      @onInventoryModalPlayClicked()
-      return
+    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (@level.isType('course') and not me.showHeroAndInventoryModalsToStudents()) or window.serverConfig.picoCTF
+        @onInventoryModalPlayClicked()
+        return
 
     if @level.isSummative()
       @onInventoryModalPlayClicked()
@@ -100,10 +102,10 @@ module.exports = class LevelSetupManager extends CocoClass
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
       unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
         firstModal = @heroesModal
-    firstModal = @inventoryModal if me.isStudent()
+
+
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
-
     @options.parent.openModalView(firstModal)
     @trigger 'open'
     #    @inventoryModal.onShown() # replace?

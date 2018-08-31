@@ -129,6 +129,7 @@ module.exports = class CourseVictoryModal extends ModalView
       @showView(_.first(@views))
     else
       @showVictoryComponent() 
+      
 
   afterRender: ->
     super()
@@ -158,6 +159,9 @@ module.exports = class CourseVictoryModal extends ModalView
       course: @course.toJSON(),
       @courseInstanceID,
       stats: @classroom?.statsForSessions(@levelSessions, @course.id)
+      supermodel: @supermodel,
+      parent: @options.parent
+      codeLanguage: @session.get('codeLanguage')
     }
     new CourseVictoryComponent({
       el: @$el.find('.modal-content')[0]
@@ -222,3 +226,4 @@ module.exports = class CourseVictoryModal extends ModalView
     return if application.testing
     if @level.get('type') is 'course-ladder' and @session.readyToRank() or not @session.inLeague(@courseInstanceID)
       api.levelSessions.submitToRank({ session: @session.id, courseInstanceID: @courseInstanceID })
+      

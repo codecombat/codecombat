@@ -24,9 +24,12 @@ module.exports = class CourseRewardsView extends CocoView
     @session = options.session
     @thangTypes = {}
     @achievements = options.achievements
+
+  render: ->
+    @loadAchievementsData()
     @previousXP = me.get 'points', true
     @previousLevel = me.level()
-    @loadAchievementsData()
+    super()
 
   afterRender: ->
     super()
@@ -64,10 +67,8 @@ module.exports = class CourseRewardsView extends CocoView
       else
         ea.save()
         # Can't just add models to supermodel because each ea has the same url
-        ea.sr = @supermodel.addSomethingResource(ea.cid)
         @newEarnedAchievements.push ea
         @listenToOnce ea, 'sync', (model) ->
-          model.sr.markLoaded()
           if _.all((ea.id for ea in @newEarnedAchievements))
             unless me.loading
               @supermodel.loadModel(me, {cache: false})
@@ -78,6 +79,8 @@ module.exports = class CourseRewardsView extends CocoView
       # have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
       @newEarnedAchievementsResource = @supermodel.addSomethingResource('earned achievements') if @newEarnedAchievements.length
 
+  getRenderData: ->
+    c = super()
     # get the gems and xp earned from the achievements
     earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
     for achievement in (@achievements?.models or [])
@@ -86,8 +89,8 @@ module.exports = class CourseRewardsView extends CocoView
         achievement.completedAWhileAgo = new Date().getTime() - Date.parse(earnedAchievement.attributes.changed) > 30 * 1000
       achievement.worth = achievement.get 'worth', true
       achievement.gems = achievement.get('rewards')?.gems
-    achievements = @achievements?.models.slice() or []
-    for achievement in achievements
+    c.achievements = @achievements?.models.slice() or []
+    for achievement in c.achievements
       achievement.description = utils.i18n achievement.attributes, 'description'
       continue unless @supermodel.finished() and proportionalTo = achievement.get 'proportionalTo'
       # For repeatable achievements, we modify their base worth/gems by their repeatable growth functions.
@@ -99,6 +102,9 @@ module.exports = class CourseRewardsView extends CocoView
       rewards = achievement.get 'rewards'
       achievement.gems = rewards?.gems * func achievedAmount if rewards?.gems
       achievement.previousGems = rewards?.gems * func previousAmount if rewards?.gems
+
+    c.thangTypes = @thangTypes
+    return c
 
   initializeAnimations: ->
     return @endSequentialAnimations() unless @level.isType('course', 'hero', 'hero-ladder', 'game-dev', 'web-dev')
