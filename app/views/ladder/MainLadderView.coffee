@@ -24,7 +24,8 @@ module.exports = class MainLadderView extends RootView
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
 
-    @getLevelPlayCounts()
+    # Disabled due to high load on database.
+    # @getLevelPlayCounts()
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models
