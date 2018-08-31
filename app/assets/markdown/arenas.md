@@ -34,8 +34,6 @@ There are four Arenas in CodeCombat:
 
 #### Standards
 
-- **CSTA 1A-AP-10** Develop programs with sequences and simple loops, to express ideas or address a problem.
-- **CSTA 1B-AP-09** Create programs that use variables to store and modify data.
 - **CSTA: 1B-AP-13** Use an iterative process to plan the development of a program by including others' perspectives and considering user preferences.
 - **CSTA: 1B-AP-15** Test and debug (identify and fix errors) a program or algorithm to ensure it runs as intended.
 - **CSTA: 3B-AP-09** Implement an artificial intelligence algorithm to play a game against a human opponent or solve a problem.
