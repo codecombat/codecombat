@@ -538,7 +538,7 @@
     tip_toggle_play: "Toggle play/paused with Ctrl+P."
     tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
     tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
-    tip_open_source: "CodeCombat is part of the open source community!"     # {change}
+    tip_open_source: "CodeCombat is part of the open source community!"   
     tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_think_solution: "Think of the solution, not the problem."
@@ -1937,7 +1937,7 @@
 
   contribute:
     page_title: "Contributing"
-    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"   # {change}
+    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!" 
     alert_account_message_intro: "Hey there!"
     alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
     archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
@@ -2374,7 +2374,7 @@
     contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
     cla_url: "CLA"
     contributor_description_suffix: "to which you should agree before contributing."
-    code_title: "Client-Side Code - MIT" # {change}
+    code_title: "Client-Side Code - MIT"
     client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
     mit_license_url: "MIT license"
     code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."

@@ -1,5 +1,5 @@
 module.exports = nativeDescription: "한국어", englishDescription: "Korean", translation:
-#  new_home:
+  new_home:
 #    slogan: "The most engaging way to learn real code."
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
@@ -100,6 +100,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     help_suff: "저희가 도와드리겠습니다."
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
+#    parent: "Parents"
 
   modal:
     close: "닫기"
@@ -137,6 +138,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     poll: "투표" # Tooltip on poll button from /play
     next: "다음" # Go from choose hero to choose inventory before playing a level
     change_hero: "영웅 교체" # Go back from choose inventory to choose hero
+#    change_hero_or_language: "Change Hero or Language"    
     buy_gems: "젬 구매"
     subscribers_only: "가입을 해야 합니다."
     subscribe_unlock: "해제하려면 가입을 해 주세요."
@@ -365,6 +367,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     rejected: "거부됨"
     withdrawn: "취소됨"
     accept: "승인"
+#    accept_and_save: "Accept&Save"
     reject: "보류"
     withdraw: "철수"
     submitter: "제출자"
@@ -535,7 +538,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tip_toggle_play: "Ctrl+P로 실행을 계속하거나 멈출수 있어요"
     tip_scrub_shortcut: "Ctrl+[, Ctrl+] 를 이용해 실행 속도를 빠르게 할 수 있어요"
     tip_guide_exists: "화면 상단의 가이드를 클릭해보세요. 유용한 정보를 얻을 수 있습니다."
-    tip_open_source: "코드 컴뱃은 100% 오픈 소스 기반입니다!"
+    tip_open_source: "코드 컴뱃은 100% 오픈 소스 기반입니다!" # {change}
     tip_tell_friends: "코드 컴뱃을 즐기셨나요? 친구에게 알려주십시오"
     tip_beta_launch: "코드 컴뱃은 2013년 10월에 베타 서비스를 출시했습니다."
     tip_think_solution: "해결 방법을 고민해보세요, 문제를 고민하지 말구요"
@@ -714,6 +717,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     buy_premium: "프리미엄 구입"
     purchase: "구매하기"
     purchased: "구매함"
+
+#  subscribe_for_gems:
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
     prompt_title: "젬이 충분하지 않습니다."
@@ -1433,6 +1440,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
 #    concepts_used: "Concepts Used:"
+#    show_change_log: "Show changes to this course's levels"
+#    hide_change_log: "Hide changes to this course's levels"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1928,7 +1937,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
 #  contribute:
 #    page_title: "Contributing"
-#    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
+#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
@@ -2342,7 +2351,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   legal:
 #    page_title: "Legal"
-    opensource_intro: "코드 컴뱃은 무료이며 전적으로 오픈 소스를 기반으로 합니다."
+    opensource_intro: "코드 컴뱃은 무료이며 전적으로 오픈 소스를 기반으로 합니다." # {change}
     opensource_description_prefix: "코드 컴뱃의"
     github_url: "GitHub"
     opensource_description_center: "를 확인해보세요. 그리고 원하신다면 함께 도와주세요! 코드 컴뱃은 수천 개의 오픈 소스 프로젝트를 기반으로 만들어졌고 저희는 이들에 대해 깊은 애정을 갖고 있습니다. 한번 "
@@ -2365,8 +2374,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
 #    cla_url: "CLA"
 #    contributor_description_suffix: "to which you should agree before contributing."
-#    code_title: "Code - MIT"
-#    code_description_prefix: "All code owned by CodeCombat or hosted on codecombat.com, both in the GitHub repository or in the codecombat.com database, is licensed under the"
+#    code_title: "Client-Side Code - MIT"
+#    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
 #    mit_license_url: "MIT license"
 #    code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."
 #    art_title: "Art/Music - Creative Commons "
@@ -2565,3 +2574,58 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    unit_9: "Unit 9: AP Review"
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+#  parent_landing:
+#    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
+#    quote_attr: "5th Grader, Oakland"
+#    refer_teacher: "Refer a Teacher"
+#    focus_quote: "Unlock your child's future"
+#    value_head1: "The most engaging way to learn typed code"
+#    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
+#    value_head2: "Building critical skills for the 21st century"
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_head3: "Heroes that your child will love"
+#    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
+#    dive_head1: "Not just for software engineers"
+#    dive_intro: "Computer science skills have a wide range of applications. Take a look at a few examples below!"
+#    medical_flag: "Medical Applications"
+#    medical_flag_copy: "From mapping of the human genome to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
+#    explore_flag: "Space Exploration"
+#    explore_flag_copy: "Apollo got to the Moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
+#    filmaking_flag: "Filmmaking and Animation"
+#    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible animation of Dreamworks and Pixar, films wouldn’t be the same without the digital creatives behind the scenes."
+#    dive_head2: "Games are important for learning"
+#    dive_par1: "Multiple studies have found that game-based learning promotes"
+#    dive_link1: "cognitive development"
+#    dive_par2: "in kids while also proving to be"
+#    dive_link2: "more effective"
+#    dive_par3: "in helping students"
+#    dive_link3: "learn and retain knowledge"
+#    dive_par4: ","
+#    dive_link4: "concentrate"
+#    dive_par5: ", and perform at a higher level of achievement."
+#    dive_par6: "Game based learning is also good for developing"
+#    dive_link5: "resilience"
+#    dive_par7: ", cognitive reasoning, and"
+#    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
+#    dive_link6: "executive functions"
+#    dive_head3: "Team up with teachers"
+#    dive_3_par1: "In the future, "
+#    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
+#    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
+#    mission: "Our mission: to teach and engage"
+#    mission1_heading: "Coding for today's generation"
+#    mission2_heading: "Preparing for the future"
+#    mission3_heading: "Supported by parents like you"
+#    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
+#    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
+#    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+
+#  parent_modal:
+#    refer_teacher: "Refer Teacher"
+#    name: "Your Name"
+#    parent_email: "Your Email"
+#    teacher_email: "Teacher's Email"
+#    message: "Message"
+#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
+#    send: "Send Email"
