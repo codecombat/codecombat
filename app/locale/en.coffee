@@ -538,7 +538,7 @@
     tip_toggle_play: "Toggle play/paused with Ctrl+P."
     tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
     tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
-    tip_open_source: "CodeCombat is part of the open source community!"   
+    tip_open_source: "CodeCombat is part of the open source community!"
     tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_think_solution: "Think of the solution, not the problem."
@@ -1937,7 +1937,7 @@
 
   contribute:
     page_title: "Contributing"
-    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!" 
+    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
     alert_account_message_intro: "Hey there!"
     alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
     archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
@@ -2577,13 +2577,13 @@
 
   parent_landing:
     slogan_quote: '"CodeCombat is really fun, and you learn a lot."'
-    quote_attr: "5th Grader, Oakland"
+    quote_attr: "5th Grader, Oakland, CA" # {change}
     refer_teacher: "Refer a Teacher"
     focus_quote: "Unlock your child's future"
     value_head1: "The most engaging way to learn typed code"
     value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
     value_head2: "Building critical skills for the 21st century"
-    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
     value_head3: "Heroes that your child will love"
     value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
     dive_head1: "Not just for software engineers"
