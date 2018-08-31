@@ -100,6 +100,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    help_suff: "and we'll get in touch!"
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
+#    parent: "Parents"
 
   modal:
     close: "Lukk"
@@ -137,6 +138,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "Neste" # Go from choose hero to choose inventory before playing a level
     change_hero: "Bytt Helt" # Go back from choose inventory to choose hero
+#    change_hero_or_language: "Change Hero or Language"
     buy_gems: "Kjøp Juveler"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
@@ -365,6 +367,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     rejected: "Avvist"
     withdrawn: "Trukket tilbake"
     accept: "Godta"
+#    accept_and_save: "Accept&Save"
     reject: "Avslå"
     withdraw: "trekke tilbake"
     submitter: "Innsender"
@@ -535,7 +538,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_toggle_play: "Ctrl+P er play/pause"
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] spoler bakover og fremover på tidslinjen." # {change}
     tip_guide_exists: "Sjekk Guiden i spillmenyen på toppen av siden for nyttig informasjon."
-    tip_open_source: "CodeCombat er en 100% åpen kildekode!"
+    tip_open_source: "CodeCombat er en 100% åpen kildekode!" # {change}
     tip_tell_friends: "Liker du CodeCombat? Fortell vennene dine om oss!"
     tip_beta_launch: "CodeCombat ble lansert i betautgave i oktober 2013."
     tip_think_solution: "Tenk på løsningen, ikke på problemet."
@@ -714,6 +717,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    buy_premium: "Buy Premium"
 #    purchase: "Purchase"
 #    purchased: "Purchased"
+
+#  subscribe_for_gems:
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
 #  earn_gems:
 #    prompt_title: "Not Enough Gems"
@@ -1433,6 +1440,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
 #    concepts_used: "Concepts Used:"
+#    show_change_log: "Show changes to this course's levels"
+#    hide_change_log: "Hide changes to this course's levels"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1928,7 +1937,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   contribute:
     page_title: "Bidra"
-    intro_blurb: "CodeCombat er 100% åpen kildekode! Hundrevis av dedikerte spillere har hjulpet oss å bygge spillet til det det er blitt i dag. Foren deg med oss og bli med og skriv neste kapittel i CodeCombat sin søken etter å lære hele verden koding!"
+    intro_blurb: "CodeCombat er 100% åpen kildekode! Hundrevis av dedikerte spillere har hjulpet oss å bygge spillet til det det er blitt i dag. Foren deg med oss og bli med og skriv neste kapittel i CodeCombat sin søken etter å lære hele verden koding!" # {change}
     alert_account_message_intro: "Heisann!"
     alert_account_message: "For å abonnere på klasse-eposter må du være logget inn først."
     archmage_introduction: "En av de beste tingene med å lage spill er at det består av så mye forskjellig. Grafikk, lyd, sanntidsnettverk, sosiale nettverk, og selvfølgelig mange av de vanlige aspektene ved programmering, fra lav-nivå database drift og serveradministrasjon til design og bygging av brukergrensesnitt. Det er mye å gjøre og hvis du er en erfaren utvikler som har lyst til å dykke ned i de tekniske detaljene i CodeCombat, da er dette kanskje klassen for deg. Vi vil veldig gjerne ha din hjelp til å lage det beste programmeringsspillet noensinne."
@@ -2342,7 +2351,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   legal:
     page_title: "Juridisk"
-    opensource_intro: "CodeCombat er gratis å spille og helt åpen kildekode."
+#    opensource_introduction: "CodeCombat is part of the open source community."
     opensource_description_prefix: "Ta en titt på siden vår på "
     github_url: "GitHub"
     opensource_description_center: "og hjelp gjerne til hvis du har lyst! CodeCombat er basert på dusinvis av åpen kildekode-prosjekter og vi er veldig glade i dem. Se "
@@ -2365,8 +2374,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     contributor_description_prefix: "Alle bidrag, både gjort gjennom brukergrensesnittet og i kodelageret på GitHub, er underlagt vår"
     cla_url: "Lisensavtale for Bidragsytere"
     contributor_description_suffix: "(Contributor License Agreement - CLA), som du må bekrefte før du kan bidra på prosjektet."
-    code_title: "Kode - MIT lisens"
-    code_description_prefix: "All kildekode som er eid av CodeCombat eller ligger på codecombat.com, både i kodelageret på GitHub eller i codecombat.com databasen, er lisensiert med "
+    code_title: "Kode - MIT lisens" # {change}
+#    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
     mit_license_url: "MIT lisensen"
     code_description_suffix: "Dette inkluderer alle kode i Systemer og Komponenter som er gjort tilgjengelig av CodeCombat til bruk når man lager Brett."
     art_title: "Grafikk og Musikk - Creative Commons"
@@ -2565,3 +2574,58 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    unit_9: "Unit 9: AP Review"
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+#  parent_landing:
+#    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
+#    quote_attr: "5th Grader, Oakland"
+#    refer_teacher: "Refer a Teacher"
+#    focus_quote: "Unlock your child's future"
+#    value_head1: "The most engaging way to learn typed code"
+#    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
+#    value_head2: "Building critical skills for the 21st century"
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_head3: "Heroes that your child will love"
+#    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
+#    dive_head1: "Not just for software engineers"
+#    dive_intro: "Computer science skills have a wide range of applications. Take a look at a few examples below!"
+#    medical_flag: "Medical Applications"
+#    medical_flag_copy: "From mapping of the human genome to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
+#    explore_flag: "Space Exploration"
+#    explore_flag_copy: "Apollo got to the Moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
+#    filmaking_flag: "Filmmaking and Animation"
+#    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible animation of Dreamworks and Pixar, films wouldn’t be the same without the digital creatives behind the scenes."
+#    dive_head2: "Games are important for learning"
+#    dive_par1: "Multiple studies have found that game-based learning promotes"
+#    dive_link1: "cognitive development"
+#    dive_par2: "in kids while also proving to be"
+#    dive_link2: "more effective"
+#    dive_par3: "in helping students"
+#    dive_link3: "learn and retain knowledge"
+#    dive_par4: ","
+#    dive_link4: "concentrate"
+#    dive_par5: ", and perform at a higher level of achievement."
+#    dive_par6: "Game based learning is also good for developing"
+#    dive_link5: "resilience"
+#    dive_par7: ", cognitive reasoning, and"
+#    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
+#    dive_link6: "executive functions"
+#    dive_head3: "Team up with teachers"
+#    dive_3_par1: "In the future, "
+#    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
+#    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
+#    mission: "Our mission: to teach and engage"
+#    mission1_heading: "Coding for today's generation"
+#    mission2_heading: "Preparing for the future"
+#    mission3_heading: "Supported by parents like you"
+#    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
+#    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
+#    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+
+#  parent_modal:
+#    refer_teacher: "Refer Teacher"
+#    name: "Your Name"
+#    parent_email: "Your Email"
+#    teacher_email: "Teacher's Email"
+#    message: "Message"
+#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
+#    send: "Send Email"

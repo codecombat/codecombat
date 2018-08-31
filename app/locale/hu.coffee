@@ -100,6 +100,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     help_suff: "és mi fölvesszük veled a kapcsolatot!"
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
+#    parent: "Parents"
 
   modal:
     close: "Bezár"
@@ -137,6 +138,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     poll: "Kérdőív" # Tooltip on poll button from /play
     next: "Következő" # Go from choose hero to choose inventory before playing a level
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
+#    change_hero_or_language: "Change Hero or Language"
     buy_gems: "Vásárolj Drágköveket"
     subscribers_only: "Csak előfizetőknek!"
 #    subscribe_unlock: "Subscribe to Unlock!"
@@ -365,6 +367,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     rejected: "Elutasítva"
     withdrawn: "Visszavon"
     accept: "Elfogad"
+#    accept_and_save: "Accept&Save"
     reject: "Visszautasít"
     withdraw: "Visszavon"
     submitter: "Beküldő"
@@ -535,7 +538,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_toggle_play: "Játék/Szünet kapcsoló Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ és Ctrl+] visszatekerés és gyors-előre." # {change}
     tip_guide_exists: "Hasznos információkért kattints az oldal tetején az útmutatóra.."
-    tip_open_source: "A CodeCombat 100%-osan nyitott forráskódú."
+    tip_open_source: "A CodeCombat 100%-osan nyitott forráskódú." # {change}
     tip_tell_friends: "Élvezed a CodeCombat-ot? Mesélj rólunk a barátaidnak!"
     tip_beta_launch: "CodeCombat Béta teszt 2013 Októberétől elérhető."
     tip_think_solution: "A megoldásra gondolj, ne a problémára!"
@@ -714,6 +717,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     buy_premium: "Vegyél Premium tagságot"
     purchase: "Vásárlás"
     purchased: "Megvetted"
+
+#  subscribe_for_gems:
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
     prompt_title: "Nincs elég drágaköved"
@@ -1433,6 +1440,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
 #    concepts_used: "Concepts Used:"
+#    show_change_log: "Show changes to this course's levels"
+#    hide_change_log: "Hide changes to this course's levels"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1928,7 +1937,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   contribute:
     page_title: "Hozzájárulás"
-    intro_blurb: "A CodeCombat 100%-ban nyílt forráskódú! Több száz elkötelezett játékosunk segített abban, hogy a játék elérhesse jelenlegi állapotát. Állj be közénk, nyiss új fejezetet a CodeCombat történetében, hogy megtaníthassuk az embereket kódolni!"
+    intro_blurb: "A CodeCombat 100%-ban nyílt forráskódú! Több száz elkötelezett játékosunk segített abban, hogy a játék elérhesse jelenlegi állapotát. Állj be közénk, nyiss új fejezetet a CodeCombat történetében, hogy megtaníthassuk az embereket kódolni!" # {change}
     alert_account_message_intro: "Hellóhelló."
     alert_account_message: "Ha fel szeretnél iratkozni az osztály levelezésére, először be kell lépned."
     archmage_introduction: "A játékok fejlesztésében az egyik legszebb dolog az, hogy annyi mindent hoznak létre. Grafikát, hangot, valós idejű kommunikációt, közösségi hálón való kommunikációt, és persze a programozás legfontosabb vonatkozásait az alacsony szintű adatbáziskezeléstől és szerveradminisztrációtól kezdve a user interface design és interface building folyamatokig. Sok itt még a tennivaló, ezért ha tapasztalt programozó vagy, és szívesen belevetnéd magad a CodeCombat sűrűjébe, ez az osztály való neked. Nagyon jól jönne a segítséged, hogy megcsinálhassuk a világ legjobb programozós játékát!"
@@ -2342,7 +2351,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   legal:
     page_title: "Jogi információk"
-    opensource_intro: "A CodeCombat 100%-ban nyílt forráskódú."
+#    opensource_introduction: "CodeCombat is part of the open source community."
     opensource_description_prefix: "Látogass el a "
     github_url: "GitHub repónkba"
     opensource_description_center: "és szolgáld ki magad! A CodeCombat több tucat nyílt forráskódú projektre épül, és mindegyiket nagyon szeretjük! Nézd meg "
@@ -2365,8 +2374,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     contributor_description_prefix: "Mind a webhelyünk, mind a GitHub tárhelyünk fejlesztésében való közreműkődés a"
     cla_url: "támogatói licencszerződés (CLA) hatálya alá esik,"
     contributor_description_suffix: "amelynek elfogadása előzetesen kötelező."
-    code_title: "Kód - MIT"
-    code_description_prefix: "Valamennyi, a CodeCombat által birtokolt vagy a codecombat.com oldalon, akár a GitHub tárhelyen vagy a codecombat.com adatbázisban tárolt kód licence az"
+    code_title: "Kód - MIT" # {change}
+#    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
     mit_license_url: "MIT licenc hatálya alá esik."
     code_description_suffix: "Ez kiterjed minden kódra a CodeCombat által fenntartott rendszerekben és komponensekben, amelyek a pályák létrehozását szolgálják."
     art_title: "Design/zene - Kreatív tartalmak "
@@ -2565,3 +2574,58 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    unit_9: "Unit 9: AP Review"
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+#  parent_landing:
+#    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
+#    quote_attr: "5th Grader, Oakland"
+#    refer_teacher: "Refer a Teacher"
+#    focus_quote: "Unlock your child's future"
+#    value_head1: "The most engaging way to learn typed code"
+#    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
+#    value_head2: "Building critical skills for the 21st century"
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_head3: "Heroes that your child will love"
+#    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
+#    dive_head1: "Not just for software engineers"
+#    dive_intro: "Computer science skills have a wide range of applications. Take a look at a few examples below!"
+#    medical_flag: "Medical Applications"
+#    medical_flag_copy: "From mapping of the human genome to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
+#    explore_flag: "Space Exploration"
+#    explore_flag_copy: "Apollo got to the Moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
+#    filmaking_flag: "Filmmaking and Animation"
+#    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible animation of Dreamworks and Pixar, films wouldn’t be the same without the digital creatives behind the scenes."
+#    dive_head2: "Games are important for learning"
+#    dive_par1: "Multiple studies have found that game-based learning promotes"
+#    dive_link1: "cognitive development"
+#    dive_par2: "in kids while also proving to be"
+#    dive_link2: "more effective"
+#    dive_par3: "in helping students"
+#    dive_link3: "learn and retain knowledge"
+#    dive_par4: ","
+#    dive_link4: "concentrate"
+#    dive_par5: ", and perform at a higher level of achievement."
+#    dive_par6: "Game based learning is also good for developing"
+#    dive_link5: "resilience"
+#    dive_par7: ", cognitive reasoning, and"
+#    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
+#    dive_link6: "executive functions"
+#    dive_head3: "Team up with teachers"
+#    dive_3_par1: "In the future, "
+#    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
+#    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
+#    mission: "Our mission: to teach and engage"
+#    mission1_heading: "Coding for today's generation"
+#    mission2_heading: "Preparing for the future"
+#    mission3_heading: "Supported by parents like you"
+#    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
+#    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
+#    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+
+#  parent_modal:
+#    refer_teacher: "Refer Teacher"
+#    name: "Your Name"
+#    parent_email: "Your Email"
+#    teacher_email: "Teacher's Email"
+#    message: "Message"
+#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
+#    send: "Send Email"
