@@ -64,11 +64,25 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   #MMN Copy Coordinates Action
   onCopyCoordinates: (e) =>
-    console.log "MMN Copy Event"
+    console.log "Copy Coordinates Event"
     e?.preventDefault?()
     return unless @mouseInBounds and @lastPos and not @destroyed
     text = "#{@lastPos.x}, #{@lastPos.y}"
-    navigator.clipboard.writeText(text)
+    if navigator.clipboard
+      console.log "Copy Coordinates using navigator"
+      navigator.clipboard.writeText(text)
+    else if document.queryCommandSupported('copy')
+      console.log "Copy Coordinates using execCommand"
+      textArea = document.createElement("textarea")
+      textArea.value = text
+      document.body.appendChild(textArea)
+      textArea.focus()
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+    else
+      console.log "Copy Coordinates not supported"
+
 
   onZoomUpdated: (e) ->
     return unless @lastPos
