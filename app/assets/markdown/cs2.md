@@ -525,75 +525,100 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 
 
 ##### Module 10
-## Review - Multiplayer Arena
+## Capstone Challenge - Multiplayer Arena
 ### Summary
 
-The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Power Peak arena and attempt multiple solutions until time is called.
+The arena level is an opportunity for students to creatively apply all the concepts they have learned to develop a program that solves a problem. Students first develop an algorithm that will defeat a computer opponent, then they compete against classmates, refining their algorithm to beat the level as quickly as possible. The friendly competition in this level is intended to motivate students to apply an iterative development process, creating and testing multiple possible solutions. Students can also work collaboratively using a pair programming approach, which may make the competition more comfortable for some students.
 
-See the [Arena Levels Guide](/teachers/resources/arenas) for more details.
+#### Materials
+- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
+- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-### Transfer Goals
-- Design an algorithm to solve a problem.
-- Implement an algorithm in Python.
-- Debug a Python program.
 
-### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP3** Construct viable arguments and critique the reasoning of others.
-**CCSS.Math.Practice.MP5** Use appropriate tools strategically.
-**CCSS.Math.Practice.MP6** Attend to precision.
+#### Learning Objectives
 
-### Instructive Activity: Engineering Cycle (10 mins)
-#### Explain (3 mins)
-Engineering is all about solving problems, but the first rule of engineering is that no one gets it right the first time. That’s where the Engineering Cycle comes in:
+- Use an iterative process to develop a program that solves a problem.
+- Test and debug a program.
 
-First, we DESIGN a solution to our problem. This includes figuring out what the problem is, and breaking it down into smaller parts. Then we IMPLEMENT this design, which putting our ideas into action with code. Third, we TEST our implementation. Does it work? Does it solve the problem? If our test fails, we have to decide if it was because of the DESIGN or the IMPLEMENTATION.
+#### Standards
 
-Then we keep designing, implementing, and testing until it the problem is solved!
+- **CSTA: 1B-AP-13** Use an iterative process to plan the development of a program by including others' perspectives and considering user preferences.
+- **CSTA: 1B-AP-15** Test and debug (identify and fix errors) a program or algorithm to ensure it runs as intended.
+- **CSTA: 3B-AP-09** Implement an artificial intelligence algorithm to play a game against a human opponent or solve a problem.
+* **CCSS-Math: MP.1** Make sense of problems and persevere in solving them.
+* **CCSS-Math: MP.2** Reason abstractly and quantitatively.
+* **CCSS-Math: MP.6** Attend to precision.
 
-#### Reflect (2 mins)
-**What are the steps of the Engineering Cycle?** (Design, implement, test)
-**When does the Engineering Cycle stop?** (When the problem is solved, or you run out of time)
+### Opening Discussion (5 minutes): _Introduction to Arenas_
 
-#### Interact (5 mins)
-As a class, make a list of all the things your hero can do (functions). Use appropriate vocabulary. Annotate with any tips or code snippets the students deem useful.
-`moveUp()`, `moveDown()`, `moveLeft()`, `moveRight()`
-`moveToXY(x,y)`
-`attack(something)`
+#### Explain
 
-### Coding Time (30-45 mins)
+Tell students that they're going to put all their learning together today in a special activity called an Arena. Explain and demonstrate how the Arena works, making sure to cover the following points:
 
-Have students navigate to the last level, **Power Peak**, and complete it at their own pace.
+- They'll be writing an artificial intelligence program to beat a complicated level in a race against an opponent. They'll test and revise their program over and over the get the best time they can. Encourage them to submit code, observe the output, and look for places where revisions could help a goal to be achieved more quickly, help a player to stay alive longer, etc. Then they should make the changes and submit again, as many times as they like.
+- First, they should click to select the Red (Human) or Blue (Ogre) team. (We suggest randomly assigning half of the students to each team.)
+- The first time they play, they should choose "Warm-Up" to play against the computer. They should keep revising and improving their program until it is good enough to beat the computer.
+- Once they beat the computer, they can choose "Easy" to play against their classmates.
 
-#### Rankings
+#### Review the Engineering Cycle
 
-Once students beat the default computer they will be put in for the class ranking. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the computer and other students in your CodeCombat class (not strangers).
+Remind students that engineering is all about solving problems, and the first rule of engineering is that no one gets it right the first time. That’s where the Engineering Cycle comes in:
 
-Note that the class rankings are plainly visible. If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead:
+DECOMPOSE: Understand and break apart the problem. What is the goal of the level? What smaller goals do you see along the way?  
+PLAN: Choose one part of the problem to solve first. What do you need the computer to do? Plan a solution in plain English or pseudocode. Use a flowchart or storyboard to stay organized.   
+IMPLEMENT: Write the solution to each part of your problem in code. 
+TEST: Run your code! Does it solve the problem the way you intended? If not, redesign. Does it work without errors? If not, trace through it to find and fix the bug(s), then test again. Once it works, move on to the planning and implementing the next part! 
 
-- Write a walkthrough or guide to your favorite level
-- Write a review of the game
-- Design a new level
+Provide each student with a copy of the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
 
-#### Dividing the Class
 
-Students must choose a team to join: Red or Blue. It is important to divide the class as most students will choose red. It doesn’t matter if the sides are even, but it is important that there ARE players for both sides.
+#### Discuss
+Use one or more of the following discussion questions to help prepare students for success:
 
-- Divide the class into two randomly by drawing from a deck of cards.
-- Students who turn in their work early join the blue team, and latecomers play red.
+**What steps will you follow to plan and create your program?**
 
-#### Refining the Code
+Sample Responses:
+> I'll use the Engineering Cycle. I'll decompose the problem by finding the big goal and breaking it into smaller subgoals. I'll choose one subgoal to start with and plan out an algorithm to solve it. Then I'll write my algorithm in code, and start testing and debugging until it works the way I want it to. 
 
-Code for Power Peak can be submitted more than once. Encourage your students to submit code, observe how it fares against their classmates, and then make improvements and resubmit. In addition, students who have finished the code for one team can go on to create code for the other team.
+**What will you do if your program doesn't beat the computer the first time?**
 
-Remind students to use the Engineering Cycle when working on their algorithms:
+Sample Response:
+> If it doesn't work, I'll rerun it and watch to see where it goes wrong, then I'll try to find a way to improve that part and resubmit the code. If it still doesn't work, I'll try it again!
 
-**DESIGN**: Make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.
-**IMPLEMENT**: Write the solution to that part of your problem in code. Tip: Use a different function to solve each part of the problem!
-**TEST**: Does your code work? If not, fix your code. If it does, does it solve the right part of the problem? If not, redesign. If so, move on to the next part!
+### Coding Time (40-50 mins)
 
-### Written Reflection (5 mins)
+Have students navigate to the last level, **Power Peak**. They should take a few minutes to complete the Engineering Cycle Worksheet, then complete the level at their own pace.  Circulate and assist as they work.
 
-**Writing Checkpoint: What is code?**
->Code is when you type instructions to make the computer do things. Sometimes it gives you hints and completes the words for you. You have to spell everything right and indent the right number of spaces. Sometimes the puzzles are easy and sometimes they are hard. You have to make a plan for how to solve it, and then write the code exactly to make it work. The language we used is called Python. It has while True: to make your code repeat and if, else, and elif to make different things happen at different times.
+
+#### Good to Know
+
+- Some students may be uncomfortable with competition, especially given that the rankings are visible to the class. Consider using Pair Programming - competition is often more comfortable when you have a partner.
+- Students will only compete against the AI and other students in the same CodeCombat class (not strangers).
+- Once students have beaten one of the AIs, they will be put into the class rankings.
+- Red teams only fight against blue teams, and there will be top rankings for each.
+- Once students have submitted code, other students can click the “Fight” link next to any student in the ranking to challenge that student!
+- If you leave your teacher account on the arena ladder page, it will simulate more matches between your students.
+
+#### Look Out For:
+- The Arena is more open-ended than the regular levels. If students are unsure of how to get started, remind them that programming is an iterative process and guide them toward decomposing the problem into simpler pieces, planning a solution for just one part of the level at a time.
+- If a student is frustrated at losing, encourage them to analyze the winning player's strategy. What can they learn from it, and how can they use it to improve the next iteration of their own code?
+
+### Closure (5 minutes)
+
+Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
+
+**In CodeCombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is  different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
+
+Sample Responses:
+> CodeCombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
+
+> In this game, I get to look through the whole level first and plan out how I want to beat it. Then I get to design a way to make my plan work. It feels different than making it up as I go along in regular video games.
+
+**What did you do when your code didn't beat your opponent? How did you decide what changes to make?**
+
+Sample Response:
+
+> I reran the code and watched to see if I could take any shortcuts. Then I changed the code and ran it again to see if it helped.
+
+> I looked for ways to stay alive longer. I called more friends to help and picked up more potion. Adding those things to my program helped me make it to the end.

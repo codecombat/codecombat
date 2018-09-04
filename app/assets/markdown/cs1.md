@@ -466,8 +466,8 @@ Sample Response:
 The arena level is an opportunity for students to creatively apply all the concepts they have learned to develop a program that solves a problem. Students first develop an algorithm that will defeat a computer opponent, then they compete against classmates, refining their algorithm to beat the level as quickly as possible. The friendly competition in this level is intended to motivate students to apply an iterative development process, creating and testing multiple possible solutions. Students can also work collaboratively using a pair programming approach, which may make the competition more comfortable for some students.
 
 #### Materials
+- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
 - Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
-- Optional: [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
 - Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
@@ -499,15 +499,25 @@ Tell students that they're going to put all their learning together today in a s
 - The first time they play, they should choose "Warm-Up" to play against the computer. They should keep revising and improving their program until it is good enough to beat the computer.
 - Once they beat the computer, they can choose "Easy" to play against their classmates.
 
+#### Review the Engineering Cycle
+
+Remind students that engineering is all about solving problems, and the first rule of engineering is that no one gets it right the first time. That’s where the Engineering Cycle comes in:
+
+DECOMPOSE: Understand and break apart the problem. What is the goal of the level? What smaller goals do you see along the way?  
+PLAN: Choose one part of the problem to solve first. What do you need the computer to do? Plan a solution in plain English or pseudocode. Use a flowchart or storyboard to stay organized.   
+IMPLEMENT: Write the solution to each part of your problem in code. 
+TEST: Run your code! Does it solve the problem the way you intended? If not, redesign. Does it work without errors? If not, trace through it to find and fix the bug(s), then test again. Once it works, move on to the planning and implementing the next part! 
+
+Provide each student with a copy of the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
+
 
 #### Discuss
-
 Use one or more of the following discussion questions to help prepare students for success:
 
 **What steps will you follow to plan and create your program?**
 
-Sample Response:
-> Observe the level, locate the goal, identify items to collect and enemies to defeat, plan the shortest route to complete those tasks, then use the coding skills I've learned to write a program step-by-step that will complete all the tasks and get to the goal.
+Sample Responses:
+> I'll use the Engineering Cycle. I'll decompose the problem by finding the big goal and breaking it into smaller subgoals. I'll choose one subgoal to start with and plan out an algorithm to solve it. Then I'll write my algorithm in code, and start testing and debugging until it works the way I want it to. 
 
 **What will you do if your program doesn't beat the computer the first time?**
 
@@ -516,7 +526,7 @@ Sample Response:
 
 ### Coding Time (40-50 mins)
 
-Have students navigate to the last level, **Wakka Maul**, and complete it at their own pace.  Circulate and assist as they work.
+Have students navigate to the last level, **Wakka Maul**. They should take a few minutes to complete the Engineering Cycle Worksheet, then complete the level at their own pace.  Circulate and assist as they work.
 
 
 #### Good to Know

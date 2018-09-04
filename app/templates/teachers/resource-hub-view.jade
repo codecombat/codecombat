@@ -198,6 +198,8 @@ block content
           -     gd1URL += '-he'
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     gd1URL += '-pt-BR'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     gd1URL += '-zh-HANS'
           a(href=gd1URL)
             span(data-i18n="teacher.gd1_guide")
           p(data-i18n="teacher.gd1_guide_desc")
