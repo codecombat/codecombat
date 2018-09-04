@@ -14,8 +14,10 @@ module.exports = class VerifierTest extends CocoClass
     # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
     @supermodel ?= new SuperModel()
 
+    if utils.getQueryVariable('dev') or @options.devMode
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
     @solution = @options.solution
-    @devEnv = @options.devEnv ? false
     @language ?= 'python'
     @userCodeProblems = []
     @load()
@@ -60,7 +62,6 @@ module.exports = class VerifierTest extends CocoClass
     @level = @levelLoader.level
     @session = @levelLoader.session
     @solution ?= @levelLoader.session.solution
-    @reportResults()
 
   setupGod: ->
     @god.setLevel @level.serialize {@supermodel, @session, otherSession: null, headless: true, sessionless: false}
