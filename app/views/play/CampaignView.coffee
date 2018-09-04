@@ -339,10 +339,10 @@ module.exports = class CampaignView extends RootView
   onLoaded: ->
     if @classroom
       classroomLevels = @classroom.getLevels()
-      classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
+      @classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
       defaultLanguage = @classroom.get('aceConfig').language
       for session in @sessions.slice()
-        classroomLevel = classroomLevelMap[session.get('level').original]
+        classroomLevel = @classroomLevelMap[session.get('level').original]
         if not classroomLevel
           continue
         expectedLanguage = classroomLevel.get('primerLanguage') or defaultLanguage
@@ -949,10 +949,14 @@ module.exports = class CampaignView extends RootView
   startLevel: (levelElement, courseID=null, courseInstanceID=null) ->
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
+    levelOriginal = levelElement.data('level-original')
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
     if(me.showHeroAndInventoryModalsToStudents())
-      session.set('codeLanguage', @classroom.get('aceConfig').language)
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session, courseID: courseID, courseInstanceID: courseInstanceID 
+      codeLanguage = @classroomLevelMap[levelOriginal]?.get('primerLanguage') or @classroom?.get('aceConfig')?.language
+      options = {supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, courseID: courseID, courseInstanceID: courseInstanceID, codeLanguage: codeLanguage}
+    else
+      options = {supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session}
+    @setupManager = new LevelSetupManager options
     unless @setupManager?.navigatingToPlay
       @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
       @listenToOnce @setupManager, 'open', ->
