@@ -19,13 +19,15 @@ module.exports = class VerifierView extends RootView
 
   constructor: (options, @levelID) ->
     super options
+    # TODO: sort tests by unexpected result first
     @passed = 0
     @failed = 0
     @problem = 0
     @testCount = 0
 
-    @envDev = utils.getQueryVariable('dev', false)
-    @envProd = utils.getQueryVariable('prod', not @envDev)
+    if utils.getQueryVariable('dev')
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
 
     defaultCores = 2
     @cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
@@ -33,8 +35,7 @@ module.exports = class VerifierView extends RootView
 
     if @levelID
       @levelIDs = [@levelID]
-      @testLanguages = if utils.getQueryVariable('language') then [utils.getQueryVariable('language')]
-      else ['python', 'javascript', 'java', 'lua', 'coffeescript']
+      @testLanguages = ['python', 'javascript', 'java', 'lua', 'coffeescript']
       @cores = 1
       @startTestingLevels()
     else
@@ -84,75 +85,50 @@ module.exports = class VerifierView extends RootView
     @startTestingLevels()
 
   startTestingLevels: ->
-    unless @levelID
-      @envDev = @$("#envDev").is(':checked')
-      @envProd = @$("#envProd").is(':checked')
-    unless @envDev or @envProd then return alert('Select at least one environment to run on!')
-
-    @runningTests = true
-    @render?()
-
-    @prodSuperModel = new SuperModel()
-    @devSuperModel = new SuperModel()
-    @devSuperModel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
-      model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
-
-    @levelsToLoad = @initialLevelsToLoad = if @envDev and @envProd then @levelIDs.length * 2 else @levelIDs.length
+    @levelsToLoad = @initialLevelsToLoad = @levelIDs.length
     for levelID in @levelIDs
-      if @envProd
-        level = @prodSuperModel.getModel(Level, levelID) or new Level _id: levelID
-        @listenToOnce @prodSuperModel.loadModel(level).model, 'sync', -> @onLevelLoaded()
-      if @envDev
-        level = @devSuperModel.getModel(Level, levelID) or new Level _id: levelID
-        @listenToOnce @devSuperModel.loadModel(level).model, 'sync', -> @onLevelLoaded()
+      level = @supermodel.getModel(Level, levelID) or new Level _id: levelID
+      if level.loaded
+        @onLevelLoaded()
+      else
+        @listenToOnce @supermodel.loadModel(level).model, 'sync', @onLevelLoaded
 
-  onLevelLoaded: () ->
+  onLevelLoaded: (level) ->
     if --@levelsToLoad is 0
       @onTestLevelsLoaded()
     else
       @render()
 
   onTestLevelsLoaded: ->
+
     @linksQueryString = window.location.search
+    #supermodel = if @levelID then @supermodel else undefined
     @tests = []
     @tasksList = []
-    addLevelTest = (levelID, dev=false) =>
-      superModel = if dev then @devSuperModel else @prodSuperModel
-      level = superModel.getModel(Level, levelID)
+    for levelID in @levelIDs
+      level = @supermodel.getModel(Level, levelID)
       for codeLanguage in @testLanguages
         solutions = _.filter level?.getSolutions() ? [], language: codeLanguage
         if solutions.length
           for solution, solutionIndex in solutions
-            @tasksList.push devEnv: dev, level: levelID, language: codeLanguage, solutionIndex: solutionIndex
+            @tasksList.push level: levelID, language: codeLanguage, solutionIndex: solutionIndex
         else
-          @tasksList.push devEnv: dev, level: levelID, language: codeLanguage
-    for levelID in @levelIDs
-      addLevelTest(levelID) if @envProd
-      addLevelTest(levelID, true) if @envDev
+          @tasksList.push level: levelID, language: codeLanguage
 
     @testCount = @tasksList.length
     console.log("Starting in", @cores, "cores...")
-    chunks = _.values(_.groupBy @tasksList, (v,i) => i % @cores)
-    console.log chunks
-    prodSupermodels = [@prodSuperModel]
-    devSupermodels = [@devSuperModel]
+    chunks = _.groupBy @tasksList, (v,i) => i%@cores
+    supermodels = [@supermodel]
 
-    runNextChunk = (chunk) =>
+    _.forEach chunks, (chunk, i) =>
       _.delay =>
-        parentProdSuperModel = prodSupermodels[prodSupermodels.length-1]
-        chunkProdSupermodel = new SuperModel()
-        chunkProdSupermodel.models = _.clone parentProdSuperModel.models
-        chunkProdSupermodel.collections = _.clone parentProdSuperModel.collections
-        prodSupermodels.push chunkProdSupermodel
-
-        parentDevSuperModel = devSupermodels[devSupermodels.length-1]
-        chunkDevSupermodel = new SuperModel()
-        chunkDevSupermodel.models = _.clone parentDevSuperModel.models
-        chunkDevSupermodel.collections = _.clone parentDevSuperModel.collections
-        devSupermodels.push chunkDevSupermodel
+        parentSuperModel = supermodels[supermodels.length-1]
+        chunkSupermodel = new SuperModel()
+        chunkSupermodel.models = _.clone parentSuperModel.models
+        chunkSupermodel.collections = _.clone parentSuperModel.collections
+        supermodels.push chunkSupermodel
 
         async.eachSeries chunk, (task, next) =>
-          chunkSupermodel = if task.devEnv then chunkDevSupermodel else chunkProdSupermodel
           test = new VerifierTest task.level, (e) =>
             @update(e)
             if e.state in ['complete', 'error', 'no-solution']
@@ -167,23 +143,11 @@ module.exports = class VerifierView extends RootView
                 ++@problem
 
               next()
-          , chunkSupermodel, task.language, {solutionIndex: task.solutionIndex, devEnv: task.devEnv}
+          , chunkSupermodel, task.language, {solutionIndex: task.solutionIndex}
           @tests.unshift test
           @render()
-        , =>
-          if chunks.length > 0 then runNextChunk chunks.pop()
-          else @runningTests = false
-          @render()
-      , 0
-    runNextChunk chunks.pop()
+        , => @render()
+      , if i > 0 then 5000 + i * 1000 else 0
 
   update: (event) =>
-    @tests.sort (a, b) =>
-      # Order: failed, passed
-      if !a.goals and !b.goals or a.isSuccessful() and b.isSuccessful() then return 0
-      if !a.goals then return 1
-      if !b.goals then return -1
-      if !a.isSuccessful() then return -1
-      if !b.isSuccessful() then return 1
-      0
     @render()
