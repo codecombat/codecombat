@@ -3,6 +3,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/play/level/modal/course-victory-modal'
 Level = require 'models/Level'
 Course = require 'models/Course'
+LevelSession = require 'models/LevelSession'
 LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
@@ -26,7 +27,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @session = options.session
     @level = options.level
-    
+
     if @courseInstanceID
       @classroom = new Classroom()
       @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID, {}))
@@ -50,15 +51,11 @@ module.exports = class CourseVictoryModal extends ModalView
       @course = @supermodel.loadModel(@course).model
 
     if @courseInstanceID
-      @levelSessions = new LevelSessions()
-      @levelSessions.fetchForCourseInstance(@courseInstanceID, {})
-      @levelSessions = @supermodel.loadCollection(@levelSessions, 'sessions', {
-        data: { project: 'state.complete level.original playtime changed' }
-      }).model
-
-      if not @course
+      unless @course
         @course = new Course()
         @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID, {})
+      if @level.isProject()
+        @galleryURL = urls.projectGallery({ @courseInstanceID })
 
     properties = {
       category: 'Students',
@@ -69,6 +66,7 @@ module.exports = class CourseVictoryModal extends ModalView
       goalStates = @session.get('state').goalStates
       succeededConcepts = concepts.filter((c) => goalStates[c]?.status is 'success')
       _.assign(properties, {concepts, succeededConcepts})
+    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
 
     if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev')
       @achievements = options.achievements
@@ -79,10 +77,6 @@ module.exports = class CourseVictoryModal extends ModalView
         @listenToOnce @achievements, 'sync', ->
           @render?()
 
-    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
-    if @level.isProject()
-      @galleryURL = urls.projectGallery({ @courseInstanceID })
-
   onResourceLoadFailed: (e) ->
     if e.resource.jqxhr is @nextLevelRequest
       return
@@ -90,14 +84,24 @@ module.exports = class CourseVictoryModal extends ModalView
 
   onLoaded: ->
     super()
-    
+
     @views = []
 
     if me.showGemsAndXp() and @achievements.length > 0
-      rewardsView = new CourseRewardsView({level: @level, session:@session, achievements:@achievements, supermodel: @supermodel})
+      rewardsView = new CourseRewardsView({level: @level, session: @session, achievements: @achievements, supermodel: @supermodel})
       rewardsView.on 'continue', @onViewContinue, @
       @views.push(rewardsView)
 
+    if @courseInstanceID
+      # Defer level sessions fetch to follow supermodel-based loading of other dependent data
+      # Not using supermodel.loadCollection because it can overwrite @session handle via LevelBus async saving
+      # @session will be in the @levelSession collection
+      # CourseRewardsView above requires the most recent 'complete' session to process achievements correctly
+      # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
+      @levelSessions = new LevelSessions()
+      @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
+
+  levelSessionsLoaded: ->
     # update level sessions so that stats are correct
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
@@ -122,14 +126,14 @@ module.exports = class CourseVictoryModal extends ModalView
       progressView.once 'to-map', @onToMap, @
       progressView.once 'ladder', @onLadder, @
       progressView.once 'publish', @onPublish, @
-    
+
       @views.push(progressView)
 
     if @views.length > 0
       @showView(_.first(@views))
     else
-      @showVictoryComponent() 
-      
+      @showVictoryComponent()
+
 
   afterRender: ->
     super()
@@ -149,7 +153,7 @@ module.exports = class CourseVictoryModal extends ModalView
       @showView(@views[index+1])
     else
       @showVictoryComponent()
-  
+
   showVictoryComponent: ->
     propsData = {
       nextLevel: @nextLevel.toJSON(),
@@ -226,4 +230,3 @@ module.exports = class CourseVictoryModal extends ModalView
     return if application.testing
     if @level.get('type') is 'course-ladder' and @session.readyToRank() or not @session.inLeague(@courseInstanceID)
       api.levelSessions.submitToRank({ session: @session.id, courseInstanceID: @courseInstanceID })
-      
