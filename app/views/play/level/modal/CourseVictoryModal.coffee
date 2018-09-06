@@ -93,10 +93,10 @@ module.exports = class CourseVictoryModal extends ModalView
       @views.push(rewardsView)
 
     if @courseInstanceID
-      # Defer level sessions fetch via supermodel to follow CourseRewardsView initialization above
-      # Because, the supermodal cached async fetch can overwrite our @session handle async saving via LevelBus
-      # Which conflicts with queried achievement calculations in CourseRewardsView
-      # It's still possible our @session.state.complete will get improperly set to false here
+      # Defer level sessions fetch to follow supermodel-based loading of other dependent data
+      # Not using supermodel.loadCollection because it can overwrite @session handle via LevelBus async saving
+      # @session will be in the @levelSession collection
+      # CourseRewardsView above requires the most recent 'complete' session to process achievements correctly
       # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
