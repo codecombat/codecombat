@@ -502,7 +502,7 @@ module.exports = class User extends CocoModel
   showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false)
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false
   showGemsAndXp: -> features?.classroomItems ? false
-  showHeroAndInventoryModalsToStudents: -> features?.classroomItems ? false
+  showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
   skipHeroSelectOnStudentSignUp: -> features?.classroomItems ? false
   useDexecure: -> not (features?.chinaInfra ? false)
   useSocialSignOn: -> not (features?.chinaUx ? false)

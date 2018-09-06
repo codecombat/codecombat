@@ -73,7 +73,7 @@ module.exports = class LevelSetupManager extends CocoClass
      @onInventoryModalPlayClicked()
      return
 
-    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (@level.isType('course') and not me.showHeroAndInventoryModalsToStudents()) or window.serverConfig.picoCTF
+    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (@level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment)) or window.serverConfig.picoCTF
         @onInventoryModalPlayClicked()
         return
 

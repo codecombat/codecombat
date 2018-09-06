@@ -109,13 +109,12 @@
     }
     computed: {
       challengeLink: ->
-        if !me.showHeroAndInventoryModalsToStudents()
-          if me.isSessionless()
-            link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
-          else
-            link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
-            link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
-          return link
+        if me.isSessionless()
+          link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
+        else
+          link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
+          link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
+        return link
       mapLink: ->
         if me.isSessionless()
           link = "/teachers/courses"
@@ -185,11 +184,6 @@
             },
             []
         )
-        if me.showHeroAndInventoryModalsToStudents()
-          @setupManager?.destroy()
-          @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextAssessment.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID,codeLanguage:@codeLanguage
-          unless @setupManager?.navigatingToPlay
-            @setupManager.open()
       onBackToMap: ->
         window.tracker?.trackEvent(
           'Play Level Victory Modal Back to Map',
