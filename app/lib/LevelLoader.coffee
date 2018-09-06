@@ -219,8 +219,11 @@ module.exports = class LevelLoader extends CocoClass
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
     # course-ladder is hard to handle because there's 2 sessions
-    if @level.isType('course') and (not me.isStudent() or not me.showHeroAndInventoryModalsToStudents())
+    if @level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
+      # set default hero for assessment levels in class if classroomItems is on
+      if @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
+        heroThangType = ThangType.heroes.captain
       console.debug "Course mode, loading custom hero: ", heroThangType if LOG
       url = "/db/thang.type/#{heroThangType}/version"
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')
@@ -228,7 +231,7 @@ module.exports = class LevelLoader extends CocoClass
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
     unless @level.isType('hero', 'hero-ladder', 'hero-coop')
-      unless @level.isType('course') and me.isStudent() and me.showHeroAndInventoryModalsToStudents()
+      unless @level.isType('course') and me.showHeroAndInventoryModalsToStudents() and not @level.isAssessment()
         # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
         if @checkAllWorldNecessitiesRegisteredAndLoaded()
           @onWorldNecessitiesLoaded()
