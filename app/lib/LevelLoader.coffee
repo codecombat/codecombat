@@ -3,6 +3,7 @@ LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
 LZString = require 'lz-string'
@@ -547,6 +548,8 @@ module.exports = class LevelLoader extends CocoClass
     if @observing
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
     serializedLevel = @level.serialize {@supermodel, @session, @opponentSession, @headless, @sessionless}
+    if me.tryClampHeroHealth()
+      serializedLevel.clampHeroHealth = true
     @world.loadFromLevel serializedLevel, false
     console.debug 'World has been initialized from level loader.' if LOG
 

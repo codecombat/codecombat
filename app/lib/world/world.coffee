@@ -251,6 +251,7 @@ module.exports = class World
     @loadScriptsFromLevel level
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
+    
     @showsCountdown = @levelID in COUNTDOWN_LEVELS or _.any(@thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag)
     @picoCTFProblem = level.picoCTFProblem if level.picoCTFProblem
     if @picoCTFProblem?.instances and not @picoCTFProblem.flag_sha1
@@ -260,8 +261,7 @@ module.exports = class World
         system.start @thangs
       catch err
         console.error "Error starting system!", system, err
-    if level.type is 'course'
-      @clampHeroHealth(level)
+    @clampHeroHealth(level)
 
   loadSystemsFromLevel: (level) ->
     # Remove old Systems
@@ -692,10 +692,22 @@ module.exports = class World
     'defeated': @getSystem('Combat')?.defeatedByTeam 'humans'
 
   clampHeroHealth: (level) ->
+    stackTrace = () ->
+      errThingy = new Error()
+      console.debug("clampHeroHealth called from:")
+      console.debug(errThingy.stack)
+    
     hero = _.find @thangs, id: 'Hero Placeholder'
-    if hero?
+    if hero? and level.clampHeroHealth?
       if level.recommendedHealth?
         hero.maxHealth = Math.max(hero.maxHealth, level.recommendedHealth)
       if level.maximumHealth?
         hero.maxHealth = Math.min(hero.maxHealth, level.maximumHealth)
       hero.health = hero.maxHealth
+      console.error("We have done clamping to health #{hero.health} / #{hero.maxHealth}")
+      stackTrace()
+    # if hero?
+    #   # hero.health = 500
+    #   hero.maxHealth = 500
+    #   hero.health = hero.maxHealth
+      # stackTrace()

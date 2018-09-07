@@ -488,6 +488,7 @@ module.exports = Lank = class Lank extends CocoClass
     return unless @thang and @thang.health isnt @lastHealth
     @lastHealth = @thang.health
     if bar = @healthBar
+      debugger
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
@@ -518,7 +519,7 @@ module.exports = Lank = class Lank extends CocoClass
     return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
     team = @thang?.team or 'neutral'
     key = "#{team}-health-bar"
-
+    debugger
     unless key in @options.floatingLayer.spriteSheet.animations
       healthColor = healthColors[team]
       bar = createProgressBar(healthColor)
