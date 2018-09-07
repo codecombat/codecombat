@@ -146,8 +146,8 @@ module.exports = class PlayLevelView extends RootView
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
     serializedLevel = @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
-    if me.tryClampHeroHealth()
-      serializedLevel.clampHeroHealth = true
+    if me.constrainHeroHealth()
+      serializedLevel.constrainHeroHealth = true
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -299,8 +299,8 @@ module.exports = class PlayLevelView extends RootView
     return @waitingToSetUpGod = true unless @god
     @waitingToSetUpGod = undefined
     serializedLevel = @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
-    if me.tryClampHeroHealth()
-      serializedLevel.clampHeroHealth = true
+    if me.constrainHeroHealth()
+      serializedLevel.constrainHeroHealth = true
     @god.setLevel serializedLevel
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap

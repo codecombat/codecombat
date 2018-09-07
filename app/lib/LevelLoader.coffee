@@ -548,8 +548,8 @@ module.exports = class LevelLoader extends CocoClass
     if @observing
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
     serializedLevel = @level.serialize {@supermodel, @session, @opponentSession, @headless, @sessionless}
-    if me.tryClampHeroHealth()
-      serializedLevel.clampHeroHealth = true
+    if me.constrainHeroHealth()
+      serializedLevel.constrainHeroHealth = true
     @world.loadFromLevel serializedLevel, false
     console.debug 'World has been initialized from level loader.' if LOG
 
