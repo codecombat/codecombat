@@ -518,7 +518,6 @@ module.exports = Lank = class Lank extends CocoClass
     return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
     team = @thang?.team or 'neutral'
     key = "#{team}-health-bar"
-    debugger
     unless key in @options.floatingLayer.spriteSheet.animations
       healthColor = healthColors[team]
       bar = createProgressBar(healthColor)
