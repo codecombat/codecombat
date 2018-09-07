@@ -250,8 +250,7 @@ module.exports = class World
     @thangTypes = level.thangTypes
     @loadScriptsFromLevel level
     @loadSystemsFromLevel level
-    @loadThangsFromLevel level, willSimulate
-    
+    @loadThangsFromLevel level, willSimulate    
     @showsCountdown = @levelID in COUNTDOWN_LEVELS or _.any(@thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag)
     @picoCTFProblem = level.picoCTFProblem if level.picoCTFProblem
     if @picoCTFProblem?.instances and not @picoCTFProblem.flag_sha1
