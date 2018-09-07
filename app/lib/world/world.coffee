@@ -691,8 +691,9 @@ module.exports = class World
     'defeated': @getSystem('Combat')?.defeatedByTeam 'humans'
 
   constrainHeroHealth: (level) ->
+    return unless level.constrainHeroHealth
     hero = _.find @thangs, id: 'Hero Placeholder'
-    if hero? and level.constrainHeroHealth
+    if hero?
       if level.recommendedHealth?
         hero.maxHealth = Math.max(hero.maxHealth, level.recommendedHealth)
       if level.maximumHealth?
