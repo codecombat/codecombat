@@ -488,7 +488,7 @@ module.exports = Lank = class Lank extends CocoClass
     return unless @thang and @thang.health isnt @lastHealth
     @lastHealth = @thang.health
     if bar = @healthBar
-      debugger
+      console.debug "[filter1]Setting healthBar", healthPct, @thang.health, @thang.maxHealth, @thang
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName

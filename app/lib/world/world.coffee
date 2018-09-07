@@ -692,11 +692,6 @@ module.exports = class World
     'defeated': @getSystem('Combat')?.defeatedByTeam 'humans'
 
   clampHeroHealth: (level) ->
-    stackTrace = () ->
-      errThingy = new Error()
-      console.debug("clampHeroHealth called from:")
-      console.debug(errThingy.stack)
-    
     hero = _.find @thangs, id: 'Hero Placeholder'
     if hero? and level.clampHeroHealth?
       if level.recommendedHealth?
@@ -704,10 +699,3 @@ module.exports = class World
       if level.maximumHealth?
         hero.maxHealth = Math.min(hero.maxHealth, level.maximumHealth)
       hero.health = hero.maxHealth
-      console.error("We have done clamping to health #{hero.health} / #{hero.maxHealth}")
-      stackTrace()
-    # if hero?
-    #   # hero.health = 500
-    #   hero.maxHealth = 500
-    #   hero.health = hero.maxHealth
-      # stackTrace()
