@@ -260,8 +260,7 @@ module.exports = class World
         system.start @thangs
       catch err
         console.error "Error starting system!", system, err
-    if level.type is 'course'
-      @clampHeroHealth(level)
+    @constrainHeroHealth(level)
 
   loadSystemsFromLevel: (level) ->
     # Remove old Systems
@@ -691,7 +690,8 @@ module.exports = class World
     'survival-time': @age
     'defeated': @getSystem('Combat')?.defeatedByTeam 'humans'
 
-  clampHeroHealth: (level) ->
+  constrainHeroHealth: (level) ->
+    return unless level.constrainHeroHealth
     hero = _.find @thangs, id: 'Hero Placeholder'
     if hero?
       if level.recommendedHealth?
