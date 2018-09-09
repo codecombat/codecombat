@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "العربية", englishDescription: "Arabic", translation:
 #  new_home:
-#    slogan: "The most engaging way to learn real code."
-#    classroom_edition: "Classroom Edition:"
+#    slogan: "الطريقة الأكثر تفاعلية لتعلم كود حقيقي"
+#    classroom_edition: ":إصدار الفصل الدراسي"
 #    learn_to_code: "Learn to code:"
 #    play_now: "Play Now"
 #    im_a_teacher: "I'm a Teacher"
@@ -60,7 +60,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    goto_classes: "Go to My Classes"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    go_to_courses: "Go to My Courses"
+#    go_to_courses: "أذهب إالي دوراتي"
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
