@@ -7,7 +7,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     im_a_teacher: "Ik ben docent"
     im_a_student: "Ik ben student"
     learn_more: "Leer meer"
-    classroom_in_a_box: "Een digitaal klaslokaal om programmeren te doceren."
+    classroom_in_a_box: "Een digitaal klaslokaal om programmeren te leren."
     codecombat_is: "CodeCombat is een platform platform <strong>voor leerlingen </strong>om programmeren te leren, terwijl ze een echt spel spelen."
     our_courses: "Onze lessen zijn specifiek uitgeprobeerd<strong>voor het klaslokaal</strong>, zelfs voor docenten met weinig tot geen programmeerervaring."
     watch_how: "Kijk hoe CodeCombat werkt."
@@ -160,7 +160,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     get_more_codecombat: "Krijg meer CodeCombat"
 
   code:
-    if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+    if: "als" 
     else: "anders"
     elif: "of als"
     while: "zolang"
@@ -187,7 +187,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     "!": "niet"
     "=": "maak"
     "==": "is gelijk aan"
-    "===": "is precies gelijk aan
+    "===": "is precies gelijk aan"
     "!=": "is niet gelijk aan"
     "!==": "is niet precies gelijk aan"
     ">": "is groter dan"
