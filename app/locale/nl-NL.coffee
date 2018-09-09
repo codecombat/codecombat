@@ -737,7 +737,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     unsubscribe: "Uitschrijven"
     confirm_unsubscribe: "Bevestig Uitschrijven"
     never_mind: "Maakt niet uit, ik hou nog steeds van je"
-   thank_you_months_prefix: "Bedankt voor je steun in de afgelopen"
+    thank_you_months_prefix: "Bedankt voor je steun in de afgelopen"
     thank_you_months_suffix: "maanden."
     thank_you: "Bedankt voor je steun aan CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
