@@ -508,54 +508,7 @@ Este nível introduz o uso de um argumento para configurar uma meta de sobreviv�
 - Nova configuração do gerador:
     - `spawnType`
 
-### Nível 17: Ver é Acreditar
-
-#### Discussão
-
-Este nível introduz elementos de interface do usuário, permitindo que o jogo mostre informações interessantes para o jogador. Também introduz a propriedade `game.time`.
-
-- Os alunos podem usar o comando `ui.track (object, propertyName)` para mostrar informações ao jogador.
-- O argumento `object` é um objeto para o qual você deseja mostrar a propriedade, como` game`.
-- O argumento `propertyName` é uma **string** que é o mesmo que o nome de uma propriedade para mostrar, como` "time" `.
-- Então, para mostrar a propriedade `game.time`, os alunos devem usar`ui.track (game, "time") `.
-
-- A propriedade `game.defeated` é uma propriedade auxiliar especial neste nível para simplificar as coisas. Em Desenvolvimento de Jogos 2, os alunos aprenderão a rastrear quantos inimigos são derrotados.
-
-### Jogando o Nível
-- Não destrua os geradores até que você tenha derrotado pelo menos 10 munchkins!
-
-#### Reflexão
-
-- Novo Comando:
-    - `ui.track`
-
-- Nova Propriedade:
-    - `game.time`
-
-
-### Nível 18: Persistência Paga
-
-#### Discussão
-
-Este nível introduz o comando `db.add (key, value)`. Até agora, toda vez que um aluno carrega e joga um nível, o jogo é reiniciado. Em jogos reais, os programadores usam bancos de dados como o Amazon DynamoDB para armazenar informações **persistentes**, que são rastreadas entre as jogadas do jogo, mesmo por diferentes jogadores.
-
-- `db.add` recebe dois argumentos, uma` chave` e um `valor`.
-- A chave é uma string, que é usada como uma variável, é um nome no banco de dados para armazenar o valor abaixo.
-- O `value`, para` db.add`, é um número.
-- O comando `db.add` incrementa ou adiciona ao valor existente armazenado sob a `key/chave`. Então, se o aluno chamar `db.add (" plays ", 1)` duas vezes, o valor armazenado na tecla ` plays` no banco de dados seria `2`.
-- Níveis posteriores mostrarão como armazenar outros tipos de dados no banco de dados.
-
-#### Jogando o Nível
-
-- Na parte inferior do código desse nível, há algum código complicado sobre o qual você ainda não aprendeu. Nós definimos uma **função** chamada `onVictory` e então atribuímos essa função como **manejadora** para o evento` "victory" `.
-- Não se preocupe se isso for confuso! É uma prévia do que os alunos aprenderão em Desenvolvimento de Jogos 2. Por enquanto, basta colocar seu código `db.add (game," defeated ")` dentro da função `onVictory`, para onde os comentários lhe dizerem!
-
-#### Reflexão
-
-- Novo Comando
-    - `db.add`
-
-### Nível 19: "Tabula Rasa"
+### Nível 17: "Tabula Rasa"
 
 #### O PROJETO FINAL!
 

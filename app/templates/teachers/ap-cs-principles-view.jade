@@ -269,8 +269,12 @@ block content
           p(data-i18n="teacher.cs1_pairprogramming_desc")
         li
           - activityURL = "/teachers/resources/gd1-5day";
+          if (me.get('preferredLanguage') == 'he')
+            - activityURL += '-he';
           if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
             - activityURL += '-pt-BR';
+          if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+            - activityURL += '-zh-HANS';
           a(href=activityURL)
             span(data-i18n="teacher.gd1_guide")
           p(data-i18n="teacher.gd1_guide_desc")

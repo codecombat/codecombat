@@ -100,6 +100,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    help_suff: "and we'll get in touch!"
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
+#    parent: "Parents"
 
   modal:
     close: "關脫"
@@ -137,6 +138,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    poll: "Poll" # Tooltip on poll button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+#    change_hero_or_language: "Change Hero or Language"
 #    buy_gems: "Buy Gems"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
@@ -365,6 +367,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    rejected: "Rejected"
 #    withdrawn: "Withdrawn"
 #    accept: "Accept"
+#    accept_and_save: "Accept&Save"
 #    reject: "Reject"
 #    withdraw: "Withdraw"
 #    submitter: "Submitter"
@@ -714,6 +717,10 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    buy_premium: "Buy Premium"
 #    purchase: "Purchase"
 #    purchased: "Purchased"
+
+#  subscribe_for_gems:
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
 #  earn_gems:
 #    prompt_title: "Not Enough Gems"
@@ -1433,6 +1440,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
 #    concepts_used: "Concepts Used:"
+#    show_change_log: "Show changes to this course's levels"
+#    hide_change_log: "Hide changes to this course's levels"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1928,7 +1937,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
   contribute:
     page_title: "貢獻"
-#    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
+#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
     alert_account_message_intro: "爾好！"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
     archmage_introduction: "做遊戲到，最激動個弗朝佩是拼合無數物事。圖像、音樂、實時網際通信、社交網絡，從底層數據庫管理到服務器運行維護，再到用戶界面個設計搭實現。造遊戲有無數事幹要捉拾，怪得空是爾有編程經驗，箇勿爾應該揀箇個職業。我裏猴高興來造“史上最讚個編程遊戲”條路裏搭爾佐隊。"
@@ -2342,7 +2351,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
   legal:
     page_title: "律法"
-    opensource_intro: "CodeCombat 是一個候自發揮，整個開源個項目。"
+#    opensource_introduction: "CodeCombat is part of the open source community."
     opensource_description_prefix: "望 "
     github_url: "我裏個 GitHub"
     opensource_description_center: "做爾想做個改動嘈！CodeCombat 是起徠幾十個開源項目上向，我裏中意渠裏。望"
@@ -2365,8 +2374,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     contributor_description_prefix: "所有對本網站要勿 GitHub 代碼庫個努力都照我裏個"
     cla_url: "貢獻者許可協議（CLA）"
     contributor_description_suffix: "爾徠貢獻之前箇佩應該同意爻個。"
-    code_title: "代碼 - MIT"
-    code_description_prefix: "所有 CodeCombat 個個要勿囥 codecombat.com 託管個代碼，徠 GitHub 版本庫要勿 codecombat.com 數據庫裏，以上許可協議都照"
+    code_title: "代碼 - MIT" # {change}
+#    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
     mit_license_url: "MIT 許可證"
     code_description_suffix: "箇包括所有 CodeCombat 公開個做關用個系統搭組件代碼。"
     art_title: "圖畫搭音樂 - Creative Commons"
@@ -2565,3 +2574,58 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    unit_9: "Unit 9: AP Review"
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
+
+#  parent_landing:
+#    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
+#    quote_attr: "5th Grader, Oakland"
+#    refer_teacher: "Refer a Teacher"
+#    focus_quote: "Unlock your child's future"
+#    value_head1: "The most engaging way to learn typed code"
+#    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
+#    value_head2: "Building critical skills for the 21st century"
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_head3: "Heroes that your child will love"
+#    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
+#    dive_head1: "Not just for software engineers"
+#    dive_intro: "Computer science skills have a wide range of applications. Take a look at a few examples below!"
+#    medical_flag: "Medical Applications"
+#    medical_flag_copy: "From mapping of the human genome to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
+#    explore_flag: "Space Exploration"
+#    explore_flag_copy: "Apollo got to the Moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
+#    filmaking_flag: "Filmmaking and Animation"
+#    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible animation of Dreamworks and Pixar, films wouldn’t be the same without the digital creatives behind the scenes."
+#    dive_head2: "Games are important for learning"
+#    dive_par1: "Multiple studies have found that game-based learning promotes"
+#    dive_link1: "cognitive development"
+#    dive_par2: "in kids while also proving to be"
+#    dive_link2: "more effective"
+#    dive_par3: "in helping students"
+#    dive_link3: "learn and retain knowledge"
+#    dive_par4: ","
+#    dive_link4: "concentrate"
+#    dive_par5: ", and perform at a higher level of achievement."
+#    dive_par6: "Game based learning is also good for developing"
+#    dive_link5: "resilience"
+#    dive_par7: ", cognitive reasoning, and"
+#    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
+#    dive_link6: "executive functions"
+#    dive_head3: "Team up with teachers"
+#    dive_3_par1: "In the future, "
+#    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
+#    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
+#    mission: "Our mission: to teach and engage"
+#    mission1_heading: "Coding for today's generation"
+#    mission2_heading: "Preparing for the future"
+#    mission3_heading: "Supported by parents like you"
+#    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
+#    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
+#    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+
+#  parent_modal:
+#    refer_teacher: "Refer Teacher"
+#    name: "Your Name"
+#    parent_email: "Your Email"
+#    teacher_email: "Teacher's Email"
+#    message: "Message"
+#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
+#    send: "Send Email"

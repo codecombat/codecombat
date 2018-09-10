@@ -122,11 +122,13 @@ Conceitos que podem ser revisados para ajudar os alunos a se prepararem para ess
 ### Níveis
 
 
-Os alunos devem jogar os próximos três níveis:
+Os alunos devem jogar os próximos cinco níveis:
 
 * Hora de Aventura
+* Teatime
 * Random Random
 * Agonia de derrota
+* Lernaean Hydra
 
 ### Discussão
 
@@ -220,12 +222,16 @@ Exemplos:
 * Uma bola que bate em uma parede pode continuar se movendo, mas em outra direção
 
 ### Níveis
-Os alunos devem jogar os próximos quatro níveis:
+Os alunos devem jogar os próximos ocho níveis:
 
 *   Deslocamento da Vara
+*   Don't Touch Them
 *   Do Pó ao Pó
+*   Cages
 *   Departamento de Contabilidade
+*   Hot Gems
 *   Berserker
+*   Freeze Tag
 
 ### Discussão
 
