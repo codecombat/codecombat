@@ -15,10 +15,10 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 ### Lessons
 | Module                                                     | Levels             | Objectives                                         | 
 |------------------------------------------------------------|--------------------|----------------------------------------------------|
-| [1. Basic Syntax](#lesson-1---basic-syntax)                           |                1-8 | Sequencing, syntax, strings, comments, arguments   |
-| [2. Loops](#lesson-2---loops)                                         |               9-14 | Repeat code sequences using while-true loops       |
-| [3. Variables](#lesson-3---variables)                                 |              15-17 | Save and access data using variables               |
-| [4. Capstone Challenge - Multiplayer Arena](#capstone-challenge---multiplayer-arena) |                 18 | Master course concepts                             |
+| [1. Basic Syntax](#lesson-1-basic-syntax)                           |                1-8 | Sequencing, syntax, strings, comments, arguments   |
+| [2. Loops](#lesson-2-loops)                                         |               9-14 | Repeat code sequences using while-true loops       |
+| [3. Variables](#lesson-3-variables)                                 |              15-17 | Save and access data using variables               |
+| [4. Capstone Challenge - Multiplayer Arena](#capstone-challenge-multiplayer-arena) |                 18 | Master course concepts                             |
 
 
 ### Key Terms
