@@ -106,6 +106,8 @@ module.exports = class CourseVictoryModal extends ModalView
       # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
+    else
+      @levelSessionsLoaded()
 
   levelSessionsLoaded: ->
     # update level sessions so that stats are correct
