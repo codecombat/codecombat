@@ -14,6 +14,7 @@ store = require 'core/store'
 CourseVictoryComponent = require('./CourseVictoryComponent').default
 CourseRewardsView = require './CourseRewardsView'
 Achievements = require 'collections/Achievements'
+LocalMongo = require 'lib/LocalMongo'
 
 module.exports = class CourseVictoryModal extends ModalView
   id: 'course-victory-modal'
@@ -86,9 +87,16 @@ module.exports = class CourseVictoryModal extends ModalView
     @views = []
 
     if me.showGemsAndXp() and @achievements.length > 0
-      rewardsView = new CourseRewardsView({level: @level, session: @session, achievements: @achievements, supermodel: @supermodel})
-      rewardsView.on 'continue', @onViewContinue, @
-      @views.push(rewardsView)
+      @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
+      showAchievements = false  # show achievements only if atleast one achievement is completed
+      for achievement in @achievements.models
+        achievement.completed = LocalMongo.matchesQuery(@session.attributes, achievement.get('query'))
+        if achievement.completed
+          showAchievements = true
+      if showAchievements
+        rewardsView = new CourseRewardsView({level: @level, session: @session, achievements: @achievements, supermodel: @supermodel})
+        rewardsView.on 'continue', @onViewContinue, @
+        @views.push(rewardsView)
 
     if @courseInstanceID
       # Defer level sessions fetch to follow supermodel-based loading of other dependent data

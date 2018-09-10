@@ -939,11 +939,11 @@ module.exports = class CampaignView extends RootView
     courseID = $(e.target).parents('.course-version').data 'course-id'
     courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
 
-    classroomLevel = @classroomLevelMap[levelOriginal]
+    classroomLevel = @classroomLevelMap?[levelOriginal]
     
     # If classroomItems is on, don't go to PlayLevelView directly.
     # Go through LevelSetupManager which will load required modals before going to PlayLevelView. 
-    if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel.isAssessment())
+    if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel?.isAssessment())
       @startLevel levelElement, courseID, courseInstanceID
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
     else
@@ -954,9 +954,9 @@ module.exports = class CampaignView extends RootView
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
     levelOriginal = levelElement.data('level-original')
-    classroomLevel = @classroomLevelMap[levelOriginal]
-    if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel.isAssessment())
-      codeLanguage = @classroomLevelMap[levelOriginal]?.get('primerLanguage') or @classroom?.get('aceConfig')?.language
+    classroomLevel = @classroomLevelMap?[levelOriginal]
+    if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel?.isAssessment())
+      codeLanguage = @classroomLevelMap?[levelOriginal]?.get('primerLanguage') or @classroom?.get('aceConfig')?.language
       options = {supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, courseID: courseID, courseInstanceID: courseInstanceID, codeLanguage: codeLanguage}
     else
       session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug

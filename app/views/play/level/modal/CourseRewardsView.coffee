@@ -1,6 +1,5 @@
 require('app/styles/play/level/modal/course-rewards-view.sass')
 CocoView = require 'views/core/CocoView'
-LocalMongo = require 'lib/LocalMongo'
 ThangType = require 'models/ThangType'
 EarnedAchievement = require 'models/EarnedAchievement'
 utils = require 'core/utils'
@@ -39,12 +38,10 @@ module.exports = class CourseRewardsView extends CocoView
     @trigger 'continue'
 
   loadAchievementsData: ->
-    @achievements.models = _.filter @achievements.models, (m) -> not m.get('query')?.ladderAchievementDifficulty  # Don't show higher AI difficulty achievements
     itemOriginals = []
     for achievement in @achievements.models
       rewards = achievement.get('rewards') or {}
       itemOriginals.push rewards.items or []
-      achievement.completed = LocalMongo.matchesQuery(@session.attributes, achievement.get('query'))
 
     # get the items earned from achievements
     itemOriginals = _.uniq _.flatten itemOriginals
