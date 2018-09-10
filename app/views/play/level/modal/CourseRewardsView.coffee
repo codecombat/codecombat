@@ -107,7 +107,7 @@ module.exports = class CourseRewardsView extends CocoView
     return c
 
   initializeAnimations: ->
-    return @endSequentialAnimations() unless @level.isType('course', 'hero', 'hero-ladder', 'game-dev', 'web-dev')
+    return @endSequentialAnimations() unless @level.isType('course', 'hero', 'course-ladder', 'game-dev', 'web-dev')
     complete = _.once(_.bind(@beginSequentialAnimations, @))
     @animatedPanels = $()
     panels = @$el.find('.achievement-panel')
@@ -131,7 +131,7 @@ module.exports = class CourseRewardsView extends CocoView
 
   beginSequentialAnimations: ->
     return if @destroyed
-    return unless @level.isType('course', 'hero', 'hero-ladder', 'game-dev', 'web-dev')
+    return unless @level.isType('course', 'hero', 'course-ladder', 'game-dev', 'web-dev')
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')

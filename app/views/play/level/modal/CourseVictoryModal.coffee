@@ -68,14 +68,12 @@ module.exports = class CourseVictoryModal extends ModalView
       _.assign(properties, {concepts, succeededConcepts})
     window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
 
-    if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev')
+    if @level.isType('hero', 'course', 'course-ladder', 'game-dev', 'web-dev')
       @achievements = options.achievements
       if not @achievements
         @achievements = new Achievements()
         @achievements.fetchRelatedToLevel(@session.get('level').original)
         @achievements = @supermodel.loadCollection(@achievements, 'achievements').model
-        @listenToOnce @achievements, 'sync', ->
-          @render?()
 
   onResourceLoadFailed: (e) ->
     if e.resource.jqxhr is @nextLevelRequest
