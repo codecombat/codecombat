@@ -336,6 +336,6 @@ module.exports = class Level extends CocoModel
     equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
     return equips?.config?.inventory?
 
-  isAssessment: -> @get('assessment')
+  isAssessment: -> @get('assessment')?
 
 _.assign(Level, LevelLib)
