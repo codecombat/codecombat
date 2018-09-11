@@ -498,9 +498,9 @@ module.exports = class User extends CocoModel
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
-  canBuyGems: -> not (features?.chinaUx ? false)
+  canBuyGems: -> not (features?.chinaUx ? false) and @isStudent()
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
-  showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false)
+  showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false) and @isStudent()
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
