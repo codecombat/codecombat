@@ -74,7 +74,7 @@ module.exports = class PlayHeroesModal extends ModalView
     hero.unlockBySubscribing = hero.attributes.slug in ['samurai', 'ninja', 'librarian']
     hero.premium = not hero.free and not hero.unlockBySubscribing
     hero.locked = not me.ownsHero(original) and not (hero.unlockBySubscribing and me.isPremium())
-    hero.purchasable = hero.locked and me.isPremium()
+    hero.purchasable = hero.locked and (me.isPremium() or me.allowStudentHeroPurchase())
     if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
       hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
@@ -313,7 +313,9 @@ module.exports = class PlayHeroesModal extends ModalView
 
   askToBuyGemsOrSubscribe: (unlockButton) ->
     @$el.find('.unlock-button').popover 'destroy'
-    if me.canBuyGems()
+    if me.isStudent()
+      popoverTemplate = earnGemsPromptTemplate {}
+    else if me.canBuyGems()
       popoverTemplate = buyGemsPromptTemplate {}
     else
       if not me.hasSubscription() # user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option

@@ -146,6 +146,8 @@ module.exports = class PlayLevelView extends RootView
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
     serializedLevel = @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
+    if me.constrainHeroHealth()
+      serializedLevel.constrainHeroHealth = true
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -296,7 +298,10 @@ module.exports = class PlayLevelView extends RootView
     return if @level.isType('web-dev')
     return @waitingToSetUpGod = true unless @god
     @waitingToSetUpGod = undefined
-    @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
+    serializedLevel = @level.serialize {@supermodel, @session, @otherSession, headless: false, sessionless: false}
+    if me.constrainHeroHealth()
+      serializedLevel.constrainHeroHealth = true
+    @god.setLevel serializedLevel
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
 
@@ -634,7 +639,7 @@ module.exports = class PlayLevelView extends RootView
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     return if @level.isType('game-dev') and @level.get('shareable') and not options.manual
     @endHighlight()
-    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
+    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world, parent: @}
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder')

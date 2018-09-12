@@ -3,6 +3,7 @@ LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
 LZString = require 'lz-string'
@@ -218,8 +219,12 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
-    if @level.isType('course')  # course-ladder is hard to handle because there's 2 sessions
+    # course-ladder is hard to handle because there's 2 sessions
+    if @level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
+      # set default hero for assessment levels in class if classroomItems is on
+      if @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
+        heroThangType = ThangType.heroes.captain
       console.debug "Course mode, loading custom hero: ", heroThangType if LOG
       url = "/db/thang.type/#{heroThangType}/version"
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')
@@ -227,10 +232,11 @@ module.exports = class LevelLoader extends CocoClass
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
     unless @level.isType('hero', 'hero-ladder', 'hero-coop')
-      # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
-      if @checkAllWorldNecessitiesRegisteredAndLoaded()
-        @onWorldNecessitiesLoaded()
-      return
+      unless @level.isType('course') and me.showHeroAndInventoryModalsToStudents() and not @level.isAssessment()
+        # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
+        if @checkAllWorldNecessitiesRegisteredAndLoaded()
+          @onWorldNecessitiesLoaded()
+        return
     # Load the ThangTypes needed for the session's heroConfig for these types of levels
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
@@ -542,6 +548,8 @@ module.exports = class LevelLoader extends CocoClass
     if @observing
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
     serializedLevel = @level.serialize {@supermodel, @session, @opponentSession, @headless, @sessionless}
+    if me.constrainHeroHealth()
+      serializedLevel.constrainHeroHealth = true
     @world.loadFromLevel serializedLevel, false
     console.debug 'World has been initialized from level loader.' if LOG
 
