@@ -33,7 +33,10 @@ module.exports = class LevelSetupManager extends CocoClass
   loadSession: ->
     sessionURL = "/db/level/#{@options.levelID}/session"
     #sessionURL += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
-    sessionURL += "?course=#{@options.courseID}" if @options.courseID
+    if @options.courseID
+      sessionURL += "?course=#{@options.courseID}"
+      if @options.courseInstanceID
+          sessionURL += "&courseInstance=#{@options.courseInstanceID}"
     @session = new LevelSession().setURL sessionURL
     originalCid = @session.cid
     @session = @supermodel.loadModel(@session).model
@@ -55,6 +58,8 @@ module.exports = class LevelSetupManager extends CocoClass
     @fillSessionWithDefaults()
 
   fillSessionWithDefaults: ->
+    if @options.codeLanguage
+      @session.set('codeLanguage', @options.codeLanguage)
     heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
     @session.set('heroConfig', heroConfig)
     if @level.loaded
@@ -68,7 +73,7 @@ module.exports = class LevelSetupManager extends CocoClass
      @onInventoryModalPlayClicked()
      return
 
-    if @level.isType('course', 'course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
+    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (@level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())) or window.serverConfig.picoCTF
       @onInventoryModalPlayClicked()
       return
 
@@ -100,10 +105,10 @@ module.exports = class LevelSetupManager extends CocoClass
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
       unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
         firstModal = @heroesModal
-    firstModal = @inventoryModal if me.isStudent()
+
+
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
-
     @options.parent.openModalView(firstModal)
     @trigger 'open'
     #    @inventoryModal.onShown() # replace?
@@ -111,7 +116,7 @@ module.exports = class LevelSetupManager extends CocoClass
   #- Modal events
 
   onceHeroLoaded: (e) ->
-    @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
+     @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
     @options.parent.openModalView(@inventoryModal)

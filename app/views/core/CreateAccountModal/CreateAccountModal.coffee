@@ -130,7 +130,10 @@ module.exports = class CreateAccountModal extends ModalView
           @signupState.set { screen: 'segment-check' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          @signupState.set { screen: 'extras', accountCreated: true }
+          if me.skipHeroSelectOnStudentSignUp()
+            @signupState.set { screen: 'confirmation', accountCreated: true }
+          else
+            @signupState.set { screen: 'extras', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
@@ -149,7 +152,10 @@ module.exports = class CreateAccountModal extends ModalView
       'nav-back': -> @signupState.set { screen: 'basic-info' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          @signupState.set { screen: 'extras', accountCreated: true }
+          if me.skipHeroSelectOnStudentSignUp()
+            @signupState.set { screen: 'confirmation', accountCreated: true }
+          else
+            @signupState.set { screen: 'extras', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))

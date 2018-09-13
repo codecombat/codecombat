@@ -77,7 +77,13 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
-    isHero = /Hero Placeholder/.test(levelThang.id) and @isType('hero', 'hero-ladder', 'hero-coop') and @get('assessment') isnt 'open-ended'
+    if /Hero Placeholder/.test(levelThang.id) and @get('assessment') isnt 'open-ended' 
+      if @isType('hero', 'hero-ladder', 'hero-coop') and !me.isStudent()
+        isHero = true
+      else if @isType('course') and me.showHeroAndInventoryModalsToStudents() and not @isAssessment()
+        isHero = true
+      else
+        isHero = false
 
     if isHero and @usesConfiguredMultiplayerHero()
       isHero = false  # Don't use the hero from the session, but rather the one configured in this level
@@ -160,8 +166,11 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and @get('assessment') isnt 'open-ended'
+    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and @get('assessment') isnt 'open-ended' and (not me.showHeroAndInventoryModalsToStudents() or @isAssessment())
       heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
+      # use default hero in class if classroomItems is on
+      if @isAssessment() and me.showHeroAndInventoryModalsToStudents()
+        heroThangType = ThangTypeConstants.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
@@ -326,5 +335,7 @@ module.exports = class Level extends CocoModel
     return false unless levelThang = _.find @get('thangs'), id: 'Hero Placeholder'
     equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
     return equips?.config?.inventory?
+
+  isAssessment: -> @get('assessment')?
 
 _.assign(Level, LevelLib)

@@ -339,10 +339,10 @@ module.exports = class CampaignView extends RootView
   onLoaded: ->
     if @classroom
       classroomLevels = @classroom.getLevels()
-      classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
+      @classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
       defaultLanguage = @classroom.get('aceConfig').language
       for session in @sessions.slice()
-        classroomLevel = classroomLevelMap[session.get('level').original]
+        classroomLevel = @classroomLevelMap[session.get('level').original]
         if not classroomLevel
           continue
         expectedLanguage = classroomLevel.get('primerLanguage') or defaultLanguage
@@ -933,17 +933,35 @@ module.exports = class CampaignView extends RootView
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
 
   onClickCourseVersion: (e) ->
+    levelElement = $(e.target).parents('.level-info-container')
     levelSlug = $(e.target).parents('.level-info-container').data 'level-slug'
+    levelOriginal = levelElement.data('level-original')
     courseID = $(e.target).parents('.course-version').data 'course-id'
     courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
-    url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
-    Backbone.Mediator.publish 'router:navigate', route: url
 
-  startLevel: (levelElement) ->
+    classroomLevel = @classroomLevelMap?[levelOriginal]
+    
+    # If classroomItems is on, don't go to PlayLevelView directly.
+    # Go through LevelSetupManager which will load required modals before going to PlayLevelView. 
+    if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel?.isAssessment())
+      @startLevel levelElement, courseID, courseInstanceID
+      window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
+    else
+      url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
+      Backbone.Mediator.publish 'router:navigate', route: url
+
+  startLevel: (levelElement, courseID=null, courseInstanceID=null) ->
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
-    session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
+    levelOriginal = levelElement.data('level-original')
+    classroomLevel = @classroomLevelMap?[levelOriginal]
+    if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel?.isAssessment())
+      codeLanguage = @classroomLevelMap?[levelOriginal]?.get('primerLanguage') or @classroom?.get('aceConfig')?.language
+      options = {supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, courseID: courseID, courseInstanceID: courseInstanceID, codeLanguage: codeLanguage}
+    else
+      session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
+      options = {supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session}
+    @setupManager = new LevelSetupManager options
     unless @setupManager?.navigatingToPlay
       @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
       @listenToOnce @setupManager, 'open', ->

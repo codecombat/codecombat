@@ -1,7 +1,7 @@
 .modal-dialog
   .modal-content
 
-    img(src="/images/pages/play/modal/heroes-background.png", draggable="false")#play-heroes-background
+    img(src="/images/pages/play/modal/choosehero-background.png", draggable="false")#play-heroes-background
     
     h1(data-i18n="choose_hero.choose_hero")
 
@@ -65,6 +65,9 @@
             h2(data-i18n="common.loading") Loading...
 
         else if visibleHero.restricted
+          #hero-footer-text-background
+            .image-block
+              img(src= "/images/pages/play/modal/language-selector-background.png")
           #restricted-hero-explanation
             h2
               span= visibleHero.name
@@ -73,6 +76,9 @@
           button.btn.disabled.btn-illustrated#restricted-hero-button(data-i18n="inventory.restricted_title") Restricted
   
         else if visibleHero.purchasable
+          #hero-footer-text-background
+            .image-block
+              img(src= "/images/pages/play/modal/language-selector-background.png")
           #purchasable-hero-explanation
             h2(data-i18n="choose_hero.available_for_purchase") Available for Purchase
           button.btn.unlock-button#purchase-hero-button
@@ -85,20 +91,26 @@
             span.gem.gem-20
   
         else if visibleHero.locked
+          #hero-footer-text-background
+            .image-block
+              img(src= "/images/pages/play/modal/language-selector-background.png")
           #locked-hero-explanation
             h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
             span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
           button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
             span.spr(data-i18n="subscribe.subscribe_title") Subscribe
   
-        else if visibleHero.loaded
-          .form
-            .form-group.select-group
-              span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
-              select#option-code-language(name="code-language")
-                for option in codeLanguages
-                  option(value=option.id, selected=codeLanguage === option.id)= option.name
-                  
+        else if visibleHero.loaded 
+          if !me.isStudent() 
+            #hero-footer-text-background
+              .image-block
+                img(src= "/images/pages/play/modal/language-selector-background.png")
+            .form
+              .form-group.select-group             
+                span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
+                select#option-code-language(name="code-language")
+                  for option in codeLanguages
+                    option(value=option.id, selected=codeLanguage === option.id)= option.name               
           a#confirm-button(data-i18n=confirmButtonI18N)
 
     if !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds

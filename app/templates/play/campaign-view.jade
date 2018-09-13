@@ -132,7 +132,7 @@ if showGameDevAlert
             else if level.unlocksHero
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
         div(style="left: #{level.position.x}%; bottom: #{level.position.y}%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
-        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original)
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")

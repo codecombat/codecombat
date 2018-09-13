@@ -96,11 +96,14 @@
   PieChart = require('core/components/PieComponent').default
   utils = require 'core/utils'
   thangTypeConstants = require 'lib/ThangTypeConstants'
+  LevelSetupManager = require 'lib/LevelSetupManager'
+  Level = require 'models/Level'
+  LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
-    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats'],
+    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
     components: {
       PieChart
     }
@@ -119,12 +122,13 @@
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         return link
       nextLevelLink: ->
-        if me.isSessionless()
-          link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
-        else
-          link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
-          link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
-        return link
+        if !me.showHeroAndInventoryModalsToStudents()
+          if me.isSessionless()
+            link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
+          else
+            link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
+            link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
+          return link
       nextLevelLinkClasses: ->
         if @assessmentNext
           { 'btn-default': true }
@@ -160,7 +164,7 @@
           slug = heroMap[@$store.state.me.heroConfig.thangType]
           if !slug?
             return "/images/pages/play/modal/captain.png"
-          else
+          else if slug in thangTypeConstants.heroClasses.Warrior 
             return "/images/pages/play/modal/#{slug}.png"
       comboImage: ->
         if @allConceptsUsed
@@ -199,6 +203,12 @@
             },
             []
         )
+        if me.showHeroAndInventoryModalsToStudents()
+            @setupManager?.destroy()
+            @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID, codeLanguage:@codeLanguage
+            unless @setupManager?.navigatingToPlay
+              @setupManager.open()
+                 
       onReplayLevel: ->
         window.tracker?.trackEvent(
                 'Play Level Victory Modal Replay',
