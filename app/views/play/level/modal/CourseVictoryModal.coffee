@@ -22,6 +22,9 @@ module.exports = class CourseVictoryModal extends ModalView
   closesOnClickOutside: false
 
   initialize: (options) ->
+    if @courseVictoryModalLoading?
+      return
+    @courseVictoryModalLoading = true
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID or utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     @views = []
@@ -108,6 +111,7 @@ module.exports = class CourseVictoryModal extends ModalView
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
     else
       @levelSessionsLoaded()
+    @courseVictoryModalLoading = false
 
   levelSessionsLoaded: ->
     # update level sessions so that stats are correct
