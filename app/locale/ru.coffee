@@ -2621,11 +2621,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     mission2_copy: "Опрос 2016 года показал, что 64% девочек, обучающихся в 3-5-м классе, хотят научиться программировать.  В 2015 году было открыто 7 миллионов вакансий, требующих навыков программирования. Мы создали CodeCombat, потому что каждому ребенку нужно дать шанс создать свое лучшее будущее."
     mission3_copy: "В CodeCombat мы родители, такие же как вы. Мы программисты. Мы педагоги. Но главное, что мы люди, которые хотят предоставления нашим детям наилучших возможностей для успеха в том, что они решат сделать."
 
-#  parent_modal:
-#    refer_teacher: "Refer Teacher"
-#    name: "Your Name"
-#    parent_email: "Your Email"
-#    teacher_email: "Teacher's Email"
-#    message: "Message"
-#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
-#    send: "Send Email"
+  parent_modal:
+    refer_teacher: "Уведомить учителя"
+    name: "Ваше имя"
+    parent_email: "Ваш Email"
+    teacher_email: "Email учителя"
+    message: "Сообщение"
+    custom_message: "Я только что нашел CodeCombat и подумал, что это будет отличная программа для вашего класса! Это платформа для обучения информатике с учебной программой, соответствующей образовательным стандартам..\n\nКомпьютерная грамотность очень важна, и я думаю, что это был бы отличный способ привлечь учеников к обучению программированию."
+    send: "Отправить"
