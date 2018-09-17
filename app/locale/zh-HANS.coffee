@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
   new_home:
-    slogan: "最引人入胜的编程游戏。" # {change}
+    slogan: "最引人入胜的编程游戏。"
     classroom_edition: "教育版："
     learn_to_code: "学习编程："
     play_now: "开始游戏"
@@ -24,13 +24,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     democratizing: "我们的核心理念是普及编程学习。每个人都应该有机会学习编程。"
     forgot_learning: "我觉得他们甚至忘了自己在学东西。" # {change}
     wanted_to_do: "写代码是我一直想做的事情。我从没想过我能在学校学习它。"
-#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
+    builds_concepts_up: "我喜欢CodeCombat创建的概念。这个游戏很容易理解，在计算的过程中可以产生乐趣。"
     why_games: "为什么通过游戏来学习编程很重要？"
     games_reward: "游戏能获得高效的奋斗。"
     encourage: "游戏是鼓励交流、发现、试错的媒介。好的游戏能够让玩家学习到技能，正如学生在学习过程中所做的那样。"
     excel: "游戏能提供奖励"
     struggle: "高效的奋斗"
-    kind_of_struggle: "这种奋斗能为学习提供动力并"
+    kind_of_struggle: "这种奋斗能为学习提供动力"
     motivating: "富有激励性"
     not_tedious: "而不单调乏味。"
     gaming_is_good: "研究表明游戏有益儿童大脑。（这是真的！）"
@@ -65,7 +65,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   nav:
     map: "地图"
-    play: "关卡选择" # The top nav bar entry where players choose which levels to play
+    play: "关卡选择"
     community: "社区"
     courses: "课程"
     blog: "博客"
@@ -80,7 +80,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     about: "关于"
     contact: "联系我们"
     twitter_follow: "关注"
-    my_classrooms: "我的班级" # {change}
+    my_classrooms: "我的班级"
     my_courses: "我的课程"
     careers: "招聘"
     facebook: "Facebook"
@@ -110,7 +110,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     page_not_found: "找不到网页"
 
   diplomat_suggestion:
-    title: "帮助我们翻译CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
+    title: "帮助我们翻译CodeCombat"
     sub_heading: "我们需要您的语言技能"
     pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat的玩家遍布全球。对于不熟悉英语的中文玩家，他们希望能玩简体中文版的CodeCombat，如果您中英文都很熟练，请考虑加入我们“外交官”行列并参与CodeCombat的翻译，帮忙把CodeCombat网站和所有关卡翻译成简体中文。感谢！"
     missing_translations: "没被翻译的文字将以英文显示。"
@@ -119,8 +119,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play:
     play_as: "扮演" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "把游戏的开发和更多细节分享给你的同学们吧"
+    request_licenses: "联系我们学校的专家获取详细信息吧"
     compete: "开战！" # Course details page
     spectate: "旁观他人的游戏" # Ladder page
     players: "玩家" # Hover over a level on /play
@@ -157,7 +157,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     replay: "重玩"
     back_to_classroom: "返回教室"
     teacher_button: "带到学校"
-#    get_more_codecombat: "Get More CodeCombat"
+    get_more_codecombat: "获取跟过CodeCombat游戏的信息"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -293,22 +293,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     select_your_starting_hero: "选择你的起始英雄："
     you_can_always_change_your_hero_later: "之后你可以随时更换英雄。"
     finish: "完成"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
-#    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
-#    teacher_list_create_class: "On the next screen you will be able to create a new class."
-#    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
+    teacher_ready_to_create_class: "你已经准备好创建你的班级"
+    teacher_students_can_start_now: "学生将在第一堂课上开始玩游戏，立即开始介绍计算机科学吧！"
+    teacher_list_create_class: "在下一个屏幕上，你能否创建一个新的班级"
+    teacher_list_add_students: "通过点击‘查看班级’按钮来增加学生，之后将班级代码或者URL发送给你的学生。如果他们有邮箱，你也可以通过邮箱邀请他们。"
 #    teacher_list_resource_hub_1: "Check out the"
     teacher_list_resource_hub_2: "课程指南"
 #    teacher_list_resource_hub_3: "for solutions to every level, and the"
-#    teacher_list_resource_hub_4: "Resource Hub"
+    teacher_list_resource_hub_4: "资源仓库"
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
-    teacher_additional_questions: "就是这样！如果您还需要额外的帮助或者遇到了什么问题，请联系__supportEmail__。"
+    teacher_additional_questions: "就是这样！如果您还需要额外的帮助或者遇到了什么问题，请联系__supportEmail__。" 
     dont_use_our_email_silly: "请不要在这里填写我们的邮箱地址！要填写你家长的邮箱地址。"
     want_codecombat_in_school: "想要一辈子都玩CodeCombat?"
-#    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
-#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
-#    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+    eu_confirmation: "我同意CodeCombat游戏在美国的服务器上存储我的数据"
+    eu_confirmation_place_of_processing: "获取更多潜在危险的信息"
+    eu_confirmation_student: "如果你确定，询问你的老师"
+    eu_confirmation_individual: "如果你不想让我们把你的数据存储在美国的服务器，你可以一直匿名玩游戏（但是不能保存你的代码）"
 
   recover:
     recover_account_title: "找回账户"
@@ -439,7 +439,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back_to_map: "返回地图"
     directions: "方向"
     edit_level: "编辑关卡"
-#    keep_learning: "Keep Learning"
+    keep_learning: "不断学习"
     explore_codecombat: "探索CodeCombat"
 #    finished_hoc: "I'm finished with my Hour of Code"
     get_certificate: "获取你的证书！"
@@ -456,7 +456,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concept_challenge_complete: "概念挑战完成!"
     combo_challenge_complete: "组合挑战完成!"
 #    combo_challenge_complete_body: "Great job, it looks like you're well on your way to understanding __concept__!"
-#    replay_level: "Replay Level"
+    replay_level: "重玩关卡"
 #    combo_concepts_used: "__complete__/__total__ Concepts Used"
 #    combo_all_concepts_used: "You used all concepts possible to solve the challenge. Great job!"
 #    combo_not_all_concepts_used: "You used __complete__ out of the __total__ concepts possible to solve the challenge. Try to get all __total__ concepts next time!"
@@ -472,12 +472,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     restart: "重新开始"
     goals: "目标"
     goal: "目标"
-#    challenge_level_goals: "Challenge Level Goals"
-#    challenge_level_goal: "Challenge Level Goal"
-#    concept_challenge_goals: "Concept Challenge Goals"
-#    combo_challenge_goals: "Challenge Level Goals"
-#    concept_challenge_goal: "Concept Challenge Goal"
-#    combo_challenge_goal: "Challenge Level Goal"
+    challenge_level_goals: "挑战级目标"
+    challenge_level_goal: "挑战级目标"
+    concept_challenge_goals: "概念性挑战目标"
+    combo_challenge_goals: "挑战级目标"
+    concept_challenge_goal: "概念性挑战目标"
+    combo_challenge_goal: "挑战级目标"
     running: "运行中..."
     success: "成功！"
     incomplete: "未完成"
@@ -2135,8 +2135,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     verify_error: "验证时出了点问题 :("
 #    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
 #    unsubscribe_button: "Yes, unsubscribe"
-#    unsubscribe_failed: "Failed"
-#    unsubscribe_success: "Success"
+    unsubscribe_failed: "失败"
+    unsubscribe_success: "成功"
 
   account_invoices:
     amount: "金额（美元）"
