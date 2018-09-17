@@ -876,8 +876,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   skill_docs:
     function: "функция" # skill types
     method: "метод"
-    snippet: "образец"
-    number: "номер"
+    snippet: "фрагмент кода"
+    number: "число"
     array: "массив"
     object: "объект"
     string: "строка"
