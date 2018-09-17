@@ -66,8 +66,7 @@ module.exports = class SpectateLevelView extends RootView
     if not @sessionOne or not @sessionTwo
       @fetchRandomSessionPair (err, data) =>
         if err? then return console.log "There was an error fetching the random session pair: #{data}"
-        @sessionOne = data[0]._id
-        @sessionTwo = data[1]._id
+        @setSessions(data[0]._id, data[1]._id)
         @load()
     else
       @load()
@@ -267,13 +266,25 @@ module.exports = class SpectateLevelView extends RootView
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
-
+  
+  setSessions: (sessionOne, sessionTwo) ->
+    @sessionOne = sessionOne
+    @sessionTwo = sessionTwo
+    # The order of the sessions depends on the playable teams. The API endpoint always returns
+    # the human team as session 1 and the ogre team as session 2.
+    # However the playable team order defined in the level editor must match the sessions.
+    # Zero Sum has specified Ogres before Humans, thus causing the wrong sessions to be placed.
+    # This can be confirmed in the level editor: zero sum -> Systems -> Alliance -> config -> teams.
+    # TODO: Investigate if there is a cleaner fix, maybe by modifying Zero Sum config.
+    if @levelID == "zero-sum"
+      @sessionOne = sessionTwo
+      @sessionTwo = sessionOne
+  
   onNextGamePressed: (e) ->
     @fetchRandomSessionPair (err, data) =>
       return if @destroyed
       if err? then return console.log "There was an error fetching the random session pair: #{data}"
-      @sessionOne = data[0]._id
-      @sessionTwo = data[1]._id
+      @setSessions(data[0]._id, data[1]._id)
       url = "/play/spectate/#{@levelID}?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
       if leagueID = utils.getQueryVariable 'league'
         url += "&league=" + leagueID
