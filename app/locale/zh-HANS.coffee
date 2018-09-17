@@ -302,7 +302,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    teacher_list_resource_hub_3: "for solutions to every level, and the"
     teacher_list_resource_hub_4: "资源仓库"
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
-    teacher_additional_questions: "就是这样！如果您还需要额外的帮助或者遇到了什么问题，请联系__supportEmail__。" 
+    teacher_additional_questions: "就是这样！如果您还需要额外的帮助或者遇到了什么问题，请联系__supportEmail__。"
     dont_use_our_email_silly: "请不要在这里填写我们的邮箱地址！要填写你家长的邮箱地址。"
     want_codecombat_in_school: "想要一辈子都玩CodeCombat?"
     eu_confirmation: "我同意CodeCombat游戏在美国的服务器上存储我的数据"
@@ -718,9 +718,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     purchase: "购买"
     purchased: "已购买"
 
-#  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
-#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+  subscribe_for_gems:
+    prompt_title: "没有足够的宝石"
+    prompt_body: "订阅高级版本来获得更多宝石和更多关卡"
 
   earn_gems:
     prompt_title: "宝石不足"
@@ -728,8 +728,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     best_deal: "最佳优惠!"
-#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
-#    premium_already_subscribed: "You're already subscribed to Premium!"
+    confirmation: "恭喜你！你已经获得了CodeCombat的高级订阅版本"
+    premium_already_subscribed: "你已经订阅了高级版本"
     subscribe_modal_title: "CodeCombat 订阅"
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！" # {change}
     must_be_logged: "您需要先登入。请先注册或者在上方的目录中点击登入。"
@@ -773,13 +773,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     support_part2: "support@codecombat.com"
 
 #  announcement:
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
-#    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
-#    kindling_name: "Kindling Elemental"
-#    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
-#    griffin_name: "Baby Griffin"
-#    griffin_description: "Griffins are half eagle, half lion, all adorable."
+    now_available: "现在订阅者可以获得更多内容"
+    subscriber: "订阅者"
+    cuddly_companions: "引人喜爱的同伴" # Pet Announcement Modal
+    kindling_name: "引火物质"
+    kindling_description: "引火物质的作用是在夜间帮你取暖，引火物质将会昼夜给你真正的温暖！"
+    griffin_name: "格里芬幼崽"
+    griffin_description: "格里芬是一个可爱的神兽，一半是狮子，一半是鹰"
 #    raven_name: "Raven"
 #    raven_description: "Ravens are excellent at gathering shiny bottles full of health for you."
 #    mimic_name: "Mimic"
@@ -803,11 +803,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    coming_soon: "Coming soon"
 #    ritic: "Ritic the Cold" # Ritic Announcement Modal
 #    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
-#    ice_block: "A block of ice"
-#    ice_description: "There appears to be something trapped inside..."
-#    blink_name: "Blink"
-#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
-#    shadowStep_name: "Shadowstep"
+    ice_block: "一块冰"
+    ice_description: "通常在冰内部有一些冻住的东西"
+    blink_name: "闪光"
+    blink_description: "当眼睛闪烁时，闪光出现并消失，只留下一个影子。"
+    shadowStep_name: "暗影"
 #    shadowStep_description: "A master assassin knows how to walk between the shadows."
 #    tornado_name: "Tornado"
 #    tornado_description: "It is good to have a reset button when one's cover is blown."
@@ -817,7 +817,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   premium_features:
     get_premium: "获取<br>CodeCombat<br>高级订阅" # Fit into the banner on the /features page
     master_coder: "通过订阅成为编程高手！"
-#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
+    paypal_redirect: "页面将要跳转到PayPal界面以完成订阅过程。"
     subscribe_now: "现在订阅"
     hero_blurb_1: "订阅后可使用 __premiumHeroesCount__ 个超级英雄，利用Okar Stompfoot不可阻挡的力量，叶之Naria的致命精度，或Nalfar Cryptor的\"可爱\"骷髅！"
     hero_blurb_2: "高级战士可解锁惊人的武术技能，如Warcry、Stomp和Hurl Enemy。 或者玩游侠，使用隐形和弓箭、飞刀、陷阱！尝试用你的技能作为一个真正的编码教学，释放一个强大的原力、死灵或元素魔法阵列！"
@@ -2620,8 +2620,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
 #    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
 #    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
-
-#  parent_modal:
+ #  parent_modal:
 #    refer_teacher: "Refer Teacher"
 #    name: "Your Name"
 #    parent_email: "Your Email"
