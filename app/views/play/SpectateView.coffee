@@ -266,7 +266,7 @@ module.exports = class SpectateLevelView extends RootView
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
-  
+
   setSessions: (sessionOne, sessionTwo) ->
     @sessionOne = sessionOne
     @sessionTwo = sessionTwo
