@@ -15,7 +15,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     designed_with: "Designed with teachers in mind"
     real_code: "Echte, zelf geschreven code"
     from_the_first_level: "vanaf het eerste level"
-#    getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
+    getting_students: "Leerlingen zo snel mogelijk zelf code laten schrijven is een bepalende factor in het ontwikkelen van programmeervaardigheden, zoals de juiste structuur, opbouw en syntax."
     educator_resources: "Ondersteuning voor leerkrachten"
     course_guides: "en lesgidsen"
 #    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
@@ -66,8 +66,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   nav:
     map: "Kaart"
     play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    courses: "Courses"
+    community: "Groepen"
+    courses: "Lessen"
     blog: "Blog"
     forum: "Forum"
     account: "Account"
@@ -121,15 +121,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play_as: "Speel als" # Ladder page
 #    get_course_for_class: "Assign Game Development and more to your classes!"
 #    request_licenses: "Contact our school specialists for details."
-#    compete: "Compete!" # Course details page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
+    compete: "Doe mee!" # Course details page
+    spectate: "Kijk" # Ladder page
+    players: "spelers" # Hover over a level on /play
+    hours_played: "uren gespeeld" # Hover over a level on /play
+    items: "Spullen" # Tooltip on item shop button from /play
+    unlock: "Vrijmaken" # For purchasing items and heroes
     confirm: "Bevestig"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
+    owned: "Eigendom" # For items you own
+    locked: "Nog gesloten"
     available: "Beschikbaar"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
@@ -138,12 +138,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "Volgende" # Go from choose hero to choose inventory before playing a level
     change_hero: "Verander je held" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Verander van held of programmeertaal"
     buy_gems: "Koop edelstenen"
     subscribers_only: "Aleen voor abonnees!"
     subscribe_unlock: "Abonneer je om vrij te spelen!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscriber_gems: "Schrijf je in om deze held te kopen met edelstenen!"
     anonymous: "Anonieme speler"
     level_difficulty: "Moeilijkheid: "
     awaiting_levels_adventurer_prefix: "We brengen iedere week nieuwe levels uit."
@@ -151,7 +151,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     awaiting_levels_adventurer_suffix: "om nieuwe levels als eerste te spelen."
     adjust_volume: "Pas volume aan"
 #    campaign_multiplayer: "Multiplayer Arenas"
-#    campaign_multiplayer_description: "... in which you code head-to-head against other players."
+    campaign_multiplayer_description: "... waarin je tegen andere spelers codeert."
     brain_pop_done: "Je hebt de ogres verslagen met je code! Je wint!"
     brain_pop_challenge: "Daag jezelf uit door het level uit te spelen met een andere programmeertaal!"
     replay: "Speel nog een keer"
@@ -229,20 +229,20 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     sign_in_with_gplus: "Log in met Google"
     signup_switch: "Wil je een account aanmaken?"
 
-#  signup:
-#    complete_subscription: "Complete Subscription"
-#    create_student_header: "Create Student Account"
-#    create_teacher_header: "Create Teacher Account"
+  signup:
+    complete_subscription: "Inschrijving afronden"
+    create_student_header: "Maak Leerlingaccount "
+    create_teacher_header: "Maak docentenaccount"
 #    create_individual_header: "Create Individual Account"
 #    email_announcements: "Receive announcements about new CodeCombat levels and features!"
 #    sign_in_to_continue: "Sign in or create an account to continue"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
 #    creating: "Creating Account..."
 #    sign_up: "Sign Up"
-#    log_in: "log in with password"
+    log_in: "log in met wachtwoord"
 #    required: "You need to log in before you can go that way."
 #    login_switch: "Already have an account?"
-#    optional: "optional"
+    optional: "optioneel"
 #    connected_gplus_header: "You've successfully connected with Google+!"
 #    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
 #    connected_facebook_header: "You've successfully connected with Facebook!"
@@ -254,28 +254,28 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    checking: "Checking..."
 #    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
-#    email_good: "Email looks good!"
-#    name_taken: "Username already taken! Try {{suggestedName}}?"
-#    name_available: "Username available!"
-#    name_is_email: "Username may not be an email"
-#    choose_type: "Choose your account type:"
-#    teacher_type_1: "Teach programming using CodeCombat!"
+    email_good: "Email ziet er goed uit!"
+    name_taken: "Gebruikersnaam is al in gebruik! Probeer anders {{suggestedName}}?"
+    name_available: "Gebruikersnaam beschikbaar!"
+    name_is_email: "Gebruikersnaam mag geen emailadres zijn"
+    choose_type: "Kies je account type:"
+    teacher_type_1: "Doceer programmeren met CodeCombat!"
 #    teacher_type_2: "Set up your class"
 #    teacher_type_3: "Access Course Guides"
 #    teacher_type_4: "View student progress"
-#    signup_as_teacher: "Sign up as a Teacher"
+    signup_as_teacher: "Schrijf je in als docent"
 #    student_type_1: "Learn to program while playing an engaging game!"
-#    student_type_2: "Play with your class"
+    student_type_2: "Speel met je klas"
 #    student_type_3: "Compete in arenas"
-#    student_type_4: "Choose your hero!"
+    student_type_4: "Kies je held!"
 #    student_type_5: "Have your Class Code ready!"
-#    signup_as_student: "Sign up as a Student"
+    signup_as_student: "Schrijf je in als Leerling"
 #    individuals_or_parents: "Individuals & Parents"
 #    individual_type: "For players learning to code outside of a class. Parents should sign up for an account here."
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
-#    enter_birthdate: "Enter your birthdate:"
-#    parent_use_birthdate: "Parents, use your own birthdate."
+    enter_birthdate: "Vul je geboortedatum in:"
+    parent_use_birthdate: "Ouder/verzorger, gebruik je eigen geboortedatum."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -288,16 +288,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
 #    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
 #    write_this_down: "Write this down:"
-#    start_playing: "Start Playing!"
+    start_playing: "Begin met Spelen!"
 #    sso_connected: "Successfully connected with:"
 #    select_your_starting_hero: "Select Your Starting Hero:"
 #    you_can_always_change_your_hero_later: "You can always change your hero later."
-#    finish: "Finish"
+    finish: "Rond af"
 #    teacher_ready_to_create_class: "You're ready to create your first class!"
 #    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
-#    teacher_list_resource_hub_1: "Check out the"
+    teacher_list_resource_hub_1: "Lees de"
 #    teacher_list_resource_hub_2: "Course Guides"
 #    teacher_list_resource_hub_3: "for solutions to every level, and the"
 #    teacher_list_resource_hub_4: "Resource Hub"
