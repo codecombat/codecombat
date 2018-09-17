@@ -279,7 +279,7 @@ module.exports = class SpectateLevelView extends RootView
     if @levelID == "zero-sum"
       @sessionOne = sessionTwo
       @sessionTwo = sessionOne
-  
+
   onNextGamePressed: (e) ->
     @fetchRandomSessionPair (err, data) =>
       return if @destroyed
