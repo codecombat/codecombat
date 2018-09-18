@@ -568,8 +568,8 @@ sortCourses = (courses) ->
     index
 
 sortCoursesByAcronyms = (courses) ->
+  orderedCourseAcronyms = _.sortBy(courseAcronyms)
   _.sortBy courses, (course) ->
-    orderedCourseAcronyms = _.sortBy(courseAcronyms)
     # ._id can be from classroom.courses, otherwise it's probably .id
     index = orderedCourseAcronyms.indexOf(courseAcronyms[course.id ? course._id])
     index = 9001 if index is -1
