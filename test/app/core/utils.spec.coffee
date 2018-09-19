@@ -68,7 +68,7 @@ describe 'Utility library', ->
   describe 'inEU', ->
     it 'EU countries return true', ->
       euCountries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom']
-      try 
+      try
         euCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(true))
       catch err
         # NOTE: without try/catch, exceptions do not yield failed tests.
@@ -76,7 +76,7 @@ describe 'Utility library', ->
         expect(err).not.toBeDefined()
     it 'non-EU countries return false', ->
       nonEuCountries = ['united-states', 'peru', 'vietnam']
-      try 
+      try
         nonEuCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(false))
       catch err
         expect(err).not.toBeDefined()
@@ -93,7 +93,7 @@ describe 'Utility library', ->
     it 'Slovakia is 16', ->
       expect(utils.ageOfConsent('slovakia')).toEqual(16)
     it 'default for EU countries 16', ->
-      expect(utils.ageOfConsent('bulgaria')).toEqual(16)
+      expect(utils.ageOfConsent('israel')).toEqual(16)
     it 'default for other countries is 0', ->
       expect(utils.ageOfConsent('hong-kong')).toEqual(0)
     it 'default for unknown countries is 0', ->
