@@ -236,8 +236,8 @@ module.exports = class Tracker extends CocoClass
     return if me.isAdmin() or @shouldBlockAllTracking()
     return unless me.isTeacher(true)
     loadSegmentIo()
-    .then (segmentIo) =>
-      @segmentLoaded = segmentIo.length != 0
+    .then =>
+      @segmentLoaded = true and me.useSocialSignOn()
       @identify()
     #analytics.page()  # It looks like we don't want to call this here because it somehow already gets called once in addition to this.
     # TODO: record any events and pageviews that have built up before we knew we were a teacher.
@@ -245,8 +245,8 @@ module.exports = class Tracker extends CocoClass
   updateTrialRequestData: (attrs) ->
     return if @shouldBlockAllTracking()
     loadSegmentIo()
-    .then (segmentIo) =>
-      @segmentLoaded = segmentIo.length != 0
+    .then =>
+      @segmentLoaded = true and me.useSocialSignOn()
       @identify(attrs)
 
   shouldBlockAllTracking: ->
