@@ -31,7 +31,7 @@ countries = [
   {country: 'russia', countryCode: 'RU'}
   {country: 'australia', countryCode: 'AU'}
   {country: 'canada', countryCode: 'CA'}
-  {country: 'france', countryCode: 'FR', inEU: true, ageOfConsent: 16}
+  {country: 'france', countryCode: 'FR', inEU: true, ageOfConsent: 15}
   {country: 'taiwan', countryCode: 'TW'}
   {country: 'ukraine', countryCode: 'UA'}
   {country: 'poland', countryCode: 'PL', inEU: true, ageOfConsent: 13}
@@ -52,15 +52,15 @@ countries = [
   {country: 'colombia', countryCode: 'CO'}
   {country: 'india', countryCode: 'IN'}
   {country: 'thailand', countryCode: 'TH'}
-  {country: 'belgium', countryCode: 'BE', inEU: true}
+  {country: 'belgium', countryCode: 'BE', inEU: true, ageOfConsent: 13}
   {country: 'sweden', countryCode: 'SE', inEU: true, ageOfConsent: 13}
   {country: 'denmark', countryCode: 'DK', inEU: true, ageOfConsent: 13}
-  {country: 'czech-republic', countryCode: 'CZ', inEU: true, ageOfConsent: 13}
+  {country: 'czech-republic', countryCode: 'CZ', inEU: true, ageOfConsent: 15}
   {country: 'hong-kong', countryCode: 'HK'}
-  {country: 'italy', countryCode: 'IT', inEU: true}
-  {country: 'romania', countryCode: 'RO', inEU: true}
+  {country: 'italy', countryCode: 'IT', inEU: true, ageOfConsent: 16}
+  {country: 'romania', countryCode: 'RO', inEU: true, ageOfConsent: 16}
   {country: 'belarus', countryCode: 'BY'}
-  {country: 'norway', countryCode: 'NO'}
+  {country: 'norway', countryCode: 'NO', inEU: true, ageOfConsent: 13}  # GDPR applies to EFTA
   {country: 'philippines', countryCode: 'PH'}
   {country: 'lithuania', countryCode: 'LT', inEU: true, ageOfConsent: 16}
   {country: 'argentina', countryCode: 'AR'}
@@ -69,29 +69,31 @@ countries = [
   {country: 'serbia', countryCode: 'RS'}
   {country: 'greece', countryCode: 'GR', inEU: true, ageOfConsent: 15}
   {country: 'israel', countryCode: 'IL', inEU: true}
-  {country: 'portugal', countryCode: 'PT', inEU: true}
+  {country: 'portugal', countryCode: 'PT', inEU: true, ageOfConsent: 13}
   {country: 'slovakia', countryCode: 'SK', inEU: true, ageOfConsent: 16}
-  {country: 'ireland', countryCode: 'IE', inEU: true, ageOfConsent: 13}
-  {country: 'switzerland', countryCode: 'CH'}
+  {country: 'ireland', countryCode: 'IE', inEU: true, ageOfConsent: 16}
+  {country: 'switzerland', countryCode: 'CH', inEU: true, ageOfConsent: 16}  # GDPR applies to EFTA
   {country: 'peru', countryCode: 'PE'}
-  {country: 'bulgaria', countryCode: 'BG', inEU: true}
+  {country: 'bulgaria', countryCode: 'BG', inEU: true, ageOfConsent: 14}
   {country: 'venezuela', countryCode: 'VE'}
   {country: 'austria', countryCode: 'AT', inEU: true, ageOfConsent: 14}
-  {country: 'croatia', countryCode: 'HR', inEU: true}
+  {country: 'croatia', countryCode: 'HR', inEU: true, ageOfConsent: 16}
   {country: 'saudia-arabia', countryCode: 'SA'}
   {country: 'chile', countryCode: 'CL'}
   {country: 'united-arab-emirates', countryCode: 'AE'}
   {country: 'kazakhstan', countryCode: 'KZ'}
-  {country: 'estonia', countryCode: 'EE', inEU: true}
+  {country: 'estonia', countryCode: 'EE', inEU: true, ageOfConsent: 13}
   {country: 'iran', countryCode: 'IR'}
   {country: 'egypt', countryCode: 'EG'}
   {country: 'ecuador', countryCode: 'EC'}
-  {country: 'slovenia', countryCode: 'SI', inEU: true}
+  {country: 'slovenia', countryCode: 'SI', inEU: true, ageOfConsent: 15}
   {country: 'macedonia', countryCode: 'MK'}
-  {country: 'cyprus', countryCode: 'CY', inEU: true}
+  {country: 'cyprus', countryCode: 'CY', inEU: true, ageOfConsent: 14}
   {country: 'latvia', countryCode: 'LV', inEU: true, ageOfConsent: 13}
   {country: 'luxembourg', countryCode: 'LU', inEU: true, ageOfConsent: 16}
-  {country: 'malta', countryCode: 'MT', inEU: true}
+  {country: 'malta', countryCode: 'MT', inEU: true, ageOfConsent: 16}
+  {country: 'lichtenstein', countryCode: 'LI', inEU: true}  # GDPR applies to EFTA
+  {country: 'iceland', countryCode: 'IS', inEU: true}  # GDPR applies to EFTA
 ]
 
 inEU = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.inEU
