@@ -283,7 +283,7 @@ module.exports = Vue.extend({
   created: ->
     return unless me.isAdmin() or me.isLicensor()
     api.apiClients.getAll().then (clients) =>
-      @ownedClients = clients.filter((c) -> c.creator is me.id)
+      @ownedClients = clients
       $.ajax
         type: 'GET',
         url: '/db/feature'
