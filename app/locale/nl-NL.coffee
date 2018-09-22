@@ -867,8 +867,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    health_1: "Gains"
 #    health_2: "of listed"
 #    health_3: "armor health."
-#    speed_1: "Moves at"
-#    speed_2: "meters per second."
+    speed_1: "Beweegt met "
+    speed_2: "meters per seconde."
 #    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
@@ -876,16 +876,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   skill_docs:
 #    function: "function" # skill types
     method: "methode"
-#    snippet: "snippet"
+    snippet: "stukje"
     number: "nummer"
 #    array: "array"
     object: "object"
-#    string: "string"
+    string: "reeks tekens"
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "alleen-lezen"
     action: "Actie"
 #    spell: "Spell"
-#    action_name: "name"
+    action_name: "naam"
 #    action_cooldown: "Takes"
 #    action_specific_cooldown: "Cooldown"
 #    action_damage: "Damage"
