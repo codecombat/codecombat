@@ -26,8 +26,9 @@ module.exports = class SpellPaletteEntryView extends CocoView
     'click': 'onClick'
 
   constructor: (options) ->
-    super options
+    super options  
     @thang = options.thang
+    console.log("@thang initialized in constructor", @thang)
     @docFormatter = new DocFormatter options
     @doc = @docFormatter.doc
     @doc.initialHTML = @docFormatter.formatPopover()
@@ -78,7 +79,10 @@ module.exports = class SpellPaletteEntryView extends CocoView
     Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang.id
+    console.log("e.selectedThang inside onFrameChanged", e.selectedThang)
+    console.log("@thang inside onFrameChanged", @thang)
+    return unless e.selectedThang?.id is @thang?.id
+    console.log("Assigning e.selectedThang to @thang and other thangs")
     @options.thang = @thang = @docFormatter.options.thang = e.selectedThang  # Update our thang to the current version
 
   onPaletteHovered: (e) ->
