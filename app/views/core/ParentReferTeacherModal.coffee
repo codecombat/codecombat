@@ -38,13 +38,14 @@ module.exports = class ParentReferTeacherModal extends ModalComponent
     @state.set({customContent: @$(e.currentTarget).val()})
 
   sendEmail: (e) ->
-    contact.sendParentTeacherSignup({
+    referMessage = {
       teacherEmail: @state.get('teacherEmail'),
       parentEmail: @state.get('parentEmail'),
       parentName: @state.get('parentName'),
       customContent: @state.get('customContent')
-    })
-    
+    }
+    contact.sendParentTeacherSignup(referMessage)
+    window.tracker?.trackEvent 'Refer Teacher by Parent', message: referMessage
     true # Refreshes page
       
   
