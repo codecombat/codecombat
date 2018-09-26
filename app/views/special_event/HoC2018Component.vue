@@ -25,11 +25,22 @@
           h3(data-i18n="hoc_2018.ready_play")
           button.btn.btn-primary.btn-lg(data-i18n="hoc_2018.play_activity")
 
+      .row.about-heading
+        h3(data-i18n="hoc_2018.about")
+      
       .row
-        .col-md-12
-          h3(data-i18n="hoc_2018.about")
+        .col-md-6
           p(data-i18n="hoc_2018.about_copy")
           a.btn.btn-primary.btn-lg(href="/demo" data-i18n="hoc_2018.request_demo")
+        
+        .col-md-6.bullet-points
+          ul
+            li(data-i18n="hoc_2018.point1")
+            li(data-i18n="hoc_2018.point2")
+            li(data-i18n="hoc_2018.point3")
+            li(data-i18n="hoc_2018.point4")
+            li(data-i18n="hoc_2018.point5")
+            li(data-i18n="hoc_2018.point6")
 
 </template>
 
@@ -67,12 +78,19 @@ module.exports = Vue.extend({
 
   .get-started div
     margin-bottom: 60px
+    h3
+      margin-bottom: 15px
 
   .ready-to-play
     text-align: center
     margin-bottom: 60px
-
     h3
       margin-bottom: 30px
+
+  .about-heading
+    margin: 30px 0
+
+  .bullet-points ul li
+    list-style-type: none
 
 </style>
