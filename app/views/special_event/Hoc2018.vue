@@ -7,7 +7,7 @@
     .container
       .row
         h1#page-heading Heading about teaching students of arcade games.
-      .row
+      .row.get-started
         .col-md-6
           h3 Get Started:
           <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lKTo7aDf0bE?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -59,10 +59,12 @@ module.exports = Vue.extend({
 
   #page-heading
     margin: 60px 0
-
+  .get-started div
+    margin-bottom: 60px
+      
   .ready-to-play
     text-align: center
-    margin: 60px 0
+    margin-bottom: 60px
     h3
       margin-bottom: 30px
 
