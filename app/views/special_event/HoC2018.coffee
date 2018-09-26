@@ -6,4 +6,3 @@ module.exports = class ParentView extends RootComponent
   id: 'hoc-2018'
   template: template
   VueComponent: HoC2018
-  propsData: {}
