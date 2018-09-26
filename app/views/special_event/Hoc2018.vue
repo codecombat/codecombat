@@ -2,33 +2,31 @@
   #hoc-2018-page
     .hoc-header
       .center
-        h4 Replace this copy. Codecombat is awesome.
-        a.btn.btn-primary(href="/") Learn More
+        h4(data-i18n="hoc_2018.learn_more_copy")
+        a.btn.btn-primary(href="/", data-i18n="hoc_2018.learn_more")
     .container
       .row
-        h1#page-heading Heading about teaching students of arcade games.
+        h1#page-heading(data-i18n="hoc_2018.page_heading")
       .row.get-started
         .col-md-6
-          h3 Get Started:
+          h3(data-i18n="hoc_2018.get_started")
           <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lKTo7aDf0bE?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         .col-md-5.col-md-offset-1
-          h3 Download Lesson Plan:
-          p Text about lesson plan.
-          button.btn.btn-primary.btn-lg Download PDF
+          h3(data-i18n="hoc_2018.download_lesson")
+          p(data-i18n="hoc_2018.lesson_copy")
+          button.btn.btn-primary.btn-lg(data-i18n="hoc_2018.download_pdf")
 
       .row.ready-to-play
         .col-xs-12
-          h3 Ready to Play?
-          button.btn.btn-primary.btn-lg Play Activity
+          h3(data-i18n="hoc_2018.ready_play")
+          button.btn.btn-primary.btn-lg(data-i18n="hoc_2018.play_activity")
 
       .row
         .col-md-12
-          h3 About Codecombat
-          p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nibh venenatis cras sed felis eget velit aliquet sagittis. Eu tincidunt tortor aliquam nulla facilisi. Sed faucibus turpis in eu. Amet facilisis magna etiam tempor orci eu lobortis elementum nibh.
-          a.btn.btn-primary.btn-lg(href="/demo") Request a Demo
+          h3(data-i18n="hoc_2018.about")
+          p(data-i18n="hoc_2018.about_copy")
+          a.btn.btn-primary.btn-lg(href="/demo" data-i18n="hoc_2018.request_demo")
 </template>
-
-
 
 <script>
 module.exports = Vue.extend({
