@@ -12,22 +12,22 @@
 
       .row.get-started
         .col-md-6
-          h3(data-i18n="hoc_2018.get_started")
+          h4.bold-header(data-i18n="hoc_2018.get_started")
           <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lKTo7aDf0bE?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
         .col-md-5.col-md-offset-1
-          h3(data-i18n="hoc_2018.download_lesson")
+          h4.bold-header(data-i18n="hoc_2018.download_lesson")
           p(data-i18n="hoc_2018.lesson_copy")
           button.btn.btn-primary.btn-lg(data-i18n="hoc_2018.download_pdf")
 
       .row.ready-to-play
         .col-xs-12
-          h3(data-i18n="hoc_2018.ready_play")
+          h4.bold-header(data-i18n="hoc_2018.ready_play")
           button.btn.btn-primary.btn-lg(data-i18n="hoc_2018.play_activity")
 
       .row.about-heading
-        h3(data-i18n="hoc_2018.about")
-      
+        h4.bold-header(data-i18n="hoc_2018.about")
+
       .row
         .col-md-6
           p(data-i18n="hoc_2018.about_copy")
@@ -64,6 +64,8 @@ module.exports = Vue.extend({
       color: white
       margin: 0 20px 0 0
       padding-top: 2px
+      font-weight: normal
+      font-size: 18px
 
     a.btn-primary
       background-color: white
@@ -72,23 +74,27 @@ module.exports = Vue.extend({
 
       &:hover
         background-color: #eeeeee
+  .container h4
+    font-weight: bold
 
   #page-heading
-    margin: 60px 0
+    margin: 20px 0
+    text-align: center
+    font-size: 36px
 
   .get-started div
-    margin-bottom: 60px
-    h3
+    margin-bottom: 30px
+    h4
       margin-bottom: 15px
 
   .ready-to-play
     text-align: center
     margin-bottom: 60px
-    h3
-      margin-bottom: 30px
+    h4
+      margin-bottom: 10px
 
   .about-heading
-    margin: 30px 0
+    margin: 10px 0
 
   .bullet-points ul li
     list-style-type: none

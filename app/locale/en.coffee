@@ -2648,4 +2648,4 @@
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    request_demo: "Request a Demo"
+    request_demo: "Create Teacher Account"
