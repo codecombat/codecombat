@@ -39,7 +39,7 @@ module.exports = (env) => {
     .concat([
       new UglifyJsPlugin({
         uglifyOptions: {
-          ecma:8,
+          ecma: 8,
           compress: {
             arrows: false,
             booleans: false,
