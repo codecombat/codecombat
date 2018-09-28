@@ -13,7 +13,7 @@
       .row.get-started
         .col-md-6
           h4.bold-header(data-i18n="hoc_2018.get_started")
-          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lKTo7aDf0bE?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/5ouY7khrA8M?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
         .col-md-5.col-md-offset-1
           h4.bold-header(data-i18n="hoc_2018.download_lesson")
