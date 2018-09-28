@@ -732,8 +732,13 @@ module.exports = class PlayLevelView extends RootView
 
   updateStudentGoals: ->
     return unless @level.isType('game-dev')
-    @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
-    @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
+    if @world.uiText?
+      custom_set_goals = @world.uiText
+      custom_set_goals.type = "user_defined"
+      @studentGoals = [custom_set_goals]
+    else
+      @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
+      @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
     @renderSelectors('#how-to-play-game-dev-panel')
     @$('#how-to-play-game-dev-panel').removeClass('hide')
 

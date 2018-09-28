@@ -22,3 +22,5 @@ mixin game-dev-goals(goals)
           li.goal(data-i18n="play_game_dev_level.goal_collect_amount", data-i18n-options={amount: goal.config.amount})
         else
           li.goal(data-i18n="play_game_dev_level.goal_collect")
+      else if goal.type == "user_defined"
+        li.goal= goal.description
