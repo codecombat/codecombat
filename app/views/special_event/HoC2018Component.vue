@@ -18,12 +18,12 @@
         .col-md-5.col-md-offset-1
           h4.bold-header(data-i18n="hoc_2018.download_lesson")
           p(data-i18n="hoc_2018.lesson_copy")
-          button.btn.btn-primary.btn-lg(data-i18n="hoc_2018.download_pdf")
+          a.btn.btn-primary.btn-lg(href="http://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2018.pdf" target="_blank" data-i18n="hoc_2018.download_pdf")
 
       .row.ready-to-play
         .col-xs-12
           h4.bold-header(data-i18n="hoc_2018.ready_play")
-          button.btn.btn-primary.btn-lg(data-i18n="hoc_2018.play_activity")
+          a.btn.btn-primary.btn-lg(href="https://codecombat.com/play/hoc-2018" data-i18n="hoc_2018.play_activity")
 
       .row.about-heading
         h4.bold-header(data-i18n="hoc_2018.about")
