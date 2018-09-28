@@ -732,7 +732,7 @@ module.exports = class PlayLevelView extends RootView
 
   updateStudentGoals: ->
     return unless @level.isType('game-dev')
-    if @world.uiText?
+    if @world.uiText?.description?
       custom_set_goals = @world.uiText
       custom_set_goals.type = "user_defined"
       @studentGoals = [custom_set_goals]
