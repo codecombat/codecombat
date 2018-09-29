@@ -138,7 +138,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     poll: "Hlasování" # Tooltip on poll button from /play
     next: "Další" # Go from choose hero to choose inventory before playing a level
     change_hero: "Změnit hrdinu" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Změnit hrdinu nebo jazyk"
     buy_gems: "Zakoupit drahokamy"
     subscribers_only: "Pouze předplatitelé!"
     subscribe_unlock: "Předplaťte si pro odemknutí!"
