@@ -2339,15 +2339,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    students_section: "Students:"
 #    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
-#  delta:
-#    added: "Added"
-#    modified: "Modified"
-#    not_modified: "Not Modified"
-#    deleted: "Deleted"
-#    moved_index: "Moved Index"
-#    text_diff: "Text Diff"
-#    merge_conflict_with: "MERGE CONFLICT WITH"
-#    no_changes: "No Changes"
+  delta:
+    added: "Toegevoegd"
+    modified: "Aangepast"
+    not_modified: "Niet Gewijzigd"
+    deleted: "Verwijderd"
+    moved_index: "Verander Index"
+    text_diff: "Verschil in Text"
+    merge_conflict_with: "CONFLICT IN SAMENVOEGEN MET"
+    no_changes: "Geen Veranderingen"
 
 #  legal:
 #    page_title: "Legal"
@@ -2452,20 +2452,20 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
+  server_error:
+    email_taken: "Email is al in gebruik"
+    username_taken: "Gebruikersnaam is al in gebruik"
 
-#  esper:
-#    line_no: "Line $1: "
+  esper:
+    line_no: "Regel $1: "
 #    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
-#    reference_error: "ReferenceError: "
+    reference_error: "Error in de verwijzing: "
 #    argument_error: "ArgumentError: "
 #    type_error: "TypeError: "
 #    syntax_error: "SyntaxError: "
-#    error: "Error: "
-#    x_not_a_function: "$1 is not a function"
-#    x_not_defined: "$1 is not defined"
+    error: "Error: "
+    x_not_a_function: "$1 is geen functie"
+    x_not_defined: "$1 is niet gedefinieerd "
 #    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
 #    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
 #    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2 statement."
@@ -2497,12 +2497,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    unexpected_token2: "Unexpected token"
 #    unexpected_number: "Unexpected number"
 #    unexpected: "Unexpected '$1'."
-#    escape_pressed_code: "Escape pressed; code aborted."
+    escape_pressed_code: "Escape ingedrukt; code gestopt."
 #    target_an_enemy: "Target an enemy by name, like `$1`, not the string `$2`."
-#    target_an_enemy_2: "Target an enemy by name, like $1."
+    target_an_enemy_2: "Kies een vijand met de naam, bijvoorbeeld $1."
 #    cannot_read_property: "Cannot read property '$1' of undefined"
 #    attempted_to_assign: "Attempted to assign to readonly property."
-#    unexpected_early_end: "Unexpected early end of program."
+    unexpected_early_end: "Programma is onverwachts eerder gestopt."
 #    you_need_a_string: "You need a string to build; one of $1"
 #    unable_to_get_property: "Unable to get property '$1' of undefined or null reference" # TODO: Do we translate undefined/null?
 #    code_never_finished_its: "Code never finished. It's either really slow or has an infinite loop."
@@ -2520,20 +2520,20 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    unclosed_paren_in_function_arguments: "Unclosed $1 in function arguments."
 #    unexpected_end_of_input: "Unexpected end of input"
 #    there_is_no_enemy: "There is no `$1`. Use `$2` first." # Hints start here
-#    try_herofindnearestenemy: "Try `$1`"
+    try_herofindnearestenemy: "Probeer `$1`"
 #    there_is_no_function: "There is no function `$1`, but `$2` has a method `$3`."
 #    attacks_argument_enemy_has: "`$1`'s argument `$2` has a problem."
 #    is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
 #    target_is_null_is: "Target is $1. Is there always a target to attack? (Use $2?)"
 #    hero_has_no_method: "`$1` has no method `$2`."
-#    there_is_a_problem: "There is a problem with your code."
+    there_is_a_problem: "Er is een probleem met je code."
 #    did_you_mean: "Did you mean $1? You do not have an item equipped with that skill."
 #    missing_a_quotation_mark: "Missing a quotation mark. "
 #    missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable."
 #    you_do_not_have: "You do not have an item equipped with the $1 skill."
 #    put_each_command_on: "Put each command on a separate line"
 #    are_you_missing_a: "Are you missing a '$1' after '$2'? "
-#    your_parentheses_must_match: "Your parentheses must match."
+    your_parentheses_must_match: "Jouw haakjes moeten gelijk zijn."
 
 #  apcsp:
 #    syllabus: "AP CS Principles Syllabus"
