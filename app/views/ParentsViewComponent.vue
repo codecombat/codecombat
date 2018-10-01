@@ -62,7 +62,7 @@
           span.spr(data-i18n="parent_landing.dive_par1")
           a(href="https://www.learntechlib.org/p/19982/", data-i18n="parent_landing.dive_link1")
           span.spl.spr(data-i18n="parent_landing.dive_par2")
-          a(href="http://webcache.googleusercontent.com/search?q=cache:v-UZ4U5_b7cJ:www.ejmste.com/A-Study-of-the-Effects-of-Digital-Learning-on-Learning-Motivation-and-Learning-Outcome,69635,0,2.html+&amp;cd=1&amp;hl=en&amp;ct=clnk&amp;gl=us", data-i18n="parent_landing.dive_link2")
+          a(href="http://www.ejmste.com/A-Study-of-the-Effects-of-Digital-Learning-on-Learning-Motivation-and-Learning-Outcome,69635,0,2.html", data-i18n="parent_landing.dive_link2")
           span.spl.spr(data-i18n="parent_landing.dive_par3")
           a(href="https://www.healio.com/nursing/journals/jcen/2016-8-47-8/%7B4c67edb9-1a9c-432d-af17-0f2856f3ce2c%7D/importance-of-gamification-in-increasing-learning", data-i18n="parent_landing.dive_link3")
           span.spr(data-i18n="parent_landing.dive_par4")
