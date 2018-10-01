@@ -106,6 +106,7 @@ module.exports = {
   'views/courses/TeacherCoursesView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/TeacherCoursesView') },
   'views/teachers/TeacherCourseSolutionView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/TeacherCourseSolutionView') },
   'views/teachers/RequestQuoteView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/RequestQuoteView') },
+  'views/special_event/HoC2018View': function (){ return import(/* webpackChunkName: "HoC2018" */ 'views/special_event/HoC2018View') },
   'views/courses/EnrollmentsView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/EnrollmentsView') },
   'views/teachers/ResourceHubView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ResourceHubView') },
   'views/teachers/ApCsPrinciplesView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ApCsPrinciplesView') },
