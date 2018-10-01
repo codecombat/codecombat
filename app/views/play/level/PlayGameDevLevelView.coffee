@@ -186,12 +186,20 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onSurfaceTicked: (e) ->
     return if @studentGoals
-    goals = @surface.world?.thangMap?['Hero Placeholder']?.stringGoals
-    return unless _.size(goals)
-    @updateRealTimeGoals(goals)
+    # Set by users. Defined in `game.GameUI` component in the level editor.
+    if @world.uiText?.directions? and @world.uiText.directions.length
+      userDefinedGoals = @world.uiText.directions.map((directions) -> {type: "user_defined", directions})
+      @studentGoals = userDefinedGoals
+    else
+      @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
+      @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
+    # goals = @surface.world?.thangMap?['Hero Placeholder']?.stringGoals
+    return unless _.size(@studentGoals)
+    @updateRealTimeGoals()
 
   updateRealTimeGoals: (goals) ->
-    @studentGoals = goals?.map((g) -> JSON.parse(g))
+    if goals?
+      @studentGoals = goals?.map((g) -> JSON.parse(g))
     @renderSelectors '#directions'
 
   onStreamingWorldUpdated: (e) ->
