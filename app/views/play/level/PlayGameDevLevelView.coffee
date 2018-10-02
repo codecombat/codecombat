@@ -30,7 +30,6 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   subscriptions:
     'god:new-world-created': 'onNewWorld'
-    'surface:ticked': 'onSurfaceTicked'
     'god:streaming-world-updated': 'onStreamingWorldUpdated'
 
   events:
@@ -135,8 +134,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-      worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
+      worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
       @god.createWorld(worldCreationOptions)
+      @willUpdateStudentGoals = true
 
     .catch (e) =>
       throw e if e.stack
@@ -184,7 +184,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @openModalView(modal)
       modal.once 'replay', @onClickPlayButton, @
 
-  onSurfaceTicked: (e) ->
+  updateStudentGoals: ->
     return if @studentGoals
     # Set by users. Defined in `game.GameUI` component in the level editor.
     if @world.uiText?.directions?.length?
@@ -193,6 +193,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals?.map((g) -> JSON.parse(g))
     return unless _.size(@studentGoals)
     @updateRealTimeGoals()
+    worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
+    @god.createWorld(worldCreationOptions)
 
   updateRealTimeGoals: (goals) ->
     if goals?
@@ -200,6 +202,10 @@ module.exports = class PlayGameDevLevelView extends RootView
     @renderSelectors '#directions'
 
   onStreamingWorldUpdated: (e) ->
+    @world = e.world
+    if @world.age > 0 and @willUpdateStudentGoals
+      @willUpdateStudentGoals = false
+      @updateStudentGoals()
     @updateDb()
 
   updateDb: ->
