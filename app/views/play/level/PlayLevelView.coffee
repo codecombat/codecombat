@@ -733,8 +733,8 @@ module.exports = class PlayLevelView extends RootView
   updateStudentGoals: ->
     return unless @level.isType('game-dev')
     # Set by users. Defined in `game.GameUI` component in the level editor.
-    if @world.uiText?.directions? and @world.uiText.directions.length
-      userDefinedGoals = @world.uiText.directions.map((directions) -> {type: "user_defined", directions})
+    if @world.uiText?.directions?.length?
+      userDefinedGoals = @world.uiText.directions.map((direction) -> {type: "user_defined", direction})
       @studentGoals = userDefinedGoals
     else
       @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
