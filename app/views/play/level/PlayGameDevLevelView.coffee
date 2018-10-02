@@ -134,6 +134,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
+      # Load a realtime, synchronous world to get uiText properties off the world object.
+      # We don't want the world to be playable immediately so calling updateStudentGoals
+      # replaces this world with the first frame of the world level.
       worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
       @god.createWorld(worldCreationOptions)
       @willUpdateStudentGoals = true
