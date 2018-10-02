@@ -76,9 +76,13 @@ setupExpressMiddleware = (app) ->
   if config.proxy
     # Don't proxy static files with sha prefixes, redirect them
     regex = /\/[0-9a-f]{40}\/.*/
+    regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
     app.use (req, res, next) ->
       if regex.test(req.path)
         newPath = req.path.slice(41)
+        return res.redirect(newPath)
+      if regex2.test(req.path)
+        newPath = req.path.slice(82)
         return res.redirect(newPath)
       next()
 

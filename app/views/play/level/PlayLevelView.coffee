@@ -732,8 +732,11 @@ module.exports = class PlayLevelView extends RootView
 
   updateStudentGoals: ->
     return unless @level.isType('game-dev')
-    @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
-    @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
+    # Set by users. Defined in `game.GameUI` component in the level editor.
+    if @world.uiText?.directions?.length?
+      @studentGoals = @world.uiText.directions.map((direction) -> {type: "user_defined", direction})
+    else
+      @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals?.map((g) -> JSON.parse(g))
     @renderSelectors('#how-to-play-game-dev-panel')
     @$('#how-to-play-game-dev-panel').removeClass('hide')
 
