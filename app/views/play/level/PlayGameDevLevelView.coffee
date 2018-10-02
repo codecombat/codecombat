@@ -30,7 +30,6 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   subscriptions:
     'god:new-world-created': 'onNewWorld'
-    'surface:ticked': 'onSurfaceTicked'
     'god:streaming-world-updated': 'onStreamingWorldUpdated'
 
   events:
@@ -135,8 +134,12 @@ module.exports = class PlayGameDevLevelView extends RootView
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-      worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
+      # Load a realtime, synchronous world to get uiText properties off the world object.
+      # We don't want the world to be playable immediately so calling updateStudentGoals
+      # replaces this world with the first frame of the world level.
+      worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
       @god.createWorld(worldCreationOptions)
+      @willUpdateStudentGoals = true
 
     .catch (e) =>
       throw e if e.stack
@@ -184,17 +187,28 @@ module.exports = class PlayGameDevLevelView extends RootView
       @openModalView(modal)
       modal.once 'replay', @onClickPlayButton, @
 
-  onSurfaceTicked: (e) ->
+  updateStudentGoals: ->
     return if @studentGoals
-    goals = @surface.world?.thangMap?['Hero Placeholder']?.stringGoals
-    return unless _.size(goals)
-    @updateRealTimeGoals(goals)
+    # Set by users. Defined in `game.GameUI` component in the level editor.
+    if @world.uiText?.directions?.length?
+      @studentGoals = @world.uiText.directions.map((direction) -> {type: "user_defined", direction})
+    else
+      @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals?.map((g) -> JSON.parse(g))
+    return unless _.size(@studentGoals)
+    @updateRealTimeGoals()
+    worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
+    @god.createWorld(worldCreationOptions)
 
   updateRealTimeGoals: (goals) ->
-    @studentGoals = goals?.map((g) -> JSON.parse(g))
+    if goals?
+      @studentGoals = goals?.map((g) -> JSON.parse(g))
     @renderSelectors '#directions'
 
   onStreamingWorldUpdated: (e) ->
+    @world = e.world
+    if @world.age > 0 and @willUpdateStudentGoals
+      @willUpdateStudentGoals = false
+      @updateStudentGoals()
     @updateDb()
 
   updateDb: ->
