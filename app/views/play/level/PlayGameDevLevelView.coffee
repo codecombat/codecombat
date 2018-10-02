@@ -193,7 +193,6 @@ module.exports = class PlayGameDevLevelView extends RootView
     else
       @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
       @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
-    # goals = @surface.world?.thangMap?['Hero Placeholder']?.stringGoals
     return unless _.size(@studentGoals)
     @updateRealTimeGoals()
 
