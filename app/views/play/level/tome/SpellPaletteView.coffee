@@ -119,7 +119,7 @@ module.exports = class SpellPaletteView extends CocoView
         t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
         @$el.find("#palette-tab-events").append t.el
         t.render()
-      
+
       if doc.type is "handler"
         t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
         @$el.find("#palette-tab-handlers").append t.el
@@ -182,7 +182,6 @@ module.exports = class SpellPaletteView extends CocoView
       @organizePaletteHero propStorage, allDocs, excludedDocs
 
   organizePalette: (propStorage, allDocs, excludedDocs) ->
-    console.log("[z] organizePalette called")
     count = 0
     propGroups = {}
     for owner, storages of propStorage
