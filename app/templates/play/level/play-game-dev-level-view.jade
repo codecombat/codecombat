@@ -17,7 +17,7 @@ include ../game-dev-goals.jade
             .alert.alert-danger= view.state.get('errorMessage')
 
           if view.level.id && view.session.id
-            h3.m-y-1= view.level.get('name')
+            h3.m-y-1= view.getLevelName()
             h4= view.state.get('creatorString')
             hr
 
