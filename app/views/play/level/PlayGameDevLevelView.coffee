@@ -183,7 +183,7 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onNewWorld: (e) ->
     if @goalManager.checkOverallStatus() is 'success'
-      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties })
+      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties, @victoryMessage })
       @openModalView(modal)
       modal.once 'replay', @onClickPlayButton, @
 
@@ -210,12 +210,17 @@ module.exports = class PlayGameDevLevelView extends RootView
       @willUpdateFrontEnd = false
       @updateStudentGoals()
       @updateLevelName()
+      @updateVictoryMessage()
     @updateDb()
 
-  updateLevelName: () ->
+  updateLevelName: ->
     if @world.uiText?.levelName
       @levelName = @world.uiText.levelName
       @renderSelectors '#directions'
+  
+  updateVictoryMessage: ->
+    if @world.uiText?.victoryMessage
+      @victoryMessage = @world.uiText?.victoryMessage
 
   getLevelName: () ->
     @levelName ? @level.get('name')
