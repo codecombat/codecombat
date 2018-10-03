@@ -37,18 +37,11 @@ module.exports = class GameDevTrackView extends CocoView
         trackedPropNamesIndex = thangState.trackedPropertyKeys.indexOf 'uiTrackedProperties'
         unless trackedPropNamesIndex is -1
           trackedPropNames = thangState.props[trackedPropNamesIndex]
-<<<<<<< HEAD
-          for name in trackedPropNames
-            propIndex = thangState.trackedPropertyKeys.indexOf name
-            continue if propIndex is -1
-            @listings[overrideLabel ? name] = thangState.props[propIndex]
-=======
           if trackedPropNames
             for name in trackedPropNames
               propIndex = thangState.trackedPropertyKeys.indexOf name
               continue if propIndex is -1
               @listings[overrideLabel ? name] = thangState.props[propIndex]
->>>>>>> master
         continue unless key is 'Hero Placeholder'
         trackedObjNamesIndex = thangState.trackedPropertyKeys.indexOf 'objTrackedProperties'
         continue if trackedObjNamesIndex is -1
