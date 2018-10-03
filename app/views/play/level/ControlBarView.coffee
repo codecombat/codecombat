@@ -72,6 +72,10 @@ module.exports = class ControlBarView extends CocoView
     if @level.get 'replayable'
       @listenTo @session, 'change-difficulty', @onSessionDifficultyChanged
 
+  setLevelName: (overideLevelName) ->
+    @levelName = overideLevelName
+    @render()
+
   onLoaded: ->
     if @classroom
       @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)

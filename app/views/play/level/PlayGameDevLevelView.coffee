@@ -139,7 +139,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       # replaces this world with the first frame of the world level.
       worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
       @god.createWorld(worldCreationOptions)
-      @willUpdateStudentGoals = true
+      @willUpdateFrontEnd = true
 
     .catch (e) =>
       throw e if e.stack
@@ -183,7 +183,7 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onNewWorld: (e) ->
     if @goalManager.checkOverallStatus() is 'success'
-      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties })
+      modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties, @victoryMessage })
       @openModalView(modal)
       modal.once 'replay', @onClickPlayButton, @
 
@@ -206,10 +206,24 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onStreamingWorldUpdated: (e) ->
     @world = e.world
-    if @world.age > 0 and @willUpdateStudentGoals
-      @willUpdateStudentGoals = false
+    if @world.age > 0 and @willUpdateFrontEnd
+      @willUpdateFrontEnd = false
       @updateStudentGoals()
+      @updateLevelName()
+      @updateVictoryMessage()
     @updateDb()
+
+  updateLevelName: ->
+    if @world.uiText?.levelName
+      @levelName = @world.uiText.levelName
+      @renderSelectors '#directions'
+  
+  updateVictoryMessage: ->
+    if @world.uiText?.victoryMessage
+      @victoryMessage = @world.uiText?.victoryMessage
+
+  getLevelName: () ->
+    @levelName ? @level.get('name')
 
   updateDb: ->
     return unless @state?.get('playing')

@@ -1,7 +1,7 @@
 extends /templates/core/modal-base-flat
 
 block modal-header-content
-  h3.text-center You beat the game!
+  h3.text-center= view.getVictoryMessage()
 
 block modal-body-content
   .text-center Share this level so your friends and family can play it:

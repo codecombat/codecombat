@@ -703,6 +703,7 @@ module.exports = class PlayLevelView extends RootView
     if @world.age > 0 and @willUpdateStudentGoals
       @willUpdateStudentGoals = false
       @updateStudentGoals()
+      @updateLevelName()
 
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
@@ -727,6 +728,7 @@ module.exports = class PlayLevelView extends RootView
     @$el.addClass('real-time').focus()
     @willUpdateStudentGoals = true
     @updateStudentGoals()
+    @updateLevelName()
     @onWindowResize()
     @realTimePlaybackWaitingForFrames = true
 
@@ -739,6 +741,10 @@ module.exports = class PlayLevelView extends RootView
       @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals?.map((g) -> JSON.parse(g))
     @renderSelectors('#how-to-play-game-dev-panel')
     @$('#how-to-play-game-dev-panel').removeClass('hide')
+
+  updateLevelName: () ->
+    if @world.uiText?.levelName
+      @controlBar.setLevelName(@world.uiText.levelName)
 
   onRealTimePlaybackEnded: (e) ->
     return unless @$el.hasClass 'real-time'
