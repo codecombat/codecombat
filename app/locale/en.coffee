@@ -613,6 +613,7 @@
   apis:
     methods: "Methods"
     events: "Events"
+    handlers: "Handlers"
     spawnable: "Spawnable"
     html: "HTML"
     math: "Math"
