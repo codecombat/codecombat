@@ -2514,7 +2514,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     need_a_on_the: "Heb een `:` nodig aan het einde van de lijn, gevolgd door `$1`."
     attempt_to_call_undefined: "Poging om '$1' aan te roepen (call) (een nulwaarde)"
     unterminated: "Onafgesloten `$1`"
-    target_an_enemy_variable: "Target een variabele van $ 1, niet de string $ 2. (Probeer $ 3 te gebruiken.)"
+    target_an_enemy_variable: "Target een variabele van $1, niet de string $2. (Probeer $3 te gebruiken.)"
     error_use_the_variable: "Gebruik de variabele naam zoals `$1` in plaa `$2`"
     indentation_unindent_does_not: "Inspringing komt niet overeen met enige buitenste inspringniveau"
     unclosed_paren_in_function_arguments: "Niet-gesloten $1 in functie-argumenten (function arguments)."
