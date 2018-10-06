@@ -1044,13 +1044,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    course_prefix: "Course"
 #    course_suffix: ""
 
-#  teachers_quote:
+  teachers_quote:
 #    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
-#    phone_number: "Phone number"
+    phone_number: "Telefoonnummer"
 #    phone_number_help: "What's the best number to reach you?"
 #    primary_role_label: "Your Primary Role"
-#    role_default: "Select Role"
+    role_default: "Selecteer Rol"
 #    primary_role_default: "Select Primary Role"
 #    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
@@ -1117,11 +1117,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
-#    contact_us: "Contact CodeCombat"
+    contact_us: "Contact CodeCombat"
 #    welcome: "Good to hear from you! Use this form to send us email. "
-#    forum_prefix: "For anything public, please try "
-#    forum_page: "our forum"
-#    forum_suffix: " instead."
+    forum_prefix: "Voor alle bredere zaken, probeer "
+    forum_page: "ons forum"
+    forum_suffix: " in plaats daarvan."
 #    faq_prefix: "There's also a"
 #    faq: "FAQ"
 #    subscribe_prefix: "If you need help figuring out a level, please"
@@ -1133,13 +1133,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     send: "Stuur Feedback"
 
   account_settings:
-#    title: "Account Settings"
+    title: "Accountinstellingen"
 #    not_logged_in: "Log in or create an account to change your settings."
     me_tab: "Ik"
     picture_tab: "Foto"
     delete_account_tab: "Verwijder Je Account"
 #    wrong_email: "Wrong Email or Username"
-#    wrong_password: "Wrong Password"
+    wrong_password: "Verkeerd Wachtwoord"
 #    delete_this_account: "Delete this account permanently"
 #    reset_progress_tab: "Reset All Progress"
 #    reset_your_progress: "Clear all your progress and start over"
@@ -1148,7 +1148,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    admin: "Admin"
 #    manage_subscription: "Click here to manage your subscription."
     new_password: "Nieuw Wachtwoord"
-#    new_password_verify: "Verify"
+    new_password_verify: "Controleer"
 #    type_in_email: "Type in your email or username to confirm account deletion."
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
@@ -1160,7 +1160,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
 #    email_any_notes: "Any Notifications"
 #    email_any_notes_description: "Disable to stop all activity notification emails."
-#    email_news: "News"
+    email_news: "Nieuws"
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
 #    contributor_emails: "Contributor Class Emails"
@@ -1169,18 +1169,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    contribute_suffix: " to find out more."
 #    email_toggle: "Toggle All"
 #    error_saving: "Error Saving"
-#    saved: "Changes Saved"
-#    password_mismatch: "Password does not match."
-#    password_repeat: "Please repeat your password."
+    saved: "Aanpassingen opgeslagen"
+    password_mismatch: "Wachtwoorden komen niet overeen."
+    password_repeat: "Herhaal je wachtwoord."
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"
     space: "Spatiebalk"
-#    enter: "Enter"
+    enter: "Enter"
 #    press_enter: "press enter"
-#    escape: "Escape"
-#    shift: "Shift"
-#    run_code: "Run current code."
+    escape: "Escape"
+    shift: "Shift"
+    run_code: "Voer huidige code uit."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -2005,7 +2005,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
   ladder:
-#    my_matches: "My Matches"
+    my_matches: "Mijn Wedstrijden"
     simulate: "Simuleer"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulation_explanation_leagues: "You will mainly help simulate games for allied players in your clans and courses."
@@ -2089,20 +2089,20 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    certificate_of_completion: "Certificate of Completion"
 #    certificate_endorsed_by: "Endorsed by"
 #    certificate_stats: "Course Stats"
-#    certificate_lines_of: "lines of"
-#    certificate_levels_completed: "levels completed"
+    certificate_lines_of: "regels"
+    certificate_levels_completed: "levels afgerond"
     certificate_for: "Voor"
 
-#  achievements:
+  achievements:
 #    last_earned: "Last Earned"
-#    amount_achieved: "Amount"
+    amount_achieved: "Hoeveelheid"
 #    achievement: "Achievement"
-#    current_xp_prefix: ""
-#    current_xp_postfix: " in total"
+    current_xp_prefix: ""
+    current_xp_postfix: " in totaal"
 #    new_xp_prefix: ""
-#    new_xp_postfix: " earned"
+    new_xp_postfix: " verdiend"
 #    left_xp_prefix: ""
-#    left_xp_infix: " until level "
+    left_xp_infix: " tot level "
 #    left_xp_postfix: ""
 
   account:
@@ -2481,7 +2481,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    empty_while: "Empty while statement. Put 4 spaces in front of statements inside the while statement."
 #    line_of_site: "`$1`'s argument `$2` has a problem. Is there an enemy within your line-of-sight yet?"
     need_a_after_while: "`$1` nodig na `$2`."
-#    too_much_indentation: "Too much indentation at the beginning of this line."
+    too_much_indentation: "Teveel inspringing aan het begin van deze regel."
     missing_hero: "`$1` steutelwoord mist; dit zou `$2` moeten zijn."
     takes_no_arguments: "`$1` verwacht geen extra gegevens."
 #    no_one_named: "There's no one named \"$1\" to target."
@@ -2575,7 +2575,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
-#  parent_landing:
+  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
 #    quote_attr: "5th Grader, Oakland"
 #    refer_teacher: "Refer a Teacher"
