@@ -2575,7 +2575,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
-  parent_landing:
+#  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
 #    quote_attr: "5th Grader, Oakland"
 #    refer_teacher: "Refer a Teacher"
