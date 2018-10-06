@@ -501,7 +501,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_review_placeholder: "Hoe was het level?"
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code™!"
-   victory_experience_gained: "XP verdiend"# Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)"
+    victory_experience_gained: "XP verdiend"# Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)"
     victory_gems_gained: "Edelstenen verdiend"
     victory_new_item: "Nieuw Item"
     victory_new_hero: "Nieuwe Held"
