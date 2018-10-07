@@ -719,7 +719,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     purchased: "Acheté"
 
 #  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
+    prompt_title: "Pas assez de Gemmes!"
 #    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
@@ -951,7 +951,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     bryukh_title: "Designer de jeux"
     bryukh_blurb: "Construuit des puzzles"
 #    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
+    daniela_blurb: "Créer une histoire"
     community_title: "... et notre communité open-source"
     community_subtitle: "Plus de 500 contributeurs ont aidé à construire CodeCombat, et de plus en plus nous rejoignent chaque semaine !"
     community_description_3: "CodeCombat est un"
@@ -985,7 +985,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     jobs_benefit_11: "Congé paternité: 10 semaines payées"
     jobs_custom_title: "Créer ta propre"
     jobs_custom_description: "Es-tu passionné de CodeCombat mais ne voit pas un travail listé correspondant à tes qualifications? Écris-nous et montres-nous comment tu penses pouvoir contribuer à notre équipe. Nous aimerions t'entendre !"
-#    jobs_custom_contact_1: "Send us a note at"
+    jobs_custom_contact_1: "Envoyez-nous une note à"
 #    jobs_custom_contact_2: "introducing yourself and we might get in touch in the future!"
     contact_title: "Presse & Contact"
     contact_subtitle: "Besoin de plus d'informations? Restez en contact avec nous à"
@@ -1414,11 +1414,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    by_joining_1: "By joining "
 #    by_joining_2: "will be able to help reset your password if you forget or lose it. You can also verify your email address so that you can reset the password yourself!"
 #    sent_verification: "We've sent a verification email to:"
-#    you_can_edit: "You can edit your email address in "
-#    account_settings: "Account Settings"
-#    select_your_hero: "Select Your Hero"
+    you_can_edit: "Vous pouvez modifier votre adresse email dans "
+    account_settings: "Paramètres du compte"
+    select_your_hero: "Sélectionnez votre héros"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
-#    select_this_hero: "Select this Hero"
+    select_this_hero: "Sélectionnez ce héros"
 #    current_hero: "Current Hero:"
 #    current_hero_female: "Current Hero:"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
