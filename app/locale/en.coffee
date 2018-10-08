@@ -949,7 +949,7 @@
     david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-    bryukh_title: "Game Designer"
+    bryukh_title: "Gameplay Developer"
     bryukh_blurb: "Constructs puzzles"
     daniela_title: "Content Crafter"
     daniela_blurb: "Creates stories"
