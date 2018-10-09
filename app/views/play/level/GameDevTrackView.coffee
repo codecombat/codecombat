@@ -18,16 +18,18 @@ module.exports = class GameDevTrackView extends CocoView
 
   onFrameChanged: (e) ->
     @listings = {}
+    # Can be set by a user via `ui.setText("scoreLabel", "overrideLabel")`
+    overrideLabel = e.world.uiText?.scoreLabel
     if e.world.synchronous
       for thang in e.world.thangs
         if thang.id is 'Hero Placeholder'
           hero = thang
         if trackedProperties = thang.uiTrackedProperties
           for name in trackedProperties
-            @listings[name] = thang[name]
+            @listings[overrideLabel ? name] = thang[name]
       if hero and hero.objTrackedProperties
         for name in hero.objTrackedProperties
-          @listings[name] = hero['__' + name]
+          @listings[overrideLabel ? name] = hero['__' + name]
     else
       thangStateMap = e.world.frames[e.frame]?.thangStateMap
       for key, thangState of thangStateMap
@@ -35,10 +37,11 @@ module.exports = class GameDevTrackView extends CocoView
         trackedPropNamesIndex = thangState.trackedPropertyKeys.indexOf 'uiTrackedProperties'
         unless trackedPropNamesIndex is -1
           trackedPropNames = thangState.props[trackedPropNamesIndex]
-          for name in trackedPropNames
-            propIndex = thangState.trackedPropertyKeys.indexOf name
-            continue if propIndex is -1
-            @listings[name] = thangState.props[propIndex]
+          if trackedPropNames
+            for name in trackedPropNames
+              propIndex = thangState.trackedPropertyKeys.indexOf name
+              continue if propIndex is -1
+              @listings[overrideLabel ? name] = thangState.props[propIndex]
         continue unless key is 'Hero Placeholder'
         trackedObjNamesIndex = thangState.trackedPropertyKeys.indexOf 'objTrackedProperties'
         continue if trackedObjNamesIndex is -1
@@ -46,7 +49,7 @@ module.exports = class GameDevTrackView extends CocoView
         for name in trackedObjNames
           propIndex = thangState.trackedPropertyKeys.indexOf('__' + name)
           continue if propIndex is -1
-          @listings[name] = thangState.props[propIndex]
+          @listings[overrideLabel ? name] = thangState.props[propIndex]
     unless _.isEqual(@listings, {})
       @$el.show()
       @renderSelectors('#listings')

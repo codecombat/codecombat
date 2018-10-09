@@ -116,11 +116,14 @@ module.exports = class SpellPaletteView extends CocoView
         t.render()
 
       if doc.type is "event"
-        console.log("@thang being passed to SpellPaletteEntryView constructor from SpellPaletteView ",  @thang)
         t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
         @$el.find("#palette-tab-events").append t.el
         t.render()
 
+      if doc.type is "handler"
+        t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
+        @$el.find("#palette-tab-handlers").append t.el
+        t.render()
 
     @$(".section-header:has(+.collapse:empty)").hide()
 
@@ -302,7 +305,7 @@ module.exports = class SpellPaletteView extends CocoView
           console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propsByItem, 'with item', item
           doc ?= prop
         if doc
-          if doc.type in ['spawnable', 'event']
+          if doc.type in ['spawnable', 'event', 'handler']
             @deferredDocs[doc.name] = doc
           else
             @entries.push @addEntry(doc, @shortenize, owner is 'snippets', item, propIndex > 0)
@@ -319,7 +322,6 @@ module.exports = class SpellPaletteView extends CocoView
 
   addEntry: (doc, shortenize, isSnippet=false, item=null, showImage=false) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
-    console.log("@thang being passed to SpellPaletteEntryView constructor from SpellPaletteView addEntry",  @thang)
     new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage, useHero: @useHero
 
   onDisableControls: (e) -> @toggleControls e, false

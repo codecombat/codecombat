@@ -613,6 +613,7 @@
   apis:
     methods: "Methods"
     events: "Events"
+    handlers: "Handlers"
     spawnable: "Spawnable"
     html: "HTML"
     math: "Math"
@@ -939,7 +940,7 @@
     cat_title: "Game Designer"
     scott_title: "Cofounder, Software Engineer"
     maka_title: "Customer Advocate"
-    robin_title: "Product Manager"
+    robin_title: "Senior Product Manager" # {change}
     nolan_title: "Sales Manager"
     lisa_title: "Business Development Manager"
     sean_title: "Territory Manager"
@@ -948,7 +949,7 @@
     david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-    bryukh_title: "Game Designer"
+    bryukh_title: "Gameplay Developer"
     bryukh_blurb: "Constructs puzzles"
     daniela_title: "Content Crafter"
     daniela_blurb: "Creates stories"
@@ -2620,6 +2621,7 @@
     mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
     mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
     mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+  
   parent_modal:
     refer_teacher: "Refer Teacher"
     name: "Your Name"
@@ -2628,3 +2630,23 @@
     message: "Message"
     custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
     send: "Send Email"
+
+  hoc_2018:
+    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+    learn_more: "Learn More"
+    page_heading: "Teach your students how to build their own arcade game!"
+    get_started: "Get Started:"
+    download_lesson: "Download Lesson Plan:"
+    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+    download_pdf: "Download PDF"
+    ready_play: "Ready to play?"
+    play_activity: "Play Activity"
+    about: "About CodeCombat:"
+    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+    point1: "✓ Scaffolded"
+    point2: "✓ Differentiated"
+    point3: "✓ Formative and Summative Assessments"
+    point4: "✓ Project-based courses"
+    point5: "✓ Student tracking"
+    point6: "✓ Full lesson plans"
+    request_demo: "Create Teacher Account"
