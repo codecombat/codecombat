@@ -940,7 +940,7 @@
     cat_title: "Game Designer"
     scott_title: "Cofounder, Software Engineer"
     maka_title: "Customer Advocate"
-    robin_title: "Product Manager"
+    robin_title: "Senior Product Manager" # {change}
     nolan_title: "Sales Manager"
     lisa_title: "Business Development Manager"
     sean_title: "Territory Manager"
@@ -949,7 +949,7 @@
     david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-    bryukh_title: "Game Designer"
+    bryukh_title: "Gameplay Developer"
     bryukh_blurb: "Constructs puzzles"
     daniela_title: "Content Crafter"
     daniela_blurb: "Creates stories"

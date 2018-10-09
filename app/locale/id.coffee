@@ -93,14 +93,14 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     get_involved: "Ambil Andil"
     open_source: "Open source (GitHub)"
     support: "Bantuan"
-#    faqs: "FAQs"
+    faqs: "Tanya Jawab"
     copyright_prefix: "Hak Cipta"
     copyright_suffix: "Seluruh Hak Cipta"
     help_pref: "Butuh bantuan? Email"
     help_suff: "dan kita akan menghubungi!"
     resource_hub: "Pusat Sumber Daya"
     apcsp: "Fundamental AP CS"
-#    parent: "Parents"
+    parent: "Orang Tua"
 
   modal:
     close: "Tutup"
@@ -138,7 +138,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     poll: "Poll" # Tooltip on poll button from /play
     next: "Lanjut" # Go from choose hero to choose inventory before playing a level
     change_hero: "Ganti Jagoan" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Ganti Jagoan atau Bahasa"
     buy_gems: "Beli Permata"
     subscribers_only: "Hanya untuk yang pelanggan!"
     subscribe_unlock: "Berlangganan untuk membuka!"
