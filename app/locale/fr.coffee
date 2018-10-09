@@ -718,7 +718,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     purchase: "achat"
     purchased: "Acheté"
 
-#  subscribe_for_gems:
+  subscribe_for_gems:
     prompt_title: "Pas assez de Gemmes!"
 #    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
