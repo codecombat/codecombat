@@ -40,6 +40,7 @@ module.exports = (env) => {
       new UglifyJsPlugin({
         uglifyOptions: {
           ecma: 8,
+          // Config from guide: https://slack.engineering/keep-webpack-fast-a-field-guide-for-better-build-performance-f56a5995e8f1
           compress: {
             arrows: false,
             booleans: false,
@@ -65,9 +66,6 @@ module.exports = (env) => {
             toplevel: false,
             typeofs: false,
             unused: false,
-      
-            // Switch off all types of compression except those needed to convince
-            // react-devtools that we're using a production build
             conditionals: true,
             dead_code: true,
             evaluate: true,
