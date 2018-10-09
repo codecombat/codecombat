@@ -183,7 +183,7 @@ if doc.returns
       if doc.returns.description
         div!= marked(doc.returns.description)
 
-if item
+if item && (typeof item.get === 'function')
   p
     em
       span.spr(data-i18n="skill_docs.granted_by") Granted by
