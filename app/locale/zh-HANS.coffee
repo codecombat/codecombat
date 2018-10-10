@@ -65,7 +65,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   nav:
     map: "地图"
-    play: "关卡选择"
+    play: "关卡选择" # The top nav bar entry where players choose which levels to play
     community: "社区"
     courses: "课程"
     blog: "博客"
@@ -110,7 +110,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     page_not_found: "找不到网页"
 
   diplomat_suggestion:
-    title: "帮助我们翻译CodeCombat"
+    title: "帮助我们翻译CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我们需要您的语言技能"
     pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat的玩家遍布全球。对于不熟悉英语的中文玩家，他们希望能玩简体中文版的CodeCombat，如果您中英文都很熟练，请考虑加入我们“外交官”行列并参与CodeCombat的翻译，帮忙把CodeCombat网站和所有关卡翻译成简体中文。感谢！"
     missing_translations: "没被翻译的文字将以英文显示。"
@@ -613,6 +613,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   apis:
     methods: "函数"
     events: "事件"
+#    handlers: "Handlers"
     spawnable: "可生成物"
     html: "HTML"
     math: "数学"
@@ -627,7 +628,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     number: "数字"
     webjavascript: "JavaScript"
 
-#  amazon_hoc:
+  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
@@ -772,7 +773,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     support_part1: "付款时需要帮助? Email" # {change}
     support_part2: "support@codecombat.com"
 
-#  announcement:
+  announcement:
     now_available: "现在订阅者可以获得更多内容"
     subscriber: "订阅者"
     cuddly_companions: "引人喜爱的同伴" # Pet Announcement Modal
@@ -2575,7 +2576,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
- parent_landing:
+  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
 #    quote_attr: "5th Grader, Oakland"
 #    refer_teacher: "Refer a Teacher"
@@ -2620,7 +2621,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     mission1_copy: "我们的教育专家与教师紧密合作，以满足孩子们在教育领域的需求。孩子们学习的技能可以在游戏之外应用，因为他们学会了如何解决问题，不管他们的学习方式是什么。"
     mission2_copy: "2016年的一项调查显示，64%的3-5年级女生想学习编程。2015年需要的编码技能岗位有700万个。我们创建CodeCombat游戏是因为每个孩子都应该有机会去创造他们最好的未来。"
     mission3_copy: "在CodeCombat中，我们是父母，我们程序员，我们教育工作者。但最重要的是，我们相信无论孩子们决定做什么，都应该给他们最好的成功机会。"
-#  parent_modal:
+
+  parent_modal:
     refer_teacher: "指导老师"
     name: "你的名字"
     parent_email: "你的邮箱"
@@ -2628,3 +2630,23 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     message: "消息"
     custom_message: "我刚刚找到了CodeCombat，我想它对你的教室来说是个很棒的程序!它是一个符合标准课程的计算机科学学习平台。计算机知识是非常重要的，我认为这将是一个让学生学习编码的好方法。"
     send: "发送邮件"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"
