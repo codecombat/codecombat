@@ -118,9 +118,9 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     subscribe_as_diplomat: "به عنوان یک دیپلمات تعقیبمان کنید"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    play_as: "بازی کردن به عنوان" # Ladder page
+    get_course_for_class: "به توسعه ی بازی ها و کلاس های خود بیشتر اختصاص دهید!"
+    request_licenses: "برای جزئیات بیشتر با متخصصین مدرسه تماس بگیرید."
 #    compete: "Compete!" # Course details page
 #    spectate: "Spectate" # Ladder page
 #    players: "players" # Hover over a level on /play
