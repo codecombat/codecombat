@@ -1416,7 +1416,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sent_verification: "Мы отправили письмо на:"
     you_can_edit: "Адрес email можно изменить в "
     account_settings: "Настройках аккаунта"
-    select_your_hero: "Вибери своего героя"
+    select_your_hero: "Выбери своего героя"
     select_your_hero_description: "Вы всегда можете изменить своего героя на странице своих курсов, кликнув на \"Изменить Героя\""
     select_this_hero: "Выбрать этого героя"
     current_hero: "Текущий герой:"
