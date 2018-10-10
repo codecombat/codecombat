@@ -501,7 +501,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_review_placeholder: "Hoe was het level?"
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code™!"
-    victory_experience_gained: "XP verdiend"# Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)"
+    victory_experience_gained: "XP verdiend"
     victory_gems_gained: "Edelstenen verdiend"
     victory_new_item: "Nieuw Item"
     victory_new_hero: "Nieuwe Held"
@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   teachers:
     licenses_needed: "Licenties nodig"
 
-#  special_offer:
+  special_offer:
 #    special_offer: "Special Offer"
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
@@ -1195,7 +1195,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  community:
+  community:
 #    main_title: "CodeCombat Community"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
