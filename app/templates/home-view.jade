@@ -331,15 +331,18 @@ block content
   
   unless me.get('country') && me.inEU()
     script(type="text/javascript").
-      window.userLeap = {
-        appId: 'SkzysH6qmm',
-        onReady: function(){
-          userLeap.setVisitorStage('prospect') // Sets the visitor stage
-        },
-      };
-      (function(l,e,a,p) {
-        a=l.createElement('script');
-        a.async=1;a.src=e+'?id='+window.userLeap.appId;
-        p=l.getElementsByTagName('script')[0];
-        p.parentNode.insertBefore(a, p);
-      })(document, 'https://userleap.com/shim.js');
+      query = window.location.search;
+      if (!query.includes('userLeap=false')) {  // do not show userLeap if userLeap=false query param exists (for smoke tests)
+        window.userLeap = {
+          appId: 'SkzysH6qmm',
+          onReady: function(){
+            userLeap.setVisitorStage('prospect') // Sets the visitor stage
+          },
+        };
+        (function(l,e,a,p) {
+          a=l.createElement('script');
+          a.async=1;a.src=e+'?id='+window.userLeap.appId;
+          p=l.getElementsByTagName('script')[0];
+          p.parentNode.insertBefore(a, p);
+        })(document, 'https://userleap.com/shim.js');
+      }
