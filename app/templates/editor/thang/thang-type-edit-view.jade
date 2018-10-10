@@ -97,7 +97,11 @@ block outer_content
                 button#export-sprite-sheet-btn.btn.btn-sm(disabled=authorized === true ? undefined : "true")
                   span.glyphicon.glyphicon-export
                   span.spl Export SpriteSheet
+                button#animate-to-flash(disabled=authorized === true ? undefined : "true" title="Convert a file from Animate to Flash. Will return you a new file.").btn.btn-sm
+                  span.glyphicon.glyphicon-transfer
+                  span.spl Transform Animate to Flash
                 input#real-upload-button(type="file")
+                input#real-animate-flash-button(type="file")
               #thang-type-file-size= fileSizeString
           div#thang-type-treema
           .clearfix
