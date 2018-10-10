@@ -127,6 +127,7 @@
     "redis": "",
     "request": "^2.75.0",
     "serve-favicon": "^2.3.2",
+    "spriteanim": "codecombat/SpriteAnim#master",
     "stream-buffers": "0.2.x",
     "stripe": "~2.9.0",
     "style-loader": "^0.13.1",
