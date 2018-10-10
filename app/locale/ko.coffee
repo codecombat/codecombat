@@ -138,7 +138,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     poll: "투표" # Tooltip on poll button from /play
     next: "다음" # Go from choose hero to choose inventory before playing a level
     change_hero: "영웅 교체" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"    
+#    change_hero_or_language: "Change Hero or Language"
     buy_gems: "젬 구매"
     subscribers_only: "가입을 해야 합니다."
     subscribe_unlock: "해제하려면 가입을 해 주세요."
@@ -247,7 +247,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
     connected_facebook_header: "페이스북 계정으로 연결되었습니다!"
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
-#    hey_students: "Students, enter the class code from your teacher." 
+#    hey_students: "Students, enter the class code from your teacher."
     birthday: "생일"
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
@@ -531,7 +531,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     non_user_code_problem_title: "레벨을 로드할 수 없습니다"
     infinite_loop_title: "무한 루프 감지됨"
     infinite_loop_description: "코드 실행이 끝나지 않고 있습니다. 코드가 매우 느리거나 무한 루프에 빠진 것 같습니다. 어쩌면 버그일 수도 있습니다. 이 코드를 다시 실행하거나 초기 상태로 리셋해 보세요. 그래도 해결되지 않으면, 저희에게 알려 주시기 바랍니다."
-    check_dev_console: "You can also open the developer console to see what might be going wrong."
     check_dev_console: "또한 잘못 갈 수를 알기 위해 개발자 콘솔을 열 수 있습니다."
     check_dev_console_link: "(명령어)"
     infinite_loop_try_again: "다시 시도해보세요."
@@ -615,6 +614,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #  apis:
 #    methods: "Methods"
 #    events: "Events"
+#    handlers: "Handlers"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -950,7 +950,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    david_title: "Marketing Lead"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
-#    bryukh_title: "Game Designer"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
@@ -2353,7 +2353,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   legal:
 #    page_title: "Legal"
-    opensource_intro: "코드 컴뱃은 무료이며 전적으로 오픈 소스를 기반으로 합니다." # {change}
+#    opensource_introduction: "CodeCombat is part of the open source community."
     opensource_description_prefix: "코드 컴뱃의"
     github_url: "GitHub"
     opensource_description_center: "를 확인해보세요. 그리고 원하신다면 함께 도와주세요! 코드 컴뱃은 수천 개의 오픈 소스 프로젝트를 기반으로 만들어졌고 저희는 이들에 대해 깊은 애정을 갖고 있습니다. 한번 "
@@ -2579,13 +2579,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
 #  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
-#    quote_attr: "5th Grader, Oakland"
+#    quote_attr: "5th Grader, Oakland, CA"
 #    refer_teacher: "Refer a Teacher"
 #    focus_quote: "Unlock your child's future"
 #    value_head1: "The most engaging way to learn typed code"
 #    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
 #    value_head2: "Building critical skills for the 21st century"
-#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
 #    value_head3: "Heroes that your child will love"
 #    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
 #    dive_head1: "Not just for software engineers"
@@ -2631,3 +2631,23 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    message: "Message"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
 #    send: "Send Email"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"
