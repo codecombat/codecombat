@@ -86,7 +86,7 @@ if !selectedMethod
         .docs-ace-container
           .docs-ace
             if language == 'javascript'
-              span= doc.owner + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
             else if language == 'coffeescript'
               span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
             else if language == 'python'
