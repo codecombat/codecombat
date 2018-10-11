@@ -147,13 +147,12 @@ mixin argumentEntry(arg)
 
 if doc.args && doc.args.length
   - var hasOptionalArguments = _.any(doc.args, function(arg){ return arg.optional })
-  p.args(dir="auto")
-    strong
-      if hasOptionalArguments
+  - var hasRequiredArguments = _.any(doc.args, function(arg){ return !arg.optional })
+  if hasRequiredArguments
+    p.args(dir="auto")
+      strong
         span(data-i18n="skill_docs.required_parameters") Required Parameters
-      else
-        span(data-i18n="skill_docs.parameters") Parameters
-      span.spr :
+        span.spr :
     for arg in doc.args
       unless arg.optional
         +argumentEntry(arg)
