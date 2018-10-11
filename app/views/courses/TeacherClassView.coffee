@@ -709,7 +709,7 @@ module.exports = class TeacherClassView extends RootView
           # Reference: https://www.pluralsight.com/guides/javascript-callbacks-variable-scope-problem
           success: (() ->
             st = student
-            return => st.unset('coursePrepaid')
+            return -> st.unset('coursePrepaid')
           )()
           error: (prepaid, jqxhr) =>
             msg = jqxhr.responseJSON.message
