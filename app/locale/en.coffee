@@ -940,7 +940,7 @@
     cat_title: "Game Designer"
     scott_title: "Cofounder, Software Engineer"
     maka_title: "Customer Advocate"
-    robin_title: "Senior Product Manager" # {change}
+    robin_title: "Senior Product Manager"
     nolan_title: "Sales Manager"
     lisa_title: "Business Development Manager"
     sean_title: "Territory Manager"
@@ -2578,7 +2578,7 @@
 
   parent_landing:
     slogan_quote: '"CodeCombat is really fun, and you learn a lot."'
-    quote_attr: "5th Grader, Oakland, CA" # {change}
+    quote_attr: "5th Grader, Oakland, CA"
     refer_teacher: "Refer a Teacher"
     focus_quote: "Unlock your child's future"
     value_head1: "The most engaging way to learn typed code"
