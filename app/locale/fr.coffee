@@ -2610,7 +2610,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
 #    dive_link6: "executive functions"
 #    dive_head3: "Team up with teachers"
-#    dive_3_par1: "In the future, "
+    dive_3_par1: "Dans le futur, "
 #    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
 #    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
 #    mission: "Our mission: to teach and engage"
@@ -2621,11 +2621,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
 #    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
 
-#  parent_modal:
-#    refer_teacher: "Refer Teacher"
-#    name: "Your Name"
-#    parent_email: "Your Email"
-#    teacher_email: "Teacher's Email"
-#    message: "Message"
+  parent_modal:
+    refer_teacher: "Refer Enseignant"
+    name: "Votre nom"
+    parent_email: "Votre Email"
+    teacher_email: "Email de l'enseignant"
+    message: "Message"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
-#    send: "Send Email"
+    send: "Envoyer un Email"
