@@ -64,7 +64,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
-#    map: "Map"
+    map: "แผนที่"
     play: "เล่น" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
 #    courses: "Courses"
@@ -357,7 +357,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    required_field: "required"
 
   general:
-#    and: "and"
+    and: "และ"
     name: "ชื่อ"
     date: "วันที่"
 #    body: "Body"
@@ -389,7 +389,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     email: "อีเมล"
     password: "รหัสผ่าน"
 #    confirm_password: "Confirm Password"
-#    message: "Message"
+    message: "ข้อความ"
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
@@ -414,7 +414,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    contact_us: "Contact Us"
 #    close_window: "Close Window"
 #    learn_more: "Learn More"
-#    more: "More"
+    more: "อื่นๆ"
 #    fewer: "Fewer"
 #    with: "with"
 
