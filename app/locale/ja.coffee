@@ -119,8 +119,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   play:
     play_as: "プレイモード" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "ゲームデベロプメントや様々なことをクラスに教えよう！"
+    request_licenses: "詳しくはスペシアリストへ"
     compete: "コンプリート!" # Course details page
     spectate: "観戦" # Ladder page
     players: "プレイヤー" # Hover over a level on /play
@@ -138,12 +138,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     poll: "投票" # Tooltip on poll button from /play
     next: "次へ" # Go from choose hero to choose inventory before playing a level
     change_hero: "ヒーローの選択" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "へーローやプラグラミングを変える"
     buy_gems: "ジェムを購入"
     subscribers_only: "サブスクリプション限定!"
     subscribe_unlock: "サブスクリプションで解放!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscriber_heroes: "いまサブスクライブして、Amara, Hushbaum, と Hattori Hanzōをアンロックしよう！"
+    subscriber_gems: "いまサブスクライブしてジェムを使ってこのヒーローをアンロックしよう！"
     anonymous: "名無しのプレイヤー"
     level_difficulty: "難易度: "
     awaiting_levels_adventurer_prefix: "私たちは毎週新しいレベルをリリースします"
