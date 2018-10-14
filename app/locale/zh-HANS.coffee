@@ -65,7 +65,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   nav:
     map: "地图"
-    play: "关卡选择"
+    play: "关卡选择" # The top nav bar entry where players choose which levels to play
     community: "社区"
     courses: "课程"
     blog: "博客"
@@ -99,8 +99,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     help_pref: "需要帮助？请发邮件至："
     help_suff: " 我们会很快与您联系！"
     resource_hub: "资源中心"
-#    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    apcsp: "美联社计算机科学原则"
+    parent: "家长参与"
 
   modal:
     close: "关闭"
@@ -110,7 +110,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     page_not_found: "找不到网页"
 
   diplomat_suggestion:
-    title: "帮助我们翻译CodeCombat"
+    title: "帮助我们翻译CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我们需要您的语言技能"
     pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat的玩家遍布全球。对于不熟悉英语的中文玩家，他们希望能玩简体中文版的CodeCombat，如果您中英文都很熟练，请考虑加入我们“外交官”行列并参与CodeCombat的翻译，帮忙把CodeCombat网站和所有关卡翻译成简体中文。感谢！"
     missing_translations: "没被翻译的文字将以英文显示。"
@@ -138,7 +138,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     poll: "投票" # Tooltip on poll button from /play
     next: "下一页" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "切换英雄或者语言"
     buy_gems: "购买宝石"
     subscribers_only: "仅订阅者可用！"
     subscribe_unlock: "订阅解锁！"
@@ -236,7 +236,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_individual_header: "创建独立账号"
     email_announcements: "通过邮件接收新关卡和功能通知！"
     sign_in_to_continue: "登录或创建一个账号继续"
-#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
+    teacher_email_announcements: "让我们在教师资源和课程上进行不断更新！"
     creating: "账户创建中……"
     sign_up: "注册"
     log_in: "登录"
@@ -297,11 +297,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_students_can_start_now: "学生将在第一堂课上开始玩游戏，立即开始介绍计算机科学吧！"
     teacher_list_create_class: "在下一个屏幕上，你能否创建一个新的班级"
     teacher_list_add_students: "通过点击‘查看班级’按钮来增加学生，之后将班级代码或者URL发送给你的学生。如果他们有邮箱，你也可以通过邮箱邀请他们。"
-#    teacher_list_resource_hub_1: "Check out the"
+    teacher_list_resource_hub_1: "查看"
     teacher_list_resource_hub_2: "课程指南"
-#    teacher_list_resource_hub_3: "for solutions to every level, and the"
+    teacher_list_resource_hub_3: "每一个登记的解决方案，和"
     teacher_list_resource_hub_4: "资源仓库"
-#    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
+    teacher_list_resource_hub_5: "课程指导，课程活动和更多信息！"
     teacher_additional_questions: "就是这样！如果您还需要额外的帮助或者遇到了什么问题，请联系__supportEmail__。"
     dont_use_our_email_silly: "请不要在这里填写我们的邮箱地址！要填写你家长的邮箱地址。"
     want_codecombat_in_school: "想要一辈子都玩CodeCombat?"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     rejected: "未接受"
     withdrawn: "已撤回"
     accept: "接受"
-#    accept_and_save: "Accept&Save"
+    accept_and_save: "接受并保存"
     reject: "拒绝"
     withdraw: "撤回"
     submitter: "提交者"
@@ -416,7 +416,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     learn_more: "学习更多"
     more: "更多"
     fewer: "更少"
-#    with: "with"
+    with: "和"
 
   units:
     second: "秒"
@@ -441,7 +441,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     edit_level: "编辑关卡"
     keep_learning: "不断学习"
     explore_codecombat: "探索CodeCombat"
-#    finished_hoc: "I'm finished with my Hour of Code"
+    finished_hoc: "我完成了我的编程练习时间"
     get_certificate: "获取你的证书！"
     level_complete: "关卡已完成"
     completed_level: "完成关卡:"
@@ -521,8 +521,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skip_tutorial: "跳过（esc）"
     keyboard_shortcuts: "快捷键"
     loading_start: "开始"
-#    loading_start_combo: "Start Combo Challenge"
-#    loading_start_concept: "Start Concept Challenge"
+    loading_start_combo: "开始组合挑战"
+    loading_start_concept: "开始概念挑战"
     problem_alert_title: "修正您的代码"
     time_current: "现在:"
     time_total: "最大:"
@@ -601,41 +601,42 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_programming_not_about_computers: "计算机科学就是有关计算机的，正如天文学就是有关望远镜的。 - 艾兹格·迪杰斯特拉"
     tip_mulan: "相信你能行，你就能做到。 - 迪士尼《花木兰》"
     project_complete: "关卡完成！"
-#    share_this_project: "Share this project with friends or family:"
-#    ready_to_share: "Ready to publish your project?"
-#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
-#    already_published_prefix: "Your changes have been published to the class gallery."
-#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
-#    view_gallery: "View Gallery"
+    share_this_project: "和你的朋友家人分享这个项目吧 "
+    ready_to_share: "准备好发布你的项目吗？"
+    click_publish: "点击“发布”按钮，让它出现在课堂展览中。你可以检查你的同学们创建的内容。你可以回来继续在这个项目中工作。未来任何的改变都会自动被保存并且分享给你的同学们！"
+    already_published_prefix: "你的改变已经发布到班级的展览中。"
+    already_published_suffix: "不断尝试并且让这个项目变得更好，或者查看你的同学们已经创造的东西！你的改变将会自动保存并且与你的同学们分享！"
+    view_gallery: "查看展览"
     project_published_noty: "您的关卡已发布！"
     keep_editing: "继续编辑"
 
   apis:
     methods: "函数"
     events: "事件"
+#    handlers: "Handlers"
     spawnable: "可生成物"
     html: "HTML"
     math: "数学"
     array: "数组"
-#    object: "Object"
+    object: "对象"
     string: "字符串"
     function: "函数"
-#    vector: "Vector"
+    vector: "向量"
     date: "日期"
     jquery: "jQuery"
     json: "JSON"
     number: "数字"
     webjavascript: "JavaScript"
 
-#  amazon_hoc:
+  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
-#    educate_2: "Learn more and sign up here"
+    educate_2: "了解更多并登陆"
 #    future_eng_1: "You can also try to build your own school facts skill for Alexa"
-#    future_eng_2: "here"
+    future_eng_2: "这里"
 #    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
-#    future_eng_4: "Amazon Future Engineer"
+    future_eng_4: "亚马逊未来的工程师"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
   play_game_dev_level:
@@ -772,7 +773,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     support_part1: "付款时需要帮助? Email" # {change}
     support_part2: "support@codecombat.com"
 
-#  announcement:
+  announcement:
     now_available: "现在订阅者可以获得更多内容"
     subscriber: "订阅者"
     cuddly_companions: "引人喜爱的同伴" # Pet Announcement Modal
@@ -1422,29 +1423,29 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     current_hero: "当前英雄:"
     current_hero_female: "当前英雄:"
     web_dev_language_transition: "在本课中，所有的编程语言都是使用HTML和JavaScript编写。之前使用Python语言学习的班级会有额外的JavaScript编程介绍关卡来过渡。已经选择JavaScript编程语言的班级将会跳过这些介绍关卡。 "
-#    course_membership_required_to_play: "You'll need to join a course to play this level."
-#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+    course_membership_required_to_play: "你将需要加入一个课程来玩这个关卡"
+    license_required_to_play: "询问你的老师来注册一个许可证，之后你可以继续玩CodeCombat游戏！"
     update_old_classroom: "新学年, 新关卡!"
     update_old_classroom_detail: "为确保您获得最新关卡，请您尽量在本学期创建新的班级，方法是单击"
     teacher_dashboard: "老师面板"
     update_old_classroom_detail_2: "创建新班级，并为学生提供出现的新班级代码。"
     view_assessments: "查看评估"
     view_challenges: "查看挑战关卡"
-#    challenge: "Challenge:"
+    challenge: "挑战"
     challenge_level: "挑战关卡:"
-#    status: "Status:"
+    status: "状态"
     assessments: "评估"
-#    challenges: "Challenges"
-#    level_name: "Level Name:"
-#    keep_trying: "Keep Trying"
-#    start_challenge: "Start Challenge"
-#    locked: "Locked"
-#    concepts_used: "Concepts Used:"
-#    show_change_log: "Show changes to this course's levels"
-#    hide_change_log: "Hide changes to this course's levels"
+    challenges: "挑战"
+    level_name: "关卡名称："
+    keep_trying: "开始尝试"
+    start_challenge: "开始挑战"
+    locked: "锁定"
+    concepts_used: "使用的概念"
+    show_change_log: "显示这个课程等级的变化"
+    hide_change_log: "隐藏这个课程等级的变化"
 
   project_gallery:
-#    no_projects_published: "Be the first to publish a project in this course!"
+    no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
     view_project: "查看项目"
     edit_project: "编辑项目"
 
@@ -1504,7 +1505,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     enroll_student: "注册学生"
     apply_license: "使用许可"
     revoke_license: "终止许可"
-#    revoke_licenses: "Revoke All Licenses"
+    revoke_licenses: "终止所有许可"
     course_progress: "课程进度"
     not_applicable: "N/A"
     edit: "修改"
@@ -1520,7 +1521,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     started: "已开始"
     no_progress: "无进度"
     not_required: "不需要"
-#    view_student_code: "Click to view student code"
+    view_student_code: "点击查看学生的代码"
     select_course: "选择查看"
     progress_color_key: "进度颜色指示："
     level_in_progress: "正在通关"
@@ -1571,7 +1572,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     licenses_remaining: "剩余许可证"
     one_license_used: "1个许可证已被使用" # {change}
     num_licenses_used: "__numLicensesUsed__个许可证已被使用" # {change}
-#    starter_licenses: "starter licenses"
+    starter_licenses: "开始使用许可证"
     start_date: "起始日期："
     end_date: "结束日期："
     get_enrollments_blurb: " 我们会帮您解决您的班级、学校或地区的需求。"
@@ -2575,7 +2576,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
- parent_landing:
+  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
 #    quote_attr: "5th Grader, Oakland"
 #    refer_teacher: "Refer a Teacher"
@@ -2620,7 +2621,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     mission1_copy: "我们的教育专家与教师紧密合作，以满足孩子们在教育领域的需求。孩子们学习的技能可以在游戏之外应用，因为他们学会了如何解决问题，不管他们的学习方式是什么。"
     mission2_copy: "2016年的一项调查显示，64%的3-5年级女生想学习编程。2015年需要的编码技能岗位有700万个。我们创建CodeCombat游戏是因为每个孩子都应该有机会去创造他们最好的未来。"
     mission3_copy: "在CodeCombat中，我们是父母，我们程序员，我们教育工作者。但最重要的是，我们相信无论孩子们决定做什么，都应该给他们最好的成功机会。"
-#  parent_modal:
+
+  parent_modal:
     refer_teacher: "指导老师"
     name: "你的名字"
     parent_email: "你的邮箱"
@@ -2628,3 +2630,23 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     message: "消息"
     custom_message: "我刚刚找到了CodeCombat，我想它对你的教室来说是个很棒的程序!它是一个符合标准课程的计算机科学学习平台。计算机知识是非常重要的，我认为这将是一个让学生学习编码的好方法。"
     send: "发送邮件"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"

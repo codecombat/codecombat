@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", translation:
   new_home:
-    slogan: "Het meest uitdagende spel om mee te leren programmeren." # {change}
+    slogan: "Het meest uitdagende spel om mee te leren programmeren."
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
     play_now: "Speel"
@@ -305,7 +305,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_additional_questions: "Dat was het! Als je nog meer hulp nodig hebt of je hebt vragen, neem contact op met __supportEmail__."
     dont_use_our_email_silly: "Zet hier niet je eigen email-adres neer, maar die van je ouders!"
     want_codecombat_in_school: "Wil je altijd CodeCombat kunnen spelen?"
-    eu_confirmation: "Ik ga ermee akkoord dat CodeCombat mijn data op US servers bewaart." 
+    eu_confirmation: "Ik ga ermee akkoord dat CodeCombat mijn data op US servers bewaart."
     eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's."
     eu_confirmation_student: "Als je het niet zeker weet, vraag het dan aan je leraar."
     eu_confirmation_individual: "Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren."
@@ -613,6 +613,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  apis:
 #    methods: "Methods"
 #    events: "Events"
+#    handlers: "Handlers"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -627,7 +628,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    number: "Number"
 #    webjavascript: "JavaScript"
 
-#  amazon_hoc:
+  amazon_hoc:
     title: "Blijf leren met Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
@@ -709,8 +710,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchasing: "Aan het kopen..."
     declined: "Je kaart is geweigerd"
     retrying: "Serverfout, opnieuw aan het proberen."
-    prompt_title: "Onvoldoende edelstenen"
-    prompt_body: "Blijf spelen om er meer te verdienen!"
+    prompt_title: "Niet genoeg Edelstenen"
+    prompt_body: "Blijf spelen om meer te verdienen"
     prompt_button: "Naar de winkel"
     recovered: "Edelstenen aankoop hersteld. Ververs de pagina alstublieft."
     price: "x{{gems}} / maand"
@@ -718,11 +719,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchase: "Koop"
     purchased: "Gekocht"
 
-#  subscribe_for_gems:
+  subscribe_for_gems:
     prompt_title: "Niet genoeg Edelstenen!"
     prompt_body: "Schrijf je in voor het Premium abonnement om edelstenen en toegang tot nog meer levels te krijgen!"
 
-#  earn_gems:
+  earn_gems:
     prompt_title: "Niet genoeg Edelstenen"
     prompt_body: "Blijf spelen om meer te verdienen"
 
@@ -812,7 +813,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tornado_name: "Tornado"
     tornado_description: "Het is goed om een reset-knop te hebben als je dekmantel verraden is."
     wallOfDarkness_name: "Duistere Muur"
-    wallOfDarkness_description: "Verberg je achter een muur van schaduwen om nieuwsgierige blikken te vermijden." 
+    wallOfDarkness_description: "Verberg je achter een muur van schaduwen om nieuwsgierige blikken te vermijden."
 
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -948,7 +949,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     david_title: "Manager Marketing"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    bryukh_title: "Speldesigner"
+    bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
     daniela_title: "Creëert content"
     daniela_blurb: "Creëert verhalen"
@@ -2504,7 +2505,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     attempted_to_assign: "Poging om alleen-lezeneigenschappen toe te wijzen."
     unexpected_early_end: "Onverwacht vroeg einde van programma."
     you_need_a_string: "Je hebt een string nodig om te bouwen; één van $1"
-    unable_to_get_property: "Niet mogelijk om eigenschap '$1' te krijgen van ongedefinieerde of null referentie" # TODO: Vertalen we undefined/null?
+    unable_to_get_property: "Niet mogelijk om eigenschap '$1' te krijgen van ongedefinieerde of null referentie" # TODO: Do we translate undefined/null?
     code_never_finished_its: "De code is nooit gestopt. Hij is óf heel langzaam of heeft een oneindige lus (loop)."
     unclosed_string: "Niet-gesloten string."
     unmatched: "Niet gematched '$1'."
@@ -2519,7 +2520,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     indentation_unindent_does_not: "Inspringing komt niet overeen met enige buitenste inspringniveau"
     unclosed_paren_in_function_arguments: "Niet-gesloten $1 in functie-argumenten (function arguments)."
     unexpected_end_of_input: "Onverwacht einde van de input"
-    there_is_no_enemy: "Er is geen `$1`. Gebruik eerst `$2`." # Hints beginnen hier
+    there_is_no_enemy: "Er is geen `$1`. Gebruik eerst `$2`." # Hints start here
     try_herofindnearestenemy: "Probeer `$1`"
     there_is_no_function: "Er is geen functie `$1`, maar `$2` heeft een methode `$3`."
     attacks_argument_enemy_has: "`$1`'s argument `$2` heeft een probleem."
@@ -2532,8 +2533,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     missing_var_use_var: " `$1`mist. Gebruik `$2` om een nieuwe variabele te maken."
     you_do_not_have: "Je hebt geen item uitgerust met de $1 vaardigheid."
     put_each_command_on: "Plaats elk commando op een verschillende lijn"
-#    are_you_missing_a: "Mis je een '$1' achter de '$2'? "
-#    your_parentheses_must_match: "Je haakjes moeten overeenkomen."
+    are_you_missing_a: "Mis je een '$1' achter de '$2'? "
+    your_parentheses_must_match: "Je haakjes moeten overeenkomen."
 
 #  apcsp:
 #    syllabus: "AP CS Principles Syllabus"
@@ -2577,13 +2578,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
 #  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
-#    quote_attr: "5th Grader, Oakland"
+#    quote_attr: "5th Grader, Oakland, CA"
 #    refer_teacher: "Refer a Teacher"
 #    focus_quote: "Unlock your child's future"
 #    value_head1: "The most engaging way to learn typed code"
 #    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
 #    value_head2: "Building critical skills for the 21st century"
-#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
 #    value_head3: "Heroes that your child will love"
 #    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
 #    dive_head1: "Not just for software engineers"
@@ -2629,3 +2630,23 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    message: "Message"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
 #    send: "Send Email"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"

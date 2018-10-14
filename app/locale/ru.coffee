@@ -613,6 +613,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   apis:
     methods: "Методы"
     events: "События"
+#    handlers: "Handlers"
     spawnable: "Способность появления"
     html: "HTML"
     math: "Математика"
@@ -939,7 +940,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     cat_title: "Гейм-дизайнер"
     scott_title: "Сооснователь, инженер-программист"
     maka_title: "Адвокат клиентов"
-    robin_title: "Менеджер продукта"
+    robin_title: "Менеджер продукта" # {change}
     nolan_title: "Менеджер продаж"
     lisa_title: "Менеджер по экономическому развитию"
     sean_title: "Региональный менеджер"
@@ -1416,7 +1417,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sent_verification: "Мы отправили письмо на:"
     you_can_edit: "Адрес email можно изменить в "
     account_settings: "Настройках аккаунта"
-    select_your_hero: "Вибери своего героя"
+    select_your_hero: "Выбери своего героя"
     select_your_hero_description: "Вы всегда можете изменить своего героя на странице своих курсов, кликнув на \"Изменить Героя\""
     select_this_hero: "Выбрать этого героя"
     current_hero: "Текущий герой:"
@@ -2577,7 +2578,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   parent_landing:
     slogan_quote: "\"CodeCombat это действительно весело и познавательно.\""
-    quote_attr: "Пятиклассник, Окленд"
+    quote_attr: "Пятиклассник, Окленд" # {change}
     refer_teacher: "Уведомить учителя"
     focus_quote: "Раскройте потенциал вашего ребёнка"
     value_head1: "Самый увлекательный способ познать основы программирования"
@@ -2629,3 +2630,23 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     message: "Сообщение"
     custom_message: "Я только что нашел CodeCombat и подумал, что это будет отличная программа для вашего класса! Это платформа для обучения информатике с учебной программой, соответствующей образовательным стандартам..\n\nКомпьютерная грамотность очень важна, и я думаю, что это был бы отличный способ привлечь учеников к обучению программированию."
     send: "Отправить"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"
