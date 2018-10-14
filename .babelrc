@@ -1,11 +1,6 @@
 {
     "presets": [
-        ["@babel/preset-env", {
-            "targets": {
-                "ie": "11"
-            }
-        }],
-        "minify"
+        "env"
     ],
     "plugins": [
         "syntax-dynamic-import"
