@@ -39,7 +39,7 @@ module.exports = (env) => {
     .concat([
       new UglifyJsPlugin({
         uglifyOptions: {
-          ecma: 5,
+          ecma: 8,
           // Config from guide: https://slack.engineering/keep-webpack-fast-a-field-guide-for-better-build-performance-f56a5995e8f1
           compress: {
             arrows: false,
