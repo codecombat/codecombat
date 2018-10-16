@@ -49,6 +49,7 @@ InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
 HintsView = require './HintsView'
+SurfaceContextMenuView = require './SurfaceContextMenuView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
@@ -100,12 +101,17 @@ module.exports = class PlayLevelView extends RootView
     'click #stop-cinematic-playback-button': -> Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
+    'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'
 
   onClick: ->
     # workaround to get users out of permanent idle status
     if application.userIsIdle
       application.idleTracker.onVisible()
+    
+    #hide context menu if visible
+    if @$('#surface-context-menu-view').is(":visible")
+      Backbone.Mediator.publish 'level:surface-context-menu-hide', {}
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
@@ -349,6 +355,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
+    @insertSubView new SurfaceContextMenuView session: @session, level: @level 
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
@@ -690,6 +697,16 @@ module.exports = class PlayLevelView extends RootView
     window.screenshotURL = contactModal.screenshotURL
     $.ajax '/file', type: 'POST', data: body, success: (e) ->
       contactModal.updateScreenshot?()
+
+  onSurfaceContextMenu: (e) ->
+    e?.preventDefault?()
+    if @surface.showCoordinates
+      pos = x: e.clientX, y: e.clientY
+      wop = @surface.coordinateDisplay.lastPos
+      Backbone.Mediator.publish 'level:surface-context-menu-pressed', posX: pos.x, posY: pos.y, wopX: wop.x, wopY: wop.y
+    else
+      console.log "mouse screen pos doesn't exist"
+    
 
   # Dynamic sound loading
 

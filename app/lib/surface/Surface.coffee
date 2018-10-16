@@ -156,8 +156,8 @@ module.exports = Surface = class Surface extends CocoClass
   initCoordinates: ->
     @coordinateGrid ?= new CoordinateGrid {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}, @world.size()
     @coordinateGrid.showGrid() if @world.showGrid or @options.grid
-    showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
-    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if showCoordinates
+    @showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
+    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if @showCoordinates
 
   hookUpChooseControls: ->
     chooserOptions = stage: @webGLStage, surfaceLayer: @surfaceTextLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
