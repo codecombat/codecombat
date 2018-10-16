@@ -235,7 +235,7 @@ module.exports =
 
   courseLabelsArray: (courses) ->
     courses.map((course) -> course.acronym())
-  
+
   hasUserCompletedCourse: hasUserCompletedCourse
 
 progressMixin =
