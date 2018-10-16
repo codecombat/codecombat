@@ -613,7 +613,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   apis:
     methods: "Methoden"
     events: "Ereignisse"
-#    handlers: "Handlers"
 #    spawnable: "Spawnable"
     html: "HTML"
     math: "Mathematik"
@@ -940,7 +939,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     cat_title: "Game Designerin"
     scott_title: "Mitbegründer, Software Ingeneur"
     maka_title: "Kundenabteilung"
-    robin_title: "Produktmanager" # {change}
+    robin_title: "Produktmanager"
     nolan_title: "Territorialmanager" # {change}
     lisa_title: "Schulspezialist" # {change}
     sean_title: "Territorialmanager"
@@ -950,7 +949,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Game Designer"
-    bryukh_blurb: "Rätselkonstruktör" # {change}
+    bryukh_blurb: "Rätselkonstruktör"
     daniela_title: "Inhaltserstellerin"
     daniela_blurb: "Macht Geschichten"
     community_title: "...und unsere Open-Source Community"
@@ -2578,7 +2577,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   parent_landing:
     slogan_quote: "\"CodeCombat macht eine Menge Spass und du wirst viel dabei lernen.\""
-    quote_attr: "5. Klässler, Oakland" # {change}
+    quote_attr: "5. Klässler, Oakland"
     refer_teacher: "Empfehlen Sie einen Lehrer"
     focus_quote: "Ermöglichen Sie eine noch bessere Zukunft Ihres Kindes"
     value_head1: "Der engagierenste Weg, programmieren zu lernen"
@@ -2630,23 +2629,3 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     message: "Nachricht"
     custom_message: "Ich habe gerade eben CodeCombat gefunden und dachte mir, dass es eine großartige Erweiterung für unseren Unterricht sein könte! Es ist eine Lernplattform für Computerwissen mit auf Standards ausgerichteten Lehrplänen.\n\n Computerkentnisse sind so wichtig und ich denke, es wäre ein guter Weg, um den Schülern das Programieren beizubringen."
     send: "Email senden"
-
-#  hoc_2018:
-#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
-#    learn_more: "Learn More"
-#    page_heading: "Teach your students how to build their own arcade game!"
-#    get_started: "Get Started:"
-#    download_lesson: "Download Lesson Plan:"
-#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
-#    download_pdf: "Download PDF"
-#    ready_play: "Ready to play?"
-#    play_activity: "Play Activity"
-#    about: "About CodeCombat:"
-#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
-#    point1: "✓ Scaffolded"
-#    point2: "✓ Differentiated"
-#    point3: "✓ Formative and Summative Assessments"
-#    point4: "✓ Project-based courses"
-#    point5: "✓ Student tracking"
-#    point6: "✓ Full lesson plans"
-#    request_demo: "Create Teacher Account"

@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "日本語", englishDescription: "Japanese", translation:
   new_home:
-    slogan: "一番ステキなプログラミング学習ゲーム"
+    slogan: "一番ステキなプログラミング学習ゲーム" # {change}
     classroom_edition: "教室版:"
     learn_to_code: "コードを学ぼう:"
     play_now: "今すぐプレイ"
@@ -615,7 +615,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #  apis:
 #    methods: "Methods"
 #    events: "Events"
-#    handlers: "Handlers"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -951,7 +950,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    david_title: "Marketing Lead"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
-#    bryukh_title: "Gameplay Developer"
+#    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
@@ -2580,13 +2579,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
 #  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
-#    quote_attr: "5th Grader, Oakland, CA"
+#    quote_attr: "5th Grader, Oakland"
 #    refer_teacher: "Refer a Teacher"
 #    focus_quote: "Unlock your child's future"
 #    value_head1: "The most engaging way to learn typed code"
 #    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
 #    value_head2: "Building critical skills for the 21st century"
-#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
 #    value_head3: "Heroes that your child will love"
 #    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
 #    dive_head1: "Not just for software engineers"

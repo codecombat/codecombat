@@ -702,15 +702,8 @@ module.exports = class TeacherClassView extends RootView
       if status is 'enrolled' and student.prepaidType() is 'course'
         prepaid = student.makeCoursePrepaid()
         prepaid.revoke(student, {
-          # The for loop completes before the success callback for the first student executes.
-          # So, the `student` will be the last student when the callback executes.
-          # Therefore, using a self calling anonymous function for the success callback
-          # to retain the student data for each iteration.
-          # Reference: https://www.pluralsight.com/guides/javascript-callbacks-variable-scope-problem
-          success: (() ->
-            st = student
-            return -> st.unset('coursePrepaid')
-          )()
+          success: =>
+            student.unset('coursePrepaid')
           error: (prepaid, jqxhr) =>
             msg = jqxhr.responseJSON.message
             noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000

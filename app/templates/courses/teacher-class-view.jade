@@ -489,14 +489,14 @@ mixin progressDotLabel(label)
 mixin copyCodes
   div.copy-button-group.form-inline.m-b-3
     .form-group
-      input.text-h4.semibold#join-code-input(value=state.get('classCode'), readonly)
+      input.text-h4.semibold#join-code-input(value=state.get('classCode'))
     button#copy-code-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_code')
     div.text-center.small.class-code-blurb(data-i18n='teacher.class_code_blurb')
 
   div.copy-button-group.form-inline.m-b-3
     .form-group
-      input.text-h4.semibold#join-url-input(value=state.get('joinURL'), dir="ltr", readonly)
+      input.form-control.text-h4.semibold#join-url-input(value=state.get('joinURL'), dir="ltr")
     button#copy-url-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_url')
     div.text-center.small.class-code-blurb(data-i18n='teacher.class_join_url_blurb')

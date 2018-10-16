@@ -110,14 +110,7 @@ module.exports = class TeacherClassesView extends RootView
       for classroom in @classrooms.models
         continue if classroom.get('archived')
         classroom.sessions = new LevelSessions()
-        Promise.all(classroom.sessions.fetchForAllClassroomMembers(
-          classroom,
-          {
-            data: {
-              project: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
-            }
-          }
-        ))
+        Promise.all(classroom.sessions.fetchForAllClassroomMembers(classroom))
         .then (results) =>
           return if @destroyed
           helper.calculateDots(@classrooms, @courses, @courseInstances)

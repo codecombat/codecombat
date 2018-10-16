@@ -24,7 +24,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     democratizing: "Démocratiser le processus d'apprendre à programmer est au coeur de notre philosophie. Tout le monde devrait être capable d'apprendre la programmation."
     forgot_learning: "Je crois qu'ils ont oublié qu'ils étaient en train d'apprendre quelquechose." # {change}
     wanted_to_do: " Programmer est quelquechose que j'ai toujours voulu faire, et je n'ai jamais pensé que je pourrais l'apprendre à l'école."
-#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
+    builds_concepts_up: "J'aime la façon dont CodeCombat construit les concepts. C'est vraiment facile à comprendre et amusant à comprendre."
     why_games: "Pourquoi est-ce qu'apprendre en jouant est important?"
     games_reward: "Les jeux récompensent l'effort productif."
     encourage: "Le jeu est une plateforme qui encourage l'interaction, la découverte et l'essaie et erreur. Un bon jeu défit le joeur d'apprendre à maîtriser de nouvelles habiletés au fil du temps, ce qui correspond au même processus critique que l'on retrouve au niveau de l'éducation."
@@ -100,7 +100,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     help_suff: "et nous entrerons en contact!"
     resource_hub: "Centre de ressource"
     apcsp: "Principles AP CS"
-#    parent: "Parents"
+    parent: "Parents"
 
   modal:
     close: "Fermer"
@@ -138,7 +138,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     poll: "Sondage" # Tooltip on poll button from /play
     next: "Suivant" # Go from choose hero to choose inventory before playing a level
     change_hero: "Changer le héros" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Changer de héros ou de langue"
     buy_gems: "Acheter des gemmes"
     subscribers_only: "Abonnés Seulement!"
     subscribe_unlock: "Abonnez-vous pour debloquer!"
@@ -305,10 +305,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_additional_questions: "C'est tout! Si vous avez besoin d'aide supplémentaire ou si vous avez des questions, contactez __supportEmail__."
     dont_use_our_email_silly: "Ne mettez pas votre email ici! Mettez celui de votre parent."
     want_codecombat_in_school: "Avez-vous envie de jouer à CodeCombat tout le temps ?" # {change}
-#    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
-#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
-#    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+    eu_confirmation: "J'autorise CodeCombat à stocker mes données sur des serveurs américains."
+    eu_confirmation_place_of_processing: "En savoir plus sur les risques possibles"
+    eu_confirmation_student: "Si vous n'êtes pas sûr, demandez à votre enseignant."
+    eu_confirmation_individual: "Si vous ne voulez pas que nous stockions vos données sur des serveurs américains, vous pouvez toujours continuer à jouer anonymement sans sauvegarder votre code."
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     rejected: "Rejeté"
     withdrawn: "Retiré"
     accept: "Accepter"
-#    accept_and_save: "Accept&Save"
+    accept_and_save: "Accepter&Enregistrer"
     reject: "Refuser"
     withdraw: "Abandonner"
     submitter: "Soumissionnaire"
@@ -720,8 +720,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     purchased: "Acheté"
 
   subscribe_for_gems:
-    prompt_title: "Pas assez de Gemmes!"
-#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+    prompt_title: "Pas assez de gemmes"
+    prompt_body: "Abonnez-vous à Premium pour obtenir des gemmes et accéder à encore plus de niveaux !"
 
   earn_gems:
     prompt_title: "Pas assez de gemmes"
@@ -2611,7 +2611,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
 #    dive_link6: "executive functions"
 #    dive_head3: "Team up with teachers"
-#    dive_3_par1: "In the future, "
+    dive_3_par1: "Dans le futur, "
 #    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
 #    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
 #    mission: "Our mission: to teach and engage"
@@ -2622,14 +2622,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
 #    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
 
-#  parent_modal:
-#    refer_teacher: "Refer Teacher"
-#    name: "Your Name"
-#    parent_email: "Your Email"
-#    teacher_email: "Teacher's Email"
-#    message: "Message"
+  parent_modal:
+    refer_teacher: "Refer Enseignant"
+    name: "Votre nom"
+    parent_email: "Votre Email"
+    teacher_email: "Email de l'enseignant"
+    message: "Message"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
-#    send: "Send Email"
+    send: "Envoyer un Email"
 
 #  hoc_2018:
 #    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"

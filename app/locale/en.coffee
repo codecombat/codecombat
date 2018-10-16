@@ -940,7 +940,7 @@
     cat_title: "Game Designer"
     scott_title: "Cofounder, Software Engineer"
     maka_title: "Customer Advocate"
-    robin_title: "Senior Product Manager"
+    robin_title: "Senior Product Manager" # {change}
     nolan_title: "Sales Manager"
     lisa_title: "Business Development Manager"
     sean_title: "Territory Manager"
@@ -949,7 +949,7 @@
     david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-    bryukh_title: "Gameplay Developer"
+    bryukh_title: "Game Designer"
     bryukh_blurb: "Constructs puzzles"
     daniela_title: "Content Crafter"
     daniela_blurb: "Creates stories"
@@ -2578,7 +2578,7 @@
 
   parent_landing:
     slogan_quote: '"CodeCombat is really fun, and you learn a lot."'
-    quote_attr: "5th Grader, Oakland, CA"
+    quote_attr: "5th Grader, Oakland, CA" # {change}
     refer_teacher: "Refer a Teacher"
     focus_quote: "Unlock your child's future"
     value_head1: "The most engaging way to learn typed code"

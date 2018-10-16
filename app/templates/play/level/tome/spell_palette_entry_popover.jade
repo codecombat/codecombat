@@ -86,7 +86,7 @@ if !selectedMethod
         .docs-ace-container
           .docs-ace
             if language == 'javascript'
-              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+              span= doc.owner + '.' + docName + '(' + argumentExamples.join(', ') + ');'
             else if language == 'coffeescript'
               span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
             else if language == 'python'
@@ -147,12 +147,13 @@ mixin argumentEntry(arg)
 
 if doc.args && doc.args.length
   - var hasOptionalArguments = _.any(doc.args, function(arg){ return arg.optional })
-  - var hasRequiredArguments = _.any(doc.args, function(arg){ return !arg.optional })
-  if hasRequiredArguments
-    p.args(dir="auto")
-      strong
+  p.args(dir="auto")
+    strong
+      if hasOptionalArguments
         span(data-i18n="skill_docs.required_parameters") Required Parameters
-        span.spr :
+      else
+        span(data-i18n="skill_docs.parameters") Parameters
+      span.spr :
     for arg in doc.args
       unless arg.optional
         +argumentEntry(arg)
@@ -182,7 +183,7 @@ if doc.returns
       if doc.returns.description
         div!= marked(doc.returns.description)
 
-if item && (typeof item.get === 'function')
+if item
   p
     em
       span.spr(data-i18n="skill_docs.granted_by") Granted by
