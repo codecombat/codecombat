@@ -1,6 +1,23 @@
 Levels = require 'collections/Levels'
 utils = require 'core/utils'
 
+# Returns whether a user has started and completed all the levels in a course.
+#
+# @param {Object<Key=string, Value=bool> | undefined} userLevels - Key value store of level original string and completion state.
+# @param {Set<string>} levelsInCourse - Set of the levels in the course.
+# @return {[bool, bool]} - user started value and allcomplete state. 
+hasUserCompletedCourse = (userLevels, levelsInCourse) ->
+  userStarted = false
+  allComplete = true
+  userLevelsSeen = if userLevels then Object.keys(userLevels).filter((l) -> levelsInCourse.has(l)).length else 0
+  for level, complete of userLevels when levelsInCourse.has level
+    userStarted = true
+    if not complete
+      allComplete = false
+      break
+  allComplete = false unless userStarted
+  [userStarted, allComplete and userLevelsSeen == levelsInCourse.size]
+
 module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
   #   number of students in that course instance who have completed ALL of
@@ -23,19 +40,12 @@ module.exports =
         instance.sessionsLoaded = true
         instance.numCompleted = 0
         instance.started = false
-        levelsInVersionedCourse = new Set (level.get('original') for level in classroom.getLevels({courseID: course.id}).models when not level.get('practice'))
+        levelsInVersionedCourse = new Set (level.get('original') for level in classroom.getLevels({courseID: course.id}).models when not
+          (level.get('practice') or level.get('assessment')))
         for userID in instance.get('members')
-          userStarted = false
-          allComplete = true
-          userLevelsSeen = if userLevelsCompleted[userID] then Object.keys(userLevelsCompleted[userID]).filter((l) -> levelsInVersionedCourse.has(l)).length else 0
-          for level, complete of userLevelsCompleted[userID] when levelsInVersionedCourse.has level
-            userStarted = true
-            if not complete
-              allComplete = false
-              break
-          allComplete = false unless userStarted
+          [userStarted, allComplete] = hasUserCompletedCourse(userLevelsCompleted[userID], levelsInVersionedCourse)
           instance.started ||= userStarted
-          ++instance.numCompleted if allComplete and userLevelsSeen == levelsInVersionedCourse.size
+          ++instance.numCompleted if allComplete
 
   calculateEarliestIncomplete: (classroom, courses, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished
@@ -224,6 +234,8 @@ module.exports =
 
   courseLabelsArray: (courses) ->
     courses.map((course) -> course.acronym())
+  
+  hasUserCompletedCourse: hasUserCompletedCourse
 
 progressMixin =
   get: (options={}) ->
