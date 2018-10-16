@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Español (América Latina)", englishDescription: "Spanish (Latin America)", translation:
   new_home:
-    slogan: "El juego más interesante para aprender programación." # {change}
+    slogan: "El juego más interesante para aprender programación."
     classroom_edition: "Versión para el Aula:"
     learn_to_code: "Aprende a programar:"
     play_now: "Jugar Ahora"
@@ -613,6 +613,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #  apis:
 #    methods: "Methods"
 #    events: "Events"
+#    handlers: "Handlers"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -948,7 +949,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    david_title: "Marketing Lead"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
-#    bryukh_title: "Game Designer"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
@@ -2577,13 +2578,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
 #  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
-#    quote_attr: "5th Grader, Oakland"
+#    quote_attr: "5th Grader, Oakland, CA"
 #    refer_teacher: "Refer a Teacher"
 #    focus_quote: "Unlock your child's future"
 #    value_head1: "The most engaging way to learn typed code"
 #    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
 #    value_head2: "Building critical skills for the 21st century"
-#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
 #    value_head3: "Heroes that your child will love"
 #    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
 #    dive_head1: "Not just for software engineers"
@@ -2629,3 +2630,23 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    message: "Message"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
 #    send: "Send Email"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"

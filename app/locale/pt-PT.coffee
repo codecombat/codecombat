@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Português (Portugal)", englishDescription: "Portuguese (Portugal)", translation:
   new_home:
-    slogan: "O jogo mais cativante para aprender programação." # {change}
+    slogan: "A forma mais cativante de aprender código real."
     classroom_edition: "Edição de Turma:"
     learn_to_code: "Aprender a programar:"
     play_now: "Jogar Agora"
@@ -22,7 +22,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     accessible_to: "Acessível a"
     everyone: "todos"
     democratizing: "Democratizar o processo de aprender a programar está na base da nossa filosofia. Todos devem poder aprender a programar."
-    forgot_learning: "Acho que eles se esqueceram que estavam a aprender alguma coisa." # {change}
+    forgot_learning: "Acho que eles se esqueceram que estavam a aprender alguma coisa."
     wanted_to_do: "Programar é algo que sempre quis fazer e nunca pensei que poderia aprender isso na escola."
 #    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
     why_games: "Porque é que aprender através de jogos é importante?"
@@ -100,7 +100,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     help_suff: "e nós entraremos em contacto!"
     resource_hub: "Centro de Recursos"
 #    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    parent: "Educadores"
 
   modal:
     close: "Fechar"
@@ -138,7 +138,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     poll: "Votações" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Alterar Herói ou Linguagem"
     buy_gems: "Comprar Gemas"
     subscribers_only: "Apenas para Subscritores!"
     subscribe_unlock: "Subscreve-te para Desbloqueares!"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     rejected: "Rejeitadas"
     withdrawn: "Canceladas"
     accept: "Aceitar"
-#    accept_and_save: "Accept&Save"
+    accept_and_save: "Aceitar&Guardar"
     reject: "Rejeitar"
     withdraw: "Cancelar"
     submitter: "Submissor"
@@ -538,7 +538,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_toggle_play: "Alterna entre Jogar e Pausar com Ctrl+P."
     tip_scrub_shortcut: "Usa Ctrl+[ para rebobinar e Ctrl+] para avançar."
     tip_guide_exists: "Clica no guia, dentro do menu do jogo (no topo da página), para informações úteis."
-    tip_open_source: "O CodeCombat é 100% open source!" # {change}
+    tip_open_source: "O CodeCombat faz parte da comunidade open source!"
     tip_tell_friends: "Estás a gostar do CodeCombat? Fala de nós aos teus amigos!"
     tip_beta_launch: "O CodeCombat lançou o seu beta em outubro de 2013."
     tip_think_solution: "Pensa na solução, não no problema."
@@ -613,6 +613,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   apis:
     methods: "Métodos"
     events: "Eventos"
+#    handlers: "Handlers"
 #    spawnable: "Spawnable"
     html: "HTML"
     math: "Matemática"
@@ -718,8 +719,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     purchase: "Adquirir"
     purchased: "Adquirido"
 
-#  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
+  subscribe_for_gems:
+    prompt_title: "Gemas Insuficientes!"
 #    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
@@ -939,7 +940,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     cat_title: "Designer de Jogos"
     scott_title: "Co-fundador, Engenheiro de Software"
     maka_title: "Defensor dos Clientes"
-    robin_title: "Gestora de Produto"
+    robin_title: "Gestora de Produto Sénior"
     nolan_title: "Gestor de Vendas"
     lisa_title: "Gestora de Desenvolvimento de Negócio"
     sean_title: "Gestor de Território"
@@ -948,10 +949,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     david_title: "Líder de Marketing"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "'RetroStyle Games'"
-    bryukh_title: "Designer de Jogos"
+#    bryukh_title: "Gameplay Developer"
     bryukh_blurb: "Constrói puzzles"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
+    daniela_title: "Construtora de Conteúdo"
+    daniela_blurb: "Cria histórias"
     community_title: "...e a nossa comunidade open source"
     community_subtitle: "Mais de 500 contribuidores ajudaram a construir o CodeCombat, com mais a se juntarem todas as semanas!"
     community_description_3: "O CodeCombat é um"
@@ -1569,8 +1570,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    empty_credits: "Exhausted Licenses"
     license_remaining: "licença restante"
     licenses_remaining: "licenças restantes"
-    one_license_used: "1 licença foi usada" # {change}
-    num_licenses_used: "__numLicensesUsed__ licenças foram usadas" # {change}
+    one_license_used: "1 de __totalLicenses__ licenças foi usada"
+    num_licenses_used: "__numLicensesUsed__ de __totalLicenses__ licenças foram usadas"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
@@ -1937,7 +1938,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   contribute:
     page_title: "Contribuir"
-    intro_blurb: "O CodeCombat é 100% open source! Centenas de jogadores dedicados ajudaram-nos a transformar o jogo naquilo que ele é hoje. Junta-te a nós e escreve o próximo capítulo da aventura do CodeCombat para ensinar o mundo a programar!" # {change}
+    intro_blurb: "O CodeCombat faz parte da comunidade open source! Centenas de jogadores dedicados ajudaram-nos a transformar o jogo naquilo que ele é hoje. Junta-te a nós e escreve o próximo capítulo da aventura do CodeCombat para ensinar o mundo a programar!"
     alert_account_message_intro: "Hey, tu!"
     alert_account_message: "Para te subscreveres para receber e-mails de classes, necessitarás de iniciar sessão."
     archmage_introduction: "Uma das melhores partes da construção de jogos é que eles sintetizam muitas coisas diferentes. Gráficos, som, rede em tempo real, redes sociais, e, claro, muitos dos aspectos mais comuns da programação, desde a gestão de bases de dados de baixo nível, e administração do servidor até à construção do design e da interface do utilizador. Há muito a fazer, e se és um programador experiente com um verdadeiro desejo de mergulhar nas entranhas do CodeCombat, esta classe pode ser para ti. Gostaríamos muito de ter a tua ajuda para construir o melhor jogo de programação de sempre."
@@ -2351,7 +2352,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   legal:
     page_title: "Legal"
-#    opensource_introduction: "CodeCombat is part of the open source community."
+    opensource_introduction: "O CodeCombat faz parte da comunidade open source."
     opensource_description_prefix: "Confere "
     github_url: "o nosso GitHub"
     opensource_description_center: "e ajuda se quiseres! O CodeCombat é construído tendo por base dezenas de projetos open source, os quais nós amamos. Vê "
@@ -2374,9 +2375,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     contributor_description_prefix: "Todas as contribuições, tanto no sítio como no nosso repositório GitHub, estão sujeitas ao nosso"
     cla_url: "CLA"
     contributor_description_suffix: "com o qual deves concordar antes de contribuir."
-    code_title: "Código - MIT" # {change}
+#    code_title: "Client-Side Code - MIT"
 #    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
-    mit_license_url: "licença do MIT"
+    mit_license_url: "Licença do MIT"
     code_description_suffix: "Isto inclui todo o código dentro dos Sistemas e dos Componentes, o qual é disponibilizado pelo CodeCombat para a criação de níveis."
     art_title: "Arte/Música - Creative Commons "
     art_description_prefix: "Todos os conteúdos comuns estão disponíveis à luz da"
@@ -2577,13 +2578,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
 #  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
-#    quote_attr: "5th Grader, Oakland"
+#    quote_attr: "5th Grader, Oakland, CA"
 #    refer_teacher: "Refer a Teacher"
 #    focus_quote: "Unlock your child's future"
 #    value_head1: "The most engaging way to learn typed code"
 #    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
 #    value_head2: "Building critical skills for the 21st century"
-#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
 #    value_head3: "Heroes that your child will love"
 #    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
 #    dive_head1: "Not just for software engineers"
@@ -2629,3 +2630,23 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    message: "Message"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
 #    send: "Send Email"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"

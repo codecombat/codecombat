@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription: "Dutch (Netherlands)", translation:
   new_home:
-    slogan: "Het meest uitdagende spel om mee te leren programmeren." # {change}
+    slogan: "Het meest uitdagende spel om mee te leren programmeren."
     classroom_edition: "School editie:"
     learn_to_code: "Leer programmeren:"
     play_now: "Speel nu"
@@ -160,7 +160,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     get_more_codecombat: "Krijg meer CodeCombat"
 
   code:
-    if: "als" 
+    if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "anders"
     elif: "of als"
     while: "zolang"
@@ -501,7 +501,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_review_placeholder: "Hoe was het level?"
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code™!"
-    victory_experience_gained: "XP verdiend"# Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)"
+    victory_experience_gained: "XP verdiend"
     victory_gems_gained: "Edelstenen verdiend"
     victory_new_item: "Nieuw Item"
     victory_new_hero: "Nieuwe Held"
@@ -613,6 +613,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   apis:
     methods: "Methoden"
     events: "Evenementen"
+#    handlers: "Handlers"
     spawnable: "Opnieuw opkomen mogelijk"
     html: "HTML"
     math: "Wiskunde"
@@ -669,7 +670,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     multiplayer_caption: "Speel met vrienden!"
     auth_caption: "Sla je voortgang op."
 
- leaderboard:
+  leaderboard:
     view_other_solutions: "Bekijk de ranglijsten"
     scores: "Scores"
     top_players: "De beste spelers van"
@@ -939,7 +940,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    cat_title: "Game Designer"
     scott_title: "Mede-oprichter, Software Engineer"
 #    maka_title: "Customer Advocate"
-    robin_title: "Product Manager"
+    robin_title: "Product Manager" # {change}
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
 #    sean_title: "Territory Manager"
@@ -948,7 +949,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    david_title: "Marketing Lead"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Game Designer"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
@@ -993,17 +994,17 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    screenshots_hint: "(click to view full size)"
 #    downloads_title: "Download Assets & Information"
 #    about_codecombat: "About CodeCombat"
-#    logo: "Logo"
+    logo: "Logo"
 #    screenshots: "Screenshots"
 #    character_art: "Character Art"
 #    download_all: "Download All"
-#    previous: "Previous"
+    previous: "Vorige"
 #    location_title: "We're located in downtown SF:"
 
   teachers:
     licenses_needed: "Licenties nodig"
 
-#  special_offer:
+  special_offer:
 #    special_offer: "Special Offer"
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
@@ -1194,7 +1195,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  community:
+  community:
 #    main_title: "CodeCombat Community"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
@@ -1219,7 +1220,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     new_name: "Nieuwe naam voor je clan"
     new_description: "Beschrijving van je clan"
     make_private: "Maak de clan prive"
-#    subs_only: "subscribers only"
+    subs_only: "alleen voor inschrijvers"
     create_clan: "Maak een nieuwe Clan"
     private_preview: "Voorvertoning"
     private_clans: "Prive Clans"
@@ -1273,18 +1274,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    private_require_sub: "Private clans require a subscription to create or join."
 
   courses:
-#    create_new_class: "Create New Class"
+    create_new_class: "Maak Een Nieuwe Klas"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
-#    unnamed_class: "Unnamed Class"
-#    edit_settings1: "Edit Class Settings"
+    unnamed_class: "Klas zonder naam"
+    edit_settings1: "Pas instellingen van de klas"
     add_students: "Voeg Leerlingen Toe"
     stats: "Statistieken"
 #    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required."
     total_students: "Totaal leerlingen:"
     average_time: "Gemiddelde speeltijd per level:"
     total_time: "Totale speeltijd:"
-#    average_levels: "Average levels completed:"
-#    total_levels: "Total levels completed:"
+    average_levels: "Gemiddelde levels voltooid:"
+    total_levels: "Total aantal levels voltooid:"
     students: "Studenten"
     concepts: "Concepten"
     play_time: "Speeltijd:"
@@ -1293,7 +1294,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     send_invites: "Nodig leerlingen uit"
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
-#    enroll: "Enroll"
+    enroll: "Inschrijven"
 #    enroll_paid: "Enroll Students in Paid Courses"
 #    get_enrollments: "Get More Licenses"
 #    change_language: "Change Course Language"
@@ -1339,7 +1340,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    play_arena: "Play Arena"
 #    view_project: "View Project"
     start: "Start"
-#    last_level: "Last level played"
+    last_level: "Laatst gespeelde level"
     not_you: "Ben je dit niet?"
     continue_playing: "Blijf spelen"
 #    option1_header: "Invite Students by Email"
@@ -2577,13 +2578,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
-#    quote_attr: "5th Grader, Oakland"
+#    quote_attr: "5th Grader, Oakland, CA"
 #    refer_teacher: "Refer a Teacher"
 #    focus_quote: "Unlock your child's future"
 #    value_head1: "The most engaging way to learn typed code"
 #    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
 #    value_head2: "Building critical skills for the 21st century"
-#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
 #    value_head3: "Heroes that your child will love"
 #    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
 #    dive_head1: "Not just for software engineers"
@@ -2629,3 +2630,23 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     message: "Bericht"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
     send: "Stuur Email"
+
+#  hoc_2018:
+#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+#    learn_more: "Learn More"
+#    page_heading: "Teach your students how to build their own arcade game!"
+#    get_started: "Get Started:"
+#    download_lesson: "Download Lesson Plan:"
+#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    download_pdf: "Download PDF"
+#    ready_play: "Ready to play?"
+#    play_activity: "Play Activity"
+#    about: "About CodeCombat:"
+#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    point1: "✓ Scaffolded"
+#    point2: "✓ Differentiated"
+#    point3: "✓ Formative and Summative Assessments"
+#    point4: "✓ Project-based courses"
+#    point5: "✓ Student tracking"
+#    point6: "✓ Full lesson plans"
+#    request_demo: "Create Teacher Account"
