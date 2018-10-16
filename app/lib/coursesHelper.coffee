@@ -27,6 +27,7 @@ module.exports =
         for userID in instance.get('members')
           userStarted = false
           allComplete = true
+          userLevelsSeen = if userLevelsCompleted[userID] then Object.keys(userLevelsCompleted[userID]).filter((l) -> levelsInVersionedCourse.has(l)).length else 0
           for level, complete of userLevelsCompleted[userID] when levelsInVersionedCourse.has level
             userStarted = true
             if not complete
@@ -34,7 +35,7 @@ module.exports =
               break
           allComplete = false unless userStarted
           instance.started ||= userStarted
-          ++instance.numCompleted if allComplete
+          ++instance.numCompleted if allComplete and userLevelsSeen == levelsInVersionedCourse.size
 
   calculateEarliestIncomplete: (classroom, courses, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished
