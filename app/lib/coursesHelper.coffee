@@ -1,10 +1,11 @@
 Levels = require 'collections/Levels'
 utils = require 'core/utils'
 
-# Returns whether a user has started and completed all the levels in a course.
+# Returns whether a user has started a course as well as if they've completed
+# all the required levels in the course.
 #
-# @param {Object<Key=string, Value=bool> | undefined} userLevels - Key value store of level original string and completion state.
-# @param {Set<string>} levelsInCourse - Set of the levels in the course.
+# @param {Object<key=string, value=bool> | undefined} userLevels - Key value store of level original and completion state.
+# @param {Set<string>} levelsInCourse - Required level originals in the course.
 # @return {[bool, bool]} - user started value and allcomplete state. 
 hasUserCompletedCourse = (userLevels, levelsInCourse) ->
   userStarted = false
