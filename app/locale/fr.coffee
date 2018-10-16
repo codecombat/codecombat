@@ -24,7 +24,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     democratizing: "Démocratiser le processus d'apprendre à programmer est au coeur de notre philosophie. Tout le monde devrait être capable d'apprendre la programmation."
     forgot_learning: "Je crois qu'ils ont oublié qu'ils étaient en train d'apprendre quelquechose." # {change}
     wanted_to_do: " Programmer est quelquechose que j'ai toujours voulu faire, et je n'ai jamais pensé que je pourrais l'apprendre à l'école."
-#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
+    builds_concepts_up: "J'aime la façon dont CodeCombat construit les concepts. C'est vraiment facile à comprendre et amusant à comprendre."
     why_games: "Pourquoi est-ce qu'apprendre en jouant est important?"
     games_reward: "Les jeux récompensent l'effort productif."
     encourage: "Le jeu est une plateforme qui encourage l'interaction, la découverte et l'essaie et erreur. Un bon jeu défit le joeur d'apprendre à maîtriser de nouvelles habiletés au fil du temps, ce qui correspond au même processus critique que l'on retrouve au niveau de l'éducation."
@@ -100,7 +100,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     help_suff: "et nous entrerons en contact!"
     resource_hub: "Centre de ressource"
     apcsp: "Principles AP CS"
-#    parent: "Parents"
+    parent: "Parents"
 
   modal:
     close: "Fermer"
@@ -138,7 +138,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     poll: "Sondage" # Tooltip on poll button from /play
     next: "Suivant" # Go from choose hero to choose inventory before playing a level
     change_hero: "Changer le héros" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Changer de héros ou de langue"
     buy_gems: "Acheter des gemmes"
     subscribers_only: "Abonnés Seulement!"
     subscribe_unlock: "Abonnez-vous pour debloquer!"
@@ -305,10 +305,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_additional_questions: "C'est tout! Si vous avez besoin d'aide supplémentaire ou si vous avez des questions, contactez __supportEmail__."
     dont_use_our_email_silly: "Ne mettez pas votre email ici! Mettez celui de votre parent."
     want_codecombat_in_school: "Avez-vous envie de jouer à CodeCombat tout le temps ?" # {change}
-#    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
-#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
-#    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+    eu_confirmation: "J'autorise CodeCombat à stocker mes données sur des serveurs américains."
+    eu_confirmation_place_of_processing: "En savoir plus sur les risques possibles"
+    eu_confirmation_student: "Si vous n'êtes pas sûr, demandez à votre enseignant."
+    eu_confirmation_individual: "Si vous ne voulez pas que nous stockions vos données sur des serveurs américains, vous pouvez toujours continuer à jouer anonymement sans sauvegarder votre code."
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     rejected: "Rejeté"
     withdrawn: "Retiré"
     accept: "Accepter"
-#    accept_and_save: "Accept&Save"
+    accept_and_save: "Accepter&Enregistrer"
     reject: "Refuser"
     withdraw: "Abandonner"
     submitter: "Soumissionnaire"
@@ -718,9 +718,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     purchase: "achat"
     purchased: "Acheté"
 
-#  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
-#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+  subscribe_for_gems:
+    prompt_title: "Pas assez de gemmes"
+    prompt_body: "Abonnez-vous à Premium pour obtenir des gemmes et accéder à encore plus de niveaux !"
 
   earn_gems:
     prompt_title: "Pas assez de gemmes"
