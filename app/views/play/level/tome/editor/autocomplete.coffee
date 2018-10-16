@@ -251,6 +251,7 @@ module.exports = class Autocomplete
     source = spellView.getSource()
     haveFindNearestEnemy = false
     haveFindNearest = false
+    autocompleteReplacement = level.get("autocompleteReplacement") ? []
     for group, props of e.propGroups
       for prop in props
         if _.isString prop  # organizePalette
@@ -263,7 +264,8 @@ module.exports = class Autocomplete
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if doc?.snippets?[e.language]
           name = doc.name
-          content = doc.snippets[e.language].code
+          replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
+          content = replacement?.snippets?[e.language]?.code or doc.snippets[e.language].code
           if /loop/.test(content) and level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
             content = switch e.language
