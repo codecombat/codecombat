@@ -24,7 +24,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     democratizing: "Démocratiser le processus d'apprendre à programmer est au coeur de notre philosophie. Tout le monde devrait être capable d'apprendre la programmation."
     forgot_learning: "Je crois qu'ils ont oublié qu'ils étaient en train d'apprendre quelquechose." # {change}
     wanted_to_do: " Programmer est quelquechose que j'ai toujours voulu faire, et je n'ai jamais pensé que je pourrais l'apprendre à l'école."
-#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
+    builds_concepts_up: "J'aime la façon dont CodeCombat construit les concepts. C'est vraiment facile à comprendre et amusant à comprendre."
     why_games: "Pourquoi est-ce qu'apprendre en jouant est important?"
     games_reward: "Les jeux récompensent l'effort productif."
     encourage: "Le jeu est une plateforme qui encourage l'interaction, la découverte et l'essaie et erreur. Un bon jeu défit le joeur d'apprendre à maîtriser de nouvelles habiletés au fil du temps, ce qui correspond au même processus critique que l'on retrouve au niveau de l'éducation."
@@ -100,7 +100,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     help_suff: "et nous entrerons en contact!"
     resource_hub: "Centre de ressource"
     apcsp: "Principles AP CS"
-#    parent: "Parents"
+    parent: "Parents"
 
   modal:
     close: "Fermer"
@@ -305,10 +305,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_additional_questions: "C'est tout! Si vous avez besoin d'aide supplémentaire ou si vous avez des questions, contactez __supportEmail__."
     dont_use_our_email_silly: "Ne mettez pas votre email ici! Mettez celui de votre parent."
     want_codecombat_in_school: "Avez-vous envie de jouer à CodeCombat tout le temps ?" # {change}
-#    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
-#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
-#    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+    eu_confirmation: "J'autorise CodeCombat à stocker mes données sur des serveurs américains."
+    eu_confirmation_place_of_processing: "En savoir plus sur les risques possibles"
+    eu_confirmation_student: "Si vous n'êtes pas sûr, demandez à votre enseignant."
+    eu_confirmation_individual: "Si vous ne voulez pas que nous stockions vos données sur des serveurs américains, vous pouvez continuer à jouer anonymement sans sauvegarder votre code."
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     rejected: "Rejeté"
     withdrawn: "Retiré"
     accept: "Accepter"
-#    accept_and_save: "Accept&Save"
+    accept_and_save: "Accepter&Enregistrer"
     reject: "Refuser"
     withdraw: "Abandonner"
     submitter: "Soumissionnaire"
@@ -613,7 +613,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   apis:
     methods: "Méthodes"
     events: "Evénements"
-#    handlers: "Handlers"
+    handlers: "Manutentionnaires"
     spawnable: "Instanciable"
     html: "HTML"
     math: "Math"
@@ -721,7 +721,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   subscribe_for_gems:
     prompt_title: "Pas assez de Gemmes!"
-#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+    prompt_body: "Abonnez-vous à Premium pour obtenir des gemmes et accéder à encore plus de niveaux !"
 
   earn_gems:
     prompt_title: "Pas assez de gemmes"
@@ -1348,31 +1348,31 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     are_you_sure: "Êtes-vous certain de vouloir supprimer cet élève de cette classe ?"
     remove_description1: "L'élève n'aura plus accès à cette classe et les classes associées. L'évolution et les personnages ne seront pas supprimés, et l'élève pourra de nouveau rejoindre la classe n'importe quand."
     remove_description2: "Une licence payante activée ne sera pas remboursée."
-#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
+    license_will_revoke: "La licence payante de cet étudiant sera révoquée et rendue disponible pour être cédée à un autre étudiant."
     keep_student: "Conserver l'élève"
     removing_user: "Suppression de l'utilisateur"
-#    subtitle: "Review course overviews and levels" # Flat style redesign
-#    changelog: "View latest changes to course levels."
+    subtitle: "Revoir les aperçus et les niveaux des cours" # Flat style redesign
+    changelog: "Consultez les dernières modifications apportées aux niveaux des cours."
     select_language: "Selectionner langue"
     select_level: "Selectionner niveau"
     play_level: "Jouer le niveau"
     concepts_covered: "Conceptes Couverts"
     view_guide_online: "Voir Guide En Ligne (PDF)" # {change}
-#    grants_lifetime_access: "Grants access to all Courses."
-#    enrollment_credits_available: "Licenses Available:"
-#    language_select: "Select a language" # ClassroomSettingsModal
+    grants_lifetime_access: "Donne accès à tous les cours."
+    enrollment_credits_available: "Licences disponibles :"
+    language_select: "Sélectionnez une langue" # ClassroomSettingsModal
     language_cannot_change: "Le language ne peut être changé une fois qu'un élève à rejoins la classe."
-#    avg_student_exp_label: "Average Student Programming Experience"
-#    avg_student_exp_desc: "This will help us understand how to pace courses better."
-#    avg_student_exp_select: "Select the best option"
-#    avg_student_exp_none: "No Experience - little to no experience"
-#    avg_student_exp_beginner: "Beginner - some exposure or block-based"
+    avg_student_exp_label: "Expérience moyenne des étudiants en programmation"
+    avg_student_exp_desc: "Cela nous aidera à mieux comprendre comment mieux rythmer les cours."
+    avg_student_exp_select: "Choisir la meilleure option"
+    avg_student_exp_none: "Aucune expérience - peu ou pas d'expérience"
+    avg_student_exp_beginner: "Débutant - un peu d'exposition ou basé sur des blocs"
 #    avg_student_exp_intermediate: "Intermediate - some experience with typed code"
 #    avg_student_exp_advanced: "Advanced - extensive experience with typed code"
-#    avg_student_exp_varied: "Varied Levels of Experience"
-#    student_age_range_label: "Student Age Range"
-#    student_age_range_younger: "Younger than 6"
-#    student_age_range_older: "Older than 18"
+    avg_student_exp_varied: "Niveaux d'expérience variés"
+    student_age_range_label: "Tranche d'âge des étudiants"
+    student_age_range_younger: "Plus jeune que 6 ans"
+    student_age_range_older: "Avoir plus de 18 ans"
 #    student_age_range_to: "to"
     create_class: "Créer une Classe"
     class_name: "Nom de la classe"
