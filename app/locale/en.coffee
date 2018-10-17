@@ -614,6 +614,7 @@
     methods: "Methods"
     events: "Events"
     handlers: "Handlers"
+    properties: "Properties"
     spawnable: "Spawnable"
     html: "HTML"
     math: "Math"
