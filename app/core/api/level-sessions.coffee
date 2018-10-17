@@ -1,10 +1,10 @@
 fetchJson = require './fetch-json'
 
 module.exports = {
-  submitToRank: ({ session, courseInstanceID }, options) ->
+  submitToRank: ({ session, courseInstanceId }, options) ->
     fetchJson('/queue/scoring', _.merge({}, options, {
       method: 'POST'
-      json: { session, courseInstanceID }
+      json: { session, courseInstanceId }
     }))
 
   getByStudentsAndLevels: ({ earliestCreated, studentIds, levelOriginals, project }, options) ->
