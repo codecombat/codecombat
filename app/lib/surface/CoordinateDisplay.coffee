@@ -7,6 +7,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     'surface:mouse-out': 'onMouseOut'
     'surface:mouse-over': 'onMouseOver'
     'surface:stage-mouse-down': 'onMouseDown'
+    'surface:copy-coordinates': 'onCopyCoordinates'
     'camera:zoom-updated': 'onZoomUpdated'
     'level:flag-color-selected': 'onFlagColorSelected'
 
@@ -60,6 +61,28 @@ module.exports = class CoordinateDisplay extends createjs.Container
     wop.y = Math.round wop.y
     Backbone.Mediator.publish 'tome:focus-editor', {}
     Backbone.Mediator.publish 'surface:coordinate-selected', wop
+
+  #MMN Copy Coordinates Action
+  onCopyCoordinates: (e) =>
+    console.log "Copy Coordinates Event"
+    e?.preventDefault?()
+    return unless @mouseInBounds and @lastPos and not @destroyed
+    text = "#{@lastPos.x}, #{@lastPos.y}"
+    if navigator.clipboard
+      console.log "Copy Coordinates using navigator"
+      navigator.clipboard.writeText(text)
+    else if document.queryCommandSupported('copy')
+      console.log "Copy Coordinates using execCommand"
+      textArea = document.createElement("textarea")
+      textArea.value = text
+      document.body.appendChild(textArea)
+      textArea.focus()
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+    else
+      console.log "Copy Coordinates not supported"
+
 
   onZoomUpdated: (e) ->
     return unless @lastPos
