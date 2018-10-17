@@ -82,6 +82,9 @@ module.exports = class DocFormatter
       if @doc.type in ['event', 'handler']
         @doc.shortName = @doc.name
         @doc.shorterName = @doc.name
+      if @doc.type is 'property'
+        @doc.shortName = @doc.name.split(".").pop() or @doc.name
+        @doc.shorterName = @doc.shortName
       if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify or ownerName is 'game'
