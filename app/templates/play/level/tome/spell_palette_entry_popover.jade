@@ -6,7 +6,7 @@ h4(dir="ltr")
     // In case there's no translation in en.coffee because we missed one
     = skillType
   // Redundant in case some tag docs are missing an owner
-  if !_.contains(['function', 'basic tag', 'spawnable', 'event', 'snippet'], doc.type) && doc.owner != 'HTML'
+  if !_.contains(['function', 'handler', 'basic tag', 'spawnable', 'event', 'snippet'], doc.type) && doc.owner != 'HTML'
     |  (
     if writable
       span(data-i18n="skill_docs.writable") writable
