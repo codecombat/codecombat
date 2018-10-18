@@ -126,7 +126,7 @@ module.exports = class SpellPaletteView extends CocoView
         t.render()
 
       if doc.type is "property"
-        t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
+        t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, writable: true
         @$el.find("#palette-tab-properties").append t.el
         t.render()
 
