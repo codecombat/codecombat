@@ -615,6 +615,7 @@
     events: "Events"
     handlers: "Handlers"
     properties: "Properties"
+    snippets: "Snippets"
     spawnable: "Spawnable"
     html: "HTML"
     math: "Math"
