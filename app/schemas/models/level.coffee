@@ -309,6 +309,19 @@ _.extend LevelSchema.properties,
       pattern: { type: 'string' }
     }
   }
+  autocompleteReplacement: c.array {}, {
+    type: 'object'
+    properties: {
+      name: { type: 'string' }
+      snippets: {
+        type: 'object',
+        title: 'Snippets',
+        description: 'List of snippets for the respective programming languages',
+        additionalProperties: c.codeSnippet,
+        format: 'code-languages-object'
+      }
+    }
+  }
   requiredGear: { type: 'object', title: 'Required Gear', description: 'Slots that should require one of a set array of items for that slot', additionalProperties: {
     type: 'array'
     items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }

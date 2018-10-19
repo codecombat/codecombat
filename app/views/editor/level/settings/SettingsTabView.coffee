@@ -21,7 +21,7 @@ module.exports = class SettingsTabView extends CocoView
     'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'primaryConcepts', 'picoCTFProblem', 'practice', 'assessment',
     'practiceThresholdMinutes', 'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
     'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes',
-    'maximumHealth', 'assessmentPlacement', 'password', 'mirrorMatch'
+    'maximumHealth', 'assessmentPlacement', 'password', 'mirrorMatch', 'autocompleteReplacement'
   ]
 
   subscriptions:

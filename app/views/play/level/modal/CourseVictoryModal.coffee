@@ -237,4 +237,4 @@ module.exports = class CourseVictoryModal extends ModalView
   submitLadder: ->
     return if application.testing
     if @level.get('type') is 'course-ladder' and @session.readyToRank() or not @session.inLeague(@courseInstanceID)
-      api.levelSessions.submitToRank({ session: @session.id, courseInstanceID: @courseInstanceID })
+      api.levelSessions.submitToRank({ session: @session.id, courseInstanceId: @courseInstanceID })
