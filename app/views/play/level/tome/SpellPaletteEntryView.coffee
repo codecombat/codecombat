@@ -26,7 +26,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     'click': 'onClick'
 
   constructor: (options) ->
-    super options  
+    super options
     @thang = options.thang
     @docFormatter = new DocFormatter options
     @doc = @docFormatter.doc
