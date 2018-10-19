@@ -138,7 +138,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     poll: "Sondage" # Tooltip on poll button from /play
     next: "Suivant" # Go from choose hero to choose inventory before playing a level
     change_hero: "Changer le héros" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Changer de héros ou de langue"
     buy_gems: "Acheter des gemmes"
     subscribers_only: "Abonnés Seulement!"
     subscribe_unlock: "Abonnez-vous pour debloquer!"
@@ -720,7 +720,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     purchased: "Acheté"
 
   subscribe_for_gems:
-    prompt_title: "Pas assez de Gemmes!"
+    prompt_title: "Pas assez de gemmes!"
     prompt_body: "Abonnez-vous à Premium pour obtenir des gemmes et accéder à encore plus de niveaux !"
 
   earn_gems:
@@ -952,7 +952,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     bryukh_title: "Designer de jeux"  # {change}
     bryukh_blurb: "Construuit des puzzles"
 #    daniela_title: "Content Crafter"
-    daniela_blurb: "Créer une histoire"
+    daniela_blurb: "Créer des histoires"
     community_title: "... et notre communité open-source"
     community_subtitle: "Plus de 500 contributeurs ont aidé à construire CodeCombat, et de plus en plus nous rejoignent chaque semaine !"
     community_description_3: "CodeCombat est un"
@@ -987,7 +987,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     jobs_custom_title: "Créer ta propre"
     jobs_custom_description: "Es-tu passionné de CodeCombat mais ne voit pas un travail listé correspondant à tes qualifications? Écris-nous et montres-nous comment tu penses pouvoir contribuer à notre équipe. Nous aimerions t'entendre !"
     jobs_custom_contact_1: "Envoyez-nous une note à"
-#    jobs_custom_contact_2: "introducing yourself and we might get in touch in the future!"
+    jobs_custom_contact_2: "Présentez-vous et nous vous contacterons peut-être à l'avenir !"
     contact_title: "Presse & Contact"
     contact_subtitle: "Besoin de plus d'informations? Restez en contact avec nous à"
     screenshots_title: "Captures d'écran de Jeu"
@@ -1379,10 +1379,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    teacher_account_restricted: "Your account is a teacher account and cannot access student content."
 #    account_restricted: "A student account is required to access this page."
 #    update_account_login_title: "Log in to update your account"
-#    update_account_title: "Your account needs attention!"
+    update_account_title: "Votre compte a besoin d'attention !"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
-#    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:"
+    update_account_current_type: "Type de compte courant :"
+    update_account_account_email: "Email/nom d'utilisateur du compte :"
     update_account_am_teacher: "Je suis un professeur"
 #    update_account_keep_access: "Keep access to classes I've created"
     update_account_teachers_can: "Les comptes professeurs peuvent :"
@@ -1396,7 +1396,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     update_account_am_student: "Je suis un étudiant"
 #    update_account_remove_access: "Remove access to classes I have created"
     update_account_students_can: "Les comptes étudiant peuvent :"
-#    update_account_students_can1: "Join classes"
+    update_account_students_can1: "Rejoindre les cours"
 #    update_account_students_can2: "Play through courses as a student and track your own progress"
 #    update_account_students_can3: "Compete against classmates in arenas"
 #    update_account_students_can4: "Access new student-only features as we release them"
