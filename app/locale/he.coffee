@@ -307,7 +307,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 #    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
+    eu_confirmation_student: "אם אתה לא בטוח, תשאל את המורה שלך"#"If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
