@@ -310,7 +310,7 @@ module.exports = class SpellPaletteView extends CocoView
         prop = prop.prop
         doc = _.find (allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
-          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this' or doc.owner is 'ui')
         if not doc and not excludedDocs['__' + prop]
           console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propsByItem, 'with item', item
           doc ?= prop
