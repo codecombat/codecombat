@@ -250,7 +250,8 @@ module.exports = class Tracker extends CocoClass
       @identify(attrs)
 
   shouldBlockAllTracking: ->
-    return me.isSmokeTestUser() or window.serverSession.amActually or navigator?.doNotTrack or window?.doNotTrack or @cookies.declined
+    doNotTrack = (navigator?.doNotTrack or window?.doNotTrack) and not (navigator?.doNotTrack is 'unspecified' or window?.doNotTrack is 'unspecified')
+    return me.isSmokeTestUser() or window.serverSession.amActually or doNotTrack or @cookies.declined
     # Should we include application.testing in this?
 
   shouldTrackExternalEvents: ->
