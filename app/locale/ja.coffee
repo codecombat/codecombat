@@ -10,7 +10,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     classroom_in_a_box: "コンピュータサイエンスが学べる箱の中の教室"
     codecombat_is: "CodeCombatは<strong>生徒のための</strong>実際にゲームを遊びながらコンピュータサイエンスを学べるプラットフォームです"
     our_courses: "私たちのコースはそれまでプログラミング経験がなかった先生でも<strong>教室ですばらしい</strong>プレイテストをされています。"
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "どうやってCodeCombatはCSの学び方を教えてるか見てみる。"
     top_screenshots_hint: "生徒がコードを書くとリアルタイムでその変更による変化を見れます"
     designed_with: "先生のための設計"
     real_code: "実際に,コードをタイピング"
