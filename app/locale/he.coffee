@@ -235,8 +235,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_teacher_header: "יצירת חשבון מורה"
     create_individual_header: "יצירת חשבון אישי"
     email_announcements: "קבלו הודעות על שלבים ותכונות חדשים ב-CodeCombat!"
-#    sign_in_to_continue: "Sign in or create an account to continue"
-#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
+    sign_in_to_continue: "היכנס או צור חשבון על מנת להמשיך" #"Sign in or create an account to continue"
+    teacher_email_announcements: "עדכנו אותי בחומרים למורים, תכנית הלימודים וקורסים" #"Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "יוצר חשבון..."
     sign_up: "הרשמה"
     log_in: "היכנס עם סיסמה"
@@ -307,7 +307,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 #    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
+    eu_confirmation_student: "אם אתה לא בטוח, תשאל את המורה שלך"#"If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
