@@ -1,5 +1,5 @@
 locale = require('../../../app/locale/locale')
-english = require("../../../app/locale/en")
+english = require('../../../app/locale/en')
 
 _ = require('lodash')
 langs = Object.keys(locale).concat('rot13').map (langKey) ->
