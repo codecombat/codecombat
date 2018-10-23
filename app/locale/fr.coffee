@@ -2309,25 +2309,25 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     boolean_logic: "Logique Booléenne"
     basic_html: "HTML basique"
     basic_css: "CSS basique"
-#    basic_web_scripting: "Basic Web Scripting"
+    basic_web_scripting: "Scripting Web de base"
     intermediate_html: "HTML intermédiaire"
     intermediate_css: "CSS intermédiaire"
-#    intermediate_web_scripting: "Intermediate Web Scripting"
+    intermediate_web_scripting: "Scripts Web intermédiaires"
     advanced_html: "HTML avancé"
     advanced_css: "CSS avancé"
-#    advanced_web_scripting: "Advanced Web Scripting"
+    advanced_web_scripting: "Scripts Web avancés"
     input_handling: "Manipulation des entrées"
     while_loops: "Boucles tant que"
-#    place_game_objects: "Place game objects"
-#    construct_mazes: "Construct mazes"
-#    create_playable_game: "Create a playable, sharable game project"
-#    alter_existing_web_pages: "Alter existing web pages"
-#    create_sharable_web_page: "Create a sharable web page"
-#    basic_input_handling: "Basic Input Handling"
-#    basic_game_ai: "Basic Game AI"
+    place_game_objects: "Placer des objets de jeu"
+    construct_mazes: "Construire des labyrinthes"
+    create_playable_game: "Créer un projet de jeu jouable et partageable"
+    alter_existing_web_pages: "Modifier des pages Web existantes"
+    create_sharable_web_page: "Créer une page Web partageable"
+    basic_input_handling: "Traitement de base des données d'entrée"
+    basic_game_ai: "Jeu de base AI"
     basic_javascript: "JavaScript basique"
-#    basic_event_handling: "Basic Event Handling"
-#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
+    basic_event_handling: "Traitement de base des événements"
+    create_sharable_interactive_web_page: "Créer une page Web interactive partageable"
 
   anonymous_teacher:
     notify_teacher: "Aviser l'enseignant"
@@ -2338,7 +2338,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     student_name_placeholder: "Tapez votre nom ici"
     teachers_section: "Enseignants:"
     students_section: "Étudiants:"
-#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
+    teacher_notified: "Nous avons informé votre professeur que vous voulez jouer plus de CodeCombat dans votre classe"
 
   delta:
     added: "Ajouté"
@@ -2352,7 +2352,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   legal:
     page_title: "Mentions légales"
-#    opensource_introduction: "CodeCombat is part of the open source community."
+    opensource_introduction: "CodeCombat fait partie de la communauté open source."
     opensource_description_prefix: "Regardez "
     github_url: "notre GitHub"
     opensource_description_center: "et aidez nous si vous voulez ! CodeCombat est construit sur plusieurs projets open source, et nous les aimons. Regardez "
@@ -2406,8 +2406,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     canonical: "La version de ce document est la version définitive et canonique. En cas d'irrégularité dans les traductions, le document anglais fait foi."
     third_party_title: "Services tiers"
     third_party_description: "CodeCombat utilise les services tiers suivants, entre autres :"
-#    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
-#    cookies_deny: "Decline non-essential cookies"
+    cookies_message: "CodeCombat utilise quelques cookies essentiels et non essentiels."
+    cookies_deny: "Refuser les cookies non essentiels"
 
   ladder_prizes:
     title: "Prix du tournoi" # This section was for an old tournament and doesn't need new translations now.
@@ -2446,12 +2446,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     november: "Novembre"
     december: "Décembre"
 
-#  code_play_create_account_modal:
-#    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
+  code_play_create_account_modal:
+    title: "Tu l'as fait !" # Cette section n'est nécessaire qu'aux États-Unis, au Royaume-Uni, au Mexique, en Inde et en Allemagne.
 #    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
-#    sign_up: "Sign up & keep coding ▶"
-#    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
-#    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
+    sign_up: "Inscrivez-vous et continuez à coder ▶"
+    victory_sign_up_poke: "Créez un compte gratuit pour sauvegarder votre code et courez la chance de gagner des prix !"
+    victory_sign_up: "Inscrivez-vous et soyez inscrit à <strong>win $2,500</strong>"
 
 #  server_error:
 #    email_taken: "Email already taken"
@@ -2623,28 +2623,28 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
 
   parent_modal:
-#    refer_teacher: "Refer Teacher"
+    refer_teacher: "Référence Enseignant"
     name: "Votre nom"
     parent_email: "Votre Email"
-#    teacher_email: "Teacher's Email"
+    teacher_email: "Email de l'enseignant"
     message: "Message"
-#    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
+    custom_message: "Je viens de trouver CodeCombat et j'ai pensé que ce serait un excellent programme pour votre classe ! Il s'agit d'une plate-forme d'apprentissage de l'informatique avec un programme d'études aligné sur les normes.\n\nLes connaissances en informatique sont très importantes et je pense que ce serait un excellent moyen d'inciter les élèves à apprendre à coder."
     send: "Envoyer un courriel"
 
   hoc_2018:
-#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
+    learn_more_copy: "CodeCombat est un programme complet conçu pour tous les enseignants. Vous voulez faire passer Hour of Code au niveau supérieur ?"
     learn_more: "En savoir plus"
-#    page_heading: "Teach your students how to build their own arcade game!"
+    page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !"
     get_started: "Commencer:"
     download_lesson: "Télécharger le plan de leçon :"
 #    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
     download_pdf: "Télécharger le PDF"
     ready_play: "Prêt à jouer ?"
-#    play_activity: "Play Activity"
+    play_activity: "Activité de jeu"
     about: "A propos de CodeCombat :"
-#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
-#    point1: "✓ Scaffolded"
-#    point2: "✓ Differentiated"
+    about_copy: "CodeCombat est un programme d'informatique basé sur le jeu pour enseigner le vrai Python et JavaScript. Le programme d'études conforme aux normes de CodeCombat s'articule autour d'un jeu que les élèves adorent. Plus de 12 millions d'étudiants ont appris à coder sur CodeCombat !"
+    point1: "✓ Échafaudés"
+    point2: "✓ Différencié"
 #    point3: "✓ Formative and Summative Assessments"
     point4: "✓ Cours par projet"
     point5: "✓ Suivi des étudiants"

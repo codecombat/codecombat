@@ -85,6 +85,9 @@ module.exports = class DocFormatter
       if @doc.type is 'property'
         @doc.shortName = @doc.name.split(".").pop() or @doc.name
         @doc.shorterName = @doc.shortName
+      if @doc.owner is 'ui'
+        @doc.shortName = @doc.shortName.replace /^game./, ''
+        @doc.shorterName = @doc.shortName
       if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify or ownerName is 'game'
