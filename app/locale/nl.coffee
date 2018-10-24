@@ -2536,7 +2536,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     are_you_missing_a: "Mis je een '$1' achter de '$2'? "
     your_parentheses_must_match: "Je haakjes moeten overeenkomen."
 
-#  apcsp:
+  apcsp:
 #    syllabus: "AP CS Principles Syllabus"
     syllabus_description: "Gebruik dit hulpmiddel om het CodeCombat-curriculum (leerplan) te plannen voor uw AP Computer Science Principles-klas. Termen worden niet vertaald naar het Nederlands."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2576,7 +2576,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
-#  parent_landing:
+  parent_landing:
     slogan_quote: "\"CodeCombat is erg leuk, en je leert veel.\""
     quote_attr: "Student 5e leerjaar, Oakland, CA"
     refer_teacher: "Verwijs een leraar door"
@@ -2622,7 +2622,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     mission2_copy: "Een enquête in 2016 toonde aan dat 64% van de meisjes in groep 5 t/m 7 willen leren programmeren. Er waren 7 miljoen vacatures die vroegen om programmeervaardigheden. We hebben CodeCombat gebouwd omdat we vinden dat elk kind de kans moet krijgen om hun beste toekomst te creëren."
     mission3_copy: "Bij CodeCombat zijn we ouders. We zijn programmeurs. We zijn onderwijzers. Maar bovenal zijn we mensen die geloven dat we onze kinderen de beste kans op succes willen geven in wat ze ook besluiten te doen."
 
-#  parent_modal:
+  parent_modal:
     refer_teacher: "Verwijs de leraar door"
     name: "Uw naam"
     parent_email: "Uw e-mailadres"
@@ -2631,7 +2631,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     custom_message: "Ik heb net CodeCombat ontdekt en denk dat dit een geschikt programma voor uw klas is! Het is een computerwetenschappelijk leerplatform met een op standaarden afgestemd leerplan.\n\nMediawijsheid is zo belangrijk, en ik denk dat dit een geweldige manier is om studenten bezig te houden met leren programmeren."
     send: "Verzend e-mail"
 
-#  hoc_2018:
+  hoc_2018:
     learn_more_copy: "CodeCombat is een uitgebreid programma dat is gebouwd voor alle leraren. Wilt u Hour of Code naar het volgende niveau brengen?"
     learn_more: "Meer informatie"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!"

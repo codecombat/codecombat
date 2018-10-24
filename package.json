@@ -176,7 +176,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-jasmine": "^1.1.2",
     "nock": "^2.17.0",
-    "node-sass": "^4.0.0",
+    "node-sass": "^4.9.4",
     "nodemon": "1.6.1",
     "parse-domain": "^0.2.1",
     "pg": "^6.1.2",
