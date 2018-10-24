@@ -5,19 +5,21 @@ utils = require 'core/utils'
 # all the required levels in the course.
 #
 # @param {Object<key=string, value=bool> | undefined} userLevels - Key value store of level original and completion state.
-# @param {Set<string>} levelsInCourse - Required level originals in the course.
-# @return {[bool, bool]} - user started value and allcomplete state. 
+# @param {Set<string>} levelsInCourse - *Required* level originals in the course.
+# @return {[bool, bool, int]} - user started value, allcomplete state and total levels completed.
 hasUserCompletedCourse = (userLevels, levelsInCourse) ->
   userStarted = false
   allComplete = true
+  completed = 0
   userLevelsSeen = if userLevels then Object.keys(userLevels).filter((l) -> levelsInCourse.has(l)).length else 0
   for level, complete of userLevels when levelsInCourse.has level
     userStarted = true
     if not complete
       allComplete = false
       break
+    completed += 1
   allComplete = false unless userStarted
-  [userStarted, allComplete and userLevelsSeen == levelsInCourse.size]
+  [userStarted, allComplete and userLevelsSeen == levelsInCourse.size, completed]
 
 module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
@@ -43,10 +45,14 @@ module.exports =
         instance.started = false
         levelsInVersionedCourse = new Set (level.get('original') for level in classroom.getLevels({courseID: course.id}).models when not
           (level.get('practice') or level.get('assessment')))
+
+        levelsCompletedByStudents = 0
         for userID in instance.get('members')
-          [userStarted, allComplete] = hasUserCompletedCourse(userLevelsCompleted[userID], levelsInVersionedCourse)
+          [userStarted, allComplete, levelsCompleted] = hasUserCompletedCourse(userLevelsCompleted[userID], levelsInVersionedCourse)
+          levelsCompletedByStudents += levelsCompleted
           instance.started ||= userStarted
           ++instance.numCompleted if allComplete
+        instance.percentLevelCompletion = Math.floor(levelsCompletedByStudents / (levelsInVersionedCourse.size * instance.get('members').length) * 100)
 
   calculateEarliestIncomplete: (classroom, courses, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished
