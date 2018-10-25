@@ -103,6 +103,7 @@ module.exports = (env) => {
         'underscore': 'lodash'
       }
     },
+    resolveLoader: { modules: [ 'node_modules' ] },
     node: {
       fs: 'empty',
       child_process: 'empty',
