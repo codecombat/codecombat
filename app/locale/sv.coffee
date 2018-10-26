@@ -2376,7 +2376,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     cla_url: "CLA"
     contributor_description_suffix: ", som du borde godkänna innan du börjar bidra."
     code_title: "Kod - MIT"
-   code_description_prefix: "All kod som ägs av CodeCombat eller som finns på codecombat.com, både i GitHub-repot och i codecombat.com-databasen, är licensierad under"
+    code_description_prefix: "All kod som ägs av CodeCombat eller som finns på codecombat.com, både i GitHub-repot och i codecombat.com-databasen, är licensierad under"
     mit_license_url: "MIT license"
     code_description_suffix: "Detta inkluderar all kod i system och komponenter som gjorts tillgänglig för CodeCombat i syftet att skapa nivåer."
     art_title: "Konst/Musik - Creative Commons "
