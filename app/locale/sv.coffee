@@ -91,13 +91,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    toggle_nav: "Toggle navigation"
     schools: "Skolor"
     get_involved: "Bli engagerad"
-#    open_source: "Öppen källkod (GitHub)"
+    open_source: "Öppen källkod (GitHub)"
 #    support: "Support"
 #    faqs: "FAQs"
 #    copyright_prefix: "Copyright"
 #    copyright_suffix: "All Rights Reserved."
     help_pref: "Behöver du hjälp? Email"
-#    help_suff: "och vi kommer höras!"
+    help_suff: "och vi kommer höras!"
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
@@ -164,7 +164,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     else: "annars"
     elif: "annars om"
     while: "medans"
-    oop: "loop"
+#    loop: "loop"
     for: "för"
     break: "bryt"
     continue: "fortsätt"
@@ -610,7 +610,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    project_published_noty: "Your level has been published!"
     keep_editing: "Fortsätt redigera"
 
-#  apis:
+  apis:
     methods: "Metoder"
 #    events: "Events"
 #    handlers: "Handlers"
@@ -940,7 +940,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     cat_title: "Chefshantverkare" # {change}
     scott_title: "Medgrundare" # {change}
 #    maka_title: "Customer Advocate"
-#    robin_title: "Product Manager"
+#    robin_title: "Senior Product Manager"
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
 #    sean_title: "Territory Manager"
@@ -949,7 +949,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Game Designer"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
@@ -1273,7 +1273,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
+  courses:
     create_new_class: "Skapa ny klass"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
 #    unnamed_class: "Unnamed Class"
@@ -1938,7 +1938,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
   contribute:
     page_title: "Att bidra"
-    intro_blurb: "CodeCombat är 100% öppen källkod! Hundratals hängivna spelare har hjälpt till att skapa det spel du ser idag. Häng med oss och skriv nästa kapitel i CodeCombats uppdrag att lära världen att koda!"  # {change}
+    intro_blurb: "CodeCombat är 100% öppen källkod! Hundratals hängivna spelare har hjälpt till att skapa det spel du ser idag. Häng med oss och skriv nästa kapitel i CodeCombats uppdrag att lära världen att koda!" # {change}
     alert_account_message_intro: "Hej där!"
     alert_account_message: "För att prenumerera på klassmejl behöver du vara inloggad först."
     archmage_introduction: "En av de bästa delarna med att bygga spel är att de syntetiserar så många olika saker. Grafik, ljud, realtidsnätverkande, socialt netvärkande och så klart många av de vanligare aspekterna av programmering, från databashantering och serveradministration på låg nivå till användargränssnitt och gränsnittsbyggande. Det finns mycket att göra, och om du är en erfaren programmerare som längtar efter att dyka ner i CodeCombats detaljer kan den här klassen vara för dig. Vi skulle älska din hjälp med att bygga det bästa programmeringsspelet någonsin."
@@ -2376,7 +2376,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     cla_url: "CLA"
     contributor_description_suffix: ", som du borde godkänna innan du börjar bidra."
     code_title: "Kod - MIT"
-    code_description_prefix: "All kod som ägs av CodeCombat eller som finns på codecombat.com, både i GitHub-repot och i codecombat.com-databasen, är licensierad under"
+   code_description_prefix: "All kod som ägs av CodeCombat eller som finns på codecombat.com, både i GitHub-repot och i codecombat.com-databasen, är licensierad under"
     mit_license_url: "MIT license"
     code_description_suffix: "Detta inkluderar all kod i system och komponenter som gjorts tillgänglig för CodeCombat i syftet att skapa nivåer."
     art_title: "Konst/Musik - Creative Commons "
@@ -2457,7 +2457,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     email_taken: "Epostadress redan taget"
     username_taken: "Användarnamn redan taget"
 
-#  esper:
+  esper:
     line_no: "Rad $1: "
 #    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
     reference_error: "Referensfel: "

@@ -614,6 +614,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     methods: "วิธีการ"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"

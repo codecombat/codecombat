@@ -614,6 +614,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     methods: "Methodes"
     events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
     html: "HTML"
     math: "Wiskunde"
