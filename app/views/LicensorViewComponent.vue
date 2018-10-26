@@ -4,8 +4,8 @@ div.licensor.container(v-if="!$store.getters['me/isAdmin'] && !$store.getters['m
 div.licensor.container(v-else)
   h3 Create New License
   form#prepaid-form
-    h4.small(style="max-width: 700px")(v-if="timeZone == 'Asia/Shanghai'") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
-    h4.small(style="max-width: 700px")(v-else) *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
+    h4.small(style="max-width: 700px" v-if="timeZone == 'Asia/Shanghai'") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
+    h4.small(style="max-width: 700px" v-else) *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
     .form-group
       label.small
       | Teacher email
