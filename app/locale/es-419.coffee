@@ -614,6 +614,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -823,7 +825,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -982,8 +984,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     jobs_benefit_6: "Seguro médico/dental/vista" # {change}
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
+#    jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 12 weeks paid"
     jobs_custom_title: "Crear Tu Propio"
     jobs_custom_description: "¿Te apasiona CodeCombat pero nos ves un puesto de trabajo que coincida con tus cualificaciones? Escríbenos y muestrenos como cree que puede contribuir a nuestro equipo. ¡Nos encantaría saber de vos!"
     jobs_custom_contact_1: "¡Envíanos una nota a"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     you_can3: "que puede ser aplicado a tu propia cuenta o regalado a otros."
 
   loading_error:
-    could_not_load: "Error cargando del servidor"
+    could_not_load: "Error cargando del servidor" # {change}
     connection_failure: "Fallo de conexión."
     connection_failure_desc: "Al parecer no estás conectado a internet! Revisa tu conección de red y actualiza la página."
     login_required: "Login Requerido"

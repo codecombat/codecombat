@@ -1,5 +1,5 @@
 module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", translation:
-#  new_home:
+  new_home:
 #    slogan: "The most engaging way to learn real code."
     classroom_edition: "Klassrumutgåven:"
     learn_to_code: "Lär dig koda:"
@@ -91,13 +91,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    toggle_nav: "Toggle navigation"
     schools: "Skolor"
     get_involved: "Bli engagerad"
-#    open_source: "Öppen källkod (GitHub)"
+    open_source: "Öppen källkod (GitHub)"
 #    support: "Support"
 #    faqs: "FAQs"
 #    copyright_prefix: "Copyright"
 #    copyright_suffix: "All Rights Reserved."
     help_pref: "Behöver du hjälp? Email"
-#    help_suff: "och vi kommer höras!"
+    help_suff: "och vi kommer höras!"
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
@@ -159,12 +159,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     teacher_button: "För lärare"
 #    get_more_codecombat: "Get More CodeCombat"
 
-#  code:
+  code:
     if: "om" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "annars"
     elif: "annars om"
     while: "medans"
-    oop: "loop"
+#    loop: "loop"
     for: "för"
     break: "bryt"
     continue: "fortsätt"
@@ -610,7 +610,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    project_published_noty: "Your level has been published!"
     keep_editing: "Fortsätt redigera"
 
-#  apis:
+  apis:
     methods: "Metoder"
 #    events: "Events"
 #    handlers: "Handlers"
@@ -639,7 +639,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
-#  play_game_dev_level:
+  play_game_dev_level:
     created_by: "Skapad av {{name}}"
     created_during_hoc: "Skapad under Hour of Code"
     restart: "Starta om nivå"
@@ -823,7 +823,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -940,7 +940,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     cat_title: "Chefshantverkare" # {change}
     scott_title: "Medgrundare" # {change}
 #    maka_title: "Customer Advocate"
-#    robin_title: "Product Manager"
+#    robin_title: "Senior Product Manager"
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
 #    sean_title: "Territory Manager"
@@ -949,7 +949,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Game Designer"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
@@ -979,11 +979,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    jobs_benefits: "Employee Benefits"
 #    jobs_benefit_4: "Unlimited vacation"
 #    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
-#    jobs_benefit_6: "Medical (gold), dental, vision, commuter"
+#    jobs_benefit_6: "Medical (gold), dental, vision, commuter, 401K"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
+#    jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 12 weeks paid"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
 #    jobs_custom_contact_1: "Send us a note at"
@@ -1046,7 +1046,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    course_suffix: ""
 
 #  teachers_quote:
-    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "What's the best number to reach you?"
@@ -1273,7 +1273,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
+  courses:
     create_new_class: "Skapa ny klass"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
 #    unnamed_class: "Unnamed Class"
@@ -1444,7 +1444,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
 
-#  project_gallery:
+  project_gallery:
     no_projects_published: "Var först med att publicera ett projekt i den här kursen!"
     view_project: "Visa projekt"
     edit_project: "Redigera projelt"
@@ -1938,7 +1938,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
   contribute:
     page_title: "Att bidra"
-    intro_blurb: "CodeCombat är 100% öppen källkod! Hundratals hängivna spelare har hjälpt till att skapa det spel du ser idag. Häng med oss och skriv nästa kapitel i CodeCombats uppdrag att lära världen att koda!"  # {change}
+    intro_blurb: "CodeCombat är 100% öppen källkod! Hundratals hängivna spelare har hjälpt till att skapa det spel du ser idag. Häng med oss och skriv nästa kapitel i CodeCombats uppdrag att lära världen att koda!" # {change}
     alert_account_message_intro: "Hej där!"
     alert_account_message: "För att prenumerera på klassmejl behöver du vara inloggad först."
     archmage_introduction: "En av de bästa delarna med att bygga spel är att de syntetiserar så många olika saker. Grafik, ljud, realtidsnätverkande, socialt netvärkande och så klart många av de vanligare aspekterna av programmering, från databashantering och serveradministration på låg nivå till användargränssnitt och gränsnittsbyggande. Det finns mycket att göra, och om du är en erfaren programmerare som längtar efter att dyka ner i CodeCombats detaljer kan den här klassen vara för dig. Vi skulle älska din hjälp med att bygga det bästa programmeringsspelet någonsin."
@@ -2429,7 +2429,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    license: "license"
 #    oreilly: "ebook of your choice"
 
-#  calendar:
+  calendar:
     year: "År"
     day: "Dag"
     month: "Månad"
@@ -2453,11 +2453,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
+  server_error:
     email_taken: "Epostadress redan taget"
     username_taken: "Användarnamn redan taget"
 
-#  esper:
+  esper:
     line_no: "Rad $1: "
 #    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
     reference_error: "Referensfel: "

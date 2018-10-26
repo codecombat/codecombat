@@ -614,6 +614,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     methods: "Méthodes"
     events: "Evénements"
     handlers: "Manutentionnaires"
+#    properties: "Properties"
+#    snippets: "Snippets"
     spawnable: "Instanciable"
     html: "HTML"
     math: "Math"
@@ -949,7 +951,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     david_title: "Directeur Marketing"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Jeux RetroStyle"
-    bryukh_title: "Designer de jeux"  # {change}
+    bryukh_title: "Designer de jeux" # {change}
     bryukh_blurb: "Construuit des puzzles"
 #    daniela_title: "Content Crafter"
     daniela_blurb: "Créer des histoires"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     jobs_benefits: "Avantages des Employés"
     jobs_benefit_4: "Vacances illimitées"
     jobs_benefit_5: "dévelopement Professionel  et support constant dans la formation professionnelle – livres gratuits et jeux!"
-    jobs_benefit_6: "Couverture Medical (or), dentaire, ophtalmologie"
+    jobs_benefit_6: "Couverture Medical (or), dentaire, ophtalmologie" # {change}
     jobs_benefit_7: "bureaux réglables pour tous"
     jobs_benefit_9: "une fenêtre d'option d'exercice de 10 ans"
-    jobs_benefit_10: "Congé maternité : 10 semaines payées, les 6 suivantes à 55% du salaire"
-    jobs_benefit_11: "Congé paternité: 10 semaines payées"
+    jobs_benefit_10: "Congé maternité : 10 semaines payées, les 6 suivantes à 55% du salaire" # {change}
+    jobs_benefit_11: "Congé paternité: 10 semaines payées" # {change}
     jobs_custom_title: "Créer ta propre"
     jobs_custom_description: "Es-tu passionné de CodeCombat mais ne voit pas un travail listé correspondant à tes qualifications? Écris-nous et montres-nous comment tu penses pouvoir contribuer à notre équipe. Nous aimerions t'entendre !"
     jobs_custom_contact_1: "Envoyez-nous une note à"
@@ -1431,7 +1433,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     update_old_classroom_detail_2: "et en donnant aux élèves le nouveau code de classe qui apparaît."
     view_assessments: "Voir les évaluations"
     view_challenges: "voir les niveaux de défi"
-    challenge: "Défi:" #challenge
+    challenge: "Défi:"
     challenge_level: "Niveau de défi :"
     status: "Statut:"
     assessments: "Évaluations"
@@ -2136,7 +2138,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    verify_error: "Something went wrong when verifying your email :("
 #    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
     unsubscribe_button: "Oui, se désabonner"
-#    unsubscribe_failed: "Échec"
+    unsubscribe_failed: "Échec"
     unsubscribe_success: "Succès"
 
   account_invoices:
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     you_can3: "qui pourra être appliqué à votre compte ou donné à un autre."
 
   loading_error:
-    could_not_load: "Erreur de chargement du serveur"
+    could_not_load: "Erreur de chargement du serveur" # {change}
     connection_failure: "La connexion a échoué."
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
@@ -2447,7 +2449,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     december: "Décembre"
 
   code_play_create_account_modal:
-    title: "Tu l'as fait !" # Cette section n'est nécessaire qu'aux États-Unis, au Royaume-Uni, au Mexique, en Inde et en Allemagne.
+    title: "Tu l'as fait !" # This section is only needed in US, UK, Mexico, India, and Germany
 #    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
     sign_up: "Inscrivez-vous et continuez à coder ▶"
     victory_sign_up_poke: "Créez un compte gratuit pour sauvegarder votre code et courez la chance de gagner des prix !"

@@ -614,6 +614,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -823,7 +825,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -982,8 +984,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     jobs_benefit_6: "Syge-, Tand- og Synsforsikring" # {change}
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
+#    jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 12 weeks paid"
     jobs_custom_title: "Lav Dit Eget"
     jobs_custom_description: "Brænder du for CodeCombat men kan ikke se et ledigt job, der matcher dine kvalifikationer? Skriv til os og vis, hvordan du tror, ​​du kan bidrage til vores team. Vi vil meget gerne høre fra dig!"
     jobs_custom_contact_1: "Send os en besked på"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     you_can3: "der kan anvendes på din egen konto eller gives til andre."
 
   loading_error:
-    could_not_load: "Fejl ved indlæsning fra server"
+    could_not_load: "Fejl ved indlæsning fra server" # {change}
     connection_failure: "Forbindelsen mislykkedes"
     connection_failure_desc: "Det ser ikke ud som om du er forbundet til Internet! Tjek din netværksforbindelse og genindlæse derefter denne side."
     login_required: "Login påkrævet"

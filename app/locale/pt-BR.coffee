@@ -614,6 +614,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     methods: "Métodos"
     events: "Eventos"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
     spawnable: "Adicionável"
     html: "HTML"
     math: "Matemática"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     jobs_benefits: "Benefícios do Funcionário"
     jobs_benefit_4: "Férias ilimitadas"
     jobs_benefit_5: "Desenvolvimento profissional e apoio à educação continuada - livros e jogos gratuitos!"
-    jobs_benefit_6: "Apoio médico"
+    jobs_benefit_6: "Apoio médico" # {change}
     jobs_benefit_7: "Mesa para todos"
     jobs_benefit_9: "Opção de 10 anos de exercício"
-    jobs_benefit_10: "Licença maternidade: 10 semanas pagas, próximas 6 semanas 55% do salário"
-    jobs_benefit_11: "Licença paternidade: 10 semanas pagas"
+    jobs_benefit_10: "Licença maternidade: 10 semanas pagas, próximas 6 semanas 55% do salário" # {change}
+    jobs_benefit_11: "Licença paternidade: 10 semanas pagas" # {change}
     jobs_custom_title: "Crie o seu"
     jobs_custom_description: "Você é apaixonado pelo CodeCombat, mas não vê um emprego listado que corresponda às suas qualificações? Escreva-nos e mostre como você acha que pode contribuir com a nossa equipe. Gostaríamos de ouvir de você!"
     jobs_custom_contact_1: "Envie-nos um recado em"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     you_can3: "que pode ser aplicado à sua conta ou dado a outras pessoas."
 
   loading_error:
-    could_not_load: "Erro ao carregar do servidor"
+    could_not_load: "Erro ao carregar do servidor" # {change}
     connection_failure: "Conexão falhou."
     connection_failure_desc: "Não parece que você esteja conectado à internet! Verifique sua conexão de rede e recarregue esta página."
     login_required: "Login obrigatório"
