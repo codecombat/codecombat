@@ -614,6 +614,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     jobs_benefits: "Keuntungan Karyawan"
     jobs_benefit_4: "Liburan tanpa batas"
     jobs_benefit_5: "Pengembangan profesional dan dukungan melanjutkan pendidikan - buku gratis dan permainan!"
-    jobs_benefit_6: "Pengobatan (emas), perawatan gigi, perawatan mata, perjalanan"
+    jobs_benefit_6: "Pengobatan (emas), perawatan gigi, perawatan mata, perjalanan" # {change}
     jobs_benefit_7: "Meja duduk-berdiri untuk semua"
     jobs_benefit_9: "Jendela latihan opsional 10 tahun"
-    jobs_benefit_10: "Cuti Kelahiran (Wanita): 10 minggu dibayar, 6 berikutnya @ 55% gaji"
-    jobs_benefit_11: "Cuti Kelahiran (Pria): 10 minggu dibayar"
+    jobs_benefit_10: "Cuti Kelahiran (Wanita): 10 minggu dibayar, 6 berikutnya @ 55% gaji" # {change}
+    jobs_benefit_11: "Cuti Kelahiran (Pria): 10 minggu dibayar" # {change}
     jobs_custom_title: "Buat Sendiri"
     jobs_custom_description: "Apakah kamu berhasrat dengan CodeCombat tetapi tidka melihat daftar pekerjaan yang sesuai dengan kualifikasimu? Tulis dan tunjukkan kami, bagaimana kamu pikir kamu dapat berkontribusi di tim kami. Kami ingin mendengarnya darimu!"
     jobs_custom_contact_1: "Kirim kami catatan di"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
-    could_not_load: "Kesalahan memuat dari server"
+    could_not_load: "Kesalahan memuat dari server" # {change}
     connection_failure: "Koneksi Gagal"
     connection_failure_desc: "Sepertinya kamu tidak terhubung dengan internet! Periksa jaringan kamu dan muat ulang halaman ini."
     login_required: "Wajib Masuk"

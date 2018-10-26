@@ -614,6 +614,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     methods: "Методе"
     events: "Догађаји"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
     spawnable: "Може да се умрести"
     html: "HTML"
     math: "Математика"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     jobs_benefits: "Бенефиције за запослене"
     jobs_benefit_4: "Неограничен одмор"
     jobs_benefit_5: "Професионални развој и континуирана подршка образовања - бесплатне књиге и игре!"
-    jobs_benefit_6: "Медицинско (gold), дентално, очно осигурање"
+    jobs_benefit_6: "Медицинско (gold), дентално, очно осигурање" # {change}
     jobs_benefit_7: "Sit-stand радни столови за свакога"
     jobs_benefit_9: "прозор од 10 година"
-    jobs_benefit_10: "Породиљско одсуство: 10 плаћених недеља, наредних 6 недеља 55% плате"
-    jobs_benefit_11: "Очинско одсуство: 10 плаћених недеља"
+    jobs_benefit_10: "Породиљско одсуство: 10 плаћених недеља, наредних 6 недеља 55% плате" # {change}
+    jobs_benefit_11: "Очинско одсуство: 10 плаћених недеља" # {change}
     jobs_custom_title: "Направи свој"
     jobs_custom_description: "Да ли си заинтересован за CodeCombat али не видиш од наведених послова ниједан који одговара твојим квалификацијама? Пиши нам и покажи нам како мислиш да можеш да допринесеш нашем тиму. Волели бисмо да нам се јавиш!"
     jobs_custom_contact_1: "Пошаљи нам поруку на"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     you_can3: "који може да се примени на твој налог или да се поклони другоме."
 
   loading_error:
-    could_not_load: "Грешка учитавања са сервера"
+    could_not_load: "Грешка учитавања са сервера" # {change}
     connection_failure: "Веза није успела"
     connection_failure_desc: "Изгледа да ниси повезан на интернет! Провери везу са мрежом и затим поново учитај ову страну. "
     login_required: "Неопходно уписивање"

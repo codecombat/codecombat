@@ -614,6 +614,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     methods: "Методи"
     events: "Події"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
     spawnable: "Породжуваний"
     html: "HTML"
     math: "Математика"
@@ -823,7 +825,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
     hero_caption: "Нові вражаючі герої!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     jobs_benefits: "Переваги для працівників"
     jobs_benefit_4: "Необмежена відпустка"
     jobs_benefit_5: "Підтримка професійного розвитку та безперервного навчання – безкоштовні книжки та ігри!"
-#    jobs_benefit_6: "Medical (gold), dental, vision, commuter"
+#    jobs_benefit_6: "Medical (gold), dental, vision, commuter, 401K"
     jobs_benefit_7: "Сидячо-стоячі столи для всіх"
 #    jobs_benefit_9: "10-year option exercise window"
-    jobs_benefit_10: "Декретна відпустка для матері: 10 оплачуваних тижнів, наступні 6 на 55% з/п"
-    jobs_benefit_11: "Декретна відпустка для батька: 10 оплачуваних тижнів"
+    jobs_benefit_10: "Декретна відпустка для матері: 10 оплачуваних тижнів, наступні 6 на 55% з/п" # {change}
+    jobs_benefit_11: "Декретна відпустка для батька: 10 оплачуваних тижнів" # {change}
     jobs_custom_title: "Створити власну"
     jobs_custom_description: "Захоплюєтесь CodeCombat, але не бачите вакансії, що підходить для вашої кваліфікації? Напишіть нам як, на вашу думку, ви можете допомогти нашій команді. Ми раді з вами зв'язатися!"
     jobs_custom_contact_1: "Напишіть нам на"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can3: "який може бути застосовано до вашого акаунту або переданий іншим."
 
   loading_error:
-    could_not_load: "Помилка завантаження з сервера"
+    could_not_load: "Помилка завантаження з сервера" # {change}
     connection_failure: "Помилка з'єднання."
     connection_failure_desc: "Не схоже, що ви підключені до інтернету! Перевірте ваше з'єднання та превантажте цю сторінку."
     login_required: "Необхідно увійти"

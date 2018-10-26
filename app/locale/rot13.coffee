@@ -614,6 +614,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     methods: "Zrgubqf"
     events: "Riragf"
     handlers: "Unaqyref"
+    properties: "Cebcregvrf"
+    snippets: "Favccrgf"
     spawnable: "Fcnjanoyr"
     html: "UGZY"
     math: "Zngu"
@@ -823,7 +825,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     hero_blurb_1: "Trg npprff gb __cerzvhzUrebrfPbhag__ fhcre-punetrq fhofpevore-bayl urebrf! Unearff gur hafgbccnoyr cbjre bs Bxne Fgbzcsbbg, gur qrnqyl cerpvfvba bs Anevn bs gur Yrns, be fhzzba \"nqbenoyr\" fxryrgbaf jvgu Anysne Pelcgbe."
     hero_blurb_2: "Cerzvhz Jneevbef haybpx fghaavat znegvny fxvyyf yvxr Jnepel, Fgbzc, naq Uhey Rarzl. Be, cynl nf n Enatre, hfvat fgrnygu naq objf, guebjvat xavirf, gencf! Gel lbhe fxvyy nf n gehr pbqvat Jvmneq, naq hayrnfu n cbjreshy neenl bs Cevzbeqvny, Arpebznagvp be Ryrzragny zntvp!"
     hero_caption: "Rkpvgvat arj urebrf!"
-    pet_blurb_1: "Crgf nera'g whfg nqbenoyr pbzcnavbaf, gurl nyfb cebivqr havdhr shapgvbanyvgl naq zrgubqf. Gur Onol Tevssba pna pneel havgf guebhtu gur nve, gur Jbys Chc cynlf pngpu jvgu rarzl neebjf, gur Pbhtne vf sbaq bs punfvat bterf nebhaq, naq gur Zvzvp nggenpgf pbvaf yvxr n zntarg!"
+    pet_blurb_1: "Crgf nera'g whfg nqbenoyr pbzcnavbaf, gurl nyfb cebivqr havdhr shapgvbanyvgl naq zrgubqf. Gur Onol Tevssva pna pneel havgf guebhtu gur nve, gur Jbys Chc cynlf pngpu jvgu rarzl neebjf, gur Pbhtne vf sbaq bs punfvat bterf nebhaq, naq gur Zvzvp nggenpgf pbvaf yvxr n zntarg!"
     pet_blurb_2: "Pbyyrpg nyy gur crgf gb qvfpbire gurve havdhr novyvgvrf!"
     pet_caption: "Nqbcg crgf gb nppbzcnal lbhe ureb!"
     game_dev_blurb: "Yrnea tnzr fpevcgvat naq ohvyq arj yriryf gb funer jvgu lbhe sevraqf! Cynpr gur vgrzf lbh jnag, jevgr pbqr sbe havg ybtvp naq orunivbe, naq frr vs lbhe sevraqf pna orng gur yriry!"
@@ -940,7 +942,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     cat_title: "Tnzr Qrfvtare"
     scott_title: "Pbsbhaqre, Fbsgjner Ratvarre"
     maka_title: "Phfgbzre Nqibpngr"
-    robin_title: "Fravbe Cebqhpg Znantre" # {punatr}
+    robin_title: "Fravbe Cebqhpg Znantre"
     nolan_title: "Fnyrf Znantre"
     lisa_title: "Ohfvarff Qrirybczrag Znantre"
     sean_title: "Greevgbel Znantre"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     jobs_benefits: "Rzcyblrr Orarsvgf"
     jobs_benefit_4: "Hayvzvgrq inpngvba"
     jobs_benefit_5: "Cebsrffvbany qrirybczrag naq pbagvahvat rqhpngvba fhccbeg – serr obbxf naq tnzrf!"
-    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, pbzzhgre"
+    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, pbzzhgre, 401X" 
     jobs_benefit_7: "Fvg-fgnaq qrfxf sbe nyy"
     jobs_benefit_9: "10-lrne bcgvba rkrepvfr jvaqbj"
-    jobs_benefit_10: "Zngreavgl yrnir: 10 jrrxf cnvq, arkg 6 @ 55% fnynel"
-    jobs_benefit_11: "Cngreavgl yrnir: 10 jrrxf cnvq"
+    jobs_benefit_10: "Zngreavgl yrnir: 12 jrrxf cnvq, arkg 6 @ 55% fnynel" 
+    jobs_benefit_11: "Cngreavgl yrnir: 12 jrrxf cnvq" 
     jobs_custom_title: "Perngr Lbhe Bja"
     jobs_custom_description: "Ner lbh cnffvbangr nobhg PbqrPbzong ohg qba'g frr n wbo yvfgrq gung zngpurf lbhe dhnyvsvpngvbaf? Jevgr hf naq fubj ubj lbh guvax lbh pna pbagevohgr gb bhe grnz. Jr'q ybir gb urne sebz lbh!"
     jobs_custom_contact_1: "Fraq hf n abgr ng"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     you_can3: "gung pna or nccyvrq gb lbhe bja nppbhag be tvira gb bguref."
 
   loading_error:
-    could_not_load: "Reebe ybnqvat sebz freire"
+    could_not_load: "Reebe ybnqvat sebz freire. Gel erserfuvat gur cntr."  
     connection_failure: "Pbaarpgvba Snvyrq"
     connection_failure_desc: "Vg qbrfa’g ybbx yvxr lbh’er pbaarpgrq gb gur vagrearg! Purpx lbhe argjbex pbaarpgvba naq gura erybnq guvf cntr."
     login_required: "Ybtva Erdhverq"
@@ -2578,7 +2580,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   parent_landing:
     slogan_quote: '"PbqrPbzong vf ernyyl sha, naq lbh yrnea n ybg."'
-    quote_attr: "5gu Tenqre, Bnxynaq, PN" # {punatr}
+    quote_attr: "5gu Tenqre, Bnxynaq, PN"
     refer_teacher: "Ersre n Grnpure"
     focus_quote: "Haybpx lbhe puvyq'f shgher"
     value_head1: "Gur zbfg ratntvat jnl gb yrnea glcrq pbqr"
@@ -2628,7 +2630,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     parent_email: "Lbhe Rznvy"
     teacher_email: "Grnpure'f Rznvy"
     message: "Zrffntr"
-    custom_message: "V whfg sbhaq PbqrPbzong naq gubhtug vg'q or n terng cebtenz sbe lbhe pynffebbz! Vg'f n pbzchgre fpvrapr yrneavat cyngsbez jvgu fgnaqneqf-nyvtarq pheevphyhz.\a\aPbzchgre yvgrenpl vf fb vzcbegnag naq V guvax guvf jbhyq or n terng jnl gb trg fghqragf ratntrq va yrneavat gb pbqr."
+    custom_message: "V whfg sbhaq PbqrPbzong naq gubhtug vg'q or n terng cebtenz sbe lbhe pynffebbz! Vg'f n pbzchgre fpvrapr yrneavat cyngsbez jvgu fgnaqneqf-nyvtarq pheevphyhz.\n\nPbzchgre yvgrenpl vf fb vzcbegnag naq V guvax guvf jbhyq or n terng jnl gb trg fghqragf ratntrq va yrneavat gb pbqr."
     send: "Fraq Rznvy"
 
   hoc_2018:

@@ -614,6 +614,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -823,7 +825,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     jobs_benefits: "員工福利"
     jobs_benefit_4: "無盡假期"
     jobs_benefit_5: "專業的開發與持續的教育援助 – 免費的課本以及遊戲!"
-    jobs_benefit_6: "醫藥、牙科、視力治療"
+    jobs_benefit_6: "醫藥、牙科、視力治療" # {change}
     jobs_benefit_7: "所有人都有坐式/站式辦公桌"
     jobs_benefit_9: "十年的公司期權"
-    jobs_benefit_10: "產假:10週給薪以及接下來6週55%的給薪"
-    jobs_benefit_11: "陪產假:10週給薪"
+    jobs_benefit_10: "產假:10週給薪以及接下來6週55%的給薪" # {change}
+    jobs_benefit_11: "陪產假:10週給薪" # {change}
     jobs_custom_title: "創造自己的工作"
     jobs_custom_description: "你對於CodeCombat有熱誠但是找不到一個職位符合您的條件嗎? 聯繫我們並且讓我們知道您如何為我們的團隊貢獻。 我們很希望能聽到您的意見!"
     jobs_custom_contact_1: "寄給我們一個簡介至"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
-    could_not_load: "從伺服器載入失敗"
+    could_not_load: "從伺服器載入失敗" # {change}
     connection_failure: "連線失敗。"
     connection_failure_desc: "看來您並沒有連接上網際網路! 請檢查您的網路連接狀態然後重新載入這個頁面。"
     login_required: "您需要先登入。"
