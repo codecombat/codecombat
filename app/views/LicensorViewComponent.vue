@@ -4,7 +4,8 @@ div.licensor.container(v-if="!$store.getters['me/isAdmin'] && !$store.getters['m
 div.licensor.container(v-else)
   h3 Create New License
   form#prepaid-form
-    h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
+    h4.small(style="max-width: 700px")(v-if="timeZone == 'Asia/Shanghai'") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
+    h4.small(style="max-width: 700px")(v-else) *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
     .form-group
       label.small
       | Teacher email
@@ -42,8 +43,10 @@ div.licensor.container(v-else)
       th.border ID
       th.border Creator
       th.border Type
-      th.border Start (PT)
-      th.border End (PT)
+      th.border(v-if="timeZone == 'Asia/Shanghai'") Start (CT)
+      th.border(v-else) Start (PT)
+      th.border(v-if="timeZone == 'Asia/Shanghai'") End (CT)
+      th.border(v-else) End (PT)
       th.border Used
     tr(v-for="prepaid in prepaids")
       td.border {{prepaid._id}}
@@ -279,9 +282,12 @@ module.exports = Vue.extend({
     ownedClients: []
     oauthProvider: []
     defaultClientVal: clientSchema.properties
+    timeZone: 'America/Los_Angeles'
 
   created: ->
     return unless me.isAdmin() or me.isLicensor()
+    if features?.chinaInfra
+      this.timeZone = 'Asia/Shanghai'
     api.apiClients.getAll().then (clients) =>
       @ownedClients = clients
       $.ajax
@@ -335,8 +341,8 @@ module.exports = Vue.extend({
         attrs = data
         attrs.maxRedeemers = parseInt(data.maxRedeemers)
         attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-        attrs.startDate = moment.timezone.tz(attrs.startDate, "America/Los_Angeles").toISOString()
-        attrs.endDate = moment.timezone.tz(attrs.endDate, "America/Los_Angeles").toISOString()
+        attrs.startDate = moment.timezone.tz(attrs.startDate, this.timeZone).toISOString()
+        attrs.endDate = moment.timezone.tz(attrs.endDate, this.timeZone).toISOString()
         _.extend(attrs, {
           type: 'course'
           creator: user._id
@@ -368,8 +374,8 @@ module.exports = Vue.extend({
           forms.setErrorToProperty(el, 'showLicense', 'No licenses found for this user')
           return
         for prepaid in this.prepaids
-          prepaid.startDate = moment.timezone(prepaid.startDate).tz('America/Los_Angeles').format('l')
-          prepaid.endDate = moment.timezone(prepaid.endDate).tz('America/Los_Angeles').format('l')
+          prepaid.startDate = moment.timezone(prepaid.startDate).tz(this.timeZone).format('l')
+          prepaid.endDate = moment.timezone(prepaid.endDate).tz(this.timeZone).format('l')
           Vue.set(prepaid, 'used' , (prepaid.redeemers || []).length)
 
       catch err
@@ -594,9 +600,9 @@ module.exports = Vue.extend({
 
   computed:
     timestampStart: ->
-        return moment.timezone().tz('America/Los_Angeles').format('YYYY-MM-DD')
+      return moment.timezone().tz(this.timeZone).format('YYYY-MM-DD')
     timestampEnd: ->
-        return moment.timezone().tz('America/Los_Angeles').add(1, 'year').format('YYYY-MM-DD')
+      return moment.timezone().tz(this.timeZone).add(1, 'year').format('YYYY-MM-DD')
 
 })
 
