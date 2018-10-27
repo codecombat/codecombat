@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "ไทย", englishDescription: "Thai", translation:
   new_home:
-    slogan: "วิธีที่เร้าใจที่สุดในการเรียนเขียนโปรแกรม"
+    slogan: "วิธีที่ดึงดูใจที่สุดในการเรียนเขียนโปรแกรม"
     classroom_edition: "แบบห้องเรียน:"
     learn_to_code: "เรียนเขียนโค้ด:"
     play_now: "เล่นเดี๋ยวนี้"
