@@ -152,7 +152,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     adjust_volume: "Ajustar volúmen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
-    brain_pop_done: "¡Has vencido a los Ogros con código! ¡Tú ganas!"
+    brain_pop_done: "¡Has vencido a los Ogros con código! ¡Ganaste!"
     brain_pop_challenge: "Retarte a jugar otra vez usando un lenguaje de programación diferente!" 
 #    replay: "Replay"
     back_to_classroom: "Regresa a la clase"
