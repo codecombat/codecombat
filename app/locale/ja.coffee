@@ -2640,7 +2640,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     get_started: "始まる:"
     download_lesson: "レッスンプランをダウンロード:"
     lesson_copy: "このPDFはHOCのレッスンのやり方や大事なところをじっくり教えてくれます。さらに、クラスで話し合うことがかいてあります。"
-#    download_pdf: "Download PDF"
+    download_pdf: "PDFをダウンロード"
     ready_play: "準備できた？"
     play_activity: "アクティビティをあそぶ"
     about: "Codecombatについて:"
