@@ -40,6 +40,7 @@ utils = require 'core/utils'
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'lib/setupTreema'
+require 'lib/game-libraries'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
