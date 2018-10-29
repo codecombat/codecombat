@@ -614,6 +614,7 @@ module.exports = class CampaignView extends RootView
 
   annotateLevels: (orderedLevels) ->
     return if @CourseInstance?
+    
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original)
