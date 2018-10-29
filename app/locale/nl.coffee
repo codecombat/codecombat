@@ -610,10 +610,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     project_published_noty: "Je level is gepubliceerd!"
     keep_editing: "Blijf aanpassen"
 
-#  apis:
+  apis:
     methods: "Methodes"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
     math: "Wiskunde"
@@ -982,8 +984,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jobs_benefit_6: "Zorgverzekering" # {change}
     jobs_benefit_7: "Zit-staan bureau's voor iedereen"
     jobs_benefit_9: "10 jaar aanspraaktijd op aandelen"
-    jobs_benefit_10: "Moederschapsverlof: 10 weken betaald, volgende 6 met 55% salaris"
-    jobs_benefit_11: "Vaderschapsverlof: 10 weken betaald"
+    jobs_benefit_10: "Moederschapsverlof: 10 weken betaald, volgende 6 met 55% salaris" # {change}
+    jobs_benefit_11: "Vaderschapsverlof: 10 weken betaald" # {change}
     jobs_custom_title: "Maak je eigen"
     jobs_custom_description: "Ben je enthousiast over CodeCombat maar zie je geen baan die aansluit bij je kwalificaties? Schrijf ons jouw suggesties hoe je kunt meehelpen met ons team, we horen graag van je!"
     jobs_custom_contact_1: "Stuur ons een bericht"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
 
   loading_error:
-    could_not_load: "Fout bij het laden van de server"
+    could_not_load: "Fout bij het laden van de server" # {change}
     connection_failure: "Verbinding mislukt." # {change}
     connection_failure_desc: "Het ziet ernaar uit dat je niet verbonden bent met het internet! Controleer je netwerkverbinding en herlaad de pagina."
     login_required: "Inloggen vereist"
@@ -2543,7 +2545,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     learning_objectives: "Leerdoelen"
     curricular_requirements: "Leerplan-Eisen"
 #    unit_1: "Unit 1: Creative Technology"
-#    unit_1_activity_1: "Unit 1 Activiteit: Technology Usability Review"
+    unit_1_activity_1: "Unit 1 Activiteit: Technology Usability Review"
 #    unit_2: "Unit 2: Computational Thinking"
 #    unit_2_activity_1: "Unit 2 Activity: Binary Sequences"
 #    unit_2_activity_2: "Unit 2 Activity: Computing Lesson Project"

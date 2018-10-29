@@ -614,6 +614,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     jobs_benefits: "Korzyści z pracy u nas"
     jobs_benefit_4: "Nieograniczony urlop"
     jobs_benefit_5: "Pomoc w rozwoju zawodowym i dalszej nauce – darmowe książki i gry!"
-    jobs_benefit_6: "Ubezpieczenie medyczne (pakiet złoty), dentystyczne, okulistyczne, bilety komunikacyjne"
+    jobs_benefit_6: "Ubezpieczenie medyczne (pakiet złoty), dentystyczne, okulistyczne, bilety komunikacyjne" # {change}
     jobs_benefit_7: "Biurko sit/stand dla wszystkich"
     jobs_benefit_9: "10 lat na realizację opcji pracowniczych"
-    jobs_benefit_10: "Urlop macierzyński: 10 tygodni płatnych, następnych 6 w 55%"
-    jobs_benefit_11: "Urlop tacierzyński: 10 tygodni płatnych"
+    jobs_benefit_10: "Urlop macierzyński: 10 tygodni płatnych, następnych 6 w 55%" # {change}
+    jobs_benefit_11: "Urlop tacierzyński: 10 tygodni płatnych" # {change}
     jobs_custom_title: "Stwórz własne stanowisko"
     jobs_custom_description: "Zainteresował Cię CodeCombat, ale nie możesz znaleźć stanowiska odpowiadającego Twoim kwalifikacjom? Napisz do nas i pokaż co możesz wnieść do naszego zespołu. Chętnie Cię wysłuchamy!"
     jobs_custom_contact_1: "Napisz do nas"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     you_can3: "następnie wykorzystać go u siebie, albo dać komuś."
 
   loading_error:
-    could_not_load: "Błąd podczas ładowania danych z serwera"
+    could_not_load: "Błąd podczas ładowania danych z serwera" # {change}
     connection_failure: "Błąd połączenia."
     connection_failure_desc: "Wygląda na to, że masz jakieś problemy z internetem! Sprawdź, czy wszystko działa i odśwież stronę."
     login_required: "Musisz się zalogować"

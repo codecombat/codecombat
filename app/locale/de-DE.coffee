@@ -614,6 +614,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     methods: "Methoden"
     events: "Ereignisse"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
     html: "HTML"
     math: "Mathematik"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     jobs_benefits: "Angestellten Vorteile"
     jobs_benefit_4: "Unbegrenzter Urlaub"
     jobs_benefit_5: "Professionelle Entwicklung und fortlaufende Unterstützung für Bildungsmöglichkeiten, kostenlose Bücher und Spiele!"
-    jobs_benefit_6: "Kranken- (Gold), Zahn-, Augenversicherung, Commuter-Versicherung"
+    jobs_benefit_6: "Kranken- (Gold), Zahn-, Augenversicherung, Commuter-Versicherung" # {change}
     jobs_benefit_7: "Sitz-Stehtische für alle"
     jobs_benefit_9: "10 Jahre Options-Ausübungsfenster"
-    jobs_benefit_10: "Mutterschaftsurlaub: 10 Wochen bezahlt, die nächsten 6 bei 55% des Gehalts"
-    jobs_benefit_11: "Vaterschaftsurlaub: 10 Wochen bezahlt"
+    jobs_benefit_10: "Mutterschaftsurlaub: 10 Wochen bezahlt, die nächsten 6 bei 55% des Gehalts" # {change}
+    jobs_benefit_11: "Vaterschaftsurlaub: 10 Wochen bezahlt" # {change}
     jobs_custom_title: "Kreiere deinen Eigenen"
     jobs_custom_description: "Du bist fasziniert von CodeCombat aber siehst keinen Job aufgeführt, der zu deinen Qualifikationen passt? Schreib uns und überzeuge uns wie du denkst, wie du in unserem Team mitwirken kannst. Wir freuen uns von dir zu hören!"
     jobs_custom_contact_1: "Sende uns eine Nachricht in der du "
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     you_can3: "der ihrem Account hinzugefügt werden kann oder den Sie verschenken können."
 
   loading_error:
-    could_not_load: "Fehler beim Laden vom Server"
+    could_not_load: "Fehler beim Laden vom Server" # {change}
     connection_failure: "Verbindung fehlgeschlagen."
     connection_failure_desc: "Es sieht so aus, als wärest du nicht mit dem Internet verbunden! Überprüfe deine Netzwerkverbindung und lade die Seite neu."
     login_required: "Login benötigt"

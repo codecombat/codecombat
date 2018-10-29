@@ -2176,7 +2176,7 @@
     you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
-    could_not_load: "Error loading from server. Try refreshing the page."  # {change}
+    could_not_load: "Error loading from server. Try refreshing the page."
     connection_failure: "Connection Failed"
     connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
     login_required: "Login Required"

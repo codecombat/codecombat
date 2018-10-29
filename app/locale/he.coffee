@@ -235,8 +235,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_teacher_header: "יצירת חשבון מורה"
     create_individual_header: "יצירת חשבון אישי"
     email_announcements: "קבלו הודעות על שלבים ותכונות חדשים ב-CodeCombat!"
-    sign_in_to_continue: "היכנס או צור חשבון על מנת להמשיך" #"Sign in or create an account to continue"
-    teacher_email_announcements: "עדכנו אותי בחומרים למורים, תכנית הלימודים וקורסים" #"Keep me updated on new teacher resources, curriculum, and courses!"
+    sign_in_to_continue: "היכנס או צור חשבון על מנת להמשיך"
+    teacher_email_announcements: "עדכנו אותי בחומרים למורים, תכנית הלימודים וקורסים"
     creating: "יוצר חשבון..."
     sign_up: "הרשמה"
     log_in: "היכנס עם סיסמה"
@@ -307,7 +307,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 #    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-    eu_confirmation_student: "אם אתה לא בטוח, תשאל את המורה שלך"#"If you are not sure, ask your teacher."
+    eu_confirmation_student: "אם אתה לא בטוח, תשאל את המורה שלך"
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
@@ -614,6 +614,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     jobs_benefits: "הטבות עובדים"
     jobs_benefit_4: "חופשות ללא הגבלה"
     jobs_benefit_5: "התפתחות מקצועית והמשך תמיכה בהשכלה - ספרים ומשחקים בחינם!"
-    jobs_benefit_6: "ביטוח רפואי (זהב), שיניים, ראייה, נסיעות"
+    jobs_benefit_6: "ביטוח רפואי (זהב), שיניים, ראייה, נסיעות" # {change}
     jobs_benefit_7: "עמדות ישיבה-עמידה לכולם"
     jobs_benefit_9: "חלון של 10 שנים למימוש אופציות"
-    jobs_benefit_10: "חופשת לידה: 10 שבועות בתשלום, וששת השבועות הבאים ב-55% שכר"
-    jobs_benefit_11: "חופשת אב: 10 שבועות בתשלום"
+    jobs_benefit_10: "חופשת לידה: 10 שבועות בתשלום, וששת השבועות הבאים ב-55% שכר" # {change}
+    jobs_benefit_11: "חופשת אב: 10 שבועות בתשלום" # {change}
     jobs_custom_title: "יצירה משלך"
     jobs_custom_description: "מתלהבים מ-CodeCombat, אבל לא מוצאים כאן משרה שמתאימה לכישורים שלכם? כתבו וספרו לנו כיצד לדעתכם תוכלו לתרום לצוות שלנו. נשמח לשמוע מכם!"
     jobs_custom_contact_1: "שלחו אלינו הודעה אל"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     you_can3: "אשר ניתן להחיל על חשבונך או לתת למשתמשים אחרים."
 
   loading_error:
-    could_not_load: "אירעה שגיאה בטעינה מהשרת"
+    could_not_load: "אירעה שגיאה בטעינה מהשרת" # {change}
     connection_failure: "ההתחברות נכשלה"
     connection_failure_desc: "נראה שאינך מחובר לאינטרנט! בדוק את החיבור לרשת, ונסה לטעון דף זה מחדש."
     login_required: "נדרשת כניסה למערכת"
