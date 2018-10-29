@@ -613,8 +613,7 @@ module.exports = class CampaignView extends RootView
     false
 
   annotateLevels: (orderedLevels) ->
-    return if @course?
-
+    return if @CourseInstance?
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original)
@@ -622,7 +621,7 @@ module.exports = class CampaignView extends RootView
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
-      level.locked = false if not @course? and @campaign?.get('name') in ['Auditions', 'Intro']
+      level.locked = false if not @CourseInstance? and @campaign?.get('name') in ['Auditions', 'Intro']
       level.locked = false if me.isInGodMode()
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
