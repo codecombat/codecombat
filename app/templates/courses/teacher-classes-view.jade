@@ -140,8 +140,9 @@ mixin progressDot(classroom, course, label)
   if courseInstance && !_.isEmpty(courseInstance.get('members'))
     - complete = courseInstance.numCompleted
     - started = courseInstance.started
+    - percentLevelCompletion = courseInstance.percentLevelCompletion
     - dotClass = complete === total ? 'forest' : started ? 'gold' : '';
-    - var progressDotContext = {total: total, complete: complete, loading: !courseInstance.sessionsLoaded};
+    - var progressDotContext = {total: total, complete: complete, loading: !courseInstance.sessionsLoaded, percentLevelCompletion: percentLevelCompletion};
     .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
       +progressDotLabel(label)
 

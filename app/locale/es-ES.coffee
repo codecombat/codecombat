@@ -119,7 +119,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   play:
     play_as: "Jugar como" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
+    get_course_for_class: "¡Asigna desarrollo de juegos y más a tus clases!" 
 #    request_licenses: "Contact our school specialists for details."
     compete: "¡Compite!" # Course details page
     spectate: "Observar" # Ladder page
@@ -138,12 +138,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     poll: "Encuesta" # Tooltip on poll button from /play
     next: "Siguiente Heroe" # Go from choose hero to choose inventory before playing a level
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Cambiar héroe o idioma"
     buy_gems: "Comprar Joyas"
     subscribers_only: "¡Solo para suscriptores!"
     subscribe_unlock: "¡Subscríbete para desbloquearlos!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscriber_heroes: "¡Suscríbete hoy para desbloquear inmediatamente Amara, Hushbaum y Hattori!" 
+    subscriber_gems: "¡Suscríbete hoy para comprar este héroe con gemas!" 
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     awaiting_levels_adventurer_prefix: "Liberamos nuevos niveles cada semana."
@@ -152,12 +152,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     adjust_volume: "Ajustar volúmen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+    brain_pop_done: "¡Has vencido a los Ogros con código! ¡Ganaste!"
+    brain_pop_challenge: "Retarte a jugar otra vez usando un lenguaje de programación diferente!" 
 #    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    back_to_classroom: "Regresa a la clase"
+    teacher_button: "Para maestros"
+    get_more_codecombat: "Obtener más CodeCombat"
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -614,6 +614,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -823,7 +825,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    jobs_benefits: "Employee Benefits"
 #    jobs_benefit_4: "Unlimited vacation"
 #    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
-#    jobs_benefit_6: "Medical (gold), dental, vision, commuter"
+#    jobs_benefit_6: "Medical (gold), dental, vision, commuter, 401K"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
-#    jobs_benefit_11: "Paternity leave: 10 weeks paid"
+#    jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 12 weeks paid"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
 #    jobs_custom_contact_1: "Send us a note at"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    you_can3: "that can be applied to your own account or given to others."
 
   loading_error:
-    could_not_load: "Error al cargar desde el servidor."
+    could_not_load: "Error al cargar desde el servidor." # {change}
     connection_failure: "Fallo en la conexión."
     connection_failure_desc: "No parece que estés conectado a Internet! Comprueba tu conexión de red y vuelva a cargar esta página."
     login_required: "Necesario iniciar sesión"

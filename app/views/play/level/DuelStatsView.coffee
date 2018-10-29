@@ -88,7 +88,14 @@ module.exports = class DuelStatsView extends CocoView
       thrower: 9
       scout: 18
     powers = humans: 0, ogres: 0
-    for thang in @options.thangs when thang.health > 0 and thang.exists
+    setPowerTeams = []
+    for player in @players
+      hero = _.find @options.thangs, id: @avatars[player.team].thang.id
+      if hero.teamPower? and powers[hero.team]?
+        powers[hero.team] = hero.teamPower
+        setPowerTeams.push hero.team
+    # Count only thangs from teams which heroes doesn't have teamPower
+    for thang in @options.thangs when thang.team not in setPowerTeams and thang.health > 0 and thang.exists
       powers[thang.team] += @costTable[thang.type] or 0 if powers[thang.team]?
     for player in @players
       utils.replaceText @$find(player.team, '.power-value'), powers[player.team]

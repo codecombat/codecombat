@@ -614,6 +614,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     jobs_benefits: "Zamestnanecké výhody"
     jobs_benefit_4: "Neohraničené voľno"
     jobs_benefit_5: "Profesionály rozvoj a podpora pri vzdelávaní – knihy a hry zdarma!"
-    jobs_benefit_6: "Zdravotné poistenie"
+    jobs_benefit_6: "Zdravotné poistenie" # {change}
     jobs_benefit_7: "Pracovný stôl"
     jobs_benefit_9: "Fitness"
-    jobs_benefit_10: "Materská dovolenka: platená 10-týždňová, ďalších 6 týždňov 55% mzdy"
-    jobs_benefit_11: "Otcovská dovolenka: platená 10-týždňová"
+    jobs_benefit_10: "Materská dovolenka: platená 10-týždňová, ďalších 6 týždňov 55% mzdy" # {change}
+    jobs_benefit_11: "Otcovská dovolenka: platená 10-týždňová" # {change}
     jobs_custom_title: "Vytvor si svoju pozíciu"
     jobs_custom_description: "Zaujíma ťa  CodeCombat, ale nevidíš pozíciu, ktorá by zodpovedala tvojej kvalifikácii? Napíš nám, ako by si mohol prispieť ku nášmu dielu. Radi si to prečítame"
     jobs_custom_contact_1: "Pošli nám krátky list,"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    you_can3: "that can be applied to your own account or given to others."
 
 #  loading_error:
-#    could_not_load: "Error loading from server"
+#    could_not_load: "Error loading from server. Try refreshing the page."
 #    connection_failure: "Connection Failed"
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"

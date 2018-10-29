@@ -12,7 +12,7 @@ else
     span.spl(data-i18n='courses.students')
       | Students
   .percent-students.small-details
-    = Math.floor(complete / total * 100)
+    = percentLevelCompletion || Math.floor(complete / total * 100)
     | %
     span.spl(data-i18n='clans.complete_2')
       | Complete

@@ -46,6 +46,7 @@ module.exports = class AdministerUserModal extends ModalView
     @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
+    @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
 
   onLoaded: ->
     # TODO: Figure out a better way to expose this info, perhaps User methods?
@@ -118,8 +119,8 @@ module.exports = class AdministerUserModal extends ModalView
     return unless attrs.maxRedeemers > 0
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = moment.timezone.tz(attrs.startDate, "America/Los_Angeles").toISOString()
-    attrs.endDate = moment.timezone.tz(attrs.endDate, "America/Los_Angeles").toISOString()
+    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
+    attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
     _.extend(attrs, {
       type: 'course'
       creator: @user.id
@@ -237,8 +238,8 @@ module.exports = class AdministerUserModal extends ModalView
         if(prepaidTotalLicenses < (prepaid.get('redeemers') || []).length)
           alert('Total number of licenses cannot be less than used licenses')
           return
-        prepaid.set('startDate', moment.timezone.tz(prepaidStartDate, "America/Los_Angeles").toISOString())
-        prepaid.set('endDate',  moment.timezone.tz(prepaidEndDate, "America/Los_Angeles").toISOString())
+        prepaid.set('startDate', moment.timezone.tz(prepaidStartDate, @timeZone).toISOString())
+        prepaid.set('endDate',  moment.timezone.tz(prepaidEndDate, @timeZone).toISOString())
         prepaid.set('maxRedeemers', prepaidTotalLicenses)
         options = {}
         prepaid.patch(options)

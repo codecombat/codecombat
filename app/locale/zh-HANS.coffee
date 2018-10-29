@@ -614,6 +614,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     methods: "函数"
     events: "事件"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
     spawnable: "可生成物"
     html: "HTML"
     math: "数学"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jobs_benefits: "职员福利"
     jobs_benefit_4: "无限制假期"
     jobs_benefit_5: "专业开发以及继续教育的支持 - 免费书籍/游戏！"
-    jobs_benefit_6: "医疗 (金), 牙科, 视力，交通费"
+    jobs_benefit_6: "医疗 (金), 牙科, 视力，交通费" # {change}
     jobs_benefit_7: "提供带座椅的办公桌"
     jobs_benefit_9: "10年公司期权"
-    jobs_benefit_10: "产假：10周工资及未来6周55%工资"
-    jobs_benefit_11: "陪产假: 10周工资"
+    jobs_benefit_10: "产假：10周工资及未来6周55%工资" # {change}
+    jobs_benefit_11: "陪产假: 10周工资" # {change}
     jobs_custom_title: "创造你自己的工作"
     jobs_custom_description: "对 CodeCombat 充满激情却没找到适合自己的职业？给我们写信说明你该如何做出贡献。我们期待你的建议！"
     jobs_custom_contact_1: "向以下地址给我们发送简介："
@@ -1784,7 +1786,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     one_license_used: "（1个许可证被使用）"
     licenses_used: "（__licensesUsed__个许可证被使用）"
     more_info: "更多信息"
-    
+
   sharing:
     game: "游戏"
     webpage: "网页"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can3: "使用在您的账户或者给其他人。"
 
   loading_error:
-    could_not_load: "载入失败"
+    could_not_load: "载入失败" # {change}
     connection_failure: "连接失败"
     connection_failure_desc: "看起来你还没连接网络！检查网络连接后刷新此页面。"
     login_required: "需要登录"
@@ -2578,13 +2580,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   parent_landing:
 #    slogan_quote: "\"CodeCombat is really fun, and you learn a lot.\""
-#    quote_attr: "5th Grader, Oakland"
+#    quote_attr: "5th Grader, Oakland, CA"
 #    refer_teacher: "Refer a Teacher"
 #    focus_quote: "Unlock your child's future"
 #    value_head1: "The most engaging way to learn typed code"
 #    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
 #    value_head2: "Building critical skills for the 21st century"
-#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a problem solving that enhances your child’s critical thinking and resilience."
+#    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
 #    value_head3: "Heroes that your child will love"
 #    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
 #    dive_head1: "Not just for software engineers"

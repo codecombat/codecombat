@@ -614,6 +614,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
+#    properties: "Properties"
+#    snippets: "Snippets"
 #    spawnable: "Spawnable"
 #    html: "HTML"
 #    math: "Math"
@@ -823,7 +825,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -979,11 +981,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     jobs_benefits: "Juttatások"
     jobs_benefit_4: "Korlátlan szabadság"
     jobs_benefit_5: "Szakmai előmenetel és folyamatos támogatás, ingyenes könyvek és játékok!"
-    jobs_benefit_6: "Orvosi (arany), fogorvosi, szemészeti ellátás"
+    jobs_benefit_6: "Orvosi (arany), fogorvosi, szemészeti ellátás" # {change}
     jobs_benefit_7: "Állítható magasságú asztalok"
     jobs_benefit_9: "10 éves részvényopció-lehívási lehetőség"
-    jobs_benefit_10: "Szülési szabadság nőknek: 10 hét fizetett szabadság, további 6 hétig a fizetés 55%-a"
-    jobs_benefit_11: "Szülési szabadság férfiaknak: 10 hét fizetett szabadság"
+    jobs_benefit_10: "Szülési szabadság nőknek: 10 hét fizetett szabadság, további 6 hétig a fizetés 55%-a" # {change}
+    jobs_benefit_11: "Szülési szabadság férfiaknak: 10 hét fizetett szabadság" # {change}
     jobs_custom_title: "Hozd létre a sajátod"
     jobs_custom_description: "Elkötelezett híve vagy a CodeCombat küldetésének, de nem látsz számodra megfelelő állást az ajánlatok között? Írj nekünk az elképzeléseidről és hogy mivel tudnál hozzájárulni a csapatunkhoz. Kíváncsiak vagyunk az ötleteidre!"
     jobs_custom_contact_1: "Írj nekünk a"
@@ -2174,7 +2176,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     you_can3: "amelyet a saját fiókodban is beválthatsz vagy átadhatsz másoknak."
 
   loading_error:
-    could_not_load: "A betöltés a szerverről sikertelen"
+    could_not_load: "A betöltés a szerverről sikertelen" # {change}
     connection_failure: "Kapcsolat megszakadt."
     connection_failure_desc: "Úgy tűnik, nincs internetkapcsolatod! Ellenőrizd az internetkapcsolatot, majd frissítsd az oldalt."
     login_required: "Bejelentkezés szükséges"
