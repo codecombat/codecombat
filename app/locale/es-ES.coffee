@@ -119,7 +119,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   play:
     play_as: "Jugar como" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
+    get_course_for_class: "¡Asigna desarrollo de juegos y más a tus clases!" 
 #    request_licenses: "Contact our school specialists for details."
     compete: "¡Compite!" # Course details page
     spectate: "Observar" # Ladder page
@@ -138,12 +138,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     poll: "Encuesta" # Tooltip on poll button from /play
     next: "Siguiente Heroe" # Go from choose hero to choose inventory before playing a level
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Cambiar héroe o idioma"
     buy_gems: "Comprar Joyas"
     subscribers_only: "¡Solo para suscriptores!"
     subscribe_unlock: "¡Subscríbete para desbloquearlos!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscriber_heroes: "¡Suscríbete hoy para desbloquear inmediatamente Amara, Hushbaum y Hattori!" 
+    subscriber_gems: "¡Suscríbete hoy para comprar este héroe con gemas!" 
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     awaiting_levels_adventurer_prefix: "Liberamos nuevos niveles cada semana."
@@ -152,12 +152,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     adjust_volume: "Ajustar volúmen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+    brain_pop_done: "¡Has vencido a los Ogros con código! ¡Ganaste!"
+    brain_pop_challenge: "Retarte a jugar otra vez usando un lenguaje de programación diferente!" 
 #    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    back_to_classroom: "Regresa a la clase"
+    teacher_button: "Para maestros"
+    get_more_codecombat: "Obtener más CodeCombat"
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
