@@ -614,7 +614,7 @@ module.exports = class CampaignView extends RootView
 
   annotateLevels: (orderedLevels) ->
     return if @CourseInstance?
-    
+
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original)
@@ -628,7 +628,7 @@ module.exports = class CampaignView extends RootView
       level.disabled = false if me.isInGodMode()
 
       level.color = 'rgb(255, 80, 60)'
-      unless @course? or @campaign?.get('type') is 'hoc'
+      unless @CourseInstance? or @campaign?.get('type') is 'hoc'
         level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
         level.color = 'rgb(200, 80, 200)' if level.adventurer
 
