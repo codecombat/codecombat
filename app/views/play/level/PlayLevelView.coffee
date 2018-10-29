@@ -699,8 +699,9 @@ module.exports = class PlayLevelView extends RootView
       contactModal.updateScreenshot?()
 
   onSurfaceContextMenu: (e) ->
+    return unless navigator.clipboard or document.queryCommandSupported('copy')
     e?.preventDefault?()
-    if @surface.showCoordinates
+    if @surface.showCoordinates 
       pos = x: e.clientX, y: e.clientY
       wop = @surface.coordinateDisplay.lastPos
       Backbone.Mediator.publish 'level:surface-context-menu-pressed', posX: pos.x, posY: pos.y, wopX: wop.x, wopY: wop.y

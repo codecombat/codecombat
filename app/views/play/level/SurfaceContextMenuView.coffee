@@ -37,22 +37,12 @@ module.exports = class SurfaceContextMenuView extends CocoView
       textArea.select()
       document.execCommand('copy')
       document.body.removeChild(textArea)
-    else
-      console.log "Copy Coordinates not supported"
 
   
 
   setPosition: (e) ->
     @$el.css('left', e.posX)
     @$el.css('top', e.posY)
-    #margin = 20
-    #width = @$levelInfo.outerWidth()
-    #@$levelInfo.css('left', Math.min(Math.max(margin, mapX - width / 2), @$map.width() - width - margin))
-    #height = @$levelInfo.outerHeight()
-    #top = mapY - @$levelInfo.outerHeight() - 60
-    #if top < 100
-    #  top = mapY + 60
-    #@$levelInfo.css('top', top)
 
   setCoordinates: (e) ->
     @coordinates = "#{e.wopX}, #{e.wopY}"
