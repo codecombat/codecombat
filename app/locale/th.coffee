@@ -118,19 +118,19 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     subscribe_as_diplomat: "สมัครเป็น Diplomat"
 
   play:
-#    play_as: "Play As" # Ladder page
+    play_as: "เล่นเป็น" # Ladder page
 #    get_course_for_class: "Assign Game Development and more to your classes!"
 #    request_licenses: "Contact our school specialists for details."
 #    compete: "Compete!" # Course details page
 #    spectate: "Spectate" # Ladder page
     players: "ผู้เล่น" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
+    hours_played: "จำนวนชั่วโมงที่เล่น" # Hover over a level on /play
+    items: "สิ่งของ" # Tooltip on item shop button from /play
+    unlock: "ปลดล็อค" # For purchasing items and heroes
     confirm: "ยืนยัน"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    available: "Available"
+    owned: "เป็นเจ้าของ" # For items you own
+    locked: "ล็อค"
+    available: "ใช้งานได้"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -159,75 +159,75 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    teacher_button: "For Teachers"
 #    get_more_codecombat: "Get More CodeCombat"
 
-#  code:
-#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
-#    else: "else"
-#    elif: "else if"
-#    while: "while"
-#    loop: "loop"
-#    for: "for"
-#    break: "break"
-#    continue: "continue"
-#    pass: "pass"
-#    return: "return"
-#    then: "then"
-#    do: "do"
-#    end: "end"
-#    function: "function"
-#    def: "define"
-#    var: "variable"
-#    self: "self"
-#    hero: "hero"
-#    this: "this"
-#    or: "or"
-#    "||": "or"
-#    and: "and"
-#    "&&": "and"
-#    not: "not"
-#    "!": "not"
-#    "=": "assign"
-#    "==": "equals"
-#    "===": "strictly equals"
-#    "!=": "does not equal"
-#    "!==": "does not strictly equal"
-#    ">": "is greater than"
-#    ">=": "is greater than or equal"
-#    "<": "is less than"
-#    "<=": "is less than or equal"
-#    "*": "multiplied by"
-#    "/": "divided by"
-#    "+": "plus"
-#    "-": "minus"
-#    "+=": "add and assign"
-#    "-=": "subtract and assign"
-#    True: "True"
-#    true: "true"
-#    False: "False"
-#    false: "false"
-#    undefined: "undefined"
-#    null: "null"
-#    nil: "nil"
-#    None: "None"
+ code:
+   if: "ถ้า" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+   else: "ไม่อย่างนั้น"
+   elif: "ไม่อย่างนั้นถ้า"
+   while: "เมื่อ"
+   loop: "วนรอบ"
+   for: "เมื่อ"
+   break: "หยุด"
+   continue: "ทำต่อ"
+   pass: "ผ่าน"
+   return: "คืนค่า"
+   then: "แล้ว"
+   do: "ทำ"
+   end: "จบ"
+   function: "ฟังก์ชั่น"
+   def: "กำหนด"
+   var: "ตัวแปร"
+   self: "ตัวมันเอง"
+   hero: "ฮีโร่"
+   this: "สิ่งนี้"
+   or: "หรือ"
+   "||": "หรือ"
+   and: "และ"
+   "&&": "และ"
+   not: "ไม่"
+   "!": "ไม่"
+   "=": "กำหนดค่า"
+   "==": "เท่ากับ"
+   "===": "เท่ากับแบบเคร่งครัด"
+   "!=": "ไม่เท่ากับ"
+   "!==": "ไม่เท่ากับแบบเคร่งครัด"
+   ">": "มากกว่า"
+   ">=": "มากกว่าหรือเท่ากับ"
+   "<": "น้อยกว่า"
+   "<=": "น้อยกว่าหรือเท่ากับ"
+   "*": "คูณโดย"
+   "/": "หารโดย"
+   "+": "บวก"
+   "-": "ลบ"
+   "+=": "บวกและกำหนดค่า"
+   "-=": "ลบและกำหนดค่า"
+   True: "จริง"
+   true: "จริง"
+   False: "เท็จ"
+   false: "เท็จ"
+   undefined: "ไม่ถูกกำหนดค่า"
+   null: "ว่าง"
+   nil: "ศูนย์"
+   None: "ไม่มี"
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
+ share_progress_modal:
+   blurb: "คุณกำลังก้าวหน้าอย่างใหญ่หลวง! บอกพ่อแม่ของคุณว่าคุณได้เรียนรู้เยอะขนาดไหนด้วย CodeCombat."
+   email_invalid: "ที่อยู่อีเมลไม่ถูกต้อง"
+   form_blurb: "กรอกที่อีเมลของพ่อแม่ของคุณและแสดงให้ท่านเห็น!"
+   form_label: "ที่อยู่อีเมล"
+   placeholder: "ที่อยู่อีเมล"
+   title: "เยี่ยมมาก ผู้ฝึกหัด"
 
   login:
     sign_up: "ลงทะเบียนใหม่"
-#    email_or_username: "Email or username"
+    email_or_username: "อีเมลหรือชื่อผู้ใช้"
     log_in: "ลงชื่อเข้าใช้"
     logging_in: "กำลังเข้าสู่ระบบ"
     log_out: "ลงชื่อออก"
     forgot_password: "ลืมรหัสผ่าน"
-#    finishing: "Finishing"
+    finishing: "เสร็จสิ้น"
     sign_in_with_facebook: "ลงชื่อเข้าใช้ด้วย Facebook"
     sign_in_with_gplus: "ลงชื่อเข้าใช้ด้วย G+"
-#    signup_switch: "Want to create an account?"
+    signup_switch: "ต้องการสร้างบัญชีผู้ใช้?"
 
   signup:
 #    complete_subscription: "Complete Subscription"
