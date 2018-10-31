@@ -58,9 +58,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
 #    run_class: "Everything you need to run a computer science class in your school today, no CS background required."
 #    goto_classes: "Go to My Classes"
-#    view_profile: "View My Profile"
-#    view_progress: "View Progress"
-#    go_to_courses: "Go to My Courses"
+    view_profile: "Vezi Profilul"
+    view_progress: "Vezi Progresul"
+    go_to_courses: "La Cursul Meu"
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
