@@ -699,14 +699,11 @@ module.exports = class PlayLevelView extends RootView
       contactModal.updateScreenshot?()
 
   onSurfaceContextMenu: (e) ->
-    return unless navigator.clipboard or document.queryCommandSupported('copy')
+    return unless @surface.showCoordinates and ( navigator.clipboard or document.queryCommandSupported('copy') )
     e?.preventDefault?()
-    if @surface.showCoordinates 
-      pos = x: e.clientX, y: e.clientY
-      wop = @surface.coordinateDisplay.lastPos
-      Backbone.Mediator.publish 'level:surface-context-menu-pressed', posX: pos.x, posY: pos.y, wopX: wop.x, wopY: wop.y
-    else
-      console.log "mouse screen pos doesn't exist"
+    pos = x: e.clientX, y: e.clientY
+    wop = @surface.coordinateDisplay.lastPos
+    Backbone.Mediator.publish 'level:surface-context-menu-pressed', posX: pos.x, posY: pos.y, wopX: wop.x, wopY: wop.y
     
 
   # Dynamic sound loading
