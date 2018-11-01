@@ -203,6 +203,7 @@ module.exports = class CampaignView extends RootView
             @courseInstance.sessions.comparator = 'changed'
             @listenToOnce @courseInstance.sessions, 'sync', =>
               @courseStats = @classroom.statsForSessions(@courseInstance.sessions, @course.id)
+              @render()
             @courseLevels = new Levels()
             @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
               data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
@@ -226,6 +227,7 @@ module.exports = class CampaignView extends RootView
                     @courseLevelsFake[idx].position = levelPositions[idx]
                 @courseLevelsFake[idx].courseIdx = parseInt(k)
                 @courseLevelsFake[idx].requiresSubscription = false
+                @render()
 
               # Fill in missing positions, for courses which have levels that no longer exist in campaigns
               for k,v of courseLevels
@@ -249,6 +251,7 @@ module.exports = class CampaignView extends RootView
                     # otherwise just line them up along the bottom
                     x = 10 + (k / courseLevels.length) * 80
                     @courseLevelsFake[idx].position = { x, y: 10 }
+            @render()
       )
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
@@ -613,7 +616,7 @@ module.exports = class CampaignView extends RootView
     false
 
   annotateLevels: (orderedLevels) ->
-    return if @CourseInstance?
+    return if @isClassroom()
 
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
@@ -622,13 +625,13 @@ module.exports = class CampaignView extends RootView
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
-      level.locked = false if not @CourseInstance? and @campaign?.get('name') in ['Auditions', 'Intro']
+      level.locked = false if not @isClassroom() and @campaign?.get('name') in ['Auditions', 'Intro']
       level.locked = false if me.isInGodMode()
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
 
       level.color = 'rgb(255, 80, 60)'
-      unless @CourseInstance? or @campaign?.get('type') is 'hoc'
+      unless @isClassroom() or @campaign?.get('type') is 'hoc'
         level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
         level.color = 'rgb(200, 80, 200)' if level.adventurer
 
@@ -692,9 +695,11 @@ module.exports = class CampaignView extends RootView
     leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
+  isClassroom: -> @courseInstanceID?
+
   determineNextLevel: (orderedLevels) ->
-    if @courseStats?
-      @applyCourseLogicToLevels(orderedLevels)
+    if @isClassroom()
+      @applyCourseLogicToLevels(orderedLevels) if @courseStats?
       return true
 
 
