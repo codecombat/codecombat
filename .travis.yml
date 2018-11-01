@@ -27,11 +27,9 @@ before_script:
   - npm install node-sass
   - npm install
   - npm update
+  - npm run webpack
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - "node index.js --unittest &"
-  - n=0
-  - until [ $n -ge 60 ]; do curl http://localhost:3000 && break; n=$[$n+1]; sleep 1; done
 script:
   - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots"
   - npm run test-china
