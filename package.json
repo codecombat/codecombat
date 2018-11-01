@@ -35,7 +35,7 @@
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
-    "postinstall": "bower install && webpack",
+    "postinstall": "bower install",
     "webpack": "webpack",
     "bower": "bower",
     "dev": "webpack --watch",
