@@ -10,7 +10,6 @@ require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
-spriteanim = require 'spriteanim'
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -151,8 +150,6 @@ module.exports = class ThangTypeEditView extends RootView
     'click #clear-button': 'clearRawData'
     'click #upload-button': -> @$el.find('input#real-upload-button').click()
     'click #set-vector-icon': 'onClickSetVectorIcon'
-    'click #animate-to-flash': -> @$el.find('input#real-animate-flash-button').click(),
-    'change #real-animate-flash-button': 'animateTransformFileChosen'
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
@@ -674,34 +671,6 @@ module.exports = class ThangTypeEditView extends RootView
   onClickExportSpriteSheetButton: ->
     modal = new ExportThangTypeModal({}, @thangType)
     @openModalView(modal)
-
-  animateTransformFileChosen: (e) ->
-    animateFile = e.target.files[0]
-    return unless animateFile
-    return unless _.string.endsWith animateFile.type, 'javascript'
-    animateReader = new FileReader()
-    animateReader.onload = @onAnimateFileLoad
-    animateReader.readAsText(animateFile)
-
-  onAnimateFileLoad: (e) ->
-    animateText = e.target.result
-    flashText = spriteanim(animateText)
-    data = new Blob([flashText], {type: 'text/plain'});
-    # Prevents memory leaks.
-    if @flashFile != null
-      window.URL.revokeObjectURL(@flashFile)
-    @flashFile = window.URL.createObjectURL(data)
-    
-    fileName = prompt("What do you want to name the file? '.js' will be added to the end.")
-    if fileName
-      # Create the file to download.
-      el = document.createElement('a')
-      el.href = @flashFile
-      el.setAttribute('download', "#{fileName}.js")
-      el.style.display = 'none'
-      document.body.appendChild(el)
-      el.click()
-      document.body.removeChild(el)
 
   destroy: ->
     @camera?.destroy()
