@@ -1,5 +1,8 @@
 // TODO: Reconcile env variables for this; maybe WEBPACK_ENV = travis/production/undefined
-if (!process.env.SKIP_WEBPACK) {
+if (process.env.SKIP_WEBPACK) {
+  return;
+}
+else {
   if (process.env.COCO_TRAVIS_TEST) {
     console.log("Automatically using Karma webpack config");
     module.exports = require("./webpack.karma.config");
