@@ -252,7 +252,7 @@ module.exports = class CampaignView extends RootView
                   else
                     # otherwise just line them up along the bottom
                     x = 10 + (k / courseLevels.length) * 80
-                    @courseLevelsFake[idx].position = { x, y: 10 }        
+                    @courseLevelsFake[idx].position = { x, y: 10 }
       )
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
