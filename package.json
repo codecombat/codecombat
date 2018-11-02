@@ -36,6 +36,7 @@
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
     "postinstall": "bower install",
+    "heroku-postbuild": "webpack",
     "webpack": "webpack",
     "bower": "bower",
     "dev": "webpack --watch",
