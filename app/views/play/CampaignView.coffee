@@ -341,8 +341,15 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
-    @updateClassroomSessions()
-    
+    if @isClassroom()
+      @updateClassroomSessions()
+    else
+      unless @editorMode
+        for session in @sessions.models
+          unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
+            @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+          @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
+
     @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     application.setHocCampaign(if @campaign?.get('type') is 'hoc' then @campaign.get('slug') else '')
@@ -373,9 +380,7 @@ module.exports = class CampaignView extends RootView
 
 
   updateClassroomSessions: ->
-    # console.log("Inside updateClassroomSessions")
     if @classroom
-      # console.log("Inside updateClassroomSessions, inside if @classroom")
       classroomLevels = @classroom.getLevels()
       @classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
       defaultLanguage = @classroom.get('aceConfig').language
@@ -388,14 +393,12 @@ module.exports = class CampaignView extends RootView
           # console.log("Inside remove session")
           @sessions.remove(session)
           continue
-      # console.log("@sessions.length" , @sessions.length)
       unless @editorMode
         for session in @sessions.models
-          # console.log("Level added to levelStatusMap ",  session.get('levelID'))
           unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
             @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
           @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
-  
+       
   buildLevelScoreMap: ->
     for session in @sessions.models
       levels = @getLevels()
