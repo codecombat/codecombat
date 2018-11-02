@@ -1,17 +1,14 @@
-var child_process = require('child_process')
-var exec = child_process.exec
+var spawn = require('child_process').spawn
 
 if (process.env.SKIP_WEBPACK) {
   console.log("Skipping webpack build because SKIP_WEBPACK=true")
 }
 else{
-  var command = "npm run webpack";
-  exec (command, function(err, stdout, stderr) {
-    if (err){
-      console.log( "Error running webpack:", err )
-    }
-    else{
-      console.log(stdout)
-    }
-  })
+  var command = spawn("webpack");
+  command.stdout.on('data', function (data) {
+    process.stdout.write(data);
+  });
+  command.stderr.on('data', function (data) {
+    process.stdout.write(data);
+  });
 }
