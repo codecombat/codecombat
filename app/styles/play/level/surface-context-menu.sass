@@ -1,0 +1,23 @@
+@import "app/styles/mixins"
+
+#surface-context-menu-view.surface-context-menu
+  z-index: 10
+  position: absolute
+  width: 170px
+  background: transparent
+  border: 1px solid transparent
+  box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2)
+
+  .menu-options
+    list-style: none
+    padding: 10px 0
+    background-color: rgb(211,211,211)
+
+    .menu-option 
+      font-weight: 500
+      font-size: 14px
+      padding: 10px 40px 10px 20px
+      cursor: pointer
+
+      &:hover 
+        background: rgba(0, 0, 0, 0.2)
