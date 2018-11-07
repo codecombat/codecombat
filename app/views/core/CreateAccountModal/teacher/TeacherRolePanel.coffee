@@ -24,6 +24,8 @@ TeacherRolePanel = Vue.extend
         return
       @commitValues()
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Success', category: 'Teachers'
+      # Facebook Pixel tracking for Teacher conversions.
+      window.fbq?('trackCustom', 'UniqueTeacherSignup')
       @$emit('continue')
       
     clickBack: ->
