@@ -631,7 +631,6 @@ module.exports = class CampaignView extends RootView
 
     for level, levelIndex in orderedLevels
       if @isClassroom()
-        console.log("locking level")
         level.locked = true
         level.hidden = true
       else
