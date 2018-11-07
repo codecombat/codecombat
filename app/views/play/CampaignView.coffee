@@ -628,60 +628,64 @@ module.exports = class CampaignView extends RootView
     false
 
   annotateLevels: (orderedLevels) ->
-    return if @isClassroom()
 
     for level, levelIndex in orderedLevels
-      level.position ?= { x: 10, y: 10 }
-      level.locked = not me.ownsLevel(level.original)
-      level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
-      level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
-      level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
-      level.locked = false if @editorMode
-      level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
-      level.locked = false if me.isInGodMode()
-      level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
-      level.disabled = false if me.isInGodMode()
+      if @isClassroom()
+        console.log("locking level")
+        level.locked = true
+        level.hidden = true
+      else
+        level.position ?= { x: 10, y: 10 }
+        level.locked = not me.ownsLevel(level.original)
+        level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
+        level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
+        level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
+        level.locked = false if @editorMode
+        level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
+        level.locked = false if me.isInGodMode()
+        level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
+        level.disabled = false if me.isInGodMode()
+        level.color = 'rgb(255, 80, 60)'
 
-      level.color = 'rgb(255, 80, 60)'
-      unless @isClassroom() or @campaign?.get('type') is 'hoc'
-        level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
-        level.color = 'rgb(200, 80, 200)' if level.adventurer
+        unless @campaign?.get('type') is 'hoc'
+          level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
+          level.color = 'rgb(200, 80, 200)' if level.adventurer
 
-      level.color = 'rgb(193, 193, 193)' if level.locked
-      level.unlocksHero = _.find(level.rewards, 'hero')?.hero
-      if level.unlocksHero
-        level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+        level.color = 'rgb(193, 193, 193)' if level.locked
+        level.unlocksHero = _.find(level.rewards, 'hero')?.hero
+        if level.unlocksHero
+          level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
 
-      level.unlocksItem = _.find(level.rewards, 'item')?.item
-      level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
+        level.unlocksItem = _.find(level.rewards, 'item')?.item
+        level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
 
-      if @classroom?
-        level.unlocksItem = false
-        level.unlocksPet = false
+        if @classroom?
+          level.unlocksItem = false
+          level.unlocksPet = false
 
-      if window.serverConfig.picoCTF
-        if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
-          level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
-          #level.locked = false  # Testing to see all levels
-          level.description = """
-            ### #{problem.name}
-            #{level.description or problem.description}
+        if window.serverConfig.picoCTF
+          if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
+            level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
+            #level.locked = false  # Testing to see all levels
+            level.description = """
+              ### #{problem.name}
+              #{level.description or problem.description}
 
-            #{problem.category} - #{problem.score} points
-          """
-          level.color = 'rgb(80, 130, 200)' if problem.solved
+              #{problem.category} - #{problem.score} points
+            """
+            level.color = 'rgb(80, 130, 200)' if problem.solved
 
-      level.hidden = level.locked and @campaign?.get('type') isnt 'hoc'
-      if level.concepts?.length
-        level.displayConcepts = level.concepts
-        maxConcepts = 6
-        if level.displayConcepts.length > maxConcepts
-          level.displayConcepts = level.displayConcepts.slice -maxConcepts
+          level.hidden = level.locked and @campaign?.get('type') isnt 'hoc'
+          if level.concepts?.length
+            level.displayConcepts = level.concepts
+            maxConcepts = 6
+            if level.displayConcepts.length > maxConcepts
+              level.displayConcepts = level.displayConcepts.slice -maxConcepts
 
-      level.unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
-      for otherLevel in orderedLevels when not level.unlockedInSameCampaign and otherLevel isnt level
-        for reward in (otherLevel.rewards ? []) when reward.level
-          level.unlockedInSameCampaign ||= reward.level is level.original
+          level.unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
+          for otherLevel in orderedLevels when not level.unlockedInSameCampaign and otherLevel isnt level
+            for reward in (otherLevel.rewards ? []) when reward.level
+              level.unlockedInSameCampaign ||= reward.level is level.original
 
   countLevels: (orderedLevels) ->
     count = total: 0, completed: 0
@@ -707,7 +711,7 @@ module.exports = class CampaignView extends RootView
     leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
-  isClassroom: -> @courseInstanceID?
+  isClassroom: -> me.isStudent() or me.isTeacher()
 
   determineNextLevel: (orderedLevels) ->
     if @isClassroom()
@@ -1291,7 +1295,7 @@ module.exports = class CampaignView extends RootView
     @campaign?.get('levels')
 
   applyCourseLogicToLevels: (orderedLevels) ->
-    nextSlug = @courseStats.levels.next?.get('slug')
+      nextSlug = @courseStats.levels.next?.get('slug')
     nextSlug ?= @courseStats.levels.first?.get('slug')
     return unless nextSlug
 
