@@ -8,9 +8,9 @@ div.licensor.container(v-else)
     h4.small(style="max-width: 700px" v-else) *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
     .form-group
       label.small
-      | Teacher email
+      | Teacher email or Comma separated list of emails
       =" "
-      input.form-control(type="email", name="email")
+      input.form-control(type="text", name="email")
     .form-group
       label.small
       span Number of Licenses
@@ -27,7 +27,10 @@ div.licensor.container(v-else)
       =" "
       input(type="date", v-bind:value="timestampEnd", name="endDate")
     .form-group
-      button.btn.btn-primary(v-on:click.prevent="onCreateLicense", name="addLicense") Add Licenses
+      div
+        label.small(v-if="createLicenseIsLoading")
+        span(v-if="createLicenseIsLoading") {{ createLicenseProgress.done }} / {{ createLicenseProgress.total }} emails processed
+      button.btn.btn-primary(v-on:click.prevent="onCreateLicense", name="addLicense" v-bind:class="{'disabled' : !!createLicenseIsLoading}") Add Licenses
 
   h3 Show Licenses
   form#prepaid-show-form
@@ -283,6 +286,10 @@ module.exports = Vue.extend({
     oauthProvider: []
     defaultClientVal: clientSchema.properties
     timeZone: 'America/Los_Angeles'
+    createLicenseProgress: {
+      done: 0,
+      total: 0
+    }
 
   created: ->
     return unless me.isAdmin() or me.isLicensor()
@@ -326,35 +333,43 @@ module.exports = Vue.extend({
       data = @runValidation(el, requiredProps)
       unless data
         return
-      unless forms.validateEmail(data.email)
-        forms.setErrorToProperty(el, 'email', 'Please enter a valid email address')
-        return
       unless data.maxRedeemers > 0
         forms.setErrorToProperty(el, 'maxRedeemers', 'No of licenses should be greater than 0')
         return
       unless data.endDate > data.startDate
         forms.setErrorToProperty(el, 'endDate', 'End Date should be greater than Start Date')
         return
-      try
-        email = data.email
-        user = yield api.users.getByEmail({email})
-        attrs = data
-        attrs.maxRedeemers = parseInt(data.maxRedeemers)
-        attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-        attrs.startDate = moment.timezone.tz(attrs.startDate, this.timeZone).toISOString()
-        attrs.endDate = moment.timezone.tz(attrs.endDate, this.timeZone).toISOString()
-        _.extend(attrs, {
-          type: 'course'
-          creator: user._id
-          properties:
-            licensorAdded: me.id
-        })
-        prepaid = yield api.prepaids.post(attrs)
-        noty text: 'License created', timeout: 3000, type: 'success'
-      catch err
-        console.log(err)
-        forms.setErrorToProperty(el, 'addLicense', 'Something went wrong')
-        return
+
+      emails = data.email.split(',').map((s) -> s.trim())
+      @createLicenseProgress.total = emails.length
+      @createLicenseProgress.done = 0
+      errors = []
+      for email in emails
+        @createLicenseProgress.done += 1
+        unless forms.validateEmail(email)
+          errors.push("#{email} - invalid email")
+          continue
+        try
+          user = yield api.users.getByEmail({email})
+          attrs = data
+          attrs.maxRedeemers = parseInt(data.maxRedeemers)
+          attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
+          attrs.startDate = moment.timezone.tz(attrs.startDate, this.timeZone).toISOString()
+          attrs.endDate = moment.timezone.tz(attrs.endDate, this.timeZone).toISOString()
+          _.extend(attrs, {
+            type: 'course'
+            creator: user._id
+            properties:
+              licensorAdded: me.id
+          })
+          prepaid = yield api.prepaids.post(attrs)
+          noty text: "License created for #{email}", timeout: 2000, type: 'success'
+        catch err
+          console.log(err)
+          errors.push("#{email} - #{err?.message || 'unknown error. Check console.'}")
+
+      if errors.length
+        forms.setErrorToProperty(el, 'addLicense', "Error<br />#{errors.join("<br />")}")
 
     onShowLicense: co.wrap ->
       el = $('#prepaid-show-form')
@@ -603,6 +618,8 @@ module.exports = Vue.extend({
       return moment.timezone().tz(this.timeZone).format('YYYY-MM-DD')
     timestampEnd: ->
       return moment.timezone().tz(this.timeZone).add(1, 'year').format('YYYY-MM-DD')
+    createLicenseIsLoading: ->
+      return @createLicenseProgress.done != @createLicenseProgress.total
 
 })
 
