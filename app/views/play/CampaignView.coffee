@@ -229,8 +229,6 @@ module.exports = class CampaignView extends RootView
                     @courseLevelsFake[idx].position = levelPositions[idx]
                 @courseLevelsFake[idx].courseIdx = parseInt(k)
                 @courseLevelsFake[idx].requiresSubscription = false
-                @render()
-
               # Fill in missing positions, for courses which have levels that no longer exist in campaigns
               for k,v of courseLevels
                 k = parseInt(k)
@@ -253,6 +251,7 @@ module.exports = class CampaignView extends RootView
                     # otherwise just line them up along the bottom
                     x = 10 + (k / courseLevels.length) * 80
                     @courseLevelsFake[idx].position = { x, y: 10 }
+              @render()
       )
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
