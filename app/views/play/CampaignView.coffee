@@ -110,6 +110,7 @@ module.exports = class CampaignView extends RootView
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
     @levelScoreMap = {}
+
     if @terrain == "hoc-2018"
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
     if utils.getQueryVariable('hour_of_code')
