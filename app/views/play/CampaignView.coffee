@@ -100,6 +100,7 @@ module.exports = class CampaignView extends RootView
     'shift+s': 'onShiftS'
 
   constructor: (options, @terrain) ->
+    debugger
     super options
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
@@ -633,6 +634,9 @@ module.exports = class CampaignView extends RootView
       if @isClassroom()
         level.locked = true
         level.hidden = true
+        if @classroom?
+          level.unlocksItem = false
+          level.unlocksPet = false
       else
         level.position ?= { x: 10, y: 10 }
         level.locked = not me.ownsLevel(level.original)
@@ -657,10 +661,6 @@ module.exports = class CampaignView extends RootView
 
         level.unlocksItem = _.find(level.rewards, 'item')?.item
         level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
-
-        if @classroom?
-          level.unlocksItem = false
-          level.unlocksPet = false
 
         if window.serverConfig.picoCTF
           if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
