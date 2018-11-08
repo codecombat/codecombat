@@ -5,6 +5,7 @@ RootView = require 'views/core/RootView'
 utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
+HoCModal = require '../special_event/HoC2018InterstitialModal.coffee'
 
 module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'
@@ -14,6 +15,10 @@ module.exports = class MarkdownResourceView extends RootView
     super(options)
     @content = ''
     @loadingData = true
+    setTimeout(() =>
+      if @name is 'hoc'
+        @openModalView new HoCModal()
+    , 0)
     me.getClientCreatorPermissions()?.then(() => @render?())
     $.get '/markdown/' + @name + '.md', (data) =>
       unless /<!doctype html>/i.test(data)
