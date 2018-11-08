@@ -100,6 +100,7 @@ module.exports = class CampaignView extends RootView
     'shift+s': 'onShiftS'
 
   constructor: (options, @terrain) ->
+    debugger
     super options
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
@@ -633,6 +634,9 @@ module.exports = class CampaignView extends RootView
       if @isClassroom()
         level.locked = true
         level.hidden = true
+        if @classroom?
+          level.unlocksItem = false
+          level.unlocksPet = false
       else
         level.position ?= { x: 10, y: 10 }
         level.locked = not me.ownsLevel(level.original)
