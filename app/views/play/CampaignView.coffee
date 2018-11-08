@@ -133,7 +133,8 @@ module.exports = class CampaignView extends RootView
         when 'game-dev-hoc-2' then 'code_combat_build_arcade'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
-    else if me.isTeacher() and not utils.getQueryVariable('course-instance') and not application.getHocCampaign()
+    else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
+        not application.getHocCampaign() and not @terrain == "hoc-2018"
       # redirect teachers away from home campaigns
       application.router.navigate('/teachers', { trigger: true, replace: true })
       return
