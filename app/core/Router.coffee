@@ -141,7 +141,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': -> @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
+    'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
     'home': go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
