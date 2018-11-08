@@ -183,8 +183,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
 
-    'premium': go('PremiumFeaturesView')
-    'Premium': go('PremiumFeaturesView')
+    'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
+    'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': go('HomeView')
 
