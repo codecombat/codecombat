@@ -658,10 +658,6 @@ module.exports = class CampaignView extends RootView
         level.unlocksItem = _.find(level.rewards, 'item')?.item
         level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
 
-        if @classroom?
-          level.unlocksItem = false
-          level.unlocksPet = false
-
         if window.serverConfig.picoCTF
           if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
             level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
