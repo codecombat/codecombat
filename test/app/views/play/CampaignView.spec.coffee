@@ -22,8 +22,15 @@ describe 'CampaignView', ->
         @levels[2].practice = true
         @campaignView.annotateLevels(@levels)
       it 'does not hide the not-really-practice level', ->
-        expect(@levels[2].hidden).toEqual(false)
-        expect(@levels[3].hidden).toEqual(false)
+        if me.isStudent() or me.isTeacher()
+          expect(@levels[2].locked).toEqual(true)
+          expect(@levels[3].locked).toEqual(true)
+          expect(@levels[2].hidden).toEqual(true)
+          expect(@levels[3].hidden).toEqual(true)
+        else 
+          expect(@levels[2].locked).toEqual(false)
+          expect(@levels[3].locked).toEqual(false)
+
 
     describe 'and 2nd rewards a practice a non-practice level', ->
       beforeEach ->
