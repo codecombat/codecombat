@@ -1,20 +1,20 @@
-<template lang="jade">
-#hoc-interstitial-modal.modal-content.style-flat
-  .modal-header
-    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
-    h4 Welcome to CodeCombat's Hour of Code 2018!
-  .modal-body
-    .row
-      h3 What's inside?
-      .hoc-video
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/SzZiOkZ-vRk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    .row.buttons
-      .col-xs-6
-        button.btn.btn-lg.btn-navy(v-on:click="clickTeacher") I'm an educator
-        p Show me teacher resources!
-      .col-xs-6
-        button.btn.btn-lg.btn-navy(v-on:click="clickStudent") I'm a student
-        p I'm ready to code!
+<template lang="pug">
+#modal-base-flat
+  #hoc-interstitial-modal.modal-content.style-flat
+    .modal-header
+      span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
+      h4 Welcome to CodeCombat's Hour of Code 2018!
+    .modal-body
+      .row(v-if="showVideo")
+        .hoc-video
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/SzZiOkZ-vRk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      .row.buttons
+        .col-xs-6
+          button.btn.btn-lg.btn-navy(v-on:click="clickTeacher") I'm an educator
+          p Show me teacher resources!
+        .col-xs-6
+          button.btn.btn-lg.btn-navy(v-on:click="clickStudent") I'm a student
+          p I'm ready to code!
 </template>
 
 <script>
@@ -27,6 +27,9 @@ module.exports = Vue.extend({
     clickTeacher: {
       type: Function,
       required: true
+    },
+    showVideo: {
+      type: Boolean
     }
   }
 });

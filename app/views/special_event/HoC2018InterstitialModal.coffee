@@ -7,8 +7,13 @@ module.exports = class HoC2018InterstitialModal extends ModalComponent
   closeButton: true
   VueComponent: HoCInterstitialComponent
 
+  # Runs before the constructor is called.
   initialize: ->
     @propsData = {
       clickStudent: () => @hide(),
-      clickTeacher: () => alert("Clicked teacher")
+      clickTeacher: () => application.router.navigate('/teachers/hour-of-code', { trigger: true }),
+      showVideo: false
     }
+  constructor: (options) ->
+    super(options)
+    @propsData.showVideo = options?.showVideo or false

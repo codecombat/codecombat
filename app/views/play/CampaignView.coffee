@@ -44,6 +44,7 @@ AmazonHocModal = require 'views/play/modal/AmazonHocModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
+HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 
 require 'lib/game-libraries'
 
@@ -113,6 +114,14 @@ module.exports = class CampaignView extends RootView
 
     if @terrain is "hoc-2018"
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
+    if utils.getQueryVariable('hour_of_code') or @terrain is "hoc-2018"
+      if not utils.storageAvailable("sessionStorage") or not sessionStorage.getItem(@terrain)
+        setTimeout(() =>
+            @openModalView new HoCModal({showVideo: @terrain is "hoc-2018"})
+        , 0)
+        if utils.storageAvailable("sessionStorage")
+          sessionStorage.setItem(@terrain, "seen-modal")
+
     if utils.getQueryVariable('hour_of_code')
       if me.isStudent() or me.isTeacher()
         if @terrain is 'dungeon'

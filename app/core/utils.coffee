@@ -693,6 +693,29 @@ getApiClientIdFromEmail = (email) ->
     clientID = '57fff652b0783842003fed00'
     return clientID
 
+# Feature detection for localStorage or sessionStorage
+# https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+storageAvailable = (type) ->
+  try
+    storage = window[type]
+    x = '__storage_test__'
+    storage.setItem(x, x)
+    storage.removeItem(x)
+    return true
+  catch e
+    return e instanceof DOMException and
+      # everything except Firefox
+      ( e.code is 22 ||
+      # Firefox
+      e.code is 1014 ||
+      # test name field too, because code might not be present
+      # everything except Firefox
+      e.name is 'QuotaExceededError' or
+      # Firefox
+      e.name is 'NS_ERROR_DOM_QUOTA_REACHED') and
+      # acknowledge QuotaExceededError only if there's something already stored
+      storage.length != 0;
+
 module.exports = {
   ageOfConsent
   capitalLanguages
@@ -740,6 +763,7 @@ module.exports = {
   round
   sortCourses
   sortCoursesByAcronyms
+  storageAvailable
   stripIndentation
   usStateCodes
   userAgent
