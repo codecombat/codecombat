@@ -2,7 +2,7 @@
 #hoc-interstitial-modal.modal-content.style-flat
   .modal-header
     span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
-    h3 Welcome to CodeCombat's Hour of Code 2018!
+    h4 Welcome to CodeCombat's Hour of Code 2018!
   .modal-body
     .row
       h3 What's inside?
@@ -44,7 +44,7 @@ module.exports = Vue.extend({
     padding: 7px
   .modal-header
     background-color: $navy
-    h3, span
+    h4, span
       color: white
 
   .modal-body .buttons div p

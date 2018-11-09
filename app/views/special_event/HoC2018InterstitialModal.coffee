@@ -9,6 +9,6 @@ module.exports = class HoC2018InterstitialModal extends ModalComponent
 
   initialize: ->
     @propsData = {
-      clickStudent: () => alert("Clicked student"),
+      clickStudent: () => @hide(),
       clickTeacher: () => alert("Clicked teacher")
     }
