@@ -115,12 +115,11 @@ module.exports = class CampaignView extends RootView
     if @terrain is "hoc-2018"
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
     if utils.getQueryVariable('hour_of_code') or @terrain is "hoc-2018"
-      if not utils.storageAvailable("sessionStorage") or not sessionStorage.getItem(@terrain)
+      if not sessionStorage.getItem(@terrain)
+        sessionStorage.setItem(@terrain, "seen-modal")
         setTimeout(() =>
             @openModalView new HoCModal({showVideo: @terrain is "hoc-2018"})
         , 0)
-        if utils.storageAvailable("sessionStorage")
-          sessionStorage.setItem(@terrain, "seen-modal")
 
     if utils.getQueryVariable('hour_of_code')
       if me.isStudent() or me.isTeacher()
