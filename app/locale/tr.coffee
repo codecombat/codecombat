@@ -2071,10 +2071,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
 
-#  user:
+  user:
 #    stats: "Stats"
-#    singleplayer_title: "Singleplayer Levels"
-#    multiplayer_title: "Multiplayer Levels"
+    singleplayer_title: "Tek Oyuncu Seviyesi"
+    multiplayer_title: "Çok Oyunculu Seviyesi"
 #    achievements_title: "Achievements"
 #    last_played: "Last Played"
 #    status: "Status"
