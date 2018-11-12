@@ -54,7 +54,6 @@
 
   window.Intercom('boot', {
    app_id: 'zzeo1k6k',
-   custom_launcher_selector: '#my_custom_link' 
   });
   module.exports = Vue.extend({
   });
