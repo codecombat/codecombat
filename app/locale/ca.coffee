@@ -1,5 +1,5 @@
 module.exports = nativeDescription: "Català", englishDescription: "Catalan", translation:
-#  new_home:
+  new_home:
 #    slogan: "The most engaging way to learn real code."
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
