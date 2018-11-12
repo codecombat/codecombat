@@ -111,6 +111,8 @@ module.exports = class CampaignView extends RootView
     @levelDifficultyMap = {}
     @levelScoreMap = {}
 
+    if @terrain is "hoc-2018"
+      $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
     if utils.getQueryVariable('hour_of_code')
       if me.isStudent() or me.isTeacher()
         if @terrain is 'dungeon'
@@ -193,6 +195,8 @@ module.exports = class CampaignView extends RootView
           @classroom = new Classroom(_id: classroomID)
           @supermodel.trackRequest @classroom.fetch()
           @listenToOnce @classroom, 'sync', =>
+            @updateClassroomSessions()
+            @render()
             @courseInstance.sessions = new CocoCollection([], {
               url: @courseInstance.url() + '/course-level-sessions/' + me.id,
               model: LevelSession
@@ -203,6 +207,7 @@ module.exports = class CampaignView extends RootView
             @courseInstance.sessions.comparator = 'changed'
             @listenToOnce @courseInstance.sessions, 'sync', =>
               @courseStats = @classroom.statsForSessions(@courseInstance.sessions, @course.id)
+              @render()
             @courseLevels = new Levels()
             @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
               data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
@@ -226,7 +231,6 @@ module.exports = class CampaignView extends RootView
                     @courseLevelsFake[idx].position = levelPositions[idx]
                 @courseLevelsFake[idx].courseIdx = parseInt(k)
                 @courseLevelsFake[idx].requiresSubscription = false
-
               # Fill in missing positions, for courses which have levels that no longer exist in campaigns
               for k,v of courseLevels
                 k = parseInt(k)
@@ -249,6 +253,7 @@ module.exports = class CampaignView extends RootView
                     # otherwise just line them up along the bottom
                     x = 10 + (k / courseLevels.length) * 80
                     @courseLevelsFake[idx].position = { x, y: 10 }
+              @render()
       )
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
@@ -337,23 +342,14 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
-    if @classroom
-      classroomLevels = @classroom.getLevels()
-      @classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
-      defaultLanguage = @classroom.get('aceConfig').language
-      for session in @sessions.slice()
-        classroomLevel = @classroomLevelMap[session.get('level').original]
-        if not classroomLevel
-          continue
-        expectedLanguage = classroomLevel.get('primerLanguage') or defaultLanguage
-        if session.get('codeLanguage') isnt expectedLanguage
-          @sessions.remove(session)
-          continue
-    unless @editorMode
-      for session in @sessions.models
-        unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
-          @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
-        @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
+    if @isClassroom()
+      @updateClassroomSessions()
+    else
+      unless @editorMode
+        for session in @sessions.models
+          unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
+            @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+          @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
 
     @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
@@ -383,6 +379,27 @@ module.exports = class CampaignView extends RootView
     # Minecraft Modal:
     #@maybeShowMinecraftModal() # Disable for now
 
+
+  updateClassroomSessions: ->
+    if @classroom
+      classroomLevels = @classroom.getLevels()
+      @classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
+      defaultLanguage = @classroom.get('aceConfig').language
+      for session in @sessions.slice()
+        classroomLevel = @classroomLevelMap[session.get('level').original]
+        if not classroomLevel
+          continue
+        expectedLanguage = classroomLevel.get('primerLanguage') or defaultLanguage
+        if session.get('codeLanguage') isnt expectedLanguage
+          # console.log("Inside remove session")
+          @sessions.remove(session)
+          continue
+      unless @editorMode
+        for session in @sessions.models
+          unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
+            @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+          @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
+       
   buildLevelScoreMap: ->
     for session in @sessions.models
       levels = @getLevels()
@@ -613,7 +630,7 @@ module.exports = class CampaignView extends RootView
     false
 
   annotateLevels: (orderedLevels) ->
-    return if @course?
+    return if @isClassroom()
 
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
@@ -622,13 +639,13 @@ module.exports = class CampaignView extends RootView
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
-      level.locked = false if not @course? and @campaign?.get('name') in ['Auditions', 'Intro']
+      level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
       level.locked = false if me.isInGodMode()
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
 
       level.color = 'rgb(255, 80, 60)'
-      unless @course? or @campaign?.get('type') is 'hoc'
+      unless @isClassroom() or @campaign?.get('type') is 'hoc'
         level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
         level.color = 'rgb(200, 80, 200)' if level.adventurer
 
@@ -692,9 +709,11 @@ module.exports = class CampaignView extends RootView
     leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
+  isClassroom: -> @courseInstanceID?
+
   determineNextLevel: (orderedLevels) ->
-    if @courseStats?
-      @applyCourseLogicToLevels(orderedLevels)
+    if @isClassroom()
+      @applyCourseLogicToLevels(orderedLevels) if @courseStats?
       return true
 
 

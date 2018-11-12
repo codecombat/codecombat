@@ -13,7 +13,7 @@
       .row.get-started
         .col-md-6
           h4.bold-header(data-i18n="hoc_2018.get_started")
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/5ouY7khrA8M?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/SzZiOkZ-vRk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
         .col-md-5.col-md-offset-1
           h4.bold-header(data-i18n="hoc_2018.download_lesson")
@@ -31,8 +31,7 @@
       .row
         .col-md-6
           p(data-i18n="hoc_2018.about_copy")
-          a.btn.btn-primary.btn-lg(href="/demo" data-i18n="hoc_2018.request_demo")
-        
+
         .col-md-6.bullet-points
           ul
             li(data-i18n="hoc_2018.point1")
@@ -41,6 +40,10 @@
             li(data-i18n="hoc_2018.point4")
             li(data-i18n="hoc_2018.point5")
             li(data-i18n="hoc_2018.point6")
+
+      .row
+        .col-md-6
+          a.btn.btn-primary.btn-lg(href="/demo" data-i18n="hoc_2018.request_demo")
 
 </template>
 
