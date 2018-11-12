@@ -651,7 +651,7 @@ module.exports = class SpellView extends CocoView
       #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
       #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
-      @ace.scrollToLine @firstEntryToScrollLine
+      @ace.scrollToLine @firstEntryToScrollLine, true, true
       @firstEntryToScrollLine = undefined
 
 
