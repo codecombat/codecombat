@@ -100,7 +100,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     help_suff: "und wir melden uns!"
     resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    parent: "Eltern"
 
   modal:
     close: "Schließen"
@@ -119,8 +119,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   play:
     play_as: "Spiele als " # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Wende Spieleentwicklung und mehr in deiner Klasse an!"
+    request_licenses: "Kontaktieren Sie unseren Schulspezialisten für Details."
     compete: "Teilnehmen!" # Course details page
     spectate: "Zuschauen" # Ladder page
     players: "Spieler" # Hover over a level on /play
@@ -230,7 +230,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     signup_switch: "Willst du einen Account erstellen?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Schließe die Anmeldung ab"
     create_student_header: "Schülerkonto erstellen"
     create_teacher_header: "Lehrerkonto erstellen"
     create_individual_header: "Einzelkonto erstellen"
@@ -331,7 +331,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     default_code: "Standardcode"
     loading: "Lade..."
     overview: "Übersicht"
-#    processing: "Processing..."
+    processing: "In Bearbeitung..."
     solution: "Lösung"
     table_of_contents: "Inhaltsverzeichnis"
     intro: "Einführung"
@@ -421,7 +421,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   units:
     second: "Sekunde"
     seconds: "Sekunden"
-#    sec: "sec"
+    sec: "Sek"
     minute: "Minute"
     minutes: "Minuten"
     hour: "Stunde"
@@ -521,8 +521,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     skip_tutorial: "Überspringen (Esc)"
     keyboard_shortcuts: "Tastenkürzel"
     loading_start: "Starte Level"
-#    loading_start_combo: "Start Combo Challenge"
-#    loading_start_concept: "Start Concept Challenge"
+    loading_start_combo: "Starte die Kombinationsherausforderung"
+    loading_start_concept: "Starte die Konzeptherausforderung"
     problem_alert_title: "Repariere deinen Code"
     time_current: "Aktuell:"
     time_total: "Gesamt:"
@@ -613,9 +613,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   apis:
     methods: "Methoden"
     events: "Ereignisse"
-#    handlers: "Handlers"
-#    properties: "Properties"
-#    snippets: "Snippets"
+    handlers: "Handler"
+    properties: "Eigenschaften"
+    snippets: "Schnipsel"
 #    spawnable: "Spawnable"
     html: "HTML"
     math: "Mathematik"
@@ -947,7 +947,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     lisa_title: "Schulspezialist" # {change}
     sean_title: "Territorialmanager"
     liz_title: "Territorialmanager"
-#    jane_title: "Customer Success Manager"
+    jane_title: "Kundenerfolgsmanager"
     david_title: "Leitung Marketing"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
