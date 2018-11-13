@@ -94,7 +94,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     open_source: "オープンソース(GitHub)"
     support: "サポート"
     faqs: "FAQ"
-#    copyright_prefix: "Copyright"
+    copyright_prefix: "コピーライト"
 #    copyright_suffix: "All Rights Reserved."
     help_pref: "ヘルプが必要ですか? Email"
     help_suff: "をくれれば協力します！"

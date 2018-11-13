@@ -715,11 +715,11 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     prompt_title: "Yetersiz Taş"
     prompt_body: "Daha fazla almak ister misin?"
     prompt_button: "Dükkana Gir"
-    recovered: "Previous gems purchase recovered. Please refresh the page."
+    recovered: "Önceki taşlar satın alındı. Lütfen sayfayı yenileyin"
     price: "x{{gems}} / ay"
-#    buy_premium: "Buy Premium"
-#    purchase: "Purchase"
-#    purchased: "Purchased"
+    buy_premium: "Premiumluk Satın Almak"
+    purchase: "Satın Alma"
+    purchased: "Satın Alındı"
 
 #  subscribe_for_gems:
 #    prompt_title: "Not Enough Gems!"
@@ -2071,10 +2071,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
 
-#  user:
+  user:
 #    stats: "Stats"
-#    singleplayer_title: "Singleplayer Levels"
-#    multiplayer_title: "Multiplayer Levels"
+    singleplayer_title: "Tek Oyuncu Seviyesi"
+    multiplayer_title: "Çok Oyunculu Seviyesi"
 #    achievements_title: "Achievements"
 #    last_played: "Last Played"
 #    status: "Status"
@@ -2117,7 +2117,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     invoices: "Faturalar"
     service_apple: "Apple"
     service_web: "Web"
-#    paid_on: "Paid On"
+    paid_on: "Ücretli"
     service: "Servis"
     price: "Fiyat"
     gems: "Değerli Taş"
