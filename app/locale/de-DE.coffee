@@ -2633,7 +2633,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     custom_message: "Ich habe gerade eben CodeCombat gefunden und dachte mir, dass es eine großartige Erweiterung für unseren Unterricht sein könte! Es ist eine Lernplattform für Computerwissen mit auf Standards ausgerichteten Lehrplänen.\n\n Computerkentnisse sind so wichtig und ich denke, es wäre ein guter Weg, um den Schülern das Programieren beizubringen."
     send: "Email senden"
 
-#  hoc_2018:
+  hoc_2018:
 #    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
     learn_more: "Lerne mehr"
 #    page_heading: "Teach your students how to build their own arcade game!"
