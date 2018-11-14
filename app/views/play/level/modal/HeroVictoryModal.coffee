@@ -498,8 +498,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @showOffer navigationEvent
     else
       @hide()
-      # Prevent student and teachers with access to a home level from navigating to a subscribe page.
-      Backbone.Mediator.publish('router:navigate', navigationEvent) unless me.isStudent() or me.isTeacher()
+      Backbone.Mediator.publish('router:navigate', navigationEvent)
 
   onClickLeaderboard: (e) ->
     @onClickContinue e, showLeaderboard: true
