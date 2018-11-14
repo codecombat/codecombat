@@ -348,7 +348,7 @@ module.exports = class Angel extends CocoClass
       if work.realTime
         progress = world.frames.length / world.totalFrames
         progress = Math.min(progress, 0.9) if world.indefiniteLength
-        @publishGodEvent 'world-load-progress-changed', progress: progress  # Debounce? Need to publish at all?
+        # @publishGodEvent 'world-load-progress-changed', progress: progress  # Debounce? Need to publish at all?
         @streamFrameSync work
         if world.indefiniteLength and world.victory?
           world.indefiniteLength = false
