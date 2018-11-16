@@ -278,7 +278,7 @@ module.exports = class CampaignView extends RootView
         setTimeout(=>
             @openModalView new HoCModal({
               showVideo: @terrain is "hoc-2018",
-              onDestroy: ->delayMusicStart(),
+              onDestroy: delayMusicStart,
             })
         , 0)
 
