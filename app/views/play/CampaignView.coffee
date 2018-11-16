@@ -263,8 +263,8 @@ module.exports = class CampaignView extends RootView
     $(window).on 'resize', @onWindowResize
     @probablyCachedMusic = storage.load("loaded-menu-music")
     musicDelay = if @probablyCachedMusic then 1000 else 10000
-    delayedMusicStart = => _.delay (=> @playMusic() unless @destroyed), musicDelay
-    @playMusicTimeout = delayedMusicStart()
+    delayMusicStart = => _.delay (=> @playMusic() unless @destroyed), musicDelay
+    @playMusicTimeout = delayMusicStart()
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
@@ -278,7 +278,7 @@ module.exports = class CampaignView extends RootView
         setTimeout(=>
             @openModalView new HoCModal({
               showVideo: @terrain is "hoc-2018",
-              onDestroy: ->delayedMusicStart(),
+              onDestroy: ->delayMusicStart(),
             })
         , 0)
 
