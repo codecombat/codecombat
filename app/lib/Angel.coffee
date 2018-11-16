@@ -345,17 +345,6 @@ module.exports = class Angel extends CocoClass
     i ?= world.frames.length
     simulationLoopStartTime = now()
     while i < world.totalFrames
-      if work.realTime
-        progress = world.frames.length / world.totalFrames
-        progress = Math.min(progress, 0.9) if world.indefiniteLength
-        # @publishGodEvent 'world-load-progress-changed', progress: progress  # Debounce? Need to publish at all?
-        @streamFrameSync work
-        if world.indefiniteLength and world.victory?
-          world.indefiniteLength = false
-        continuing = world.shouldContinueLoading simulationLoopStartTime, (->), false, (=> @simulateFramesSync(work) unless @destroyed)
-        return unless continuing
-      if world.indefiniteLength and i is world.totalFrames - 1
-        ++world.totalFrames
       try
         frame = world.getFrame i++
       catch error
@@ -365,6 +354,15 @@ module.exports = class Angel extends CocoClass
       if error = (world.unhandledRuntimeErrors ? [])[0]
         @handleWorldError world, error
         break  # We quit on the first one
+      if work.realTime
+        @streamFrameSync work
+        if world.indefiniteLength and world.victory?
+          world.indefiniteLength = false
+        continuing = world.shouldContinueLoading simulationLoopStartTime, (->), false, (=> @simulateFramesSync(work) unless @destroyed)
+        return unless continuing
+      if world.indefiniteLength and i is world.totalFrames - 1
+        ++world.totalFrames
+    console.log("Finish up simulation work")
     @finishSimulationSync work
 
   handleWorldError: (world, error) ->
