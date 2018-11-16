@@ -362,7 +362,6 @@ module.exports = class Angel extends CocoClass
         return unless continuing
       if world.indefiniteLength and i is world.totalFrames - 1
         ++world.totalFrames
-    console.log("Finish up simulation work")
     @finishSimulationSync work
 
   handleWorldError: (world, error) ->
