@@ -1277,6 +1277,9 @@
 
   courses:
     create_new_class: "Create New Class"
+    hoc_blurb1: "Try the"
+    hoc_blurb2: "Code, Play, Share"
+    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
     solutions_require_licenses: "Level solutions are available for teachers who have licenses."
     unnamed_class: "Unnamed Class"
     edit_settings1: "Edit Class Settings"
@@ -1458,6 +1461,11 @@
     code: "__name__'s Code"
     complete_solution: "Complete Solution"
     course_not_started: "Student has not started this course yet."
+    hoc_happy_ed_week: "Happy Computer Science Education Week!"
+    hoc_blurb1: "Learn about the free"
+    hoc_blurb2: "Code, Play, Share"
+    hoc_blurb3: "activity, download a new teacher lesson plan, and tell your students to log in to play!"
+    hoc_button_text: "View Activity"
     no_code_yet: "Student has not written any code for this level yet."
     open_ended_level: "Open-Ended Level"
     partial_solution: "Partial Solution"
