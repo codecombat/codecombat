@@ -2633,7 +2633,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     custom_message: "我刚刚找到了CodeCombat，我想它对你的教室来说是个很棒的程序!它是一个符合标准课程的计算机科学学习平台。计算机知识是非常重要的，我认为这将是一个让学生学习编码的好方法。"
     send: "发送邮件"
 
-#  hoc_2018:
+  hoc_2018:
     learn_more_copy: "CodeCombat 是面对全部教师的综合的编程项目。你想要用几个小时代码课并获取下一个等级吗?"
     learn_more: "学习更多"
     page_heading: "教你的学生如何建立自己的街机游戏!"
