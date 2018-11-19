@@ -29,6 +29,8 @@ module.exports = class CourseVictoryModal extends ModalView
     @session = options.session
     @level = options.level
 
+    return if @level.isType('game-dev')
+
     if @courseInstanceID
       @classroom = new Classroom()
       @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID, {}))

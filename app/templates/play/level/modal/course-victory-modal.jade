@@ -1,5 +1,23 @@
 .modal-dialog
   .background-wrapper
-    .modal-content
+    if view.level.isType('game-dev')
+      .modal-header
+        img.header-img(src="/images/pages/play/modal/level_complete.png")
+        #close-modal.btn.well.well-sm.well-parchment(data-dismiss="modal")
+          span.glyphicon.glyphicon-remove
       .modal-body
+        .container-fluid
+          .row
+            .col-sm-6.text-uppercase
+              //- TODO: pass in campaign id to level play view
+              - var mapLink = "/play/5789236960deed1f00ec2ab8?course-instance=" + view.courseInstanceID;
+              - console.log('mapLink', mapLink);
+              a#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(
+                href=mapLink, 
+                data-i18n="play_level.back_to_map"
+              )
+    else
+      .modal-content
+        .modal-body
+
 //- See progress-view for content
