@@ -41,7 +41,6 @@ module.exports = class HomeView extends RootView
     'esc': 'onEscapePressed'
 
   initialize: (options) ->
-    window?.Intercom('update')
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetchReleased()
 

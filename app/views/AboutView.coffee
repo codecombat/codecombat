@@ -22,7 +22,6 @@ module.exports = class AboutView extends RootView
   getTitle: -> return $.i18n.t('nav.about')
 
   afterRender: ->
-    window?.Intercom('update')
     super(arguments...)
     @$('#fixed-nav').affix({
       offset:
