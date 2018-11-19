@@ -26,5 +26,9 @@ module.exports = class ModalComponent extends ModalView
   destroy: ->
     if @vuexModule
       store.unregisterModule('modal')
+    # Reference for how to safely destroy a vue component:
+    # https://forum.vuejs.org/t/add-component-to-dom-programatically/7308/12
     @vueComponent.$destroy()
+    @vueComponent.$el.remove()
     @vueComponent.$store = silentStore
+    @vueComponent = null

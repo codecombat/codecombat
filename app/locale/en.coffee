@@ -2652,3 +2652,10 @@
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
     request_demo: "Create Teacher Account"
+
+  hoc_2018_interstitial:
+    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+    educator: "I'm an educator"
+    show_resources: "Show me teacher resources!"
+    student: "I'm a student"
+    ready_to_code: "I'm ready to code!"
