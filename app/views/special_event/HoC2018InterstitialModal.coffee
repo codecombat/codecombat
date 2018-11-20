@@ -17,3 +17,8 @@ module.exports = class HoC2018InterstitialModal extends ModalComponent
   constructor: (options) ->
     super(options)
     @propsData.showVideo = options?.showVideo or false
+    @onDestroy = options?.onDestroy
+
+  destroy: ->
+    @onDestroy?()
+    super()
