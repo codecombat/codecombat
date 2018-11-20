@@ -118,6 +118,13 @@
     subscribe_as_diplomat: "Subscribe as a Diplomat"
 
   play:
+    anon_signup_title_1: "CodeCombat has a"
+    anon_signup_title_2: "Classroom Version!"
+    anon_signup_enter_code: "Enter Class Code:"
+    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
+    anon_signup_create_class: "Want to create a class?"
+    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+    anon_signup_create_teacher: "Create free teacher account"
     play_as: "Play As"  # Ladder page
     get_course_for_class: "Assign Game Development and more to your classes!"
     request_licenses: "Contact our school specialists for details."
