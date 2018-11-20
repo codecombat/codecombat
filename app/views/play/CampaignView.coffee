@@ -114,12 +114,6 @@ module.exports = class CampaignView extends RootView
 
     if @terrain is "hoc-2018"
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
-    if utils.getQueryVariable('hour_of_code') or @terrain is "hoc-2018"
-      if not sessionStorage.getItem(@terrain)
-        sessionStorage.setItem(@terrain, "seen-modal")
-        setTimeout(() =>
-            @openModalView new HoCModal({showVideo: @terrain is "hoc-2018"})
-        , 0)
 
     if utils.getQueryVariable('hour_of_code')
       if me.isStudent() or me.isTeacher()
@@ -269,12 +263,25 @@ module.exports = class CampaignView extends RootView
     $(window).on 'resize', @onWindowResize
     @probablyCachedMusic = storage.load("loaded-menu-music")
     musicDelay = if @probablyCachedMusic then 1000 else 10000
-    @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
+    delayMusicStart = => _.delay (=> @playMusic() unless @destroyed), musicDelay
+    @playMusicTimeout = delayMusicStart()
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
+
+    if utils.getQueryVariable('hour_of_code') or @terrain is "hoc-2018"
+      if not sessionStorage.getItem(@terrain)
+        sessionStorage.setItem(@terrain, "seen-modal")
+        clearTimeout(@playMusicTimeout)
+        setTimeout(=>
+            @openModalView new HoCModal({
+              showVideo: @terrain is "hoc-2018",
+              onDestroy: delayMusicStart,
+            })
+        , 0)
+
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain
 
   destroy: ->
