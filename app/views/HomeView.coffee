@@ -58,6 +58,7 @@ module.exports = class HomeView extends RootView
       '/play'
 
   onLoaded: ->
+    window?.Intercom?('update')
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
     super()
@@ -177,6 +178,7 @@ module.exports = class HomeView extends RootView
     super()
 
   logoutAccount: ->
+    window?.Intercom?('shutdown')
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()
 
