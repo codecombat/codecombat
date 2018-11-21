@@ -118,7 +118,7 @@ concepts = [
   {concept: 'while_condition_loops', name: 'While Loops with Conditionals', description: 'While loops with a breaking conditional.', automatic: true, tagger: 'WhileStatement.test>*:not(Literal)'}
   {concept: 'while_loops_simple', name: 'While Loops', description: 'Simple while-true loops.', automatic: true, tagger: 'WhileStatement.test>Literal'}
   {concept: 'while_loops_nested', name: 'Nested While Loops', description: 'While loops inside other while loops.', automatic: true, tagger:'WhileStatement.body WhileStatement'}
-  {concept: 'xy_coordinates', name: 'Cartesian Coordinates', description: 'This level uses XY coordinates to navigate: any time we use a method .*XY or use variables or properties named x or y', automatic: true, tagger: (ast) ->
+  {concept: 'xy_coordinates', name: 'Coordinate Pairs', description: 'This level uses XY coordinates to navigate: any time we use a method .*XY or use variables or properties named x or y', automatic: true, tagger: (ast) ->
       return false unless ast.find('MemberExpression.object>Identifier[name="y"]').length > 0
       return false unless ast.find('MemberExpression.object>Identifier[name="x"]').length > 0
       return true}
@@ -141,6 +141,10 @@ concepts = [
   {concept: 'basic_javascript', name: 'Basic JavaScript', automatic: false}
   {concept: 'basic_event_handling', name: 'Basic Event Handling', automatic: false}
   {concept: 'create_sharable_interactive_web_page', name: 'Create a sharable interactive web page', automatic: false}
+  # HoC 2018
+  {concept: 'programs', name: 'Programs', automatic: false}
+  {concept: 'properties', name: 'Properties', automatic: false}
+  {concept: 'events', name: 'Events', automatic: false}
 ]
 
 module.exports = concepts
