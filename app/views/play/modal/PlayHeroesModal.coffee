@@ -145,7 +145,7 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
       ]
 
-      if me.isAdmin() or not application.isProduction()
+      if me.hadSubscription() or not application.isProduction()
         @codeLanguageList.push {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}
 
   onHeroChanged: (e) ->
