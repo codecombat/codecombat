@@ -26,9 +26,9 @@ module.exports = class PlayHeroesModal extends ModalView
     'change #option-code-language': 'onCodeLanguageChanged'
     'click #close-modal': 'hide'
     'click #confirm-button': 'saveAndHide'
-    'click .unlock-button': 'onUnlockButtonClicked'
-    'click .subscribe-button': 'onSubscribeButtonClicked'
-    'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
+    'click .unlock-button': 'saveAndHide'
+    'click .subscribe-button': 'saveAndHide'
+    'click .buy-gems-prompt-button': 'saveAndHide'
     'click': 'onClickedSomewhere'
 
   shortcuts:
@@ -57,7 +57,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @formatHero hero for hero in @heroes.models
     if me.freeOnly() or application.getHocCampaign()
       @heroes.reset(@heroes.filter((hero) => !hero.locked))
-    unless me.isAdmin()
+    unless me.hadSubscription()
       @heroes.reset(@heroes.filter((hero) => hero.get('releasePhase') isnt 'beta'))
 
   formatHero: (hero) ->
