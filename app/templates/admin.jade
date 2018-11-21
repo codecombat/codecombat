@@ -4,7 +4,7 @@ block content
 
   .form-horizontal
     form#espionage-form.form-group
-      if !me.isAdmin()
+      if !me.hasSubscription()
         .col-sm-2
         .col-sm-4
         .col-sm-1
@@ -26,7 +26,7 @@ block content
           em and you are viewing feature mode "#{view.featureMode}"
           =" "
           button#clear-feature-mode-btn.btn.btn-sm Clear Feature Mode
-  if me.isAdmin()
+  if me.hasSubscription()
     .form-horizontal
       form#user-search-form.form-group
         label.control-label.col-sm-2(for="user-search") User Search
@@ -46,7 +46,7 @@ block content
           button.btn.btn-primary.btn-large#user-search-button  Search
     #user-search-result
     
-  if !me.isAdmin()
+  if !me.hasSubscription()
     div.text-center You must be logged in as an admin to view this page.
   else
     h4 Entities
