@@ -14,7 +14,7 @@ block content
     button.achievement-tool-button(data-i18n="", disabled=me.hasSubscription() === true ? undefined : "true").btn.btn-primary#recalculate-all-button Recalculate All
     button.achievement-tool-button(data-i18n="", disabled=me.hasSubscription() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
     button.achievement-tool-button(data-i18n="common.delete", disabled=me.hasSubscription() === true ? undefined : "true").btn.btn-primary#delete-button Delete
-    button.achievement-tool-button(data-i18n="common.save", disabled=(me.hasSubscription() === true || me.isArtisan() === false) ? undefined : "true").btn.btn-primary#save-button Save
+    button.achievement-tool-button(data-i18n="common.save", disabled=(me.hasSubscription() === true || me.hadSubscription() === false) ? undefined : "true").btn.btn-primary#save-button Save
 
   h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
     span
