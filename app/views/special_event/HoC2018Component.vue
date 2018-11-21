@@ -54,9 +54,19 @@
       intercomScriptForImportingLibrary.appendChild(document.createTextNode("(function(){var w=window;var ic=w.Intercom;if(typeof ic===\"function\"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true; s.src='https://widget.intercom.io/widget/zzeo1k6k';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()"))
       document.body.appendChild(intercomScriptForImportingLibrary)
 
+      let intercomShutdownScript = document.createElement('script')
+      intercomShutdownScript.appendChild(document.createTextNode("window.Intercom('shutdown')"))
+      document.body.appendChild(intercomShutdownScript)
+
       let intercomBootupScript = document.createElement('script')
       intercomBootupScript.appendChild(document.createTextNode("window.Intercom('boot', {app_id: 'zzeo1k6k',});"))
-      document.body.appendChild(intercomBootupScript);
+      document.body.appendChild(intercomBootupScript)
+    },
+
+    beforeDestroy() {
+      let intercomShutdownScript = document.createElement('script')
+      intercomShutdownScript.appendChild(document.createTextNode("window.Intercom('shutdown')"))
+      document.body.appendChild(intercomShutdownScript)
     }
   });  
 </script>
