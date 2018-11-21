@@ -69,6 +69,10 @@ module.exports = class CampaignView extends RootView
     'subscribe-modal:subscribed': 'onSubscribed'
 
   events:
+    'click #amazon-campaign-logo': 'onClickAmazonCampaign'
+    'click #anon-classroom-signup-close': 'onClickAnonClassroomClose'
+    'click #anon-classroom-join-btn': 'onClickAnonClassroomJoin'
+    'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup'
     'click .cube-level': 'onSpinningCubeClick' # Minecraft Modal
     'click .map-background': 'onClickMap'
     'click .level': 'onClickLevel'
@@ -95,7 +99,6 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
-    'click #amazon-campaign-logo': 'onClickAmazonCampaign'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -339,6 +342,18 @@ module.exports = class CampaignView extends RootView
     window.tracker?.trackEvent 'Click Amazon Modal Button'
     @openModalView new AmazonHocModal hideCongratulation: true
 
+  onClickAnonClassroomClose: -> @$el.find('#anonymous-classroom-signup-dialog')?.hide()
+
+  onClickAnonClassroomJoin: ->
+    classCode = @$el.find('#anon-classroom-signup-code')?.val()
+    return if _.isEmpty(classCode)
+    window.tracker?.trackEvent 'Anonymous Classroom Signup Modal Join Class', category: 'Signup', classCode
+    application.router.navigate("/students?_cc=#{classCode}", { trigger: true })
+
+  onClickAnonClassroomSignup: ->
+    window.tracker?.trackEvent 'Anonymous Classroom Signup Modal Create Teacher', category: 'Signup'
+    @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
   getLevelPlayCounts: ->
     return unless me.isAdmin()
     return  # TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
@@ -383,8 +398,6 @@ module.exports = class CampaignView extends RootView
       if features.codePlay
         if me.get('anonymous') and me.get('lastLevel') is 'true-names' and me.level() < 5
           @openModalView new CodePlayCreateAccountModal()
-      else if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4 and not features.noAuth
-        @promptForSignup()
       else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
       not storage.load('sent-parent-email') and not me.isPremium()
@@ -1403,8 +1416,8 @@ module.exports = class CampaignView extends RootView
     if what in ['premium']
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
 
-    if what in ['teacher-button']
-      return me.isAnonymous() and me.level() < 8 and me.get('preferredLanguage', true) is 'en-US'
+    if what is 'anonymous-classroom-signup'
+      return me.isAnonymous() and me.level() < 8 and me.promptForClassroomSignup()
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'

@@ -40,6 +40,21 @@ block content
             .text-center
               h1(data-i18n="courses.welcome_to_page")
 
+            //- TODO: remove temporary HoC 2018 blurb anytime after 2018-12-14
+            if new Date() >= new Date('2018-11-28') && new Date() <= new Date('2018-12-14')
+              #announcement
+                h3.text-center(data-i18n='teacher.hoc_happy_ed_week')
+                .row
+                  .col-xs-9
+                    p
+                      span(data-i18n='courses.hoc_blurb1')
+                      strong.spr.spl(data-i18n='courses.hoc_blurb2')
+                      span.spr(data-i18n='courses.hoc_blurb3')
+                  .col-xs-3
+                    p.announcement-button
+                      a.btn.btn-navy.btn-lg(href="https://codecombat.com/play/hoc-2018")
+                        span(data-i18n='new_home.play_now')
+
             if me.showAvatarOnStudentDashboard()
               .current-hero-container.text-center.row
                 .hero-avatar
