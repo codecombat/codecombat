@@ -339,6 +339,7 @@ module.exports = class CampaignView extends RootView
 
   onClickAnonClassroomJoin: ->
     classCode = @$el.find('#anon-classroom-signup-code')?.val()
+    return if _.isEmpty(classCode)
     window.tracker?.trackEvent 'Anonymous Classroom Signup Modal Join Class', category: 'Signup', classCode
     application.router.navigate("/students?_cc=#{classCode}", { trigger: true })
 
