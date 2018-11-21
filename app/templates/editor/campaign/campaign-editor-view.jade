@@ -16,11 +16,11 @@ block header
             span.glyphicon-home.glyphicon
 
       ul.nav.navbar-nav.navbar-right
-        if me.isAdmin()
+        if me.hasSubscription()
           li#analytics-button
             a
               span.glyphicon-stats.glyphicon
-        if me.isAdmin()
+        if me.hasSubscription()
           li#save-button
             a
               span.glyphicon-floppy-disk.glyphicon
@@ -33,7 +33,7 @@ block header
               a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
-            if me.isAdmin()
+            if me.hasSubscription()
               li#patches-button
                 a
                   span.spr.glyphicon-wrench.glyphicon
