@@ -13,8 +13,8 @@ else
             - var firstName = me.get('firstName') || '';
             - var lastName = me.get('lastName') || '';
             - var email = me.get('email') || '';
-            - var admin = me.get('permissions', true).indexOf('admin') != -1;
-            - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
+            - var admin = me.get('permissions', true).indexOf('admin') ||'';
+            - var godmode = me.get('permissions', true).indexOf('godmode') ||'';
             .form-group
               label.control-label(for="name", data-i18n="general.username")
               input#name-input.form-control(name="name", type="text", value="#{name}")
