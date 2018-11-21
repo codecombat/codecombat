@@ -1,7 +1,7 @@
 extends /templates/base
 
 block content
-  - var authorized = me.isAdmin() || me.isArtisan();
+  - var authorized = hasSubscription;
   ol.breadcrumb
       li
         a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
@@ -11,10 +11,10 @@ block content
         | #{view.achievement.attributes.name}
 
   if authorized
-    button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-all-button Recalculate All
-    button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
-    button.achievement-tool-button(data-i18n="common.delete", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#delete-button Delete
-    button.achievement-tool-button(data-i18n="common.save", disabled=(me.isAdmin() === true || me.isArtisan() === true) ? undefined : "true").btn.btn-primary#save-button Save
+    button.achievement-tool-button(data-i18n="", disabled=me.hasSubscription() === true ? undefined : "true").btn.btn-primary#recalculate-all-button Recalculate All
+    button.achievement-tool-button(data-i18n="", disabled=me.hasSubscription() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
+    button.achievement-tool-button(data-i18n="common.delete", disabled=me.hasSubscription() === true ? undefined : "true").btn.btn-primary#delete-button Delete
+    button.achievement-tool-button(data-i18n="common.save", disabled=(me.hasSubscription() === true || me.isArtisan() === false) ? undefined : "true").btn.btn-primary#save-button Save
 
   h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
     span
