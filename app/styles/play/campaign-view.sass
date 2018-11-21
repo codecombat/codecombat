@@ -698,19 +698,40 @@ $gameControlMargin: 30px
       .levels-completed
         font-size: 22px
 
-  #teacher-button-container
+  #anonymous-classroom-signup-dialog
+    border-width: 0px
+    padding: 0
+    padding-bottom: 0
+    width: 230px
     position: absolute
     right: 1%
     top: 5%
     top: -webkit-calc(1% + 50px)
     top: calc(1% + 50px)
-    width: 194px
+    z-index: 30
     margin: 0
     text-align: center
-    z-index: 30
-
-    #teacher-button
-      min-width: 90%
+    .modal-header
+      padding: 8px
+      background-color: #0E4C60
+      h4, span
+        color: white
+        font-size: 13px
+        line-height: 16px
+        font-weight: bold
+    .modal-body
+      padding: 10px
+      font-size: 13px
+      line-height: 16px
+      .strong
+        font-weight: bold
+      input
+        width: 50%
+        margin: 4px 4px 13px 0px
+      #anon-classroom-signup-btn
+        margin-top: 8px
+      #anon-classroom-join-btn
+        margin-top: -4px
 
   .particle-man
     z-index: 2
