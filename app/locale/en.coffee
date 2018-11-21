@@ -2320,7 +2320,7 @@
     while_condition_loops: "While Loops with Conditionals"
     while_loops_simple: "While Loops"
     while_loops_nested: "Nested While Loops"
-    xy_coordinates: "Cartesian Coordinates"
+    xy_coordinates: "Coordinate Pairs"
     advanced_strings: "Advanced Strings"  # Rest of concepts are deprecated
     algorithms: "Algorithms"
     boolean_logic: "Boolean Logic"
@@ -2345,6 +2345,9 @@
     basic_javascript: "Basic JavaScript"
     basic_event_handling: "Basic Event Handling"
     create_sharable_interactive_web_page: "Create a sharable interactive web page"
+    programs: "Programs"
+    events: "Events"
+    properties: "Properties"
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
