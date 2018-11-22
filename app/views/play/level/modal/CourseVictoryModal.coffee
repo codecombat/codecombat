@@ -170,9 +170,6 @@ module.exports = class CourseVictoryModal extends ModalView
       session: @session.toJSON(),
       course: @course.toJSON(),
       @courseInstanceID,
-      stats: @classroom?.statsForSessions(@levelSessions, @course.id)
-      supermodel: @supermodel,
-      parent: @options.parent
       codeLanguage: @session.get('codeLanguage')
     }
     new CourseVictoryComponent({

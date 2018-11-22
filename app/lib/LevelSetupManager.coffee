@@ -109,7 +109,8 @@ module.exports = class LevelSetupManager extends CocoClass
 
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
-    @options.parent.openModalView(firstModal)
+    window.currentView.openModalView(firstModal)
+
     @trigger 'open'
     #    @inventoryModal.onShown() # replace?
 
@@ -119,7 +120,7 @@ module.exports = class LevelSetupManager extends CocoClass
      @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
-    @options.parent.openModalView(@inventoryModal)
+    window.currentView.openModalView(@inventoryModal)
     @inventoryModal.render()
     @inventoryModal.didReappear()
     @inventoryModal.onShown()
@@ -127,7 +128,7 @@ module.exports = class LevelSetupManager extends CocoClass
     window.tracker?.trackEvent 'Choose Inventory', category: 'Play Level'
 
   onChooseHeroClicked: ->
-    @options.parent.openModalView(@heroesModal)
+    window.currentView.openModalView(@heroesModal)
     @heroesModal.render()
     @heroesModal.didReappear()
     @inventoryModal.endHighlight()
