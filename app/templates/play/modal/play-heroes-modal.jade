@@ -68,13 +68,13 @@
           #restricted-hero-explanation
             h2
               span= visibleHero.name
-              span.spl(data-i18n="inventory.restricted_title") Restricted
-            span.spr(data-i18n="choose_hero.restricted_to_certain_heroes") Only certain heroes can play this level.
-          button.btn.disabled.btn-illustrated#restricted-hero-button(data-i18n="inventory.restricted_title") Restricted
+              span.spl(data-i18n="inventory.restricted_title") No No U MUST NEVER USE DIS!
+            span.spr(data-i18n="choose_hero.restricted_to_certain_heroes") SPECIAL Hero ONLY BOYZ
+          button.btn.disabled.btn-illustrated#restricted-hero-button(data-i18n="inventory.restricted_title") No No U MUST NEVER USE DIS!
   
         else if visibleHero.purchasable
           #purchasable-hero-explanation
-            h2(data-i18n="choose_hero.available_for_purchase") Available for Purchase
+            h2(data-i18n="choose_hero.available_for_purchase") BUY IT
           button.btn.unlock-button#purchase-hero-button
             span.spr(data-i18n="play.unlock") Unlock
             - if(!visibleHero.get('gems')) {
@@ -89,12 +89,12 @@
             h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
             span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
           button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
-            span.spr(data-i18n="subscribe.subscribe_title") Subscribe
+            span.spr(data-i18n="subscribe.subscribe_title") GET A SUBSCRIPTION OR ELSE...
   
         else if visibleHero.loaded
           .form
             .form-group.select-group
-              span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
+              span.help-block(data-i18n="choose_hero.programming_language_description") PICK A LANGUAGE DUMBO
               select#option-code-language(name="code-language")
                 for option in codeLanguages
                   option(value=option.id, selected=codeLanguage === option.id)= option.name
