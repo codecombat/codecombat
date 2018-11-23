@@ -2538,7 +2538,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    are_you_missing_a: "Are you missing a '$1' after '$2'? "
 #    your_parentheses_must_match: "Your parentheses must match."
 
-#  apcsp:
+  apcsp:
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
