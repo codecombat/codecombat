@@ -21,29 +21,34 @@
           .col-xs-12
             h5 Get a certificate of completion to celebrate with your class!
         form(v-on:submit.prevent="getCertificate")
-          .row
-            .col-xs-5
-              input.form-control(
-                v-model.trim="firstName"
-                type="text"
-                placeholder="First Name"
-                required)
-            .col-xs-3
-              input.form-control(
-                v-model.trim="lastInitial"
-                type="text"
-                placeholder="Last Initial"
-                maxlength="1"
-                dir="auto"
-                required)
-            .col-xs-4
-              button.btn-block.btn-navy Get Certificate
-          .row
-            .col-xs-8
-              input.form-control(
-                v-model.trim="teacherEmail"
-                type="email"
-                placeholder="Teacher's email address")
+          template(v-if="!fullName")
+            .row
+              .col-xs-5
+                input.form-control(
+                  v-model.trim="firstName"
+                  type="text"
+                  placeholder="First Name"
+                  required)
+              .col-xs-3
+                input.form-control(
+                  v-model.trim="lastInitial"
+                  type="text"
+                  placeholder="Last Initial"
+                  maxlength="1"
+                  dir="auto"
+                  required)
+              .col-xs-4
+                button.btn-block.btn-navy Get Certificate
+            .row
+              .col-xs-8
+                input.form-control(
+                  v-model.trim="teacherEmail"
+                  type="email"
+                  placeholder="Teacher's email address")
+          template(v-else)
+            .row
+              .col-xs-12
+                button.btn-block.btn-navy Get Certificate
 </template>
 
 <script>
@@ -57,18 +62,20 @@ module.exports = Vue.extend({
       type: String,
       required: true
     },
+    fullName: {
+      type: String
+    }
   },
   data: function() {
     return {
       firstName: "",
       lastInitial: "",
-      teacherEmail: "",
+      teacherEmail: ""
     };
   },
   methods: {
     getCertificate: function(e) {
-      alert(`${this.firstName} - ${this.lastInitial}`);
-      this.navigateCertificate();
+      this.navigateCertificate(this.name);
     },
     copyShareURL: function() {
       document.querySelector("#shareable").select();
@@ -83,6 +90,11 @@ module.exports = Vue.extend({
           killer: false
         });
       }
+    }
+  },
+  computed: {
+    name: function() {
+      return this.fullName || `${this.firstName} ${this.lastInitial}`;
     }
   }
 });

@@ -661,6 +661,7 @@ module.exports = class PlayLevelView extends RootView
     if @level.get("slug") is "code-play-share" and @level.get('shareable')
       hocModal = new HoC2018VictoryModal({
         shareURL: "#{window.location.origin}/play/#{@level.get('type')}-level/#{@session.id}",
+        campaign: @level.get("campaign")
       })
       @openModalView(hocModal)
       hocModal.once "hidden", =>

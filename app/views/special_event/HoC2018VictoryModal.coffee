@@ -7,16 +7,17 @@ module.exports = class HoC2018VictoryModal extends ModalComponent
   closeButton: true
   VueComponent: HoC2018VictoryComponent
 
-  initialize: ->
-    @propsData = {
-      navigateCertificate: () => 
-      ,
-      shareURL: ""
-    }
-
   constructor: (options) ->
     super(options)
     if not options.shareURL
       throw new Error("HoC2018VictoryModal requires shareURL value.")
-    _.merge(@propsData, options)
-
+    if not options.campaign
+      throw new Error("HoC2018VictoryModal requires campaign slug.")
+    @propsData = {
+      navigateCertificate: (name) => 
+        console.log("routing: /certificates/#{me.id}/anon")
+        application.router.navigate("/certificates/#{me.id}/anon?campaign=#{options.campaign}&username=#{name}", { trigger: true })
+      ,
+      shareURL: options.shareURL,
+      fullName: if me.isAnonymous() then "" else me.broadName()
+    }
