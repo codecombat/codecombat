@@ -283,8 +283,8 @@ module.exports = class CocoRouter extends Backbone.Router
     ]).then ([ViewClass]) =>
       return go('NotFoundView') if not ViewClass
       # Convert to Array and remove query string params (Backbone 1.1.1+ includes them as routing params)
-      queryVariables = utils.getQueryVariables()
-      args = Array.prototype.slice.call(args, 0, args.length - Object.keys(queryVariables).length)
+      queryVariables = Math.min(1, Object.keys(utils.getQueryVariables()).length)
+      args = Array.prototype.slice.call(args, 0, args.length - queryVariables)
       view = new ViewClass(options, args...)  # options, then any path fragment args
       view.render()
       if window.alreadyLoadedView
