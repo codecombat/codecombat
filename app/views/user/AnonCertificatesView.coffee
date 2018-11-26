@@ -36,9 +36,9 @@ module.exports = class AnonCertificatesView extends RootView
     @courseStats = {
       levels: {
         lastLevelDone: true,
-        numDone: 4083
+        numDone: 0
       },
-      linesOfCode: 1337,
+      linesOfCode: 0,
     }
 
     Promise.all([userPromise, levelsPromise, sessionsPromise])
@@ -52,7 +52,7 @@ module.exports = class AnonCertificatesView extends RootView
     )
 
   backgroundImage: ->
-    "/images/pages/user/certificates/backgrounds/background-" + "cs1" + ".png"
+    "/images/pages/user/certificates/backgrounds/background-" + "hoc" + ".png"
 
   getMedallion: ->
     '/images/pages/user/certificates/medallions/medallion-' + 'gd3' + '.png'
