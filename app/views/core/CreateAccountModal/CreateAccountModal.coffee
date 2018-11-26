@@ -72,12 +72,13 @@ module.exports = class CreateAccountModal extends ModalView
       accountCreated: false
       signupForm: {
         subscribe: ['on'] # checked by default
+        email: options.email ? ''
       }
       subModalContinue: options.subModalContinue
       wantInSchool: false
     }
 
-    { startOnPath} = options
+    { startOnPath } = options
     switch startOnPath
       when 'student' then @signupState.set({ path: 'student', screen: 'segment-check' })
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
