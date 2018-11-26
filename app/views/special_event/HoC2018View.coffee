@@ -8,12 +8,10 @@ module.exports = class HoC2018View extends RootComponent
   template: template
   VueComponent: HoC2018
 
-  # Runs before the constructor is called.
-  initialize: ->
+  constructor: (options) ->
+    super(options)
     @propsData = {
       onGetCS1Free: (teacherEmail) =>
         return if _.isEmpty(teacherEmail)
         @openModalView(new CreateAccountModal({startOnPath: 'teacher', email: teacherEmail}))
     }
-  
-  # TODO: need to clean up anything here, since we're not using something like ModalComponent?
