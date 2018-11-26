@@ -177,13 +177,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
     'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/game-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
-      url = "play/game-dev-level/#{sessionID}"
-      url += "?#{queryString}" if queryString
-      @navigate(url, { trigger: true, replace: true })
+      @navigate("play/game-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
-      url = "play/web-dev-level/#{sessionID}"
-      url += "?#{queryString}" if queryString
-      @navigate(url, { trigger: true, replace: true })
+      @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
 
@@ -282,9 +278,6 @@ module.exports = class CocoRouter extends Backbone.Router
       locale.load(me.get('preferredLanguage', true))
     ]).then ([ViewClass]) =>
       return go('NotFoundView') if not ViewClass
-      # Convert to Array and remove query string params (Backbone 1.1.1+ includes them as routing params)
-      queryVariables = utils.getQueryVariables()
-      args = Array.prototype.slice.call(args, 0, args.length - Object.keys(queryVariables).length)
       view = new ViewClass(options, args...)  # options, then any path fragment args
       view.render()
       if window.alreadyLoadedView

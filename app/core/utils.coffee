@@ -366,7 +366,6 @@ getDocumentSearchString = ->
   return document.location.search
 
 getQueryVariables = ->
-  return {} if _.isEmpty(module.exports.getDocumentSearchString())
   query = module.exports.getDocumentSearchString().substring(1) # use module.exports so spy is used in testing
   pairs = (pair.split('=') for pair in query.split '&')
   variables = {}
