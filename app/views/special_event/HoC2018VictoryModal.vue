@@ -15,9 +15,9 @@
                 type="text"
                 readonly="readonly")
           .col-xs-4
-            button.teacher-btn.btn.btn-primary.btn-block(v-on:click="copyShareURL") Copy URL
+            button.teacher-btn.btn.btn-primary.btn-lg.btn-block(v-on:click="copyShareURL") Copy URL
         .row
-          h5.headings Get a certificate of completion to celebrate with your class!
+          h5.headings.get-certificate Get a certificate of completion to celebrate with your class!
         form(v-on:submit.prevent="getCertificate")
           template(v-if="!fullName")
             .row
@@ -116,11 +116,17 @@ module.exports = Vue.extend({
   .modal-body
     .buttons div p
       padding-top: 7px
-    
+
     .headings
       font-family: Open Sans
       font-size: 18px
 
+    .get-certificate
+      margin-top: 5px
+
     .teacher-email
-      margin-top: 10px
+      margin-top: 5px
+
+    input
+      height: 45px
 </style>
