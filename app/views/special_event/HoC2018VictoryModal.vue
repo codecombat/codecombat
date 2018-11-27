@@ -6,8 +6,7 @@
       h4 Congratulations on completing Hour of Code!
     .modal-body
         .row
-          .col-xs-12
-            h5 Send your Code, Play, Share game to friends and family!
+          h5.headings Send your Code, Play, Share game to friends and family!
         .row
           .col-xs-8
             .form-group
@@ -16,10 +15,9 @@
                 type="text"
                 readonly="readonly")
           .col-xs-4
-            button.btn-block.btn-navy(v-on:click="copyShareURL") Copy URL
+            button.teacher-btn.btn.btn-primary.btn-block(v-on:click="copyShareURL") Copy URL
         .row
-          .col-xs-12
-            h5 Get a certificate of completion to celebrate with your class!
+          h5.headings Get a certificate of completion to celebrate with your class!
         form(v-on:submit.prevent="getCertificate")
           template(v-if="!fullName")
             .row
@@ -38,8 +36,8 @@
                   dir="auto"
                   required)
               .col-xs-4
-                button.btn-block.btn-navy Get Certificate
-            .row
+                button.teacher-btn.btn.btn-primary.btn-lg.btn-block Get Certificate
+            .row.teacher-email
               .col-xs-8
                 input.form-control(
                   v-model.trim="teacherEmail"
@@ -48,7 +46,7 @@
           template(v-else)
             .row
               .col-xs-12
-                button.btn-block.btn-navy Get Certificate
+                button.teacher-btn.btn.btn-primary.btn-lg.btn-block Get Certificate
 </template>
 
 <script>
@@ -118,5 +116,11 @@ module.exports = Vue.extend({
   .modal-body
     .buttons div p
       padding-top: 7px
+    
+    .headings
+      font-family: Open Sans
+      font-size: 18px
 
+    .teacher-email
+      margin-top: 10px
 </style>
