@@ -118,6 +118,13 @@
     subscribe_as_diplomat: "Subscribe as a Diplomat"
 
   play:
+    anon_signup_title_1: "CodeCombat has a"
+    anon_signup_title_2: "Classroom Version!"
+    anon_signup_enter_code: "Enter Class Code:"
+    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
+    anon_signup_create_class: "Want to create a class?"
+    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+    anon_signup_create_teacher: "Create free teacher account"
     play_as: "Play As"  # Ladder page
     get_course_for_class: "Assign Game Development and more to your classes!"
     request_licenses: "Contact our school specialists for details."
@@ -1277,6 +1284,9 @@
 
   courses:
     create_new_class: "Create New Class"
+    hoc_blurb1: "Try the"
+    hoc_blurb2: "Code, Play, Share"
+    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
     solutions_require_licenses: "Level solutions are available for teachers who have licenses."
     unnamed_class: "Unnamed Class"
     edit_settings1: "Edit Class Settings"
@@ -1458,6 +1468,11 @@
     code: "__name__'s Code"
     complete_solution: "Complete Solution"
     course_not_started: "Student has not started this course yet."
+    hoc_happy_ed_week: "Happy Computer Science Education Week!"
+    hoc_blurb1: "Learn about the free"
+    hoc_blurb2: "Code, Play, Share"
+    hoc_blurb3: "activity, download a new teacher lesson plan, and tell your students to log in to play!"
+    hoc_button_text: "View Activity"
     no_code_yet: "Student has not written any code for this level yet."
     open_ended_level: "Open-Ended Level"
     partial_solution: "Partial Solution"
@@ -2308,7 +2323,7 @@
     while_condition_loops: "While Loops with Conditionals"
     while_loops_simple: "While Loops"
     while_loops_nested: "Nested While Loops"
-    xy_coordinates: "Cartesian Coordinates"
+    xy_coordinates: "Coordinate Pairs"
     advanced_strings: "Advanced Strings"  # Rest of concepts are deprecated
     algorithms: "Algorithms"
     boolean_logic: "Boolean Logic"
@@ -2333,6 +2348,9 @@
     basic_javascript: "Basic JavaScript"
     basic_event_handling: "Basic Event Handling"
     create_sharable_interactive_web_page: "Create a sharable interactive web page"
+    programs: "Programs"
+    events: "Events"
+    properties: "Properties"
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
@@ -2637,24 +2655,31 @@
     send: "Send Email"
 
   hoc_2018:
-    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
-    learn_more: "Learn More"
-    page_heading: "Teach your students how to build their own arcade game!"
-    get_started: "Get Started:"
-    download_lesson: "Download Lesson Plan:"
-    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+    banner: "Happy Computer Science Education Week 2018!"
+    page_heading: "Your students will learn to code by building their own game!" # {change}
+    step_1: "Step 1: Watch Video Overview"
+    step_2: "Step 2: Try it Yourself"
+    step_3: "Step 3: Download Lesson Plan"
+    try_activity: "Try Activity"
     download_pdf: "Download PDF"
-    ready_play: "Ready to play?"
-    play_activity: "Play Activity"
-    about: "About CodeCombat:"
-    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+    teacher_signup_heading: "Turn Hour of Code into a Year of Code"
+    teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
+    teacher_signup_input_blurb: "Get first course free:"
+    teacher_signup_input_placeholder: "Teacher email address"
+    teacher_signup_input_button: "Get CS1 Free"
+    activities_header: "More Hour of Code Activities"
+    activity_label_1: "Escape the Dungeon!"
+    activity_label_2: " Beginner: Build a Game!"
+    activity_label_3: "Advanced: Build an Arcade Game!"
+    activity_button_1: "View Lesson"
+    about: "About CodeCombat" # {change}
+    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript." # {change}
     point1: "✓ Scaffolded"
     point2: "✓ Differentiated"
-    point3: "✓ Formative and Summative Assessments"
+    point3: "✓ Assessments" # {change}
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    request_demo: "Create Teacher Account"
     title: "HOUR OF CODE 2018"
     acronym: "HOC"
 
