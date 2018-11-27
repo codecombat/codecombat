@@ -14,9 +14,17 @@ module.exports = class HoC2018VictoryModal extends ModalComponent
     if not options.campaign
       throw new Error("HoC2018VictoryModal requires campaign slug.")
     @propsData = {
-      navigateCertificate: (name) => 
-        console.log("routing: /certificates/#{me.id}/anon")
-        application.router.navigate("/certificates/#{me.id}/anon?campaign=#{options.campaign}&username=#{name}", { trigger: true })
+      navigateCertificate: (name, teacherEmail, shareURL) =>
+        url = "/certificates/#{me.id}/anon?campaign=#{options.campaign}&username=#{name}"
+        application.router.navigate(url, { trigger: true })
+        if teacherEmail
+          window.tracker?.trackEvent('HoC2018 completed', {
+            name: name,
+            teacherEmail: teacherEmail,
+            shareURL: shareURL,
+            certificateURL: url,
+            userId: me.id
+          })
       ,
       shareURL: options.shareURL,
       fullName: if me.isAnonymous() then "" else me.broadName()

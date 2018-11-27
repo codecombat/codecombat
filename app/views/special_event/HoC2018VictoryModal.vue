@@ -73,7 +73,7 @@ module.exports = Vue.extend({
   },
   methods: {
     getCertificate: function(e) {
-      this.navigateCertificate(this.name);
+      this.navigateCertificate(this.name, this.teacherEmail, this.shareURL);
     },
     copyShareURL: function() {
       document.querySelector("#shareable").select();
