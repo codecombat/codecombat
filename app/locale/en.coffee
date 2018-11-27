@@ -2662,3 +2662,13 @@
     show_resources: "Show me teacher resources!"
     student: "I'm a student"
     ready_to_code: "I'm ready to code!"
+
+  hoc_2018_completion:
+    congratulations: "Congratulations on completing Hour of Code!"
+    send: "Send your Code, Play, Share game to friends and family!"
+    copy: "Copy URL"
+    get_certificate: "Get a certificate of completion to celebrate with your class!"
+    get_cert_btn: "Get Certificate"
+    first_name: "First Name"
+    last_initial: "Last Initial"
+    teacher_email: "Teacher's email address"

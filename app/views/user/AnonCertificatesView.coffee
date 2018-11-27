@@ -32,7 +32,7 @@ module.exports = class AnonCertificatesView extends RootView
         )
     )
 
-    # Dummy
+    # Initial data.
     @courseStats = {
       levels: {
         lastLevelDone: true,

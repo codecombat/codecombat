@@ -3,10 +3,10 @@
   #hoc-completion-modal.modal-content.style-flat
     .modal-header
       span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
-      h4 Congratulations on completing Hour of Code!
+      h4(data-i18n="hoc_2018_completion.congratulations")
     .modal-body
         .row
-          h5.headings Send your Code, Play, Share game to friends and family!
+          h5.headings(data-i18n="hoc_2018_completion.send")
         .row
           .col-xs-8
             .form-group
@@ -15,9 +15,9 @@
                 type="text"
                 readonly="readonly")
           .col-xs-4
-            button.teacher-btn.btn.btn-primary.btn-lg.btn-block(v-on:click="copyShareURL") Copy URL
+            button.teacher-btn.btn.btn-primary.btn-lg.btn-block(v-on:click="copyShareURL" data-i18n="hoc_2018_completion.copy") Copy URL
         .row
-          h5.headings.get-certificate Get a certificate of completion to celebrate with your class!
+          h5.headings.get-certificate(data-i18n="hoc_2018_completion.get_certificate")
         form(v-on:submit.prevent="getCertificate")
           template(v-if="!fullName")
             .row
@@ -25,28 +25,28 @@
                 input.form-control(
                   v-model.trim="firstName"
                   type="text"
-                  placeholder="First Name"
+                  data-i18n="[placeholder]hoc_2018_completion.first_name"
                   required)
               .col-xs-3
                 input.form-control(
                   v-model.trim="lastInitial"
                   type="text"
-                  placeholder="Last Initial"
+                  data-i18n="[placeholder]hoc_2018_completion.last_initial"
                   maxlength="1"
                   dir="auto"
                   required)
               .col-xs-4
-                button.teacher-btn.btn.btn-primary.btn-lg.btn-block Get Certificate
+                button.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-i18n="hoc_2018_completion.get_cert_btn")
             .row.teacher-email
               .col-xs-8
                 input.form-control(
                   v-model.trim="teacherEmail"
                   type="email"
-                  placeholder="Teacher's email address")
+                  data-i18n="[placeholder]hoc_2018_completion.teacher_email")
           template(v-else)
             .row
               .col-xs-12
-                button.teacher-btn.btn.btn-primary.btn-lg.btn-block Get Certificate
+                button.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-i18n="hoc_2018_completion.get_cert_btn")
 </template>
 
 <script>
