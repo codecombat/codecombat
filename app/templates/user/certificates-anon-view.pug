@@ -49,8 +49,7 @@ style.
           h4.course-name
             span(data-i18n="user.certificate_for")
             span= ' '
-            span= 'HOUR OF CODE 2018'
-            //- span= i18n(view.course.attributes, 'name')
+            span(data-i18n="hoc_2018.title")
           .code-results.outcome-section
             h3.learned-title(data-i18n="user.certificate_stats")
             ul.list-unstyled
@@ -82,14 +81,7 @@ style.
               span(data-i18n="courses.teacher")
               span= ': '
               span= view.teacherName
-          //- if view.thangType && view.thangType.loaded
-          //-   .hero-signature
-          //-     img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')
-          //-     .hero-signature-label
-          //-       span(data-i18n="user.certificate_endorsed_by")
-          //-       span= ' '
-          //-       span= i18n(view.thangType.attributes, 'extendedName')
           .course-ribbon
             img(src=view.getMedallion())
             //- Set the position of the text in the medallion.
-            h3(style="top: 0.5in;") HOC
+            h3(style="top: 0.5in;" data-i18n="hoc_2018.acronym")

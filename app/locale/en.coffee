@@ -2655,6 +2655,8 @@
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
     request_demo: "Create Teacher Account"
+    title: "HOUR OF CODE 2018"
+    acronym: "HOC"
 
   hoc_2018_interstitial:
     welcome: "Welcome to CodeCombat's Hour of Code 2018!"
