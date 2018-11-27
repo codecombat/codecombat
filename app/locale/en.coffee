@@ -2652,24 +2652,31 @@
     send: "Send Email"
 
   hoc_2018:
-    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
-    learn_more: "Learn More"
-    page_heading: "Teach your students how to build their own arcade game!"
-    get_started: "Get Started:"
-    download_lesson: "Download Lesson Plan:"
-    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+    banner: "Happy Computer Science Education Week 2018!"
+    page_heading: "Your students will learn to code by building their own game!" # {change}
+    step_1: "Step 1: Watch Video Overview"
+    step_2: "Step 2: Try it Yourself"
+    step_3: "Step 3: Download Lesson Plan"
+    try_activity: "Try Activity"
     download_pdf: "Download PDF"
-    ready_play: "Ready to play?"
-    play_activity: "Play Activity"
-    about: "About CodeCombat:"
-    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+    teacher_signup_heading: "Turn Hour of Code into a Year of Code"
+    teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
+    teacher_signup_input_blurb: "Get first course free:"
+    teacher_signup_input_placeholder: "Teacher email address"
+    teacher_signup_input_button: "Get CS1 Free"
+    activities_header: "More Hour of Code Activities"
+    activity_label_1: "Escape the Dungeon!"
+    activity_label_2: " Beginner: Build a Game!"
+    activity_label_3: "Advanced: Build an Arcade Game!"
+    activity_button_1: "View Lesson"
+    about: "About CodeCombat" # {change}
+    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript." # {change}
     point1: "✓ Scaffolded"
     point2: "✓ Differentiated"
-    point3: "✓ Formative and Summative Assessments"
+    point3: "✓ Assessments" # {change}
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    request_demo: "Create Teacher Account"
 
   hoc_2018_interstitial:
     welcome: "Welcome to CodeCombat's Hour of Code 2018!"
