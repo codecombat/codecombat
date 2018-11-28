@@ -2262,6 +2262,7 @@
     continue_statements: "Continue Statements"
     dom_events: "DOM Events"
     dynamic_styling: "Dynamic Styling"
+    events: "Events"
     event_concurrency: "Event Concurrency"
     event_data: "Event Data"
     event_handlers: "Event Handlers"
@@ -2303,6 +2304,8 @@
     math_trigonometry: "Trigonometry"
     object_literals: "Object Literals"
     parameters: "Parameters"
+    programs: "Programs"
+    properties: "Properties"
     property_access: "Accessing Properties"
     property_assignment: "Assigning Properties"
     property_coordinate: "Coordinate Property"
@@ -2677,6 +2680,8 @@
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
+    title: "HOUR OF CODE 2018"
+    acronym: "HOC"
 
   hoc_2018_interstitial:
     welcome: "Welcome to CodeCombat's Hour of Code 2018!"
@@ -2684,3 +2689,13 @@
     show_resources: "Show me teacher resources!"
     student: "I'm a student"
     ready_to_code: "I'm ready to code!"
+
+  hoc_2018_completion:
+    congratulations: "Congratulations on completing Hour of Code!"
+    send: "Send your Code, Play, Share game to friends and family!"
+    copy: "Copy URL"
+    get_certificate: "Get a certificate of completion to celebrate with your class!"
+    get_cert_btn: "Get Certificate"
+    first_name: "First Name"
+    last_initial: "Last Initial"
+    teacher_email: "Teacher's email address"

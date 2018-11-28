@@ -45,6 +45,7 @@ VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 CourseVictoryModal = require './modal/CourseVictoryModal'
 PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
+HoC2018VictoryModal = require 'views/special_event/HoC2018VictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
@@ -657,6 +658,15 @@ module.exports = class PlayLevelView extends RootView
       ModalClass = CourseVictoryModal
       options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
+    if @level.get("slug") is "code-play-share" and @level.get('shareable')
+      hocModal = new HoC2018VictoryModal({
+        shareURL: "#{window.location.origin}/play/#{@level.get('type')}-level/#{@session.id}",
+        campaign: @level.get("campaign")
+      })
+      @openModalView(hocModal)
+      hocModal.once "hidden", =>
+        @showVictoryHandlingInProgress = false
+      return
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     victoryModal.once 'hidden', =>
