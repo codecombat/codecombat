@@ -141,6 +141,11 @@ module.exports = class PlayGameDevLevelView extends RootView
       @god.createWorld(worldCreationOptions)
       @willUpdateFrontEnd = true
 
+      $(document).keydown (event) ->
+        # prevent space from scrolling on the page since it can be used as a control in the game.
+        if (event.keyCode == 32 && event.target == document.body)
+          event.preventDefault()
+
     .catch (e) =>
       throw e if e.stack
       @state.set('errorMessage', e.message)
