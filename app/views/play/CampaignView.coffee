@@ -556,6 +556,12 @@ module.exports = class CampaignView extends RootView
   afterRender: ->
     super()
     @onWindowResize()
+
+    $('#anon-classroom-signup-code').keydown (event) ->
+      if (event.keyCode == 13)
+        # click join classroom button if enter is pressed in the text box
+        $("#anon-classroom-join-btn").click()
+
     unless application.isIPadApp
       _.defer => @$el?.find('.game-controls .btn:not(.poll)').addClass('has-tooltip').tooltip()  # Have to defer or i18n doesn't take effect.
       view = @
