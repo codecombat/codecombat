@@ -46,7 +46,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
-    $(document).keydown (event) ->
+    $(window).keydown (event) ->
       # prevent space from scrolling on the page since it can be used as a control in the game.
       if (event.keyCode == 32 && event.target == document.body)
         event.preventDefault()
@@ -243,4 +243,5 @@ module.exports = class PlayGameDevLevelView extends RootView
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
+    $(window).off("keydown")
     super()
