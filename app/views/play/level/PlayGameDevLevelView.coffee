@@ -46,6 +46,11 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
+    $(document).keydown (event) ->
+      # prevent space from scrolling on the page since it can be used as a control in the game.
+      if (event.keyCode == 32 && event.target == document.body)
+        event.preventDefault()
+
     if utils.getQueryVariable 'dev'
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
@@ -141,11 +146,6 @@ module.exports = class PlayGameDevLevelView extends RootView
       @god.createWorld(worldCreationOptions)
       @willUpdateFrontEnd = true
 
-      $(document).keydown (event) ->
-        # prevent space from scrolling on the page since it can be used as a control in the game.
-        if (event.keyCode == 32 && event.target == document.body)
-          event.preventDefault()
-
     .catch (e) =>
       throw e if e.stack
       @state.set('errorMessage', e.message)
@@ -161,6 +161,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     }
 
   onClickPlayButton: ->
+    $('#play-btn').blur();
     worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
     @god.createWorld(worldCreationOptions)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
