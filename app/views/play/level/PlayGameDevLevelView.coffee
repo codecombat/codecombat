@@ -46,6 +46,11 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
+    $(window).keydown (event) ->
+      # prevent space from scrolling on the page since it can be used as a control in the game.
+      if (event.keyCode == 32 && event.target == document.body)
+        event.preventDefault()
+
     if utils.getQueryVariable 'dev'
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
@@ -156,6 +161,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     }
 
   onClickPlayButton: ->
+    $('#play-btn').blur()   # Removes focus from the button after clicking on it.
     worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
     @god.createWorld(worldCreationOptions)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
@@ -238,4 +244,5 @@ module.exports = class PlayGameDevLevelView extends RootView
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
+    $(window).off("keydown")
     super()
