@@ -3,11 +3,7 @@
   #hoc-completion-modal.modal-content.style-flat
     .modal-header
       span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
-      h4
-        span.spr(data-i18n="hoc_2018_completion.congratulations")
-        span
-          b(data-i18n="courses.hoc_blurb2")
-          b(data-i18n="hoc_2018_completion.congrats_end")
+      h4(data-i18n="[html]hoc_2018_completion.congratulations")
     .modal-body
         .row
           h5.headings(data-i18n="hoc_2018_completion.send")
