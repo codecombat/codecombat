@@ -2691,8 +2691,8 @@
     ready_to_code: "I'm ready to code!"
 
   hoc_2018_completion:
-    congratulations: "Congratulations on completing Hour of Code!"
-    send: "Send your Code, Play, Share game to friends and family!"
+    congratulations: "Congratulations on completing 'Code, Play, Share'!"
+    send: "Send your Hour of Code game to friends and family!"
     copy: "Copy URL"
     get_certificate: "Get a certificate of completion to celebrate with your class!"
     get_cert_btn: "Get Certificate"
