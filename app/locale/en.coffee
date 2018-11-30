@@ -2693,7 +2693,7 @@
   hoc_2018_completion:
     congratulations: "Congratulations on completing" # {change}
     congrats_end: '!'
-    send: "Send your Hour of Code game to friends and family!"
+    send: "Send your Hour of Code game to friends and family!" # {change}
     copy: "Copy URL"
     get_certificate: "Get a certificate of completion to celebrate with your class!"
     get_cert_btn: "Get Certificate"
