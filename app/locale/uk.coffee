@@ -87,7 +87,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     twitter: "Twitter"
     create_a_class: "Створити клас"
     other: "Інше"
-    learn_to_code: "Вчи приграмування!"
+    learn_to_code: "Вчи програмування!"
     toggle_nav: "Переключення навігації"
     schools: "Школи"
     get_involved: "Взяти участь"
