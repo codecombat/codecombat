@@ -2092,7 +2092,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     certificate_of_completion: "Сертификат о Завершении"
     certificate_endorsed_by: "Одобрен"
     certificate_stats: "Статистика курса"
-    certificate_lines_of: "линий"
+    certificate_lines_of: "строк кода на"
     certificate_levels_completed: "уровней завершено"
     certificate_for: "Для"
 
