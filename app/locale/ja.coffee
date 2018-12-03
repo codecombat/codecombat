@@ -59,8 +59,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     run_class: "すべてCSクラスに必要なものを今日教えませんか？CSの知識は無くても大丈夫です。"
     goto_classes: "クラスを見る"
     view_profile: "プロファイルを見る"
-#    view_progress: "View Progress"
-#    go_to_courses: "Go to My Courses"
+    view_progress: "プログレスを見る"
+    go_to_courses: "コースを見る"
     want_coco: "学校でCodeCombat使って見ませんか？"
 
   nav:
