@@ -1,4 +1,4 @@
-Aether = require '../aether'
+Aether = require('../aether')
 
 describe "Aether", ->
   describe "Basic tests", ->
