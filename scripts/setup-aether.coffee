@@ -1,3 +1,7 @@
+###
+This script is mandatory and used in the build process.
+It pre-builds aether to be used.
+###
 fs = require 'fs-extra'
 webpack = require 'webpack'
 path = require 'path'
@@ -35,9 +39,12 @@ aether_webpack_config =
     extensions: [".coffee", ".json", ".js"]
   externals:
     'esper.js': 'esper',
-    'lodash': '_',
     'source-map': 'SourceMap'
-
+    lodash: {
+      commonjs: "lodash"
+      amd: "lodash"
+      root: "_" # global variable
+    }
   node:
     fs: "empty"
 
@@ -49,8 +56,5 @@ webpack aether_webpack_config, (err, stats) ->
     console.log "Packed aether!"
     outputPath = path.resolve(__dirname, '..') + '/public/javascripts/aether.js'
     console.log "Aether output '#{outputPath}' exists:", fs.existsSync(outputPath)
-    console.log "STATS BEGIN"
-#    console.log stats
-    console.log "STATS END\nErrors:"
     console.log stats.compilation.errors
     console.log JSON.stringify(stats.compilation.errors, null, '\t')
