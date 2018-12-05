@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
 utils = require '../core/utils'
+coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 
 module.exports = class Classroom extends CocoModel
@@ -134,7 +135,8 @@ module.exports = class Classroom extends CocoModel
     playtime = 0
     levels = []
     linesOfCode = 0
-    lastLevelDone = false
+    userLevels = {}
+    levelsInCourse = new Set()
     for level, index in courseLevels.models
       levelsTotal++ unless level.get('practice') or level.get('assessment')
       complete = false
@@ -155,7 +157,8 @@ module.exports = class Classroom extends CocoModel
         assessment: level.get('assessment') ? false
         practice: level.get('practice') ? false
         complete: complete
-      lastLevelDone = complete unless level.get('practice') or level.get('assessment')
+      levelsInCourse.add(level.get('original')) unless level.get('practice') or level.get('assessment')
+      userLevels[level.get('original')] = complete
     lastPlayed = lastStarted ? lastPlayed
     lastPlayedNumber = '' if lastPlayed?.get('assessment')
     needsPractice = false
@@ -168,6 +171,7 @@ module.exports = class Classroom extends CocoModel
     nextLevel = courseLevels.models[nextIndex]
     nextLevel = arena if levelsLeft is 0
     nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
+    [userStarted, courseComplete, totalComplete] = coursesHelper.hasUserCompletedCourse(userLevels, levelsInCourse)
 
     stats =
       levels:
@@ -182,9 +186,9 @@ module.exports = class Classroom extends CocoModel
         first: courseLevels.first()
         arena: arena
         project: project
-        lastLevelDone: lastLevelDone
       playtime: playtime
       linesOfCode: linesOfCode
+      courseComplete: courseComplete
     stats
 
   fetchForCourseInstance: (courseInstanceID, options={}) ->

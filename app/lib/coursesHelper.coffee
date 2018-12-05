@@ -11,13 +11,14 @@ hasUserCompletedCourse = (userLevels, levelsInCourse) ->
   userStarted = false
   allComplete = true
   completed = 0
-  userLevelsSeen = if userLevels then Object.keys(userLevels).filter((l) -> levelsInCourse.has(l)).length else 0
+  userLevelsSeen = 0
   for level, complete of userLevels when levelsInCourse.has level
     userStarted = true
-    if not complete
+    if complete
+      completed++
+    else
       allComplete = false
-      break
-    completed += 1
+    userLevelsSeen++
   allComplete = false unless userStarted
   [userStarted, allComplete and userLevelsSeen == levelsInCourse.size, completed]
 
