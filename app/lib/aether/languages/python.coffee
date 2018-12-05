@@ -1,6 +1,4 @@
-﻿_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
-
-parserHolder = {}
+﻿parserHolder = {}
 traversal = require '../traversal'
 Language = require './language'
 

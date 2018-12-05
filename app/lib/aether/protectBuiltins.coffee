@@ -1,5 +1,3 @@
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
-
 problems = require './problems'
 
 # These builtins, being objects, will have to be cloned and restored.

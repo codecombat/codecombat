@@ -1,4 +1,4 @@
-require('node_modules/ace-builds/src-noconflict/ace.js');
+require('ace-builds/src-noconflict/ace.js');
 
 module.exports = window.ace
 # delete window.ace # We can't do this because ace needs itself to be in window to do ace.require

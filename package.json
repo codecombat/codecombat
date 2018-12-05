@@ -35,6 +35,7 @@
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
+    "clean-build": "rm -rf node_modules & rm -rf bower_components & rm -rf public & wait && npm i",
     "postinstall": "bower install && npm run build-aether && webpack",
     "build-aether": "./node_modules/coffee-script/bin/coffee scripts/setup-aether.coffee",
     "webpack": "webpack",

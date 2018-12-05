@@ -1,6 +1,5 @@
 ranges = require './ranges'
 string_score = require 'string_score'
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
 # Problems #################################
 #

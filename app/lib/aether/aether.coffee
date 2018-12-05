@@ -2,8 +2,6 @@ self = window if window? and not self?
 self = global if global? and not self?
 self.self ?= self
 
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
-
 esprima = require 'esprima'  # getting our Esprima Harmony
 
 defaults = require './defaults'
@@ -211,7 +209,7 @@ module.exports = class Aether
     @language.convertToNativeType(obj)
 
   getStatementCount: ->
-    esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
+    # esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
     esper.plugin 'lang-' + @language.id
     
     count = 0

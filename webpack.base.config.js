@@ -29,7 +29,7 @@ module.exports = (env) => {
         './vendor/scripts/coffeescript.js',
       ]),
       lodash: 'lodash', // For worker_world
-      aether: './app/lib/aether/aether.coffee', // For worker_world
+      // aether: './public/javascripts/aether.js', // For worker_world
       // esper: './bower_components/esper.js/esper.js',
       // vendor: './app/vendor.js'
     },
@@ -110,7 +110,6 @@ module.exports = (env) => {
     },
     externals: {
       'esper': 'esper',
-      'esper.js': 'esper'
     },
     plugins: [
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress

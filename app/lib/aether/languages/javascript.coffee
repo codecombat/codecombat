@@ -1,5 +1,3 @@
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
-
 jshintHolder = {}
 escodegen = require 'escodegen'
 

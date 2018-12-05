@@ -1,6 +1,5 @@
 # Based on https://github.com/substack/node-falafel
 # A similar approach could be seen in https://github.com/ariya/esmorph
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
 # TODO: see about consolidating
 module.exports.walkAST = walkAST = (node, fn) ->

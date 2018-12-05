@@ -40,11 +40,7 @@ aether_webpack_config =
   externals:
     'esper.js': 'esper',
     'source-map': 'SourceMap'
-    lodash: {
-      commonjs: "lodash"
-      amd: "lodash"
-      root: "_" # global variable
-    }
+    'lodash': '_'
   node:
     fs: "empty"
 
