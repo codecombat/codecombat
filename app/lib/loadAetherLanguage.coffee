@@ -1,9 +1,9 @@
 loadAetherLanguage = (language) -> new Promise (accept, reject) ->
   switch language
-    when 'javascript' then require.ensure(['bower_components/aether/build/javascript'], => accept(require('bower_components/aether/build/javascript')))
-    when 'python' then require.ensure(['bower_components/aether/build/python'], => accept(require('bower_components/aether/build/python')))
-    when 'coffeescript' then require.ensure(['bower_components/aether/build/coffeescript'], => accept(require('bower_components/aether/build/coffeescript')))
-    when 'lua' then require.ensure(['bower_components/aether/build/lua'], => accept(require('bower_components/aether/build/lua')))
-    when 'java' then require.ensure(['bower_components/aether/build/java'], => accept(require('bower_components/aether/build/java')))
+    when 'javascript' then require.ensure(['public/javascripts/app/vendor/aether-javascript'], => accept(require('public/javascripts/app/vendor/aether-javascript')))
+    when 'python' then require.ensure(['public/javascripts/app/vendor/aether-python'], => accept(require('public/javascripts/app/vendor/aether-python')))
+    when 'coffeescript' then require.ensure(['public/javascripts/app/vendor/aether-coffeescript'], => accept(require('public/javascripts/app/vendor/aether-coffeescript')))
+    when 'lua' then require.ensure(['public/javascripts/app/vendor/aether-lua'], => accept(require('public/javascripts/app/vendor/aether-lua')))
+    when 'java' then require.ensure(['public/javascripts/app/vendor/aether-java'], => accept(require('public/javascripts/app/vendor/aether-java')))
 
 module.exports = loadAetherLanguage

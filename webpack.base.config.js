@@ -29,7 +29,7 @@ module.exports = (env) => {
         './vendor/scripts/coffeescript.js',
       ]),
       lodash: 'lodash', // For worker_world
-      aether: './bower_components/aether/build/aether.js', // For worker_world
+      aether: './app/lib/aether/aether.coffee', // For worker_world
       // esper: './bower_components/esper.js/esper.js',
       // vendor: './app/vendor.js'
     },
@@ -108,6 +108,10 @@ module.exports = (env) => {
       child_process: 'empty',
       request: 'empty',
     },
+    externals: {
+      'esper': 'esper',
+      'esper.js': 'esper'
+    },
     plugins: [
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new ExtractTextPlugin({ // Move CSS into external file
@@ -149,25 +153,7 @@ module.exports = (env) => {
         },{
           from: 'bower_components/esper.js/esper-modern.js',
           to: 'javascripts/esper.modern.js'
-        },{ // Aether
-          from: 'bower_components/aether/build/coffeescript.js',
-          to: 'javascripts/app/vendor/aether-coffeescript.js',
-        },{
-          from: 'bower_components/aether/build/javascript.js',
-          to: 'javascripts/app/vendor/aether-javascript.js',
-        },{
-          from: 'bower_components/aether/build/lua.js',
-          to: 'javascripts/app/vendor/aether-lua.js',
-        },{
-          from: 'bower_components/aether/build/java.js',
-          to: 'javascripts/app/vendor/aether-java.js',
-        },{
-          from: 'bower_components/aether/build/python.js',
-          to: 'javascripts/app/vendor/aether-python.js',
-        },{
-          from: 'bower_components/aether/build/html.js',
-          to: 'javascripts/app/vendor/aether-html.js',
-        }
+        },
       ]),
       new CompileStaticTemplatesPlugin({
         locals: {shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false},

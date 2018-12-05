@@ -15,11 +15,11 @@ module.exports = class SimulateTabView extends CocoView
     @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
     @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators', {cache: false})
     @simulatorsLeaderboardDataRes.load()
-    require 'bower_components/aether/build/javascript'
-    require 'bower_components/aether/build/python'
-    require 'bower_components/aether/build/coffeescript'
-    require 'bower_components/aether/build/lua'
-    require 'bower_components/aether/build/java'
+    require 'public/javascripts/app/vendor/aether-javascript'
+    require 'public/javascripts/app/vendor/aether-python'
+    require 'public/javascripts/app/vendor/aether-coffeescript'
+    require 'public/javascripts/app/vendor/aether-lua'
+    require 'public/javascripts/app/vendor/aether-java'
 
   onLoaded: ->
     super()

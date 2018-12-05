@@ -42,7 +42,7 @@
     "fastclick": "~1.0.3",
     "three.js": "~0.71.0",
     "lscache": "~1.0.5",
-    "esper.js": "http://files.codecombat.com/esper-2018-06-28.tar.gz",
+    "esper.js": "http://files.codecombat.com/esper-2018-12-04.tar.gz",
     "algoliasearch": "^3.13.1",
     "algolia-autocomplete.js": "^0.17.0",
     "algolia-autocomplete-no-conflict": "1.0.0",
