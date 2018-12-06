@@ -111,7 +111,7 @@ module.exports = class SpellView extends CocoView
     @ace.setTheme 'ace/theme/textmate'
     @ace.setDisplayIndentGuides false
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles aceConfig.invisibles
+    @ace.setShowInvisibles false
     @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
     @ace.setShowFoldWidgets false
@@ -1306,8 +1306,7 @@ module.exports = class SpellView extends CocoView
 
   onChangeEditorConfig: (e) ->
     aceConfig = me.get('aceConfig') ? {}
-    @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
-    @ace.setShowInvisibles aceConfig.invisibles # default false
+    @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @updateAutocomplete(aceConfig.liveCompletion ? false)
 
