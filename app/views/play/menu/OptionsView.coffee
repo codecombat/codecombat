@@ -14,15 +14,11 @@ module.exports = class OptionsView extends CocoView
   defaultConfig:
     language: 'python'
     keyBindings: 'default'
-    invisibles: false
-    indentGuides: false
     behaviors: false
     liveCompletion: true
 
   events:
     'change #option-music': 'updateMusic'
-    'change #option-invisibles': 'updateInvisibles'
-    'change #option-indent-guides': 'updateIndentGuides'
     'change #option-behaviors': 'updateBehaviors'
     'change #option-live-completion': 'updateLiveCompletion'
     'click .profile-photo': 'onEditProfilePhoto'
@@ -58,9 +54,7 @@ module.exports = class OptionsView extends CocoView
     @playSound 'menu-button-click'  # Could have another volume-indicating noise
 
   onHidden: ->
-    @aceConfig.invisibles = @$el.find('#option-invisibles').prop('checked')
     @aceConfig.keyBindings = 'default'  # We used to give them the option, but we took it away.
-    @aceConfig.indentGuides = @$el.find('#option-indent-guides').prop('checked')
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')
     me.set 'aceConfig', @aceConfig
@@ -70,14 +64,8 @@ module.exports = class OptionsView extends CocoView
   updateMusic: ->
     me.set 'music', @$el.find('#option-music').prop('checked')
 
-  updateInvisibles: ->
-    @aceConfig.invisibles = @$el.find('#option-invisibles').prop('checked')
-
   updateKeyBindings: ->
     @aceConfig.keyBindings = @$el.find('#option-key-bindings').val()
-
-  updateIndentGuides: ->
-    @aceConfig.indentGuides = @$el.find('#option-indent-guides').prop('checked')
 
   updateBehaviors: ->
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')

@@ -20,7 +20,7 @@ module.exports = class AnonCertificatesView extends RootView
   initialize: (options, userId) ->
     @loading = true
     user = new User _id:userId
-    userPromise = user.fetch() 
+    userPromise = user.fetch()
     campaignSlug = utils.getQueryVariable 'campaign'
     @name = utils.getQueryVariable 'username'
     levelsPromise = (new Levels()).fetchForCampaign(campaignSlug, {})
@@ -35,10 +35,10 @@ module.exports = class AnonCertificatesView extends RootView
     # Initial data.
     @courseStats = {
       levels: {
-        lastLevelDone: true,
         numDone: 0
       },
       linesOfCode: 0,
+      courseComplete: true
     }
 
     Promise.all([userPromise, levelsPromise, sessionsPromise])
@@ -62,7 +62,7 @@ module.exports = class AnonCertificatesView extends RootView
 
   userName: ->
     @name || "Lorem Ipsum Name"
-  
+
   getCodeLanguageName: ->
     "Python"
 
@@ -87,8 +87,8 @@ module.exports = class AnonCertificatesView extends RootView
     return session.fetch({url: url})
 
   reduceSessionStats: (sessions, levels) ->
-    return  sessions.reduce((stats, ls, i)=>
+    return sessions.reduce((stats, ls, i) =>
       stats.levels.numDone += 1
       stats.linesOfCode += ls.countOriginalLinesOfCode(levels[i])
       return stats
-    , {levels: {lastLevelDone:true, numDone: 0}, linesOfCode: 0})
+    , @courseStats)

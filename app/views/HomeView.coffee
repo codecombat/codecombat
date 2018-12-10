@@ -49,11 +49,8 @@ module.exports = class HomeView extends RootView
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
-    isHourOfCodeWeek = false  # Temporary: default to hourOfCode flow during the main event week
     @playURL = if me.isStudent()
       '/students'
-    else if isHourOfCodeWeek
-      '/play?hour_of_code=true'
     else
       '/play'
 

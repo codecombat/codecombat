@@ -119,8 +119,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   play:
     play_as: "Spiele als " # Ladder page
-    get_course_for_class: "Bringe deiner Klasse Spiele-Entwicklung und mehr bei!"
-    request_licenses: "Kontaktiere unsere Schulspezialisten für Details."
+    get_course_for_class: "Wende Spieleentwicklung und mehr in deiner Klasse an!"
+    request_licenses: "Kontaktieren Sie unseren Schulspezialisten für Details."
     compete: "Teilnehmen!" # Course details page
     spectate: "Zuschauen" # Ladder page
     players: "Spieler" # Hover over a level on /play
@@ -230,7 +230,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     signup_switch: "Willst du einen Account erstellen?"
 
   signup:
-    complete_subscription: "Vervollständige Anmeldung"
+    complete_subscription: "Schließe die Anmeldung ab"
     create_student_header: "Schülerkonto erstellen"
     create_teacher_header: "Lehrerkonto erstellen"
     create_individual_header: "Einzelkonto erstellen"
@@ -331,7 +331,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     default_code: "Standardcode"
     loading: "Lade..."
     overview: "Übersicht"
-    processing: "Verarbeitung..."
+    processing: "In Bearbeitung..."
     solution: "Lösung"
     table_of_contents: "Inhaltsverzeichnis"
     intro: "Einführung"
@@ -521,8 +521,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     skip_tutorial: "Überspringen (Esc)"
     keyboard_shortcuts: "Tastenkürzel"
     loading_start: "Starte Level"
-    loading_start_combo: "Starte Combo Challenge"
-    loading_start_concept: "Starte Konzept Challenge"
+    loading_start_combo: "Starte die Kombinationsherausforderung"
+    loading_start_concept: "Starte die Konzeptherausforderung"
     problem_alert_title: "Repariere deinen Code"
     time_current: "Aktuell:"
     time_total: "Gesamt:"
@@ -613,9 +613,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   apis:
     methods: "Methoden"
     events: "Ereignisse"
-#    handlers: "Handlers"
+    handlers: "Handler"
     properties: "Eigenschaften"
-#    snippets: "Snippets"
+    snippets: "Schnipsel"
 #    spawnable: "Spawnable"
     html: "HTML"
     math: "Mathematik"
@@ -947,7 +947,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     lisa_title: "Schulspezialist" # {change}
     sean_title: "Territorialmanager"
     liz_title: "Territorialmanager"
-#    jane_title: "Customer Success Manager"
+    jane_title: "Kundenerfolgsmanager"
     david_title: "Leitung Marketing"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
