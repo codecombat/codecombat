@@ -14,7 +14,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     top_screenshots_hint: "Учні пишуть код і бачать усі зміни наживо"
     designed_with: "Зважаючи на потреби вчителя"
     real_code: "Справжній код"
-    from_the_first_level: "з першого рівня"
+    from_the_first_level: "з першого рівню"
     getting_students: "Написання коду самостійно сприяє вивченню синтаксису та структури програми."
     educator_resources: "Путівник по курсах"
     course_guides: "і додаткові матеріали"
