@@ -2636,7 +2636,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   hoc_2018:
     learn_more_copy: "CodeCombatは全ての人のために作られた素晴らしいプログラムです。HOCを次のレベルに行きたいですか？"
     learn_more: "もっと詳しく"
-    page_heading: "Teach your students how to build their own arcade game!生徒に自分のゲームの作り方を教えよう！"
+    page_heading: "生徒に自分のゲームの作り方を教えよう！"
     get_started: "始まる:"
     download_lesson: "レッスンプランをダウンロード:"
     lesson_copy: "このPDFはHOCのレッスンのやり方や大事なところをじっくり教えてくれます。さらに、クラスで話し合うことがかいてあります。"
