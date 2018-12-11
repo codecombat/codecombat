@@ -258,57 +258,57 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     name_taken: "누군가가 사용 중인 Username입니다! {{suggestedName}}는 어때요?"
     name_available: "사용 가능한 Username입니다!"
     name_is_email: "Username은 이메일 주소로 할 수 없습니다."
- 	  choose_type: " 계정 유형을 선택하세요:" 
+    choose_type: " 계정 유형을 선택하세요:" 
     teacher_type_1: "Codecombat을 이용하여 프로그래밍을 가르치세요!"
-	  teacher_type_2: " 클래스를 설정해주세요." 
-	  teacher_type_3: " 가이드 보기" 
-	  teacher_type_4: " 학생들의 진행 상황보기" 
-	  signup_as_teacher: " 교사용 계정 생성 " 
-	  student_type_1: " 재미있는 게임을 통해 프로그래밍을 배우세요!" 
-	  student_type_2: " 당신의 클래스와 게임하세요." 
-	  student_type_3: " 아레나에서 경쟁하기."
-	  student_type_4: "영웅을 선택하세요!" 
-	  student_type_5: " 클래스 코드가 준비 되어있습니다!" 
-	  signup_as_student: " 학생용 계정 생성." 
-	  individuals_or_parents: " 개인 & 부모 " 
-	  individual_type: " 클래스를 이용하지않고 이용하실 겨우에는 부모님이 계정을 먼저 만드세요." 
-	  signup_as_individual: " 개인 계정을 생성 " 
-	  enter_class_code: " 클래스 코드를 입력하세요." 
-	  enter_birthdate: " 생일을 입력하세요:" 
-	  parent_use_birthdate: " 부모님의 생일을 적어주세요." 
-	  ask_teacher_1: " 선생님께 클래스를 물어보세요." 
-	  ask_teacher_2: " 클래스가 없으십니까? 클래스를 만드세요. " 
-	  ask_teacher_3: " 개인 계정 " 
-	  ask_teacher_4: "  대신 " 
-	  about_to_join: " 가입 가능합니다:" 
-	  enter_parent_email: " 부모님의 이메일 주소를 입력하세요:" 
-	  parent_email_error: " 이메일 보내는 과정에서 오류가 발생했습니다. 이메일 주소를 다시 확인해주세요." 
-	  parent_email_sent: " 계정 만드는 법과 함께 이메일을 보냈습니다. 부모님 이메일을 확인하세요. " 
-	  account_created: " 계정 생성 성공!" 
-	  confirm_student_blurb: " 까먹지 않기 위해 당신의 정보를 적어 놓으세요. 선생님도 비밀번호 초기화를 언제든지 해줄 수 있습니다." 
-	  confirm_individual_blurb: “나중에 필요할 수 도 있기 떄문에 로그인 정보를 적어두세요. 나중에 아이디나 비밀번호를 까먹을 수 있기 떄문에 이메일 인증을 받으세요. 수신함을 확인하세요!”
-	  write_this_down: " 이 정보를 적어두세요:" 
-	  start_playing: “게임을 시작하세요!”
-	  sso_connected: “성공적으로 연결 되었습니다:”
-	  select_your_starting_hero: “처음 게임 할 영웅을 고르세요:”
-	  you_can_always_change_your_hero_later: “언제든지 영웅을 바꾸실 수 있습니다.”
-	  finish: “완료”
-	  teacher_ready_to_create_class: “첫 클래스를 생성 할 준비가 다 되어있습니다!”
-	  teacher_students_can_start_now: “당신의 학생들은 첫 수업 “전산학 개론”을 바로 진행할 수 있습니다.”
-	  teacher_list_create_class: “다음 화면에선 새로운 클래스를 만듭니다.”
-	  teacher_list_add_students: “View Class link를 눌러 학생들은 클래스에 등록하세요. 그 다음 학생들에게 클래스 코드 혹은 URL을 보내세요. 이메일 주소로도 학생들을 등록시킬 수 있습니다.”
-	  teacher_list_resource_hub_1: “확인하세요.”
-	  teacher_list_resource_hub_2: “게임 가이드.”
-	  teacher_list_resource_hub_3: “모든 레벨에 대한 답은, 그리고”
-	  teacher_list_resource_hub_4: “자원 중심지”
-	  teacher_list_resource_hub_5: “커리큘럼 가이드, 활동, 더 많은정보를 알 수 있습니다.”
-	  teacher_additional_questions: “끝났습니다! 혹시 다른 문제는 도움이 필요하신다면, “support email”을 통해 물어보세요.”
-	  dont_use_our_email_silly: “학생의 이메일을 쓰지 마세요! 부모님의 이메일을 쓰세요.”
-	  want_codecombat_in_school: “CodeCombat을 언제든지 하고 싶으신가요?”
-	  eu_confirmation: “나는 내 정보들을 CodeCombat이 미국 서버에 저장하는 것을 허용한다.”
-	  eu_confirmation_place_of_processing: "Learn more about the possible risks" “다른 위험에 대해 알아봅시다.”
-	  eu_confirmation_student: “확실하지 않다면, 선생님께 물어보세요.”
-	  eu_confirmation_individual: “자신의 정보가 미국 서버에 저장되는게 싫으시다면, 언제든지 익명으로 게임하시면 됩니다.”
+    teacher_type_2: " 클래스를 설정해주세요." 
+    teacher_type_3: " 가이드 보기" 
+    teacher_type_4: " 학생들의 진행 상황보기" 
+    signup_as_teacher: " 교사용 계정 생성 " 
+    student_type_1: " 재미있는 게임을 통해 프로그래밍을 배우세요!"
+    student_type_2: " 당신의 클래스와 게임하세요." 
+    student_type_3: " 아레나에서 경쟁하기."
+    student_type_4: "영웅을 선택하세요!" 
+    student_type_5: " 클래스 코드가 준비 되어있습니다!" 
+    signup_as_student: " 학생용 계정 생성." 
+    individuals_or_parents: " 개인 & 부모 " 
+    individual_type: " 클래스를 이용하지않고 이용하실 겨우에는 부모님이 계정을 먼저 만드세요." 
+    signup_as_individual: " 개인 계정을 생성 " 
+    enter_class_code: " 클래스 코드를 입력하세요." 
+    enter_birthdate: " 생일을 입력하세요:" 
+    parent_use_birthdate: " 부모님의 생일을 적어주세요." 
+    ask_teacher_1: " 선생님께 클래스를 물어보세요." 
+    ask_teacher_2: " 클래스가 없으십니까? 클래스를 만드세요. " 
+    ask_teacher_3: " 개인 계정 " 
+    ask_teacher_4: "  대신 " 
+    about_to_join: " 가입 가능합니다:" 
+    enter_parent_email: " 부모님의 이메일 주소를 입력하세요:" 
+    parent_email_error: " 이메일 보내는 과정에서 오류가 발생했습니다. 이메일 주소를 다시 확인해주세요." 
+    parent_email_sent: " 계정 만드는 법과 함께 이메일을 보냈습니다. 부모님 이메일을 확인하세요. " 
+    account_created: " 계정 생성 성공!" 
+    confirm_student_blurb: " 까먹지 않기 위해 당신의 정보를 적어 놓으세요. 선생님도 비밀번호 초기화를 언제든지 해줄 수 있습니다." 
+    confirm_individual_blurb: “나중에 필요할 수 도 있기 떄문에 로그인 정보를 적어두세요. 나중에 아이디나 비밀번호를 까먹을 수 있기 떄문에 이메일 인증을 받으세요. 수신함을 확인하세요!”
+    write_this_down: " 이 정보를 적어두세요:" 
+    start_playing: “게임을 시작하세요!”
+    sso_connected: “성공적으로 연결 되었습니다:”
+    select_your_starting_hero: “처음 게임 할 영웅을 고르세요:”
+    you_can_always_change_your_hero_later: “언제든지 영웅을 바꾸실 수 있습니다.”
+    finish: “완료”
+    teacher_ready_to_create_class: “첫 클래스를 생성 할 준비가 다 되어있습니다!”
+    teacher_students_can_start_now: “당신의 학생들은 첫 수업 “전산학 개론”을 바로 진행할 수 있습니다.”
+    teacher_list_create_class: “다음 화면에선 새로운 클래스를 만듭니다.”
+    teacher_list_add_students: “View Class link를 눌러 학생들은 클래스에 등록하세요. 그 다음 학생들에게 클래스 코드 혹은 URL을 보내세요. 이메일 주소로도 학생들을 등록시킬 수 있습니다.”
+    teacher_list_resource_hub_1: “확인하세요.”
+    teacher_list_resource_hub_2: “게임 가이드.”
+    teacher_list_resource_hub_3: “모든 레벨에 대한 답은, 그리고”
+    teacher_list_resource_hub_4: “자원 중심지”
+    teacher_list_resource_hub_5: “커리큘럼 가이드, 활동, 더 많은정보를 알 수 있습니다.”
+    teacher_additional_questions: “끝났습니다! 혹시 다른 문제는 도움이 필요하신다면, “support email”을 통해 물어보세요.”
+    dont_use_our_email_silly: “학생의 이메일을 쓰지 마세요! 부모님의 이메일을 쓰세요.”
+    want_codecombat_in_school: “CodeCombat을 언제든지 하고 싶으신가요?”
+    eu_confirmation: “나는 내 정보들을 CodeCombat이 미국 서버에 저장하는 것을 허용한다.”
+    eu_confirmation_place_of_processing: "Learn more about the possible risks" “다른 위험에 대해 알아봅시다.”
+    eu_confirmation_student: “확실하지 않다면, 선생님께 물어보세요.”
+    eu_confirmation_individual: “자신의 정보가 미국 서버에 저장되는게 싫으시다면, 언제든지 익명으로 게임하시면 됩니다.”
 
   recover:
     recover_account_title: "계정 복구"
