@@ -83,7 +83,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     my_classrooms: "나의 클래스"
     my_courses: "나의 코스"
     careers: "채용"
-    facebook: "페이스북"
+    facebook: "페이스북"    forum: "포럼"
+
     twitter: "트위터"
     create_a_class: "클래스 생성"
 #    other: "Other"
