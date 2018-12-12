@@ -2190,7 +2190,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
- loading_error:
+  loading_error:
     could_not_load: "Fel vid laddning från servern"
     connection_failure: "Anslutning Misslyckades"
     connection_failure_desc: "Det ser inte ut som du är ansluten till internet! Kontrollera din nätverksanslutning och ladda om sidan."
