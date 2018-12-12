@@ -118,6 +118,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
 
   play:
+#    anon_signup_title_1: "CodeCombat has a"
+#    anon_signup_title_2: "Classroom Version!"
+#    anon_signup_enter_code: "Enter Class Code:"
+#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
+#    anon_signup_create_class: "Want to create a class?"
+#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+#    anon_signup_create_teacher: "Create free teacher account"
     play_as: "Jugar com" # Ladder page
     get_course_for_class: "Assigna el desenvolupament del joc i més a les vostres classes!"
     request_licenses: "Posa't en contacte amb els especialistes del centre per obtenir més informació."
@@ -146,7 +153,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     subscriber_gems: "Subscriu-te avui per comprar aquest heroi amb gemmes!"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
-    awaiting_levels_adventurer_prefix: "Publiquem nous nivells cada setmana." 
+    awaiting_levels_adventurer_prefix: "Publiquem nous nivells cada setmana."
     awaiting_levels_adventurer: "Inicia sessió com a aventurer"
     awaiting_levels_adventurer_suffix: "Sigues el primer en jugar els nous nivells"
     adjust_volume: "Ajustar volum"
@@ -210,7 +217,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     None: "Cap"
 
   share_progress_modal:
-    blurb: "Estàs progressant molt! Digues als teus pares quant n'has après amb CodeCombat." 
+    blurb: "Estàs progressant molt! Digues als teus pares quant n'has après amb CodeCombat."
     email_invalid: "Correu electrònic invàlid."
     form_blurb: "Escriu els seus emails a sota i els hi ensenyarem!"
     form_label: "Correu electrònic"
@@ -493,7 +500,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     victory_title_suffix: " Complet"
     victory_sign_up: "Inicia sessió per a desar el progressos"
     victory_sign_up_poke: "Vols guardar el teu codi? Crea un compte gratuït!"
-    victory_rate_the_level: "Era molt divertit aquest nivell?" 
+    victory_rate_the_level: "Era molt divertit aquest nivell?"
     victory_return_to_ladder: "Retorna a les Escales"
     victory_saving_progress: "Desa progrés"
     victory_go_home: "Tornar a l'inici"
@@ -512,7 +519,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     tome_cast_button_running: "Executant"
     tome_cast_button_ran: "Executat"
     tome_submit_button: "Envia"
-    tome_reload_method: "Recarrega el codi original per reiniciar el nivell" 
+    tome_reload_method: "Recarrega el codi original per reiniciar el nivell"
     tome_available_spells: "Encanteris disponibles"
     tome_your_skills: "Les teves habilitats"
     hints: "Consells"
@@ -673,7 +680,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     auth_caption: "Desa el progrés."
 
   leaderboard:
-    view_other_solutions: "Veure les taules de classificació" 
+    view_other_solutions: "Veure les taules de classificació"
     scores: "Puntuació"
     top_players: "Els millors jugadors de"
     day: "Avui"
@@ -1011,7 +1018,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     project_based_title: "Cursos basats en projectes"
     project_based_description: "Els cursos de desenvolupament web i jocs tenen projectes finals compartibles."
     great_for_clubs_title: "Ideal per a tallers i optatives"
-    great_for_clubs_description: "Els professors poden comprar fins a __maxQuantityStarterLicenses__ llicències inicials." 
+    great_for_clubs_description: "Els professors poden comprar fins a __maxQuantityStarterLicenses__ llicències inicials." #
     low_price_title: "Només __starterLicensePrice__ per alumne"
     low_price_description: "Les llicències inicials estan actives per __starterLicenseLengthMonths__ mesos a partir de la compra."
     three_great_courses: "Tres grans cursos inclosos a la Llicència inicial:"
@@ -1152,7 +1159,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     manage_subscription: "Clica aquí per administrar la teva subscripció."
     new_password: "Contrasenya nova"
     new_password_verify: "Verifica"
-    type_in_email: "Escriu el teu e-mail o nom d'usuari per confirmar l'eliminació del compte." 
+    type_in_email: "Escriu el teu e-mail o nom d'usuari per confirmar l'eliminació del compte."
     type_in_email_progress: "Escriu el teu correu electrònic per confirmar l'eliminació del teu progrés."
     type_in_password: "Escriu també la teva contrasenya."
     email_subscriptions: "Subscripcions via correu electrònic"
@@ -1277,6 +1284,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   courses:
     create_new_class: "Crear una Classe Nova"
+#    hoc_blurb1: "Try the"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
     solutions_require_licenses: "Hi ha disponibles solucions de nivell per als professors que tenen llicències."
     unnamed_class: "Classe sense nom"
     edit_settings1: "Edita la configuració de la Classe"
@@ -1458,6 +1468,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     code: "Codi d'en/na __name__"
     complete_solution: "Solució Completa"
     course_not_started: "L'alumnat encara no ha començat aquest curs."
+#    hoc_happy_ed_week: "Happy Computer Science Education Week!"
+#    hoc_blurb1: "Learn about the free"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity, download a new teacher lesson plan, and tell your students to log in to play!"
+#    hoc_button_text: "View Activity"
     no_code_yet: "L'alumnat encara no ha escrit cap codi en aquest nivell."
     open_ended_level: "Nivell obert"
     partial_solution: "Solució Parcial"
@@ -2065,7 +2080,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     rules: "Normes"
     winners: "Guanyadors"
     league: "Lliga"
-    red_ai: "CPU vermella" # "AI vermella guanya", at end of multiplayer match playback
+    red_ai: "CPU vermella" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "CPU blava"
     wins: "Guanya" # At end of multiplayer match playback
     humans: "Vermell" # Ladder page display team name
@@ -2191,7 +2206,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     conflict: "Conflicte de recursos."
     bad_input: "Entrada incorrecta."
     server_error: "Error del servidor."
-    unknown: "Error Desconegut" 
+    unknown: "Error Desconegut"
     error: "ERROR"
     general_desc: "Alguna cosa ha anat malament, i és probable que sigui culpa nostra. Mira d'esperar una mica i després recarrega la plana, o visita un dels enllaços següents per tornar a programar!"
 
@@ -2247,6 +2262,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     continue_statements: "Sentències Continue"
     dom_events: "Events DOM"
     dynamic_styling: "Estilisme dinàmic"
+#    events: "Events"
     event_concurrency: "Concurrència d'events"
     event_data: "Data d'event"
     event_handlers: "Controlador d'Events"
@@ -2288,6 +2304,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     math_trigonometry: "Trigonometria"
     object_literals: "Objectes Literals"
     parameters: "Paràmetres"
+#    programs: "Programs"
+#    properties: "Properties"
     property_access: "Accés a Propietats"
     property_assignment: "Assignar Propietats"
     property_coordinate: "Coordinar Propietat"
@@ -2354,7 +2372,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   legal:
     page_title: "Legalitat"
-    opensource_intro: "CodeCombat és tot de codi obert."
+#    opensource_introduction: "CodeCombat is part of the open source community."
     opensource_description_prefix: "Comprova "
     github_url: "el nostre GitHub"
     opensource_description_center: "i ajuda'ns si vols! CodeCombat està construit amb dotzenes de projectes de codi obert, i ens encanta. Mira "
@@ -2378,7 +2396,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     cla_url: "CLA"
     contributor_description_suffix: "que has d'acceptar abans de fer contribucions."
     code_title: "Codi - MIT"
-    code_description_prefix: "Tot el codi fet per CodeCombat o hospedat a codecombat.com, tan al repositori de GitHub com a la base de dades de codecombat.com, està sota llicència de"
+#    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
     mit_license_url: "llicència MIT"
     code_description_suffix: "Això inclou tot el codi a Sistemes i Components que s'han fet possibles per CodeCombat amb el proposit de crear nivells."
     art_title: "Art/Música - Creative Commons "
@@ -2634,21 +2652,47 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     send: "E-mail enviat"
 
   hoc_2018:
-    learn_more_copy: "CodeCombat és un programa integral dissenyat per a tots els professors. Voleu portar la estona de programació al següent nivell?"
-    learn_more: "Aprenre més"
-    page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!"
-    get_started: "Començar:"
-    download_lesson: "Descarregar la Planificació de classes:"
-    lesson_copy: "Aquest PDF us ajudarà a introduir i tancar la lliçó de Programació Informàtica, els objectius d'aprenentatge, els termes i conceptes clau i les preguntes de discussió per inspirar més la curiositat de la codificació."
+#    banner: "Happy Computer Science Education Week 2018!"
+    page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
+#    step_1: "Step 1: Watch Video Overview"
+#    step_2: "Step 2: Try it Yourself"
+#    step_3: "Step 3: Download Lesson Plan"
+#    try_activity: "Try Activity"
     download_pdf: "Descarregar PDF"
-    ready_play: "Estàs preparat per jugar?"
-    play_activity: "Reprodueix Activitat"
-    about: "Sobre CodeCombat:"
-    about_copy: "CodeCombat és un programa informàtic basat en jocs per ensenyar Python i JavaScript reals. El currículum d'acord amb els estàndards de CodeCombat es basa en un joc que els estudiants estimen. Més de 12 milions d'estudiants han après a codificar amb CodeCombat!"
+#    teacher_signup_heading: "Turn Hour of Code into a Year of Code"
+#    teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
+#    teacher_signup_input_blurb: "Get first course free:"
+#    teacher_signup_input_placeholder: "Teacher email address"
+#    teacher_signup_input_button: "Get CS1 Free"
+#    activities_header: "More Hour of Code Activities"
+#    activity_label_1: "Escape the Dungeon!"
+#    activity_label_2: " Beginner: Build a Game!"
+#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_button_1: "View Lesson"
+    about: "Sobre CodeCombat:" # {change}
+    about_copy: "CodeCombat és un programa informàtic basat en jocs per ensenyar Python i JavaScript reals. El currículum d'acord amb els estàndards de CodeCombat es basa en un joc que els estudiants estimen. Més de 12 milions d'estudiants han après a codificar amb CodeCombat!" # {change}
     point1: "✓ Amb recolçament"
     point2: "✓ Diferenciat"
-    point3: "✓ Avaluació Formativa i Sumativa"
+    point3: "✓ Avaluació Formativa i Sumativa" # {change}
     point4: "✓ Cursos basats en Projectes"
     point5: "✓ Seguiment de l'Alumnat"
     point6: "✓ Planificació de Lliçons complertes"
-    request_demo: "Crea un Compte de Professorat"
+#    title: "HOUR OF CODE 2018"
+#    acronym: "HOC"
+
+#  hoc_2018_interstitial:
+#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    educator: "I'm an educator"
+#    show_resources: "Show me teacher resources!"
+#    student: "I'm a student"
+#    ready_to_code: "I'm ready to code!"
+
+#  hoc_2018_completion:
+#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
+#    send: "Send your Hour of Code game to friends and family!"
+#    copy: "Copy URL"
+#    get_certificate: "Get a certificate of completion to celebrate with your class!"
+#    get_cert_btn: "Get Certificate"
+#    first_name: "First Name"
+#    last_initial: "Last Initial"
+#    teacher_email: "Teacher's email address"

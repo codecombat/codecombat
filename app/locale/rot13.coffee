@@ -118,6 +118,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     subscribe_as_diplomat: "Fhofpevor nf n Qvcybzng"
 
   play:
+    anon_signup_title_1: "PbqrPbzong unf n"
+    anon_signup_title_2: "Pynffebbz Irefvba!"
+    anon_signup_enter_code: "Ragre Pynff Pbqr:"
+    anon_signup_ask_teacher: "Qba'g unir bar? Nfx lbhe grnpure!"
+    anon_signup_create_class: "Jnag gb perngr n pynff?"
+    anon_signup_setup_class: "Frg hc n pynff, nqq lbhe fghqragf, naq zbavgbe cebterff!"
+    anon_signup_create_teacher: "Perngr serr grnpure nppbhag"
     play_as: "Cynl Nf"  # Ynqqre cntr
     get_course_for_class: "Nffvta Tnzr Qrirybczrag naq zber gb lbhe pynffrf!"
     request_licenses: "Pbagnpg bhe fpubby fcrpvnyvfgf sbe qrgnvyf."
@@ -981,11 +988,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     jobs_benefits: "Rzcyblrr Orarsvgf"
     jobs_benefit_4: "Hayvzvgrq inpngvba"
     jobs_benefit_5: "Cebsrffvbany qrirybczrag naq pbagvahvat rqhpngvba fhccbeg – serr obbxf naq tnzrf!"
-    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, pbzzhgre, 401X" 
+    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, pbzzhgre, 401X"
     jobs_benefit_7: "Fvg-fgnaq qrfxf sbe nyy"
     jobs_benefit_9: "10-lrne bcgvba rkrepvfr jvaqbj"
-    jobs_benefit_10: "Zngreavgl yrnir: 12 jrrxf cnvq, arkg 6 @ 55% fnynel" 
-    jobs_benefit_11: "Cngreavgl yrnir: 12 jrrxf cnvq" 
+    jobs_benefit_10: "Zngreavgl yrnir: 12 jrrxf cnvq, arkg 6 @ 55% fnynel"
+    jobs_benefit_11: "Cngreavgl yrnir: 12 jrrxf cnvq"
     jobs_custom_title: "Perngr Lbhe Bja"
     jobs_custom_description: "Ner lbh cnffvbangr nobhg PbqrPbzong ohg qba'g frr n wbo yvfgrq gung zngpurf lbhe dhnyvsvpngvbaf? Jevgr hf naq fubj ubj lbh guvax lbh pna pbagevohgr gb bhe grnz. Jr'q ybir gb urne sebz lbh!"
     jobs_custom_contact_1: "Fraq hf n abgr ng"
@@ -1277,6 +1284,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   courses:
     create_new_class: "Perngr Arj Pynff"
+    hoc_blurb1: "Gel gur"
+    hoc_blurb2: "Pbqr, Cynl, Funer"
+    hoc_blurb3: "npgvivgl! Pbafgehpg sbhe qvssrerag zvavtnzrf gb yrnea gur onfvpf bs tnzr qrirybczrag, gura znxr lbhe bja!"
     solutions_require_licenses: "Yriry fbyhgvbaf ner ninvynoyr sbe grnpuref jub unir yvprafrf."
     unnamed_class: "Haanzrq Pynff"
     edit_settings1: "Rqvg Pynff Frggvatf"
@@ -1458,6 +1468,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     code: "__anzr__'f Pbqr"
     complete_solution: "Pbzcyrgr Fbyhgvba"
     course_not_started: "Fghqrag unf abg fgnegrq guvf pbhefr lrg."
+    hoc_happy_ed_week: "Unccl Pbzchgre Fpvrapr Rqhpngvba Jrrx!"
+    hoc_blurb1: "Yrnea nobhg gur serr"
+    hoc_blurb2: "Pbqr, Cynl, Funer"
+    hoc_blurb3: "npgvivgl, qbjaybnq n arj grnpure yrffba cyna, naq gryy lbhe fghqragf gb ybt va gb cynl!"
+    hoc_button_text: "Ivrj Npgvivgl"
     no_code_yet: "Fghqrag unf abg jevggra nal pbqr sbe guvf yriry lrg."
     open_ended_level: "Bcra-Raqrq Yriry"
     partial_solution: "Cnegvny Fbyhgvba"
@@ -2176,7 +2191,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     you_can3: "gung pna or nccyvrq gb lbhe bja nppbhag be tvira gb bguref."
 
   loading_error:
-    could_not_load: "Reebe ybnqvat sebz freire. Gel erserfuvat gur cntr."  
+    could_not_load: "Reebe ybnqvat sebz freire. Gel erserfuvat gur cntr."
     connection_failure: "Pbaarpgvba Snvyrq"
     connection_failure_desc: "Vg qbrfa’g ybbx yvxr lbh’er pbaarpgrq gb gur vagrearg! Purpx lbhe argjbex pbaarpgvba naq gura erybnq guvf cntr."
     login_required: "Ybtva Erdhverq"
@@ -2247,6 +2262,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     continue_statements: "Pbagvahr Fgngrzragf"
     dom_events: "QBZ Riragf"
     dynamic_styling: "Qlanzvp Fglyvat"
+    events: "Riragf"
     event_concurrency: "Rirag Pbapheerapl"
     event_data: "Rirag Qngn"
     event_handlers: "Rirag Unaqyref"
@@ -2288,6 +2304,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     math_trigonometry: "Gevtbabzrgel"
     object_literals: "Bowrpg Yvgrenyf"
     parameters: "Cnenzrgref"
+    programs: "Cebtenzf"
+    properties: "Cebcregvrf"
     property_access: "Npprffvat Cebcregvrf"
     property_assignment: "Nffvtavat Cebcregvrf"
     property_coordinate: "Pbbeqvangr Cebcregl"
@@ -2305,7 +2323,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     while_condition_loops: "Juvyr Ybbcf jvgu Pbaqvgvbanyf"
     while_loops_simple: "Juvyr Ybbcf"
     while_loops_nested: "Arfgrq Juvyr Ybbcf"
-    xy_coordinates: "Pnegrfvna Pbbeqvangrf"
+    xy_coordinates: "Pbbeqvangr Cnvef"  # {punatr}
     advanced_strings: "Nqinaprq Fgevatf"  # Erfg bs pbaprcgf ner qrcerpngrq
     algorithms: "Nytbevguzf"
     boolean_logic: "Obbyrna Ybtvp"
@@ -2330,6 +2348,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     basic_javascript: "Onfvp WninFpevcg"
     basic_event_handling: "Onfvp Rirag Unaqyvat"
     create_sharable_interactive_web_page: "Perngr n funenoyr vagrenpgvir jro cntr"
+    programs: "Cebtenzf"
+    events: "Riragf"
+    properties: "Cebcregvrf"
 
   anonymous_teacher:
     notify_teacher: "Abgvsl Grnpure"
@@ -2634,21 +2655,47 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2018:
-    learn_more_copy: "PbqrPbzong vf n pbzcerurafvir cebtenz ohvyg sbe nyy grnpuref. Jnag gb gnxr Ubhe bs Pbqr gb gur arkg yriry?"
-    learn_more: "Yrnea Zber"
-    page_heading: "Grnpu lbhe fghqragf ubj gb ohvyq gurve bja nepnqr tnzr!"
-    get_started: "Trg Fgnegrq:"
-    download_lesson: "Qbjaybnq Yrffba Cyna:"
-    lesson_copy: "Guvf CQS jvyy gnxr lbh guebhtu ubj gb vagebqhpr naq pybfr bhg gur Ubhe bs Pbqr yrffba, gur yrneavat bowrpgvirf, xrl grezf naq pbaprcgf, naq qvfphffvba dhrfgvbaf gb vafcver zber pbqvat phevbfvgl."
+    banner: "Unccl Pbzchgre Fpvrapr Rqhpngvba Jrrx 2018!"
+    page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!" # {punatr}
+    step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
+    step_2: "Fgrc 2: Gel vg Lbhefrys"
+    step_3: "Fgrc 3: Qbjaybnq Yrffba Cyna"
+    try_activity: "Gel Npgvivgl"
     download_pdf: "Qbjaybnq CQS"
-    ready_play: "Ernql gb cynl?"
-    play_activity: "Cynl Npgvivgl"
-    about: "Nobhg PbqrPbzong:"
-    about_copy: "PbqrPbzong vf n tnzr-onfrq pbzchgre fpvrapr cebtenz sbe grnpuvat erny Clguba naq WninFpevcg. PbqrPbzong’f fgnaqneqf-nyvtarq pheevphyhz vf ohvyg nebhaq n tnzr gung fghqragf ybir. Bire 12 zvyyvba fghqragf unir yrnearq gb pbqr ba PbqrPbzong!"
+    teacher_signup_heading: "Ghea Ubhe bs Pbqr vagb n Lrne bs Pbqr"
+    teacher_signup_blurb: "Rirelguvat lbh arrq gb grnpu pbzchgre fpvrapr, ab cevbe rkcrevrapr arrqrq."
+    teacher_signup_input_blurb: "Trg svefg pbhefr serr:"
+    teacher_signup_input_placeholder: "Grnpure rznvy nqqerff"
+    teacher_signup_input_button: "Trg PF1 Serr"
+    activities_header: "Zber Ubhe bs Pbqr Npgvivgvrf"
+    activity_label_1: "Rfpncr gur Qhatrba!"
+    activity_label_2: " Ortvaare: Ohvyq n Tnzr!"
+    activity_label_3: "Nqinaprq: Ohvyq na Nepnqr Tnzr!"
+    activity_button_1: "Ivrj Yrffba"
+    about: "Nobhg PbqrPbzong" # {punatr}
+    about_copy: "N tnzr-onfrq, fgnaqneqf-nyvtarq pbzchgre fpvrapr cebtenz gung grnpurf erny, glcrq Clguba naq WninFpevcg." # {punatr}
     point1: "✓ Fpnssbyqrq"
     point2: "✓ Qvssreragvngrq"
-    point3: "✓ Sbezngvir naq Fhzzngvir Nffrffzragf"
+    point3: "✓ Nffrffzragf" # {punatr}
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    request_demo: "Perngr Grnpure Nppbhag"
+    title: "UBHE BS PBQR 2018"
+    acronym: "UBP"
+
+  hoc_2018_interstitial:
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2018!"
+    educator: "V'z na rqhpngbe"
+    show_resources: "Fubj zr grnpure erfbheprf!"
+    student: "V'z n fghqrag"
+    ready_to_code: "V'z ernql gb pbqr!"
+
+  hoc_2018_completion:
+    congratulations: "Pbatenghyngvbaf ba pbzcyrgvat <o>Pbqr, Cynl, Funer!</o>" # {punatr}
+    send: "Fraq lbhe Ubhe bs Pbqr tnzr gb sevraqf naq snzvyl!" # {punatr}
+    copy: "Pbcl HEY"
+    get_certificate: "Trg n pregvsvpngr bs pbzcyrgvba gb pryroengr jvgu lbhe pynff!"
+    get_cert_btn: "Trg Pregvsvpngr"
+    first_name: "Svefg Anzr"
+    last_initial: "Ynfg Vavgvny"
+    teacher_email: "Grnpure'f rznvy nqqerff"

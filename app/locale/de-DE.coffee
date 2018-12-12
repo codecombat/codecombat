@@ -99,7 +99,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     help_pref: "Noch Fragen? Sende eine E-Mail an"
     help_suff: "und wir melden uns!"
     resource_hub: "Resource Hub"
-    apcsp: "AP CS Prinzipien" # AP Advanced Placement = Erweiterte Vermittlung, CS Computer Science = Informatik
+    apcsp: "AP CS Prinzipien"
     parent: "Eltern"
 
   modal:
@@ -118,6 +118,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     subscribe_as_diplomat: "Schreibe dich als Diplomat ein."
 
   play:
+#    anon_signup_title_1: "CodeCombat has a"
+#    anon_signup_title_2: "Classroom Version!"
+#    anon_signup_enter_code: "Enter Class Code:"
+#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
+#    anon_signup_create_class: "Want to create a class?"
+#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+#    anon_signup_create_teacher: "Create free teacher account"
     play_as: "Spiele als " # Ladder page
     get_course_for_class: "Wende Spieleentwicklung und mehr in deiner Klasse an!"
     request_licenses: "Kontaktieren Sie unseren Schulspezialisten für Details."
@@ -1277,6 +1284,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   courses:
     create_new_class: "Erstellen Sie eine neue Klasse"
+#    hoc_blurb1: "Try the"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
     solutions_require_licenses: "Level Lösungen sind für Lehrkräfte verfügbar, die eine Lizenz haben."
     unnamed_class: "Unbenannte Klasse"
     edit_settings1: "Klasseneinstellungen bearbeiten"
@@ -1458,6 +1468,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     code: "__name__'s Code"
     complete_solution: "Vollständige Lösung"
     course_not_started: "Der Schüler hat den Kurs bisher nicht begonnen."
+#    hoc_happy_ed_week: "Happy Computer Science Education Week!"
+#    hoc_blurb1: "Learn about the free"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity, download a new teacher lesson plan, and tell your students to log in to play!"
+#    hoc_button_text: "View Activity"
     no_code_yet: "Der Schüler hat noch keine Code für dieses Level geschrieben."
     open_ended_level: "Unvollendetes Level"
     partial_solution: "Teilweise gelöst"
@@ -2247,6 +2262,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     continue_statements: "Continue Anweisungen"
     dom_events: "DOM-Ereignisse"
     dynamic_styling: "Dynamischer Style"
+#    events: "Events"
     event_concurrency: "Event-Konkurrenz"
     event_data: "Event-Daten"
     event_handlers: "Event-Handler"
@@ -2288,6 +2304,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     math_trigonometry: "Trigonometrie"
     object_literals: "Objekt Literale"
     parameters: "Parameter"
+#    programs: "Programs"
+#    properties: "Properties"
     property_access: "Zugriff auf Eigenschaften"
     property_assignment: "Zuweisen von Eigenschaften"
     property_coordinate: "Koordinateneigenschaft"
@@ -2634,21 +2652,47 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     send: "Email senden"
 
   hoc_2018:
-#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
-    learn_more: "Lerne mehr"
-#    page_heading: "Teach your students how to build their own arcade game!"
-#    get_started: "Get Started:"
-#    download_lesson: "Download Lesson Plan:"
-#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    banner: "Happy Computer Science Education Week 2018!"
+#    page_heading: "Your students will learn to code by building their own game!"
+#    step_1: "Step 1: Watch Video Overview"
+#    step_2: "Step 2: Try it Yourself"
+#    step_3: "Step 3: Download Lesson Plan"
+#    try_activity: "Try Activity"
     download_pdf: "PDF herunterladen"
-    ready_play: "Bereit zum Spielen?"
-#    play_activity: "Play Activity"
-    about: "Über CodeCombat:"
-    about_copy: "CodeCombat ist ein Spiel-basiertes Informatikprogramm um echtes Python und JavaScript zu lehren. CodeCombat ist an Standardlehrplänen ausgerichtet und um ein Spiel herum gebaut, das Schüler lieben. Über 12 Millionen Schüler haben mit CodeCombat programmieren gelernt!"
+#    teacher_signup_heading: "Turn Hour of Code into a Year of Code"
+#    teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
+#    teacher_signup_input_blurb: "Get first course free:"
+#    teacher_signup_input_placeholder: "Teacher email address"
+#    teacher_signup_input_button: "Get CS1 Free"
+#    activities_header: "More Hour of Code Activities"
+#    activity_label_1: "Escape the Dungeon!"
+#    activity_label_2: " Beginner: Build a Game!"
+#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_button_1: "View Lesson"
+    about: "Über CodeCombat:" # {change}
+    about_copy: "CodeCombat ist ein Spiel-basiertes Informatikprogramm um echtes Python und JavaScript zu lehren. CodeCombat ist an Standardlehrplänen ausgerichtet und um ein Spiel herum gebaut, das Schüler lieben. Über 12 Millionen Schüler haben mit CodeCombat programmieren gelernt!" # {change}
 #    point1: "✓ Scaffolded"
 #    point2: "✓ Differentiated"
-#    point3: "✓ Formative and Summative Assessments"
+#    point3: "✓ Assessments"
     point4: "✓ Projekt-basierte Kurse"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-    request_demo: "Erstelle Lehrer-Account"
+#    title: "HOUR OF CODE 2018"
+#    acronym: "HOC"
+
+#  hoc_2018_interstitial:
+#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    educator: "I'm an educator"
+#    show_resources: "Show me teacher resources!"
+#    student: "I'm a student"
+#    ready_to_code: "I'm ready to code!"
+
+#  hoc_2018_completion:
+#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
+#    send: "Send your Hour of Code game to friends and family!" # {change}
+#    copy: "Copy URL"
+#    get_certificate: "Get a certificate of completion to celebrate with your class!"
+#    get_cert_btn: "Get Certificate"
+#    first_name: "First Name"
+#    last_initial: "Last Initial"
+#    teacher_email: "Teacher's email address"

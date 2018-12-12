@@ -118,6 +118,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     subscribe_as_diplomat: "S'inscrire en tant que traducteur"
 
   play:
+#    anon_signup_title_1: "CodeCombat has a"
+#    anon_signup_title_2: "Classroom Version!"
+#    anon_signup_enter_code: "Enter Class Code:"
+#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
+#    anon_signup_create_class: "Want to create a class?"
+#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+#    anon_signup_create_teacher: "Create free teacher account"
     play_as: "Jouer comme " # Ladder page
     get_course_for_class: "Assigner le Développement de jeu et plus à vos classes."
     request_licenses: "Contacter nos spécialistes de l'école pour plus de détails."
@@ -1277,6 +1284,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   courses:
     create_new_class: "Créer un nouveau cours"
+#    hoc_blurb1: "Try the"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
     solutions_require_licenses: "Les solutions des niveaus sont disponibles pour les professeurs qui ont des licences."
     unnamed_class: "Classe sans nom"
     edit_settings1: "Modifier les Réglages de la Classe"
@@ -1458,6 +1468,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    code: "__name__'s Code"
     complete_solution: "Solution complète"
     course_not_started: "L'étudiant n'a pas encore commencé ce cours."
+#    hoc_happy_ed_week: "Happy Computer Science Education Week!"
+#    hoc_blurb1: "Learn about the free"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity, download a new teacher lesson plan, and tell your students to log in to play!"
+#    hoc_button_text: "View Activity"
     no_code_yet: "L'étudiant n'a pas encore écrit de code pour ce niveau."
 #    open_ended_level: "Open-Ended Level"
     partial_solution: "Solution partielle"
@@ -1757,7 +1772,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     office_hours_detail_2: "sessions."
     success: "Succès"
     in_progress: "En cours"
-    not_started: "Pas commencé" #N'a pas commencé
+    not_started: "Pas commencé"
     mid_course: "Moitié du Cours"
     end_course: "Fin du Cours"
     none: "Aucun n'a encore été détecté"
@@ -2247,6 +2262,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     continue_statements: "Instructions Continuer"
     dom_events: "Événements du DOM"
 #    dynamic_styling: "Dynamic Styling"
+#    events: "Events"
 #    event_concurrency: "Event Concurrency"
 #    event_data: "Event Data"
 #    event_handlers: "Event Handlers"
@@ -2288,6 +2304,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     math_trigonometry: "Trigonométrie"
     object_literals: "Objets littéraux"
     parameters: "Paramètres"
+#    programs: "Programs"
+#    properties: "Properties"
 #    property_access: "Accessing Properties"
 #    property_assignment: "Assigning Properties"
 #    property_coordinate: "Coordinate Property"
@@ -2449,7 +2467,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     december: "Décembre"
 
   code_play_create_account_modal:
-    title: "Tu l'as fait !" # Cette section n'est nécessaire qu'aux États-Unis, au Royaume-Uni, au Mexique, en Inde et en Allemagne.
+    title: "Tu l'as fait !" # This section is only needed in US, UK, Mexico, India, and Germany
     body: "Vous êtes maintenant en voie de devenir un maître codeur. Inscrivez-vous pour recevoir un prix supplémentaire <strong>100 gemmes </strong> & vous aurez également la chance de gagner 2 500 $ et d'autres prix Lenovo </strong> pour une chance de <strong>."
     sign_up: "Inscrivez-vous et continuez à coder ▶"
     victory_sign_up_poke: "Créez un compte gratuit pour sauvegarder votre code et courez la chance de gagner des prix !"
@@ -2571,7 +2589,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    unit_7_activity_2: "Unit 7 Activity: Crowdsourcing"
     unit_8: "Unité 8 : Tâches de rendement"
     unit_8_description: "Préparez les élèves à la tâche de création en construisant leurs propres jeux et en pratiquant les concepts clés."
-    unit_8_activity_1: "Créer la tâche pratique 1: Développement du jeu 1" 
+    unit_8_activity_1: "Créer la tâche pratique 1: Développement du jeu 1"
     unit_8_activity_2: "Créer la tâche pratique 2: Développement du jeu 2"
     unit_8_activity_3: "Créer la tâche pratique 3: Développement du jeu 3"
 #    unit_9: "Unit 9: AP Review"
@@ -2634,21 +2652,47 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     send: "Envoyer un courriel"
 
   hoc_2018:
-    learn_more_copy: "CodeCombat est un programme complet conçu pour tous les enseignants. Vous voulez faire passer Hour of Code au niveau supérieur ?"
-    learn_more: "En savoir plus"
-    page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !"
-    get_started: "Commencer:"
-    download_lesson: "Télécharger le plan de leçon :"
-    lesson_copy: "Ce PDF vous montrera comment présenter et clôturer la leçon de l'Heure du code, les objectifs d'apprentissage, les termes et concepts clés et les questions de discussion pour inspirer plus de curiosité sur le codage."
+#    banner: "Happy Computer Science Education Week 2018!"
+    page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
+#    step_1: "Step 1: Watch Video Overview"
+#    step_2: "Step 2: Try it Yourself"
+#    step_3: "Step 3: Download Lesson Plan"
+#    try_activity: "Try Activity"
     download_pdf: "Télécharger le PDF"
-    ready_play: "Prêt à jouer ?"
-    play_activity: "Activité de jeu"
-    about: "A propos de CodeCombat :"
-    about_copy: "CodeCombat est un programme d'informatique basé sur le jeu pour enseigner le vrai Python et JavaScript. Le programme d'études conforme aux normes de CodeCombat s'articule autour d'un jeu que les élèves adorent. Plus de 12 millions d'étudiants ont appris à coder sur CodeCombat !"
+#    teacher_signup_heading: "Turn Hour of Code into a Year of Code"
+#    teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
+#    teacher_signup_input_blurb: "Get first course free:"
+#    teacher_signup_input_placeholder: "Teacher email address"
+#    teacher_signup_input_button: "Get CS1 Free"
+#    activities_header: "More Hour of Code Activities"
+#    activity_label_1: "Escape the Dungeon!"
+#    activity_label_2: " Beginner: Build a Game!"
+#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_button_1: "View Lesson"
+    about: "A propos de CodeCombat :" # {change}
+    about_copy: "CodeCombat est un programme d'informatique basé sur le jeu pour enseigner le vrai Python et JavaScript. Le programme d'études conforme aux normes de CodeCombat s'articule autour d'un jeu que les élèves adorent. Plus de 12 millions d'étudiants ont appris à coder sur CodeCombat !" # {change}
     point1: "✓ Échafaudés"
     point2: "✓ Différencié"
-    point3: "✓ Évaluations formative et sommative"
+    point3: "✓ Évaluations formative et sommative" # {change}
     point4: "✓ Cours par projet"
     point5: "✓ Suivi des étudiants"
     point6: "✓ Plans de cours complets"
-    request_demo: "Créer un compte enseignant"
+#    title: "HOUR OF CODE 2018"
+#    acronym: "HOC"
+
+#  hoc_2018_interstitial:
+#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    educator: "I'm an educator"
+#    show_resources: "Show me teacher resources!"
+#    student: "I'm a student"
+#    ready_to_code: "I'm ready to code!"
+
+#  hoc_2018_completion:
+#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
+#    send: "Send your Hour of Code game to friends and family!"
+#    copy: "Copy URL"
+#    get_certificate: "Get a certificate of completion to celebrate with your class!"
+#    get_cert_btn: "Get Certificate"
+#    first_name: "First Name"
+#    last_initial: "Last Initial"
+#    teacher_email: "Teacher's email address"
