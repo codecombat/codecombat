@@ -118,6 +118,13 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     subscribe_as_diplomat: "สมัครเป็น Diplomat"
 
   play:
+#    anon_signup_title_1: "CodeCombat has a"
+#    anon_signup_title_2: "Classroom Version!"
+#    anon_signup_enter_code: "Enter Class Code:"
+#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
+#    anon_signup_create_class: "Want to create a class?"
+#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+#    anon_signup_create_teacher: "Create free teacher account"
     play_as: "เล่นเป็น" # Ladder page
 #    get_course_for_class: "Assign Game Development and more to your classes!"
 #    request_licenses: "Contact our school specialists for details."
@@ -159,7 +166,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    teacher_button: "For Teachers"
 #    get_more_codecombat: "Get More CodeCombat"
 
- code:
+code:
    if: "ถ้า" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
    else: "ไม่อย่างนั้น"
    elif: "ไม่อย่างนั้นถ้า"
@@ -229,7 +236,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     sign_in_with_gplus: "ลงชื่อเข้าใช้ด้วย G+"
     signup_switch: "ต้องการสร้างบัญชีผู้ใช้?"
 
-  signup:
+ signup:
 #    complete_subscription: "Complete Subscription"
 #    create_student_header: "Create Student Account"
 #    create_teacher_header: "Create Teacher Account"
@@ -315,7 +322,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    send_password: "Send Recovery Password"
 #    recovery_sent: "Recovery email sent."
 
-  items:
+ items:
     primary: "ไอเทมหลัก"
     secondary: "ไอเทมรอง"
     armor: "ชุดเกราะ"
@@ -323,7 +330,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     misc: "อื่นๆ"
     books: "หนังสือ"
 
-  common:
+ common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
 #    coming_soon: "Coming soon!"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
@@ -356,7 +363,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    save_changes: "Save Changes"
 #    required_field: "required"
 
-  general:
+ general:
     and: "และ"
     name: "ชื่อ"
     date: "วันที่"
@@ -418,7 +425,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    fewer: "Fewer"
 #    with: "with"
 
-  units:
+ units:
     second: "วินาที"
     seconds: "วินาที"
 #    sec: "sec"
@@ -610,7 +617,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
-  apis:
+ apis:
     methods: "วิธีการ"
 #    events: "Events"
 #    handlers: "Handlers"
@@ -622,7 +629,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    array: "Array"
 #    object: "Object"
 #    string: "String"
-    function: "ฟังก์ชั่น"
+   function: "ฟังก์ชั่น"
 #    vector: "Vector"
 #    date: "Date"
 #    jquery: "jQuery"
@@ -656,7 +663,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    goal_collect: "Collect all the items."
 #    goal_collect_amount: "Collect __amount__ items."
 
-  game_menu:
+ game_menu:
     inventory_tab: "คลัง"
     save_load_tab: "เซฟ/โหลด"
     options_tab: "ตัวเลือก"
@@ -690,7 +697,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    code_length: "Lines of Code"
 #    score_display: "__scoreType__: __score__"
 
-  inventory:
+ inventory:
     equipped_item: "ใช้งานแล้ว"
 #    required_purchase_title: "Required"
 #    available_item: "Available"
@@ -840,7 +847,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    list_support: "Get Premium support to help you debug tricky code"
 #    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
-  choose_hero:
+ choose_hero:
 #    choose_hero: "Choose Your Hero"
     programming_language: "ภาษาโปรแกรม"
 #    programming_language_description: "Which programming language do you want to use?"
@@ -909,10 +916,10 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    granularity_saved_games: "Saved"
 #    granularity_change_history: "History"
 
-  options:
+ options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
-    music_label: "ดนตรี"
+   music_label: "ดนตรี"
 #    music_description: "Turn background music on/off."
 #    editor_config_title: "Editor Configuration"
 #    editor_config_livecompletion_label: "Live Autocompletion"
@@ -924,7 +931,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-  about:
+ about:
 #    learn_more: "Learn More"
 #    main_title: "If you want to learn to program, you need to write (a lot of) code."
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
@@ -950,7 +957,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
 #    retrostyle_title: "Illustration"
-    retrostyle_blurb: "RetroStyle Games"
+   retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
@@ -1135,7 +1142,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    where_reply: "Where should we reply?"
 #    send: "Send Feedback"
 
-  account_settings:
+ account_settings:
 #    title: "Account Settings"
 #    not_logged_in: "Log in or create an account to change your settings."
 #    me_tab: "Me"
@@ -1216,7 +1223,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
 #    contribute_to_the_project: "Contribute to the project"
 
-  clans:
+ clans:
     clan: "แคลน"
     clans: "แคลน"
 #    new_name: "New clan name"
@@ -1277,6 +1284,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 
 #  courses:
 #    create_new_class: "Create New Class"
+#    hoc_blurb1: "Try the"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
 #    unnamed_class: "Unnamed Class"
 #    edit_settings1: "Edit Class Settings"
@@ -1458,6 +1468,11 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    code: "__name__'s Code"
 #    complete_solution: "Complete Solution"
 #    course_not_started: "Student has not started this course yet."
+#    hoc_happy_ed_week: "Happy Computer Science Education Week!"
+#    hoc_blurb1: "Learn about the free"
+#    hoc_blurb2: "Code, Play, Share"
+#    hoc_blurb3: "activity, download a new teacher lesson plan, and tell your students to log in to play!"
+#    hoc_button_text: "View Activity"
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
@@ -1938,10 +1953,10 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #  polls:
 #    priority: "Priority"
 
-  contribute:
+ contribute:
 #    page_title: "Contributing"
 #    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
-    alert_account_message_intro: "หวัดดี!"
+   alert_account_message_intro: "หวัดดี!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"
@@ -2247,6 +2262,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    continue_statements: "Continue Statements"
 #    dom_events: "DOM Events"
 #    dynamic_styling: "Dynamic Styling"
+#    events: "Events"
 #    event_concurrency: "Event Concurrency"
 #    event_data: "Event Data"
 #    event_handlers: "Event Handlers"
@@ -2288,6 +2304,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    math_trigonometry: "Trigonometry"
 #    object_literals: "Object Literals"
 #    parameters: "Parameters"
+#    programs: "Programs"
+#    properties: "Properties"
 #    property_access: "Accessing Properties"
 #    property_assignment: "Assigning Properties"
 #    property_coordinate: "Coordinate Property"
@@ -2305,7 +2323,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    while_condition_loops: "While Loops with Conditionals"
 #    while_loops_simple: "While Loops"
 #    while_loops_nested: "Nested While Loops"
-#    xy_coordinates: "Cartesian Coordinates"
+#    xy_coordinates: "Coordinate Pairs"
 #    advanced_strings: "Advanced Strings" # Rest of concepts are deprecated
 #    algorithms: "Algorithms"
 #    boolean_logic: "Boolean Logic"
@@ -2634,21 +2652,47 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    send: "Send Email"
 
 #  hoc_2018:
-#    learn_more_copy: "CodeCombat is a comprehensive program built for all teachers. Want to take Hour of Code to the next level?"
-#    learn_more: "Learn More"
-#    page_heading: "Teach your students how to build their own arcade game!"
-#    get_started: "Get Started:"
-#    download_lesson: "Download Lesson Plan:"
-#    lesson_copy: "This PDF will take you through how to introduce and close out the Hour of Code lesson, the learning objectives, key terms and concepts, and discussion questions to inspire more coding curiosity."
+#    banner: "Happy Computer Science Education Week 2018!"
+#    page_heading: "Your students will learn to code by building their own game!"
+#    step_1: "Step 1: Watch Video Overview"
+#    step_2: "Step 2: Try it Yourself"
+#    step_3: "Step 3: Download Lesson Plan"
+#    try_activity: "Try Activity"
 #    download_pdf: "Download PDF"
-#    ready_play: "Ready to play?"
-#    play_activity: "Play Activity"
-#    about: "About CodeCombat:"
-#    about_copy: "CodeCombat is a game-based computer science program for teaching real Python and JavaScript. CodeCombat’s standards-aligned curriculum is built around a game that students love. Over 12 million students have learned to code on CodeCombat!"
+#    teacher_signup_heading: "Turn Hour of Code into a Year of Code"
+#    teacher_signup_blurb: "Everything you need to teach computer science, no prior experience needed."
+#    teacher_signup_input_blurb: "Get first course free:"
+#    teacher_signup_input_placeholder: "Teacher email address"
+#    teacher_signup_input_button: "Get CS1 Free"
+#    activities_header: "More Hour of Code Activities"
+#    activity_label_1: "Escape the Dungeon!"
+#    activity_label_2: " Beginner: Build a Game!"
+#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_button_1: "View Lesson"
+#    about: "About CodeCombat"
+#    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
 #    point1: "✓ Scaffolded"
 #    point2: "✓ Differentiated"
-#    point3: "✓ Formative and Summative Assessments"
+#    point3: "✓ Assessments"
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    request_demo: "Create Teacher Account"
+#    title: "HOUR OF CODE 2018"
+#    acronym: "HOC"
+
+#  hoc_2018_interstitial:
+#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    educator: "I'm an educator"
+#    show_resources: "Show me teacher resources!"
+#    student: "I'm a student"
+#    ready_to_code: "I'm ready to code!"
+
+#  hoc_2018_completion:
+#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
+#    send: "Send your Hour of Code game to friends and family!"
+#    copy: "Copy URL"
+#    get_certificate: "Get a certificate of completion to celebrate with your class!"
+#    get_cert_btn: "Get Certificate"
+#    first_name: "First Name"
+#    last_initial: "Last Initial"
+#    teacher_email: "Teacher's email address"
