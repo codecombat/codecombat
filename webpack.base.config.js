@@ -30,6 +30,7 @@ module.exports = (env) => {
       ]),
       lodash: 'lodash', // For worker_world
       aether: './bower_components/aether/build/aether.js', // For worker_world
+      // aether: './public/javascripts/aether.js',
       // esper: './bower_components/esper.js/esper.js',
       // vendor: './app/vendor.js'
     },
