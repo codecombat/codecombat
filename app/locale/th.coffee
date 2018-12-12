@@ -166,63 +166,63 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    teacher_button: "For Teachers"
 #    get_more_codecombat: "Get More CodeCombat"
 
-code:
-   if: "ถ้า" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
-   else: "ไม่อย่างนั้น"
-   elif: "ไม่อย่างนั้นถ้า"
-   while: "เมื่อ"
-   loop: "วนรอบ"
-   for: "เมื่อ"
-   break: "หยุด"
-   continue: "ทำต่อ"
-   pass: "ผ่าน"
-   return: "คืนค่า"
-   then: "แล้ว"
-   do: "ทำ"
-   end: "จบ"
-   function: "ฟังก์ชั่น"
-   def: "กำหนด"
-   var: "ตัวแปร"
-   self: "ตัวมันเอง"
-   hero: "ฮีโร่"
-   this: "สิ่งนี้"
-   or: "หรือ"
-   "||": "หรือ"
-   and: "และ"
-   "&&": "และ"
-   not: "ไม่"
-   "!": "ไม่"
-   "=": "กำหนดค่า"
-   "==": "เท่ากับ"
-   "===": "เท่ากับแบบเคร่งครัด"
-   "!=": "ไม่เท่ากับ"
-   "!==": "ไม่เท่ากับแบบเคร่งครัด"
-   ">": "มากกว่า"
-   ">=": "มากกว่าหรือเท่ากับ"
-   "<": "น้อยกว่า"
-   "<=": "น้อยกว่าหรือเท่ากับ"
-   "*": "คูณโดย"
-   "/": "หารโดย"
-   "+": "บวก"
-   "-": "ลบ"
-   "+=": "บวกและกำหนดค่า"
-   "-=": "ลบและกำหนดค่า"
-   True: "จริง"
-   true: "จริง"
-   False: "เท็จ"
-   false: "เท็จ"
-   undefined: "ไม่ถูกกำหนดค่า"
-   null: "ว่าง"
-   nil: "ศูนย์"
-   None: "ไม่มี"
+  code:
+    if: "ถ้า" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+    else: "ไม่อย่างนั้น"
+    elif: "ไม่อย่างนั้นถ้า"
+    while: "เมื่อ"
+    loop: "วนรอบ"
+    for: "เมื่อ"
+    break: "หยุด"
+    continue: "ทำต่อ"
+    pass: "ผ่าน"
+    return: "คืนค่า"
+    then: "แล้ว"
+    do: "ทำ"
+    end: "จบ"
+    function: "ฟังก์ชั่น"
+    def: "กำหนด"
+    var: "ตัวแปร"
+    self: "ตัวมันเอง"
+    hero: "ฮีโร่"
+    this: "สิ่งนี้"
+    or: "หรือ"
+    "||": "หรือ"
+    and: "และ"
+    "&&": "และ"
+    not: "ไม่"
+    "!": "ไม่"
+    "=": "กำหนดค่า"
+    "==": "เท่ากับ"
+    "===": "เท่ากับแบบเคร่งครัด"
+    "!=": "ไม่เท่ากับ"
+    "!==": "ไม่เท่ากับแบบเคร่งครัด"
+    ">": "มากกว่า"
+    ">=": "มากกว่าหรือเท่ากับ"
+    "<": "น้อยกว่า"
+    "<=": "น้อยกว่าหรือเท่ากับ"
+    "*": "คูณโดย"
+    "/": "หารโดย"
+    "+": "บวก"
+    "-": "ลบ"
+    "+=": "บวกและกำหนดค่า"
+    "-=": "ลบและกำหนดค่า"
+    True: "จริง"
+    true: "จริง"
+    False: "เท็จ"
+    false: "เท็จ"
+    undefined: "ไม่ถูกกำหนดค่า"
+    null: "ว่าง"
+    nil: "ศูนย์"
+    None: "ไม่มี"
 
- share_progress_modal:
-   blurb: "คุณกำลังก้าวหน้าอย่างใหญ่หลวง! บอกพ่อแม่ของคุณว่าคุณได้เรียนรู้เยอะขนาดไหนด้วย CodeCombat."
-   email_invalid: "ที่อยู่อีเมลไม่ถูกต้อง"
-   form_blurb: "กรอกที่อีเมลของพ่อแม่ของคุณและแสดงให้ท่านเห็น!"
-   form_label: "ที่อยู่อีเมล"
-   placeholder: "ที่อยู่อีเมล"
-   title: "เยี่ยมมาก ผู้ฝึกหัด"
+  share_progress_modal:
+    blurb: "คุณกำลังก้าวหน้าอย่างใหญ่หลวง! บอกพ่อแม่ของคุณว่าคุณได้เรียนรู้เยอะขนาดไหนด้วย CodeCombat."
+    email_invalid: "ที่อยู่อีเมลไม่ถูกต้อง"
+    form_blurb: "กรอกที่อีเมลของพ่อแม่ของคุณและแสดงให้ท่านเห็น!"
+    form_label: "ที่อยู่อีเมล"
+    placeholder: "ที่อยู่อีเมล"
+    title: "เยี่ยมมาก ผู้ฝึกหัด"
 
   login:
     sign_up: "ลงทะเบียนใหม่"
@@ -236,7 +236,7 @@ code:
     sign_in_with_gplus: "ลงชื่อเข้าใช้ด้วย G+"
     signup_switch: "ต้องการสร้างบัญชีผู้ใช้?"
 
- signup:
+  signup:
 #    complete_subscription: "Complete Subscription"
 #    create_student_header: "Create Student Account"
 #    create_teacher_header: "Create Teacher Account"
@@ -322,7 +322,7 @@ code:
 #    send_password: "Send Recovery Password"
 #    recovery_sent: "Recovery email sent."
 
- items:
+  items:
     primary: "ไอเทมหลัก"
     secondary: "ไอเทมรอง"
     armor: "ชุดเกราะ"
@@ -330,7 +330,7 @@ code:
     misc: "อื่นๆ"
     books: "หนังสือ"
 
- common:
+  common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
 #    coming_soon: "Coming soon!"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
@@ -363,7 +363,7 @@ code:
 #    save_changes: "Save Changes"
 #    required_field: "required"
 
- general:
+  general:
     and: "และ"
     name: "ชื่อ"
     date: "วันที่"
@@ -425,7 +425,7 @@ code:
 #    fewer: "Fewer"
 #    with: "with"
 
- units:
+  units:
     second: "วินาที"
     seconds: "วินาที"
 #    sec: "sec"
@@ -617,7 +617,7 @@ code:
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
- apis:
+  apis:
     methods: "วิธีการ"
 #    events: "Events"
 #    handlers: "Handlers"
@@ -629,7 +629,7 @@ code:
 #    array: "Array"
 #    object: "Object"
 #    string: "String"
-   function: "ฟังก์ชั่น"
+    function: "ฟังก์ชั่น"
 #    vector: "Vector"
 #    date: "Date"
 #    jquery: "jQuery"
@@ -663,7 +663,7 @@ code:
 #    goal_collect: "Collect all the items."
 #    goal_collect_amount: "Collect __amount__ items."
 
- game_menu:
+  game_menu:
     inventory_tab: "คลัง"
     save_load_tab: "เซฟ/โหลด"
     options_tab: "ตัวเลือก"
@@ -697,7 +697,7 @@ code:
 #    code_length: "Lines of Code"
 #    score_display: "__scoreType__: __score__"
 
- inventory:
+  inventory:
     equipped_item: "ใช้งานแล้ว"
 #    required_purchase_title: "Required"
 #    available_item: "Available"
@@ -847,7 +847,7 @@ code:
 #    list_support: "Get Premium support to help you debug tricky code"
 #    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
- choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
     programming_language: "ภาษาโปรแกรม"
 #    programming_language_description: "Which programming language do you want to use?"
@@ -916,10 +916,10 @@ code:
 #    granularity_saved_games: "Saved"
 #    granularity_change_history: "History"
 
- options:
+  options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
-   music_label: "ดนตรี"
+    music_label: "ดนตรี"
 #    music_description: "Turn background music on/off."
 #    editor_config_title: "Editor Configuration"
 #    editor_config_livecompletion_label: "Live Autocompletion"
@@ -931,7 +931,7 @@ code:
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
- about:
+  about:
 #    learn_more: "Learn More"
 #    main_title: "If you want to learn to program, you need to write (a lot of) code."
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
@@ -957,7 +957,7 @@ code:
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
 #    retrostyle_title: "Illustration"
-   retrostyle_blurb: "RetroStyle Games"
+    retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    daniela_title: "Content Crafter"
@@ -1142,7 +1142,7 @@ code:
 #    where_reply: "Where should we reply?"
 #    send: "Send Feedback"
 
- account_settings:
+  account_settings:
 #    title: "Account Settings"
 #    not_logged_in: "Log in or create an account to change your settings."
 #    me_tab: "Me"
@@ -1223,7 +1223,7 @@ code:
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
 #    contribute_to_the_project: "Contribute to the project"
 
- clans:
+  clans:
     clan: "แคลน"
     clans: "แคลน"
 #    new_name: "New clan name"
@@ -1953,10 +1953,10 @@ code:
 #  polls:
 #    priority: "Priority"
 
- contribute:
+  contribute:
 #    page_title: "Contributing"
 #    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
-   alert_account_message_intro: "หวัดดี!"
+    alert_account_message_intro: "หวัดดี!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"

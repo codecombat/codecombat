@@ -2648,7 +2648,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parent_email: "Ihre Emailadresse"
     teacher_email: "Die Emailadresse der Lehrperson"
     message: "Nachricht"
-    custom_message: "Ich habe gerade eben CodeCombat gefunden und dachte mir, dass es eine großartige Erweiterung für unseren Unterricht sein könte! Es ist eine Lernplattform für Computerwissen mit auf Standards ausgerichteten Lehrplänen.\n\nComputerkentnisse sind so wichtig und ich denke, es wäre ein guter Weg, um den Schülern das Programieren beizubringen."
+    custom_message: "Ich habe gerade eben CodeCombat gefunden und dachte mir, dass es eine großartige Erweiterung für unseren Unterricht sein könte! Es ist eine Lernplattform für Computerwissen mit auf Standards ausgerichteten Lehrplänen.\n\n Computerkentnisse sind so wichtig und ich denke, es wäre ein guter Weg, um den Schülern das Programieren beizubringen."
     send: "Email senden"
 
   hoc_2018:
