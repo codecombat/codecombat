@@ -8,5 +8,7 @@ loadScript = (url, cb) ->
 loadAetherLanguage = (language) -> new Promise (accept, reject) ->
   if language in ['javascript', 'python', 'coffeescript', 'lua', 'java']
     loadScript(window.javascriptsPath + "app/vendor/aether-#{language}.js", accept)
+  else
+    reject(new Error("Can't load language '#{language}'"))
 
 module.exports = loadAetherLanguage
