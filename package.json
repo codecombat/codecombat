@@ -36,7 +36,7 @@
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
     "postinstall": "bower install && npm run build-aether && node ./runWebpack.js",
-    "build-aether": "coffee setup-aether.coffee & ./copy.sh && wait",
+    "build-aether": "coffee setup-aether.coffee && ./copy.sh",
     "webpack": "webpack",
     "bower": "bower",
     "dev": "webpack --watch",
