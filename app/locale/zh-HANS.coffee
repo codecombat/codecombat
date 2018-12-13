@@ -963,13 +963,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
     community_title: "...以及我们的开源社区"
-    community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
+    community_subtitle: "超过 600 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
     community_description_1: "，上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
     community_description_link: "贡献者页面"
     community_description_2: "了解更多信息。"
-    number_contributors: "超过 450 个志愿者将他们的知识和时间投入到这个项目中。"
+    number_contributors: "超过 600 个志愿者将他们的知识和时间投入到这个项目中。"
     story_title: "我们已走过的历程"
     story_subtitle: "从2013年至今，CodeCombat已经从一组小草图成长为一个生动的、蓬勃发展的游戏。"
     story_statistic_1a: "5,000,000+"

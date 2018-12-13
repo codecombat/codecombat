@@ -963,13 +963,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
     community_title: "...og vores open source fællesskab"
-    community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
+    community_subtitle: "Over 600 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
     community_description_1: "CodeCombat er et fællesprojekt, med hundredvis af spillere, der frivilligt skaber baner, bidrager til vores kode ved at tilføje funktioner, rette fejl, spilteste, og oversætte spillet til hele 50 sprog. Medarbejdere, bidragydere og portalen vinder alle ved at dele idéer og samle kræfterne, og ligeså gør open source fællesskabet. Portalen er bygget med en lang række open source projekter, og vi er open source for at give tilbage til fællesskabet og skabe kode til nysgerrige spillere så det har et velkendt projekt at udforske og eksperimentere med. Alle kan deltage i CodeCombat's fællesskab! Tjek vores" # {change}
     community_description_link: "bidragsside"
     community_description_2: "for mere info."
-    number_contributors: "Over 450 bidragydere har udlånt deres støtte og tid til dette projekt."
+    number_contributors: "Over 600 bidragydere har udlånt deres støtte og tid til dette projekt."
     story_title: "Vores historie indtil videre"
     story_subtitle: "Siden 2013 er CodeCombat vokset fra et simpelt sæt skitser til et levende, blomstrende spil."
     story_statistic_1a: "5.000.000+"

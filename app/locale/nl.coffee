@@ -963,13 +963,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     daniela_title: "Creëert content"
     daniela_blurb: "Creëert verhalen"
     community_title: "...en onze open-source gemeenschap"
-    community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
+    community_subtitle: "Meer dan 600 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"
     community_description_1: "CodeCombat is een gemeenschapsproject, met honderden spelers die vrijwillig levels maken, bijdrage aan onze code om dingen toe te voegen, bugs te maken, speeltesten, en zelfs helpen het spel te vertalen in 50 talen zover. Werknemers, bijdragers en de site krijgen meer door het delen van ideeën en pooling inspanning, zoals de open source gemeenschap in het algemeen doet. De site is gemaakt met meerdere open source projecten, en we zijn open source zodat we wat terug kunnen geven aan de gemeenschap en leveren programmeer geïnteresseerde spelers een vertouwd project om te verkennen en mee te experimenteren. Iedereen kan zich bij de CodeCombat gemeenschap voegen! Bekijk onze" # {change}
     community_description_link: "Draag bij pagina"
     community_description_2: "voor meer info."
-    number_contributors: "Meer dan 450 bijdragers hebben hun hulp en tijd verleend aan dit project."
+    number_contributors: "Meer dan 600 bijdragers hebben hun hulp en tijd verleend aan dit project."
     story_title: "Ons verhaal tot nu toe"
     story_subtitle: "Sinds 2013, is CodeCombat gegroeid van een paar schetsen naar een levend, bloeiend spel."
     story_statistic_1a: "5,000,000+"

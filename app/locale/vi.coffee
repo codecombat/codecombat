@@ -963,13 +963,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
     community_title: "...và cộng đồng mã nguồn mở của chúng tôi"
-    community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
+    community_subtitle: "Trên 600 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
     community_description_1: "CodeCombat là một dự án cộng đồng, với hàng trăm tình nguyện viên tham gia tạo các màn chơi, viết code để thêm tính năng mới, sửa lỗi, chơi thử, và thậm chí phiên dịch trò chơi sang 50 thứ tiếng khác nhau. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Bất cứ ai cũng có thể tham gia cộng đồng CodeCombat! Hãy ghé qua" # {change}
     community_description_link: "trang dành cho người đóng góp"
     community_description_2: "để biết thêm chi tiết."
-    number_contributors: "Hơn 450 người đã bỏ công sức và thời gian để đóng góp cho dự án này."
+    number_contributors: "Hơn 600 người đã bỏ công sức và thời gian để đóng góp cho dự án này."
     story_title: "Hãy nghe câu chuyện của chúng tôi"
     story_subtitle: "Kể từ năm 2013 đến nay, CodeCombat khởi nguồn chỉ là những phác thảo sơ khai đã được hiện thực hóa để trở thành một tựa game đầy lôi cuốn."
     story_statistic_1a: "5,000,000+"

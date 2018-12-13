@@ -963,13 +963,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
     community_title: "...és a nyílt támogatói közösségünk"
-    community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
+    community_subtitle: "Eddig több mint 600 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
     community_description_1: "A CodeCombat egy közösségi kezdeményezés, így játékosok százai csatlakoztak önkéntesen, akik új szinteket, új funkciókat hoztak létre, tesztelték és javították a programot. Sőt, az önkéntes fordítók révén a játék már 50 nyelven elérhető! A fejlesztők, támogatók és az egész közösség is rengeteget nyer az ötletek megosztása és az együttes erőfeszítéseink által. A játék számtalan nyílt forráskódú projektből tevődik össze, így mi is visszadunk a közösségnek, és egy izgalmas utat nyitunk a kis felfedezőknek a kódolás világába. A CodeCombat közösséghez bárki csatlakozhat! Látogass el a" # {change}
     community_description_link: "segítők oldalára"
     community_description_2: "további információkért."
-    number_contributors: "Eddig több mint 450 támogató segítette munkájával a projektet."
+    number_contributors: "Eddig több mint 600 támogató segítette munkájával a projektet."
     story_title: "Történetünk számokban"
     story_subtitle: "2013 óta a CodeCombat néhány vázlatos rajzból egy élő és folyamatosan fejlődő játékká nőtte ki magát."
     story_statistic_1a: "5 000 000+"

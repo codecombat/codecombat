@@ -963,13 +963,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    daniela_title: "Content Crafter"
 #    daniela_blurb: "Creates stories"
     community_title: "...y nuestra comunidad open-source"
-    community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
+    community_subtitle: "¡Más de 600 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
     community_description_1: "CodeCombat es un proyecto comunitario, con cientos de jugadores haciendo trabajo voluntario al crear niveles, contribuir a nuestro código para añadir características, arreglar bugs, testear, e incluso traducir el juego a 50 idiomas hasta ahora. Empleados, contribuidores y la página ganan al compartir las ideas Echa un vistazo a nuestra" # {change}
     community_description_link: "página de contribución"
     community_description_2: "para más información."
-    number_contributors: "Más de 450 contribuidores dieron su apoyo y tiempo a este proyecto."
+    number_contributors: "Más de 600 contribuidores dieron su apoyo y tiempo a este proyecto."
     story_title: "Nuestra historia hasta ahora"
     story_subtitle: "Desde 2013, CodeCombat creció desde un mero conjunto de bocetos hasta un juego próspero, vivo."
     story_statistic_1a: "+5,000,000"
