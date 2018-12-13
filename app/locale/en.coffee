@@ -2656,7 +2656,7 @@
 
   hoc_2018:
     banner: "Happy Computer Science Education Week 2018!"
-    page_heading: "Your students will learn to code by building their own game!" # {change}
+    page_heading: "Your students will learn to code by building their own game!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
     step_3: "Step 3: Download Lesson Plan"
@@ -2672,11 +2672,11 @@
     activity_label_2: " Beginner: Build a Game!"
     activity_label_3: "Advanced: Build an Arcade Game!"
     activity_button_1: "View Lesson"
-    about: "About CodeCombat" # {change}
-    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript." # {change}
+    about: "About CodeCombat"
+    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
     point1: "✓ Scaffolded"
     point2: "✓ Differentiated"
-    point3: "✓ Assessments" # {change}
+    point3: "✓ Assessments"
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
@@ -2691,8 +2691,8 @@
     ready_to_code: "I'm ready to code!"
 
   hoc_2018_completion:
-    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>" # {change}
-    send: "Send your Hour of Code game to friends and family!" # {change}
+    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
+    send: "Send your Hour of Code game to friends and family!"
     copy: "Copy URL"
     get_certificate: "Get a certificate of completion to celebrate with your class!"
     get_cert_btn: "Get Certificate"
