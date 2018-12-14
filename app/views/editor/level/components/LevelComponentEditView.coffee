@@ -12,7 +12,7 @@ require 'lib/setupTreema'
 module.exports = class LevelComponentEditView extends CocoView
   id: 'level-component-edit-view'
   template: template
-  editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
+  editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n', 'context']
 
   events:
     'click #done-editing-component-button': 'endEditing'

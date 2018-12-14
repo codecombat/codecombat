@@ -134,6 +134,7 @@ LevelComponentSchema = c.object {
     dependencies: []  # TODO: should depend on something by default
     propertyDocumentation: []
     configSchema: {}
+    context: {}
 }
 c.extendNamedProperties LevelComponentSchema  # let's have the name be the first property
 LevelComponentSchema.properties.name.pattern = c.classNamePattern
@@ -171,6 +172,17 @@ _.extend LevelComponentSchema.properties,
     title: 'Official'
     description: 'Whether this is an official CodeCombat Component.'
   searchStrings: {type: 'string'}
+  context: {
+    type: 'object'
+    title: 'Code context'
+    additionalProperties: { type: 'string' }
+    default: {}
+  }
+  i18n: {
+    type: 'object',
+    format: 'i18n',
+    props: ['context'], description: 'Help translate the code context'
+  }
 
 c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema
