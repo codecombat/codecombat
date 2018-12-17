@@ -38,7 +38,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    compared: "compared"
 #    conventional: "against conventional assessment methods, the difference is clear: games are better at helping students retain knowledge, concentrate and"
 #    perform_at_higher_level: "perform at a higher level of achievement"
-#    feedback: "Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers."
+#    feedback: "Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just "correct" or "incorrect" answers."
 #    real_game: "A real game, played with real coding."
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
 #    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
@@ -293,29 +293,29 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     parent_email_sent: " 계정 만드는 법과 함께 이메일을 보냈습니다. 부모님 이메일을 확인하세요. " 
     account_created: " 계정 생성 성공!" 
     confirm_student_blurb: " 까먹지 않기 위해 당신의 정보를 적어 놓으세요. 선생님도 비밀번호 초기화를 언제든지 해줄 수 있습니다." 
-    confirm_individual_blurb: “나중에 필요할 수 도 있기 떄문에 로그인 정보를 적어두세요. 나중에 아이디나 비밀번호를 까먹을 수 있기 떄문에 이메일 인증을 받으세요. 수신함을 확인하세요!”
+    confirm_individual_blurb: "나중에 필요할 수 도 있기 떄문에 로그인 정보를 적어두세요. 나중에 아이디나 비밀번호를 까먹을 수 있기 떄문에 이메일 인증을 받으세요. 수신함을 확인하세요!"
     write_this_down: " 이 정보를 적어두세요:" 
-    start_playing: “게임을 시작하세요!”
-    sso_connected: “성공적으로 연결 되었습니다:”
-    select_your_starting_hero: “처음 게임 할 영웅을 고르세요:”
-    you_can_always_change_your_hero_later: “언제든지 영웅을 바꾸실 수 있습니다.”
-    finish: “완료”
-    teacher_ready_to_create_class: “첫 클래스를 생성 할 준비가 다 되어있습니다!”
-    teacher_students_can_start_now: “당신의 학생들은 첫 수업 “전산학 개론”을 바로 진행할 수 있습니다.”
-    teacher_list_create_class: “다음 화면에선 새로운 클래스를 만듭니다.”
-    teacher_list_add_students: “View Class link를 눌러 학생들은 클래스에 등록하세요. 그 다음 학생들에게 클래스 코드 혹은 URL을 보내세요. 이메일 주소로도 학생들을 등록시킬 수 있습니다.”
-    teacher_list_resource_hub_1: “확인하세요.”
-    teacher_list_resource_hub_2: “게임 가이드.”
-    teacher_list_resource_hub_3: “모든 레벨에 대한 답은, 그리고”
-    teacher_list_resource_hub_4: “자원 중심지”
-    teacher_list_resource_hub_5: “커리큘럼 가이드, 활동, 더 많은정보를 알 수 있습니다.”
-    teacher_additional_questions: “끝났습니다! 혹시 다른 문제는 도움이 필요하신다면, “support email”을 통해 물어보세요.”
-    dont_use_our_email_silly: “학생의 이메일을 쓰지 마세요! 부모님의 이메일을 쓰세요.”
-    want_codecombat_in_school: “CodeCombat을 언제든지 하고 싶으신가요?”
-    eu_confirmation: “나는 내 정보들을 CodeCombat이 미국 서버에 저장하는 것을 허용한다.”
-    eu_confirmation_place_of_processing: "Learn more about the possible risks" “다른 위험에 대해 알아봅시다.”
-    eu_confirmation_student: “확실하지 않다면, 선생님께 물어보세요.”
-    eu_confirmation_individual: “자신의 정보가 미국 서버에 저장되는게 싫으시다면, 언제든지 익명으로 게임하시면 됩니다.”
+    start_playing: "게임을 시작하세요!"
+    sso_connected: "성공적으로 연결 되었습니다:"
+    select_your_starting_hero: "처음 게임 할 영웅을 고르세요:"
+    you_can_always_change_your_hero_later: "언제든지 영웅을 바꾸실 수 있습니다."
+    finish: "완료"
+    teacher_ready_to_create_class: "첫 클래스를 생성 할 준비가 다 되어있습니다!"
+    teacher_students_can_start_now: "당신의 학생들은 첫 수업 '전산학 개론'을 바로 진행할 수 있습니다."
+    teacher_list_create_class: "다음 화면에선 새로운 클래스를 만듭니다."
+    teacher_list_add_students: "View Class link를 눌러 학생들은 클래스에 등록하세요. 그 다음 학생들에게 클래스 코드 혹은 URL을 보내세요. 이메일 주소로도 학생들을 등록시킬 수 있습니다."
+    teacher_list_resource_hub_1: "확인하세요."
+    teacher_list_resource_hub_2: "게임 가이드."
+    teacher_list_resource_hub_3: "모든 레벨에 대한 답은, 그리고"
+    teacher_list_resource_hub_4: "자원 중심지"
+    teacher_list_resource_hub_5: "커리큘럼 가이드, 활동, 더 많은정보를 알 수 있습니다."
+    teacher_additional_questions: "끝났습니다! 혹시 다른 문제는 도움이 필요하신다면, \"support email\"을 통해 물어보세요."
+    dont_use_our_email_silly: "학생의 이메일을 쓰지 마세요! 부모님의 이메일을 쓰세요."
+    want_codecombat_in_school: "CodeCombat을 언제든지 하고 싶으신가요?"
+    eu_confirmation: "나는 내 정보들을 CodeCombat이 미국 서버에 저장하는 것을 허용한다."
+    eu_confirmation_place_of_processing: "Learn more about the possible risks 다른 위험에 대해 알아봅시다."
+    eu_confirmation_student: "확실하지 않다면, 선생님께 물어보세요."
+    eu_confirmation_individual: "자신의 정보가 미국 서버에 저장되는게 싫으시다면, 언제든지 익명으로 게임하시면 됩니다."
 
   recover:
     recover_account_title: "계정 복구"
@@ -787,7 +787,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     subscriber: "구독자"
     cuddly_companions: "사랑스러운 친구들!" # Pet Announcement Modal
     kindling_name: "불의 정령"
-    kindling_description: "불의 정령들은 밤과 낮, 항상 따뜻하게 당신을 지키고 싶어합니다.
+    kindling_description: "불의 정령들은 밤과 낮, 항상 따뜻하게 당신을 지키고 싶어합니다."
     griffin_name: "아기 그리핀 "
     griffin_description: "사랑스러운 그리핀은 반은 독수리이고 반은 사자입니다.."
     raven_name: "레이븐"
@@ -807,7 +807,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     collect_pets: "영웅을 위한 애완 동물을 모으십시요!"
     each_pet: "애완 동물마다 독특한 도우미 능력이 있습니다!"
     upgrade_to_premium: "{{구독자}} 애완 동물을 준비하십시요."
-    play_second_kithmaze: " {{두 번째_kithmaze}}를 실행하여 Wolf Pup의 잠금을 해제하십시요!”
+    play_second_kithmaze: " {{두 번째_kithmaze}}를 실행하여 Wolf Pup의 잠금을 해제하십시요!"
     the_second_kithmaze: "두 번째 Kithmaze"
     keep_playing: "첫 번째 애완 동물을 계속 찾으세요!"
     coming_soon: "커밍 쑨"
@@ -829,7 +829,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     master_coder: "오늘 구독하여 마스터 코더가 되세요!"
     paypal_redirect: "가입 절차를 마치면 PayPal로 이동합니다.."
     subscribe_now: "지금 구독하세요"
-    hero_blurb_1: "구독자 전용 영웅을 사용하세요! Okar Stompfoot의 힘과 진귀한 Narahd의 잎사귀 또는 Nalfar Cryptor의 “사랑스러운” 해골을 소환하세요."
+    hero_blurb_1: "구독자 전용 영웅을 사용하세요! Okar Stompfoot의 힘과 진귀한 Narahd의 잎사귀 또는 Nalfar Cryptor의 \"사랑스러운\" 해골을 소환하세요."
     hero_blurb_2: "Warcry, Stomp 및 Hurl Enemy와 같은 놀라운 무술 기술의 잠금을 해제하거나 스텔스와 활을 사용하여 레인저로 게임을 하고 칼을 던지며 함정을 빠져 나가십시오! 강력한 코딩 마법사로서 원시, 네크로 매틱 또는 엘리멘탈 매직의 기술을 배우고 구현하십시오."
     hero_caption: "신나는 새로운 영웅!"
     pet_blurb_1: "애완동물은 사랑스로운 동반자가 아니며 독창적인 기능과 해결책을 제공합니다. 아기 그리핀은 공중을 통해 유닛을 옮길 수 있고, 늑대개는 적의 화살을 잡을 수 있으며, 쿠거는 주변의 오거를 쫓습니다. 그리고 미믹은 자적처럼 동전을 끌어당십니다!"
@@ -1734,7 +1734,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    select_students: "Select Students"
 #    select_instructions: "Click the checkbox next to each student you want to assign courses to."
 #    choose_course: "Choose Course"
-#    choose_instructions: "Select the course from the dropdown menu you’d like to assign, then click “Assign to Selected Students.”"
+#    choose_instructions: "Select the course from the dropdown menu you’d like to assign, then click "Assign to Selected Students.""
 #    push_projects: "We recommend assigning Web Development 1 or Game Development 1 after students have finished Introduction to Computer Science! See our {{resource_hub}} for more details on those courses."
 #    teacher_quest: "Teacher's Quest for Success"
 #    quests_complete: "Quests Complete"
