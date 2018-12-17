@@ -822,7 +822,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     master_coder: "오늘 구독하여 마스터 코더가 되세요!"
     paypal_redirect: "가입 절차를 마치면 PayPal로 이동합니다.."
     subscribe_now: "지금 구독하세요"
-    hero_blurb_1: "구독자 전용 영웅을 사용하세요! Okar Stompfoot의 힘과 진귀한 Narahd의 잎사귀 또는 Nalfar Cryptor의 “사랑스러운” 해골을 소환하세요.”
+    hero_blurb_1: "구독자 전용 영웅을 사용하세요! Okar Stompfoot의 힘과 진귀한 Narahd의 잎사귀 또는 Nalfar Cryptor의 “사랑스러운” 해골을 소환하세요."
     hero_blurb_2: "Warcry, Stomp 및 Hurl Enemy와 같은 놀라운 무술 기술의 잠금을 해제하거나 스텔스와 활을 사용하여 레인저로 게임을 하고 칼을 던지며 함정을 빠져 나가십시오! 강력한 코딩 마법사로서 원시, 네크로 매틱 또는 엘리멘탈 매직의 기술을 배우고 구현하십시오."
     hero_caption: "신나는 새로운 영웅!"
     pet_blurb_1: "애완동물은 사랑스로운 동반자가 아니며 독창적인 기능과 해결책을 제공합니다. 아기 그리핀은 공중을 통해 유닛을 옮길 수 있고, 늑대개는 적의 화살을 잡을 수 있으며, 쿠거는 주변의 오거를 쫓습니다. 그리고 미믹은 자적처럼 동전을 끌어당십니다!"
