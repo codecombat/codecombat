@@ -62,8 +62,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     view_progress: "진행 상황 보기"
 #    go_to_courses: "Go to My Courses"
     want_coco: "학교에서 코드컴뱃을 해 보고 싶나요?"
-
-  nav:
+ 
+ nav:
     map: "맵"
     play: "레벨" # The top nav bar entry where players choose which levels to play
     community: "커뮤니티"
