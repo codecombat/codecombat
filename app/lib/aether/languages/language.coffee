@@ -1,5 +1,3 @@
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
-
 module.exports = class Language
   name: 'Abstract Language'  # Display name of the programming language
   id: 'abstract-language'  # Snake-case id of the programming language

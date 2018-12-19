@@ -1,5 +1,3 @@
-Aether = require '../aether'
-
 describe "Aether", ->
   describe "Basic tests", ->
     it "doesn't immediately break", ->
