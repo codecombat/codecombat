@@ -1,4 +1,4 @@
-tv4 = require('tv4').tv4
+# tv4 = require('tv4').tv4
 
 module.exports = (options) ->
   tv4.validateMultiple options,

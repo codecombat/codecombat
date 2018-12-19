@@ -1,4 +1,3 @@
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'
 addedGlobals = require('./protectBuiltins').addedGlobals
 
 isStatement = (name) ->

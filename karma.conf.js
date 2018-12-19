@@ -9,6 +9,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files : [
+      'public/javascripts/esper.modern.js', // Doesn't load properly from vendor.js.
       'public/javascripts/test.js',
       // 'public/javascripts/chunks/TestView.bundle.js',
       // 'public/javascripts/vendor.js', // need for jade definition...
