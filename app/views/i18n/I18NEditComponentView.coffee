@@ -45,3 +45,10 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
                 @wrapRow "#{propDoc.name} arg description #{argDoc.name} (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'
             else if _.isString argDoc.description
               @wrapRow "#{propDoc.name} arg description #{argDoc.name}", ['description'], argDoc.description, i18n[lang]?.description, path, 'markdown'
+
+    # Code context
+    i18n = @model.get("i18n")
+    context = @model.get("context")
+    if i18n and context
+      for key, value of context
+        @wrapRow "Code context value", ['context', key], value, i18n[lang]?.context?[key], []

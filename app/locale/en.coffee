@@ -2348,9 +2348,6 @@
     basic_javascript: "Basic JavaScript"
     basic_event_handling: "Basic Event Handling"
     create_sharable_interactive_web_page: "Create a sharable interactive web page"
-    programs: "Programs"
-    events: "Events"
-    properties: "Properties"
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
