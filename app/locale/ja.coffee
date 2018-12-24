@@ -1354,7 +1354,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    start: "Start"
 #    last_level: "Last level played"
 #    not_you: "Not you?"
-#    continue_playing: "Continue Playing"
+    continue_playing: "ゲームを続ける"
 #    option1_header: "Invite Students by Email"
 #    remove_student1: "Remove Student"
 #    are_you_sure: "Are you sure you want to remove this student from this class?"
