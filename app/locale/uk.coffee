@@ -145,7 +145,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     poll: "Опитування" # Tooltip on poll button from /play
     next: "Далі" # Go from choose hero to choose inventory before playing a level
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Зміни героя/мову програм" # "Change Hero or Language"
     buy_gems: "Придбати самоцвіти"
     subscribers_only: "Тільки для підписників!"
     subscribe_unlock: "Придбайте підписку для розблокування!"
@@ -770,11 +770,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unsubscribing: "Триває скасування підписки..."
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
-#    feature_level_access: "Access 300+ levels available"
+    feature_level_access: "Отримайте понад 300 доступних рівнів" #    feature_level_access: "Access 300+ levels available"
     feature_heroes: "Розблокуй ексклюзивних героїв" # {change}
-#    feature_learn: "Learn to make games and websites"
+    feature_learn: "Навчіться створювати забавки та сайти" #    feature_learn: "Learn to make games and websites"
     month_price: "$__price__/міс" # {change}
-#    first_month_price: "Only $__price__ for your first month!"
+    first_month_price: "За перший місяц ви сплатита лише $__price__" #    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Пожиттєва підписка" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Річна підписка"
