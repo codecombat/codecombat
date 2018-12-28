@@ -19,6 +19,7 @@ else
         handler.trigger 'received-token', { token }
         Backbone.Mediator.publish 'stripe:received-token', { token: token }
       locale: 'auto'
+      zipCode: true
     })
     handler.id = _.uniqueId()
     handler.openAsync = (options) ->
