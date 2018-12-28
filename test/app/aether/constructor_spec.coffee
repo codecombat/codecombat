@@ -7,7 +7,7 @@ describe "Constructor Test Suite", ->
       expect(aether.options.functionName).toBeNull()
     it "should have javascript as the default language", ->
       expect(aether.options.language).toEqual "javascript"
-    it "should be using ECMAScript 5", ->
+    xit "should be using ECMAScript 5", ->
       expect(aether.options.languageVersion).toBe "ES5"
     it "should have no functionParameters", ->
       expect(aether.options.functionParameters).toEqual []
@@ -26,10 +26,10 @@ describe "Constructor Test Suite", ->
       aether = null
     it "should not allow non-supported languages", ->
       options = language: "Brainfuck"
-      expect(constructAther.bind null, options).toThrow()
-    it "should not allow non-supported language versions", ->
+      expect(-> constructAther(options)).toThrow()
+    xit "should not allow non-supported language versions", ->
       options = languageVersion: "ES7"
-      expect(constructAther.bind null, options).toThrow()
+      expect(-> constructAther(options)).toThrow()
     it "should not allow options that do not exist", ->
       options = blah: "blah"
-      expect(constructAther.bind null, options).toThrow()
+      expect(-> constructAther(options)).toThrow()

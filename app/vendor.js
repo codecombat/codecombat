@@ -67,12 +67,6 @@ try {
   console.log("Legacy javascript detected, falling back...", e.message);
   loadScript(window.javascriptsPath + 'esper.js');
 }
-/**
- * Currently loading Aether directly from `.coffee` causes large bugs.
- *  - Lodash is silently upgraded to 4 and lots of other code breaks.
- *  - esper.plugin is undefined.
- */
-require('bower_components/aether/build/aether.js')
 
 // All the rest of Vendor...
 require('vendor/scripts/css.js')

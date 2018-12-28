@@ -1,6 +1,6 @@
 _ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
-jshintHolder = {}
+# jshintHolder = {}
 escodegen = require 'escodegen'
 
 Language = require './language'
@@ -16,7 +16,7 @@ module.exports = class JavaScript extends Language
 
   constructor: ->
     super arguments...
-    jshintHolder.jshint ?= (self?.aetherJSHint ? require('jshint')).JSHINT
+    # jshintHolder.jshint ?= (self?.aetherJSHint ? require('jshint')).JSHINT
 
   # Return true if we can very quickly identify a syntax error.
   obviouslyCannotTranspile: (rawCode) ->
@@ -55,24 +55,24 @@ module.exports = class JavaScript extends Language
   # Return an array of problems detected during linting.
   lint: (rawCode, aether) ->
     lintProblems = []
-    return lintProblems unless jshintHolder.jshint
+    # return lintProblems unless jshintHolder.jshint
     wrappedCode = @wrap rawCode, aether
 
-    # Run it through JSHint first, because that doesn't rely on Esprima
-    # See also how ACE does it: https://github.com/ajaxorg/ace/blob/master/lib/ace/mode/javascript_worker.js
-    # TODO: make JSHint stop providing these globals somehow; the below doesn't work
-    jshintOptions = browser: false, couch: false, devel: false, dojo: false, jquery: false, mootools: false, node: false, nonstandard: false, phantom: false, prototypejs: false, rhino: false, worker: false, wsh: false, yui: false
-    jshintGlobals = _.zipObject jshintGlobals, (false for g in aether.allGlobals)  # JSHint expects {key: writable} globals
-    # Doesn't work; can't find a way to skip warnings from JSHint programmatic options instead of in code comments.
-    #for problemID, problem of @originalOptions.problems when problem.level is 'ignore' and /jshint/.test problemID
-    #  console.log 'gotta ignore', problem, '-' + problemID.replace('jshint_', '')
-    #  jshintOptions['-' + problemID.replace('jshint_', '')] = true
-    try
-      jshintSuccess = jshintHolder.jshint(wrappedCode, jshintOptions, jshintGlobals)
-    catch e
-      console.warn "JSHint died with error", e  #, "on code\n", wrappedCode
-    for error in jshintHolder.jshint.errors
-      lintProblems.push aether.createUserCodeProblem type: 'transpile', reporter: 'jshint', error: error, code: wrappedCode, codePrefix: @wrappedCodePrefix
+    # # Run it through JSHint first, because that doesn't rely on Esprima
+    # # See also how ACE does it: https://github.com/ajaxorg/ace/blob/master/lib/ace/mode/javascript_worker.js
+    # # TODO: make JSHint stop providing these globals somehow; the below doesn't work
+    # jshintOptions = browser: false, couch: false, devel: false, dojo: false, jquery: false, mootools: false, node: false, nonstandard: false, phantom: false, prototypejs: false, rhino: false, worker: false, wsh: false, yui: false
+    # jshintGlobals = _.zipObject jshintGlobals, (false for g in aether.allGlobals)  # JSHint expects {key: writable} globals
+    # # Doesn't work; can't find a way to skip warnings from JSHint programmatic options instead of in code comments.
+    # #for problemID, problem of @originalOptions.problems when problem.level is 'ignore' and /jshint/.test problemID
+    # #  console.log 'gotta ignore', problem, '-' + problemID.replace('jshint_', '')
+    # #  jshintOptions['-' + problemID.replace('jshint_', '')] = true
+    # try
+    #   jshintSuccess = jshintHolder.jshint(wrappedCode, jshintOptions, jshintGlobals)
+    # catch e
+    #   console.warn "JSHint died with error", e  #, "on code\n", wrappedCode
+    # for error in jshintHolder.jshint.errors
+    #   lintProblems.push aether.createUserCodeProblem type: 'transpile', reporter: 'jshint', error: error, code: wrappedCode, codePrefix: @wrappedCodePrefix
 
     # Check for stray semi-colon on 1st line of if statement
     # E.g. "if (parsely);"
