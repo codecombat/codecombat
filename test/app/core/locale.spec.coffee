@@ -32,3 +32,18 @@ describe 'esper error messages', ->
                 Expected translated placeholders: [#{placeholders}] (#{esper[key]})
                 To match English placeholders: [#{englishPlaceholders}] (#{englishEsper[key]})
               """
+
+describe 'Check keys', ->
+  langs.forEach (language) =>
+    describe "when language is #{language.englishDescription}", ->
+      en = english.translation
+      Object.keys(language.translation or {}).forEach (key) ->
+        Object.keys(language.translation[key] or {}).forEach (keyChild) ->
+          it 'should have the same keys in each entry as in English', ->
+            if en[key][keyChild] == undefined
+              return fail """
+                Expected english to have translation '#{key}.#{keyChild}'
+                This can occur when:
+                  * Parent key for '#{keyChild}' is accidentally commented.
+                  * English translation for '#{key}.#{keyChild}' has been deleted.
+              """
