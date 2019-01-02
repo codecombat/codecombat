@@ -63,6 +63,7 @@ module.exports = class Thang
       else
         @world?.classMap[componentClass.className] ?= componentClass
       c = new componentClass componentConfig ? {}
+      c.world = @world
       c.attach @
 
   # [prop, type]s of properties which have values tracked across WorldFrames. Also call keepTrackedProperty some non-expensive time when you change it or it will be skipped.

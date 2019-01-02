@@ -1282,7 +1282,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
+ courses:
 #    create_new_class: "Create New Class"
 #    hoc_blurb1: "Try the"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1354,7 +1354,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    start: "Start"
 #    last_level: "Last level played"
 #    not_you: "Not you?"
-#    continue_playing: "Continue Playing"
+    continue_playing: "ゲームを続ける"
 #    option1_header: "Invite Students by Email"
 #    remove_student1: "Remove Student"
 #    are_you_sure: "Are you sure you want to remove this student from this class?"
