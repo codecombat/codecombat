@@ -136,7 +136,7 @@ extractTranspileErrorDetails = (options) ->
         options.range = [start, end]
 
         switch error.extra.kind
-          when 'DAG_MISS', 'STATEMENT_EOF' 
+          when 'STATEMENT_EOF'
             options.message = 'Unexpected token'
           when 'CLASSIFY'
             if error.extra.value == "'"

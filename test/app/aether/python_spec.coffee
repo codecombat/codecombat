@@ -218,7 +218,7 @@ describe "Python test suite", ->
       code ="""
         items = self.getItems()
         if items._isPython:
-           return items.length
+            return items.length
         return 'not a Python object'
       """
       aether = new Aether language: "python", protectAPI: true
@@ -244,9 +244,9 @@ x = 5
       """
       aether = new Aether language: "python", simpleLoops: true
       aether.transpile code
-      expect(aether.problems.warnings.length).toEqual(1)
-      expect(aether.problems.warnings[0].type).toEqual('transpile')
-      expect(aether.problems.warnings[0].message).toEqual("Empty if statement. Put 4 spaces in front of statements inside the if statement.")
+      expect(aether.problems.errors.length).toEqual(1)
+      expect(aether.problems.errors[0].type).toEqual('transpile')
+      expect(aether.problems.errors[0].message).toEqual("Empty if statement. Put 4 spaces in front of statements inside the if statement.")
 
     it "convertToNativeType", ->
       globals =

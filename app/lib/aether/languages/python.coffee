@@ -63,6 +63,8 @@ module.exports = class Python extends Language
           ]
 
       # Check for empty if
+      # TODO: I don't think this ever runs. Empty if statements
+      #       are caught by the parser.parse above.
       if problems.length is 0
         traversal.walkASTCorrect ast, (node) =>
           return unless node.type is "IfStatement"
