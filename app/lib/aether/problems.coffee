@@ -1,5 +1,14 @@
 ranges = require './ranges'
-string_score = require '../../../vendor/scripts/string_score.js'
+
+###
+  This must be the library instead of our modified vendored version.
+  `string_score` adds method `score` to the string prototype while our vendored
+  version provides a function `score` which is made global.
+  We expect both globally due to some subtle dependencies.
+  E.g the string prototype method `score` is used in the component misc.PropertyErrorHelper
+  in the editor.
+###
+string_score = require 'string_score'
 
 # Problems #################################
 #
