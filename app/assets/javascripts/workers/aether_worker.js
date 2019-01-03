@@ -26,7 +26,7 @@ var ensureLanguageImported = function(language) {
     console.log("Using modern language plugin: ${language}");
     importScripts("/javascripts/app/vendor/aether-" + language + ".modern.js");
   } catch (e) {
-    console.log("Legacy javascript detected, using legacy plugin for ${language}", e.message);
+    console.log("Legacy javascript detected, using legacy plugin for", language, e.message);
     importScripts("/javascripts/app/vendor/aether-" + language + ".js");
   }
   languagesImported[language] = true;

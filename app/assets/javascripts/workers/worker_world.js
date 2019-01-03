@@ -85,10 +85,10 @@ var ensureLanguageImported = function(language) {
   //Detect very modern javascript support.
   try {
     (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
-    console.log("Using modern language plugin: ${language}");
+    console.log(`Using modern language plugin: ${language}`);
     myImportScripts("/javascripts/app/vendor/aether-" + language + ".modern.js");
   } catch (e) {
-    console.log("Legacy javascript detected, using legacy plugin for ${language}", e.message);
+    console.log("Legacy javascript detected, using legacy plugin for ", language, e.message);
     myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
   }
   languagesImported[language] = true;
