@@ -1,8 +1,5 @@
 _ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
-parserHolder = {}
-estraverse = require 'estraverse'
-
 Language = require './language'
 
 module.exports = class CoffeeScript extends Language
@@ -16,9 +13,5 @@ module.exports = class CoffeeScript extends Language
 
   constructor: ->
     super arguments...
-    @indent = Array(@wrappedCodeIndentLen + 1).join ' '
-    parserHolder.csredux ?= self?.aetherCoffeeScriptRedux ? {}
 
   usesFunctionWrapping: () -> false
-
-

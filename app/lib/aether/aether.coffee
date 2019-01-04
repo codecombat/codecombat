@@ -170,7 +170,14 @@ module.exports = class Aether
   getAllProblems: (problems) ->
     _.flatten _.values (problems ? @problems)
 
-  # The meat of the transpilation.
+  ###
+    purifyCode takes raw code and returns some slightly instrumented (wrapped) code.
+    TODO: Do we really wrap code anymore with esper?
+
+    However the main function of `purifyCode` is to parse the given code into
+    an Abstract Syntax Tree (AST) which is then attached to @ast.
+    If parsing the code throws an error, we catch it and create a user code problem.
+  ###
   purifyCode: (rawCode) ->
     preprocessedCode = @language.hackCommonMistakes rawCode, @  # TODO: if we could somehow not change the source ranges here, that would be awesome.... but we'll probably just need to get rid of this step.
     wrappedCode = @language.wrap preprocessedCode, @
@@ -203,6 +210,7 @@ module.exports = class Aether
     indent = if lines.length then lines[0].length - lines[0].replace(/^ +/, '').length else 0
     (line.slice indent for line in lines).join '\n'
 
+  # TODO: Hypothesis that this is never called.
   convertToNativeType: (obj) ->
     # Convert obj to current language's equivalent type if necessary
     # E.g. if language is Python, JavaScript Array is converted to a Python list

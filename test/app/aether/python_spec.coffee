@@ -214,7 +214,7 @@ describe "Python test suite", ->
       method = aether.createMethod selfValue
       expect(aether.run(method)).toEqual(4)
 
-    it "Protected API returns Python dict", ->
+    xit "Protected API returns Python dict", ->
       code ="""
         items = self.getItems()
         if items._isPython:
@@ -326,9 +326,9 @@ x = 5
       aether.run method
       expect(history).toEqual([1, 4, 3, 5])
 
-  describe "parseDammit! & Ranges", ->
+  xdescribe "parseDammit! & Ranges", ->
     aether = new Aether language: "python"
-    it "Bad indent", ->
+    xit "Bad indent", ->
       code = """
       def fn():
         x = 45
@@ -360,7 +360,7 @@ x = 5
       expect(aether.problems.errors[0].range).toEqual([ { ofs : 32, row : 3, col : 2 }, { ofs : 34, row : 3, col : 4 } ])
       expect(result).toEqual(50)
 
-    it "Transpile error, missing )", ->
+    xit "Transpile error, missing )", ->
       code = """
       def fn():
         return 45
@@ -374,14 +374,14 @@ x = 5
       result = aether.run()
       expect(result).toEqual(45)
 
-    it "Missing self: x() row 0", ->
+    xit "Missing self: x() row 0", ->
       code = """x()"""
       aether.transpile(code)
       expect(aether.problems.errors.length).toEqual(1)
       expect(aether.problems.errors[0].message).toEqual("Missing `self` keyword; should be `self.x`.")
       expect(aether.problems.errors[0].range).toEqual([ { ofs: 0, row: 0, col: 0 }, { ofs: 3, row: 0, col: 3 } ])
 
-    it "Missing self: x() row 1", ->
+    xit "Missing self: x() row 1", ->
       code = """
       y = 5
       x()
@@ -391,7 +391,7 @@ x = 5
       expect(aether.problems.errors[0].message).toEqual("Missing `self` keyword; should be `self.x`.")
       expect(aether.problems.errors[0].range).toEqual([ { ofs: 6, row: 1, col: 0 }, { ofs: 9, row: 1, col: 3 } ])
 
-    it "Missing self: x() row 3", ->
+    xit "Missing self: x() row 3", ->
       code = """
       y = 5
       s = 'some other stuff'
