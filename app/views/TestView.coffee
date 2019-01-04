@@ -48,7 +48,7 @@ module.exports = TestView = class TestView extends RootView
 
   afterInsert: ->
     Promise.all(
-      ["javascript", "python", "coffeescript", "lua", "java"].map(
+      ["python", "coffeescript", "lua"].map(
         loadAetherLanguage
       )
     ).then(=>
