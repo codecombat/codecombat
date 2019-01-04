@@ -56,9 +56,20 @@ updateState = (aether, evaluator) ->
 
         bottom.flow.statements.push f unless not f.range # Dont push statements without ranges
 
+###
+  This is the primary method that is called to generate an AST.
+
+  Coffeescript is handled as an edge case as the option inFunctionBody breaks all our
+  coffeescript examples.
+  For example, this breaks with a syntax error:
+  ```
+  esper.languages.coffeescript.parser("# Rawr", {inFunctionBody: true})
+  ```
+###
 module.exports.parse = (aether, code) ->
   esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
   esper.plugin 'lang-' + aether.language.id
+  return esper.languages[aether.language.id].parser(code) if aether.language.id in ["coffeescript"]
   return esper.languages[aether.language.id].parser(code, inFunctionBody: true)
 
 module.exports.createFunction = (aether) ->
@@ -91,7 +102,6 @@ module.exports.createFunction = (aether) ->
     engine.addGlobal(name, addedGlobals[name])
 
   upgradeEvaluator aether, engine.evaluator
-
   try
     # Hopefully No One
     if aether.language.usesFunctionWrapping()
@@ -103,7 +113,7 @@ module.exports.createFunction = (aether) ->
       else
         fx = engine.fetchFunctionSync fxName
     else
-      #console.log "Okay NO Wrap", require('escodegen').generate(aether.ast)
+      console.log "Okay NO Wrap"
       if aether.options.yieldConditionally
         fx = engine.functionFromAST aether.ast, makeYieldFilter(aether)
       else if aether.options.yieldAutomatically
