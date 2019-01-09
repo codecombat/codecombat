@@ -827,7 +827,6 @@ module.exports = class SpellView extends CocoView
         else
             aether.transpile source
             finishUpdatingAether(aether)
-          )
       else
         finishUpdatingAether(aether)
 
