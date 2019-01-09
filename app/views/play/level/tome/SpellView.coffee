@@ -557,12 +557,14 @@ module.exports = class SpellView extends CocoView
       @onAllLoaded()
 
   onAllLoaded: =>
-    @spell.transpile @spell.source
-    @spell.loaded = true
-    Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
-    @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
-    @createToolbarView()
-    @updateHTML create: true if @options.level.isType('web-dev')
+    console.log("TRANSPILE IN SPELLVIEW onAllLoaded")
+    @spell.transpile(@spell.source).then(() =>
+      @spell.loaded = true
+      Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
+      @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
+      @createToolbarView()
+      @updateHTML create: true if @options.level.isType('web-dev')
+    )
 
   createDebugView: ->
     return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
@@ -709,12 +711,15 @@ module.exports = class SpellView extends CocoView
   recompile: (cast=true, realTime=false, cinematic=false) ->
     hasChanged = @spell.source isnt @getSource()
     if hasChanged
-      @spell.transpile @getSource()
-      @updateAether true, false
-    if cast  #and (hasChanged or realTime)  # just always cast now
-      @cast(false, realTime, false, cinematic)
-    if hasChanged
-      @notifySpellChanged()
+      console.log("TRANSPILE IN SPELLVIEW recompile")
+      @spell.transpile(@getSource())
+        .then(() =>
+          @updateAether true, false
+          if cast  #and (hasChanged or realTime)  # just always cast now
+            @cast(false, realTime, false, cinematic)
+          if hasChanged
+            @notifySpellChanged()
+      )
 
   updateACEText: (source) ->
     @eventsSuppressed = true
@@ -803,7 +808,9 @@ module.exports = class SpellView extends CocoView
 
       @clearAetherDisplay()
       if codeHasChangedSignificantly and not codeIsAsCast
+        console.error("[filter1] Going through a worker - Never seems to run.");
         if @worker
+          console.log("Have worker:", @worker)
           workerMessage =
             function: 'transpile'
             spellKey: @spell.spellKey
@@ -818,8 +825,9 @@ module.exports = class SpellView extends CocoView
               finishUpdatingAether(aether)
           @worker.postMessage JSON.stringify(workerMessage)
         else
-          aether.transpile source
-          finishUpdatingAether(aether)
+            aether.transpile source
+            finishUpdatingAether(aether)
+          )
       else
         finishUpdatingAether(aether)
 
@@ -962,8 +970,11 @@ module.exports = class SpellView extends CocoView
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
     if not incompleteThis and @options.level.isType('game-dev')
       # TODO: Improve gamedev autocast speed
-      @spell.transpile @getSource()
-      @cast(false, false, true)
+      console.log("TRANSPILE IN SPELLVIEW, guessWhetherFinished")
+      @spell.transpile(@getSource())
+        .then(() =>
+          @cast(false, false, true)
+        )
     else if (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
@@ -998,11 +1009,14 @@ module.exports = class SpellView extends CocoView
     return if @options.level.isType('web-dev')
     oldSource = @spell.source
     oldSpellThangAether = @spell.thang?.aether.serialize()
-    @spell.transpile @getSource()
-    @cast true
-    @spell.source = oldSource
-    for key, value of oldSpellThangAether
-      @spell.thang.aether[key] = value
+    console.log("TRANSPILE IN SPELLVIEW")
+    @spell.transpile(@getSource())
+      .then(() =>
+        @cast true
+        @spell.source = oldSource
+        for key, value of oldSpellThangAether
+          @spell.thang.aether[key] = value
+    )
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
@@ -1066,9 +1080,9 @@ module.exports = class SpellView extends CocoView
       #console.log thang.id, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
     else
       @spell.thang = null
-
+    console.log("TRANSPILE IN SPELLVIEW, onNewWOrld")
     @spell.transpile()  # TODO: is there any way we can avoid doing this if it hasn't changed? Causes a slight hang.
-    @updateAether false, false
+      .then(() => @updateAether false, false)
 
   # --------------------------------------------------------------------------------------------------
 

@@ -140,6 +140,7 @@ module.exports = class TomeView extends CocoView
         delete @thangSpells[thangID]
         spell.removeThangID thangID for spell in @spells
     for spellKey, spell of @spells when not spell.canRead()  # Make sure these get transpiled (they have no views).
+      console.log("Going via TomeView...")
       spell.transpile()
       spell.loaded = true
     null

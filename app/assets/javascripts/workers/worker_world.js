@@ -292,6 +292,7 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
 };
 
 self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
+    console.log("[filter2] We are transpiling on worker world")
     try {
         var options = userCodeMap[thangID][spellID].originalOptions;
         if (options.includeFlow === true && options.noSerializationInFlow === true && options.noVariablesInFlow === false)

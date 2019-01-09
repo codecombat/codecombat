@@ -140,15 +140,25 @@ module.exports = class Spell
   getSource: ->
     @view?.getSource() ? @source
 
+  # Transpiles the source code returning a promise.
   transpile: (source) ->
     if source
       @source = source
     else
       source = @getSource()
     unless @language is 'html'
-      @thang?.aether.transpile source
-      @session.lastAST = @thang?.aether.ast
-    null
+      # Example of where we can grab the java ast from an http request.
+      return new Promise((res, _rej) =>
+        console.log("[filter3] Start timer for parse... (test async stability)")
+        # Causes an ugly freeze but does run correctly.
+        setTimeout(res, 3000)
+      ).then(() =>
+        console.log("transpile within Spell.coffee");
+        @thang?.aether.transpile source
+        @session.lastAST = @thang?.aether.ast
+        console.log("lastAST:", @session.lastAST)
+      )
+    Promise.resolve()
 
   # NOTE: By default, I think this compares the current source code with the source *last saved to the server* (not the last time it was run)
   hasChanged: (newSource=null, currentSource=null) ->
