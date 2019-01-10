@@ -11,8 +11,7 @@
     div.m-t-3#videos-content
       .row.m-t-5
         .col-md-6
-          //- TODO: replace video links with youtube links
-          iframe.video(src="https://drive.google.com/file/d/1-KXwREwK4s3kbtsXV-neSkQCnwG9DVOy/preview" frameborder= "2" allowfullscreen)
+          iframe.video(src="https://player.vimeo.com/video/310626758" frameborder= "2" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed
           .semibold.m-l-5.concept-text
             span.spr(data-i18n="courses.concept")
@@ -22,7 +21,7 @@
       
       .row.m-t-5
         .col-md-6
-          iframe.video(src="https://drive.google.com/file/d/1vwKu_H0YTalWQFAD45DEc6sKheKiB3Et/preview" frameborder= "0" allowfullscreen)
+          iframe.video(src="https://player.vimeo.com/video/310626741" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed
           .semibold.m-l-5.concept-text
             span.spr(data-i18n="courses.concept")
@@ -32,7 +31,7 @@
 
       .row.m-t-5
         .col-md-6
-          iframe.video(src="https://drive.google.com/file/d/1sMhk64HloRbcrXQu8wO-MWwRfpt_66oy/preview" frameborder= "0" allowfullscreen)
+          iframe.video(src="https://player.vimeo.com/video/310626807" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed
           .semibold.m-l-5.concept-text
             span.spr(data-i18n="courses.concept")
@@ -64,7 +63,7 @@ export default Vue.extend({
 #videos-content
   .video
     width: 600px
-    height: 315px
+    height: 320px
 
 .concept-text
   font-size: 16pt
