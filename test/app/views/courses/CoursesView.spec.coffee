@@ -1,6 +1,5 @@
 CoursesView = require 'views/courses/CoursesView'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
-# Levels = require 'collections/Levels'
 Classrooms = require 'collections/Classrooms'
 CourseInstances = require 'collections/CourseInstances'
 Courses = require 'collections/Courses'
