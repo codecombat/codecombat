@@ -1642,6 +1642,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     cs1_curriculum_desc: "Πεδίο εφαρμογής και διαδικασίες, σχέδια μαθημάτων, δραστηριότητες και πολλά άλλα για το μάθημα 1."
     arenas_curriculum: "Επίπεδα Αρένας - Οδηγός Δασκάλου"
     arenas_curriculum_desc: "Οδηγίες σχετικά με τον τρόπο εκτέλεσης των αρρένων πολλών παικτών του Τσεκουράτου Γουάκα, της Διασταύρωσης των Οστών και της Κορυφαίας Δύναμης στην τάξη σας."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Πληροφορική 2 - Οδηγός Προγράμματος Μαθημάτων"
     cs2_curriculum_desc: "Πεδίο εφαρμογής και διαδικασίες, σχέδια μαθημάτων, δραστηριότητες και πολλά άλλα για το μάθημα 2."
     cs3_curriculum: "Πληροφορική 3 - Οδηγός Προγράμματος Μαθημάτων"

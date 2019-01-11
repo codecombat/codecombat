@@ -1642,6 +1642,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     cs1_curriculum_desc: "Cursus 1: leertraject, lesplannen, activiteiten en meer."
     arenas_curriculum: "Arena Levels - Lerarengids"
     arenas_curriculum_desc: "Instructies voor het spelen van de Wakka Maul, Cross Bones en Power Peak multiplayer arenas met je klas."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Informatica 2 - Curriculum handleiding"
     cs2_curriculum_desc: "Cursus 2: leertraject, lesplannen, activiteiten en meer."
     cs3_curriculum: "Informatica 3 - Curriculum handleiding"

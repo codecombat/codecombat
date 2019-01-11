@@ -1642,6 +1642,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     cs1_curriculum_desc: "课程 1 的范围、顺序、课程计划和活动等。"
     arenas_curriculum: "竞技场 － 老师指导"
 #    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "计算机科学 2 - 课程指南"
     cs2_curriculum_desc: "课程 2 的范围、顺序、课程计划和活动等。"
     cs3_curriculum: "计算机科学 3 - 课程指南"
