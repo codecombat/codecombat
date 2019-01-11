@@ -1642,6 +1642,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     cs1_curriculum_desc: "Cakupan dan urutan, rencana belajar, aktivitas dan lainnya untuk Kursus 1."
     arenas_curriculum: "Level Arena - Panduan Guru"
     arenas_curriculum_desc: "Instruksi untuk menjalankan Wakka Maul, Cross Bones, dan Power Peak multiplayer arena dengan kelasmu."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Ilmu Komputer 2 - Panduan Kurikulum"
     cs2_curriculum_desc: "Cakupan dan urutan, rencana belajar, aktivitas dan lainnya untuk Kursus 2"
     cs3_curriculum: "Ilmu Komputer 3 - Panduan Kurikulum"

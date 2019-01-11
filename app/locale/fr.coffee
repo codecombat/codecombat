@@ -1642,6 +1642,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
     arenas_curriculum: "Niveau Arène - Guide du Professeur"
     arenas_curriculum_desc: "Instructions sur comment faire fonctionner les arènes multi-joueurs Wakka Maul, Cross Bones and Power Peak avec votre classe."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"

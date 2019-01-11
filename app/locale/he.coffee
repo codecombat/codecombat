@@ -1642,6 +1642,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     cs1_curriculum_desc: "טווח ההכרה והסדר, תכניות שיעורים, פעילויות ועוד עבור קורס 1."
     arenas_curriculum: "שלבי זירה - הדרכת מורה"
     arenas_curriculum_desc: "הוראות לגבי ההרצה של הזירות וואקה מול,‏ העצמות המוצלבות ופסגת הכוח למשתתפים מרובים בכיתה שלכם."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "מדעי המחשב 2 - מדריך לתכנית הלימודים"
     cs2_curriculum_desc: "טווח ההכרה והסדר, תכניות שיעורים, פעילויות ועוד עבור קורס 2."
     cs3_curriculum: "מדעי המחשב 3 - מדריך לתכנית הלימודים"
