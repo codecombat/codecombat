@@ -147,6 +147,7 @@
     "yamljs": "^0.2.8"
   },
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.28",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
