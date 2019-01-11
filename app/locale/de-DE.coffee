@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     welcome_to_page: "Mein Schüler-Dashboard"
     my_classes: "Meine Klassen"
     class_added: "Klasse erfolgreich hinzugefügt!"
-    view_levels: "Alle Level der Klasse betrachten" # {change}
     view_project_gallery: "Projekte der Klassenkameraden ansehen"
     join_class: "Einer Klasse beitreten"
     join_class_2: "In Klasse einschreiben"

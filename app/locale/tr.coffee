@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    welcome_to_page: "My Student Dashboard"
 #    my_classes: "Current Classes"
 #    class_added: "Class successfully added!"
-#    view_levels: "view all levels"
 #    view_project_gallery: "view my classmates' projects"
 #    join_class: "Join A Class"
 #    join_class_2: "Join class"

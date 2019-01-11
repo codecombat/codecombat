@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     welcome_to_page: "el meu Tauler d'alumnat"
     my_classes: "Classes Actuals"
     class_added: "Classe afegida satisfactòriament!"
-    view_levels: "veure tots els nivells"
     view_project_gallery: "veure els projectes dels meus companys"
     join_class: "Uneix-te a una Classe"
     join_class_2: "Unir-se a una classe"

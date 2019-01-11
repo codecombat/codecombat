@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     welcome_to_page: "Zl Fghqrag Qnfuobneq"
     my_classes: "Pheerag Pynffrf"
     class_added: "Pynff fhpprffshyyl nqqrq!"
-    view_levels: "ivrj nyy yriryf"
     view_project_gallery: "ivrj zl pynffzngrf' cebwrpgf"
     join_class: "Wbva N Pynff"
     join_class_2: "Wbva pynff"

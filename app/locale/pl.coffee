@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     welcome_to_page: "Panel ucznia"
     my_classes: "Moje klasy"
     class_added: "Udało się dodać klasę!"
-    view_levels: "zobacz wszystkie poziomy kursu" # {change}
     view_project_gallery: "przeglądaj projekty innych uczniów z klasy"
     join_class: "Dołącz do klasy"
     join_class_2: "Dołącz do klasy"

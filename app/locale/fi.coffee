@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     welcome_to_page: "Tervetuloa Kurssit sivulle!" # {change}
     my_classes: "Minun luokkani"
     class_added: "Luokka lisätty onnistuneesti!"
-#    view_levels: "view all levels"
 #    view_project_gallery: "view my classmates' projects"
 #    join_class: "Join A Class"
 #    join_class_2: "Join class"

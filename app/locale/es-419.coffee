@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     welcome_to_page: "¡Bienvenido a tu página de cursose!" # {change}
     my_classes: "Mis Clases" # {change}
     class_added: "Clase añadida satisfactoriamente!"
-    view_levels: "ver niveles" # {change}
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Unirse a clase"
 #    join_class_2: "Join class"

@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     welcome_to_page: "Painel do Estudante"
     my_classes: "Turmas Atuais"
     class_added: "Turma adicionada com sucesso!"
-    view_levels: "Visualizar todas as fases do curso" # {change}
     view_project_gallery: "ver os projetos dos meus colegas"
     join_class: "JUNTE - SE A UMA TURMA"
     join_class_2: "Se juntar a turma"

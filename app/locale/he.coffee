@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     welcome_to_page: "לוח התוצאות שלי"
     my_classes: "כיתות נוכחיות"
     class_added: "הכיתה נוספה בהצלחה!"
-    view_levels: "הצג את כל השלבים בקורס" # {change}
     view_project_gallery: "הצג פרויקטים של חבריי לכיתה"
     join_class: "הצטרפו לכיתה"
     join_class_2: "הצטרף לכיתה"

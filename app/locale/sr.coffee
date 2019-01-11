@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     welcome_to_page: "Добродошао на твоју Курсеви страницу!" # {change}
     my_classes: "Моји разреди"
     class_added: "Разред успешно додат!"
-    view_levels: "види нивое" # {change}
     view_project_gallery: "види пројекте мог разреда"
     join_class: "Придружи се разреду"
     join_class_2: "Придружи се разреду"

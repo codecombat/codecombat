@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     welcome_to_page: "Моя панель ученика"
     my_classes: "Мои классы"
     class_added: "Класс успешно добавлен!"
-    view_levels: "посмотреть все уровни курса" # {change}
     view_project_gallery: "посмотреть проекты моих одноклассников"
     join_class: "Присоединиться к классу"
     join_class_2: "Присоединиться к классу"

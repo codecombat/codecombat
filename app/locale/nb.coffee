@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    welcome_to_page: "My Student Dashboard"
     my_classes: "Mine klasser" # {change}
 #    class_added: "Class successfully added!"
-    view_levels: "Vis nivåene" # {change}
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Bli med i en klasse"
 #    join_class_2: "Join class"
