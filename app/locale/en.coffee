@@ -1642,6 +1642,8 @@
     cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
     arenas_curriculum: "Arena Levels - Teacher Guide"
     arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
+    assessments_curriculum: "Assessment Levels - Teacher Guide"
+    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Computer Science 2 - Curriculum Guide"
     cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
     cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -2641,7 +2643,7 @@
     mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
     mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
     mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
-  
+
   parent_modal:
     refer_teacher: "Refer Teacher"
     name: "Your Name"
