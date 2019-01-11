@@ -101,6 +101,7 @@ module.exports = {
   'views/courses/ClassroomView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/ClassroomView') },
   'views/courses/CourseDetailsView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/CourseDetailsView') },
   'views/courses/TeacherClassesView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/TeacherClassesView') },
+  'views/courses/CourseVideosView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/CourseVideosView') },
   'views/teachers/TeacherStudentView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/TeacherStudentView') },
   'views/courses/TeacherClassView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/TeacherClassView') },
   'views/courses/TeacherCoursesView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/TeacherCoursesView') },

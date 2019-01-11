@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     welcome_to_page: "Beranda Siswaku"
     my_classes: "Kelas Saat Ini"
     class_added: "Kelas berhasil ditambahkan!"
-    view_levels: "lihat semua level"
     view_project_gallery: "lihat proyek teman kelasku"
     join_class: "Bergabung Ke Kelas"
     join_class_2: "Ikut Kelas"

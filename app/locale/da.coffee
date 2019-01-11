@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     welcome_to_page: "Velkommen til din Kursusside!" # {change}
     my_classes: "Mine Klasser"
     class_added: "Klasse tilføjet!"
-    view_levels: "vis baner" # {change}
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Følg En Klasse"
 #    join_class_2: "Join class"

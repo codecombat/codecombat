@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     welcome_to_page: "Chào mừng bạn đến với trang quản lý khóa học!" # {change}
 #    my_classes: "Current Classes"
 #    class_added: "Class successfully added!"
-#    view_levels: "view all levels"
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Tham Gia Lớp Học"
 #    join_class_2: "Join class"

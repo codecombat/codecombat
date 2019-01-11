@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     welcome_to_page: "欢迎来到你的课程页面！" # {change}
     my_classes: "我的课程" # {change}
     class_added: "成功添加课程！"
-    view_levels: "浏览关卡" # {change}
     view_project_gallery: "浏览同学的项目"
     join_class: "加入班级"
     join_class_2: "加入班级"

@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     welcome_to_page: "Πίνακας Ελέγχου τον Μαθητών μου"
     my_classes: "Οι Τάξεις μου"
     class_added: "Τάξη Προστέθηκε!"
-    view_levels: "επισκόπηση όλων των επίπεδων"
     view_project_gallery: "προβολή των έργων των συμμαθητών μου"
     join_class: "Σύνδεση Σε Μία Τάξη"
     join_class_2: "Σύνδεση σε τάξη"

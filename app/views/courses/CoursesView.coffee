@@ -39,6 +39,7 @@ module.exports = class CoursesView extends RootView
     'click .view-levels-btn': 'onClickViewLevels'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
+    'click .view-videos-link': 'onClickViewVideosLink'
 
   getTitle: -> return $.i18n.t('courses.students')
 
@@ -114,6 +115,9 @@ module.exports = class CoursesView extends RootView
     versionedCourse = _.find(classroom.get('courses'), {_id: courseInstance.get('courseID')})
     levels = versionedCourse.levels
     _.any(levels, { shareable: 'project' })
+
+  showVideosLinkForCourse: (courseId) ->
+    courseId == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
   onClickLogInButton: ->
     modal = new AuthModal()
@@ -241,3 +245,10 @@ module.exports = class CoursesView extends RootView
     courseID = $(e.target).data('course-id')
     window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/assessments/#{classroomID}##{courseID}", { trigger: true })
+  
+  onClickViewVideosLink: (e) ->
+    classroomID = $(e.target).data('classroom-id')
+    courseID = $(e.target).data('course-id')
+    courseName = $(e.target).data('course-name')
+    window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
+    application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })

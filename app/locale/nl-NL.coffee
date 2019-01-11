@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     welcome_to_page: "Welkom op je cursus-pagina!" # {change}
     my_classes: "Mijn klassen" # {change}
     class_added: "Klas succesvol toegevoegd!"
-    view_levels: "Bekijk levels" # {change}
     view_project_gallery: "Bekijk de projecten van mijn klasgenoten"
     join_class: "Doe mee met een klas"
     join_class_2: "Deelnemen"

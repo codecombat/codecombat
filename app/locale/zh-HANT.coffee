@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     welcome_to_page: "我的學生面板"
     my_classes: "現在的教室"
     class_added: "您已經成功的加入一個教室!"
-    view_levels: "觀看課程中的所有關卡" # {change}
 #    view_project_gallery: "view my classmates' projects"
     join_class: "加入一個班級"
     join_class_2: "加入班級"

@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     welcome_to_page: "Tanulói irányítópult"
     my_classes: "Jelenlegi osztályok"
     class_added: "Az osztály létrehozása sikeresen megtörtént."
-    view_levels: "a kurzus összes pályájának megtekintése" # {change}
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Csatlakozás egy osztályhoz"
     join_class_2: "Osztályhoz csatlakozás"

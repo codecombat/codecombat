@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     welcome_to_page: "Bienvenu sur la page des Cours !" # {change}
     my_classes: "Mes Classes"
     class_added: "Classe ajoutée avec succès !"
-    view_levels: "voir les niveaux" # {change}
     view_project_gallery: "voir les projets de mes camarades"
     join_class: "Rejoindre une classe"
     join_class_2: "rejoindre la classe"
