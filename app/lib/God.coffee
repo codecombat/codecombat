@@ -22,6 +22,7 @@ module.exports = class God extends CocoClass
     @retrieveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
     @gameUIState ?= options.gameUIState or new GameUIState()
     @indefiniteLength = options.indefiniteLength or false
+    @isMultiplayer = options.isMultiplayer or false
     super()
 
     # Angels are all given access to this.
@@ -31,7 +32,7 @@ module.exports = class God extends CocoClass
       spectate: options.spectate
       god: @
       godNick: @nick
-      @gameUIState
+      gameUIState: [{ id:me.id, @gameUIState }]
       workQueue: []
       firstWorld: true
       world: undefined
@@ -68,6 +69,14 @@ module.exports = class God extends CocoClass
     @angelsShare.goalManager?.destroy() unless @angelsShare.goalManager is goalManager
     @angelsShare.goalManager = goalManager
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
+
+  addGameUIState: (UIstate) ->
+    unless @isMultiplayer
+      return
+    if f = _.find(@angelsShare.gameUIState, id:UIstate.id)
+      _.remove(@angelsShare.gameUIState, id:UIstate.id)
+    @angelsShare.gameUIState.push(UIstate)
+    Backbone.Mediator.publish 'god:new-state-added', @angelsShare.gameUIState
 
   onTomeCast: (e) ->
     return unless e.god is @

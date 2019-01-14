@@ -21,6 +21,7 @@ module.exports = class Angel extends CocoClass
     'level:flag-updated': 'onFlagEvent'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
     'level:escape-pressed': 'onEscapePressed'
+    'god:new-state-added': 'onStateAdded'
 
   constructor: (@shared) ->
     super()
@@ -38,12 +39,27 @@ module.exports = class Angel extends CocoClass
     @allLogs = []
     @hireWorker()
     @shared.angels.push @
-    @listenTo @shared.gameUIState.get('realTimeInputEvents'), 'add', @onAddRealTimeInputEvent
+    @gameUIState = _.find(@shared.gameUIState, id: me.id).gameUIState
+    @listenTo @gameUIState.get('realTimeInputEvents'), 'add', @onAddRealTimeInputEvent
+    # @gameUIState = @shared.gameUIState.map((gameUIState) => gameUIState.gameUIState)
+    # for state in @gameUIState
+    #   @listenTo state.get('realTimeInputEvents'), 'add', @onAddRealTimeInputEvent     #TODO: may not trigger when new state added
 
   destroy: ->
     @fireWorker false
     _.remove @shared.angels, @
     super()
+
+  onStateAdded: (states)->
+    for state in states
+      # unless state.id == me.id
+      if state.gameUIState?.get('realTimeInputEvents')
+        # index = state.gameUIState.get('realTimeInputEvents').models.length
+        # if index > 0
+        #   @onAddRealTimeInputEvent(state.gameUIState.get('realTimeInputEvents').models[index-1])
+        for event in state.gameUIState.get('realTimeInputEvents').models
+          console.log("sending event", event)
+          @onAddRealTimeInputEvent(event)
 
   workIfIdle: ->
     @doWork() unless @running
@@ -285,10 +301,14 @@ module.exports = class Angel extends CocoClass
       @worker.postMessage func: 'addFlagEvent', args: flagEvent
 
   onAddRealTimeInputEvent: (realTimeInputEvent) ->
+    console.log(realTimeInputEvent)
     return unless @running and @work.realTime
+    # if multiplayer, and input event is recieved from some other client, add realTimeInputEvent to that client's id and process it
     if @work.synchronous
+      console.log("sending message to world")
       @work.world.addRealTimeInputEvent realTimeInputEvent.toJSON()
     else
+      console.log("sending message to worker")
       @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
 
   onStopRealTimePlayback: (e) ->

@@ -18,6 +18,7 @@ GameDevVictoryModal = require './modal/GameDevVictoryModal'
 aetherUtils = require 'lib/aether_utils'
 GameDevTrackView = require './GameDevTrackView'
 api = require 'core/api'
+GameDevLevelBus = require 'lib/GameDevLevelBus'
 
 require 'lib/game-libraries'
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -31,6 +32,7 @@ module.exports = class PlayGameDevLevelView extends RootView
   subscriptions:
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onStreamingWorldUpdated'
+    'bus:multiplayer-level-start': 'onClickPlayButton'
 
   events:
     'click #edit-level-btn': 'onEditLevelButton'
@@ -61,7 +63,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @gameUIState = new GameUIState()
     @courseID = utils.getQueryVariable 'course'
     @courseInstanceID = utils.getQueryVariable 'course-instance'
-    @god = new God({ @gameUIState, indefiniteLength: true })
+    @god = new God({ @gameUIState, indefiniteLength: true, isMultiplayer: true})
 
     @supermodel.registerModel(@session)
     new Promise((accept,reject) => @session.fetch({ cache: false }).then(accept, reject)).then (sessionData) =>
@@ -122,6 +124,10 @@ module.exports = class PlayGameDevLevelView extends RootView
         $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', @session.get('creatorName'))
       else
         $.i18n.t('play_game_dev_level.created_during_hoc')
+
+      @bus = GameDevLevelBus.get @session.id
+      @bus.setGameUIState @gameUIState , @god
+      @bus.connect()
 
       @state.set({
         loading: false
@@ -192,6 +198,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties, @victoryMessage })
       @openModalView(modal)
       modal.once 'replay', @onClickPlayButton, @
+    if e.world.frames.length is e.world.totalFrames
+      Backbone.Mediator.publish('playback:real-time-playback-ended', {})
 
   updateStudentGoals: ->
     return if @studentGoals
@@ -243,6 +251,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
+    @bus?.destroy()  # TODO: also destroy on refresh or closing the window.
     delete window.world # not sure where this is set, but this is one way to clean it up
     $(window).off("keydown")
     super()
