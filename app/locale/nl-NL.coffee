@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     welcome_to_page: "Welkom op je cursus-pagina!" # {change}
     my_classes: "Mijn klassen" # {change}
     class_added: "Klas succesvol toegevoegd!"
-    view_levels: "Bekijk levels" # {change}
     view_project_gallery: "Bekijk de projecten van mijn klasgenoten"
     join_class: "Doe mee met een klas"
     join_class_2: "Deelnemen"
@@ -1642,6 +1641,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     cs1_curriculum_desc: "Cursus 1: leertraject, lesplannen, activiteiten en meer."
     arenas_curriculum: "Arena Levels - Lerarengids"
     arenas_curriculum_desc: "Instructies voor het spelen van de Wakka Maul, Cross Bones en Power Peak multiplayer arenas met je klas."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Informatica 2 - Curriculum handleiding"
     cs2_curriculum_desc: "Cursus 2: leertraject, lesplannen, activiteiten en meer."
     cs3_curriculum: "Informatica 3 - Curriculum handleiding"
@@ -2688,7 +2689,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    ready_to_code: "I'm ready to code!"
 
 #  hoc_2018_completion:
-#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>" 
+#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
 #    copy: "Copy URL"
 #    get_certificate: "Get a certificate of completion to celebrate with your class!"

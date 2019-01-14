@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     welcome_to_page: "Zl Fghqrag Qnfuobneq"
     my_classes: "Pheerag Pynffrf"
     class_added: "Pynff fhpprffshyyl nqqrq!"
-    view_levels: "ivrj nyy yriryf"
     view_project_gallery: "ivrj zl pynffzngrf' cebwrpgf"
     join_class: "Wbva N Pynff"
     join_class_2: "Wbva pynff"
@@ -1642,6 +1641,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     cs1_curriculum_desc: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf naq zber sbe Pbhefr 1."
     arenas_curriculum: "Neran Yriryf - Grnpure Thvqr"
     arenas_curriculum_desc: "Vafgehpgvbaf ba ubj gb eha Jnxxn Znhy, Pebff Obarf naq Cbjre Crnx zhygvcynlre neranf jvgu lbhe pynff."
+    assessments_curriculum: "Nffrffzrag Yriryf - Grnpure Thvqr"
+    assessments_curriculum_desc: "Yrnea ubj gb hfr Punyyratr Yriryf naq Pbzob Punyyratr yriryf gb nffrff fghqragf' yrneavat bhgpbzrf."
     cs2_curriculum: "Pbzchgre Fpvrapr 2 - Pheevphyhz Thvqr"
     cs2_curriculum_desc: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf naq zber sbe Pbhefr 2."
     cs3_curriculum: "Pbzchgre Fpvrapr 3 - Pheevphyhz Thvqr"
@@ -2323,7 +2324,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     while_condition_loops: "Juvyr Ybbcf jvgu Pbaqvgvbanyf"
     while_loops_simple: "Juvyr Ybbcf"
     while_loops_nested: "Arfgrq Juvyr Ybbcf"
-    xy_coordinates: "Pbbeqvangr Cnvef"  # {punatr}
+    xy_coordinates: "Pbbeqvangr Cnvef"
     advanced_strings: "Nqinaprq Fgevatf"  # Erfg bs pbaprcgf ner qrcerpngrq
     algorithms: "Nytbevguzf"
     boolean_logic: "Obbyrna Ybtvp"
@@ -2348,9 +2349,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     basic_javascript: "Onfvp WninFpevcg"
     basic_event_handling: "Onfvp Rirag Unaqyvat"
     create_sharable_interactive_web_page: "Perngr n funenoyr vagrenpgvir jro cntr"
-    programs: "Cebtenzf"
-    events: "Riragf"
-    properties: "Cebcregvrf"
 
   anonymous_teacher:
     notify_teacher: "Abgvsl Grnpure"
@@ -2644,19 +2642,19 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     mission1_copy: "Bhe rqhpngvba fcrpvnyvfgf jbex pybfryl jvgu grnpuref gb zrrg puvyqera jurer gurl ner va gur rqhpngvbany ynaqfpncr. Xvqf yrnea fxvyyf gung pna or nccyvrq bhgfvqr bs gur tnzr orpnhfr gurl yrnea ubj gb fbyir ceboyrzf, ab znggre jung gurve yrneavat fglyr vf."
     mission2_copy: "N 2016 fheirl fubjrq gung 64% bs tveyf va 3-5gu tenqr jnag gb yrnea ubj gb pbqr. Gurer jrer 7 zvyyvba wbo bcravatf va 2015 erdhverq pbqvat fxvyyf. Jr ohvyg PbqrPbzong orpnhfr rirel puvyq fubhyq or tvira n punapr gb perngr gurve orfg shgher."
     mission3_copy: "Ng PbqrPbzong, jr’er cneragf. Jr’er pbqref. Jr’er rqhpngbef. Ohg zbfg bs nyy, jr’er crbcyr jub oryvrir va tvivat bhe xvqf gur orfg bccbeghavgl sbe fhpprff va jungrire vg vf gurl qrpvqr gb qb."
-  
+
   parent_modal:
     refer_teacher: "Ersre Grnpure"
     name: "Lbhe Anzr"
     parent_email: "Lbhe Rznvy"
     teacher_email: "Grnpure'f Rznvy"
     message: "Zrffntr"
-    custom_message: "V whfg sbhaq PbqrPbzong naq gubhtug vg'q or n terng cebtenz sbe lbhe pynffebbz! Vg'f n pbzchgre fpvrapr yrneavat cyngsbez jvgu fgnaqneqf-nyvtarq pheevphyhz.\n\nPbzchgre yvgrenpl vf fb vzcbegnag naq V guvax guvf jbhyq or n terng jnl gb trg fghqragf ratntrq va yrneavat gb pbqr."
+    custom_message: "V whfg sbhaq PbqrPbzong naq gubhtug vg'q or n terng cebtenz sbe lbhe pynffebbz! Vg'f n pbzchgre fpvrapr yrneavat cyngsbez jvgu fgnaqneqf-nyvtarq pheevphyhz.\a\aPbzchgre yvgrenpl vf fb vzcbegnag naq V guvax guvf jbhyq or n terng jnl gb trg fghqragf ratntrq va yrneavat gb pbqr."
     send: "Fraq Rznvy"
 
   hoc_2018:
     banner: "Unccl Pbzchgre Fpvrapr Rqhpngvba Jrrx 2018!"
-    page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!" # {punatr}
+    page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
     step_3: "Fgrc 3: Qbjaybnq Yrffba Cyna"
@@ -2672,11 +2670,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     activity_label_2: " Ortvaare: Ohvyq n Tnzr!"
     activity_label_3: "Nqinaprq: Ohvyq na Nepnqr Tnzr!"
     activity_button_1: "Ivrj Yrffba"
-    about: "Nobhg PbqrPbzong" # {punatr}
-    about_copy: "N tnzr-onfrq, fgnaqneqf-nyvtarq pbzchgre fpvrapr cebtenz gung grnpurf erny, glcrq Clguba naq WninFpevcg." # {punatr}
+    about: "Nobhg PbqrPbzong"
+    about_copy: "N tnzr-onfrq, fgnaqneqf-nyvtarq pbzchgre fpvrapr cebtenz gung grnpurf erny, glcrq Clguba naq WninFpevcg."
     point1: "✓ Fpnssbyqrq"
     point2: "✓ Qvssreragvngrq"
-    point3: "✓ Nffrffzragf" # {punatr}
+    point3: "✓ Nffrffzragf"
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
@@ -2691,8 +2689,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ready_to_code: "V'z ernql gb pbqr!"
 
   hoc_2018_completion:
-    congratulations: "Pbatenghyngvbaf ba pbzcyrgvat <o>Pbqr, Cynl, Funer!</o>" # {punatr}
-    send: "Fraq lbhe Ubhe bs Pbqr tnzr gb sevraqf naq snzvyl!" # {punatr}
+    congratulations: "Pbatenghyngvbaf ba pbzcyrgvat <o>Pbqr, Cynl, Funer!</o>"
+    send: "Fraq lbhe Ubhe bs Pbqr tnzr gb sevraqf naq snzvyl!"
     copy: "Pbcl HEY"
     get_certificate: "Trg n pregvsvpngr bs pbzcyrgvba gb pryroengr jvgu lbhe pynff!"
     get_cert_btn: "Trg Pregvsvpngr"

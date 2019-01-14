@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     welcome_to_page: "我的學生面板"
     my_classes: "現在的教室"
     class_added: "您已經成功的加入一個教室!"
-    view_levels: "觀看課程中的所有關卡" # {change}
 #    view_project_gallery: "view my classmates' projects"
     join_class: "加入一個班級"
     join_class_2: "加入班級"
@@ -1642,6 +1641,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     cs1_curriculum_desc: "範圍，順序，課程計畫，啟動來獲得更多課程 1 的資訊。"
     arenas_curriculum: "競技場關卡 - 老師指引"
     arenas_curriculum_desc: "說明如何進行 Wakka Maul, Cross Bones 以及 Power Peak 的多人競技場在您的班級中。"
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "計算機科學 2 - 課程引導"
     cs2_curriculum_desc: "範圍，順序，課程計畫，啟動來獲得更多課程 2 的資訊。"
     cs3_curriculum: "計算機科學 3 - 課程引導"

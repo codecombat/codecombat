@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     welcome_to_page: "Добродошао на твоју Курсеви страницу!" # {change}
     my_classes: "Моји разреди"
     class_added: "Разред успешно додат!"
-    view_levels: "види нивое" # {change}
     view_project_gallery: "види пројекте мог разреда"
     join_class: "Придружи се разреду"
     join_class_2: "Придружи се разреду"
@@ -1642,6 +1641,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     cs1_curriculum_desc: "Опсег и секвенца, наставни планови, активности и више за курс 1."
     arenas_curriculum: "Арена нивои - водич за наставника"
     arenas_curriculum_desc: "Увод у то како покренути Wakka Maul, Cross Bones и Power Peak арене за више играча са твојим разредом."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Компјутерска наука 2 - водич за наставни план"
     cs2_curriculum_desc: "Опсег и секвенца, наставни планови, активности и више за курс 2."
     cs3_curriculum: "Компјутерска наука 3 - водич за наставни план"

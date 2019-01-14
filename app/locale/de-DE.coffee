@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     welcome_to_page: "Mein Schüler-Dashboard"
     my_classes: "Meine Klassen"
     class_added: "Klasse erfolgreich hinzugefügt!"
-    view_levels: "Alle Level der Klasse betrachten" # {change}
     view_project_gallery: "Projekte der Klassenkameraden ansehen"
     join_class: "Einer Klasse beitreten"
     join_class_2: "In Klasse einschreiben"
@@ -1642,6 +1641,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     cs1_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 1."
     arenas_curriculum: "Arena Level - Teacher Guide"
     arenas_curriculum_desc: "Anleitung zum Betreiben von Wakka Maul, Cross Bones and Power Peak Multiplayer-Arenen mit deiner Klasse."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Informatik 2 – Curriculumsleitfaden"
     cs2_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 2."
     cs3_curriculum: "Informatik 3 – Curriculumsleitfaden"
@@ -2689,7 +2690,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
 #  hoc_2018_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
-#    send: "Send your Hour of Code game to friends and family!" # {change}
+#    send: "Send your Hour of Code game to friends and family!"
 #    copy: "Copy URL"
 #    get_certificate: "Get a certificate of completion to celebrate with your class!"
 #    get_cert_btn: "Get Certificate"

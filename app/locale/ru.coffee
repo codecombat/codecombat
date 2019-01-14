@@ -1340,7 +1340,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     welcome_to_page: "Моя панель ученика"
     my_classes: "Мои классы"
     class_added: "Класс успешно добавлен!"
-    view_levels: "посмотреть все уровни курса" # {change}
     view_project_gallery: "посмотреть проекты моих одноклассников"
     join_class: "Присоединиться к классу"
     join_class_2: "Присоединиться к классу"
@@ -1642,6 +1641,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     cs1_curriculum_desc: "Объем и последовательность, планы уроков, мероприятия и многое другое для курса 1."
     arenas_curriculum: "Уровни арены - руководство учителя"
 #    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
+#    assessments_curriculum: "Assessment Levels - Teacher Guide"
+#    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Информатика 2 - Руководство учебного плана"
     cs2_curriculum_desc: "Объем и последовательность, планы уроков, мероприятия и многое другое для курса 2."
     cs3_curriculum: "Информатика 3 - Руководство учебного плана"
