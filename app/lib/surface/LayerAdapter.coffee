@@ -516,6 +516,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     else
       SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
+      lank.options.colorConfig = {
+        team: {hue: 0.84, lightness: 0.7, saturation: 1.0}
+      } # Will make all 'team' color groupings pink.
       prefix = @renderGroupingKey(lank.thangType, null, lank.options.colorConfig) + '.'
       sprite = new SpriteClass(@spriteSheet, lank.thangType, prefix, @resolutionFactor)
 
