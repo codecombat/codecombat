@@ -638,10 +638,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     webjavascript: "JavaScript"
 
 #  amazon_hoc:
-#    title: "Keep Learning with Amazon!"
-#    congrats: "Congratulations on conquering that challenging Hour of Code!"
-#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
-#    educate_2: "Learn more and sign up here"
+    title: "Keep Learning with Amazon!"
+    congrats: "Congratulations on conquering that challenging Hour of Code!"
+    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+    educate_2: "Learn more and sign up here"
 #    future_eng_1: "You can also try to build your own school facts skill for Alexa"
 #    future_eng_2: "here"
 #    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
@@ -1093,7 +1093,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     referrer: "Wie hast du von uns erfahren?"
     referrer_help: "Zum Beispiel: von einem anderen Lehrer, auf einer Konferenz, von deinen Schülern, Code.org, etc."
     referrer_default: "Wähle einen aus"
-#    referrer_hoc: "Code.org/Hour of Code"
+    referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Ein Lehrer"
     referrer_admin: "Ein Administrator"
     referrer_student: "Ein Schüler"
