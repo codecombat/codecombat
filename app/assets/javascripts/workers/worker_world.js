@@ -82,7 +82,15 @@ var languagesImported = {};
 var ensureLanguageImported = function(language) {
   if (languagesImported[language]) return;
   if (language === 'javascript' || language === 'html') return;  // Only has JSHint, but we don't need to lint here.
-  myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  //Detect very modern javascript support.
+  try {
+    (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
+    console.log(`Using modern language plugin: ${language}`);
+    myImportScripts("/javascripts/app/vendor/aether-" + language + ".modern.js");
+  } catch (e) {
+    console.log("Legacy javascript detected, using legacy plugin for ", language, e.message);
+    myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  }
   languagesImported[language] = true;
 };
 

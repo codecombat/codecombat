@@ -149,25 +149,7 @@ module.exports = (env) => {
         },{
           from: 'bower_components/esper.js/esper-modern.js',
           to: 'javascripts/esper.modern.js'
-        },{ // Aether
-          from: 'bower_components/aether/build/coffeescript.js',
-          to: 'javascripts/app/vendor/aether-coffeescript.js',
-        },{
-          from: 'bower_components/aether/build/javascript.js',
-          to: 'javascripts/app/vendor/aether-javascript.js',
-        },{
-          from: 'bower_components/aether/build/lua.js',
-          to: 'javascripts/app/vendor/aether-lua.js',
-        },{
-          from: 'bower_components/aether/build/java.js',
-          to: 'javascripts/app/vendor/aether-java.js',
-        },{
-          from: 'bower_components/aether/build/python.js',
-          to: 'javascripts/app/vendor/aether-python.js',
-        },{
-          from: 'bower_components/aether/build/html.js',
-          to: 'javascripts/app/vendor/aether-html.js',
-        }
+        },
       ]),
       new CompileStaticTemplatesPlugin({
         locals: {shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false},
