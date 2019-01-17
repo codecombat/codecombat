@@ -33,14 +33,10 @@ getImmediateParentOfType = (node, type) ->
 # 4. Instrumentation can then include the original ranges and node source in the saved flow state.
 module.exports.makeGatherNodeRanges = makeGatherNodeRanges = (nodeRanges, code, codePrefix) -> (node) ->
   return unless node.range
-  #for x in node.range when _.isNaN x
-  #  console.log "got bad range", node.range, "from", node, node.parent
   node.originalRange = ranges.offsetsToRange node.range[0], node.range[1], code, codePrefix
 
   if node.source
     node.originalSource = node.source()
-  else
-    #TODO: compute this via ranges
 
   nodeRanges.push node
 

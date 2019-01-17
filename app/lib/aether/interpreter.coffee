@@ -72,11 +72,13 @@ module.exports.parse = (aether, code) ->
   return esper.languages[aether.language.id].parser(code) if aether.language.id in ["coffeescript"]
   return esper.languages[aether.language.id].parser(code, inFunctionBody: true)
 
+###
+  Creates an instrumented function that we can execute.
+###
 module.exports.createFunction = (aether) ->
   esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
   esper.plugin 'lang-' + aether.language.id
   state = {}
-  #aether.flow.states.push state
   messWithLoops = false
   if aether.options.whileTrueAutoYield or aether.options.simpleLoops
     messWithLoops = true
@@ -91,11 +93,9 @@ module.exports.createFunction = (aether) ->
       language: aether.language.id
 
   engine = aether.esperEngine
-  #console.log JSON.stringify(aether.ast, null, '  ')
 
-  #fxName = aether.ast.body[0].id.name
   fxName = aether.options.functionName or 'foo'
-  #console.log JSON.stringify(aether.ast, null, "  ")
+
   aether.language.setupInterpreter engine
 
   for name in Object.keys addedGlobals
@@ -103,7 +103,7 @@ module.exports.createFunction = (aether) ->
 
   upgradeEvaluator aether, engine.evaluator
   try
-    # Hopefully No One
+    # Hopefully no language uses FunctionWrapping.
     if aether.language.usesFunctionWrapping()
       engine.evalASTSync aether.ast
       if aether.options.yieldConditionally
@@ -113,7 +113,6 @@ module.exports.createFunction = (aether) ->
       else
         fx = engine.fetchFunctionSync fxName
     else
-      console.log "Okay NO Wrap"
       if aether.options.yieldConditionally
         fx = engine.functionFromAST aether.ast, makeYieldFilter(aether)
       else if aether.options.yieldAutomatically
@@ -128,7 +127,6 @@ module.exports.createFunction = (aether) ->
       error.message = "Couldn't understand your code. Do you have extra spaces at the beginning, or unmatched ( and ) parentheses?"
     aether.addProblem aether.createUserCodeProblem error: error, code: aether.raw, type: 'transpile', reporter: 'aether'
     engine.evalASTSync emptyAST
-  #console.log require('escodegen').generate(aether.ast)
 
   return fx
 

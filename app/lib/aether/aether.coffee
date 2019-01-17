@@ -182,16 +182,13 @@ module.exports = class Aether
     preprocessedCode = @language.hackCommonMistakes rawCode, @  # TODO: if we could somehow not change the source ranges here, that would be awesome.... but we'll probably just need to get rid of this step.
     wrappedCode = @language.wrap preprocessedCode, @
 
-    originalNodeRanges = []
     varNames = {}
     varNames[parameter] = true for parameter in @options.functionParameters
     preNormalizationTransforms = [
-      transforms.makeGatherNodeRanges originalNodeRanges, wrappedCode, @language.wrappedCodePrefix
       transforms.makeCheckThisKeywords @allGlobals, varNames, @language, @options.problemContext
       transforms.makeCheckIncompleteMembers @language, @options.problemContext
     ]
     try
-      #[transformedCode, transformedAST] = @transform wrappedCode, preNormalizationTransforms, @language.parse
       @ast = interpreter.parse @, wrappedCode
     catch error
       problemOptions = error: error, code: wrappedCode, codePrefix: @language.wrappedCodePrefix, reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
@@ -226,7 +223,6 @@ module.exports = class Aether
     else
       root = @ast.body
 
-    #console.log(JSON.stringify root, null, '  ')
     traversal.walkASTCorrect root, (node) ->
       return if not node.type?
       return if node.userCode == false
