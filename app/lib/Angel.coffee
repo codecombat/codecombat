@@ -40,6 +40,17 @@ module.exports = class Angel extends CocoClass
     @shared.angels.push @
     @listenTo @shared.gameUIState.get('realTimeInputEvents'), 'add', @onAddRealTimeInputEvent
 
+    @websocket = new WebSocket("ws://localhost:8081")
+    @websocket.onmessage = (event) =>
+      # FIXME: These realtime inputs aren't always handled *quickly* by the game engine.
+      console.log("Realtime event from server received")
+      @onAddRealTimeInputEvent(JSON.parse(event.data))
+
+  broadcastRealTimeInputEvent: (realTimeInputEvent) ->
+    return unless @running and @work.realTime
+    return unless @websocket.readyState is WebSocket.OPEN
+    @websocket.send(JSON.stringify(realTimeInputEvent))
+
   destroy: ->
     @fireWorker false
     _.remove @shared.angels, @
@@ -286,10 +297,17 @@ module.exports = class Angel extends CocoClass
 
   onAddRealTimeInputEvent: (realTimeInputEvent) ->
     return unless @running and @work.realTime
-    if @work.synchronous
-      @work.world.addRealTimeInputEvent realTimeInputEvent.toJSON()
+    # Checking if this is a locally created event or received from server.
+    realTimeEvent = if realTimeInputEvent.toJSON
+      e = realTimeInputEvent.toJSON()
+      @broadcastRealTimeInputEvent(e)
+      e
     else
-      @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
+      realTimeInputEvent
+    if @work.synchronous
+      @work.world.addRealTimeInputEvent realTimeEvent
+    else
+      @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeEvent
 
   onStopRealTimePlayback: (e) ->
     return unless @running and @work.realTime
