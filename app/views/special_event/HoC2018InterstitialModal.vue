@@ -7,7 +7,7 @@
     .modal-body
       .row(v-if="showVideo")
         .hoc-video
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/SzZiOkZ-vRk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/k965LUC7oww" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       .row.buttons
         .col-xs-6
           button.btn.btn-lg.btn-navy(v-on:click="clickTeacher" data-i18n="hoc_2018_interstitial.educator")
