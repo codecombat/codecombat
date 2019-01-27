@@ -145,7 +145,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     poll: "投票" # Tooltip on poll button from /play
     next: "次へ" # Go from choose hero to choose inventory before playing a level
     change_hero: "ヒーローの選択" # Go back from choose inventory to choose hero
-    change_hero_or_language: "へーローやプラグラミングを変える"
+    change_hero_or_language: "ヒーローやプログラム言語を変える"
     buy_gems: "ジェムを購入"
     subscribers_only: "サブスクリプション限定!"
     subscribe_unlock: "サブスクリプションで解放!"
