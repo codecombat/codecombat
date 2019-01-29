@@ -960,8 +960,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     retrostyle_blurb: "Ρετρό Παιχνίδια"
     bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     bryukh_blurb: "Δημιουργός Γρίφων"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...και η κοινότητά μας του ανοικτού κώδικα"
     community_subtitle: "Περισσότεροι από 500 συνεισφέροντες βοήθησαν στην οικοδόμηση του CodeCombat, με περισσότερες συμμετοχές κάθε εβδομάδα!"
     community_description_3: "Το CodeCombat είναι ένα"

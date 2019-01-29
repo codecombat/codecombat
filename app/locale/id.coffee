@@ -960,8 +960,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     retrostyle_blurb: "Permainan RetroStyle"
     bryukh_title: "Perancang Permainan" # {change}
     bryukh_blurb: "Merancang teka-teki"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...dan komunitas sumber terbuka kami"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"

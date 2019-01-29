@@ -960,8 +960,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     retrostyle_blurb: "משחקי רטרו"
     bryukh_title: "מעצב משחק" # {change}
     bryukh_blurb: "בונה פאזלים"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...וקהילת הקוד הפתוח שלנו"
     community_subtitle: "למעלה מ-500 תורמים כבר עוזרים לבנות את CodeCombat, ותורמים נוספים מצטרפים מדי שבוע!"
     community_description_3: "CodeCombat הוא"

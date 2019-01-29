@@ -960,8 +960,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     retrostyle_blurb: "Jocs estil retro"
     bryukh_title: "Dissenyador de jocs"
     bryukh_blurb: "Constructor de trencaclosques"
-    daniela_title: "Artesà de Contingut"
-    daniela_blurb: "Crea històries"
     community_title: "...i la nostra comunitat de codi obert"
     community_subtitle: "Més de 500 contribuents han ajudat a construir CodeCombat, amb més unió cada setmana."
     community_description_3: "CodeCombat és un"

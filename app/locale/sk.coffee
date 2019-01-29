@@ -960,8 +960,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     retrostyle_blurb: "Retro hry"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...a naša komunita open-source"
     community_subtitle: "Vyše  500 spolupracovníkov pomohlo s tvorbou CodeCombatu. Každý týždeň pribúdajú ďalší."
     community_description_3: "CodeCombat je"

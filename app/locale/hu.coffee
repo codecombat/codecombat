@@ -960,8 +960,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...és a nyílt támogatói közösségünk"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"

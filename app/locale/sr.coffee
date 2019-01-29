@@ -960,8 +960,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     retrostyle_blurb: "RetroStyle игрице"
     bryukh_title: "Дизајнер игрице"
     bryukh_blurb: "Креира пузле"
-    daniela_title: "Писац садржаја"
-    daniela_blurb: "Пише приче"
     community_title: "...и наша заједница отвореног кода"
     community_subtitle: "Преко 450 сарадника је помогло да се изгради CodeCombat и још њих се придружује сваке недеље!" # {change}
     community_description_3: "CodeCombat је"
