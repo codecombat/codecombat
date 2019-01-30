@@ -960,8 +960,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...và cộng đồng mã nguồn mở của chúng tôi"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"

@@ -960,8 +960,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     retrostyle_blurb: "RetroStijl Games"
     bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
-    daniela_title: "Creëert content"
-    daniela_blurb: "Creëert verhalen"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"

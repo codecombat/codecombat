@@ -960,8 +960,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Дизайнер игры"
     bryukh_blurb: "Создатель головоломок"
-    daniela_title: "Создатель контента"
-    daniela_blurb: "Создатель историй"
     community_title: "...и наше open-source сообщество"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"

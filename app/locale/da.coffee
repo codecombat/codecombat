@@ -960,8 +960,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     retrostyle_blurb: "Retro Spil"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...og vores open source fællesskab"
     community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"

@@ -960,8 +960,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...oraz nasza społeczność 'open-source'"
     community_subtitle: "Ponad 500 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
     community_description_3: "CodeCombat jest "

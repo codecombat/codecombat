@@ -960,8 +960,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     retrostyle_blurb: "复古风格的游戏"
     bryukh_title: "游戏设计师"
     bryukh_blurb: "构建拼图"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"

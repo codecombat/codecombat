@@ -960,8 +960,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     retrostyle_blurb: "復古風格的遊戲"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
-#    daniela_title: "Content Crafter"
-#    daniela_blurb: "Creates stories"
     community_title: "...以及我們的開放原始碼社群"
     community_subtitle: "超過 500 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！"
     community_description_3: "CodeCombat 是一個"
