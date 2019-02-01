@@ -523,6 +523,7 @@
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     hints: "Hints"
+    videos: "Videos"
     hints_title: "Hint {{number}}"
     code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
@@ -1462,6 +1463,10 @@
     basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
     while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
     variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+    unlocked_videos_desc: "Review the __concept_name__ concept video."
+
+
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
     view_project: "View Project"

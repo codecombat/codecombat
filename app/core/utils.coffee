@@ -693,6 +693,35 @@ getApiClientIdFromEmail = (email) ->
     clientID = '57fff652b0783842003fed00'
     return clientID
 
+# hard-coded 3 CS1 levels with concept video details
+# TODO: move them to database if more such levels
+videoLevels = {
+  # gems in the deep
+  "54173c90844506ae0195a0b4": {
+    url: "https://player.vimeo.com/video/310626758",
+    title: "Basic Syntax",
+    original: "54173c90844506ae0195a0b4",
+    thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
+    thumbnail_unlocked: "/images/level/videos/basic_syntax_unlocked.png"
+  }, 
+  # fire dancing
+  "55ca293b9bc1892c835b0136": {
+    url: "https://player.vimeo.com/video/310626741",
+    title: "While Loops",
+    original: "55ca293b9bc1892c835b0136"
+    thumbnail_locked: "/images/level/videos/while_loops_locked.png",
+    thumbnail_unlocked: "/images/level/videos/while_loops_unlocked.png"
+  } 
+  # known enemy
+  "5452adea57e83800009730ee": {
+    url: "https://player.vimeo.com/video/310626807",
+    title: "Variables",
+    original: "5452adea57e83800009730ee"
+    thumbnail_locked: "/images/level/videos/variables_locked.png",
+    thumbnail_unlocked: "/images/level/videos/variables_unlocked.png"
+  }
+}
+
 module.exports = {
   ageOfConsent
   capitalLanguages
@@ -746,4 +775,5 @@ module.exports = {
   petThangIDs
   premiumContent
   isValidEmail
+  videoLevels
 }

@@ -45,6 +45,7 @@ require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
+CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 
 require 'lib/game-libraries'
 
@@ -99,6 +100,7 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
+    'click #videos-button': 'onClickVideosButton'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -353,6 +355,9 @@ module.exports = class CampaignView extends RootView
   onClickAnonClassroomSignup: ->
     window.tracker?.trackEvent 'Anonymous Classroom Signup Modal Create Teacher', category: 'Signup'
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
+  onClickVideosButton: ->
+    @openModalView(new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @course.get('_id')}))
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -1415,6 +1420,9 @@ module.exports = class CampaignView extends RootView
 
     if what in ['back-to-classroom']
       return isStudentOrTeacher and not application.getHocCampaign()
+    
+    if what in ['videos']
+      return me.isStudent() and @course?.get('_id') == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
     if what in ['buy-gems']
       return not (isIOS or me.freeOnly() or isStudentOrTeacher or !me.canBuyGems() or (application.getHocCampaign() and me.isAnonymous()))
