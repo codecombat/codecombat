@@ -17,6 +17,4 @@ module.exports = class PlayLevelVideoView extends RootComponent
 
   destroy: ->
     @onDestroy?()
-    console.log("view destroy")
-    console.log($('#main-nav'))
     super()
