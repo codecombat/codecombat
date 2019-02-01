@@ -617,6 +617,9 @@
     view_gallery: "View Gallery"
     project_published_noty: "Your level has been published!"
     keep_editing: "Keep Editing"
+    learn_new_concepts: "Learn new concepts"
+    watch_a_video: "Watch a video on __concept_name__"
+    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Methods"

@@ -28,7 +28,7 @@
               div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
                   
             div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
-              img.lock-banner(src="/images/pages/play/modal/lock_banner.png")
+              img.lock-banner(src="/images/pages/play/modal/unlocked_banner.png")
               h5.text-uppercase
                 span(v-if="nextAssessment.assessment === 'cumulative'")
                   | {{ $t('play_level.combo_challenge_unlocked') }}:
@@ -51,8 +51,8 @@
             )
               | {{ $t('play_level.replay_level') }}
         .row(v-else-if="assessmentNext && !level.assessment")
-          .col-sm-5.col-sm-offset-7
-            a#start-challenge-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(
+          .col-sm-6.col-sm-offset-6
+            a#start-challenge-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.btn-glow.text-uppercase(
               @click="onStartChallenge",
               :href="challengeLink"
             )
@@ -68,7 +68,12 @@
               h5 {{ $dbt(course, 'name') }}
               h3(v-if="stats")
                 | Levels Complete: {{ stats.levels.numDone }}/{{ stats.levels.size }}
-          .col-sm-6(v-if="nextLevel._id")
+          .col-sm-6(v-if="nextLevelVideo")
+            .well.well-sm.well-parchment
+              h5.text-uppercase {{ $t('play.next') }}:
+              h3.text-uppercase {{ $t('play_level.learn_new_concepts') }}
+              h5.text-uppercase {{ $t('play_level.watch_a_video', { concept_name: nextLevelVideo.title }) }}
+          .col-sm-6(v-else-if="nextLevel._id")
             .well.well-sm.well-parchment
               h5.text-uppercase {{ $t('play_level.next_level') }}:
               h3.text-uppercase {{ $dbt(nextLevel, 'name') }}
@@ -76,12 +81,19 @@
     
         .row
           .col-sm-6.text-uppercase
-            a#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(
+            a#map-btn.btn.btn-illustrated.btn-block.btn-lg.text-uppercase(
               @click="onBackToMap",
               :href="mapLink"
             )
               | {{ $t('play_level.back_to_map') }}
-          .col-sm-6.text-uppercase(v-if="nextLevel._id")
+          .col-sm-6.text-uppercase(v-if="nextLevelVideo")
+            a#next-level-btn.btn.btn-illustrated.btn-block.btn-lg.text-uppercase(
+              @click="onNextLevelVideo",
+              :href="nextLevelVideoLink",
+              :class="nextLevelLinkClasses"
+            )
+              | {{ $t('play.next') }}
+          .col-sm-6.text-uppercase(v-else-if="nextLevel._id")
             a#next-level-btn.btn.btn-illustrated.btn-block.btn-lg.text-uppercase(
               @click="onNextLevel",
               :href="nextLevelLink",
@@ -129,11 +141,16 @@
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
             link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
           return link
+      nextLevelVideoLink: ->
+        link = "/play/video/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
+        link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
+        link += "&level=" + @nextLevel.original
+        return link
       nextLevelLinkClasses: ->
         if @assessmentNext
           { 'btn-default': true }
         else
-          { 'btn-success': true }
+          { 'btn-success': true , 'btn-glow': true  }
       headerImage: ->
         if @level.assessment
           return "/images/pages/play/modal/challenge_complete.png"
@@ -171,6 +188,9 @@
           return "/images/pages/play/modal/combo_complete.png"
         else
           return "/images/pages/play/modal/combo_incomplete.png"
+      nextLevelVideo: ->
+        if me.isStudent() and @course._id == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE and !me.showHeroAndInventoryModalsToStudents()
+          return utils.videoLevels[@nextLevel.original]
     }
     methods: {
       marked
@@ -193,6 +213,19 @@
             }, 
             []
         )
+      
+      onNextLevelVideo: ->
+        window.tracker?.trackEvent(
+          'Play Level Victory Modal Next Level Video',
+            {
+              category: 'Students'
+              levelSlug: @level.slug
+              nextLevelSlug: @nextLevel.slug
+              nextLevelVideoTitle: @nextLevelVideo.title
+            },
+            []
+        )
+      
       onNextLevel: ->
         window.tracker?.trackEvent(
           'Play Level Victory Modal Next Level',
@@ -226,6 +259,21 @@
 </script>
 
 <style lang="sass">
+
+  @import "app/styles/mixins"
+  @import "app/styles/bootstrap/variables"
+
+  +keyframes(winnablePulse)
+    from
+      @include box-shadow(0px 0px 8px #333)
+      color: white
+    50%
+      @include box-shadow(0px 0px 35px #87CEFF)
+      color: #87CEFF
+    to
+      @include box-shadow(0px 0px 8px #333)
+      color: white
+
   #course-victory-component
     img.header-img
       position: relative
@@ -304,5 +352,8 @@
         position: absolute
         bottom: 0
         left: 10px
+
+    .btn-glow
+      @include animation(winnablePulse 3s infinite)
   
 </style>
