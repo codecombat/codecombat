@@ -14,6 +14,8 @@ World = require 'lib/world/world'
 utils = require 'core/utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
 
+store = require('core/store')
+
 LOG = true
 
 # This is an initial stab at unifying loading and setup into a single place which can
@@ -89,6 +91,7 @@ module.exports = class LevelLoader extends CocoClass
       unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
 
   onLevelLoaded: ->
+    console.log('LevelLoader.onLevelLoaded')
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
       @sessionDependenciesRegistered = {}
     if @level.isType('web-dev')
@@ -195,6 +198,7 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
+    console.log('LevelLoader.loadDependenciesForSession')
     console.debug "Loading dependencies for session: ", session if LOG
     if me.id isnt session.get 'creator'
       session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
@@ -214,7 +218,9 @@ module.exports = class LevelLoader extends CocoClass
       # hero-ladder games require the correct session team in level:loaded
       team = @team ? @session.get('team')
       Backbone.Mediator.publish 'level:loaded', level: @level, team: team
+      store.commit('game/setLevelLoaded')
       @publishedLevelLoaded = true
+      store.commit('game/setSessionLoaded')
       Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession
@@ -409,12 +415,19 @@ module.exports = class LevelLoader extends CocoClass
     return ''
 
   onWorldNecessitiesLoaded: ->
+    console.log('LevelLoader.onWorldNecessitiesLoaded')
     console.debug "World necessities loaded." if LOG
+
+    # TODO: world init this doesn't work with MockPlayView yet:
+    # couldn't load components for 576322da0d81132500afdc8d Hero Placeholder because ReferenceError: Aether is not defined ReferenceError: Aether is not defined
+    return
+
     return if @initialized
     @initialized = true
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
+    store.commit('game/setWorldNecessitiesLoaded')
     return if @headless
     thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs when t.exists) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
@@ -537,6 +550,7 @@ module.exports = class LevelLoader extends CocoClass
     thangType.buildSpriteSheet options
 
   # World init
+  # TODO: OMG, why is this is here instead of something like WorldLoader.coffee?
 
   initWorld: ->
     return if @level.isType('web-dev')

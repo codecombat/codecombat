@@ -1,0 +1,11 @@
+.container
+  .row
+    .col-sm-6
+      p toods!
+    .col-sm-6
+      <load-level v-bind:levelId="this.levelId" v-bind:supermodel="this.supermodel"/>
+  .row
+    .col-sm-6
+      <user-code v-bind:levelId="this.levelId"/>
+    .col-sm-6
+      <game-simulation v-bind:levelId="this.levelId"/>

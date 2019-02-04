@@ -9,16 +9,25 @@ module.exports = {
   namespaced: true
   state: {
     level: emptyLevel
+    levelLoaded: false
     hintsVisible: false
+    sessionLoaded: false
     timesCodeRun: 0
     timesAutocompleteUsed: 0
     playing: false
+    worldNecessitiesLoaded: false
   }
   mutations: {
     setPlaying: (state, playing) ->
       state.playing = playing
     setLevel: (state, updates) ->
       state.level = $.extend(true, {}, updates)
+    setLevelLoaded: (state) ->
+      state.levelLoaded = true
+    setSessionLoaded: (state) ->
+      state.sessionLoaded = true
+    setWorldNecessitiesLoaded: (state) ->
+      state.worldNecessitiesLoaded = true
     setHintsVisible: (state, visible) ->
       state.hintsVisible = visible
     incrementTimesCodeRun: (state) ->
@@ -29,7 +38,12 @@ module.exports = {
       state.timesAutocompleteUsed += 1
     setTimesAutocompleteUsed: (state, times) ->
       state.timesAutocompleteUsed = times
-  }
+  },
+  getters: {
+    levelLoaded: (state) => state.levelLoaded
+    sessionLoaded: (state) => state.sessionLoaded
+    worldNecessitiesLoaded: (state) => state.worldNecessitiesLoaded
+  },
 }
 
 Backbone.Mediator.subscribe('level:set-playing', (e) ->

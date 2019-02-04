@@ -172,6 +172,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
+    'vue/play/level/:levelID': go('new-vue-world/game/MockPlayView')
     'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
     'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/game-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
@@ -270,7 +271,7 @@ module.exports = class CocoRouter extends Backbone.Router
       delete window.alreadyLoadedView
       path = 'play/CampaignView'
 
-    path = "views/#{path}" if not _.string.startsWith(path, 'views/')
+    path = "views/#{path}" if not _.string.startsWith(path, 'views/') and not _.string.startsWith(path, 'new-vue-world/')
     Promise.all([
       dynamicRequire[path](), # Load the view file
       # The locale load is already initialized by `application`, just need the promise
