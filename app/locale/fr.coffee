@@ -1734,7 +1734,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     select_students: "Sélectionner les étudiants"
     select_instructions: "Cochez la case à côté de chaque élève auquel vous souhaitez attribuer des cours."
     choose_course: "Choisir un cours"
-    choose_instructions: "Sélectionnez le cours dans le menu déroulant que vous souhaitez affecter, puis cliquez sur "Affecter à des étudiants sélectionnés"."
+    choose_instructions: "Sélectionnez le cours dans le menu déroulant que vous souhaitez affecter, puis cliquez sur \"Affecter à des étudiants sélectionnés\"."
     push_projects: "Nous recommandons d'assigner Développement Web 1 ou Développement de jeu 1 après que les élèves ont terminé Introduction à l'informatique ! Voir notre {{{ressource_hub}}} pour plus de détails sur ces cours."
     teacher_quest: "La quête du succès de l'enseignant"
 #    quests_complete: "Quests Complete"
