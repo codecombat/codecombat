@@ -23,6 +23,7 @@ flat-layout
           a#next-level-btn.btn-illustrated.btn-success.btn-block.btn-lg.btn(
             @click="onNextLevel",
             :href="nextLevelLink"
+            v-show="false"
           )
             | {{ $t('play_level.next_level') }}
       img.img-unlocked(src = '/images/pages/play/modal/unlocked_banner.png')
@@ -77,20 +78,20 @@ export default Vue.extend({
       // hack to remove base template's header and footer
       // store existing display settings to revert to these before leaving 
       this.originalDisplaySettings = {
-        'main-nav': $('#main-nav')[0].style.display,
-        'footer': $('#footer')[0].style.display,
-        'final-footer': $('#final-footer')[0].style.display
+        'main-nav': $('#main-nav')[0]? $('#main-nav')[0].style.display : "",
+        'footer': $('#footer')[0]? $('#footer')[0].style.display : "",
+        'final-footer': $('#final-footer')[0]? $('#final-footer')[0].style.display: ""
       }
-      $('#main-nav')[0].style.display = "none"
-      $('#footer')[0].style.display = "none"
-      $('#final-footer')[0].style.display = "none"
+      if ($('#main-nav')[0]) { $('#main-nav')[0].style.display = "none" }
+      if ($('#footer')[0]) { $('#footer')[0].style.display = "none" }
+      if ($('#final-footer')[0]) { $('#final-footer')[0].style.display = "none" }
     })
   },
   beforeDestroy () {
     // make header and footer visible again before leaving
-    $('#main-nav')[0].style.display = this.originalDisplaySettings['main-nav']
-    $('#footer')[0].style.display = this.originalDisplaySettings['footer']
-    $('#final-footer')[0].style.display = this.originalDisplaySettings['final-footer']
+    if ($('#main-nav')[0]) { $('#main-nav')[0].style.display = this.originalDisplaySettings['main-nav'] }
+    if ($('#footer')[0]) { $('#footer')[0].style.display = this.originalDisplaySettings['footer'] }
+    if ($('#final-footer')[0]) { $('#final-footer')[0].style.display = this.originalDisplaySettings['final-footer'] }
   },
   computed: {
     nextLevelLink: function () {
@@ -224,7 +225,6 @@ export default Vue.extend({
           border-radius: 0
           font-weight: bold
           font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
-          display: none
       
       .img-unlocked
         position: absolute
