@@ -25,7 +25,7 @@ const createComponent = (values = {}) => {
 }
 
 // create levels that have the video details
-const levelTestData = Object.keys(utils.videoLevels).map((l) => factories.makeLevel({original: l}))
+const levelTestData = Object.keys(utils.videoLevels || {}).map((l) => factories.makeLevel({original: l}))
 const levels = new Levels(levelTestData)
 const courses = new Course([factories.makeCourse()])
 const classroom = factories.makeClassroom({}, {levels: [levels], courses: courses})
