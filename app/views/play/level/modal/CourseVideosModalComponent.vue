@@ -43,7 +43,7 @@
 <script>
 import api from 'core/api';
 import utils from 'core/utils'
-import Player from '@vimeo/player'
+import VideoPlayer from '@vimeo/player'
 
 export default Vue.extend({
   props: {
@@ -57,8 +57,7 @@ export default Vue.extend({
     }
   },
   data: () => ({
-    videoLevels: [],
-    vimeoPlayer: {}
+    videoLevels: []
   }),
   created() {
     // fetch the levels that contain video URLs from the classroom ID for the given course instance ID.
@@ -86,32 +85,26 @@ export default Vue.extend({
             }
           }
         }).catch((err) => {
-          console.log("Error in fetching sessions:", err)
+          console.error("Error in fetching sessions:", err)
         });
       }).catch((err) => {
-        console.log("Error in fetching classroom details:", err)
+        console.error("Error in fetching classroom details:", err)
       });
     }).catch((err) => {
-      console.log("Error in fetching course instance details:", err)
+      console.error("Error in fetching course instance details:", err)
     });
   },
   methods: {
     // open video in the iframe when video thumbnail is clicked
     onImageClick: function(e) {
-      let video_url = ''
       let src = e.target.src
       src = src.slice(src.search('/images'))
-      for (let l of this.videoLevels){
-        if (l.thumbnail_unlocked == src){
-          video_url = l.url;
-          break;
-        }
-      }
+      let video_url = (this.videoLevels.find(l => l.thumbnail_unlocked == src) || {}).url
       let frame = $('.video-frame')[0]
       frame.src = video_url
       frame.style['z-index'] = 3
       $('#videos-content')[0].style.display = "none"
-      const p = new Player(frame);
+      const p = new VideoPlayer(frame);
       $('#video-close-btn')[0].style.display = "block"
       p.play().catch((err) => console.log("Error while playing the video:", err))
     }

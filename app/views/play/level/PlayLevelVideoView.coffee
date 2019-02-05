@@ -8,11 +8,12 @@ module.exports = class PlayLevelVideoView extends RootComponent
   VueComponent: PlayLevelVideoComponent
 
   constructor: (options, @levelID) ->
-    @propsData = { @levelID }
-    @propsData.courseID = utils.getQueryVariable 'course' or null
-    @propsData.courseInstanceID = utils.getQueryVariable 'course-instance' or null
-    @propsData.codeLanguage = utils.getQueryVariable 'codeLanguage' or null
-    @propsData.level = utils.getQueryVariable 'level' or null
+    @propsData ?= {}
+    @propsData.levelSlug = @levelID
+    @propsData.courseID = utils.getQueryVariable 'course'
+    @propsData.courseInstanceID = utils.getQueryVariable 'course-instance'
+    @propsData.codeLanguage = utils.getQueryVariable 'codeLanguage'
+    @propsData.levelOriginalID = utils.getQueryVariable 'level'
     super(options)
 
   destroy: ->

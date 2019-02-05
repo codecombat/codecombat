@@ -31,11 +31,11 @@ flat-layout
 <script>
 import utils from 'core/utils'
 import FlatLayout from 'core/components/FlatLayout'
-import Player from '@vimeo/player'
+import VideoPlayer from '@vimeo/player'
 
 export default Vue.extend({
   props: {
-    levelID: {  // level-slug
+    levelSlug: {
       type: String,
       required: true
     },
@@ -50,7 +50,7 @@ export default Vue.extend({
     codeLanguage: {
       type: String
     },
-    level: {    // level original id
+    levelOriginalID: {
       type: String,
       required: true
     }
@@ -58,22 +58,29 @@ export default Vue.extend({
   data: () => ({
     videoData: {},
     startTime: '',
-    endTime: ''
+    endTime: '',
+    originalDisplaySettings: {}
   }),
   components: {
     'flat-layout': FlatLayout
   },
   created() {
-    this.videoData = utils.videoLevels[this.level]
+    this.videoData = utils.videoLevels[this.levelOriginalID]
   },
   mounted() {
     this.$nextTick(function () {
-      const player = new Player($('.video')[0]);
+      const player = new VideoPlayer($('.video')[0]);
       player.on('ended', function() {
         $('#next-level-btn')[0].style.display = "block"
       })
       this.startTime = new Date()
       // hack to remove base template's header and footer
+      // store existing display settings to revert to these before leaving 
+      this.originalDisplaySettings = {
+        'main-nav': $('#main-nav')[0].style.display,
+        'footer': $('#footer')[0].style.display,
+        'final-footer': $('#final-footer')[0].style.display
+      }
       $('#main-nav')[0].style.display = "none"
       $('#footer')[0].style.display = "none"
       $('#final-footer')[0].style.display = "none"
@@ -81,19 +88,19 @@ export default Vue.extend({
   },
   beforeDestroy () {
     // make header and footer visible again before leaving
-    $('#main-nav')[0].style.display = "block"
-    $('#footer')[0].style.display = "block"
-    $('#final-footer')[0].style.display = "block"
+    $('#main-nav')[0].style.display = this.originalDisplaySettings['main-nav']
+    $('#footer')[0].style.display = this.originalDisplaySettings['footer']
+    $('#final-footer')[0].style.display = this.originalDisplaySettings['final-footer']
   },
   computed: {
     nextLevelLink: function () {
       let link = ''
       if (me.isSessionless()){
-        link = "/play/level/"+this.levelID+"?course="+this.courseID+"&codeLanguage="
+        link = "/play/level/"+this.levelSlug+"?course="+this.courseID+"&codeLanguage="
         link += this.codeLanguage || 'python'
       }
       else {
-        link = "/play/level/"+this.levelID+"?course="+this.courseID+"&course-instance="+this.courseInstanceID
+        link = "/play/level/"+this.levelSlug+"?course="+this.courseID+"&course-instance="+this.courseInstanceID
         if (this.codeLanguage){
           link += "&codeLanguage=" + this.codeLanguage
         }
@@ -109,7 +116,7 @@ export default Vue.extend({
           {
             category: 'Students',
             videoTitle: this.videoData.title,
-            nextLevelSlug: this.levelID
+            nextLevelSlug: this.levelSlug
           },
           []
         )
@@ -127,7 +134,7 @@ export default Vue.extend({
           {
             category: 'Students',
             videoTitle: this.videoData.title,
-            nextLevelSlug: this.levelID
+            nextLevelSlug: this.levelSlug
           },
           []
         )
