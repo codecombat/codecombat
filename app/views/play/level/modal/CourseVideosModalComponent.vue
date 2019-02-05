@@ -44,6 +44,7 @@
 import api from 'core/api';
 import utils from 'core/utils'
 import VideoPlayer from '@vimeo/player'
+import co from 'co'
 
 export default Vue.extend({
   props: {
@@ -59,41 +60,35 @@ export default Vue.extend({
   data: () => ({
     videoLevels: []
   }),
-  created() {
-    // fetch the levels that contain video URLs from the classroom ID for the given course instance ID.
-    api.courseInstances.get({courseInstanceID: this.courseInstanceID }).then(courseInstanceData => {
-      api.classrooms.get({classroomID: courseInstanceData.classroomID}).then(classroomData => {
-        const levels = classroomData.courses.find((c) => c._id == this.courseID).levels
-        for (let level in levels) {
-          const video = utils.videoLevels[levels[level].original]
-          if (video) {
-            this.videoLevels.push(video)
-          }
+  created: co.wrap(function*() {
+    try {
+      // fetch the levels that contain video URLs from the classroom ID for the given course instance ID.
+      const courseInstanceData = yield api.courseInstances.get({courseInstanceID: this.courseInstanceID })
+      const classroomData = yield api.classrooms.get({classroomID: courseInstanceData.classroomID})
+      const levels = classroomData.courses.find((c) => c._id == this.courseID).levels
+      for (let level in levels) {
+        const video = utils.videoLevels[levels[level].original]
+        if (video) {
+          this.videoLevels.push(video)
         }
-        // fetch the sessions for the given user and course instance, and check if video levels are locked or unlocked.
-        api.courseInstances.getSessions({courseInstanceID: this.courseInstanceID }).then(sessions => {
-          let sessionsMap = {}
-          for (let s of sessions){
-            sessionsMap[s.level.original] = s
-          }
-          for (let l of this.videoLevels){
-            if (sessionsMap[l.original]){
-              Vue.set(l, 'videoStatus', 'unlocked')
-            }
-            else{
-              Vue.set(l, 'videoStatus', 'locked')
-            }
-          }
-        }).catch((err) => {
-          console.error("Error in fetching sessions:", err)
-        });
-      }).catch((err) => {
-        console.error("Error in fetching classroom details:", err)
-      });
-    }).catch((err) => {
-      console.error("Error in fetching course instance details:", err)
-    });
-  },
+      }
+      // fetch the sessions for the given user and course instance, and check if video levels are locked or unlocked.
+      const sessions = yield api.courseInstances.getSessions({courseInstanceID: this.courseInstanceID })
+      let sessionsMap = {}
+      sessions.map((s) => sessionsMap[s.level.original] = s)
+      for (let l of this.videoLevels){
+        if (sessionsMap[l.original]) {
+          Vue.set(l, 'videoStatus', 'unlocked')
+        }
+        else {
+          Vue.set(l, 'videoStatus', 'locked')
+        }
+      }
+    }
+    catch(err) {
+      console.error("Error in fetching data:", err)
+    }
+  }),
   methods: {
     // open video in the iframe when video thumbnail is clicked
     onImageClick: function(e) {

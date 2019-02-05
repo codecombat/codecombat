@@ -7,8 +7,6 @@ import Levels from 'collections/Levels'
 import factories from 'test/app/factories'
 import utils from 'core/utils'
 import api from 'core/api'
-import LevelSession from 'collections/LevelSessions'
-// import $ from 'jquery'
 
 const createComponent = (values = {}) => {
   return shallowMount(videosModalComponent, {
