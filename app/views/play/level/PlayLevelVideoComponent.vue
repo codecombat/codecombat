@@ -82,16 +82,16 @@ export default Vue.extend({
         'footer': $('#footer')[0]? $('#footer')[0].style.display : "",
         'final-footer': $('#final-footer')[0]? $('#final-footer')[0].style.display: ""
       }
-      if ($('#main-nav')[0]) { $('#main-nav')[0].style.display = "none" }
-      if ($('#footer')[0]) { $('#footer')[0].style.display = "none" }
-      if ($('#final-footer')[0]) { $('#final-footer')[0].style.display = "none" }
+      if ($('#main-nav')[0])  $('#main-nav')[0].style.display = "none"
+      if ($('#footer')[0])  $('#footer')[0].style.display = "none"
+      if ($('#final-footer')[0])  $('#final-footer')[0].style.display = "none"
     })
   },
   beforeDestroy () {
     // make header and footer visible again before leaving
-    if ($('#main-nav')[0]) { $('#main-nav')[0].style.display = this.originalDisplaySettings['main-nav'] }
-    if ($('#footer')[0]) { $('#footer')[0].style.display = this.originalDisplaySettings['footer'] }
-    if ($('#final-footer')[0]) { $('#final-footer')[0].style.display = this.originalDisplaySettings['final-footer'] }
+    if ($('#main-nav')[0])  $('#main-nav')[0].style.display = this.originalDisplaySettings['main-nav']
+    if ($('#footer')[0])  $('#footer')[0].style.display = this.originalDisplaySettings['footer']
+    if ($('#final-footer')[0])  $('#final-footer')[0].style.display = this.originalDisplaySettings['final-footer']
   },
   computed: {
     nextLevelLink: function () {

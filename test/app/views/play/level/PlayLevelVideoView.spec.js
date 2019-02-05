@@ -22,7 +22,7 @@ const createComponent = (values = {}) => {
 
 const props = {
   // a level id with the video details
-  levelOriginalID: utils.videoLevels ? Object.keys(utils.videoLevels)[0] || '54173c90844506ae0195a0b4' : '54173c90844506ae0195a0b4',
+  levelOriginalID: Object.keys(utils.videoLevels || [])[0] || '54173c90844506ae0195a0b4',
   levelSlug: 'test-level-slug',
   courseInstanceID: 'test-course-instance-id',
   courseID: 'test-course-id'

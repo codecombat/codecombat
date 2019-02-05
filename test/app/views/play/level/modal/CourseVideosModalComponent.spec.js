@@ -25,18 +25,15 @@ const createComponent = (values = {}) => {
 }
 
 // create levels that have the video details
-const lev = []
-for (let l in utils.videoLevels){
-  lev.push(factories.makeLevel({original: l}))
-}
-const levels = new Levels(lev)
+const levelTestData = Object.keys(utils.videoLevels).map((l) => factories.makeLevel({original: l}))
+const levels = new Levels(levelTestData)
 const courses = new Course([factories.makeCourse()])
 const classroom = factories.makeClassroom({}, {levels: [levels], courses: courses})
 const courseInstance = new CourseInstance([factories.makeCourseInstance({}, { course: courses.models[0], classroom: classroom })])
 
 // complete session for the first level with a video
 const session = [{
-  level: lev[0].toJSON(),
+  level: levelTestData[0].toJSON(),
   state: {
     complete: true
   }
