@@ -28,6 +28,10 @@ if showAmazonLogo
     .btn.btn-small.btn-illustrated.hints-button
       span(data-i18n="play_level.hints")
 
+  if view.showVideosButton()
+    .btn.btn-small.btn-illustrated.btn-success.videos-button
+      span(data-i18n="play_level.videos")
+
   if view.options.level.isType('web-dev')
     .btn.btn-small.btn-illustrated.image-gallery-button
       span(data-i18n='web_dev.image_gallery_title')
