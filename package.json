@@ -158,6 +158,7 @@
     "babel-loader": "^7.1.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-env": "^1.7.0",
+    "babel-polyfill": "^6.26.0",
     "bower": "~1.6.4",
     "bundle-loader": "^0.5.5",
     "commonjs-require-definition": "0.2.0",

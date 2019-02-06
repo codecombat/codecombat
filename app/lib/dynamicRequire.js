@@ -89,6 +89,7 @@ module.exports = {
   'views/ladder/LadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView') },
   'views/ladder/MainLadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView') },
   'views/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelView') },
+  'views/play/level/PlayLevelVideoView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelVideoView') },
   'views/play/level/PlayGameDevLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayGameDevLevelView') },
   'views/play/level/PlayWebDevLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayWebDevLevelView') },
   'views/play/SpectateView': function () { return import(/* webpackChunkName: "play" */ 'views/play/SpectateView') },

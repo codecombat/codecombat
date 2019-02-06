@@ -1,6 +1,7 @@
 global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 import 'bootstrap'
 import './app.sass'
+import 'babel-polyfill'
 
 require('app/vendor.js')
 

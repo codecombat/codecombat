@@ -3,6 +3,8 @@ template = require 'templates/play/level/tome/spell-top-bar-view'
 ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
 CocoView = require 'views/core/CocoView'
 ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
+utils = require 'core/utils'
+CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -23,10 +25,13 @@ module.exports = class SpellTopBarView extends CocoView
     'click .fullscreen-code': 'onToggleMaximize'
     'click .hints-button': 'onClickHintsButton'
     'click .image-gallery-button': 'onClickImageGalleryButton'
+    'click .videos-button': 'onClickVideosButton'
 
   constructor: (options) ->
     @hintsState = options.hintsState
     @spell = options.spell
+    @courseInstanceID = options.courseInstanceID
+    @courseID = options.courseID
     super(options)
 
   getRenderData: (context={}) ->
@@ -44,6 +49,9 @@ module.exports = class SpellTopBarView extends CocoView
     @attachTransitionEventListener()
     @$('[data-toggle="popover"]').popover()
 
+  showVideosButton: () ->
+    me.isStudent() and @courseID == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
 
@@ -54,6 +62,9 @@ module.exports = class SpellTopBarView extends CocoView
     return unless @hintsState?
     @hintsState.set('hidden', not @hintsState.get('hidden'))
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, []
+
+  onClickVideosButton: ->
+    @openModalView new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @courseID})
 
   onCodeReload: (e) ->
     if key.shift
