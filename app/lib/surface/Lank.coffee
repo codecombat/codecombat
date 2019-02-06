@@ -606,6 +606,7 @@ module.exports = Lank = class Lank extends CocoClass
   updateEffectMarks: ->
     return if _.isEqual @thang.effectNames, @previousEffectNames
     return if @stopped
+    @thang.effectNames ?= []
     for effect in @thang.effectNames
       mark = @addMark effect, @options.floatingLayer, effect
       mark.statusEffect = true
