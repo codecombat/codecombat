@@ -119,15 +119,16 @@ mixin course-info(course)
           |  &mdash; Python
 
     if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
+      - var levelNameMap = campaign.getLevelNameMap()
       .row.m-t-3
-        each videoLevel in view.videoLevels
+        each videoLevel, originalId in view.videoLevels
           .col-sm-4
             span.video-title.semibold.small 
               | #{videoLevel.title}
             img.video-thumbnail(src="#{videoLevel.thumbnail_unlocked}")
             p.video-text.small
               span (
-              span(data-i18n="courses.video_shown_before", data-i18n-options={level:videoLevel.level_name})
+              span(data-i18n="courses.video_shown_before", data-i18n-options={level:levelNameMap[originalId]})
               span )
     
     if Object.keys(view.courseChangeLog[course.id] || []).length > 0

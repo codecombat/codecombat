@@ -40,6 +40,11 @@ module.exports = class Campaign extends CocoModel
       levels.push({key: level.original, practice, assessment})
     return utils.createLevelNumberMap(levels)
 
+  getLevelNameMap: () ->
+    levelNameMap = {}
+    @getLevels().models.map((l) => levelNameMap[l.get('original')] = l.get('name'))
+    return levelNameMap
+
   getLevelNumber: (levelID, defaultNumber) ->
     @levelNumberMap ?= Campaign.getLevelNumberMap(@attributes)
     @levelNumberMap[levelID] ? defaultNumber
