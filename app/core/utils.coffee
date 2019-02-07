@@ -698,6 +698,7 @@ getApiClientIdFromEmail = (email) ->
 videoLevels = {
   # gems in the deep
   "54173c90844506ae0195a0b4": {
+    level_name: "Gems in the Deep",
     url: "https://player.vimeo.com/video/310626758",
     title: "Basic Syntax",
     original: "54173c90844506ae0195a0b4",
@@ -706,6 +707,7 @@ videoLevels = {
   }, 
   # fire dancing
   "55ca293b9bc1892c835b0136": {
+    level_name: "Fire Dancing",
     url: "https://player.vimeo.com/video/310626741",
     title: "While Loops",
     original: "55ca293b9bc1892c835b0136"
@@ -714,6 +716,7 @@ videoLevels = {
   } 
   # known enemy
   "5452adea57e83800009730ee": {
+    level_name: "Known Enemy",
     url: "https://player.vimeo.com/video/310626807",
     title: "Variables",
     original: "5452adea57e83800009730ee"
