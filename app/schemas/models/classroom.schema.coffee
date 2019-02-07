@@ -16,6 +16,10 @@ _.extend ClassroomSchema.properties,
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
+  classDateStart: c.stringDate()
+  classDateEnd: c.stringDate()
+  classesPerWeek: { type: 'string' }
+  minutesPerClass: { type: 'string' }
   archived:
     type: 'boolean'
     default: false
