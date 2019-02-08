@@ -74,6 +74,13 @@ block content
               a.play-level-button.btn.btn-lg.btn-primary
                 span(data-i18n="courses.play_level")
             .clearfix
+  
+  #video-modal.modal(data-show="false")
+    .modal-dialog
+      .modal-content.video-wrapper
+          iframe.video-player(frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          .video-close-btn.btn.well.well-sm.well-parchment(data-dismiss="modal")
+            span.glyphicon.glyphicon-remove
 
 mixin course-info(course)
   - var campaign = view.campaigns.get(course.get('campaignID'));
@@ -111,6 +118,19 @@ mixin course-info(course)
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Python
 
+    if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
+      - var levelNameMap = campaign.getLevelNameMap()
+      .row.m-t-3
+        each videoLevel, originalId in view.videoLevels
+          .col-sm-4
+            span.video-title.semibold.small 
+              | #{videoLevel.title}
+            img.video-thumbnail(src="#{videoLevel.thumbnail_unlocked}")
+            p.video-text.small
+              span (
+              span(data-i18n="courses.video_shown_before", data-i18n-options={level:levelNameMap[originalId]})
+              span )
+    
     if Object.keys(view.courseChangeLog[course.id] || []).length > 0
       p
         div.course-change-log
@@ -120,4 +140,4 @@ mixin course-info(course)
               span.semibold.small #{date}
               ul
                 each m in messages
-                  li.small #{m.message}
+                  li.small #{m.message}     
