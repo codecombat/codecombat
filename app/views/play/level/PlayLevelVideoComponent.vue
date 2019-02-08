@@ -58,8 +58,6 @@ export default Vue.extend({
   },
   data: () => ({
     videoData: {},
-    startTime: '',
-    endTime: '',
     originalDisplaySettings: {}
   }),
   components: {
@@ -74,7 +72,6 @@ export default Vue.extend({
       player.on('ended', function() {
         $('#next-level-btn')[0].style.display = "block"
       })
-      this.startTime = new Date()
       // hack to remove base template's header and footer
       // store existing display settings to revert to these before leaving 
       this.originalDisplaySettings = {
@@ -121,11 +118,6 @@ export default Vue.extend({
           },
           []
         )
-        this.endTime = new Date()
-        if (this.endTime.length > 0 && this.startTime.length > 0){
-          const duration = this.endTime - this.startTime
-          window.tracker.trackTiming(duration, 'Student Video Page Time Spent', this.videoData.title, this.videoData.title)
-        }
       }
     },
     onSkip: function() {
@@ -139,11 +131,6 @@ export default Vue.extend({
           },
           []
         )
-        this.endTime = new Date()
-        if (this.endTime.length > 0 && this.startTime.length > 0){
-          const duration = this.endTime - this.startTime
-          window.tracker.trackTiming(duration, 'Student Video Page Time Spent', this.videoData.title, this.videoData.title)
-        }
       }
     }
   }
