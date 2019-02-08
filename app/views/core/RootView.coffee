@@ -26,6 +26,7 @@ module.exports = class RootView extends CocoView
     'click #logout-button': 'logoutAccount'
     'click #nav-stop-spying-button': 'stopSpying'
     'change .language-dropdown': 'onLanguageChanged'
+    'click .language-dropdown li': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .signup-button': 'onClickSignupButton'
     'click .login-button': 'onClickLoginButton'
@@ -131,23 +132,34 @@ module.exports = class RootView extends CocoView
 
   addLanguagesToSelect: ($select, initialVal) ->
     initialVal ?= me.get('preferredLanguage', true)
+    if $select.is('ul') # base-flat
+      @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
     for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
-      $select.append(
-        $('<option></option>').val(code).text(localeInfo.nativeDescription))
-      if code is 'pt-BR'
+      if $select.is('ul') # base-flat template
         $select.append(
-          $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
-    $select.val(initialVal)
+          $('<li data-code="' + code + '"><a class="language-dropdown-item">' + localeInfo.nativeDescription + '</a></li>'))
+        if code is 'pt-BR'
+          $select.append($('<li role="separator" class="divider"</li>'))
+      else # base template
+        $select.append($('<option></option>').val(code).text(localeInfo.nativeDescription))
+        if code is 'pt-BR'
+          $select.append(
+            $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
+        $select.val(initialVal)
 
-  onLanguageChanged: ->
-    newLang = $('.language-dropdown').val()
+  onLanguageChanged: (event)->
+    targetElem = $(event.currentTarget)
+    if targetElem.is('li') # base-flat template
+      newLang = targetElem.data('code')
+      @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
+    else # base template
+      newLang = $('.language-dropdown').val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
-
     locale.load(me.get('preferredLanguage', true)).then =>
       @onLanguageLoaded()
       window.tracker.promptForCookieConsent()

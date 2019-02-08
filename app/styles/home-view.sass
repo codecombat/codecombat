@@ -4,355 +4,552 @@
 
 #home-view
 
+  // style-flat overwrites
+  h1, .text-h1
+    font-family: $headline-font
+    font-weight: bold
+    font-size: 46px
+    line-height: 62px
+    letter-spacing: 2px
+
+  h2, .text-h2
+    font-family: $headline-font
+    font-weight: bold
+    font-size: 33px
+    line-height: 62px
+    letter-spacing: 2.58px
+
+  h3, .text-h3
+    font-family: $headline-font
+    font-weight: bold
+    font-size: 24px
+    line-height: 32px
+    letter-spacing: 0.48px
+
+  h4, .text-h4
+    font-family: $body-font
+    font-weight: bold
+    font-size: 24px
+    line-height: 30px
+    letter-spacing: 0.48px
+
+  h5, .text-h5
+    font-family: $body-font
+    font-size: 24px
+    line-height: 30px
+    letter-spacing: 0.48px
+    font-weight: normal
+
+  p, .text-p
+    font-family: $body-font
+    font-size: 18px
+    // font-weight: 600
+    letter-spacing: 0.75px
+    line-height: 26px
+    // color: black
+    // margin: 0 0 14px
+
+  .btn-primary, .btn-navy, .btn-teal
+    background-color: $teal
+    border-radius: 4px
+    color: $gray
+    text-transform: uppercase
+    font-weight: bold
+    letter-spacing: 0.71px
+    line-height: 24px
+    width: 247px
+    &:hover
+      background-color: #2DCEC8
+      // TODO: add effect like https://curology.com/
+      // transition:opacity .35s
+      // opacity:.8
+      // transition-property: opacity
+      // transition-duration: 0.35s
+      // transition-timing-function: ease
+      // transition-delay: 0s
+
+  .btn-primary-alt, .btn-navy-alt, .btn-teal-alt
+    background-color: transparent
+    border: 2px solid $teal
+    color: $teal
+    border-radius: 4px
+    text-transform: uppercase
+    font-weight: bold
+    letter-spacing: 0.71px
+    line-height: 24px
+    width: 247px
+    &:hover
+      color: #232323
+      background-color: #1FBAB4
+
+
   overflow: hidden
 
-  #jumbotron-container-fluid
-    background-image: url("/images/pages/home/character_jumbotron.png")
-    background-position: 50% 55%
-
-    @media (min-width : 1200px)
-      background-size: 100% auto
-
-    @media (max-width : 1200px)
-      background-size: 1200px auto
-
-    .container
-      background-repeat: no-repeat
-
-      .btn
-        margin: 10px 0
-
-      h1
-        color: white
-        @media (max-width: $screen-md-min)
-          margin-top: 60px
-          font-size: 33px
-          line-height: 45px
-
-      .well
-        border: none
-        border-radius: 8px
-        background: rgba(255, 255, 255, 0.5)
-        margin-top: 10px
-        p.userName
-          width: 100%
-          text-overflow: ellipsis
-          overflow: hidden
-        #classroom-edition-header
-          margin-top: 10px
-        #educator-header
-          white-space: nowrap
-        #students-header
-          line-height: 25px
-          margin-top: 40px
-          margin-bottom: -5px
-        #learn-to-code-header
-          margin-top: 80px
-        &#ideal-tickets-well
-          margin-top: 20px
-        .form-group
-          text-align: left
-          label
-            line-height: 14px
-            font-size: 12px
-        @media (max-width: $screen-md-min)
-          margin-top: 320px
-
-
-        .btn-gold
-          background: #f0ac00
-          // background-image: -webkit-linear-gradient(top, #f2bf19, #e69200)
-          // background-image: -moz-linear-gradient(top, #f2bf19, #e69200)
-          // background-image: -ms-linear-gradient(top, #f2bf19, #e69200)
-          // background-image: -o-linear-gradient(top, #f2bf19, #e69200)
-          // background-image: linear-gradient(to bottom, #f2bf19, #e69200)
-          // border: 1px solid #f2bf19
-          // box-shadow: 0px 0px 5px #ffffff
-
-      #learn-more-row
-        margin-top: 80px
-        @media (max-height: 700px)
-          margin-top: 10px
-        h2, h6
-          color: white
-        h6
-          margin-top: 10px
-        a:hover
-          text-decoration: none
-        @media (max-width: $screen-md-min)
-          margin-top: 10px
-
-    &.alt-image
-      background-image: url("/images/pages/home/student_jumbotron.jpg")
-      background-position: 60% 35%
-
-      .well
-        @media (max-width: $screen-md-min)
-          margin-top: 0px
-
-      .container h1
-        margin-top: 260px
-        margin-bottom: 20px
-        @media (max-width: $screen-md-min)
-          margin-top: 60px
-          margin-bottom: 60px
-        @media (max-width: $screen-sm-min)
-          margin-top: 60px
-
-  #classroom-in-box-row
-    margin: 40px 0
-    h2
-      line-height: 30px
-      margin-bottom: 18px
-
-  .video-thumbnail
+  #creativity-rigor
+    h3
+      margin: 30px auto 6px
     img
-      max-width: 100%
-      max-height: 100%
-
-  .open-video-btn.video-text
-    color: inherit
-    text-decoration: underline
-    font-style: italic
-
-  .teacher-screenshots
-    padding: 10px
-    margin-bottom: 40px
-    .label
-      color: black
-      display: block
-    .screenshots
-      text-align: center
-      .screenshot-grid
-        img
-          display: inline-block
-          margin: 6.5px
-          width: 300px
-          border-radius: 4px
-
-  #screenshot-lightbox
-    .modal-dialog
-      width: auto
-      max-width: 1024px
-    .modal-content
-      border: none
-  
-  #screenshot-carousel
-    .item
-      padding-left: 7.5%
-      padding-right: 7.5%
-    .carousel-control
-      background-color: black
-      opacity: 0.8
-      width: 7.5%
-    .carousel-indicators
-      bottom: -40px
-
-  .video-wrapper
-    position: relative
-    // Add a little to compensate for being slightly different aspect ratio than screenshots
-    padding-top: 2.4%
-    // Positioning magic to get it to fill the frame right
-    padding-bottom: 56.25%
-    height: 0
-    iframe
-      position: absolute
-      top: 0
-      left: 0
       width: 100%
+    .tile-shadow
+      box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.67)
+      padding: 12px
       height: 100%
 
-  #feature-spread-row
-    .col-sm-4
-      padding: 40px
-
-    img
-      margin-bottom: 20px
-
-  .testimonials-rows
-    background: $navy
-    color: white
-    position: relative
-    padding: 60px 0 40px
-    margin: 100px 0
-
-    h3, h6
+  #built-for-teachers
+    padding: 62px
+    p
       color: white
+    #built-for-teachers-carousel
+      border-radius: 14px
+      background-color: #FFFFFF
+      box-shadow: inset 2px 2px 6px 0 rgba(31,186,180,0.5), 4px 4px 6px 0 #0E4C60
+      height: 400px
+      padding-bottom: 20px
+      .carousel-control
+        background-image: unset
+      .carousel-indicators
+        li
+          background-color: #9B9B9B
+        li.active
+          background-color: $teal
+      img.computer
+        width: 100%
 
-    .testimonials-filler-left
-      position: absolute
-      width: 2000px
-      left: -2000px
-      top: 0px
-      background: $navy
-      height: 100%
+  #for-teachers, #for-leaders
+    .tile-shadow
+      background-color: #FFFFFF
+      box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
+      padding: 12px
+      height: 218px
+      img
+        height: 70px
 
-    .testimonials-filler-right
-      position: absolute
-      width: 2000px
-      right: -2000px
-      top: 0px
-      background: $navy
-      height: 100%
+  #teachers-love-codecombat
+    padding: 30px
+    p.mcrel-blurb
+      color: white
+      font-style: italic
 
+  #quotes
+    background-color: $navy
     img
-      margin: 0 auto 10px
+      margin: 65px
+      height: 42px
+      width: 40px
+    #quotes-carousel
+      height: 400px
+      padding-bottom: 20px
+      img
+        margin: 30px
+        height: 93px
+        width: 93px
+      h4
+        margin: auto 208px
+      .carousel-control
+        background-image: unset
+      .carousel-indicators
+        li
+          background-color: $teal
+          border: unset
+        li.active
+          background-color: white
+          border: unset
+      .quote-user-info
+        display: inline-grid
+        text-align: left
+
+  #century-skills
+    padding: 22px 62px
+    p
+      color: white
+    h5
+      font-weight: normal
+    #century-skills-carousel
+      .carousel-control
+        background-image: inherit
+      .carousel-indicators
+        li
+          background-color: white
+        li.active
+          background-color: #FF6978
+      .carousel-body
+        background-color: $navy
+        box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.5)
+        // height: 520px
+        // padding-bottom: 20px
+        margin: unset
+        .col-lg-8
+          padding: unset
+        .col-lg-4
+          padding: 60px 40px
+        .quote
+          background-size: cover
+          height: 419px
+          h4
+            margin: 20px 20%
+        .quote-1
+          background-image: url("/images/pages/home/century_carousel1.png")
+        .quote-2
+          background-image: url("/images/pages/home/century_carousel2.png")
+        .quote-3
+          background-image: url("/images/pages/home/century_carousel3.png")
+        .quote-4
+          background-image: url("/images/pages/home/century_carousel4.png")
+
+  #global
+    margin: 40px auto 0px
+    padding: 45px 0px
+    img
+      height: 72px
+    h5
+      font-weight: normal
+
+  #featured-partners
+    margin: 0px
+    .gray-background
+      background-color: #EAEEEE
+      position: absolute
+      height: 100%
+      width: 672px
+      left: 467px
+    .tile-shadow
+      background-color: #FFFFFF
+      box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
+      padding: 0px
+      margin: 2px
+      height: 198px
+      width: 198px
+      img
+        width: 100%
+      p
+        color: #9B9B9B
+        font-family: $body-font
+        font-size: 14px
+        letter-spacing: 0.58px
+        line-height: 19px
+      .featured-partners-tile-logo
+        position: absolute
+        margin: auto
+        top: 0
+        right: 0
+        bottom: 0
+        left: 0
+      .logo-forbes
+        height: 27px
+        width: 108px
+      .logo-edsurge
+        height: 33px
+        width: 141px
+      .logo-apcsp
+        height: 100px
+        width: 100px
+      .logo-codie
+        height: 55px
+        width: 156px
+      .logo-cse-picks
+        height: 110px
+        width: 110px
+      .logo-wsj
+        height: 44px
+        width: 78px
+      .logo-techcrunch
+        height: 55px
+        width: 79px
+      .logo-code-org
+        height: 80px
+        width: 81px
+      .logo-csforall
+        height: 60px
+        width: 133px
+      .logo-amazon-future-engineer
+        height: 35px
+        width: 166px
+      .logo-blurb
+        color: #9B9B9B
+        font-family: $body-font
+        font-size: 14px
+        letter-spacing: 0.58px
+        line-height: 19px
+        position: absolute
+        bottom: 6px
+        width: 100%
+
+  .container-header
+    .coco-logo
+      height: 40px
+      margin-right: 10px
 
     .row
-      margin: 20px 0
+      margin: 20px auto
 
-  #benefit-row-1, #benefit-row-2, #benefit-row-3
-    margin: 50px 0
+    .about
+      height: 24px
+      width: 57px
+      color: #0E4C60
+      font-family: "Open Sans"
+      font-size: 18px
+      font-weight: 600
+      letter-spacing: 0.71px
+      line-height: 24px
 
-  #benefit-graphic-1, #benefit-graphic-2, #benefit-graphic-3
-    padding: 30px 40px
-    position: relative
-    min-height: 250px
-    margin-bottom: 20px
+  .container-body
+    .row
+      margin: 40px auto
 
-    h2
-      color: white
-      width: 50%
+    .row-dark
+      background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%)
 
+    #jumbotron-container-fluid
+      background-image: url("/images/pages/home/jumbotron.png")
+      background-repeat: no-repeat
+      height: 627px
+      width: 100%
+      margin: auto auto 40px auto
 
-  #benefit-graphic-1
-    background: $burgundy
+      h1
+        margin: 180px 62px 40px
+        text-align: right
 
-    img
-      position: absolute
-      right: 0
-      bottom: 0
+      .container
+        .btn
+          margin: 10px 0
+          text-transform: uppercase
 
-    #benefit-graphic-1-filler
-      background: $burgundy
-      height: 100%
-      width: 2000px
-      position: absolute
-      left: 100%
-      top: 0
+    #classroom-in-box-row
+      padding: 40px
 
-  #benefit-graphic-2
-    background: $navy
+      h3, .text-p
+        color: white
 
-    h2
-      float: right
+      .video-thumbnail
+        img
+          max-width: 100%
+          max-height: 100%
 
-    img
-      position: absolute
-      left: 0
-      bottom: 0
+    .open-video-btn.video-text
+      color: inherit
+      text-decoration: underline
+      font-style: italic
 
-    #benefit-graphic-2-filler
-      background: $navy
-      height: 100%
-      width: 2000px
-      position: absolute
-      right: 100%
-      top: 0
+    .teacher-screenshots
+      padding: 10px
+      margin-bottom: 40px
+      .label
+        color: black
+        display: block
+      .screenshots
+        text-align: center
+        .screenshot-grid
+          img
+            display: inline-block
+            margin: 6.5px
+            width: 300px
+            border-radius: 4px
 
-  #benefit-graphic-3
-    background: $forest
-
-    img
-      position: absolute
-      right: 0
-      bottom: 0
-
-    #benefit-graphic-3-filler
-      background: $forest
-      height: 100%
-      width: 2000px
-      position: absolute
-      left: 100%
-      top: 0
-
-  .have-an-account
-    font-size: 10pt
-
-  #school-level-label
-    margin: 15px 15px 0 0
-    display: inline-block
-
-  #school-level-dropdown
-    display: inline-block
-    width: 250px
-
-  .request-demo-row
-    margin: 100px 0
-
-    .btn
-      margin: 20px 10px
-
-  #total-hours-header
-    margin-top: 10px
-
-  #courses-row
-    .media
-      width: 222px
-      margin: 20px auto 0
-      border: 1px solid $navy
-      border-radius: 8px
-      padding: 50px 15px 0
-      text-align: center
+    .video-wrapper
       position: relative
-      height: 340px
-      color: $navy
-
-      &:first-child
-        border-color: $forest
-        color: $forest
-        h6
-          color: $forest
-
-      &.disabled
-        $disabled-color: rgb(155, 155, 155)
-        border-color: $disabled-color
-        color: $disabled-color
-        h6
-          color: $disabled-color
-        .media-object
-          @include filter(grayscale(100%))
-
-      h6
-        padding: 0 5px
-        color: $navy
-
-      .media-object
-        width: 147px
-        height: 147px
-        border-radius: 74px
-        background-position: -30px -26px
-        background-repeat: no-repeat
-        background-size: 312px auto
-        margin: 15px auto
-        position: absolute
-        left: 38px
-        left: calc((100% - 147px) / 2)
-        bottom: 20px
-
-      .course-duration
-        position: absolute
-        bottom: 25px
-        width: 192px
-        width: calc(100% - 30px)
-        padding: 0
-
-      .free-course
-        background-color: $forest
-        width: 100%
-        height: 33px
+      // Add a little to compensate for being slightly different aspect ratio than screenshots
+      padding-top: 2.4%
+      // Positioning magic to get it to fill the frame right
+      padding-bottom: 56.25%
+      height: 0
+      iframe
         position: absolute
         top: 0
-        left: 0px
-        border-top-left-radius: 7px
-        border-top-right-radius: 7px
+        left: 0
+        width: 100%
+        height: 100%
 
-        h6
-          margin-top: 6px
-          color: white
+    #feature-spread-row
+      .col-sm-4
+        padding: 40px
 
-    .text-center
-      width: 100%
-      margin-top: 30px
       img
         margin-bottom: 20px
+
+    .testimonials-rows
+      background: $navy
+      color: white
+      position: relative
+      padding: 60px 0 40px
+      margin: 100px 0
+
+      h3, h6
+        color: white
+
+      .testimonials-filler-left
+        position: absolute
+        width: 2000px
+        left: -2000px
+        top: 0px
+        background: $navy
+        height: 100%
+
+      .testimonials-filler-right
+        position: absolute
+        width: 2000px
+        right: -2000px
+        top: 0px
+        background: $navy
+        height: 100%
+
+      img
+        margin: 0 auto 10px
+
+      .row
+        margin: 20px 0
+
+    #benefit-row-1, #benefit-row-2, #benefit-row-3
+      margin: 50px 0
+
+    #benefit-graphic-1, #benefit-graphic-2, #benefit-graphic-3
+      padding: 30px 40px
+      position: relative
+      min-height: 250px
+      margin-bottom: 20px
+
+      h2
+        color: white
+        width: 50%
+
+    #benefit-graphic-1
+      background: $burgundy
+
+      img
+        position: absolute
+        right: 0
+        bottom: 0
+
+      #benefit-graphic-1-filler
+        background: $burgundy
+        height: 100%
+        width: 2000px
+        position: absolute
+        left: 100%
+        top: 0
+
+    #benefit-graphic-2
+      background: $navy
+
+      h2
+        float: right
+
+      img
+        position: absolute
+        left: 0
+        bottom: 0
+
+      #benefit-graphic-2-filler
+        background: $navy
+        height: 100%
+        width: 2000px
+        position: absolute
+        right: 100%
+        top: 0
+
+    #benefit-graphic-3
+      background: $forest
+
+      img
+        position: absolute
+        right: 0
+        bottom: 0
+
+      #benefit-graphic-3-filler
+        background: $forest
+        height: 100%
+        width: 2000px
+        position: absolute
+        left: 100%
+        top: 0
+
+    .have-an-account
+      font-size: 10pt
+
+    #school-level-label
+      margin: 15px 15px 0 0
+      display: inline-block
+
+    #school-level-dropdown
+      display: inline-block
+      width: 250px
+
+    .request-demo-row
+      margin: 100px 0
+
+      .btn
+        margin: 20px 10px
+
+    #total-hours-header
+      margin-top: 10px
+
+    #courses-row
+      .media
+        width: 222px
+        margin: 20px auto 0
+        border: 1px solid $navy
+        border-radius: 8px
+        padding: 50px 15px 0
+        text-align: center
+        position: relative
+        height: 340px
+        color: $navy
+
+        &:first-child
+          border-color: $forest
+          color: $forest
+          h6
+            color: $forest
+
+        &.disabled
+          $disabled-color: rgb(155, 155, 155)
+          border-color: $disabled-color
+          color: $disabled-color
+          h6
+            color: $disabled-color
+          .media-object
+            @include filter(grayscale(100%))
+
+        h6
+          padding: 0 5px
+          color: $navy
+
+        .media-object
+          width: 147px
+          height: 147px
+          border-radius: 74px
+          background-position: -30px -26px
+          background-repeat: no-repeat
+          background-size: 312px auto
+          margin: 15px auto
+          position: absolute
+          left: 38px
+          left: calc((100% - 147px) / 2)
+          bottom: 20px
+
+        .course-duration
+          position: absolute
+          bottom: 25px
+          width: 192px
+          width: calc(100% - 30px)
+          padding: 0
+
+        .free-course
+          background-color: $forest
+          width: 100%
+          height: 33px
+          position: absolute
+          top: 0
+          left: 0px
+          border-top-left-radius: 7px
+          border-top-right-radius: 7px
+
+          h6
+            margin-top: 6px
+            color: white
+
+      .text-center
+        width: 100%
+        margin-top: 30px
+        img
+          margin-bottom: 20px

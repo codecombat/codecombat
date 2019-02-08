@@ -1,27 +1,27 @@
 mixin accountLinks
   li
-    a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+    a.account-dropdown-item(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
   li
-    a(href="/account/settings", data-i18n="play.settings")
+    a.account-dropdown-item(href="/account/settings", data-i18n="play.settings")
   if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
     li
-      a(href="/account/payments", data-i18n="account.payments")
+      a.account-dropdown-item(href="/account/payments", data-i18n="account.payments")
   if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
     li
-      a(href="/account/subscription", data-i18n="account.subscription")
+      a.account-dropdown-item(href="/account/subscription", data-i18n="account.subscription")
   if me.isAdmin()
     li
-      a(href="/admin", data-i18n="account_settings.admin")
+      a.account-dropdown-item(href="/admin", data-i18n="account_settings.admin")
   if serverSession && serverSession.amActually
     li
-      a#nav-stop-spying-button Stop Spying
+      a.account-dropdown-item#nav-stop-spying-button Stop Spying
   if !features.codePlay
     li
-      a#logout-button(data-i18n="login.log_out")
+      a.account-dropdown-item#logout-button(data-i18n="login.log_out")
 
 .style-flat
   block header
-    nav#main-nav.navbar.navbar-default
+    nav#main-nav.navbar.navbar-default.text-center
       .container-fluid.container
         .row
           .col-md-12
@@ -37,54 +37,49 @@ mixin accountLinks
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
                 else
                   img#logo-img(src="/images/pages/base/logo.png")
-                span.glyphicon.glyphicon-home
             if !serverConfig.static
               #navbar-collapse.collapse.navbar-collapse
+                .nav-spacer
                 ul.nav.navbar-nav
                   li
-                    a(href="/about", data-i18n="nav.about")
+                    a.text-p(href="/about", data-i18n="nav.about")
                   if me.isStudent()
                     li
-                      a(href="/students", data-i18n="nav.my_courses")
+                      a.text-p(href="/students", data-i18n="nav.my_courses")
                   if !me.isAnonymous() && me.isTeacher()
                     li
-                      a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                      a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
                   if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
                     li
-                      a(href="/play", data-i18n="common.play")
+                      a.text-p(href="/play", data-i18n="common.play")
                     li
-                      a(href=view.forumLink(), data-i18n="nav.forum")
-                if me.isAnonymous()
-                  ul.nav.navbar-nav
-                    li
-                      a#create-account-link.signup-button(data-i18n="login.sign_up")
-                    li
-                      a#login-link.login-button(data-i18n="login.log_in")
-                else
-                  ul.nav.navbar-nav.hidden-md.hidden-lg
-                    li.disabled
-                      a
-                        img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                        span= me.displayName()
-                    +accountLinks
+                      a.text-p(href=view.forumLink(), data-i18n="nav.forum")
 
+                if !me.isAnonymous()
                   ul.nav.navbar-nav
-                    li.dropdown.hidden-xs.hidden-sm
-                      a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                        img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                    li.dropdown
+                      a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                         span(data-i18n="nav.my_account")
+                        span.caret
                       ul.dropdown-menu
-                        li.user-dropdown-header.text-center
-                          span.user-level= me.level()
+                        li.user-dropdown-header.text-center.hidden-xs.hidden-sm
                           a(href="/user/#{me.getSlugOrID()}")
-                            img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                          h5=me.broadName()
+                            span.text-p= me.broadName()
                         +accountLinks
 
                 ul.nav.navbar-nav
-                  li
-                    #language-dropdown-wrapper
-                      select.language-dropdown.form-control
+                  li.dropdown
+                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      span.language-dropdown-current Language
+                      span.caret
+                    ul.dropdown-menu.language-dropdown
+
+                if me.isAnonymous()
+                  ul.nav.navbar-nav.text-p.login-buttons
+                    li
+                      a#create-account-link.signup-button Sign Up
+                    li
+                      a#login-link.login-button Login
 
   block page_nav
 
@@ -98,79 +93,63 @@ mixin accountLinks
       #footer.small
         .container
           .row
-            .col-sm-3
-              ul.list-unstyled
-                li
-                  strong CodeCombat
-                li
-                  a(href="/about", data-i18n="nav.about")
-                li
-                  a(href="/about#careers", data-i18n="nav.careers")
-                li
-                  a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-                li
-                  a(href="/legal", data-i18n="nav.legal")
-                li
-                  a(href="/privacy", data-i18n="nav.privacy")
-                if features.china
-                  li 京ICP备16061132号
+            .col-lg-12
+              .row
+                .col-lg-3
+                  h3 General
+                  ul.list-unstyled
+                    li
+                      a(href="/about", data-i18n="nav.about")
+                    li
+                      a(href="/about#careers", data-i18n="nav.careers")
+                    if !me.isStudent()
+                      li
+                        a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                    li
+                      a(href="/parents", data-i18n="nav.parent")
+                    li
+                      a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                    if features.china
+                      li 京ICP备16061132号
+                .col-lg-3
+                  if !me.isStudent()
+                    h3 Educators
+                    ul.list-unstyled
+                      li
+                        a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
+                      li
+                        a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                      li
+                        a(href="/apcsp", data-i18n="nav.apcsp")
+                      li
+                        a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                .col-lg-3
+                  h3 Get Involved
+                  ul.list-unstyled
+                    li
+                      a(href='/community', data-i18n="nav.community")
+                    li
+                      a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
+                    li
+                      a(href="https://github.com/codecombat/codecombat") GitHub
+                    if !me.isStudent()
+                      li
+                        a(href=view.forumLink(), data-i18n="nav.forum")
+                .col-lg-3
+                  if me.useSocialSignOn()
+                    h3 Follow Us
+                    div.social-buttons
+                      a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA")
+                        img(src="/images/pages/base/youtube_symbol_button.png", width="40")
+                      a(href="https://twitter.com/codecombat")
+                        img(src="/images/pages/base/twitter_logo_button.png", width="40")
+                      a(href="https://www.facebook.com/codecombat")
+                        img(src="/images/pages/base/facebook_logo_button.png", width="40")
 
-            if !me.isStudent()
-              .col-sm-3
-                ul.list-unstyled
-                  li
-                    strong(data-i18n="nav.schools")
-                  li
-                    a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
-                  li
-                    a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                  li
-                    a(href="/teachers/resources", data-i18n="nav.resource_hub")
-                  li
-                    a(href="/teachers/demo", data-i18n="new_home.request_demo")
-                  li
-                    a(href="/apcsp", data-i18n="nav.apcsp")
-
-            .col-sm-3
-              ul.list-unstyled
-                li
-                  strong(data-i18n="nav.get_involved")
-                li
-                  a(href='/community', data-i18n="nav.community")
-                li
-                  a(href="/contribute", data-i18n="nav.contribute")
-                if !me.isStudent()
-                  li
-                    a(href=view.forumLink(), data-i18n="nav.forum")
-                li
-                  a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
-                li
-                  a(href="https://github.com/codecombat/codecombat", data-i18n="nav.open_source")
-                li
-                  a(href="/parents", data-i18n="nav.parent")
-            .col-sm-3
-              ul.list-unstyled
-                li
-                  strong(data-i18n="nav.support")
-                if !me.isStudent()
-                  li
-                    a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                if me.useSocialSignOn()
-                  li
-                    a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
-                  li
-                    a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
-
-      #final-footer.small.text-center(dir="ltr")
-        span(data-i18n="nav.copyright_prefix")
-        span= ' ©2019 CodeCombat Inc. '
-        span(data-i18n="nav.copyright_suffix")
-        br.hidden-lg.hidden-md
-        img(src="/images/pages/base/logo.png" alt="CodeCombat")
-        br.hidden-lg.hidden-md
-        if !me.isStudent()
-          .contact-info.rtl-allowed
-            span.spr(data-i18n="nav.help_pref")
-            - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
-            a(href="mailto:" + supportEmail)= supportEmail
-            span.spl(data-i18n="nav.help_suff")
+              #final-footer(dir="ltr")
+                img(src="/images/pages/base/logo.png" alt="CodeCombat")
+                span(data-i18n="nav.copyright_prefix")
+                span= ' ©2019 CodeCombat Inc. '
+                span.spl(data-i18n="nav.copyright_suffix")
+                a.spl.small(href="/legal") Terms of Service
+                a.spl.small(href="/privacy") Privacy
