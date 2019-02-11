@@ -1389,6 +1389,10 @@
     student_age_range_younger: "Younger than 6"
     student_age_range_older: "Older than 18"
     student_age_range_to: "to"
+    estimated_class_dates_label: "Estimated Class Dates"
+    estimated_class_frequency_label: "Estimated Class Frequency"
+    classes_per_week: "classes per week"
+    minutes_per_class: "minutes per class"
     create_class: "Create Class"
     class_name: "Class Name"
     teacher_account_restricted: "Your account is a teacher account and cannot access student content."
@@ -1468,6 +1472,7 @@
     variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
     locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
     unlocked_videos_desc: "Review the __concept_name__ concept video."
+    video_shown_before: "shown before __level__"
 
 
   project_gallery:
