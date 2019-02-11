@@ -79,6 +79,8 @@
 
   overflow: hidden
 
+  // TODO: pull out common pieces, such as carousel controls
+
   #game-based img
     height: 364px
 
@@ -104,12 +106,22 @@
       padding-bottom: 20px
       .carousel-control
         background-image: unset
+        width: 60px
+        img
+          position: absolute
+          margin: auto
+          top: 0
+          right: 0
+          bottom: 0
+          left: 0
+          height: 25px
       .carousel-indicators
         li
           background-color: #9B9B9B
         li.active
           background-color: $teal
       img.computer
+        padding-left: 40px
         width: 100%
 
   #for-teachers, #for-leaders
@@ -146,6 +158,11 @@
         margin: auto 208px
       .carousel-control
         background-image: unset
+        width: 60px
+        img
+          height: 25px
+          width: 30px
+          margin-top: 100px
       .carousel-indicators
         li
           background-color: $teal
@@ -166,6 +183,15 @@
     #century-skills-carousel
       .carousel-control
         background-image: inherit
+        width: 60px
+        img
+          position: absolute
+          margin: auto
+          top: 60px
+          right: 0
+          bottom: 0
+          left: 0
+          height: 25px
       .carousel-indicators
         li
           background-color: white
