@@ -108,18 +108,34 @@
 
     #game-based
       // TODO: section hacky
-      img
-        height: 364px
       .col-lg-12
         padding: 0px 139px
       .game-based-blurb
         display: inline-block
         float: left
         width: 250px
+        @media (max-width: $screen-lg-min)
+          margin: auto
+          padding-bottom: 20px
+          float: unset
+          display: unset
+          background-color: fuchsia
+          align-self: auto
+          text-align: center
       .game-based-image
         display: inline-block
         width: 570px
         margin-left: 40px
+        img
+          height: 364px
+        @media (max-width: $screen-lg-min)
+          margin: auto
+          margin-top: 20px
+          text-align: center
+          width: unset
+          img
+            height: unset
+            width: 100%
 
 
     #classroom-in-box-row
@@ -127,6 +143,8 @@
 
       h3, .text-p
         color: white
+        @media (max-width: $screen-lg-min)
+          padding-top: 20px
 
       .video-thumbnail
         img
@@ -157,6 +175,9 @@
       background-color: #EAEEEE
       img
         width: 100%
+        @media (max-width: $screen-lg-min)
+          height: unset
+
       .tile-shadow
         box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.67)
         padding: 12px
@@ -174,6 +195,8 @@
         box-shadow: inset 2px 2px 6px 0 rgba(31,186,180,0.5), 4px 4px 6px 0 #0E4C60
         height: 400px
         padding-bottom: 20px
+        @media (max-width: $screen-lg-min)
+          height: unset
         .carousel-control
           background-image: unset
           width: 60px
@@ -193,6 +216,9 @@
         img.computer
           padding-left: 40px
           width: 100%
+          @media (max-width: $screen-lg-min)
+            width: 400px
+            padding: 0px 0px 20px 0px
 
     #for-teachers, #for-leaders
       background-color: #F7F9F9
@@ -302,22 +328,26 @@
         font-weight: normal
 
     #featured-partners
-      background: linear-gradient(90deg, #F7F9F9 25%, #EAEEEE 25%)
+      @media (min-width: $screen-lg-min)
+        background: linear-gradient(90deg, #F7F9F9 25%, #EAEEEE 25%)
       margin: 0px
       padding: 0px
       .inner-container
-        background: linear-gradient(90deg, #F7F9F9 40%, #EAEEEE 40%)
+        @media (min-width: $screen-lg-min)
+          background: linear-gradient(90deg, #F7F9F9 40%, #EAEEEE 40%)
       .pink-bar
         padding-bottom: 20px
       .featured-section
-        width: 388px
-        .row
-          padding: 0px
-          margin: 0px
+        @media (min-width: $screen-lg-min)
+          width: 388px
+          .row
+            padding: 0px
+            margin: 0px
       .partners-section
-        .row
-          padding: 0px 35px
-          margin: 0px
+        @media (min-width: $screen-lg-min)
+          .row
+            padding: 0px 35px
+            margin: 0px
       .tile-shadow
         background-color: #FFFFFF
         box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
@@ -325,6 +355,9 @@
         margin: 2px
         height: 190px
         width: 190px
+        @media (max-width: $screen-lg-min)
+          position: relative
+          display: inline-block
         img
           width: 100%
         p

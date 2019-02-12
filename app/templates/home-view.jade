@@ -93,7 +93,7 @@ block content
                     li(data-target="#built-for-teachers-carousel", data-slide-to="2")
                   .carousel-inner
                     .item.active
-                      .row
+                      .row.hidden-md.hidden-sm.hidden-xs
                         .col-lg-6
                           img.computer(src="/images/pages/home/built_for_teachers1.png")
                         .col-lg-4
@@ -108,8 +108,18 @@ block content
                             img(src="/images/pages/home/javascript_logo.png", height="60")
                           p
                             img(src="/images/pages/home/python_logo.png", height="60")
+                      .row.hidden-lg
+                        .col-lg-12.text-center
+                          img.computer(src="/images/pages/home/built_for_teachers1.png")
+                          br
+                          h3.text-teal Computer Science
+                          p
+                            //- TODO: make free BOLD
+                            .text-navy Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms.
+                          br
+                          button.btn.btn-lg.btn-primary-alt Try it for free
                     .item
-                      .row
+                      .row.hidden-md.hidden-sm.hidden-xs
                         .col-lg-6
                           img.computer(src="/images/pages/home/built_for_teachers2.png")
                         .col-lg-4
@@ -123,8 +133,16 @@ block content
                             img(src="/images/pages/home/javascript_logo.png", height="60")
                           p
                             img(src="/images/pages/home/python_logo.png", height="60")
+                      .row.hidden-lg
+                        .col-lg-12.text-center
+                          img.computer(src="/images/pages/home/built_for_teachers2.png")
+                          h3.text-teal Game Development
+                          p
+                            .text-navy Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family.
+                          br
+                          button.btn.btn-lg.btn-primary-alt see example
                     .item
-                      .row
+                      .row.hidden-md.hidden-sm.hidden-xs
                         .col-lg-6
                           img.computer(src="/images/pages/home/built_for_teachers3.png")
                         .col-lg-4
@@ -140,6 +158,14 @@ block content
                             img(src="/images/pages/home/css_logo.png", height="60")
                           p
                             img(src="/images/pages/home/jquery_logo.png", height="60")
+                      .row.hidden-lg
+                        .col-lg-12.text-center
+                          img.computer(src="/images/pages/home/built_for_teachers3.png")
+                          h3.text-teal Web Development
+                          p
+                            .text-navy Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates.
+                          br
+                          button.btn.btn-lg.btn-primary-alt See example
                   a.left.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="prev")
                     span(aria-hidden="true")
                       img(src="/images/pages/home/arrow_teal_left.png")
@@ -397,7 +423,7 @@ block content
     .row.text-center#featured-partners
       .col-lg-12
         .container.inner-container
-          .row
+          .row.hidden-md.hidden-sm.hidden-xs
             .col-lg-4
               .container-fluid.featured-section
                 .row
@@ -453,6 +479,53 @@ block content
                     .featured-partners-tile-logo.logo-amazon-future-engineer
                       img(src="/images/pages/home/logo_amazon_future_engineer.png")
                     .logo-blurb Hour of Code Activity Partner
+          .row.hidden-lg
+            .col-lg-12
+              .featured-section
+                h2.text-navy Featured In
+                .pink-bar
+                  img(src="/images/pages/home/pink_rectangle.png")
+                .tile-shadow 
+                  .featured-partners-tile-logo.logo-forbes
+                    img(src="/images/pages/home/logo_forbes.png")
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-edsurge
+                    img(src="/images/pages/home/logo_edsurge.png")
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-wsj
+                    img(src="/images/pages/home/logo_wsj.png")
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-techcrunch
+                    img(src="/images/pages/home/logo_techcrunch.png")
+
+              .partners-section
+                h2.text-navy Awards & Partners
+                .pink-bar
+                  img(src="/images/pages/home/pink_rectangle.png")
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-apcsp
+                    img(src="/images/pages/home/logo_apcsp.png")
+                  .logo-blurb CollegeBoard Endorsed Provider
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-codie
+                    img(src="/images/pages/home/logo_codie.png")
+                  .logo-blurb Best Creativity Tool for Students
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-cse-picks
+                    img(src="/images/pages/home/logo_cse_picks.png")
+                  .logo-blurb Top Pick for Learning
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-code-org
+                    img(src="/images/pages/home/logo_code_org.png")
+                  .logo-blurb Code.org Official Partner
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-csforall
+                    img(src="/images/pages/home/logo_csforall.png")
+                  .logo-blurb CSforAll Official Member
+                .tile-shadow
+                  .featured-partners-tile-logo.logo-amazon-future-engineer
+                    img(src="/images/pages/home/logo_amazon_future_engineer.png")
+                  .logo-blurb Hour of Code Activity Partner
 
     #screenshot-lightbox.modal.fade(data-show="false")
       .modal-dialog
