@@ -12,7 +12,7 @@ block content
             p
               button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
             p
-              a.btn.btn-lg.btn-primary-alt.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA") Try the game
+              a.btn.btn-lg.btn-primary-alt.play-btn(href="/play", data-event-action="Homepage Play Now CTA") Try the game
           else
             p
               if me.isTeacher()
@@ -32,7 +32,7 @@ block content
                 if me.isAnonymous()
                   br
                   p
-                    a.btn.btn-lg.btn-primary.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA") Try the game
+                    a.btn.btn-lg.btn-primary.play-btn(href="/play", data-event-action="Homepage Play Now CTA") Try the game
               .game-based-image
                 img(src="/images/pages/home/type_real_code_classroom.png")
 
@@ -101,8 +101,9 @@ block content
                           p
                             //- TODO: make free BOLD
                             .text-navy Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms.
-                          br
-                          button.btn.btn-lg.btn-primary-alt Try it for free
+                          if me.isAnonymous()
+                            br
+                            a.btn.btn-lg.btn-primary-alt.play-btn(href="/play", data-event-action="Homepage Play Now CTA") Try it for free
                         .col-lg-2
                           p
                             img(src="/images/pages/home/javascript_logo.png", height="60")
@@ -117,7 +118,7 @@ block content
                             //- TODO: make free BOLD
                             .text-navy Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms.
                           br
-                          button.btn.btn-lg.btn-primary-alt Try it for free
+                          a.btn.btn-lg.btn-primary-alt.play-btn(href="/play", data-event-action="Homepage Play Now CTA") Try it for free
                     .item
                       .row.hidden-md.hidden-sm.hidden-xs
                         .col-lg-6
@@ -127,7 +128,7 @@ block content
                           p
                             .text-navy Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family.
                           br
-                          button.btn.btn-lg.btn-primary-alt see example
+                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/game-dev-level/game-dev-3-final-project/5c61d94ed5d92b00292bca34") see example
                         .col-lg-2
                           p
                             img(src="/images/pages/home/javascript_logo.png", height="60")
@@ -140,7 +141,7 @@ block content
                           p
                             .text-navy Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family.
                           br
-                          button.btn.btn-lg.btn-primary-alt see example
+                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/web-dev-level/wanted-poster/5c61db34ccc65a003baf6429?course=5789587aad86a6efb573701f") see example
                     .item
                       .row.hidden-md.hidden-sm.hidden-xs
                         .col-lg-6
@@ -150,7 +151,7 @@ block content
                           p
                             .text-navy Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates.
                           br
-                          button.btn.btn-lg.btn-primary-alt See example
+                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/game-dev-level/game-dev-3-final-project/5c61d94ed5d92b00292bca34") see example
                         .col-lg-2
                           p
                             img(src="/images/pages/home/html_logo.png", height="60")
@@ -165,7 +166,7 @@ block content
                           p
                             .text-navy Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates.
                           br
-                          button.btn.btn-lg.btn-primary-alt See example
+                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/web-dev-level/wanted-poster/5c61db34ccc65a003baf6429?course=5789587aad86a6efb573701f") see example
                   a.left.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="prev")
                     span(aria-hidden="true")
                       img(src="/images/pages/home/arrow_teal_left.png")

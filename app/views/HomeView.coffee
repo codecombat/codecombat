@@ -48,11 +48,6 @@ module.exports = class HomeView extends RootView
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
-    @playURL = if me.isStudent()
-      '/students'
-    else
-      '/play'
-
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
