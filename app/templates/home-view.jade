@@ -1,11 +1,12 @@
 extends /templates/base-flat
 
 block content
-  .container.container-body
+  .container-fluid
     .row#jumbotron-container-fluid
       .col-md-5
       .col-md-7
         h1.text-gold The most engaging way to learn computer science
+        //- TODO: move to css file
         div(style="margin-right:62px; width: 250px; text-transform: uppercase; float:right;")
           p
             button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
@@ -13,26 +14,34 @@ block content
             a.btn.btn-lg.btn-primary-alt.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA") Try the game
 
     .row#game-based
-      .col-md-4
-        h3.text-navy CodeCombat is a game-based computer science program where students type real code and see their characters react in real time.
-        br
-        a.btn.btn-lg.btn-primary.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA") Try the game
-      .col-md-8
-        img(src="/images/pages/home/type_real_code_classroom.png")
+      .col-lg-12
+        .container
+          .row
+            .col-lg-12
+              .game-based-blurb
+                h3.text-navy CodeCombat is a game-based computer science program where students type real code and see their characters react in real time.
+                br
+                p
+                  a.btn.btn-lg.btn-primary.play-btn(href=view.playURL, data-event-action="Homepage Play Now CTA") Try the game
+              .game-based-image
+                img(src="/images/pages/home/type_real_code_classroom.png")
 
     .row.row-dark#classroom-in-box-row
-      .col-lg-6
-        a.open-video-btn.video-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='4')
-          img(src="/images/pages/home/video_thumb.png")
-      .col-lg-6
-        h3 At CodeCombat, We Strive To:
-        img(src="/images/pages/home/pink_rectangle.png")
-        ul.text-p
-          li Engage every student so that they believe coding is for them
-          li Empower educators to feel confident when teaching coding
-          li Inspire school leaders to create a world-class computer science program
-        br
-        button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
+      .col-lg-12
+        .container
+          .row
+            .col-lg-6
+              a.open-video-btn.video-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='4')
+                img(src="/images/pages/home/video_thumb.png")
+            .col-lg-6
+              h3 At CodeCombat, We Strive To:
+              img(src="/images/pages/home/pink_rectangle.png")
+              ul.text-p
+                li Engage every student so that they believe coding is for them
+                li Empower educators to feel confident when teaching coding
+                li Inspire school leaders to create a world-class computer science program
+              br
+              button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
 
     .row#creativity-rigor
       .col-lg-12
@@ -57,74 +66,76 @@ block content
         .text-center
           button.btn.btn-lg.btn-primary.request-demo Request a Quote
 
-    .row.row-dark#built-for-teachers
+    .row.row-dark.text-center#built-for-teachers
       .col-lg-12
-        .text-center
-          h1.text-gold A Coding Game Built with Teachers in Mind
-          img(src="/images/pages/home/pink_rectangle.png")
-          p Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, your kids will progress on a journey from basic syntax to vectors and recursion!
-          #built-for-teachers-carousel.carousel.text-left(data-interval=3000)
-            ol.carousel-indicators
-              li(data-target="#built-for-teachers-carousel", data-slide-to="0").active
-              li(data-target="#built-for-teachers-carousel", data-slide-to="1")
-              li(data-target="#built-for-teachers-carousel", data-slide-to="2")
-            .carousel-inner
-              .item.active
-                .row
-                  .col-lg-6
-                    img.computer(src="/images/pages/home/built_for_teachers1.png")
-                  .col-lg-4
-                    h3.text-teal Computer Science
-                    p
-                      //- TODO: make free BOLD
-                      .text-navy Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms.
-                    br
-                    button.btn.btn-lg.btn-primary-alt Try it for free
-                  .col-lg-2
-                    p
-                      img(src="/images/pages/home/javascript_logo.png", height="60")
-                    p
-                      img(src="/images/pages/home/python_logo.png", height="60")
-              .item
-                .row
-                  .col-lg-6
-                    img.computer(src="/images/pages/home/built_for_teachers2.png")
-                  .col-lg-4
-                    h3.text-teal Game Development
-                    p
-                      .text-navy Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family.
-                    br
-                    button.btn.btn-lg.btn-primary-alt see example
-                  .col-lg-2
-                    p
-                      img(src="/images/pages/home/javascript_logo.png", height="60")
-                    p
-                      img(src="/images/pages/home/python_logo.png", height="60")
-              .item
-                .row
-                  .col-lg-6
-                    img.computer(src="/images/pages/home/built_for_teachers3.png")
-                  .col-lg-4
-                    h3.text-teal Web Development
-                    p
-                      .text-navy Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates.
-                    br
-                    button.btn.btn-lg.btn-primary-alt See example
-                  .col-lg-2
-                    p
-                      img(src="/images/pages/home/html_logo.png", height="60")
-                    p
-                      img(src="/images/pages/home/css_logo.png", height="60")
-                    p
-                      img(src="/images/pages/home/jquery_logo.png", height="60")
-            a.left.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="prev")
-              span(aria-hidden="true")
-                img(src="/images/pages/home/arrow_teal_left.png")
-              span.sr-only(data-i18n="about.previous")
-            a.right.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="next")
-              span(aria-hidden="true")
-                img(src="/images/pages/home/arrow_teal_right.png")
-              span.sr-only(data-i18n="play.next")
+        h1.text-gold A Coding Game Built with Teachers in Mind
+        img(src="/images/pages/home/pink_rectangle.png")
+        .container
+          .row
+            .col-lg-12
+                p Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, your kids will progress on a journey from basic syntax to vectors and recursion!
+                #built-for-teachers-carousel.carousel.text-left(data-interval=3000)
+                  ol.carousel-indicators
+                    li(data-target="#built-for-teachers-carousel", data-slide-to="0").active
+                    li(data-target="#built-for-teachers-carousel", data-slide-to="1")
+                    li(data-target="#built-for-teachers-carousel", data-slide-to="2")
+                  .carousel-inner
+                    .item.active
+                      .row
+                        .col-lg-6
+                          img.computer(src="/images/pages/home/built_for_teachers1.png")
+                        .col-lg-4
+                          h3.text-teal Computer Science
+                          p
+                            //- TODO: make free BOLD
+                            .text-navy Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms.
+                          br
+                          button.btn.btn-lg.btn-primary-alt Try it for free
+                        .col-lg-2
+                          p
+                            img(src="/images/pages/home/javascript_logo.png", height="60")
+                          p
+                            img(src="/images/pages/home/python_logo.png", height="60")
+                    .item
+                      .row
+                        .col-lg-6
+                          img.computer(src="/images/pages/home/built_for_teachers2.png")
+                        .col-lg-4
+                          h3.text-teal Game Development
+                          p
+                            .text-navy Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family.
+                          br
+                          button.btn.btn-lg.btn-primary-alt see example
+                        .col-lg-2
+                          p
+                            img(src="/images/pages/home/javascript_logo.png", height="60")
+                          p
+                            img(src="/images/pages/home/python_logo.png", height="60")
+                    .item
+                      .row
+                        .col-lg-6
+                          img.computer(src="/images/pages/home/built_for_teachers3.png")
+                        .col-lg-4
+                          h3.text-teal Web Development
+                          p
+                            .text-navy Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates.
+                          br
+                          button.btn.btn-lg.btn-primary-alt See example
+                        .col-lg-2
+                          p
+                            img(src="/images/pages/home/html_logo.png", height="60")
+                          p
+                            img(src="/images/pages/home/css_logo.png", height="60")
+                          p
+                            img(src="/images/pages/home/jquery_logo.png", height="60")
+                  a.left.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="prev")
+                    span(aria-hidden="true")
+                      img(src="/images/pages/home/arrow_teal_left.png")
+                    span.sr-only(data-i18n="about.previous")
+                  a.right.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="next")
+                    span(aria-hidden="true")
+                      img(src="/images/pages/home/arrow_teal_right.png")
+                    span.sr-only(data-i18n="play.next")
 
     .row.text-center#for-teachers
       .col-lg-12
@@ -157,23 +168,24 @@ block content
         .text-center
           button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
 
-    .row.row-dark#teachers-love-codecombat
-      .col-lg-12.text-center
+    .row.row-dark.text-center#teachers-love-codecombat
+      .col-lg-12
         h1.text-white Teachers Love CodeCombat
-        .row
-          .col-lg-4
-            h1.text-gold 99%
-            img(src="/images/pages/home/pink_rectangle.png")
-            h4.text-white Report that their students enjoy using CodeCombat to learn how to code
-          .col-lg-4
-            h1.text-gold 95%
-            img(src="/images/pages/home/pink_rectangle.png")
-            h4.text-white Would recommend CodeCombat to other computer science teachers
-          .col-lg-4
-            h1.text-gold 94%
-            img(src="/images/pages/home/pink_rectangle.png")
-            h4.text-white Say that CodeCombat helps them support students’ problem solving abilities
-        p.mcrel-blurb In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology.
+        .container
+          .row
+            .col-lg-4
+              h1.text-gold 99%
+              img(src="/images/pages/home/pink_rectangle.png")
+              h4.text-white Report that their students enjoy using CodeCombat to learn how to code
+            .col-lg-4
+              h1.text-gold 95%
+              img(src="/images/pages/home/pink_rectangle.png")
+              h4.text-white Would recommend CodeCombat to other computer science teachers
+            .col-lg-4
+              h1.text-gold 94%
+              img(src="/images/pages/home/pink_rectangle.png")
+              h4.text-white Say that CodeCombat helps them support students’ problem solving abilities
+          p.mcrel-blurb In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology.
 
     //- TODO: this is really similar to quad above
     .row.text-center#for-leaders
@@ -211,133 +223,140 @@ block content
       .col-lg-12
         .text-center
           img(src="/images/pages/home/teal_quote.png")
-        #quotes-carousel.carousel.text-left(data-interval=3000)
-          ol.carousel-indicators
-            li(data-target="#quotes-carousel", data-slide-to="0").active
-            li(data-target="#quotes-carousel", data-slide-to="1")
-            li(data-target="#quotes-carousel", data-slide-to="2")
-            li(data-target="#quotes-carousel", data-slide-to="2")
-          .carousel-inner
-            .item.active
-              .text-center
-                h4.text-white Name any program online, I’ve tried it. None of them match up to CodeCombat. Any teacher who wants their students to learn how to code... start here!
-                div
-                  span
-                    //- TODO: why does only this image not have a yellow border?
-                    img(src="/images/pages/home/quotes_carousel1.png", style="border: #F2BE19 3px solid; border-radius: 50%")
-                  span.quote-user-info
-                    h3.text-teal Scott Baily
-                    p.text-white Bobby Duke Middle School, California
-            .item
-              .text-center
-                h4.text-white I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case.
-                div
-                  span
-                    img(src="/images/pages/home/quotes_carousel2.png")
-                  span.quote-user-info
-                    h3.text-teal Andrew Forseman
-                    p.text-white River Ridge High School, Florida
-            .item
-              .text-center
-                h4.text-white CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice.
-                div
-                  span
-                    img(src="/images/pages/home/quotes_carousel3.png")
-                  span.quote-user-info
-                    h3.text-teal Holly Ades
-                    p.text-white Riverdale High School, Florida
-            .item
-              .text-center
-                h4.text-white The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!
-                div
-                  span
-                    img(src="/images/pages/home/quotes_carousel4.png")
-                  span.quote-user-info
-                    h3.text-teal Robert Gower
-                    p.text-white  John Page Middle School, Michigan
-          a.left.carousel-control(href="#quotes-carousel", role="button", data-slide="prev")
-            span(aria-hidden="true")
-              img(src="/images/pages/home/arrow_gold_left.png")
-            span.sr-only(data-i18n="about.previous")
-          a.right.carousel-control(href="#quotes-carousel", role="button", data-slide="next")
-            span(aria-hidden="true")
-              img(src="/images/pages/home/arrow_gold_right.png")
-            span.sr-only(data-i18n="play.next")
+        .container
+          .row
+            .col-lg-12
+              #quotes-carousel.carousel.text-left(data-interval=3000)
+                ol.carousel-indicators
+                  li(data-target="#quotes-carousel", data-slide-to="0").active
+                  li(data-target="#quotes-carousel", data-slide-to="1")
+                  li(data-target="#quotes-carousel", data-slide-to="2")
+                  li(data-target="#quotes-carousel", data-slide-to="2")
+                .carousel-inner
+                  .item.active
+                    .text-center
+                      h4.text-white Name any program online, I’ve tried it. None of them match up to CodeCombat. Any teacher who wants their students to learn how to code... start here!
+                      div
+                        span
+                          //- TODO: why does only this image not have a yellow border?
+                          img(src="/images/pages/home/quotes_carousel1.png", style="border: #F2BE19 3px solid; border-radius: 50%")
+                        span.quote-user-info
+                          h3.text-teal Scott Baily
+                          p.text-white Bobby Duke Middle School, California
+                  .item
+                    .text-center
+                      h4.text-white I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case.
+                      div
+                        span
+                          img(src="/images/pages/home/quotes_carousel2.png")
+                        span.quote-user-info
+                          h3.text-teal Andrew Forseman
+                          p.text-white River Ridge High School, Florida
+                  .item
+                    .text-center
+                      h4.text-white CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice.
+                      div
+                        span
+                          img(src="/images/pages/home/quotes_carousel3.png")
+                        span.quote-user-info
+                          h3.text-teal Holly Ades
+                          p.text-white Riverdale High School, Florida
+                  .item
+                    .text-center
+                      h4.text-white The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!
+                      div
+                        span
+                          img(src="/images/pages/home/quotes_carousel4.png")
+                        span.quote-user-info
+                          h3.text-teal Robert Gower
+                          p.text-white  John Page Middle School, Michigan
+                a.left.carousel-control(href="#quotes-carousel", role="button", data-slide="prev")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_gold_left.png")
+                  span.sr-only(data-i18n="about.previous")
+                a.right.carousel-control(href="#quotes-carousel", role="button", data-slide="next")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_gold_right.png")
+                  span.sr-only(data-i18n="play.next")
 
-    #century-skills.text-center
-      h1.text-navy 21st Century Skills
-      img(src="/images/pages/home/pink_rectangle.png")
-      #century-skills-carousel.carousel.text-left(data-interval=3000)
-        ol.carousel-indicators
-          li(data-target="#century-skills-carousel", data-slide-to="0").active
-          li(data-target="#century-skills-carousel", data-slide-to="1")
-          li(data-target="#century-skills-carousel", data-slide-to="2")
-          li(data-target="#century-skills-carousel", data-slide-to="2")
-        .carousel-inner
-          .item.active
-            h5.text-center Students don't just level up their hero, they level up themselves
-            br
-            .row.carousel-body
-              .col-lg-8
-                .quote.quote-1.text-center
-                  br
-                  img(src="/images/pages/home/teal_quote.png")
-                  h4.text-white You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard.
-                  h3.text-teal Isaiah, 7th Grade
-              .col-lg-4
-                h3.text-teal Critical Thinking
-                br
-                p.text-white With coding puzzles that are naturally scaffolded into increasingly challenging levels, CodeCombat's programming game ensures kids are always practicing critical thinking.
-          .item
-            h5.text-center As students progress in the game, they don’t just level up their hero, they level up themselves.
-            br
-            .row.carousel-body
-              .col-lg-8
-                .quote.quote-2.text-center
-                  br
-                  img(src="/images/pages/home/teal_quote.png")
-                  h4.text-white Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did.
-                  h3.text-teal Sam, 4th Grade
-              .col-lg-4
-                h3.text-teal Creativity
-                br
-                p.text-white CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages.
-          .item
-            h5.text-center As students progress in the game, they don’t just level up their hero, they level up themselves.
-            br
-            .row.carousel-body
-              .col-lg-8
-                .quote.quote-3.text-center
-                  br
-                  img(src="/images/pages/home/teal_quote.png")
-                  h4.text-white Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did.
-                  h3.text-teal Sam, 4th Grade
-              .col-lg-4
-                h3.text-teal Creativity
-                br
-                p.text-white CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages.
-          .item
-            h5.text-center As students progress in the game, they don’t just level up their hero, they level up themselves.
-            br
-            .row.carousel-body
-              .col-lg-8
-                .quote.quote-4.text-center
-                  br
-                  img(src="/images/pages/home/teal_quote.png")
-                  h4.text-white I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point.
-                  h3.text-teal Joey, 10th Grade
-              .col-lg-4
-                h3.text-teal Communication
-                br
-                p.text-white Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code.
-        a.left.carousel-control(href="#century-skills-carousel", role="button", data-slide="prev")
-          span(aria-hidden="true")
-            img(src="/images/pages/home/arrow_pink_left.png")
-          span.sr-only(data-i18n="about.previous")
-        a.right.carousel-control(href="#century-skills-carousel", role="button", data-slide="next")
-          span(aria-hidden="true")
-            img(src="/images/pages/home/arrow_pink_right.png")
-          span.sr-only(data-i18n="play.next")
+    .row.text-center#century-skills
+      .col-lg-12
+        h1.text-navy 21st Century Skills
+        img(src="/images/pages/home/pink_rectangle.png")
+        .container
+          .row
+            .col-lg-12
+              #century-skills-carousel.carousel.text-left(data-interval=3000)
+                ol.carousel-indicators
+                  li(data-target="#century-skills-carousel", data-slide-to="0").active
+                  li(data-target="#century-skills-carousel", data-slide-to="1")
+                  li(data-target="#century-skills-carousel", data-slide-to="2")
+                  li(data-target="#century-skills-carousel", data-slide-to="2")
+                .carousel-inner
+                  .item.active
+                    h5.text-center Students don't just level up their hero, they level up themselves
+                    br
+                    .row.carousel-body
+                      .col-lg-8
+                        .quote.quote-1.text-center
+                          br
+                          img(src="/images/pages/home/teal_quote.png")
+                          h4.text-white You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard.
+                          h3.text-teal Isaiah, 7th Grade
+                      .col-lg-4
+                        h3.text-teal Critical Thinking
+                        br
+                        p.text-white With coding puzzles that are naturally scaffolded into increasingly challenging levels, CodeCombat's programming game ensures kids are always practicing critical thinking.
+                  .item
+                    h5.text-center As students progress in the game, they don’t just level up their hero, they level up themselves.
+                    br
+                    .row.carousel-body
+                      .col-lg-8
+                        .quote.quote-2.text-center
+                          br
+                          img(src="/images/pages/home/teal_quote.png")
+                          h4.text-white Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did.
+                          h3.text-teal Sam, 4th Grade
+                      .col-lg-4
+                        h3.text-teal Creativity
+                        br
+                        p.text-white CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages.
+                  .item
+                    h5.text-center As students progress in the game, they don’t just level up their hero, they level up themselves.
+                    br
+                    .row.carousel-body
+                      .col-lg-8
+                        .quote.quote-3.text-center
+                          br
+                          img(src="/images/pages/home/teal_quote.png")
+                          h4.text-white Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did.
+                          h3.text-teal Sam, 4th Grade
+                      .col-lg-4
+                        h3.text-teal Creativity
+                        br
+                        p.text-white CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages.
+                  .item
+                    h5.text-center As students progress in the game, they don’t just level up their hero, they level up themselves.
+                    br
+                    .row.carousel-body
+                      .col-lg-8
+                        .quote.quote-4.text-center
+                          br
+                          img(src="/images/pages/home/teal_quote.png")
+                          h4.text-white I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point.
+                          h3.text-teal Joey, 10th Grade
+                      .col-lg-4
+                        h3.text-teal Communication
+                        br
+                        p.text-white Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code.
+                a.left.carousel-control(href="#century-skills-carousel", role="button", data-slide="prev")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_pink_left.png")
+                  span.sr-only(data-i18n="about.previous")
+                a.right.carousel-control(href="#century-skills-carousel", role="button", data-slide="next")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_pink_right.png")
+                  span.sr-only(data-i18n="play.next")
 
     .row.row-dark.text-center#global
       .col-lg-12
@@ -363,56 +382,63 @@ block content
 
     .row.text-center#featured-partners
       .col-lg-12
-        .gray-background
-        .row
-          .col-lg-4
-            h2.text-navy Featured In
-            img(src="/images/pages/home/pink_rectangle.png")
-          .col-lg-1
-          .col-lg-7
-            h2.text-navy Awards & Partners
-            img(src="/images/pages/home/pink_rectangle.png")
-        .row
-          .col-lg-2.tile-shadow 
-            .featured-partners-tile-logo.logo-forbes
-              img(src="/images/pages/home/logo_forbes.png")
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-edsurge
-              img(src="/images/pages/home/logo_edsurge.png")
-          .col-lg-1
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-apcsp
-              img(src="/images/pages/home/logo_apcsp.png")
-            .logo-blurb CollegeBoard Endorsed Provider
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-codie
-              img(src="/images/pages/home/logo_codie.png")
-            .logo-blurb Best Creativity Tool for Students
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-cse-picks
-              img(src="/images/pages/home/logo_cse_picks.png")
-            .logo-blurb Top Pick for Learning
-        .row
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-wsj
-              img(src="/images/pages/home/logo_wsj.png")
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-techcrunch
-              img(src="/images/pages/home/logo_techcrunch.png")
-          .col-lg-1
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-code-org
-              img(src="/images/pages/home/logo_code_org.png")
-            .logo-blurb Code.org Official Partner
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-csforall
-              img(src="/images/pages/home/logo_csforall.png")
-            .logo-blurb CSforAll Official Member
-          .col-lg-2.tile-shadow
-            .featured-partners-tile-logo.logo-amazon-future-engineer
-              img(src="/images/pages/home/logo_amazon_future_engineer.png")
-            .logo-blurb Hour of Code Activity Partner
-
+        .container.inner-container
+          .row
+            .col-lg-4
+              .container-fluid.featured-section
+                .row
+                  .col-lg-12
+                    h2.text-navy Featured In
+                    .pink-bar
+                      img(src="/images/pages/home/pink_rectangle.png")
+                .row
+                  .col-lg-6.tile-shadow 
+                    .featured-partners-tile-logo.logo-forbes
+                      img(src="/images/pages/home/logo_forbes.png")
+                  .col-lg-6.tile-shadow
+                    .featured-partners-tile-logo.logo-edsurge
+                      img(src="/images/pages/home/logo_edsurge.png")
+                .row
+                  .col-lg-6.tile-shadow
+                    .featured-partners-tile-logo.logo-wsj
+                      img(src="/images/pages/home/logo_wsj.png")
+                  .col-lg-6.tile-shadow
+                    .featured-partners-tile-logo.logo-techcrunch
+                      img(src="/images/pages/home/logo_techcrunch.png")
+            .col-lg-1
+            .col-lg-7
+              .container-fluid.partners-section
+                .row
+                  .col-lg-12
+                    h2.text-navy Awards & Partners
+                    .pink-bar
+                      img(src="/images/pages/home/pink_rectangle.png")
+                .row
+                  .col-lg-4.tile-shadow
+                    .featured-partners-tile-logo.logo-apcsp
+                      img(src="/images/pages/home/logo_apcsp.png")
+                    .logo-blurb CollegeBoard Endorsed Provider
+                  .col-lg-4.tile-shadow
+                    .featured-partners-tile-logo.logo-codie
+                      img(src="/images/pages/home/logo_codie.png")
+                    .logo-blurb Best Creativity Tool for Students
+                  .col-lg-4.tile-shadow
+                    .featured-partners-tile-logo.logo-cse-picks
+                      img(src="/images/pages/home/logo_cse_picks.png")
+                    .logo-blurb Top Pick for Learning
+                .row
+                  .col-lg-4.tile-shadow
+                    .featured-partners-tile-logo.logo-code-org
+                      img(src="/images/pages/home/logo_code_org.png")
+                    .logo-blurb Code.org Official Partner
+                  .col-lg-4.tile-shadow
+                    .featured-partners-tile-logo.logo-csforall
+                      img(src="/images/pages/home/logo_csforall.png")
+                    .logo-blurb CSforAll Official Member
+                  .col-lg-4.tile-shadow
+                    .featured-partners-tile-logo.logo-amazon-future-engineer
+                      img(src="/images/pages/home/logo_amazon_future_engineer.png")
+                    .logo-blurb Hour of Code Activity Partner
 
     #screenshot-lightbox.modal.fade(data-show="false")
       .modal-dialog

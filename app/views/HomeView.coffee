@@ -20,7 +20,6 @@ module.exports = class HomeView extends RootView
   events:
     'click .open-video-btn': 'onClickOpenVideoButton'
     'click .play-btn': 'onClickPlayButton'
-    'change #school-level-dropdown': 'onChangeSchoolLevelDropdown'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
     'click #learn-more-link': 'onClickLearnMoreLink'
@@ -129,7 +128,6 @@ module.exports = class HomeView extends RootView
     , (e) =>
       console.log e
     , 'vimeo')
-    @onChangeSchoolLevelDropdown()
     @$('#screenshot-lightbox')
       .modal()
       .on 'hide.bs.modal', (e)=>
@@ -145,9 +143,6 @@ module.exports = class HomeView extends RootView
       .on 'slide.bs.carousel', (e) =>
         if not $(e.relatedTarget).hasClass('.video-carousel-item')
           @vimeoPlayer.pause()
-    # $(window).on 'resize', @fitToPage
-    # @fitToPage()
-    # setTimeout(@fitToPage, 0)
     if me.isAnonymous()
       if document.location.hash is '#create-account'
         @openModalView(new CreateAccountModal())
@@ -177,49 +172,6 @@ module.exports = class HomeView extends RootView
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()
 
-  onChangeSchoolLevelDropdown: (e) ->
-    levels =
-      elementary:
-        'introduction-to-computer-science': '2-4'
-        'game-development-1': '2-3'
-        'web-development-1': '2-3'
-        'game-development-2': '2-3'
-        'web-development-2': '2-3'
-        'computer-science-6': '24-30'
-        'computer-science-7': '30-40'
-        'computer-science-8': '30-40'
-        default: '16-25'
-        total: '150-215 hours (about two and a half years)'
-      middle:
-        'introduction-to-computer-science': '1-3'
-        'game-development-1': '1-3'
-        'web-development-1': '1-3'
-        'game-development-2': '1-3'
-        'web-development-2': '1-3'
-        'computer-science-6': '12-14'
-        'computer-science-7': '14-16'
-        'computer-science-8': '14-16'
-        default: '8-12'
-        total: '75-100 hours (about one and a half years)'
-      high:
-        'introduction-to-computer-science': '1'
-        'game-development-1': '1-2'
-        'web-development-1': '1-2'
-        'game-development-2': '1-2'
-        'web-development-2': '1-2'
-        'computer-science-6': '10-12'
-        'computer-science-7': '12-16'
-        'computer-science-8': '12-16'
-        default: '8-10'
-        total: '65-85 hours (about one year)'
-    level = if e then $(e.target).val() else 'middle'
-    @$el.find('#courses-row .course-details').each ->
-      slug = $(@).data('course-slug')
-      duration = levels[level][slug] or levels[level].default
-      $(@).find('.course-duration .course-hours').text duration
-      $(@).find('.course-duration .unit').text($.i18n.t(if duration is '1' then 'units.hour' else 'units.hours'))
-    @$el.find('#semester-duration').text levels[level].total
-
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice
     return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
@@ -243,16 +195,6 @@ module.exports = class HomeView extends RootView
       event.preventDefault()
       # Modal opening happens automatically from bootstrap
       $('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
-
-  # fitToPage: =>
-  #   windowHeight = $(window).height()
-  #   linkBox = @$("#learn-more-link").parent()
-  #   linkOffset = linkBox.offset()
-  #   adjustment = windowHeight - (linkOffset.top + linkBox.height())
-  #   target = @$('.top-spacer').first()
-  #   newOffset = parseInt(target.css('height') || 0) + adjustment
-  #   newOffset = Math.min(Math.max(0, newOffset), 170)
-  #   target.css(height: "#{newOffset}px")
 
   mergeWithPrerendered: (el) ->
     true
