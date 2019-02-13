@@ -134,6 +134,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
+    'quote': redirect('/teachers/demo')
 
     'file/*path': 'routeToServer'
 

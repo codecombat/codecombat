@@ -134,7 +134,7 @@ mixin accountLinks
                       li
                         a(href="/teachers/classes", data-i18n="nav.my_classrooms")
                 .col-lg-3
-                  h3 Get Involved
+                  h3(data-i18n="nav.get_involved")
                   ul.list-unstyled
                     li
                       a(href='/community', data-i18n="nav.community")
@@ -147,7 +147,7 @@ mixin accountLinks
                         a(href=view.forumLink(), data-i18n="nav.forum")
                 .col-lg-3
                   if me.useSocialSignOn()
-                    h3 Follow Us
+                    h3(data-i18n="nav.follow_us")
                     div.social-buttons
                       a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA")
                         img(src="/images/pages/base/youtube_symbol_button.png", width="40")
