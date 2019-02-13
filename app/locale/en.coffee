@@ -47,6 +47,7 @@
     get_started_title: "Set up your class today"
     get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
     request_demo: "Request a Demo"
+    request_quote: "Request a Quote"
     setup_a_class: "Set Up a Class"
     have_an_account: "Have an account?"
     logged_in_as: "You are currently logged in as"
@@ -64,6 +65,8 @@
     want_coco: "Want CodeCombat at your school?"
 
   nav:
+    educators: "Educators"
+    general: "General"
     map: "Map"
     play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
@@ -247,6 +250,7 @@
     creating: "Creating Account..."
     sign_up: "Sign Up"
     log_in: "log in with password"
+    login: "Login"
     required: "You need to log in before you can go that way."
     login_switch: "Already have an account?"
     optional: "optional"

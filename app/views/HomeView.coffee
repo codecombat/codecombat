@@ -14,7 +14,6 @@ CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
-  className: 'style-flat'
   template: template
 
   events:

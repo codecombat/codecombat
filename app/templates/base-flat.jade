@@ -79,6 +79,7 @@ mixin accountLinks
                 ul.nav.navbar-nav
                   li.dropdown
                     a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      //- string replaced in RootView
                       span.language-dropdown-current Language
                       span.caret
                     ul.dropdown-menu.language-dropdown
@@ -86,9 +87,9 @@ mixin accountLinks
                 if me.isAnonymous()
                   ul.nav.navbar-nav.text-p.login-buttons
                     li
-                      a#create-account-link.signup-button Sign Up
+                      a#create-account-link.signup-button(data-i18n="signup.sign_up")
                     li
-                      a#login-link.login-button Login
+                      a#login-link.login-button(data-i18n="signup.login")
 
   block page_nav
 
@@ -105,7 +106,7 @@ mixin accountLinks
             .col-lg-12
               .row
                 .col-lg-3
-                  h3 General
+                  h3(data-i18n="nav.general")
                   ul.list-unstyled
                     li
                       a(href="/about", data-i18n="nav.about")
@@ -122,7 +123,7 @@ mixin accountLinks
                       li 京ICP备16061132号
                 .col-lg-3
                   if !me.isStudent()
-                    h3 Educators
+                    h3(data-i18n="nav.educators")
                     ul.list-unstyled
                       li
                         a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")

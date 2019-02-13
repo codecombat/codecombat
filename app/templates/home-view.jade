@@ -6,8 +6,7 @@ block content
       .col-lg-5
       .col-lg-7
         h1.text-gold The most engaging way to learn computer science
-        //- TODO: move to css file
-        div(style="margin-right:62px; width: 250px; text-transform: uppercase; float:right;")
+        div.button-section
           if me.isAnonymous()
             p
               button.btn.btn-lg.btn-primary.signup-button Get started
@@ -48,8 +47,8 @@ block content
               img(src="/images/pages/home/pink_rectangle.png")
               ul.text-p
                 li Engage every student so that they believe coding is for them.
-                li Empower _any_ educator to feel confident when teaching coding.
-                li Inspire _all_ school leaders to create a world-class computer science program.
+                li Empower any educator to feel confident when teaching coding.
+                li Inspire all school leaders to create a world-class computer science program.
               if me.isAnonymous()
                 br
                 button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
