@@ -22,18 +22,16 @@ block content
                 a.btn.btn-lg.btn-primary(href="/play", data-i18n="courses.continue_playing")
 
     .row#game-based
-      .col-lg-12
-        .container
-          .row
-            .col-lg-12
-              .game-based-blurb
-                h3.text-navy(data-i18n="new_home.game_based_blurb")
-                if me.isAnonymous()
-                  br
-                  p
-                    a.btn.btn-lg.btn-primary.play-btn(href="/play", data-event-action="Homepage Play Now CTA", data-i18n="new_home.try_the_game")
-              .game-based-image
-                img(src="/images/pages/home/type_real_code_classroom.png")
+        .col-md-5
+          .game-based-blurb
+            h3.text-navy(data-i18n="new_home.game_based_blurb")
+            if me.isAnonymous()
+              br
+              p
+                a.btn.btn-lg.btn-primary.play-btn(href="/play", data-event-action="Homepage Play Now CTA", data-i18n="new_home.try_the_game")
+        .col-md-7
+          .game-based-image
+            img(src="/images/pages/home/type_real_code_classroom.png")
 
     .row.row-dark#classroom-in-box-row
       .col-lg-12

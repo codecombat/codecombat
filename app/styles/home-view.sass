@@ -109,35 +109,20 @@
         float: right
 
     #game-based
-      // TODO: section hacky
-      .col-lg-12
-        padding: 0px 139px
+      padding: 80px 75px
+      max-width: 1170px
+      margin: 0 auto
+      @media (max-width: $screen-lg-min)
+        text-align: center
       .game-based-blurb
-        display: inline-block
-        float: left
-        width: 250px
-        @media (max-width: $screen-lg-min)
-          margin: auto
-          padding-bottom: 20px
-          float: unset
-          display: unset
-          background-color: fuchsia
-          align-self: auto
-          text-align: center
+        a
+          margin-bottom: 10px
       .game-based-image
         display: inline-block
-        width: 570px
-        margin-left: 40px
+        max-width: 570px
         img
-          height: 364px
-        @media (max-width: $screen-lg-min)
-          margin: auto
-          margin-top: 20px
-          text-align: center
-          width: unset
-          img
-            height: unset
-            width: 100%
+          max-height: 364px
+          width: 100%
 
     #classroom-in-box-row
       height: 515px
