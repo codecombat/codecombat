@@ -101,6 +101,13 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
     margin-bottom: 0
     white-space: nowrap // prevent home icon from going under brand
     box-shadow: unset
+    font-weight: 400
+
+    p, .text-p
+      font-family: $body-font
+      font-size: 18px
+      letter-spacing: 0.75px
+      line-height: 26px
 
     #create-account-link
       background-color: $teal
@@ -108,18 +115,27 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       border: 1px solid $teal
       border-radius: 4px 0 0 4px
       width: 131px
+      &:hover
+        background-color: #2DCEC8
+        transition: background-color .35s
 
     #login-link
       width: 94px
       border: 1px solid $teal
       border-radius: 0 4px 4px 0
       color: $teal
+      &:hover
+        background-color: #1FBAB4
+        color: white
+        transition: color .35s, background-color .35s
 
     .nav-spacer
       height: 12px
 
     .login-buttons
       margin: 2px 47px 0px 10px
+      @media (max-width: $screen-lg-min)
+        display: inline-block
 
     a.navbar-brand
       padding: 14px 62px auto
@@ -159,6 +175,10 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
     #navbar-collapse
       max-height: none
 
+      .text-teal
+        color: $teal
+
+
     .nav > li > a
       // TODO: Move this to bootstrap variables for navbars
 
@@ -167,10 +187,6 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       text-shadow: unset
       padding: 10px 15px
       color: $navy
-
-      // &:hover
-      //   background: $navy
-      //   color: white
 
     // TODO: what is this for?
     .nav > li.disabled > a

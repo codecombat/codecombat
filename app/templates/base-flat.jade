@@ -42,13 +42,22 @@ mixin accountLinks
                 .nav-spacer
                 ul.nav.navbar-nav
                   li
-                    a.text-p(href="/about", data-i18n="nav.about")
+                    if document.location.href.search('/about') >= 0
+                      a.text-p.text-teal(href="/about", data-i18n="nav.about")
+                    else
+                      a.text-p(href="/about", data-i18n="nav.about")
                   if me.isStudent()
                     li
-                      a.text-p(href="/students", data-i18n="nav.my_courses")
+                      if document.location.href.search('/students') >= 0
+                        a.text-p.text-teal(href="/students", data-i18n="nav.my_courses")
+                      else
+                        a.text-p(href="/students", data-i18n="nav.my_courses")
                   if !me.isAnonymous() && me.isTeacher()
                     li
-                      a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                      if document.location.href.search('/teachers/classes') >= 0
+                        a.text-p.text-teal(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                      else
+                        a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
                   if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
                     li
                       a.text-p(href="/play", data-i18n="common.play")

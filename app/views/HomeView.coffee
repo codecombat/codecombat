@@ -18,7 +18,6 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
-    'click .open-video-btn': 'onClickOpenVideoButton'
     'click .play-btn': 'onClickPlayButton'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
@@ -52,16 +51,6 @@ module.exports = class HomeView extends RootView
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
     super()
-
-  onClickOpenVideoButton: (event) ->
-    unless @$('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      # Modal opening happens automatically from bootstrap
-      @$('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
-    @vimeoPlayer.play()
-
-  onCloseLightbox: ->
-    @vimeoPlayer.pause()
 
   onClickLearnMoreLink: ->
     window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', []
@@ -121,23 +110,12 @@ module.exports = class HomeView extends RootView
       Player = require('@vimeo/player').default
       @vimeoPlayer = new Player(@$('.vimeo-player')[0])
     , (e) =>
-      console.log e
+      console.error e
     , 'vimeo')
     @$('#screenshot-lightbox')
       .modal()
       .on 'hide.bs.modal', (e)=>
         @vimeoPlayer.pause()
-      .on 'shown.bs.modal', (e)=>
-        if @$('.video-carousel-item').hasClass('active')
-          @vimeoPlayer.play()
-    @$('#screenshot-carousel')
-      .carousel({
-        interval: 0
-        keyboard: false
-      })
-      .on 'slide.bs.carousel', (e) =>
-        if not $(e.relatedTarget).hasClass('.video-carousel-item')
-          @vimeoPlayer.pause()
     if me.isAnonymous()
       if document.location.hash is '#create-account'
         @openModalView(new CreateAccountModal())

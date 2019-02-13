@@ -15,6 +15,7 @@
     font-size: 46px
     line-height: 62px
     letter-spacing: 2px
+    margin-bottom: -6px
 
   h2, .text-h2
     font-family: $headline-font
@@ -28,7 +29,7 @@
     font-weight: bold
     font-size: 24px
     line-height: 32px
-    letter-spacing: 0.48px
+    letter-spacing: 0.52px
 
   h4, .text-h4
     font-family: $body-font
@@ -47,16 +48,15 @@
   p, .text-p
     font-family: $body-font
     font-size: 18px
-    // font-weight: 600
+    font-weight: 300
     letter-spacing: 0.75px
     line-height: 26px
-    // color: black
-    // margin: 0 0 14px
 
   .btn-primary, .btn-navy, .btn-teal
     background-color: $teal
     border-radius: 4px
     color: $gray
+    text-shadow: unset
     text-transform: uppercase
     font-weight: bold
     letter-spacing: 0.71px
@@ -71,6 +71,7 @@
     border: 2px solid $teal
     color: $teal
     border-radius: 4px
+    text-shadow: unset
     text-transform: uppercase
     font-weight: bold
     letter-spacing: 0.71px
@@ -99,10 +100,10 @@
       background-repeat: no-repeat
       height: 627px
       width: 100%
-      margin: auto auto 40px auto
+      margin: 70px auto 40px auto
 
       h1
-        margin: 180px 62px 40px
+        margin: 80px 62px 40px
         text-align: right
 
       .container
@@ -141,8 +142,8 @@
             height: unset
             width: 100%
 
-
     #classroom-in-box-row
+      height: 515px
       padding: 40px
 
       h3, .text-p
@@ -420,6 +421,8 @@
           width: 100%
 
     #screenshot-lightbox
+      .modal-content
+        margin-top: 200px
       .video-wrapper
         position: relative
         // Add a little to compensate for being slightly different aspect ratio than screenshots
