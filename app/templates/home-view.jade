@@ -10,9 +10,9 @@ block content
         div(style="margin-right:62px; width: 250px; text-transform: uppercase; float:right;")
           if me.isAnonymous()
             p
-              button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
+              button.btn.btn-lg.btn-primary.signup-button Get started
             p
-              a.btn.btn-lg.btn-primary-alt.play-btn(href="/play", data-event-action="Homepage Play Now CTA") Try the game
+              a.btn.btn-lg.btn-primary-alt.play-btn(href="/play") Try the game
           else
             p
               if me.isTeacher()
@@ -47,9 +47,9 @@ block content
               h3 At CodeCombat, We Strive To:
               img(src="/images/pages/home/pink_rectangle.png")
               ul.text-p
-                li Engage every student so that they believe coding is for them
-                li Empower educators to feel confident when teaching coding
-                li Inspire school leaders to create a world-class computer science program
+                li Engage every student so that they believe coding is for them.
+                li Empower _any_ educator to feel confident when teaching coding.
+                li Inspire _all_ school leaders to create a world-class computer science program.
               if me.isAnonymous()
                 br
                 button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Student Button CTA") Sign Up
@@ -85,7 +85,7 @@ block content
         .container
           .row
             .col-lg-12
-                p Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, your kids will progress on a journey from basic syntax to vectors and recursion!
+                p Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!
                 #built-for-teachers-carousel.carousel.text-left(data-interval=3000)
                   ol.carousel-indicators
                     li(data-target="#built-for-teachers-carousel", data-slide-to="0").active
