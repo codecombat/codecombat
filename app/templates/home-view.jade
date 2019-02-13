@@ -3,8 +3,8 @@ extends /templates/base-flat
 block content
   .container-fluid
     .row#jumbotron-container-fluid
-      .col-md-5
-      .col-md-7
+      .col-lg-5
+      .col-lg-7
         h1.text-gold The most engaging way to learn computer science
         //- TODO: move to css file
         div(style="margin-right:62px; width: 250px; text-transform: uppercase; float:right;")
@@ -332,7 +332,7 @@ block content
                   li(data-target="#century-skills-carousel", data-slide-to="0").active
                   li(data-target="#century-skills-carousel", data-slide-to="1")
                   li(data-target="#century-skills-carousel", data-slide-to="2")
-                  li(data-target="#century-skills-carousel", data-slide-to="2")
+                  li(data-target="#century-skills-carousel", data-slide-to="3")
                 .carousel-inner
                   .item.active
                     h5.text-center Students don't just level up their hero, they level up themselves
@@ -454,7 +454,7 @@ block content
                     h2.text-navy Awards & Partners
                     .pink-bar
                       img(src="/images/pages/home/pink_rectangle.png")
-                .row
+                .row.tile-row
                   .col-lg-4.tile-shadow
                     .featured-partners-tile-logo.logo-apcsp
                       img(src="/images/pages/home/logo_apcsp.png")
@@ -467,7 +467,7 @@ block content
                     .featured-partners-tile-logo.logo-cse-picks
                       img(src="/images/pages/home/logo_cse_picks.png")
                     .logo-blurb Top Pick for Learning
-                .row
+                .row.tile-row
                   .col-lg-4.tile-shadow
                     .featured-partners-tile-logo.logo-code-org
                       img(src="/images/pages/home/logo_code_org.png")

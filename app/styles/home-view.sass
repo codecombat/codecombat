@@ -4,10 +4,6 @@
 
 #home-view
 
-  @media (min-width: $screen-lg-min)
-    .container
-      width: 1280px
-
   // style-flat overwrites
   h1, .text-h1
     font-family: $headline-font
@@ -184,6 +180,7 @@
           height: unset
 
       .tile-shadow
+        background-color: white
         box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.67)
         padding: 12px
         height: 330px
@@ -218,8 +215,10 @@
         .carousel-indicators
           li
             background-color: #9B9B9B
+            margin: auto 2px
           li.active
             background-color: $teal
+            margin: auto 2px
         img.computer
           padding-left: 40px
           width: 100%
@@ -271,9 +270,11 @@
           li
             background-color: $teal
             border: unset
+            margin: auto 2px
           li.active
             background-color: white
             border: unset
+            margin: auto 2px
         .quote-user-info
           display: inline-grid
           text-align: left
@@ -300,8 +301,12 @@
         .carousel-indicators
           li
             background-color: white
+            border: unset
+            margin: auto 2px
           li.active
             background-color: #FF6978
+            border: unset
+            margin: auto 2px
         .row.carousel-body
           padding: 0px
         .carousel-body
@@ -340,6 +345,7 @@
       margin: 0px
       padding: 0px
       .inner-container
+        width: 1280px
         @media (min-width: $screen-lg-min)
           background: linear-gradient(90deg, #F7F9F9 40%, #EAEEEE 40%)
       .pink-bar
@@ -355,6 +361,8 @@
           .row
             padding: 0px 35px
             margin: 0px
+          .tile-row
+            padding-left: 68px
       .tile-shadow
         background-color: #FFFFFF
         box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
