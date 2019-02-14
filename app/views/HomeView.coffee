@@ -40,7 +40,6 @@ module.exports = class HomeView extends RootView
   shortcuts:
     'right': 'onRightPressed'
     'left': 'onLeftPressed'
-    'esc': 'onEscapePressed'
 
   initialize: (options) ->
     @courses = new Courses()
@@ -104,10 +103,6 @@ module.exports = class HomeView extends RootView
     , (e) =>
       console.error e
     , 'vimeo')
-    @$('#screenshot-lightbox')
-      .modal()
-      .on 'hide.bs.modal', (e)=>
-        @vimeoPlayer.pause()
     if me.isAnonymous()
       if document.location.hash is '#create-account'
         @openModalView(new CreateAccountModal())
@@ -136,26 +131,9 @@ module.exports = class HomeView extends RootView
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice
     return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
-    if $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      $('#screenshot-carousel').carousel('next')
 
   onLeftPressed: (event) ->
     return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
-    if $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      $('#screenshot-carousel').carousel('prev')
-
-  onEscapePressed: (event) ->
-    if $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      $('#screenshot-lightbox').modal('hide')
-
-  onClickScreenThumbnail: (event) ->
-    unless $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      # Modal opening happens automatically from bootstrap
-      $('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
 
   mergeWithPrerendered: (el) ->
     true
