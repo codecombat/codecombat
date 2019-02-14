@@ -28,7 +28,7 @@ module.exports = class HomeView extends RootView
     'click .screen-thumbnail': 'onClickScreenThumbnail'
     'click #carousel-left': 'onLeftPressed'
     'click #carousel-right': 'onRightPressed'
-    'click .request-demo': 'onClickRequestDemo'
+    'click .request-quote': 'onClickRequestQuote'
     'click .logout-btn': 'logoutAccount'
     'click .profile-btn': 'onClickTrackEvent'
     'click .setup-class-btn': 'onClickSetupClass'
@@ -60,7 +60,7 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', []
     @scrollToLink('#classroom-in-box-container')
 
-  onClickRequestDemo: (e) ->
+  onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
@@ -68,7 +68,7 @@ module.exports = class HomeView extends RootView
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
-      application.router.navigate '/teachers/demo', trigger: true
+      application.router.navigate '/teachers/quote', trigger: true
 
   onClickSetupClass: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
