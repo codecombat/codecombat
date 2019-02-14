@@ -22,6 +22,7 @@
     century_skills_quote4: "I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point."
     century_skills_subtitle4: "Communication"
     century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
+    classroom_in_box_title: "We Strive To:"
     classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
     classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
     classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."

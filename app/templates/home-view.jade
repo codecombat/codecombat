@@ -38,11 +38,9 @@ block content
         .container
           .row
             .col-lg-6.vid-link
-              a.open-video-btn.video-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='4')
-                img(src="/images/pages/home/video_thumb.png"
-                    alt="Teacher assists student with their program video thumbnail")
+              iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="550" height="300")
             .col-lg-6
-              h3 At CodeCombat, We Strive To:
+              h3(data-i18n="new_home.classroom_in_box_title")
               img(src="/images/pages/home/pink_rectangle.png"
                alt="")
               ul.text-p
@@ -482,9 +480,3 @@ block content
                       a.featured-partners-tile-logo.logo-amazon-future-engineer(href="https://aws.amazon.com/blogs/publicsector/aws-educate-and-amazon-future-engineer-teamed-with-codecombat-to-create-a-new-game-for-the-hour-of-code/")
                         img(src="/images/pages/home/logo_amazon_future_engineer.png")
                       .logo-blurb(data-i18n="new_home.featured_partners_blurb5") 
-
-    #screenshot-lightbox.modal.fade(data-show="false")
-      .modal-dialog
-        .modal-content
-          .video-wrapper
-            iframe.vimeo-player(src="https://player.vimeo.com/video/229304323" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)

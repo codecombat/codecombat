@@ -133,17 +133,16 @@
 
     #classroom-in-box-row
       padding: 60px 40px
-
       h3, .text-p
         color: white
         @media (max-width: $screen-lg-min)
           padding-top: 20px
+      .text-p
+        font-size: 20px
+        line-height: 24px
+        letter-spacing: 0.52px
       .vid-link
         text-align: center
-      .video-thumbnail
-        img
-          max-height: 364px
-          max-width: 100%
 
     .open-video-btn.video-text
       color: inherit
@@ -424,20 +423,3 @@
           position: absolute
           bottom: 6px
           width: 100%
-
-    #screenshot-lightbox
-      .modal-content
-        margin-top: 200px
-      .video-wrapper
-        position: relative
-        // Add a little to compensate for being slightly different aspect ratio than screenshots
-        padding-top: 2.4%
-        // Positioning magic to get it to fill the frame right
-        padding-bottom: 56.25%
-        height: 0
-        iframe
-          position: absolute
-          top: 0
-          left: 0
-          width: 100%
-          height: 100%
