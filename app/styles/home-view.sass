@@ -74,8 +74,8 @@
     line-height: 24px
     width: 247px
     &:hover
-      color: #232323
-      background-color: #1FBAB4
+      background-color: $teal
+      color: $gray
       transition: color .35s, background-color .35s
 
   overflow: hidden
@@ -91,6 +91,7 @@
       max-width: 1170px
       float: unset
       margin: 0 auto
+
     #jumbotron-container-fluid
       background-image: url("/images/pages/home/jumbotron.png")
       background-size: cover
@@ -99,18 +100,22 @@
       width: 100%
       margin: auto
       h1
-        margin: 80px 62px 40px
-        text-align: right
-      .container
-        .btn
-          margin: 10px 0
-          text-transform: uppercase
+        margin: 54px 64px 30px
       .button-section
-        margin-right: 62px
+        margin-left: 64px
         width: 250px
         text-transform: uppercase
-        float: right
-
+        .btn-primary
+          background-color: $gold
+          &:hover
+            background-color: #FDD147
+        .btn-primary-alt
+          border-color: $gold
+          color: $gold
+          &:hover
+            background-color: $gold
+            color: $gray
+  
     #game-based
       padding: 80px 75px
       max-width: 1170px
