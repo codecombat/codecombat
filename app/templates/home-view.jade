@@ -82,7 +82,7 @@ block content
             button.btn.btn-lg.btn-primary.request-demo(data-i18n="new_home.request_quote")
 
     .row.row-dark.text-center#built-for-teachers
-      .col-lg-12.width-wrapper
+      .col-lg-12.width-container
         h1.text-gold(data-i18n="new_home.built_for_teachers_title")
         img(src="/images/pages/home/pink_rectangle.png")
         .row
@@ -327,83 +327,82 @@ block content
                   span.sr-only(data-i18n="play.next")
 
     .row.text-center#century-skills
-      .col-lg-12
+      .col-lg-12.width-container
         h1.text-navy(data-i18n="new_home.century_skills_title")
         img(src="/images/pages/home/pink_rectangle.png")
-        .container
-          .row
-            .col-lg-12
-              #century-skills-carousel.carousel.text-left(data-interval=3000)
-                ol.carousel-indicators
-                  li(data-target="#century-skills-carousel", data-slide-to="0").active
-                  li(data-target="#century-skills-carousel", data-slide-to="1")
-                  li(data-target="#century-skills-carousel", data-slide-to="2")
-                  li(data-target="#century-skills-carousel", data-slide-to="3")
-                .carousel-inner
-                  .item.active
-                    h5.text-center(data-i18n="new_home.century_skills_blurb1")
-                    br
-                    .row.carousel-body
-                      .col-lg-8
-                        .quote.quote-1.text-center
-                          br
-                          img(src="/images/pages/home/teal_quote.png")
-                          h4.text-white(data-i18n="new_home.century_skills_quote1")
-                          h3.text-teal Isaiah, 7th Grade
-                      .col-lg-4
-                        h3.text-teal(data-i18n="new_home.century_skills_subtitle1")
+        .row
+          .col-lg-12
+            #century-skills-carousel.carousel.text-left(data-interval=3000)
+              ol.carousel-indicators
+                li(data-target="#century-skills-carousel", data-slide-to="0").active
+                li(data-target="#century-skills-carousel", data-slide-to="1")
+                li(data-target="#century-skills-carousel", data-slide-to="2")
+                li(data-target="#century-skills-carousel", data-slide-to="3")
+              .carousel-inner
+                .item.active
+                  h5.text-center(data-i18n="new_home.century_skills_blurb1")
+                  br
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-1.text-center
                         br
-                        p.text-white(data-i18n="new_home.century_skills_subblurb1")
-                  .item
-                    h5.text-center(data-i18n="new_home.century_skills_blurb2")
-                    br
-                    .row.carousel-body
-                      .col-lg-8
-                        .quote.quote-2.text-center
-                          br
-                          img(src="/images/pages/home/teal_quote.png")
-                          h4.text-white(data-i18n="new_home.century_skills_quote2")
-                          h3.text-teal Sam, 4th Grade
-                      .col-lg-4
-                        h3.text-teal(data-i18n="new_home.century_skills_subtitle2")
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote1")
+                        h3.text-teal Isaiah, 7th Grade
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle1")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb1")
+                .item
+                  h5.text-center(data-i18n="new_home.century_skills_blurb2")
+                  br
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-2.text-center
                         br
-                        p.text-white(data-i18n="new_home.century_skills_subblurb2")
-                  .item
-                    h5.text-center(data-i18n="new_home.century_skills_blurb3")
-                    br
-                    .row.carousel-body
-                      .col-lg-8
-                        .quote.quote-3.text-center
-                          br
-                          img(src="/images/pages/home/teal_quote.png")
-                          h4.text-white(data-i18n="new_home.century_skills_quote3")
-                          h3.text-teal Sam, 4th Grade
-                      .col-lg-4
-                        h3.text-teal(data-i18n="new_home.century_skills_subtitle3")
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote2")
+                        h3.text-teal Sam, 4th Grade
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle2")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb2")
+                .item
+                  h5.text-center(data-i18n="new_home.century_skills_blurb3")
+                  br
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-3.text-center
                         br
-                        p.text-white(data-i18n="new_home.century_skills_subblurb3")
-                  .item
-                    h5.text-center(data-i18n="new_home.century_skills_blurb4")
-                    br
-                    .row.carousel-body
-                      .col-lg-8
-                        .quote.quote-4.text-center
-                          br
-                          img(src="/images/pages/home/teal_quote.png")
-                          h4.text-white(data-i18n="new_home.century_skills_quote4")
-                          h3.text-teal Joey, 10th Grade
-                      .col-lg-4
-                        h3.text-teal(data-i18n="new_home.century_skills_subtitle4")
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote3")
+                        h3.text-teal Sam, 4th Grade
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle3")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb3")
+                .item
+                  h5.text-center(data-i18n="new_home.century_skills_blurb4")
+                  br
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-4.text-center
                         br
-                        p.text-white(data-i18n="new_home.century_skills_subblurb4")
-                a.left.carousel-control(href="#century-skills-carousel", role="button", data-slide="prev")
-                  span(aria-hidden="true")
-                    img(src="/images/pages/home/arrow_pink_left.png")
-                  span.sr-only(data-i18n="about.previous")
-                a.right.carousel-control(href="#century-skills-carousel", role="button", data-slide="next")
-                  span(aria-hidden="true")
-                    img(src="/images/pages/home/arrow_pink_right.png")
-                  span.sr-only(data-i18n="play.next")
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote4")
+                        h3.text-teal Joey, 10th Grade
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle4")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb4")
+              a.left.carousel-control(href="#century-skills-carousel", role="button", data-slide="prev")
+                span(aria-hidden="true")
+                  img(src="/images/pages/home/arrow_pink_left.png")
+                span.sr-only(data-i18n="about.previous")
+              a.right.carousel-control(href="#century-skills-carousel", role="button", data-slide="next")
+                span(aria-hidden="true")
+                  img(src="/images/pages/home/arrow_pink_right.png")
+                span.sr-only(data-i18n="play.next")
 
     .row.row-dark.text-center#global
       .col-lg-12
