@@ -82,98 +82,97 @@ block content
             button.btn.btn-lg.btn-primary.request-demo(data-i18n="new_home.request_quote")
 
     .row.row-dark.text-center#built-for-teachers
-      .col-lg-12
+      .col-lg-12.width-wrapper
         h1.text-gold(data-i18n="new_home.built_for_teachers_title")
         img(src="/images/pages/home/pink_rectangle.png")
-        .container
-          .row
-            .col-lg-12
-                .for-teachers-blurb
-                  p(data-i18n="new_home.built_for_teachers_blurb")
-                #built-for-teachers-carousel.carousel.text-left(data-interval=3000)
-                  ol.carousel-indicators
-                    li(data-target="#built-for-teachers-carousel", data-slide-to="0").active
-                    li(data-target="#built-for-teachers-carousel", data-slide-to="1")
-                    li(data-target="#built-for-teachers-carousel", data-slide-to="2")
-                  .carousel-inner
-                    .item.active
-                      .row.hidden-md.hidden-sm.hidden-xs
-                        .col-lg-6
-                          img.computer(src="/images/pages/home/built_for_teachers1.png")
-                        .col-lg-4
-                          h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle1")
-                          p.text-navy(data-i18n="[html]new_home.built_for_teachers_subblurb1")
-                          if me.isAnonymous()
-                            br
-                            button.btn.btn-lg.btn-primary-alt.teacher-btn(data-event-action="Homepage Click Teacher Button CTA", data-i18n="[html]new_home.try_it_for_free")
-                        .col-lg-2
-                          p
-                            img(src="/images/pages/home/javascript_logo.png", height="60")
-                          p
-                            img(src="/images/pages/home/python_logo.png", height="60")
-                      .row.hidden-lg
-                        .col-lg-12.text-center
-                          img.computer(src="/images/pages/home/built_for_teachers1.png")
-                          br
-                          h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle1")
-                          p.text-navy.padding-sm(data-i18n="[html]new_home.built_for_teachers_subblurb1")
+        .row
+          .col-lg-12
+              .for-teachers-blurb
+                p(data-i18n="new_home.built_for_teachers_blurb")
+              #built-for-teachers-carousel.carousel.text-left(data-interval=3000)
+                ol.carousel-indicators
+                  li(data-target="#built-for-teachers-carousel", data-slide-to="0").active
+                  li(data-target="#built-for-teachers-carousel", data-slide-to="1")
+                  li(data-target="#built-for-teachers-carousel", data-slide-to="2")
+                .carousel-inner
+                  .item.active
+                    .row.hidden-md.hidden-sm.hidden-xs
+                      .col-lg-6
+                        img.computer(src="/images/pages/home/built_for_teachers1.png")
+                      .col-lg-4
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle1")
+                        p.text-navy(data-i18n="[html]new_home.built_for_teachers_subblurb1")
+                        if me.isAnonymous()
                           br
                           button.btn.btn-lg.btn-primary-alt.teacher-btn(data-event-action="Homepage Click Teacher Button CTA", data-i18n="[html]new_home.try_it_for_free")
-                    .item
-                      .row.hidden-md.hidden-sm.hidden-xs
-                        .col-lg-6
-                          img.computer(src="/images/pages/home/built_for_teachers2.png"
-                                      alt="A CodeCombat level with gems and an exit with Anya announcing moveRight")
-                        .col-lg-4
-                          h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle2")
-                          p.text-navy(data-i18n="new_home.built_for_teachers_subblurb2")
-                          br
-                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/game-dev-level/game-dev-3-final-project/5c61d94ed5d92b00292bca34", data-i18n="new_home.see_example")
-                        .col-lg-2
-                          p
-                            img(src="/images/pages/home/javascript_logo.png", height="60")
-                          p
-                            img(src="/images/pages/home/python_logo.png", height="60")
-                      .row.hidden-lg
-                        .col-lg-12.text-center
-                          img.computer(src="/images/pages/home/built_for_teachers2.png"
-                                       alt="Maze style game, with Anya dodging fireballs, a red cross marking the exit and an ogre blocking the route")
-                          h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle2")
-                          p.text-navy.padding-sm(data-i18n="new_home.built_for_teachers_subblurb2")
-                          br
-                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/web-dev-level/wanted-poster/5c61db34ccc65a003baf6429?course=5789587aad86a6efb573701f", data-i18n="new_home.see_example")
-                    .item
-                      .row.hidden-md.hidden-sm.hidden-xs
-                        .col-lg-6
-                          img.computer(src="/images/pages/home/built_for_teachers3.png"
-                                       alt="Wanted poster style web page with an image of a cute cow")
-                        .col-lg-4
-                          h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle3")
-                          p.text-navy(data-i18n="new_home.built_for_teachers_subblurb3")
-                          br
-                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/game-dev-level/game-dev-3-final-project/5c61d94ed5d92b00292bca34", data-i18n="new_home.see_example")
-                        .col-lg-2
-                          p
-                            img(src="/images/pages/home/html_logo.png", height="60")
-                          p
-                            img(src="/images/pages/home/css_logo.png", height="60")
-                          p
-                            img(src="/images/pages/home/jquery_logo.png", height="60")
-                      .row.hidden-lg
-                        .col-lg-12.text-center
-                          img.computer(src="/images/pages/home/built_for_teachers3.png")
-                          h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle3")
-                          p.text-navy.padding-sm(data-i18n="new_home.built_for_teachers_subblurb3")
-                          br
-                          a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/web-dev-level/wanted-poster/5c61db34ccc65a003baf6429?course=5789587aad86a6efb573701f", data-i18n="new_home.see_example")
-                  a.left.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="prev")
-                    span(aria-hidden="true")
-                      img(src="/images/pages/home/arrow_teal_left.png")
-                    span.sr-only(data-i18n="about.previous")
-                  a.right.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="next")
-                    span(aria-hidden="true")
-                      img(src="/images/pages/home/arrow_teal_right.png")
-                    span.sr-only(data-i18n="play.next")
+                      .col-lg-2
+                        p
+                          img(src="/images/pages/home/javascript_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/python_logo.png", height="60")
+                    .row.hidden-lg
+                      .col-lg-12.text-center
+                        img.computer(src="/images/pages/home/built_for_teachers1.png")
+                        br
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle1")
+                        p.text-navy.padding-sm(data-i18n="[html]new_home.built_for_teachers_subblurb1")
+                        br
+                        button.btn.btn-lg.btn-primary-alt.teacher-btn(data-event-action="Homepage Click Teacher Button CTA", data-i18n="[html]new_home.try_it_for_free")
+                  .item
+                    .row.hidden-md.hidden-sm.hidden-xs
+                      .col-lg-6
+                        img.computer(src="/images/pages/home/built_for_teachers2.png"
+                                    alt="A CodeCombat level with gems and an exit with Anya announcing moveRight")
+                      .col-lg-4
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle2")
+                        p.text-navy(data-i18n="new_home.built_for_teachers_subblurb2")
+                        br
+                        a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/game-dev-level/game-dev-3-final-project/5c61d94ed5d92b00292bca34", data-i18n="new_home.see_example")
+                      .col-lg-2
+                        p
+                          img(src="/images/pages/home/javascript_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/python_logo.png", height="60")
+                    .row.hidden-lg
+                      .col-lg-12.text-center
+                        img.computer(src="/images/pages/home/built_for_teachers2.png"
+                                      alt="Maze style game, with Anya dodging fireballs, a red cross marking the exit and an ogre blocking the route")
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle2")
+                        p.text-navy.padding-sm(data-i18n="new_home.built_for_teachers_subblurb2")
+                        br
+                        a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/web-dev-level/wanted-poster/5c61db34ccc65a003baf6429?course=5789587aad86a6efb573701f", data-i18n="new_home.see_example")
+                  .item
+                    .row.hidden-md.hidden-sm.hidden-xs
+                      .col-lg-6
+                        img.computer(src="/images/pages/home/built_for_teachers3.png"
+                                      alt="Wanted poster style web page with an image of a cute cow")
+                      .col-lg-4
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle3")
+                        p.text-navy(data-i18n="new_home.built_for_teachers_subblurb3")
+                        br
+                        a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/game-dev-level/game-dev-3-final-project/5c61d94ed5d92b00292bca34", data-i18n="new_home.see_example")
+                      .col-lg-2
+                        p
+                          img(src="/images/pages/home/html_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/css_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/jquery_logo.png", height="60")
+                    .row.hidden-lg
+                      .col-lg-12.text-center
+                        img.computer(src="/images/pages/home/built_for_teachers3.png")
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle3")
+                        p.text-navy.padding-sm(data-i18n="new_home.built_for_teachers_subblurb3")
+                        br
+                        a.btn.btn-lg.btn-primary-alt(href="https://codecombat.com/play/web-dev-level/wanted-poster/5c61db34ccc65a003baf6429?course=5789587aad86a6efb573701f", data-i18n="new_home.see_example")
+                a.left.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="prev")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_teal_left.png")
+                  span.sr-only(data-i18n="about.previous")
+                a.right.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="next")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_teal_right.png")
+                  span.sr-only(data-i18n="play.next")
 
     .row.text-center#for-teachers
       .col-lg-12
