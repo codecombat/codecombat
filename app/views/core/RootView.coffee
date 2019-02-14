@@ -68,11 +68,13 @@ module.exports = class RootView extends CocoView
         errors.showNotyNetworkError(arguments...)
     })
 
-  onClickSignupButton: ->
+  onClickSignupButton: (e) ->
     CreateAccountModal = require 'views/core/CreateAccountModal'
     switch @id
       when 'home-view'
-        window.tracker?.trackEvent 'Started Signup', category: 'Homepage', label: 'Homepage'
+        window.tracker?.trackEvent('Started Signup', category: 'Homepage', label: 'Homepage')
+        eventAction = $(e.target)?.data('event-action')
+        window.tracker?.trackEvent(eventAction, category: 'Homepage', []) if eventAction
       when 'world-map-view'
         # TODO: add campaign data
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
@@ -80,9 +82,12 @@ module.exports = class RootView extends CocoView
         window.tracker?.trackEvent 'Started Signup', label: @id
     @openModalView new CreateAccountModal()
 
-  onClickLoginButton: ->
+  onClickLoginButton: (e) ->
     AuthModal = require 'views/core/AuthModal'
-    window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
+    if @id is 'home-view'
+      window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] 
+      eventAction = $(e.target)?.data('event-action')
+      window.tracker?.trackEvent(eventAction, category: 'Homepage', []) if eventAction
     @openModalView new AuthModal()
 
   showLoading: ($el) ->

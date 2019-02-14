@@ -17,7 +17,11 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
-    'click .play-btn': 'onClickPlayButton'
+    'click .continue-playing-btn': 'onClickTrackEvent'
+    'click .example-gd-btn': 'onClickTrackEvent'
+    'click .example-wd-btn': 'onClickTrackEvent'
+    'click .play-btn': 'onClickTrackEvent'
+    'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
     'click #learn-more-link': 'onClickLearnMoreLink'
@@ -26,9 +30,10 @@ module.exports = class HomeView extends RootView
     'click #carousel-right': 'onRightPressed'
     'click .request-demo': 'onClickRequestDemo'
     'click .logout-btn': 'logoutAccount'
-    'click .profile-btn': 'onClickViewProfile'
+    'click .profile-btn': 'onClickTrackEvent'
     'click .setup-class-btn': 'onClickSetupClass'
-    'click .my-classes-btn': 'onClickMyClassesButton'
+    'click .my-classes-btn': 'onClickTrackEvent'
+    'click .my-courses-btn': 'onClickTrackEvent'
     'click .resource-btn': 'onClickResourceButton'
     'click a': 'onClickAnchor'
 
@@ -55,9 +60,6 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', []
     @scrollToLink('#classroom-in-box-container')
 
-  onClickPlayButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-
   onClickRequestDemo: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
@@ -80,16 +82,7 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
-  onClickViewProfile: (e) ->
-    e.preventDefault()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-
-  onClickMyClassesButton: (e) ->
-    e.preventDefault()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-
-  onClickResourceButton: (e) ->
-    e.preventDefault()
+  onClickTrackEvent: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
 
   onClickAnchor: (e) ->
@@ -135,10 +128,6 @@ module.exports = class HomeView extends RootView
       if link.length
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
-
-  destroy: ->
-    # $(window).off 'resize', @fitToPage
-    super()
 
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})

@@ -87,9 +87,9 @@ mixin accountLinks
                 if me.isAnonymous()
                   ul.nav.navbar-nav.text-p.login-buttons
                     li
-                      a#create-account-link.signup-button(data-i18n="signup.sign_up")
+                      a#create-account-link.signup-button(data-event-action="Header Sign Up CTA", data-i18n="signup.sign_up")
                     li
-                      a#login-link.login-button(data-i18n="signup.login")
+                      a#login-link.login-button(data-event-action="Header Login CTA", data-i18n="signup.login")
 
   block page_nav
 
