@@ -76,12 +76,12 @@
     quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
     see_example: "See example"
     slogan: "The most engaging way to learn computer science" # {change}
+    teach_cs1_free: "Teach CS1 Free"
     teachers_love_codecombat_title: "Teachers Love CodeCombat"
     teachers_love_codecombat_blurb1: "Report that their students enjoy using CodeCombat to learn how to code"
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    try_it_for_free: "Try it for free"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
