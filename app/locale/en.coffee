@@ -3,7 +3,7 @@
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Computer Science"
-    built_for_teachers_subblurb1: "Starting with our <strong>free</strong> Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
+    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
     built_for_teachers_subtitle2: "Game Development"
     built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
     built_for_teachers_subtitle3: "Web Development"
