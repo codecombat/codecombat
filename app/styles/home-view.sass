@@ -335,39 +335,36 @@
         padding: 10px 20px
 
     #featured-partners
+      .row
+        padding: 0
+      h2
+        padding-top: 40px
       @media (min-width: $screen-lg-min)
         background: linear-gradient(90deg, #F7F9F9 25%, #EAEEEE 25%)
-      margin: 0px
-      padding: 0px
+      margin: 0
+      padding: 0
       .inner-container
-        width: 1280px
+        max-width: 1280px
         @media (min-width: $screen-lg-min)
           background: linear-gradient(90deg, #F7F9F9 40%, #EAEEEE 40%)
       .pink-bar
         padding-bottom: 20px
-      .featured-section
-        @media (min-width: $screen-lg-min)
-          width: 388px
-          .row
-            padding: 0px
-            margin: 0px
-      .partners-section
-        @media (min-width: $screen-lg-min)
-          .row
-            padding: 0px 35px
-            margin: 0px
-          .tile-row
-            padding-left: 68px
+      @media (min-width: $screen-xs-min)
+        .tile-row
+          display: inline-block
+      .featured-section, .partners-section
+        padding-bottom: 40px
       .tile-shadow
         background-color: #FFFFFF
         box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
         padding: 0px
         margin: 2px
+        @media (max-width: $screen-sm-min)
+          margin: 20px
+          &:last-child
+            margin-bottom: -7px
         height: 190px
         width: 190px
-        @media (max-width: $screen-lg-min)
-          position: relative
-          display: inline-block
         img
           width: 100%
         p
