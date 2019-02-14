@@ -345,7 +345,10 @@
         padding-top: 40px
       @media (min-width: $screen-lg-min)
         background: linear-gradient(90deg, #F7F9F9 25%, #EAEEEE 25%)
-      margin: 0
+      // Hack to prevent footer from creating a white space with its margin.
+      margin: 0 0 -50px
+      .row:last-child
+        padding-bottom: 35px
       padding: 0
       .inner-container
         max-width: 1280px
