@@ -68,12 +68,15 @@ mixin accountLinks
                   ul.nav.navbar-nav
                     li.dropdown
                       a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                        img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                         span(data-i18n="nav.my_account")
                         span.caret
                       ul.dropdown-menu
                         li.user-dropdown-header.text-center.hidden-xs.hidden-sm
                           a(href="/user/#{me.getSlugOrID()}")
-                            span.text-p= me.broadName()
+                            img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                            h5=me.broadName()
+                            //- span.text-p= me.broadName()
                         +accountLinks
 
                 ul.nav.navbar-nav
