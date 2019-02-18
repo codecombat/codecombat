@@ -76,7 +76,7 @@ module.exports = class Classroom extends CocoModel
     }
 
   getLevels: (options={}) ->
-    # options: courseID, projectLevels, assessmentLevels, levelsCollection
+    # options: courseID, withoutLadderLevels, projectLevels, assessmentLevels, levelsCollection
     # TODO: find a way to get the i18n in here so that level names can be translated (Courses don't include in their denormalized copy of levels)
     Levels = require 'collections/Levels'
     courses = @get('courses')
@@ -94,6 +94,8 @@ module.exports = class Classroom extends CocoModel
     levels = new Levels(_.flatten(levelObjects))
     language = @get('aceConfig')?.language
     levels.remove(levels.filter((level) => level.get('primerLanguage') is language)) if language
+    if options.withoutLadderLevels
+      levels.remove(levels.filter((level) -> level.isLadder()))
     if options.projectLevels
       levels.remove(levels.filter((level) -> level.get('shareable') isnt 'project'))
     if options.assessmentLevels
@@ -121,7 +123,7 @@ module.exports = class Classroom extends CocoModel
     sessions = sessions.models or sessions
     arena = @getLadderLevel(courseID)
     project = @getProjectLevel(courseID)
-    courseLevels = @getLevels({courseID: courseID, levelsCollection: levelsCollection})
+    courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true, levelsCollection: levelsCollection})
     levelSessionMap = {}
     levelSessionMap[session.get('level').original] = session for session in sessions
     currentIndex = -1
@@ -169,7 +171,7 @@ module.exports = class Classroom extends CocoModel
     nextLevel = courseLevels.models[nextIndex]
     nextLevel = arena if levelsLeft is 0
     nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
-    [userStarted, courseComplete, totalComplete] = coursesHelper.hasUserCompletedCourse(userLevels, levelsInCourse)
+    [_userStarted, courseComplete, _totalComplete] = coursesHelper.hasUserCompletedCourse(userLevels, levelsInCourse)
 
     stats =
       levels:
