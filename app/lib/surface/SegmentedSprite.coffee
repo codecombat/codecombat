@@ -1,6 +1,31 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 createjs = require 'lib/createjs-parts'
 
+party_hat = ->
+  c = new createjs.Container()
+  c.initialize()
+
+  triangle = new createjs.Shape()
+  triangle.graphics
+    .setStrokeStyle(3)
+    .f("#ff99ff")
+    .s("black")
+    .mt(0, 0)
+    .lt(-20, 0)
+    .lt(0, -50)
+    .lt(20, 0)
+    .cp()
+  triangle.cache(-20, -50, 100, 100)
+
+  circle = new createjs.Shape()
+  circle.graphics
+    .f("#ff22ff")
+    .s("#330033")
+    .drawCircle(0, -50, 5);
+  circle.cache(-2.5, -52.5, 5, 5)
+  c.addChild(triangle, circle)
+  c
+
 # Put this on MovieClips
 specialGoToAndStop = (frame) ->
   if frame is @currentFrame and @childrenCopy
@@ -177,6 +202,8 @@ module.exports = class SegmentedSprite extends createjs.Container
     for localContainer in localContainers
       outerContainer = new createjs.Container(@spriteSheet)
       innerContainer = new createjs.Sprite(@spriteSheet)
+      # Always attach a partyhat as a child to any segmented sprite container.
+      partyHat = party_hat()
       innerContainer.gotoAndStop(@spriteSheetPrefix + localContainer.gn)
       if innerContainer.currentFrame is 0 or @usePlaceholders
         innerContainer.gotoAndStop(0)
@@ -186,9 +213,14 @@ module.exports = class SegmentedSprite extends createjs.Container
         innerContainer.y = bounds[1]
         innerContainer.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
         innerContainer.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        partyHat.x = bounds[0]
+        partyHat.y = bounds[1]
+        partyHat.scaleX = innerContainer.scaleX
+        partyHat.scaleY = innerContainer.scaleY
       else
         innerContainer.scaleX = innerContainer.scaleY = 1 / (@resolutionFactor * (@thangType.get('scale') or 1))
-      outerContainer.addChild(innerContainer)
+        partyHat.scaleX = partyHat.scaleY = innerContainer.scaleX
+      outerContainer.addChild(innerContainer, partyHat)
       outerContainer.setTransform(localContainer.t...)
       outerContainer._off = localContainer.o if localContainer.o?
       outerContainer.alpha = localContainer.al if localContainer.al?
