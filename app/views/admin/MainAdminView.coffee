@@ -49,6 +49,9 @@ module.exports = class MainAdminView extends RootView
     if search = utils.getQueryVariable 'search'
       $('#user-search').val search
       $('#user-search-button').click()
+    if spy = utils.getQueryVariable 'spy'
+      $('#espionage-name-or-email').val spy
+      $('#enter-espionage-mode').click()
     if userID = utils.getQueryVariable 'user'
       @openModalView new AdministerUserModal({}, userID)
 
