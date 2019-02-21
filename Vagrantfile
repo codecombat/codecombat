@@ -6,10 +6,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "forwarded_port", guest: 3000, host: 9998
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     # vb.gui = true
@@ -23,7 +19,5 @@ Vagrant.configure("2") do |config|
     v.vmx["numvcpus"] = 2
   end
 
-  # View the documentation for the provider you are using for more
-  # information on available options.
   config.vm.provision "shell", path: "./development/vagrant/provision.sh", privileged: false
 end
