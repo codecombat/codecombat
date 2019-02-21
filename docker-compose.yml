@@ -1,0 +1,22 @@
+version: '3'
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: ./development/docker/Dockerfile
+    command: bash -c "npm install && npm run proxy"
+    volumes:
+      - .:/coco
+      - /coco/node_modules
+    ports:
+      - 7777:3000
+  dev-server:
+    build:
+      context: .
+      dockerfile: ./development/docker/Dockerfile
+    command: bash -c "npm install && npm run dev"
+    volumes:
+      - .:/coco
+      - /coco/node_modules
+    ports:
+      - 35432:35432
