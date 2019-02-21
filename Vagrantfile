@@ -1,35 +1,21 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Original content copyright (c) 2014 dpen2000 licensed under the MIT license
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64"
 
-VAGRANTFILE_API_VERSION = "2"
-Vagrant.require_version ">= 1.5.0" , "<= 1.8.6"
+  config.vm.network "forwarded_port", guest: 3000, host: 9998
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    # vb.gui = true
 
-  # Ubuntu 14.04 compatible with both VirtualBox and VMWare Fusion
-  # see https://github.com/phusion/open-vagrant-boxes#readme
-  config.vm.box = "phusion/ubuntu-14.04-amd64"
-
-  config.vm.hostname = "coco-dev"
-
-  config.vm.network "forwarded_port", guest: 3000, host: 13000
-  config.vm.network "forwarded_port", guest: 9485, host: 19485
-
-  config.vm.define "default" do |default|
-    default.vm.provision "shell", path: "scripts/vagrant/core/provision.sh", privileged: false
-  end
-  
-  config.vm.define "brunchv2", autostart: false do |brunchv2|
-    brunchv2.vm.provision "shell", path: "scripts/vagrant/core/provision.sh", privileged: false
-    brunchv2.vm.provision "shell", path: "scripts/vagrant/core/update-brunchv2.sh", privileged: false
-  end
-
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 2048
-    v.cpus = 2
-    #v.gui = true
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
   end
 
   config.vm.provider "vmware_fusion" do |v|
@@ -37,4 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.vmx["numvcpus"] = 2
   end
 
+  # View the documentation for the provider you are using for more
+  # information on available options.
+  config.vm.provision "shell", path: "./development/vagrant/provision.sh", privileged: false
 end
