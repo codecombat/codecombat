@@ -179,9 +179,7 @@ module.exports = class PlayHeroesModal extends ModalView
     return unless hero = @heroes.models[heroIndex]
     @loadHero hero, heroIndex, true
 
-  loadHero: (hero, heroIndex, preloading=false) ->
-    createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
-    createjs.Ticker.framerate = 30  # In case we paused it from being inactive somewhere else
+  loadHero: (hero, _heroIndex, preloading=false) ->
     if poseImage = hero.get 'poseImage'
       $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
       $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-pose-image").show().find('img').prop('src', '/file/' + poseImage)
