@@ -954,7 +954,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     lisa_title: "Manajer Pengembangan Bisnis"
     sean_title: "Manajer Wilayah"
     liz_title: "Manajer Wilayah"
-    jane_title: "Manajer Kesuksesan Pelanggan"
+    jane_title: "Manajer Wilayah"
     david_title: "Pemimpin Pemasaran"
     retrostyle_title: "Ilustrasi"
     retrostyle_blurb: "Permainan RetroStyle"

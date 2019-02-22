@@ -954,7 +954,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
     sean_title: "Regio Manager"
     liz_title: "Buurt Manager"
-    jane_title: "Klantensucces manager"
+    jane_title: "Buurt Manager"
     david_title: "Manager Marketing"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"

@@ -1045,7 +1045,7 @@
     lisa_title: "Business Development Manager"
     sean_title: "Territory Manager"
     liz_title: "Territory Manager"
-    jane_title: "Customer Success Manager"
+    jane_title: "Territory Manager"
     david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"

@@ -954,7 +954,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     lisa_title: "Ohfvarff Qrirybczrag Znantre"
     sean_title: "Greevgbel Znantre"
     liz_title: "Greevgbel Znantre"
-    jane_title: "Phfgbzre Fhpprff Znantre"
+    jane_title: "Greevgbel Znantre"
     david_title: "Znexrgvat Yrnq"
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"

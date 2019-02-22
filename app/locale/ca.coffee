@@ -954,7 +954,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     lisa_title: "Gerent de Desenvolupament de Negocis"
     sean_title: "Administrador de territori"
     liz_title: "Administrador de territori"
-    jane_title: "Gerent d'èxit del client"
+    jane_title: "Administrador del territori"
     david_title: "Direcció de Comercialització"
     retrostyle_title: "Il·lustració"
     retrostyle_blurb: "Jocs estil retro"

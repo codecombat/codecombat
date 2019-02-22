@@ -954,7 +954,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     lisa_title: "Pedagoga" # {change}
     sean_title: "Gerente de Território"
     liz_title: "Gerente de Território"
-    jane_title: "Gerente de Sucesso do Cliente"
+    jane_title: "Gerente de Território"
     david_title: "Líder de marketing"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "Games estilo Retrô"
