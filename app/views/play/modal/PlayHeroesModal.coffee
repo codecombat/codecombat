@@ -157,7 +157,7 @@ module.exports = class PlayHeroesModal extends ModalView
     hero = _.find @heroes.models, (hero) -> hero.get('original') is heroItem.data('hero-id')
     return console.error "Couldn't find hero from heroItem:", heroItem unless hero
     heroIndex = heroItem.index()
-    hero = @loadHero hero, heroIndex
+    hero = @loadHero hero
     @preloadHero heroIndex + 1
     @preloadHero heroIndex - 1
     @selectedHero = hero unless hero.locked
@@ -177,9 +177,9 @@ module.exports = class PlayHeroesModal extends ModalView
 
   preloadHero: (heroIndex) ->
     return unless hero = @heroes.models[heroIndex]
-    @loadHero hero, heroIndex, true
+    @loadHero hero, true
 
-  loadHero: (hero, _heroIndex, preloading=false) ->
+  loadHero: (hero, preloading=false) ->
     if poseImage = hero.get 'poseImage'
       $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
       $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-pose-image").show().find('img').prop('src', '/file/' + poseImage)
