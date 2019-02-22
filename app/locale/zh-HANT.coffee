@@ -956,6 +956,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     liz_title: "區域經理"
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
+    titles:
+      csm: "客户成功经理"
     retrostyle_title: "插畫師"
     retrostyle_blurb: "復古風格的遊戲"
 #    bryukh_title: "Gameplay Developer"

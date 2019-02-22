@@ -956,6 +956,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    liz_title: "Territory Manager"
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
+    titles:
+      csm: "Quản lý thành công khách hàng"
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"

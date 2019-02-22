@@ -960,6 +960,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     retrostyle_blurb: "ErgebFglyr Tnzrf"
     bryukh_title: "Tnzrcynl Qrirybcre"
     bryukh_blurb: "Pbafgehpgf chmmyrf"
+    titles:
+      csm: "Treragr qr Fhprffb qb Pyvragr"
     community_title: "...naq bhe bcra-fbhepr pbzzhavgl"
     community_subtitle: "Bire 500 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
     community_description_3: "PbqrPbzong vf n"

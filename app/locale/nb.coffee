@@ -956,6 +956,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    liz_title: "Territory Manager"
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
+    titles:
+      csm: "Kundesuksessleder"
 #    retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"

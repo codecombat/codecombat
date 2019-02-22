@@ -956,6 +956,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     liz_title: "Directrice régional"
     jane_title: "Directrice régional"
     david_title: "Directeur Marketing"
+
+    titles:
+      csm: "Responsable de la réussite client"
+
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Jeux RetroStyle"
     bryukh_title: "Designer de jeux" # {change}

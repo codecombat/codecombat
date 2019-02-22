@@ -956,6 +956,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     liz_title: "Oblastný manažér"
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
+    titles:
+      csm: "Správca úspechu zákazníka"
     retrostyle_title: "Ilustrácia"
     retrostyle_blurb: "Retro hry"
 #    bryukh_title: "Gameplay Developer"

@@ -958,6 +958,8 @@ module.exports = nativeDescription: "български език", englishDescri
 #    david_title: "Marketing Lead"
     retrostyle_title: "Илюстрация"
     retrostyle_blurb: "Игра Ретро Стил"
+    titles:
+      csm: "Мениджър за успех на клиентите"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    community_title: "...and our open-source community"

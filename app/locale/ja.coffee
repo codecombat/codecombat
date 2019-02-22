@@ -956,6 +956,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     liz_title: "地域部長"
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
+    titles:
+      csm: "カスタマーサクセスマネージャー"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
 #    bryukh_title: "Gameplay Developer"

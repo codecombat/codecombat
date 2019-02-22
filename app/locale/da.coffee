@@ -950,6 +950,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     scott_title: "Medstifter, Software Engineer"
     maka_title: "Kundens Talsmand"
     robin_title: "UX Design & Udvikling" # {change}
+    titles:
+      csm: "Správce úspěšných zákazníků"
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
 #    sean_title: "Territory Manager"
