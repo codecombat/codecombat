@@ -58,6 +58,8 @@ module.exports = class MainAdminView extends RootView
   onClickStopSpyingButton: ->
     button = @$('#stop-spying-btn')
     forms.disableSubmit(button)
+    # Clear any query params, especially spy
+    window.history.pushState({}, '', document.location.href.split('?')[0])
     me.stopSpying({
       success: -> document.location.reload()
       error: ->
