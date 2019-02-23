@@ -22,7 +22,8 @@ if ! rbenv versions | grep -q $RUBY_VERSION; then
     rbenv install $RUBY_VERSION
     rbenv global $RUBY_VERSION
 
-    echo "rbenv init" >> .bashrc
+    echo 'export PATH=$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/shims' >> .bashrc
+    echo 'eval "$(rbenv init -)' >> .bashrc
 fi
 
 echo "Installing nvm..."
@@ -64,3 +65,7 @@ npm rebuild node-sass
 npm run bower -- install
 npm run webpack
 popd
+
+if ! grep -q DEV_CONTAINER $BASHRC; then
+    echo 'export DEV_CONTAINER=1' >> $BASHRC
+fi
