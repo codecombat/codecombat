@@ -8,6 +8,8 @@ services:
     volumes:
       - .:/coco
       - /coco/node_modules
+    environment:
+      DEV_CONTAINER: 1
     ports:
       - 7777:3000
   dev-server:
@@ -18,5 +20,7 @@ services:
     volumes:
       - .:/coco
       - /coco/node_modules
+    environment:
+      DEV_CONTAINER: 1
     ports:
       - 35432:35432
