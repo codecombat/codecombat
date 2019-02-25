@@ -23,7 +23,7 @@ if ! rbenv versions | grep -q $RUBY_VERSION; then
     rbenv global $RUBY_VERSION
 
     echo 'export PATH=$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/shims' >> .bashrc
-    echo 'eval "$(rbenv init -)' >> .bashrc
+    echo 'eval "$(rbenv init -)"' >> .bashrc
 fi
 
 echo "Installing nvm..."
