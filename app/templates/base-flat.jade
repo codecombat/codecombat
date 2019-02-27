@@ -31,35 +31,44 @@ mixin accountLinks
                 span.icon-bar
                 span.icon-bar
                 span.icon-bar
-              a.navbar-brand(href="/home")
-                if serverConfig.codeNinjas
-                  img#logo-img.code-ninjas-powered-by(src="/images/pages/base/logo.png")
-                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
-                else
-                  img#logo-img(src="/images/pages/base/logo.png")
-                span.glyphicon.glyphicon-home
+              if me.useTarenaLogo()
+                a.navbar-brand(href="http://kidtts.tmooc.cn/ttsPage/login.html")
+                  img#logo-img(src="/images/pages/base/logo-tarena.png")
+              else
+                a.navbar-brand(href="/home")
+                  if serverConfig.codeNinjas
+                    img#logo-img.code-ninjas-powered-by(src="/images/pages/base/logo.png")
+                    img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                  else
+                    img#logo-img(src="/images/pages/base/logo.png")
+                  span.glyphicon.glyphicon-home
             if !serverConfig.static
               #navbar-collapse.collapse.navbar-collapse
-                ul.nav.navbar-nav
-                  li
-                    a(href="/about", data-i18n="nav.about")
-                  if me.isStudent()
+                if !me.hideTopRightNav()
+                  ul.nav.navbar-nav
                     li
-                      a(href="/students", data-i18n="nav.my_courses")
-                  if !me.isAnonymous() && me.isTeacher()
-                    li
-                      a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                  if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
-                    li
-                      a(href="/play", data-i18n="common.play")
-                    li
-                      a(href=view.forumLink(), data-i18n="nav.forum")
+                      a(href="/about", data-i18n="nav.about")
+                    if me.isStudent()
+                      li
+                        a(href="/students", data-i18n="nav.my_courses")
+                    if !me.isAnonymous() && me.isTeacher()
+                      li
+                        a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
+                      li
+                        a(href="/play", data-i18n="common.play")
+                      li
+                        a(href=view.forumLink(), data-i18n="nav.forum")
                 if me.isAnonymous()
                   ul.nav.navbar-nav
                     li
                       a#create-account-link.signup-button(data-i18n="login.sign_up")
                     li
                       a#login-link.login-button(data-i18n="login.log_in")
+                else if me.isTarena()
+                  ul.nav.navbar-nav
+                    li
+                      a#logout-button(data-i18n="login.log_out")
                 else
                   ul.nav.navbar-nav.hidden-md.hidden-lg
                     li.disabled
@@ -98,68 +107,69 @@ mixin accountLinks
       #footer.small
         .container
           .row
-            .col-sm-3
-              ul.list-unstyled
-                li
-                  strong CodeCombat
-                li
-                  a(href="/about", data-i18n="nav.about")
-                li
-                  a(href="/about#careers", data-i18n="nav.careers")
-                li
-                  a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-                li
-                  a(href="/legal", data-i18n="nav.legal")
-                li
-                  a(href="/privacy", data-i18n="nav.privacy")
-                if features.china
-                  li 京ICP备16061132号
-
-            if !me.isStudent()
+            if !me.hideFooter()
               .col-sm-3
                 ul.list-unstyled
                   li
-                    strong(data-i18n="nav.schools")
+                    strong CodeCombat
                   li
-                    a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
+                    a(href="/about", data-i18n="nav.about")
                   li
-                    a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    a(href="/about#careers", data-i18n="nav.careers")
                   li
-                    a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                    a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                   li
-                    a(href="/teachers/demo", data-i18n="new_home.request_demo")
+                    a(href="/legal", data-i18n="nav.legal")
                   li
-                    a(href="/apcsp", data-i18n="nav.apcsp")
+                    a(href="/privacy", data-i18n="nav.privacy")
+                  if features.china
+                    li 京ICP备16061132号
 
-            .col-sm-3
-              ul.list-unstyled
-                li
-                  strong(data-i18n="nav.get_involved")
-                li
-                  a(href='/community', data-i18n="nav.community")
-                li
-                  a(href="/contribute", data-i18n="nav.contribute")
-                if !me.isStudent()
+              if !me.isStudent()
+                .col-sm-3
+                  ul.list-unstyled
+                    li
+                      strong(data-i18n="nav.schools")
+                    li
+                      a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
+                    li
+                      a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    li
+                      a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                    li
+                      a(href="/teachers/demo", data-i18n="new_home.request_demo")
+                    li
+                      a(href="/apcsp", data-i18n="nav.apcsp")
+
+              .col-sm-3
+                ul.list-unstyled
                   li
-                    a(href=view.forumLink(), data-i18n="nav.forum")
-                li
-                  a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
-                li
-                  a(href="https://github.com/codecombat/codecombat", data-i18n="nav.open_source")
-                li
-                  a(href="/parents", data-i18n="nav.parent")
-            .col-sm-3
-              ul.list-unstyled
-                li
-                  strong(data-i18n="nav.support")
-                if !me.isStudent()
+                    strong(data-i18n="nav.get_involved")
                   li
-                    a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                if me.useSocialSignOn()
+                    a(href='/community', data-i18n="nav.community")
                   li
-                    a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
+                    a(href="/contribute", data-i18n="nav.contribute")
+                  if !me.isStudent()
+                    li
+                      a(href=view.forumLink(), data-i18n="nav.forum")
                   li
-                    a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
+                    a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
+                  li
+                    a(href="https://github.com/codecombat/codecombat", data-i18n="nav.open_source")
+                  li
+                    a(href="/parents", data-i18n="nav.parent")
+              .col-sm-3
+                ul.list-unstyled
+                  li
+                    strong(data-i18n="nav.support")
+                  if !me.isStudent()
+                    li
+                      a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                  if me.useSocialSignOn()
+                    li
+                      a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
+                    li
+                      a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
 
       #final-footer.small.text-center(dir="ltr")
         span(data-i18n="nav.copyright_prefix")
