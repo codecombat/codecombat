@@ -952,9 +952,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    robin_title: "Senior Product Manager"
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
-#    sean_title: "Territory Manager"
-#    liz_title: "Territory Manager"
-#    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
     titles:
       csm: "Kundsucceschef"

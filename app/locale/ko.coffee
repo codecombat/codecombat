@@ -952,9 +952,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     robin_title: "UX 디자인 & 연구원" # {change}
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
-#    sean_title: "Territory Manager"
-#    liz_title: "Territory Manager"
-#    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"

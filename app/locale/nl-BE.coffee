@@ -952,9 +952,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     robin_title: "Grafische Interface Ontwerp & Onderzoek" # {change}
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
-#    sean_title: "Territory Manager"
-#    liz_title: "Territory Manager"
-#    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
