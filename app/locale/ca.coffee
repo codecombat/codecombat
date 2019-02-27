@@ -952,9 +952,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     robin_title: "Gerent de producció"
     nolan_title: "Cap de vendes"
     lisa_title: "Gerent de Desenvolupament de Negocis"
-    sean_title: "Administrador de territori"
-    liz_title: "Administrador de territori"
-    jane_title: "Administrador del territori"
     david_title: "Direcció de Comercialització"
     retrostyle_title: "Il·lustració"
     retrostyle_blurb: "Jocs estil retro"
@@ -962,6 +959,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     bryukh_blurb: "Constructor de trencaclosques"
     titles:
       csm: "Gerent d'èxit del client"
+      territory_manager: "Administrador de territori"
     community_title: "...i la nostra comunitat de codi obert"
     community_subtitle: "Més de 500 contribuents han ajudat a construir CodeCombat, amb més unió cada setmana."
     community_description_3: "CodeCombat és un"

@@ -952,12 +952,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     robin_title: "Менеджер продукта" # {change}
     nolan_title: "Менеджер продаж"
     lisa_title: "Менеджер по экономическому развитию"
-    sean_title: "Региональный менеджер"
-    liz_title: "Региональный менеджер"
-    jane_title: "Менеджер по работе с клиентами"
     david_title: "Менеджер по работе с клиентами"
     titles:
       csm: "Менеджер по работе с клиентами"
+      territory_manager: "Региональный менеджер"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Дизайнер игры"

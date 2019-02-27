@@ -952,12 +952,10 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     robin_title: "Gerente de Produto" # {change}
     nolan_title: "Gerente de Território" # {change}
     lisa_title: "Pedagoga" # {change}
-    sean_title: "Gerente de Território"
-    liz_title: "Gerente de Território"
-    jane_title: "Gerente de Território"
     david_title: "Líder de marketing"
     titles:
       csm: "Gerente de Sucesso do Cliente"
+      territory_manager: "Gerente de Território"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "Games estilo Retrô"
     bryukh_title: "Game Designer"

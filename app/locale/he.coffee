@@ -952,12 +952,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     robin_title: "מנהלת מוצר" # {change}
     nolan_title: "מנהל טריטוריה" # {change}
     lisa_title: "מומחית לבתי ספר" # {change}
-    sean_title: "מנהל טריטוריה"
-    liz_title: "מנהלת טריטוריה"
-#    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
     titles:
       csm: "מנהל הצלחה לקוחות"
+      territory_manager: "מנהל טריטוריה"
     retrostyle_title: "איור"
     retrostyle_blurb: "משחקי רטרו"
     bryukh_title: "מעצב משחק" # {change}

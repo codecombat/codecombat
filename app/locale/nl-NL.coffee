@@ -958,6 +958,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     david_title: "Manager Marketing"
     titles:
       csm: "Kundesuksessleder"
+      territory_manager: "Regiomanager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     bryukh_title: "Speldesigner" # {change}

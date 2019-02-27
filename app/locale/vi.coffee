@@ -952,12 +952,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     robin_title: "Thiết Kế UX & Nghiên Cứu" # {change}
     nolan_title: "Giám Đốc Khu Vực" # {change}
 #    lisa_title: "Business Development Manager"
-#    sean_title: "Territory Manager"
-#    liz_title: "Territory Manager"
-#    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
     titles:
       csm: "Quản lý thành công khách hàng"
+      territory_manager: "Giám Đốc Khu Vực"
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
