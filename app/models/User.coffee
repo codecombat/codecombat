@@ -509,7 +509,6 @@ module.exports = class User extends CocoModel
   useDexecure: -> not (features?.chinaInfra ? false)
   useSocialSignOn: -> not (features?.chinaUx ? false)
   isTarena: -> features?.Tarena ? false
-  hideUITarenaRENAMEME: -> @isTarena()
   hideTopRightNav: -> @isTarena()
   hideFooter: -> @isTarena()
   useTarenaLogo: -> @isTarena()
