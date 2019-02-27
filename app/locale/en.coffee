@@ -1043,12 +1043,10 @@
     robin_title: "Senior Product Manager"
     nolan_title: "Sales Manager"
     lisa_title: "Business Development Manager"
-    sean_title: "Territory Manager"
-    liz_title: "Territory Manager"
-    jane_title: "Territory Manager"
     david_title: "Marketing Lead"
     titles:
       csm: "Customer Success Manager"
+      territory_manager: "Territory Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Gameplay Developer"
