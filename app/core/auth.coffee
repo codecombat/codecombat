@@ -20,7 +20,6 @@ init = ->
   Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 
 module.exports.logoutUser = (options={}) ->
-  # TODO: Refactor to use User.logout
   return if features.codePlay
   options.error ?= genericFailure
   me.logout(options)
