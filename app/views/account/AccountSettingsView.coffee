@@ -131,7 +131,7 @@ module.exports = class AccountSettingsView extends CocoView
           window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
           Backbone.Mediator.publish("auth:logging-out", {})
           window.tracker?.trackEvent 'Log Out', category:'Homepage' if @id is 'home-view'
-          logoutUser($('#login-email').val())
+          logoutUser()
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR
