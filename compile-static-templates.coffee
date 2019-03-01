@@ -48,6 +48,7 @@ compile = (contents, locals, filename, cb) ->
   catch e
     console.log "Compile", filename, basePath
     console.log 'ERROR', e.message
+    throw new Error(e.message)
     return cb(e.message)
 
   c = cheerio.load(str)
@@ -102,6 +103,7 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
         console.log "\nCompiled static file: #{filename}"
       catch err
         console.log "\nError compiling #{filename}:", err
+        return callback("\nError compiling #{filename}:", err)
     callback()
 
   # Watch the static template files for changes
