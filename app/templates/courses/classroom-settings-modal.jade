@@ -19,7 +19,7 @@ block modal-body-content
           for classroom in view.googleClassrooms
             option(value = classroom.id)= classroom.name
       else
-        select.select-google-class.form-control(name="googleClassId" type='text' disabled=true)
+        select.select-google-class.form-control(name="googleClassroomId" type='text' disabled=true)
           option(value="" data-i18n="courses.no_classrooms_found")
         a.small.create-manually 
           u(data-i18n="courses.create_classroom_manually")

@@ -41,12 +41,12 @@ module.exports = class ClassroomSettingsModal extends ModalView
       return
 
     if !@isGoogleClassroom
-      delete attrs.googleClassId
+      delete attrs.googleClassroomId
     else if attrs.googleClassroomId
       gClass = me.get('googleClassrooms').find((c)=>c.id==attrs.googleClassroomId)
       attrs.name = gClass.name
     else
-      forms.setErrorToProperty(form, 'googleClassId', $.i18n.t('common.required_field'))
+      forms.setErrorToProperty(form, 'googleClassroomId', $.i18n.t('common.required_field'))
       return
 
     @classroom.set(attrs)
