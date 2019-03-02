@@ -46,14 +46,19 @@ module.exports = {
   scopes: 'https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.rosters.readonly',
 
   markAsImported: async function(gcId) {
-    let gClass = me.get('googleClassrooms').find((c)=>c.id==gcId)
-    if (gClass) {
-      gClass.importedToCoco = true
-      await new Promise(me.save().then)
+    try {
+      let gClass = me.get('googleClassrooms').find((c)=>c.id==gcId)
+      if (gClass) {
+        gClass.importedToCoco = true
+        await new Promise(me.save().then)
+      }
+      else {
+        return Promise.reject("Classroom not found in me.googleClassrooms")
+      }
     }
-    else {
-      console.error("Classroom not found in me.googleClassrooms", err)
-      return Promise.reject()
+    catch (err) {
+      console.error("Error in marking classroom as imported:", err)
+      return Promise.reject("Error in marking classroom as imported")
     }
   },
 

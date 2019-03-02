@@ -228,7 +228,7 @@ module.exports = class TeacherClassesView extends RootView
       window.tracker?.trackEvent 'Teachers Classes Create New Class Finished', category: 'Teachers', ['Mixpanel']
       @classrooms.add(modal.classroom)
       if modal.classroom.isGoogleClassroom()
-        GoogleClassroomHandler.markAsImported(classroom.get("googleClassroomId")).then(() => @render())
+        GoogleClassroomHandler.markAsImported(classroom.get("googleClassroomId")).then(() => @render()).catch((e) => console.error(e))
       classroom = modal.classroom
       @addFreeCourseInstances()
       .then(() =>
