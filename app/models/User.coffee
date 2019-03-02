@@ -35,6 +35,7 @@ module.exports = class User extends CocoModel
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)
+  validForGoogleClassroom: -> me.get('gplusID')?   # if signed in using google SSO
 
   inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
 

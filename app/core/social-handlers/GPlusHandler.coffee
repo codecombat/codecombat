@@ -66,16 +66,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       @startedLoading = true
       window.init = =>
         @apiLoaded = true
-        if @accessToken and me.get('gplusID')
-          # We need to check the current state, given our access token
-          gapi.auth2.setToken 'token', @accessToken
-          session_state = @accessToken.session_state
-          gapi.auth2.checkSessionState {client_id: clientID, session_state: session_state}, (connected) =>
-            @connected = connected
-            @trigger 'load-api'
-        else
-          @connected = false
-          @trigger 'load-api'
+        @trigger 'load-api'
 
 
   connect: (options={}) ->
@@ -83,9 +74,11 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     options.context ?= options
     authOptions = {
       client_id: clientID
-      scope: 'profile email'
+      scope: options.scope || 'profile email'
       response_type: 'permission'
     }
+    if me.get('gplusID') and me.get('email')  # when already logged in and reauthorizing for new scopes or new access token
+      authOptions.login_hint = me.get('email')
     gapi.auth2.authorize authOptions, (e) =>
       return unless e.access_token
       @connected = true

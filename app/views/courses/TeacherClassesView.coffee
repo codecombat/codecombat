@@ -15,6 +15,8 @@ Prepaids = require 'collections/Prepaids'
 User = require 'models/User'
 utils = require 'core/utils'
 storage = require 'core/storage'
+GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
+co = require('co')
 
 helper = require 'lib/coursesHelper'
 
@@ -225,10 +227,54 @@ module.exports = class TeacherClassesView extends RootView
     @listenToOnce modal.classroom, 'sync', ->
       window.tracker?.trackEvent 'Teachers Classes Create New Class Finished', category: 'Teachers', ['Mixpanel']
       @classrooms.add(modal.classroom)
+      if modal.classroom.isGoogleClassroom()
+        GoogleClassroomHandler.markAsImported(classroom.get("googleClassroomId")).then(() => @render())
+      classroom = modal.classroom
       @addFreeCourseInstances()
-      @calculateQuestCompletion()
-      @render()
+      .then(() =>
+        if classroom.isGoogleClassroom()
+          @importStudents(classroom)
+          .then (importedStudents) =>
+            @addImportedStudents(classroom, importedStudents)
+            @calculateQuestCompletion()
+            @render()
+          .catch (err) =>
+            @calculateQuestCompletion()
+            @render()
+        else
+          @calculateQuestCompletion()
+          @render()
+      )
+      .catch((err) =>
+        if classroom.isGoogleClassroom()
+          noty text: 'Could not import students', layout: 'topCenter', timeout: 3000, type: 'error'
+        @calculateQuestCompletion()
+        @render()
+      )
 
+  importStudents: (classroom) ->
+    GoogleClassroomHandler.importStudentsToClassroom(classroom)
+    .then (importedStudents) =>
+      if importedStudents.length > 0
+        console.debug("Students imported to classroom:", importedStudents)
+        return Promise.resolve(importedStudents)
+      else
+        noty text: 'No new students imported', layout: 'topCenter', timeout: 3000, type: 'error'
+        return Promise.reject()
+    .catch (err) =>
+      noty text: err or 'Error in importing students', layout: 'topCenter', timeout: 3000, type: 'error'
+      return Promise.reject()
+
+  # Add imported students to @classrooms and @courseInstances so that they are rendered on the screen
+  addImportedStudents: (classroom, importedStudents) ->
+    cl = @classrooms.models.find((c) => c.get("_id") == classroom.get("_id"))
+    importedStudents.forEach((i) => cl.get("members").push(i._id))
+    for course in @courses.models
+      continue if not course.get('free')
+      courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
+      if courseInstance
+        importedStudents.forEach((i) => courseInstance.get("members").push(i._id))
+  
   onClickCreateTeacherButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', ['Mixpanel']
     application.router.navigate("/teachers/signup", { trigger: true })
@@ -264,24 +310,31 @@ module.exports = class TeacherClassesView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/teachers/classes/#{classroomID}", { trigger: true })
 
-  addFreeCourseInstances: ->
+  addFreeCourseInstances: co.wrap ->
     # so that when students join the classroom, they can automatically get free courses
     # non-free courses are generated when the teacher first adds a student to them
-    for classroom in @classrooms.models
-      for course in @courses.models
-        continue if not course.get('free')
-        courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
-        if not courseInstance
-          courseInstance = new CourseInstance({
-            classroomID: classroom.id
-            courseID: course.id
-          })
-          # TODO: figure out a better way to get around triggering validation errors for properties
-          # that the server will end up filling in, like an empty members array, ownerID
-          courseInstance.save(null, {validate: false})
-          @courseInstances.add(courseInstance)
-          @listenToOnce courseInstance, 'sync', @addFreeCourseInstances
-          return
+    try
+      promises = []
+      for classroom in @classrooms.models
+        for course in @courses.models
+          continue if not course.get('free')
+          courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
+          if not courseInstance
+            courseInstance = new CourseInstance({
+              classroomID: classroom.id
+              courseID: course.id
+            })
+            # TODO: figure out a better way to get around triggering validation errors for properties
+            # that the server will end up filling in, like an empty members array, ownerID
+            promises.push(yield new Promise(courseInstance.save(null, {validate: false}).then))
+      if (promises.length > 0)
+        courseInstances = yield Promise.all(promises)
+        @courseInstances.add(courseInstances) if courseInstances.length > 0
+      return
+    catch e
+      console.error("Error in adding free course instances")
+      return Promise.reject()
+    
 
   onClickSeeAllQuests: (e) =>
     $(e.target).hide()

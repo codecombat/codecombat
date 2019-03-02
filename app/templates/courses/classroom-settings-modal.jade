@@ -8,7 +8,23 @@ block modal-header-content
 
 block modal-body-content
   form
-    .form-group
+    if me.validForGoogleClassroom() && view.classroom.isNew()
+      a#link-google-classroom-btn.btn.btn-primary.btn-lg(data-i18n="courses.link_google_classroom")
+    
+    .form-group.google-class-name.secret
+      label(data-i18n="courses.select_your_classroom")
+      if view.googleClassrooms.length > 0
+        select.select-google-class.form-control(name="googleClassroomId" type='text')
+          option(value="" data-i18n="courses.select_your_classroom")
+          for classroom in view.googleClassrooms
+            option(value = classroom.id)= classroom.name
+      else
+        select.select-google-class.form-control(name="googleClassId" type='text' disabled=true)
+          option(value="" data-i18n="courses.no_classrooms_found")
+        a.small.create-manually 
+          u(data-i18n="courses.create_classroom_manually")
+    
+    .form-group.class-name
       label(data-i18n="courses.class_name")
       input#name-input.form-control(name="name" type='text' value=view.classroom.get('name'))
 

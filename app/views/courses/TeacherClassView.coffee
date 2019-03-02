@@ -29,6 +29,7 @@ window.saveAs ?= require 'file-saver/FileSaver.js' # `window.` is necessary for 
 window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
+GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -59,6 +60,7 @@ module.exports = class TeacherClassView extends RootView
     'keyup #student-search': 'onKeyPressStudentSearch'
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
+    'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
 
   getInitialState: ->
     {
@@ -785,3 +787,32 @@ module.exports = class TeacherClassView extends RootView
     topScores = LevelSession.getTopScores({level: level.toJSON(), session: session.toJSON()}) 
     topScore = _.find(topScores, {type: scoreType})
     return topScore
+
+  onClickSyncGoogleClassroom: (e) ->
+    application.gplusHandler.loadAPI({
+      success: =>
+        application.gplusHandler.connect({
+          scope: GoogleClassroomHandler.scopes
+          success: =>
+            noty text: 'Syncing...', layout: 'topCenter', timeout: 2000, type: 'information'
+            @syncGoogleClassroom()
+        })
+    })
+
+  syncGoogleClassroom: ->
+    GoogleClassroomHandler.importStudentsToClassroom(@classroom)
+    .then (importedMembers) =>
+      if importedMembers.length > 0
+        console.debug("Students imported to classroom:", importedMembers)
+
+        if @students.length == 0
+          @students = new Users(importedMembers)
+          @state.set('students', @students)
+        for course in @courses.models
+          continue if not course.get('free')
+          courseInstance = @courseInstances.findWhere({classroomID: @classroom.get("_id"), courseID: course.id})
+          if courseInstance
+            importedMembers.forEach((i) => courseInstance.get("members").push(i._id))  
+        @fetchStudents()
+    .catch (err) =>
+      noty text: err or 'Error in importing students.', layout: 'topCenter', timeout: 3000, type: 'error'
