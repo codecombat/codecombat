@@ -19,18 +19,10 @@ init = ->
 
   Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 
-module.exports.logoutUser = ->
-  # TODO: Refactor to use User.logout
+module.exports.logoutUser = (options={}) ->
   return if features.codePlay
-  FB?.logout?()
-  callback = ->
-    location = _.result(currentView, 'logoutRedirectURL')
-    if location
-      window.location = location
-    else
-      window.location.reload()
-  res = $.post('/auth/logout', {}, callback)
-  res.fail(genericFailure)
+  options.error ?= genericFailure
+  me.logout(options)
 
 module.exports.sendRecoveryEmail = (email, options={}) ->
   options = _.merge(options,

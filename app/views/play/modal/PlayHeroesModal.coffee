@@ -157,7 +157,7 @@ module.exports = class PlayHeroesModal extends ModalView
     hero = _.find @heroes.models, (hero) -> hero.get('original') is heroItem.data('hero-id')
     return console.error "Couldn't find hero from heroItem:", heroItem unless hero
     heroIndex = heroItem.index()
-    hero = @loadHero hero, heroIndex
+    hero = @loadHero hero
     @preloadHero heroIndex + 1
     @preloadHero heroIndex - 1
     @selectedHero = hero unless hero.locked
@@ -177,68 +177,16 @@ module.exports = class PlayHeroesModal extends ModalView
 
   preloadHero: (heroIndex) ->
     return unless hero = @heroes.models[heroIndex]
-    @loadHero hero, heroIndex, true
+    @loadHero hero, true
 
-  loadHero: (hero, heroIndex, preloading=false) ->
-    createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
-    createjs.Ticker.framerate = 30  # In case we paused it from being inactive somewhere else
+  loadHero: (hero, preloading=false) ->
     if poseImage = hero.get 'poseImage'
       $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
       $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-pose-image").show().find('img').prop('src', '/file/' + poseImage)
       @playSelectionSound hero unless preloading
       return hero
-    # TODO: remove animated hero code, as we have poseImages for all heroes.
-    if stage = @stages[heroIndex]
-      unless preloading
-        _.defer -> createjs.Ticker.addEventListener 'tick', stage  # Deferred, otherwise it won't start updating for some reason.
-        @playSelectionSound hero
-      return hero
-    fullHero = @getFullHero hero.get 'original'
-    onLoaded = =>
-      canvas = $(".hero-item[data-hero-id='#{fullHero.get('original')}'] canvas")
-      return unless canvas.length  # Don't render it if it's not on the screen.
-      unless fullHero.get 'raw'
-        console.error "Couldn't make animation for #{fullHero.get('name')} with attributes #{_.cloneDeep(fullHero.attributes)}. Was it loaded with an improper projection or something?", fullHero
-        @rerenderFooter()
-        return
-      canvas.show().prop width: @canvasWidth, height: @canvasHeight
-
-      layer = new LayerAdapter({webGL:true})
-      @layers.push layer
-      layer.resolutionFactor = 8 # hi res!
-      layer.buildAsync = false
-      multiplier = 7
-      layer.scaleX = layer.scaleY = multiplier
-      lank = new Lank(fullHero, {preloadSounds: false})
-
-      layer.addLank(lank)
-      layer.on 'new-spritesheet', ->
-        #- maybe put some more normalization here?
-        m = multiplier
-        m *= 0.75 if fullHero.get('slug') in ['knight', 'samurai', 'librarian', 'sorcerer', 'necromancer']  # These heroes are larger for some reason. Shrink 'em.
-        m *= 0.4 if fullHero.get('slug') is 'goliath'  # Just too big!
-        m *= 0.9 if fullHero.get('slug') is 'champion'  # Gotta fit her hair in there
-        layer.container.scaleX = layer.container.scaleY = m
-        layer.container.children[0].x = 160/m
-        layer.container.children[0].y = 250/m
-        if fullHero.get('slug') in ['forest-archer', 'librarian', 'sorcerer', 'potion-master', 'necromancer', 'code-ninja']
-          layer.container.children[0].y -= 3
-        if fullHero.get('slug') in ['librarian', 'sorcerer', 'potion-master', 'necromancer', 'goliath']
-          layer.container.children[0].x -= 3
-
-      stage = new createjs.SpriteStage(canvas[0])
-      @stages[heroIndex] = stage
-      stage.addChild layer.container
-      stage.update()
-      unless preloading
-        createjs.Ticker.addEventListener 'tick', stage
-        @playSelectionSound hero
-      @rerenderFooter()
-    if fullHero.loaded
-      _.defer onLoaded
     else
-      @listenToOnce fullHero, 'sync', onLoaded
-    fullHero
+      throw new Error("Don't have poseImage for #{hero.get('original')}")
 
   animateHeroes: =>
     return unless @visibleHero
