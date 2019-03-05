@@ -88,6 +88,9 @@ for (const localeFile of localeFiles) {
                 comment = comments[enCategoryName][enTagName];
             }
 
+            // TODO make sure it handles parent comment blocks as well
+            // TODO how does it know that these are commented?
+
             // If current tag is commented out in the locale file, remove the change flag TODO why??
             if (localeSource.search(new RegExp(`#\s+${enTagName}:`)) >= 0) {
                 comment = comment.repeat(CHANGE_PATTERN, '');
