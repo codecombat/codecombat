@@ -326,7 +326,7 @@ module.exports = class TeacherClassesView extends RootView
             })
             # TODO: figure out a better way to get around triggering validation errors for properties
             # that the server will end up filling in, like an empty members array, ownerID
-            promises.push(yield new Promise(courseInstance.save(null, {validate: false}).then))
+            promises.push(new Promise(courseInstance.save(null, {validate: false}).then))
       if (promises.length > 0)
         courseInstances = yield Promise.all(promises)
         @courseInstances.add(courseInstances) if courseInstances.length > 0
