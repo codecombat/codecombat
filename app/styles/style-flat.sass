@@ -232,6 +232,16 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
     .border-navy
       border-color: $navy
 
+  // Reference: https://stackoverflow.com/a/25517025
+  .vertical-align
+    display: flex
+    align-items: center
+
+    & > [class^="col-"],
+    & > [class*=" col-"]
+      display: flex
+      align-items: center
+
   // Wells
 
   .well

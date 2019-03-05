@@ -116,18 +116,23 @@
           &:hover
             background-color: $gold
             color: $gray
-  
+
     #game-based
       padding: 80px 75px
       max-width: 1170px
       margin: 0 auto
-      @media (max-width: $screen-lg-min)
+      @media (max-width: $screen-md-min)
         text-align: center
-      .game-based-blurb
-        margin-bottom: 30px
+        flex-direction: column-reverse
+        .game-based-image
+          margin-bottom: 45px
+
+      .play-btn
+        margin-bottom: 0
+
       .game-based-image
         display: inline-block
-        max-width: 570px
+        max-width: 600px
         img
           max-height: 364px
           width: 100%
