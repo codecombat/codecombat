@@ -62,7 +62,9 @@ echo "Installing client dependencies..."
 pushd $COCO_CLIENT_ROOT
 npm install --ignore-scripts
 npm rebuild node-sass
+npmn install read
 npm run bower -- install
+npm run build-aether
 npm run webpack
 popd
 
