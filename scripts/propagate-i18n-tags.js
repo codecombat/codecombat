@@ -4,21 +4,21 @@ const enTranslations = require('../app/locale/en').translation;
 
 require('./generateRot13Locale');
 
+function escapeRegexp(s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
 const enSourceFile = fs.readFileSync(
     path.join(__dirname, '../app/locale/en.coffee'),
     { encoding: 'utf8'}
 );
 
-// One or more new lines followed by "key:", followed by newline
-const CATEGORY_SPLIT_PATTERN = /^[\s\n]*(?=[^:\n]+:\s*$)/gm;
+const CATEGORY_SPLIT_PATTERN = /^[\s\n]*(?=[^:\n]+:\s*$)/gm; // One or more new lines followed by "key:", followed by newline
+const CATEGORY_CAPTURE_PATTERN = /^([^:\n]+):\s*\n/; // Extracts category name from first line of category section
+const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm; // Find lines with comments, capture key / value / comment
+const CHANGE_PATTERN = /\s?\s?(#\s)?\{change\}/g; // TODO comment
+const QUOTE_TAG_NAME_PATTERN = /^[a-z0-9_]+$/i // Determines if tag name needs to be quoted
 
-// Extracts category name from first line of category section
-const CATEGORY_CAPTURE_PATTERN = /^([^:\n]+):\s*\n/;
-
-// Find lines with comments, capture key / value / comment
-const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm;
-
-const CHANGE_PATTERN = /\s?\s?(#\s)?\{change\}/g;
 
 const enSplitByCategory = enSourceFile.split(CATEGORY_SPLIT_PATTERN);
 
@@ -49,6 +49,8 @@ const localeFiles = fs
     .filter((fileName) => IGNORE_FILES.indexOf(fileName) === -1);
 
 for (const localeFile of localeFiles) {
+    console.log(`Processing ${localeFile}`);
+
     // Load raw source file
     const localeSource = fs.readFileSync(
         path.join(__dirname, `../app/locale/${localeFile}`),
@@ -68,34 +70,30 @@ for (const localeFile of localeFiles) {
     // For each category within the locale
     for (const enCategoryName of Object.keys(enTranslations)) {
         const enCategory = enTranslations[enCategoryName];
-        const catIsPresent = (typeof localeTranslations !== 'undefined');
-        const localeCategory = localeTranslations[enCategoryName] || [];
+        const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined');
+        const localeCategory = localeTranslations[enCategoryName] || {};
 
-        // Start the category block, commenting out if not present in the locale file.  This means that the locale
-        // file does not contain any translations for this category.
-        // TODO confirm this ^
         rewrittenLines.push('');
-        rewrittenLines.push(`${(!catIsPresent) ? '#' : ''} ${enCategoryName}`);
+
+        // Add the category line, commenting it out if it does not exist in the locale file
+        const categoryCommentPrefix = (!catIsPresent)  ? '#' : '';
+        rewrittenLines.push(`${categoryCommentPrefix}  ${enCategoryName}:`);
 
         // For each tag within the category
         for (const enTagName of Object.keys(enCategory)) {
             const localeTranslation = localeCategory[enTagName];
-            const tagIsPresent = (typeof localeTranslations[enTagName] !== 'undefined');
+            const tagIsPresent = (typeof localeTranslation !== 'undefined');
 
             // Prepare the comment for the tag if it exists.  Note that this will propagate {change} tag from en locale
             let comment = '';
-            if (comments[enCategoryName]) {
+            if (comments[enCategoryName] && comments[enCategoryName][enTagName]) {
                 comment = comments[enCategoryName][enTagName];
             }
 
-            // TODO make sure it handles parent comment blocks as well
-            // TODO how does it know that these are commented?
-
-            // If current tag is commented out in the locale file, remove the change flag TODO why??
-            if (localeSource.search(new RegExp(`#\s+${enTagName}:`)) >= 0) {
-                comment = comment.repeat(CHANGE_PATTERN, '');
+            if (localeSource.search(new RegExp(`#\\s+${escapeRegexp(enTagName)}:`)) >= 0) {
+                comment = comment.replace(CHANGE_PATTERN, '');
             } else {
-                const tagIsMarkedChangeRegex = new RegExp(`^\\s+${enTagName}: ".*"\\s*{change}\\s*`);
+                const tagIsMarkedChangeRegex = new RegExp(`^\\s+${escapeRegexp(enTagName)}: ".*"\\s*{change}\\s*`);
                 const commentIsMarkedChangeRegex = new RegExp(".*{change}.*");
 
                 // If locale file has tag marked as change and comment is not already marked change,
@@ -112,18 +110,31 @@ for (const localeFile of localeFiles) {
                 comment = `# ${comment}`;
             }
 
-            // TODO handle multiple levels of indentation
-            rewrittenLines.push(`    "${enTagName}": "${localeTranslation}" ${comment}`.trim());
+            // If the tag does not exist in the locale file, make sure it is commented otu
+            const lineCommentPrefix = (!tagIsPresent) ? '# ' : '';
+            const finalTagName = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
+            const finalLocaleTranslation = localeTranslation || enCategory[enTagName];
+
+            rewrittenLines.push(`${lineCommentPrefix}    ${finalTagName}: "${finalLocaleTranslation}" ${comment}`.trim());
         }
     }
 
     // Write the new file contents to the locale file
     const newLocaleContents = rewrittenLines.join("\n");
-    fs.writeFileSync(`../app/locale/${localeFile}`, newLocaleContents);
+    fs.writeFileSync(
+        path.join(__dirname, `../app/locale/${localeFile}`),
+        newLocaleContents,
+        { encoding: 'utf8' }
+    );
 }
 
 // Remove change tags from english now that they have been propagated
 const rewrittenEnSource = enSourceFile.replace(CHANGE_PATTERN, '');
-fs.writeFileSync('../app/locale/en.coffee', rewrittenEnSource);
+fs.writeFileSync(
+    path.join(__dirname, '../app/locale/en.coffee'),
+    '../app/locale/en.coffee',
+    rewrittenEnSource,
+    { encoding: 'utf8'}
+);
 
 console.log('Done!')
