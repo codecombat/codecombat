@@ -955,6 +955,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    david_title: "Marketing Lead"
     titles:
       csm: "Manager di successo del cliente"
+#      territory_manager: "Territory Manager"
     retrostyle_title: "Illustratore"
     retrostyle_blurb: "Giochi retrò"
 #    bryukh_title: "Gameplay Developer"

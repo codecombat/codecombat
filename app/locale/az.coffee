@@ -953,6 +953,9 @@ module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Aze
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
+#    titles:
+#      csm: "Customer Success Manager"
+#      territory_manager: "Territory Manager"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"

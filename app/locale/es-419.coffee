@@ -956,6 +956,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
       territory_manager: "Administrador de territorio"
 #    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
+#    titles:
+#      csm: "Customer Success Manager"
+#      territory_manager: "Territory Manager"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
 #    bryukh_title: "Gameplay Developer"

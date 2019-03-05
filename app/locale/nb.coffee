@@ -955,6 +955,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    david_title: "Marketing Lead"
     titles:
       csm: "Kundesuksessleder"
+#      territory_manager: "Territory Manager"
 #    retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
