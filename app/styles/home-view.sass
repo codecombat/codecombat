@@ -344,14 +344,19 @@
             left: 0
             height: 25px
         .carousel-indicators
+          bottom: -5px
           li
             background-color: white
             border: unset
             margin: auto 2px
+            width: 8px
+            height: 8px
           li.active
             background-color: #FF6978
             border: unset
             margin: auto 2px
+            width: 8px
+            height: 8px
         .row.carousel-body
           padding: 0px
         .carousel-body
@@ -364,17 +369,33 @@
             padding: 60px 60px 60px 40px
           .quote
             background-size: cover
+            padding-top: 22px
             height: 419px
             h4
               margin: 20px 20%
+            img
+              width: 42px
+              height: 40px
           .quote-1
             background-image: url("/images/pages/home/century_carousel1.png")
+            *
+              @media (min-width: $screen-sm-min)
+                transform: translate(-100px, 0)
           .quote-2
             background-image: url("/images/pages/home/century_carousel2.png")
+            *
+              @media (min-width: $screen-sm-min)
+                transform: translate(-100px, 0)
           .quote-3
             background-image: url("/images/pages/home/century_carousel3.png")
+            *
+              @media (min-width: $screen-sm-min)
+                transform: translate(130px, -12.5px)
           .quote-4
             background-image: url("/images/pages/home/century_carousel4.png")
+            *
+              @media (min-width: $screen-sm-min)
+                transform: translate(-120px, 0)
 
     #global
       margin: 0 auto
