@@ -135,8 +135,11 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       height: 12px
 
     .login-buttons
-      margin: 2px 47px 0px 10px
-      @media (max-width: $screen-lg-min)
+      margin: 2px 62px 0px 10px
+      @media (max-width: $screen-md-min)
+        display: inline-block
+        margin: 2px 10px 29.5px
+      & li
         display: inline-block
 
     a.navbar-brand
@@ -163,7 +166,7 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
 
     .navbar-toggle
       color: black
-      margin: 30px 25px 0
+      margin: 30px 62px 0
       border-color: $navy
 
       .icon-bar
