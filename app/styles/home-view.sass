@@ -222,9 +222,12 @@
         @media (max-width: $screen-lg-min)
           height: unset
         .carousel-inner .item .row div
-          float: none;
-          display: inline-block;
-          vertical-align: middle;
+          float: none
+          display: inline-block
+          vertical-align: middle
+          &.text-part-carousel
+            padding-top: 8px
+            vertical-align: top
         .carousel-control
           background-image: unset
           width: 60px
@@ -245,6 +248,8 @@
           li.active
             background-color: $teal
             margin: auto 2px
+            width: 10px
+            height: 10px
         img.computer
           padding-left: 40px
           width: 100%
