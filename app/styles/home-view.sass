@@ -139,16 +139,30 @@
 
     #classroom-in-box-row
       padding: 60px 40px
-      h3, .text-p
+      h2, .text-p
         color: white
         @media (max-width: $screen-lg-min)
           padding-top: 20px
-      .text-p
-        font-size: 20px
-        line-height: 24px
-        letter-spacing: 0.52px
-      .vid-link
+      .video-iframe
         text-align: center
+        @media (min-width: $screen-lg-min)
+          padding-top: 55px
+
+      ul
+        list-style: none
+
+      li
+        text-indent: -20px
+        margin-bottom: 15px
+        &::before
+          content: "•     "
+          color: $teal
+          font-size: 30px
+
+      .text-p
+        font-size: 24px
+        letter-spacing: 0.48px
+        line-height: 30px
 
     .open-video-btn.video-text
       color: inherit

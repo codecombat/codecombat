@@ -37,16 +37,20 @@ block content
       .col-lg-12
         .container
           .row
-            .col-lg-6.vid-link
-              iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="550" height="300")
-            .col-lg-6
-              h3(data-i18n="new_home.classroom_in_box_title")
+            .col-lg-7.col-md-12
+              .video-iframe
+                iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="640" height="350")
+            .col-lg-5.col-md-12
+              h2(data-i18n="new_home.classroom_in_box_title")
               img(src="/images/pages/home/pink_rectangle.png"
                alt="")
-              ul.text-p
-                li(data-i18n="new_home.classroom_in_box_blurb1")
-                li(data-i18n="new_home.classroom_in_box_blurb2")
-                li(data-i18n="new_home.classroom_in_box_blurb3")
+              ul
+                li
+                  span.text-p(data-i18n="new_home.classroom_in_box_blurb1")
+                li
+                  span.text-p(data-i18n="new_home.classroom_in_box_blurb2")
+                li
+                  span.text-p(data-i18n="new_home.classroom_in_box_blurb3")
               if me.isAnonymous()
                 br
                 button.btn.btn-lg.btn-primary.signup-button.signup-home-btn(data-event-action="Homepage Sign Up #2 CTA", data-i18n="signup.sign_up")
