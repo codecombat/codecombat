@@ -8,6 +8,8 @@ require('./generateRot13Locale.coffee')
 enSource = fs.readFileSync(path.join(__dirname, '../app/locale/en.coffee'), encoding='utf8')
 commentsMap = {}
 
+# Split translations into category
+
 categorySplitPattern = /^[\s\n]*(?=[^:\n]+:\s*$)/gm
 categoryCapturePattern = /^([^:\n]+):\s*\n/
 commentPattern = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm
@@ -52,7 +54,7 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee', 'rot13.coffee']
       if fileSource.search(new RegExp("#    #{enTag}")) >= 0 # current tag is commented
         comment = comment.replace changePattern, ""
       else
-        escapedTag = tag.replace /[-\/\\^$*+?.()|[\]{}]/g, "\\$&"
+        escapedTag = tag.replace /[-\/\\^$*+?.()|[\]{}]/g, "\\$&" # Escape tag so it can be run in regex in next line
         if fileSource.search(new RegExp("^    #{enTag}: \"#{escapedTag}\".*\{change\}.*", 'm')) >= 0 and comment.search(/.*\{change\}/) < 0
           comment = " \#" + comment if comment is ""
           comment = comment + " {change}"
