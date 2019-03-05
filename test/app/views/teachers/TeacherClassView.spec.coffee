@@ -49,6 +49,30 @@ describe 'TeacherClassView', ->
 
       _.defer done
 
+    describe 'when classroom imported from google classroom', ->
+      beforeEach (done) ->
+        @classroom = factories.makeClassroom({ aceConfig: { language: 'python' }, googleClassroomId: "id1"}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()] })
+        @courseInstances = new CourseInstances([
+          factories.makeCourseInstance({}, { course: @releasedCourses.first(), @classroom, members: @students })
+          factories.makeCourseInstance({}, { course: @releasedCourses.last(), @classroom, members: @students })
+        ])
+        @levelSessions = new LevelSessions([])
+
+        @view = new TeacherClassView({}, @courseInstances.first().id)
+        @view.classroom.fakeRequests[0].respondWith({ status: 200, responseText: @classroom.stringify() })
+        @view.courses.fakeRequests[0].respondWith({ status: 200, responseText: @courses.stringify() })
+        @view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: @courseInstances.stringify() })
+        @view.students.fakeRequests[0].respondWith({ status: 200, responseText: @students.stringify() })
+        @view.classroom.sessions.fakeRequests[0].respondWith({ status: 200, responseText: @levelSessions.stringify() })
+        @view.levels.fakeRequests[0].respondWith({ status: 200, responseText: @levels.stringify() })
+        @view.prepaids.fakeRequests[0].respondWith({ status: 200, responseText: @prepaids.stringify() })
+
+        jasmine.demoEl(@view.$el)
+        _.defer done
+
+      it 'has sync google classroom button', ->
+        expect(@view.$el.find('.sync-google-classroom-btn').length).toBe(1)
+
     describe 'when python classroom', ->
       beforeEach (done) ->
         @classroom = factories.makeClassroom({ aceConfig: { language: 'python' }}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()] })
