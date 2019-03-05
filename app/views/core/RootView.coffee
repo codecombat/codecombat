@@ -59,7 +59,13 @@ module.exports = class RootView extends CocoView
     window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
-    logoutUser($('#login-email').val())
+    if me.isTarena()
+      logoutUser({
+        success: ->
+          window.location = "http://kidtts.tmooc.cn/ttsPage/login.html"
+      })
+    else
+      logoutUser()
 
   stopSpying: ->
     me.stopSpying({
