@@ -362,6 +362,8 @@
     #century-skills
       background-color: #F7F9F9
       padding: 62px
+      .row
+        padding: 0
       p
         color: white
       h5
@@ -407,30 +409,46 @@
             padding-top: 22px
             height: 419px
             h4
-              margin: 20px 20%
+              margin: 20px auto
+              @media (max-width: $screen-lg-min)
+                font-size: 1.2em
+            h3
+              @media (max-width: $screen-lg-min)
+                font-size: 1.2em
             img
               width: 42px
               height: 40px
           .quote-1
             background-image: url("/images/pages/home/century_carousel1.png")
-            *
-              @media (min-width: $screen-sm-min)
+            background-position: right
+            @media (min-width: $screen-sm-min)
+              h4.text-white
+                width: 440px
+              *
                 transform: translate(-100px, 0)
           .quote-2
             background-image: url("/images/pages/home/century_carousel2.png")
-            *
-              @media (min-width: $screen-sm-min)
+            background-position: right
+            @media (min-width: $screen-sm-min)
+              h4.text-white
+                width: 415px
+              *
                 transform: translate(-100px, 0)
           .quote-3
             background-image: url("/images/pages/home/century_carousel3.png")
-            *
-              @media (min-width: $screen-sm-min)
+            background-position: left
+            @media (min-width: $screen-sm-min)
+              h4.text-white
+                width: 415px
+              *
                 transform: translate(130px, -12.5px)
           .quote-4
             background-image: url("/images/pages/home/century_carousel4.png")
-            *
-              @media (min-width: $screen-sm-min)
-                transform: translate(-120px, 0)
+            @media (min-width: $screen-sm-min)
+              h4.text-white
+                width: 325px
+              *
+                transform: translate(-160px, -10px)
 
     #global
       margin: 0 auto
