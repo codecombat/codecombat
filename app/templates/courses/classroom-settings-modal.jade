@@ -8,7 +8,7 @@ block modal-header-content
 
 block modal-body-content
   form
-    if me.validForGoogleClassroom() && view.classroom.isNew()
+    if view.shouldShowGoogleClassroomButton()
       a#link-google-classroom-btn.btn.btn-primary.btn-lg(data-i18n="courses.link_google_classroom")
     
     .form-group.google-class-name.secret

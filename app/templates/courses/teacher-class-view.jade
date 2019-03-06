@@ -209,7 +209,7 @@ mixin addStudentsButton
   .add-students
     a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
       span(data-i18n='teacher.add_students_manually')
-    if view.classroom.isGoogleClassroom()
+    if view.shouldShowGoogleClassroomButton()
       a.sync-google-classroom-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
           span(data-i18n='teacher.sync_google_classroom')
 

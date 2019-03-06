@@ -41,7 +41,6 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
 }
 
 module.exports = {
-  gcApiHandler: new GoogleClassroomAPIHandler(),
 
   scopes: 'https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.rosters.readonly',
 
@@ -64,7 +63,8 @@ module.exports = {
 
   importClassrooms: async function() {
     try {
-      const importedClassrooms = await this.gcApiHandler.loadClassroomsFromAPI()
+      const gcApiHandler = new GoogleClassroomAPIHandler()
+      const importedClassrooms = await gcApiHandler.loadClassroomsFromAPI()
       const importedClassroomsNames = importedClassrooms.map((c) => {
         return { id: c.id, name: c.name }
       })
@@ -87,8 +87,9 @@ module.exports = {
   // Imports students from google classroom, create their account on coco and add to the coco classroom
   importStudentsToClassroom: async function (cocoClassroom) {
     try {
+      const gcApiHandler = new GoogleClassroomAPIHandler()
       const googleClassroomId = cocoClassroom.get("googleClassroomId")
-      const importedStudents = await this.gcApiHandler.loadStudentsFromAPI(googleClassroomId)
+      const importedStudents = await gcApiHandler.loadStudentsFromAPI(googleClassroomId)
       let promises = []
       for (let student of importedStudents){
         let attrs = {

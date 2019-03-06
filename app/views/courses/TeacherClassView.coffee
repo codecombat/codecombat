@@ -788,6 +788,9 @@ module.exports = class TeacherClassView extends RootView
     topScore = _.find(topScores, {type: scoreType})
     return topScore
 
+  shouldShowGoogleClassroomButton: ->
+    me.useGoogleClassroom() && @classroom.isGoogleClassroom()
+
   onClickSyncGoogleClassroom: (e) ->
     application.gplusHandler.loadAPI({
       success: =>

@@ -80,6 +80,9 @@ module.exports = class ClassroomSettingsModal extends ModalView
       @$('#update-courses-btn').attr('disabled', false)
       noty { text: e.responseJSON?.message or e.responseText or 'Error!', type: 'error', timeout: 5000 }
 
+  shouldShowGoogleClassroomButton: ->
+    me.useGoogleClassroom() && @classroom.isNew()
+
   onClickLinkGoogleClassroom: ->
     application.gplusHandler.loadAPI({
       success: =>
