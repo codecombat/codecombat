@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription: "German (Germany)", translation:
+
   new_home:
     slogan: "Das beste Spiel um Programmieren zu lernen." # {change}
     classroom_edition: "Klassenraum Edition:"
@@ -77,7 +78,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     contribute: "Helfen"
     legal: "Rechtliches"
     privacy: "Datenschutz"
-    about: "Über"
+    about: "Über" # {change}
     contact: "Kontakt"
     twitter_follow: "Folge uns auf Twitter"
     my_classrooms: "Meine Klassen"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
     hints: "Tipps"
+#    videos: "Videos"
     hints_title: "Tipp {{number}}"
     code_saved: "Code gespeichert"
     skip_tutorial: "Überspringen (Esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     view_gallery: "Gallerie"
     project_published_noty: "Dein Level wurde veröffentlicht!"
     keep_editing: "Bearbeite weiter!"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Methoden"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     welcome_to_page: "Mein Schüler-Dashboard"
     my_classes: "Meine Klassen"
     class_added: "Klasse erfolgreich hinzugefügt!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "Projekte der Klassenkameraden ansehen"
     join_class: "Einer Klasse beitreten"
     join_class_2: "In Klasse einschreiben"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     student_age_range_younger: "Unter 6 Jahren"
     student_age_range_older: "Älter als 18 Jahre"
     student_age_range_to: "bis"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Klasse erstellen"
     class_name: "Klassenname"
     teacher_account_restricted: "Dein Konto ist ein Lehrerkonto und hat keinen Zugriff auf Schülerinhalte."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     concepts_used: "Benutzte Konzepte:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -1797,7 +1819,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teachers_using_these: "Lehrer, die diese Lizenzen nutzen können:"
     footer: "Wenn Lehrer einem Schüler die Lizenz entziehen, so geht diese zurück in den gemeinsamen Pool, den andere Lehrer in dieser Gruppe nutzen können."
     you: "(du)"
-    one_license_used: "(1 Lizenz verwendet)"
+    one_license_used: "(1 Lizenz verwendet)" # {change}
     licenses_used: "(__licensesUsed__ Lizenzen verwendet)"
     more_info: "Weitere Informationen"
 
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   account_prepaid:
     purchase_code: "Einen Abocode kaufen"
-    purchase_code1: "Abocodes können eingelöst werden um Premiumabozeit zu einem oder mehreren CodeCombat-Einzelkonten hinzuzufügen." #
+    purchase_code1: "Abocodes können eingelöst werden um Premiumabozeit zu einem oder mehreren CodeCombat-Einzelkonten hinzuzufügen."
     purchase_code2: "Jeder CodeCombat-Account kann nur einen einzigen Abocode auf einmal einlösen."
     purchase_code3: "Abocodes-Monate werden an das Ende der existierenden Abozeit des Accounts hinzugefügt."
     purchase_code4: "Abonnement-Codes sind für Konten, die die Heimversion von CodeCombat spielen. Sie können nicht anstatt einer Schülerlizenz für die Klassenzimmer-Version benutzt werden."

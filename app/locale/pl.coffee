@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "polski", englishDescription: "Polish", translation:
+
   new_home:
     slogan: "Najlepsza gra do nauki programowania!"
     classroom_edition: "Wersja szkolna:"
@@ -286,7 +287,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     ask_teacher_1: "Zapytaj nauczyciela o kod Twojej klasy."
     ask_teacher_2: "Nie masz swojej klasy? Stwórz "
     ask_teacher_3: "konto prywatne."
-    ask_teacher_4: ""
+    ask_teacher_4: " instead."
     about_to_join: "Zaraz dołączysz do:"
     enter_parent_email: "Podaj adres email rodzica:"
     parent_email_error: "Coś poszło nie tak z wysłaniem emaila. Sprawdź adres email i spróbuj ponownie."
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tome_available_spells: "Dostępne czary"
     tome_your_skills: "Twoje umiejętności"
     hints: "Podpowiedzi"
+#    videos: "Videos"
     hints_title: "Podpowiedź {{number}}"
     code_saved: "Kod zapisano"
     skip_tutorial: "Pomiń (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    view_gallery: "View Gallery"
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
 #  apis:
 #    methods: "Methods"
@@ -747,7 +752,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     unsubscribe: "Wypisz się"
     confirm_unsubscribe: "Potwierdź wypisanie się"
     never_mind: "Nie ważne, i tak cię kocham"
-    thank_you_months_prefix: ""
+    thank_you_months_prefix: "Thank you for supporting us these last"
     thank_you_months_suffix: " - przez tyle miesięcy nas wspierałeś. Dziękujemy!"
     thank_you: "Dziękujemy za wsparcie CodeCombat."
     sorry_to_see_you_go: "Szkoda, że już się nie zobaczymy! Powiedz nam co moglibyśmy poprawić"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     welcome_to_page: "Panel ucznia"
     my_classes: "Moje klasy"
     class_added: "Udało się dodać klasę!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "przeglądaj projekty innych uczniów z klasy"
     join_class: "Dołącz do klasy"
     join_class_2: "Dołącz do klasy"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     student_age_range_younger: "Młodsi niż 6"
     student_age_range_older: "Starsi niż 18"
     student_age_range_to: "do"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Stwórz klasę"
     class_name: "Nazwa klasy"
     teacher_account_restricted: "Posiadasz konto nauczyciela, więc nie możesz tu zaglądać."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    concepts_used: "Concepts Used:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2117,7 +2139,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     current_xp_prefix: ""
     current_xp_postfix: " z możliwych"
     new_xp_prefix: "zdobyto "
-    new_xp_postfix: ""
+    new_xp_postfix: " earned"
     left_xp_prefix: ""
     left_xp_infix: " brakuje do poziomu "
     left_xp_postfix: ""
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   account_prepaid:
     purchase_code: "Kup kod subskrypcji"
-#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
     purchase_code2: "Każde konto w CodeCombat może wykorzysatć konkretny kod subskrypcji tylko raz."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."

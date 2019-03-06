@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "српски", englishDescription: "Serbian", translation:
+
   new_home:
     slogan: "Најзанимљивија игра за учење програмирања."
     classroom_edition: "Издање учионице:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_available_spells: "Доступне чини"
     tome_your_skills: "Твоје вештине"
     hints: "Смернице"
+#    videos: "Videos"
     hints_title: "Смерница {{number}}"
     code_saved: "Код сачуван"
     skip_tutorial: "Прескочи (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     view_gallery: "Прегледај галерију"
     project_published_noty: "Твој ниво је објављен!"
     keep_editing: "Настави да уређујеш"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Методе"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     project_based_title: "Курсеви засновани на пројекту"
     project_based_description: "Курсеви веба и развоја игрице уводе финалне пројекте који могу да се деле."
     great_for_clubs_title: "Одлично за клубове и савезе"
-    great_for_clubs_description: "Наставници могу да купе до __maxQuantityStarterLicenses__ почетних лиценци." #
+    great_for_clubs_description: "Наставници могу да купе до __maxQuantityStarterLicenses__ почетних лиценци."
     low_price_title: "Само __starterLicensePrice__ по студенту"
     low_price_description: "Почетне лиценце су активне за __starterLicenseLengthMonths__ месеци од куповине."
     three_great_courses: "Три одлична курса укључена у почетну лиценцу:"
@@ -1162,7 +1167,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     type_in_password: "Такође, упиши своју шифру."
     email_subscriptions: "И-мејл претплате"
     email_subscriptions_none: "Без и-мејл претплата."
-    email_announcements: "Обавештења"
+    email_announcements: "Обавештења" # {change}
     email_announcements_description: "Прими и-мејл за најновије вести и достигнућа на CodeCombat-у"
     email_notifications: "Обавештења"
     email_notifications_summary: "Контроле за персонализована, аутоматска и-мејл обавештења вазана за твоју CodeCombat активност."
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     welcome_to_page: "Добродошао на твоју Курсеви страницу!" # {change}
     my_classes: "Моји разреди"
     class_added: "Разред успешно додат!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "види пројекте мог разреда"
     join_class: "Придружи се разреду"
     join_class_2: "Придружи се разреду"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     student_age_range_younger: "Млађи од 6"
     student_age_range_older: "Старији од 18"
     student_age_range_to: "до"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Направи разред"
     class_name: "Име разреда"
     teacher_account_restricted: "Твој налог је за наставника и њиме не може да се приступи садржају за ученике."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     concepts_used: "Коришћени концепти:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 
   account_prepaid:
     purchase_code: "Купи претплатни код"
-    purchase_code1: "Претплатни кодови могу да се искористе за додавање премијум претплате на један или више налога за CodeCombat верзију за кућу." #
+    purchase_code1: "Претплатни кодови могу да се искористе за додавање премијум претплате на један или више налога за CodeCombat верзију за кућу."
     purchase_code2: "Сваки CodeCombat налог може да искористи одређени код за претплату једном. "
     purchase_code3: "Месечни претплатни кодови ће се додати на крају постојеће претплате на налог. "
     purchase_code4: "Претплатни кодови су за налоге који играју CodeCombat код куће, не могу да се користе уместо ученичких лиценци за верзију учионице."

@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Ελληνικά", englishDescription: "Greek", translation:
+
   new_home:
     slogan: "Το πιο συναρπαστικό παιχνίδι για εκμάθηση προγραμματισμού."
     classroom_edition: "Έκδοση Αίθουσας Διδασκαλίας:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tome_available_spells: "Διαθέσιμα ξόρκια"
     tome_your_skills: "Οι Ικανότητες σου"
     hints: "Συμβουλές"
+#    videos: "Videos"
     hints_title: "Συμβουλή {{number}}"
     code_saved: "Ο κώδικας αποθηκεύτηκε"
     skip_tutorial: "Παράκαμψη (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     view_gallery: "Προβολή Συλλογής"
     project_published_noty: "Το επίπεδό σου έχει δημοσιοποιηθεί!"
     keep_editing: "Συνέχισε την Επεξεργασία"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Μέθοδοι"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     project_based_title: "Βασιζόμενο σε Μαθήματα Έργα"
     project_based_description: "Τα μαθήματα Ανάπτυξης Ιστού και Παιχνιδιών περιλαμβάνουν κοινά τελικά έργα."
     great_for_clubs_title: "Κατάλληλο για ομάδες και για μαθήματα επιλογής"
-    great_for_clubs_description: "Οι εκπαιδευτικοί μπορούν να αγοράσουν μέχρι __maxQuantityStarterLicenses__ Άδειες Εκκίνησης." #
+    great_for_clubs_description: "Οι εκπαιδευτικοί μπορούν να αγοράσουν μέχρι __maxQuantityStarterLicenses__ Άδειες Εκκίνησης."
     low_price_title: "Μόνο __starterLicensePrice__ για κάθε μαθητή"
     low_price_description: "Η Άδεια Εκκίνησης είναι ενεργοποιημένη για __starterLicenseLengthMonths__ από την στιγμή που αγοράστηκε."
     three_great_courses: "Τρεις μεγάλες σειρές μαθημάτων εμπεριέχονται στην Άδεια Εκκίνησης:"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     welcome_to_page: "Πίνακας Ελέγχου τον Μαθητών μου"
     my_classes: "Οι Τάξεις μου"
     class_added: "Τάξη Προστέθηκε!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "προβολή των έργων των συμμαθητών μου"
     join_class: "Σύνδεση Σε Μία Τάξη"
     join_class_2: "Σύνδεση σε τάξη"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     student_age_range_younger: "Μικρότεροι από 6"
     student_age_range_older: "Μεγαλύτεροι από 18"
     student_age_range_to: "έως "
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Δημιουργία Τάξης"
     class_name: "Όνομα Τάξης"
     teacher_account_restricted: "Ο λογαριασμό σας είναι ένα λογαριασμός δασκάλου και δεν έχετε πρόσβαση στο περιεχόμενο του μαθητή."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     concepts_used: "Χρησιμοποιημένες Έννοιες:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -1797,7 +1819,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teachers_using_these: "Εκπαιδευτικοί που έχουν πρόσβαση σε αυτές τις άδειες:"
     footer: "Όταν οι εκπαιδευτικοί ανακαλούν τις άδειες από τους μαθητές, οι άδειες θα επιστραφούν στην κοινόχρηστη ομάδα για να τις χρησιμοποιήσουν άλλοι εκπαιδευτικοί της ομάδας αυτής."
     you: "(εσύ)"
-    one_license_used: "(1 άδεια χρησιμοποιήθηκε)"
+    one_license_used: "(1 άδεια χρησιμοποιήθηκε)" # {change}
     licenses_used: "(__licensesUsed__ άδειες χρησιμοποιήθηκαν)"
     more_info: "Περισσότερες πληροφορίες"
 
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   account_prepaid:
     purchase_code: "Αγορά Προπληρωμένου Κωδικού"
-    purchase_code1: "Οι Κωδικοί Συνδρομής μπορούν να εξαργυρωθούν για να προστεθεί προνομιακός χρόνος συνδρομής σε έναν ή περισσότερους λογαριασμούς για την Βασική έκδοση του CodeCombat." #
+    purchase_code1: "Οι Κωδικοί Συνδρομής μπορούν να εξαργυρωθούν για να προστεθεί προνομιακός χρόνος συνδρομής σε έναν ή περισσότερους λογαριασμούς για την Βασική έκδοση του CodeCombat."
     purchase_code2: "Κάθε λογαριασμός CodeCombat μπορεί να εξαργυρώσει μόνο έναν συγκεκριμένο Κωδικό Συνδρομής και για μία φορά."
     purchase_code3: "Οι μήνες του Συνδρομητικού Κωδικού θα προστεθούν στο τέλος οποιασδήποτε υπάρχουσας συνδρομής στο λογαριασμό."
     purchase_code4: "Οι Κωδικοί Συνδρομής είναι για λογαριασμούς που παίζουν την Βασική έκδοση του CodeCombat, δεν μπορούν να χρησιμοποιηθούν στη θέση των Αδειών Μαθητών για την έκδοση Τάξης."

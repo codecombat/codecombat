@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
+
   new_home:
     slogan: "Trò chơi hấp dẫn nhất để học lập trình."
     classroom_edition: "Phiên bản Lớp học:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tome_available_spells: "Pháp thuật hiện có"
     tome_your_skills: "Những Kĩ năng của bạn"
 #    hints: "Hints"
+#    videos: "Videos"
 #    hints_title: "Hint {{number}}"
     code_saved: "Đã lưu Code"
     skip_tutorial: "Bỏ qua (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    view_gallery: "View Gallery"
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
 #  apis:
 #    methods: "Methods"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses."
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"
@@ -1162,7 +1167,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     type_in_password: "Nhập lại mật khẩu của bạn."
     email_subscriptions: "Thuê bao Email"
 #    email_subscriptions_none: "No Email Subscriptions."
-    email_announcements: "Thông báo"
+    email_announcements: "Thông báo" # {change}
     email_announcements_description: "Nhận email về tin tức mới nhất và sự phát triển của Codecombat."
     email_notifications: "Thông báo"
     email_notifications_summary: "Kiểm soát các thông báo cá nhân tự động liên quan đến các hoạt động của CodeCombat."
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     welcome_to_page: "Chào mừng bạn đến với trang quản lý khóa học!" # {change}
 #    my_classes: "Current Classes"
 #    class_added: "Class successfully added!"
+#    view_map: "view map"
+#    view_videos: "view videos"
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Tham Gia Lớp Học"
 #    join_class_2: "Join class"
@@ -1360,7 +1367,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
-    subtitle: "Xem giáo án của các khóa học, lời giải và các màn chơi" # Flat style redesign {change}
+    subtitle: "Xem giáo án của các khóa học, lời giải và các màn chơi" # Flat style redesign
     changelog: "Xem những thay đổi mới nhất về các khóa học."
     select_language: "Chọn ngôn ngữ"
     select_level: "Chọn màn chơi"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     student_age_range_younger: "Nhỏ hơn 6 tuổi"
     student_age_range_older: "Lớn hơn 18 tuổi"
     student_age_range_to: "tới"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Tạo Lớp"
     class_name: "Tên lớp"
     teacher_account_restricted: "Tài khoản của bạn là tài khoản Giáo Viên, vì thế bạn không thể truy cập nội dung dành cho học viên." # {change}
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    concepts_used: "Concepts Used:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2115,9 +2137,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     amount_achieved: "Số lượng"
     achievement: "Thành tích"
     current_xp_prefix: "Tổng cộng "
-    current_xp_postfix: ""
+    current_xp_postfix: " in total"
     new_xp_prefix: "Tăng "
-    new_xp_postfix: ""
+    new_xp_postfix: " earned"
     left_xp_prefix: "Cần thêm"
     left_xp_infix: " để lên cấp"
     left_xp_postfix: "'"

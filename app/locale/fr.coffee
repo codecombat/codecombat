@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "français", englishDescription: "French", translation:
+
   new_home:
     slogan: "La manière la plus attrayante d'apprendre le vrai code."
     classroom_edition: "Édition Salle de Classe:"
@@ -77,7 +78,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     contribute: "Contribuer"
     legal: "Mentions légales"
     privacy: "Déclaration de Confidentialité"
-    about: "À propos"
+    about: "À propos" # {change}
     contact: "Contact"
     twitter_follow: "Suivre"
     my_classrooms: "Mes Classes"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_available_spells: "Sorts diponibles"
     tome_your_skills: "Vos compétences"
     hints: "Aide"
+#    videos: "Videos"
     hints_title: "Aide {{number}}"
     code_saved: "Code sauvergardé"
     skip_tutorial: "Passer (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     view_gallery: "Vue de la Galerie"
     project_published_noty: "Votre niveau a été publié!"
     keep_editing: "Continuer l'édition"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Méthodes"
@@ -960,7 +965,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     retrostyle_blurb: "Jeux RetroStyle"
     bryukh_title: "Designer de jeux" # {change}
     bryukh_blurb: "Construuit des puzzles"
-
     community_title: "... et notre communité open-source"
     community_subtitle: "Plus de 500 contributeurs ont aidé à construire CodeCombat, et de plus en plus nous rejoignent chaque semaine !"
     community_description_3: "CodeCombat est un"
@@ -1017,7 +1021,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     project_based_title: "Cours basés sur des projets "
     project_based_description: "Web and Game Development courses feature shareable final projects."
     great_for_clubs_title: "Excellent pour les clubs et le soutien scolaire en informatique"
-    great_for_clubs_description: "Les professeurs peuvent commander jusqu'à __maxQuantityStarterLicenses__ licences de démarrage." #
+    great_for_clubs_description: "Les professeurs peuvent commander jusqu'à __maxQuantityStarterLicenses__ licences de démarrage."
     low_price_title: "Juste __starterLicensePrice__ par étudiant"
     low_price_description: "Les Licences de démarrage sont actives pour __starterLicenseLengthMonths__ mois depuis l'achat."
     three_great_courses: "Trois excellent cours sont inclus dans la licence de démarrage:"
@@ -1163,7 +1167,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     type_in_password: "Entrez aussi votre mot de passe."
     email_subscriptions: "Abonnements"
     email_subscriptions_none: "Aucun e-mail d'abonnement."
-    email_announcements: "Annonces"
+    email_announcements: "Annonces" # {change}
     email_announcements_description: "Recevoir des e-mails sur les dernières actualités et sur le développement de CodeCombat."
     email_notifications: "Notifications"
     email_notifications_summary: "Commandes pour personaliser les notifications automatiques d'e-mail liées à votre activité sur CodeCombat."
@@ -1339,6 +1343,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     welcome_to_page: "Bienvenu sur la page des Cours !" # {change}
     my_classes: "Mes Classes"
     class_added: "Classe ajoutée avec succès !"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "voir les projets de mes camarades"
     join_class: "Rejoindre une classe"
     join_class_2: "rejoindre la classe"
@@ -1384,6 +1390,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     student_age_range_younger: "Plus jeune que 6 ans"
     student_age_range_older: "Avoir plus de 18 ans"
     student_age_range_to: "jusqu'à"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Créer une Classe"
     class_name: "Nom de la classe"
     teacher_account_restricted: "Votre compte est un compte d'enseignant et ne peut pas accéder au contenu des élèves."
@@ -1453,6 +1463,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     concepts_used: "Concepts utilisés:"
     show_change_log: "Afficher les modifications apportées aux niveaux de ce cours"
     hide_change_log: "Masquer les modifications apportées aux niveaux de ce cours"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Soyez le premier à publier un projet dans ce cours !"
@@ -1740,7 +1761,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    quests_complete: "Quests Complete"
     teacher_quest_create_classroom: "Créer une salle de classe"
     teacher_quest_add_students: "Ajouter des élèves"
-#    teacher_quest_teach_methods: "Aidez vos élèves à apprendre les `méthodes d'appel`."
+#    teacher_quest_teach_methods: "Help your students learn how to `call methods`."
 #    teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, __Dungeons of Kithgard__"
 #    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
 #    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
@@ -2279,7 +2300,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     graphics: "Graphiques"
     graphs: "Graphes"
     heaps: "Tas"
-    if_condition: "Déclarations conditionnelles Si" 
+    if_condition: "Déclarations conditionnelles Si"
     if_else_if: "Si/Sinon Déclarations Si"
     if_else_statements: "Déclarations SI/Sinon"
     if_statements: "Déclarations conditionnelles Si"

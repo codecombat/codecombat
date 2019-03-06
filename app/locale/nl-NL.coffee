@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription: "Dutch (Netherlands)", translation:
+
   new_home:
     slogan: "Het meest uitdagende spel om mee te leren programmeren."
     classroom_edition: "Klaslokaalversie:"
@@ -67,7 +68,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     map: "Kaart"
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Community"
-    courses: "Lessen"
+    courses: "Lessen" # {change}
     blog: "Blog"
     forum: "Forum"
     account: "Lidmaatschap"
@@ -77,7 +78,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     contribute: "Help mee"
     legal: "Rechten"
     privacy: "Privacy"
-    about: "Over Ons"
+    about: "Over Ons" # {change}
     contact: "Contact"
     twitter_follow: "Volgen"
     my_classrooms: "Mijn klassen" # {change}
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
     hints: "Hints"
+#    videos: "Videos"
     hints_title: "Hint {{number}}"
     code_saved: "Code Opgeslagen"
     skip_tutorial: "Overslaan (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     view_gallery: "Bekijk galerij"
     project_published_noty: "Je level is gepubliceerd!"
     keep_editing: "Blijf aanpassen"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Methodes"
@@ -1162,7 +1167,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     type_in_password: "Typ ook je wachtwoord in."
     email_subscriptions: "E-mail Abonnementen"
     email_subscriptions_none: "Geen E-mail Abonnementen."
-    email_announcements: "Aankondigingen"
+    email_announcements: "Aankondigingen" # {change}
     email_announcements_description: "Ontvang e-mails over het laatste nieuws en de ontwikkelingen bij CodeCombat."
     email_notifications: "Notificaties"
     email_notifications_summary: "Instellingen voor gepersonaliseerde, automatische meldingen via e-mail omtrent je activiteit op CodeCombat."
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     welcome_to_page: "Welkom op je cursus-pagina!" # {change}
     my_classes: "Mijn klassen" # {change}
     class_added: "Klas succesvol toegevoegd!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "Bekijk de projecten van mijn klasgenoten"
     join_class: "Doe mee met een klas"
     join_class_2: "Deelnemen"
@@ -1360,7 +1367,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     license_will_revoke: "Deze betaalde leerling-licentie wordt ingetrokken en beschikbaar om opnieuw toe te wijzen aan een andere leerling."
     keep_student: "bewaar leerling"
     removing_user: "Verwijder gebruiker"
-    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # Flat style redesign {change}
+    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # Flat style redesign
     changelog: "Bekijk recente aanpassingen aan cursuslevels."
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     student_age_range_younger: "Jonger dan 6"
     student_age_range_older: "Ouder dan 18"
     student_age_range_to: "tot"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Maak klas aan"
     class_name: "Klasnaam"
     teacher_account_restricted: "Jouw account is een Docenten Account, daarom heeft dit account geen toegang tot inhoud bedoeld voor leerlingen." # {change}
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     concepts_used: "Gebruikte concepten:"
     show_change_log: "Laat veranderingen aan de levels van deze cursus zien"
     hide_change_log: "Verberg veranderingen aan de levels van deze cursus"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1484,7 +1506,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     paren_new: "(nieuw)"
     student_code: "Leerling Code" # {change}
     teacher_dashboard: "Docenten Dashboard" # Navbar
-    my_classes: "Mijn Klassen"
+    my_classes: "Mijn Klassen" # {change}
     courses: "Cursussen" # {change}
     enrollments: "Inschrijvingen" # {change}
     resources: "Hulpmiddelen"
@@ -1797,7 +1819,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     teachers_using_these: "Docenten die beschikking hebben over de licenties:"
     footer: "Wanneer docenten licenties intrekken van leerlingen, kunnen de licenties weer gebruikt worden door andere docenten die beschikking hebben over de licenties."
     you: "(jij)"
-    one_license_used: "(1 licentie gebruikt)"
+    one_license_used: "(1 licentie gebruikt)" # {change}
     licenses_used: "(__licensesUsed__ licenties gebruikt)"
     more_info: "Meer info"
 

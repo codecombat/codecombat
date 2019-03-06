@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
+
   new_home:
     slogan: "最引人入胜的编程游戏。"
     classroom_edition: "教育版："
@@ -77,7 +78,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     contribute: "贡献"
     legal: "版权声明"
     privacy: "隐私"
-    about: "关于"
+    about: "关于" # {change}
     contact: "联系我们"
     twitter_follow: "关注"
     my_classrooms: "我的班级"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_available_spells: "可用的法术"
     tome_your_skills: "您的技能"
     hints: "提示"
+#    videos: "Videos"
     hints_title: "提示 {{number}}"
     code_saved: "代码已保存"
     skip_tutorial: "跳过（esc）"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     view_gallery: "查看展览"
     project_published_noty: "您的关卡已发布！"
     keep_editing: "继续编辑"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "函数"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     project_based_title: "基于项目的课程"
     project_based_description: "Web 和 Game Development 课程可共享最终项目."
     great_for_clubs_title: "伟大的教育和培训课程"
-    great_for_clubs_description: "老师可以购买多达 __maxQuantityStarterLicenses__ 个学生入门许可证." #
+    great_for_clubs_description: "老师可以购买多达 __maxQuantityStarterLicenses__ 个学生入门许可证."
     low_price_title: "每个学生仅仅只要 __starterLicensePrice__ 元 "
     low_price_description: "学生入门许可证在购买后的 __starterLicenseLengthMonths__ 个月内有效."
     three_great_courses: "学生入门许可证中包含三个伟大的课程:"
@@ -1129,7 +1134,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     welcome: "我们很乐意收到您的邮件！请用这个表单给我们发邮件。 "
     forum_prefix: "如果您想发布任何公开的东西, 可以试试"
     forum_page: "我们的论坛"
-    forum_suffix: ""
+    forum_suffix: " instead."
     faq_prefix: "这里还有一个"
     faq: "FAQ"
     subscribe_prefix: "如果您需要帮助解决一个关卡，请"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     welcome_to_page: "欢迎来到你的课程页面！" # {change}
     my_classes: "我的课程" # {change}
     class_added: "成功添加课程！"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "浏览同学的项目"
     join_class: "加入班级"
     join_class_2: "加入班级"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     student_age_range_younger: "小于 6 岁"
     student_age_range_older: "大于 18 岁"
     student_age_range_to: "到"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "创建班级"
     class_name: "班级名称"
     teacher_account_restricted: "你的账号是老师账号，不能访问学生内容。"
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concepts_used: "使用的概念"
     show_change_log: "显示这个课程等级的变化"
     hide_change_log: "隐藏这个课程等级的变化"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
@@ -1484,7 +1506,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     paren_new: "(新)"
     student_code: "__name__'s 学生代码"
     teacher_dashboard: "老师面板" # Navbar
-    my_classes: "我的班级"
+    my_classes: "我的班级" # {change}
     courses: "课程指导"
     enrollments: "学生许可"
     resources: "资源"
@@ -1797,7 +1819,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
     you: "（您）"
-    one_license_used: "（1个许可证被使用）"
+    one_license_used: "（1个许可证被使用）" # {change}
     licenses_used: "（__licensesUsed__个许可证被使用）"
     more_info: "更多信息"
 

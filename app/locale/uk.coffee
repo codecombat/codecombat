@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Українська", englishDescription: "Ukrainian", translation:
+
   new_home:
     slogan: "Найзахопливіша гра для вивчення програмування."
     classroom_edition: "Класна версія:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tome_available_spells: "Доступні заклинання"
     tome_your_skills: "Ваші вміння"
     hints: "НАТЯКИ (Підказки)"
+#    videos: "Videos"
     hints_title: "Натяк (підказка) {{number}}"
     code_saved: "Код збережено"
     skip_tutorial: "Пропустити (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     view_gallery: "Перегляньте Галерею"
     project_published_noty: "Ваш рівень був опублікований!"
     keep_editing: "Продовжуйте Редагувати"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Методи"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     welcome_to_page: "Моя учнівська панель"
     my_classes: "Поточні класи"
     class_added: "Клас успішно додано!"
+#    view_map: "view map"
+#    view_videos: "view videos"
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Приєднайтесь до класу"
     join_class_2: "Приєднайтесь до класу"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     student_age_range_younger: "Молодше 6-ти років"
     student_age_range_older: "Старше 18-ти"
     student_age_range_to: "до"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Створити клас"
     class_name: "Назва класу"
     teacher_account_restricted: "Ваша обліківка - вчительська і не дає доступу до учнівських матеріалів."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    concepts_used: "Concepts Used:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   account_prepaid:
     purchase_code: "Придбати код підписки"
-    purchase_code1: "Коди підписки можна використати, щоб додати час преміум підписки однієї чи більше обліківкам для домашньої версії CodeCombat." #
+    purchase_code1: "Коди підписки можна використати, щоб додати час преміум підписки однієї чи більше обліківкам для домашньої версії CodeCombat."
     purchase_code2: "Кожна обліківка CodeCombat може використати певний код підписки лише раз."
     purchase_code3: "Місяці кодів підписки буде додано до кінця будь-якої існуючої в обліківці підписки."
     purchase_code4: "Коди підписки існують для обліківок, які грають у домашню версію CodeCombat, їх не можна використи замість учнівських ліцензій для класної версії."

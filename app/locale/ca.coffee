@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Català", englishDescription: "Catalan", translation:
+
   new_home:
     slogan: "El joc més atractiu per aprendre a programar."
     classroom_edition: "Edició d'Aula:"
@@ -77,7 +78,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     contribute: "Col·laborar"
     legal: "Legalitat"
     privacy: "Privadesa"
-    about: "Sobre Nosaltres"
+    about: "Sobre Nosaltres" # {change}
     contact: "Contacta"
     twitter_follow: "Segueix-nos"
     my_classrooms: "Les Meves Classes"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     tome_available_spells: "Encanteris disponibles"
     tome_your_skills: "Les teves habilitats"
     hints: "Consells"
+#    videos: "Videos"
     hints_title: "Consell {{number}}"
     code_saved: "Codi Guardat"
     skip_tutorial: "Ometre (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     view_gallery: "Veure Galeria"
     project_published_noty: "S'ha publicat el teu nivell!"
     keep_editing: "Segueix editant"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Mètodes"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     project_based_title: "Cursos basats en projectes"
     project_based_description: "Els cursos de desenvolupament web i jocs tenen projectes finals compartibles."
     great_for_clubs_title: "Ideal per a tallers i optatives"
-    great_for_clubs_description: "Els professors poden comprar fins a __maxQuantityStarterLicenses__ llicències inicials." #
+    great_for_clubs_description: "Els professors poden comprar fins a __maxQuantityStarterLicenses__ llicències inicials."
     low_price_title: "Només __starterLicensePrice__ per alumne"
     low_price_description: "Les llicències inicials estan actives per __starterLicenseLengthMonths__ mesos a partir de la compra."
     three_great_courses: "Tres grans cursos inclosos a la Llicència inicial:"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     welcome_to_page: "el meu Tauler d'alumnat"
     my_classes: "Classes Actuals"
     class_added: "Classe afegida satisfactòriament!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "veure els projectes dels meus companys"
     join_class: "Uneix-te a una Classe"
     join_class_2: "Unir-se a una classe"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     student_age_range_younger: "Més joves de 6"
     student_age_range_older: "Més vells de 18"
     student_age_range_to: "a"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Crear Classe"
     class_name: "Nom de la Classe"
     teacher_account_restricted: "El teu compte és de professorat i no pots accedir al contingut de l'alumnat."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     concepts_used: "Conceptes Usats:"
     show_change_log: "Mostra els canvis als nivells d'aquest curs"
     hide_change_log: "Amaga els canvis als nivells d'aquest curs"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   account_prepaid:
     purchase_code: "Compreu un codi de subscripció"
-    purchase_code1: "Es poden bescanviar els codis de subscripció per afegir el temps de subscripció premium a un o més comptes de la versió Home de CodeCombat." #
+    purchase_code1: "Es poden bescanviar els codis de subscripció per afegir el temps de subscripció premium a un o més comptes de la versió Home de CodeCombat."
     purchase_code2: "Cada compte de CodeCombat només pot bescanviar un codi de subscripció en particular una vegada."
     purchase_code3: "Els mesos del codi de subscripció s'afegiran al final de qualsevol subscripció existent al compte."
     purchase_code4: "Els codis de subscripció són per als comptes que reprodueixen la versió inicial de CodeCombat, no es poden utilitzar en lloc de les llicències d'estudiants per a la versió de Classroom."

@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
+
   new_home:
     slogan: "Самый захватывающий способ обучения реальному программированию."
     classroom_edition: "Классная комната:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     hints: "Советы"
+#    videos: "Videos"
     hints_title: "Совет {{number}}"
     code_saved: "Код сохранён"
     skip_tutorial: "Пропуск (Esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     view_gallery: "Просмотреть галерею"
     project_published_noty: "Ваш уровень опубликован!"
     keep_editing: "Продолжить редактировать"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Методы"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     project_based_title: "Проектно-ориентированные курсы"
     project_based_description: "Курсы по Веб-разработке и Разработке Игр имеют различные финальные проекты."
     great_for_clubs_title: "Отлично подходит для клубов и факультативов"
-    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ начальных лицензий." #
+    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ начальных лицензий."
     low_price_title: "Всего __starterLicensePrice__ за одного учащегося"
     low_price_description: "Стартовые Лицензии активны в течение __starterLicenseLengthMonths__ месяцев с момента покупки."
     three_great_courses: "Стартовая Лицензия включает в себя три замечательных курса:"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     welcome_to_page: "Моя панель ученика"
     my_classes: "Мои классы"
     class_added: "Класс успешно добавлен!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "посмотреть проекты моих одноклассников"
     join_class: "Присоединиться к классу"
     join_class_2: "Присоединиться к классу"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     student_age_range_younger: "Младше 6"
     student_age_range_older: "Старше 18"
     student_age_range_to: "до"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Создать класс"
     class_name: "Название класса"
 #    teacher_account_restricted: "Your account is a teacher account and cannot access student content."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    concepts_used: "Concepts Used:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   account_prepaid:
     purchase_code: "Купить код подписки"
-    purchase_code1: "Коды подписки могут быть погашены, чтобы добавить премиальное время подписки на одну или несколько учетных записей для Домашней версии CodeCombat." #
+    purchase_code1: "Коды подписки могут быть погашены, чтобы добавить премиальное время подписки на одну или несколько учетных записей для Домашней версии CodeCombat."
     purchase_code2: "Каждый аккаунт CodeCombat может погасить определенный Код Подписки только один раз."
     purchase_code3: "Месяца подписки будут добавлены в конец любой существующей подписки в учетной записи."
     purchase_code4: "Коды подписки предназначены для учетных записей, играющих в Домашнюю версию CodeCombat, они не могут быть использованы вместо Студенческих Лицензий для Аудиторной версии."

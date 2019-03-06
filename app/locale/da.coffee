@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "dansk", englishDescription: "Danish", translation:
+
   new_home:
     slogan: "Det mest engagerende spil for at lære programmering."
     classroom_edition: "Klasseværelse Udgave:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     tome_available_spells: "Tilgængelige trylleformularer"
     tome_your_skills: "Dine evner"
 #    hints: "Hints"
+#    videos: "Videos"
 #    hints_title: "Hint {{number}}"
     code_saved: "Kode gemt"
     skip_tutorial: "Spring over (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    view_gallery: "View Gallery"
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
 #  apis:
 #    methods: "Methods"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses."
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"
@@ -1162,7 +1167,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     type_in_password: "Indtast også dit password."
     email_subscriptions: "Emailtilmeldinger"
     email_subscriptions_none: "Ingen Email Abonnementer."
-    email_announcements: "Nyheder"
+    email_announcements: "Nyheder" # {change}
     email_announcements_description: "Få emails om de seneste nyheder og udvikling på CodeCombat."
     email_notifications: "Notifikationer"
     email_notifications_summary: "Indstillinger for personlig, automatiske email notifikationer relateret til din CodeCombat aktivitet."
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     welcome_to_page: "Velkommen til din Kursusside!" # {change}
     my_classes: "Mine Klasser"
     class_added: "Klasse tilføjet!"
+#    view_map: "view map"
+#    view_videos: "view videos"
 #    view_project_gallery: "view my classmates' projects"
     join_class: "Følg En Klasse"
 #    join_class_2: "Join class"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    student_age_range_younger: "Younger than 6"
 #    student_age_range_older: "Older than 18"
 #    student_age_range_to: "to"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Opret Klasse"
 #    class_name: "Class Name"
 #    teacher_account_restricted: "Your account is a teacher account and cannot access student content."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    concepts_used: "Concepts Used:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"

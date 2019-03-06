@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Português (Portugal)", englishDescription: "Portuguese (Portugal)", translation:
+
   new_home:
     slogan: "A forma mais cativante de aprender código real."
     classroom_edition: "Edição de Turma:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
     hints: "Dicas"
+#    videos: "Videos"
     hints_title: "Dica {{number}}"
     code_saved: "Código Guardado"
     skip_tutorial: "Saltar (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     view_gallery: "Ver Galeria"
     project_published_noty: "O teu nível foi publicado!"
     keep_editing: "Continuar a Editar"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
   apis:
     methods: "Métodos"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses."
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     welcome_to_page: "O Meu Painel de Estudante"
     my_classes: "Turmas Atuais"
     class_added: "Turma adicionada com sucesso!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "ver os projetos dos meus colegas"
     join_class: "Entrar Numa Turma"
     join_class_2: "Entrar na turma"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     student_age_range_younger: "Menos de 6"
     student_age_range_older: "Mais de 18"
     student_age_range_to: "até"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Criar Turma"
     class_name: "Nome da Turma"
 #    teacher_account_restricted: "Your account is a teacher account and cannot access student content."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     concepts_used: "Conceitos Usados:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Sê o primeiro a publicar um projeto neste curso!"
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   account_prepaid:
     purchase_code: "Comprar um Código de Subscrição"
-#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."

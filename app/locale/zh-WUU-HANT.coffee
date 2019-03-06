@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditional)", translation:
+
 #  new_home:
 #    slogan: "The most engaging way to learn real code."
 #    classroom_edition: "Classroom Edition:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tome_available_spells: "好用個法術"
 #    tome_your_skills: "Your Skills"
 #    hints: "Hints"
+#    videos: "Videos"
 #    hints_title: "Hint {{number}}"
 #    code_saved: "Code Saved"
     skip_tutorial: "跳過去（Esc）"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    view_gallery: "View Gallery"
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
 #  apis:
 #    methods: "Methods"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses."
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"
@@ -1129,7 +1134,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     welcome: "我裏歡迎收到爾個信！用箇個表單寄信畀我裏。 "
     forum_prefix: "假使爾想發佈弗管何物開放個物事, 好試試相"
     forum_page: "我裏個論壇"
-    forum_suffix: ""
+    forum_suffix: " instead."
 #    faq_prefix: "There's also a"
 #    faq: "FAQ"
 #    subscribe_prefix: "If you need help figuring out a level, please"
@@ -1162,7 +1167,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "郵箱校對"
 #    email_subscriptions_none: "No Email Subscriptions."
-    email_announcements: "通知"
+    email_announcements: "通知" # {change}
     email_announcements_description: "收 有關 CodeCombat 個電子信。"
     email_notifications: "通知"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    welcome_to_page: "My Student Dashboard"
 #    my_classes: "Current Classes"
 #    class_added: "Class successfully added!"
+#    view_map: "view map"
+#    view_videos: "view videos"
 #    view_project_gallery: "view my classmates' projects"
 #    join_class: "Join A Class"
 #    join_class_2: "Join class"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    student_age_range_younger: "Younger than 6"
 #    student_age_range_older: "Older than 18"
 #    student_age_range_to: "to"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
 #    create_class: "Create Class"
 #    class_name: "Class Name"
 #    teacher_account_restricted: "Your account is a teacher account and cannot access student content."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    concepts_used: "Concepts Used:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."

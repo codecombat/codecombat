@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Indonesian", translation:
+
   new_home:
     slogan: "Game untuk belajar pemrograman paling menyenangkan."
     classroom_edition: "Edisi Ruang Kelas:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     tome_available_spells: "Mantera yang Tersedia"
     tome_your_skills: "Kemampuan Kamu"
     hints: "Petunjuk"
+#    videos: "Videos"
     hints_title: "Petunjuk {{number}}"
     code_saved: "Kode disimpan"
     skip_tutorial: "Lewati (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     view_gallery: "Lihat Galeri"
     project_published_noty: "Level kamu telah dipublikasikan!"
     keep_editing: "Tetap Sunting"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
 #  apis:
 #    methods: "Methods"
@@ -1016,7 +1021,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     project_based_title: "Kursus Berbasis Proyek"
     project_based_description: "Proyek Akhir Fitur Kursus Web dan Pengembangan Permainan yang dapat dibagikan"
     great_for_clubs_title: "Sangat baik untuk klub dan kelompok belajar"
-    great_for_clubs_description: "Guru dapat membeli sampai __maxQuantityStarterLicenses__ Lisensi Awal." #
+    great_for_clubs_description: "Guru dapat membeli sampai __maxQuantityStarterLicenses__ Lisensi Awal."
     low_price_title: "Hanya __starterLicensePrice__ persiswa"
     low_price_description: "Lisensi awal akan aktif selama __starterLicenseLengthMonths__ bulan dari pembelian."
     three_great_courses: "Tiga kursus terbaik yang termasuk ke dalam Lisensi Awal:"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     welcome_to_page: "Beranda Siswaku"
     my_classes: "Kelas Saat Ini"
     class_added: "Kelas berhasil ditambahkan!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "lihat proyek teman kelasku"
     join_class: "Bergabung Ke Kelas"
     join_class_2: "Ikut Kelas"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_age_range_younger: "Lebih muda dari 6"
     student_age_range_older: "Lebih tua dari 18"
     student_age_range_to: "sampai"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "Buat Kelas"
     class_name: "Nama Kelas"
     teacher_account_restricted: "Akun kamu adalah akun guru dan tidak dapat mengakses konten siswa."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     concepts_used: "Konsep yang Digunakan:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -1797,7 +1819,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teachers_using_these: "Guru yang dapat mengakses lisensi ini:"
     footer: "Ketika guru mencabut lisensi dari siswa, lisensi akan dikembalikan ke kumpulan lisensi untuk digunakan oleh guru lainnya di dalam grup."
     you: "(Kamu)"
-    one_license_used: "(1 lisensi digunakan)"
+    one_license_used: "(1 lisensi digunakan)" # {change}
     licenses_used: "(__licensesUsed__ lisensi digunakan)"
     more_info: "Info lanjut"
 
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."

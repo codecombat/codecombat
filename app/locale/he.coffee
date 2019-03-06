@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
+
   new_home:
     slogan: "המשחק הכי מלהיב ללימוד תכנות."
     classroom_edition: "המהדורה הכיתתית:"
@@ -523,6 +524,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tome_available_spells: "לחשים זמינים"
     tome_your_skills: "המיומנויות שלך"
     hints: "רמזים"
+#    videos: "Videos"
     hints_title: "רמז {{number}}"
     code_saved: "הקוד נשמר"
     skip_tutorial: "דלג (esc)"
@@ -616,6 +618,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     view_gallery: "הצג גלריה"
     project_published_noty: "השלב שלכם פורסם!"
     keep_editing: "המשך בעריכה"
+#    learn_new_concepts: "Learn new concepts"
+#    watch_a_video: "Watch a video on __concept_name__"
+#    concept_unlocked: "Concept Unlocked"
 
 #  apis:
 #    methods: "Methods"
@@ -1338,6 +1343,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     welcome_to_page: "לוח התוצאות שלי"
     my_classes: "כיתות נוכחיות"
     class_added: "הכיתה נוספה בהצלחה!"
+#    view_map: "view map"
+#    view_videos: "view videos"
     view_project_gallery: "הצג פרויקטים של חבריי לכיתה"
     join_class: "הצטרפו לכיתה"
     join_class_2: "הצטרף לכיתה"
@@ -1383,6 +1390,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     student_age_range_younger: "פחות מגיל 6"
     student_age_range_older: "מעל לגיל 18"
     student_age_range_to: "עד"
+#    estimated_class_dates_label: "Estimated Class Dates"
+#    estimated_class_frequency_label: "Estimated Class Frequency"
+#    classes_per_week: "classes per week"
+#    minutes_per_class: "minutes per class"
     create_class: "יצירת כיתה"
     class_name: "שם כיתה"
     teacher_account_restricted: "חשבונכם הוא חשבון מורה, ואין לו גישה אל תוכן תלמידים."
@@ -1452,6 +1463,17 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    concepts_used: "Concepts Used:"
 #    show_change_log: "Show changes to this course's levels"
 #    hide_change_log: "Hide changes to this course's levels"
+#    concept_videos: "Concept Videos"
+#    concept: "Concept:"
+#    basic_syntax: "Basic Syntax"
+#    while_loops: "While Loops"
+#    variables: "Variables"
+#    basic_syntax_desc: "Syntax is how we write code. Just as spelling and grammar are important in writing narratives and essays, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn't exactly correct, but computers aren't that smart, and they need you to write very precisely."
+#    while_loops_desc: "A loop is a way of repeating actions in a program. You can use them so you don't have to keep writing repetitive code, and when you don't know exactly how many times an action will need to occur to accomplish a task."
+#    variables_desc: "Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like \"School Supplies\", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called \"School Supplies\". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings."
+#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
+#    unlocked_videos_desc: "Review the __concept_name__ concept video."
+#    video_shown_before: "shown before __level__"
 
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
@@ -1797,7 +1819,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teachers_using_these: "מורים שיכולים לגשת אל רישיונות אלה:"
     footer: "כאשר מורים שוללים רישיונות מתלמידים, הרישיונות חוזרים אל המאגר המשותף, לשימושם של מורים אחרים בקבוצה זו."
     you: "(אתם)"
-    one_license_used: "(רישיון אחד בשימוש)"
+    one_license_used: "(רישיון אחד בשימוש)" # {change}
     licenses_used: "(__licensesUsed__ רישיונות בשימוש)"
     more_info: "מידע נוסף"
 
@@ -2167,7 +2189,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   account_prepaid:
     purchase_code: "רכישת קוד מנוי"
-    purchase_code1: "ניתן לממש קודי מנוי כדי להוסיף זמן מנוי פרימיום לחשבון אחד או יותר עבור הגרסה הביתית של CodeCombat." #
+    purchase_code1: "ניתן לממש קודי מנוי כדי להוסיף זמן מנוי פרימיום לחשבון אחד או יותר עבור הגרסה הביתית של CodeCombat."
     purchase_code2: "כל חשבון CodeCombat יכול לממש קוד מנוי מסוים פעם אחת בלבד."
     purchase_code3: "חודשים של קוד מנוי יתווספו בסופו של כל מנוי קיים באותו החשבון."
     purchase_code4: "קודי מנוי מיועדים לחשבונות המשחקים בגרסה הביתית של CodeCombat, ולא ניתן להשתמש בהם במקום רישיונות תלמיד עבור הגרסה הכיתתית."
