@@ -36,7 +36,7 @@ if ! grep -q nvm $BASHRC; then
 fi
 
 NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
 
 echo "Installing node $NODE_VERSION..."
 nvm install $NODE_VERSION
@@ -48,9 +48,11 @@ npm install -g node-gyp
 
 echo "Configuring node_modules directories..."
 
+CLIENT_NODE_MODULES=/node_modules_client
+
 # bind /vagrant/node_modules so that it does not leak through to the host file system
 # which triggers symlink and path size issues on Windows hosts
-if [ ! -d $CLIENT_NODE_MODOULES ]; then
+if [[ ! -d $CLIENT_NODE_MODULES ]]; then
     sudo mkdir -p $CLIENT_NODE_MODULES
     sudo mkdir -p $COCO_CLIENT_ROOT/node_modules
 
