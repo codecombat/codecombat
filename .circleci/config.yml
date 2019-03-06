@@ -9,6 +9,10 @@ jobs:
     working_directory: ~/repo
 
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - '4c:f9:84:75:d9:9c:2d:18:08:fe:96:47:34:3e:0f:d9'
+
       - checkout
 
       # Download and cache dependencies
@@ -35,6 +39,9 @@ jobs:
             echo "Changes found..."
 
             BRANCH_NAME=copy-i18n-tags-$(date +%s)
+
+            git config user.email circle-ci@codecombat.com
+            git config user.name 'CoCo CI'
 
             git checkout -b $BRANCH_NAME
             git commit -a -m 'Run copy-i18n-tags'
