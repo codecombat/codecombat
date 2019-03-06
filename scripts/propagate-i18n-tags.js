@@ -92,7 +92,8 @@ for (const localeFile of localeFiles) {
                 comment = comments[enCategoryName][enTagName];
             }
 
-            if (localeSource.search(new RegExp(`#\\s+${escapeRegexp(enTagName)}:`)) >= 0) {
+            const commentedTagRegex = new RegExp(`#\\s+${escapeRegexp(enTagName)}:`);
+            if (localeSource.search(commentedTagRegex) >= 0) {
                 // If the translation is commented out in the locale fine, make sure it is not marked as changed.  A
                 // translation is not marked as changed until it is uncommented in a locale file.  Once it is
                 // uncommented in a translation file, the translation is considered active and changes should be
