@@ -449,28 +449,33 @@
     #featured-partners
       .row
         padding: 0
-      h2
-        padding-top: 22px
+      div.container.inner-container
+        padding-top: 62px
+
       @media (min-width: $screen-lg-min)
         background: linear-gradient(90deg, #F7F9F9 25%, #EAEEEE 25%)
       // Hack to prevent footer from creating a white space with its margin.
       margin: 0 0 -50px
       .row:last-child
-        padding-bottom: 35px
+        padding-bottom: 62px
       padding: 0
       .inner-container
         max-width: 1280px
         @media (min-width: $screen-lg-min)
-          background: linear-gradient(90deg, #F7F9F9 40%, #EAEEEE 40%)
+          background: linear-gradient(90deg, #F7F9F9 41.3%, #EAEEEE 41.3%)
       .pink-bar
-        padding-bottom: 35px
-        margin-top: -20px
-        
+        margin-top: -14px
+        padding-bottom: 31px
+
       @media (min-width: $screen-xs-min)
         .tile-row
           display: inline-block
-      .featured-section, .partners-section
-        padding-bottom: 40px
+
+      @media (min-width: $screen-lg-min)
+        .featured-section .tile-row
+          transform: translateX(15px)
+        .partners-section
+          transform: translateX(37px)
       .partners-section
         .col-sm-12 a img
           margin-top: -22px
