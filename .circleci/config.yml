@@ -27,8 +27,8 @@ jobs:
             tar -xzvf hub.tgz --strip 1
             sudo mv ./bin/hub /usr/local/bin
 
-      # run tests!
       - run: node -r coffee-script/register scripts/propagate-i18n-tags.js
+
       - run:
           command: |
             echo "Checking for changes..."
