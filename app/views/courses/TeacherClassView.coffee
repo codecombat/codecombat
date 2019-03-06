@@ -792,13 +792,17 @@ module.exports = class TeacherClassView extends RootView
     me.useGoogleClassroom() && @classroom.isGoogleClassroom()
 
   onClickSyncGoogleClassroom: (e) ->
+    $('.sync-google-classroom-btn').text("Syncing...")
+    $('.sync-google-classroom-btn').attr('disabled', true)
     application.gplusHandler.loadAPI({
       success: =>
         application.gplusHandler.connect({
           scope: GoogleClassroomHandler.scopes
           success: =>
-            noty text: 'Syncing...', layout: 'topCenter', timeout: 2000, type: 'information'
             @syncGoogleClassroom()
+          error: =>
+            $('.sync-google-classroom-btn').text($.i18n.t('teacher.sync_google_classroom'))
+            $('.sync-google-classroom-btn').attr('disabled', false)
         })
     })
 
@@ -817,5 +821,8 @@ module.exports = class TeacherClassView extends RootView
           if courseInstance
             importedMembers.forEach((i) => courseInstance.get("members").push(i._id))  
         @fetchStudents()
-    .catch (err) =>
+    , (err) =>
       noty text: err or 'Error in importing students.', layout: 'topCenter', timeout: 3000, type: 'error'
+    .then () =>
+      $('.sync-google-classroom-btn').text($.i18n.t('teacher.sync_google_classroom'))
+      $('.sync-google-classroom-btn').attr('disabled', false)

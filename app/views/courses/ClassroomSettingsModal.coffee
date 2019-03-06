@@ -84,14 +84,17 @@ module.exports = class ClassroomSettingsModal extends ModalView
     me.useGoogleClassroom() && @classroom.isNew()
 
   onClickLinkGoogleClassroom: ->
+    $('#link-google-classroom-btn').text("Linking...")
+    $('#link-google-classroom-btn').attr('disabled', true)
     application.gplusHandler.loadAPI({
       success: =>
         application.gplusHandler.connect({
           scope: GoogleClassroomHandler.scopes
           success: =>
-            $('#link-google-classroom-btn').text("Linking...")
-            $('#link-google-classroom-btn').attr('disabled', true)
             @linkGoogleClassroom()
+          error: =>
+            $('#link-google-classroom-btn').text($.i18n.t("courses.link_google_classroom"))
+            $('#link-google-classroom-btn').attr('disabled', false)
         })
     })
 
