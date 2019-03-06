@@ -289,39 +289,42 @@ block content
                     .text-center
                       h4.text-white(data-i18n="new_home.quotes_quote1")
                       div
-                        span
-                          //- TODO: why does only this image not have a yellow border?
-                          img(src="/images/pages/home/quotes_carousel1.png", style="border: #F2BE19 3px solid; border-radius: 50%")
-                        span.quote-user-info
-                          h3.text-teal Scott Baily
-                          p.text-white Bobby Duke Middle School, California
+                        .thumbnail
+                          span
+                            img(src="/images/pages/home/quotes_carousel1.png", style="border: #F2BE19 3px solid; border-radius: 50%")
+                          span.quote-user-info
+                            h3.text-teal Scott Baily
+                            p.text-white Bobby Duke Middle School, California
                   .item
                     .text-center
                       h4.text-white(data-i18n="new_home.quotes_quote2")
                       div
-                        span
-                          img(src="/images/pages/home/quotes_carousel2.png")
-                        span.quote-user-info
-                          h3.text-teal Andrew Forseman
-                          p.text-white River Ridge High School, Florida
+                        .thumbnail
+                          span
+                            img(src="/images/pages/home/quotes_carousel2.png")
+                          span.quote-user-info
+                            h3.text-teal Andrew Forseman
+                            p.text-white River Ridge High School, Florida
                   .item
                     .text-center
                       h4.text-white(data-i18n="new_home.quotes_quote3")
                       div
-                        span
-                          img(src="/images/pages/home/quotes_carousel3.png")
-                        span.quote-user-info
-                          h3.text-teal Holly Ades
-                          p.text-white Riverdale High School, Florida
+                        .thumbnail
+                          span
+                            img(src="/images/pages/home/quotes_carousel3.png")
+                          span.quote-user-info
+                            h3.text-teal Holly Ades
+                            p.text-white Riverdale High School, Florida
                   .item
                     .text-center
-                      h4.text-white(data-i18n="new_home.quotes_quote4")
+                      h4.text-white.wider(data-i18n="new_home.quotes_quote4")
                       div
-                        span
-                          img(src="/images/pages/home/quotes_carousel4.png")
-                        span.quote-user-info
-                          h3.text-teal Robert Gower
-                          p.text-white  John Page Middle School, Michigan
+                        .thumbnail
+                          span
+                            img(src="/images/pages/home/quotes_carousel4.png")
+                          span.quote-user-info
+                            h3.text-teal Robert Gower
+                            p.text-white  John Page Middle School, Michigan
                 a.left.carousel-control(href="#quotes-carousel", role="button", data-slide="prev")
                   span(aria-hidden="true")
                     img(src="/images/pages/home/arrow_gold_left.png")

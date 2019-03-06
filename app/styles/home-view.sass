@@ -298,37 +298,49 @@
         height: 42px
         width: 40px
       #quotes-carousel
-        height: 400px
-        padding-bottom: 20px
-        .text-white
-          min-height: 200px
+        h4.text-white
+          min-height: 160px
+          @media (max-width: $screen-md-min)
+            font-size: 20px
+            min-height: 280px
         img
           margin: 30px
           height: 93px
           width: 93px
         h4
-          margin: auto 158px
+          margin: auto 168px
+          &.wider
+            margin: auto 84px
+        .thumbnail
+          width: 500px
+          display: inline-block
+          text-align: left
+          border: unset
+          background-color: unset
         .carousel-control
           background-image: unset
           width: 60px
+          &.left
+            img
+              margin-left: 0
           img
             height: 25px
             width: 30px
             margin-top: 100px
         .carousel-indicators
-          bottom: -10px
+          bottom: -50px
           li
             background-color: $teal
             border: unset
             margin: auto 2px
-            width: 10px
-            height: 10px
+            width: 8px
+            height: 8px
           li.active
             background-color: white
             border: unset
             margin: auto 2px
-            width: 10px
-            height: 10px
+            width: 8px
+            height: 8px
         .quote-user-info
           display: inline-grid
           text-align: left
