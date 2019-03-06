@@ -145,9 +145,7 @@ for (const localeFile of localeFiles) {
 const rewrittenEnSource = enSourceFile.replace(CHANGE_PATTERN, '');
 fs.writeFileSync(
     path.join(__dirname, '../app/locale/en.coffee'),
-    '../app/locale/en.coffee',
-    rewrittenEnSource,
-    { encoding: 'utf8'}
+    rewrittenEnSource
 );
 
 console.log('Done!');
