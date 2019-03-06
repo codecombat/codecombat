@@ -78,7 +78,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     contribute: "コントリビュート"
     legal: "規約"
     privacy: "プライバシー"
-    about: "CoCoについて" # {change}
+    about: "CoCoについて"
     contact: "お問い合わせ"
     twitter_follow: "フォロー"
     my_classrooms: "マイクラス"
@@ -1976,7 +1976,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
 #  contribute:
 #    page_title: "Contributing"
-#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!" # {change}
+#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
@@ -2674,7 +2674,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
 #  hoc_2018:
 #    banner: "Happy Computer Science Education Week 2018!"
-#    page_heading: "Your students will learn to code by building their own game!" # {change}
+#    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -2690,11 +2690,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    activity_label_2: " Beginner: Build a Game!"
 #    activity_label_3: "Advanced: Build an Arcade Game!"
 #    activity_button_1: "View Lesson"
-#    about: "About CodeCombat" # {change}
-#    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript." # {change}
+#    about: "About CodeCombat"
+#    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
 #    point1: "✓ Scaffolded"
 #    point2: "✓ Differentiated"
-#    point3: "✓ Assessments" # {change}
+#    point3: "✓ Assessments"
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"

@@ -242,7 +242,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    create_student_header: "Create Student Account"
 #    create_teacher_header: "Create Teacher Account"
 #    create_individual_header: "Create Individual Account"
-#    email_announcements: "Receive announcements about new CodeCombat levels and features!" # {change}
+#    email_announcements: "Receive announcements about new CodeCombat levels and features!"
 #    sign_in_to_continue: "Sign in or create an account to continue"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
 #    creating: "Creating Account..."
@@ -501,7 +501,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    victory_title_suffix: " Complete"
 #    victory_sign_up: "Sign Up to Save Progress"
 #    victory_sign_up_poke: "Want to save your code? Create a free account!"
-#    victory_rate_the_level: "How fun was this level?" # {change}
+#    victory_rate_the_level: "How fun was this level?"
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home"
@@ -520,7 +520,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code to restart the level" # {change}
+#    tome_reload_method: "Reload original code to restart the level"
 #    tome_available_spells: "Available Spells"
 #    tome_your_skills: "Your Skills"
 #    hints: "Hints"
@@ -547,7 +547,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
-#    tip_open_source: "CodeCombat is part of the open source community!" # {change}
+#    tip_open_source: "CodeCombat is part of the open source community!"
 #    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
 #    tip_think_solution: "Think of the solution, not the problem."
@@ -746,7 +746,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
-#    comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!" # {change}
+#    comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    subscribe_title: "Subscribe" # Actually used in subscribe buttons, too
 #    unsubscribe: "Unsubscribe"
@@ -949,12 +949,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
-#    nick_title: "Cofounder, CEO" # {change}
-#    matt_title: "Cofounder, CTO" # {change}
+#    nick_title: "Cofounder, CEO"
+#    matt_title: "Cofounder, CTO"
 #    cat_title: "Game Designer"
-#    scott_title: "Cofounder, Software Engineer" # {change}
+#    scott_title: "Cofounder, Software Engineer"
 #    maka_title: "Customer Advocate"
-#    robin_title: "Senior Product Manager" # {change}
+#    robin_title: "Senior Product Manager"
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
 #    sean_title: "Territory Manager"
@@ -1162,12 +1162,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    manage_subscription: "Click here to manage your subscription."
 #    new_password: "New Password"
 #    new_password_verify: "Verify"
-#    type_in_email: "Type in your email or username to confirm account deletion." # {change}
+#    type_in_email: "Type in your email or username to confirm account deletion."
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
 #    email_subscriptions: "Email Subscriptions"
 #    email_subscriptions_none: "No Email Subscriptions."
-#    email_announcements: "Announcements" # {change}
+#    email_announcements: "Announcements"
 #    email_announcements_description: "Get emails on the latest news and developments at CodeCombat."
 #    email_notifications: "Notifications"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
@@ -2079,7 +2079,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tutorial_skip: "Skip Tutorial"
 #    tutorial_not_sure: "Not sure what's going on?"
 #    tutorial_play_first: "Play the Tutorial first."
-#    simple_ai: "Simple CPU" # {change}
+#    simple_ai: "Simple CPU"
 #    warmup: "Warmup"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
@@ -2212,7 +2212,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    you_can3: "that can be applied to your own account or given to others."
 
 #  loading_error:
-#    could_not_load: "Error loading from server. Try refreshing the page." # {change}
+#    could_not_load: "Error loading from server. Try refreshing the page."
 #    connection_failure: "Connection Failed"
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
@@ -2223,11 +2223,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    not_found: "Not Found"
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
 #    not_allowed: "Method not allowed."
-#    timeout: "Server Timeout" # {change}
+#    timeout: "Server Timeout"
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
 #    server_error: "Server error."
-#    unknown: "Unknown Error" # {change}
+#    unknown: "Unknown Error"
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 

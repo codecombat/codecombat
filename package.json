@@ -76,7 +76,7 @@
     "co": "^4.6.0",
     "co-express": "^1.2.1",
     "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.9.3",
+    "coffee-script": "^1.12.7",
     "compression": "^1.6.2",
     "connect-timeout": "^1.9.0",
     "cookie-parser": "^1.4.3",
