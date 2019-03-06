@@ -99,7 +99,8 @@ for (const localeFile of localeFiles) {
                 // tracked
                 comment = comment.replace(CHANGE_PATTERN, '');
             } else {
-                const tagIsMarkedChangeRegex = new RegExp(`^\\s+"?${escapeRegexp(enTagName)}"?:\\s".*"\\s*#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`, 'm');
+                const tagIsMarkedChangeRegex = new RegExp(`^\\s+"?${escapeRegexp(enTagName)}"?:\\s".*"\\s*` +
+                    `#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`, 'm');
 
                 // If locale file has tag marked as change and comment is not already marked change,
                 // add change to comment
@@ -118,9 +119,15 @@ for (const localeFile of localeFiles) {
             // If the tag does not exist in the locale file, make sure it is commented otu
             const lineCommentPrefix = (!tagIsPresent) ? '#' : '';
             const finalTagName = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
-            const finalLocaleTranslation = (localeTranslation || enCategory[enTagName]).replace(/"/g, '\\"');
 
-            rewrittenLines.push(`${lineCommentPrefix}    ${finalTagName}: "${finalLocaleTranslation}" ${comment}`.trimRight());
+            // Stringify the output to escape special chars
+            const finalLocaleTranslation = JSON.stringify(
+                localeTranslation || enCategory[enTagName]
+            );
+
+            rewrittenLines.push(
+                `${lineCommentPrefix}    ${finalTagName}: ${finalLocaleTranslation} ${comment}`.trimRight()
+            );
         }
     }
 
@@ -142,4 +149,4 @@ fs.writeFileSync(
     { encoding: 'utf8'}
 );
 
-console.log('Done!')
+console.log('Done!');
