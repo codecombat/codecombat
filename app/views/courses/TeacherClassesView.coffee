@@ -236,21 +236,14 @@ module.exports = class TeacherClassesView extends RootView
           @importStudents(classroom)
           .then (importedStudents) =>
             @addImportedStudents(classroom, importedStudents)
-            @calculateQuestCompletion()
-            @render()
-          .catch (err) =>
-            @calculateQuestCompletion()
-            @render()
-        else
-          @calculateQuestCompletion()
-          @render()
-      )
-      .catch((err) =>
+          , (_e) => {}
+      , (err) =>
         if classroom.isGoogleClassroom()
           noty text: 'Could not import students', layout: 'topCenter', timeout: 3000, type: 'error'
+      )
+      .then () =>
         @calculateQuestCompletion()
         @render()
-      )
 
   importStudents: (classroom) ->
     GoogleClassroomHandler.importStudentsToClassroom(classroom)
