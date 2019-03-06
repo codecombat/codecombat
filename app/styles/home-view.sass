@@ -232,8 +232,9 @@
         border-radius: 14px
         background-color: #FFFFFF
         box-shadow: inset 2px 2px 6px 0 rgba(31,186,180,0.5), 4px 4px 6px 0 #0E4C60
-        height: 450px
-        padding-bottom: 20px
+        min-height: 425px
+        padding-bottom: 42px
+        padding-top: 31px
         @media (max-width: $screen-lg-min)
           height: unset
         .carousel-inner .item .row div
@@ -257,14 +258,17 @@
         p.padding-sm
           padding: 0 2em
         .carousel-indicators
+          bottom: 0
           li
             background-color: #9B9B9B
             margin: auto 2px
+            width: 8px
+            height: 8px
           li.active
             background-color: $teal
             margin: auto 2px
-            width: 10px
-            height: 10px
+            width: 8px
+            height: 8px
         img.computer
           padding-left: 40px
           width: 100%
