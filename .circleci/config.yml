@@ -52,3 +52,10 @@ workflows:
   copy-i18n:
     jobs:
       - copy-i18n-tags
+    triggers:
+      - schedule:
+          cron: "0 7 * * 1" # Every Monday
+          filters:
+            branches:
+              only:
+                - master
