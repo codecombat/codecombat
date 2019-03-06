@@ -15,19 +15,17 @@ jobs:
 
       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
       - run: npm install coffee-script
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Install Hub
+          command: |
+            mkdir -p /tmp/hub
+            cd /tmp/hub
+
+            curl -L -o hub.tgz https://github.com/github/hub/releases/download/v2.10.0/hub-linux-amd64-2.10.0.tgz
+            tar -xzvf hub.tgz --strip 1
+            sudo mv ./bin/hub /usr/local/bin
 
       # run tests!
       - run: node -r coffee-script/register scripts/propagate-i18n-tags.js
@@ -46,6 +44,8 @@ jobs:
             git checkout -b $BRANCH_NAME
             git commit -a -m 'Run copy-i18n-tags'
             git push origin $BRANCH_NAME
+
+            hub pull-request --base master --message 'Run copy-i18n-tags' --assign jmif
 
 
 workflows:
