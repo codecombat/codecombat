@@ -1,0 +1,47 @@
+version: 2.1
+
+jobs:
+  copy-i18n-tags:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.15
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: npm install coffee-script
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run tests!
+      - run: node -r coffee-script/register scripts/propagate-i18n-tags.js
+      - run:
+          command: |
+            echo "Checking for changes..."
+            git diff-index --quiet HEAD -- && exit 0
+
+            echo "Changes found..."
+
+            BRANCH_NAME=copy-i18n-tags-$(date +%s)
+
+            git checkout -b $BRANCH_NAME
+            git commit -a -m 'Run copy-i18n-tags'
+            git push origin $BRANCH_NAME
+
+
+workflows:
+  copy-i18n:
+    jobs:
+      - copy-i18n-tags
