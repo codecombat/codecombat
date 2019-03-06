@@ -13,10 +13,12 @@ const enSourceFile = fs.readFileSync(
     { encoding: 'utf8'}
 );
 
+const CHANGE_MARKER = '{change}'
+
 const CATEGORY_SPLIT_PATTERN = /^[\s\n]*(?=[^:\n]+:\s*$)/gm; // One or more new lines followed by "key:", followed by newline
 const CATEGORY_CAPTURE_PATTERN = /^([^:\n]+):\s*\n/; // Extracts category name from first line of category section
 const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm; // Find lines with comments, capture key / value / comment
-const CHANGE_PATTERN = /\s?\s?(#\s)?\{change\}/g; // TODO comment
+const CHANGE_PATTERN = new RegExp(`\s?\s?(#\s)?${escapeRegexp(CHANGE_MARKER)}`); // Identify translation marked change
 const QUOTE_TAG_NAME_PATTERN = /^[a-z0-9_]+$/i // Determines if tag name needs to be quoted
 
 
@@ -59,7 +61,7 @@ for (const localeFile of localeFiles) {
 
     // Load locale
     const localeContents = require(`../app/locale/${localeFile}`);
-    const localeTranslations = localeContents.translations || {};
+    const localeTranslations = localeContents.translation || {};
 
     // Initialie rewrite of file with first line
     const rewrittenLines = [
@@ -91,17 +93,20 @@ for (const localeFile of localeFiles) {
             }
 
             if (localeSource.search(new RegExp(`#\\s+${escapeRegexp(enTagName)}:`)) >= 0) {
+                // If the translation is commented out in the locale fine, make sure it is not marked as changed.  A
+                // translation is not marked as changed until it is uncommented in a locale file.  Once it is
+                // uncommented in a translation file, the translation is considered active and changes should be
+                // tracked
                 comment = comment.replace(CHANGE_PATTERN, '');
             } else {
-                const tagIsMarkedChangeRegex = new RegExp(`^\\s+${escapeRegexp(enTagName)}: ".*"\\s*{change}\\s*`);
-                const commentIsMarkedChangeRegex = new RegExp(".*{change}.*");
+                const tagIsMarkedChangeRegex = new RegExp(`^\\s+"?${escapeRegexp(enTagName)}"?:\\s".*"\\s*#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`, 'm');
 
                 // If locale file has tag marked as change and comment is not already marked change,
                 // add change to comment
                 if (localeSource.search(tagIsMarkedChangeRegex) >= 0 &&
-                    comment.search(commentIsMarkedChangeRegex) === -1) {
+                    comment.search(CHANGE_PATTERN) === -1) {
 
-                    comment += ' {change}'; // TODO make {change} a constant
+                    comment += ` ${CHANGE_MARKER}`; // TODO make {change} a constant
                 }
             }
 
@@ -111,11 +116,11 @@ for (const localeFile of localeFiles) {
             }
 
             // If the tag does not exist in the locale file, make sure it is commented otu
-            const lineCommentPrefix = (!tagIsPresent) ? '# ' : '';
+            const lineCommentPrefix = (!tagIsPresent) ? '#' : '';
             const finalTagName = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
-            const finalLocaleTranslation = localeTranslation || enCategory[enTagName];
+            const finalLocaleTranslation = (localeTranslation || enCategory[enTagName]).replace(/"/g, '\\"');
 
-            rewrittenLines.push(`${lineCommentPrefix}    ${finalTagName}: "${finalLocaleTranslation}" ${comment}`.trim());
+            rewrittenLines.push(`${lineCommentPrefix}    ${finalTagName}: "${finalLocaleTranslation}" ${comment}`.trimRight());
         }
     }
 
