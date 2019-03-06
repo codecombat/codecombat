@@ -953,9 +953,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    nolan_title: "Sales Manager"
 #    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
-    titles:
-      csm: "고객 성공 관리자"
-#      territory_manager: "Territory Manager"
+    titles_csm: "고객 성공 관리자"
+#    titles_territory_manager: "Territory Manager"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
 #    bryukh_title: "Gameplay Developer"

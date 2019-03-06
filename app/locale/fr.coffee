@@ -954,9 +954,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     lisa_title: "Directeur du développement"
     david_title: "Directeur Marketing"
 
-    titles:
-      csm: "Responsable de la réussite client"
-      territory_manager: "Directrice régional"
+    titles_csm: "Responsable de la réussite client"
+    titles_territory_manager: "Directrice régional"
 
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Jeux RetroStyle"

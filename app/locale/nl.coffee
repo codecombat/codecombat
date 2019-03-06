@@ -953,9 +953,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     nolan_title: "Regio-manager" # {change}
     lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
     david_title: "Manager Marketing"
-    titles:
-      territory_manager: "Regiomanager"
-#      csm: "Customer Success Manager"
+    titles_territory_manager: "Regiomanager"
+#    titles_csm: "Customer Success Manager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     bryukh_title: "Speldesigner" # {change}

@@ -955,9 +955,8 @@ module.exports = nativeDescription: "български език", englishDescri
 #    david_title: "Marketing Lead"
     retrostyle_title: "Илюстрация"
     retrostyle_blurb: "Игра Ретро Стил"
-    titles:
-      csm: "Мениджър за успех на клиентите"
-#      territory_manager: "Territory Manager"
+    titles_csm: "Мениджър за успех на клиентите"
+#    titles_territory_manager: "Territory Manager"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    community_title: "...and our open-source community"

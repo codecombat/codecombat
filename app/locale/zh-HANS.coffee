@@ -953,9 +953,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     nolan_title: "区域经理" # {change}
     lisa_title: "校园专家" # {change}
     david_title: "客户成功经理" # {change}
-    titles:
-      csm: "客户成功经理"
-      territory_manager: "区域经理"
+    titles_csm: "客户成功经理"
+    titles_territory_manager: "区域经理"
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
     bryukh_title: "游戏设计师"

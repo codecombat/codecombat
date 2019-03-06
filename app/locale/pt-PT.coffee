@@ -953,9 +953,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     nolan_title: "Gestor de Vendas"
     lisa_title: "Gestora de Desenvolvimento de Negócio"
     david_title: "Líder de Marketing"
-    titles:
-      csm: "Gerente de Sucesso do Cliente"
-      territory_manager: "Gestora de Território"
+    titles_csm: "Gerente de Sucesso do Cliente"
+    titles_territory_manager: "Gestora de Território"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "'RetroStyle Games'"
 #    bryukh_title: "Gameplay Developer"

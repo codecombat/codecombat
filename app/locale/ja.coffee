@@ -953,9 +953,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     nolan_title: "地区担当マネージャー" # {change}
     lisa_title: "市場開発代表" # {change}
 #    david_title: "Marketing Lead"
-    titles:
-      csm: "カスタマーサクセスマネージャー"
-      territory_manager: "地域部長"
+    titles_csm: "カスタマーサクセスマネージャー"
+    titles_territory_manager: "地域部長"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
 #    bryukh_title: "Gameplay Developer"

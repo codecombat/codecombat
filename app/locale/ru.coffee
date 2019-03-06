@@ -953,9 +953,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     nolan_title: "Менеджер продаж"
     lisa_title: "Менеджер по экономическому развитию"
     david_title: "Менеджер по работе с клиентами"
-    titles:
-      csm: "Менеджер по работе с клиентами"
-      territory_manager: "Региональный менеджер"
+    titles_csm: "Менеджер по работе с клиентами"
+    titles_territory_manager: "Региональный менеджер"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Дизайнер игры"

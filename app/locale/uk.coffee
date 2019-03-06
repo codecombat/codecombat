@@ -953,9 +953,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     nolan_title: "Менеджер територій" # {change}
     lisa_title: "Шкільний спеціаліст" # {change}
 #    david_title: "Marketing Lead"
-    titles:
-      csm: "Менеджер успіху клієнтів"
-      territory_manager: "Менеджер територій"
+    titles_csm: "Менеджер успіху клієнтів"
+    titles_territory_manager: "Менеджер територій"
     retrostyle_title: "Ілюстрація"
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"

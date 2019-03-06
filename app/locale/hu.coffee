@@ -953,9 +953,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     nolan_title: "Territory Manager" # {change}
     lisa_title: "Üzletfejlesztési képviselő" # {change}
 #    david_title: "Marketing Lead"
-    titles:
-      csm: "Ügyfél sikermenedzser"
-#      territory_manager: "Territory Manager"
+    titles_csm: "Ügyfél sikermenedzser"
+#    titles_territory_manager: "Territory Manager"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"

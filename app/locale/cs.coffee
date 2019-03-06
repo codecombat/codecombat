@@ -956,9 +956,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
 #    retrostyle_title: "Illustration"
-    titles:
-      csm: "Správce úspěšných zákazníků"
-#      territory_manager: "Territory Manager"
+    titles_csm: "Správce úspěšných zákazníků"
+#    titles_territory_manager: "Territory Manager"
     retrostyle_blurb: "RetroStyle Games"
 #    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"

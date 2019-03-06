@@ -953,9 +953,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     nolan_title: "Υπεύθυνος Πωλήσεων"
     lisa_title: "Διευθυντής Ανάπτυξης Επιχειρήσεων"
     david_title: "Υπεύθυνος Προώθησης Προϊόντων"
-    titles:
-      csm: "Διαχειριστής επιτυχίας πελατών"
-      territory_manager: "Διευθυντής Περιοχής"
+    titles_csm: "Διαχειριστής επιτυχίας πελατών"
+    titles_territory_manager: "Διευθυντής Περιοχής"
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
     bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}

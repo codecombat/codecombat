@@ -951,14 +951,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     maka_title: "Defensor del Consumidor"
     robin_title: "Diseñadora de UX & Investigadora" # {change}
     nolan_title: "Administrador de territorio" # {change}
-    titles:
-      csm: "Gerente de éxito del cliente"
-      territory_manager: "Administrador de territorio"
+    titles_csm: "Gerente de éxito del cliente"
+    titles_territory_manager: "Administrador de territorio"
 #    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
-#    titles:
-#      csm: "Customer Success Manager"
-#      territory_manager: "Territory Manager"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
 #    bryukh_title: "Gameplay Developer"

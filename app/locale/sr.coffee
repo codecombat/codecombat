@@ -953,9 +953,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     nolan_title: "Руководилац подручја" # {change}
     lisa_title: "Школски специјалиста" # {change}
     david_title: "Вођа маркетинга"
-    titles:
-      csm: "Цустомер Суццесс Манагер"
-      territory_manager: "Територијални менаџер"
+    titles_csm: "Цустомер Суццесс Манагер"
+    titles_territory_manager: "Територијални менаџер"
     retrostyle_title: "Илустрација"
     retrostyle_blurb: "RetroStyle игрице"
     bryukh_title: "Дизајнер игрице"
