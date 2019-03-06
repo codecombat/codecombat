@@ -51,9 +51,9 @@ block content
                   span.text-p(data-i18n="new_home.classroom_in_box_blurb2")
                 li
                   span.text-p(data-i18n="new_home.classroom_in_box_blurb3")
-              if me.isAnonymous()
-                br
-                button.btn.btn-lg.btn-primary.signup-button.signup-home-btn(data-event-action="Homepage Sign Up #2 CTA", data-i18n="signup.sign_up")
+          if me.isAnonymous()
+            .row.signup_btn
+              button.btn.btn-lg.btn-primary.signup-button.signup-home-btn(data-event-action="Homepage Sign Up #2 CTA", data-i18n="signup.sign_up")
 
     .row#creativity-rigor
       .col-lg-12

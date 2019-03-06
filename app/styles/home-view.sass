@@ -139,14 +139,24 @@
 
     #classroom-in-box-row
       padding: 62px 40px
+      .row
+        padding: 0
+        &.signup_btn
+          margin-top: 55px
+          text-align: center
+
       h2, .text-p
         color: white
+        margin-bottom: 35px
         @media (max-width: $screen-lg-min)
           padding-top: 20px
       .video-iframe
-        text-align: center
+        text-align: left
         @media (min-width: $screen-lg-min)
-          padding-top: 55px
+          padding-top: 18px
+      img
+        position: absolute
+        top: 60px
 
       ul
         list-style: none
