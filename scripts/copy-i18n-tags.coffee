@@ -51,6 +51,8 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee', 'rot13.coffee']
       if commentsMap[enCat]? and commentsMap[enCat][enTag]?
         comment = " \##{commentsMap[enCat][enTag]}"
 
+      # fileSource = source code of locale file (ie fr.coffee)
+      # enTag = name of the tranlsation tag (ie matt_title)
       if fileSource.search(new RegExp("#    #{enTag}")) >= 0 # current tag is commented
         comment = comment.replace changePattern, ""
       else
