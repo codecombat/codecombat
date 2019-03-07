@@ -24,22 +24,13 @@ module.exports = class HomeView extends RootView
     'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
-    'click #learn-more-link': 'onClickLearnMoreLink'
-    'click .screen-thumbnail': 'onClickScreenThumbnail'
-    'click #carousel-left': 'onLeftPressed'
-    'click #carousel-right': 'onRightPressed'
     'click .request-quote': 'onClickRequestQuote'
     'click .logout-btn': 'logoutAccount'
     'click .profile-btn': 'onClickTrackEvent'
     'click .setup-class-btn': 'onClickSetupClass'
     'click .my-classes-btn': 'onClickTrackEvent'
     'click .my-courses-btn': 'onClickTrackEvent'
-    'click .resource-btn': 'onClickResourceButton'
     'click a': 'onClickAnchor'
-
-  shortcuts:
-    'right': 'onRightPressed'
-    'left': 'onLeftPressed'
 
   initialize: (options) ->
     @courses = new Courses()
@@ -55,34 +46,43 @@ module.exports = class HomeView extends RootView
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
     super()
 
-  onClickLearnMoreLink: ->
-    window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', []
-    @scrollToLink('#classroom-in-box-container')
-
   onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent($(e.target).data('event-action'))
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
       application.router.navigate '/teachers/quote', trigger: true
 
   onClickSetupClass: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent($(e.target).data('event-action'))
     application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   onClickTrackEvent: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent($(e.target).data('event-action'))
+
+  # Provides a uniform interface for collecting information from the homepage.
+  # Always provides the category Homepage and includes the user role.
+  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+    defaults =
+      category: 'Homepage'
+      user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+    properties = _.merge(defaults, extraproperties)
+    console.log(action, properties)
+    window.tracker?.trackEvent(
+        action,
+        properties,
+        includeIntegrations )
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -94,7 +94,9 @@ module.exports = class HomeView extends RootView
     else
       anchorText = anchor.text
     if anchorText
-      window.tracker?.trackEvent "Link: #{anchorText}", category: 'Homepage', ['Google Analytics']
+      @homePageEvent("Link: #{anchorText}", {}, ['Google Analytics'])
+    else
+      @homePageEvent("Link:", {clicked: e?.currentTarget?.host or "unknown"}, [])
 
   afterRender: ->
     require.ensure(['@vimeo/player'], (require) =>
@@ -127,13 +129,6 @@ module.exports = class HomeView extends RootView
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()
-
-  onRightPressed: (event) ->
-    # Special handling, otherwise after you click the control, keyboard presses move the slide twice
-    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
-
-  onLeftPressed: (event) ->
-    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
 
   mergeWithPrerendered: (el) ->
     true
