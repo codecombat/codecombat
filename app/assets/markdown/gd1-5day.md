@@ -90,11 +90,13 @@ Then, use one or more of the following discussion questions to prompt reflection
 **What did the games that we looked at have in common?**
 
 Sample Response:
+
 > Each game had a clear goal that the player had to complete in order to advance to the next stage. Also, each game had a way that the player interacted with it and some objects that the player had to manipulate in some way.
 
 **What was different about the games that we looked at?**
 
 Sample Response:
+
 > The goals, mechanics, and spawnables in the games were different and therefore changed the player's experience completely.
 
 ### Coding Time (40 minutes)
@@ -119,11 +121,13 @@ Use one or more of the following questions to prompt reflection on the lesson. Y
 **Explain the parts of a game in your own words.**
 
 Sample Response:
+
 > Games have goals, mechanics, and spawnables. Goals tell the player what they should do to win. Mechanics are anything the player interacts with in the game world (like picking up coins to buy things at a store). Spawnables are things that show up on the screen that the player may interact with.
 
 **Explain the difference between a mechanic and a goal.**
 
 Sample Response:
+
 > Mechanics just tell the player how they can play the game, and these could change depending on the design. Goals are specific and tell the player how they can win.
 
 ### Differentiation
@@ -175,11 +179,13 @@ Optional Materials:
 Discuss **arguments** as they were seen in Introduction to Computer Science. Have students give examples of when they may have used arguments in the past.
 
 Sample Response:
+
 > In Introduction to Computer Science when I used the `hero.moveRight(5)` command and could change the number of steps I moved.
 
 Ask students where they have used **arguments** in the Game Development course.
 
 Sample Response:
+
 > When I use the `game.spawnXY("chest", 8, 14)` command and I can change all the arguments like `game.spawnXY("forest", 26, 51)`. This changes the type of thing that I spawn and the place where it is spawned on the screen.
 
 #### Interact
@@ -267,6 +273,7 @@ Optional Materials:
 Discuss **objects** as they were seen in Introduction to Computer Science. Have students give examples of what objects they have encountered so far.
 
 Sample Response:
+
 > In Introduction to Computer Science I used the `hero` object and in this class I use the `game` object.
 
 ### Explain
@@ -293,9 +300,13 @@ Use one or more of the following questions to prompt reflection on the lesson. Y
 
 **Why is it helpful to be able to change the properties of different objects?**
 
+Sample Response:
+
 > When developing my game, I can control the way characters look and how they are able to interact with each other.
 
 **How is changing an object's properties different from using a method like `hero.moveRight()`?**
+
+Sample Response:
 
 > Changing an object's properties changes the data that is stored as part of an object. Using a method allows the object to do something, but doesn't necessarily change the data associated with the object.
 
@@ -372,12 +383,14 @@ Tell students they will be playing Level 17 ("Tabula Rasa") for the next few day
 Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
 **Did your original idea for the game change once you started programming? Why or why not?**
+
 Sample Response:
-Once I started programming, I realized that I couldn't include all the different goals that I had planned for at the very beginning. I changed my code so that there was one goal first, then I was able to add on after that.
+
+>Once I started programming, I realized that I couldn't include all the different goals that I had planned for at the very beginning. I changed my code so that there was one goal first, then I was able to add on after that.
 
 **Did anything surprise you when your classmates were playing your game? Did you make any changes after watching them play your game?**
 Sample Response:
-My game was easier to beat than I thought it would be. I want to make it more challenging.
+>My game was easier to beat than I thought it would be. I want to make it more challenging.
 
 ### Differentiation
 
