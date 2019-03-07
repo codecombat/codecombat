@@ -5,7 +5,9 @@
 # Game Development 1
 
 _Level: Beginner_
+
 _Prerequisite: Introduction to Computer Science_
+
 _Time: 4 x 55 minute (minimum) sessions_
 
 ###  Overview
