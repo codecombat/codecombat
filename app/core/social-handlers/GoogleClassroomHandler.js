@@ -45,7 +45,7 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
 module.exports = {
   gcApiHandler: new GoogleClassroomAPIHandler(),
 
-  scopes: 'https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.profile.photos https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.rosters.readonly',
+  scopes: 'https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.rosters.readonly',
 
   markAsImported: async function(gcId) {
     try {
