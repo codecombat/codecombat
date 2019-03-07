@@ -78,7 +78,7 @@ module.exports = class HomeView extends RootView
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-    console.log(action, properties)
+
     window.tracker?.trackEvent(
         action,
         properties,
