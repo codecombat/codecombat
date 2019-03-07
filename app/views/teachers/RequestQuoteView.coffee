@@ -34,6 +34,8 @@ module.exports = class RequestQuoteView extends RootView
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
 
+  getTitle: -> $.i18n.t('new_home.request_quote')
+
   initialize: ->
     @trialRequest = new TrialRequest()
     @trialRequests = new TrialRequests()
