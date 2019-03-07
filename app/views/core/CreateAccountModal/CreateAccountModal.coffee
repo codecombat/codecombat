@@ -222,7 +222,10 @@ module.exports = class CreateAccountModal extends ModalView
       store.unregisterModule('modal')
 
   onClickLoginLink: ->
-    alert("Log in clicked from", @signupState.get('path'))
+    properties =
+      category: 'Homepage'
+      subview: @signupState.get('path') || "choosetype"
+    window.tracker?.trackEvent('Log in from CreateAccount', properties)
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))
 
   segmentCheckRequiredInCountry: ->
