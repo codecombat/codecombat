@@ -35,6 +35,12 @@ module.exports = {
       window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
 
+  signupFromGoogleClassroom: (attrs, options={}) ->
+    fetchJson("/db/user/signup-from-google-classroom", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))
+
   put: (user, options={}) ->
     fetchJson(@url(user._id), _.assign({}, options, {
       method: 'PUT'
