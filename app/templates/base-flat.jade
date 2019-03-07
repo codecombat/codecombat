@@ -114,10 +114,10 @@ mixin accountLinks
         p If this is showing, you dun goofed
 
   block footer
-    .container-fluid
-      #footer.small
-        .container
-          if !me.hideFooter()
+    if !me.hideFooter()
+      .container-fluid
+        #footer.small
+          .container
             .row
               .col-lg-12
                 .row
@@ -172,10 +172,11 @@ mixin accountLinks
                         a(href="https://www.facebook.com/codecombat", target="_blank")
                           img(src="/images/pages/base/facebook_logo_button.png", width="40")
 
-                #final-footer(dir="ltr")
-                  img(src="/images/pages/base/logo.png" alt="CodeCombat")
-                  span(data-i18n="nav.copyright_prefix")
-                  span= ' ©2019 CodeCombat Inc. '
-                  span.spl(data-i18n="nav.copyright_suffix")
-                  a.small(href="/legal") Terms of Service
-                  a.small(href="/privacy") Privacy
+      #final-footer(dir="ltr")
+        img(src="/images/pages/base/logo.png" alt="CodeCombat")
+        .float-right
+          span(data-i18n="nav.copyright_prefix")
+          span= ' ©2019 CodeCombat Inc. '
+          span.spl(data-i18n="nav.copyright_suffix")
+          a.small(href="/legal") Terms of Service
+          a.small(href="/privacy") Privacy

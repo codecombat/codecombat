@@ -533,7 +533,7 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   // base-flat.jade
 
   #footer
-    background-color: #0E4C60
+    background-color: $navy
     color: white
     padding-top: 20px
     margin-top: 50px
@@ -563,6 +563,8 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
 
     .col-lg-3
       padding-bottom: 15px
+      @media (max-width: $screen-md-min)
+        padding-left: 27px
 
     @media (max-width: $screen-sm-min)
       background-color: #201a15
@@ -579,20 +581,29 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       color: rgba(255,255,255,0.8)
 
   #final-footer
-    margin: 20px auto
+    padding: 20px 70px 14px
     color: rgba(255,255,255,0.8)
+    background-color: $navy
+
+    .float-right
+      padding-top: 15px
+      float: right
+
+    @media (max-width: $screen-md-min)
+      position: inherit
+      height: auto
+      .float-right
+        float: none
 
     @media (max-width: $screen-sm-min)
-      position: inherit
-      padding: 20px
-      height: auto
+      background-color: #201a15
 
     a
       color: rgba(255,255,255,0.8)
       margin-left: 20px
 
     img
-      height: 50px
+      height: 40px
       margin-right: 20px
 
     .small
