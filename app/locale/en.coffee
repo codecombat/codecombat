@@ -1473,6 +1473,10 @@
     locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
     unlocked_videos_desc: "Review the __concept_name__ concept video."
     video_shown_before: "shown before __level__"
+    link_google_classroom: "Link Google Classroom"
+    select_your_classroom: "Select Your Classroom"
+    no_classrooms_found: "No classrooms found"
+    create_classroom_manually: "Create classroom manually"
 
 
   project_gallery:
@@ -1806,6 +1810,7 @@
     combo: "Combo"
     combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Concept"
+    sync_google_classroom: "Sync Google Classroom"
 
   share_licenses:
     share_licenses: "Share Licenses"

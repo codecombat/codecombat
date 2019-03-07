@@ -41,6 +41,7 @@ _.extend ClassroomSchema.properties,
       position: c.point2d()
     }
   }
+  googleClassroomId: { title: 'Google classroom id', type: 'string' }
   settings: c.object {title: 'Classroom Settings', required: []}, {
     optionsEditable: { type: 'boolean', description: 'Allow teacher to use these settings.', default: false }
     map: { type: 'boolean', description: 'Classroom map.', default: false }
