@@ -10,8 +10,6 @@ storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
-#  TODO: auto margin feature paragraphs
-
 module.exports = class HomeView extends RootView
   id: 'home-view'
   template: template
@@ -96,7 +94,7 @@ module.exports = class HomeView extends RootView
     if anchorText
       @homePageEvent("Link: #{anchorText}", {}, ['Google Analytics'])
     else
-      @homePageEvent("Link:", {clicked: e?.currentTarget?.host or "unknown"}, [])
+      @homePageEvent("Link:", {clicked: e?.currentTarget?.host or "unknown"}, ['Google Analytics'])
 
   afterRender: ->
     require.ensure(['@vimeo/player'], (require) =>
