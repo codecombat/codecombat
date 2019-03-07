@@ -93,7 +93,7 @@ module.exports = class CreateAccountModal extends ModalView
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
       when 'teacher'
         startSignupTracking()
-        @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }) # MAKING A NOTE HERE
+        @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' })
       else
         if /^\/play/.test(location.pathname)
           @signupState.set({ path: 'individual', screen: 'segment-check' })
