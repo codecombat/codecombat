@@ -63,7 +63,7 @@ for (const localeFile of localeFiles) {
     const localeContents = require(`../app/locale/${localeFile}`);
     const localeTranslations = localeContents.translation || {};
 
-    // Initialie rewrite of file with first line
+    // Initial rewrite of file with first line
     const rewrittenLines = [
         `module.exports = nativeDescription: "${localeContents.nativeDescription}", englishDescription: ` +
             `"${localeContents.englishDescription}", translation:`
@@ -103,12 +103,12 @@ for (const localeFile of localeFiles) {
                 const tagIsMarkedChangeRegex = new RegExp(`^\\s+"?${escapeRegexp(enTagName)}"?:\\s".*"\\s*` +
                     `#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`, 'm');
 
-                // If locale file has tag marked as change and comment is not already marked change,
-                // add change to comment
+                // If en locale file has tag marked as change and the current locale file does not
+                // have it marked as change, update the current locale file to add change marker
                 if (localeSource.search(tagIsMarkedChangeRegex) >= 0 &&
                     comment.search(CHANGE_PATTERN) === -1) {
 
-                    comment += ` ${CHANGE_MARKER}`; // TODO make {change} a constant
+                    comment += ` ${CHANGE_MARKER}`;
                 }
             }
 
@@ -117,7 +117,7 @@ for (const localeFile of localeFiles) {
                 comment = `# ${comment}`;
             }
 
-            // If the tag does not exist in the locale file, make sure it is commented otu
+            // If the tag does not exist in the locale file, make sure it is commented out
             const lineCommentPrefix = (!tagIsPresent) ? '#' : '';
             const finalTagName = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
 
