@@ -44,7 +44,7 @@ nvm alias default $NODE_VERSION
 
 echo "Installing Node / Ruby global dependencies"
 gem install compass
-npm install -g node-gyp
+npm install -g node-gyp read
 
 echo "Configuring node_modules directories..."
 
@@ -55,9 +55,12 @@ CLIENT_NODE_MODULES=/node_modules_client
 if [[ ! -d $CLIENT_NODE_MODULES ]]; then
     sudo mkdir -p $CLIENT_NODE_MODULES
     sudo mkdir -p $COCO_CLIENT_ROOT/node_modules
-
     sudo chown -R vagrant:vagrant $CLIENT_NODE_MODULES
-    sudo mount --bind $CLIENT_NODE_MODULES $COCO_CLIENT_ROOT/node_modules
+
+    service_name="$(echo $COCO_CLIENT_ROOT | tr '/' '-' | cut -d- -f2)-node_modules.mount"
+    sudo cp /vagrant/development/vagrant/node-modules-client.mount /etc/systemd/system/$service_name
+    sudo systemctl enable $service_name
+    sudo systemctl start $service_name
 fi
 
 echo "Installing client dependencies..."
