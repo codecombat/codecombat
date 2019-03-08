@@ -1,0 +1,61 @@
+version: 2.1
+
+jobs:
+  copy-i18n-tags:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.15
+
+    working_directory: ~/repo
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - '4c:f9:84:75:d9:9c:2d:18:08:fe:96:47:34:3e:0f:d9'
+
+      - checkout
+
+      - run: npm install coffee-script
+
+      - run:
+          name: Install Hub
+          command: |
+            mkdir -p /tmp/hub
+            cd /tmp/hub
+
+            curl -L -o hub.tgz https://github.com/github/hub/releases/download/v2.10.0/hub-linux-amd64-2.10.0.tgz
+            tar -xzvf hub.tgz --strip 1
+            sudo mv ./bin/hub /usr/local/bin
+
+      - run: node -r coffee-script/register scripts/copy-i18n-tags.js
+
+      - run:
+          command: |
+            echo "Checking for changes..."
+            git diff-index --quiet HEAD -- && exit 0
+
+            echo "Changes found..."
+
+            BRANCH_NAME=copy-i18n-tags-$(date +%s)
+
+            git config user.email circle-ci@codecombat.com
+            git config user.name 'CoCo CI'
+
+            git checkout -b $BRANCH_NAME
+            git commit -a -m 'Run copy-i18n-tags'
+            git push origin $BRANCH_NAME
+
+            hub pull-request --base master --message 'Run copy-i18n-tags' --assign jmif
+
+
+workflows:
+  copy-i18n:
+    jobs:
+      - copy-i18n-tags
+    triggers:
+      - schedule:
+          cron: "0 7 * * 1" # Every Monday
+          filters:
+            branches:
+              only:
+                - master
