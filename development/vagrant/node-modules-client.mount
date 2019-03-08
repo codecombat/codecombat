@@ -1,0 +1,11 @@
+[Unit]
+Description=CoCo Node Modules
+
+[Mount]
+What=/node_modules_server
+Where=/vagrant/node_modules
+Type=none
+Options=bind
+
+[Install]
+WantedBy=multi-user.target
