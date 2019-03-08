@@ -59,7 +59,7 @@
     for_teachers_subblurb2: "View data on student progress, discover curriculum resources, and access real-time support to empower student learning."
     for_teachers_subtitle3: "Built-in Assessments"
     for_teachers_subblurb3: "Personalize instruction and ensure students understand core concepts with formative and summative assessments."
-    for_teachers_subtitle4: "Project-Based Learning"
+    for_teachers_subtitle4: "Automatic Differentiation"
     for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
     game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
     get_started: "Get started"
