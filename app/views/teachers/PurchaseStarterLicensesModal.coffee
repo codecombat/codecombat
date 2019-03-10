@@ -6,18 +6,20 @@ Products = require 'collections/Products'
 Prepaids = require 'collections/Prepaids'
 stripeHandler = require 'core/services/stripe'
 
+{ STARTER_LICENCE_LENGTH_MONTHS } = require 'app/core/constants'
+
 module.exports = class PurchaseStarterLicensesModal extends ModalView
   id: 'purchase-starter-licenses-modal'
   template: require 'templates/teachers/purchase-starter-licenses-modal'
-  
+
   maxQuantityStarterLicenses: 75
   i18nData: -> {
     @maxQuantityStarterLicenses,
-    starterLicenseLengthMonths: 6,
+    starterLicenseLengthMonths: STARTER_LICENCE_LENGTH_MONTHS,
     quantityAlreadyPurchased: @state.get('quantityAlreadyPurchased')
     supportEmail: "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>"
   }
-  
+
   events:
     'input input[name="quantity"]': 'onInputQuantity'
     'change input[name="quantity"]': 'onInputQuantity'
@@ -54,16 +56,16 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
       }
     @listenTo @state, 'change', => @renderSelectors('.render')
     super(options)
-  
+
   onLoaded: ->
     super()
-    
+
   getDollarsPerStudentString: -> utils.formatDollarValue(@state.get('dollarsPerStudent'))
   getTotalPriceString: -> utils.formatDollarValue(@state.get('dollarsPerStudent') * @state.get('quantityToBuy'))
-  
+
   boundedValue: (value) ->
     Math.max(Math.min(value, @state.get('quantityAllowedToPurchase')), 0)
-    
+
   onInputQuantity: (e) ->
     $input = $(e.currentTarget)
     inputValue = parseFloat($input.val()) or 0
@@ -73,14 +75,14 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
       if boundedValue isnt inputValue
         $input.val(boundedValue)
     @state.set { quantityToBuy: boundedValue }
-    
+
   onClickPayNowButton: ->
     window.tracker?.trackEvent 'Purchase Starter License: Pay Now Clicked', category: 'Teachers', ['Mixpanel']
     @state.set({
       purchaseProgress: undefined
       purchaseProgressMessage: undefined
     })
-    
+
     application.tracker?.trackEvent 'Started course prepaid purchase', {
       price: @state.get('centsPerStudent'), students: @state.get('quantityToBuy')
     }
@@ -89,7 +91,7 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
       description: "Starter course access for #{@state.get('quantityToBuy')} students"
       bitcoin: true
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
-    
+
   onStripeReceivedToken: (e) ->
     @state.set({ purchaseProgress: 'purchasing' })
     @render?()
