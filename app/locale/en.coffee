@@ -75,7 +75,7 @@
     quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
     quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
     see_example: "See example"
-    slogan: "The most engaging way to learn computer science" # {change}
+    slogan: "The most engaging way to learn computer science" # 
     teach_cs1_free: "Teach CS1 Free"
     teachers_love_codecombat_title: "Teachers Love CodeCombat"
     teachers_love_codecombat_blurb1: "Report that their students enjoy using CodeCombat to learn how to code"
