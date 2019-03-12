@@ -26,7 +26,6 @@ before_script:
   - npm install --ignore-scripts 
   - npm install node-sass
   - npm install
-  - npm update --no-save
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 script:
