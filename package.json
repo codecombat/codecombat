@@ -96,7 +96,7 @@
     "cookie-session": "^1.2.0",
     "country-list": "0.0.3",
     "css-loader": "^0.25.0",
-    "d3": "~3.4.4",
+    "d3": "~3.5.17",
     "deku": "^2.0.0-rc16",
     "delighted": "^1.2.0",
     "event-hooks-webpack-plugin": "^1.0.0",
@@ -173,7 +173,7 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "bower": "~1.6.4",
+    "bower": "~1.8.8",
     "bundle-loader": "^0.5.5",
     "commonjs-require-definition": "0.2.0",
     "compressible": "~1.0.1",
@@ -216,7 +216,7 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "6.14.4",
-    "npm": "^3.10.10"
+    "node": "8.15.1",
+    "npm": "^6.4.1"
   }
 }
