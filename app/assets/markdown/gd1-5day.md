@@ -28,9 +28,13 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 ### Key Terms
 
 **Player** - The person who plays the game and controls the game piece (_example: In Tetris, the person who presses a button to drop the blocks into place._)
+
 **Goal** - A task that a player must perform to win (or progress in) a game (_example: The player must collect all the gems before progressing to the next level._)
+
 **Mechanic** - The rules that govern how a player interacts with a game and how the game interacts with a player (_example: In platform games, the player presses a button that makes the hero jump._)
+
 **Spawnable** - An **object** in a game that a student can add to their game using the _spawn_ command. (_example: scenery, characters, and gems_)
+
 **Property** - A characteristic of an object. (_example: The x-position of the gem that is being spawned._)
 
 ---
@@ -113,7 +117,7 @@ Allow students to move through these levels at their own pace. Circulate and ass
 
 _We recommend stopping students after Level 5 ("Gemtacular") and using the next lesson plan to introduce the next set of concepts before beginning Level 6 ("Vorpal Mouse")._
 
-##### Look Out For:
+**Look Out For**:
 - Students may have trouble with the X/Y coordinates initially. You may want to do a brief review of that concept if students seem to be struggling with placing objects onto the screen where they want them. Remind them that the (0,0) coordinate corresponds to the bottom lefthand corner of the screen, and that they can see the coordinates for a given point if they hover over it with their mouse.
 
 ### Closure (5 mins)
@@ -134,14 +138,14 @@ Sample Response:
 
 ### Differentiation
 
-##### Additional Supports:
+**Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
 - If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 - If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
 - If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-##### Extension Activities:
+**Extension Activities**:
 
 - Have students try different types of spawnables in their "Gemtacular" (Level 5) code, like adding to the forest or setting up fences to make the maze more difficult.
 - Have students draw out a maze on paper that they would like to build later on in the Game Development course.
@@ -174,7 +178,7 @@ Optional Materials:
 
 - **CSTA 1A-AP-15** Using correct terminology, describe steps taken and choices made during the iterative process of program development.
 
-### Opening Activity (10 minutes): _Game Breakdown_
+### Opening Activity (10 minutes): _Arguments Throwback_
 
 ### Review
 
@@ -212,7 +216,7 @@ Tell students they will be playing levels 6 ("Vorpal Mouse") - 11 ("Hedge Magic"
 
 _We recommend stopping students after Level 11 ("Vorpal Mouse") and using the next lesson plan to introduce the next set of concepts before beginning Level 12 ("Forest Incursion")._
 
-##### Look Out For:
+**Look Out For**:
 - Students may struggle with knowing what is required for a given goal. For example, a level will not be able to be completed if there is a collect goal and no gems to collect. Help them to use their graphic organizers to apply what is required for a given goal.
 
 ### Closure (5 mins)
@@ -231,14 +235,14 @@ Sample Response:
 
 ### Differentiation
 
-##### Additional Supports:
+**Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
 - If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 - If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
 - If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-##### Extension Activities:
+**Extension Activities**:
 
 - Have students add onto their "Hedge Magic" (Level 11) code to include two goals and the ability to win the level.
 
@@ -293,7 +297,7 @@ Tell students they will be playing levels 12 - 16 ("Forest Incursion" - "Time to
 
 _We recommend stopping students after Level 16 ("Time to Live") and using the next lesson plan to introduce the final project before beginning Level 17 ("Tabula Rasa")._
 
-##### Look Out For:
+**Look Out For**:
 - Students may be able to change properties effectively in code, but be sure to check that students understand the significance of these changes. Students should be able to explain what changing properties does practically in the game.
 
 ### Closure (5 mins)
@@ -314,14 +318,14 @@ Sample Response:
 
 ### Differentiation
 
-##### Additional Supports:
+**Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
 - If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 - If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
 - If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-##### Extension Activities:
+**Extension Activities**:
 
 - Have students who finished early play through each other's Level 16 ("Time to Survive") games and give each other feedback on how they could make the level more difficult.
 
@@ -375,7 +379,7 @@ Explain the following steps that students should work through to create their ga
 
 Tell students they will be playing Level 17 ("Tabula Rasa") for the next few days, creating their own game. Emphasize that the first two steps of the process do not require their computers and can be done in their notebooks or on the white board. Do not allow students to jump straight into code.
 
-##### Look Out For:
+**Look Out For**:
 - Many students may be able to achieve the basic goals to beat the level very early. Encourage students to add additional elements to their game to make it interesting and challenging.
 - Many students may want to skip over or rush through the design and planning phases. Encourage them to take these steps seriously and spend a minimum of 15 minutes on them. Point out that real game designers always start with a plan before jumping in because it helps them anticipate sticky spots where things might not work as they originally thought.
 
@@ -396,7 +400,7 @@ Sample Response:
 
 ### Differentiation
 
-##### Additional Supports:
+**Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 - If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
