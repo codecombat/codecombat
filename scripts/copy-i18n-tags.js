@@ -107,7 +107,8 @@ for (const localeFile of localeFiles) {
             } else {
                 const tagIsMarkedChangeRegex = new RegExp(
                     categoryRegexPrefix +
-                        `\\s+"?${escapeRegexp(sourceFileTag)}"?:\\s".*"\\s*#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*`,
+                        `\\s+"?${escapeRegexp(sourceFileTag)}"?:` +
+                        `\\s".*"\\s*#.*${escapeRegexp(CHANGE_MARKER)}\\s*`,
                     'mi' // Case insensitive to support "change" in different capitalizations
                 );
 
