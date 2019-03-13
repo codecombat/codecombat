@@ -2,7 +2,9 @@
 RUBY_VERSION=2.6.1
 NODE_VERSION=6.16.0
 
-COCO_CLIENT_ROOT=/vagrant
+COCO_CLIENT_ROOT=/coco/client
+
+CLIENT_NODE_MODULES=/vagrant/mounts/node_modules/client
 
 # inform apt that there's no user to answer interactive questions
 export DEBIAN_FRONTEND=noninteractive
@@ -48,20 +50,17 @@ npm install -g node-gyp read
 
 echo "Configuring node_modules directories..."
 
-CLIENT_NODE_MODULES=/node_modules_client
-
 # bind /vagrant/node_modules so that it does not leak through to the host file system
 # which triggers symlink and path size issues on Windows hosts
 if [[ ! -d $CLIENT_NODE_MODULES ]]; then
     sudo mkdir -p $CLIENT_NODE_MODULES
     sudo mkdir -p $COCO_CLIENT_ROOT/node_modules
     sudo chown -R vagrant:vagrant $CLIENT_NODE_MODULES
-
-    service_name="$(echo $COCO_CLIENT_ROOT | tr '/' '-' | cut -d- -f2)-node_modules.mount"
-    sudo cp /vagrant/development/vagrant/node-modules-client.mount /etc/systemd/system/$service_name
-    sudo systemctl enable $service_name
-    sudo systemctl start $service_name
+    sudo chown -R vagrant:vagrant $COCO_CLIENT_ROOT
 fi
+
+# Make sure to remount
+sudo bash /vagrant/mounts/coco_server/development/vagrant/mount.sh
 
 echo "Installing client dependencies..."
 pushd $COCO_CLIENT_ROOT
