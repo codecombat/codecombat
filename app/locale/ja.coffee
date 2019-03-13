@@ -1280,7 +1280,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
- courses:
+  courses:
 #    create_new_class: "Create New Class"
 #    hoc_blurb1: "Try the"
 #    hoc_blurb2: "Code, Play, Share"
