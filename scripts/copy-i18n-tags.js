@@ -77,7 +77,7 @@ for (const localeFile of localeFiles) {
 
         // Prefix for regular expressions that require the pattern to exist within a category.  This depends on
         // categories and their tags to not contain new lines and categories being separated by a newline
-        const categoryRegexPrefix = `^\\s\\s${escapeRegexp(enCategoryName)}:(?:.*\n)?`;
+        const categoryRegexPrefix = `\\s\\s${escapeRegexp(enCategoryName)}:\\n(?:.+\\n)*`;
 
         rewrittenLines.push('');
 
@@ -107,7 +107,7 @@ for (const localeFile of localeFiles) {
             } else {
                 const tagIsMarkedChangeRegex = new RegExp(
                     categoryRegexPrefix +
-                        `^\\s+"?${escapeRegexp(sourceFileTag)}"?:\\s".*"\\s*#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`,
+                        `\\s+"?${escapeRegexp(sourceFileTag)}"?:\\s".*"\\s*#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*`,
                     'm'
                 );
 
