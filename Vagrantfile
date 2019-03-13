@@ -23,4 +23,5 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell", path: "./development/vagrant/provision.sh", privileged: false
+  config.vm.provision "shell", path: "./development/vagrant/mount.sh", privileged: true, run: 'always'
 end
