@@ -75,6 +75,10 @@ for (const localeFile of localeFiles) {
         const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined');
         const localeCategory = localeTranslations[enCategoryName] || {};
 
+        // Prefix for regular expressions that require the pattern to exist within a category.  This depends on
+        // categories and their tags to not contain new lines and categories being separated by a newline
+        const categoryRegexPrefix = `^\\s\\s${escapeRegexp(enCategoryName)}:(?:.*\n)?`;
+
         rewrittenLines.push('');
 
         // Add the category line, commenting it out if it does not exist in the locale file
@@ -85,6 +89,7 @@ for (const localeFile of localeFiles) {
         for (const enTagName of Object.keys(enCategory)) {
             const localeTranslation = localeCategory[enTagName];
             const tagIsPresent = (typeof localeTranslation !== 'undefined');
+            const sourceFileTag = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
 
             // Prepare the comment for the tag if it exists.  Note that this will propagate {change} tag from en locale
             let comment = '';
@@ -92,7 +97,7 @@ for (const localeFile of localeFiles) {
                 comment = comments[enCategoryName][enTagName];
             }
 
-            const commentedTagRegex = new RegExp(`#\\s+${escapeRegexp(enTagName)}:`);
+            const commentedTagRegex = new RegExp(categoryRegexPrefix + `#\\s+${escapeRegexp(sourceFileTag)}:`);
             if (localeSource.search(commentedTagRegex) >= 0) {
                 // If the translation is commented out in the locale fine, make sure it is not marked as changed.  A
                 // translation is not marked as changed until it is uncommented in a locale file.  Once it is
@@ -100,8 +105,11 @@ for (const localeFile of localeFiles) {
                 // tracked
                 comment = comment.replace(CHANGE_PATTERN, '');
             } else {
-                const tagIsMarkedChangeRegex = new RegExp(`^\\s+"?${escapeRegexp(enTagName)}"?:\\s".*"\\s*` +
-                    `#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`, 'm');
+                const tagIsMarkedChangeRegex = new RegExp(
+                    categoryRegexPrefix +
+                        `^\\s+"?${escapeRegexp(sourceFileTag)}"?:\\s".*"\\s*#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`,
+                    'm'
+                );
 
                 // If en locale file has tag marked as change and the current locale file does not
                 // have it marked as change, update the current locale file to add change marker
@@ -119,7 +127,6 @@ for (const localeFile of localeFiles) {
 
             // If the tag does not exist in the locale file, make sure it is commented out
             const lineCommentPrefix = (!tagIsPresent) ? '#' : '';
-            const finalTagName = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
 
             // Stringify the output to escape special chars
             const finalLocaleTranslation = JSON.stringify(
@@ -127,7 +134,7 @@ for (const localeFile of localeFiles) {
             );
 
             rewrittenLines.push(
-                `${lineCommentPrefix}    ${finalTagName}: ${finalLocaleTranslation} ${comment}`.trimRight()
+                `${lineCommentPrefix}    ${sourceFileTag}: ${finalLocaleTranslation} ${comment}`.trimRight()
             );
         }
     }
