@@ -133,7 +133,7 @@ for (const localeFile of localeFiles) {
     }
 
     // Write the new file contents to the locale file
-    const newLocaleContents = rewrittenLines.join("\n");
+    const newLocaleContents = rewrittenLines.join("\n") + '\n'; // End file with a new line
     fs.writeFileSync(
         path.join(__dirname, `../app/locale/${localeFile}`),
         newLocaleContents,
