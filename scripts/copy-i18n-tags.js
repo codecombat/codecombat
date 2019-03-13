@@ -18,7 +18,7 @@ const CHANGE_MARKER = '{change}'
 const CATEGORY_SPLIT_PATTERN = /^[\s\n]*(?=[^:\n]+:\s*$)/gm; // One or more new lines followed by "key:", followed by newline
 const CATEGORY_CAPTURE_PATTERN = /^([^:\n]+):\s*\n/; // Extracts category name from first line of category section
 const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm; // Find lines with comments, capture key / value / comment
-const CHANGE_PATTERN = new RegExp(`\\s?\\s?(#\\s)?${escapeRegexp(CHANGE_MARKER)}`, 'g'); // Identify translation marked change
+const CHANGE_PATTERN = new RegExp(`\\s?\\s?(#\\s)?${escapeRegexp(CHANGE_MARKER)}`, 'gi'); // Identify translation marked change
 const QUOTE_TAG_NAME_PATTERN = /^[a-z0-9_]+$/i // Determines if tag name needs to be quoted
 
 
@@ -108,7 +108,7 @@ for (const localeFile of localeFiles) {
                 const tagIsMarkedChangeRegex = new RegExp(
                     categoryRegexPrefix +
                         `\\s+"?${escapeRegexp(sourceFileTag)}"?:\\s".*"\\s*#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*`,
-                    'm'
+                    'mi' // Case insensitive to support "change" in different capitalizations
                 );
 
                 // If en locale file has tag marked as change and the current locale file does not
