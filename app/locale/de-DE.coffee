@@ -952,10 +952,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     robin_title: "Produktmanager" # {change}
     nolan_title: "Territorialmanager" # {change}
     lisa_title: "Schulspezialist" # {change}
-    sean_title: "Territorialmanager"
-    liz_title: "Territorialmanager"
-    jane_title: "Kundenerfolgsmanager"
     david_title: "Leitung Marketing"
+    titles_csm: "Kundenerfolgsmanager"
+    titles_territory_manager: "Territorialmanager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Game Designer"

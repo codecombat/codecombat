@@ -952,15 +952,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     robin_title: "Chef de Produit" # {change}
     nolan_title: "Directeur des Ventes"
     lisa_title: "Directeur du développement"
-    sean_title: "Directeur régional"
-    liz_title: "Directrice régional"
-    jane_title: "Directrice des relations clientèle"
     david_title: "Directeur Marketing"
+    titles_csm: "Responsable de la réussite client"
+    titles_territory_manager: "Directrice régional"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Jeux RetroStyle"
     bryukh_title: "Designer de jeux" # {change}
     bryukh_blurb: "Construuit des puzzles"
-
     community_title: "... et notre communité open-source"
     community_subtitle: "Plus de 500 contributeurs ont aidé à construire CodeCombat, et de plus en plus nous rejoignent chaque semaine !"
     community_description_3: "CodeCombat est un"
@@ -2279,7 +2277,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     graphics: "Graphiques"
     graphs: "Graphes"
     heaps: "Tas"
-    if_condition: "Déclarations conditionnelles Si" 
+    if_condition: "Déclarations conditionnelles Si"
     if_else_if: "Si/Sinon Déclarations Si"
     if_else_statements: "Déclarations SI/Sinon"
     if_statements: "Déclarations conditionnelles Si"

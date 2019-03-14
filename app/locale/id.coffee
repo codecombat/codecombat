@@ -952,14 +952,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     robin_title: "Manajer Produk" # {change}
     nolan_title: "Manajer Penjualan"
     lisa_title: "Manajer Pengembangan Bisnis"
-    sean_title: "Manajer Wilayah"
-    liz_title: "Manajer Wilayah"
-    jane_title: "Manajer Kesuksesan Pelanggan"
     david_title: "Pemimpin Pemasaran"
     retrostyle_title: "Ilustrasi"
     retrostyle_blurb: "Permainan RetroStyle"
     bryukh_title: "Perancang Permainan" # {change}
     bryukh_blurb: "Merancang teka-teki"
+    titles_csm: "Manajer Sukses Pelanggan"
+    titles_territory_manager: "Manajer Wilayah"
     community_title: "...dan komunitas sumber terbuka kami"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"
