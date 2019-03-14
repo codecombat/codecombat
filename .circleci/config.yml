@@ -4,7 +4,7 @@ jobs:
   copy-i18n-tags:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8.15
+      - image: jmif/coco-ci-node:latest
 
     working_directory: ~/repo
 
