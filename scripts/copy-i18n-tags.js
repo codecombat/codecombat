@@ -18,7 +18,7 @@ const CHANGE_MARKER = '{change}'
 const CATEGORY_SPLIT_PATTERN = /^[\s\n]*(?=[^:\n]+:\s*$)/gm; // One or more new lines followed by "key:", followed by newline
 const CATEGORY_CAPTURE_PATTERN = /^([^:\n]+):\s*\n/; // Extracts category name from first line of category section
 const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm; // Find lines with comments, capture key / value / comment
-const CHANGE_PATTERN = new RegExp(`\s?\s?(#\s)?${escapeRegexp(CHANGE_MARKER)}`); // Identify translation marked change
+const CHANGE_PATTERN = new RegExp(`\\s?\\s?(#\\s)?${escapeRegexp(CHANGE_MARKER)}`, 'gi'); // Identify translation marked change
 const QUOTE_TAG_NAME_PATTERN = /^[a-z0-9_]+$/i // Determines if tag name needs to be quoted
 
 
@@ -75,6 +75,14 @@ for (const localeFile of localeFiles) {
         const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined');
         const localeCategory = localeTranslations[enCategoryName] || {};
 
+        // Prefix for regular expressions that require the pattern to exist within a category.  This depends on
+        // categories and their tags to not contain new lines and categories being separated by a newline.  This regex
+        // is intended to be used as a prefix for regular expressions looking for a specific tag.  It is used to
+        // make sure the tag belongs to the current category.  It does so by ensuring that there is a category name
+        // in the locale file, followed by one or more non empty lines.  You can then append any tag specififc regex
+        // to this expression to obtain a regular expression that pattern matches a specific tag within a category.
+        const categoryRegexPrefix = `\\s\\s${escapeRegexp(enCategoryName)}:\\n(?:.+\\n)*`;
+
         rewrittenLines.push('');
 
         // Add the category line, commenting it out if it does not exist in the locale file
@@ -85,6 +93,7 @@ for (const localeFile of localeFiles) {
         for (const enTagName of Object.keys(enCategory)) {
             const localeTranslation = localeCategory[enTagName];
             const tagIsPresent = (typeof localeTranslation !== 'undefined');
+            const sourceFileTag = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
 
             // Prepare the comment for the tag if it exists.  Note that this will propagate {change} tag from en locale
             let comment = '';
@@ -92,7 +101,7 @@ for (const localeFile of localeFiles) {
                 comment = comments[enCategoryName][enTagName];
             }
 
-            const commentedTagRegex = new RegExp(`#\\s+${escapeRegexp(enTagName)}:`);
+            const commentedTagRegex = new RegExp(categoryRegexPrefix + `#\\s+${escapeRegexp(sourceFileTag)}:`);
             if (localeSource.search(commentedTagRegex) >= 0) {
                 // If the translation is commented out in the locale fine, make sure it is not marked as changed.  A
                 // translation is not marked as changed until it is uncommented in a locale file.  Once it is
@@ -100,8 +109,12 @@ for (const localeFile of localeFiles) {
                 // tracked
                 comment = comment.replace(CHANGE_PATTERN, '');
             } else {
-                const tagIsMarkedChangeRegex = new RegExp(`^\\s+"?${escapeRegexp(enTagName)}"?:\\s".*"\\s*` +
-                    `#\\s*${escapeRegexp(CHANGE_MARKER)}\\s*$`, 'm');
+                const tagIsMarkedChangeRegex = new RegExp(
+                    categoryRegexPrefix +
+                        `\\s+"?${escapeRegexp(sourceFileTag)}"?:` +
+                        `\\s".*"\\s*#.*${escapeRegexp(CHANGE_MARKER)}\\s*`,
+                    'mi' // Case insensitive to support "change" in different capitalizations
+                );
 
                 // If en locale file has tag marked as change and the current locale file does not
                 // have it marked as change, update the current locale file to add change marker
@@ -119,7 +132,6 @@ for (const localeFile of localeFiles) {
 
             // If the tag does not exist in the locale file, make sure it is commented out
             const lineCommentPrefix = (!tagIsPresent) ? '#' : '';
-            const finalTagName = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`;
 
             // Stringify the output to escape special chars
             const finalLocaleTranslation = JSON.stringify(
@@ -127,13 +139,13 @@ for (const localeFile of localeFiles) {
             );
 
             rewrittenLines.push(
-                `${lineCommentPrefix}    ${finalTagName}: ${finalLocaleTranslation} ${comment}`.trimRight()
+                `${lineCommentPrefix}    ${sourceFileTag}: ${finalLocaleTranslation} ${comment}`.trimRight()
             );
         }
     }
 
     // Write the new file contents to the locale file
-    const newLocaleContents = rewrittenLines.join("\n");
+    const newLocaleContents = rewrittenLines.join("\n") + '\n'; // End file with a new line
     fs.writeFileSync(
         path.join(__dirname, `../app/locale/${localeFile}`),
         newLocaleContents,
