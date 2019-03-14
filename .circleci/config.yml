@@ -11,11 +11,11 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - '4c:f9:84:75:d9:9c:2d:18:08:fe:96:47:34:3e:0f:d9'
+            - 'e8:68:ce:57:44:0b:96:a1:2d:50:92:6c:97:04:55:f1'
 
       - checkout
 
-      - run: npm install coffee-script
+      - run: npm install coffee-script@1.9.x
 
       - run:
           name: Install Hub

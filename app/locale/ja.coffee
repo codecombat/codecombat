@@ -952,10 +952,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     robin_title: "デザイン＆研究" # {change}
     nolan_title: "地区担当マネージャー" # {change}
     lisa_title: "市場開発代表" # {change}
-    sean_title: "地域部長"
-    liz_title: "地域部長"
-#    jane_title: "Customer Success Manager"
 #    david_title: "Marketing Lead"
+    titles_csm: "カスタマーサクセスマネージャー"
+    titles_territory_manager: "地域部長"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
 #    bryukh_title: "Gameplay Developer"
@@ -1280,7 +1279,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
- courses:
+  courses:
 #    create_new_class: "Create New Class"
 #    hoc_blurb1: "Try the"
 #    hoc_blurb2: "Code, Play, Share"
