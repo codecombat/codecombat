@@ -44,6 +44,7 @@ compile = (contents, locals, filename, cb) ->
     # TODO: this should use chinaUx feature flag instead, but currently comes from process.env
     locals.me.useDexecure = -> not (locals.chinaInfra ? false)
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
+    locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
     str = fn(locals)
   catch e
     console.log "Compile", filename, basePath
