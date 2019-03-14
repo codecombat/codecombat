@@ -15,7 +15,15 @@ jobs:
 
       - checkout
 
-      - run: npm install coffee-script@1.9.x
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
 
       - run:
           name: Install Hub
@@ -45,17 +53,14 @@ jobs:
             git commit -a -m 'Run copy-i18n-tags'
             git push origin $BRANCH_NAME
 
-            hub pull-request --base master --message 'Run copy-i18n-tags' --assign jmif
+            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer jmif
 
 
 workflows:
   copy-i18n:
     jobs:
-      - copy-i18n-tags
-    triggers:
-      - schedule:
-          cron: "0 7 * * 1" # Every Monday
+      - copy-i18n-tags:
           filters:
             branches:
-              only:
-                - master
+              only: always-run-copy-i18n-tags
+
