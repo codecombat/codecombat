@@ -76,7 +76,11 @@ for (const localeFile of localeFiles) {
         const localeCategory = localeTranslations[enCategoryName] || {};
 
         // Prefix for regular expressions that require the pattern to exist within a category.  This depends on
-        // categories and their tags to not contain new lines and categories being separated by a newline
+        // categories and their tags to not contain new lines and categories being separated by a newline.  This regex
+        // is intended to be used as a prefix for regular expressions looking for a specific tag.  It is used to
+        // make sure the tag belongs to the current category.  It does so by ensuring that there is a category name
+        // in the locale file, followed by one or more non empty lines.  You can then append any tag specififc regex
+        // to this expression to obtain a regular expression that pattern matches a specific tag within a category.
         const categoryRegexPrefix = `\\s\\s${escapeRegexp(enCategoryName)}:\\n(?:.+\\n)*`;
 
         rewrittenLines.push('');
