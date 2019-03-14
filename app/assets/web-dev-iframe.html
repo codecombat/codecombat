@@ -10,17 +10,26 @@
 
     <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js" integrity="sha256-8SeyqJ7ZAZx8WnIgP/bgK6LGIjKjhojNPHSMV/fo29Y=" crossorigin="anonymous"></script>
 
+    <!-- TODO: Does jquery font loading affect china customers? -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
     <script src="/javascripts/web-dev-listener.js"></script>
     
     <script src="/javascripts/app/vendor/aether-html.js"></script>
-
-    <style>
-      /* FIXME: This font can't be retrieved in china. Require conditional loading */
-      @import 'https://fonts.googleapis.com/css?family=Holtwood+One+SC';
+    <script>
       /* Import that font for demoing web-dev levels until @import ordering bug is fixed */
-
+      const head = document.head;
+      const styleEl = document.createElement('style')
+      styleEl.type = "text/css"
+      let styleText = '';
+      if (parent.features && parent.features.chinaUx) {
+        styleText = `@import 'https://fonts.font.im/css?family=Holtwood+One+SC';`
+      } else {
+        styleText = `@import 'https://fonts.googleapis.com/css?family=Holtwood+One+SC';`
+      }
+      head.appendChild(styleEl)
+    </script>
+    <style>
       * {
       transition: all 1s ease-in-out, box-shadow 1ms;
       }
