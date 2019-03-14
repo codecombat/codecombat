@@ -1,6 +1,7 @@
 global.$ = window.$ = global.jQuery = window.jQuery = require("jquery");
 import "bootstrap";
 import "./app.sass";
+import "babel-polyfill";
 
 /**
  * Fonts dynamically imported based on infra location
@@ -10,8 +11,6 @@ if (window.features && window.features.chinaUx) {
 } else {
   import(/* webpackChunkName: "UsFont" */ "app/styles/common/fontUS.sass");
 }
-
-import "babel-polyfill";
 
 require("app/vendor.js");
 
