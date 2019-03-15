@@ -62,5 +62,4 @@ workflows:
       - copy-i18n-tags:
           filters:
             branches:
-              only: always-run-copy-i18n-tags
-
+              only: master
