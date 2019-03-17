@@ -1467,7 +1467,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     hoc_happy_ed_week: "Fijne Computer Science Education Week!"
     hoc_blurb1: "Lees meer over de gratis"
     hoc_blurb2: "Code, Speel, Deel"
-    hoc_blurb3: "activiteit, download een nieuw lesplan voor leraren en laat uw leerlingen weten dat ze moeten inloggen om te spelen!
+    hoc_blurb3: "activiteit, download een nieuw lesplan voor leraren en laat uw leerlingen weten dat ze moeten inloggen om te spelen!"
     hoc_button_text: "Bekijk Activiteit"
     no_code_yet: "Leerling heeft nog geen code voor dit level geschreven"
     open_ended_level: "Open-einde-level"
