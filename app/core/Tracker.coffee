@@ -154,7 +154,7 @@ module.exports = class Tracker extends CocoClass
       'Simulator Result',
       'Started Level Load', 'Finished Level Load',
       'Start HoC Campaign', 'Show Amazon Modal Button', 'Click Amazon Modal Button', 'Click Amazon link',
-      'Error in ssoConfirmView'
+      'Error in ssoConfirmView'  # TODO: Event for only detecting an error in prod. Tracking this only via GA. Remove when not required.
     ]
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
@@ -199,6 +199,7 @@ module.exports = class Tracker extends CocoClass
     return if @isProduction and me.isAdmin()
     return unless @supermodel?
     # Skipping heavily logged actions we don't use internally
+    # TODO: 'Error in ssoConfirmView' event is only for detecting an error in prod. Tracking this only via GA. Remove when not required.
     return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load', 'Error in ssoConfirmView']
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
