@@ -283,6 +283,8 @@ module.exports = class BasicInfoView extends CocoView
       else
         console.error 'BasicInfoView form submission Promise error:', e
         @state.set('error', e.responseJSON?.message or 'Unknown Error')
+        if @id == 'single-sign-on-confirm-view' and @signupState.get('path') is 'teacher'
+          window.tracker?.trackEvent 'Error in ssoConfirmView', {category: 'Teachers', label: @state.get('error')}
 
   finishSignup: ->
     if @signupState.get('path') is 'teacher'
