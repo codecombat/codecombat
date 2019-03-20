@@ -2678,14 +2678,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    title: "HOUR OF CODE 2018"
 #    acronym: "HOC"
 
-#  hoc_2018_interstitial:
+  hoc_2018_interstitial:
     welcome: "Welkom bij CodeCombat's Hour of Code 2018!"
     educator: "Ik ben een onderwijzer"
     show_resources: "Laat me de leraren-informatie zien!"
     student: "Ik ben een student"
     ready_to_code: "Ik ben klaar om te coderen!"
 
-#  hoc_2018_completion:
+  hoc_2018_completion:
     congratulations: "Gefeliciteerd met het voltooien van <b>Code, Speel, Deel!</b>"
     send: "Stuur je Hour of Code-game naar familie en vrienden!"
     copy: "Kopieer URL"
