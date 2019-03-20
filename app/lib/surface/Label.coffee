@@ -132,18 +132,18 @@ module.exports = class Label extends CocoClass
     g.beginStroke o.backgroundStrokeColor
     g.setStrokeStyle o.backgroundStrokeStyle
 
-    if @style is 'dialogue'
-      radius = o.backgroundBorderRadius  # Rounded rectangle border radius
-      pointerHeight = 10  # Height of pointer triangle
-      pointerWidth = 8  # Actual width of pointer triangle
-      pointerWidth += radius  # Convenience value including pointer width and border radius
-
+    radius = o.backgroundBorderRadius  # Rounded rectangle border radius
+    pointerHeight = 10  # Height of pointer triangle
+    pointerWidth = 8  # Actual width of pointer triangle
+    pointerWidth += radius  # Convenience value including pointer width and border radius
+  
+    if @style is 'dialogue' and not o.withoutPointer
       # Figure out the position of the pointer for the bubble
       sup = x: @sprite.sprite.x, y: @sprite.sprite.y  # a little more accurate to aim for mouth--how?
       cap = @camera.surfaceToCanvas sup
-      hPos = if cap.x / @camera.canvasWidth > 0.53 then 'right' else 'left'
-      vPos = if cap.y / @camera.canvasHeight > 0.53 then 'bottom' else 'top'
-      pointerPos = "#{vPos}-#{hPos}"
+      o.hPos = if cap.x / @camera.canvasWidth > 0.53 then 'right' else 'left'
+      o.vPos = if cap.y / @camera.canvasHeight > 0.53 then 'bottom' else 'top'
+      pointerPos = "#{o.vPos}-#{o.hPos}"
       # TODO: we should redo this when the Thang moves enough, not just when we change its text
       #return if pointerPos is @lastBubblePos and blurb is @lastBlurb
 
@@ -174,16 +174,24 @@ module.exports = class Label extends CocoClass
       g.quadraticCurveTo(0, h, 0, h - radius)
       g.lineTo(0, radius)
       g.quadraticCurveTo(0, 0, radius, 0)
-
-      # Center the container where the mouth of the speaker will be
-      background.regX = if hPos is 'left' then 3 else o.textWidth + 3
-      background.regY = if vPos is 'bottom' then h + pointerHeight else -pointerHeight
-
     else
       # Just draw a rounded rectangle
-      background.regX = w / 2
-      background.regY = h + 2  # Just above health bar, say
+      o.hpos ?= "middle"
+      o.vPos ?= "middle"
       g.drawRoundRect(o.label.x - o.marginX, o.label.y - o.marginY, w, h, o.backgroundBorderRadius)
+    
+    background.regX = w / 2
+    background.regY = h + 2  # Just above health bar, say
+    
+    # Center the container where the mouth of the speaker will be
+    if o.hPos is "left"
+      background.regX = 3
+    else if o.hPos is "right"
+      background.regX = o.textWidth + 3
+    if o.vPos is "bottom"
+      background.regY = h + pointerHeight
+    else if o.vPos is "top"
+      background.regX = -pointerHeight
 
     o.label.regX = background.regX - o.marginX
     o.label.regY = background.regY - o.marginY
