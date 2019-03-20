@@ -113,20 +113,19 @@ div.style-flat
           small standalone game and web projects
 
 
-  if view.options.insightsHtml
-    div.dont-break.block
-      div.rob-row
-        div.left-col
+  div.dont-break.block
+    div.rob-row
+      div.left-col
+        h1 Classes
+        for clazz in view.options.classrooms
+          b= clazz.name
+          ul
+            li Language: #{clazz.aceConfig.language}
+            li #{clazz.members.length} students
+      if view.options.insightsHtml
+        div.right-col
           h1 Insights
           != view.options.insightsHtml
-        
-        div.right-col
-          h1 Classes
-          for clazz in view.options.classrooms
-            b= clazz.name
-            ul
-              li Language: #{clazz.aceConfig.language}
-              li #{clazz.members.length} students
 
   div.dont-break
     img.anya(src="/images/pages/admin/outcomes-report/anya.png")
