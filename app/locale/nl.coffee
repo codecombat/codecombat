@@ -1693,7 +1693,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     changed: "Veranderd"
     available_credits: "Beschikbare licenties"
     pending_credits: "Aangevraagde licenties"
-    empty_credits: "Licenties zijn gebruikt"
+    empty_credits: "Licenties in gebruik"
     license_remaining: "licentie over"
     licenses_remaining: "licenties over"
     one_license_used: "er is 1 licentie gebruikt" # {change}
