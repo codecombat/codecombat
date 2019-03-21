@@ -40,9 +40,10 @@ jobs:
       - run:
           command: |
             echo "Checking for changes..."
-            git diff-index --quiet HEAD -- && exit 0
-
-            echo "Changes found..."
+            if output=$(git status --porcelain) && [ -z "$output" ]; then
+              echo "No changes found.  Exiting."
+              exit 0
+            fi
 
             BRANCH_NAME=copy-i18n-tags-$(date +%s)
 
