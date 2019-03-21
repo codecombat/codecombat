@@ -96,7 +96,7 @@ mixin accountLinks
                       //- string replaced in RootView
                       span.language-dropdown-current Language
                       span.caret
-                    ul.dropdown-menu.language-dropdown
+                    ul(class="dropdown-menu language-dropdown" class=(!me.isAnonymous() ? "pull-right" : ""))
 
                 if me.isAnonymous()
                   ul.nav.navbar-nav.text-p.login-buttons
