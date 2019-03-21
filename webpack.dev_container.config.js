@@ -9,7 +9,7 @@ module.exports = env => {
   return _.merge(devConfig, {
     watchOptions: {
       ignored: /node_modules|bower_components/,
-      poll: 1000
+      poll: 5000
     }
   });
 };
