@@ -75,7 +75,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     quotes_quote3: "PbqrPbzong unf orra gur zbfg orarsvpvny sbe grnpuvat zl fghqragf erny-yvsr pbqvat pncnovyvgvrf. Zl uhfonaq vf n fbsgjner ratvarre naq ur unf grfgrq bhg nyy bs zl cebtenzf. Ur chg guvf nf uvf gbc pubvpr."
     quotes_quote4: "Gur srrqonpx … unf orra fb cbfvgvir gung jr ner fgehpghevat n pbzchgre fpvrapr pynff nebhaq PbqrPbzong. Gur cebtenz ernyyl ratntrf gur fghqragf jvgu n tnzvat fglyr cyngsbez gung vf ragregnvavat naq vafgehpgvbany ng gur fnzr gvzr. Xrrc hc gur tbbq jbex, PbqrPbzong!"
     see_example: "Frr rknzcyr"
-    slogan: "Gur zbfg ratntvat jnl gb yrnea pbzchgre fpvrapr" # {punatr}
+    slogan: "Gur zbfg ratntvat jnl gb yrnea pbzchgre fpvrapr"
     teach_cs1_free: "Grnpu PF1 Serr"
     teachers_love_codecombat_title: "Grnpuref Ybir PbqrPbzong"
     teachers_love_codecombat_blurb1: "Ercbeg gung gurve fghqragf rawbl hfvat PbqrPbzong gb yrnea ubj gb pbqr"
