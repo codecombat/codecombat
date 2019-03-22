@@ -27,6 +27,7 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
 
   initialize: (options) ->
     window.tracker?.trackEvent 'Purchase Starter License: Modal Opened', category: 'Teachers', ['Mixpanel']
+
     @listenTo stripeHandler, 'received-token', @onStripeReceivedToken
     @state = new State({
       quantityToBuy: 10
@@ -35,26 +36,17 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
       quantityAlreadyPurchased: undefined
       quantityAllowedToPurchase: undefined
     })
+
     @products = new Products()
     @supermodel.loadCollection(@products, 'products')
-    @listenTo @products, 'sync change update', ->
-      starterLicense = @products.findWhere({ name: 'starter_license' })
-      @state.set {
-        centsPerStudent: starterLicense.get('amount')
-        dollarsPerStudent: starterLicense.get('amount')/100
-      }
+    @listenTo @products, 'sync change update', => @onProductsUpdated()
+
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
-    @listenTo @prepaids, 'sync change update', ->
-      starterLicenses = new Prepaids(@prepaids.where({ type: 'starter_license' }))
-      quantityAlreadyPurchased = starterLicenses.totalMaxRedeemers()
-      quantityAllowedToPurchase = @maxQuantityStarterLicenses - quantityAlreadyPurchased
-      @state.set {
-        quantityAlreadyPurchased
-        quantityAllowedToPurchase
-        quantityToBuy: Math.min(@state.get('quantityToBuy'), quantityAllowedToPurchase)
-      }
-    @listenTo @state, 'change', => @renderSelectors('.render')
+    @listenTo @prepaids, 'sync change update', => @onPrepaidsUpdated()
+
+    @listenTo @state, 'change', => @render()
+
     super(options)
 
   onLoaded: ->
@@ -66,8 +58,28 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
   boundedValue: (value) ->
     Math.max(Math.min(value, @state.get('quantityAllowedToPurchase')), 0)
 
+  onPrepaidsUpdated: ->
+    starterLicenses = new Prepaids(@prepaids.where({ type: 'starter_license' }))
+    quantityAlreadyPurchased = starterLicenses.totalMaxRedeemers()
+    quantityAllowedToPurchase = Math.max(@maxQuantityStarterLicenses - quantityAlreadyPurchased, 0)
+
+    @state.set {
+      quantityAlreadyPurchased
+      quantityAllowedToPurchase
+      quantityToBuy: Math.max(Math.min(@state.get('quantityToBuy'), quantityAllowedToPurchase), 0)
+    }
+
+  onProductsUpdated: ->
+    starterLicense = @products.findWhere({ name: 'starter_license' })
+
+    @state.set {
+      centsPerStudent: starterLicense.get('amount')
+      dollarsPerStudent: starterLicense.get('amount') / 100
+    }
+
   onInputQuantity: (e) ->
     $input = $(e.currentTarget)
+
     inputValue = parseFloat($input.val()) or 0
     boundedValue = inputValue
     if $input.val() isnt ''

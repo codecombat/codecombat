@@ -6,24 +6,24 @@ block modal-header-content
 
 block modal-body-content
   p(data-i18n="special_offer.starter_licenses_can_be_used")
-  
+
   .text-center.input-row.m-t-3.m-b-3
     input(name="quantity", type="number", min=0, max=state.get('quantityAllowedToPurchase'), value=state.get('quantityToBuy'))
     span x
     span.dollar-value.render= view.getDollarsPerStudentString()
     span =
     span.dollar-value.render= view.getTotalPriceString()
-  
+
   .text-center.render
     - var quantityIsValid = (state.get('quantityToBuy') > 0)
     button.pay-now-btn.btn-lg.btn-navy(disabled=!quantityIsValid, className=(quantityIsValid ? 'disabled' : ''))
       span(data-i18n="special_offer.pay_now")
-  
+
   p.text-center.m-t-1(data-i18n="special_offer.we_accept_all_major_credit_cards")
-  
+
   p.text-center.purchase-progress-message.render
     = state.get('purchaseProgressMessage')
-  
+
   p.small.m-t-5
     span(data-i18n="[html]special_offer.license_limit_description", data-i18n-options=JSON.stringify(view.i18nData()))
 
