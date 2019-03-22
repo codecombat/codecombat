@@ -178,6 +178,7 @@ module.exports = class Label extends CocoClass
       # Just draw a rounded rectangle
       o.hpos ?= "middle"
       o.vPos ?= "middle"
+      pointerHeight = 0
       g.drawRoundRect(o.label.x - o.marginX, o.label.y - o.marginY, w, h, o.backgroundBorderRadius)
     
     background.regX = w / 2
@@ -191,7 +192,7 @@ module.exports = class Label extends CocoClass
     if o.vPos is "bottom"
       background.regY = h + pointerHeight
     else if o.vPos is "top"
-      background.regX = -pointerHeight
+      background.regY = -pointerHeight
 
     o.label.regX = background.regX - o.marginX
     o.label.regY = background.regY - o.marginY
