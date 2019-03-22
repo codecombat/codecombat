@@ -99,7 +99,8 @@ module.exports = class Label extends CocoClass
     o.backgroundBorderRadius ?= {D: 10, S: 3, N: 3, V: 3}[st]
     o.layerPriority ?= {D: 10, S: 5, N: 5, V: 5}[st]
     o.maxWidth ?= {D: 300, S: 300, N: 180, V: 100}[st]
-    o.maxWidth = Math.max @camera.canvasWidth / 2 - 100, o.maxWidth
+    if not o.fixedMaxWidth
+      o.maxWidth = Math.max @camera.canvasWidth / 2 - 100, o.maxWidth
     o.maxLength ?= {D: 100, S: 100, N: 30, V:30}[st]
     multiline = @addNewLinesToText _.string.prune(@text, o.maxLength), o.fontDescriptor, o.maxWidth
     o.text = multiline.text
