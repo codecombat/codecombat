@@ -50,12 +50,16 @@
   },
   "main": "index.js",
   "standard": {
+    "plugins": [
+      "script-tags"
+    ],
     "ignore": [
       "node_modules/**",
       "bower_components/**",
       "vendor/**",
       "spec/**",
-      "public/**"
+      "public/**",
+      "**/styles/**"
     ]
   },
   "keywords": [
@@ -164,6 +168,7 @@
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.28",
+    "acorn": "^6.1.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
@@ -177,6 +182,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "country-data": "0.0.24",
     "cross-env": "^5.2.0",
+    "eslint-plugin-script-tags": "^0.5.0",
     "exports-loader": "^0.6.3",
     "faker": "^3.1.0",
     "file-loader": "^0.11.2",
