@@ -13,50 +13,56 @@ include game-dev-goals.jade
   #level-loading-view
 
   .level-content
+    //- #fullscreen-editor-background-screen(title="Click to minimize the code editor")
+
+    //- #spell-palette-view
+
+    //- #problem-alert-view
+
+    .row
+      .col-lg-6
+        #code-area
+          //- #code-area-gradient.gradient
+          #tome-view
+      .col-lg-6
+        #game-area
+          #canvas-wrapper
+
+            //- TODO: why are these huge now?
+
+            canvas(width=924, height=589)#webgl-surface
+            canvas(width=924, height=589)#normal-surface
+
+            #web-surface-view
+            #ascii-surface
+            #canvas-left-gradient.gradient
+            #canvas-top-gradient.gradient
+            //- #goals-view
+
+
     #control-bar-view
 
-    #fullscreen-editor-background-screen(title="Click to minimize the code editor")
+      //- #level-flags-view
 
-    #code-area
-      #code-area-gradient.gradient
-      #tome-view
+      //- #gold-view
 
-    #spell-palette-view
+      //- #game-dev-track-view
 
-    #problem-alert-view
-    #game-area
+      //- #level-chat-view
 
-      #canvas-wrapper
-        canvas(width=924, height=589)#webgl-surface
-        canvas(width=924, height=589)#normal-surface
+      //- #multiplayer-status-view
 
-        #web-surface-view
-        #ascii-surface
-        #canvas-left-gradient.gradient
-        #canvas-top-gradient.gradient
-        #goals-view
+      //- #duel-stats-view
 
-      #level-flags-view
+      //- #playback-view
 
-      #gold-view
+      //- #thang-hud
 
-      #game-dev-track-view
-
-      #level-chat-view
-
-      #multiplayer-status-view
-
-      #duel-stats-view
-
-      #playback-view
-
-      #thang-hud
-
-      #level-dialogue-view
+      //- #level-dialogue-view
 
       button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
 
-    #surface-context-menu-view
+    //- #surface-context-menu-view
 
     if features.codePlay
       a(href=document.location.protocol+"//lenovogamestate.com/pages/products/")
@@ -93,10 +99,10 @@ include game-dev-goals.jade
       else
         .panel-body!= view.howToPlayText
 
-    .hints-view.hide
+    //- .hints-view.hide
 
-  #level-footer-shadow
-  #level-footer-background
+  //- #level-footer-shadow
+  //- #level-footer-background
 
   if !me.get('anonymous') && !me.isStudent() && !features.codePlay
     #play-footer(class=me.isPremium() ? "premium" : "")

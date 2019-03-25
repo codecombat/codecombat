@@ -128,7 +128,7 @@ module.exports = class LevelLoadingView extends CocoView
       autoUnveil = not showIntro
     else
       autoUnveil = @options.autoUnveil or @session?.get('state').complete
-    if autoUnveil
+    if autoUnveil or true
       @startUnveiling()
       @unveil true
     else

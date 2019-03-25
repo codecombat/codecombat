@@ -6,11 +6,11 @@
   $control-yellow: rgb(227, 173, 53)
   $control-yellow-highlight: rgb(243, 211, 59)
 
-  width: $game-view-width
-  height: 50px
-  @include box-sizing(border-box)
-  overflow: visible
-  position: absolute
+  // width: $game-view-width
+  // height: 50px
+  // @include box-sizing(border-box)
+  // overflow: visible
+  // position: absolute
   z-index: 8
   text-transform: uppercase
   font-family: $headings-font-family
@@ -20,18 +20,19 @@
     @include filter(brightness(50%))
 
   .levels-link-area
-    position: absolute
-    left: 40px
-    width: 160px
-    text-align: center
+    // position: absolute
+    // left: 40px
+    // width: 160px
+    // text-align: center
     cursor: pointer
 
     a.levels-link
       margin: 0
-      height: 50px
-      line-height: 50px
+      // height: 50px
+      // line-height: 50px
       color: white
       font-size: 16px
+      width: 100px
 
       .glyphicon
         margin-left: -20px

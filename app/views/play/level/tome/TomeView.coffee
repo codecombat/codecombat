@@ -193,9 +193,10 @@ module.exports = class TomeView extends CocoView
   setSpellView: (spell, thang) ->
     unless spell.view is @spellView
       @spellView = spell.view
+      # Ugh, TomeView is reaching into Spell looking for SpellTopBarView property
       @spellTopBarView = spell.topBarView
+      @$el.find('#' + @spellTopBarView.id).after(@spellTopBarView.el).remove() if @spellTopBarView
       @$el.find('#' + @spellView.id).after(@spellView.el).remove()
-      @$el.find('#' + @spellTopBarView.id).after(@spellTopBarView.el).remove()
       @castButton?.attachTo @spellView
     @updateSpellPalette thang, spell
     @spellView?.setThang thang

@@ -25,16 +25,16 @@ module.exports = class Spell
     if @canRead()  # We can avoid creating these views if we'll never use them.
       @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID}
       @view.render()  # Get it ready and code loaded in advance
-      @topBarView = new SpellTopBarView
-        hintsState: options.hintsState
-        spell: @
-        supermodel: @supermodel
-        codeLanguage: @language
-        level: options.level
-        session: options.session
-        courseID: options.courseID
-        courseInstanceID: options.courseInstanceID
-      @topBarView.render()
+      # @topBarView = new SpellTopBarView
+      #   hintsState: options.hintsState
+      #   spell: @
+      #   supermodel: @supermodel
+      #   codeLanguage: @language
+      #   level: options.level
+      #   session: options.session
+      #   courseID: options.courseID
+      #   courseInstanceID: options.courseInstanceID
+      # @topBarView.render()
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
   createFromProgrammableMethod: (programmableMethod, codeLanguage) ->
@@ -64,7 +64,7 @@ module.exports = class Spell
 
   destroy: ->
     @view?.destroy()
-    @topBarView?.destroy()
+    # @topBarView?.destroy()
     @thang = null
     @worker = null
 

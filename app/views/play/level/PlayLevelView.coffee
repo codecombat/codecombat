@@ -1,3 +1,8 @@
+# TODO: normal-surface bottom chopped off, background-color oddly also chopped
+# TODO: yellow arrows
+# TODO: problem alerts?
+# TODO: put autocomplete back?
+
 require('app/styles/play/level/level-loading-view.sass')
 require('app/styles/play/level/tome/spell_palette_entry.sass')
 require('app/styles/play/play-level-view.sass')
@@ -336,8 +341,8 @@ module.exports = class PlayLevelView extends RootView
 
   updateSpellPalette: (thang, spell) ->
     return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
-    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
+    # useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    # @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
     #@spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
 
 
@@ -348,20 +353,20 @@ module.exports = class PlayLevelView extends RootView
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
-    @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
-    @insertSubView new GoalsView {level: @level, session: @session}
-    @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
+    # @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
+    # @insertSubView new GoalsView {level: @level, session: @session}
+    # @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
     goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
-    @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView
+    # @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-    @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
-    @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
-    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
-    @insertSubView new SurfaceContextMenuView session: @session, level: @level 
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isType('hero-ladder', 'course-ladder')
+    # @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
+    # @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
+    # @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
+    # @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
+    # @insertSubView new SurfaceContextMenuView session: @session, level: @level 
+    # @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
-    @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
+    # @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {level: @level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
