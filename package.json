@@ -72,8 +72,6 @@
     "@basicer/geoip-lite": "^1.1.6",
     "@sendgrid/mail": "^6.2.1",
     "@vimeo/player": "^2.2.0",
-    "JQDeferred": "~2.1.0",
-    "aether": "~0.5.21",
     "algoliasearch": "^3.13.1",
     "async": "2.5.0",
     "aws-sdk": "~2.0.0",
