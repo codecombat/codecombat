@@ -90,85 +90,85 @@
 </script>
 
 <style lang="sass">
-  @import "app/styles/bootstrap/variables"
-  
-  #teacher-class-assessments-table
-    .table-row.lighter
-      .table-cell
-        background: $gray-lighter
-    .table-row.darker
-      .table-cell
-        background: #EFEBEF
-    
-    display: flex
-    position: relative
-    .table-row, .table-cell
-      height: 62px
-    .freeze-column
-      .table-cell, .table-header
-        width: 200px
-    .data-column
-      overflow: scroll
-      .table-row
-        white-space: nowrap
-      .table-cell, .table-header
-        text-align: center
-        
-    .next-arrow, .prev-arrow
-      position: absolute
-      z-index: 1
-      width: 30px
-      cursor: pointer
-      margin-top: -13px
-      text-align: center
-      color: #0b93d5
-      font-size: 30px
+@import "app/styles/bootstrap/variables"
 
-      
-    .next-arrow
-      right: -9px
-    .prev-arrow
-      left: 198px
+#teacher-class-assessments-table
+  .table-row.lighter
+    .table-cell
+      background: $gray-lighter
+  .table-row.darker
+    .table-cell
+      background: #EFEBEF
+  
+  display: flex
+  position: relative
+  .table-row, .table-cell
+    height: 62px
+  .freeze-column
     .table-cell, .table-header
-      display: inline-block
-      width: 134.3px
-      box-sizing: border-box
-    .table-header-row, .table-header
-      height: 45px
-    .table-header-row
-      position: relative
-    .table-header
-      background: white
-      white-space: normal
-      font-weight: bold
-      position: relative
-      div 
-        display: flex
-        position: absolute
-        left: 0
-        right: 0
-        top: 0
-        bottom: 0
-        overflow: hidden
-        span
-          width: 100%
-          align-self: flex-end
-    .student-email
-      font-size: 15px
-      line-height: 19px
-      text-overflow: ellipsis
+      width: 200px
+  .data-column
+    overflow: scroll
+    .table-row
+      white-space: nowrap
+    .table-cell, .table-header
+      text-align: center
+      
+  .next-arrow, .prev-arrow
+    position: absolute
+    z-index: 1
+    width: 30px
+    cursor: pointer
+    margin-top: -13px
+    text-align: center
+    color: #0b93d5
+    font-size: 30px
+
+    
+  .next-arrow
+    right: -9px
+  .prev-arrow
+    left: 198px
+  .table-cell, .table-header
+    display: inline-block
+    width: 134.3px
+    box-sizing: border-box
+  .table-header-row, .table-header
+    height: 45px
+  .table-header-row
+    position: relative
+  .table-header
+    background: white
+    white-space: normal
+    font-weight: bold
+    position: relative
+    div 
+      display: flex
+      position: absolute
+      left: 0
+      right: 0
+      top: 0
+      bottom: 0
       overflow: hidden
-    .table-row.lighter .table-cell.combo-cell
-      background: #e0eaf0
-    .table-row.darker .table-cell.combo-cell
-      background: #cedee8
-    .table-header.combo-cell
-      background: #cedee8
-    .table-cell.name
-      padding-left: 10px
-      padding-top: 5px
-    svg.progress-dot, svg
-      width: 34px
-      padding: 0
-      background: transparent
+      span
+        width: 100%
+        align-self: flex-end
+  .student-email
+    font-size: 15px
+    line-height: 19px
+    text-overflow: ellipsis
+    overflow: hidden
+  .table-row.lighter .table-cell.combo-cell
+    background: #e0eaf0
+  .table-row.darker .table-cell.combo-cell
+    background: #cedee8
+  .table-header.combo-cell
+    background: #cedee8
+  .table-cell.name
+    padding-left: 10px
+    padding-top: 5px
+  svg.progress-dot, svg
+    width: 34px
+    padding: 0
+    background: transparent
 </style>

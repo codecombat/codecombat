@@ -139,85 +139,85 @@ export default Vue.extend({
 
 <style lang="sass">
 
-  @import "app/styles/mixins"
-  @import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
-  +keyframes(winnablePulse)
-    from
-      @include box-shadow(0px 0px 8px #333)
-      color: white
-    50%
-      @include box-shadow(0px 0px 35px #87CEFF)
-      color: #87CEFF
-    to
-      @include box-shadow(0px 0px 8px #333)
-      color: white
++keyframes(winnablePulse)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px #87CEFF)
+    color: #87CEFF
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white
 
-  .video-container
-    width: 100%
-    height: 100%
+.video-container
+  width: 100%
+  height: 100%
+  position: absolute
+  background: transparent url('/images/level/videos/videos_background_dungeon.png') no-repeat 
+  background-position: 0px 0px
+  background-size: 100% 100%
+    
+  .video-background
     position: absolute
-    background: transparent url('/images/level/videos/videos_background_dungeon.png') no-repeat 
+    left: 10%
+    top: 5%
+    background: transparent url('/images/level/popover_background.png') no-repeat 
     background-position: 0px 0px
     background-size: 100% 100%
-      
-    .video-background
+    width: 80%
+    height: 90%
+
+    .video-title
+      font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+
+    .row
       position: absolute
-      left: 10%
+      margin: auto
+      left: 0%
+
+    .title-row
+      width: 100%
       top: 5%
-      background: transparent url('/images/level/popover_background.png') no-repeat 
-      background-position: 0px 0px
-      background-size: 100% 100%
-      width: 80%
-      height: 90%
 
-      .video-title
-        font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+    .video-row
+      top: 15%
+      width: 100%
+      height: 70%
 
-      .row
-        position: absolute
-        margin: auto
-        left: 0%
-
-      .title-row
+      .video-col
         width: 100%
-        top: 5%
-
-      .video-row
-        top: 15%
-        width: 100%
-        height: 70%
-
-        .video-col
+        height: 100%
+    
+        .video
+          margin: auto
           width: 100%
           height: 100%
-      
-          .video
-            margin: auto
-            width: 100%
-            height: 100%
 
-      .buttons-row
-        width: 70%
-        top: 88%
-        left: 16%
+    .buttons-row
+      width: 70%
+      top: 88%
+      left: 16%
 
-        #next-level-btn
-          @include animation(winnablePulse 3s infinite)
-          border: 0
-          border-style: solid
-          border-image: url(/images/common/button-background-active-border.png) 14 20 20 20 fill round
-          border-image-source: url(/images/common/button-background-success-active-border.png)
-          border-width: 14px 20px 20px 20px
-          border-radius: 0
-          font-weight: bold
-          font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
-      
-      .img-unlocked
-        position: absolute
-        left: -35px
-        top: -10px
-        width: 150px
-        height: 100px
+      #next-level-btn
+        @include animation(winnablePulse 3s infinite)
+        border: 0
+        border-style: solid
+        border-image: url(/images/common/button-background-active-border.png) 14 20 20 20 fill round
+        border-image-source: url(/images/common/button-background-success-active-border.png)
+        border-width: 14px 20px 20px 20px
+        border-radius: 0
+        font-weight: bold
+        font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+    
+    .img-unlocked
+      position: absolute
+      left: -35px
+      top: -10px
+      width: 150px
+      height: 100px
 
 </style>

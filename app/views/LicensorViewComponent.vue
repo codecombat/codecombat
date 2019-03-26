@@ -626,6 +626,6 @@ module.exports = Vue.extend({
 </script>
 
 <style lang="sass">
-  .border
-    border: thin solid grey
+.border
+  border: thin solid grey
 </style>
