@@ -27,6 +27,27 @@ storiesOf('Button', module)
 
 storiesOf('PieComponent', module)
   .add('default', () => ({
-    components: { 'pie-chart': PieChart },
-    template: `<pie-chart :percent="10" :stroke-width="10" color="#000000" :opacity="1"></pie-chart>`
+    components: { PieChart },
+    // To pass a number you must use `v-bind:` or `:`.
+    template: `<pie-chart></pie-chart>`
+  }))
+  .add('with a ratio', () => ({
+    components: { PieChart },
+    template: `<pie-chart
+      :ratio="0.90"
+      :stroke-width="10"
+      :border-stroke-width="0.2"
+      color="#FE7F9C"
+      :opacity="1"
+    ></pie-chart>`
+  }))
+  .add('with a percentage', () => ({
+    components: { PieChart },
+    template: `<pie-chart
+      :percent="2"
+      :stroke-width="10"
+      :border-stroke-width="0.2"
+      color="#20572B"
+      :opacity="1"
+    ></pie-chart>`
   }))
