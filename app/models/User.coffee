@@ -26,11 +26,19 @@ module.exports = class User extends CocoModel
   @schema: require 'schemas/models/user'
   urlRoot: '/db/user'
   notyErrors: false
+  PERMISSIONS: {
+    COCO_ADMIN: 'admin',
+    SCHOOL_ADMINISTRATOR: 'schoolAdministrator',
+    ARTISAN: 'artisan',
+    GOD_MODE: 'godmode',
+    LICENSOR: 'licensor'
+  }
 
-  isAdmin: -> 'admin' in @get('permissions', true)
-  isLicensor: -> 'licensor' in @get('permissions', true)
-  isArtisan: -> 'artisan' in @get('permissions', true)
-  isInGodMode: -> 'godmode' in @get('permissions', true)
+  isAdmin: -> @PERMISSIONS.COCO_ADMIN in @get('permissions', true)
+  isLicensor: -> @PERMISSIONS.LICENSOR in @get('permissions', true)
+  isArtisan: -> @PERMISSIONS.ARTISAN in @get('permissions', true)
+  isInGodMode: -> @PERMISSIONS.GOD_MODE in @get('permissions', true)
+  isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   displayName: -> @get('name', true)
