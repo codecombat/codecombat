@@ -72,8 +72,6 @@
     "@basicer/geoip-lite": "^1.1.6",
     "@sendgrid/mail": "^6.2.1",
     "@vimeo/player": "^2.2.0",
-    "JQDeferred": "~2.1.0",
-    "aether": "~0.5.21",
     "algoliasearch": "^3.13.1",
     "async": "2.5.0",
     "aws-sdk": "~2.0.0",
@@ -98,7 +96,7 @@
     "cookie-session": "^1.2.0",
     "country-list": "0.0.3",
     "css-loader": "^0.25.0",
-    "d3": "~3.4.4",
+    "d3": "~3.5.17",
     "deku": "^2.0.0-rc16",
     "delighted": "^1.2.0",
     "event-hooks-webpack-plugin": "^1.0.0",
@@ -114,7 +112,7 @@
     "htmlparser2": "^3.9.1",
     "intercom-client": "^2.8.8",
     "jade": "^1.11.0",
-    "jade-loader": "codecombat/pug-loader#fix-errors",
+    "jade-loader": "github:codecombat/pug-loader#fix-errors",
     "jquery": "~2.1.0",
     "jquery-mousewheel": "~3.1.9",
     "jquery.browser": "~0.0.6",
@@ -131,7 +129,7 @@
     "moment-timezone": "~0.5.21",
     "mongodb": "^2.0.28",
     "mongoose": "^4.5.3",
-    "mongoose-cache": "nwinter/mongoose-cache#master",
+    "mongoose-cache": "github:nwinter/mongoose-cache#master",
     "morgan": "^1.7.0",
     "mysql": "^2.11.1",
     "nanoscroller": "~0.8.0",
@@ -153,7 +151,7 @@
     "style-loader": "^0.13.1",
     "swagger-ui-express": "^1.0.0",
     "three": "^0.71.0",
-    "treema": "https://github.com/codecombat/treema.git",
+    "treema": "git+https://github.com/codecombat/treema.git",
     "tv4": "~1.0.16",
     "underscore.string": "~2.3.3",
     "vue": "^2.4.2",
@@ -175,7 +173,7 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "bower": "~1.6.4",
+    "bower": "~1.8.8",
     "bundle-loader": "^0.5.5",
     "commonjs-require-definition": "0.2.0",
     "compressible": "~1.0.1",
@@ -218,7 +216,7 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "6.14.4",
-    "npm": "^3.10.10"
+    "node": "8.15.1",
+    "npm": "^6.4.1"
   }
 }
