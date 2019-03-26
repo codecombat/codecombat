@@ -70,7 +70,7 @@ module.exports = (env) => {
             },
             // applies to raw imports outside Vue
             {
-              use: { loader: 'jade-loader', options: { root: path.resolve('./app') } }
+              use: { loader: 'pug-loader', options: { root: path.resolve('./app') } }
             }
           ]
         },
