@@ -61,7 +61,7 @@ module.exports = (env) => {
         { test: /\.coffee$/, use: [
           { loader: 'coffee-loader' },
         ] },
-        { test: /\.(jade|pug)$/,
+        { test: /\.pug$/,
           oneOf: [
             // Applies to `<template lang="pug">` in Vue components
             {

@@ -209,7 +209,7 @@ module.exports = class TeacherStudentView extends RootView
 
 
     for versionedCourse in @classroom.getSortedCourses() or []
-      # this does all of the courses, logic for whether student was assigned is in corresponding jade file
+      # this does all of the courses, logic for whether student was assigned is in corresponding pug file
       vis = d3.select('#visualisation-'+versionedCourse._id)
       # TODO: continue if selector isn't found.
       courseLevelData = []

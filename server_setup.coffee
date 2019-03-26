@@ -320,7 +320,7 @@ setupQuickBailToMainHTML = (app) ->
 exports.setExpressConfigurationOptions = (app) ->
   app.set('port', config.port)
   app.set('views', __dirname + '/app/views')
-  app.set('view engine', 'jade')
+  app.set('view engine', 'pug')
   app.set('view options', { layout: false })
   app.set('env', if config.isProduction then 'production' else 'development')
   app.set('json spaces', 0) if config.isProduction
