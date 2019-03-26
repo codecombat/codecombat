@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #apcsp-landing
     h1.text-center
       | Teaching AP <sup>®</sup> Computer Science Principles?

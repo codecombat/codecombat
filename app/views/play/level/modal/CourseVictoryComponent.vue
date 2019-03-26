@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .modal-content#course-victory-component
     .modal-header
       img.header-img(:src="headerImage")

@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   div
     // TODO: Split this into two components, one the ul, the other the goals-status 
     ul#primary-goals-list(dir="auto")
