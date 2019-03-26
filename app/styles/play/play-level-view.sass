@@ -181,7 +181,10 @@ $level-resize-transition-time: 0.5s
   #game-area
     position: relative
     overflow: hidden
-    
+
+    // TODO: no idea why this is required when removing LevelPlaybackView, otherwise surface truncated
+    padding-bottom: 48px
+
   // Level Docs
   .ui-effects-transfer
     border: 2px dotted gray

@@ -94,7 +94,8 @@ module.exports = Surface = class Surface extends CocoClass
     @normalLayers = []
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
-    @handleEvents = @options.handleEvents ? true
+    # @handleEvents = @options.handleEvents ? true
+    @handleEvents = false
     @gameUIState = @options.gameUIState or new GameUIState({
       canDragCamera: true
     })
