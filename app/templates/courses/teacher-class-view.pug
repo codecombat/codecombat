@@ -401,7 +401,7 @@ mixin studentLevelsRow(student)
             div(data-i18n='user.certificate_course_incomplete')
 
 mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, courseInstance)
-  //- TODO: Refactor with TeacherClassesView pug
+  //- TODO: Refactor with TeacherClassesView jade
   //- TODO: Give classes abbreviations instead of using index?
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - _.assign(progress, { levelsTotal: levelsTotal })
@@ -446,7 +446,7 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
 
 
 mixin studentLevelProgressDot(progress, level, levelNumber, student)
-  //- TODO: Refactor with TeacherClassesView pug
+  //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })

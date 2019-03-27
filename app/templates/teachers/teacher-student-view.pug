@@ -349,7 +349,7 @@ block content
                 p(data-i18n="teacher.course_not_started")
 
 mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
-  //- TODO: Refactor with TeacherClassesView pug
+  //- TODO: Refactor with TeacherClassesView jade
   - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
   - levelName = level.get('name')
   - var context = { assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
