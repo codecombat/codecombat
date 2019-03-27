@@ -115,7 +115,7 @@ module.exports = (env) => {
         path.resolve('./'), // Or you can use the full path /app/whatever
         'node_modules'  // Or maybe require('foo') for the Node module "foo".
       ],
-      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass', '.vue'],
+      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.pug', '.sass', '.vue'],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'lodash'
       }

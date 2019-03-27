@@ -1,7 +1,7 @@
 export default {
   name: 'my-button',
 
-  data() {
+  data () {
     return {
       buttonStyles: {
         border: '1px solid #eee',
@@ -10,9 +10,9 @@ export default {
         cursor: 'pointer',
         fontSize: 15,
         padding: '3px 10px',
-        margin: 10,
-      },
-    };
+        margin: 10
+      }
+    }
   },
 
   template: `
@@ -22,8 +22,8 @@ export default {
   `,
 
   methods: {
-    onClick() {
-      this.$emit('click');
-    },
-  },
-};
+    onClick () {
+      this.$emit('click')
+    }
+  }
+}

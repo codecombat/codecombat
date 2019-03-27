@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-console
-const log = () => console.log('Welcome to storybook!');
+const log = () => console.log('Welcome to storybook!')
 
 export default {
   name: 'welcome',
@@ -7,28 +7,28 @@ export default {
   props: {
     showApp: {
       type: Function,
-      default: log,
-    },
+      default: log
+    }
   },
 
-  data() {
+  data () {
     return {
       main: {
         padding: 15,
         lineHeight: 1.4,
         fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#ffffff'
       },
 
       logo: {
-        width: 200,
+        width: 200
       },
 
       link: {
         color: '#1474f3',
         textDecoration: 'none',
         borderBottom: '1px solid #1474f3',
-        paddingBottom: 2,
+        paddingBottom: 2
       },
 
       code: {
@@ -38,13 +38,13 @@ export default {
         border: '1px solid #eae9e9',
         borderRadius: 4,
         backgroundColor: '#f3f2f2',
-        color: '#3a3a3a',
+        color: '#3a3a3a'
       },
 
       note: {
-        opacity: 0.5,
-      },
-    };
+        opacity: 0.5
+      }
+    }
   },
 
   template: `
@@ -113,9 +113,9 @@ export default {
   `,
 
   methods: {
-    onClick(event) {
-      event.preventDefault();
-      this.showApp();
-    },
-  },
-};
+    onClick (event) {
+      event.preventDefault()
+      this.showApp()
+    }
+  }
+}
