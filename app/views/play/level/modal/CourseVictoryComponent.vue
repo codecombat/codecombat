@@ -260,100 +260,100 @@
 
 <style lang="sass">
 
-@import "app/styles/mixins"
-@import "app/styles/bootstrap/variables"
+  @import "app/styles/mixins"
+  @import "app/styles/bootstrap/variables"
 
-+keyframes(winnablePulse)
-  from
-    @include box-shadow(0px 0px 8px #333)
-    color: white
-  50%
-    @include box-shadow(0px 0px 35px #87CEFF)
-    color: #87CEFF
-  to
-    @include box-shadow(0px 0px 8px #333)
-    color: white
+  +keyframes(winnablePulse)
+    from
+      @include box-shadow(0px 0px 8px #333)
+      color: white
+    50%
+      @include box-shadow(0px 0px 35px #87CEFF)
+      color: #87CEFF
+    to
+      @include box-shadow(0px 0px 8px #333)
+      color: white
 
-#course-victory-component
-  img.header-img
-    position: relative
-    top: -15px
-  
-  h3
-    margin-top: 0
+  #course-victory-component
+    img.header-img
+      position: relative
+      top: -15px
     
-  h5
-    font-size: 18px
-    margin: 0
+    h3
+      margin-top: 0
+      
+    h5
+      font-size: 18px
+      margin: 0
+      
+    h3, h5
+      color: black
+
+    .lock-banner
+      float: left
+      width: 120px
+      margin-right: 10px
     
-  h3, h5
-    color: black
+    .well
+      margin: 10px 0 0
 
-  .lock-banner
-    float: left
-    width: 120px
-    margin-right: 10px
-  
-  .well
-    margin: 10px 0 0
+    .modal-body
+      padding: 0px 20px 0
+      position: relative
+      top: 80px
+      margin-top: 80px
 
-  .modal-body
-    padding: 0px 20px 0
-    position: relative
-    top: 80px
-    margin-top: 80px
+      @media screen and ( max-height: 650px )
+        padding-top: 10px
 
-    @media screen and ( max-height: 650px )
-      padding-top: 10px
+      .well-parchment
+        margin-top: 20px
 
-    .well-parchment
-      margin-top: 20px
-
-      @media screen and ( max-height: 675px )
-        margin-top: 0
-  
-  svg
-    width: 60px
-    position: absolute
-    top: 0
-    left: 0
-  
-  .left-column
-    padding: 0 15px
-    width: 250px
-
-  .pie-container
-    position: relative
-    width: 60px
-    height: 70px
-    display: inline-block
-  
-  .combo-img
-    position: absolute
-    width: 70px
-    top: -4px
-    left: -4px
-  
-  .combo-results
-    display: flex
-  
-  .no-imgs  
-    // they are not necessarily built for the provided space, eg Wakka Maul
-    img
-      display: none
-
-  #level-status
-    position: relative
-    min-height: 120px
-    padding-left: 170px
-    padding-top: 15px
-
-    .hero-img
+        @media screen and ( max-height: 675px )
+          margin-top: 0
+    
+    svg
+      width: 60px
       position: absolute
-      bottom: 0
-      left: 10px
+      top: 0
+      left: 0
+    
+    .left-column
+      padding: 0 15px
+      width: 250px
 
-  .btn-glow
-    @include animation(winnablePulse 3s infinite)
+    .pie-container
+      position: relative
+      width: 60px
+      height: 70px
+      display: inline-block
+    
+    .combo-img
+      position: absolute
+      width: 70px
+      top: -4px
+      left: -4px
+    
+    .combo-results
+      display: flex
+    
+    .no-imgs  
+      // they are not necessarily built for the provided space, eg Wakka Maul
+      img
+        display: none
+
+    #level-status
+      position: relative
+      min-height: 120px
+      padding-left: 170px
+      padding-top: 15px
+
+      .hero-img
+        position: absolute
+        bottom: 0
+        left: 10px
+
+    .btn-glow
+      @include animation(winnablePulse 3s infinite)
 
 </style>
