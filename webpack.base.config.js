@@ -61,18 +61,21 @@ module.exports = (env) => {
         { test: /\.coffee$/, use: [
           { loader: 'coffee-loader' },
         ] },
-        { test: /\.(jade|pug)$/,
+        { test: /\.pug$/,
           oneOf: [
-            // Applies to `<template lang="pug">` in Vue components
+            // applies to <template lang="pug"> in Vue components
             {
               resourceQuery: /^\?vue/,
               use: ['pug-plain-loader']
             },
-            // applies to raw imports outside Vue
+            // applies to all other pug imports
             {
-              use: { loader: 'jade-loader', options: { root: path.resolve('./app') } }
+              use: { loader: 'pug-loader', options: { root: path.resolve('./app') } }
             }
           ]
+        },
+        { test: /\.jade$/,
+          use: [{ loader: 'jade-loader', options: { root: path.resolve('./app') } }]
         },
         {
           oneOf: [
