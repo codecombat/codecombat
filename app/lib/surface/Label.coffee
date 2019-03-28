@@ -47,6 +47,7 @@ module.exports = class Label extends CocoClass
     o = @buildLabelOptions()
     @layer.addChild @label = @buildLabel o
     @layer.addChild @background = @buildBackground o
+    @returnBounds = o.returnBounds
     @layer.updateLayerOrder()
 
   update: ->
@@ -58,6 +59,15 @@ module.exports = class Label extends CocoClass
     offset.x *= -1 if rotation >= 135 or rotation <= -135
     @label.x = @background.x = @sprite.sprite.x + offset.x
     @label.y = @background.y = @sprite.sprite.y + offset.y
+    if @returnBounds and @background.bitmapCache and camera = @sprite?.options?.camera
+      cache = @background.bitmapCache
+      width = (@background.bitmapCache.width - 20) * @background.scaleX
+      height = (@background.bitmapCache.height - 20) * @background.scaleY
+      x = @background.x - @background.regX * @background.scaleX
+      y = @background.y - @background.regY * @background.scaleY
+      posLB = camera.surfaceToWorld({x: x, y: y + height})
+      posRT = camera.surfaceToWorld({x: x + width, y: y})
+      @sprite.thang?.labelBounds = {x1: posLB.x, x2: posRT.x, y1: posLB.y, y2: posRT.y}
     null
 
   show: ->
