@@ -2810,3 +2810,6 @@
     first_name: "First Name"
     last_initial: "Last Initial"
     teacher_email: "Teacher's email address"
+
+  school_administrator:
+    my_teachers: 'My Teachers'
