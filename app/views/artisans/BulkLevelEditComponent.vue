@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div.container
   h1 Bulk Level Editor
   .campaign(v-if="campaignHandle")

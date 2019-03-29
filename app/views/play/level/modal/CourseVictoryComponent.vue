@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .modal-content#course-victory-component
     .modal-header
       img.header-img(:src="headerImage")
@@ -288,7 +288,7 @@
       
     h3, h5
       color: black
-  
+
     .lock-banner
       float: left
       width: 120px
@@ -296,19 +296,19 @@
     
     .well
       margin: 10px 0 0
-  
+
     .modal-body
       padding: 0px 20px 0
       position: relative
       top: 80px
       margin-top: 80px
-  
+
       @media screen and ( max-height: 650px )
         padding-top: 10px
-  
+
       .well-parchment
         margin-top: 20px
-  
+
         @media screen and ( max-height: 675px )
           margin-top: 0
     
@@ -355,5 +355,5 @@
 
     .btn-glow
       @include animation(winnablePulse 3s infinite)
-  
+
 </style>
