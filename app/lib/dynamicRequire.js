@@ -116,6 +116,7 @@ module.exports = {
   'views/teachers/CreateTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/CreateTeacherAccountView') },
   'views/teachers/StarterLicenseUpsellView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/StarterLicenseUpsellView') },
   'views/teachers/ConvertToTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ConvertToTeacherAccountView') },
+  'views/school-administrator': function () { return import(/* webpackChunkName: "teachers" */ 'views/school-administrator') },
   'views/TestView': function () { return import(/* webpackChunkName: "TestView" */ 'views/TestView') },
   'views/user/MainUserView': function () { return import(/* webpackChunkName: "user" */ 'views/user/MainUserView') },
   'views/user/EmailVerifiedView': function () { return import(/* webpackChunkName: "user" */ 'views/user/EmailVerifiedView') },

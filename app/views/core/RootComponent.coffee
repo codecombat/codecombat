@@ -8,6 +8,7 @@ module.exports = class RootComponent extends RootView
   propsData: null
 
   afterRender: ->
+    console.log(@vueComponent)
     if @vueComponent
       @$el.find('#site-content-area').replaceWith(@vueComponent.$el)
     else
@@ -16,11 +17,25 @@ module.exports = class RootComponent extends RootView
           throw new Error('@vuexModule should be a function')
         store.registerModule('page', @vuexModule())
 
-      @vueComponent = new @VueComponent({
-        el: @$el.find('#site-content-area')[0]
-        propsData: @propsData
-        store
-      })
+      if typeof @VueComponent == 'function'
+        @vueComponent = new @VueComponent({
+          el: @$el.find('#site-content-area')[0]
+          propsData: @propsData
+          store
+        })
+      else
+        @vueComponent = new Vue({
+          el: @$el.find('#site-content-area')[0]
+          store
+          propsData: @propsData
+
+          components: {
+            component: @VueComponent
+          }
+
+          template: '<component></component>'
+        })
+
       window.rootComponent = @vueComponent # Don't use this in code! Just for ease of development
     super(arguments...)
 
