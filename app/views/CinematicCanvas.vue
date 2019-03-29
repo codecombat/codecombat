@@ -14,8 +14,10 @@ const Camera = require('lib/surface/Camera')
 const ThangType = require('models/ThangType')
 const Lank = require('lib/surface/Lank')
 
-
-const CENTER = {x: 200, y: 400}
+const CENTER = {
+  x: 300,
+  y: 175
+}
 
 export default {
   mounted() {
@@ -24,6 +26,7 @@ export default {
   data: () => ({
     stage: null,
     layerAdapter: null,
+    stubRequiredLayer: null,
     topLayer: null,
     width: 600,
     height: 350,
@@ -34,8 +37,20 @@ export default {
       hudProperties: ['health'],
       acts: true,
       stateChanged: true,
+      pos: {
+        x: 0,
+        y: 0,
+        z: 1
+      },
+      shadow: 0,
+      action: 'attack',
+      health: 20,
+      maxHealth: 20,
+      rotation: Math.PI/2,
+      exists: true,
     },
     lank: null,
+    camera: null,
   }),
   methods: {
     createLankFromThang() {
@@ -43,48 +58,38 @@ export default {
       const lank = this.lank = new Lank(this.thangType, {
         resolutionFactor: 60,
         preloadSounds: false,
-        thang: this.mockThang
+        thang: this.mockThang,
+        camera: this.camera,
+        isCinematic: true,
+        // This must be passed in as `new Mark` uses a groundLayer.
+        // Without this nothing works. In this case I am using a dummy layer.
+        groundLayer: this.stubRequiredLayer
       })
 
       this.showLank(lank)
 
-      lank.queueAction('attack')
-      lank.sprite.x = 100
-      lank.sprite.y = 100
+      lank.queueAction('idle')
     },
     showLank(lank) {
-      // this.layerAdapter.resetSpriteSheet()
+      this.layerAdapter.resetSpriteSheet()
       this.layerAdapter.addLank(lank)
       this.layerAdapter.updateLayerOrder()
     },
     initStage () {
       const canvas = this.$refs['cinematic-canvas']
       this.stage = new createjs.StageGL(canvas)
-
       // Camera requires a jquery object to work
-      const camera = new Camera($(canvas))
-
+      const camera = this.camera = new Camera($(canvas))
+      this.stubRequiredLayer = new LayerAdapter({name: 'Ground', webGL: true, camera: camera})
       this.layerAdapter = new LayerAdapter({name: 'Default', webGL: true, camera: camera})
+      
       this.layerAdapter.on("new-spritesheet", (spritesheet) =>{
-        console.log("SPRITE SHEET BUILT")
-        this.onNewSpriteSheet(spritesheet)
+        // Creating a new spritesheet changes x and y of layer.
+        this.layerAdapter.container.x = CENTER.x;
+        this.layerAdapter.container.y = CENTER.y;
       })
-
-      this.layerAdapter.container.x = CENTER.x;
-      this.layerAdapter.container.y = CENTER.y;
 
       this.stage.addChild(this.layerAdapter.container)
-
-
-      createjs.Ticker.framerate = 30;
-      createjs.Ticker.addEventListener('tick', () => {
-        this.stage.update();
-        if (this.lank) {
-          this.lank.thang.stateChanged = true;
-          this.lank.update(true)
-        }
-      })
-
 
       /**
        * Initialize an example Thang.
@@ -98,15 +103,38 @@ export default {
         .then(data => {
           this.thangType = new ThangType(data)
           this.createLankFromThang()
-        })
+        }).then(this.initTicker)
 
     },
-    onNewSpriteSheet(spritesheet) {
-      this.layerAdapter.container.x = 0;
-      this.layerAdapter.container.y = 0;
-      for (let image of this.layerAdapter.spriteSheet._images) {
-        $("#debug").append(image)
+
+    initTicker() {
+      let ticks = 0;
+      createjs.Ticker.framerate = 30;
+      
+      const listener = {
+        handleEvent: () => {
+          if (ticks >= 100000) {
+            return;
+          }
+          ticks ++;
+          if (!this.lank) {
+            return
+          }
+          this.lank.update(true);
+          // console.log("UPdate", this.lank)
+          // console.log({x: this.lank.sprite.x, y: this.lank.sprite.y})
+          this.stage.update()
+        }
       }
+      createjs.Ticker.addEventListener("tick", listener)
+
+      /** INITIATE Camera random movement */
+      setInterval(() => {
+        const pos = {x: Math.random() * CENTER.x * 2, y: Math.random() * CENTER.y * 2}
+        console.log("move camera", pos)
+        this.camera.zoomTo(pos)
+        this.lank.queueAction(['idle', 'bash', 'move', 'die'][Math.floor(Math.random() * 4)])
+      }, 3000)
     }
   }
 }
