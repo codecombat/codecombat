@@ -157,10 +157,15 @@ formSchema = {
 }
 
 loginNavigate = (subModalContinue) ->
-  if me.isStudent() and not me.isAdmin()
-    application.router.navigate('/students', {trigger: true})
-  else if me.isTeacher() and not me.isAdmin()
-    application.router.navigate('/teachers/classes', {trigger: true})
+  if not me.isAdmin()
+    if me.isStudent()
+      application.router.navigate('/students', { trigger: true })
+    else if me.isTeacher()
+      if me.isSchoolAdministrator()
+        application.router.navigate('/school-administrator', { trigger: true })
+      else
+        application.router.navigate('/teachers/classes', { trigger: true })
   else if subModalContinue
     storage.save('sub-modal-continue', subModalContinue)
+
   window.location.reload()
