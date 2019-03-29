@@ -201,6 +201,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/videos/:courseID/:courseName': go('courses/CourseVideosView')
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
+
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
@@ -225,6 +226,8 @@ module.exports = class CocoRouter extends Backbone.Router
       return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
+
+    'school-administrator': go('school-administrator')
 
     'test(/*subpath)': go('TestView')
 

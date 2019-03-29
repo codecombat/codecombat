@@ -41,6 +41,7 @@ module.exports = class User extends CocoModel
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
+
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)
 
@@ -100,7 +101,7 @@ module.exports = class User extends CocoModel
       clientID = utils.getApiClientIdFromEmail(@get('email'))
     if clientID
       api.apiClients.getByHandle(clientID)
-      .then((apiClient) => 
+      .then((apiClient) =>
         @clientPermissions = apiClient.permissions
       )
       .catch((e) =>
