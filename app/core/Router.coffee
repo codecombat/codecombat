@@ -194,6 +194,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'seen': go('HomeView')
     'SEEN': go('HomeView')
 
+    'VueComponentExample(/:id)': (id) ->
+      props = {
+        id: parseInt(id)
+      }
+      # Send vueRoute: true, propsData, and baseTemplate 
+      @routeDirectly('VueComponentExample', [], {propsData: props, baseTemplate: 'base-empty', vueRoute: true})
+
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
