@@ -1,14 +1,21 @@
+Vue = require('vue').default
+
 RootView = require('./RootView')
+
 store = require('core/store')
 silentStore = { commit: _.noop, dispatch: _.noop }
+
+cocoVueRouter = require('core/CocoVueRouter').default
+
+Root = require('./Root').default
 
 module.exports = class RootComponent extends RootView
   VueComponent: null # set this
   vuexModule: null
   propsData: null
+  router: false
 
   afterRender: ->
-    console.log(@vueComponent)
     if @vueComponent
       @$el.find('#site-content-area').replaceWith(@vueComponent.$el)
     else
@@ -17,23 +24,20 @@ module.exports = class RootComponent extends RootView
           throw new Error('@vuexModule should be a function')
         store.registerModule('page', @vuexModule())
 
-      if typeof @VueComponent == 'function'
+      if @router
+        @vueComponent = new Vue({
+          el: @$el.find('#site-content-area')[0]
+
+          store,
+          router: cocoVueRouter
+
+          render: (h) => h(Root)
+        })
+      else
         @vueComponent = new @VueComponent({
           el: @$el.find('#site-content-area')[0]
           propsData: @propsData
           store
-        })
-      else
-        @vueComponent = new Vue({
-          el: @$el.find('#site-content-area')[0]
-          store
-          propsData: @propsData
-
-          components: {
-            component: @VueComponent
-          }
-
-          template: '<component></component>'
         })
 
       window.rootComponent = @vueComponent # Don't use this in code! Just for ease of development
