@@ -1,7 +1,7 @@
 const RootComponent = require('views/core/RootComponent')
 const template = require('templates/base-flat')
 
-const SchoolAdministratorDashboardComponent = require('./SchoolAdministratorDashboardComponent').default
+const SchoolAdministratorDashboardComponent = require('./dashboard/SchoolAdministratorDashboardComponent').default
 console.log(SchoolAdministratorDashboardComponent instanceof Vue)
 console.log(SchoolAdministratorDashboardComponent)
 
