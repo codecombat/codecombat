@@ -2811,3 +2811,8 @@
 
   school_administrator:
     my_teachers: 'My Teachers'
+    last_login: 'Last Login'
+    licenses_used: 'licenses used'
+    total_students: 'total students'
+    active_students: 'active students'
+    projects_created: 'projects created'
