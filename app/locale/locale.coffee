@@ -3,6 +3,8 @@
 # Sort according to language popularity on Internet
 # http://en.wikipedia.org/wiki/Languages_used_on_the_Internet
 
+moduleVue = require('vue').default
+
 utils = require('../core/utils')
 
 
@@ -152,3 +154,4 @@ Object.defineProperties module.exports,
         return
 
       Vue.use(VueI18Next)
+      moduleVue.use(VueI18Next)

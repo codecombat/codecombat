@@ -1,10 +1,6 @@
 const RootComponent = require('views/core/RootComponent')
 const template = require('templates/base-flat')
 
-const SchoolAdministratorDashboardComponent = require('./dashboard/SchoolAdministratorDashboardComponent').default
-console.log(SchoolAdministratorDashboardComponent instanceof Vue)
-console.log(SchoolAdministratorDashboardComponent)
-
 module.exports = class SchoolAdministratorView extends RootComponent {
 
     constructor(options) {
@@ -12,6 +8,6 @@ module.exports = class SchoolAdministratorView extends RootComponent {
 
         this.id = 'school-administrator-view'
         this.template = template
-        this.VueComponent = SchoolAdministratorDashboardComponent
+        this.router = true
     }
 }

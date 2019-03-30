@@ -168,6 +168,7 @@
     twitter_follow: "Follow"
     my_classrooms: "My Classes"
     my_courses: "My Courses"
+    my_teachers: "My Teachers"
     careers: "Careers"
     facebook: "Facebook"
     twitter: "Twitter"
