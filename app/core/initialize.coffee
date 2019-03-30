@@ -3,6 +3,13 @@ app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
 
+Vue = require 'vue'
+VueRouter = require 'vue-router'
+Vuex = require 'vuex'
+
+Vue.default.use(VueRouter.default)
+Vue.default.use(Vuex.default)
+
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
   'bus': require 'schemas/subscriptions/bus'
