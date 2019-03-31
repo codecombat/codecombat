@@ -1,14 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import SchoolAdminDashboard from 'views/school-administrator/dashboard/SchoolAdministratorDashboardComponent'
+import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministratorDashboardComponent'
+import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/teachers/DashboardTeacherListView'
+import SchoolAdminTeacherView from 'views/school-administrator/teachers/SchoolAdminDashboardTeacherView'
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
-  history: true,
+  mode: 'history',
 
   routes: [
-    { path: '/school-administrator', component: SchoolAdminDashboard }
+    { path: '/school-administrator', component: SchoolAdminDashboard, children: [
+        { path: '', component: SchoolAdminDashboardTeacherListView },
+        { path: 'teacher/:id', component: SchoolAdminTeacherView }
+    ] }
   ]
 })

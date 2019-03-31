@@ -10,6 +10,8 @@ Vuex = require 'vuex'
 Vue.default.use(VueRouter.default)
 Vue.default.use(Vuex.default)
 
+Vue.default.config.devtools = true
+
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
   'bus': require 'schemas/subscriptions/bus'
