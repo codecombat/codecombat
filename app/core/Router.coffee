@@ -230,7 +230,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
-    'school-administrator': go('school-administrator')
+    'school-administrator(/*subpath)': go('school-administrator')
 
     'test(/*subpath)': go('TestView')
 
