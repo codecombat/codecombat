@@ -41,8 +41,8 @@ export default {
         commit(
           'addTeachers',
           [
-            new User({ _id: '5c94f939b7923904e40fc6e0', name: 'Teacher 1', email: 'teacher1@education.com', lastLogin: 'LAST_LOGIN' }),
-            new User({ _id: '5c99876f08583a0075d5dfc7', name: 'Teacher 2', email: 'teacher2@education.com', lastLogin: 'LAST_LOGIN' }),
+            new User({ _id: '5c99876f08583a0075d5dfc7', name: 'Teacher 1', email: 'teacher1@education.com', lastLogin: 'LAST_LOGIN' }),
+            new User({ _id: '5c9ad6328199860076fc373d', name: 'Teacher 2', email: 'teacher2@education.com', lastLogin: 'LAST_LOGIN' }),
           ]
         )
 
@@ -67,11 +67,10 @@ export default {
     fetchTeacherClassrooms: ({ commit }, id) => {
       commit('toggleLoading', 'classrooms')
 
-      const res = classroomsApi.fetchByOwner(id)
-      console.log(res)
-      return res.then((res) => commit('addClassrooms', res.body))
-        .then(() => commit('toggleLoading', 'classrooms'))
-        .error((e) => console.error('Classrooms failure', e)) // TODO handle this
+      classroomsApi.fetchByOwner(id)
+        .then((res) => commit('addClassrooms', res.body))
+        .catch((e) => console.error('Classrooms failure', e)) // TODO handle this
+        .finally(() => commit('toggleLoading', 'classrooms'))
     }
   }
 }
