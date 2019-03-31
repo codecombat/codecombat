@@ -80,9 +80,9 @@
 <template>
     <li class="teacher-row">
         <div class="teacher-info">
-            <h4>{{ teacher.get('name') }}</h4>
-            <a class="teacher-email" :href="`mailto:${ teacher.email}`">{{ teacher.get('email') }}</a>
-            <span class="last-login">{{ $t('school_administrator.last_login') }}: {{ teacher.get('lastLogin') }}</span>
+            <h4>{{ teacher.firstName }} {{ teacher.lastName }}</h4>
+            <a class="teacher-email" :href="`mailto:${teacher.email}`">{{ teacher.email }}</a>
+            <span class="last-login">{{ $t('school_administrator.last_login') }}: {{ teacher.lastLogin }}</span>
         </div>
         <ul class="stats">
             <li>
@@ -106,10 +106,9 @@
             </li>
         </ul>
 
-        <!-- TODO fix id rendering -->
         <router-link
                 class="dashboard-link glyphicon glyphicon-chevron-right"
-                :to="`/school-administrator/teacher/${teacher.id}`"
+                :to="`/school-administrator/teacher/${teacher._id}`"
         ></router-link>
     </li>
 </template>
