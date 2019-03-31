@@ -1,4 +1,5 @@
 import classroomsApi from 'core/api/classrooms'
+import usersApi from 'core/api/users'
 import User from 'models/User'
 
 export default {
@@ -34,41 +35,59 @@ export default {
   },
 
   actions: {
-    fetchTeachers: ({ commit }) => {
+    fetchTeachers: ({ commit, rootState }) => {
       commit('toggleLoading', 'teachers')
 
-      setTimeout(() => {
-        commit(
-          'addTeachers',
-          [
-            new User({ _id: '5c99876f08583a0075d5dfc7', name: 'Teacher 1', email: 'teacher1@education.com', lastLogin: 'LAST_LOGIN' }),
-            new User({ _id: '5c9ad6328199860076fc373d', name: 'Teacher 2', email: 'teacher2@education.com', lastLogin: 'LAST_LOGIN' }),
-          ]
-        )
-
-        commit('toggleLoading', 'teachers')
-      }, 1000)
+      return usersApi
+        .fetchByIds(rootState.me.administratedTeachers || [])
+        .then(res =>  {
+          if (res) {
+            commit('addTeachers', res)
+          } else {
+            throw new Error('Unexpected response from teachers by ID API.')
+          }
+        })
+        .catch((e) => console.error('Fetch teachers failure', e)) // TODO handle this
+        .finally(() => commit('toggleLoading', 'teachers'))
     },
 
     fetchTeacher: ({ commit, state }, id) => {
       commit('toggleLoading', 'teacher')
 
 
-      for (const teacher of state.administratedTeachers) {
-        if (teacher.get('id')) {
-          commit('setTeacher', teacher)
-          break;
-        }
+      let resultPromise;
+      const teacher = state.administratedTeachers.find(t => t.id === id);
+
+      if (teacher) {
+        resultPromise = Promise.resolve(teacher);
+      } else {
+        resultPromise = usersApi
+          .fetchByIds([ id ])
+          .then(res =>  {
+            if (res && res.length > 0) {
+              commit('setTeacher', res[0])
+            } else {
+              throw new Error('Teacher not returned from API')
+            }
+          })
+          .catch((e) => console.error('Fetch teachers failure', e)) // TODO handle this
       }
 
-      commit('toggleLoading', 'teacher')
+      return resultPromise
+        .finally(() => commit('toggleLoading', 'teacher'))
     },
 
     fetchTeacherClassrooms: ({ commit }, id) => {
       commit('toggleLoading', 'classrooms')
 
       classroomsApi.fetchByOwner(id)
-        .then((res) => commit('addClassrooms', res.body))
+        .then((res) => {
+          if (res) {
+            commit('addClassrooms', res)
+          } else {
+            throw new Error('Unexpected response from classrooms API.')
+          }
+        })
         .catch((e) => console.error('Classrooms failure', e)) // TODO handle this
         .finally(() => commit('toggleLoading', 'classrooms'))
     }
