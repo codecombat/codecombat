@@ -10,4 +10,9 @@ module.exports = {
   getSessions: ({ courseInstanceID }, options={}) ->
     userID = options?.userID or me.id
     fetchJson("/db/course_instance/#{courseInstanceID}/course-level-sessions/#{userID}", options)
+
+  fetchByOwner: (ownerID) ->
+    fetchJson("/db/course_instance", {
+      data: { ownerID: ownerID }
+    })
 }
