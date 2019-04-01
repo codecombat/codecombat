@@ -656,7 +656,7 @@ module.exports = Lank = class Lank extends CocoClass
       d.toggle debug
       d.updatePosition()
 
-  addLabel: (name, style, labelOptions) ->
+  addLabel: (name, style, labelOptions={}) ->
     @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style, labelOptions: labelOptions
     @labels[name]
 
