@@ -20,9 +20,30 @@
     }
 
     li.classroom-list-row .class-information .class-summary {
+        flex-shrink: 0;
+
         font-size: 14px;
         height: 100%;
+    }
 
+    li.classroom-list-row .class-information .class-summary span {
+        margin-right: 10px;
+    }
+
+    li.classroom-list-row .class-information .class-summary span:last-of-type {
+        margin-right: 0;
+    }
+
+    ul.progress-dots {
+        flex-grow: 1;
+
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     li.classroom-list-row .classroom-link {
@@ -30,6 +51,7 @@
         color: #999;
 
         line-height: normal;
+        font-size: 35px;
     }
 
     li.classroom-list-row .classroom-link:hover {
@@ -54,6 +76,10 @@
             </div>
         </div>
 
+        <ul class="progress-dots">
+            <progress-dot v-for="course in orderedCourses" :key="course._id" :course="course"></progress-dot>
+        </ul>
+
         <router-link
                 class="classroom-link glyphicon glyphicon-chevron-right"
                 :to="`/teachers/classes/${classroom._id}`"
@@ -62,11 +88,17 @@
 </template>
 
 <script>
-    import { capitalLanguages } from 'core/utils'
+    import { capitalLanguages, orderedCourseIDs } from 'core/utils'
+
+    import CourseProgressDotView from './CourseProgressDotView'
 
     export default {
       created() {
         console.log(this)
+      },
+
+      components: {
+        'progress-dot': CourseProgressDotView
       },
 
       props: {
@@ -81,8 +113,18 @@
             return capitalLanguages[classroom.aceConfig.language]
           }
 
-          // TODO this is a pretty big bug - current code handles this gracefully - should we or should we fail?
+          // TODO hitting this is a pretty big bug - current code handles this gracefully - should we or should we fail?
           return ''
+        },
+
+        orderedCourses: function () {
+          const courses = this.$props.classroom.courses
+
+          let orderedCourses = orderedCourseIDs.map(courseId =>
+            courses.find(course => course._id === courseId)
+          )
+
+          return orderedCourses.filter(course => course !== undefined)
         }
       }
     }
