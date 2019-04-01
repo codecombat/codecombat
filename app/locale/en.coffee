@@ -2820,3 +2820,5 @@
     active_students: 'active students'
     projects_created: 'projects created'
     classes: 'Classes'
+    language: 'Language'
+    students: 'Students'
