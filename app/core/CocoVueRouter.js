@@ -7,13 +7,15 @@ import SchoolAdminTeacherView from 'views/school-administrator/teachers/SchoolAd
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
-  mode: 'history',
+export default function () {
+  return new VueRouter({
+    mode: 'history',
 
-  routes: [
-    { path: '/school-administrator', component: SchoolAdminDashboard, children: [
-        { path: '', component: SchoolAdminDashboardTeacherListView },
-        { path: 'teacher/:id', component: SchoolAdminTeacherView }
-    ] }
-  ]
-})
+    routes: [
+      { path: '/school-administrator', component: SchoolAdminDashboard, children: [
+          { path: '', component: SchoolAdminDashboardTeacherListView },
+          { path: 'teacher/:id', component: SchoolAdminTeacherView }
+        ] }
+    ]
+  })
+}
