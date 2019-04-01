@@ -24,6 +24,8 @@ store = new Vuex.Store({
     courses: require('./modules/courses'),
     game: require('./modules/game'),
     schoolAdministrator: require('./modules/schoolAdministrator').default
+    classrooms: require('./modules/classrooms').default
+    courseInstances: require('./modules/courseInstances').default
   }
 })
 

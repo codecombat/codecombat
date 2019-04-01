@@ -1,6 +1,4 @@
-import classroomsApi from 'core/api/classrooms'
 import usersApi from 'core/api/users'
-import User from 'models/User'
 
 export default {
   namespaced: true,
@@ -16,8 +14,6 @@ export default {
 
     isSchoolAdministrator: false,
     administratedTeachers: [],
-
-    teacherClassrooms: []
   },
 
   mutations: {
@@ -28,10 +24,6 @@ export default {
     addTeachers: (state, teachers) => {
       state.administratedTeachers = teachers;
     },
-
-    addClassrooms: (state, classrooms) => {
-      state.teacherClassrooms = classrooms;
-    }
   },
 
   actions: {
@@ -54,7 +46,6 @@ export default {
     fetchTeacher: ({ commit, state }, id) => {
       commit('toggleLoading', 'teacher')
 
-
       let resultPromise;
       const teacher = state.administratedTeachers.find(t => t.id === id);
 
@@ -64,10 +55,10 @@ export default {
         resultPromise = usersApi
           .fetchByIds([ id ])
           .then(res =>  {
-            if (res && res.length > 0) {
+            if (res && res.length === 1) {
               commit('setTeacher', res[0])
             } else {
-              throw new Error('Teacher not returned from API')
+              throw new Error('Unexpected response returned from teacher API')
             }
           })
           .catch((e) => console.error('Fetch teachers failure', e)) // TODO handle this
@@ -76,21 +67,6 @@ export default {
       return resultPromise
         .finally(() => commit('toggleLoading', 'teacher'))
     },
-
-    fetchTeacherClassrooms: ({ commit }, id) => {
-      commit('toggleLoading', 'classrooms')
-
-      classroomsApi.fetchByOwner(id)
-        .then((res) => {
-          if (res) {
-            commit('addClassrooms', res)
-          } else {
-            throw new Error('Unexpected response from classrooms API.')
-          }
-        })
-        .catch((e) => console.error('Classrooms failure', e)) // TODO handle this
-        .finally(() => commit('toggleLoading', 'classrooms'))
-    }
   }
 }
 
