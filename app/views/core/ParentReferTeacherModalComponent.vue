@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 
 #refer-teacher-modal.modal-content.style-flat
   .modal-header

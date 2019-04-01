@@ -1,3 +1,6 @@
+.style-flat
+  padding-top: 0
+
 #certificates-view
   background-color: white
   text-align: center
@@ -12,6 +15,9 @@
 
   @media print
     -webkit-print-color-adjust: exact
+    html, body
+      height: 100%
+      overflow: hidden
 
   .menu
     position: fixed

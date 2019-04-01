@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div.licensor.container(v-if="!$store.getters['me/isAdmin'] && !$store.getters['me/isLicensor']")
   h4 You must be logged in as a licensor or admin to view this page.
 div.licensor.container(v-else)
@@ -626,6 +626,6 @@ module.exports = Vue.extend({
 </script>
 
 <style lang="sass">
-  .border
-    border: thin solid grey
+.border
+  border: thin solid grey
 </style>

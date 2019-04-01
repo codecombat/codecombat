@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   li(:class="goalClass" v-if="showGoal")
     i(v-if="state.status === 'incomplete' && isConceptGoal")=" • "
     i.glyphicon(:class="iconClass" v-else)

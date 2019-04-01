@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   a.student-level-progress-dot-link.student-level-progress-dot(
     :href="link",
     data-html='true',

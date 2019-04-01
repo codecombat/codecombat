@@ -1,4 +1,4 @@
-extends /templates/base-flat
+extends /templates/base-flat.jade
 
 block content
   .container
@@ -6,7 +6,7 @@ block content
       .col-xs-12
         if me.isTeacher()
           .alert.alert-danger.text-center
-            // DNT: Temporary
+            //- DNT: Temporary
             h3 ATTENTION TEACHERS:
             p We are transitioning to a new classroom management system; this page will soon be student-only.
             a(href="/teachers/classes") Go to teachers area.

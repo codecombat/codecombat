@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div.admin-classroom-levels.container
   h3 Classroom Levels
   div(v-if="loading") Loading...
