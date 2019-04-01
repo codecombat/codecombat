@@ -29,7 +29,7 @@ module.exports = class RootComponent extends RootView
           el: @$el.find('#site-content-area')[0]
 
           store,
-          router: cocoVueRouter
+          router: cocoVueRouter()
 
           render: (h) => h(Root)
         })
