@@ -146,7 +146,7 @@ module.exports = class TeacherClassView extends RootView
     me.getClientCreatorPermissions()?.then(() => @render?())
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
-  
+
   fetchStudents: ->
     Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
     .then =>
@@ -237,7 +237,7 @@ module.exports = class TeacherClassView extends RootView
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
-      
+
     if @classroom.hasAssessments()
       levels = []
       course = @state.get('selectedCourse')
@@ -250,7 +250,7 @@ module.exports = class TeacherClassView extends RootView
         if courseInstance
           courseInstance = courseInstance.toJSON()
       students = @state.get('students').toJSON()
-      
+
       propsData = {
         students
         levels,
@@ -446,7 +446,7 @@ module.exports = class TeacherClassView extends RootView
     levelCourseIdMap = {}
     levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
-    for trimCourse in @classroom.getSortedCourses()
+    for trimCourse in @classroom.get()
       for trimLevel in trimCourse.levels
         continue if language and trimLevel.primerLanguage is language
         if trimLevel.practice
@@ -695,7 +695,7 @@ module.exports = class TeacherClassView extends RootView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @render()
     })
-    
+
   onClickRevokeAllStudentsButton: ->
     s = $.i18n.t('teacher.revoke_all_confirm')
     return unless confirm(s)
@@ -784,7 +784,7 @@ module.exports = class TeacherClassView extends RootView
     scoreType = _.first(level.get('scoreTypes'))
     if _.isObject(scoreType)
       scoreType = scoreType.type
-    topScores = LevelSession.getTopScores({level: level.toJSON(), session: session.toJSON()}) 
+    topScores = LevelSession.getTopScores({level: level.toJSON(), session: session.toJSON()})
     topScore = _.find(topScores, {type: scoreType})
     return topScore
 
@@ -819,7 +819,7 @@ module.exports = class TeacherClassView extends RootView
           continue if not course.get('free')
           courseInstance = @courseInstances.findWhere({classroomID: @classroom.get("_id"), courseID: course.id})
           if courseInstance
-            importedMembers.forEach((i) => courseInstance.get("members").push(i._id))  
+            importedMembers.forEach((i) => courseInstance.get("members").push(i._id))
         @fetchStudents()
     , (err) =>
       noty text: err or 'Error in importing students.', layout: 'topCenter', timeout: 3000, type: 'error'
