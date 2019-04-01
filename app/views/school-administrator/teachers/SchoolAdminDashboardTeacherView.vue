@@ -1,24 +1,42 @@
-<style scope>
-
+<style scoped>
+    .title {
+        margin-bottom: 8px;
+    }
 </style>
 
 <template>
-    <h3 v-if="teacherLoading || classroomsLoading">{{ $t('common.loading') }}</h3>
+    <h3 v-if="!coursesLoaded || teacherLoading || classroomsLoading || courseInstancesLoading || levelSessionsLoading">
+        {{ $t('common.loading') }}
+    </h3>
+
     <div v-else>
         <!-- TODO apply i18n to possessive -->
-        <h4>{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('school_administrator.classes') }}</h4>
+        <h4 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('school_administrator.classes') }}</h4>
+
+        <div class="teacher-class-list">
+            <teacher-class-list :activeClassrooms="activeClassrooms"></teacher-class-list>
+        </div>
     </div>
 </template>
 
 <script>
   import { mapActions, mapState } from 'vuex'
 
+  import TeacherClassListView from 'app/views/teachers/classes/TeacherClassListView'
+
   export default {
+    components: {
+      'teacher-class-list': TeacherClassListView
+    },
+
     created() {
       this.fetchCourses()
       this.fetchTeacher(this.$route.params.id)
       this.fetchTeacherClassrooms(this.$route.params.id)
       this.fetchCourseInstances(this.$route.params.id)
+
+      // TODO fetch level sessions for classrooms
+      // TODO make level session loading flag based off of all classroom loading states
     },
 
     computed: Object.assign({},
@@ -33,12 +51,16 @@
 
       mapState('classrooms', {
         classroomsLoading: s => s.loading.classrooms,
-        teachers: 'teachers'
+        activeClassrooms: s => s.classrooms.active
       }),
 
       mapState('courseInstances', {
-        classroomsLoading: s => s.loading.classrooms,
-        teachers: 'teachers'
+        courseInstancesLoading: s => s.loading.classrooms,
+      }),
+
+      mapState('levelSessions', {
+        levelSessionsLoading: s => s.loading.sessions,
+        levelSessions: 'levelSessions'
       }),
     ),
 
