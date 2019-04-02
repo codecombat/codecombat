@@ -29,12 +29,17 @@
 
   export default {
     props: {
-      course: Object
+      course: Object,
+      classroom: Object
     },
 
     computed: Object.assign({},
       // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
-      mapState('courses', { 'courses': 'byId' }),
+      mapState('courses', {
+        courses: function (state) {
+          return state.byId
+        }
+      }),
 
       {
         // TODO course acronym could be controlled and sent from the backend
@@ -55,7 +60,9 @@
           }
 
           return `${prefix}${number}`
-        }
+        },
+
+
       })
   }
 </script>
