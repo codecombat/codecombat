@@ -61,7 +61,7 @@ export default {
             throw new Error('Unexpected response from fetch classrooms API.')
           }
         })
-        .catch((e) => console.error('Fetch classrooms failure', e)) // TODO handle this
+        .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
   }

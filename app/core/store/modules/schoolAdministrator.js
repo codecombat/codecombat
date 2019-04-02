@@ -42,7 +42,7 @@ export default {
             throw new Error('Unexpected response from teachers by ID API.')
           }
         })
-        .catch((e) => console.error('Fetch teachers failure', e)) // TODO handle this
+        .catch((e) => noty({ text: 'Fetch teachers failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoading', 'teachers'))
     },
 
@@ -64,7 +64,7 @@ export default {
               throw new Error('Unexpected response returned from teacher API')
             }
           })
-          .catch((e) => console.error('Fetch teachers failure', e)) // TODO handle this
+          .catch((e) => noty({ text: 'Fetch teachers failure' + e, type: 'error' }))
       }
 
       return resultPromise
