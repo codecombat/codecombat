@@ -41,7 +41,7 @@ export default {
             throw new Error('Unexpected response from course instances by owner API.')
           }
         })
-        .catch((e) => console.error('Fetch course instances failure', e)) // TODO handle this
+        .catch((e) => noty({ text: 'Fetch course instances failure: ' + e, type: 'error' }))
         .finally(() => commit('toggleTeacherLoading', teacherId))
     },
   }
