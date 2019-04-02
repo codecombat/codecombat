@@ -161,7 +161,7 @@ loginNavigate = (subModalContinue) ->
     if me.isStudent()
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()
-      if me.isSchoolAdministrator()
+      if me.isSchoolAdmin()
         application.router.navigate('/school-administrator', { trigger: true })
       else
         application.router.navigate('/teachers/classes', { trigger: true })
