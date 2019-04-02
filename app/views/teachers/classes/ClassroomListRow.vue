@@ -78,7 +78,11 @@
         </div>
 
         <ul class="progress-dots">
-            <progress-dot v-for="course in orderedCourses" :key="course._id" :course="course"></progress-dot>
+            <progress-dot v-for="course in orderedCourses"
+                          :key="course._id"
+                          :classroom="classroom"
+                          :course="course"
+            ></progress-dot>
         </ul>
 
         <router-link
@@ -97,6 +101,7 @@
   export default {
     created() {
       this.fetchLevelSessionsForClassroom(this.$props.classroom)
+        .then(() => this.computeLevelCompletionsByUserForClassroom(this.$props.classroom._id))
     },
 
     components: {
@@ -108,12 +113,6 @@
     },
 
     computed: Object.assign({},
-      mapState('levelSessions', {
-        levelSessions(state) {
-          return state.levelSessionsByClassroom[this.$props.classroom._id]
-        }
-      }),
-
       {
         capitalizedLanguage: function () {
           const classroom = this.$props.classroom;
@@ -138,7 +137,8 @@
       }),
 
     methods: mapActions({
-      fetchLevelSessionsForClassroom: 'levelSessions/fetchForClassroomMembers'
+      fetchLevelSessionsForClassroom: 'levelSessions/fetchForClassroomMembers',
+      computeLevelCompletionsByUserForClassroom: 'levelSessions/computeLevelCompletionsByUserForClassroom'
     }),
   }
 </script>

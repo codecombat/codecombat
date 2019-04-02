@@ -16,10 +16,14 @@
 
         background-color: rgb(153, 153, 153);
     }
+
+    .progress-dot.started {
+        background-color: #F2BE19;
+    }
 </style>
 
 <template>
-    <li class="progress-dot">
+    <li :class="{ 'progress-dot': true, started: courseStats.started}">
         {{ courseAcronym }}
     </li>
 </template>
@@ -30,7 +34,7 @@
   export default {
     props: {
       course: Object,
-      classroom: Object
+      classroom: Object,
     },
 
     computed: Object.assign({},
@@ -41,9 +45,40 @@
         }
       }),
 
+      mapState('courseInstances', {
+        // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
+        courseInstancesLoading (state) {
+          return state.loading.byTeacher[this.$props.classroom.ownerID]
+        },
+
+        courseInstance (state) {
+          const instances = state.courseInstancesByTeacher[this.$props.classroom.ownerID] || []
+
+          return instances
+            .find(i => i.courseID === this.$props.course._id && i.classroomID === this.$props.classroom._id)
+        }
+      }),
+
+      mapState('levelSessions', {
+        // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
+        levelSessionsLoading (state) {
+          return state.loading.sessionsByClassroom[this.$props.classroom._id]
+        },
+
+        levelCompletionsByUser (state) {
+          const levelSessionState = state.levelSessionsByClassroom[this.$props.classroom._id]
+
+          if (levelSessionState) {
+            return levelSessionState.levelCompletionsByUser
+          }
+
+          return {}
+        }
+      }),
+
       {
         // TODO course acronym could be controlled and sent from the backend
-        courseAcronym: function() {
+        courseAcronym: function () {
           const course = this.courses[this.$props.course._id]
 
           let prefix = 'CS';
@@ -62,7 +97,68 @@
           return `${prefix}${number}`
         },
 
+        // TODO this should be moved to a stats store, calculated on the backend, or some combination of the two
+        courseLevels: function () {
+          // 1. Fetch versioned levels for course
+          // 2. Loop through levels
+          // 3. If any user has started a level (it exists in object) then course has started
 
+          const classroom = this.$props.classroom
+          const course = (classroom.courses || []).find(c => c._id === this.$props.course._id)
+
+          if (!course || !course.levels) {
+            return new Set([])
+          }
+
+          return new Set(
+            course.levels
+              .filter(l => !l.practice && !l.assessment)
+              .map(l => l.original)
+          )
+        },
+
+        courseStats: function () {
+          const levelCompletionsByUser = this.levelCompletionsByUser
+          const courseLevels = this.courseLevels
+          const courseInstance = this.courseInstance || {}
+
+          let courseStarted = false
+          let levelsCompleted = 0
+          let studentsCompletingAllLevels = 0
+
+          // Calculate stats for each member
+          for (const memberId of courseInstance.members || []) {
+            if (!levelCompletionsByUser[memberId]) {
+              continue
+            }
+
+            // Calculate all levels completed for current user and add user stats to running totals
+            let allLevelsCompleted = true
+            for (const levelId of courseLevels) {
+              const levelCompletion = levelCompletionsByUser[memberId][levelId]
+              const levelCompletedByUser = (levelCompletion === true)
+
+              if (typeof levelCompletion !== 'undefined') {
+                courseStarted = true
+              } else if (levelCompletedByUser) {
+                levelsCompleted += 1
+              } else {
+                allLevelsCompleted = false
+              }
+            }
+
+            if (allLevelsCompleted) {
+              studentsCompletingAllLevels += 1
+            }
+          }
+
+          // TODO WIRE THIS UP TO UI
+          return {
+            started: courseStarted,
+            totalLevelsCompleted: levelsCompleted,
+            studentsCompletingAllLevels
+          }
+        }
       })
   }
 </script>
