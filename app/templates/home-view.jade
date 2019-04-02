@@ -39,7 +39,13 @@ block content
           .row
             .col-lg-7.col-md-12
               .video-iframe
-                iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="640" height="350")
+                if me.isCocoChinaInfra()
+                  video(controls width="640" height="350" poster="/images/pages/home/video_thumb.png" preload="metadata")
+                    source(src="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4" type="video/mp4")
+                    a(href="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4")
+                      img(src="/images/pages/home/video_thumb.png" style="width: 640px; height:350px")
+                else
+                  iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="640" height="350")
             .col-lg-5.col-md-12
               h2(data-i18n="new_home.classroom_in_box_title")
               img(src="/images/pages/home/pink_rectangle.png"

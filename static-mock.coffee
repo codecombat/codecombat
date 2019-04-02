@@ -31,6 +31,7 @@ exports.me =
   hideTopRightNav: -> false
   hideFooter: -> false
   useGoogleAnalytics: -> true
+  isCocoChinaInfra: -> false
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
