@@ -31,7 +31,10 @@ export default {
       commit('toggleLoading', 'teachers')
 
       return usersApi
-        .fetchByIds(rootState.me.administratedTeachers || [])
+        .fetchByIds({
+          fetchByIs: rootState.me.administratedTeachers || [],
+          includeTrialRequests: true
+        })
         .then(res =>  {
           if (res) {
             commit('addTeachers', res)
@@ -53,7 +56,7 @@ export default {
         resultPromise = Promise.resolve(teacher);
       } else {
         resultPromise = usersApi
-          .fetchByIds([ id ])
+          .fetchByIds({ fetchByIds: [ id ] })
           .then(res =>  {
             if (res && res.length === 1) {
               commit('setTeacher', res[0])
