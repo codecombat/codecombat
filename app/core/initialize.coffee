@@ -3,14 +3,17 @@ app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
 
-Vue = require 'vue'
+VueModule = require 'vue'
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
+VTooltip = require 'v-tooltip'
 
-Vue.default.use(VueRouter.default)
-Vue.default.use(Vuex.default)
+# Legacy modules use global Vue object - so register this
+Vue.use(Vuex.default)
 
-Vue.default.config.devtools = true
+VueModule.default.use(VueRouter.default)
+VueModule.default.use(Vuex.default)
+VueModule.default.use(VTooltip.default)
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
