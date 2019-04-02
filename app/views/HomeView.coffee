@@ -97,7 +97,7 @@ module.exports = class HomeView extends RootView
       @homePageEvent("Link:", {clicked: e?.currentTarget?.host or "unknown"}, ['Google Analytics'])
 
   afterRender: ->
-    if !me.isCocoChinaInfra()
+    if !me.showChinaVideo()
       require.ensure(['@vimeo/player'], (require) =>
         Player = require('@vimeo/player').default
         @vimeoPlayer = new Player(@$('.vimeo-player')[0])
