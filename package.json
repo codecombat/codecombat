@@ -157,6 +157,7 @@
     "vue-router": "^3.0.2",
     "vue-template-compiler": "^2.5.13",
     "vuex": "^2.4.0",
+    "v-tooltip": "^2.0.0-rc.33",
     "webpack": "git://github.com/codecombat/webpack.git#webpack-3",
     "webpack-shell-plugin": "^0.5.0",
     "winston": "0.6.x",
