@@ -1,3 +1,4 @@
+_ = require 'lodash'
 require('app/styles/admin/administer-user-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/admin/administer-user-modal'
@@ -29,6 +30,13 @@ module.exports = class AdministerUserModal extends ModalView
     'click .edit-prepaids-info-btn': 'onClickEditPrepaidsInfoButton'
     'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton'
     'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
+    'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox'
+    'click #edit-school-admins-link': 'onClickEditSchoolAdmins'
+    'submit #teacher-search-form': 'onSubmitTeacherSearchForm'
+    'click .add-administer-teacher': 'onClickAddAdministeredTeacher'
+    'click #clear-teacher-search-button': 'onClearTeacherSearchResults'
+    'click #teacher-search-button': 'onSubmitTeacherSearchForm'
+    'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -58,6 +66,11 @@ module.exports = class AdministerUserModal extends ModalView
     @none = not (@free or @freeUntil or @coupon)
     @trialRequest = @trialRequests.first()
     @prepaidTableState={}
+    @foundTeachers = []
+    @administratedTeachers = []
+    @trialRequests = new TrialRequests()
+    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
+
     super()
 
   onClickCreatePayment: ->
@@ -247,4 +260,162 @@ module.exports = class AdministerUserModal extends ModalView
           @prepaidTableState[prepaidId] = 'viewMode'
           @renderSelectors('#'+prepaidId)
         return
- 
+
+  userIsSchoolAdmin: -> @user.isSchoolAdmin()
+
+  onClickSchoolAdminCheckbox: (e) ->
+    checked = @$(e.target).prop('checked')
+    @userSaveState = 'saving'
+    @render()
+    fetchJson("/db/user/#{@user.id}/schoolAdministrator", {
+      method: 'PUT',
+      json: {
+        schoolAdministrator: checked
+      }
+    }).then (res) =>
+      @userSaveState = 'saved'
+      @render()
+      setTimeout((()=>
+        @userSaveState = null
+        @render()
+      ), 2000)
+    null
+
+  onClickEditSchoolAdmins: (e) ->
+    if typeof @editingSchoolAdmins is 'undefined'
+      administrated = @user.get('administratedTeachers')
+
+      if administrated?.length
+        api.users.fetchByIds({
+          fetchByIds: administrated
+          teachersOnly: true
+          includeTrialRequests: true
+        }).then (teachers) =>
+          @administratedTeachers = teachers or []
+          @updateAdministratedTeachers()
+        .catch (jqxhr) =>
+          errorString = "There was an error getting existing administratedTeachers, see the console"
+          @userSaveState = errorString
+          @render()
+          console.error errorString, jqxhr
+
+    @editingSchoolAdmins = !@editingSchoolAdmins
+    @render()
+
+  onClickAddAdministeredTeacher: (e) ->
+    teacher = _.find @foundTeachers, (t) -> t._id is $(e.target).closest('tr').data('user-id')
+    @foundTeachers = _.filter @foundTeachers, (t) -> t._id isnt teacher._id
+    @render()
+
+    fetchJson("/db/user/#{@user.id}/schoolAdministrator/administratedTeacher", {
+      method: 'POST',
+      json: {
+        administratedTeacherId: teacher._id
+      }
+    }).then (res) =>
+      @administratedTeachers.push(teacher)
+      @updateAdministratedTeachers()
+    null
+
+  onClickRemoveAdministeredTeacher: (e) ->
+    teacher = $(e.target).closest('tr').data('user-id')
+    @userSaveState = 'removing...'
+
+    @render()
+
+    fetchJson("/db/user/#{@user.id}/schoolAdministrator/administratedTeacher/#{teacher}", {
+      method: 'DELETE'
+    }).then (res) =>
+      @administratedTeachers = @administratedTeachers.filter (t) -> t._id isnt teacher
+      @updateAdministratedTeachers()
+      @userSaveState = null
+      @render()
+    null
+
+  onSearchRequestSuccess: (teachers) =>
+    forms.enableSubmit(@$('#teacher-search-button'))
+
+    # Filter out the existing administrated teachers and themselves:
+    existingTeachers = _.pluck(@administratedTeachers, '_id')
+    existingTeachers.push(@user.id)
+    @foundTeachers = _.filter(teachers, (teacher) -> teacher._id not in existingTeachers)
+
+    result = _.map(@foundTeachers, (teacher) ->
+      "
+        <tr data-user-id='#{teacher._id}'>
+          <td>
+            <button class='add-administer-teacher'>Add</button>
+          </td>
+          <td><code>#{teacher._id}</code></td>
+          <td>#{_.escape(teacher.name or 'Anonymous')}</td>
+          <td>#{_.escape(teacher.email)}</td>
+          <td>#{teacher.firstName or 'No first name'}</td>
+          <td>#{teacher.lastName or 'No last name'}</td>
+          <td>#{teacher.schoolName or 'No school name'}</td>
+          <td>Verified teacher: #{teacher.verifiedTeacher or 'false'}</td>
+        </tr>
+      "
+    )
+
+    result = "<table class=\"table\">#{result.join('\n')}</table>"
+    @$el.find('#teacher-search-result').html(result)
+
+  onSearchRequestFailure: (jqxhr, status, error) =>
+    return if @destroyed
+    forms.enableSubmit(@$('#teacher-search-button'))
+    console.warn "There was an error looking up #{@lastTeacherSearchValue}:", error
+
+  onClearTeacherSearchResults: (e) ->
+    @$el.find('#teacher-search-result').html('')
+
+  onSubmitTeacherSearchForm: (e) ->
+    e.preventDefault()
+    forms.disableSubmit(@$('#teacher-search-button'))
+
+    $.ajax
+      type: 'GET',
+      url: '/db/user'
+      data: {
+        adminSearch: @$el.find('#teacher-search').val()
+      }
+      success: @onSearchRequestSuccess
+      error: @onSearchRequestFailure
+
+  updateAdministratedTeachers: () ->
+    schools = @administratedSchools(@administratedTeachers)
+    schoolNames = Object.keys(schools)
+
+    result = _.map(schoolNames, (schoolName) ->
+      teachers = _.map(schools[schoolName], (teacher) ->
+        return "
+          <tr data-user-id='#{teacher._id}'>
+            <td>#{teacher.firstName} #{teacher.lastName}</td>
+            <td>#{teacher.role}</td>
+            <td>#{teacher.email}</td>
+            <td><button class='btn btn-primary btn-large remove-teacher-button'>Remove</button></td>
+          </tr>
+        "
+      )
+
+      return "
+        <tr>
+          <h6>#{schoolName}</h6>
+          #{teachers.join('\n')}
+        </tr>
+      "
+    )
+
+    result = "<table class=\"table\">#{result.join('\n')}</table>"
+    @$el.find('#school-admin-result').html(result)
+
+  administratedSchools: (teachers) ->
+    schools = {}
+    _.forEach teachers, (teacher) =>
+      school = teacher?._trialRequest?.organization or "No school found"
+      if not schools[school]
+        schools[school] = [teacher]
+      else
+        schools[school].push(teacher)
+
+    schools
+

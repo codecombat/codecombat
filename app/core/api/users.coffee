@@ -83,4 +83,13 @@ module.exports = {
       method: 'GET'
     }))
 
+  fetchByIds: ({ fetchByIds, teachersOnly, includeTrialRequests }) ->
+    fetchJson("/db/user", {
+      method: 'GET',
+      data: {
+        fetchByIds
+        teachersOnly
+        includeTrialRequests
+      }
+    })
 }
