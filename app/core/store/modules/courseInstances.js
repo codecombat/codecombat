@@ -10,7 +10,7 @@ export default {
       byTeacher: {}
     },
 
-    courseInstancesByTeacher: []
+    courseInstancesByTeacher: {}
   },
 
   mutations: {
@@ -23,8 +23,8 @@ export default {
       Vue.set(state.loading.byTeacher, teacherId, loading)
     },
 
-    addCourseInstancesForTeacher: (state, { teacherId, courseInstances }) =>
-      Vue.set(state.courseInstancesByTeacher, teacherId, courseInstances)
+    addCourseInstancesForTeacher: (state, { teacherId, instances }) =>
+      Vue.set(state.courseInstancesByTeacher, teacherId, instances)
   },
 
   actions: {

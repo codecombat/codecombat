@@ -11,6 +11,12 @@ export default {
       sessionsByClassroom: {}
     },
 
+    // {
+    //   sessions: [],
+    //   levelCompletionsByUser: {
+    //      LEVEL_ID: true / false
+    //    }
+    // }
     levelSessionsByClassroom: {}
   },
 
@@ -24,8 +30,17 @@ export default {
       Vue.set(state.loading.sessionsByClassroom, classroomId, loading)
     },
 
-    setSessionsForClassroom: (state, { classroomId, sessions }) =>
-      Vue.set(state.levelSessionsByClassroom, classroomId, sessions)
+    setSessionsForClassroom: (state, { classroomId, sessions }) => {
+      const levelSessionsState = {
+        sessions,
+        levelCompletionsByUser: {}
+      }
+
+      Vue.set(state.levelSessionsByClassroom, classroomId, levelSessionsState)
+    },
+
+    addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) =>
+      state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = levelCompletionsByUser
   },
 
   // TODO add a way to clear out old level session data
@@ -65,5 +80,26 @@ export default {
         .catch((e) => console.error('Fetch level sessions failure', e)) // TODO handle this
         .finally(() => commit('toggleClassroomLoading', classroom._id))
     },
+
+    computeLevelCompletionsByUserForClassroom ({ commit, state }, classroomId) {
+      const classroomSessionsState = state.levelSessionsByClassroom[classroomId];
+      if (!classroomSessionsState || !classroomSessionsState.sessions) {
+        throw new Error('Sessions not loaded')
+      }
+
+      const levelCompletionsByUser = {};
+      for (const session of classroomSessionsState.sessions) {
+        const user = session.creator
+
+        levelCompletionsByUser[user] = levelCompletionsByUser[user] || {}
+        levelCompletionsByUser[user][session.level.origial] = (session.level.completed === true)
+
+      }
+
+      commit('addLevelCompletionsByUserForClassroom', {
+        classroomId,
+        levelCompletionsByUser
+      })
+    }
   }
 }
