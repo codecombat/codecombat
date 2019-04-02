@@ -5,7 +5,7 @@
 </style>
 
 <template>
-    <h3 v-if="!coursesLoaded || teacherLoading || classroomsLoading || courseInstancesLoading || levelSessionsLoading">
+    <h3 v-if="!coursesLoaded || teacherLoading || classroomsLoading || courseInstancesLoading">
         {{ $t('common.loading') }}
     </h3>
 
@@ -32,11 +32,8 @@
     created() {
       this.fetchCourses()
       this.fetchTeacher(this.$route.params.id)
-      this.fetchTeacherClassrooms(this.$route.params.id)
-      this.fetchCourseInstances(this.$route.params.id)
-
-      // TODO fetch level sessions for classrooms
-      // TODO make level session loading flag based off of all classroom loading states
+      this.fetchClassroomsForTeacher(this.$route.params.id)
+      this.fetchCourseInstancesForTeacher(this.$route.params.id)
     },
 
     computed: Object.assign({},
@@ -50,25 +47,27 @@
       }),
 
       mapState('classrooms', {
-        classroomsLoading: s => s.loading.classrooms,
-        activeClassrooms: s => s.classrooms.active
+        classroomsLoading: function (s) {
+          return s.loading.byTeacher[this.$route.params.id]
+        },
+
+        activeClassrooms: function (s) {
+          return s.classrooms.byTeacher[this.$route.params.id].active
+        }
       }),
 
       mapState('courseInstances', {
-        courseInstancesLoading: s => s.loading.classrooms,
-      }),
-
-      mapState('levelSessions', {
-        levelSessionsLoading: s => s.loading.sessions,
-        levelSessions: 'levelSessions'
+        courseInstancesLoading: function (s) {
+          return s.loading.byTeacher[this.$route.params.id]
+        }
       }),
     ),
 
     methods: mapActions({
-      fetchTeacher: 'schoolAdministrator/fetchTeacher',
-      fetchTeacherClassrooms: 'classrooms/fetchClassroomsForTeacher',
       fetchCourses: 'courses/fetch',
-      fetchCourseInstances: 'courseInstances/fetchCourseInstancesForTeacher'
+      fetchTeacher: 'schoolAdministrator/fetchTeacher',
+      fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher',
+      fetchCourseInstancesForTeacher: 'courseInstances/fetchCourseInstancesForTeacher'
     }),
   }
 </script>

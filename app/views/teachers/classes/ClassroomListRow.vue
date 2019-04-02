@@ -17,6 +17,7 @@
 
     li.classroom-list-row .class-information {
         width: 33%;
+        margin-bottom: auto;
     }
 
     li.classroom-list-row .class-information .class-summary {
@@ -88,24 +89,32 @@
 </template>
 
 <script>
-    import { capitalLanguages, orderedCourseIDs } from 'core/utils'
+  import { mapActions, mapState } from 'vuex'
 
-    import CourseProgressDotView from './CourseProgressDotView'
+  import { capitalLanguages, orderedCourseIDs } from 'core/utils'
+  import CourseProgressDotView from './CourseProgressDotView'
 
-    export default {
-      created() {
-        console.log(this)
-      },
+  export default {
+    created() {
+      this.fetchLevelSessionsForClassroom(this.$props.classroom)
+    },
 
-      components: {
-        'progress-dot': CourseProgressDotView
-      },
+    components: {
+      'progress-dot': CourseProgressDotView
+    },
 
-      props: {
-        classroom: Object
-      },
+    props: {
+      classroom: Object
+    },
 
-      computed: {
+    computed: Object.assign({},
+      mapState('levelSessions', {
+        levelSessions(state) {
+          return state.levelSessionsByClassroom[this.$props.classroom._id]
+        }
+      }),
+
+      {
         capitalizedLanguage: function () {
           const classroom = this.$props.classroom;
 
@@ -126,6 +135,10 @@
 
           return orderedCourses.filter(course => course !== undefined)
         }
-      }
-    }
+      }),
+
+    methods: mapActions({
+      fetchLevelSessionsForClassroom: 'levelSessions/fetchForClassroomMembers'
+    }),
+  }
 </script>

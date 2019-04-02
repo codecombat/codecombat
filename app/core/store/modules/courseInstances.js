@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import courseInstancesApi from 'core/api/course-instances'
 
 export default {
@@ -5,33 +7,44 @@ export default {
 
   state: {
     loading: {
-      courseInstances: true
+      byTeacher: {}
     },
 
-    courseInstances: []
+    courseInstancesByTeacher: []
   },
 
   mutations: {
-    toggleLoading: (state, key) => state.loading[key] = !state.loading[key],
+    toggleTeacherLoading: (state, teacherId) => {
+      let loading = true
+      if (state.loading.byTeacher[teacherId]) {
+        loading = false
+      }
 
-    addCourseInstances: (state, courseInstances) => state.courseInstances = courseInstances
+      Vue.set(state.loading.byTeacher, teacherId, loading)
+    },
+
+    addCourseInstancesForTeacher: (state, { teacherId, courseInstances }) =>
+      Vue.set(state.courseInstancesByTeacher, teacherId, courseInstances)
   },
 
   actions: {
     fetchCourseInstancesForTeacher: ({ commit }, teacherId) => {
-      commit('toggleLoading', 'courseInstances')
+      commit('toggleTeacherLoading', teacherId)
 
       return courseInstancesApi
         .fetchByOwner(teacherId)
         .then(res =>  {
           if (res) {
-            commit('addCourseInstances', res)
+            commit('addCourseInstancesForTeacher', {
+              teacherId,
+              instances: res
+            })
           } else {
             throw new Error('Unexpected response from course instances by owner API.')
           }
         })
         .catch((e) => console.error('Fetch course instances failure', e)) // TODO handle this
-        .finally(() => commit('toggleLoading', 'courseInstances'))
+        .finally(() => commit('toggleTeacherLoading', teacherId))
     },
   }
 }
