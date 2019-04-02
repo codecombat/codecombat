@@ -32,7 +32,7 @@ export default {
 
       return usersApi
         .fetchByIds({
-          fetchByIs: rootState.me.administratedTeachers || [],
+          fetchByIds: rootState.me.administratedTeachers || [],
           includeTrialRequests: true
         })
         .then(res =>  {
