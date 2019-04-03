@@ -103,6 +103,10 @@ module.exports = class TeacherClassView extends RootView
     @debouncedRender = _.debounce @render
 
     @state = new State(@getInitialState())
+
+    if options.readOnly
+      @state.set('readOnly', options.readOnly)
+
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
 
     @classroom = new Classroom({ _id: classroomID })
