@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 import classroomsApi from 'core/api/classrooms'
 
 export default {
