@@ -1,5 +1,3 @@
-Vue = require('vue').default
-
 RootView = require('./RootView')
 
 store = require('core/store')

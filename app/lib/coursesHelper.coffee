@@ -19,7 +19,11 @@ hasUserCompletedCourse = (userLevels, levelsInCourse) ->
     else
       allComplete = false
     userLevelsSeen++
-  allComplete = false unless userStarted
+
+  # User not starting means... that no level was seen with completion status
+  if !userStarted
+    allComplete = false
+
   [userStarted, allComplete and userLevelsSeen == levelsInCourse.size, completed]
 
 module.exports =

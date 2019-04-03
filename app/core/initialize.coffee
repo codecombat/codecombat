@@ -3,17 +3,17 @@ app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
 
-VueModule = require 'vue'
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
 
-# Legacy modules use global Vue object - so register this
+Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
-
-VueModule.default.use(VueRouter.default)
-VueModule.default.use(Vuex.default)
-VueModule.default.use(VTooltip.default)
+Vue.use(VTooltip.default, {
+  popover: {
+    defaultBaseClass: 'v-tooltip v-popover'
+  }
+})
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministratorDashboardComponent'
