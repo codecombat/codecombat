@@ -3,8 +3,6 @@ RootView = require('./RootView')
 store = require('core/store')
 silentStore = { commit: _.noop, dispatch: _.noop }
 
-cocoVueRouter = require('core/CocoVueRouter').default
-
 Root = require('./Root').default
 
 module.exports = class RootComponent extends RootView

@@ -116,7 +116,6 @@ module.exports = {
   'views/teachers/CreateTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/CreateTeacherAccountView') },
   'views/teachers/StarterLicenseUpsellView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/StarterLicenseUpsellView') },
   'views/teachers/ConvertToTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ConvertToTeacherAccountView') },
-  'views/school-administrator': function () { return import(/* webpackChunkName: "teachers" */ 'views/school-administrator') },
   'views/TestView': function () { return import(/* webpackChunkName: "TestView" */ 'views/TestView') },
   'views/user/MainUserView': function () { return import(/* webpackChunkName: "user" */ 'views/user/MainUserView') },
   'views/user/EmailVerifiedView': function () { return import(/* webpackChunkName: "user" */ 'views/user/EmailVerifiedView') },
@@ -126,5 +125,7 @@ module.exports = {
   'views/courses/RestrictedToStudentsView': function () { return import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView') },
   'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
   'views/user/AnonCertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/AnonCertificatesView') },
-  'views/LicensorView': function() { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView')}
+  'views/LicensorView': function() { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView')},
+
+  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "core" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
 }
