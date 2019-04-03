@@ -20,6 +20,10 @@
         margin-bottom: auto;
     }
 
+    li.classroom-list-row .class-information h4 {
+        font-weight: 600;
+    }
+
     li.classroom-list-row .class-information .class-summary {
         flex-shrink: 0;
 
@@ -65,7 +69,7 @@
 <template>
     <li class="classroom-list-row">
         <div class="class-information">
-            <h5>{{ classroom.name }}</h5>
+            <h4>{{ classroom.name }}</h4>
             <div class="class-summary">
                 <span>
                     {{ $t('teacher.language') }}:
