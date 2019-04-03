@@ -90,7 +90,7 @@ export default {
             sessions: Object.freeze(sessions)
           })
         })
-        .catch((e) => console.error('Fetch level sessions failure', e)) // TODO handle this
+        .catch((e) => noty({ text: 'Fetch level sessions failure' + e, type: 'error' }))
         .finally(() => commit('toggleClassroomLoading', classroom._id))
     },
 
