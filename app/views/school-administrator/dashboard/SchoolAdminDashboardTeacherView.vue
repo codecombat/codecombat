@@ -5,28 +5,28 @@
 </style>
 
 <template>
-    <h3 v-if="!coursesLoaded || teacherLoading || classroomsLoading || courseInstancesLoading">
-        {{ $t('common.loading') }}
-    </h3>
+    <loading-progress :loading-status="loadingStatuses">
+        <div v-if="!loading">
+            <!-- TODO apply i18n to possessive -->
+            <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
 
-    <div v-else>
-        <!-- TODO apply i18n to possessive -->
-        <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
-
-        <div class="teacher-class-list">
-            <teacher-class-list :activeClassrooms="activeClassrooms"></teacher-class-list>
+            <div class="teacher-class-list">
+                <teacher-class-list :activeClassrooms="activeClassrooms"></teacher-class-list>
+            </div>
         </div>
-    </div>
+    </loading-progress>
 </template>
 
 <script>
   import { mapActions, mapState } from 'vuex'
 
+  import LoadingProgress from 'app/views/core/LoadingProgress'
   import TeacherClassListView from 'app/views/teachers/classes/TeacherClassListView'
 
   export default {
     components: {
-      'teacher-class-list': TeacherClassListView
+      'teacher-class-list': TeacherClassListView,
+      'loading-progress': LoadingProgress
     },
 
     created() {
@@ -51,8 +51,12 @@
           return s.loading.byTeacher[this.$route.params.id]
         },
 
-        activeClassrooms: function (s) {
-          return s.classrooms.byTeacher[this.$route.params.id].active
+        classroomsForTeacher: function (s) {
+          return s.classrooms.byTeacher[this.$route.params.id] || {}
+        },
+
+        activeClassrooms: function () {
+          return this.classroomsForTeacher.active || []
         }
       }),
 
@@ -61,6 +65,16 @@
           return s.loading.byTeacher[this.$route.params.id]
         }
       }),
+
+      {
+        loadingStatuses: function () {
+            return [ !this.coursesLoaded, this.teacherLoading, this.classroomsLoading, this.courseInstancesLoading ]
+        },
+
+        loading: function () {
+          return this.loadingStatuses.reduce((r, i) => r || i, false)
+        }
+      }
     ),
 
     methods: mapActions({
