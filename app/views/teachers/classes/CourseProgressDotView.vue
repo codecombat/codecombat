@@ -26,10 +26,66 @@
     }
 </style>
 
+<style>
+    .course-dot-progress-tooltip {
+
+    }
+
+    .course-dot-progress-tooltip .tooltip-inner {
+        background-color: #FFF;
+        color: #0E4C60;
+        border: 1px solid #0E4C60;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 15px;
+        line-height: 1.4;
+    }
+
+    .course-dot-progress-tooltip .arrow {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        position: absolute;
+        margin: 5px;
+        border-color: #0E4C60;
+
+        border-width: 5px 10px 0 10px;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+        border-bottom-color: transparent !important;
+        bottom: -5px;
+        left: calc(50% - 10px);
+
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .course-dot-progress-tooltip .arrow::after {
+        content: ' ';
+
+        width: 0;
+        height: 0;
+        border-style: solid;
+        position: absolute;
+        border-color: #FFF;
+
+        border-width: 5px 10px 0 10px;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+        border-bottom-color: transparent !important;
+        top: -6px;
+        left: calc(50% - 10px);
+
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+</style>
+
 <template>
     <li>
         <v-popover
-                popoverBaseClass="v-tooltip"
+                popover-base-class="course-dot-progress-tooltip"
+                popover-arrow-class="arrow"
                 trigger="hover"
                 placement="top"
                 :open-group="`${classroom._id}${course._id}`"
@@ -39,7 +95,11 @@
             </div>
 
             <template slot="popover">
-                {{ courseStats }}
+                {{ courseStats.studentsCompletingAllLevels }} / {{ classroom.members.length }}
+                {{ $t('courses.students')}}
+                <br />
+                {{ percentCompleted }}%
+                {{ $t('teacher.completed') }}
             </template>
         </v-popover>
     </li>
@@ -185,7 +245,7 @@
           const courseMembers = this.courseInstance.members || []
 
           return parseInt(
-            this.courseStats.levelsCompleted / (courseMembers.length * this.courseLevels.length) * 100,
+            this.courseStats.totalLevelsCompleted / (courseMembers.length * this.courseLevels.length) * 100,
             10
           )
         },
