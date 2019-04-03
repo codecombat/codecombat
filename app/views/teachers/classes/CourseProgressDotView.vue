@@ -234,7 +234,6 @@
             }
           }
 
-          // TODO WIRE THIS UP TO UI
           return {
             started: courseStarted,
             totalLevelsCompleted: levelsCompleted,
