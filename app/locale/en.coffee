@@ -2817,3 +2817,4 @@
     total_students: 'total students'
     active_students: 'active students'
     projects_created: 'projects created'
+    other: 'Other'
