@@ -12,7 +12,12 @@ module.exports = class VueComponentView extends RootView {
     super(options)
     const baseTemplate = options.baseTemplate || 'base-flat'  //base template, by default using base-flat
     this.id = 'vue-component-view'
-    this.template = require('templates/'+ baseTemplate)
+    try {
+      this.template = require('templates/'+ baseTemplate)
+    }
+    catch (err) {
+      console.error("Error in importing the base template.", err)
+    }
     this.VueComponent = component
     this.propsData = options.propsData
   }
