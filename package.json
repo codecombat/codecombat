@@ -155,7 +155,6 @@
     "underscore.string": "~2.3.3",
     "vue": "^2.6.10",
     "vue-router": "^3.0.2",
-    "vue-template-compiler": "^2.5.13",
     "vuex": "^2.4.0",
     "v-tooltip": "^2.0.0-rc.33",
     "webpack": "git://github.com/codecombat/webpack.git#webpack-3",
