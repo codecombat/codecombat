@@ -27,8 +27,8 @@ module.exports = Vue.extend({
     'pie-chart': PieChart   //using another vueComponent inside this
   },
   beforeCreate() {
-    // Register a vuex store module for this page, and destroy it when navigating away
-    this.$store.registerModule('MyVuexModule', {
+    // Register a vuex store module for this page, which will be destroyed when navigating away from the page
+    this.$store.registerModule('page', {
       namespaced: true,
       state: {
         testState: 'testValue'
@@ -39,11 +39,7 @@ module.exports = Vue.extend({
     console.log("Created vue component. Value of id passed in by the URL is ", this.id)
     console.log("Computed value of testState:", this.testState)
   },
-  destroyed() {
-    // Destroy the dynamically registered module for this page by unregistering it
-    this.$store.unregisterModule('MyVuexModule')
-  },
-  computed: Vuex.mapState('MyVuexModule', ['testState']) //this means this.testState = store.state.MyVuexModule.testState which was registered in beforeCreate()
+  computed: Vuex.mapState('page', ['testState']) //this means this.testState = store.state.page.testState which was registered in beforeCreate()
 })
 </script>
 
