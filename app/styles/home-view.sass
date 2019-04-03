@@ -573,3 +573,11 @@
           position: absolute
           top: 145px
           width: 100%
+
+body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
+  #home-view
+    // Google Fonts version of Arvo only has Latin glyphs, not Cyrillic
+    // TODO: figure out font fallbacks for other languages not covered by Arvo
+    //$headline-font: 'Open Sans', serif  // Doesn't work
+    h1, h2, h3, h4, h5, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5
+      font-family: 'Open Sans', serif
