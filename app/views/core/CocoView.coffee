@@ -178,6 +178,7 @@ module.exports = class CocoView extends Backbone.View
       for view in oldSubviews
         @insertSubView(view)
 
+    console.log('check loading', @supermodel.finished())
     if not @supermodel.finished()
       @showLoading()
     else
@@ -312,6 +313,7 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
+    console.log('imma try and show loading', $el.find('>'))
     $el.find('>').addClass('hidden')
     $el.append(loadingScreenTemplate()).i18n()
     @applyRTLIfNeeded()

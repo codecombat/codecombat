@@ -17,25 +17,33 @@
     <div>
         <h2>{{ $t('school_administrator.my_teachers') }}</h2>
 
-        <h3 v-if="loading.teachers">{{ $t('common.loading') }}</h3>
-        <div v-else class="content">
-            <ul class="teacher-list" v-for="(teachers, groupName) of groupedTeachers">
-                <li class="group-title">
-                    <h4 v-if="groupName !== 'undefined'">{{ groupName }}</h4>
-                    <h4 v-else>{{ $t('school_administrator.other') }}</h4>
-                </li>
+        <loading-progress :loading-status="loading.teachers">
+            <div class="content">
+                <ul class="teacher-list" v-for="(teachers, groupName) of groupedTeachers">
+                    <li class="group-title">
+                        <h4 v-if="groupName !== 'undefined'">{{ groupName }}</h4>
+                        <h4 v-else>{{ $t('school_administrator.other') }}</h4>
+                    </li>
 
-                <teacher-row v-for="teacher in teachers" :key="teacher.id" :teacher="teacher" />
-            </ul>
-        </div>
+                    <teacher-row v-for="teacher in teachers" :key="teacher.id" :teacher="teacher" />
+                </ul>
+            </div>
+        </loading-progress>
     </div>
 </template>
 
 <script>
   import { mapActions, mapState } from 'vuex'
+
+  import LoadingProgress from 'views/core/LoadingProgress'
   import DashboardTeacherRow from './SchoolAdminTeacherListRow'
 
   export default {
+    components: {
+      'loading-progress': LoadingProgress,
+      'teacher-row': DashboardTeacherRow
+    },
+
     created() {
       this.fetch()
     },
@@ -66,9 +74,5 @@
     methods: mapActions({
       fetch: 'schoolAdministrator/fetchTeachers'
     }),
-
-    components: {
-      'teacher-row': DashboardTeacherRow
-    }
   }
 </script>
