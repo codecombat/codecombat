@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 import courseInstancesApi from 'core/api/course-instances'
 
 export default {

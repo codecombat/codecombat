@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import levelSessionsApi from 'core/api/level-sessions'
 
 const SESSIONS_PER_REQUEST = 10
@@ -50,12 +49,17 @@ export default {
       commit('toggleClassroomLoading', classroom._id)
 
       // TODO comment what next line is doing
-      let requests = Array.from(Array(classroom.members.length / SESSIONS_PER_REQUEST + 1))
+      let requests = Array.from(
+        Array(parseInt(classroom.members.length / SESSIONS_PER_REQUEST, 10) + 1)
+      )
+
       requests = requests.map((v, i) =>
         levelSessionsApi.fetchForClassroomMembers(classroom._id, {
-          memberLimit: SESSIONS_PER_REQUEST,
-          memberSkip: i * SESSIONS_PER_REQUEST,
-          project: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
+          data: {
+            memberLimit: SESSIONS_PER_REQUEST,
+            memberSkip: i * SESSIONS_PER_REQUEST,
+            project: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
+          }
         })
       )
 
@@ -90,10 +94,10 @@ export default {
       const levelCompletionsByUser = {};
       for (const session of classroomSessionsState.sessions) {
         const user = session.creator
+        const sessionState = session.state || {}
 
         levelCompletionsByUser[user] = levelCompletionsByUser[user] || {}
-        levelCompletionsByUser[user][session.level.origial] = (session.level.completed === true)
-
+        levelCompletionsByUser[user][session.level.original] = (sessionState.complete === true)
       }
 
       commit('addLevelCompletionsByUserForClassroom', {
