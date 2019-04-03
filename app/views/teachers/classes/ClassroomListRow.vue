@@ -45,6 +45,8 @@
 
         padding-left: 20px;
         padding-right: 20px;
+
+        list-style-type: none;
     }
 
     li.classroom-list-row .classroom-link {
@@ -113,6 +115,12 @@
     },
 
     computed: Object.assign({},
+      mapState('courseInstances', {
+        courseInstances: function (s) {
+          return s.courseInstancesByTeacher[this.$props.classroom.ownerID]
+        }
+      }),
+
       {
         capitalizedLanguage: function () {
           const classroom = this.$props.classroom;
@@ -132,7 +140,13 @@
             courses.find(course => course._id === courseId)
           )
 
-          return orderedCourses.filter(course => course !== undefined)
+          return orderedCourses.filter(course =>
+            this.courseInstances.find(ci => {
+              return ci.courseID === course._id &&
+                ci.classroomID === this.$props.classroom._id &&
+                (ci.members || []).length > 0
+            })
+          )
         }
       }),
 
