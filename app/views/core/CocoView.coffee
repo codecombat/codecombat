@@ -312,7 +312,6 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
-    console.log('imma try and show loading', $el.find('>'))
     $el.find('>').addClass('hidden')
     $el.append(loadingScreenTemplate()).i18n()
     @applyRTLIfNeeded()
