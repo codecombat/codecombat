@@ -28,7 +28,7 @@
 
 <style>
     .course-dot-progress-tooltip {
-
+        z-index: 2000;
     }
 
     .course-dot-progress-tooltip .tooltip-inner {
@@ -95,11 +95,16 @@
             </div>
 
             <template slot="popover">
-                {{ courseStats.studentsCompletingAllLevels }} / {{ classroom.members.length }}
-                {{ $t('courses.students')}}
-                <br />
-                {{ percentCompleted }}%
-                {{ $t('teacher.completed') }}
+                <span v-if="levelSessionsLoading">
+                    {{ $t('common.loading') }}
+                </span>
+                <div v-else>
+                    {{ courseStats.studentsCompletingAllLevels }} / {{ classroom.members.length }}
+                    {{ $t('courses.students')}}
+                    <br />
+                    {{ percentCompleted }}%
+                    {{ $t('teacher.completed') }}
+                </div>
             </template>
         </v-popover>
     </li>
