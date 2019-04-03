@@ -4,6 +4,8 @@ import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministr
 import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/teachers/DashboardTeacherListView'
 import SchoolAdminTeacherView from 'views/school-administrator/teachers/SchoolAdminDashboardTeacherView'
 
+import TeacherClassView from 'views/teachers/class/TeacherClassView'
+
 Vue.use(VueRouter)
 
 export default function () {
@@ -13,7 +15,8 @@ export default function () {
     routes: [
       { path: '/school-administrator', component: SchoolAdminDashboard, children: [
           { path: '', component: SchoolAdminDashboardTeacherListView },
-          { path: 'teacher/:id', component: SchoolAdminTeacherView }
+          { path: 'teacher/:id', component: SchoolAdminTeacherView },
+          { path: 'teacher/:id/classroom/:classroomId', component: TeacherClassView },
         ] }
     ]
   })
