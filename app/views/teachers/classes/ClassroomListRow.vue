@@ -140,9 +140,9 @@
         orderedCourses: function () {
           const courses = this.$props.classroom.courses
 
-          let orderedCourses = orderedCourseIDs.map(courseId =>
-            courses.find(course => course._id === courseId)
-          )
+          let orderedCourses = orderedCourseIDs
+            .map(courseId => courses.find(course => course._id === courseId))
+            .filter(c => typeof c !== 'undefined')
 
           return orderedCourses.filter(course =>
             this.courseInstances.find(ci => {

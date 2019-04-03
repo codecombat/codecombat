@@ -48,7 +48,7 @@
 
           let finishedCount = 0
           for (var status of statuses) {
-            if (status) {
+            if (!status) {
               finishedCount += 1
             }
           }
