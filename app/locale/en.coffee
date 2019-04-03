@@ -1566,7 +1566,7 @@
     select_your_classroom: "Select Your Classroom"
     no_classrooms_found: "No classrooms found"
     create_classroom_manually: "Create classroom manually"
-
+    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2819,6 +2819,3 @@
     total_students: 'total students'
     active_students: 'active students'
     projects_created: 'projects created'
-    classes: 'Classes'
-    language: 'Language'
-    students: 'Students'

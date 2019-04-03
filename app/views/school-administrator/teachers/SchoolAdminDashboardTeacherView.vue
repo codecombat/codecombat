@@ -11,7 +11,7 @@
 
     <div v-else>
         <!-- TODO apply i18n to possessive -->
-        <h4 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('school_administrator.classes') }}</h4>
+        <h4 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h4>
 
         <div class="teacher-class-list">
             <teacher-class-list :activeClassrooms="activeClassrooms"></teacher-class-list>
