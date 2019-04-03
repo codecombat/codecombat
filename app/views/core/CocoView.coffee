@@ -178,7 +178,6 @@ module.exports = class CocoView extends Backbone.View
       for view in oldSubviews
         @insertSubView(view)
 
-    console.log('check loading', @supermodel.finished())
     if not @supermodel.finished()
       @showLoading()
     else
