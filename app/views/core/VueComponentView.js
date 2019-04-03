@@ -38,8 +38,6 @@ module.exports = class VueComponentView extends RootView {
   }
 
   destroy() {
-    if (store.state.page)
-      store.unregisterModule('page')
     this.vueComponent.$destroy()
     this.vueComponent.$store = silentStore
   }
