@@ -1,185 +1,3 @@
-extends /templates/base-flat.jade
-
-block page_nav
-  include ./teacher-dashboard-nav.jade
-
-block content
-  - var classroom = view.classroom
-  if !me.isTeacher() && !me.isAdmin()
-    .alert.alert-danger.text-center
-      .container
-        //- DNT: Temporary
-        h3 ATTENTION: Please upgrade your account to a Teacher Account.
-        p
-          | We are transitioning to a new improved classroom management system for instructors.
-          | Please convert your account to ensure you retain access to your classrooms.
-        a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
-
-  if classroom.loaded
-    .container(dir="auto")
-      +breadcrumbs
-      div#classes-nag-subview
-      if classroom.get('archived')
-        .row.center-block.text-center.m-t-3.m-b-3
-          .unarchive-btn.btn.btn-lg.btn-navy
-            span(data-i18n='teacher.unarchive_this_class')
-      
-      - var today = new Date()
-      - var created = classroom.created()
-      - var elapsed = today.getTime()-created.getTime()
-      
-      if (elapsed/(1000*60*60*24) > 180)
-        .update-class.rtl-allowed
-          .alert.alert-info.text-center.rtl-allowed
-            strong(data-i18n='courses.update_old_classroom') 
-            .small-details.rtl-allowed
-              span.spr(data-i18n='courses.update_old_classroom_detail')
-              a(data-i18n="courses.teacher_dashboard" href="/teachers/")
-              span.spl(data-i18n="courses.update_old_classroom_detail_2") 
-
-      h3.m-t-2(dir="auto")= classroom.get('name')
-      a.label.edit-classroom(data-classroom-id=classroom.id)
-        span(data-i18n='teacher.edit_class_settings')
-      h4(dir="auto")= classroom.get('description')
-
-      .classroom-info-row.row.m-t-5.rtl-allowed
-        .classroom-details.col-md-3.rtl-allowed
-          - var stats = state.get('classStats')
-          h4.m-b-2(data-i18n='teacher.class_overview')
-
-          .language.small-details
-            span(data-i18n='teacher.language')
-            span.spr :
-            span= classroom.capitalLanguage
-
-          .student-count.small-details
-            span(data-i18n='courses.students')
-            span.spr :
-            span= classroom.get('members').length
-
-          .average-playtime.small-details
-            span(data-i18n='teacher.avg_playtime')
-            span.spr :
-            if view.allStatsLoaded()
-              span= stats.averagePlaytime
-            else
-              span(data-i18n='common.loading')
-
-          .total-playtime.small-details
-            span(data-i18n='teacher.total_playtime')
-            span.spr :
-            if view.allStatsLoaded()
-              span= stats.totalPlaytime
-            else
-              span(data-i18n='common.loading')
-
-          .average-complete.small-details
-            span(data-i18n='teacher.avg_completed')
-            span.spr :
-            if view.allStatsLoaded()
-              span= stats.averageLevelsComplete
-            else
-              span(data-i18n='common.loading')
-
-          .total-complete.small-details
-            span(data-i18n='teacher.total_completed')
-            span.spr :
-            if view.allStatsLoaded()
-              span= stats.totalLevelsComplete
-            else
-              span(data-i18n='common.loading')
-
-          .total-complete.small-details
-            span(data-i18n='teacher.created')
-            span.spr :
-            span= moment(classroom.created()).format('l')
-
-          if view.students && view.students.models.length > 0
-            button.export-student-progress-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
-              span(data-i18n='teacher.export_student_progress')
-
-          //- .concepts.small-details
-          //-   if state.get('progressData')
-          //-     div
-          //-       span(data-i18n='teacher.concepts_covered')
-          //-       span :
-          //-     - console.log('concepts', view.conceptData)
-          //-     - concepts = view.conceptData
-          //-     each state, name in view.conceptData[view.classroom.id]
-          //-       if state.get('started')
-          //-         b.concept(class=state.get('completed') ? 'forest' : 'gold')
-          //-           span(data-i18n='concepts.'+name)
-
-        .completeness-info.col-md-4
-          h4.m-b-2
-            | &nbsp;
-          div.small-details.rtl-allowed
-            if state.get('earliestIncompleteLevel')
-              span(data-i18n='teacher.earliest_incomplete')
-              span :
-              +longLevelName(state.get('earliestIncompleteLevel'))
-              +inlineUserList(state.get('earliestIncompleteLevel').users)
-            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
-              span(data-i18n='teacher.earliest_incomplete')
-              span :
-              div(data-i18n='common.loading')
-
-          div.small-details.m-t-3.rtl-allowed
-            if state.get('latestCompleteLevel')
-              span(data-i18n='teacher.latest_complete')
-              span :
-              +longLevelName(state.get('latestCompleteLevel'))
-              +inlineUserList(state.get('latestCompleteLevel').users)
-            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
-              span(data-i18n='teacher.latest_complete')
-              span :
-              div(data-i18n='common.loading')
-
-        .adding-students.col-md-5
-          h4.m-b-2
-            span(data-i18n='courses.add_students')
-            span :
-          +copyCodes
-          +addStudentsButton
-
-      if view.students.length > 0
-        ul.nav.nav-tabs.m-t-5(role='tablist')
-          - var activeTab = state.get('activeTab');
-          li(class=(activeTab === "#students-tab" ? 'active' : ''))
-            a.students-tab-btn(href='#students-tab')
-              .small-details.text-center(data-i18n='courses.students')
-          .tab-spacer
-          li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
-            a.course-progress-tab-btn(href='#course-progress-tab')
-              .small-details.text-center(data-i18n='teacher.course_progress')
-          .tab-spacer
-          if view.classroom.hasAssessments()
-            li(class=(activeTab === "#assessments-tab" ? 'active' : ''))
-              a.assessments-tab-btn(href='#assessments-tab')
-                .small-details.text-center(data-i18n='teacher.assessments')
-            .tab-spacer
-          li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
-            a.course-progress-tab-btn(href='#license-status-tab')
-              .small-details.text-center(data-i18n='teacher.license_status')
-          .tab-filler
-
-        .tab-content
-          if activeTab === '#students-tab'
-            +studentsTab
-          else if activeTab === '#course-progress-tab'
-            +courseProgressTab
-          else if activeTab === '#assessments-tab'
-            +assessmentsTab
-          else if activeTab === '#license-status-tab'
-            +enrollmentStatusTab
-
-      else
-        .text-center.m-t-5.m-b-5
-          .text-h2
-            span(data-i18n="teacher.no_students_yet")
-          .text-h4
-            span(data-i18n="teacher.try_refreshing")
-
 mixin breadcrumbs
   .breadcrumbs.rtl-allowed
     a(data-i18n='teacher.my_classes' href='/teachers/classes')
@@ -211,7 +29,7 @@ mixin addStudentsButton
       span(data-i18n='teacher.add_students_manually')
     if view.shouldShowGoogleClassroomButton()
       a.sync-google-classroom-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
-          span(data-i18n='teacher.sync_google_classroom')
+        span(data-i18n='teacher.sync_google_classroom')
 
 mixin studentsTab
   #students-tab
@@ -388,7 +206,7 @@ mixin studentLevelsRow(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
             - if (!level.get('practice'))
-              - courseFinished = progress.completed;
+            - courseFinished = progress.completed;
             +studentLevelProgressDot(progress, level, levelNumber, student)
       div
         if courseFinished
@@ -473,7 +291,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
       - labelText = ''
       - dotClass += ' practice'
 
-  
+
   if link
     a.progress-dot.level-progress-dot.student-level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link, data-student-id=student.id, data-level-slug=level.get('slug'), data-level-progress=(progress.completed ? 'complete' : progress.started ? 'started' : 'not started'), data-course-id=view.state.get('selectedCourse').id)
       +progressDotLabel(labelText)
@@ -534,7 +352,7 @@ mixin assessmentsTab
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
                 = " " + translate('teacher.paren_new')
-    
+
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
       .col.col-md-2.col-xs-3
@@ -615,3 +433,180 @@ mixin enrollmentStatusTab
             td.revoke-col
               if status === 'enrolled' && student.prepaidType() === 'course'
                 button.revoke-student-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)
+
+block content
+  - var classroom = view.classroom
+  if !me.isTeacher() && !me.isAdmin()
+    .alert.alert-danger.text-center
+      .container
+        //- DNT: Temporary
+        h3 ATTENTION: Please upgrade your account to a Teacher Account.
+        p
+          | We are transitioning to a new improved classroom management system for instructors.
+          | Please convert your account to ensure you retain access to your classrooms.
+        a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
+
+  if classroom.loaded
+    .container(dir="auto")
+      +breadcrumbs
+      div#classes-nag-subview
+      if classroom.get('archived')
+        .row.center-block.text-center.m-t-3.m-b-3
+          .unarchive-btn.btn.btn-lg.btn-navy
+            span(data-i18n='teacher.unarchive_this_class')
+
+      - var today = new Date()
+      - var created = classroom.created()
+      - var elapsed = today.getTime()-created.getTime()
+
+      if (elapsed/(1000*60*60*24) > 180)
+        .update-class.rtl-allowed
+          .alert.alert-info.text-center.rtl-allowed
+            strong(data-i18n='courses.update_old_classroom')
+            .small-details.rtl-allowed
+              span.spr(data-i18n='courses.update_old_classroom_detail')
+              a(data-i18n="courses.teacher_dashboard" href="/teachers/")
+              span.spl(data-i18n="courses.update_old_classroom_detail_2")
+
+      h3.m-t-2(dir="auto")= classroom.get('name')
+      a.label.edit-classroom(data-classroom-id=classroom.id)
+        span(data-i18n='teacher.edit_class_settings')
+      h4(dir="auto")= classroom.get('description')
+
+      .classroom-info-row.row.m-t-5.rtl-allowed
+        .classroom-details.col-md-3.rtl-allowed
+          - var stats = state.get('classStats')
+          h4.m-b-2(data-i18n='teacher.class_overview')
+
+          .language.small-details
+            span(data-i18n='teacher.language')
+            span.spr :
+            span= classroom.capitalLanguage
+
+          .student-count.small-details
+            span(data-i18n='courses.students')
+            span.spr :
+            span= classroom.get('members').length
+
+          .average-playtime.small-details
+            span(data-i18n='teacher.avg_playtime')
+            span.spr :
+            if view.allStatsLoaded()
+              span= stats.averagePlaytime
+            else
+              span(data-i18n='common.loading')
+
+          .total-playtime.small-details
+            span(data-i18n='teacher.total_playtime')
+            span.spr :
+            if view.allStatsLoaded()
+              span= stats.totalPlaytime
+            else
+              span(data-i18n='common.loading')
+
+          .average-complete.small-details
+            span(data-i18n='teacher.avg_completed')
+            span.spr :
+            if view.allStatsLoaded()
+              span= stats.averageLevelsComplete
+            else
+              span(data-i18n='common.loading')
+
+          .total-complete.small-details
+            span(data-i18n='teacher.total_completed')
+            span.spr :
+            if view.allStatsLoaded()
+              span= stats.totalLevelsComplete
+            else
+              span(data-i18n='common.loading')
+
+          .total-complete.small-details
+            span(data-i18n='teacher.created')
+            span.spr :
+            span= moment(classroom.created()).format('l')
+
+          if view.students && view.students.models.length > 0
+            button.export-student-progress-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
+              span(data-i18n='teacher.export_student_progress')
+
+          //- .concepts.small-details
+          //-   if state.get('progressData')
+          //-     div
+          //-       span(data-i18n='teacher.concepts_covered')
+          //-       span :
+          //-     - console.log('concepts', view.conceptData)
+          //-     - concepts = view.conceptData
+          //-     each state, name in view.conceptData[view.classroom.id]
+          //-       if state.get('started')
+          //-         b.concept(class=state.get('completed') ? 'forest' : 'gold')
+          //-           span(data-i18n='concepts.'+name)
+
+        .completeness-info.col-md-4
+          h4.m-b-2
+            | &nbsp;
+          div.small-details.rtl-allowed
+            if state.get('earliestIncompleteLevel')
+              span(data-i18n='teacher.earliest_incomplete')
+              span :
+              +longLevelName(state.get('earliestIncompleteLevel'))
+              +inlineUserList(state.get('earliestIncompleteLevel').users)
+            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
+              span(data-i18n='teacher.earliest_incomplete')
+              span :
+              div(data-i18n='common.loading')
+
+          div.small-details.m-t-3.rtl-allowed
+            if state.get('latestCompleteLevel')
+              span(data-i18n='teacher.latest_complete')
+              span :
+              +longLevelName(state.get('latestCompleteLevel'))
+              +inlineUserList(state.get('latestCompleteLevel').users)
+            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
+              span(data-i18n='teacher.latest_complete')
+              span :
+              div(data-i18n='common.loading')
+
+        .adding-students.col-md-5
+          h4.m-b-2
+            span(data-i18n='courses.add_students')
+            span :
+          +copyCodes
+          +addStudentsButton
+
+      if view.students.length > 0
+        ul.nav.nav-tabs.m-t-5(role='tablist')
+          - var activeTab = state.get('activeTab');
+          li(class=(activeTab === "#students-tab" ? 'active' : ''))
+            a.students-tab-btn(href='#students-tab')
+              .small-details.text-center(data-i18n='courses.students')
+          .tab-spacer
+          li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#course-progress-tab')
+              .small-details.text-center(data-i18n='teacher.course_progress')
+          .tab-spacer
+          if view.classroom.hasAssessments()
+            li(class=(activeTab === "#assessments-tab" ? 'active' : ''))
+              a.assessments-tab-btn(href='#assessments-tab')
+                .small-details.text-center(data-i18n='teacher.assessments')
+            .tab-spacer
+          li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#license-status-tab')
+              .small-details.text-center(data-i18n='teacher.license_status')
+          .tab-filler
+
+        .tab-content
+          if activeTab === '#students-tab'
+            +studentsTab
+          else if activeTab === '#course-progress-tab'
+            +courseProgressTab
+          else if activeTab === '#assessments-tab'
+            +assessmentsTab
+          else if activeTab === '#license-status-tab'
+            +enrollmentStatusTab
+
+      else
+        .text-center.m-t-5.m-b-5
+          .text-h2
+            span(data-i18n="teacher.no_students_yet")
+          .text-h4
+            span(data-i18n="teacher.try_refreshing")
