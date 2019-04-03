@@ -20,6 +20,10 @@
     }
 
     .teacher-info {
+        width: 25%;
+        flex-grow: 0;
+        flex-shrink: 0;
+
         display: flex;
         flex-direction: column;
 

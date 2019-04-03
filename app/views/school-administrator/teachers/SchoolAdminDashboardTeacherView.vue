@@ -1,7 +1,7 @@
 <style scoped>
     .title {
-        margin-bottom: 8px;
-    }
+        margin-bottom: 20px;
+   }
 </style>
 
 <template>
@@ -11,7 +11,7 @@
 
     <div v-else>
         <!-- TODO apply i18n to possessive -->
-        <h4 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h4>
+        <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
 
         <div class="teacher-class-list">
             <teacher-class-list :activeClassrooms="activeClassrooms"></teacher-class-list>
