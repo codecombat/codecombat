@@ -68,7 +68,7 @@
             <h5>{{ classroom.name }}</h5>
             <div class="class-summary">
                 <span>
-                    {{ $t('school_administrator.language') }}:
+                    {{ $t('teacher.language') }}:
                     {{ capitalizedLanguage }}
                 </span>
 
