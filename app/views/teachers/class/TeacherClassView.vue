@@ -7,7 +7,7 @@
 
   export default {
     created() {
-      this.teacherClassView = new TeacherClassView({ nested: true }, this.$route.params.classroomId)
+      this.teacherClassView = new TeacherClassView({ vue: true }, this.$route.params.classroomId)
     },
 
     mounted() {
