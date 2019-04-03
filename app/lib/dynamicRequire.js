@@ -1,5 +1,4 @@
 module.exports = {
-  'views/VueComponentExample': function () { return import(/* webpackChunkName: "VueComponentExample" */ 'views/VueComponentExample') },
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },
   'views/account/MainAccountView': function () { return import(/* webpackChunkName: "account" */ 'views/account/MainAccountView') },
