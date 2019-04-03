@@ -1,12 +1,3 @@
-mixin breadcrumbs
-  if !view.vue
-    .breadcrumbs.rtl-allowed
-      a(data-i18n='teacher.my_classes' href='/teachers/classes')
-      span.spl.spr >
-      //- TODO: Use .glyphicon-menu-right when we update bootstrap
-      span
-        = view.classroom.get('name')
-
 mixin longLevelName(data)
   if data
     div.level-name
@@ -96,14 +87,15 @@ mixin studentRow(student)
             - var levelsTotal = _.reject(_.reject(trimCourse.levels, 'practice'), 'assessment').length
             - var label = courseLabelsArray[index];
             +studentCourseProgressDot(progress, levelsTotal, label, student, course, instance)
-    td
-      .pull-right
-        a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
-          div.glyphicon.glyphicon-edit
-          div(data-i18n='teacher.edit')
-        a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
-          div.glyphicon.glyphicon-remove
-          div(data-i18n='teacher.remove')
+    if !state.get('readOnly')
+      td
+        .pull-right
+          a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+            div.glyphicon.glyphicon-edit
+            div(data-i18n='teacher.edit')
+          a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+            div.glyphicon.glyphicon-remove
+            div(data-i18n='teacher.remove')
 
 mixin courseProgressTab
   #course-progress-tab.m-t-3
@@ -172,9 +164,10 @@ mixin courseProgressTab
                   i.m-r-1
                     span(data-i18n='teacher.latest_completed')
                   +longLevelName(student.latestCompleteLevel)
-              .col-sm-2
-                .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
-                  span(data-i18n='teacher.assign_course')
+              if !state.get('readOnly')
+                .col-sm-2
+                  .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
+                    span(data-i18n='teacher.assign_course')
 
 mixin courseOverview(course)
   - var levels = view.classroom.getLevels({courseID: course.id}).models
@@ -336,10 +329,11 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
-    button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
-      span(data-i18n='teacher.assign_course')
-    button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
-      span(data-i18n='teacher.remove_course')
+    if !state.get('readOnly')
+      button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+        span(data-i18n='teacher.assign_course')
+      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+        span(data-i18n='teacher.remove_course')
 
 mixin assessmentsTab
   #assessments-tab
@@ -359,7 +353,7 @@ mixin assessmentsTab
       .col.col-md-2.col-xs-3
         .progress-dot.forest
         .key-text
-          span.small(data-i18n='teacher.scucess')
+          span.small(data-i18n='teacher.success')
         .clearfix
       .col.col-md-2.col-xs-3
         .progress-dot.gold
@@ -402,7 +396,7 @@ mixin enrollmentStatusTab
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
       th
       th
-      if me.canRevokeLicensesViaUI()
+      if me.canRevokeLicensesViaUI() && !state.get('readOnly')
         th
           button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
     tbody
@@ -423,14 +417,14 @@ mixin enrollmentStatusTab
             span.spr :
             strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
           td.enroll-col
-            if status !== 'enrolled' && me.canManageLicensesViaUI()
+            if status !== 'enrolled' && me.canManageLicensesViaUI() && !state.get('readOnly')
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
             else
               if student.prepaidType() === 'course'
                 span(data-i18n="teacher.full_license")
               else if student.prepaidType() === 'starter_license'
                 span(data-i18n="teacher.starter_license")
-          if me.canRevokeLicensesViaUI()
+          if me.canRevokeLicensesViaUI() && !state.get('readOnly')
             td.revoke-col
               if status === 'enrolled' && student.prepaidType() === 'course'
                 button.revoke-student-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)
@@ -448,12 +442,12 @@ if !me.isTeacher() && !me.isAdmin()
 
 if classroom.loaded
   .container(dir="auto")
-    +breadcrumbs
     div#classes-nag-subview
     if classroom.get('archived')
       .row.center-block.text-center.m-t-3.m-b-3
-        .unarchive-btn.btn.btn-lg.btn-navy
-          span(data-i18n='teacher.unarchive_this_class')
+        if !state.get('readOnly')
+          .unarchive-btn.btn.btn-lg.btn-navy
+            span(data-i18n='teacher.unarchive_this_class')
 
     - var today = new Date()
     - var created = classroom.created()
@@ -469,8 +463,9 @@ if classroom.loaded
             span.spl(data-i18n="courses.update_old_classroom_detail_2")
 
     h3.m-t-2(dir="auto")= classroom.get('name')
-    a.label.edit-classroom(data-classroom-id=classroom.id)
-      span(data-i18n='teacher.edit_class_settings')
+    if !state.get('readOnly')
+      a.label.edit-classroom(data-classroom-id=classroom.id)
+        span(data-i18n='teacher.edit_class_settings')
     h4(dir="auto")= classroom.get('description')
 
     .classroom-info-row.row.m-t-5.rtl-allowed
@@ -571,7 +566,8 @@ if classroom.loaded
           span(data-i18n='courses.add_students')
           span :
         +copyCodes
-        +addStudentsButton
+        if !state.get('readOnly')
+          +addStudentsButton
 
     if view.students.length > 0
       ul.nav.nav-tabs.m-t-5(role='tablist')
