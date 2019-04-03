@@ -19,8 +19,6 @@ hasUserCompletedCourse = (userLevels, levelsInCourse) ->
     else
       allComplete = false
     userLevelsSeen++
-
-  # User not starting means... that no level was seen with completion status
   if !userStarted
     allComplete = false
 
