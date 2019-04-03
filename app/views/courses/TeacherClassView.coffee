@@ -1,7 +1,8 @@
 require('app/styles/courses/teacher-class-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
-template = require 'templates/courses/teacher-class-view'
+fullPageTemplate = require 'templates/courses/teacher-class-view-full'
+viewTemplate = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
@@ -35,7 +36,7 @@ GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
-  template: template
+  template: fullPageTemplate
   helper: helper
 
   events:
@@ -86,6 +87,10 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+
+    if (options.nested)
+      @template = viewTemplate
+
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
     @singleStudentCourseProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
@@ -446,7 +451,7 @@ module.exports = class TeacherClassView extends RootView
     levelCourseIdMap = {}
     levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
-    for trimCourse in @classroom.get()
+    for trimCourse in @classroom.getSortedCourses()
       for trimLevel in trimCourse.levels
         continue if language and trimLevel.primerLanguage is language
         if trimLevel.practice
