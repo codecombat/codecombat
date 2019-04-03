@@ -20,11 +20,28 @@
     .progress-dot.started {
         background-color: #F2BE19;
     }
+
+    .progress-dot.completed {
+        background-color: #20572B;
+    }
 </style>
 
 <template>
-    <li :class="{ 'progress-dot': true, started: courseStats.started}">
-        {{ courseAcronym }}
+    <li>
+        <v-popover
+                popoverBaseClass="v-tooltip"
+                trigger="hover"
+                placement="top"
+                :open-group="`${classroom._id}${course._id}`"
+        >
+            <div :class="[ 'progress-dot', { started: courseStarted, completed: courseCompleted } ]">
+                {{ courseAcronym }}
+            </div>
+
+            <template slot="popover">
+                {{ courseStats }}
+            </template>
+        </v-popover>
     </li>
 </template>
 
@@ -107,27 +124,27 @@
           const course = (classroom.courses || []).find(c => c._id === this.$props.course._id)
 
           if (!course || !course.levels) {
-            return new Set([])
+            return []
           }
 
-          return new Set(
-            course.levels
+          return course.levels
               .filter(l => !l.practice && !l.assessment)
               .map(l => l.original)
-          )
         },
 
         courseStats: function () {
           const levelCompletionsByUser = this.levelCompletionsByUser
           const courseLevels = this.courseLevels
           const courseInstance = this.courseInstance || {}
+          const courseMembers = courseInstance.members || [];
 
           let courseStarted = false
           let levelsCompleted = 0
           let studentsCompletingAllLevels = 0
 
           // Calculate stats for each member
-          for (const memberId of courseInstance.members || []) {
+          for (const memberId of courseMembers) {
+            // If there are no user stats there is nothing to calculate
             if (!levelCompletionsByUser[memberId]) {
               continue
             }
@@ -140,7 +157,9 @@
 
               if (typeof levelCompletion !== 'undefined') {
                 courseStarted = true
-              } else if (levelCompletedByUser) {
+              }
+
+              if (levelCompletedByUser) {
                 levelsCompleted += 1
               } else {
                 allLevelsCompleted = false
@@ -158,6 +177,24 @@
             totalLevelsCompleted: levelsCompleted,
             studentsCompletingAllLevels
           }
+        },
+
+        courseStarted: function () {
+          return this.courseStats.started
+        },
+
+        percentCompleted: function () {
+          const courseMembers = this.courseInstance.members || []
+
+          return parseInt(
+            this.courseStats.levelsCompleted / (courseMembers.length * this.courseLevels.length) * 100,
+            10
+          )
+        },
+
+        courseCompleted: function () {
+          const courseMembers = this.courseInstance.members || []
+          return this.courseStats.studentsCompletingAllLevels === courseMembers.length
         }
       })
   }
