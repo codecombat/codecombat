@@ -18,11 +18,12 @@ module.exports = class RootComponent extends RootView
 
       @vueComponent = new @VueComponent({
         el: @$el.find('#site-content-area')[0]
-          propsData: @propsData
-          store
+        propsData: @propsData
+        store
       })
 
       window.rootComponent = @vueComponent # Don't use this in code! Just for ease of development
+
     super(arguments...)
 
   destroy: ->
