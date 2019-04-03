@@ -227,7 +227,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
-    'school-administrator(/*subpath)': go('school-administrator')
+    'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView')
 
     'test(/*subpath)': go('TestView')
 
@@ -282,12 +282,21 @@ module.exports = class CocoRouter extends Backbone.Router
       locale.load(me.get('preferredLanguage', true))
     ]).then ([ViewClass]) =>
       return go('NotFoundView') if not ViewClass
-      if options.vueRoute  # Routing to a vue component using VueComponentView
+
+      SingletonAppVueComponentView = require('views/core/SingletonAppVueComponentView').default
+      if ViewClass == SingletonAppVueComponentView && window.currentView instanceof SingletonAppVueComponentView
+        # The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it
+        # is already routed we do not need to route again
+        console.debug("Skipping route in Backbone - delegating to Vue app")
+        return
+      else if options.vueRoute  # Routing to a vue component using VueComponentView
         vueComponentView = require 'views/core/VueComponentView'
         view = new vueComponentView(ViewClass.default, options, args...)
       else
         view = new ViewClass(options, args...)  # options, then any path fragment args
+
       view.render()
+
       if window.alreadyLoadedView
         console.log "Need to merge view"
         delete window.alreadyLoadedView
