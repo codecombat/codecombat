@@ -1,5 +1,3 @@
-Vuex = require('vuex').default
-
 store = new Vuex.Store({
   strict: not application.isProduction()
 

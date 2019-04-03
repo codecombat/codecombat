@@ -10,7 +10,7 @@ export default {
       sessionsByClassroom: {}
     },
 
-    // {
+    // CLASSROOM_ID: {
     //   sessions: [],
     //   levelCompletionsByUser: {
     //      LEVEL_ID: true / false
@@ -29,17 +29,25 @@ export default {
       Vue.set(state.loading.sessionsByClassroom, classroomId, loading)
     },
 
-    setSessionsForClassroom: (state, { classroomId, sessions }) => {
-      const levelSessionsState = {
-        sessions,
-        levelCompletionsByUser: {}
+    initSessionsByClassroomState: (state, classroomId) => {
+      if (state.levelSessionsByClassroom[classroomId]) {
+        return
       }
 
-      Vue.set(state.levelSessionsByClassroom, classroomId, levelSessionsState)
+      Vue.set(state.levelSessionsByClassroom, classroomId, {
+        sessions: [],
+        levelCompletionsByUser: {}
+      })
     },
 
-    addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) =>
+    setSessionsForClassroom: (state, { classroomId, sessions }) => {
+      state.levelSessionsByClassroom[classroomId].sessions = sessions
+      state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = {}
+    },
+
+    addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) => {
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = levelCompletionsByUser
+    }
   },
 
   // TODO add a way to clear out old level session data
@@ -47,6 +55,7 @@ export default {
     // TODO how do we handle two sets of parallel requests here? (ie user vists page, hits back and then visits again quickly)
     fetchForClassroomMembers: ({ commit }, classroom) => {
       commit('toggleClassroomLoading', classroom._id)
+      commit('initSessionsByClassroomState', classroom._id)
 
       // TODO comment what next line is doing
       let requests = Array.from(
@@ -78,7 +87,7 @@ export default {
 
           commit('setSessionsForClassroom', {
             classroomId: classroom._id,
-            sessions
+            sessions: Object.freeze(sessions)
           })
         })
         .catch((e) => console.error('Fetch level sessions failure', e)) // TODO handle this
@@ -102,7 +111,7 @@ export default {
 
       commit('addLevelCompletionsByUserForClassroom', {
         classroomId,
-        levelCompletionsByUser
+        levelCompletionsByUser: Object.freeze(levelCompletionsByUser)
       })
     }
   }
