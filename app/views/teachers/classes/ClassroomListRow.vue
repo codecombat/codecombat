@@ -93,7 +93,7 @@
 
         <router-link
                 class="classroom-link glyphicon glyphicon-chevron-right"
-                :to="`/teachers/classes/${classroom._id}`"
+                :to="`/school-administrator/teacher/${classroom.ownerID}/classroom/${classroom._id}/`"
         ></router-link>
     </li>
 </template>
