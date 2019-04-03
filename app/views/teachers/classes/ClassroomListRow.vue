@@ -73,7 +73,7 @@
                 </span>
 
                 <span>
-                    {{ $t('school_administrator.students') }}:
+                    {{ $t('courses.students') }}:
                     {{ classroom.members.length }}
                 </span>
             </div>
