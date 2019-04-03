@@ -36,7 +36,6 @@ GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
-  template: fullPageTemplate
   helper: helper
 
   events:
@@ -88,8 +87,10 @@ module.exports = class TeacherClassView extends RootView
   initialize: (options, classroomID) ->
     super(options)
 
-    if (options.nested)
+    if (options.vue)
       @template = viewTemplate
+    else
+      @template = fullPageTemplate
 
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
