@@ -1,11 +1,11 @@
-import VueComponentVue from './VueComponentView'
+import VueComponentView from './VueComponentView'
 
 import store from 'core/store'
 import cocoVueRouter from 'core/CocoVueRouter'
 
 import Root from './Root'
 
-export default class SingletonAppVueComponentView extends VueComponentVue {
+export default class SingletonAppVueComponentView extends VueComponentView {
 
   constructor () {
     // For now we only support the default the default base template

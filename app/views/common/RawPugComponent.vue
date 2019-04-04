@@ -2,24 +2,24 @@
 </style>
 
 <template>
-    <div v-html="jadeOutput"></div>
+    <div v-html="pugOutput"></div>
 </template>
 
 <script>
   export default {
     props: {
-      jade: Function
+      pug: Function
     },
 
     data: function () {
       return {
-        jadeOutput: this.$props.jade()
+        pugOutput: this.$props.pug()
       }
     },
 
     watch: {
       $route: function () {
-        this.jadeOutput = this.$props.jade()
+        this.pugOutput = this.$props.pug()
       }
     }
   }

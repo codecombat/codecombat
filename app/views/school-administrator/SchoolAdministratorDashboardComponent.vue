@@ -3,7 +3,7 @@
 
 <template>
     <div>
-        <raw-jade-component :jade="teacherDashboardNavTemplate"></raw-jade-component>
+        <raw-pug-component :pug="teacherDashboardNavTemplate"></raw-pug-component>
         <div class="container">
             <router-view></router-view>
         </div>
@@ -13,14 +13,14 @@
 <script>
     import { mapGetters } from 'vuex'
 
-    import RawJadeComponent from 'views/common/RawJadeComponent'
+    import RawPugComponent from 'app/views/common/RawPugComponent'
     import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.jade'
 
     export default {
       data: () => ({ teacherDashboardNavTemplate }),
 
       components: {
-        'raw-jade-component': RawJadeComponent
+        'raw-pug-component': RawPugComponent
       },
 
       created: function () {
