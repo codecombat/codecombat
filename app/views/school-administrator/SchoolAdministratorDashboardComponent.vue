@@ -2,11 +2,27 @@
 </style>
 
 <template>
-    <div class="container">
-        <router-view></router-view>
+    <div>
+        <raw-jade-component :jade="teacherDashboardNavTemplate"></raw-jade-component>
+        <div class="container">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
 <script>
-    export default {}
+    import RawJadeComponent from 'views/common/RawJadeComponent'
+
+    import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.jade'
+
+    export default {
+      data: () => ({
+        teacherDashboardNavTemplate
+      }),
+
+      components: {
+        'teacher-sub-nav': TeacherSubNav,
+        'raw-jade-component': RawJadeComponent
+      }
+    }
 </script>
