@@ -32,7 +32,6 @@ module.exports = {
     isSchoolAdmin: (state) ->
       (state?.permissions or []).indexOf('schoolAdministrator') > -1
 
-
   mutations:
     updateUser: (state, updates) ->
       # deep copy, since nested data may be changed, and vuex store restricts mutations
