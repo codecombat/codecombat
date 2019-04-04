@@ -21,7 +21,6 @@
       }),
 
       components: {
-        'teacher-sub-nav': TeacherSubNav,
         'raw-jade-component': RawJadeComponent
       }
     }
