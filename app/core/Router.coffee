@@ -279,7 +279,11 @@ module.exports = class CocoRouter extends Backbone.Router
       locale.load(me.get('preferredLanguage', true))
     ]).then ([ViewClass]) =>
       return go('NotFoundView') if not ViewClass
-      view = new ViewClass(options, args...)  # options, then any path fragment args
+      if options.vueRoute  # Routing to a vue component using VueComponentView
+        vueComponentView = require 'views/core/VueComponentView'
+        view = new vueComponentView(ViewClass.default, options, args...)
+      else
+        view = new ViewClass(options, args...)  # options, then any path fragment args
       view.render()
       if window.alreadyLoadedView
         console.log "Need to merge view"
