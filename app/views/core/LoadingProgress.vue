@@ -3,12 +3,12 @@
 </style>
 
 <template>
-    <div v-if="loading" class="loading-screen loading-container">
+    <div v-if="computedLoading" class="loading-screen loading-container">
         <h1>{{ $t('common.loading') }}</h1>
         <div class="progress">
             <div
                     class="progress-bar"
-                    :style="{ width: `${loadingPercent}%` }"
+                    :style="{ width: `${computedPercent}%` }"
             >
             </div>
         </div>
@@ -25,6 +25,9 @@
 <script>
     export default {
       props: {
+        loading: Boolean,
+        progress: Number,
+
         loadingStatus: [ Array, Boolean ]
       },
 
@@ -39,7 +42,7 @@
           return statuses
         },
 
-        loadingPercent: function () {
+        statusPercent: function () {
           const statuses = this.statuses
 
           if (statuses.length === 0) {
@@ -56,8 +59,28 @@
           return finishedCount / statuses.length * 100
         },
 
-        loading: function () {
-          return this.loadingPercent < 100
+        computedPercent: function () {
+          if (this.statuses.length > 0) {
+            return this.statusPercent
+          }
+
+          if (typeof this.$props.progress !== 'undefined') {
+            return this.$props.progress
+          }
+
+          return 0
+        },
+
+        computedLoading: function () {
+          if (this.statuses.length > 0) {
+            return this.statusPercent < 100
+          }
+
+          if (typeof this.$props.loading !== 'undefined') {
+            return this.$props.loading
+          }
+
+          return false
         }
       }
     }
