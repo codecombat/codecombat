@@ -11,7 +11,11 @@
       jade: Function
     },
 
-    data: () => ({ jadeOutput: this.$props.jade() }),
+    data: function () {
+      return {
+        jadeOutput: this.$props.jade()
+      }
+    },
 
     watch: {
       $route: function () {
