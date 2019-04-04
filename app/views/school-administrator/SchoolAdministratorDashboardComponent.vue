@@ -16,9 +16,7 @@
     import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.jade'
 
     export default {
-      data: () => ({
-        teacherDashboardNavTemplate
-      }),
+      data: () => ({ teacherDashboardNavTemplate }),
 
       components: {
         'raw-jade-component': RawJadeComponent
