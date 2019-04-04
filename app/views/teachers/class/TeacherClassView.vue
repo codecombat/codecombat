@@ -1,24 +1,66 @@
 <template>
-    <div></div>
+    <loading-progress :loading="loading" :progress="progress">
+        <backbone-view v-if="!loading" :backbone-view="backboneViewInstance"></backbone-view>
+    </loading-progress>
 </template>
 
 <script>
   import TeacherClassView from 'app/views/courses/TeacherClassView'
+  import LoadingProgress from '../../core/LoadingProgress'
 
-  export default {
-    created() {
-      this.teacherClassView = new TeacherClassView({ vue: true, readOnly: true }, this.$route.params.classroomId)
+  const BackboneView = {
+    props: {
+      backboneView: Object
     },
+
+    render: function () {},
 
     mounted() {
-      this.teacherClassView.render()
-      this.$el.appendChild(this.teacherClassView.el)
+      this.$props.backboneView.render()
+      this.$el.parentElement.appendChild(this.$props.backboneView.el)
+    },
+  }
+
+  export default {
+    components: {
+      LoadingProgress,
+      BackboneView
     },
 
-    render() {},
+    data: function () {
+      return {
+        loading: false,
+        progress: 0,
+
+        backboneViewInstance: new TeacherClassView(
+          { vue: true, readOnly: true },
+          this.$route.params.classroomId
+        )
+      }
+    },
+
+    methods: {
+      showLoading: function () {
+        this.loading = true
+      },
+
+      hideLoading: function () {
+        this.loading = false
+      },
+
+      updateLoadingProgress: function (progress) {
+        this.progress = progress
+      }
+    },
+
+    created() {
+      this.backboneViewInstance.on('loading:show', this.showLoading)
+      this.backboneViewInstance.on('loading:hide', this.hideLoading)
+      this.backboneViewInstance.on('loading:progress', this.updateLoadingProgress)
+    },
 
     beforeDestroy() {
-      this.teacherClassView.destroy()
+      this.backboneViewInstance.destroy()
     }
   }
 </script>
