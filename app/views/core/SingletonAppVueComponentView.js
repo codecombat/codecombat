@@ -24,8 +24,4 @@ export default class SingletonAppVueComponentView extends VueComponentVue {
       render: (h) => h(Root)
     })
   }
-
-  route(path) {
-    this.router.push(path)
-  }
 }
