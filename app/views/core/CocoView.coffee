@@ -216,6 +216,7 @@ module.exports = class CocoView extends Backbone.View
     _.defer => @$el.find('.nano').nanoScroller() unless @destroyed
 
   updateProgress: (progress) ->
+    return if @destroyed
     @loadProgress.progress = progress if progress > @loadProgress.progress
     @updateProgressBar(progress)
 
