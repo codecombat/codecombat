@@ -11,8 +11,9 @@
 </template>
 
 <script>
-    import RawJadeComponent from 'views/common/RawJadeComponent'
+    import { mapGetters } from 'vuex'
 
+    import RawJadeComponent from 'views/common/RawJadeComponent'
     import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.jade'
 
     export default {
@@ -20,6 +21,22 @@
 
       components: {
         'raw-jade-component': RawJadeComponent
-      }
+      },
+
+      created: function () {
+        if (this.isAnonymous || this.isStudent) {
+          return this.$router.replace('/')
+        }
+
+        if (!this.isSchoolAdmin) {
+          return this.$router.replace('/teacher/classes')
+        }
+      },
+
+      computed: mapGetters('me', [
+        'isSchoolAdmin',
+        'isTeacher',
+        'isStudent'
+      ])
     }
 </script>
