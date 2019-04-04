@@ -19,8 +19,7 @@ hasUserCompletedCourse = (userLevels, levelsInCourse) ->
     else
       allComplete = false
     userLevelsSeen++
-  if !userStarted
-    allComplete = false
+  allComplete = false unless userStarted
 
   [userStarted, allComplete and userLevelsSeen == levelsInCourse.size, completed]
 
