@@ -17,9 +17,9 @@
 
         text-align: center;
 
-        font-size: 14px;
-        color: #BBB;
-        line-height: 18px;
+        font-size: 13px;
+        color: #CCC;
+        line-height: 20px;
     }
 </style>
 
