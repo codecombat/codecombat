@@ -1,8 +1,19 @@
 <style>
+#cinematic-div {
+  position: relative;
+  display: inline-block;
+}
+
+#cinematic-div canvas {
+  display: block;
+  position: absolute;
+}
 </style>
 
 <template>
-  <canvas :width="this.width" :height="this.height" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
+  <div :height="this.height" id="cinematic-div" ref="cinematic-div">
+    <canvas :width="this.width" :height="this.height" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
+  </div>
 </template>
 
 <script>
@@ -22,7 +33,8 @@ export default {
   }),
   mounted: function() {
     const canvas = this.$refs['cinematic-canvas']
-    this.controller = new CinematicController(canvas)
+    const canvasDiv = this.$refs['cinematic-div']
+    this.controller = new CinematicController(canvas, canvasDiv)
   },
   // methods: {
   //   clickHandler () {

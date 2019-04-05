@@ -1,4 +1,5 @@
-import CinematicLankBoss from './CinematicLankBoss';
+import CinematicLankBoss from './CinematicLankBoss'
+import DialogSystem from './dialogSystem'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -17,15 +18,24 @@ const Lank = require('lib/surface/Lank')
  *
  * We will need a converted from data -> promise thunks
  */
-const hardcodedByteCodeExample = ({ cinematicLankBoss }) => ([
-  () => sleep(10000),
+const hardcodedByteCodeExample = ({ cinematicLankBoss, dialogSystem }) => ([
+  () => sleep(2000),
   () => Promise.race([sleep(0), cinematicLankBoss.moveLank('left', { x: -3 }, 2000)]),
   () => sleep(500),
   () => Promise.race([sleep(0), cinematicLankBoss.moveLank('right', { x: 3 }, 2000)]),
-  () => sleep(2000),
+  () => sleep(500),
+  () => dialogSystem.createBubble({
+    htmlString: '<div>Want a high five!?</div>',
+    x: 200,
+    y: 200
+  }),
   () => Promise.all([sleep(500), cinematicLankBoss.queueAction('left', 'attack')]),
   () => cinematicLankBoss.moveLank('right', { x: 10 }, 1000),
-  () => sleep(2500),
+  () => dialogSystem.createBubble({
+    htmlString: '<div>Oh no! My <b>sword</b> was attached!</div>',
+    x: 200,
+    y: 200
+  }),
   () => cinematicLankBoss.moveLank('left', { x: -10 }, 10000)
 ])
 
@@ -68,7 +78,7 @@ function sleep(ms) {
  * This controller loads a json file and plays cinematics.
  */
 export class CinematicController {
-  constructor (canvas) {
+  constructor (canvas, canvasDiv) {
     this.cinematicLankBoss = new CinematicLankBoss()
     console.log('initiating the cinematic system')
     this.stage = new createjs.StageGL(canvas)
@@ -94,6 +104,8 @@ export class CinematicController {
       topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
       bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
     }
+
+    this.dialogSystem = new DialogSystem({ canvasDiv, camera })
 
     this.startUp()
   }
@@ -144,9 +156,8 @@ export class CinematicController {
 
     this.initTicker()
 
-
     // Consume some hard coded pretend bytecode.
-    const promiseThunks = hardcodedByteCodeExample({ cinematicLankBoss: this.cinematicLankBoss });
+    const promiseThunks = hardcodedByteCodeExample({ cinematicLankBoss: this.cinematicLankBoss, dialogSystem: this.dialogSystem });
     for (const thunk of promiseThunks) {
       await thunk()
     }
