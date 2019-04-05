@@ -100,6 +100,8 @@ module.exports = Surface = class Surface extends CocoClass
     })
     @realTimeInputEvents = @gameUIState.get('realTimeInputEvents')
     @listenTo(@gameUIState, 'sprite:mouse-down', @onSpriteMouseDown)
+    if @world.trackMouseMove
+      @listenTo(@gameUIState, 'surface:stage-mouse-move', @onWorldMouseMove)
     @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
     @initAudio()
@@ -549,6 +551,14 @@ module.exports = Surface = class Surface extends CocoClass
       pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
       time: @world.dt * @world.frames.length
       thangID: e.sprite.thang.id
+    })
+
+  onWorldMouseMove: (e) =>
+    return unless @realTime
+    @realTimeInputEvents.add({
+      type: 'mousemove'
+      pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
+      time: @world.dt * @world.frames.length
     })
 
   onMouseUp: (e) =>
