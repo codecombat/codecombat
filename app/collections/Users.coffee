@@ -4,7 +4,7 @@ CocoCollection = require 'collections/CocoCollection'
 module.exports = class Users extends CocoCollection
   model: User
   url: '/db/user'
-    
+
   fetchForClassroom: (classroom, options={}) ->
     if options.removeDeleted
       delete options.removeDeleted
@@ -34,4 +34,11 @@ module.exports = class Users extends CocoCollection
     return @slice() unless term
     term = term.toLowerCase()
     return @filter (user) ->
-      user.broadName().toLowerCase().indexOf(term) > -1 or (user.get('email') ? '').indexOf(term) > -1 
+      user.broadName().toLowerCase().indexOf(term) > -1 or (user.get('email') ? '').indexOf(term) > -1
+
+  fetchByIds: (ids) ->
+    return @fetch({
+      data: {
+        fetchByIds: ids || []
+      }
+    })

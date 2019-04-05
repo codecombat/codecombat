@@ -2818,3 +2818,4 @@
     active_students: 'active students'
     projects_created: 'projects created'
     other: 'Other'
+    notice: 'The following school administrators have access to your classroom data:'

@@ -44,7 +44,7 @@ block content
             .small-details.rtl-allowed
               span.spr(data-i18n='teacher.office_hours_detail')
               a(data-i18n="teacher.office_hours_link" href="https://blog.codecombat.com/live-events/")
-              span.spl(data-i18n="teacher.office_hours_detail_2") 
+              span.spl(data-i18n="teacher.office_hours_detail_2")
             ul.list-group
               for oh in officeHours.slice(0, limit)
                 li.list-group-item
@@ -85,6 +85,22 @@ block content
       each classroom in view.classrooms.models
         unless classroom.get('archived')
           +classRow(classroom)
+
+    if view.administratingTeachers && view.administratingTeachers.size() > 0
+      .container
+        .school-admin-notification
+          span(data-i18n='school_administrator.notice')
+          | &nbsp;
+          span
+            each teacher, index in view.administratingTeachers.models
+              = teacher.get('firstName')
+              | &nbsp;
+              = teacher.get('lastName')
+              | &nbsp;
+              = teacher.get('email')
+              if index !== view.administratingTeachers.models.length - 1
+                | ,
+
 
     +createClassButton
 
@@ -235,7 +251,7 @@ mixin teacher-quests
 mixin teacherQuest(quest,check)
   div.quest-title
     if check
-      span.glyphicon.glyphicon-check 
+      span.glyphicon.glyphicon-check
     else
       span.glyphicon.glyphicon-unchecked
     span !{quest.title}
@@ -245,8 +261,8 @@ mixin teacherQuest(quest,check)
       each step in quest.steps || []
         li
           if check
-            span.glyphicon.glyphicon-check 
+            span.glyphicon.glyphicon-check
           else
-            span.glyphicon.glyphicon-unchecked 
+            span.glyphicon.glyphicon-unchecked
           span !{step}
 
