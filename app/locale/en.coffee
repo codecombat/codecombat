@@ -2818,7 +2818,7 @@
     active_students: 'active students'
     projects_created: 'projects created'
     other: 'Other'
-    notice: 'The following school administrators have access to your classroom data:'
+    notice: 'The following school administrators have view-only access to your classroom data:'
     add_additional_teacher: 'Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. '
     license_stat_description: 'Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses.'
     students_stat_description: 'Total students accounts for all students across all classrooms, regardless of whether they have licenses applied.'
