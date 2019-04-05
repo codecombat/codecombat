@@ -11,6 +11,16 @@
     .teacher-list .group-title {
         margin-bottom: 15px;
     }
+
+    .school-admin-details {
+        margin-top: 35px;
+
+        text-align: center;
+
+        font-size: 14px;
+        color: #BBB;
+        line-height: 18px;
+    }
 </style>
 
 <template>
@@ -27,6 +37,16 @@
 
                     <teacher-row v-for="teacher in teachers" :key="teacher.id" :teacher="teacher" />
                 </ul>
+            </div>
+
+            <div class="school-admin-details">
+                {{ $t('school_administrator.add_additional_teacher')}}
+                <p />
+
+                {{ $t('school_administrator.license_stat_description') }}<br />
+                {{ $t('school_administrator.students_stat_description') }}<br />
+                {{ $t('school_administrator.active_students_stat_description') }}<br />
+                {{ $t('school_administrator.project_stat_description') }}
             </div>
         </loading-progress>
     </div>

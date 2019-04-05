@@ -2819,3 +2819,8 @@
     projects_created: 'projects created'
     other: 'Other'
     notice: 'The following school administrators have access to your classroom data:'
+    add_additional_teacher: 'Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. '
+    license_stat_description: 'Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses.'
+    students_stat_description: 'Total students accounts for all students across all classrooms, regardless of whether they have licenses applied.'
+    active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
+    project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
