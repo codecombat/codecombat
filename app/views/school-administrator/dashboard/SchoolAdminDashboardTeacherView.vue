@@ -2,7 +2,6 @@
     .title {
         margin-bottom: 20px;
    }
-
 </style>
 
 <template>

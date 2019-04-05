@@ -18,7 +18,7 @@
         text-align: center;
 
         font-size: 13px;
-        color: #CCC;
+        color: #BBB;
         line-height: 20px;
     }
 </style>
@@ -41,7 +41,7 @@
 
             <div class="school-admin-details">
                 {{ $t('school_administrator.add_additional_teacher')}}
-                <p />
+                <p></p>
 
                 {{ $t('school_administrator.license_stat_description') }}<br />
                 {{ $t('school_administrator.students_stat_description') }}<br />
