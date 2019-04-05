@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
 
-import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministratorDashboardComponent'
+import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministratorComponent'
 import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/teachers/SchoolAdminTeacherListView'
 import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView'
 
