@@ -13,7 +13,8 @@ let vueRouter;
 export default function () {
   if (typeof vueRouter === 'undefined') {
     vueRouter = new VueRouter({
-      mode: 'history',
+      // Routing is currently driven by Backbone Router.  When we migrate away from backbone, switch to history
+      mode: 'abstract',
 
       routes: [
         {
