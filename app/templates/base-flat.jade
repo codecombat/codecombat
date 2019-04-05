@@ -59,8 +59,9 @@ mixin accountLinks
                           a.text-p.text-teal(href="/students", data-i18n="nav.my_courses")
                         else
                           a.text-p(href="/students", data-i18n="nav.my_courses")
-                    li
-                      a.text-p(href="/school-administrator", data-i18n="nav.my_teachers")
+                    if me.isSchoolAdmin()
+                        li
+                          a.text-p(href="/school-administrator", data-i18n="nav.my_teachers")
                     if !me.isAnonymous() && me.isTeacher()
                       li
                         if document.location.href.search('/teachers/classes') >= 0
