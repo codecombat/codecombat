@@ -1,3 +1,5 @@
+import CinematicLankBoss from './CinematicLankBoss';
+
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
 const Camera = require('lib/surface/Camera')
@@ -5,41 +7,60 @@ const Camera = require('lib/surface/Camera')
 const ThangType = require('models/ThangType')
 const Lank = require('lib/surface/Lank')
 
-// Takes in a lank and a position. Returns lank with new position.
-function moveLank (lank, pos) {
-  lank.thang.stateChanged = true
-  lank.thang.pos = pos
-  return lank
+/**
+ * After processing should have a list of promises.
+ *
+ * Animations need to have a reference kept in case they need to
+ * be moved to the end very quickly. Will need a system for
+ * keeping track on animations by some generated id's. Once
+ * animations complete can remove them from the store.
+ *
+ * We will need a converted from data -> promise thunks
+ */
+const hardcodedByteCodeExample = ({ cinematicLankBoss }) => ([
+  () => sleep(10000),
+  () => Promise.race([sleep(0), cinematicLankBoss.moveLank('left', { x: -3 }, 2000)]),
+  () => sleep(500),
+  () => Promise.race([sleep(0), cinematicLankBoss.moveLank('right', { x: 3 }, 2000)]),
+  () => sleep(2000),
+  () => Promise.all([sleep(500), cinematicLankBoss.queueAction('left', 'attack')]),
+  () => cinematicLankBoss.moveLank('right', { x: 10 }, 1000),
+  () => sleep(2500),
+  () => cinematicLankBoss.moveLank('left', { x: -10 }, 10000)
+])
+
+/**
+ * Creates a mock thang. Looking left by default. 0 is looking right.
+ * @param {Number} rotation - Rotation of thang in radians.
+ */
+const mockThang = (options) => {
+  const defaults = {
+    health: 10.0,
+    maxHealth: 10.0,
+    acts: true,
+    stateChanged: true,
+    pos: {
+      x: 0,
+      y: 0,
+      z: 1
+    },
+    shadow: 0,
+    action: 'idle',
+    //  Looking left
+    rotation: 0
+  }
+  return _.merge(defaults, options)
 }
 
-const mockThang = () => ({
-  health: 10.0,
-  maxHealth: 10.0,
-  acts: true,
-  stateChanged: true,
-  pos: {
-    x: 2.5,
-    y: 1,
-    z: 1
-  },
-  shadow: 0,
-  action: 'attack',
-  rotation: Math.PI / 2,
-  exists: true
-})
-
-// export class Test {
-//   constructor (canvas) {
-//     console.log('initiating the cinematic system')
-//     this.stage = new createjs.StageGL(canvas)
-//     this.camera = new Camera($(canvas))
-//   }
-//   use () {
-//     console.log('using me')
-//     console.log(this)
-//     console.log(this.camera)
-//   }
-// }
+/**
+ * Returns a promise that will resolve after the given milliseconds.
+ * @param {Number} ms number of milliseconds before promise resolves
+ */
+function sleep(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, ms)
+  })
+}
 
 /**
  * Takes a reference to a canvas and uses this to construct
@@ -48,7 +69,7 @@ const mockThang = () => ({
  */
 export class CinematicController {
   constructor (canvas) {
-    this.lank = []
+    this.cinematicLankBoss = new CinematicLankBoss()
     console.log('initiating the cinematic system')
     this.stage = new createjs.StageGL(canvas)
     const camera = this.camera = new Camera($(canvas))
@@ -64,9 +85,24 @@ export class CinematicController {
       // By counting how many times this is triggerred by ThangsTypes being loaded.
       console.log('Got a new spritesheet. Count:', ++count)
       // Only register the first time.
-      if (count === 1) this.stage.addEventListener('stagemousemove', this.moveHandler.bind(this))
+      // if (count === 1) this.stage.addEventListener('stagemousemove', this.moveHandler.bind(this))
     })
 
+    this.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
+
+    this.stageBounds = {
+      topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
+      bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
+    }
+
+    this.startUp()
+  }
+
+  /**
+   * Currently this function handles the asynchronous startup of the cinematic.
+   * Hard coding some position starts.
+   */
+  async startUp () {
     /**
      * Initialize an example Thang.
      */
@@ -80,58 +116,66 @@ export class CinematicController {
       error: reject
     }))
 
-    Promise.all([
+    const [anyaThang, narratorThang] = await Promise.all([
       anyaPromise,
       narrativeSpeaker
     ])
-      .then((results) => {
-        for (const thangType of results) {
-          thangType.buildSpriteSheet({
-            resolutionFactor: 20,
-            async: true
-          })
-          this.createLankFromThang({ thangType })
+
+    const leftLank = await this.createLankFromThang({ thangType: anyaThang,
+      thang: mockThang({
+        pos: {
+          x: this.stageBounds.topLeft.x - 2,
+          y: this.stageBounds.bottomRight.y
         }
       })
-      .then(() => this.initTicker(), e => console.error(e))
-      .then(() => this.camera.zoomTo({ x: 0, y: 0 }, 7, 0))
-      .catch(e => {
-        throw new Error(`Failure when loading Anya`)
+    })
+    const rightLank = await this.createLankFromThang({ thangType: narratorThang,
+      thang: mockThang({
+        rotation: Math.PI / 2,
+        pos: {
+          x: this.stageBounds.bottomRight.x + 2,
+          y: this.stageBounds.bottomRight.y
+        }
       })
+    })
+
+    this.cinematicLankBoss.registerLank('left', leftLank)
+    this.cinematicLankBoss.registerLank('right', rightLank)
+
+    this.initTicker()
+
+
+    // Consume some hard coded pretend bytecode.
+    const promiseThunks = hardcodedByteCodeExample({ cinematicLankBoss: this.cinematicLankBoss });
+    for (const thunk of promiseThunks) {
+      await thunk()
+    }
   }
 
+  /**
+   * Starts the render loop of the stage.
+   */
   initTicker () {
     createjs.Ticker.framerate = 30
     const listener = {
       handleEvent: () => {
-        for (const lank of this.lank) {
-          lank.update(true)
-        }
-
+        this.cinematicLankBoss.update(true)
         this.stage.update()
       }
     }
     createjs.Ticker.addEventListener('tick', listener)
   }
 
-  moveHandler (e) {
-    // We get the X and Y from the event.
-    const { stageX, stageY } = e
-    // Transform mouse coordinates to world meters.
-    const result = this.camera.canvasToWorld({ x: stageX, y: stageY })
-    // we move the lank.
-    for (const lank of this.lank) {
-      moveLank(lank, _.clone(result))
-      result.x += 2
-    }
-  }
-
-  createLankFromThang ({ thangType }) {
-    console.log(`Creating thang for ${thangType.get('name')}`)
+  /**
+   * Creates a lank from a thangType and a thang.
+   * The ThangType is the art and animation information.
+   * The thang is like the instance of the ThangType.
+   */
+  createLankFromThang ({ thangType, thang }) {
     const lank = new Lank(thangType, {
       resolutionFactor: 60,
       preloadSounds: false,
-      thang: mockThang(),
+      thang,
       camera: this.camera,
       // This must be passed in as `new Mark` uses a groundLayer.
       // Without this nothing works. In this case I am using a dummy layer.
@@ -139,14 +183,8 @@ export class CinematicController {
       groundLayer: this.stubRequiredLayer
     })
 
-    // Register lank to the controller.
-    this.lank.push(lank)
-
-    return this.showLank(lank)
-  }
-
-  showLank (lank) {
     this.layerAdapter.addLank(lank)
-    this.layerAdapter.updateLayerOrder()
+
+    return Promise.resolve(lank)
   }
 }
