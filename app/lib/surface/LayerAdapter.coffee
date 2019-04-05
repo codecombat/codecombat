@@ -311,6 +311,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       lank.options.resolutionFactor = @resolutionFactor
       lank.updateScale()
       lank.updateRotation()
+    console.log('[z] new spritsheet')
     @trigger 'new-spritesheet'
 
   resetSpriteSheet: ->

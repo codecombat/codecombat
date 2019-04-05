@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cinematic-canvas />
+    <cinematic-canvas :width=800 :height=500 />
   </div>
 
 </template>

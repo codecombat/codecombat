@@ -95,6 +95,7 @@ module.exports = class ThangType extends CocoModel
 
   buildSpriteSheet: (options) ->
     return false unless @isFullyLoaded() and @get 'raw'
+    console.log("[z] Building sprite sheet for #{this.get("name")}")
     @options = @fillOptions options
     key = @spriteSheetKey(@options)
     if ss = @spriteSheets[key] then return ss
