@@ -100,7 +100,7 @@ module.exports = Surface = class Surface extends CocoClass
     })
     @realTimeInputEvents = @gameUIState.get('realTimeInputEvents')
     @listenTo(@gameUIState, 'sprite:mouse-down', @onSpriteMouseDown)
-    if @world.trackMouseMove
+    if @world.trackMouseMove # This is defined as a parameter of Systems.UI and setup there for a level
       @listenTo(@gameUIState, 'surface:stage-mouse-move', @onWorldMouseMove)
     @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
