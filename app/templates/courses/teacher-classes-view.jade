@@ -97,10 +97,10 @@ block content
               | &nbsp;
               = teacher.get('lastName')
               | &nbsp;
-              a(href="mailto#{teacher.get('email')}")
-                | (
+              | (
+              a(href="mailto:#{teacher.get('email')}")
                 = teacher.get('email')
-                | )
+              | )
               if index !== view.administratingTeachers.models.length - 1
                 | ,
 
