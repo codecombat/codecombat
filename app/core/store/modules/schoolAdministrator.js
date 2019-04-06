@@ -10,16 +10,12 @@ export default {
       teachers: false
     },
 
-    teacher: undefined,
-
     isSchoolAdministrator: false,
     administratedTeachers: [],
   },
 
   mutations: {
     toggleLoading: (state, key) => state.loading[key] = !state.loading[key],
-
-    setTeacher: (state, teacher) => state.teacher = teacher,
 
     addTeachers: (state, teachers) => {
       state.administratedTeachers = teachers;
@@ -44,31 +40,6 @@ export default {
         })
         .catch((e) => noty({ text: 'Fetch teachers failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoading', 'teachers'))
-    },
-
-    fetchTeacher: ({ commit, state }, id) => {
-      commit('toggleLoading', 'teacher')
-
-      let resultPromise;
-      const teacher = state.administratedTeachers.find(t => t.id === id);
-
-      if (teacher) {
-        resultPromise = Promise.resolve(teacher);
-      } else {
-        resultPromise = usersApi
-          .fetchByIds({ fetchByIds: [ id ] })
-          .then(res =>  {
-            if (res && res.length === 1) {
-              commit('setTeacher', res[0])
-            } else {
-              throw new Error('Unexpected response returned from teacher API')
-            }
-          })
-          .catch((e) => noty({ text: 'Fetch teachers failure' + e, type: 'error' }))
-      }
-
-      return resultPromise
-        .finally(() => commit('toggleLoading', 'teacher'))
     },
   }
 }

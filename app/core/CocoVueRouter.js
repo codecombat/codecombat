@@ -20,8 +20,8 @@ export default function () {
         {
           path: '/school-administrator', component: SchoolAdminDashboard, children: [
             { path: '', component: SchoolAdminDashboardTeacherListView },
-            { path: 'teacher/:id', component: SchoolAdminTeacherView },
-            { path: 'teacher/:id/classroom/:classroomId', component: TeacherClassView },
+            { path: 'teacher/:teacherId', component: SchoolAdminTeacherView },
+            { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
           ]
         }
       ]
