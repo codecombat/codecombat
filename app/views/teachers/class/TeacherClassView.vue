@@ -1,66 +1,38 @@
 <template>
-    <loading-progress :loading="loading" :progress="progress">
-        <backbone-view v-if="!loading" :backbone-view="backboneViewInstance"></backbone-view>
+    <loading-progress :loading-status="[ backboneLoading ]" :always-render="true">
+        <backbone-view-harness
+                :backbone-view="backboneViewInstance"
+                :backbone-options="{ vue: true, readOnly: true }"
+                :backbone-args="[ $route.params.classroomId ]"
+
+                v-on:loading="backboneLoadingEvent"
+        ></backbone-view-harness>
     </loading-progress>
 </template>
 
 <script>
-  import TeacherClassView from 'app/views/courses/TeacherClassView'
-  import LoadingProgress from '../../core/LoadingProgress'
-
-  const BackboneView = {
-    props: {
-      backboneView: Object
-    },
-
-    render: function () {},
-
-    mounted() {
-      this.$props.backboneView.render()
-      this.$el.parentElement.appendChild(this.$props.backboneView.el)
-    },
-  }
+  import TeacherClassView from 'views/courses/TeacherClassView'
+  import LoadingProgress from 'views/core/LoadingProgress'
+  import BackboneViewHarness from 'views/common/BackboneViewHarness'
 
   export default {
     components: {
       LoadingProgress,
-      BackboneView
+      BackboneViewHarness
     },
 
     data: function () {
       return {
-        loading: false,
-        progress: 0,
-
-        backboneViewInstance: new TeacherClassView(
-          { vue: true, readOnly: true },
-          this.$route.params.classroomId
-        )
+        backboneLoading: false,
+        backboneViewInstance: TeacherClassView
       }
     },
 
     methods: {
-      showLoading: function () {
-        this.loading = true
-      },
-
-      hideLoading: function () {
-        this.loading = false
-      },
-
-      updateLoadingProgress: function (progress) {
-        this.progress = progress
+      backboneLoadingEvent (event) {
+        console.log("got loading", event)
+        this.backboneLoading = event.loading
       }
     },
-
-    created() {
-      this.backboneViewInstance.on('loading:show', this.showLoading)
-      this.backboneViewInstance.on('loading:hide', this.hideLoading)
-      this.backboneViewInstance.on('loading:progress', this.updateLoadingProgress)
-    },
-
-    beforeDestroy() {
-      this.backboneViewInstance.destroy()
-    }
   }
 </script>

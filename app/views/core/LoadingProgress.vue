@@ -17,7 +17,8 @@
         </div>
     </div>
 
-    <div v-else>
+    <div v-else-if="alwaysRender || !computedLoading" :style="{ display: !computedLoading}">
+        TESTING THIS UGHH
         <slot></slot>
     </div>
 </template>
@@ -27,6 +28,8 @@
       props: {
         loading: Boolean,
         progress: Number,
+
+        alwaysRender: false,
 
         loadingStatus: [ Array, Boolean ]
       },
@@ -72,6 +75,7 @@
         },
 
         computedLoading: function () {
+          console.log('asdfasdfasdf', this.alwaysRender)
           if (this.statuses.length > 0) {
             return this.statusPercent < 100
           }
