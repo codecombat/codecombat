@@ -1,5 +1,5 @@
 <template>
-    <loading-progress :loading-status="[ backboneLoading ]" :always-render="true">
+    <loading-progress :loading-status="[ backboneLoadProgress ]" :always-render="true">
         <backbone-view-harness
                 :backbone-view="backboneViewInstance"
                 :backbone-options="{ vue: true, readOnly: true }"
@@ -23,14 +23,18 @@
 
     data: function () {
       return {
-        backboneLoading: false,
+        backboneLoadProgress: 100,
         backboneViewInstance: TeacherClassView
       }
     },
 
     methods: {
       backboneLoadingEvent (event) {
-        this.backboneLoading = event.loading
+        if (event.loading) {
+          this.backboneLoadProgress = event.progress
+        } else {
+          this.backboneLoadProgress = 100
+        }
       }
     },
   }

@@ -32,9 +32,6 @@
 <script>
     export default {
       props: {
-        loading: Boolean,
-        progress: Number,
-
         alwaysRender: false,
 
         loadingStatus: [ Array, Boolean ]
@@ -51,45 +48,27 @@
           return statuses
         },
 
-        statusPercent: function () {
-          const statuses = this.statuses
-
-          if (statuses.length === 0) {
+        computedPercent: function () {
+          if (this.statuses.length === 0) {
             return 100
           }
 
-          let finishedCount = 0
-          for (var status of statuses) {
-            if (!status) {
-              finishedCount += 1
+          const statuses = this.statuses.map((status) => {
+            if (typeof status === 'boolean') {
+              return status ? 0 : 100
+            } else if (typeof status !== 'number') {
+              throw new Error('Status must be boolean or percent')
             }
-          }
 
-          return finishedCount / statuses.length * 100
-        },
+            return status
+          })
 
-        computedPercent: function () {
-          if (this.statuses.length > 0) {
-            return this.statusPercent
-          }
-
-          if (typeof this.$props.progress !== 'undefined') {
-            return this.$props.progress
-          }
-
-          return 0
+          const statusSum = statuses.reduce((s, i) => s + i, 0)
+          return statusSum / (statuses.length * 100) * 100
         },
 
         computedLoading: function () {
-          if (this.statuses.length > 0) {
-            return this.statusPercent < 100
-          }
-
-          if (typeof this.$props.loading !== 'undefined') {
-            return this.$props.loading
-          }
-
-          return false
+          return this.computedPercent < 100
         }
       }
     }
