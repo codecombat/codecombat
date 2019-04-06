@@ -5,7 +5,6 @@ export default {
 
   state: {
     loading: {
-      teacher: false,
       classrooms: false,
       teachers: false
     },
@@ -24,11 +23,16 @@ export default {
 
   actions: {
     fetchTeachers: ({ commit, rootState }) => {
+      const administratedTeachers = rootState.me.administratedTeachers || []
+      if (administratedTeachers.length === 0) {
+        return
+      }
+
       commit('toggleLoading', 'teachers')
 
       return usersApi
         .fetchByIds({
-          fetchByIds: rootState.me.administratedTeachers || [],
+          fetchByIds: administratedTeachers,
           includeTrialRequests: true
         })
         .then(res =>  {
