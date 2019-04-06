@@ -31,9 +31,9 @@
 
     created() {
       this.fetchCourses()
-      this.fetchTeacher(this.$route.params.id)
-      this.fetchClassroomsForTeacher(this.$route.params.id)
-      this.fetchCourseInstancesForTeacher(this.$route.params.id)
+      this.fetchTeacher(this.$route.params.teacherId)
+      this.fetchClassroomsForTeacher(this.$route.params.teacherId)
+      this.fetchCourseInstancesForTeacher(this.$route.params.teacherId)
     },
 
     computed: Object.assign({},
@@ -41,18 +41,23 @@
         coursesLoaded: 'loaded'
       }),
 
-      mapState('schoolAdministrator', {
-        teacherLoading: s => s.loading.teacher,
-        teacher: 'teacher'
+      mapState('users', {
+        teacherLoading: function (s) {
+          return s.loading.byId[this.$route.params.teacherId]
+        },
+
+        teacher: function (s) {
+          return s.users.byId[this.$route.params.teacherId]
+        }
       }),
 
       mapState('classrooms', {
         classroomsLoading: function (s) {
-          return s.loading.byTeacher[this.$route.params.id]
+          return s.loading.byTeacher[this.$route.params.teacherId]
         },
 
         classroomsForTeacher: function (s) {
-          return s.classrooms.byTeacher[this.$route.params.id] || {}
+          return s.classrooms.byTeacher[this.$route.params.teacherId] || {}
         },
 
         activeClassrooms: function () {
@@ -62,7 +67,7 @@
 
       mapState('courseInstances', {
         courseInstancesLoading: function (s) {
-          return s.loading.byTeacher[this.$route.params.id]
+          return s.loading.byTeacher[this.$route.params.teacherId]
         }
       }),
 
@@ -79,7 +84,7 @@
 
     methods: mapActions({
       fetchCourses: 'courses/fetch',
-      fetchTeacher: 'schoolAdministrator/fetchTeacher',
+      fetchTeacher: 'users/fetchUserById',
       fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher',
       fetchCourseInstancesForTeacher: 'courseInstances/fetchCourseInstancesForTeacher'
     }),
