@@ -51,7 +51,6 @@
       hideLoading: function () {
         this.backboneLoading = false
         this.emitLoadingEvent()
-        console.log("got hide loading")
       },
 
       updateLoadingProgress: function (progress) {
@@ -61,25 +60,21 @@
 
       emitLoadingEvent: function () {
         this.$emit('loading', {
-          loading: true,
+          loading: this.backboneLoading,
           progress: this.backboneLoadingProgress
         })
-        console.log("emitted loading event")
       }
     },
 
     created () {
-      console.log('created')
       this.loadBackbone()
     },
 
     mounted () {
-      console.log('mounted')
       this.renderBackbone()
     },
 
     destroyed () {
-      console.log('destroyed')
       // this.cleanupBackbone()
     },
 
