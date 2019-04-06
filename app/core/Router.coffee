@@ -292,7 +292,6 @@ module.exports = class CocoRouter extends Backbone.Router
         # The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it
         # is already routed we do not need to route again
         console.debug("Skipping route in Backbone - delegating to Vue app")
-#        console.log(cocoVueRouter().currentRoute)
         return
       else if options.vueRoute  # Routing to a vue component using VueComponentView
         vueComponentView = require 'views/core/VueComponentView'
