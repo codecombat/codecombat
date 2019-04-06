@@ -30,7 +30,6 @@
 
     methods: {
       backboneLoadingEvent (event) {
-        console.log("got loading", event)
         this.backboneLoading = event.loading
       }
     },
