@@ -12,7 +12,10 @@
         border-radius: 50%;
 
         color: #FFF;
-        font-size: 18px;
+        font-size: 14px;
+        font-weight: bold;
+
+        line-height: 20px;
 
         background-color: rgb(153, 153, 153);
     }
