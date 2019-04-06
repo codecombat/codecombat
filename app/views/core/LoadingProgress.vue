@@ -1,25 +1,31 @@
 <style scoped>
-
+    .hide {
+        display: none;
+    }
 </style>
 
 <template>
-    <div v-if="computedLoading" class="loading-screen loading-container">
-        <h1>{{ $t('common.loading') }}</h1>
-        <div class="progress">
-            <div
-                    class="progress-bar"
-                    :style="{ width: `${computedPercent}%` }"
-            >
+    <div>
+        <div v-if="computedLoading" class="loading-screen loading-container">
+            <h1>{{ $t('common.loading') }}</h1>
+            <div class="progress">
+                <div
+                        class="progress-bar"
+                        :style="{ width: `${computedPercent}%` }"
+                >
+                </div>
+            </div>
+
+            <div class="errors">
             </div>
         </div>
 
-        <div class="errors">
+        <div v-if="!computedLoading || alwaysRender">
+            <!-- Applying class to the parent div causes styles rendered within the slot to break -->
+            <div :class="{ hide: computedLoading }">
+                <slot></slot>
+            </div>
         </div>
-    </div>
-
-    <div v-else-if="alwaysRender || !computedLoading" :style="{ display: !computedLoading}">
-        TESTING THIS UGHH
-        <slot></slot>
     </div>
 </template>
 
@@ -75,7 +81,6 @@
         },
 
         computedLoading: function () {
-          console.log('asdfasdfasdf', this.alwaysRender)
           if (this.statuses.length > 0) {
             return this.statusPercent < 100
           }
