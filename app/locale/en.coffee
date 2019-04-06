@@ -2824,3 +2824,4 @@
     students_stat_description: 'Total students accounts for all students across all classrooms, regardless of whether they have licenses applied.'
     active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
     project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
+    no_teachers: 'You are not administrating any teachers.'

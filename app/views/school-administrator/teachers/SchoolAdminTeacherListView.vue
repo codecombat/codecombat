@@ -21,15 +21,23 @@
         color: #BBB;
         line-height: 20px;
     }
+
+    .no-teachers {
+        padding: 50px;
+        text-align: center;
+    }
 </style>
 
 <template>
     <div>
         <h2>{{ $t('school_administrator.my_teachers') }}</h2>
 
-        <loading-progress :loading-status="loading.teachers">
+        <loading-progress :loading-status="teachersLoading">
             <div class="content">
-                <ul class="teacher-list" v-for="(teachers, groupName) of groupedTeachers">
+                <ul
+                        class="teacher-list"
+                        v-for="(teachers, groupName) of groupedTeachers"
+                >
                     <li class="group-title">
                         <h4 v-if="groupName !== 'undefined'">{{ groupName }}</h4>
                         <h4 v-else>{{ $t('school_administrator.other') }}</h4>
@@ -37,6 +45,10 @@
 
                     <teacher-row v-for="teacher in teachers" :key="teacher.id" :teacher="teacher" />
                 </ul>
+
+                <div v-if="administratedTeachers.length === 0" class="no-teachers">
+                    {{ $t('school_administrator.no_teachers') }}
+                </div>
             </div>
 
             <div class="school-admin-details">
@@ -69,10 +81,10 @@
     },
 
     computed: Object.assign({},
-      mapState('schoolAdministrator', [
-        'loading',
-        'administratedTeachers'
-      ]),
+      mapState('schoolAdministrator', {
+        teachersLoading: s => s.loading.teachers,
+        administratedTeachers: s => s.administratedTeachers || []
+      }),
 
       {
         groupedTeachers: function () {
