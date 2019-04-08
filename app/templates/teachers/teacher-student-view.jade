@@ -10,7 +10,9 @@ block content
   else
     .container
       +breadcrumbs
-      if view.classroom && view.classroom.get('ownerID') === me.id || me.isAdmin()
+      if !view.classroom || view.classroom.get('ownerID') !== me.id || !me.isAdmin()
+        h3.m-t-2 Not available
+      else
         h3.m-t-2
           span(data-i18n="teacher.student_profile")
           span.spr :
