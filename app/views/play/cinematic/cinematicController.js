@@ -1,5 +1,7 @@
 import CinematicLankBoss from './CinematicLankBoss'
 import DialogSystem from './dialogSystem'
+import { sleep } from './promiseThunks'
+import { getThang } from '../../../core/api/thang-types'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -63,16 +65,6 @@ const mockThang = (options) => {
 }
 
 /**
- * Returns a promise that will resolve after the given milliseconds.
- * @param {Number} ms number of milliseconds before promise resolves
- */
-function sleep(ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(resolve, ms)
-  })
-}
-
-/**
  * Takes a reference to a canvas and uses this to construct
  * the cinematic experience.
  * This controller loads a json file and plays cinematics.
@@ -119,19 +111,13 @@ export class CinematicController {
      * Initialize an example Thang.
      */
     // https://codecombat.com/db/thang.type/cinematic-anya
-    const anyaPromise = new Promise((resolve, reject) => new ThangType({ _id: 'cinematic-anya' }).fetch({
-      success: resolve,
-      error: reject
-    }))
-    const narrativeSpeaker = new Promise((resolve, reject) => new ThangType({ _id: 'narrative-speaker' }).fetch({
-      success: resolve,
-      error: reject
-    }))
 
-    const [anyaThang, narratorThang] = await Promise.all([
-      anyaPromise,
-      narrativeSpeaker
-    ])
+    const thangTypes = ['cinematic-anya', 'narrative-speaker']
+      .map(slug => ({ slug }))
+      .map(getThang)
+      .map(p => p.then(attributes => new ThangType(attributes)))
+
+    const [anyaThang, narratorThang] = await Promise.all(thangTypes)
 
     const leftLank = await this.createLankFromThang({ thangType: anyaThang,
       thang: mockThang({
@@ -157,7 +143,11 @@ export class CinematicController {
     this.initTicker()
 
     // Consume some hard coded pretend bytecode.
-    const promiseThunks = hardcodedByteCodeExample({ cinematicLankBoss: this.cinematicLankBoss, dialogSystem: this.dialogSystem });
+    const promiseThunks = hardcodedByteCodeExample({
+      cinematicLankBoss: this.cinematicLankBoss,
+      dialogSystem: this.dialogSystem
+    })
+
     for (const thunk of promiseThunks) {
       await thunk()
     }

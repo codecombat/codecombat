@@ -1,7 +1,8 @@
-<style>
+<style scoped>
 #cinematic-div {
   position: relative;
   display: inline-block;
+  font-size: 1.5em;
 }
 
 #cinematic-div canvas {
@@ -35,12 +36,6 @@ export default {
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']
     this.controller = new CinematicController(canvas, canvasDiv)
-  },
-  // methods: {
-  //   clickHandler () {
-  //     console.log(this)
-  //     this.controller.use()
-  //   }
-  // }
+  }
 }
 </script>
