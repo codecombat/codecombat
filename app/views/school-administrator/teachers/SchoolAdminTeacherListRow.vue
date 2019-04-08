@@ -79,6 +79,10 @@
     .dashboard-link:hover {
         text-decoration: none;
     }
+
+    .stat-hidden {
+        visibility: hidden;
+    }
 </style>
 
 <template>
@@ -95,12 +99,12 @@
             </li>
 
             <li>
-                <span>{{ classroomStats.totalStudents }}</span>
+                <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.totalStudents }}</span>
                 {{ $t('school_administrator.total_students') }}
             </li>
 
             <li>
-                <span>{{ classroomStats.activeStudents }}</span>
+                <span :class="{ 'stat-hidden': classroomsLoading }">{{ classroomStats.activeStudents }}</span>
                 {{ $t('school_administrator.active_students') }}
             </li>
 
@@ -156,7 +160,6 @@
               activeStudentCount += activeStudents
             })
 
-            console.log('do i have data', totalStudentCount)
             return {
               totalStudents: totalStudentCount,
               activeStudents: activeStudentCount
