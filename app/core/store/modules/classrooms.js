@@ -5,6 +5,7 @@ export default {
 
   state: {
     loading: {
+      byClassroom: {},
       byTeacher: {}
     },
 
@@ -82,8 +83,10 @@ export default {
     },
     fetchClassroomForId: ({ commit }, classroomId) => {
       commit('toggleLoadingForClassroom', classroomId)
+      console.log('entered fetchclassroomforid with ')
+      console.log(classroomId)
 
-      return classroomsApi.get(classroomId)
+      return classroomsApi.get({ classroomId })
         .then(res =>  {
           if (res) {
             commit('addClassroomForId', {
