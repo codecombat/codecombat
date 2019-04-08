@@ -7,7 +7,7 @@
 <template>
     <loading-progress :loading-status="loadingStatuses">
         <div v-if="!loading">
-            <breadcrumbs v-bind:links="links"></breadcrumbs>
+            <breadcrumbs v-if="!loading" :links="links"></breadcrumbs>
             <!-- TODO apply i18n to possessive -->
             <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
 
@@ -38,13 +38,6 @@
       this.fetchClassroomsForTeacher(this.$route.params.teacherId)
       this.fetchCourseInstancesForTeacher(this.$route.params.teacherId)
     },
-
-    data: () => ({
-      links: [{
-        href: '/school-administrator',
-        i18n: 'school_administrator.my_teachers'
-      }]
-    }),
 
     computed: Object.assign({},
       mapState('courses', {
@@ -88,6 +81,15 @@
 
         loading: function () {
           return this.loadingStatuses.reduce((r, i) => r || i, false)
+        },
+
+        links: function () {
+          return [{
+            href: '/school-administrator',
+            i18n: 'school_administrator.my_teachers'
+          }, {
+            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
+          }]
         }
       }
     ),
