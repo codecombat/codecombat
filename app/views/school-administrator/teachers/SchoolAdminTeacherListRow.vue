@@ -95,12 +95,12 @@
             </li>
 
             <li>
-                <span>50</span>
+                <span>{{ classroomStats.totalStudents }}</span>
                 {{ $t('school_administrator.total_students') }}
             </li>
 
             <li>
-                <span>30</span>
+                <span>{{ classroomStats.activeStudents }}</span>
                 {{ $t('school_administrator.active_students') }}
             </li>
 
@@ -118,9 +118,55 @@
 </template>
 
 <script>
+    import { mapActions, mapState } from 'vuex'
+
     export default {
       props: [
         'teacher'
-      ]
+      ],
+
+      created () {
+        this.fetchClassroomsForTeacher(this.$props.teacher._id)
+      },
+
+      computed: Object.assign({},
+        mapState('classrooms', {
+          classroomsLoading: function (s) {
+            return s.loading.byTeacher[this.$props.teacher._id]
+          },
+
+          activeClassrooms: function (s) {
+            const classrooms = s.classrooms.byTeacher[this.$props.teacher._id] || {}
+            return classrooms.active || []
+          },
+
+          classroomStats: function () {
+            let totalStudentCount = 0
+            let activeStudentCount  = 0
+
+            this.activeClassrooms.forEach((classroom) => {
+              const classroomStats = classroom.stats || {}
+              const studentStats = classroomStats.students || {}
+              const studentCountStats = studentStats.count || {}
+
+              const activeStudents = studentCountStats.active || 0
+              const inactiveStudents = studentCountStats.inactive || 0
+
+              totalStudentCount += activeStudents + inactiveStudents
+              activeStudentCount += activeStudents
+            })
+
+            console.log('do i have data', totalStudentCount)
+            return {
+              totalStudents: totalStudentCount,
+              activeStudents: activeStudentCount
+            }
+          }
+        })
+      ),
+
+      methods: mapActions({
+        fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
+      }),
     }
 </script>
