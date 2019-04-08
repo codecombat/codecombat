@@ -6,14 +6,13 @@ utils = require './utils'
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
+VueMoment = require 'vue-moment'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
-Vue.use(VTooltip.default, {
-  popover: {
-    defaultBaseClass: 'v-tooltip v-popover'
-  }
-})
+Vue.use(VueMoment.default)
+
+Vue.use(VTooltip.default)
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
