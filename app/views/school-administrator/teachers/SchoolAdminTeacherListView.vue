@@ -102,7 +102,6 @@
       }
     ),
 
-
     methods: mapActions({
       fetch: 'schoolAdministrator/fetchTeachers'
     }),
