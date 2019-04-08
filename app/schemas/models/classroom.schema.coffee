@@ -48,13 +48,16 @@ _.extend ClassroomSchema.properties,
     backToMap: { type: 'boolean', description: 'Go back to the map after victory.', default: true }
     gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
     xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
-  },
+  }
 
-  stats:
-    students:
-      count:
+  stats: c.object { title: 'Classroom Statistics' }, {
+    students: c.object { title: 'Classroom Student Statistics' }, {
+      count: c.object { title: 'Classroom Student Count Statistics' }, {
         active: c.int()
         inactive: c.int()
+      }
+    }
+  }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 ClassroomSchema.properties.settings.additionalProperties = true

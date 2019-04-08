@@ -202,14 +202,20 @@ _.extend UserSchema.properties,
     courseMiscPatches: c.int()
     courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
-    licenses:
-      usage:
+
+    licenses: c.object {}, {
+      usage: c.object {}, {
         used: c.int()
         total: c.int()
-    students:
-      count:
+      }
+    },
+
+    students: c.object {}, {
+      count: c.object {}, {
         active: c.int()
         inactive: c.int()
+      }
+    },
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
