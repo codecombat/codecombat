@@ -99,7 +99,7 @@
 
         <ul class="stats">
             <li>
-                <span>100 / 200</span>
+                <span>{{ licenseStats.licensesUsed }} / {{ licenseStats.licensesTotal }}</span>
                 {{ $t('school_administrator.licenses_used') }}
             </li>
 
@@ -177,6 +177,17 @@
             const loginActivity = teacherActivity.login || {}
 
             return loginActivity.last
+          },
+
+          licenseStats: function () {
+            const teacherStats = this.$props.teacher.stats || {}
+            const licenseStats = teacherStats.licenses || {}
+            const usageStats = licenseStats.usage || {}
+
+            return {
+              licensesUsed: usageStats.used || 0,
+              licensesTotal: usageStats.total || 0
+            }
           }
         })
       ),
