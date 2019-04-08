@@ -261,7 +261,10 @@ module.exports = class AdministerUserModal extends ModalView
           @renderSelectors('#'+prepaidId)
         return
 
-  userIsSchoolAdmin: -> @user.isSchoolAdmin()
+  userIsSchoolAdmin: ->
+    console.log(@user.isSchoolAdmin())
+    console.log(@user.get('permissions'))
+    @user.isSchoolAdmin()
 
   onClickSchoolAdminCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
@@ -274,6 +277,16 @@ module.exports = class AdministerUserModal extends ModalView
       }
     }).then (res) =>
       @userSaveState = 'saved'
+      permissions = @user.get('permissions')
+
+      if checked and res.schoolAdministrator == 0
+          permissions.push('schoolAdministrator')
+      else if not checked and res.schoolAdministrator == 1
+        _.remove(permissions, (p) -> p == 'schoolAdministrator')
+      else
+        @userSaveState = 'Something went wrong...'
+
+      @user.set('permissions', permissions)
       @render()
       setTimeout((()=>
         @userSaveState = null
