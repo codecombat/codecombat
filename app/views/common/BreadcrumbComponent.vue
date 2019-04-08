@@ -23,11 +23,12 @@
 <script>
   export default {
     props: {
-      /*
-      Each item in the array needs at least one of the following:
-      [Optional String] href: the location for the breadcrumb. Skip this to render the link as text and not a href.
-      [Optional String] i18n: the lookup value to use i18n as the display text
-      [Optional String] text: raw display text
+      /**
+      * Each item represents a link with optional href, i18n translated description or just plain text
+      * {Array} links
+      * {?string} links.href: the location for the breadcrumb. Skip this to render the link as text and not a href.
+      * {?string} links.i18n: the lookup value to use i18n as the display text
+      * {?string} links.text: plain text to display instead of i18n
       */
       links: Array,
     },
