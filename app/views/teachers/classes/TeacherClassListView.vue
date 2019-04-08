@@ -6,15 +6,13 @@
 </style>
 
 <template>
-    <div>
-        <ul class="teacher-list">
-            <classroom-list-row
-                    v-for="classroom in activeClassrooms"
-                    :key="classroom._id"
-                    :classroom="classroom">
-            </classroom-list-row>
-        </ul>
-    </div>
+    <ul class="teacher-list">
+        <classroom-list-row
+                v-for="classroom in activeClassrooms"
+                :key="classroom._id"
+                :classroom="classroom">
+        </classroom-list-row>
+    </ul>
 </template>
 
 <script>
