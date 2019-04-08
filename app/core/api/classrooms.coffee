@@ -1,8 +1,11 @@
 fetchJson = require './fetch-json'
 
 module.exports = {
-  get: ({ classroomID }, options={}) ->
-    fetchJson("/db/classroom/#{classroomID}", options)
+  get: (getArguments, options={}) ->
+    console.log('entered get with: ')
+    console.log(getArguments)
+    console.log(options)
+    fetchJson("/db/classroom/#{getArguments.classroomID}", options)
 
   # TODO: Set this up to allow using classroomID instead
   getMembers: ({classroom}, options) ->
