@@ -7,7 +7,7 @@
 <template>
     <loading-progress :loading-status="loadingStatuses">
         <div v-if="!loading">
-            <breadcrumbs v-if="!loading" :links="links"></breadcrumbs>
+            <breadcrumbs :links="links"></breadcrumbs>
             <!-- TODO apply i18n to possessive -->
             <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
 
