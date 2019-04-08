@@ -90,8 +90,13 @@
         <div class="teacher-info">
             <h4>{{ teacher.firstName }} {{ teacher.lastName }}</h4>
             <a class="teacher-email" :href="`mailto:${teacher.email}`">{{ teacher.email }}</a>
-            <span class="last-login">{{ $t('school_administrator.last_login') }}: {{ teacher.lastLogin }}</span>
+
+            <div class="last-login">
+                <span>{{ $t('school_administrator.last_login') }}:</span>
+                <span v-if="teacherLastLogin">{{ teacherLastLogin | moment("dddd, MMMM Do YYYY") }}</span>
+            </div>
         </div>
+
         <ul class="stats">
             <li>
                 <span>100 / 200</span>
@@ -164,6 +169,14 @@
               totalStudents: totalStudentCount,
               activeStudents: activeStudentCount
             }
+          },
+
+          teacherLastLogin: function () {
+            const teacher = this.$props.teacher || {}
+            const teacherActivity = teacher.activity || {}
+            const loginActivity = teacherActivity.login || {}
+
+            return loginActivity.last
           }
         })
       ),
