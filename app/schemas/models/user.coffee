@@ -161,7 +161,7 @@ _.extend UserSchema.properties,
       id: { type: 'string' }
       name: { type: 'string' }
       importedToCoco: { type: 'boolean', default: false }
-  
+
   importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
 
   points: {type: 'number'}
@@ -202,6 +202,20 @@ _.extend UserSchema.properties,
     courseMiscPatches: c.int()
     courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
+
+    licenses: c.object {}, {
+      usage: c.object {}, {
+        used: c.int()
+        total: c.int()
+      }
+    },
+
+    students: c.object {}, {
+      count: c.object {}, {
+        active: c.int()
+        inactive: c.int()
+      }
+    },
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
