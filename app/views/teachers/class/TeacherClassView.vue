@@ -1,6 +1,6 @@
 <template>
     <loading-progress :loading-status="[ backboneLoadProgress ]" :always-render="true">
-        <breadcrumbs :links="links"></breadcrumbs>
+        <breadcrumbs v-if="!breadcrumbsLoading" :links="links"></breadcrumbs>
         <backbone-view-harness
                 :backbone-view="backboneViewInstance"
                 :backbone-options="{ vue: true, readOnly: true }"
@@ -25,43 +25,52 @@
       Breadcrumbs
     },
 
+    created() {
+      this.fetchUserById(this.$route.params.teacherId)
+      this.fetchClassroomForId(this.$route.params.classroomId)
+    },
+
     data: function () {
       return {
         backboneLoadProgress: 100,
-        backboneViewInstance: TeacherClassView,
-        links: [{
-          href: '/school-administrator',
-          i18n: 'school_administrator.my_teachers'
-          // TODO: Replace this silliness
-        }, {}, {}]
+        backboneViewInstance: TeacherClassView
       }
     },
 
     computed: Object.assign({},
       mapState('users', {
-        // teacherLoading: function (state) {
-        //   console.log('trying for teacherId')
-        //   console.log(this.$route.params.teacherId)
-        //   return state.loading.byId[this.$route.params.teacherId]
-        // },
+        teacherLoading: function (state) {
+          return state.loading.byId[this.$route.params.teacherId]
+        },
         teacher: function (state) {
-          console.log('trying for teacherId')
-          console.log(this.$route.params.teacherId)
           return state.users.byId[this.$route.params.teacherId]
         }
       }),
       mapState('classrooms', {
-        // classroomLoading: function (state) {
-        //   console.log('trying for classroomId')
-        //   console.log(this.$route.params.classroomId)
-        //   return state.loading.byClassroom[this.$route.params.classroomId]
-        // },
+        classroomLoading: function (state) {
+          return state.loading.byClassroom[this.$route.params.classroomId]
+        },
         classroom: function (state) {
-          console.log('trying for classroomId')
-          console.log(this.$route.params.classroomId)
           return state.classrooms.byClassroom[this.$route.params.classroomId]
         },
-      })
+      }),
+      {
+        links: function() {
+          return [{
+            href: '/school-administrator',
+            i18n: 'school_administrator.my_teachers'
+          }, {
+            href: `/school-administrator/teacher/${this.$route.params.teacherId}`,
+            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
+          }, {
+            text: this.classroom.name
+          }]
+        },
+
+        breadcrumbsLoading: function () {
+          return (this.teacherLoading || this.classroomLoading)
+        }
+      }
     ),
 
     methods: Object.assign({},
@@ -81,32 +90,6 @@
           this.progress = progress
         }
       }
-    ),
-
-    created() {
-      console.log('in created trying for teacherId:')
-      console.log(this.$route.params.teacherId)
-      console.log('in created trying for classroomId:')
-      console.log(this.$route.params.classroomId)
-      this.fetchUserById(this.$route.params.teacherId)
-      this.fetchClassroomForId(this.$route.params.classroomId)
-    },
-
-    // TODO: Does not work
-    updated() {
-      if (!this.links) {
-        if (this.teacher) {
-          this.links[1] = {
-            href: `/school-administrator/teachers/${this.$route.teacherId}`,
-            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
-          }
-        }
-        if (this.classroom) {
-          this.links[2] = {
-            text: this.classroom.name
-          }
-        }
-      }
-    }
+    )
   }
 </script>

@@ -32,13 +32,13 @@ export default {
       Vue.set(state.loading.byTeacher, teacherId, loading)
     },
 
-    toggleLoadingForClassroom: (state, classroomId) => {
+    toggleLoadingForClassroom: (state, classroomID) => {
       let loading = true
-      if (state.loading.byClassroom[classroomId]) {
+      if (state.loading.byClassroom[classroomID]) {
         loading = false
       }
 
-      Vue.set(state.loading.byClassroom, classroomId, loading)
+      Vue.set(state.loading.byClassroom, classroomID, loading)
     },
 
     addClassroomsForTeacher: (state, { teacherId, classrooms }) => {
@@ -58,8 +58,8 @@ export default {
       Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
     },
 
-    addClassroomForId: (state, { classroomId, classroom }) => {
-      Vue.set(state.classrooms.byClassroom, classroomId, classroom)
+    addClassroomForId: (state, { classroomID, classroom }) => {
+      Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     }
   },
 
@@ -81,16 +81,14 @@ export default {
         .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
-    fetchClassroomForId: ({ commit }, classroomId) => {
-      commit('toggleLoadingForClassroom', classroomId)
-      console.log('entered fetchclassroomforid with ')
-      console.log(classroomId)
+    fetchClassroomForId: ({ commit }, classroomID) => {
+      commit('toggleLoadingForClassroom', classroomID)
 
-      return classroomsApi.get({ classroomId })
+      return classroomsApi.get({ classroomID })
         .then(res =>  {
           if (res) {
             commit('addClassroomForId', {
-              classroomId,
+              classroomID,
               classroom: res
             })
           } else {
@@ -98,7 +96,7 @@ export default {
           }
         })
         .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error' }))
-        .finally(() => commit('toggleLoadingForClassroom', classroomId))
+        .finally(() => commit('toggleLoadingForClassroom', classroomID))
     }
   }
 }

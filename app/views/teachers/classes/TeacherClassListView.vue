@@ -7,7 +7,6 @@
 
 <template>
     <div>
-        <breadcrumbs v-bind:links="links"></breadcrumbs>
         <ul class="teacher-list">
             <classroom-list-row
                     v-for="classroom in activeClassrooms"
@@ -20,24 +19,15 @@
 
 <script>
   import ClassroomListRow from './ClassroomListRow'
-  import Breadcrumbs from '../../common/BreadcrumbComponent'
 
   export default {
     components: {
-      'classroom-list-row': ClassroomListRow,
-      Breadcrumbs
+      'classroom-list-row': ClassroomListRow
     },
 
     props: {
       activeClassrooms: Array
-    },
-
-    data: () => ({
-      links: [{
-        href: '/school-admin',
-        i18n: 'school_administrator.my_teachers'
-      }]
-    })
+    }
   }
 </script>
 
