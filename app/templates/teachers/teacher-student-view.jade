@@ -10,7 +10,7 @@ block content
   else
     .container
       +breadcrumbs
-      if view.canViewStudentProfile()
+      if !view.canViewStudentProfile()
         h3.m-t-2 Not available
       else
         h3.m-t-2
