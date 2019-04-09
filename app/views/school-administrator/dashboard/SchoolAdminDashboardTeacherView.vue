@@ -7,6 +7,7 @@
 <template>
     <loading-progress :loading-status="loadingStatuses">
         <div v-if="!loading">
+            <breadcrumbs :links="breadcrumbs"></breadcrumbs>
             <!-- TODO apply i18n to possessive -->
             <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
 
@@ -22,11 +23,13 @@
 
   import LoadingProgress from 'app/views/core/LoadingProgress'
   import TeacherClassListView from 'app/views/teachers/classes/TeacherClassListView'
+  import Breadcrumbs from '../../common/BreadcrumbComponent'
 
   export default {
     components: {
       'teacher-class-list': TeacherClassListView,
-      'loading-progress': LoadingProgress
+      'loading-progress': LoadingProgress,
+      Breadcrumbs
     },
 
     created() {
@@ -78,6 +81,15 @@
 
         loading: function () {
           return this.loadingStatuses.reduce((r, i) => r || i, false)
+        },
+
+        breadcrumbs: function () {
+          return [{
+            href: '/school-administrator',
+            i18n: 'school_administrator.my_teachers'
+          }, {
+            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
+          }]
         }
       }
     ),

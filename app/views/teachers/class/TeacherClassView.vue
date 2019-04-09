@@ -1,5 +1,6 @@
 <template>
     <loading-progress :loading-status="[ backboneLoadProgress ]" :always-render="true">
+        <breadcrumbs v-if="!breadcrumbsLoading" :links="breadcrumbs"></breadcrumbs>
         <backbone-view-harness
                 :backbone-view="backboneViewInstance"
                 :backbone-options="{ vue: true, readOnly: true }"
@@ -11,14 +12,22 @@
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex'
   import TeacherClassView from 'views/courses/TeacherClassView'
   import LoadingProgress from 'views/core/LoadingProgress'
   import BackboneViewHarness from 'views/common/BackboneViewHarness'
+  import Breadcrumbs from '../../common/BreadcrumbComponent'
 
   export default {
     components: {
       LoadingProgress,
-      BackboneViewHarness
+      BackboneViewHarness,
+      Breadcrumbs
+    },
+
+    created() {
+      this.fetchUserById(this.$route.params.teacherId)
+      this.fetchClassroomForId(this.$route.params.classroomId)
     },
 
     data: function () {
@@ -28,14 +37,59 @@
       }
     },
 
-    methods: {
-      backboneLoadingEvent (event) {
-        if (event.loading) {
-          this.backboneLoadProgress = event.progress
-        } else {
-          this.backboneLoadProgress = 100
+    computed: Object.assign({},
+      mapState('users', {
+        teacherLoading: function (state) {
+          return state.loading.byId[this.$route.params.teacherId]
+        },
+        teacher: function (state) {
+          return state.users.byId[this.$route.params.teacherId]
+        }
+      }),
+      mapState('classrooms', {
+        classroomLoading: function (state) {
+          return state.loading.byClassroom[this.$route.params.classroomId]
+        },
+        classroom: function (state) {
+          return state.classrooms.byClassroom[this.$route.params.classroomId]
+        },
+      }),
+      {
+        breadcrumbs: function() {
+          return [{
+            href: '/school-administrator',
+            i18n: 'school_administrator.my_teachers'
+          }, {
+            href: `/school-administrator/teacher/${this.$route.params.teacherId}`,
+            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
+          }, {
+            text: this.classroom.name
+          }]
+        },
+
+        breadcrumbsLoading: function () {
+          return (this.teacherLoading || this.classroomLoading)
         }
       }
-    },
+    ),
+
+    methods: Object.assign({},
+      mapActions({
+        fetchUserById: 'users/fetchUserById',
+        fetchClassroomForId: 'classrooms/fetchClassroomForId'
+      }),
+      {
+        backboneLoadingEvent (event) {
+          if (event.loading) {
+            this.backboneLoadProgress = event.progress
+          } else {
+            this.backboneLoadProgress = 100
+          }
+        },
+        updateLoadingProgress: function (progress) {
+          this.progress = progress
+        }
+      }
+    )
   }
 </script>

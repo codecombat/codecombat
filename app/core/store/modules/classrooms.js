@@ -5,10 +5,12 @@ export default {
 
   state: {
     loading: {
+      byClassroom: {},
       byTeacher: {}
     },
 
     classrooms: {
+      byClassroom: {},
       // Classrooms by teacher ID
       //  {
       //     active: [],
@@ -30,6 +32,15 @@ export default {
       Vue.set(state.loading.byTeacher, teacherId, loading)
     },
 
+    toggleLoadingForClassroom: (state, classroomID) => {
+      let loading = true
+      if (state.loading.byClassroom[classroomID]) {
+        loading = false
+      }
+
+      Vue.set(state.loading.byClassroom, classroomID, loading)
+    },
+
     addClassroomsForTeacher: (state, { teacherId, classrooms }) => {
       const teacherClassroomsState = {
         active: [],
@@ -45,6 +56,10 @@ export default {
       })
 
       Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
+    },
+
+    addClassroomForId: (state, { classroomID, classroom }) => {
+      Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     }
   },
 
@@ -66,6 +81,23 @@ export default {
         .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
+    fetchClassroomForId: ({ commit }, classroomID) => {
+      commit('toggleLoadingForClassroom', classroomID)
+
+      return classroomsApi.get({ classroomID })
+        .then(res =>  {
+          if (res) {
+            commit('addClassroomForId', {
+              classroomID,
+              classroom: res
+            })
+          } else {
+            throw new Error('Unexpected response from get classroom API.')
+          }
+        })
+        .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error' }))
+        .finally(() => commit('toggleLoadingForClassroom', classroomID))
+    }
   }
 }
 
