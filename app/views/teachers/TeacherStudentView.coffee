@@ -406,7 +406,7 @@ module.exports = class TeacherStudentView extends RootView
     date = if expires? then moment(expires).utc().format('l') else ''
     utils.formatStudentLicenseStatusDate(status, date)
 
-  canViewStudentProfile: () -> !@classroom || (@classroom.get('ownerID') != me.id && !me.isAdmin())
+  canViewStudentProfile: () -> @classroom && (@classroom.get('ownerID') == me.id || me.isAdmin())
 
   # TODO: Hookup enroll/assign functionality
 
