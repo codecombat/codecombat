@@ -95,6 +95,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
     @handleEvents = @options.handleEvents ? true
+    @zoomToHero = @options.levelType isnt "game-dev" # In game-dev levels the hero is gameReferee
     @gameUIState = @options.gameUIState or new GameUIState({
       canDragCamera: true
     })
@@ -256,7 +257,7 @@ module.exports = Surface = class Surface extends CocoClass
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
     if @handleEvents
-      if @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
+      if @zoomToHero and @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
         @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
     @lankBoss.update frameChanged
     @camera.updateZoom()  # Make sure to do this right after the LankBoss updates, not before, so it can properly target sprite positions.
