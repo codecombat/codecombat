@@ -378,9 +378,11 @@ module.exports = class World
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
 
-  publishGlobalEvent: (channel, event={}) ->
+  publishCameraEvent: (eventName, event) ->
     return if not Backbone?.Mediator # headless mode don't have this
-    Backbone.Mediator.publish(channel, event) # Feel the force, young jedi
+    event ?= {}
+    channel = 'camera:' + channel
+    Backbone.Mediator.publish(eventName, event)
 
   getGoalState: (goalID) ->
     @goalManager.getGoalState(goalID)
