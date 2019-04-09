@@ -312,6 +312,9 @@ _.extend UserSchema.properties,
       studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
 
+  administratedTeachers: c.array {}, c.objectId()
+  administratingTeachers: c.array {}, c.objectId()
+
   features:
     type: 'object'
     title: 'Feature Flags'
