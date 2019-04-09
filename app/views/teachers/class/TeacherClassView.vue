@@ -1,6 +1,6 @@
 <template>
     <loading-progress :loading-status="[ backboneLoadProgress ]" :always-render="true">
-        <breadcrumbs v-if="!breadcrumbsLoading" :links="links"></breadcrumbs>
+        <breadcrumbs v-if="!breadcrumbsLoading" :links="breadcrumbs"></breadcrumbs>
         <backbone-view-harness
                 :backbone-view="backboneViewInstance"
                 :backbone-options="{ vue: true, readOnly: true }"
@@ -55,7 +55,7 @@
         },
       }),
       {
-        links: function() {
+        breadcrumbs: function() {
           return [{
             href: '/school-administrator',
             i18n: 'school_administrator.my_teachers'
