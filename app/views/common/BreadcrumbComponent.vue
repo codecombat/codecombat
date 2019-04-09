@@ -25,13 +25,18 @@
   export default {
     props: {
       /**
-      * Each item represents a link with optional href, i18n translated description or just plain text
+      * Each item represents a link with either a href, i18n translated description or just plain text.
       * {Array} links
       * {?string} links.href: the location for the breadcrumb. Skip this to render the link as text and not a href.
       * {?string} links.i18n: the lookup value to use i18n as the display text
       * {?string} links.text: plain text to display instead of i18n
       */
-      links: Array,
-    },
+      links: {
+        type: Array,
+        required: true,
+        // Each object in the array must contain one of these values
+        validator: (links) => _.every(links, (link) => link.href || link.i18n || link.text)
+      }
+    }
   }
 </script>
