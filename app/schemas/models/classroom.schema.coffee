@@ -50,14 +50,7 @@ _.extend ClassroomSchema.properties,
     xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
   }
 
-  stats: c.object { title: 'Classroom Statistics' }, {
-    students: c.object { title: 'Classroom Student Statistics' }, {
-      count: c.object { title: 'Classroom Student Count Statistics' }, {
-        active: c.int()
-        inactive: c.int()
-      }
-    }
-  }
+  stats: c.object { additionalProperties: true }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 ClassroomSchema.properties.settings.additionalProperties = true
