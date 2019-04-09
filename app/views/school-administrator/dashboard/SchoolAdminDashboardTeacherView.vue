@@ -7,7 +7,7 @@
 <template>
     <loading-progress :loading-status="loadingStatuses">
         <div v-if="!loading">
-            <breadcrumbs :links="links"></breadcrumbs>
+            <breadcrumbs :links="breadcrumbs"></breadcrumbs>
             <!-- TODO apply i18n to possessive -->
             <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
 
@@ -83,7 +83,7 @@
           return this.loadingStatuses.reduce((r, i) => r || i, false)
         },
 
-        links: function () {
+        breadcrumbs: function () {
           return [{
             href: '/school-administrator',
             i18n: 'school_administrator.my_teachers'
