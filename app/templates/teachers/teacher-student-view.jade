@@ -10,7 +10,7 @@ block content
   else
     .container
       +breadcrumbs
-      if !view.classroom || view.classroom.get('ownerID') !== me.id || !me.isAdmin()
+      if view.canViewStudentProfile()
         h3.m-t-2 Not available
       else
         h3.m-t-2
