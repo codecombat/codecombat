@@ -405,7 +405,7 @@ module.exports = class AdministerUserModal extends ModalView
 
       return "
         <tr>
-          <h6>#{schoolName}</h6>
+          <th>#{schoolName}</th>
           #{teachers.join('\n')}
         </tr>
       "
