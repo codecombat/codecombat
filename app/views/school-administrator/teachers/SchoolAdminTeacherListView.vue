@@ -91,7 +91,10 @@
           const groupedTeachers = {}
 
           for (const teacher of this.administratedTeachers) {
-            const trialRequest = teacher._trialRequest || { organization: 'No school found' }
+            const trialRequest = teacher._trialRequest || {}
+            if (!trialRequest.organization) {
+              trialRequest.organization = 'No school found'
+            }
 
             groupedTeachers[trialRequest.organization] = groupedTeachers[trialRequest.organization] || []
             groupedTeachers[trialRequest.organization].push(teacher)
