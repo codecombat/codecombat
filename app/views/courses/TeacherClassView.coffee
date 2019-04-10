@@ -267,7 +267,8 @@ module.exports = class TeacherClassView extends RootView
         course: course?.toJSON(),
         progress: @state.get('progressData')?.get({ @classroom, course }),
         courseInstance,
-        classroom: @classroom.toJSON()
+        classroom: @classroom.toJSON(),
+        readOnly: @state.get('readOnly')
       }
       new TeacherClassAssessmentsTable({
         el: @$el.find('.assessments-table')[0]
