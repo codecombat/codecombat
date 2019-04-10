@@ -14,7 +14,8 @@
           div.table-cell.name
             div
               strong
-                a(:href="studentLink(student._id)") {{ broadName(student) }}
+                a(v-if="!readOnly" :href="studentLink(student._id)") {{ broadName(student) }}
+                span(v-else) {{ broadName(student) }}
             div.student-email {{ student.email || student.name }}
     div.data-column(ref="dataColumn", @scroll="updateArrows" v-if="levels.length > 0")
       div(v-for="(student, index) in students")
@@ -57,7 +58,8 @@
       progress: { default: -> {} }
       course: {}
       courseInstance: {}
-      classroom: {}
+      classroom: {},
+      readOnly: Boolean
     },
     data: ->
       showPrevArrows: false
