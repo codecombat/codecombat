@@ -2,7 +2,8 @@ const c = require('./../schemas')
 
 const CharacterSchema = (title) => c.object({
   title: title,
-  description: 'ThangType that will appear on the right side of the screen.'
+  description: 'ThangType that will appear on the right side of the screen.',
+  required: ['type']
 }, {
   type: c.shortString({
     title: 'Type',
@@ -15,7 +16,9 @@ const CharacterSchema = (title) => c.object({
     description: 'Required if type is set to `slug`'
   }),
   enterOnStart: {
-    type: 'boolean'
+    type: 'boolean',
+    title: 'Animate in?',
+    description: 'If true the character will animate in. Otherwise the character will start simply there.'
   }
 })
 
@@ -110,8 +113,14 @@ const DialogNode = c.object({
     description: 'Whether or not all dialog nodes are cleared from screen or left up.'
   },
   exitRightCharacter: { title: 'Exit Right Character', description: 'whether right character exits at dialog node completion', type: 'boolean' },
-  exitLeftCharacter: { title: 'Exit Left Character', description: 'whether left character exits at dialog node completion', type: 'boolean' }
-  // TODO: next node
+  exitLeftCharacter: { title: 'Exit Left Character', description: 'whether left character exits at dialog node completion', type: 'boolean' },
+  filters: c.object({
+    title: 'Filters',
+    description: 'Context specific filters that are checked at runtime.'
+  }, {
+    language: c.shortString({ enum: ['python', 'javascript'], title: 'Language', description: 'If set, this Dialog Node is only shown for the given language.' })
+  }),
+  delay: c.int({ title: 'Delay(ms)', description: 'A delay in ms before anything else happens in this Dialog Node.' })
 })
 
 const Shot = c.object({

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cinematic-canvas :width=800 :height=500 />
+    <cinematic-canvas slug="basic-functionality-test" />
   </div>
 
 </template>

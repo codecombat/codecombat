@@ -26,11 +26,15 @@ import { CinematicController } from './play/cinematic/cinematicController'
 
 export default {
   props: {
-    width: Number,
-    height: Number
+    slug: {
+      type: String,
+      required: true
+    }
   },
   data: () => ({
-    controller: null
+    controller: null,
+    width: 800,
+    height: 514,
   }),
   mounted: function() {
     const canvas = this.$refs['cinematic-canvas']
