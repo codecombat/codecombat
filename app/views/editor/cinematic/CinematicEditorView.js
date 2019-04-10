@@ -7,6 +7,10 @@ const template = require('app/views/vue-template.pug')
 const CinematicEditorComponent = require('./CinematicEditorComponent.vue').default
 
 class CinematicEditView extends RootComponent {
+  constructor (options, cinematicSlug) {
+    super(options)
+    this.propsData = { cinematicSlug: cinematicSlug }
+  }
 }
 
 CinematicEditView.prototype.id = 'cinematic-view'

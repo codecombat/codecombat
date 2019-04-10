@@ -12,6 +12,11 @@ export const get = (slug) => {
 }
 
 /**
+ * Returns a list of all cinematics in the database by Name and slug.
+ */
+export const getAll = () => fetchJson('/db/cinematic/all')
+
+/**
  * Updates a cinematic in the database.
  */
 export const put = ({ data }, options = {}) => {

@@ -133,7 +133,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView')
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
-    'editor/cinematic/:slug': go('editor/cinematic/CinematicEditorView')
+    'editor/cinematic(/:cinematicSlug)': go('editor/cinematic/CinematicEditorView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
