@@ -357,7 +357,7 @@ module.exports = class AdministerUserModal extends ModalView
           <td>#{_.escape(teacher.email)}</td>
           <td>#{teacher.firstName or 'No first name'}</td>
           <td>#{teacher.lastName or 'No last name'}</td>
-          <td>#{teacher.schoolName or 'No school name'}</td>
+          <td>#{teacher.schoolName or 'Other'}</td>
           <td>Verified teacher: #{teacher.verifiedTeacher or 'false'}</td>
         </tr>
       "
@@ -417,7 +417,7 @@ module.exports = class AdministerUserModal extends ModalView
   administratedSchools: (teachers) ->
     schools = {}
     _.forEach teachers, (teacher) =>
-      school = teacher?._trialRequest?.organization or "No school found"
+      school = teacher?._trialRequest?.organization or "Other"
       if not schools[school]
         schools[school] = [teacher]
       else
