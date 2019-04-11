@@ -29,6 +29,7 @@ var allowedOrigins = [
     /^https?:\/\/10.0.2.2:[\d]+$/, // For local virtual machines
     /^https?:\/\/coco\.code\.ninja$/,
     /^https?:\/\/.*codecombat-staging-codecombat\.runnableapp\.com$/,
+    /^https?:\/\/(.*\.)?koudashijie\.com$/ // For china infrastructure
 ];
 
 function receiveMessage(event) {
