@@ -41,7 +41,7 @@
                         v-for="(teachers, groupName) of groupedTeachers"
                 >
                     <li class="group-title">
-                        <h4 v-if="groupName !== 'undefined'">{{ groupName }}</h4>
+                        <h4 v-if="groupName">{{ groupName }}</h4>
                         <h4 v-else>{{ $t('school_administrator.other') }}</h4>
                     </li>
 
@@ -94,9 +94,6 @@
 
           for (const teacher of this.administratedTeachers) {
             const trialRequest = teacher._trialRequest || {}
-            if (!trialRequest.organization) {
-              trialRequest.organization = 'No school found'
-            }
 
             groupedTeachers[trialRequest.organization] = groupedTeachers[trialRequest.organization] || []
             groupedTeachers[trialRequest.organization].push(teacher)
