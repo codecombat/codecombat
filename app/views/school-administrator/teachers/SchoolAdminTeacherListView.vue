@@ -26,11 +26,13 @@
         padding: 50px;
         text-align: center;
     }
+
+
 </style>
 
 <template>
     <div>
-        <h2>{{ $t('school_administrator.my_teachers') }}</h2>
+        <h3>{{ $t('school_administrator.my_teachers') }}</h3>
 
         <loading-progress :loading-status="teachersLoading">
             <div class="content">
