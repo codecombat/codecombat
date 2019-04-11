@@ -251,7 +251,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    @cocoVueRouter().push("/#{Backbone.history.getFragment()}")
+    @cocoVueRouter.push("/#{Backbone.history.getFragment()}")
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
