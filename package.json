@@ -82,7 +82,7 @@
     "basic-auth": "^1.0.4",
     "bayesian-battle": "0.0.7",
     "bitly": "^5.0.12",
-    "bluebird": "^3.2.1",
+    "bluebird": "^3.5.4",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "3.3.7",
