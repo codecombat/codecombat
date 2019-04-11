@@ -153,7 +153,8 @@ module.exports = class TeacherClassesView extends RootView
 
     @administratingTeachers = new Users()
     if administratingTeacherIds.length > 0
-      @administratingTeachers.fetchByIds(administratingTeacherIds)
+      req = @administratingTeachers.fetchByIds(administratingTeacherIds)
+      @supermodel.trackRequest req
 
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
