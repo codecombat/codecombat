@@ -113,7 +113,7 @@
                 {{ $t('school_administrator.active_students') }}
             </li>
 
-            <li>
+            <li style="display: none;">
                 <span>28</span>
                 {{ $t('school_administrator.projects_created') }}
             </li>
