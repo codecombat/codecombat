@@ -1,8 +1,6 @@
 dynamicRequire = require('lib/dynamicRequire')
 locale = require 'locale/locale'
 
-cocoVueRouter = require('core/CocoVueRouter').default
-
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
 redirect = (path) -> ->
@@ -19,6 +17,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @bind 'route', @_trackPageView
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
+    @cocoVueRouter = require('core/CocoVueRouter').default()
 
   routes:
     '': ->
