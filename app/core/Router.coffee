@@ -17,6 +17,8 @@ module.exports = class CocoRouter extends Backbone.Router
     @bind 'route', @_trackPageView
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
+
+    # TODO comment reasoning for this
     @cocoVueRouter = require('core/CocoVueRouter').default()
 
   routes:
@@ -249,7 +251,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    cocoVueRouter().push("/#{Backbone.history.getFragment()}")
+    @cocoVueRouter().push("/#{Backbone.history.getFragment()}")
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
