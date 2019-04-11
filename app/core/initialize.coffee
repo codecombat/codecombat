@@ -114,6 +114,7 @@ watchForErrors = ->
 
   showError = (text) ->
     return if currentErrors >= 3
+    return if app.isProduction() and not me.isAdmin() # Don't show noty error messages in production when not an admin
     return unless me.isAdmin() or document.location.href.search(/codecombat.com/) is -1 or document.location.href.search(/\/editor\//) isnt -1
     ++currentErrors
     unless webkit?.messageHandlers  # Don't show these notys on iPad
