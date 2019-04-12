@@ -32,6 +32,7 @@
       },
 
       renderBackbone () {
+        this.backboneViewInstance.render()
         this.$el.appendChild(this.backboneViewInstance.el)
       },
 
