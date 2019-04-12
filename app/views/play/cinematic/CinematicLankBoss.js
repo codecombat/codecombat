@@ -32,15 +32,20 @@ const createThang = (options) => {
 }
 
 class MoveLank extends AbstractCommand {
-  constructor (runFn, skipTweenFn) {
+  constructor (runFn, animation) {
     super()
     this.run = runFn
-    this.skipTweenFn = skipTweenFn
+    this.animation = animation
   }
 
-  preCancel () {
-    this.skipTweenFn()
-    return 'cancel'
+  /**
+   * Cancel method ignores the promise and simply moves the animation
+   * to the end.
+   */
+  cancel (promise) {
+    const animation = this.animation
+    animation.seek(animation.duration)
+    return promise
   }
 }
 
@@ -113,11 +118,7 @@ export default class CinematicLankBoss {
       animation.play()
     })
 
-    const cancelFn = () => {
-      animation.seek(animation.duration)
-    }
-
-    return new MoveLank(runFn, cancelFn)
+    return new MoveLank(runFn, animation)
   }
 
   queueAction (side, action) {

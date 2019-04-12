@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
     <div v-if="!cinematicSlug">
       <div class="row">
         <div class="col-md-12"><h1>{{ heading }}</h1></div>
@@ -25,7 +24,9 @@
       <div class="row">
         <div class="col-md-8"><h1>{{ heading }}</h1></div>
         <div class="col-md-4">
+          <span>There is no autosave. Please click this button often.</span>
           <button v-on:click="saveCinematic" :disabled="state.saving || !cinematic">save</button>
+          <button><a href="/cinematic">Play View (please save first)</a></button>
         </div>
       </div>
 

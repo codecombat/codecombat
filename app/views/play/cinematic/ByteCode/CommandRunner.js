@@ -10,9 +10,9 @@ export default class CommandRunner {
    */
   async run () {
     for (const command of this.commands) {
-      setTimeout(() => {
-        command[cancel]()
-      }, 50 + Math.random() * 400)
+      // TODO: Make sure cancelling is more robust. Maybe by racing them?
+      // Uncomment below to get cancel behavior.
+      // setTimeout(() => command[cancel](), 60)
       await command[run]()
     }
   }

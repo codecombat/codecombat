@@ -1,6 +1,6 @@
 <template>
   <li>
-    <a :href="'/editor/cinematic/' + slug">{{ text }}</a>
+    <a :href="'/editor/cinematic/' + slug">{{ text }}</a><span> slug: '{{ slug }}'</span>
   </li>
 </template>
 

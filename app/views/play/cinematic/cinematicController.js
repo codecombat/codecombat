@@ -1,14 +1,12 @@
 import CinematicLankBoss from './CinematicLankBoss'
 import DialogSystem from './dialogSystem'
 import Loader from './Loader'
-import { parseShot } from './ByteCode/ByteCodeParser'
-import CommandRunner from './ByteCode/CommandRunner';
+import { parseShot } from './ByteCode/CinematicParser'
+import CommandRunner from './ByteCode/CommandRunner'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
 const Camera = require('lib/surface/Camera')
-
-const Lank = require('lib/surface/Lank')
 
 /**
  * Takes a reference to a canvas and uses this to construct
