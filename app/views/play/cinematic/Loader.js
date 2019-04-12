@@ -61,6 +61,7 @@ export default class Loader {
           getThang({ slug })
             .then(attr => new ThangType(attr))
             .then(t => this.loadedThangTypes.set(slug, t))
+            .then(() => console.log(`LOADED ThangType`, slug))
         ))
   }
 
@@ -68,17 +69,23 @@ export default class Loader {
    * Load all resources.
    */
   async load () {
-    const loadingPromises = []
-    this.loadingThangTypes.forEach((value, key) => {
-      console.log('Pushing new slug', key)
+    const loadingPromises = [Promise.resolve()]
+    this.loadingThangTypes.forEach((value) => {
       loadingPromises.push(value)
     })
-
-    await loadingPromises.length > 0 ? Promise.all(loadingPromises) : Promise.resolve()
+    await Promise.all(loadingPromises)
     this.loadingThangTypes = new Map()
   }
 
-  createLankFromThang ({ thangSlug, thang }) {
-
+  /**
+   * Gets a loaded thangType by slug.
+   * @param {string} slug - Slug of a thangType
+   */
+  getThangType (slug) {
+    const thangType = this.loadedThangTypes.get(slug)
+    if (!thangType) {
+      throw new Error(`Make sure '${slug}' thangType is loaded before getting`)
+    }
+    return thangType
   }
 }

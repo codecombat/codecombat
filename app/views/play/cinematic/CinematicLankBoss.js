@@ -2,6 +2,8 @@ import anime from 'animejs/lib/anime.es.js'
 import Promise from 'bluebird'
 import AbstractCommand, { Noop } from './ByteCode/AbstractCommand'
 
+const Lank = require('lib/surface/Lank')
+
 Promise.config({
   cancellation: true
 })
@@ -49,6 +51,16 @@ class MoveLank extends AbstractCommand {
  * can be run by the cinematic runner.
  */
 export default class CinematicLankBoss {
+  constructor ({ groundLayer, layerAdapter, camera }) {
+    this.groundLayer = groundLayer
+    this.layerAdapter = layerAdapter
+    this.camera = camera
+    this.stageBounds = {
+      topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
+      bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
+    }
+  }
+
   registerLank (side, lank) {
     assertSide(side)
     this[side] = lank
@@ -124,6 +136,43 @@ export default class CinematicLankBoss {
   update (frameChanged) {
     this.left && this.left.update(frameChanged)
     this.right && this.right.update(frameChanged)
+  }
+
+  /**
+   * Adds a lank to the given side.
+   * Needs to be able to check if there is an existing
+   * lank and handle appropriately.
+   * If a lank is created, it's always created offscreen.
+   *
+   * TODO: Handle existing lank
+   *
+   * @param {string} side - 'left' or 'right
+   * @param {*} thangType
+   * @param {*} systems
+   */
+  addLank (side, thangType, systems) {
+    assertSide(side)
+    const thang = side === 'left'
+      ? createThang({ pos: {
+        x: this.stageBounds.topLeft.x - 2,
+        y: this.stageBounds.bottomRight.y
+      }
+      })
+      : createThang({ pos: {
+        x: this.stageBounds.bottomRight.x + 2,
+        y: this.stageBounds.bottomRight.y
+      }
+      })
+    const lank = new Lank(thangType, {
+      resolutionFactor: 60,
+      preloadSounds: false,
+      thang,
+      camera: systems.camera,
+      groundLayer: this.groundLayer
+    })
+
+    this.layerAdapter.addLank(lank)
+    this.registerLank(side, lank)
   }
 }
 

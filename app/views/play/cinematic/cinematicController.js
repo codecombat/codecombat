@@ -51,7 +51,6 @@ const hardcodedByteCodeExample = ({ cinematicLankBoss, dialogSystem }) => ([
 export class CinematicController {
   constructor ({ canvas, canvasDiv, slug }) {
     this.systems = {}
-    this.systems.cinematicLankBoss = new CinematicLankBoss()
 
     this.stage = new createjs.StageGL(canvas)
     const camera = this.systems.camera = new Camera($(canvas))
@@ -72,10 +71,11 @@ export class CinematicController {
 
     this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
 
-    this.stageBounds = {
-      topLeft: this.systems.camera.canvasToWorld({ x: 0, y: 0 }),
-      bottomRight: this.systems.camera.canvasToWorld({ x: this.systems.camera.canvasWidth, y: this.systems.camera.canvasHeight })
-    }
+    this.systems.cinematicLankBoss = new CinematicLankBoss({
+      groundLayer: this.stubRequiredLayer,
+      layerAdapter: this.layerAdapter,
+      camera: this.systems.camera
+    })
 
     this.systems.dialogSystem = new DialogSystem({ canvasDiv, camera })
     this.systems.loader = new Loader({ slug })
@@ -90,49 +90,9 @@ export class CinematicController {
   async startUp () {
     const data = await this.systems.loader.loadAssets()
 
-    return
     const commands = parseShot(data.shots[0], this.systems)
     console.log(commands)
-    /**
-     * Initialize an example Thang.
-     */
-    // https://codecombat.com/db/thang.type/cinematic-anya
-
-    const thangTypes = ['cinematic-anya', 'narrative-speaker']
-      .map(slug => ({ slug }))
-      .map(getThang)
-      .map(p => p.then(attributes => new ThangType(attributes)))
-
-    const [anyaThang, narratorThang] = await Promise.all(thangTypes)
-
-    const leftLank = await this.createLankFromThang({ thangType: anyaThang,
-      thang: mockThang({
-        pos: {
-          x: this.stageBounds.topLeft.x - 2,
-          y: this.stageBounds.bottomRight.y
-        }
-      })
-    })
-    const rightLank = await this.createLankFromThang({ thangType: narratorThang,
-      thang: mockThang({
-        rotation: Math.PI / 2,
-        pos: {
-          x: this.stageBounds.bottomRight.x + 2,
-          y: this.stageBounds.bottomRight.y
-        }
-      })
-    })
-
-    this.systems.cinematicLankBoss.registerLank('left', leftLank)
-    this.systems.cinematicLankBoss.registerLank('right', rightLank)
-
-    this.initTicker()
-
-    // Consume some hard coded pretend bytecode.
-    const promiseThunks = hardcodedByteCodeExample({
-      cinematicLankBoss: this.systems.cinematicLankBoss,
-      dialogSystem: this.systems.dialogSystem
-    })
+    return
 
     for (const thunk of promiseThunks) {
       await thunk()
