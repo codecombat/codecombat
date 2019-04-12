@@ -19,7 +19,8 @@ const CharacterSchema = (title) => c.object({
     type: 'boolean',
     title: 'Animate in?',
     description: 'If true the character will animate in. Otherwise the character will start simply there.'
-  }
+  },
+  position: c.point2d({ title: 'Position', description: 'Where character is located.' })
 })
 
 const ShotSetup = c.object({

@@ -5,20 +5,20 @@ Promise.config({
 })
 
 /**
- * These symbols can be exported in order to call the protected AbstractBytecodeThunk methods.
+ * These symbols can be exported in order to call the protected AbstractCommand methods.
  */
 export const run = Symbol('private run method')
 export const cancel = Symbol('cancellation symbol')
 
 /**
- * AbstractBytecodeThunk is the abstract base class for objects that will be run in the
+ * AbstractCommand is the abstract base class for objects that will be run in the
  * BytecodeThunkRunner.
  *
  * @abstract
  */
-export class AbstractBytecodeThunk {
+export default class AbstractCommand {
   constructor () {
-    if (this.constructor === AbstractBytecodeThunk) {
+    if (this.constructor === AbstractCommand) {
       throw new Error('This is an abstract class that you must extend.')
     }
   }
@@ -73,9 +73,7 @@ export class AbstractBytecodeThunk {
   /**
    * Handler that can be implemented for cleaning up after the promise has cancelled.
    */
-  async afterCancel () {
-
-  }
+  async afterCancel () { }
 
   /**
    * Can do logic prior to cancel happening.
@@ -83,5 +81,11 @@ export class AbstractBytecodeThunk {
    */
   async preCancel () {
     return true
+  }
+}
+
+export class Noop extends AbstractCommand {
+  async run () {
+    return Promise.resolve()
   }
 }

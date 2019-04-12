@@ -2,6 +2,8 @@ import CinematicLankBoss from './CinematicLankBoss'
 import DialogSystem from './dialogSystem'
 import { sleep } from './promiseThunks'
 import { getThang } from '../../../core/api/thang-types'
+import Loader from './Loader'
+import { parseShot } from './ByteCode/ByteCodeParser'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -42,39 +44,17 @@ const hardcodedByteCodeExample = ({ cinematicLankBoss, dialogSystem }) => ([
 ])
 
 /**
- * Creates a mock thang. Looking left by default. 0 is looking right.
- * @param {Number} rotation - Rotation of thang in radians.
- */
-const mockThang = (options) => {
-  const defaults = {
-    health: 10.0,
-    maxHealth: 10.0,
-    acts: true,
-    stateChanged: true,
-    pos: {
-      x: 0,
-      y: 0,
-      z: 1
-    },
-    shadow: 0,
-    action: 'idle',
-    //  Looking left
-    rotation: 0
-  }
-  return _.merge(defaults, options)
-}
-
-/**
  * Takes a reference to a canvas and uses this to construct
  * the cinematic experience.
  * This controller loads a json file and plays cinematics.
  */
 export class CinematicController {
-  constructor (canvas, canvasDiv) {
-    this.cinematicLankBoss = new CinematicLankBoss()
-    console.log('initiating the cinematic system')
+  constructor ({ canvas, canvasDiv, slug }) {
+    this.systems = {}
+    this.systems.cinematicLankBoss = new CinematicLankBoss()
+
     this.stage = new createjs.StageGL(canvas)
-    const camera = this.camera = new Camera($(canvas))
+    const camera = this.systems.camera = new Camera($(canvas))
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
     this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
     this.stage.addChild(this.layerAdapter.container)
@@ -90,14 +70,15 @@ export class CinematicController {
       // if (count === 1) this.stage.addEventListener('stagemousemove', this.moveHandler.bind(this))
     })
 
-    this.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
+    this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
 
     this.stageBounds = {
-      topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
-      bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
+      topLeft: this.systems.camera.canvasToWorld({ x: 0, y: 0 }),
+      bottomRight: this.systems.camera.canvasToWorld({ x: this.systems.camera.canvasWidth, y: this.systems.camera.canvasHeight })
     }
 
-    this.dialogSystem = new DialogSystem({ canvasDiv, camera })
+    this.systems.dialogSystem = new DialogSystem({ canvasDiv, camera })
+    this.systems.loader = new Loader({ slug })
 
     this.startUp()
   }
@@ -107,6 +88,11 @@ export class CinematicController {
    * Hard coding some position starts.
    */
   async startUp () {
+    const data = await this.systems.loader.loadAssets()
+
+    return
+    const commands = parseShot(data.shots[0], this.systems)
+    console.log(commands)
     /**
      * Initialize an example Thang.
      */
@@ -137,15 +123,15 @@ export class CinematicController {
       })
     })
 
-    this.cinematicLankBoss.registerLank('left', leftLank)
-    this.cinematicLankBoss.registerLank('right', rightLank)
+    this.systems.cinematicLankBoss.registerLank('left', leftLank)
+    this.systems.cinematicLankBoss.registerLank('right', rightLank)
 
     this.initTicker()
 
     // Consume some hard coded pretend bytecode.
     const promiseThunks = hardcodedByteCodeExample({
-      cinematicLankBoss: this.cinematicLankBoss,
-      dialogSystem: this.dialogSystem
+      cinematicLankBoss: this.systems.cinematicLankBoss,
+      dialogSystem: this.systems.dialogSystem
     })
 
     for (const thunk of promiseThunks) {
@@ -160,7 +146,7 @@ export class CinematicController {
     createjs.Ticker.framerate = 30
     const listener = {
       handleEvent: () => {
-        this.cinematicLankBoss.update(true)
+        this.systems.cinematicLankBoss.update(true)
         this.stage.update()
       }
     }
@@ -177,7 +163,7 @@ export class CinematicController {
       resolutionFactor: 60,
       preloadSounds: false,
       thang,
-      camera: this.camera,
+      camera: this.systems.camera,
       // This must be passed in as `new Mark` uses a groundLayer.
       // Without this nothing works. In this case I am using a dummy layer.
       // Cinematics doesn't require Marks

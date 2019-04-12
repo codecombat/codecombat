@@ -39,7 +39,7 @@ export default {
   mounted: function() {
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']
-    this.controller = new CinematicController(canvas, canvasDiv)
+    this.controller = new CinematicController({ canvas, canvasDiv, slug: this.slug })
   }
 }
 </script>
