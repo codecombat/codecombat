@@ -330,11 +330,8 @@ setupProxyMiddleware = (app) ->
   return unless config.proxy
   httpProxy = require 'http-proxy'
   proxy = httpProxy.createProxyServer({
-    target: 'https://next.codecombat.com'
+    target: 'https://very.direct.codecombat.com'
     secure: false,
-    headers: {
-      Host: 'next.codecombat.com'
-    }
   })
   log.info 'Using dev proxy server'
   app.use (req, res, next) ->
