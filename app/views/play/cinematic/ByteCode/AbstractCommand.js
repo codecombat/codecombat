@@ -28,7 +28,7 @@ export default class AbstractCommand {
    * It checks that the promise returned from run is valid, and also remembers
    * the promise so it can be cancelled.
    */
-  async [run] () {
+  [run] () {
     this.promise = this.run()
     if (!this.promise) {
       throw new Error('Must return a promise from "run()" method.')
@@ -44,20 +44,24 @@ export default class AbstractCommand {
    * Cancel runs the `preCancel()` method and then cancels the promise
    * that originated from `run()`.
    */
-  async [cancel] () {
+  [cancel] () {
+    console.log('Cancelling')
     if (!this.promise) {
       return
     }
+    console.log('Ensure promise')
     if (this.promise.isFulfilled()) {
       return
     }
+    console.log('Ensure promise isnt fulfilled')
+
     if (this.preCancel() === 'cancel') {
       return
     }
 
     this.promise.cancel()
 
-    await this.afterCancel()
+    return this.afterCancel()
   }
 
   /**
@@ -66,7 +70,7 @@ export default class AbstractCommand {
    * This promise should be a `bluebird` promise and implement a `cancel` method.
    * @returns {Promise} - The promise which completes after command is completed.
    */
-  async run () {
+  run () {
     throw new Error('You must implement the `run` method.')
   }
 
@@ -79,7 +83,7 @@ export default class AbstractCommand {
    * Can do logic prior to cancel happening.
    * @returns {null | string} - Can return the string 'cancel' in order to prevent the promise from being cancelled.
    */
-  async preCancel () {
+  preCancel () {
     return true
   }
 }

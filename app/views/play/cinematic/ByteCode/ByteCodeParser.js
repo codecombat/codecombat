@@ -40,7 +40,7 @@ export const parseShot = (shot, systems) => {
   const shotSetup = shot.shotSetup
   const dialogNodes = shot.dialogNodes
 
-  console.log(parseSetup(shotSetup, systems))
+  return parseSetup(shotSetup, systems)
 }
 
 /**
@@ -56,9 +56,6 @@ export const parseShot = (shot, systems) => {
 const parseSetup = (shotSetup, systems) => {
   const { cinematicLankBoss, loader } = systems
   const setupCommands = []
-  console.log('Time to parse setup')
-  console.log(cinematicLankBoss)
-  console.log('have shotsetup', shotSetup)
 
   // Ensure lanks exist on the cinematicLankBoss
   if (shotSetup.leftThangType && shotSetup.leftThangType.type === 'slug') {
@@ -70,13 +67,14 @@ const parseSetup = (shotSetup, systems) => {
     cinematicLankBoss.addLank('right', loader.getThangType(slug), systems)
   }
 
-  if (shotSetup.rightThangType && shotSetup.rightThangType.enterOnStart) {
-    const pos = shotSetup.rightThangType.position
-    setupCommands.push(cinematicLankBoss.moveLankCommand('right', pos))
-  }
+  // Slide them in if required.
   if (shotSetup.leftThangType && shotSetup.leftThangType.enterOnStart) {
     const pos = shotSetup.leftThangType.position
     setupCommands.push(cinematicLankBoss.moveLankCommand('left', pos))
+  }
+  if (shotSetup.rightThangType && shotSetup.rightThangType.enterOnStart) {
+    const pos = shotSetup.rightThangType.position
+    setupCommands.push(cinematicLankBoss.moveLankCommand('right', pos))
   }
 
   return setupCommands

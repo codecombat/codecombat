@@ -67,23 +67,20 @@ export default class CinematicLankBoss {
   }
 
   /**
-   * Moves either the left or right lank to a given co-ordinates.
+   * Moves either the left or right lank to a given co-ordinates **instantly**.
    * @param {'left'|'right'} side - the lank being moved.
    * @param {{x, y}} pos - the position in meters to move towards.
    * @param {Number} ms - the time it will take to move.
    */
   moveLank (side, pos = {}, ms = 0) {
     assertSide(side)
+
     // normalize parameters
-    pos.x = pos.x || this[side].thang.pos.x
-    pos.y = pos.y || this[side].thang.pos.y
-    if (this[side].thang.pos.x === pos.x && this[side].thang.pos.y === pos.y) {
-      return
-    }
-    // Slides a lank to a given position, returning a promise
-    // that completes when the tween is complete.
-    return new Promise((resolve, reject) => {
-    })
+    this[side].thang.pos.x = pos.x || this[side].thang.pos.x
+    this[side].thang.pos.y = pos.y || this[side].thang.pos.y
+
+    // Ensures lank is rendered.
+    this[side].thang.stateChanged = true
   }
 
   /**
@@ -161,7 +158,8 @@ export default class CinematicLankBoss {
       : createThang({ pos: {
         x: this.stageBounds.bottomRight.x + 2,
         y: this.stageBounds.bottomRight.y
-      }
+      },
+      rotation: Math.PI
       })
     const lank = new Lank(thangType, {
       resolutionFactor: 60,
