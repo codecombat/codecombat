@@ -61,7 +61,7 @@ export default class AbstractCommand {
    * This promise should be a `bluebird` promise and implement a `cancel` method.
    * @returns {Promise} - The promise which completes after command is completed.
    */
-  async run () {
+  run () {
     throw new Error('You must implement the `run` method.')
   }
 
@@ -70,7 +70,7 @@ export default class AbstractCommand {
    * Should always return a promise.
    * @param {Promise} promise - The promise returned from the `run` method.
    */
-  async cancel (promise) {
+  cancel (promise) {
     promise.cancel()
   }
 }
