@@ -8,7 +8,7 @@ import Root from './Root'
 export default class SingletonAppVueComponentView extends VueComponentView {
 
   constructor () {
-    // For now we only support the default the default base template
+    // For now we only support the default the default base-flat template
     super(null, {})
   }
 
