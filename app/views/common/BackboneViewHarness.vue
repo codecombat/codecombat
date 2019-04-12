@@ -76,7 +76,7 @@
     },
 
     destroyed () {
-      // this.cleanupBackbone()
+      this.cleanupBackbone()
     },
 
     watch: {
