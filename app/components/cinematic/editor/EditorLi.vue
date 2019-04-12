@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// Simple list component used in the Cinematic editor.
 export default {
   props: {
     text: {

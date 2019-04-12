@@ -5,7 +5,7 @@
       <p>The slug is the end bit of the url.</p>
       <div class="form-group">
         <input v-model="slugInput" placeholder="cinematic-slug">
-        <button v-on:click="playCinematic()">Load Cinematic</button>
+        <button v-on:click="playCinematic()">Load+Play Cinematic</button>
       </div>
     </div>
     <div v-else>
@@ -16,7 +16,10 @@
 </template>
 
 <script>
-import Vue from 'vue'
+/**
+ * Wrapper around the CinematicCanvas vue component.
+ * Allows manual input of cinematic slug and play button.
+ */
 import CinematicCanvas from "./CinematicCanvas.vue";
 module.exports = Vue.extend({
   components: { CinematicCanvas },
@@ -25,7 +28,6 @@ module.exports = Vue.extend({
   }),
   methods: {
     playCinematic: function() {
-      console.log("Play cinematic")
       this.inputting = false
     }
   }

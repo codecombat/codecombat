@@ -1,7 +1,3 @@
-/**
- * Will contain a bare bones cinematic editor.
- */
-
 const RootComponent = require('views/core/RootComponent')
 const template = require('app/views/vue-template.pug')
 const CinematicEditorComponent = require('./CinematicEditorComponent.vue').default
