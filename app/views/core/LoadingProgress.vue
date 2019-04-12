@@ -34,7 +34,7 @@
       props: {
         alwaysRender: false,
 
-        loadingStatus: [ Array, Boolean ]
+        loadingStatus: [ Number, Boolean ]
       },
 
       computed: {
