@@ -71,7 +71,8 @@ block content
                             = " "
                             span
                               = i18n(level.attributes, 'name').replace('Course: ', '')
-              a.play-level-button.btn.btn-lg.btn-primary
+              - var disablePlayButtons = !view.paidTeacher && features.china && course.get('campaignID') != "55b29efd1cd6abe8ce07db0d" && course.get('campaignID') != "5789236960deed1f00ec2ab8" && course.get('campaignID')  != "578913f2c8871ac2326fa3e4"
+              a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
                 span(data-i18n="courses.play_level")
             .clearfix
   
@@ -101,7 +102,7 @@ mixin course-info(course)
         i(data-i18n="courses.web_dev_language_transition")
 
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
-      - var disableButtons = !course.get('free') && !view.paidTeacher;
+      - var disableButtons = !view.paidTeacher && (features.china ? (course.get('campaignID') != "55b29efd1cd6abe8ce07db0d" && course.get('campaignID') != "5789236960deed1f00ec2ab8" && course.get('campaignID')  != "578913f2c8871ac2326fa3e4") : !course.get('free'))
       if disableButtons
         p
           i(data-i18n="courses.solutions_require_licenses")
