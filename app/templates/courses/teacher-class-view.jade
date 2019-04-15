@@ -59,10 +59,9 @@ mixin studentRow(student)
         if student.get('deleted')
           em (deleted)
         - var url = '/teachers/classes/' + view.classroom.id + '/' + student.id;
-        if !state.get('readOnly')
-          a(href=url)
-            div.student-name= student.broadName()
-        else
+        if state.get('vue')
+          - url = '/school-administrator/teacher/' + view.classroom.get('ownerID') + '/classroom/' + view.classroom.id + '/' + student.id
+        a(href=url)
           div.student-name= student.broadName()
         div.student-email.small-details= student.get('email') || student.get('name')
     td.hidden
@@ -252,7 +251,7 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
       - labelText = ''
       - dotClass += ' practice'
 
-  if link && !state.get('readOnly')
+  if link
     a.progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context), href=link)
       +progressDotLabel(labelText)
   else
@@ -289,7 +288,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
       - dotClass += ' practice'
 
 
-  if link && !state.get('readOnly')
+  if link
     a.progress-dot.level-progress-dot.student-level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link, data-student-id=student.id, data-level-slug=level.get('slug'), data-level-progress=(progress.completed ? 'complete' : progress.started ? 'started' : 'not started'), data-course-id=view.state.get('selectedCourse').id)
       +progressDotLabel(labelText)
   else

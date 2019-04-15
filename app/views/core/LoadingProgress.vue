@@ -34,7 +34,7 @@
       props: {
         alwaysRender: false,
 
-        loadingStatus: [ Number, Boolean ]
+        loadingStatus: [ Number, Boolean, Array ]
       },
 
       computed: {
@@ -56,6 +56,16 @@
           const statuses = this.statuses.map((status) => {
             if (typeof status === 'boolean') {
               return status ? 0 : 100
+            } else if (typeof status === 'object' && status.length > 0) {
+              const reducedArray = status.reduce((total, toAdd) => {
+                if (typeof status === 'boolean') {
+                  return total + (toAdd ? 0 : 100)
+                } else {
+                  return total + toAdd
+                }
+              })
+
+              return reducedArray / status.length
             } else if (typeof status !== 'number') {
               throw new Error('Status must be boolean or percent')
             }
