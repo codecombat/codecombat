@@ -6,7 +6,8 @@ export default class CommandRunner {
   }
 
   /**
-   * Runs all of the given commands.
+   * Runs the commands that are internally stored.
+   * The commands must be extended from the `AbstractCommand` class.
    */
   async run () {
     for (const command of this.commands) {

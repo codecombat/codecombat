@@ -14,6 +14,15 @@ export const cancel = Symbol('cancellation symbol')
  * AbstractCommand is the abstract base class for objects that will be run in the
  * CommandRunner.
  *
+ * This class allows various levels of complexity to be implemented. Most importantly
+ * you cannot use this class directly. You must extend this class and at a minimum
+ * implment your own `run` method.
+ *
+ * This method **must** return a **cancellable** promise.
+ * I recommend using bluebird although you could likely implemt your own `.cancel` method if you like.
+ *
+ * Your command is then called via two methods with symbol names. This is to discourage
+ * overwriting their implementation.
  * @abstract
  */
 export default class AbstractCommand {
