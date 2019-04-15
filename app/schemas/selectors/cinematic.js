@@ -102,7 +102,7 @@ const characterThangTypeSlug = character => {
   if (!character) {
     return
   }
-  if (character.type && character.type !== 'slug') {
+  if (!character.type || character.type !== 'slug') {
     return
   }
 
