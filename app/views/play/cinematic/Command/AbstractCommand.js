@@ -85,7 +85,7 @@ export default class AbstractCommand {
 }
 
 export class Noop extends AbstractCommand {
-  async run () {
+  run () {
     return Promise.resolve()
   }
 }
