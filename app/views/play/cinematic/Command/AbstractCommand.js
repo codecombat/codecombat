@@ -12,7 +12,7 @@ export const cancel = Symbol('cancellation symbol')
 
 /**
  * AbstractCommand is the abstract base class for objects that will be run in the
- * BytecodeThunkRunner.
+ * CommandRunner.
  *
  * @abstract
  */

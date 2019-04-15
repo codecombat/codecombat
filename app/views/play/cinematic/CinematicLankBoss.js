@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
 import Promise from 'bluebird'
-import AbstractCommand, { Noop } from './ByteCode/AbstractCommand'
+import AbstractCommand, { Noop } from './Command/AbstractCommand'
 
 const Lank = require('lib/surface/Lank')
 
