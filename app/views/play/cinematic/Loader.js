@@ -3,7 +3,6 @@ import { getThang } from '../../../core/api/thang-types'
 
 const ThangType = require('models/ThangType')
 
-
 /**
  * Loader loads resources and stores them in a map.
  * Thus the loader caches resources that have been fetched.
@@ -23,10 +22,8 @@ export default class Loader {
    */
   async loadAssets () {
     this.data = await get(this.slug)
-    console.log('Success we have data.', this.data)
     this.loadThangTypes(this.data.shots)
     await this.load()
-    console.log(`have thangTypes: `, this.loadedThangTypes)
     return this.data
   }
 
@@ -39,7 +36,7 @@ export default class Loader {
   loadThangTypes (shots) {
     const characterArray = []
     shots
-      .map(shot => shot.shotSetup)
+      .map(({ shotSetup }) => shotSetup)
       .filter(setup => setup)
       .forEach(({ leftThangType, rightThangType }) => {
         if (leftThangType) {
