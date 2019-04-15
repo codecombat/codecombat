@@ -24,7 +24,8 @@ import CinematicCanvas from "./CinematicCanvas.vue";
 module.exports = Vue.extend({
   components: { CinematicCanvas },
   data: () => ({
-    inputting: true
+    inputting: true,
+    slugInput: ''
   }),
   methods: {
     playCinematic: function() {
