@@ -8,7 +8,7 @@ export const get = (slug) => {
   if (!slug) {
     throw new Error(`No slug supplied`)
   }
-  return fetchJson(`/db/cinematic/${slug}/get-slug`)
+  return fetchJson(`/db/cinematic/${slug}`)
 }
 
 /**

@@ -33,11 +33,11 @@ const parseSetup = (shot, systems) => {
   const rightCharSlug = getRightCharacterThangTypeSlug(shot)
   if (rightCharSlug) {
     const { slug, enterOnStart, position } = rightCharSlug
-    cinematicLankBoss.addLank('left', loader.getThangType(slug), systems)
+    cinematicLankBoss.addLank('right', loader.getThangType(slug), systems)
     if (enterOnStart) {
-      setupCommands.push(cinematicLankBoss.moveLankCommand('left', position))
+      setupCommands.push(cinematicLankBoss.moveLankCommand('right', position))
     } else {
-      cinematicLankBoss.moveLank('left', position)
+      cinematicLankBoss.moveLank('right', position)
     }
   }
 
