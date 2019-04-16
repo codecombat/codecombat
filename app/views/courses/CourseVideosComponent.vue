@@ -55,14 +55,14 @@ export default Vue.extend({
       default: null
     }
   },
-	data: () => ({
-		videoUrls: []
-	}),
-	created() {
-  	for (let k in utils.videoLevels){
-			this.videoUrls.push(features.china ? utils.videoLevels[k].cn_url : utils.videoLevels[k].url)
+  data: () => ({
+	  videoUrls: []
+  }),
+  created() {
+	  for (let k in utils.videoLevels){
+		  this.videoUrls.push(features.china ? utils.videoLevels[k].cn_url : utils.videoLevels[k].url)
 	  }
-	}
+  }
 });
 
 </script>
