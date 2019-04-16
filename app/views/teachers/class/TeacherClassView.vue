@@ -2,7 +2,7 @@
     <loading-progress :loading-status="[ backboneLoadProgress ]" :always-render="true">
         <breadcrumbs v-if="!breadcrumbsLoading" :links="breadcrumbs"></breadcrumbs>
         <backbone-view-harness
-                :backbone-view="backboneViewInstance"
+                :backbone-view="backboneView"
                 :backbone-options="{ vue: true, readOnly: true }"
                 :backbone-args="[ $route.params.classroomId ]"
 
@@ -33,7 +33,7 @@
     data: function () {
       return {
         backboneLoadProgress: 100,
-        backboneViewInstance: TeacherClassView
+        backboneView: TeacherClassView
       }
     },
 
