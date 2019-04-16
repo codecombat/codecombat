@@ -203,7 +203,7 @@ mixin studentLevelsRow(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
             - if (!level.get('practice'))
-            - courseFinished = progress.completed;
+              - courseFinished = progress.completed;
             +studentLevelProgressDot(progress, level, levelNumber, student)
       div
         if courseFinished
