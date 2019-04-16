@@ -10,12 +10,16 @@ export default {
       sessionsByClassroom: {}
     },
 
-    // CLASSROOM_ID: {
-    //   sessions: [],
-    //   levelCompletionsByUser: {
-    //      LEVEL_ID: true / false
-    //    }
-    // }
+    /*
+     * Structure of level sessions state:
+     *
+     *  CLASSROOM_ID: {
+     *    sessions: [],
+     *    levelCompletionsByUser: {
+     *       LEVEL_ID: true / false
+     *     }
+     *  }
+     */
     levelSessionsByClassroom: {}
   },
 
