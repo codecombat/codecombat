@@ -105,7 +105,8 @@ module.exports = class TeacherCoursesView extends RootView
   onClickVideoThumbnail: (e) ->
     @$('#video-modal').modal('show')
     image_src = e.target.src.slice(e.target.src.search('/images'))
-    @$('.video-player')[0].src = (Object.values(@videoLevels || {}).find((l) => l.thumbnail_unlocked == image_src) || {}).url
+    video = (Object.values(@videoLevels || {}).find((l) => l.thumbnail_unlocked == image_src) || {})
+    @$('.video-player')[0].src = if features.china then video.cn_url else video.url
 
     require.ensure(['@vimeo/player'], (require) =>
       VideoPlayer = require('@vimeo/player').default

@@ -11,7 +11,7 @@
     div.m-t-3#videos-content
       .row.m-t-5
         .col-md-6
-          iframe.video(src="https://player.vimeo.com/video/310626758" frameborder= "2" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          iframe.video(:src="videoUrls[0]" frameborder= "2" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -21,7 +21,7 @@
       
       .row.m-t-5
         .col-md-6
-          iframe.video(src="https://player.vimeo.com/video/310626741" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          iframe.video(:src="videoUrls[1]" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -31,7 +31,7 @@
 
       .row.m-t-5
         .col-md-6
-          iframe.video(src="https://player.vimeo.com/video/310626807" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          iframe.video(:src="videoUrls[2]" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -42,6 +42,7 @@
 
 <script>
 
+import utils from 'core/utils'
 export default Vue.extend({
   name: 'course-videos-component',
   props: {
@@ -53,7 +54,15 @@ export default Vue.extend({
       type: String,
       default: null
     }
-  }
+  },
+	data: () => ({
+		videoUrls: []
+	}),
+	created() {
+  	for (let k in utils.videoLevels){
+			this.videoUrls.push(features.china ? utils.videoLevels[k].cn_url : utils.videoLevels[k].url)
+	  }
+	}
 });
 
 </script>
