@@ -1,615 +1,411 @@
-###### Last updated: 07/25/2017
+
+###### Last updated: 03/06/2019
 
 ##### Lesson Plans
-# Game Development 1 Course Guide
-- Recommended Prerequisite: Introduction to Computer Science
-- 5 x 45 - 60 minute coding sessions
+# Game Development 1
 
-#### Welcome to the Game Development 1 course!
+_Level: Beginner_
 
-In Game Development 1, students will learn how to think about games and game design through classroom discussions. They will then take that knowledge into CodeCombat game dev levels, where they'll learn the specific commands used to build a game. This will lead up to a final project where each student designs and creates their own unique game, and then collects feedback from their peers in order to make improvements.
+_Prerequisite: Introduction to Computer Science_
 
+_Time: 4 x 55 minute (minimum) sessions_
 
-### Prerequisites
-- Teachers must have paid [Starter or Full Licenses](https://codecombat.com/teachers/licenses) in order to assign Game Development 1.
-- All students should have completed Introduction to Computer Science.
+###  Overview
+This course is designed to introduce students to game design and development through classroom discussions and hands-on programming. Students will learn the specific commands needed to make a game while navigating through the game development levels. This will culminate in a final project in which each student designs and creates their own unique game and collects peer feedback for improvement.
 
+_This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript._
 
-### Setup
-1. Navigate to the class page.
-2. Select students to whom you want to assign Game Development 1.
-3. Select Game Development 1 from the "Select Course" dropdown, then click “Assign Course”.
-4. Students will be able to see Game Development 1 from their student dashboard.
+### Lessons
 
-### Course Overview
+| Module                                                    | Levels                                          | Topics                       |
+| ---------------------------------------------------------- | :-----------------                             | :--------------------------- |
+| 1. Spawnables and Mechanics   |  1-5 ("Over the Garden Wall" -"Gemtacular")    | Spawning objects, mechanics  |
+| 2. Goal Changes                          |  6-11 ("Vorpal Mouse" - "Hedge Magic")         | Goals, types of spawnables   |
+| 3. Changing Properties                      |  12-16 ("Forest Incursion" - "Time to Live")   | Properties                   |
+| 4. Final Project - Tabula Rasa           |  17 ("Tabula Rasa")                            | All course topics combined   |
 
-During the Game Development 1 course, the students will learn how to create their own games using PIECES, MECHANICS, and GOALS.
 
-- Day 1 - 3: learn the basic concepts of game design, and the commands used to create a game inside CodeCombat.
-- Day 4: students will design and implement their own game!
-- Day 5: Show and Tell - students will share their games with the entire class.
+### Key Terms
 
-### Game Dev Vocabulary Reference
+**Player** - The person who plays the game and controls the game piece (_example: In Tetris, the person who presses a button to drop the blocks into place._)
 
-- **Goal:** A task that a player must perform to win (or progress) in a game.
-- **Mechanic:** The rules that govern how a player interacts with a game, and how the game interacts with the player.
-    - *For example, a mechanic in Super Mario is that the player presses a button that makes Mario jump.*
-- **Piece:** The specific elements that make up a game.
-- **Player:** Refers to the person who plays the game, as well as the game piece that the player controls.
-- **Spawnable:** A type of game piece that the student can "spawn" into their game.
-- **Student:** Refers to the person who creates the game.
+**Goal** - A task that a player must perform to win (or progress in) a game (_example: The player must collect all the gems before progressing to the next level._)
 
+**Mechanic** - The rules that govern how a player interacts with a game and how the game interacts with a player (_example: In platform games, the player presses a button that makes the hero jump._)
 
-## Day 1
+**Spawnable** - An **object** in a game that a student can add to their game using the _spawn_ command. (_example: scenery, characters, and gems_)
 
-Levels:
-1. Over the Garden Wall
-2. Click Gait
-3. Hero's Journey
-4. A-maze-ing
-5. Gemtacular
-6. Vorpal Mouse
+**Property** - A characteristic of an object. (_example: The x-position of the gem that is being spawned._)
 
-### Introduction
+---
 
-**Discussion Question #0a: Do you play games? What are your favorite games?**
+# Lesson 1
+## Spawnables and Mechanics
+_Levels "Over the Garden Wall" (1) - "Gemtacular" (5)_
+### Summary
 
-This could be board games, or video games, or sports. Games come in many forms!
+These levels provide students with the tools they need to add spawnable objects to their game and goals to the levels they design. Students will learn about basic game mechanics and designing levels with clear goals.
 
-**Discussion Question #0b: What is a game?**
+#### Materials
+- Sticky Notes
+- Markers
 
-Games have:
+Optional Materials:
+- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-- **Goals**
-- **Mechanics** (also known as Rules)
-- **Pieces** (dice, cards, digital assets, sports equipment)
-- **Fun** (or a challenge!)
 
-#### Game Development Levels
+#### Learning Objectives
 
-Game Development levels have a few important differences from Computer Science levels:
+- Use correct syntax when writing code.
+- Use proper sequencing when writing code.
+- Use arguments to input information into a method.
+- Use suitable methods for spawning objects and defining game goals.
+- Define basic vocabulary: _spawnable_, _mechanic_, and _goal_.
 
-- The students use **game** instead of **hero**.
-    - Example: `game.spawnXY("gem", 20, 34)`
-    - There is a "Test" button instead of the "Run" button.
-    - Each level introduces new **MECHANICS**, **PIECES**, or **GOALS** that the students can use in their final projects.
+#### Standards
 
-### Level 1: "Over The Garden Wall"
+- **CSTA 1A-AP-10** Develop programs with sequences and simple loops, to express ideas or address a problem.
+- **CSTA 1A-AP-15** Using correct terminology, describe steps taken and choices made during the iterative process of program development.
 
-**Discussion Question #1a: What do we mean by game "pieces"?**
+### Opening Activity (10 minutes): _Game Breakdown_
 
-- A game has various elements that are part of the game. In a board game, this is  usually things like dice, or tokens, or cards. Video games also have virtual pieces: the levels, the weapons, the power-ups, and the enemies.
+#### Explain
 
-**Discussion Question #1b: What are the pieces in your favorite games?**
+Define the terms goal, mechanic, and spawnable for students. (You can find definitions in the Key Terms section on page 1.) For each term, have students share out examples from their favorite games.
 
-- We provide a variety of *spawnable* pieces for the students to add to their games.
-- The piece that the player controls is special - we refer to this piece as "the player", or just "player".
+Tell students they'll have the opportunity in this unit to design a game with all these components. They'll start today by learning how to spawn objects.
 
-#### Playing the Level
+#### Interact
 
-This level introduces the `game.spawnXY(type, x, y)` command.
+Divide the class into groups of 3-4 students.
 
-- This command creates ("spawns") a new piece at a certain location in the level.
-- `type` is a *string* that names the type of piece to spawn. In this level, the students spawn a `"fence"`.
-- `x` and `y` are *numbers*. This is the horizontal and vertical coordinates where the piece should appear.
-- Remember:
-    - x starts at zero on the left and gets higher to the right.
-    - y starts at zero on the bottom and gets higher towards the top
-- Future levels will introduce more spawnable types.
+Find a simple online game on an education website (could be anything from a simple 2048-like game to a more complex adventure game). Project the game and play in front of the class while students watch.
 
-#### Reflection
+Allow students time to discuss in their groups what they think the **goals**, **mechanics**, and **spawnables** are in the game.
 
-    - New Command:
-        - `spawnXY`
-    - New Spawnable:
-        - `"fence"`
+Have students in groups write down on sticky notes their consensus about the **goals**, **mechanics**, and **spawnables** in the game. Students should post their sticky notes at the front of the class.
 
-### Level 2: "Click Gait"
+#### Discuss
 
-**Discussion Question #2a: What do we mean by "mechanics" or "rules"?**
+As a full class, check whether most of the groups had the same thoughts on their sticky notes. Have students discuss and justify their answers if there were disagreements.
 
-- MECHANICS define how the player interacts with the game, and how the game responds to the player.
+Then, use one or more of the following discussion questions to prompt reflection on the activity:
 
-**Discussion Question #2b: What are some of the MECHANICS of your favorite games?**
+**What did the games that we looked at have in common?**
 
-- Some examples might be:
-    - Press X to jump.
-    - Click the left mouse button to shoot.
-    - An enemy will attack if it sees the player.
-- In Game Development 1, the students will not be creating new mechanics. They need to move on to Computer Science 2 and Game Development 2 to learn that!
-- CodeCombat provides some basic mechanics that the students can use and configure in their games.
+Sample Response:
 
-#### Playing the Level
+> Each game had a clear goal that the player had to complete in order to advance to the next stage. Also, each game had a way that the player interacted with it and some objects that the player had to manipulate in some way.
 
-This level introduces our first basic game **mechanic**:
+**What was different about the games that we looked at?**
 
-  **Mechanic #1: Click the mouse to move the player.**
+Sample Response:
 
-- The students don't have to write any code in this level, just click "Test" to play the level. However, it's useful to point out the `spawnPlayerXY` command here.
-- The `player` is a special game piece that the player controls.
-- Spawn the player with `game.spawnPlayerXY(type, x, y)`
-    - `type` is a *string* that names the player type to spawn
-    - `x` and `y` are *numbers* representing a location on the map
-- **Common Mistake:** students can spawn a player piece using `game.spawnXY` but if they do, the player won't be controllable! Be sure to use `game.spawnPlayerXY`! This command takes the extra step of attaching the movement mechanics to the player piece.
-- This level also shows the command `addMoveGoal(x, y)`, but we will look more closely at that in the next level.
+> The goals, mechanics, and spawnables in the games were different and therefore changed the player's experience completely.
 
-#### Reflection
+### Coding Time (40 minutes)
 
-- New Mechanic:
-    - Click to move.
-- New Command:
-    - `spawnPlayerXY`
-- New Spawnable:
-    - `"knight"`
+Tell students they will be playing levels 1 - 5 ("Over the Garden Wall" - "Gemtacular") today.
 
-### Level 3: "Hero's Journey"
+Recall for students that they used commands like `hero.moveRight()` in the Introduction to Computer Science levels. Explain that instead of programming the hero to work through the levels of a game, they will be designing those levels themselves. Therefore, for many of the methods they will be using, they will use **game** instead of **hero**.
 
-**Discussion Question #3a: What do we mean by "goals"?**
+_Example_: `game.spawnXY("gem", 20, 34)`
 
-- The player is required to complete certain tasks in order to win or progress in the game.
+Allow students to move through these levels at their own pace. Circulate and assist as they work, calling attention to the Hints button in the top right corner of each level as needed.
 
-**Discussion Question #3b: What are some of the GOALS of your favorite games?**
+_We recommend stopping students after Level 5 ("Gemtacular") and using the next lesson plan to introduce the next set of concepts before beginning Level 6 ("Vorpal Mouse")._
 
-- Some typical examples:
-    - Collect as many coins as you can before running out of time.
-    - Defeat the enemies.
-    - Pick up the flag and return it to your home base.
-    - Throw the ball into the hoop.
-- When you design your games in CodeCombat, we provide some basic goals you can use. In advanced courses students will create custom goals!
+**Look Out For**:
+- Students may have trouble with the X/Y coordinates initially. You may want to do a brief review of that concept if students seem to be struggling with placing objects onto the screen where they want them. Remind them that the (0,0) coordinate corresponds to the bottom lefthand corner of the screen, and that they can see the coordinates for a given point if they hover over it with their mouse.
 
-#### Playing the Level
+### Closure (5 mins)
 
-This level focuses on our first basic **goal**: movement.
+Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
-**Goal #1: Move to the red X.**
+**Explain the parts of a game in your own words.**
 
-- Use `game.addMoveGoalXY(x, y)` to add a movement goal.
-- `x` and `y` are *numbers*, representing the location of the goal on the level map.
-- A movement goal is represented on the map by a red X mark. The X mark will disappear when the player has moved to that spot on the map.
-- There will be more goal types in future Game Development 1 levels.
+Sample Response:
 
-#### Reflection
-- New commands:
-    - `addMoveGoalXY`
-- New spawnables:
-    - `"captain"`
+> Games have goals, mechanics, and spawnables. Goals tell the player what they should do to win. Mechanics are anything the player interacts with in the game world (like picking up coins to buy things at a store). Spawnables are things that show up on the screen that the player may interact with.
 
+**Explain the difference between a mechanic and a goal.**
 
-### Level 4: "A-maze-ing"
+Sample Response:
 
-**Discussion:**
+> Mechanics just tell the player how they can play the game, and these could change depending on the design. Goals are specific and tell the player how they can win.
 
-This level introduces a new type of **goal**: collecting.
+### Differentiation
 
-**Goal #2: Collect all the gems and chests.**
+**Additional Supports**:
+- Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
+- Students struggling with a given level will be automatically directed to additional practice levels within the game.
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-- Add a collecting goal with the `game.addCollectGoal()` command.
-- Two new spawnable pieces: `"forest"` and `"chest"`
-- `"forest"` pieces can be used to create mazes and obstacles.
-- `"chest"`s are collectable pieces.
+**Extension Activities**:
 
-#### Reflection
+- Have students try different types of spawnables in their "Gemtacular" (Level 5) code, like adding to the forest or setting up fences to make the maze more difficult.
+- Have students draw out a maze on paper that they would like to build later on in the Game Development course.
 
-- New goal:
-    - `addCollectGoal`
-- New spawnables:
-    - `"forest"`
-    - `"chest"`
+******
 
-### Level 5: "Gemtacular"
+# Lesson 2
+## Goal Changes 
+_Levels "Vorpal Mouse" (6) - "Hedge Magic" (11)_
+### Summary
 
-#### Discussion:
+These levels provide students with practice modifying goals and spawning different types of objects needed in order to meet those goals.
 
-**What are the things you need to do before your game is playable?**
+#### Materials
 
-- Spawn a player.
-- Add a goal.
+Optional Materials:
+- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-Create a simple gem collecting game using using the `addCollectGoal` command.
 
-#### Reflection
+#### Learning Objectives
 
-- New spawnable:
-    - `"gem"`
+- Use correct syntax when writing code.
+- Use proper sequencing when writing code.
+- Use arguments to input information into a method.
+- Differentiate between different kinds of goals and spawnable objects.
 
+#### Standards
 
-### Level 6: "Vorpal Mouse"
+- **CSTA 1A-AP-15** Using correct terminology, describe steps taken and choices made during the iterative process of program development.
 
-#### Discussion
-
-This level introduces three new MECHANICS:
-
-**Mechanic #2: Click an ENEMY to attack!**
-
-**Mechanic #3: Enemies will attack if they see the player.**
-
-**Mechanic #4: Some pieces block "line of sight".**
-
-This level also uses two new goal types, but we'll go into those more in the next level.
-
-#### Playing the Level
-
-- Defeat the munchkins.
-- The students don't have to write any code for this level,  but it's helpful to examine the sample code we've given. Note that there are:
-    - New spawnable types: `"munchkin"` and `"guardian"`
-    - Munchkins are enemies!
-        - Enemies are types of game pieces that the player can attack.
-        - In Game Development 1, enemies come with simple behavior (mechanics) already attached to them. They will attack if they see the player.
-        - Notice how the two "munchkin"s near the bottom of the map can't see the player at first.
-    - We used `spawnXY` to create a maze of `"forest"` pieces. The `"forest"` pieces block the **line-of-sight** between the `"munchkin"`s and the `"guardian"`.
-
-#### Reflection
-
-- New mechanics:
-    - Click to attack.
-    - Enemies attack if they see the player.
-    - Line of Sight.
-- New Spawnables:
-    - `"munchkin"`
-    - `"guardian"`
-
-## Day 2
-
-Levels:
-7. Crushing It
-8. Give and Take
-9. Army Training
-10. Ranger Danger
-11. Hedge Magic
-12. Forest Incursion
-13. Throwing Fire
-14. Them Bones
-
-### Review
-- Last time we learned how to:
-    - Spawn game PIECES with `spawnXY`.
-    - Spawn the player with `spawnPlayerXY`.
-    - The player can move by clicking on the map.
-    - Add a GOAL with `addMoveGoalXY` and `addCollectGoal`
-
-### Level 7: "Crushing It"
-
-#### Discussion
-
-This level focuses on two new GOAL types:
-
-**Goal #3: Defeat the enemies.**
-
-**Goal #4: Survive until other goals are complete.**
-
-Goal #4 is a little different from other goals. Move, collect, and defeat goals are all actions that the player must complete to win. Survive flips this - it will cause the player to lose and end the game if the player is defeated.
-
-#### Playing the Level
-
-- Add a defeat goal with the `game.addDefeatGoal()` command.
-- Add a survive goal with the `game.addSurviveGoal()` command.
-- Spawn at least 3 `"munchkin"` enemies, in addition to the one that was spawned in the given sample code (for a total of at least 4 munchkins).
-
-#### Reflection
-
-- New Commands:
-    - `addDefeatGoal`
-    - `addSurviveGoal`
-
-### Level 8: "Give and Take"
-
-#### Discussion
-
-This level adds new spawnable pieces, with new mechanics attached to them.
-
-- A `"fire-trap"` damages the player when they get too close!
-- A `"potion-small"` heals the player 150 health when the player moves onto it.
-- Introduces the `"samurai"` player piece.
-
-- The students need to spawn at least two `"potion-small"` pieces to complete the level.
-- The movement points are trapped. After setting off the `"fire-trap"`s, the player must heal up using a potion, and go back to the red X.
-- Remember, if the red X is still on the map, you haven't completed that movement goal yet!
-
-#### Reflection
-
-- New spawnables:
-    - `"samurai"`
-    - `"fire-trap"`
-    - `"potion-small"`
-
-### Level 9: "Army Training"
-
-#### Discussion
-
-This level adds new spawnable units.
-- "thrower"s, are enemies with a ranged spear-throwing attack.
-- "soldier"s are allies to the player, with a melee attack.
-- "archer"s are allies with ranged attacks.
-
-#### Reflection
-
-- New spawnables:
-    - `"thrower"`
-    - `"soldier"`
-    - `"archer"`
-
-
-### Level 10: "Ranger Danger"
-
-#### Discussion
-
-When making your own games, finding the right balance between allies and enemies can take some experimentation.
-
-- Ranged units typically do more damage, but have less health.
-- "soldier"s are stronger than munchkins, but slower.
-- Later, students will be able to modify the stats of the player and units.
-
-#### Playing the Level
-
-- There is no player in this level.
-- The level code starts out with too many soldiers and not enough archers to defeat the giant Ogre Brawler.
-- The student should replace two of the "soldier"s with "archer"s, then click the "Test Level" button to see how the battle plays out!
-- In this level, it's okay if some of your allies are defeated, as long as the ogre is defeated.
-
-#### Reflection
-
-- Sometimes it takes a bit of trial and error to find the right **game balance**.
-
-### Level 11: "Hedge Magic"
-
-
-#### Discussion
-
-This level introduces the `"duelist"` player type and the `game.spawnMaze(seed)` command.
-
-- Building an entire maze out of `"forest"` pieces can take a while, so we've given you a command to generate a random maze.
-- The seed parameter can be any number. It is called a "seed" because it initializes the randomness used to create the maze. If you change the seed, the generated maze will change.
-- Experiment with putting different numbers as arguments to the spawnMaze command until you find a maze you like! For example:
-    - `game.spawnMaze(42)`
-    - `game.spawnMaze(1337)`
-
-#### Reflection
-
-- New command:
-    - `spawnMaze(seed)
-
-### Level 12: Forest Incursion
-
-#### Discussion
-
-Game objects have **properties**. Properties are like variables that are specific to that particular object. This level also introduces the `"goaliath"` player type.
-
-- In this level, we learn about three properties of units.
-- `maxSpeed` is a number representing how fast a unit can move.
-- `maxHealth` is a number representing how much health a unit starts with.
-- `attackDamage` is a number representing how much damage the unit does in a single attack.
-- Changing the properties of the player or other units can dramatically affect the game balance.
-- Properties are commonly accessed using a dot `.` between the object and the property, like: `object.propertyName`
-- Notice that all the game commands are properties of the `game` object, and you access those commands using the same dot notation!
-
-#### Playing the Level
-
-- Notice that the sample code saves the result of the `spawnPlayerXY` command in the `player` variable.
-- This way, students can use the `player` variable to modify the player's properties, like we do with `player.maxSpeed = 25`, which assigns a value of `25` to the `maxSpeed` property of the `player` object.
-- Changing unit properties is a special super power the students have in Game Development levels. They are restricted from directly modifying most unit properties in the CS course levels!
-
-#### Reflection
-
-- New spawnables
-    - `"goliath"`
-- New unit properties
-    - `maxSpeed`
-    - `maxHealth`
-    - `attackDamage`
-
-
-### Level 13: Throwing Fire
-
-#### Discussion
-
-In Game Dev 1 levels, some objects have **mechanics** that can be configured by changing the values of their properties.
-
-- This level introduces the `"fire-spewer"` spawnable.
-- Students can use the `direction` property of a `"fire-spewer`" to configure it to shoot fire in a `"vertical"` (up and down) direction or a `"horizontal"` (left and right) direction.
-- In Game Dev 2, students will learn how to give game objects custom mechanics, but they need to complete Computer Science 2 before they can do that.  For now we have provided some configurable mechanics to make things a bit simpler.
-
-#### Playing the Level
-
-- Notice that the sample code assigns the result of the `spawnXY` command to a variable, so that later code can access the properties of the spawned object.
-- The `direction` property can only be set to a **string**, either `"horizontal"` or `"vertical"`.
-
-#### Reflection
-
-- New configurable game object
-    - `"fire-spewer"`
-        - `direction` property
-
-### Level 14: Them Bones
-
-#### Discussion
-
-This level introduces the `"generator"`, `"skeleton"`, and `"lightstone"` spawnables, as well as the `"champion"` player.
-
-- A `"generator"` spawns a `"skeleton"` unit every `5` seconds.
-- Units have different teams. Human units see ogre units as enemies, and ogre units see human units as enemies.
-- `"skeleton"`s are neutral, so they will attack both ogres and humans!
-- `"skeleton"`s are afraid of `"lightstone"`s. When the player carries a lightstone, the skeletons will stay away!
-- `"generator"`s can be configured to spawn different types of units, which we will see in future levels.
-
-#### Playing the Level
-
-- The generator will continue to spawn skeletons until it is destroyed.
-- Use the lightstone to keep the skeletons away, giving you time to destroy the generator.
-- The lightstone doesn't last forever, so use it wisely!
-
-#### Reflection
-
-- New spawnables:
-    - `"generator"`
-    - `"skeleton"`
-    - `"lightstone"`
-    - `"champion"`
-
-## Day 3
-
-Levels:
-15. Behavior Driven Development
-16. Time to Live
-17. Tabula Rasa
+### Opening Activity (10 minutes): _Arguments Throwback_
 
 ### Review
 
-What types of goals are available for building our games?
+Discuss **arguments** as they were seen in Introduction to Computer Science. Have students give examples of when they may have used arguments in the past.
 
-- Move
-- Collect
-- Defeat
-- Survive
+Sample Response:
 
-What types of spawnable pieces are available?
+> In Introduction to Computer Science when I used the `hero.moveRight(5)` command and could change the number of steps I moved.
 
-- Obstacles:
-    - `"fence"`
-    - `"forest"`
-- Collectables:
-    - `"gem"`
-    - `"chest"`
-- Enemies:
-    - `"munchkin"`
-    - `"thrower"`
-    - `"skeleton"`
-- Players:
-    - `"knight"`
-    - `"captain"`
-    - `"guardian"`
-    - `"samurai"`
-    - `"duelist"`
-    - `"goliath"`
-    - `"champion"`
-- Allies
-    - `"soldier"`
-    - `"archer"`
-- Misc:
-    - `"fire-trap"`
-    - `"potion-small"`
-    - `"fire-spewer"`
-    - `"generator"`
-    - `"lightstone"`
+Ask students where they have used **arguments** in the Game Development course.
 
-Remember, students can see properties of these spawnable objects by clicking on them in the Spawnable section of the middle pane of the game window.
+Sample Response:
 
-### Level 15: Behavior Driven Development
+> When I use the `game.spawnXY("chest", 8, 14)` command and I can change all the arguments like `game.spawnXY("forest", 26, 51)`. This changes the type of thing that I spawn and the place where it is spawned on the screen.
 
-#### Discussion
+#### Interact
 
-This level introduces the `"ogre"` spawnable, as well as the unit property `behavior`, which allows students to modify the mechanics attached to a unit, and make them behave differently.
+Draw the following chart on the board, and have students sketch it in their notebooks.
 
-- All units (allies and enemies) can be configured with different **mechanics** using the `behavior` property.
-- The `behavior` property must be assigned a **string**, which can be one of the following:
-    - `"AttacksNearest"` configures the unit to attack its nearest enemy.
-    - `"Scampers"` configures the unit to move around randomly.
-    - `"Defends"` configures the unit to stay in place and attack any enemy that comes within range.
-- In Game Dev 2, students will learn to customize units' behavior in more complex ways.
-
-#### Playing the Level
+Goal              | Move Goal                  | Collect Goal                | Defeat Goal                  | Survive Goal                |
+----------------- | -------------------------- | --------------------------- | ---------------------------  | --------------------------- |
+Description       |                            |                             |                              |                             |
+|           |            |             |            |
+Spawnables Needed |                            |                             |                              |                             |
+ |          |           |             |                    |
+Syntax            |                            |                             |                              |                             |
 
 
-- This level is a little trickier than most to win - just like a real game might be!
-- One strategy is to use the lightstones to drive the skeletons away from one ogre, and lure the ogre away from the others, back to where your archer ally is waiting to help you defeat the ogre. This takes some careful movement of your player to achieve.
-- Be sure to drink a health potion when your health is low!
-- It may take a few tries to beat the game - don't give up!
-- If you're really stuck, you can always give your player more `attackDamage` to make things easier.
 
-#### Reflection
+Have students work in groups to briefly complete the graphic organizer comparing the different types of goals. Notify students that there are some goals that they have not yet encountered in the game -- they can fill out these columns later when they do encounter them.
 
-- New spawnable:
-    - `"ogre"`
-- New unit property:
-    - `behavior`
+### Coding Time (40 minutes)
+
+Tell students they will be playing levels 6 ("Vorpal Mouse") - 11 ("Hedge Magic") today. Allow students to move through these levels at their own pace. Circulate and assist as they work, calling attention to the Hints button in the top right corner of each level as needed.
+
+_We recommend stopping students after Level 11 ("Vorpal Mouse") and using the next lesson plan to introduce the next set of concepts before beginning Level 12 ("Forest Incursion")._
+
+**Look Out For**:
+- Students may struggle with knowing what is required for a given goal. For example, a level will not be able to be completed if there is a collect goal and no gems to collect. Help them to use their graphic organizers to apply what is required for a given goal.
+
+### Closure (5 mins)
+
+Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
+
+**How can you change the location of the spawnable that you are putting on the screen?**
+
+Sample Response:
+> I can edit the arguments for the x-position and y-position in the `game.spawnXY(type, x, y)` command to place them where I want to.
+
+**What makes the survive goal unique from the other goals?**
+
+Sample Response:
+> In the other goals, you have to complete some task. In the survive goal, you just have to stay alive until the time runs out.
+
+### Differentiation
+
+**Additional Supports**:
+- Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
+- Students struggling with a given level will be automatically directed to additional practice levels within the game.
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+
+**Extension Activities**:
+
+- Have students add onto their "Hedge Magic" (Level 11) code to include two goals and the ability to win the level.
+
+******
+
+# Lesson 3
+## Changing Properties 
+_Levels "Forest Incursion" (12) - "Time to Live" (16)_
+### Summary
+
+These levels allow students to apply their knowledge of objects from Introduction to Computer Science in the context of game development. They also introduce students to the concept of properties.
+
+#### Materials
+
+Optional Materials:
+- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
-### Level 16: Time To Live
+#### Learning Objectives
 
-#### Discussion
+- Apply knowledge of object properties to game development.
+- Change properties in order to modify game behavior for desired goal.
 
-This level introduces using an argument to configure a timed survival goal, and configuring a generator to spawn `"munchkin"`s.
+#### Standards
 
-- Previously, students used `addSurviveGoal()` with no argument (nothing between the parenthesis). This means the player must survive until all other goals are met.
-- Now, the students can use `addSurviveGoal(seconds)` to configure a goal that succeeds as long as the player survives for a given number of seconds.
-- The argument `seconds` must be a number, such as `addSurviveGoal(20)` for `20` seconds.
-- `"generator"`s have a property named `spawnType`, which can be set to a string of any type of spawnable unit.
+- **CSTA 1A-AP-15** Using correct terminology, describe steps taken and choices made during the iterative process of program development.
 
-#### Playing the Level
+### Opening Activity (10 minutes): _Objects and Properties_
 
-- Be sure to configure the generator and player as instructed in the sample code's comments, or the goals will not be met.
+### Review
 
-#### Reflection
+Discuss **objects** as they were seen in Introduction to Computer Science. Have students give examples of what objects they have encountered so far.
 
-- New goal configuration:
-    - `addSurviveGoal(seconds)`
+Sample Response:
 
-- New generator configuration:
-    - `spawnType`
+> In Introduction to Computer Science I used the `hero` object and in this class I use the `game` object.
+
+### Explain
+
+Explain the term **property** to your students.
+
+- **Properties** are characteristics of objects. This could be any data related to an object, like the max health of the hero or the direction that the fire travels from the fire-spewer.
+
+Have students identify the **properties** of different **objects** in the classroom. For example, have students list the **properties** of the desks or tables where they're sitting. Note that the **properties** they are identifying, like the size, shape, and color of the **object** are **values** that correspond to **keys**. Identify that each property will have this kind of **key**, **value** pair, with the **property** **key** being **size** and the **value** being **3 feet**.
 
 
-### Level 17: "Tabula Rasa"
+### Coding Time (40 minutes)
 
-#### The FINAL PROJECT!
+Tell students they will be playing levels 12 - 16 ("Forest Incursion" - "Time to Live") today. Allow students to move through these levels at their own pace. Circulate and assist as they work, calling attention to the Hints button in the top right corner of each level as needed.
 
-This level is a blank slate. To pass the level, the only requirements are to spawn a player, and add a goal - but really, that's only the beginning. Encourage the students to get creative with all the techniques they've learned throughout the course!
+_We recommend stopping students after Level 16 ("Time to Live") and using the next lesson plan to introduce the final project before beginning Level 17 ("Tabula Rasa")._
 
-There is a new "GAME" button above the code editor window. Clicking GAME loads the shareable version of the student's game, and provides a link that the student can give out to their friends.
+**Look Out For**:
+- Students may be able to change properties effectively in code, but be sure to check that students understand the significance of these changes. Students should be able to explain what changing properties does practically in the game.
 
-The students should each design a game, combining the game PIECES, GOALS, and MECHANICS they've learned in creative ways.
+### Closure (5 mins)
 
-Every game should, at least:
+Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
-1. Spawn a player piece.
+**Why is it helpful to be able to change the properties of different objects?**
+
+Sample Response:
+
+> When developing my game, I can control the way characters look and how they are able to interact with each other.
+
+**How is changing an object's properties different from using a method like `hero.moveRight()`?**
+
+Sample Response:
+
+> Changing an object's properties changes the data that is stored as part of an object. Using a method allows the object to do something, but doesn't necessarily change the data associated with the object.
+
+### Differentiation
+
+**Additional Supports**:
+- Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
+- Students struggling with a given level will be automatically directed to additional practice levels within the game.
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+
+**Extension Activities**:
+
+- Have students who finished early play through each other's Level 16 ("Time to Survive") games and give each other feedback on how they could make the level more difficult.
+
+******
+
+# Lesson 4
+## Changing Properties 
+_Levels "Tabula Rasa" (17)_
+### Summary
+
+This level is a blank slate. Encourage students to get creative with all the techniques they've learned throughout the course! The students should each design a game combining the game objects, goals, and mechanics they've learned in creative ways. The game should at least:
+
+1. Spawn a player.
 2. Add one or more goals for the player to complete.
 3. Use some combination of obstacles, enemies, collectables, and other pieces to create a fun challenge for the player.
 
-Students should go through the following steps to create their games:
+#### Materials
+- Sticky notes (3 different colors)
+- Wall space / poster boards / flip charts
 
-1. **Design.** This can be done on paper. Describe the idea, sketch the map, list the goals.
-2. **Build.** Take the initial design, and build it in the game engine (in this case, use the level Tabula Rasa to build the game).
-3. **Test.** As the students build their game, they should always be testing it by playing the game themselves to make sure it's working out the way they imagined.
-4. **Feedback.** The students should share their game link with friends and gather feedback about what makes the game fun or frustrating.
-5. **Improvements.** Based on the feedback, the students go back to the building phase and make improvements to the game!
+Optional Materials:
+- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
-For the remainder of Day 3, focus on steps 1, 2, and 3.
 
-## Day 4
+#### Learning Objectives
 
-#### Finish work on final projects.
+- Apply the tools and concepts introduced throughout the Game Development 1 Course to a creative game.
+- Explain in words the design decisions that led them to their specific program and game.
 
-Focus the first part of Day 4 on having the students pair up with a friend.
+#### Standards
 
-Each student should use the GAME button to get the shareable link, and give that link to their partner.
+- **CSTA 1A-AP-15** Using correct terminology, describe steps taken and choices made during the iterative process of program development.
+- **CSTA 3A-AP-23** Document design decisions using text, graphics, presentations, and/or demonstrations in the development of complex programs.
 
-In each pair, one student first plays the other's game, while the game's creator observes. Ask the observers to think about the following questions:
+### Opening Activity (10 minutes): _Project Planning_
 
-- Did your partner play the game in the way you expected it to be played? Did they come up with a surprising way to play?
-- Did they seem to have fun? Did they seem frustrated?
-- Did they break the game, or did it work as you intended?
+### Explain
 
-Then, ask the player for their thoughts on the game. The creator should take notes about this feedback.
+Explain the following steps that students should work through to create their games:
 
-Next, switch roles and repeat the process of testing and giving feedback for the partner's game.
+  1. **Design.** This can be done on paper. Describe the idea, sketch the map, list the goals.
+  2. **Plan.** Take the design and write a flowchart or plain-English plan for how students will code the project in the game engine.
+  3. **Build.** Take the initial design, and build it in the game engine (in this case, use the level Tabula Rasa to build the game).
+  4. **Test.** As the students build their game, they should always be testing it by playing the game.
+  5. **Feedback.** The students should share their game link with friends and gather feedback about what makes the game fun or frustrating.
+  6. **Improvements.** Based on the feedback, the students go back to the building phase and make improvements to the game.
 
-After this exercise, go back and individually work on your game again. Are there any improvements you can make based on what you observed?
+### Work Time (50-100 minutes)
 
-If there's time, have the students pair up again, this time with a different partner, and see if the results are different.
+Tell students they will be playing Level 17 ("Tabula Rasa") for the next few days, creating their own game. Emphasize that the first two steps of the process do not require their computers and can be done in their notebooks or on the white board. Do not allow students to jump straight into code.
 
-## Day 5
+**Look Out For**:
+- Many students may be able to achieve the basic goals to beat the level very early. Encourage students to add additional elements to their game to make it interesting and challenging.
+- Many students may want to skip over or rush through the design and planning phases. Encourage them to take these steps seriously and spend a minimum of 15 minutes on them. Point out that real game designers always start with a plan before jumping in because it helps them anticipate sticky spots where things might not work as they originally thought.
 
-#### Show and Tell Day
 
-This day wraps up the week of Game Development 1.
+### Closure (5 mins)
 
-Each student should have a few minutes to show off their game to the class. Encourage each student to talk about things like:
+Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
-- What was your original idea for the game?
-- What changed from the original idea as you were building the game?
-- Did anything surprise you when playtesters were playing your game?
-- Did you make any changes after watching playtesters play your game?
+**Did your original idea for the game change once you started programming? Why or why not?**
 
-Encourage the students to share links to their final projects with family and friends!
+Sample Response:
 
-We'd love to hear about your best projects! Feel free to email us at team@codecombat.com with a link, or better yet, tweet us [@CodeCombat](https://twitter.com/CodeCombat)
+>Once I started programming, I realized that I couldn't include all the different goals that I had planned for at the very beginning. I changed my code so that there was one goal first, then I was able to add on after that.
 
----
+**Did anything surprise you when your classmates were playing your game? Did you make any changes after watching them play your game?**
+Sample Response:
+>My game was easier to beat than I thought it would be. I want to make it more challenging.
+
+### Differentiation
+
+**Additional Supports**:
+- Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+
+
+## Encourage the students to share links to their final projects with family and friends!
+## We'd love to hear about your best projects! Feel free to e-mail us at team@codecombat.com with a link, or better yet, tweet us @CodeCombat.

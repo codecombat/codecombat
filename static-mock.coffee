@@ -30,6 +30,8 @@ exports.me =
   useTarenaLogo: -> false
   hideTopRightNav: -> false
   hideFooter: -> false
+  useGoogleAnalytics: -> true
+  showChinaVideo: -> false
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'

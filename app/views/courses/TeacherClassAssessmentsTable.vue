@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #teacher-class-assessments-table(v-if="courseInstance && courseInstance.members.length > 0")
     div.table-row(v-if="levels.length === 0")
       div.table-cell No assessment levels available for this course yet.
@@ -91,7 +91,7 @@
 
 <style lang="sass">
   @import "app/styles/bootstrap/variables"
-  
+
   #teacher-class-assessments-table
     .table-row.lighter
       .table-cell

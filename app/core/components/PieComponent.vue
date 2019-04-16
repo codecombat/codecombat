@@ -38,7 +38,6 @@
 
 <script>
   'use strict';
-
   module.exports = Vue.extend({
     name: 'pie-chart',
     props: {

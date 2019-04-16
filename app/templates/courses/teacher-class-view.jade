@@ -1,4 +1,4 @@
-extends /templates/base-flat
+extends /templates/base-flat.jade
 
 block page_nav
   include ./teacher-dashboard-nav.jade
@@ -8,7 +8,7 @@ block content
   if !me.isTeacher() && !me.isAdmin()
     .alert.alert-danger.text-center
       .container
-        // DNT: Temporary
+        //- DNT: Temporary
         h3 ATTENTION: Please upgrade your account to a Teacher Account.
         p
           | We are transitioning to a new improved classroom management system for instructors.
@@ -209,6 +209,9 @@ mixin addStudentsButton
   .add-students
     a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
       span(data-i18n='teacher.add_students_manually')
+    if view.shouldShowGoogleClassroomButton()
+      a.sync-google-classroom-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
+          span(data-i18n='teacher.sync_google_classroom')
 
 mixin studentsTab
   #students-tab

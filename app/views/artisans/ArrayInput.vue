@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div.arrayinput
   span [
   select(
@@ -36,9 +36,9 @@ module.exports = Vue.extend({
 </script>
 
 <style lang="sass">
-  .arrayinput
-    flex-wrap: wrap
-    select
-      max-width: 200px
-      font-size: 90%
+.arrayinput
+  flex-wrap: wrap
+  select
+    max-width: 200px
+    font-size: 90%
 </style>

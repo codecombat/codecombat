@@ -30,4 +30,10 @@ module.exports = {
 
   getCourseLevels: ({classroomID, courseID}, options={}) ->
     fetchJson("/db/classroom/#{classroomID}/courses/#{courseID}/levels", options)
+
+  addMembers: ({classroomID, members}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/add-members", _.assign({}, options, {
+      method: 'POST'
+      json: {members}
+    }))
 }
