@@ -58,7 +58,7 @@ export default Vue.extend({
   },
   data: () => ({
     videoData: {},
-		videoUrl: "",
+    videoUrl: "",
     originalDisplaySettings: {}
   }),
   components: {
@@ -66,7 +66,7 @@ export default Vue.extend({
   },
   created() {
     this.videoData = utils.videoLevels[this.levelOriginalID]
-		this.videoUrl = features.china ? this.videoData.cn_url : this.videoData.url
+    this.videoUrl = features.china ? this.videoData.cn_url : this.videoData.url
   },
   mounted() {
     this.$nextTick(function () {
