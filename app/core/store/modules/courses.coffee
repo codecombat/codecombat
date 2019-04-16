@@ -1,5 +1,3 @@
-Vue = require('vue').default
-
 api = require('core/api')
 { sortCourses } = require('core/utils')
 
