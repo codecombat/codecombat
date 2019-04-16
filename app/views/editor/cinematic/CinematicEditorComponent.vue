@@ -7,12 +7,12 @@
       <div class="row">
         <!-- List of cinematics -->
         <ul>
-          <editor-li
+          <editor-list
             v-for="cinematic in cinematicList"
             :key="cinematic.slug"
             :text="cinematic.name"
             :slug="cinematic.slug"
-            ></editor-li>
+            ></editor-list>
             <li><button v-on:click="createCinematic">+</button></li>
         </ul>
         
@@ -43,7 +43,7 @@
 <script>
 import { get, put, create, getAll } from 'core/api/cinematic'
 import Cinematic from 'app/models/Cinematic'
-import EditorLi from 'app/components/cinematic/editor/EditorLi'
+import ListItem from 'app/components/cinematic/editor/ListItem'
 
 require('lib/setupTreema')
 
@@ -60,7 +60,7 @@ module.exports = Vue.extend({
     }
   }),
   components: {
-    'editor-li': EditorLi
+    'editor-list': ListItem
   },
   async mounted () {
 

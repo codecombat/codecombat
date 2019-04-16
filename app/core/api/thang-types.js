@@ -9,7 +9,7 @@ const _ = require('lodash')
  */
 
 /**
- * Retrieves a thang from the database.
+ * Retrieves a thangType from the database.
  * @param {getThangOptions} options - Support projection field with a list of string attributes.
  */
 export const getThang = async options => {
