@@ -12,10 +12,11 @@ CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+fullPageTemplate = require 'templates/teachers/teacher-student-view-full'
+viewTemplate = require 'templates/teachers/teacher-student-view'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
-  template: require 'templates/teachers/teacher-student-view'
 
   events:
     'change #course-dropdown': 'onChangeCourseChart'
@@ -33,6 +34,11 @@ module.exports = class TeacherStudentView extends RootView
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
+    if (options.vue)
+      @template = viewTemplate
+    else
+      @template = fullPageTemplate
+
     @classroom = new Classroom({_id: classroomID})
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())

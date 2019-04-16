@@ -74,7 +74,7 @@
             href: `/school-administrator/teacher/${this.$route.params.teacherId}`,
             text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
           }, {
-            href: `/school-administrator/teacher/${this.$route.params.teacherId}/${this.$route.params.classroomId}`,
+            href: `/school-administrator/teacher/${this.$route.params.teacherId}/classroom/${this.$route.params.classroomId}`,
             text: this.classroom.name
           }, {
             text: 'this.student.name'
