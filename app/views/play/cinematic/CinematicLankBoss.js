@@ -34,9 +34,8 @@ export default class CinematicLankBoss {
    * Moves either the left or right lank to a given co-ordinates **instantly**.
    * @param {'left'|'right'} side - the lank being moved.
    * @param {{x, y}} pos - the position in meters to move towards.
-   * @param {Number} ms - the time it will take to move.
    */
-  moveLank (side, pos = {}, ms = 0) {
+  moveLank (side, pos = {}) {
     assertSide(side)
 
     // normalize parameters
@@ -49,8 +48,8 @@ export default class CinematicLankBoss {
 
   /**
    * Returns a command that will move the lank.
-   * @param {string} side - 'left' or 'right'
-   * @param {Object} pos
+   * @param {'left'|'right'} side
+   * @param {{x, y}} pos
    * @param {number} ms
    */
   moveLankCommand (side, pos = {}, ms = 1000) {
@@ -93,15 +92,14 @@ export default class CinematicLankBoss {
 
   /**
    * Adds a lank to the given side.
-   * Needs to be able to check if there is an existing
-   * lank and handle appropriately.
+   * Needs to be able to check if there is an existing lank and handle appropriately.
    * If a lank is created, it's always created offscreen.
    *
    * TODO: Handle existing lank
    *
-   * @param {string} side - 'left' or 'right
-   * @param {*} thangType
-   * @param {*} systems
+   * @param {'left'|'right'} side
+   * @param {Object} thangType
+   * @param {Object} systems
    */
   addLank (side, thangType, systems) {
     assertSide(side)
