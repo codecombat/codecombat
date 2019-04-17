@@ -96,6 +96,9 @@ module.exports = class User extends CocoModel
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
   isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if not me.isTeacher()
+      return false
+
     if classroomId and not classroom
       classroom = new Classroom({ _id: classroomId })
       yield classroom.fetch()
@@ -113,6 +116,9 @@ module.exports = class User extends CocoModel
     return false
 
   isSchoolAdminOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if not me.isSchoolAdmin()
+      return false
+
     if classroomId and not classroom
       classroom = new Classroom({ _id: classroomId })
       yield classroom.fetch()

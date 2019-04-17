@@ -36,13 +36,13 @@ ProjectGalleryComponent = Vue.extend
       api.courseInstances.get({@courseInstanceID}).then (@courseInstance) =>
         Promise.all([
           api.classrooms.get({classroomID: @courseInstance.classroomID}).then((@classroom) =>).then =>
-            me.isSchoolAdminOf({ classroom: @classroom }).then((@amSchoolAdministratorOfGallery) =>)
-            me.isTeacherOf({ classroom: @classroom }).then((@amTeacherOfGallery) =>)
             api.classrooms.getMembers({@classroom}, removeDeleted: true).then((@users) =>)
           api.courses.get({ courseID: @courseInstance.courseID }).then((@course) =>)
           api.classrooms.getCourseLevels({ classroomID: @courseInstance.classroomID, courseID: @courseInstance.courseID }).then((@levels) =>)
         ])
     ]).then =>
+      me.isSchoolAdminOf({ classroomId: @courseInstance.classroomID }).then((res) => @amSchoolAdministratorOfGallery = res)
+      me.isTeacherOf({ classroomId: @courseInstance.classroomID }).then((res) => @amTeacherOfGallery = res)
       @level = _.find(@levels, Level.isProject)
       @users.forEach (user) =>
         Vue.set(user, 'broadName', User.broadName(user))
