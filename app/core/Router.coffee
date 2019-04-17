@@ -18,7 +18,15 @@ module.exports = class CocoRouter extends Backbone.Router
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
 
-    # TODO comment reasoning for this
+    # Lazily require and load VueRouter because it currently loads all of its dependencies
+    # in a single Webpack bundle.  The app initialization logic assumes that all Views are
+    # loaded lazily and thus will not be initialized as part of the initial page load.
+    #
+    # Because Vue router and its dependencies are loaded in a single bundle any CocoViews
+    # that are loaded via the Vue router are initialized too early.  Delaying loading of
+    # Vue router delays initialization of dependent CocoViews until an appropriate time.
+    #
+    # TODO Integrate webpack bundle loading with vueRouter and load this normally
     @vueRouter = require('app/core/vueRouter').default()
 
   routes:
