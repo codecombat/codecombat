@@ -30,12 +30,12 @@ ProjectGalleryComponent = Vue.extend
     schoolAdministratorBackUrl: -> "/school-administrator/teacher/#{@classroom?.ownerID}/classroom/#{@classroom?._id}"
   created: ->
     Promise.all([
-      me.isSchoolAdminOf({ classroom: @classroom }).then((@amSchoolAdministratorOfGallery) =>)
-      me.isTeacherOf({ classroom: @classroom }).then((@amTeacherOfGallery) =>)
       api.courseInstances.getProjectGallery({ @courseInstanceID }).then((@levelSessions) =>)
       api.courseInstances.get({@courseInstanceID}).then (@courseInstance) =>
         Promise.all([
           api.classrooms.get({classroomID: @courseInstance.classroomID}).then((@classroom) =>).then =>
+            me.isSchoolAdminOf({ classroom: @classroom }).then((@amSchoolAdministratorOfGallery) =>)
+            me.isTeacherOf({ classroom: @classroom }).then((@amTeacherOfGallery) =>)
             api.classrooms.getMembers({@classroom}, removeDeleted: true).then((@users) =>)
           api.courses.get({ courseID: @courseInstance.courseID }).then((@course) =>)
           api.classrooms.getCourseLevels({ classroomID: @courseInstance.classroomID, courseID: @courseInstance.courseID }).then((@levels) =>)
