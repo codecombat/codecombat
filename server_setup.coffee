@@ -329,9 +329,18 @@ setupProxyMiddleware = (app) ->
   return if config.isProduction
   return unless config.proxy
   httpProxy = require 'http-proxy'
+
+  target = 'https://very.direct.codecombat.com'
+  headers = {}
+
+  if (process.env.COCO_PROXY_NEXT)
+    target = 'https://next.codecombat.com'
+    headers['Host'] = 'next.codecombat.com'
+
   proxy = httpProxy.createProxyServer({
-    target: 'https://very.direct.codecombat.com'
+    target: target
     secure: false,
+    headers: headers
   })
   log.info 'Using dev proxy server'
   app.use (req, res, next) ->
