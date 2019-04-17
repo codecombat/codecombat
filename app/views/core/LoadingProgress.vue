@@ -66,6 +66,8 @@
           const statuses = this.statuses.map((status) => {
             if (!_.isArray(status)) {
               return toPercent(status)
+            } else if (status.length === 0) {
+              return 100
             }
 
             // The reduce function will sum up an initial boolean as 1,
