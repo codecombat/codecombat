@@ -13,10 +13,10 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
-  import TeacherClassView from 'views/courses/TeacherClassView'
-  import LoadingProgress from 'views/core/LoadingProgress'
-  import BackboneViewHarness from 'views/common/BackboneViewHarness'
-  import Breadcrumbs from '../../common/BreadcrumbComponent'
+  import TeacherClassView from 'app/views/courses/TeacherClassView'
+  import LoadingProgress from 'app/views/core/LoadingProgress'
+  import BackboneViewHarness from 'app/views/common/BackboneViewHarness'
+  import Breadcrumbs from '../common/BreadcrumbComponent'
 
   export default {
     components: {

@@ -4,7 +4,7 @@ import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministr
 import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/teachers/SchoolAdminTeacherListView'
 import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView'
 
-import TeacherClassView from 'views/teachers/class/TeacherClassView'
+import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
 
 let vueRouter;
 
