@@ -116,6 +116,8 @@
 <script>
   import { mapState } from 'vuex'
 
+  import { courseAcronyms as COURSE_ACRONYMS } from 'core/utils'
+
   export default {
     props: {
       course: Object,
@@ -164,22 +166,7 @@
       {
         // TODO course acronym could be controlled and sent from the backend
         courseAcronym: function () {
-          const course = this.courses[this.$props.course._id]
-
-          let prefix = 'CS';
-          if (/game-dev/.test(course.slug)) {
-            prefix = 'GD'
-          } else if (/web-dev/.test(course.slug)) {
-            prefix = 'WD'
-          }
-
-          let number = '1';
-          const numberMatch = (course.slug || '').match(/(\d+)$/)
-          if (numberMatch && numberMatch[1]) {
-            number = numberMatch[1]
-          }
-
-          return `${prefix}${number}`
+          return COURSE_ACRONYMS[this.$props.course._id]
         },
 
         // TODO this should be moved to a stats store, calculated on the backend, or some combination of the two
