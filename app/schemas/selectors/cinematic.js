@@ -64,9 +64,14 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
  */
 
 /**
+ * @typedef {Object} Cinematic - Cinematic raw data type
+ * @property {Shot[]} shots - The array of shots.
+ */
+
+/**
  * Takes the cinematic data that adheres to cinematic schema and returns
  * just the array of shots.
- * @param {Shot[]} cinematicData
+ * @param {Cinematic} cinematicData
  */
 export const shots = cinematicData => {
   if (cinematicData && cinematicData.shots) {

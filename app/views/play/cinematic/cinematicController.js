@@ -64,10 +64,12 @@ export class CinematicController {
   async startUp () {
     const data = await this.systems.loader.loadAssets()
 
+    // Todo: Intentionally only parse a single shot for Goal 1.
     const commands = parseShot(data.shots[0], this.systems)
 
     // TODO: There must be a better way than an array of locks! In future add reasonable timeout with `Promise.race`.
     await Promise.all(this.startupLocks)
+
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
     const runner = new CommandRunner(commands)

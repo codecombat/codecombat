@@ -5,24 +5,32 @@ Promise.config({
 })
 
 /**
- * These symbols can be exported in order to call the protected AbstractCommand methods.
+ * These symbols can be exported in order to call the protected `AbstractCommand` methods.
  */
 export const run = Symbol('private run method')
 export const cancel = Symbol('cancellation symbol')
 
 /**
- * AbstractCommand is the abstract base class for objects that will be run in the
- * CommandRunner.
+ * AbstractCommand is the abstract base class for objects that can be run in the CommandRunner.
  *
- * This class allows various levels of complexity to be implemented. Most importantly
- * you cannot use this class directly. You must extend this class and at a minimum
- * implment your own `run` method.
+ * The simplest implementaion of this class is a command that does nothing. Let's call it the `Noop` command.
  *
- * This method **must** return a **cancellable** promise.
- * I recommend using bluebird although you could likely implemt your own `.cancel` method if you like.
+ * ```js
+ * export class Noop extends AbstractCommand {
+ *   run () {
+ *     return Promise.resolve()
+ *   }
+ * }
+ * ```
  *
- * Your command is then called via two methods with symbol names. This is to discourage
- * overwriting their implementation.
+ * All you need to do to extend this class is implement a new `run` method.
+ *
+ * This method should return a **cancellable** promise.
+ * I recommend using bluebird for this. See the AbstractCommand tests for examples.
+ *
+ * If you need to implement your own specific cancel logic you can overwrite the `.cancel` method.
+ *
+ * There are two protected methods that you shouldn't touch used by the CommandRunner to run your command.
  * @abstract
  */
 export default class AbstractCommand {
@@ -33,7 +41,7 @@ export default class AbstractCommand {
   }
 
   /**
-   * This method should not be overriden.
+   * This method should not be overridden.
    * It checks that the promise returned from run is valid, and also remembers
    * the promise so it can be cancelled.
    */
@@ -49,10 +57,9 @@ export default class AbstractCommand {
   }
 
   /**
-   * This method should not be overriden.
-   * Runs the `cancel` method passing in the promise returned from `run`.
-   * The default implementation of the cancel method calls the cancel method on 
-   * the Promise.
+   * This method should not be overridden.
+   * Does validation to check if the promise needs to be cancelled.
+   * Runs `cancel` method.
    */
   [cancel] () {
     if (!this.promise) {
@@ -65,22 +72,28 @@ export default class AbstractCommand {
   }
 
   /**
-   * Starts some command that returns a promise.
-   * Cinematic runner waits until this Promise has resolved or rejected before moving on.
+   * Runs a command returning a cancellable promise.
+   * `CinematicRunner` waits until this Promise has resolved or rejected before moving on.
+   *
    * This promise should be a `bluebird` promise and implement a `cancel` method.
-   * @returns {Promise} - The promise which completes after command is completed.
+   * If you need cleanup behavior in the case of cancellation, you should also override the
+   * `cancel` method.
+   *
+   * @returns {Promise} - The promise that signifies command completion.
    */
   run () {
     throw new Error('You must implement the `run` method.')
   }
 
   /**
-   * Method that you can override to change cancellable behaviour.
-   * Should always return a promise.
+   * Override to change cancellation behavior or add cleanup logic.
+   * Must return a promise if cleanup takes time.
+   *
    * @param {Promise} promise - The promise returned from the `run` method.
    */
   cancel (promise) {
     promise.cancel()
+    return Promise.resolve()
   }
 }
 
