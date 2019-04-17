@@ -75,7 +75,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
-#    see_example: "Ver ejemplo"
+#    see_example: "See example"
     slogan: "El juego más interesante para aprender programación." # {change}
     teach_cs1_free: "Enseña CS1 Gratis"
     teachers_love_codecombat_title: "Los Maestros les Encantan CodeCombat"
