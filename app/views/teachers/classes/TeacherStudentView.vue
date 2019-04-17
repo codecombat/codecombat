@@ -26,10 +26,6 @@
     },
 
     created() {
-      console.log('inside teacherstudentview created with:')
-      console.log(this.$route.params.teacherId)
-      console.log(this.$route.params.studentId)
-      console.log(this.$route.params.classroomId)
       this.fetchUserById(this.$route.params.teacherId)
       this.fetchUserById(this.$route.params.studentId)
       this.fetchClassroomForId(this.$route.params.classroomId)
@@ -77,7 +73,7 @@
             href: `/school-administrator/teacher/${this.$route.params.teacherId}/classroom/${this.$route.params.classroomId}`,
             text: this.classroom.name
           }, {
-            text: 'this.student.name'
+            text: this.student.firstName ? `${this.student.firstName} ${this.student.lastName}` : this.student.name
           }]
         },
 

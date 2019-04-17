@@ -43,10 +43,7 @@ module.exports = class TeacherStudentView extends RootView
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())
 
-    console.log('checking studentID')
     if @studentID
-      console.log('found @studentID!')
-      console.log(@studentID)
       @user = new User({ _id: @studentID })
       @supermodel.trackRequest(@user.fetch())
 
