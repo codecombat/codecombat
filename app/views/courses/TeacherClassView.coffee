@@ -1,8 +1,6 @@
 require('app/styles/courses/teacher-class-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
-fullPageTemplate = require 'templates/courses/teacher-class-view-full'
-viewTemplate = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
@@ -12,6 +10,9 @@ EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 CoursesNotAssignedModal = require './CoursesNotAssignedModal'
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
+
+viewContentTemplate = require 'templates/courses/teacher-class-view'
+viewContentTemplateWithLayout = require 'templates/courses/teacher-class-view-full'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -87,10 +88,10 @@ module.exports = class TeacherClassView extends RootView
   initialize: (options, classroomID) ->
     super(options)
 
-    if (options.vue)
-      @template = viewTemplate
+    if (options.renderOnlyContent)
+      @template = viewContentTemplate
     else
-      @template = fullPageTemplate
+      @template = viewContentTemplateWithLayout
 
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
