@@ -1,5 +1,4 @@
 import CinematicLankBoss from './CinematicLankBoss'
-import DialogSystem from './dialogSystem'
 import Loader from './Loader'
 import { parseShot } from './Command/CinematicParser'
 import CommandRunner from './Command/CommandRunner'
@@ -9,9 +8,10 @@ const LayerAdapter = require('lib/surface/LayerAdapter')
 const Camera = require('lib/surface/Camera')
 
 /**
- * Takes a reference to a canvas and uses this to construct
- * the cinematic experience.
- * This controller loads a json file and plays cinematics.
+ * Takes a reference of the canvas and uses this to set up all the systems.
+ * The canvasDiv will be used by the dialogSystem in order to attach the html dialog div
+ * and svg image overlaying the base canvas.
+ * Finally the slug is used to load the relevant cinematic data.
  */
 export class CinematicController {
   constructor ({ canvas, canvasDiv, slug }) {
@@ -19,7 +19,9 @@ export class CinematicController {
 
     this.stage = new createjs.StageGL(canvas)
     const camera = this.systems.camera = new Camera($(canvas))
+    // stubRequiredLayer needed by Lanks as a dependency. We don't attach to canvas.
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
+
     this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
     this.stage.addChild(this.layerAdapter.container)
 
@@ -28,16 +30,15 @@ export class CinematicController {
     this.startupLocks = []
     this.startupLocks.push(new Promise((resolve, reject) => {
       this.layerAdapter.on('new-spritesheet', (_spritesheet) => {
-        resolve()
-        // Now we have a working Anya that we can move around.
-        // Potentially use this for loading behavior.
-        // By counting how many times this is triggerred by ThangsTypes being loaded.
+        // This should trigger for each ThangType being loaded and turned into a Lank.
+        // Behavior is still unknown so keeping logging.
+        // TODO: Eventually remove this logging when we understand the exact behavior.
         console.log('Got a new spritesheet. Count:', ++count)
-        // Only register the first time.
-        // if (count === 1) this.stage.addEventListener('stagemousemove', this.moveHandler.bind(this))
+        resolve()
       })
     }))
 
+    // TODO: Will be moved to camera commands.
     this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
 
     this.systems.cinematicLankBoss = new CinematicLankBoss({
@@ -46,41 +47,56 @@ export class CinematicController {
       camera: this.systems.camera
     })
 
-    this.systems.dialogSystem = new DialogSystem({ canvasDiv, camera })
     this.systems.loader = new Loader({ slug })
 
     this.startUp()
   }
 
   /**
-   * Currently this function handles the asynchronous startup of the cinematic.
-   * Hard coding some position starts.
+   * Method that loads and initializes the cinematic.
+   *
+   * We load cinematic data and initialize the Lank creation. Creating a lank causes a
+   * new spritesheet to be built so we wait for at least one spritesheet to be built.
+   *  TODO: Have a reasonable timeout so we don't lock forever in an edge case.
+   *
+   * Finally we run the cinematic runner.
    */
   async startUp () {
     const data = await this.systems.loader.loadAssets()
 
     const commands = parseShot(data.shots[0], this.systems)
-    console.log('commands', commands)
 
-    // TODO: I hate this. There must be a better way than an array of locks!
+    // TODO: There must be a better way than an array of locks! In future add reasonable timeout with `Promise.race`.
     await Promise.all(this.startupLocks)
-    this.initTicker()
+    attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
     const runner = new CommandRunner(commands)
     await runner.run()
   }
+}
 
-  /**
-   * Starts the render loop of the stage.
-   */
-  initTicker () {
-    createjs.Ticker.framerate = 30
-    const listener = {
-      handleEvent: () => {
-        this.systems.cinematicLankBoss.update(true)
-        this.stage.update()
-      }
-    }
-    createjs.Ticker.addEventListener('tick', listener)
+/**
+ * Starts the render loop of the stage.
+ * Currently configured for 30 frames per second.
+ *
+ * The returned listener can be removed from the Ticker in order to pause rendering.
+ *
+ * ```js
+ * // Attach listener
+ * const listener = attachListener({ cinematicLankBoss, stage })
+ * // Remove listener again
+ * createjs.Ticker.removeEventListener('tick', listener)
+ * ```
+ *
+ * @returns {Function} listener that was attached to createjs.Ticker
+ */
+function attachListener ({ cinematicLankBoss, stage }) {
+  createjs.Ticker.framerate = 30
+  const listener = () => {
+    cinematicLankBoss.update(true)
+    stage.update()
   }
+  createjs.Ticker.addEventListener('tick', listener)
+  // Return listener for removing event.
+  return listener
 }
