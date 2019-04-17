@@ -1,7 +1,7 @@
 import VueComponentView from './VueComponentView'
 
 import store from 'core/store'
-import cocoVueRouter from 'core/CocoVueRouter'
+import cocoVueRouter from 'app/core/vueRouter'
 
 import Root from './Root'
 

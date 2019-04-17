@@ -6,11 +6,9 @@ import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/Sch
 
 import TeacherClassView from 'views/teachers/class/TeacherClassView'
 
-Vue.use(VueRouter)
-
 let vueRouter;
 
-export default function () {
+export default function getVueRouter () {
   if (typeof vueRouter === 'undefined') {
     vueRouter = new VueRouter({
       // Routing is currently driven by Backbone Router.  When we migrate away from backbone, switch to history
