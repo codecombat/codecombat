@@ -2,7 +2,7 @@ const c = require('./../schemas')
 
 const CharacterSchema = (title) => c.object({
   title: title,
-  description: 'ThangType that will appear on the right side of the screen.',
+  description: 'ThangType that will appear on either the left or right side of the screen.',
   required: ['type']
 }, {
   type: c.shortString({
@@ -38,14 +38,14 @@ const ShotSetup = c.object({
     title: 'Background Art',
     description: 'The art in the background of this shot.'
   }, {
-    type: c.shortString({ enum: ['slug', 'null'] }),
+    // TODO: Will rasterized thangTypes work for backgrounds?
+    type: c.shortString({ enum: ['slug'] }),
     slug: c.shortString({
-      title: 'Background path',
-      description: 'Path to the background asset'
+      title: 'Background Slug',
+      description: 'The thangType slug of the background asset'
     })
   })
   // TODO: music
-  // TODO: next - id
 })
 
 const DialogNode = c.object({
@@ -97,9 +97,6 @@ const DialogNode = c.object({
     soundEffect: c.sound({
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of millisecond before sound effect plays' })
     }),
-    // soundEffect: c.sound({
-    //   triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of millisecond before sound effect plays' })
-    // }),
     cameraShake: c.object({
       title: 'Camera shake',
       description: 'Shakes the camera.',

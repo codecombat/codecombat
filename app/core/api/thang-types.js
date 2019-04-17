@@ -12,12 +12,16 @@ const _ = require('lodash')
  * Retrieves a thangType from the database.
  * @param {getThangOptions} options - Support projection field with a list of string attributes.
  */
-export const getThang = async options => {
+export const getThang = (options = {}) => {
   const data = {}
-  if (options.project) {
+
+  if (options.project && Array.isArray(options.project)) {
     _.assign(data, {
       project: options.project.join(',')
     })
+  }
+  if (!options.slug) {
+    throw new Error('You must pass a \'slug\' property into getThang function')
   }
   return fetchJson(`/db/thang.type/${options.slug}`, { data })
 }

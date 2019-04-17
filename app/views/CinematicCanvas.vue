@@ -12,8 +12,10 @@
 </style>
 
 <template>
-  <div :height="this.height" id="cinematic-div" ref="cinematic-div">
-    <canvas :width="this.width" :height="this.height" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
+  <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
+  <!-- Currently fixed size to the aspect ratio of our play view. -->
+  <div height="514px" id="cinematic-div" ref="cinematic-div">
+    <canvas width="800" height="514" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
   </div>
 </template>
 
@@ -32,9 +34,7 @@ export default {
     }
   },
   data: () => ({
-    controller: null,
-    width: 800,
-    height: 514,
+    controller: null
   }),
   mounted: function() {
     const canvas = this.$refs['cinematic-canvas']
