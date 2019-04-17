@@ -29,7 +29,20 @@ mixin progressDotLabel(label)
     .dot-label-inner
       = label
 
+mixin breadcrumbs
+  .breadcrumbs
+    a(data-i18n='teacher.my_classes' href='/teachers/classes')
+    span.spl.spr >
+    //- TODO: Use .glyphicon-menu-right when we update bootstrap
+    a(href='/teachers/classes/'+view.classroom.id)
+      span= view.classroom.get('name')
+    span.spl.spr >
+    span
+      = view.user.broadName()
+
 .container
+  if !state.get('vue') && me.isTeacherOf({ classroom: view.classroom })
+      +breadcrumbs
   h3.m-t-2
     span(data-i18n="teacher.student_profile")
     span.spr :

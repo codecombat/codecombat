@@ -7,12 +7,12 @@ block content
     if view.leagueType === 'course' && view.course
       #course-header
         #course-details-link
-          if me.isSchoolAdmin() && view.classroomID
-            a(href="/school-administrator/teacher/#{view.ownerID}/classroom/#{view.classroomID}#course-progress-tab")
+          if me.isTeacherOf({ classroomId: view.classroomID })
+            a(href="/teachers/classes/#{view.classroomID}#course-progress-tab")
               span.glyphicon.glyphicon-arrow-left
               span.spl(data-i18n="nav.play")
-          else if me.isTeacher() && view.classroomID
-            a(href="/teachers/classes/#{view.classroomID}#course-progress-tab")
+          else if me.isSchoolAdminOf({ classroomId: view.classroomID })
+            a(href="/school-administrator/teacher/#{view.ownerID}/classroom/#{view.classroomID}#course-progress-tab")
               span.glyphicon.glyphicon-arrow-left
               span.spl(data-i18n="nav.play")
           else

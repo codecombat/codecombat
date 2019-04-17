@@ -4,6 +4,8 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
+Classrooms = require 'collections/Classrooms'
+CourseInstances = require 'collections/CourseInstances'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -91,6 +93,36 @@ module.exports = class User extends CocoModel
   isTeacher: (includePossibleTeachers=false) ->
     return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+
+  isTeacherOf: ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if classroomId and not classroomId
+      classroom = yield Classrooms.find({ _id: classroomId })
+
+    if classroom
+      return true if @get('id') == classroom.ownerID
+
+    if courseInstanceId and not courseInstance
+      courseInstance = yield CourseInstances.find({ _id: courseInstanceId })
+
+    if courseInstance
+      return true if @get('id') == courseInstance.ownerID
+
+    return false
+
+  isSchoolAdminOf: ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if classroomId and not classroomId
+      classroom = yield Classrooms.find({ _id: classroomId })
+
+    if classroom
+      return true if classroom.ownerID in @get('administeredTeachers')
+
+    if courseInstanceId and not courseInstance
+      courseInstance = yield CourseInstances.find({ _id: courseInstanceId })
+
+    if courseInstance
+      return true if courseInstance.ownerID in @get('administeredTeachers')
+
+    return false
 
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
