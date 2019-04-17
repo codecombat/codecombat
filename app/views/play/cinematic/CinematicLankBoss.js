@@ -9,47 +9,6 @@ Promise.config({
 })
 
 /**
- * Creates a mock thang. Looking left by default. 0 is looking right.
- * @param {Number} rotation - Rotation of thang in radians.
- */
-const createThang = (options) => {
-  const defaults = {
-    health: 10.0,
-    maxHealth: 10.0,
-    acts: true,
-    stateChanged: true,
-    pos: {
-      x: 0,
-      y: 0,
-      z: 1
-    },
-    shadow: 0,
-    action: 'idle',
-    //  Looking left
-    rotation: 0
-  }
-  return _.merge(defaults, options)
-}
-
-class MoveLank extends AbstractCommand {
-  constructor (runFn, animation) {
-    super()
-    this.run = runFn
-    this.animation = animation
-  }
-
-  /**
-   * Cancel method ignores the promise and simply moves the animation
-   * to the end.
-   */
-  cancel (promise) {
-    const animation = this.animation
-    animation.seek(animation.duration)
-    return promise
-  }
-}
-
-/**
  * Registers the thangs and ThangTypes onto Lanks.
  * Then animates these Lanks to create a cinematic.
  * Instead of immediately executing methods, instead returns a Command that
@@ -110,15 +69,11 @@ export default class CinematicLankBoss {
       y: pos.y,
       duration: ms,
       autoplay: false,
+      // Update required to ensure Lank sprite position is moved.
       update: () => { this[side].thang.stateChanged = true }
     })
 
-    const runFn = () => new Promise((resolve, reject) => {
-      animation.complete = resolve
-      animation.play()
-    })
-
-    return new MoveLank(runFn, animation)
+    return new AnimeCommand(animation)
   }
 
   queueAction (side, action) {
@@ -175,6 +130,71 @@ export default class CinematicLankBoss {
   }
 }
 
+/**
+ * AnimeCommand is used to turn animejs animation tweens into commands that the Command Runner can play and cancel.
+ */
+class AnimeCommand extends AbstractCommand {
+  /**
+   * @param {anime} animation The animation that will be run.
+   */
+  constructor (animation) {
+    super()
+    this.animation = animation
+  }
+
+  /**
+   * Starts the animation, returning a cancellable promise that resolves when
+   * animation completes.
+   */
+  run () {
+    return new Promise((resolve, reject) => {
+      this.animation.play()
+      this.animation.complete = resolve
+    })
+  }
+
+  /**
+   * Cancel method ignores the promise and simply moves the animation
+   * to the end.
+   */
+  cancel (promise) {
+    const animation = this.animation
+    animation.seek(animation.duration)
+    return promise
+  }
+}
+
+/**
+ * Creates a mock thang. Looking left by default.
+ * You can pass in options to override default thang properties.
+ *
+ * A rotation of `Math.PI` is looking right.
+ *
+ * @param {Object} options - is merged onto default thang options
+ * @returns {Object} thang object
+ */
+const createThang = (options) => {
+  const defaults = {
+    health: 10.0,
+    maxHealth: 10.0,
+    acts: true,
+    stateChanged: true,
+    pos: {
+      x: 0,
+      y: 0,
+      z: 1
+    },
+    shadow: 0,
+    action: 'idle',
+    //  Looking left
+    rotation: 0
+  }
+  return _.merge(defaults, options)
+}
+
+/**
+ * @param {string} side - string enum of either 'left' or 'right'.
+ */
 function assertSide (side) {
   if (!['left', 'right'].includes(side)) {
     throw new Error(`Expected one of 'left' or 'right', got ${side}`)
