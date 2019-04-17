@@ -6,6 +6,7 @@ CocoCollection = require 'collections/CocoCollection'
 {teamDataFromLevel} = require './utils'
 {me} = require 'core/auth'
 # application = require 'core/application'
+co = require 'co'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -72,10 +73,12 @@ module.exports = class LadderView extends RootView
       else
         @listenToOnce @league, 'sync', @onCourseInstanceLoaded
 
-  onCourseInstanceLoaded: (@courseInstance) ->
+  onCourseInstanceLoaded: co.wrap (@courseInstance) ->
     return if @destroyed
     @classroomID = @courseInstance.get('classroomID')
     @ownerID = @courseInstance.get('ownerID')
+    @isSchoolAdmin = yield me.isSchoolAdminOf({ classroomId: @classroomID })
+    @isTeacher = yield me.isTeacherOf({ classroomId: @classroomID })
     course = new Course({_id: @courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render

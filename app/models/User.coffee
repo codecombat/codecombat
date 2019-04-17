@@ -4,8 +4,9 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
-Classrooms = require 'collections/Classrooms'
-CourseInstances = require 'collections/CourseInstances'
+Classroom = require 'models/Classroom'
+CourseInstance = require 'models/CourseInstance'
+co = require 'co'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -94,33 +95,37 @@ module.exports = class User extends CocoModel
     return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
-  isTeacherOf: ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if classroomId and not classroomId
-      classroom = yield Classrooms.find({ _id: classroomId })
+  isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if classroomId and not classroom
+      classroom = new Classroom({ _id: classroomId })
+      yield classroom.fetch()
 
     if classroom
-      return true if @get('id') == classroom.ownerID
+      return true if @get('_id') == classroom.get('ownerID')
 
     if courseInstanceId and not courseInstance
-      courseInstance = yield CourseInstances.find({ _id: courseInstanceId })
+      courseInstance = new CourseInstance({ _id: courseInstanceId })
+      yield courseInstance.fetch()
 
     if courseInstance
-      return true if @get('id') == courseInstance.ownerID
+      return true if @get('id') == courseInstance.get('ownerID')
 
     return false
 
-  isSchoolAdminOf: ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if classroomId and not classroomId
-      classroom = yield Classrooms.find({ _id: classroomId })
+  isSchoolAdminOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if classroomId and not classroom
+      classroom = new Classroom({ _id: classroomId })
+      yield classroom.fetch()
 
     if classroom
-      return true if classroom.ownerID in @get('administeredTeachers')
+      return true if classroom.get('ownerID') in @get('administratedTeachers')
 
     if courseInstanceId and not courseInstance
-      courseInstance = yield CourseInstances.find({ _id: courseInstanceId })
+      courseInstance = new CourseInstance({ _id: courseInstanceId })
+      yield courseInstance.fetch()
 
     if courseInstance
-      return true if courseInstance.ownerID in @get('administeredTeachers')
+      return true if courseInstance.get('ownerID') in @get('administratedTeachers')
 
     return false
 

@@ -26,11 +26,12 @@ ProjectGalleryComponent = Vue.extend
   computed:
     levelName: -> @level and utils.i18n(@level, 'name')
     courseName: -> @course and utils.i18n(@course, 'name')
-    amTeacherOfGallery: -> me.isTeacherOf({ classroom: @classroom })
-    amSchoolAdministratorOfGallery: -> me.isSchoolAdminOf({ classroom: @classroom })
-    teacherBackUrl: -> "/teachers/classes/#{@classroom?._id}"
-    schoolAdministratorBackUrl: -> "/school-administrator/teacher/#{@classroom?.ownerID}/classroom/#{@classroom?._id}"
   created: ->
+    @amSchoolAdministratorOfGallery = await me.isSchoolAdminOf({ classroom: @classroom })
+    @teacherBackUrl = "/teachers/classes/#{@classroom?._id}"
+    @amTeacherOfGallery = await me.isTeacherOf({ classroom: @classroom })
+    @schoolAdministratorBackUrl = "/school-administrator/teacher/#{@classroom?.ownerID}/classroom/#{@classroom?._id}"
+    # This can be awaited too:
     Promise.all([
       api.courseInstances.getProjectGallery({ @courseInstanceID }).then((@levelSessions) =>)
       api.courseInstances.get({@courseInstanceID}).then (@courseInstance) =>
