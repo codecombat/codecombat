@@ -22,23 +22,19 @@ export default {
 
   mutations: {
     toggleLoadingForTeacher: (state, teacherId) => {
-      let loading = true
-      if (state.loading.byTeacher[teacherId]) {
-        loading = false
-      }
-
-
-
-      Vue.set(state.loading.byTeacher, teacherId, loading)
+      Vue.set(
+        state.loading.byTeacher,
+        teacherId,
+        !state.loading.byTeacher[teacherId]
+      )
     },
 
     toggleLoadingForClassroom: (state, classroomID) => {
-      let loading = true
-      if (state.loading.byClassroom[classroomID]) {
-        loading = false
-      }
-
-      Vue.set(state.loading.byClassroom, classroomID, loading)
+      Vue.set(
+        state.loading.byClassroom,
+        classroomID,
+        !state.loading.byClassroom[classroomID]
+      )
     },
 
     addClassroomsForTeacher: (state, { teacherId, classrooms }) => {
