@@ -183,6 +183,11 @@
               .map(l => l.original)
         },
 
+        // Port of course stat calculation in TeacherClassesView.coffee.  This should be moved into
+        // background processor and the new stats should be displayed here and in TeacherClassesView.
+        //
+        // See https://github.com/codecombat/codecombat/pull/5191#discussion_r276024733 for additiona
+        // implementations in Claassroom.coffee that may help.
         courseStats: function () {
           const levelCompletionsByUser = this.levelCompletionsByUser
           const courseLevels = this.courseLevels
