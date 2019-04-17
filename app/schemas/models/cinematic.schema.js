@@ -54,7 +54,8 @@ const DialogNode = c.object({
   required: ['dialogClear']
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
-  text: { type: 'string', title: 'Text', description: 'html text. TODO: how to translate this and interpolate this???' },
+  // TODO: how to translate and interpolate this? Probably need a neighbouring i18n propert.
+  text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
   textLocation: c.object({ title: 'Text Location', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y'] }, {
     x: { title: 'x', description: 'The x coordinate.', type: 'number', 'default': 0 },
     y: { title: 'y', description: 'The y coordinate.', type: 'number', 'default': 0 } }),
