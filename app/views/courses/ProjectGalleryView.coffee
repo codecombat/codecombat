@@ -23,6 +23,8 @@ ProjectGalleryComponent = Vue.extend
     level: null
     course: null
     courseInstance: null
+    amSchoolAdministratorOfGallery: null
+    amTeacherOfGallery: null
   computed:
     levelName: -> @level and utils.i18n(@level, 'name')
     courseName: -> @course and utils.i18n(@course, 'name')
