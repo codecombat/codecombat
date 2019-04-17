@@ -3,7 +3,7 @@
         <breadcrumbs v-if="!breadcrumbsLoading" :links="breadcrumbs"></breadcrumbs>
         <backbone-view-harness
                 :backbone-view="backboneViewInstance"
-                :backbone-options="{ vue: true, readOnly: true }"
+                :backbone-options="{ renderOnlyContent: true, readOnly: true }"
                 :backbone-args="[ $route.params.classroomId, $route.params.studentId ]"
 
                 v-on:loading="backboneLoadingEvent"

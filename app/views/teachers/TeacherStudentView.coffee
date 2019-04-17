@@ -36,10 +36,10 @@ module.exports = class TeacherStudentView extends RootView
 
   initialize: (options, classroomID, @studentID) ->
     @state = new State({
-      'vue': options.vue
+      'renderOnlyContent': options.renderOnlyContent
     })
 
-    if (options.vue)
+    if (options.renderOnlyContent)
       @template = viewTemplate
     else
       @template = fullPageTemplate
