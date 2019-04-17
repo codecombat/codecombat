@@ -2,6 +2,7 @@ require('app/styles/teachers/teacher-student-view.sass')
 RootView = require 'views/core/RootView'
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
+State = require 'models/State'
 Courses = require 'collections/Courses'
 Levels = require 'collections/Levels'
 LevelSession = require 'models/LevelSession'
@@ -34,6 +35,10 @@ module.exports = class TeacherStudentView extends RootView
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
+    @state = new State({
+      'vue': options.vue
+    })
+
     if (options.vue)
       @template = viewTemplate
     else
