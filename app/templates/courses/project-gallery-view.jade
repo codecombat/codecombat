@@ -1,7 +1,8 @@
 flat-layout
   .container.m-t-3
     p
-      a(v-if="amTeacher", :href="backToClassroomUrl", data-i18n="courses.back_classroom")
+      a(v-if="amSchoolAdministratorOfGallery", :href="schoolAdministratorBackUrl", data-i18n="courses.back_classroom")
+      a(v-else-if="amTeacherOfGallery", :href="teacherBackUrl", data-i18n="courses.back_classroom")
       a(v-else, href="/students", data-i18n="courses.back_courses")
     div.text-center.m-t-2
       h2(v-if="classroom")
