@@ -65,7 +65,8 @@ export default class AbstractCommand {
     if (!this.promise) {
       return
     }
-    if (this.promise.isFulfilled()) {
+    // We don't want to cancel promises that are fulfilled, rejected or cancelled.
+    if (typeof this.promise.isPending === 'function' && !this.promise.isPending()) {
       return
     }
     return this.cancel(this.promise)

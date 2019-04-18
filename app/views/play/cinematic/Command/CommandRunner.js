@@ -40,11 +40,24 @@ export default class CommandRunner {
     if (!this.commands) { throw new Error('Create a new commandRunner with your new commands.') }
 
     for (const command of this.commands) {
-      this.runningCommand = command[run]()
+      const runPromise = command[run]()
+      if (this.cancelled) {
+        command[cancel]()
+        continue
+      }
 
-      if (this.cancelled) continue
+      this.runningCommand = command
 
-      await this.runningCommand
+      const cancelSignalPromise = new Promise((resolve, reject) => {
+        this.cancelSignal = resolve
+      })
+
+      /**
+       * This race exists as a cancelled promise never resolves.
+       * Thus we need a cancel signal that we can use to prevent a deadlock.
+       */
+      await Promise.race([runPromise, cancelSignalPromise])
+      this.runningCommand = null
     }
 
     this.commands = null
@@ -58,6 +71,7 @@ export default class CommandRunner {
     if (this.runningCommand) {
       // We expect that cancelling this command will resolve the `run` promise.
       this.runningCommand[cancel]()
+      typeof this.cancelSignal === 'function' && this.cancelSignal()
       this.runningCommand = null
     }
   }
