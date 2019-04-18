@@ -41,7 +41,7 @@ mixin breadcrumbs
       = view.user.broadName()
 
 .container
-  if !state.get('vue') && me.isTeacherOf({ classroom: view.classroom })
+  if !state.get('renderOnlyContent') && me.isTeacherOf({ classroom: view.classroom })
       +breadcrumbs
   h3.m-t-2
     span(data-i18n="teacher.student_profile")

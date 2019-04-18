@@ -7,15 +7,6 @@ mixin longLevelName(data)
   else
     div.level-name(data-i18n='teacher.not_applicable')
 
-mixin breadcrumbs
-  if !view.vue
-    .breadcrumbs.rtl-allowed
-      a(data-i18n='teacher.my_classes' href='/teachers/classes')
-      span.spl.spr >
-      //- TODO: Use .glyphicon-menu-right when we update bootstrap
-      span
-        = view.classroom.get('name')
-
 mixin inlineUserList(users)
   if users
     ul.inline-student-list.small
@@ -68,7 +59,7 @@ mixin studentRow(student)
         if student.get('deleted')
           em (deleted)
         - var url = '/teachers/classes/' + view.classroom.id + '/' + student.id;
-        if state.get('vue')
+        if state.get('renderOnlyContent')
           - url = '/school-administrator/teacher/' + view.classroom.get('ownerID') + '/classroom/' + view.classroom.id + '/' + student.id
         a(href=url)
           div.student-name= student.broadName()
@@ -457,8 +448,6 @@ if !me.isTeacher() && !me.isAdmin()
 
 if classroom.loaded
   .container(dir="auto")
-    if !state.get('vue')
-      +breadcrumbs
     div#classes-nag-subview
     if classroom.get('archived')
       .row.center-block.text-center.m-t-3.m-b-3

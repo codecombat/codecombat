@@ -108,7 +108,7 @@ module.exports = class TeacherClassView extends RootView
     if options.readOnly
       @state.set('readOnly', options.readOnly)
     if options.renderOnlyContent
-      @state.set('vue', options.renderOnlyContent)
+      @state.set('renderOnlyContent', options.renderOnlyContent)
 
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
 
