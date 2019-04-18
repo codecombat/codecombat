@@ -126,6 +126,7 @@ _.extend UserSchema.properties,
   dateCreated: c.date({title: 'Date Joined'})
   anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
+  testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}

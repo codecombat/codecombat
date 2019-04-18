@@ -78,9 +78,13 @@ module.exports = class RootView extends CocoView
     CreateAccountModal = require 'views/core/CreateAccountModal'
     switch @id
       when 'home-view'
-        window.tracker?.trackEvent('Started Signup', category: 'Homepage', label: 'Homepage')
+        properties = {
+          category: 'Homepage'
+          trackABResult: true
+        }
+        window.tracker?.trackEvent('Started Signup', properties, [])
         eventAction = $(e.target)?.data('event-action')
-        window.tracker?.trackEvent(eventAction, category: 'Homepage', []) if eventAction
+        window.tracker?.trackEvent(eventAction, properties, []) if eventAction
       when 'world-map-view'
         # TODO: add campaign data
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
@@ -91,9 +95,13 @@ module.exports = class RootView extends CocoView
   onClickLoginButton: (e) ->
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
-      window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] 
+      properties = { category: 'Homepage' }
+      window.tracker?.trackEvent 'Login', properties, ['Google Analytics'] 
+      
       eventAction = $(e.target)?.data('event-action')
-      window.tracker?.trackEvent(eventAction, category: 'Homepage', []) if eventAction
+      if $(e.target)?.hasClass('track-ab-result')
+        _.extend(properties, { trackABResult: true })
+      window.tracker?.trackEvent(eventAction, properties, []) if eventAction
     @openModalView new AuthModal()
 
   showLoading: ($el) ->

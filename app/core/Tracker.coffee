@@ -81,7 +81,7 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
     if me.isTeacher(true)
       traitsToReport.push('firstName', 'lastName')
     for userTrait in traitsToReport
@@ -136,6 +136,12 @@ module.exports = class Tracker extends CocoClass
         eventAction: action
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
+
+      # Add label for tracking home page A/B testing results on GA
+      # TODO: what if label already exists, as of now there is no label for the events for which trackABResult is true.
+      if properties.trackABResult and not properties.label and me.getHomePageTestGroup()
+        gaFieldObject.eventLabel = "testGroup"+ me.getHomePageTestGroup()
+
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay
 

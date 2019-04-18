@@ -198,7 +198,7 @@ module.exports = class BasicInfoView extends CocoView
 
   onSubmitForm: (e) ->
     if @signupState.get('path') is 'teacher'
-      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Submit Clicked', category: 'Teachers'
+      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Submit Clicked', { category: 'Teachers', trackABResult: true }
     if @signupState.get('path') is 'student'
       window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Submit Clicked', category: 'Students'
     if @signupState.get('path') is 'individual'

@@ -32,6 +32,7 @@ exports.me =
   hideFooter: -> false
   useGoogleAnalytics: -> true
   showChinaVideo: -> false
+  getHomePageTestGroup: -> undefined
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
