@@ -55,8 +55,10 @@ export default class CommandRunner {
    */
   cancel () {
     this.cancelled = true
-
-    // We expect that cancelling this command will resolve the `run` promise.
-    return this.runningCommand[cancel]()
+    if (this.runningCommand) {
+      // We expect that cancelling this command will resolve the `run` promise.
+      this.runningCommand[cancel]()
+      this.runningCommand = null
+    }
   }
 }

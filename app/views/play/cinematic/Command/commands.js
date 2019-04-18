@@ -1,4 +1,9 @@
 import AbstractCommand from './AbstractCommand'
+import Promise from 'bluebird'
+
+Promise.config({
+  cancellation: true
+})
 
 /**
  * Returns a promise that will resolve after an approximate number of milliseconds.
