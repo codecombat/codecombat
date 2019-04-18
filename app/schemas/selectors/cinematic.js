@@ -73,30 +73,25 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
  * just the array of shots.
  * @param {Cinematic} cinematicData
  */
-export const shots = cinematicData => {
-  if (cinematicData && cinematicData.shots) {
-    return cinematicData.shots
-  }
-  return undefined
-}
+export const shots = cinematicData => (cinematicData || {}).shots
 
 /**
  * @param {Shot} shot
  * @returns {undefined|ShotSetup} shotsetup
  */
-export const shotSetup = shot => shot && shot.shotSetup
+export const shotSetup = shot => (shot || {}).shotSetup
 
 /**
  * @param {ShotSetup} shotSetup
  * @returns {CharacterSchema|undefined}
  */
-const leftCharacter = shotSetup => shotSetup && shotSetup.leftThangType
+const leftCharacter = shotSetup => (shotSetup || {}).leftThangType
 
 /**
  * @param {ShotSetup} shotSetup
  * @returns {CharacterSchema|undefined}
  */
-const rightCharacter = shotSetup => shotSetup && shotSetup.rightThangType
+const rightCharacter = shotSetup => (shotSetup || {}).rightThangType
 
 /**
  * Returns exactly the data required to fulfill the information to place a character
