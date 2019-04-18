@@ -70,7 +70,7 @@ export default Vue.extend({
     }
     for (let level in levelMap){
         let levelId = levelMap[level];
-        this.videoUrl[level] = features.china ?
+        this.videoUrls[level] = features.china ?
             utils.videoLevels[levelId].cn_url :
             utils.videoLevels[levelId].url;
     }
