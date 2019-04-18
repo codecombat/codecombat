@@ -8,8 +8,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     built_for_teachers_subtitle2: "Dezvoltare de jocuri"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
     built_for_teachers_subtitle3: "Dezvoltare Web"
-#    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates.
-## //////Folosind codurile HTML, CSS și jQuery, cursanții își flexează mușchii creativi pentru a programa propriile pagini web cu o adresă URL personalizată pentru a le împărtăși cu colegii lor de clasă."
+#    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
 #    century_skills_title: "21st Century Skills"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
@@ -380,7 +379,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     enter_parent_email: "Introduceți adresa de e-mail a părintelui dvs .:"
 #    parent_email_error: "Something went wrong when trying to send the email. Check the email address and try again."
 #    parent_email_sent: "We’ve sent an email with further instructions on how to create an account. Ask your parent to check their inbox."
-#    account_created: "Cont creat!"
+#    account_created: "Account Created!"
 #    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
 #    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
     write_this_down: "Notează asta:"
