@@ -41,6 +41,8 @@ module.exports = class LadderView extends RootView
     'click .spectate-button': 'onClickSpectateButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
+    if features.china and @leagueType == 'course' and @leagueID == "5cb8403aa8f4ee00248103c8"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
+      @leagueID = @leagueType = null
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     onLoaded = =>
       return if @destroyed
