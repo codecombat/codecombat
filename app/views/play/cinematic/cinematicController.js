@@ -64,17 +64,57 @@ export class CinematicController {
   async startUp () {
     const data = await this.systems.loader.loadAssets()
 
-    // Todo: Intentionally only parse a single shot for Goal 1.
-    const commands = parseShot(data.shots[0], this.systems)
+    const commands = data.shots
+      .map(shot => parseShot(shot, this.systems))
 
     // TODO: There must be a better way than an array of locks! In future add reasonable timeout with `Promise.race`.
     await Promise.all(this.startupLocks)
 
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
-    const runner = new CommandRunner(commands)
-    await runner.run()
+    this.runCinematicLoop(commands)
   }
+
+  /**
+   * There are two states of theis method.
+   *
+   * While a `currentShot` is running it can either:
+   *  1. Run to completion.
+   *  2. Be interrupted by user input and get cancelled. Meaning we skip to completion state.
+   *
+   * Then we must wait for a user input before playing the next shot. This loops the state back
+   * to the top.
+   * @param {AbstractCommand[][]} commands - 2d list of commands. When user cancels it runs to the end of the inner list.
+   */
+  async runCinematicLoop (commands) {
+    if (!Array.isArray(commands) || commands.length === 0) {
+      return
+    }
+
+    let currentShot = commands.shift()
+    while (currentShot) {
+      const [runner, runningCommands] = runCommands(currentShot)
+
+      // Block on running commands
+      await runningCommands
+      currentShot = commands.shift()
+    }
+  }
+}
+
+/**
+ * Runs an array of commands. If the user cancels it will consume this entire
+ * array. Thus you should only call this for ShotSetup + DialogNode 1 or for a
+ * single dialogNode.
+ *
+ * Returns the running commandRunner to handle cancellation.
+ *
+ * @param {AbstractCommand[]} commands
+ * @returns {CommandRunner} the running commandRunner.
+ */
+function runCommands (commands) {
+  const runner = new CommandRunner(commands)
+  return [runner, runner.run()]
 }
 
 /**
