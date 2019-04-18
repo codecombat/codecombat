@@ -11,7 +11,7 @@
     div.m-t-3#videos-content
       .row.m-t-5
         .col-md-6
-          iframe.video(:src="videoUrls[0]" frameborder= "2" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          iframe.video(:src="videoUrls.basic_syntax" frameborder= "2" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -21,7 +21,7 @@
       
       .row.m-t-5
         .col-md-6
-          iframe.video(:src="videoUrls[1]" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          iframe.video(:src="videoUrls.while_loops" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -31,7 +31,7 @@
 
       .row.m-t-5
         .col-md-6
-          iframe.video(:src="videoUrls[2]" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          iframe.video(:src="videoUrls.variables" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -56,12 +56,24 @@ export default Vue.extend({
     }
   },
   data: () => ({
-	  videoUrls: []
+    videoUrls: {
+        basic_syntax:"",
+        while_loops:"",
+        variables:""
+    }
   }),
   created() {
-	  for (let k in utils.videoLevels){
-		  this.videoUrls.push(features.china ? utils.videoLevels[k].cn_url : utils.videoLevels[k].url)
-	  }
+    let levelMap = {
+        basic_syntax: "54173c90844506ae0195a0b4",
+        while_loops: "55ca293b9bc1892c835b0136",
+        variables: "5452adea57e83800009730ee"
+    }
+    for (let level in levelMap){
+        let levelId = levelMap[level];
+        this.videoUrl[level] = features.china ?
+            utils.videoLevels[levelId].cn_url :
+            utils.videoLevels[levelId].url;
+    }
   }
 });
 
