@@ -4,8 +4,6 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
-Classroom = require 'models/Classroom'
-CourseInstance = require 'models/CourseInstance'
 co = require 'co'
 
 # Pure functions for use in Vue
@@ -100,6 +98,7 @@ module.exports = class User extends CocoModel
       return false
 
     if classroomId and not classroom
+      Classroom = require 'models/Classroom'
       classroom = new Classroom({ _id: classroomId })
       yield classroom.fetch()
 
@@ -107,6 +106,7 @@ module.exports = class User extends CocoModel
       return true if @get('_id') == classroom.get('ownerID')
 
     if courseInstanceId and not courseInstance
+      CourseInstance = require 'models/CourseInstance'
       courseInstance = new CourseInstance({ _id: courseInstanceId })
       yield courseInstance.fetch()
 
@@ -120,6 +120,7 @@ module.exports = class User extends CocoModel
       return false
 
     if classroomId and not classroom
+      Classroom = require 'models/Classroom'
       classroom = new Classroom({ _id: classroomId })
       yield classroom.fetch()
 
@@ -127,6 +128,7 @@ module.exports = class User extends CocoModel
       return true if classroom.get('ownerID') in @get('administratedTeachers')
 
     if courseInstanceId and not courseInstance
+      CourseInstance = require 'models/CourseInstance'
       courseInstance = new CourseInstance({ _id: courseInstanceId })
       yield courseInstance.fetch()
 
