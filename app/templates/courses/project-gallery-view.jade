@@ -1,6 +1,6 @@
 flat-layout
   .container.m-t-3
-    p
+    p(:style="{ visibility: (amSchoolAdministratorOfGallery === null || amTeacherOfGallery === null) ? 'hidden' : 'visible' }")
       a(v-if="amSchoolAdministratorOfGallery", :href="schoolAdministratorBackUrl")
         | {{ $t('courses.back_classroom') }}
       a(v-else-if="amTeacherOfGallery", :href="teacherBackUrl")
