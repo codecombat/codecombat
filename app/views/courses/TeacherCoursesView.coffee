@@ -117,7 +117,7 @@ module.exports = class TeacherCoursesView extends RootView
         console.error e
       , 'vimeo')
     @$('#video-modal').on ('hide.bs.modal'), (e)=>
-      if features.china
+      if me.showChinaVideo()
         @$('.video-player').attr('src', '');
       else
         @videoPlayer?.pause()

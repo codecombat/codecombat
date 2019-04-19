@@ -11,7 +11,11 @@
     div.m-t-3#videos-content
       .row.m-t-5
         .col-md-6
-          iframe.video(:src="videoUrls.basic_syntax" frameborder= "2" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          div(v-if="showChinaVideo")
+            video(controls width="568" height="320")
+              source(:src="videoUrls.basic_syntax" type="video/mp4")
+          div(v-else)
+            iframe.video(:src="videoUrls.basic_syntax" frameborder= "2" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -21,7 +25,11 @@
       
       .row.m-t-5
         .col-md-6
-          iframe.video(:src="videoUrls.while_loops" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          div(v-if="showChinaVideo")
+            video(controls width="568" height="320")
+              source(:src="videoUrls.while_loops" type="video/mp4")
+          div(v-else)
+            iframe.video(:src="videoUrls.while_loops" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -31,7 +39,11 @@
 
       .row.m-t-5
         .col-md-6
-          iframe.video(:src="videoUrls.variables" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          div(v-if="showChinaVideo")
+            video(controls width="568" height="320")
+              source(:src="videoUrls.variables" type="video/mp4")
+          div(v-else)
+            iframe.video(:src="videoUrls.variables" frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
         .col-md-6.rtl-allowed.concept-text
           .semibold.m-l-5.concept-heading
             span.spr(data-i18n="courses.concept")
@@ -74,7 +86,13 @@ export default Vue.extend({
             utils.videoLevels[levelId].cn_url :
             utils.videoLevels[levelId].url;
     }
+  },
+  computed: {
+    showChinaVideo: function() {
+      return me.showChinaVideo();
+    }
   }
+
 });
 
 </script>

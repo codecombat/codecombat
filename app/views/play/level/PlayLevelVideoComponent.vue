@@ -70,10 +70,12 @@ export default Vue.extend({
   },
   mounted() {
     this.$nextTick(function () {
-      const player = new VideoPlayer($('.video')[0]);
-      player.on('ended', function() {
-        $('#next-level-btn')[0].style.display = "block"
-      })
+      if(!me.showChinaVideo()){
+        const player = new VideoPlayer($('.video')[0]);
+        player.on('ended', function() {
+          $('#next-level-btn')[0].style.display = "block"
+        })
+      }
       // hack to remove base template's header and footer
       // store existing display settings to revert to these before leaving 
       this.originalDisplaySettings = {

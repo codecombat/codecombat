@@ -99,9 +99,11 @@ export default Vue.extend({
       frame.src = features.china ? video.cn_url : video.url
       frame.style['z-index'] = 3
       $('#videos-content')[0].style.display = "none"
-      const p = new VideoPlayer(frame);
       $('#video-close-btn')[0].style.display = "block"
-      p.play().catch((err) => console.log("Error while playing the video:", err))
+      if(!me.showChinaVideo()){
+        const p = new VideoPlayer(frame);
+        p.play().catch((err) => console.log("Error while playing the video:", err))
+      }
     }
   },
 });
