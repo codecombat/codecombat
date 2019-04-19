@@ -35,8 +35,8 @@ export default {
       canvasDiv,
       slug: this.slug,
       handlers: {
-        onPlayHandler: this.handlePlay,
-        onPauseHandler: this.handleWait,
+        onPlay: this.handlePlay,
+        onPause: this.handleWait,
       }})
     window.addEventListener('keypress', this.handleKeyboardCancellation)
   },

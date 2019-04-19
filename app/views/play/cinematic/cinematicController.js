@@ -19,14 +19,14 @@ export class CinematicController {
     canvasDiv,
     slug,
     handlers: {
-      onPlayHandler,
-      onPauseHandler,
-      onCompletionHandler
+      onPlay,
+      onPause,
+      onCompletion
     }
   }) {
-    this.onPlayHandler = onPlayHandler || (() => {})
-    this.onPauseHandler = onPauseHandler || (() => {})
-    this.onCompletionHandler = onCompletionHandler || (() => {})
+    this.onPlay = onPlay || (() => {})
+    this.onPause = onPause || (() => {})
+    this.onCompletion = onCompletion || (() => {})
 
     this.systems = {}
 
@@ -106,13 +106,13 @@ export class CinematicController {
    */
   runShot () {
     if (this.runner) return
-    this.onPlayHandler()
+    this.onPlay()
     this._runShot(this.commands)
   }
 
   /**
-   * Runs a single shot from commands. Calls the `onPlayHandler` when cinematic starts
-   * playing and calls `onPauseHandler` on the conclusion of the shot.
+   * Runs a single shot from commands. Calls the `onPlay` when cinematic starts
+   * playing and calls `onPause` on the conclusion of the shot.
    * @param {AbstractCommand[][]} commands - 2d list of commands. When user cancels it runs to the end of the inner list.
    */
   async _runShot (commands) {
@@ -134,16 +134,16 @@ export class CinematicController {
   }
 
   /**
-   * cleanupRun disposes of the runner and calls the `onPauseHandler` callback
+   * cleanupRun disposes of the runner and calls the `onPause` callback
    * to signal that we're not running a shot.
-   * If the entire cinematic has completed we call the `onCompletedHandler`.
+   * If the entire cinematic has completed we call the `onCompletion`.
    */
   cleanupRunShot () {
     if (!this.runner) return
     this.runner = null
-    this.onPauseHandler()
+    this.onPause()
     if (Array.isArray(this.commands) && this.commands.length === 0) {
-      this.onCompletionHandler()
+      this.onCompletion()
     }
   }
 }
