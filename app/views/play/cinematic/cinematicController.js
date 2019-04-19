@@ -14,7 +14,20 @@ const Camera = require('lib/surface/Camera')
  * Finally the slug is used to load the relevant cinematic data.
  */
 export class CinematicController {
-  constructor ({ canvas, canvasDiv, slug }) {
+  constructor ({
+    canvas,
+    canvasDiv,
+    slug,
+    handlers: {
+      onPlayHandler,
+      onPauseHandler,
+      onCompletionHandler
+    }
+  }) {
+    this.onPlayHandler = onPlayHandler || (() => {})
+    this.onPauseHandler = onPauseHandler || (() => {})
+    this.onCompletionHandler = onCompletionHandler || (() => {})
+
     this.systems = {}
 
     this.stage = new createjs.StageGL(canvas)
@@ -49,6 +62,8 @@ export class CinematicController {
 
     this.systems.loader = new Loader({ slug })
 
+    this.commands = []
+
     this.startUp()
   }
 
@@ -72,32 +87,63 @@ export class CinematicController {
 
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
-    this.runCinematicLoop(commands)
+    // This is hot start. We don't need to start immediately.
+    this.commands = commands
+    this.runShot()
   }
 
   /**
-   * There are two states of theis method.
-   *
-   * While a `currentShot` is running it can either:
-   *  1. Run to completion.
-   *  2. Be interrupted by user input and get cancelled. Meaning we skip to completion state.
-   *
-   * Then we must wait for a user input before playing the next shot. This loops the state back
-   * to the top.
+   * Used to cancel the current shot.
+   */
+  cancelShot () {
+    if (!this.runner) return
+    this.runner.cancel()
+    this.cleanupRunShot()
+  }
+
+  /**
+   * Runs the next shot.
+   */
+  runShot () {
+    if (this.runner) return
+    this.onPlayHandler()
+    this._runShot(this.commands)
+  }
+
+  /**
+   * Runs a single shot from commands. Calls the `onPlayHandler` when cinematic starts
+   * playing and calls `onPauseHandler` on the conclusion of the shot.
    * @param {AbstractCommand[][]} commands - 2d list of commands. When user cancels it runs to the end of the inner list.
    */
-  async runCinematicLoop (commands) {
+  async _runShot (commands) {
     if (!Array.isArray(commands) || commands.length === 0) {
       return
     }
 
     let currentShot = commands.shift()
-    while (currentShot) {
-      const [runner, runningCommands] = runCommands(currentShot)
+    if (!Array.isArray(currentShot) || currentShot.length === 0) {
+      return
+    }
 
-      // Block on running commands
-      await runningCommands
-      currentShot = commands.shift()
+    const [runner, runningCommands] = runCommands(currentShot)
+    this.runner = runner
+
+    // Block on running commands
+    await runningCommands
+    this.cleanupRunShot()
+  }
+
+  /**
+   * cleanupRun disposes of the runner and calls the `onPauseHandler` callback
+   * to signal that we're not running a shot.
+   * If the entire cinematic has completed we call the `onCompletedHandler`.
+   */
+  cleanupRunShot () {
+    if (!this.runner) return
+    this.runner = null
+    this.onPauseHandler()
+    if (Array.isArray(this.commands) && this.commands.length === 0) {
+      this.onCompletionHandler()
     }
   }
 }
