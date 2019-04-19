@@ -84,6 +84,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
+    'cinematic': go('CinematicView')
+
     'cla': go('CLAView')
 
     'clans': go('clans/ClansView')
@@ -131,6 +133,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView')
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
+    'editor/cinematic(/:cinematicSlug)': go('editor/cinematic/CinematicEditorView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
