@@ -2,7 +2,7 @@
   <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
   <!-- Currently fixed size to the aspect ratio of our play view. -->
   <div>
-    <div height="514px" id="cinematic-div" ref="cinematic-div">
+    <div height="514px" id="cinematic-div" ref="cinematic-div" v-on:click="skipShot">
       <canvas width="800" height="514" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
     </div>
     <button :disabled="enterDisabled" v-on:click="nextShot">Enter</button>
@@ -38,6 +38,7 @@ export default {
         onPlayHandler: this.handlePlay,
         onPauseHandler: this.handleWait,
       }})
+    window.addEventListener('keypress', this.handleKeyboardCancellation)
   },
   methods: {
     handlePlay: function() {
@@ -48,8 +49,20 @@ export default {
     },
     nextShot: function() {
       this.controller && this.controller.runShot()
+    },
+    skipShot: function() {
+      this.controller.cancelShot()
+    },
+    handleKeyboardCancellation: function(e) {
+      const code = e.code || e.key
+      if (code === "Enter") {
+        this.skipShot()
+      }
     }
-  }
+  },
+  beforeDestroy: function()  {
+    window.removeEventListener('keypress', this.handleKeyboardCancellation)
+  },
 }
 </script>
 
