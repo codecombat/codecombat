@@ -66,7 +66,7 @@ export default Vue.extend({
   },
   created() {
     this.videoData = utils.videoLevels[this.levelOriginalID]
-    this.videoUrl = features.china ? this.videoData.cn_url : this.videoData.url
+    this.videoUrl = me.showChinaVideo() ? this.videoData.cn_url : this.videoData.url
   },
   mounted() {
     this.$nextTick(function () {

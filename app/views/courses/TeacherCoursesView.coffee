@@ -106,7 +106,7 @@ module.exports = class TeacherCoursesView extends RootView
     @$('#video-modal').modal('show')
     image_src = e.target.src.slice(e.target.src.search('/images'))
     video = (Object.values(@videoLevels || {}).find((l) => l.thumbnail_unlocked == image_src) || {})
-    @$('.video-player')[0].src = if features.china then video.cn_url else video.url
+    @$('.video-player')[0].src = if me.showChinaVideo() then video.cn_url else video.url
 
     if !me.showChinaVideo()
       require.ensure(['@vimeo/player'], (require) =>

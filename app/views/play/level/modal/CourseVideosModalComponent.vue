@@ -96,7 +96,7 @@ export default Vue.extend({
       src = src.slice(src.search('/images'))
       let video = (this.videoLevels.find(l => l.thumbnail_unlocked == src) || {})
       let frame = $('.video-frame')[0]
-      frame.src = features.china ? video.cn_url : video.url
+      frame.src = me.showChinaVideo() ? video.cn_url : video.url
       frame.style['z-index'] = 3
       $('#videos-content')[0].style.display = "none"
       $('#video-close-btn')[0].style.display = "block"
