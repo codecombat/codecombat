@@ -1,5 +1,5 @@
-const CocoModel = require('./CocoModel')
-const schema = require('schemas/models/cinematic.schema')
+import CocoModel from './CocoModel'
+import schema from 'schemas/models/cinematic.schema'
 
 class Cinematic extends CocoModel { }
 

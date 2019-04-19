@@ -62,17 +62,16 @@ module.exports = Vue.extend({
   components: {
     'editor-list': ListItem
   },
-  async mounted () {
-
+  mounted () {
     if (!me.isAdmin()) {
-      alert("You must be logged in as an admin to use this page.")
+      alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/editor', { trigger: true })
     }
 
     if (this.cinematicSlug) {
-      await this.fetchCinematic(this.cinematicSlug)
+      this.fetchCinematic(this.cinematicSlug)
     } else {
-      await this.fetchList()
+      this.fetchList()
     }
   },
   methods: {

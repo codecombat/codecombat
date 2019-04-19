@@ -106,13 +106,21 @@ const characterThangTypeSlug = character => {
     return
   }
 
+  if (!character.slug) {
+    throw new Error(`no slug on char`)
+  }
+  if (!character.position) {
+    throw new Error('no position for char')
+  }
+
+  if (typeof character.enterOnStart !== 'boolean') {
+    character.enterOnStart = false
+  }
+
   const type = character.type
-  const slug = character.slug || (() => { throw new Error(`no slug on char`) })()
-  const enterOnStart = character.enterOnStart !== undefined
-    ? character.enterOnStart
-    : (() => { throw new Error('no enterOnStart for char') })()
-  const position = character.position ||
-    (() => { throw new Error('no position for char') })()
+  const slug = character.slug
+  const enterOnStart = character.enterOnStart
+  const position = character.position
 
   return { type, slug, enterOnStart, position }
 }

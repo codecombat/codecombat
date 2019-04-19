@@ -1,16 +1,3 @@
-<style scoped>
-#cinematic-div {
-  position: relative;
-  display: inline-block;
-  font-size: 1.5em;
-}
-
-#cinematic-div canvas {
-  display: block;
-  position: absolute;
-}
-</style>
-
 <template>
   <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
   <!-- Currently fixed size to the aspect ratio of our play view. -->
@@ -43,3 +30,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#cinematic-div {
+  position: relative;
+  display: inline-block;
+  font-size: 1.5em;
+}
+
+#cinematic-div canvas {
+  display: block;
+  position: absolute;
+}
+</style>
