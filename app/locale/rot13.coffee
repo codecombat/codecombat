@@ -145,6 +145,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     view_progress: "Ivrj Cebterff"
     go_to_courses: "Tb gb Zl Pbhefrf"
     want_coco: "Jnag PbqrPbzong ng lbhe fpubby?"
+    educator: "Rqhpngbe"
+    student: "Fghqrag"
 
   nav:
     educators: "Rqhpngbef"

@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     view_progress: "Vis Framgang"
 #    go_to_courses: "Go to My Courses"
 #    want_coco: "Want CodeCombat at your school?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
