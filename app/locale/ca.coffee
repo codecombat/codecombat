@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     view_progress: "Veure Progrés"
     go_to_courses: "Vés a Els meus Cursos"
     want_coco: "Vols CodeCombat al teu centre?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"

@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     view_progress: "Fortschritt ansehen"
     go_to_courses: "Zu meinen Kursen"
     want_coco: "Wollen Sie CodeCombat an ihrer Schule?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"

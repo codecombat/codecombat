@@ -146,6 +146,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     view_progress: "Fejlődés megtekintése"
     go_to_courses: "Ugrás a Kurzusaimhoz"
     want_coco: "Szeretnéd kipróbálni a CodeCombatot az iskoládban?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
