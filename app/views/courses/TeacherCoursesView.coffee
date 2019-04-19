@@ -108,15 +108,19 @@ module.exports = class TeacherCoursesView extends RootView
     video = (Object.values(@videoLevels || {}).find((l) => l.thumbnail_unlocked == image_src) || {})
     @$('.video-player')[0].src = if features.china then video.cn_url else video.url
 
-    require.ensure(['@vimeo/player'], (require) =>
-      VideoPlayer = require('@vimeo/player').default
-      @videoPlayer = new VideoPlayer(@$('.video-player')[0])
-      @videoPlayer.play().catch((err) => console.error("Error while playing the video:", err))
-    , (e) =>
-      console.error e
-    , 'vimeo')
+    if !me.showChinaVideo()
+      require.ensure(['@vimeo/player'], (require) =>
+        VideoPlayer = require('@vimeo/player').default
+        @videoPlayer = new VideoPlayer(@$('.video-player')[0])
+        @videoPlayer.play().catch((err) => console.error("Error while playing the video:", err))
+      , (e) =>
+        console.error e
+      , 'vimeo')
     @$('#video-modal').on ('hide.bs.modal'), (e)=>
-      @videoPlayer?.pause()
+      if features.china
+        @$('.video-player').attr('src', '');
+      else
+        @videoPlayer?.pause()
 
   destroy: ->
     @$('#video-modal').modal('hide')
