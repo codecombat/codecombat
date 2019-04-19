@@ -7,7 +7,7 @@ env:
 services:
   - mongodb
 addons:
-  firefox: "55.0"
+  firefox: "66.0"
   apt:
     sources:
       - mongodb-upstart
