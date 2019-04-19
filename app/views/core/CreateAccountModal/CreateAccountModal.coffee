@@ -53,6 +53,7 @@ startSignupTracking = ->
   properties =
     category: 'Homepage'
     user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+    trackABResult: true
   window.tracker?.trackEvent(
     'Teacher signup started',
     properties)
@@ -225,6 +226,7 @@ module.exports = class CreateAccountModal extends ModalView
     properties =
       category: 'Homepage'
       subview: @signupState.get('path') || "choosetype"
+      trackABResult: true
     window.tracker?.trackEvent('Log in from CreateAccount', properties)
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))
 
