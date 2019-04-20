@@ -28,7 +28,7 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
   initialize: (options) ->
     window.tracker?.trackEvent 'Purchase Starter License: Modal Opened', category: 'Teachers', ['Mixpanel']
 
-    @listenTo stripeHandler, 'received-token', @onStripeReceivedToken
+    @listenTo stripeHandler, 'received-token', -> @onStripeReceivedToken
     @state = new State({
       quantityToBuy: 10
       centsPerStudent: undefined
@@ -39,13 +39,13 @@ module.exports = class PurchaseStarterLicensesModal extends ModalView
 
     @products = new Products()
     @supermodel.loadCollection(@products, 'products')
-    @listenTo @products, 'sync change update', => @onProductsUpdated()
+    @listenTo @products, 'sync change update', -> @onProductsUpdated()
 
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
-    @listenTo @prepaids, 'sync change update', => @onPrepaidsUpdated()
+    @listenTo @prepaids, 'sync change update', -> @onPrepaidsUpdated()
 
-    @listenTo @state, 'change', => @render()
+    @listenTo @state, 'change', -> @render()
 
     super(options)
 
