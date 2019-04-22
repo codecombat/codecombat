@@ -126,6 +126,7 @@ _.extend UserSchema.properties,
   dateCreated: c.date({title: 'Date Joined'})
   anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
+  testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
@@ -202,20 +203,18 @@ _.extend UserSchema.properties,
     courseMiscPatches: c.int()
     courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
-
     licenses: c.object {}, {
       usage: c.object {}, {
         used: c.int()
         total: c.int()
       }
-    },
-
+    }
     students: c.object {}, {
       count: c.object {}, {
         active: c.int()
         inactive: c.int()
       }
-    },
+    }
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'

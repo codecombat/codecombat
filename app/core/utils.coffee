@@ -699,6 +699,7 @@ videoLevels = {
   # gems in the deep
   "54173c90844506ae0195a0b4": {
     url: "https://player.vimeo.com/video/310626758",
+    cn_url: "https://assets.koudashijie.com/videos/%E5%AF%BC%E8%AF%BE01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95-Codecombat%20Instruction%20for%20Teachers.mp4",
     title: "Basic Syntax",
     original: "54173c90844506ae0195a0b4",
     thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
@@ -707,6 +708,7 @@ videoLevels = {
   # fire dancing
   "55ca293b9bc1892c835b0136": {
     url: "https://player.vimeo.com/video/310626741",
+    cn_url: "https://assets.koudashijie.com/videos/%E5%AF%BC%E8%AF%BE03-CodeCombat%E6%95%99%E5%AD%A6%E5%AF%BC%E8%AF%BE-CS1-%E5%BE%AA%E7%8E%AFlogo.mp4",
     title: "While Loops",
     original: "55ca293b9bc1892c835b0136"
     thumbnail_locked: "/images/level/videos/while_loops_locked.png",
@@ -715,6 +717,7 @@ videoLevels = {
   # known enemy
   "5452adea57e83800009730ee": {
     url: "https://player.vimeo.com/video/310626807",
+    cn_url: "https://assets.koudashijie.com/videos/%E5%AF%BC%E8%AF%BE02-%E5%8F%98%E9%87%8F-CodeCombat-CS1-%E5%8F%98%E9%87%8Flogo.mp4",
     title: "Variables",
     original: "5452adea57e83800009730ee"
     thumbnail_locked: "/images/level/videos/variables_locked.png",

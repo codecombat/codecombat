@@ -4,6 +4,11 @@
     .btn a
       color: white
 
+  .style-flat
+    // Required as we disable main-nav for printing.
+    @media print
+      padding-top: 0
+
   #site-content-area
     background-color: white
     color: black
