@@ -1,6 +1,7 @@
 import anime from 'animejs/lib/anime.es.js'
 import Promise from 'bluebird'
 import AbstractCommand, { Noop } from './Command/AbstractCommand'
+import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug } from '../../../schemas/selectors/cinematic'
 
 const Lank = require('lib/surface/Lank')
 
@@ -9,19 +10,58 @@ Promise.config({
 })
 
 /**
+ * @typedef {import(./Command/CinematicParser).System} System
+ */
+
+/**
  * Registers the thangs and ThangTypes onto Lanks.
  * Then animates these Lanks to create a cinematic.
  * Instead of immediately executing methods, instead returns a Command that
  * can be run by the cinematic runner.
+ *
+ * @implements {System}
  */
 export default class CinematicLankBoss {
-  constructor ({ groundLayer, layerAdapter, camera }) {
+  constructor ({ groundLayer, layerAdapter, camera, loader }) {
     this.groundLayer = groundLayer
     this.layerAdapter = layerAdapter
     this.camera = camera
     this.stageBounds = {
       topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
       bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
+    }
+    this.loader = loader
+  }
+
+  parseSetupShot (shot) {
+    const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
+    const setupCommands = []
+    const cleanupCommands = []
+
+    if (leftCharSlug) {
+      const { slug, enterOnStart, position } = leftCharSlug
+      this.addLank('left', this.loader.getThangType(slug))
+      if (enterOnStart) {
+        setupCommands.push(this.moveLankCommand('left', position))
+      } else {
+        this.moveLank('left', position)
+      }
+    }
+
+    const rightCharSlug = getRightCharacterThangTypeSlug(shot)
+    if (rightCharSlug) {
+      const { slug, enterOnStart, position } = rightCharSlug
+      this.addLank('right', this.loader.getThangType(slug))
+      if (enterOnStart) {
+        setupCommands.push(this.moveLankCommand('right', position))
+      } else {
+        this.moveLank('right', position)
+      }
+    }
+
+    return {
+      commands: setupCommands,
+      cleanupCommands
     }
   }
 
@@ -101,7 +141,7 @@ export default class CinematicLankBoss {
    * @param {Object} thangType
    * @param {Object} systems
    */
-  addLank (side, thangType, systems) {
+  addLank (side, thangType) {
     assertSide(side)
     const thang = side === 'left'
       ? createThang({ pos: {
@@ -119,7 +159,7 @@ export default class CinematicLankBoss {
       resolutionFactor: 60,
       preloadSounds: false,
       thang,
-      camera: systems.camera,
+      camera: this.camera,
       groundLayer: this.groundLayer
     })
 

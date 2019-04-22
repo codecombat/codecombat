@@ -53,14 +53,14 @@ export class CinematicController {
 
     // TODO: Will be moved to camera commands.
     this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
+    this.systems.loader = new Loader({ slug })
 
     this.systems.cinematicLankBoss = new CinematicLankBoss({
       groundLayer: this.stubRequiredLayer,
       layerAdapter: this.layerAdapter,
-      camera: this.systems.camera
+      camera: this.systems.camera,
+      loader: this.systems.loader
     })
-
-    this.systems.loader = new Loader({ slug })
 
     this.commands = []
 
