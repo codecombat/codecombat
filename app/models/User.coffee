@@ -235,6 +235,17 @@ module.exports = class User extends CocoModel
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
 
+  getHomePageTestGroup: () ->
+    return unless me.get('country') == 'united-states'
+    groupNumber = me.get('testGroupNumberUS')
+    # testGroupNumberUS is a random number from 0-255, dividing into 40%-40%-20%
+    if groupNumber >= 0 and groupNumber < 102  # first 40% of 256
+      return "A"
+    else if groupNumber >= 102 and groupNumber < 204  # next 40% of 256
+      return "B"
+    else  # remaining 20% of 256 
+      return "C"
+
   hasSubscription: ->
     return false if me.isStudent() or me.isTeacher()
     if payPal = @get('payPal')

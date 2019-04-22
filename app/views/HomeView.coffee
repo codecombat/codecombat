@@ -48,7 +48,7 @@ module.exports = class HomeView extends RootView
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    @homePageEvent($(e.target).data('event-action'))
+    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
@@ -59,15 +59,19 @@ module.exports = class HomeView extends RootView
     application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
-    @homePageEvent($(e.target).data('event-action'))
+    @homePageEvent('Started Signup', {trackABResult: true})
+    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
-    @homePageEvent($(e.target).data('event-action'))
+    @homePageEvent('Started Signup', {trackABResult: true})
+    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   onClickTrackEvent: (e) ->
-    @homePageEvent($(e.target).data('event-action'))
+    if $(e.target)?.hasClass('track-ab-result')
+      properties = {trackABResult: true}
+    @homePageEvent($(e.target).data('event-action'), properties || {})
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
@@ -91,10 +95,17 @@ module.exports = class HomeView extends RootView
       anchorText = $.i18n.t(translationKey, {lng: 'en-US'})
     else
       anchorText = anchor.text
+
+    if $(e.target)?.hasClass('track-ab-result')
+      properties = {trackABResult: true}
+
     if anchorText
-      @homePageEvent("Link: #{anchorText}", {}, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties || {}, ['Google Analytics'])
     else
-      @homePageEvent("Link:", {clicked: e?.currentTarget?.host or "unknown"}, ['Google Analytics'])
+      _.extend(properties || {}, {
+        clicked: e?.currentTarget?.host or "unknown"
+      })
+      @homePageEvent("Link:", properties, ['Google Analytics'])
 
   afterRender: ->
     if !me.showChinaVideo()

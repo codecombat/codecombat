@@ -17,6 +17,7 @@
 				"ageRange": {"type": "string", "pattern":"^\\d+-\\d+"},
 				"lastLevel": {"type": "string"},
 				"testGroupNumber": {"type": "integer"},
+				"testGroupNumberUS": {"type": "integer"},
 				"name": {"type": "string"},
 				"dateCreated": {"type": "string", "format": "date-time"},
 				"email": {"type": "string", "format": "email"},
