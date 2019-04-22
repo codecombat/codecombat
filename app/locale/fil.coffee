@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
     view_progress: "Aking Progreso"
     go_to_courses: "Aking mga Kurso"
     want_coco: "Gusto nyo ng CodeCombat sa inyong paaralan?"
+#    educator: "Educator"
+#    student: "Student"
 
 #  nav:
 #    educators: "Educators"

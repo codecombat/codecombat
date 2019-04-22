@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     view_progress: "Xem tiến trình"
 #    go_to_courses: "Go to My Courses"
     want_coco: "Muốn đưa CodeCombat vào giảng dạy tại trường học của bạn?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
