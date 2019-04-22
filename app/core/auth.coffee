@@ -12,10 +12,11 @@ init = ->
     # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
     me.patch()
-  if me and me.get("country") == 'united-states' and not me.get('testGroupNumberUS')?
-    # Assign testGroupNumberUS to returning visitors; new ones in server/models/User
-    me.set 'testGroupNumberUS', Math.floor(Math.random() * 256)
-    me.patch()
+  # TODO: Reverting due to prod issues(application undefined during me.patch()). Fix and deploy again.
+  # if me and me.get("country") == 'united-states' and not me.get('testGroupNumberUS')?
+  #   # Assign testGroupNumberUS to returning visitors; new ones in server/models/User
+  #   me.set 'testGroupNumberUS', Math.floor(Math.random() * 256)
+  #   me.patch()
   preferredLanguage = getQueryVariable('preferredLanguage')
   if me and features.codePlay and preferredLanguage
     me.set('preferredLanguage', preferredLanguage)
