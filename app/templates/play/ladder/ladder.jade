@@ -7,7 +7,11 @@ block content
     if view.leagueType === 'course' && view.course
       #course-header
         #course-details-link
-          if me.isTeacher() && view.classroomID
+          if view.isSchoolAdmin
+            a(href="/school-administrator/teacher/#{view.ownerID}/classroom/#{view.classroomID}#course-progress-tab")
+              span.glyphicon.glyphicon-arrow-left
+              span.spl(data-i18n="nav.play")
+          else if view.isTeacher
             a(href="/teachers/classes/#{view.classroomID}#course-progress-tab")
               span.glyphicon.glyphicon-arrow-left
               span.spl(data-i18n="nav.play")

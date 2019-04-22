@@ -23,11 +23,13 @@ ProjectGalleryComponent = Vue.extend
     level: null
     course: null
     courseInstance: null
+    amSchoolAdministratorOfGallery: null
+    amTeacherOfGallery: null
   computed:
     levelName: -> @level and utils.i18n(@level, 'name')
     courseName: -> @course and utils.i18n(@course, 'name')
-    amTeacher: -> me.isTeacher()
-    backToClassroomUrl: -> "/teachers/classes/#{@classroom?._id}"
+    teacherBackUrl: -> @classroom and "/teachers/classes/#{@classroom?._id}"
+    schoolAdministratorBackUrl: -> @classroom and "/school-administrator/teacher/#{@classroom?.ownerID}/classroom/#{@classroom?._id}"
   created: ->
     Promise.all([
       api.courseInstances.getProjectGallery({ @courseInstanceID }).then((@levelSessions) =>)
@@ -39,6 +41,8 @@ ProjectGalleryComponent = Vue.extend
           api.classrooms.getCourseLevels({ classroomID: @courseInstance.classroomID, courseID: @courseInstance.courseID }).then((@levels) =>)
         ])
     ]).then =>
+      me.isSchoolAdminOf({ classroomId: @courseInstance.classroomID }).then((res) => @amSchoolAdministratorOfGallery = res)
+      me.isTeacherOf({ classroomId: @courseInstance.classroomID }).then((res) => @amTeacherOfGallery = res)
       @level = _.find(@levels, Level.isProject)
       @users.forEach (user) =>
         Vue.set(user, 'broadName', User.broadName(user))

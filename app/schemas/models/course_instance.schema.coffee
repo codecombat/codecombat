@@ -18,6 +18,7 @@ _.extend CourseInstanceSchema.properties,
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript']}
   hourOfCode: { type: 'boolean', description: 'Deprecated, do not use.' }
+  stats: c.object({ additionalProperties: true })
 
 c.extendBasicProperties CourseInstanceSchema, 'CourseInstance'
 

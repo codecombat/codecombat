@@ -4,6 +4,7 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
+co = require 'co'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -41,6 +42,7 @@ module.exports = class User extends CocoModel
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
+
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)
 
@@ -91,6 +93,50 @@ module.exports = class User extends CocoModel
     return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
+  isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if not me.isTeacher()
+      return false
+
+    if classroomId and not classroom
+      Classroom = require 'models/Classroom'
+      classroom = new Classroom({ _id: classroomId })
+      yield classroom.fetch()
+
+    if classroom
+      return true if @get('_id') == classroom.get('ownerID')
+
+    if courseInstanceId and not courseInstance
+      CourseInstance = require 'models/CourseInstance'
+      courseInstance = new CourseInstance({ _id: courseInstanceId })
+      yield courseInstance.fetch()
+
+    if courseInstance
+      return true if @get('id') == courseInstance.get('ownerID')
+
+    return false
+
+  isSchoolAdminOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
+    if not me.isSchoolAdmin()
+      return false
+
+    if classroomId and not classroom
+      Classroom = require 'models/Classroom'
+      classroom = new Classroom({ _id: classroomId })
+      yield classroom.fetch()
+
+    if classroom
+      return true if classroom.get('ownerID') in @get('administratedTeachers')
+
+    if courseInstanceId and not courseInstance
+      CourseInstance = require 'models/CourseInstance'
+      courseInstance = new CourseInstance({ _id: courseInstanceId })
+      yield courseInstance.fetch()
+
+    if courseInstance
+      return true if courseInstance.get('ownerID') in @get('administratedTeachers')
+
+    return false
+
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 
@@ -100,7 +146,7 @@ module.exports = class User extends CocoModel
       clientID = utils.getApiClientIdFromEmail(@get('email'))
     if clientID
       api.apiClients.getByHandle(clientID)
-      .then((apiClient) => 
+      .then((apiClient) =>
         @clientPermissions = apiClient.permissions
       )
       .catch((e) =>
