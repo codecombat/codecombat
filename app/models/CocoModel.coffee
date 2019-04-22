@@ -133,7 +133,7 @@ class CocoModel extends Backbone.Model
   validate: ->
     errors = @getValidationErrors()
     if errors?.length
-      unless application.testing
+      unless application?.testing
         console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
         for error in errors
           console.debug "\t", error.dataPath, ':', error.message
