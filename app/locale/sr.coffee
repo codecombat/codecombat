@@ -146,6 +146,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     view_progress: "Види напредак"
     go_to_courses: "Иди на моје курсеве"
     want_coco: "Желиш CodeCombat у својој школи?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
