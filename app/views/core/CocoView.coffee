@@ -216,10 +216,15 @@ module.exports = class CocoView extends Backbone.View
     _.defer => @$el.find('.nano').nanoScroller() unless @destroyed
 
   updateProgress: (progress) ->
+    return if @destroyed
+
     @loadProgress.progress = progress if progress > @loadProgress.progress
     @updateProgressBar(progress)
 
-  updateProgressBar: (progress) =>
+  updateProgressBar: (progress) ->
+    return if @destroyed
+
+    @trigger('loading:progress', progress * 100)
     prog = "#{parseInt(progress*100)}%"
     @$el?.find('.loading-container .progress-bar').css('width', prog)
 
@@ -312,6 +317,7 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
+    @trigger('loading:show')
     $el.find('>').addClass('hidden')
     $el.append(loadingScreenTemplate()).i18n()
     @applyRTLIfNeeded()
@@ -319,6 +325,7 @@ module.exports = class CocoView extends Backbone.View
 
   hideLoading: ->
     return unless @_lastLoading?
+    @trigger('loading:hide')
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null

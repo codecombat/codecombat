@@ -26,4 +26,9 @@ module.exports = {
       json: value
     }))
 
+  fetchForClassroomMembers: (classroomID, options) ->
+    fetchJson("/db/classroom/#{classroomID}/member-sessions", _.merge({}, options, {
+      method: 'GET'
+      remove: false
+    }))
 }

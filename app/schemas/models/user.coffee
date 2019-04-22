@@ -203,18 +203,8 @@ _.extend UserSchema.properties,
     courseMiscPatches: c.int()
     courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
-    licenses: c.object {}, {
-      usage: c.object {}, {
-        used: c.int()
-        total: c.int()
-      }
-    }
-    students: c.object {}, {
-      count: c.object {}, {
-        active: c.int()
-        inactive: c.int()
-      }
-    }
+    licenses: c.object { additionalProperties: true }
+    students: c.object { additionalProperties: true }
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
@@ -321,6 +311,9 @@ _.extend UserSchema.properties,
       studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
       studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
+
+  administratedTeachers: c.array {}, c.objectId()
+  administratingTeachers: c.array {}, c.objectId()
 
   features:
     type: 'object'
