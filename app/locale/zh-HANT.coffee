@@ -146,6 +146,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     view_progress: "瀏覽進度"
     go_to_courses: "進入課程"
     want_coco: "想要在您的學校進行CodeCombat嗎？"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"

@@ -146,6 +146,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     view_progress: "ดูความก้าวหน้า"
     go_to_courses: "ไปที่หลักสูตรของฉัน"
     want_coco: "ต้องการ CodeCombat ที่โรงเรียนของคุณมั้ย?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"

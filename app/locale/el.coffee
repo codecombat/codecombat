@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     view_progress: "Προβολή της Προόδου"
     go_to_courses: "Εμφάνισε τα Μαθήματά Μου"
     want_coco: "Θέλετε το CodeCombat στο σχολείο σας;"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"

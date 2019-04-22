@@ -146,6 +146,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     view_progress: "Ukáž postup"
     go_to_courses: "Cho ku mojím kurzom"
     want_coco: "Chceš CodeCombat na svojej škole?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
