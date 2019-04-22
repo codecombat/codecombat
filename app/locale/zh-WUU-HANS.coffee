@@ -146,6 +146,8 @@ module.exports = nativeDescription: "吴语", englishDescription: "Wuu (Simplifi
 #    view_progress: "View Progress"
 #    go_to_courses: "Go to My Courses"
 #    want_coco: "Want CodeCombat at your school?"
+#    educator: "Educator"
+#    student: "Student"
 
 #  nav:
 #    educators: "Educators"

@@ -146,6 +146,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     view_progress: "プログレスを見る"
     go_to_courses: "コースを見る"
     want_coco: "学校でCodeCombat使って見ませんか？"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"

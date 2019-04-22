@@ -146,6 +146,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     view_progress: "Tarkastele edistymistäni"
     go_to_courses: "Siirry omiin kursseihin"
     want_coco: "Haluatko CodeCombat:in kouluusi?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"

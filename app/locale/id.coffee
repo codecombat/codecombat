@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     view_progress: "Lihat Kemajuan"
     go_to_courses: "Pergi ke Kursusku"
     want_coco: "Mau CodeCombat ada di sekolahmu?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
