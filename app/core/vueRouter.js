@@ -5,6 +5,9 @@ import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/
 import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView'
 
 import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
+import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
+
+Vue.use(VueRouter)
 
 let vueRouter;
 
@@ -20,6 +23,7 @@ export default function getVueRouter () {
             { path: '', component: SchoolAdminDashboardTeacherListView },
             { path: 'teacher/:teacherId', component: SchoolAdminTeacherView },
             { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
+            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: TeacherStudentView },
           ]
         }
       ]

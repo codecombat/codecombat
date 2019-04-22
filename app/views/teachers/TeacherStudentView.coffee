@@ -2,6 +2,7 @@ require('app/styles/teachers/teacher-student-view.sass')
 RootView = require 'views/core/RootView'
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
+State = require 'models/State'
 Courses = require 'collections/Courses'
 Levels = require 'collections/Levels'
 LevelSession = require 'models/LevelSession'
@@ -12,10 +13,11 @@ CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+fullPageTemplate = require 'templates/teachers/teacher-student-view-full'
+viewTemplate = require 'templates/teachers/teacher-student-view'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
-  template: require 'templates/teachers/teacher-student-view'
 
   events:
     'change #course-dropdown': 'onChangeCourseChart'
@@ -33,9 +35,22 @@ module.exports = class TeacherStudentView extends RootView
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
+    @state = new State({
+      'renderOnlyContent': options.renderOnlyContent
+    })
+
+    if (options.renderOnlyContent)
+      @template = viewTemplate
+    else
+      @template = fullPageTemplate
+
     @classroom = new Classroom({_id: classroomID})
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())
+
+    if @studentID
+      @user = new User({ _id: @studentID })
+      @supermodel.trackRequest(@user.fetch())
 
     @courses = new Courses()
     @supermodel.trackRequest(@courses.fetch({data: { project: 'name,i18n,slug' }}))

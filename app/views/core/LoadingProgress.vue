@@ -34,7 +34,7 @@
       props: {
         alwaysRender: false,
 
-        loadingStatus: [ Number, Boolean ]
+        loadingStatus: [ Number, Boolean, Array ]
       },
 
       computed: {
@@ -53,14 +53,29 @@
             return 100
           }
 
-          const statuses = this.statuses.map((status) => {
-            if (typeof status === 'boolean') {
-              return status ? 0 : 100
-            } else if (typeof status !== 'number') {
-              throw new Error('Status must be boolean or percent')
+          const toPercent = val => {
+            if (_.isBoolean(val)) {
+              return val ? 0 : 100
+            } else if (!_.isNumber(val)) {
+              throw new Error('Percent must be array, boolean or percent')
             }
 
-            return status
+            return val
+          }
+
+          const statuses = this.statuses.map((status) => {
+            if (!_.isArray(status)) {
+              return toPercent(status)
+            } else if (status.length === 0) {
+              return 100
+            }
+
+            // The reduce function will sum up an initial boolean as 1,
+            // so we make sure it is following our concept of boolean percent instead.
+            status[0] = toPercent(status[0])
+
+            const loadingSum = status.reduce((total, toAdd) => total + toPercent(toAdd))
+            return loadingSum / status.length
           })
 
           const statusSum = statuses.reduce((s, i) => s + i, 0)
