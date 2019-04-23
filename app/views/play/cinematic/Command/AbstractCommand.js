@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird'
+const Promise = require('bluebird')
 
 Promise.config({
   cancellation: true
