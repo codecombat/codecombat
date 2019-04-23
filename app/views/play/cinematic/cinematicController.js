@@ -14,7 +14,20 @@ const Camera = require('lib/surface/Camera')
  * Finally the slug is used to load the relevant cinematic data.
  */
 export class CinematicController {
-  constructor ({ canvas, canvasDiv, slug }) {
+  constructor ({
+    canvas,
+    canvasDiv,
+    slug,
+    handlers: {
+      onPlay,
+      onPause,
+      onCompletion
+    }
+  }) {
+    this.onPlay = onPlay || (() => {})
+    this.onPause = onPause || (() => {})
+    this.onCompletion = onCompletion || (() => {})
+
     this.systems = {}
 
     this.stage = new createjs.StageGL(canvas)
@@ -49,6 +62,8 @@ export class CinematicController {
 
     this.systems.loader = new Loader({ slug })
 
+    this.commands = []
+
     this.startUp()
   }
 
@@ -64,17 +79,88 @@ export class CinematicController {
   async startUp () {
     const data = await this.systems.loader.loadAssets()
 
-    // Todo: Intentionally only parse a single shot for Goal 1.
-    const commands = parseShot(data.shots[0], this.systems)
+    const commands = data.shots
+      .map(shot => parseShot(shot, this.systems))
 
     // TODO: There must be a better way than an array of locks! In future add reasonable timeout with `Promise.race`.
     await Promise.all(this.startupLocks)
 
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
-    const runner = new CommandRunner(commands)
-    await runner.run()
+    // This is hot start. We don't need to start immediately.
+    this.commands = commands
+    this.runShot()
   }
+
+  /**
+   * Used to cancel the current shot.
+   */
+  cancelShot () {
+    if (!this.runner) return
+    this.runner.cancel()
+    this.cleanupRunShot()
+  }
+
+  /**
+   * Runs the next shot.
+   */
+  runShot () {
+    if (this.runner) return
+    this.onPlay()
+    this._runShot(this.commands)
+  }
+
+  /**
+   * Runs a single shot from commands. Calls the `onPlay` when cinematic starts
+   * playing and calls `onPause` on the conclusion of the shot.
+   * @param {AbstractCommand[][]} commands - 2d list of commands. When user cancels it runs to the end of the inner list.
+   */
+  async _runShot (commands) {
+    if (!Array.isArray(commands) || commands.length === 0) {
+      return
+    }
+
+    let currentShot = commands.shift()
+    if (!Array.isArray(currentShot) || currentShot.length === 0) {
+      return
+    }
+
+    const [runner, runningCommands] = runCommands(currentShot)
+    this.runner = runner
+
+    // Block on running commands
+    await runningCommands
+    this.cleanupRunShot()
+  }
+
+  /**
+   * cleanupRun disposes of the runner and calls the `onPause` callback
+   * to signal that we're not running a shot.
+   * If the entire cinematic has completed we call the `onCompletion`.
+   */
+  cleanupRunShot () {
+    if (!this.runner) return
+    this.runner = null
+    this.onPause()
+    if (Array.isArray(this.commands) && this.commands.length === 0) {
+      this.onCompletion()
+    }
+  }
+}
+
+/**
+ * Runs an array of commands. If the user cancels it will consume this entire
+ * array. Thus you should only call this for ShotSetup + DialogNode 1 or for a
+ * single dialogNode.
+ *
+ * Returns the running commandRunner to handle cancellation.
+ *
+ * @param {AbstractCommand[]} commands
+ * @returns {CommandRunner} the running commandRunner.
+ */
+function runCommands (commands) {
+  const runner = new CommandRunner(commands)
+  return [runner, runner.run()]
 }
 
 /**

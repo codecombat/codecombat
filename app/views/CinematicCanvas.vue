@@ -1,8 +1,11 @@
 <template>
   <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
   <!-- Currently fixed size to the aspect ratio of our play view. -->
-  <div height="514px" id="cinematic-div" ref="cinematic-div">
-    <canvas width="800" height="514" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
+  <div>
+    <div height="514px" id="cinematic-div" ref="cinematic-div" v-on:click="skipShot">
+      <canvas width="800" height="514" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
+    </div>
+    <button :disabled="enterDisabled" v-on:click="nextShot">Enter</button>
   </div>
 </template>
 
@@ -21,21 +24,53 @@ export default {
     }
   },
   data: () => ({
-    controller: null
+    controller: null,
+    enterDisabled: true
   }),
   mounted: function() {
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']
-    this.controller = new CinematicController({ canvas, canvasDiv, slug: this.slug })
-  }
+    this.controller = new CinematicController({
+      canvas,
+      canvasDiv,
+      slug: this.slug,
+      handlers: {
+        onPlay: this.handlePlay,
+        onPause: this.handleWait,
+      }})
+    window.addEventListener('keypress', this.handleKeyboardCancellation)
+  },
+  methods: {
+    handlePlay: function() {
+      this.enterDisabled = true
+    },
+    handleWait: function() {
+      this.enterDisabled = false
+    },
+    nextShot: function() {
+      this.controller && this.controller.runShot()
+    },
+    skipShot: function() {
+      this.controller.cancelShot()
+    },
+    handleKeyboardCancellation: function(e) {
+      const code = e.code || e.key
+      if (code === "Enter") {
+        this.skipShot()
+      }
+    }
+  },
+  beforeDestroy: function()  {
+    window.removeEventListener('keypress', this.handleKeyboardCancellation)
+  },
 }
 </script>
 
 <style scoped>
 #cinematic-div {
   position: relative;
-  display: inline-block;
   font-size: 1.5em;
+  height: 514px;
 }
 
 #cinematic-div canvas {
