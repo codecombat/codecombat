@@ -2,6 +2,7 @@ import CinematicLankBoss from './CinematicLankBoss'
 import Loader from './Loader'
 import { parseShot } from './Command/CinematicParser'
 import CommandRunner from './Command/CommandRunner'
+import DialogSystem from './DialogSystem';
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -55,6 +56,11 @@ export class CinematicController {
     this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
     this.systems.loader = new Loader({ slug })
 
+    this.systems.dialogSystem = new DialogSystem({
+      canvasDiv,
+      camera: this.systems.camera
+    })
+
     this.systems.cinematicLankBoss = new CinematicLankBoss({
       groundLayer: this.stubRequiredLayer,
       layerAdapter: this.layerAdapter,
@@ -82,10 +88,7 @@ export class CinematicController {
     const commands = data.shots
       .map(shot => parseShot(shot, this.systems))
       .filter(commands => commands.length > 0)
-      // .reduce((acc, commands) => [...acc, ...commands], [])
-
-    console.log('Each shot of commands:')
-    commands.forEach(c => console.log(c))
+      .reduce((acc, commands) => [...acc, ...commands], [])
 
     // TODO: There must be a better way than an array of locks! In future add reasonable timeout with `Promise.race`.
     await Promise.all(this.startupLocks)
@@ -117,6 +120,7 @@ export class CinematicController {
       return
     }
     const currentShot = this.commands.shift()
+    console.log(`Running batch of commands:`, { currentShot })
     this._runShot(currentShot)
   }
 

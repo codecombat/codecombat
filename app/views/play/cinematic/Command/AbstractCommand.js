@@ -1,4 +1,5 @@
-import * as Promise from 'bluebird'
+// Throws and error if `import ... from ..` syntax.
+const Promise = require('bluebird')
 
 Promise.config({
   cancellation: true
@@ -101,5 +102,39 @@ export default class AbstractCommand {
 export class Noop extends AbstractCommand {
   run () {
     return Promise.resolve()
+  }
+}
+
+/**
+ * AnimeCommand is used to turn animejs animation tweens into commands that the Command Runner can play and cancel.
+ */
+export class AnimeCommand extends AbstractCommand {
+  /**
+   * @param {anime} animation The animation that will be run.
+   */
+  constructor (animation) {
+    super()
+    this.animation = animation
+  }
+
+  /**
+   * Starts the animation, returning a cancellable promise that resolves when
+   * animation completes.
+   */
+  run () {
+    return new Promise((resolve, reject) => {
+      this.animation.play()
+      this.animation.complete = resolve
+    })
+  }
+
+  /**
+   * Cancel method ignores the promise and simply moves the animation
+   * to the end.
+   */
+  cancel (promise) {
+    const animation = this.animation
+    animation.seek(animation.duration)
+    return promise
   }
 }

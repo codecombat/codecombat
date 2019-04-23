@@ -27,6 +27,12 @@ module.exports = Vue.extend({
     inputting: true,
     slugInput: ''
   }),
+  mounted: function() {
+    // TODO: REMOVE THIS FROM PR
+    this.slugInput = "multiple-shots1"
+    this.inputting = false
+    // TODO: END REMOVE FROM PR.
+  },
   methods: {
     playCinematic: function() {
       this.inputting = false

@@ -1,4 +1,4 @@
-import AbstractCommand from './AbstractCommand';
+import AbstractCommand from './AbstractCommand'
 
 /**
  * @typedef {import('../../../../schemas/selectors/cinematic').Cinematic} Cinematic
@@ -50,16 +50,26 @@ import AbstractCommand from './AbstractCommand';
 const parseSetup = (shot, systems) =>
   Object.values(systems)
     .filter(sys => sys !== undefined && typeof sys.parseSetupShot === 'function')
-    .reduce((commands, sys) => (
-      [...commands, ...sys.parseSetupShot(shot)])
+    .reduce((commands, sys) => {
+      const systemCommands = sys.parseSetupShot(shot)
+      if (!Array.isArray(systemCommands)) {
+        throw new Error('Your system should always return an array of commands.')
+      }
+      return [...commands, ...systemCommands]
+    }
     , [])
 
+/**
+ * Returns an array of commands.
+ * @param {*} dialogNode 
+ * @param {*} systems 
+ */
 const parseDialogNode = (dialogNode, systems) =>
   Object.values(systems)
     .filter(sys => sys !== undefined && typeof sys.parseDialogNode === 'function')
-    .reduce((commands, sys) => ([
+    .reduce((commands, sys) => (
       [...commands, ...sys.parseDialogNode(dialogNode)]
-    ]), [])
+    ), [])
 
 /**
  * Parses a shot and dialog nodes.
@@ -81,17 +91,17 @@ export const parseShot = (shot, systems) => {
   console.log('within the parser')
   console.log(setupCommands)
   console.log('dialogNodes')
-  console.log(dialogNodes)
+  console.log(JSON.stringify(dialogNodes))
 
   // If we have both dialogNodes and some setupCommands we want to
   // have the setup occur just before the first dialogNode.
   if (dialogNodes.length > 0 && setupCommands.length > 0) {
     const commands = [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
-    console.log(`Inner dialog + setup smoosh: ${commands}`)
+    console.log(`Inner dialog + setup smoosh:`, commands)
     return commands
   }
   if (dialogNodes.length === 0) {
-    return setupCommands
+    return [setupCommands]
   }
   return dialogNodes
 }

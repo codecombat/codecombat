@@ -1,13 +1,8 @@
 import anime from 'animejs/lib/anime.es.js'
-import Promise from 'bluebird'
-import AbstractCommand, { Noop } from './Command/AbstractCommand'
+import { Noop, AnimeCommand } from './Command/AbstractCommand'
 import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug } from '../../../schemas/selectors/cinematic'
 
 const Lank = require('lib/surface/Lank')
-
-Promise.config({
-  cancellation: true
-})
 
 /**
  * @typedef {import(./Command/CinematicParser).System} System
@@ -165,40 +160,6 @@ export default class CinematicLankBoss {
 
     this.layerAdapter.addLank(lank)
     this.registerLank(side, lank)
-  }
-}
-
-/**
- * AnimeCommand is used to turn animejs animation tweens into commands that the Command Runner can play and cancel.
- */
-class AnimeCommand extends AbstractCommand {
-  /**
-   * @param {anime} animation The animation that will be run.
-   */
-  constructor (animation) {
-    super()
-    this.animation = animation
-  }
-
-  /**
-   * Starts the animation, returning a cancellable promise that resolves when
-   * animation completes.
-   */
-  run () {
-    return new Promise((resolve, reject) => {
-      this.animation.play()
-      this.animation.complete = resolve
-    })
-  }
-
-  /**
-   * Cancel method ignores the promise and simply moves the animation
-   * to the end.
-   */
-  cancel (promise) {
-    const animation = this.animation
-    animation.seek(animation.duration)
-    return promise
   }
 }
 

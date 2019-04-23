@@ -138,3 +138,11 @@ export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, c
  * @param {Shot} shot
  */
 export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug)
+
+/**
+ * Attempt to retrieve the text from the dialogNode.
+ *
+ * @param {DialogNode} dialogNode which might have text.
+ * @returns {string|undefined} the text if it exists.
+ */
+export const getText = dialogNode => (dialogNode || {}).text
