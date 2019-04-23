@@ -33,16 +33,19 @@ export default class CinematicLankBoss {
     this.loader = loader
   }
 
+  /**
+   * Returns a list of commands that correctly set up the shot.
+   * @param {Shot} shot - the cinematic shot data.
+   */
   parseSetupShot (shot) {
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
-    const setupCommands = []
-    const cleanupCommands = []
+    const commands = []
 
     if (leftCharSlug) {
       const { slug, enterOnStart, position } = leftCharSlug
       this.addLank('left', this.loader.getThangType(slug))
       if (enterOnStart) {
-        setupCommands.push(this.moveLankCommand('left', position))
+        commands.push(this.moveLankCommand('left', position))
       } else {
         this.moveLank('left', position)
       }
@@ -53,16 +56,13 @@ export default class CinematicLankBoss {
       const { slug, enterOnStart, position } = rightCharSlug
       this.addLank('right', this.loader.getThangType(slug))
       if (enterOnStart) {
-        setupCommands.push(this.moveLankCommand('right', position))
+        commands.push(this.moveLankCommand('right', position))
       } else {
         this.moveLank('right', position)
       }
     }
 
-    return {
-      commands: setupCommands,
-      cleanupCommands
-    }
+    return commands
   }
 
   registerLank (side, lank) {

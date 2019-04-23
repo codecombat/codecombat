@@ -1,6 +1,4 @@
-export const parseShot = (shot, systems) => {
-  return parseSetup(shot, systems)
-}
+import AbstractCommand from './AbstractCommand';
 
 /**
  * @typedef {import('../../../../schemas/selectors/cinematic').Cinematic} Cinematic
@@ -19,12 +17,6 @@ export const parseShot = (shot, systems) => {
  */
 
 /**
- * @typedef {Object} CommandTuple
- * @property {AbstractCommand[]} commands - The commands to be run to execute this dialogNode or shotSetup.
- * @property {AbstractCommand[]} cleanupCommands - commands that can be used to cleanup prior commands.
- */
-
-/**
  * Interface for classes that represent a System.
  *
  * @interface System
@@ -34,14 +26,14 @@ export const parseShot = (shot, systems) => {
  * @function
  * @name System#parseSetupShot
  * @param {Shot} - The data of the current shot.
- * @returns {CommandTuple} - commands are run immediately. cleanupCommands will be run at the end of the shot.
+ * @returns {AbstractCommand[]} - commands run just before the first dialogNode.
  */
 
 /**
  * @function
  * @name System#parseDialogNode
  * @param {DialogNode} - The dialogNode data.
- * @returns {CommandTuple} - commands are run immediately. cleanupCommands get run just before next dialogNode runs.
+ * @returns {AbstractCommand[]} - commands for a dialogNode.
  */
 
 /**
@@ -53,12 +45,53 @@ export const parseShot = (shot, systems) => {
  * Returns an array of Commands for the setup of the shot.
  * @param {Shot} shot
  * @param {Systems} systems
+ * @returns {AbstractCommand[]} The commands to run at the start and end of the shot.
  */
-const parseSetup = (shot, systems) => {
-  const { cinematicLankBoss } = systems
-  let setupCommands = []
+const parseSetup = (shot, systems) =>
+  Object.values(systems)
+    .filter(sys => sys !== undefined && typeof sys.parseSetupShot === 'function')
+    .reduce((commands, sys) => (
+      [...commands, ...sys.parseSetupShot(shot)])
+    , [])
 
-  setupCommands = setupCommands.concat(cinematicLankBoss.parseSetupShot(shot).commands || [])
+const parseDialogNode = (dialogNode, systems) =>
+  Object.values(systems)
+    .filter(sys => sys !== undefined && typeof sys.parseDialogNode === 'function')
+    .reduce((commands, sys) => ([
+      [...commands, ...sys.parseDialogNode(dialogNode)]
+    ]), [])
 
-  return setupCommands
+/**
+ * Parses a shot and dialog nodes.
+ *
+ * Returns a 2d array of command nodes. Each inner array is passed into the
+ * CommandRunner and run until user interuption or conclusion. Then between the
+ * inner arrays the cinematicController waits before running the next command batch.
+ *
+ * @param {Shot} shot The shot that is being run.
+ * @param {Object} systems The systems.
+ * @returns {AbstractCommand[][]} A 2d array of commands.
+ */
+export const parseShot = (shot, systems) => {
+  const setupCommands = parseSetup(shot, systems) || []
+  const dialogNodes = (shot.dialogNodes || [])
+    .map((node) => parseDialogNode(node, systems))
+    .filter(dialogCommands => dialogCommands.length > 0)
+
+  console.log('within the parser')
+  console.log(setupCommands)
+  console.log('dialogNodes')
+  console.log(dialogNodes)
+
+  // If we have both dialogNodes and some setupCommands we want to
+  // have the setup occur just before the first dialogNode.
+  if (dialogNodes.length > 0 && setupCommands.length > 0) {
+    const commands = [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
+    console.log(`Inner dialog + setup smoosh: ${commands}`)
+    return commands
+  }
+  if (dialogNodes.length === 0) {
+    return setupCommands
+  }
+  return dialogNodes
 }
