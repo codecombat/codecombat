@@ -21,7 +21,9 @@ module.exports = class RootComponent extends RootView
         propsData: @propsData
         store
       })
+
       window.rootComponent = @vueComponent # Don't use this in code! Just for ease of development
+
     super(arguments...)
 
   destroy: ->

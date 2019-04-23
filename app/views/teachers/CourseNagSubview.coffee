@@ -33,7 +33,7 @@ module.exports = class CourseNagSubview extends CocoView
       return 'I' if p.status() in ["expired", "pending"]
       return 'U' if p.hasBeenUsedByTeacher(me.id)
       return 'E'
-    
+
     @shown = unusedPrepaids.E? and not unusedPrepaids.U?
     @render()
 

@@ -127,5 +127,9 @@ module.exports = {
   'views/courses/RestrictedToStudentsView': function () { return import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView') },
   'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
   'views/user/AnonCertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/AnonCertificatesView') },
-  'views/LicensorView': function() { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView')}
+  'views/LicensorView': function() { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView')},
+
+  // All Vue app components will be loaded via a vue chunk.  Eventually we will integrate webpack loading with Vue and
+  // at that time we can remove this dynamic import and instead include SingletonAppVueComponentView in the main bundle
+  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
 }

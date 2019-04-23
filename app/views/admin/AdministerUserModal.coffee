@@ -274,11 +274,17 @@ module.exports = class AdministerUserModal extends ModalView
       }
     }).then (res) =>
       @userSaveState = 'saved'
+      permissions = @user.get('permissions')
+
+      if checked and res.schoolAdministrator == 0
+          permissions.push('schoolAdministrator')
+      else if not checked and res.schoolAdministrator == 1
+        _.remove(permissions, (p) -> p == 'schoolAdministrator')
+      else
+        @userSaveState = 'Checkbox and server state mismatch. Close and open this dialog again to refresh.'
+
+      @user.set('permissions', permissions)
       @render()
-      setTimeout((()=>
-        @userSaveState = null
-        @render()
-      ), 2000)
     null
 
   onClickEditSchoolAdmins: (e) ->
@@ -351,7 +357,7 @@ module.exports = class AdministerUserModal extends ModalView
           <td>#{_.escape(teacher.email)}</td>
           <td>#{teacher.firstName or 'No first name'}</td>
           <td>#{teacher.lastName or 'No last name'}</td>
-          <td>#{teacher.schoolName or 'No school name'}</td>
+          <td>#{teacher.schoolName or 'Other'}</td>
           <td>Verified teacher: #{teacher.verifiedTeacher or 'false'}</td>
         </tr>
       "
@@ -399,7 +405,7 @@ module.exports = class AdministerUserModal extends ModalView
 
       return "
         <tr>
-          <h6>#{schoolName}</h6>
+          <th>#{schoolName}</th>
           #{teachers.join('\n')}
         </tr>
       "
@@ -411,7 +417,7 @@ module.exports = class AdministerUserModal extends ModalView
   administratedSchools: (teachers) ->
     schools = {}
     _.forEach teachers, (teacher) =>
-      school = teacher?._trialRequest?.organization or "No school found"
+      school = teacher?._trialRequest?.organization or "Other"
       if not schools[school]
         schools[school] = [teacher]
       else

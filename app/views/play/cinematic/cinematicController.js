@@ -70,6 +70,8 @@ export class CinematicController {
 
     this.commands = []
 
+    this.commands = []
+
     this.startUp()
   }
 

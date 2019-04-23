@@ -22,18 +22,23 @@ module.exports = class VueComponentView extends RootView {
     this.propsData = options.propsData
   }
 
+  buildVueComponent() {
+    return new this.VueComponent({
+      el: this.$el.find('#site-content-area')[0],
+      propsData: this.propsData,
+      store: store
+    })
+  }
+
   afterRender() {
     if (this.vueComponent) {
       this.$el.find('#site-content-area').replaceWith(this.vueComponent.$el)
     }
     else{
-      this.vueComponent = new this.VueComponent({
-        el: this.$el.find('#site-content-area')[0],
-        propsData: this.propsData,
-        store: store
-      })
+      this.vueComponent = this.buildVueComponent()
       window.rootComponent = this.vueComponent
     }
+
     super.afterRender()
   }
 

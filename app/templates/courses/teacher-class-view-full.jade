@@ -1,0 +1,18 @@
+extends /templates/base-flat.jade
+
+mixin breadcrumbs
+    .breadcrumbs.rtl-allowed
+        a(data-i18n='teacher.my_classes' href='/teachers/classes')
+        span.spl.spr >
+        //- TODO: Use .glyphicon-menu-right when we update bootstrap
+        span
+            = view.classroom.get('name')
+
+block page_nav
+    include ./teacher-dashboard-nav.jade
+
+block content
+    .container(dir="auto")
+        +breadcrumbs
+
+    include ./teacher-class-view
