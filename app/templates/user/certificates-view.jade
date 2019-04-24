@@ -78,6 +78,10 @@ style.
               span(data-i18n="courses.teacher")
               span= ': '
               span= view.teacherName
+          if view.serialNumber
+            .serial-number-info
+              span= 'No. '
+              span= view.serialNumber
           if view.thangType && view.thangType.loaded
             .hero-signature
               img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')
