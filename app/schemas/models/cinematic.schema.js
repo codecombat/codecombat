@@ -108,8 +108,8 @@ const DialogNode = c.object({
   }),
   dialogClear: {
     type: 'boolean',
-    title: 'Dialog Clear on End',
-    description: 'Whether or not all dialog nodes are cleared from screen or left up.'
+    title: 'Clear dialog on screen',
+    description: 'Whether we clear any existing dialog nodes.'
   },
   exitRightCharacter: { title: 'Exit Right Character', description: 'whether right character exits at dialog node completion', type: 'boolean' },
   exitLeftCharacter: { title: 'Exit Left Character', description: 'whether left character exits at dialog node completion', type: 'boolean' },

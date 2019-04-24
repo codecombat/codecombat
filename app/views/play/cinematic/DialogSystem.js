@@ -1,8 +1,29 @@
 import anime from 'animejs/lib/anime.es.js'
-import { Noop, AnimeCommand } from './Command/AbstractCommand'
-import { getText } from '../../../schemas/selectors/cinematic'
+import { Noop, AnimeCommand, SyncFunction } from './Command/AbstractCommand'
+import { getText, getClearText, getTextPosition } from '../../../schemas/selectors/cinematic'
+
+// Polyfill for node.remove method.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
+// from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('remove')) {
+      return
+    }
+    Object.defineProperty(item, 'remove', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function remove () {
+        this.parentNode.removeChild(this)
+      }
+    })
+  })
+})([Element.prototype, CharacterData.prototype, DocumentType.prototype]);
 
 const SVGNS = 'http://www.w3.org/2000/svg'
+const padding = 10
+
 /**
  * This system coordinates drawing HTML and SVG to the screen.
  *
@@ -27,17 +48,36 @@ export default class DialogSystem {
 
     canvasDiv.appendChild(svg)
     canvasDiv.appendChild(div)
+
+    this.dialogBubbles = []
   }
 
   parseDialogNode (dialogNode) {
+    const commands = []
     const text = getText(dialogNode)
-    if (!text) {
-      return new Noop()
+    const shouldClear = getClearText(dialogNode)
+    const { x, y } = getTextPosition(dialogNode) || { x: 200, y: 200 }
+
+    if (shouldClear) {
+      commands.push(this.clearDialogBubbles())
     }
-    return this.createBubble({
-      htmlString: `<div>${text}</div>`,
-      x: 200,
-      y: 200
+
+    if (text) {
+      commands.push(this.createBubble({
+        htmlString: `<div>${text}</div>`,
+        x,
+        y
+      }))
+    }
+    return commands
+  }
+
+  clearDialogBubbles () {
+    return new SyncFunction(() => {
+      this.dialogBubbles.forEach(
+        // Not supported on Internet explorer
+        el => el.remove()
+      )
     })
   }
 
@@ -51,7 +91,8 @@ export default class DialogSystem {
       svg: this.svg,
       htmlString: wrapText(htmlString),
       x,
-      y
+      y,
+      dialogBubbles: this.dialogBubbles
     })).createBubbleCommand()
   }
 }
@@ -63,7 +104,8 @@ class SpeechBubble {
     svg,
     htmlString,
     x,
-    y
+    y,
+    dialogBubbles
   }) {
     this.id = `speech-${_id++}`
     this.svg = svg
@@ -81,58 +123,63 @@ class SpeechBubble {
     const width = bbox.right - bbox.left
     const height = bbox.bottom - bbox.top
 
-    const addRect = () =>
-      this.createRect({
-        x, y: y - height, width, height
-      })
-    addRect()
+    const svgGroup = this.createSvgShape({
+      x, y: y - height, width, height
+    })
+
     this.animation = anime
       .timeline({
         autoplay: false
       })
       .add({
-        targets: `svg rect`,
-        height: [height],
-        scale: 1,
+        targets: `svg g`,
+        opacity: 1,
+        duration: 100,
+        easing: 'easeInOutQuart'
+      })
+      .add({
+        targets: `svg g rect`,
+        height: [height + 2 * padding],
         duration: 300,
-        easing: 'easeInOutQuart',
+        easing: 'easeInOutQuart'
       })
       .add({
         targets: `#${this.id} .letter`,
-        translateY: ['1.1em', 0],
-        translateZ: 0,
         opacity: 1,
         duration: 750,
         delay: anime.stagger(100, { easing: 'easeOutQuad' }),
-        easing: 'easeInOutBack'
+        easing: 'easeInOutBack',
+        complete: () => {
+          dialogBubbles.push(svgGroup)
+          dialogBubbles.push(textDiv)
+        }
       })
-      // .add({
-      //   targets: `#${this.id}, svg rect`,
-      //   opacity: 0,
-      //   delay: 200,
-      //   duration: 800,
-      //   easing: 'linear'
-      // })
-    // TODO: figure this out.
-    // .then(() => {
-    //   rect.removeChild()
-    //   textDiv.removeChild()
-    // })
   }
 
   createBubbleCommand () {
-    return [new AnimeCommand(this.animation)]
+    return new AnimeCommand(this.animation)
   }
 
-  createRect ({ x, y, width, height }) {
+  createSvgShape ({ x, y, width, height, side }) {
+    const g = document.createElementNS(SVGNS, 'g')
+    g.setAttribute('transform', `translate(${x - padding}, ${y + height + 1 - padding})`)
+    g.setAttribute('fill', 'white')
+    g.setAttribute('opacity', '0')
+
     const rect = document.createElementNS(SVGNS, 'rect')
-    rect.setAttribute('x', `${x}`)
-    rect.setAttribute('y', `${y + height + 1}`)
-    rect.setAttribute('width', `${width}`)
+    rect.setAttribute('width', `${width + 2 * padding}`)
+    // Set by an animation.
     rect.setAttribute('height', `${0}`)
-    rect.setAttribute('fill', 'white')
-    this.svg.appendChild(rect)
-    return rect
+
+    const path = document.createElementNS(SVGNS, 'path')
+    path.setAttribute('d', 'M -20 20 l 21 -10 0 20 z')
+    if (side === 'right') {
+      path.setAttribute('transform', `translate(${width},0) scale(-1, 1)`)
+    }
+    g.appendChild(rect)
+    g.appendChild(path)
+    this.svg.appendChild(g)
+    return g
   }
 }
 

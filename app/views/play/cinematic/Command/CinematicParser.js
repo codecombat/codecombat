@@ -88,16 +88,10 @@ export const parseShot = (shot, systems) => {
     .map((node) => parseDialogNode(node, systems))
     .filter(dialogCommands => dialogCommands.length > 0)
 
-  console.log('within the parser')
-  console.log(setupCommands)
-  console.log('dialogNodes')
-  console.log(JSON.stringify(dialogNodes))
-
   // If we have both dialogNodes and some setupCommands we want to
   // have the setup occur just before the first dialogNode.
   if (dialogNodes.length > 0 && setupCommands.length > 0) {
     const commands = [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
-    console.log(`Inner dialog + setup smoosh:`, commands)
     return commands
   }
   if (dialogNodes.length === 0) {

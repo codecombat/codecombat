@@ -138,3 +138,20 @@ export class AnimeCommand extends AbstractCommand {
     return promise
   }
 }
+
+/**
+ * SyncFunction runs a synchronous function.
+ */
+export class SyncFunction extends AbstractCommand {
+  /**
+   * @param {Function} runFn Synchronous function that doesn't return anything.
+   */
+  constructor (runFn) {
+    super()
+    this.run = () => {
+      runFn()
+      return Promise.resolve()
+    }
+    this.cancel = () => {}
+  }
+}
