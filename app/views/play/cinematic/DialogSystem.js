@@ -19,7 +19,7 @@ import { getText, getClearText, getTextPosition } from '../../../schemas/selecto
       }
     })
   })
-})([Element.prototype, CharacterData.prototype, DocumentType.prototype]);
+})([Element.prototype, CharacterData.prototype, DocumentType.prototype])
 
 const SVGNS = 'http://www.w3.org/2000/svg'
 const padding = 10
@@ -124,7 +124,7 @@ class SpeechBubble {
     const height = bbox.bottom - bbox.top
 
     const svgGroup = this.createSvgShape({
-      x, y: y - height, width, height
+      x, y: y - height, width, height, id: this.id
     })
 
     this.animation = anime
@@ -132,13 +132,13 @@ class SpeechBubble {
         autoplay: false
       })
       .add({
-        targets: `svg g`,
+        targets: `svg g.${this.id}`,
         opacity: 1,
         duration: 100,
         easing: 'easeInOutQuart'
       })
       .add({
-        targets: `svg g rect`,
+        targets: `svg g.${this.id} rect`,
         height: [height + 2 * padding],
         duration: 300,
         easing: 'easeInOutQuart'
@@ -160,11 +160,12 @@ class SpeechBubble {
     return new AnimeCommand(this.animation)
   }
 
-  createSvgShape ({ x, y, width, height, side }) {
+  createSvgShape ({ x, y, width, height, side, id }) {
     const g = document.createElementNS(SVGNS, 'g')
     g.setAttribute('transform', `translate(${x - padding}, ${y + height + 1 - padding})`)
     g.setAttribute('fill', 'white')
     g.setAttribute('opacity', '0')
+    g.setAttribute('class', id)
 
     const rect = document.createElementNS(SVGNS, 'rect')
     rect.setAttribute('width', `${width + 2 * padding}`)
