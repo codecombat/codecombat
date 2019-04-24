@@ -103,6 +103,7 @@ export default class CinematicLankBoss {
       y: pos.y,
       duration: ms,
       autoplay: false,
+      easing: 'easeInOutQuart',
       // Update required to ensure Lank sprite position is moved.
       update: () => { this[side].thang.stateChanged = true }
     })

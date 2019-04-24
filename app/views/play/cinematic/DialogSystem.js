@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
 import { Noop, AnimeCommand, SyncFunction } from './Command/AbstractCommand'
-import { getText, getClearText, getTextPosition } from '../../../schemas/selectors/cinematic'
+import { getText, getClearText, getTextPosition, getSpeaker } from '../../../schemas/selectors/cinematic'
 
 // Polyfill for node.remove method.
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
@@ -57,6 +57,7 @@ export default class DialogSystem {
     const text = getText(dialogNode)
     const shouldClear = getClearText(dialogNode)
     const { x, y } = getTextPosition(dialogNode) || { x: 200, y: 200 }
+    const side = getSpeaker(dialogNode) || 'left'
 
     if (shouldClear) {
       commands.push(this.clearDialogBubbles())
@@ -66,7 +67,8 @@ export default class DialogSystem {
       commands.push(this.createBubble({
         htmlString: `<div>${text}</div>`,
         x,
-        y
+        y,
+        side
       }))
     }
     return commands
@@ -84,7 +86,8 @@ export default class DialogSystem {
   createBubble ({
     htmlString,
     x,
-    y
+    y,
+    side
   }) {
     return (new SpeechBubble({
       div: this.div,
@@ -92,6 +95,7 @@ export default class DialogSystem {
       htmlString: wrapText(htmlString),
       x,
       y,
+      side,
       dialogBubbles: this.dialogBubbles
     })).createBubbleCommand()
   }
@@ -105,7 +109,8 @@ class SpeechBubble {
     htmlString,
     x,
     y,
-    dialogBubbles
+    dialogBubbles,
+    side
   }) {
     this.id = `speech-${_id++}`
     this.svg = svg
@@ -124,7 +129,12 @@ class SpeechBubble {
     const height = bbox.bottom - bbox.top
 
     const svgGroup = this.createSvgShape({
-      x, y: y - height, width, height, id: this.id
+      x,
+      y: y - height,
+      width,
+      height,
+      id: this.id,
+      side
     })
 
     this.animation = anime
@@ -147,8 +157,8 @@ class SpeechBubble {
         targets: `#${this.id} .letter`,
         opacity: 1,
         duration: 750,
-        delay: anime.stagger(100, { easing: 'easeOutQuad' }),
-        easing: 'easeInOutBack',
+        delay: anime.stagger(50, { easing: 'linear' }),
+        easing: 'easeOutQuad',
         complete: () => {
           dialogBubbles.push(svgGroup)
           dialogBubbles.push(textDiv)
@@ -175,7 +185,7 @@ class SpeechBubble {
     const path = document.createElementNS(SVGNS, 'path')
     path.setAttribute('d', 'M -20 20 l 21 -10 0 20 z')
     if (side === 'right') {
-      path.setAttribute('transform', `translate(${width},0) scale(-1, 1)`)
+      path.setAttribute('transform', `translate(${width + 2 * padding},0) scale(-1, 1)`)
     }
     g.appendChild(rect)
     g.appendChild(path)

@@ -154,3 +154,5 @@ export const getText = dialogNode => (dialogNode || {}).text
 export const getClearText = dialogNode => (dialogNode || {}).dialogClear
 
 export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
+
+export const getSpeaker = dialogNode => (dialogNode || {}).speaker
