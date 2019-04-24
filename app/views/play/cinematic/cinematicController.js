@@ -2,7 +2,7 @@ import CinematicLankBoss from './CinematicLankBoss'
 import Loader from './Loader'
 import { parseShot } from './Command/CinematicParser'
 import CommandRunner from './Command/CommandRunner'
-import DialogSystem from './DialogSystem';
+import DialogSystem from './DialogSystem'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -60,6 +60,10 @@ export class CinematicController {
       canvasDiv,
       camera: this.systems.camera
     })
+
+    this.systems.dialogSystem.templateContext = {
+      name: me.get('name') || 'hero'
+    }
 
     this.systems.cinematicLankBoss = new CinematicLankBoss({
       groundLayer: this.stubRequiredLayer,

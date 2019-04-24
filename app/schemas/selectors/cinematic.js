@@ -140,14 +140,6 @@ export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, c
 export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug)
 
 /**
- * Attempt to retrieve the text from the dialogNode.
- *
- * @param {DialogNode} dialogNode which might have text.
- * @returns {string|undefined} the text if it exists.
- */
-export const getText = dialogNode => (dialogNode || {}).text
-
-/**
  * @param {DialogNode} dialogNode
  * @returns {bool|undefined} whether we should clear all existing dialogs.
  */

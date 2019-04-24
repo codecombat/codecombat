@@ -1,8 +1,10 @@
 import anime from 'animejs/lib/anime.es.js'
-import { Noop, AnimeCommand, SyncFunction } from './Command/AbstractCommand'
-import { getText, getClearText, getTextPosition, getSpeaker } from '../../../schemas/selectors/cinematic'
+import AbstractCommand, { AnimeCommand, SyncFunction } from './Command/AbstractCommand'
+import { getClearText, getTextPosition, getSpeaker } from '../../../schemas/selectors/cinematic'
+import utils from 'app/core/utils'
+import tmpl from 'blueimp-tmpl'
 
-// Polyfill for node.remove method.
+// Polyfill for `node.remove` method.
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
 // from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
 (function (arr) {
@@ -26,9 +28,7 @@ const padding = 10
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
- *
- * It's also responsible for disposing of used elements and
- * playing/ending the various animations of the text.
+ * It is also responsible for localization and interpolation of the speech bubbles.
  */
 export default class DialogSystem {
   constructor ({ canvasDiv, camera }) {
@@ -49,59 +49,71 @@ export default class DialogSystem {
     canvasDiv.appendChild(svg)
     canvasDiv.appendChild(div)
 
-    this.dialogBubbles = []
+    this.shownDialogBubbles = []
+    this._context = {}
   }
 
+  /**
+   * This context object can be accessed from the dialog text templates.
+   * E.g. a context object of: `{ name: 'Mary' }` can then be used in the following
+   * dialog text:
+   *   `Hello, <%=o.name%>`
+   * Which then appears as:
+   *   `Hello, Mary`
+   *
+   * @param {Object} context - used for interpolation.
+   */
+  set templateContext (context) {
+    this._context = context
+  }
+
+  /**
+   * The system method that is run on every dialogNode.
+   * @param {import('../../../schemas/selectors/cinematic').DialogNode} dialogNode
+   * @returns {AbstractCommand[]}
+   */
   parseDialogNode (dialogNode) {
     const commands = []
-    const text = getText(dialogNode)
+    const text = processText(dialogNode, this._context)
     const shouldClear = getClearText(dialogNode)
     const { x, y } = getTextPosition(dialogNode) || { x: 200, y: 200 }
     const side = getSpeaker(dialogNode) || 'left'
 
     if (shouldClear) {
-      commands.push(this.clearDialogBubbles())
+      commands.push(this.clearShownDialogBubbles())
     }
 
     if (text) {
-      commands.push(this.createBubble({
-        htmlString: `<div>${text}</div>`,
+      commands.push((new SpeechBubble({
+        div: this.div,
+        svg: this.svg,
+        htmlString: text,
         x,
         y,
+        shownDialogBubbles: this.shownDialogBubbles,
         side
-      }))
+      })).createBubbleCommand())
     }
     return commands
   }
 
-  clearDialogBubbles () {
+  /**
+   * @returns {AbstractCommand}
+   */
+  clearShownDialogBubbles () {
     return new SyncFunction(() => {
-      this.dialogBubbles.forEach(
-        // Not supported on Internet explorer
-        el => el.remove()
-      )
+      this.shownDialogBubbles.forEach(el => el.remove())
     })
-  }
-
-  createBubble ({
-    htmlString,
-    x,
-    y,
-    side
-  }) {
-    return (new SpeechBubble({
-      div: this.div,
-      svg: this.svg,
-      htmlString: wrapText(htmlString),
-      x,
-      y,
-      side,
-      dialogBubbles: this.dialogBubbles
-    })).createBubbleCommand()
   }
 }
 
 let _id = 0
+/**
+ * Creates a speech bubble eagerly.
+ * Can return a command to display the speech bubble when called.
+ *
+ * Attaches itself to the svg canvas and div canvas.
+ */
 class SpeechBubble {
   constructor ({
     div,
@@ -109,34 +121,40 @@ class SpeechBubble {
     htmlString,
     x,
     y,
-    dialogBubbles,
+    shownDialogBubbles,
     side
   }) {
     this.id = `speech-${_id++}`
-    this.svg = svg
     const parser = new DOMParser()
     const html = parser.parseFromString(htmlString, 'text/html')
     const textDiv = html.body.firstChild
     textDiv.style.display = 'inline-block'
+    textDiv.style.position = 'absolute'
     textDiv.style.left = `${x}`
     textDiv.style.top = `${y}`
-    textDiv.style.position = 'absolute'
     textDiv.id = this.id
 
     div.appendChild(textDiv)
-    const bbox = textDiv.getBoundingClientRect()
-    const width = bbox.right - bbox.left
-    const height = bbox.bottom - bbox.top
 
-    const svgGroup = this.createSvgShape({
+    // We've created and attached the dialog text.
+    // Now we can calculate the bounding box and draw the svg shape.
+    const bbox = textDiv.getBoundingClientRect()
+    const width = (bbox.right - bbox.left) + 2 * padding
+    const height = (bbox.bottom - bbox.top) + 2 * padding
+
+    const svgGroup = createSvgShape({
       x,
       y: y - height,
       width,
       height,
-      id: this.id,
+      clazz: this.id,
       side
     })
+    svg.appendChild(svgGroup)
 
+    // We set up the animation but don't play it yet.
+    // On completion we attach html node and svg node to the `shownDialogBubbles`
+    // array for future cleanup.
     this.animation = anime
       .timeline({
         autoplay: false
@@ -149,7 +167,7 @@ class SpeechBubble {
       })
       .add({
         targets: `svg g.${this.id} rect`,
-        height: [height + 2 * padding],
+        height: [height],
         duration: 300,
         easing: 'easeInOutQuart'
       })
@@ -160,42 +178,86 @@ class SpeechBubble {
         delay: anime.stagger(50, { easing: 'linear' }),
         easing: 'easeOutQuad',
         complete: () => {
-          dialogBubbles.push(svgGroup)
-          dialogBubbles.push(textDiv)
+          shownDialogBubbles.push(svgGroup)
+          shownDialogBubbles.push(textDiv)
         }
       })
   }
 
+  /**
+   * @returns {AbstractCommand} command to play the animation revealing the speech bubble.
+   */
   createBubbleCommand () {
     return new AnimeCommand(this.animation)
-  }
-
-  createSvgShape ({ x, y, width, height, side, id }) {
-    const g = document.createElementNS(SVGNS, 'g')
-    g.setAttribute('transform', `translate(${x - padding}, ${y + height + 1 - padding})`)
-    g.setAttribute('fill', 'white')
-    g.setAttribute('opacity', '0')
-    g.setAttribute('class', id)
-
-    const rect = document.createElementNS(SVGNS, 'rect')
-    rect.setAttribute('width', `${width + 2 * padding}`)
-    // Set by an animation.
-    rect.setAttribute('height', `${0}`)
-
-    const path = document.createElementNS(SVGNS, 'path')
-    path.setAttribute('d', 'M -20 20 l 21 -10 0 20 z')
-    if (side === 'right') {
-      path.setAttribute('transform', `translate(${width + 2 * padding},0) scale(-1, 1)`)
-    }
-    g.appendChild(rect)
-    g.appendChild(path)
-    this.svg.appendChild(g)
-    return g
   }
 }
 
 /**
+ * @typedef {Object} SvgBubbleOptions
+ * @property {number} x - x position of the bubble.
+ * @property {number} y - y position
+ * @property {number} width
+ * @property {number} height
+ * @property {'left'|'right'} side
+ * @property {string} class - the unique class for this bubble
+ */
+
+/**
+ * Returns a svg speech bubble that can be attached to an svg canvas.
+ * @param {SvgBubbleOptions} svgOptions - Svg options for generating the svg shape.
+ * @returns {SVGGElement} the group element of the svg bubble.
+ */
+function createSvgShape ({ x, y, width, height, side, clazz }) {
+  const g = document.createElementNS(SVGNS, 'g')
+  g.setAttribute('transform', `translate(${x - padding}, ${y + height + 1 - padding})`)
+  g.setAttribute('fill', 'white')
+  // Animation will reveal this svg.
+  g.setAttribute('opacity', '0')
+  g.setAttribute('class', clazz)
+
+  const rect = document.createElementNS(SVGNS, 'rect')
+  rect.setAttribute('width', `${width}`)
+
+  // Animation will add the future height.
+  rect.setAttribute('height', `${0}`)
+
+  const path = document.createElementNS(SVGNS, 'path')
+  path.setAttribute('d', 'M -20 20 l 21 -10 0 20 z')
+  if (side === 'right') {
+    path.setAttribute('transform', `translate(${width},0) scale(-1, 1)`)
+  }
+  g.appendChild(rect)
+  g.appendChild(path)
+  return g
+}
+
+/**
+ * Extract the text from the DialogNode, and transform it into an html element ready for animation.
+ *
+ * This function handles internationalization, text interpolation and html processing.
+ *
+ * We use very light weight [Javascript-Templates](https://blueimp.github.io/JavaScript-Templates/)
+ * in order to provide text templating.
+ *
+ * @param {DialogNode} dialogNode
+ * @param {Object} context - The object referred to as `o` in the text templates.
+ * @returns {HTMLElement|undefined} The processed element.
+ */
+export function processText (dialogNode, context) {
+  let text = utils.i18n(dialogNode, 'text')
+  text = tmpl(text || '', context)
+  if (!text) {
+    return undefined
+  }
+  return wrapText(`<div>${text}</div>`)
+}
+
+/**
  * From the stackoverflow answer: https://stackoverflow.com/a/20693791/6421793
+ * Wraps each letter with a span set at opacity 0.
+ * This lets us calculate the bounding box of the html element.
+ * To prevent the possible occurrance of line breaks in the middle of a word
+ * we must also wrap words with a span tag.
  */
 function wrapText (htmlString) {
   // better to abstract the process and create a generic method "replaceHtmlContent"

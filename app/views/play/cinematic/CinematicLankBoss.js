@@ -104,8 +104,9 @@ export default class CinematicLankBoss {
       duration: ms,
       autoplay: false,
       easing: 'easeInOutQuart',
-      // Update required to ensure Lank sprite position is moved.
-      update: () => { this[side].thang.stateChanged = true }
+      // Inform update engine to rerender thang at new position.
+      update: () => { this[side].thang.stateChanged = true },
+      complete: () => { this[side].thang.stateChanged = true }
     })
 
     return new AnimeCommand(animation)
