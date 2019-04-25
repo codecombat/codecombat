@@ -59,7 +59,7 @@ module.exports = class CertificatesView extends RootView
     @listenToOnce @courseLevels, 'sync', @calculateStats
 
     if features.china
-      @serialNumber = @hashString(@user.id, @courseInstanceID)
+      @serialNumber = @hashString(@user.id + @courseInstanceID)
 
   setHero: (heroOriginal=null) ->
     heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
