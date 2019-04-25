@@ -60,7 +60,8 @@
                 {{ $t('school_administrator.license_stat_description') }}<br />
                 {{ $t('school_administrator.students_stat_description') }}<br />
                 {{ $t('school_administrator.active_students_stat_description') }}<br />
-                {{ $t('school_administrator.project_stat_description') }}
+                <!-- TODO: remove comment once this stat is included -->
+                <!-- {{ $t('school_administrator.project_stat_description') }} -->
             </div>
         </loading-progress>
     </div>
