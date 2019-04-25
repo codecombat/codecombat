@@ -1,4 +1,4 @@
-// Throws and error if `import ... from ..` syntax.
+// Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
 
 Promise.config({
