@@ -146,6 +146,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     view_progress: "진행 상황 보기"
 #    go_to_courses: "Go to My Courses"
     want_coco: "학교에서 코드컴뱃을 해 보고 싶나요?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     twitter_follow: "팔로우"
     my_classrooms: "나의 클래스"
     my_courses: "나의 코스"
+#    my_teachers: "My Teachers"
     careers: "채용"
     facebook: "페이스북"
     twitter: "트위터"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2808,3 +2812,19 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
