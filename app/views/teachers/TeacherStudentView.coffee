@@ -161,9 +161,18 @@ module.exports = class TeacherStudentView extends RootView
   calculateStandardDev: ->
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @levelData
 
+    levelSessionsByStudentByLevel = {}
+    for session in @sessions.models
+      userSessions = levelSessionsByStudentByLevel[session.get('creator')] or {}
+      userSessionsForLevel = userSessions[session.get('level').original] or []
+      userSessionsForLevel.push session
+      userSessions[session.get('level').original] = userSessionsForLevel
+      levelSessionsByStudentByLevel[session.get('creator')] = userSessions
+    levelDataByLevel = {}
+    for levelDatum in @levelData
+      levelDataByLevel[levelDatum.levelID] = levelDatum
     @courseComparisonMap = []
     for versionedCourse in @classroom.getSortedCourses() or []
-      # course = _.find @courses.models, (c) => c.id is versionedCourse._id
       course = @courses.get(versionedCourse._id)
       numbers = []
       studentCourseTotal = 0
@@ -172,14 +181,14 @@ module.exports = class TeacherStudentView extends RootView
         number = 0
         memberPlayed = 0 # number of levels a member has played that this student has also played
         for versionedLevel in versionedCourse.levels
-          for session in @sessions.models
-            if session.get('level').original is versionedLevel.original and session.get('creator') is member
-              playedLevel = _.findWhere(@levelData, {levelID: session.get('level').original})
-              if playedLevel.levelProgress is 'complete' or playedLevel.levelProgress is 'started'
-                number += session.get('playtime') or 0
-                memberPlayed += 1
-              if session.get('creator') is @studentID
-                studentCourseTotal += session.get('playtime') or 0
+          sessions = (levelSessionsByStudentByLevel[member] ? {})[versionedLevel.original] ? []
+          for session in sessions
+            playedLevel = levelDataByLevel[session.get('level').original]
+            if playedLevel.levelProgress is 'complete' or playedLevel.levelProgress is 'started'
+              number += session.get('playtime') or 0
+              memberPlayed += 1
+            if session.get('creator') is @studentID
+              studentCourseTotal += session.get('playtime') or 0
         if memberPlayed > 0 then members += 1
         numbers.push number
 
