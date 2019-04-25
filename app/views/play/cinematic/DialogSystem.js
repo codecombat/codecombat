@@ -1,27 +1,8 @@
 import anime from 'animejs/lib/anime.es.js'
-import AbstractCommand, { AnimeCommand, SyncFunction } from './Command/AbstractCommand'
+import { AnimeCommand, SyncFunction } from './Command/AbstractCommand'
 import { getClearText, getTextPosition, getSpeaker } from '../../../schemas/selectors/cinematic'
 import utils from 'app/core/utils'
-import tmpl from 'blueimp-tmpl'
-
-// Polyfill for `node.remove` method.
-// Reference: https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
-// from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
-(function (arr) {
-  arr.forEach(function (item) {
-    if (item.hasOwnProperty('remove')) {
-      return
-    }
-    Object.defineProperty(item, 'remove', {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: function remove () {
-        this.parentNode.removeChild(this)
-      }
-    })
-  })
-})([Element.prototype, CharacterData.prototype, DocumentType.prototype])
+import tmpl from 'tmpl'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
 const padding = 10
@@ -241,27 +222,46 @@ function createSvgShape ({ x, y, width, height, side, clazz }) {
  *
  * @param {DialogNode} dialogNode
  * @param {Object} context - The object referred to as `o` in the text templates.
+ * @param {bool} wrap - Whether we want to wrap the transpiled text in html tags.
  * @returns {HTMLElement|undefined} The processed element.
  */
-export function processText (dialogNode, context) {
+export function processText (dialogNode, context, wrap = true) {
   let text = utils.i18n(dialogNode, 'text')
   text = tmpl(text || '', context)
   if (!text) {
     return undefined
   }
-  return wrapText(`<div>${text}</div>`)
+
+  if (wrap) {
+    return wrapText(`<div>${text}</div>`)
+  }
+  return text
 }
 
 /**
  * From the stackoverflow answer: https://stackoverflow.com/a/20693791/6421793
+ *
+ * Default behaviour:
+ *
  * Wraps each letter with a span set at opacity 0.
  * This lets us calculate the bounding box of the html element.
  * To prevent the possible occurrance of line breaks in the middle of a word
  * we must also wrap words with a span tag.
+ *
+ * @param {string} htmlString is a raw string representation of html
+ * @param {function} wrapLetterString takes a letter and can return a wrapped letter.
+ * @param {function} wrapWordString takes a word and can return a wrapped word.
+ * @returns {string} transformed html string.
  */
-function wrapText (htmlString) {
-  // better to abstract the process and create a generic method "replaceHtmlContent"
-  // which could be used in multiple contexts
+export function wrapText (htmlString, wrapLetterString, wrapWordString) {
+  if (!wrapLetterString) {
+    wrapLetterString = l => `<span class="letter" style="display: inline-block; opacity:0">${l}</span>`
+  }
+  if (!wrapWordString) {
+    wrapWordString = l => `<span class="word" style="display: inline-block; whites-space: nowrap">${l}</span>`
+  }
+
+  // Method that replaces text content within an html string.
   function replaceHtmlContent (str, match, replaceFn) {
     // we use the "g" and "i" flags to make it replace all occurrences and ignore case
     var re = new RegExp(match, 'gi')
@@ -273,28 +273,17 @@ function wrapText (htmlString) {
   }
 
   function wrapLetter (src, match) {
-    return replaceHtmlContent(src, match, function (str) {
-      return (
-        '<span class="letter" style="display: inline-block; opacity:0">' +
-        str +
-        '</span>'
-      )
-    })
+    return replaceHtmlContent(src, match, wrapLetterString)
   }
 
-  // and create another method specific to our use case
+  // wrapWord maintains spaces on either side of the word.
   function wrapWord (src, match) {
     return replaceHtmlContent(src, match, function (str) {
       let result = ''
       if (str[0] === ' ') {
         result += ' '
       }
-      result += wrapLetter(
-        '<span class="word" style="display: inline-block; whites-space: nowrap">' +
-          str +
-          '</span>',
-        /[^ ]/
-      )
+      result += wrapLetter(wrapWordString(str.trim()), /[^ ]/)
       if (str.substr(-1) === ' ') {
         result += ' '
       }
@@ -302,6 +291,24 @@ function wrapText (htmlString) {
     })
   }
 
-  // so later we can use it like this
   return wrapWord(htmlString, / ?([^ ])+ ?/)
 }
+
+// Polyfill for `node.remove` method.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
+// from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('remove')) {
+      return
+    }
+    Object.defineProperty(item, 'remove', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function remove () {
+        this.parentNode.removeChild(this)
+      }
+    })
+  })
+})([Element.prototype, CharacterData.prototype, DocumentType.prototype])
