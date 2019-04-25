@@ -51,7 +51,7 @@ function getCharacterThangTypeSlugTest (selector, side, data, characterProperty)
 
     it('throws error if type is slug but properties are not fulfilled', () => {
       for (const testData of malformedErrorData(characterProperty)) {
-        expect(() => selector(testData)).toThrow()
+        expect(selector(testData)).toBeUndefined()
       }
     })
   })

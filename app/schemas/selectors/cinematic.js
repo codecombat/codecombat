@@ -31,9 +31,13 @@
 const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
 
 /**
+ * @typedef TypeThangTypeSlug
+ * @param {string} slug
+ */
+
+/**
  * @typedef {Object} CharacterSchema
- * @property {string} type
- * @property {string} slug
+ * @property {string|TypeThangTypeSlug} type
  * @property {boolean} enterOnStart
  * @property {Point2d} position
  */
@@ -102,27 +106,20 @@ const characterThangTypeSlug = character => {
   if (!character) {
     return
   }
-  if (!character.type || character.type !== 'slug') {
+  const type = character.type || {}
+  if (!type.slug) {
     return
   }
-
-  if (!character.slug) {
-    throw new Error(`no slug on char`)
-  }
-  if (!character.position) {
-    throw new Error('no position for char')
-  }
+  const slug = type.slug
 
   if (typeof character.enterOnStart !== 'boolean') {
     character.enterOnStart = false
   }
 
-  const type = character.type
-  const slug = character.slug
   const enterOnStart = character.enterOnStart
-  const position = character.position
+  const position = character.position || { x: 0, y: 0 }
 
-  return { type, slug, enterOnStart, position }
+  return { slug, enterOnStart, position }
 }
 
 /**

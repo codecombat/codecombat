@@ -56,9 +56,9 @@ export default class Loader {
     // storing the promise in our `loadedThangTypes` Map.
     characterArray
       .filter(character => character)
-      .filter(({ type = undefined, slug = undefined }) => type === 'slug' && slug)
-      .filter(({ slug }) => !(this.loadedThangTypes.has(slug) || this.loadingThangTypes.has(slug)))
-      .map(({ slug }) => slug)
+      .filter(({ type = undefined }) => typeof type === 'object' && type !== undefined)
+      .filter(({ type: { slug } }) => !(this.loadedThangTypes.has(slug) || this.loadingThangTypes.has(slug)))
+      .map(({ type: { slug } }) => slug)
       .forEach(slug =>
         this.loadingThangTypes.set(
           slug,

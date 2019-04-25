@@ -5,22 +5,31 @@ const CharacterSchema = (title) => c.object({
   description: 'ThangType that will appear on either the left or right side of the screen.',
   required: ['type']
 }, {
-  type: c.shortString({
-    title: 'Type',
-    description: 'Whether this is the player hero, a thangType slug or null.',
-    enum: ['slug', 'hero', 'null'],
-    default: 'null'
-  }),
-  slug: c.shortString({
-    title: 'ThangType Slug',
-    description: 'Required if type is set to `slug`'
-  }),
+  type: { oneOf: [
+    c.shortString({
+      title: 'Type Hero',
+      description: 'This character is the player character',
+      default: 'hero',
+      enum: ['hero']
+    }),
+    c.object({
+      title: 'Type ThangType Slug',
+      description: 'The thangType that will appear',
+      required: ['slug']
+    }, {
+      slug: c.shortString({
+        title: 'ThangType Slug',
+        description: 'Required if type is set to `slug`',
+        minLength: 1
+      })
+    })
+  ] },
   enterOnStart: {
     type: 'boolean',
     title: 'Animate in?',
     description: 'If true the character will animate in. Otherwise the character will start simply there.'
   },
-  position: c.point2d({ title: 'Position', description: 'Where character is located.' })
+  position: c.point2d({ title: 'Position', description: 'Where character is located in meters' })
 })
 
 const ShotSetup = c.object({
