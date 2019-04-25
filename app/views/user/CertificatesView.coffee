@@ -58,8 +58,7 @@ module.exports = class CertificatesView extends RootView
     @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse classroomID, courseID, data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n,thangs.id,thangs.components.config.programmableMethods' }
     @listenToOnce @courseLevels, 'sync', @calculateStats
 
-    if features.china
-      @serialNumber = @hashString(@user.id + @courseInstanceID)
+    @serialNumber = @hashString(@user.id + @courseInstanceID)
 
   setHero: (heroOriginal=null) ->
     heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
