@@ -53,7 +53,7 @@ const parseSetup = (shot, systems) =>
     .reduce((commands, sys) => {
       const systemCommands = sys.parseSetupShot(shot)
       if (!Array.isArray(systemCommands)) {
-        throw new Error('Your system should always return an array of commands.')
+        throw new Error('Your system should always return an array of commands for a systemSetup')
       }
       return [...commands, ...systemCommands]
     }
@@ -68,14 +68,13 @@ const parseSetup = (shot, systems) =>
 const parseDialogNode = (dialogNode, systems) => {
   const dialogCommands = Object.values(systems)
     .filter(sys => sys !== undefined && typeof sys.parseDialogNode === 'function')
-    .reduce((commands, sys) => (
-      [...commands, ...sys.parseDialogNode(dialogNode)]
-    ), [])
-  if (dialogCommands.length > 0) {
-    if (!dialogCommands.every(c => !Array.isArray(c))) {
-      throw new Error('Do not have nested arrays returned from dialogNode.')
-    }
-  }
+    .reduce((commands, sys) => {
+      const dialogCommands = sys.parseDialogNode(dialogNode)
+      if (!Array.isArray(dialogCommands)) {
+        throw new Error('Your system should always return an array of commands for a dialogNode')
+      }
+      return [...commands, ...dialogCommands]
+    }, [])
   return dialogCommands
 }
 

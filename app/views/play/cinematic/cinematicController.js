@@ -18,7 +18,7 @@ export class CinematicController {
   constructor ({
     canvas,
     canvasDiv,
-    slug,
+    cinematicData,
     handlers: {
       onPlay,
       onPause,
@@ -41,7 +41,7 @@ export class CinematicController {
 
     // TODO: Will be moved to camera commands.
     this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
-    const loader = this.systems.loader = new Loader({ slug })
+    const loader = this.systems.loader = new Loader({ data: cinematicData })
     loader.loadPlayerThangType()
 
     this.systems.dialogSystem = new DialogSystem({
@@ -83,9 +83,7 @@ export class CinematicController {
 
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
-    // This is hot start. We don't need to start immediately.
     this.commands = commands
-    this.runShot()
   }
 
   /**

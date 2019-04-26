@@ -1,4 +1,3 @@
-import { get } from 'core/api/cinematic'
 import { getThang, getThangTypeOriginal } from '../../../core/api/thang-types'
 
 /**
@@ -13,9 +12,8 @@ const ThangType = require('models/ThangType')
  */
 
 export default class Loader {
-  constructor ({ slug }) {
-    this.slug = slug
-
+  constructor ({ data }) {
+    this.data = data
     // Stores thangType with slug as the key.
     this.loadedThangTypes = new Map()
     // Stores the thangType loading promise with slug as key.
@@ -27,7 +25,6 @@ export default class Loader {
    * @returns {Cinematic} The raw JSON object with Cinematic data.
    */
   async loadAssets () {
-    this.data = await get(this.slug)
     this.loadThangTypes(this.data.shots)
     await this.load()
     return this.data
