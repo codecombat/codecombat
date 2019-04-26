@@ -61,15 +61,23 @@ const parseSetup = (shot, systems) =>
 
 /**
  * Returns an array of commands.
- * @param {*} dialogNode 
- * @param {*} systems 
+ * @param {DialogNode} dialogNode
+ * @param {Object} systems
+ * @returns {AbstractCommand[]}
  */
-const parseDialogNode = (dialogNode, systems) =>
-  Object.values(systems)
+const parseDialogNode = (dialogNode, systems) => {
+  const dialogCommands = Object.values(systems)
     .filter(sys => sys !== undefined && typeof sys.parseDialogNode === 'function')
     .reduce((commands, sys) => (
       [...commands, ...sys.parseDialogNode(dialogNode)]
     ), [])
+  if (dialogCommands.length > 0) {
+    if (!dialogCommands.every(c => !Array.isArray(c))) {
+      throw new Error('Do not have nested arrays returned from dialogNode.')
+    }
+  }
+  return dialogCommands
+}
 
 /**
  * Parses a shot and dialog nodes.
@@ -91,8 +99,7 @@ export const parseShot = (shot, systems) => {
   // If we have both dialogNodes and some setupCommands we want to
   // have the setup occur just before the first dialogNode.
   if (dialogNodes.length > 0 && setupCommands.length > 0) {
-    const commands = [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
-    return commands
+    return [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
   }
   if (dialogNodes.length === 0) {
     return [setupCommands]

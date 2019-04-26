@@ -1,5 +1,5 @@
 import { get } from 'core/api/cinematic'
-import { getThang } from '../../../core/api/thang-types'
+import { getThang, getThangTypeOriginal } from '../../../core/api/thang-types'
 
 /**
  * @typedef {import('../../../schemas/selectors/cinematic')} Cinematic
@@ -31,6 +31,27 @@ export default class Loader {
     this.loadThangTypes(this.data.shots)
     await this.load()
     return this.data
+  }
+
+  /**
+   * Loads the player thangType from the global `me` object if accessible.
+   * Has a side effect of storing the players thangType by original as a resource.
+   */
+  loadPlayerThangType () {
+    if ((me || {}) && !me.get('heroConfig')) {
+      return
+    }
+    const original = me.get('heroConfig').thangType
+    if (!original) {
+      return
+    }
+
+    this.loadingThangTypes.set(
+      original,
+      getThangTypeOriginal(original)
+        .then(attr => new ThangType(attr))
+        .then(t => this.loadedThangTypes.set(original, t))
+    )
   }
 
   /**

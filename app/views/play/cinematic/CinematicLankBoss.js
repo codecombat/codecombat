@@ -1,8 +1,14 @@
 import anime from 'animejs/lib/anime.es.js'
-import { Noop, AnimeCommand } from './Command/AbstractCommand'
-import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug } from '../../../schemas/selectors/cinematic'
+import AbstractCommand, { Noop, SyncFunction } from './Command/AbstractCommand'
+import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug, leftHero, rightHero } from '../../../schemas/selectors/cinematic'
 
+// Throws an error if `import ... from ..` syntax.
+const Promise = require('bluebird')
 const Lank = require('lib/surface/Lank')
+
+Promise.config({
+  cancellation: true
+})
 
 /**
  * @typedef {import(./Command/CinematicParser).System} System
@@ -36,25 +42,35 @@ export default class CinematicLankBoss {
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     const commands = []
 
+    const moveCharacter = (side, resource, enterOnStart, position) => {
+      if (enterOnStart) {
+        commands.push(this.moveLankCommand(side, resource, position))
+      } else {
+        commands.push(this.moveLank(side, resource, position))
+      }
+    }
+
     if (leftCharSlug) {
       const { slug, enterOnStart, position } = leftCharSlug
-      this.addLank('left', this.loader.getThangType(slug))
-      if (enterOnStart) {
-        commands.push(this.moveLankCommand('left', position))
-      } else {
-        this.moveLank('left', position)
-      }
+      moveCharacter('left', slug, enterOnStart, position)
+    }
+
+    const lHero = leftHero(shot)
+    if (lHero) {
+      const { original, enterOnStart, position } = lHero
+      moveCharacter('left', original, enterOnStart, position)
     }
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
       const { slug, enterOnStart, position } = rightCharSlug
-      this.addLank('right', this.loader.getThangType(slug))
-      if (enterOnStart) {
-        commands.push(this.moveLankCommand('right', position))
-      } else {
-        this.moveLank('right', position)
-      }
+      moveCharacter('right', slug, enterOnStart, position)
+    }
+
+    const rHero = rightHero(shot)
+    if (rHero) {
+      const { original, enterOnStart, position } = rHero
+      moveCharacter('right', original, enterOnStart, position)
     }
 
     return commands
@@ -70,15 +86,19 @@ export default class CinematicLankBoss {
    * @param {'left'|'right'} side - the lank being moved.
    * @param {{x, y}} pos - the position in meters to move towards.
    */
-  moveLank (side, pos = {}) {
+  moveLank (side, resource, pos = {}) {
     assertSide(side)
 
-    // normalize parameters
-    this[side].thang.pos.x = pos.x || this[side].thang.pos.x
-    this[side].thang.pos.y = pos.y || this[side].thang.pos.y
+    return new SyncFunction(() => {
+      this.addLank(side, this.loader.getThangType(resource))
 
-    // Ensures lank is rendered.
-    this[side].thang.stateChanged = true
+      // normalize parameters
+      this[side].thang.pos.x = pos.x !== undefined ? pos.x : this[side].thang.pos.x
+      this[side].thang.pos.y = pos.y !== undefined ? pos.y : this[side].thang.pos.y
+
+      // Ensures lank is rendered.
+      this[side].thang.stateChanged = true
+    })
   }
 
   /**
@@ -87,29 +107,37 @@ export default class CinematicLankBoss {
    * @param {{x, y}} pos
    * @param {number} ms
    */
-  moveLankCommand (side, pos = {}, ms = 1000) {
+  moveLankCommand (side, resource, pos = {}, ms = 1000) {
     assertSide(side)
+    return new MoveLank((commandCtx) => {
+      this.addLank(side, this.loader.getThangType(resource))
 
-    // normalize parameters
-    pos.x = pos.x || this[side].thang.pos.x
-    pos.y = pos.y || this[side].thang.pos.y
-    if (this[side].thang.pos.x === pos.x && this[side].thang.pos.y === pos.y) {
-      return new Noop()
-    }
+      // normalize parameters
+      pos.x = pos.x !== undefined ? pos.x : this[side].thang.pos.x
+      pos.y = pos.y !== undefined ? pos.y : this[side].thang.pos.y
+      if (this[side].thang.pos.x === pos.x && this[side].thang.pos.y === pos.y) {
+        return new Noop()
+      }
 
-    const animation = anime({
-      targets: this[side].thang.pos,
-      x: pos.x,
-      y: pos.y,
-      duration: ms,
-      autoplay: false,
-      easing: 'easeInOutQuart',
-      // Inform update engine to rerender thang at new position.
-      update: () => { this[side].thang.stateChanged = true },
-      complete: () => { this[side].thang.stateChanged = true }
+      const animation = anime({
+        targets: this[side].thang.pos,
+        x: pos.x,
+        y: pos.y,
+        duration: ms,
+        autoplay: false,
+        delay: 500, // Hack to provide some time for lank to load.
+        easing: 'easeInOutQuart',
+        // Inform update engine to rerender thang at new position.
+        update: () => { this[side].thang.stateChanged = true },
+        complete: () => { this[side].thang.stateChanged = true }
+      })
+
+      commandCtx.animation = animation
+      return new Promise((resolve, reject) => {
+        animation.play()
+        animation.complete = resolve
+      })
     })
-
-    return new AnimeCommand(animation)
   }
 
   queueAction (side, action) {
@@ -132,7 +160,7 @@ export default class CinematicLankBoss {
    * Needs to be able to check if there is an existing lank and handle appropriately.
    * If a lank is created, it's always created offscreen.
    *
-   * TODO: Handle existing lank
+   * Handles existing lank by removing it.
    *
    * @param {'left'|'right'} side
    * @param {Object} thangType
@@ -140,6 +168,20 @@ export default class CinematicLankBoss {
    */
   addLank (side, thangType) {
     assertSide(side)
+    if (this[side] && this[side].thangType) {
+      const original = this[side].thangType.get('original')
+      if (thangType.get('original') === original) {
+        // It's the same thangType. Don't add a new Lank.
+        return
+      } else {
+        // Remove old lank.
+        const lank = this[side]
+        lank.layer.removeLank(lank)
+        delete this[side]
+        lank.destroy()
+      }
+    }
+
     const thang = side === 'left'
       ? createThang({ pos: {
         x: this.stageBounds.topLeft.x - 2,
@@ -199,5 +241,28 @@ const createThang = (options) => {
 function assertSide (side) {
   if (!['left', 'right'].includes(side)) {
     throw new Error(`Expected one of 'left' or 'right', got ${side}`)
+  }
+}
+
+/**
+ * Run methods initialized the Lank and then runs the animation.
+ */
+class MoveLank extends AbstractCommand {
+  /**
+   * Loads relevant Lanks via CinematicLankBoss.
+   * @param {Function} runFn takes the command instance as an argument.
+   */
+  constructor (runFn) {
+    super()
+    this.run = () => runFn(this)
+  }
+
+  cancel (promise) {
+    const animation = this.animation
+    if (!animation) {
+      throw new Error('Incorrect use of MoveLank. Must attach animation.')
+    }
+    animation.seek(animation.duration)
+    return promise
   }
 }

@@ -123,6 +123,35 @@ const characterThangTypeSlug = character => {
 }
 
 /**
+ * Returns exactly the data required to place a hero on the canvas.
+ * @param {CharacterSchema} character - the left or right hero
+ */
+const heroThangTypeOriginal = character => {
+  if (!character) {
+    return
+  }
+  if (typeof character.type !== 'string' || character.type !== 'hero') {
+    return
+  }
+  let original
+  try {
+    original = me.get('heroConfig').thangType
+  } catch (e) {
+    console.error(`Ensure global 'me' is initialized before using:`, e)
+    return
+  }
+
+  if (typeof character.enterOnStart !== 'boolean') {
+    character.enterOnStart = false
+  }
+
+  const enterOnStart = character.enterOnStart
+  const position = character.position || { x: 0, y: 0 }
+
+  return { original, enterOnStart, position }
+}
+
+/**
  * Returns the left character if it's a thangType slug.
  * Throws error if malformed object data.
  * @param {Shot} shot
@@ -145,3 +174,17 @@ export const getClearText = dialogNode => (dialogNode || {}).dialogClear
 export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
 
 export const getSpeaker = dialogNode => (dialogNode || {}).speaker
+
+/**
+ * Returns if left hero character
+ * @param {Shot} shot
+ * @returns {bool}
+ */
+export const leftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal)
+
+/**
+ * Returns the right hero character
+ * @param {Shot} shot
+ * @returns {bool}
+ */
+export const rightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal)
