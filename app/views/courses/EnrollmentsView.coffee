@@ -65,12 +65,7 @@ module.exports = class EnrollmentsView extends RootView
     @supermodel.trackRequest @classrooms.fetchMine()
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    @listenTo @prepaids, 'sync', ->
-      @prepaids.each (prepaid) =>
-        prepaid.creator = new User()
-        # We never need this information if the user would be `me`
-        if prepaid.get('creator') isnt me.id
-          @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
+    @listenTo @prepaids, 'sync', @onPrepaidsSync
     @debouncedRender = _.debounce @render, 0
     @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
@@ -79,11 +74,7 @@ module.exports = class EnrollmentsView extends RootView
 
     leadPriorityRequest = me.getLeadPriority()
     @supermodel.trackRequest leadPriorityRequest
-    leadPriorityRequest.then ({ priority }) =>
-      shouldUpsell = (priority is 'low') and (me.get('preferredLanguage') isnt 'nl-BE') and @prepaids.length == 0
-      @state.set({ shouldUpsell })
-      if shouldUpsell
-        application.tracker?.trackEvent 'Starter License Upsell: Banner Viewed', {price: @state.get('centsPerStudent'), seats: @state.get('quantityToBuy')}
+    leadPriorityRequest.then (r) => @onLeadPriorityResponse(r)
 
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
@@ -101,6 +92,29 @@ module.exports = class EnrollmentsView extends RootView
     @calculateEnrollmentStats()
     @state.set('totalCourses', @courses.size())
     super()
+
+  onPrepaidsSync: ->
+    @prepaids.each (prepaid) =>
+      prepaid.creator = new User()
+      # We never need this information if the user would be `me`
+      if prepaid.get('creator') isnt me.id
+        @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
+
+    @decideUpsell()
+
+  onLeadPriorityResponse: ({ priority }) ->
+    @state.set({ leadPriority: priority })
+    @decideUpsell()
+
+  decideUpsell: ->
+    nonStarterLicensePrepaids = @prepaids.filter((p) => p.get('type') != 'starter_license')
+
+    shouldUpsell = (@state.get('leadPriority') is 'low') and (me.get('preferredLanguage') isnt 'nl-BE') and nonStarterLicensePrepaids.length == 0
+    @state.set({ shouldUpsell })
+
+    if shouldUpsell and not @upsellTracked
+      @upsellTracked = true
+      application.tracker?.trackEvent 'Starter License Upsell: Banner Viewed', {price: @state.get('centsPerStudent'), seats: @state.get('quantityToBuy')}
 
   updatePrepaidGroups: ->
     @state.set('prepaidGroups', @prepaids.groupBy((p) -> p.status()))
