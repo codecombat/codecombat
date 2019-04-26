@@ -60,14 +60,15 @@ block content
       //- TODO: remove temporary Teacher appreciation anytime after 2019-05-03
       //- TODO: remove  always true. Only unpaid teacher should see.
       if true || new Date() >= new Date('2019-04-29') && new Date() <= new Date('2019-05-03')
-        #announcement
+        .container
           .row
             .col-xs-12
-              p(data-i18n='[html]teacher.appreciation_week_blurb1')
-              ul.text-left
-                li(data-i18n="teacher.appreciation_week_blurb2")
-                li(data-i18n="teacher.appreciation_week_blurb3")
-                li(data-i18n="teacher.appreciation_week_blurb4")
+              #announcement
+                p(data-i18n='[html]teacher.appreciation_week_blurb1')
+                ul.text-left
+                  li(data-i18n="teacher.appreciation_week_blurb2")
+                  li(data-i18n="teacher.appreciation_week_blurb3")
+                  li(data-i18n="teacher.appreciation_week_blurb4")
 
     .container
       +teacher-quests
