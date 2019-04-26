@@ -37,12 +37,13 @@ export class CinematicController {
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
 
     this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
+    this.backgroundAdapter = new LayerAdapter({ name: 'Background', webGL: true, camera: camera })
+    this.stage.addChild(this.backgroundAdapter.container)
     this.stage.addChild(this.layerAdapter.container)
 
     // TODO: Will be moved to camera commands.
-    this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
-    const loader = this.systems.loader = new Loader({ data: cinematicData })
-    loader.loadPlayerThangType()
+    this.systems.camera.zoomTo({ x: 0, y: 0 }, 6, 0)
+    this.systems.loader = new Loader({ data: cinematicData })
 
     this.systems.dialogSystem = new DialogSystem({
       canvasDiv,
@@ -56,6 +57,7 @@ export class CinematicController {
     this.systems.cinematicLankBoss = new CinematicLankBoss({
       groundLayer: this.stubRequiredLayer,
       layerAdapter: this.layerAdapter,
+      backgroundAdapter: this.backgroundAdapter,
       camera: this.systems.camera,
       loader: this.systems.loader
     })

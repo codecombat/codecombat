@@ -1,5 +1,27 @@
 const c = require('./../schemas')
 
+const BackgroundArtSchema = c.object({
+  title: 'Background Art',
+  description: 'The art in the background of this shot.'
+}, {
+  slug: c.shortString({
+    title: 'Background Slug',
+    description: 'The thangType slug of the background asset'
+  }),
+  scaleX: c.float({
+    title: 'scaleX',
+    description: 'The scaling factor along x axis to apply to the background'
+  }),
+  scaleY: c.float({
+    title: 'scaleY',
+    description: 'The scaling factor along y axis to apply to the background'
+  }),
+  pos: c.point2d({
+    title: 'Position',
+    description: 'The position in meters to place the character.'
+  })
+})
+
 const CharacterSchema = (title) => c.object({
   title: title,
   description: 'ThangType that will appear on either the left or right side of the screen.',
@@ -43,17 +65,7 @@ const ShotSetup = c.object({
   }),
   rightThangType: CharacterSchema('Right Character'),
   leftThangType: CharacterSchema('Left Character'),
-  backgroundArt: c.object({
-    title: 'Background Art',
-    description: 'The art in the background of this shot.'
-  }, {
-    // TODO: Will rasterized thangTypes work for backgrounds?
-    type: c.shortString({ enum: ['slug'] }),
-    slug: c.shortString({
-      title: 'Background Slug',
-      description: 'The thangType slug of the background asset'
-    })
-  })
+  backgroundArt: BackgroundArtSchema
   // TODO: music
 })
 

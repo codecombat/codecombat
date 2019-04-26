@@ -98,6 +98,39 @@ const leftCharacter = shotSetup => (shotSetup || {}).leftThangType
 const rightCharacter = shotSetup => (shotSetup || {}).rightThangType
 
 /**
+ * @param {ShotSetup} shotSetup
+ * @returns {Object|undefined} background Object
+ */
+const backgroundArt = shotSetup => (shotSetup || {}).backgroundArt
+
+/**
+ * @param {Object} o Object that may have slug property
+ * @returns {string|undefined}
+ */
+const slug = o => (o || {}).slug
+
+/**
+ * Returns properties required to place a background Lank.
+ * @param {Object} backgroundArt
+ * @returns {Object|undefined} a background object
+ */
+const background = backgroundArt => {
+  if (!(backgroundArt || {}).slug) {
+    return
+  }
+
+  const defaultBackground = {
+    scaleX: 0.2,
+    scaleY: 0.2,
+    pos: {
+      x: 0,
+      y: 0
+    }
+  }
+  return _.merge(defaultBackground, backgroundArt)
+}
+
+/**
  * Returns exactly the data required to fulfill the information to place a character
  * onto the screen.
  * @param {CharacterSchema} character - the left or right character in CharacterSchema
@@ -125,6 +158,7 @@ const characterThangTypeSlug = character => {
 /**
  * Returns exactly the data required to place a hero on the canvas.
  * @param {CharacterSchema} character - the left or right hero
+ * @returns {Object|undefined} The thangType original and position data.
  */
 const heroThangTypeOriginal = character => {
   if (!character) {
@@ -153,15 +187,15 @@ const heroThangTypeOriginal = character => {
 
 /**
  * Returns the left character if it's a thangType slug.
- * Throws error if malformed object data.
  * @param {Shot} shot
+ * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
 export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, characterThangTypeSlug)
 
 /**
  * Returns the right character if it's a thangType slug.
- * Throws error if malformed object data.
  * @param {Shot} shot
+ * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
 export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug)
 
@@ -188,3 +222,11 @@ export const leftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal)
  * @returns {bool}
  */
 export const rightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal)
+
+/**
+ * Returns the background slug
+ * @param {Shot} shot
+ * @returns {string|undefined}
+ */
+export const getBackground = compose(shotSetup, backgroundArt, background)
+export const getBackgroundSlug = compose(shotSetup, backgroundArt, slug)

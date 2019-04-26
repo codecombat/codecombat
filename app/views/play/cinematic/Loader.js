@@ -1,4 +1,5 @@
 import { getThang, getThangTypeOriginal } from '../../../core/api/thang-types'
+import { getBackgroundSlug } from '../../../schemas/selectors/cinematic';
 
 /**
  * @typedef {import('../../../schemas/selectors/cinematic')} Cinematic
@@ -26,6 +27,8 @@ export default class Loader {
    */
   async loadAssets () {
     this.loadThangTypes(this.data.shots)
+    this.loadPlayerThangType()
+    this.loadBackgrounds(this.data.shots)
     await this.load()
     return this.data
   }
@@ -49,6 +52,16 @@ export default class Loader {
         .then(attr => new ThangType(attr))
         .then(t => this.loadedThangTypes.set(original, t))
     )
+  }
+
+  /**
+   * Queues the background ThangTypes for loading.
+   * @param {Shot[]} shots Array of cinematic shots
+   */
+  loadBackgrounds (shots) {
+    shots.map(shot => getBackgroundSlug(shot))
+      .filter(slug => slug)
+      .forEach(slug => this.queueThangType(slug))
   }
 
   /**
@@ -77,13 +90,21 @@ export default class Loader {
       .filter(({ type = undefined }) => typeof type === 'object' && type !== undefined)
       .filter(({ type: { slug } }) => !(this.loadedThangTypes.has(slug) || this.loadingThangTypes.has(slug)))
       .map(({ type: { slug } }) => slug)
-      .forEach(slug =>
-        this.loadingThangTypes.set(
-          slug,
-          getThang({ slug })
-            .then(attr => new ThangType(attr))
-            .then(t => this.loadedThangTypes.set(slug, t))
-        ))
+      .forEach(slug => this.queueThangType(slug))
+  }
+
+  /**
+   * Queues a ThangType resource for async loading.
+   * @param {string} slug ThangType slug.
+   */
+  queueThangType (slug) {
+    console.log(`queuing:`, slug)
+    this.loadingThangTypes.set(
+      slug,
+      getThang({ slug })
+        .then(attr => new ThangType(attr))
+        .then(t => this.loadedThangTypes.set(slug, t))
+    )
   }
 
   /**
@@ -101,6 +122,7 @@ export default class Loader {
 
   /**
    * Get a loaded thangType by slug.
+   * @throws if the ThangType isn't loaded.
    * @param {string} slug - Slug of a thangType
    */
   getThangType (slug) {

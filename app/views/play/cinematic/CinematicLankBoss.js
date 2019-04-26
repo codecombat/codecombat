@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
 import AbstractCommand, { Noop, SyncFunction } from './Command/AbstractCommand'
-import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug, leftHero, rightHero } from '../../../schemas/selectors/cinematic'
+import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug, leftHero, rightHero, getBackground } from '../../../schemas/selectors/cinematic'
 
 // Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
@@ -23,15 +23,19 @@ Promise.config({
  * @implements {System}
  */
 export default class CinematicLankBoss {
-  constructor ({ groundLayer, layerAdapter, camera, loader }) {
+  constructor ({ groundLayer, layerAdapter, backgroundAdapter, camera, loader }) {
     this.groundLayer = groundLayer
-    this.layerAdapter = layerAdapter
+    this.layerAdapters = {
+      'Default': layerAdapter,
+      'Background': backgroundAdapter
+    }
     this.camera = camera
     this.stageBounds = {
       topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
       bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
     }
     this.loader = loader
+    this.lanks = {}
   }
 
   /**
@@ -39,7 +43,6 @@ export default class CinematicLankBoss {
    * @param {Shot} shot - the cinematic shot data.
    */
   parseSetupShot (shot) {
-    const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     const commands = []
 
     const moveCharacter = (side, resource, enterOnStart, position) => {
@@ -50,6 +53,12 @@ export default class CinematicLankBoss {
       }
     }
 
+    const background = getBackground(shot)
+    if (background) {
+      commands.push(this.setBackgroundCommand(background))
+    }
+
+    const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     if (leftCharSlug) {
       const { slug, enterOnStart, position } = leftCharSlug
       moveCharacter('left', slug, enterOnStart, position)
@@ -76,11 +85,6 @@ export default class CinematicLankBoss {
     return commands
   }
 
-  registerLank (side, lank) {
-    assertSide(side)
-    this[side] = lank
-  }
-
   /**
    * Moves either the left or right lank to a given co-ordinates **instantly**.
    * @param {'left'|'right'} side - the lank being moved.
@@ -93,11 +97,11 @@ export default class CinematicLankBoss {
       this.addLank(side, this.loader.getThangType(resource))
 
       // normalize parameters
-      this[side].thang.pos.x = pos.x !== undefined ? pos.x : this[side].thang.pos.x
-      this[side].thang.pos.y = pos.y !== undefined ? pos.y : this[side].thang.pos.y
+      this.lanks[side].thang.pos.x = pos.x !== undefined ? pos.x : this.lanks[side].thang.pos.x
+      this.lanks[side].thang.pos.y = pos.y !== undefined ? pos.y : this.lanks[side].thang.pos.y
 
       // Ensures lank is rendered.
-      this[side].thang.stateChanged = true
+      this.lanks[side].thang.stateChanged = true
     })
   }
 
@@ -113,14 +117,14 @@ export default class CinematicLankBoss {
       this.addLank(side, this.loader.getThangType(resource))
 
       // normalize parameters
-      pos.x = pos.x !== undefined ? pos.x : this[side].thang.pos.x
-      pos.y = pos.y !== undefined ? pos.y : this[side].thang.pos.y
-      if (this[side].thang.pos.x === pos.x && this[side].thang.pos.y === pos.y) {
+      pos.x = pos.x !== undefined ? pos.x : this.lanks[side].thang.pos.x
+      pos.y = pos.y !== undefined ? pos.y : this.lanks[side].thang.pos.y
+      if (this.lanks[side].thang.pos.x === pos.x && this.lanks[side].thang.pos.y === pos.y) {
         return new Noop()
       }
 
       const animation = anime({
-        targets: this[side].thang.pos,
+        targets: this.lanks[side].thang.pos,
         x: pos.x,
         y: pos.y,
         duration: ms,
@@ -128,8 +132,8 @@ export default class CinematicLankBoss {
         delay: 500, // Hack to provide some time for lank to load.
         easing: 'easeInOutQuart',
         // Inform update engine to rerender thang at new position.
-        update: () => { this[side].thang.stateChanged = true },
-        complete: () => { this[side].thang.stateChanged = true }
+        update: () => { this.lanks[side].thang.stateChanged = true },
+        complete: () => { this.lanks[side].thang.stateChanged = true }
       })
 
       commandCtx.animation = animation
@@ -140,9 +144,23 @@ export default class CinematicLankBoss {
     })
   }
 
+  setBackgroundCommand ({ slug, scaleX, scaleY, pos: { x, y } }) {
+    console.log('calling setBackgroundCommand')
+    return new SyncFunction(() => {
+      const thangType = this.loader.getThangType(slug)
+      const backgroundThang = createThang({
+        scaleFactorX: scaleX,
+        scaleFactorY: scaleY,
+        pos: { x, y }
+      })
+      console.log("adding background", backgroundThang)
+      this.addLank('background', thangType, backgroundThang)
+    })
+  }
+
   queueAction (side, action) {
     assertSide(side)
-    this[side].queueAction(action)
+    this.lanks[side].queueAction(action)
     return Promise.resolve(null)
   }
 
@@ -151,49 +169,59 @@ export default class CinematicLankBoss {
    * @param {bool} frameChanged - Needs to be true for Lank updates to occur.
    */
   update (frameChanged) {
-    this.left && this.left.update(frameChanged)
-    this.right && this.right.update(frameChanged)
+    Object.values(this.lanks)
+      .forEach(lank => lank.update(frameChanged))
   }
 
   /**
-   * Adds a lank to the given side.
-   * Needs to be able to check if there is an existing lank and handle appropriately.
-   * If a lank is created, it's always created offscreen.
+   * Adds a lank to the screen.
    *
    * Handles existing lank by removing it.
+   * Automatically flips a lank if they key is `right` in order to accomodate for
+   * right hand side characters.
    *
-   * @param {'left'|'right'} side
+   * @param {string} key
    * @param {Object} thangType
-   * @param {Object} systems
+   * @param {Object|undefined} thang?
    */
-  addLank (side, thangType) {
-    assertSide(side)
-    if (this[side] && this[side].thangType) {
-      const original = this[side].thangType.get('original')
+  addLank (key, thangType, thang = undefined) {
+    if (this.lanks[key] && this.lanks[key].thangType) {
+      const original = this.lanks[key].thangType.get('original')
       if (thangType.get('original') === original) {
         // It's the same thangType. Don't add a new Lank.
         return
       } else {
         // Remove old lank.
-        const lank = this[side]
+        const lank = this.lanks[key]
         lank.layer.removeLank(lank)
-        delete this[side]
+        delete this.lanks[key]
         lank.destroy()
       }
     }
 
-    const thang = side === 'left'
-      ? createThang({ pos: {
-        x: this.stageBounds.topLeft.x - 2,
-        y: this.stageBounds.bottomRight.y
-      }
+    // TODO: Refactor this out, and pass in thang.
+    if (key === 'right' && !thang) {
+      thang = createThang({
+        pos: {
+          x: this.stageBounds.bottomRight.x + 2,
+          y: this.stageBounds.bottomRight.y
+        },
+        rotation: Math.PI
       })
-      : createThang({ pos: {
-        x: this.stageBounds.bottomRight.x + 2,
-        y: this.stageBounds.bottomRight.y
-      },
-      rotation: Math.PI
+    } else if (key === 'background' && !thang) {
+      thang = createThang({
+        scaleFactorX: 0.2,
+        scaleFactorY: 0.2
       })
+    } else if (key === 'left' && !thang) {
+      thang = createThang({
+        pos: {
+          x: this.stageBounds.topLeft.x - 2,
+          y: this.stageBounds.bottomRight.y
+        }
+      })
+    }
+
     const lank = new Lank(thangType, {
       resolutionFactor: 60,
       preloadSounds: false,
@@ -201,9 +229,14 @@ export default class CinematicLankBoss {
       camera: this.camera,
       groundLayer: this.groundLayer
     })
-
-    this.layerAdapter.addLank(lank)
-    this.registerLank(side, lank)
+    if (key === 'background') {
+      console.log('background added', key)
+      this.layerAdapters['Background'].addLank(lank)
+    } else {
+      console.log('foreground added', key)
+      this.layerAdapters['Default'].addLank(lank)
+    }
+    this.lanks[key] = lank
   }
 }
 
