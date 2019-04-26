@@ -1,5 +1,4 @@
 const factories = require('test/app/factories');
-const stripeHandler = require('core/services/stripe');
 
 const PurchaseStarterLicenseModal = require('views/teachers/PurchaseStarterLicensesModal');
 const Product = require('models/Product');
@@ -13,6 +12,7 @@ describe('PurchaseStarterLicenseModal', () => {
     });
 
     it('starts stripe flow after clicking pay now', () => {
+        const stripeHandler = require('core/services/stripe');
         spyOn(stripeHandler, 'open');
 
         const view = new PurchaseStarterLicenseModal();
