@@ -30,7 +30,7 @@ module.exports = class EnrollmentsView extends RootView
     'click .share-licenses-link': 'onClickShareLicensesLink'
 
   getTitle: -> return $.i18n.t('teacher.enrollments')
-  
+
   i18nData: ->
     starterLicenseCourseList: @state.get('starterLicenseCourseList')
 
@@ -76,11 +76,11 @@ module.exports = class EnrollmentsView extends RootView
     @listenTo(@state, 'all', @debouncedRender)
 
     me.getClientCreatorPermissions()?.then(() => @render?())
-    
+
     leadPriorityRequest = me.getLeadPriority()
     @supermodel.trackRequest leadPriorityRequest
     leadPriorityRequest.then ({ priority }) =>
-      shouldUpsell = (priority is 'low') and (me.get('preferredLanguage') isnt 'nl-BE')
+      shouldUpsell = (priority is 'low') and (me.get('preferredLanguage') isnt 'nl-BE') and @prepaids.length == 0
       @state.set({ shouldUpsell })
       if shouldUpsell
         application.tracker?.trackEvent 'Starter License Upsell: Banner Viewed', {price: @state.get('centsPerStudent'), seats: @state.get('quantityToBuy')}
