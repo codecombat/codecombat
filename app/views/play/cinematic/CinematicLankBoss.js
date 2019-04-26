@@ -144,16 +144,32 @@ export default class CinematicLankBoss {
     })
   }
 
+  /**
+   * Sets the background.
+   *
+   * Intelligently handles backgrounds that may already exist or
+   * are simply being moved.
+   * @param {Object} background Background object.
+   */
   setBackgroundCommand ({ slug, scaleX, scaleY, pos: { x, y } }) {
-    console.log('calling setBackgroundCommand')
     return new SyncFunction(() => {
       const thangType = this.loader.getThangType(slug)
-      const backgroundThang = createThang({
+      const thangOptions = {
         scaleFactorX: scaleX,
         scaleFactorY: scaleY,
-        pos: { x, y }
-      })
-      console.log("adding background", backgroundThang)
+        pos: { x, y },
+        stateChanged: true
+      }
+
+      if (this.lanks['background'] && this.lanks['background'].thangType) {
+        if (this.lanks['background'].thangType.get('slug') === slug) {
+          const thang = this.lanks['background'].thang
+          _.merge(thang, thangOptions)
+          return
+        }
+      }
+
+      const backgroundThang = createThang(thangOptions)
       this.addLank('background', thangType, backgroundThang)
     })
   }
