@@ -55,8 +55,6 @@ describe('PurchaseStarterLicenseModal', () => {
 
         const body = serverCall.data();
 
-        console.log(body);
-
         expect(parseInt(body.maxRedeemers[0])).toEqual(view.state.get('quantityToBuy'));
         expect(body.type[0]).toEqual('starter_license');
         expect(body['stripe[token]'][0]).toEqual(stripeResponse.token.id);
