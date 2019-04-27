@@ -216,6 +216,29 @@ export const getSpeaker = dialogNode => (dialogNode || {}).speaker
 export const exitCharacter = dialogNode => (dialogNode || {}).exitCharacter
 
 /**
+ * @param {DialogNode} dialogNode
+ * @returns {Object|undefined} triggers
+ */
+export const triggers = dialogNode => (dialogNode || {}).triggers
+
+const backgroundObject = triggers => {
+  const bgObject = (triggers || {}).backgroundObject
+  if (!bgObject) {
+    return
+  }
+  const defaultObject = {
+    scaleX: 0.2,
+    scaleY: 0.2,
+    pos: {
+      x: 0,
+      y: 0
+    }
+  }
+  _.merge(bgObject.thangType, defaultObject)
+  return bgObject
+}
+
+/**
  * Returns if left hero character
  * @param {Shot} shot
  * @returns {bool}
@@ -236,3 +259,9 @@ export const rightHero = compose(shotSetup, rightCharacter, heroThangTypeOrigina
  */
 export const getBackground = compose(shotSetup, backgroundArt, background)
 export const getBackgroundSlug = compose(shotSetup, backgroundArt, slug)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {Object|undefined} backgroundObject
+ */
+export const getBackgroundObject = compose(triggers, backgroundObject)

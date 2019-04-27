@@ -1,5 +1,5 @@
 import { getThang, getThangTypeOriginal } from '../../../core/api/thang-types'
-import { getBackgroundSlug } from '../../../schemas/selectors/cinematic';
+import { getBackgroundSlug, getBackgroundObject } from '../../../schemas/selectors/cinematic';
 
 /**
  * @typedef {import('../../../schemas/selectors/cinematic')} Cinematic
@@ -29,6 +29,7 @@ export default class Loader {
     this.loadThangTypes(this.data.shots)
     this.loadPlayerThangType()
     this.loadBackgrounds(this.data.shots)
+    this.loadBackgroundObjects(this.data.shots)
     await this.load()
     return this.data
   }
@@ -52,6 +53,22 @@ export default class Loader {
         .then(attr => new ThangType(attr))
         .then(t => this.loadedThangTypes.set(original, t))
     )
+  }
+
+  /**
+   * Queues up the background objects
+   * @param {Shot[]} shots
+   */
+  loadBackgroundObjects (shots) {
+    shots
+      .filter(shot => (shot.dialogNodes || []).length > 0)
+      .map(({ dialogNodes }) =>
+        dialogNodes
+          .map(dialogNode => getBackgroundObject(dialogNode))
+          .filter(bgObject => bgObject)
+          .map(({ thangType: { slug } }) => slug)
+          .forEach(slug => this.queueThangType(slug))
+      )
   }
 
   /**
@@ -98,7 +115,6 @@ export default class Loader {
    * @param {string} slug ThangType slug.
    */
   queueThangType (slug) {
-    console.log(`queuing:`, slug)
     this.loadingThangTypes.set(
       slug,
       getThang({ slug })

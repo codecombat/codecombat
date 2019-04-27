@@ -1,24 +1,25 @@
 const c = require('./../schemas')
 
-const BackgroundArtSchema = c.object({
-  title: 'Background Art',
-  description: 'The art in the background of this shot.'
+const ThangTypeSchema = (title, description) => c.object({
+  title,
+  description,
+  required: ['slug']
 }, {
   slug: c.shortString({
     title: 'Background Slug',
-    description: 'The thangType slug of the background asset'
+    description: 'The thangType slug of the asset'
   }),
   scaleX: c.float({
     title: 'scaleX',
-    description: 'The scaling factor along x axis to apply to the background'
+    description: 'The scaling factor along x axis to apply to the ThangType'
   }),
   scaleY: c.float({
     title: 'scaleY',
-    description: 'The scaling factor along y axis to apply to the background'
+    description: 'The scaling factor along y axis to apply to the ThangType'
   }),
   pos: c.point2d({
     title: 'Position',
-    description: 'The position in meters to place the character.'
+    description: 'The position in meters to place the thangType.'
   })
 })
 
@@ -65,7 +66,7 @@ const ShotSetup = c.object({
   }),
   rightThangType: CharacterSchema('Right Character'),
   leftThangType: CharacterSchema('Left Character'),
-  backgroundArt: BackgroundArtSchema
+  backgroundArt: ThangTypeSchema('Background Art', 'The rasterized image to place on the background')
   // TODO: music
 })
 
@@ -96,36 +97,36 @@ const DialogNode = c.object({
     backgroundObject: c.object({
       title: 'Background Object',
       description: 'Add a background object after given duration',
-      required: ['art', 'triggerStart']
+      required: ['thangType', 'triggerStart']
     }, {
-      thangType: c.shortString({ title: 'Art', description: 'The background image ThangType slug.' }),
+      thangType: ThangTypeSchema('Background Object', 'The image to place'),
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until background image art appears' })
     }),
-    clearObjects: c.object({
-      title: 'Clear Object',
+    clearBackgroundObject: c.object({
+      title: 'Clear Background Object',
       description: 'Clears the background objects from the screen after a given duration'
     }, {
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until background object is cleared' })
-    }),
-    animationTrigger: c.object({
-      title: 'Animation Trigger',
-      description: 'Trigger to fire an animation on a character.',
-      required: ['character', 'animation', 'triggerStart']
-    }, {
-      character: c.shortString({ title: 'Character', enum: ['left', 'right'] }),
-      animation: c.shortString({ title: 'Animation', description: 'The action or animation to play on the lank.' }),
-      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until animation plays' })
-    }),
-    soundEffect: c.sound({
-      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of millisecond before sound effect plays' })
-    }),
-    cameraShake: c.object({
-      title: 'Camera shake',
-      description: 'Shakes the camera.',
-      required: ['triggerStart']
-    }, {
-      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until camera shakes' })
     })
+    // animationTrigger: c.object({
+    //   title: 'Animation Trigger',
+    //   description: 'Trigger to fire an animation on a character.',
+    //   required: ['character', 'animation', 'triggerStart']
+    // }, {
+    //   character: c.shortString({ title: 'Character', enum: ['left', 'right'] }),
+    //   animation: c.shortString({ title: 'Animation', description: 'The action or animation to play on the lank.' }),
+    //   triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until animation plays' })
+    // }),
+    // soundEffect: c.sound({
+    //   triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of millisecond before sound effect plays' })
+    // }),
+    // cameraShake: c.object({
+    //   title: 'Camera shake',
+    //   description: 'Shakes the camera.',
+    //   required: ['triggerStart']
+    // }, {
+    //   triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until camera shakes' })
+    // })
   }),
   dialogClear: {
     type: 'boolean',
