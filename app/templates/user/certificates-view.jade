@@ -81,7 +81,7 @@ style.
           if view.serialNumber
             .serial-number-info
               span(data-i18n="courses.serial_number")
-              span= view.serialNumber
+              span= ' ' + view.serialNumber
           if view.thangType && view.thangType.loaded
             .hero-signature
               img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')
