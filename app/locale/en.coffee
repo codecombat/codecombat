@@ -1567,7 +1567,6 @@
     no_classrooms_found: "No classrooms found"
     create_classroom_manually: "Create classroom manually"
     classes: "Classes"
-    serial_number: "No."
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2226,6 +2225,7 @@
     certificate_lines_of: "lines of"
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
+    certificate_number: "No."
 
   achievements:
     last_earned: "Last Earned"
