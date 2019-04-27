@@ -210,6 +210,12 @@ export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
 export const getSpeaker = dialogNode => (dialogNode || {}).speaker
 
 /**
+ * @param {DialogNode} dialogNode
+ * @returns  {'left'|'right'|'both'|undefined}
+ */
+export const exitCharacter = dialogNode => (dialogNode || {}).exitCharacter
+
+/**
  * Returns if left hero character
  * @param {Shot} shot
  * @returns {bool}

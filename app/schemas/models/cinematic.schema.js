@@ -112,7 +112,7 @@ const DialogNode = c.object({
       description: 'Trigger to fire an animation on a character.',
       required: ['character', 'animation', 'triggerStart']
     }, {
-      character: c.shortString({ title: 'Character', enum: ['left', 'right', 'background-object'] }),
+      character: c.shortString({ title: 'Character', enum: ['left', 'right'] }),
       animation: c.shortString({ title: 'Animation', description: 'The action or animation to play on the lank.' }),
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until animation plays' })
     }),
@@ -132,8 +132,7 @@ const DialogNode = c.object({
     title: 'Clear dialog on screen',
     description: 'Whether we clear any existing dialog nodes.'
   },
-  exitRightCharacter: { title: 'Exit Right Character', description: 'whether right character exits at dialog node completion', type: 'boolean' },
-  exitLeftCharacter: { title: 'Exit Left Character', description: 'whether left character exits at dialog node completion', type: 'boolean' },
+  exitCharacter: c.shortString({ title: 'Exit Character', description: 'whether character exits at dialog node completion', enum: ['left', 'right', 'both'] }),
   filters: c.object({
     title: 'Filters',
     description: 'Context specific filters that are checked at runtime.'

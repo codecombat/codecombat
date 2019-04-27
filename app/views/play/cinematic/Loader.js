@@ -128,7 +128,8 @@ export default class Loader {
   getThangType (slug) {
     const thangType = this.loadedThangTypes.get(slug)
     if (!thangType) {
-      throw new Error(`Make sure '${slug}' thangType is loaded before getting`)
+      console.error(`Make sure '${slug}' thangType is loaded before getting`)
+      return
     }
     return thangType
   }

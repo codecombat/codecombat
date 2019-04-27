@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
 import AbstractCommand, { Noop, SyncFunction } from './Command/AbstractCommand'
-import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug, leftHero, rightHero, getBackground } from '../../../schemas/selectors/cinematic'
+import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug, leftHero, rightHero, getBackground, exitCharacter } from '../../../schemas/selectors/cinematic'
 
 // Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
@@ -45,11 +45,11 @@ export default class CinematicLankBoss {
   parseSetupShot (shot) {
     const commands = []
 
-    const moveCharacter = (side, resource, enterOnStart, position) => {
+    const moveCharacter = (side, resource, enterOnStart, pos) => {
       if (enterOnStart) {
-        commands.push(this.moveLankCommand(side, resource, position))
+        commands.push(this.moveLankCommand({ side, resource, pos }))
       } else {
-        commands.push(this.moveLank(side, resource, position))
+        commands.push(this.moveLank(side, resource, pos))
       }
     }
 
@@ -85,6 +85,18 @@ export default class CinematicLankBoss {
     return commands
   }
 
+  parseDialogNode (dialogNode) {
+    const commands = []
+    const char = exitCharacter(dialogNode)
+    if (char === 'left' || char === 'both') {
+      commands.push(this.moveLankCommand({ side: 'left', pos: { x: -20, y: 0 } }))
+    }
+    if (char === 'right' || char === 'both') {
+      commands.push(this.moveLankCommand({ side: 'right', pos: { x: 20, y: 0 } }))
+    }
+    return commands
+  }
+
   /**
    * Moves either the left or right lank to a given co-ordinates **instantly**.
    * @param {'left'|'right'} side - the lank being moved.
@@ -111,18 +123,21 @@ export default class CinematicLankBoss {
    * @param {{x, y}} pos
    * @param {number} ms
    */
-  moveLankCommand (side, resource, pos = {}, ms = 1000) {
+  moveLankCommand ({ side, resource, pos, ms = 1000 }) {
     assertSide(side)
     return new MoveLank((commandCtx) => {
-      this.addLank(side, this.loader.getThangType(resource))
-
+      if (resource) {
+        this.addLank(side, this.loader.getThangType(resource))
+      }
+      pos = pos || {}
       // normalize parameters
       pos.x = pos.x !== undefined ? pos.x : this.lanks[side].thang.pos.x
       pos.y = pos.y !== undefined ? pos.y : this.lanks[side].thang.pos.y
       if (this.lanks[side].thang.pos.x === pos.x && this.lanks[side].thang.pos.y === pos.y) {
+        console.log('noop for', side)
         return new Noop()
       }
-
+      console.log('creating animation')
       const animation = anime({
         targets: this.lanks[side].thang.pos,
         x: pos.x,
@@ -154,6 +169,9 @@ export default class CinematicLankBoss {
   setBackgroundCommand ({ slug, scaleX, scaleY, pos: { x, y } }) {
     return new SyncFunction(() => {
       const thangType = this.loader.getThangType(slug)
+      if (!thangType) {
+        return
+      }
       const thangOptions = {
         scaleFactorX: scaleX,
         scaleFactorY: scaleY,
@@ -192,7 +210,8 @@ export default class CinematicLankBoss {
   /**
    * Adds a lank to the screen.
    *
-   * Handles existing lank by removing it.
+   * If the lank already exists this method is a noop.
+   * Otherwise if there is a conflicting lank it is removed and replaced.
    * Automatically flips a lank if they key is `right` in order to accomodate for
    * right hand side characters.
    *
@@ -246,10 +265,8 @@ export default class CinematicLankBoss {
       groundLayer: this.groundLayer
     })
     if (key === 'background') {
-      console.log('background added', key)
       this.layerAdapters['Background'].addLank(lank)
     } else {
-      console.log('foreground added', key)
       this.layerAdapters['Default'].addLank(lank)
     }
     this.lanks[key] = lank
