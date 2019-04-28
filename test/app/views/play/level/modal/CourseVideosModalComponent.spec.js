@@ -7,7 +7,7 @@ import Levels from 'collections/Levels'
 import factories from 'test/app/factories'
 import utils from 'core/utils'
 import api from 'core/api'
-import { registerSnapshots, expectxml } from "jasmine-snapshot"
+import { registerSnapshots, expectxml } from 'jasmine-snapshot'
 import snapshot from './CourseVideosModalComponent.snapshot'
 
 const createComponent = (values = {}) => {
@@ -16,21 +16,21 @@ const createComponent = (values = {}) => {
     mocks: {
       $t: (text) => {
         if (text.includes('.')) {
-          const res = text.split(".")
-          return locale.en.translation[res[0]][res[1]];
+          const res = text.split('.')
+          return locale.en.translation[res[0]][res[1]]
+        } else {
+          return locale.en.translation[text]
         }
-        else {
-          return locale.en.translation[text]; }
-        }
+      }
     }
   })
 }
 
 // create levels that have the video details
-const levelTestData = Object.keys(utils.videoLevels || {}).map((l) => factories.makeLevel({original: l}))
+const levelTestData = Object.keys(utils.videoLevels || {}).map((l) => factories.makeLevel({ original: l }))
 const levels = new Levels(levelTestData)
 const courses = new Course([factories.makeCourse()])
-const classroom = factories.makeClassroom({}, {levels: [levels], courses: courses})
+const classroom = factories.makeClassroom({}, { levels: [levels], courses: courses })
 const courseInstance = new CourseInstance([factories.makeCourseInstance({}, { course: courses.models[0], classroom: classroom })])
 
 // complete session for the first level with a video
@@ -45,25 +45,25 @@ const expectedSnapshots = {
   'Client Course Videos Modal Component matches the snapshot 1': snapshot
 }
 
-var wrapper;
+var wrapper
 
 describe('Course Videos Modal Component', () => {
   beforeEach((done) => {
     registerSnapshots(expectedSnapshots, 'CourseVideosModalComponent snapshots')
 
-    spyOn(window, 'fetch').and.callFake (() => {
+    spyOn(window, 'fetch').and.callFake(() => {
       throw "This shouldn't be called!"
     })
-    spyOn(api.courseInstances, 'get').and.returnValue(Promise.resolve(courseInstance.models[0].toJSON()));
-    spyOn(api.classrooms, 'get').and.returnValue(Promise.resolve(classroom.toJSON()));
-    spyOn(api.courseInstances, 'getSessions').and.returnValue(Promise.resolve(session));
-    wrapper = createComponent({courseInstanceID: courseInstance.models[0].id, courseID: courses.models[0].id})
+    spyOn(api.courseInstances, 'get').and.returnValue(Promise.resolve(courseInstance.models[0].toJSON()))
+    spyOn(api.classrooms, 'get').and.returnValue(Promise.resolve(classroom.toJSON()))
+    spyOn(api.courseInstances, 'getSessions').and.returnValue(Promise.resolve(session))
+    wrapper = createComponent({ courseInstanceID: courseInstance.models[0].id, courseID: courses.models[0].id })
     _.defer(done)
   })
 
   it('renders a vue instance', () => {
     expect(wrapper.isVueInstance()).toBe(true)
-  });
+  })
 
   it('matches the snapshot', () => {
     expectxml(wrapper.html()).toMatchSnapshot()
