@@ -32,6 +32,7 @@
   "scripts": {
     "start": "node ./index.js",
     "test": "COCO_TRAVIS_TEST=1 npm run webpack && ./node_modules/.bin/karma start --single-run --reporters dots",
+    "test-dotless": "COCO_TRAVIS_TEST=1 npm run webpack && ./node_modules/.bin/karma start --single-run",
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
@@ -177,6 +178,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-plugin-inline-import": "^3.0.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -199,6 +201,7 @@
     "imports-loader": "^0.6.5",
     "istanbul": "^0.4.5",
     "jasmine": "2.4.1",
+    "jasmine-snapshot": "^1.8.1",
     "karma": "^2.0.0",
     "karma-coffee-preprocessor": "^1.0.1",
     "karma-coverage": "^1.1.1",

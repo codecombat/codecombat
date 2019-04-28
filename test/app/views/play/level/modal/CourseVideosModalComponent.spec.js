@@ -7,6 +7,8 @@ import Levels from 'collections/Levels'
 import factories from 'test/app/factories'
 import utils from 'core/utils'
 import api from 'core/api'
+import { registerSnapshots, expectxml } from "jasmine-snapshot"
+import snapshot from './CourseVideosModalComponent.snapshot'
 
 const createComponent = (values = {}) => {
   return shallowMount(videosModalComponent, {
@@ -39,10 +41,16 @@ const session = [{
   }
 }]
 
+const expectedSnapshots = {
+  'Client Course Videos Modal Component matches the snapshot 1': snapshot
+}
+
 var wrapper;
 
 describe('Course Videos Modal Component', () => {
   beforeEach((done) => {
+    registerSnapshots(expectedSnapshots, 'CourseVideosModalComponent snapshots')
+
     spyOn(window, 'fetch').and.callFake (() => {
       throw "This shouldn't be called!"
     })
@@ -56,6 +64,10 @@ describe('Course Videos Modal Component', () => {
   it('renders a vue instance', () => {
     expect(wrapper.isVueInstance()).toBe(true)
   });
+
+  it('matches the snapshot', () => {
+    expectxml(wrapper.html()).toMatchSnapshot()
+  })
 
   it('shows the video thumbnails and text', () => {
     expect(wrapper.find('#videos-content').exists()).toBe(true)

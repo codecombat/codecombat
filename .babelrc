@@ -3,6 +3,11 @@
         "env"
     ],
     "plugins": [
-        "syntax-dynamic-import"
+        "syntax-dynamic-import",
+        ["babel-plugin-inline-import", {
+            "extensions": [
+                ".snapshot"
+            ]
+        }]
     ]
 }

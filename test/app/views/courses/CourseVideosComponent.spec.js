@@ -1,6 +1,8 @@
 import { shallowMount } from '@vue/test-utils'
 import videosComponent from 'views/courses/CourseVideosComponent'
 import locale from 'locale/locale'
+import { registerSnapshots, expectxml } from "jasmine-snapshot"
+import snapshot from './CourseVideosComponent.snapshot'
 
 const createComponent = (values = {}) => {
   return shallowMount(videosComponent, {
@@ -18,15 +20,27 @@ const createComponent = (values = {}) => {
     }
   })
 }
+
 const courseName = 'Introduction to Computer Science'
+const expectedSnapshots = {
+  'Client Course Videos Component it matches the snapshot 1': snapshot
+}
+
 const wrapper = createComponent({courseName: courseName})
 
 describe('Course Videos Component', () => {
+  beforeEach(() => {
+    registerSnapshots(expectedSnapshots, 'CourseVideosComponent snapshots')
+  })
 
   it('renders a vue instance', () => {
     expect(wrapper.isVueInstance()).toBe(true)
   });
-  
+
+  it('it matches the snapshot', () => {
+    expectxml(wrapper.html()).toMatchSnapshot()
+  });
+
   it('shows the course name', () => {
     expect(wrapper.find('.course-name').text()).toEqual(courseName)
   })

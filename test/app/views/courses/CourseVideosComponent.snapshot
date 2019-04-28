@@ -1,0 +1,150 @@
+{
+    "div": {
+        "_class": "container m-t-3",
+        "div": [
+            {
+                "_class": "m-t-2",
+                "h1": {
+                    "__text": "Concept Videos",
+                    "_class": "text-center"
+                },
+                "h2": {
+                    "__text": "Introduction to Computer Science",
+                    "_class": "text-center course-name"
+                }
+            },
+            {
+                "_class": "m-t-3",
+                "_id": "videos-content",
+                "div": [
+                    {
+                        "_class": "row m-t-5",
+                        "div": [
+                            {
+                                "_class": "col-md-6",
+                                "div": {
+                                    "iframe": {
+                                        "_allowfullscreen": "allowfullscreen",
+                                        "_class": "video",
+                                        "_frameborder": "2",
+                                        "_mozallowfullscreen": "",
+                                        "_src": "https://player.vimeo.com/video/310626758",
+                                        "_webkitallowfullscreen": ""
+                                    }
+                                }
+                            },
+                            {
+                                "_class": "col-md-6 rtl-allowed concept-text",
+                                "div": {
+                                    "_class": "semibold m-l-5 concept-heading",
+                                    "span": [
+                                        {
+                                            "_class": "spr",
+                                            "_data-i18n": "courses.concept"
+                                        },
+                                        {
+                                            "_class": "spr",
+                                            "_data-i18n": "courses.basic_syntax"
+                                        }
+                                    ]
+                                },
+                                "p": {
+                                    "_class": "m-l-5 m-t-2 concept-desc",
+                                    "span": {
+                                        "_data-i18n": "courses.basic_syntax_desc"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "_class": "row m-t-5",
+                        "div": [
+                            {
+                                "_class": "col-md-6",
+                                "div": {
+                                    "iframe": {
+                                        "_allowfullscreen": "allowfullscreen",
+                                        "_class": "video",
+                                        "_frameborder": "0",
+                                        "_mozallowfullscreen": "",
+                                        "_src": "https://player.vimeo.com/video/310626741",
+                                        "_webkitallowfullscreen": ""
+                                    }
+                                }
+                            },
+                            {
+                                "_class": "col-md-6 rtl-allowed concept-text",
+                                "div": {
+                                    "_class": "semibold m-l-5 concept-heading",
+                                    "span": [
+                                        {
+                                            "_class": "spr",
+                                            "_data-i18n": "courses.concept"
+                                        },
+                                        {
+                                            "_class": "spr",
+                                            "_data-i18n": "courses.while_loops"
+                                        }
+                                    ]
+                                },
+                                "p": {
+                                    "_class": "m-l-5 m-t-2 concept-desc",
+                                    "span": {
+                                        "_data-i18n": "courses.while_loops_desc"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "_class": "row m-t-5",
+                        "div": [
+                            {
+                                "_class": "col-md-6",
+                                "div": {
+                                    "iframe": {
+                                        "_allowfullscreen": "allowfullscreen",
+                                        "_class": "video",
+                                        "_frameborder": "0",
+                                        "_mozallowfullscreen": "",
+                                        "_src": "https://player.vimeo.com/video/310626807",
+                                        "_webkitallowfullscreen": ""
+                                    }
+                                }
+                            },
+                            {
+                                "_class": "col-md-6 rtl-allowed concept-text",
+                                "div": {
+                                    "_class": "semibold m-l-5 concept-heading",
+                                    "span": [
+                                        {
+                                            "_class": "spr",
+                                            "_data-i18n": "courses.concept"
+                                        },
+                                        {
+                                            "_class": "spr",
+                                            "_data-i18n": "courses.variables"
+                                        }
+                                    ]
+                                },
+                                "p": {
+                                    "_class": "m-l-5 m-t-2 concept-desc",
+                                    "span": {
+                                        "_data-i18n": "courses.variables_desc"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "p": {
+            "a": {
+                "_data-i18n": "courses.back_courses",
+                "_href": "/students"
+            }
+        }
+    }
+}
