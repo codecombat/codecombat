@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     view_progress: "Bekijk voortgang"
     go_to_courses: "Ga naar mijn cursussen"
     want_coco: "Wil je CodeCombat op jouw school?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     twitter_follow: "Volgen"
     my_classrooms: "Mijn klassen" # {change}
     my_courses: "Mijn lessen"
+#    my_teachers: "My Teachers"
     careers: "Banen"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -2222,6 +2226,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     certificate_lines_of: "regels"
     certificate_levels_completed: "afgeronde levels"
     certificate_for: "Voor"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Laatst verdiend"
@@ -2808,3 +2813,19 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     first_name: "Voornaam"
     last_initial: "Laatste Initiaal (voorletter)"
     teacher_email: "Email-adres van leraar"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

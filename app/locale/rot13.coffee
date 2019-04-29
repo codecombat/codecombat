@@ -145,6 +145,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     view_progress: "Ivrj Cebterff"
     go_to_courses: "Tb gb Zl Pbhefrf"
     want_coco: "Jnag PbqrPbzong ng lbhe fpubby?"
+    educator: "Rqhpngbe"
+    student: "Fghqrag"
 
   nav:
     educators: "Rqhpngbef"
@@ -168,6 +170,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     twitter_follow: "Sbyybj"
     my_classrooms: "Zl Pynffrf"
     my_courses: "Zl Pbhefrf"
+    my_teachers: "Zl Grnpuref"
     careers: "Pnerref"
     facebook: "Snprobbx"
     twitter: "Gjvggre"
@@ -1563,7 +1566,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     select_your_classroom: "Fryrpg Lbhe Pynffebbz"
     no_classrooms_found: "Ab pynffebbzf sbhaq"
     create_classroom_manually: "Perngr pynffebbz znahnyyl"
-
+    classes: "Pynffrf"
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
@@ -2222,6 +2225,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     certificate_lines_of: "yvarf bs"
     certificate_levels_completed: "yriryf pbzcyrgrq"
     certificate_for: "Sbe"
+    certificate_number: "Ab."
 
   achievements:
     last_earned: "Ynfg Rnearq"
@@ -2808,3 +2812,19 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     first_name: "Svefg Anzr"
     last_initial: "Ynfg Vavgvny"
     teacher_email: "Grnpure'f rznvy nqqerff"
+
+  school_administrator:
+    my_teachers: 'Zl Grnpuref'
+    last_login: 'Ynfg Ybtva'
+    licenses_used: 'yvprafrf hfrq'
+    total_students: 'gbgny fghqragf'
+    active_students: 'npgvir fghqragf'
+    projects_created: 'cebwrpgf perngrq'
+    other: 'Bgure'
+    notice: 'Gur sbyybjvat fpubby nqzvavfgengbef unir ivrj-bayl npprff gb lbhe pynffebbz qngn:'
+    add_additional_teacher: 'Arrq gb nqq na nqqvgvbany grnpure? Pbagnpg lbhe PbqrPbzong Nppbhag Znantre be rznvy fhccbeg@pbqrpbzong.pbz. '
+    license_stat_description: 'Yvprafrf ninvynoyr nppbhagf sbe gur gbgny ahzore bs yvprafrf ninvynoyr gb gur grnpure, vapyhqvat Funerq Yvprafrf.'
+    students_stat_description: 'Gbgny fghqragf nppbhagf sbe nyy fghqragf npebff nyy pynffebbzf, ertneqyrff bs jurgure gurl unir yvprafrf nccyvrq.'
+    active_students_stat_description: 'Npgvir fghqragf pbhagf gur ahzore bs fghqragf gung unir ybttrq vagb PbqrPbzong va gur ynfg 60 qnlf.'
+    project_stat_description: 'Cebwrpgf perngrq pbhagf gur gbgny ahzore bs Tnzr naq Jro qrirybczrag cebwrpgf gung unir orra perngrq.'
+    no_teachers: 'Lbh ner abg nqzvavfgengvat nal grnpuref.'
