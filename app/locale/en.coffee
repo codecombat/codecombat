@@ -2225,6 +2225,7 @@
     certificate_lines_of: "lines of"
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
+    certificate_number: "No."
 
   achievements:
     last_earned: "Last Earned"
