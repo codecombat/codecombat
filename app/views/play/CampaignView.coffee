@@ -110,9 +110,10 @@ module.exports = class CampaignView extends RootView
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
     @requiresSubscription = not me.isPremium()
-    # Only admins can view the voyager campaign until the final content is ready
+    # Allow only admins to view the voyager campaign and only in editor mode
+    # New page for non-editor mode `/play-voyager`
     # Assuming, the voyager placeholder campaigns will start with 'voyager'
-    # TODO: Remove this check before final voyager launch
+    # TODO: Remove/update this check before final voyager launch
     if _.string.startsWith(@terrain, "voyager") and (not me.showVoyagerCampaign() or not @editorMode)
       console.error("voyager dummy campaign, only editor mode is available for admins!")
       return
