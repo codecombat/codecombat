@@ -81,16 +81,12 @@ module.exports = class TeacherStudentView extends RootView
       @updateSolutions()
       @render()
 
-      # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
-      if window.location.hash
-        # Ensures the jump to fragment occurs after other queued async events.
-        setTimeout(=>
-          levelSlug = window.location.hash.substring(1)
-          @updateSelectedCourseProgress(levelSlug)
-          window.location.href = window.location.href 
-        , 0)
-
     super()
+    # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
+    if window.location.hash
+      levelSlug = window.location.hash.substring(1)
+      @updateSelectedCourseProgress(levelSlug)
+      window.location.href = window.location.href 
 
   afterRender: ->
     super(arguments...)
