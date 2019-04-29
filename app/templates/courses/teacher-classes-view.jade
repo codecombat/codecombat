@@ -58,8 +58,7 @@ block content
               a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
       //- TODO: remove temporary Teacher appreciation anytime after 2019-05-03
-      //- TODO: remove  always true. Only unpaid teacher should see.
-      if true || new Date() >= new Date('2019-04-29') && new Date() <= new Date('2019-05-03')
+      if (!view.paidTeacher) && new Date() >= new Date('2019-04-29') && new Date() <= new Date('2019-05-03')
         .container
           .row
             .col-xs-12

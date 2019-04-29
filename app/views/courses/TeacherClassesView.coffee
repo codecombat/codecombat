@@ -156,6 +156,8 @@ module.exports = class TeacherClassesView extends RootView
       req = @administratingTeachers.fetchByIds(administratingTeacherIds)
       @supermodel.trackRequest req
 
+    @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
+
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
   afterRender: ->
@@ -211,6 +213,7 @@ module.exports = class TeacherClassesView extends RootView
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
     @calculateQuestCompletion()
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
     if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
