@@ -146,6 +146,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     view_progress: "查看进度"
     go_to_courses: "进入我的课程"
     want_coco: "把 CodeCombat 带到您的学校？"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
     educators: "教育者"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     twitter_follow: "关注"
     my_classrooms: "我的班级"
     my_courses: "我的课程"
+#    my_teachers: "My Teachers"
     careers: "招聘"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
@@ -2222,6 +2226,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     certificate_lines_of: "行代码-语言"
     certificate_levels_completed: "个关卡通关完成"
     certificate_for: "课程名称"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "最近取得的"
@@ -2808,3 +2813,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
