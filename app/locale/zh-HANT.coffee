@@ -146,6 +146,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     view_progress: "瀏覽進度"
     go_to_courses: "進入課程"
     want_coco: "想要在您的學校進行CodeCombat嗎？"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     twitter_follow: "在 Twitter 關注"
     my_classrooms: "我的班級"
     my_courses: "我的課程"
+#    my_teachers: "My Teachers"
     careers: "招聘"
     facebook: "Facebook臉書"
     twitter: "Twitter推特"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1778,7 +1782,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "網頁開發 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
     wd1_headlines: "標題以及標題activity"
     wd1_headlines_example: "觀看解答範本"
     wd1_headlines_desc: "為甚麼段落和標題很重要呢? 用這些activity來說明選擇好的標題可以讓網頁更容易閱讀。 這裡有許多正確的使用方式!"
@@ -2222,6 +2226,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "最近一次"
@@ -2808,3 +2813,19 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

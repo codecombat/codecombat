@@ -146,6 +146,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     view_progress: "Види напредак"
     go_to_courses: "Иди на моје курсеве"
     want_coco: "Желиш CodeCombat у својој школи?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     twitter_follow: "Прати"
     my_classrooms: "Моји разреди"
     my_courses: "Моји курсеви"
+#    my_teachers: "My Teachers"
     careers: "Каријере"
     facebook: "Фејсбук"
     twitter: "Твитер"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -1778,7 +1782,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     gd3_curriculum_desc: "Наставни планови за Развој игре 3."
     wd1: "Веб развој 1"
     wd1_curriculum: "Веб развој 1 - водич за наставни план"
-    wd1_curriculum_desc: "Наставни планови за Веб развој 1."
+    wd1_curriculum_desc: "Наставни планови за Веб развој 1." # {change}
     wd1_headlines: "Активност за наслове и заглавља"
     wd1_headlines_example: "Погледај узорак решења"
     wd1_headlines_desc: "Зашто су тагови параграфа и заглавља важни? Користи ову активност да прикажеш како добро изабрана заглавља чине да се веб страница лакше прочита. Има пуно правилних решења за ово! "
@@ -2222,6 +2226,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     certificate_lines_of: "линије"
     certificate_levels_completed: "завршени нивои"
     certificate_for: "За"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Последње стечено"
@@ -2808,3 +2813,19 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

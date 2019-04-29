@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     view_progress: "Bekijk voortgang"
     go_to_courses: "Ga naar mijn cursussen"
     want_coco: "Wil je CodeCombat op jouw school?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     twitter_follow: "Volgen"
     my_classrooms: "Mijn klassen" # {change}
     my_courses: "Mijn lessen"
+#    my_teachers: "My Teachers"
     careers: "Banen"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1778,7 +1782,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     gd3_curriculum_desc: "Lesplannen voor Game Ontwikkeling 3"
     wd1: "Web Ontwikkeling 1"
     wd1_curriculum: "Web Ontwikkeling 1 - Curriculum Gids"
-    wd1_curriculum_desc: "Lesplannen voor Web Ontwikkeling 1"
+    wd1_curriculum_desc: "Lesplannen voor Web Ontwikkeling 1" # {change}
     wd1_headlines: "Titels & Koppen Activiteit"
     wd1_headlines_example: "Bekijk voorbeeld-oplossing"
     wd1_headlines_desc: "Waarom zijn kopjes en titels belangrijk? Gebruik deze activiteit om te zien hoe goed gekozen kopjes je pagina leesbaarder maken. Er zijn veel goede oplossingen hier voor!"
@@ -2222,6 +2226,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     certificate_lines_of: "regels"
     certificate_levels_completed: "afgeronde levels"
     certificate_for: "Voor"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Laatst verdiend"
@@ -2808,3 +2813,19 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

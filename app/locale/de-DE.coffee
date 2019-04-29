@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     view_progress: "Fortschritt ansehen"
     go_to_courses: "Zu meinen Kursen"
     want_coco: "Wollen Sie CodeCombat an ihrer Schule?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     twitter_follow: "Folge uns auf Twitter"
     my_classrooms: "Meine Klassen"
     my_courses: "Meine Kurse"
+#    my_teachers: "My Teachers"
     careers: "Karriere mit CodeCombat!"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -1778,7 +1782,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web-Entwicklung 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
     wd1_headlines: "Schlagzeilen & Kopfzeilen Aktivität"
     wd1_headlines_example: "Beispiel-Lösung ansehen"
     wd1_headlines_desc: "Warum sind Absatz- und Header-Markierungen wichtig? Benutzen Sie diese Aktivität, um zu zeigen, wie gut gewählte Header Webseiten einfacher lesbar machen. Es gibt viele richtige Lösungswege!"
@@ -2222,6 +2226,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    certificate_lines_of: "lines of"
     certificate_levels_completed: "Levels abgeschlossen"
     certificate_for: "Für"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Zuletzt erhalten"
@@ -2808,3 +2813,19 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     view_progress: "Veure Progrés"
     go_to_courses: "Vés a Els meus Cursos"
     want_coco: "Vols CodeCombat al teu centre?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     twitter_follow: "Segueix-nos"
     my_classrooms: "Les Meves Classes"
     my_courses: "Els Meus Cursos"
+#    my_teachers: "My Teachers"
     careers: "Professions"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -1778,7 +1782,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     gd3_curriculum_desc: "Planificació de classes per Desenvolupament del Joc 3."
     wd1: "Desenvolupament Web 1"
     wd1_curriculum: "Desenvolupament Web 1 - Guia del Currículum"
-    wd1_curriculum_desc: "Planificació de classes per Desenvolupament Web 1."
+    wd1_curriculum_desc: "Planificació de classes per Desenvolupament Web 1." # {change}
     wd1_headlines: "Activitats amb Titulars i Encapçalaments"
     wd1_headlines_example: "Veure un exemple de solució"
     wd1_headlines_desc: "Per què són importants els paràgrafs i les etiquetes de capçalera? Utilitzeu aquesta activitat per mostrar com els encapçalaments ben escollits fan que les pàgines web siguin més fàcils de llegir. Hi ha moltes solucions correctes per a això."
@@ -2222,6 +2226,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     certificate_lines_of: "línies de"
     certificate_levels_completed: "nivells completats"
     certificate_for: "Per"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Últim aconseguit"
@@ -2808,3 +2813,19 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
