@@ -708,6 +708,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+    use_at_least_one_concept: "请使用以下至少一个概念： "
 
   apis:
     methods: "函数"

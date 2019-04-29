@@ -710,6 +710,7 @@
     learn_new_concepts: "Learn new concepts"
     watch_a_video: "Watch a video on __concept_name__"
     concept_unlocked: "Concept Unlocked"
+    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Methods"
