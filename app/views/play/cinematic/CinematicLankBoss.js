@@ -60,9 +60,7 @@ export default class CinematicLankBoss {
 
     const moveCharacter = (side, resource, enterOnStart, pos) => {
       if (enterOnStart) {
-        commands.push(new SequentialCommands([
-          new Sleep(3000),
-          this.moveLankCommand({ key: side, resource, pos })]))
+        commands.push(this.moveLankCommand({ key: side, resource, pos }))
       } else {
         commands.push(this.moveLank({ key: side, resource, pos }))
       }

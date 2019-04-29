@@ -133,3 +133,29 @@ export class SequentialCommands extends AbstractCommand {
   }
 }
 
+/**
+ * ConcurrentCommands runs commands concurrently.
+ * It only resolves once all inner commands have completed.
+ */
+export class ConcurrentCommands extends AbstractCommand {
+  /**
+   * @param {AbstractCommand[]}  commands - List of commands to run concurrently
+   */
+  constructor (commands) {
+    super()
+    this.commands = commands
+  }
+
+  run () {
+    return Promise.all([
+      Promise.resolve(),
+      ...this.commands.map(c => c[run]())
+    ])
+  }
+
+  cancel () {
+    this.commands.forEach(c => {
+      c[cancel]()
+    })
+  }
+}

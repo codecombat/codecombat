@@ -1,4 +1,5 @@
 import AbstractCommand from './AbstractCommand'
+import { ConcurrentCommands } from './commands'
 
 /**
  * @typedef {import('../../../../schemas/selectors/cinematic').Cinematic} Cinematic
@@ -75,7 +76,7 @@ const parseDialogNode = (dialogNode, systems) => {
       }
       return [...commands, ...dialogCommands]
     }, [])
-  return dialogCommands
+  return [new ConcurrentCommands(dialogCommands)]
 }
 
 /**
