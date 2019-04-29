@@ -7,7 +7,8 @@ import {
   rightHero,
   getBackground,
   exitCharacter,
-  getBackgroundObject
+  getBackgroundObject,
+  getClearBackgroundObject
 } from '../../../schemas/selectors/cinematic'
 
 // Throws an error if `import ... from ..` syntax.
@@ -17,6 +18,9 @@ const Lank = require('lib/surface/Lank')
 Promise.config({
   cancellation: true
 })
+
+const BACKGROUND_OBJECT = 'backgroundObject'
+const BACKGROUND = 'background'
 
 /**
  * @typedef {import(./Command/CinematicParser).System} System
@@ -112,7 +116,14 @@ export default class CinematicLankBoss {
         pos: { x, y },
         stateChanged: true
       }
-      commands.push(this.moveLank({ key: 'backgroundObject', resource: slug, pos: { x, y }, thang: createThang(thangOptions) }))
+      commands.push(this.moveLank({ key: BACKGROUND_OBJECT, resource: slug, pos: { x, y }, thang: createThang(thangOptions) }))
+    }
+
+    const removeBgDelay = getClearBackgroundObject(dialogNode)
+    if (typeof removeBgDelay === 'number') {
+      commands.push(new SyncFunction(() => {
+        this.removeLank(BACKGROUND_OBJECT)
+      }))
     }
     return commands
   }
@@ -123,10 +134,8 @@ export default class CinematicLankBoss {
    * @param {{x, y}} pos - the position in meters to move towards.
    */
   moveLank ({ key, resource, pos = {}, thang }) {
-    console.log('Have  key', key)
     return new SyncFunction(() => {
       this.addLank(key, this.loader.getThangType(resource), thang)
-      console.log('adding', key)
 
       // normalize parameters
       this.lanks[key].thang.pos.x = pos.x !== undefined ? pos.x : this.lanks[key].thang.pos.x
@@ -180,8 +189,7 @@ export default class CinematicLankBoss {
   /**
    * Sets the background.
    *
-   * Intelligently handles backgrounds that may already exist or
-   * are simply being moved.
+   * Handles backgrounds that may already exist or are simply being moved.
    * @param {Object} background Background object.
    */
   setBackgroundCommand ({ slug, scaleX, scaleY, pos: { x, y } }) {
@@ -197,22 +205,30 @@ export default class CinematicLankBoss {
         stateChanged: true
       }
 
-      if (this.lanks['background'] && this.lanks['background'].thangType) {
-        if (this.lanks['background'].thangType.get('slug') === slug) {
-          const thang = this.lanks['background'].thang
+      // If this background is already in use, just update thang instead of
+      // completely replacing the lank.
+      if (this.lanks[BACKGROUND] && this.lanks[BACKGROUND].thangType) {
+        if (this.lanks[BACKGROUND].thangType.get('slug') === slug) {
+          const thang = this.lanks[BACKGROUND].thang
           _.merge(thang, thangOptions)
           return
         }
       }
 
       const backgroundThang = createThang(thangOptions)
-      this.addLank('background', thangType, backgroundThang)
+      this.addLank(BACKGROUND, thangType, backgroundThang)
     })
   }
 
-  queueAction (side, action) {
-    assertSide(side)
-    this.lanks[side].queueAction(action)
+  /**
+   * Immediately queues provided action onto the lank with the key.
+   * @param {string} key to the lank we want to queue the action on.
+   * @param {string} action to queue.
+   */
+  queueAction (key, action) {
+    if (typeof (this.lanks[key] || {}).queueAction === 'function') {
+      this.lanks[key].queueAction(action)
+    }
     return Promise.resolve(null)
   }
 
@@ -223,6 +239,18 @@ export default class CinematicLankBoss {
   update (frameChanged) {
     Object.values(this.lanks)
       .forEach(lank => lank.update(frameChanged))
+  }
+
+  /**
+   * Removes and cleans up resources for the  provided lank.
+   * @param {string} key unique key for given lank.
+   */
+  removeLank (key) {
+    const lank = this.lanks[key]
+    if (!lank) { return }
+    lank.layer.removeLank(lank)
+    delete this.lanks[key]
+    lank.destroy()
   }
 
   /**
@@ -238,17 +266,15 @@ export default class CinematicLankBoss {
    * @param {Object|undefined} thang?
    */
   addLank (key, thangType, thang = undefined) {
+    // Handle a duplicate thangType with the same key.
     if (this.lanks[key] && this.lanks[key].thangType) {
       const original = this.lanks[key].thangType.get('original')
       if (thangType.get('original') === original) {
         // It's the same thangType. Don't add a new Lank.
         return
       } else {
-        // Remove old lank.
-        const lank = this.lanks[key]
-        lank.layer.removeLank(lank)
-        delete this.lanks[key]
-        lank.destroy()
+        // It's a lank we want to replace.
+        this.removeLank(key)
       }
     }
 
@@ -262,11 +288,6 @@ export default class CinematicLankBoss {
           y: this.stageBounds.bottomRight.y
         },
         rotation: Math.PI
-      })
-    } else if (key === 'background' && !thang) {
-      thang = createThang({
-        scaleFactorX: 0.2,
-        scaleFactorY: 0.2
       })
     } else if (key === 'left' && !thang) {
       thang = createThang({
@@ -284,7 +305,7 @@ export default class CinematicLankBoss {
       camera: this.camera,
       groundLayer: this.groundLayer
     })
-    if (key === 'background') {
+    if (key === BACKGROUND) {
       this.layerAdapters['Background'].addLank(lank)
     } else {
       this.layerAdapters['Default'].addLank(lank)
@@ -319,15 +340,6 @@ const createThang = (options) => {
     rotation: 0
   }
   return _.merge(defaults, options)
-}
-
-/**
- * @param {string} side - string enum of either 'left' or 'right'.
- */
-function assertSide (side) {
-  if (!['left', 'right'].includes(side)) {
-    throw new Error(`Expected one of 'left' or 'right', got ${side}`)
-  }
 }
 
 /**

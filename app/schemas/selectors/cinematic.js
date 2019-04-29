@@ -239,6 +239,17 @@ const backgroundObject = triggers => {
 }
 
 /**
+ * @param {Object} triggers
+ * @returns {undefined|number} Delay if it exists.
+ */
+const clearBackgroundObject = triggers => {
+  if (!triggers) {
+    return
+  }
+  return (triggers.clearBackgroundObject || {}).triggerStart
+}
+
+/**
  * Returns if left hero character
  * @param {Shot} shot
  * @returns {bool}
@@ -265,3 +276,9 @@ export const getBackgroundSlug = compose(shotSetup, backgroundArt, slug)
  * @returns {Object|undefined} backgroundObject
  */
 export const getBackgroundObject = compose(triggers, backgroundObject)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number|undefined} the delay before removing the background object.
+ */
+export const getClearBackgroundObject = compose(triggers, clearBackgroundObject)
