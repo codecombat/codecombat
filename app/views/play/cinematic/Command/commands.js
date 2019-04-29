@@ -1,5 +1,6 @@
-import AbstractCommand from './AbstractCommand'
+import AbstractCommand, { run, cancel } from './AbstractCommand'
 import Promise from 'bluebird'
+import CommandRunner from './CommandRunner'
 
 Promise.config({
   cancellation: true
@@ -40,3 +41,95 @@ export class Sleep extends AbstractCommand {
     return sleep(this.ms)
   }
 }
+
+/**
+ * AnimeCommand is used to turn animejs animation tweens into commands that the Command Runner can play and cancel.
+ */
+export class AnimeCommand extends AbstractCommand {
+  /**
+   * @param {anime} animation The animation that will be run.
+   */
+  constructor (animation) {
+    super()
+    this.animation = animation
+  }
+
+  /**
+   * Starts the animation, returning a cancellable promise that resolves when
+   * animation completes.
+   */
+  run () {
+    return new Promise((resolve, reject) => {
+      this.animation.play()
+      this.animation.complete = resolve
+    })
+  }
+
+  /**
+   * Cancel method ignores the promise and simply moves the animation
+   * to the end.
+   */
+  cancel (promise) {
+    const animation = this.animation
+    animation.seek(animation.duration)
+    return promise
+  }
+}
+
+/**
+ * SyncFunction runs a synchronous function.
+ */
+export class SyncFunction extends AbstractCommand {
+  /**
+   * @param {Function} runFn Synchronous function that doesn't return anything.
+   */
+  constructor (runFn) {
+    super()
+    this.run = () => {
+      runFn()
+      return Promise.resolve()
+    }
+    this.cancel = () => {}
+  }
+}
+
+export class Noop extends AbstractCommand {
+  run () {
+    return Promise.resolve()
+  }
+}
+
+/**
+ * Higher order command that operates on other commands.
+ * Takes in a list of commands and operates on them sequentially.
+ *
+ * Cancelling this command sequentially cancels all included commands.
+ *
+ * Usage traditionally is for adding delays. I.e. Sleep command and then another command.
+ */
+export class SequentialCommands extends AbstractCommand {
+  /**
+   * @param {AbstractCommand[]} commands - List of commands to run sequentially.
+   */
+  constructor (commands) {
+    super()
+    this.commandRunner = new CommandRunner(commands)
+  }
+
+  [run] () {
+    return this.run()
+  }
+
+  run () {
+    return this.commandRunner.run()
+  }
+
+  [cancel] () {
+    this.cancel()
+  }
+
+  cancel () {
+    this.commandRunner.cancel()
+  }
+}
+

@@ -1,5 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
-import AbstractCommand, { Noop, SyncFunction } from './Command/AbstractCommand'
+import AbstractCommand from './Command/AbstractCommand'
+import { Noop, SyncFunction, Sleep, SequentialCommands } from './Command/commands'
 import {
   getLeftCharacterThangTypeSlug,
   getRightCharacterThangTypeSlug,
@@ -59,7 +60,9 @@ export default class CinematicLankBoss {
 
     const moveCharacter = (side, resource, enterOnStart, pos) => {
       if (enterOnStart) {
-        commands.push(this.moveLankCommand({ key: side, resource, pos }))
+        commands.push(new SequentialCommands([
+          new Sleep(3000),
+          this.moveLankCommand({ key: side, resource, pos })]))
       } else {
         commands.push(this.moveLank({ key: side, resource, pos }))
       }
@@ -153,7 +156,7 @@ export default class CinematicLankBoss {
    * @param {number} ms
    */
   moveLankCommand ({ key, resource, pos, ms = 1000, thang }) {
-    return new MoveLank((commandCtx) => {
+    return new MoveLank(() => {
       if (resource) {
         this.addLank(key, this.loader.getThangType(resource))
       }
@@ -165,6 +168,7 @@ export default class CinematicLankBoss {
       if (this.lanks[key].thang.pos.x === pos.x && this.lanks[key].thang.pos.y === pos.y) {
         return new Noop()
       }
+      const lankStateChanged = () => { this.lanks[key].thang.stateChanged = true }
       const animation = anime({
         targets: this.lanks[key].thang.pos,
         x: pos.x,
@@ -174,15 +178,18 @@ export default class CinematicLankBoss {
         delay: 500, // Hack to provide some time for lank to load.
         easing: 'easeInOutQuart',
         // Inform update engine to rerender thang at new position.
-        update: () => { this.lanks[key].thang.stateChanged = true },
-        complete: () => { this.lanks[key].thang.stateChanged = true }
+        update: lankStateChanged,
+        complete: lankStateChanged
       })
 
-      commandCtx.animation = animation
-      return new Promise((resolve, reject) => {
-        animation.play()
-        animation.complete = resolve
-      })
+      return {
+        lankStateChanged,
+        animation,
+        run: () => new Promise((resolve, reject) => {
+          animation.play()
+          animation.complete = resolve
+        })
+      }
     })
   }
 
@@ -343,24 +350,35 @@ const createThang = (options) => {
 }
 
 /**
- * Run methods initialized the Lank and then runs the animation.
+ * A modified AnimeCommand that updates thang state ensuring lanks are correctly
+ * rendered.
  */
 class MoveLank extends AbstractCommand {
   /**
-   * Loads relevant Lanks via CinematicLankBoss.
-   * @param {Function} runFn takes the command instance as an argument.
+   * Runs an anime js animation with some helper methods ensuring the lanks are
+   * properly rendered on the canvas.
+   * @param {Function} animationFn
    */
-  constructor (runFn) {
+  constructor (animationFn) {
     super()
-    this.run = () => runFn(this)
+    this.animationFn = animationFn
+  }
+
+  run () {
+    const { run, animation, lankStateChanged } = this.animationFn()
+    this.animation = animation
+    this.lankStateChanged = lankStateChanged
+    return run()
   }
 
   cancel (promise) {
+    // Bound by the `runFn`.
     const animation = this.animation
     if (!animation) {
       throw new Error('Incorrect use of MoveLank. Must attach animation.')
     }
     animation.seek(animation.duration)
+    this.lankStateChanged()
     return promise
   }
 }
