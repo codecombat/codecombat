@@ -9,7 +9,7 @@
       )
     level-goal(
       v-if="conceptGoals.length",
-		  :goal="{ name: $t('play_level.use_at_least_one_concept') }",
+      :goal="{ name: $t('play_level.use_at_least_one_concept') }",
       :state="{ status: conceptStatus }",
     )
     ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
