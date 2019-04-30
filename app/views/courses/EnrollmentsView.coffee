@@ -111,12 +111,8 @@ module.exports = class EnrollmentsView extends RootView
     # if we should skip upsell (we ignore the others).
 
     coursePrepaids = @prepaids.filter((p) => p.get('type') == 'course')
-    starterLicensePrepaids = @prepaids.filter((p) => p.get('type') == 'starter_license')
 
-    twoMonthsAgo = moment().subtract('2', 'month')
-    starterLicensesBeforeCutoff = starterLicensePrepaids.filter((p) => moment(p.get('startDate')).isBefore(twoMonthsAgo))
-
-    skipUpsellDueToExistingLicenses = coursePrepaids.length > 0 || starterLicensesBeforeCutoff.length > 0
+    skipUpsellDueToExistingLicenses = coursePrepaids.length > 0
     shouldUpsell = !skipUpsellDueToExistingLicenses and (@state.get('leadPriority') is 'low') and (me.get('preferredLanguage') isnt 'nl-BE')
 
     @state.set({ shouldUpsell })

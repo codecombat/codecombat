@@ -77,7 +77,7 @@ describe 'EnrollmentsView', ->
 
         expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
 
-      it 'when active starter licenses exist and they are less than two months old', ->
+      it 'when active starter licenses exist', ->
         @view.prepaids.set([])
         @view.prepaids.add(factories.makePrepaid({
           type: 'starter_license'
@@ -90,7 +90,7 @@ describe 'EnrollmentsView', ->
 
         expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
 
-      it 'when expired starter licenses exist and they are less than two months old', ->
+      it 'when expired starter licenses exist', ->
         @view.prepaids.set([])
         @view.prepaids.add(factories.makePrepaid({
           type: 'starter_license'
@@ -126,28 +126,6 @@ describe 'EnrollmentsView', ->
         @view.prepaids.set([])
         @view.prepaids.add(factories.makePrepaid({
           startDate: moment().subtract(2, 'month').toISOString()
-          endDate: moment().add(1, 'month').toISOString()
-        }))
-
-        @view.render()
-        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
-
-      it 'when expired starter licenses exist that are more than two months old', ->
-        @view.prepaids.set([])
-        @view.prepaids.add(factories.makePrepaid({
-          type: 'starter_license'
-          startDate: moment().subtract(2.5, 'month').toISOString()
-          endDate: moment().subtract(1, 'month').toISOString()
-        }))
-
-        @view.render()
-        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
-
-      it 'when active starter licenses exist that more than two months old', ->
-        @view.prepaids.set([])
-        @view.prepaids.add(factories.makePrepaid({
-          type: 'starter_license'
-          startDate: moment().subtract(2.5, 'month').toISOString()
           endDate: moment().add(1, 'month').toISOString()
         }))
 
