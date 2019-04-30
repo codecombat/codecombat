@@ -138,3 +138,13 @@ export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, c
  * @param {Shot} shot
  */
 export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {bool|undefined} whether we should clear all existing dialogs.
+ */
+export const getClearText = dialogNode => (dialogNode || {}).dialogClear
+
+export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
+
+export const getSpeaker = dialogNode => (dialogNode || {}).speaker

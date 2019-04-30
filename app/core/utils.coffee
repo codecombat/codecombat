@@ -215,6 +215,11 @@ stripIndentation = (code) ->
   strippedCode = (line.substr(indentation) for line in codeLines).join('\n')
   return strippedCode
 
+# @param {Object} say - the object containing an i18n property.
+# @param {string} target - the attribute that you want to access.
+# @returns {string} translated string if possible
+# Example usage:
+#   `courseName = utils.i18n(course.attributes, 'name')`
 i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') ->
   generalResult = null
   fallBackResult = null

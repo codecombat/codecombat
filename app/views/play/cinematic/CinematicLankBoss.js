@@ -1,21 +1,23 @@
 import anime from 'animejs/lib/anime.es.js'
-import Promise from 'bluebird'
-import AbstractCommand, { Noop } from './Command/AbstractCommand'
+import { Noop, AnimeCommand } from './Command/AbstractCommand'
+import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug } from '../../../schemas/selectors/cinematic'
 
 const Lank = require('lib/surface/Lank')
 
-Promise.config({
-  cancellation: true
-})
+/**
+ * @typedef {import(./Command/CinematicParser).System} System
+ */
 
 /**
  * Registers the thangs and ThangTypes onto Lanks.
  * Then animates these Lanks to create a cinematic.
  * Instead of immediately executing methods, instead returns a Command that
  * can be run by the cinematic runner.
+ *
+ * @implements {System}
  */
 export default class CinematicLankBoss {
-  constructor ({ groundLayer, layerAdapter, camera }) {
+  constructor ({ groundLayer, layerAdapter, camera, loader }) {
     this.groundLayer = groundLayer
     this.layerAdapter = layerAdapter
     this.camera = camera
@@ -23,6 +25,39 @@ export default class CinematicLankBoss {
       topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
       bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
     }
+    this.loader = loader
+  }
+
+  /**
+   * Returns a list of commands that correctly set up the shot.
+   * @param {Shot} shot - the cinematic shot data.
+   */
+  parseSetupShot (shot) {
+    const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
+    const commands = []
+
+    if (leftCharSlug) {
+      const { slug, enterOnStart, position } = leftCharSlug
+      this.addLank('left', this.loader.getThangType(slug))
+      if (enterOnStart) {
+        commands.push(this.moveLankCommand('left', position))
+      } else {
+        this.moveLank('left', position)
+      }
+    }
+
+    const rightCharSlug = getRightCharacterThangTypeSlug(shot)
+    if (rightCharSlug) {
+      const { slug, enterOnStart, position } = rightCharSlug
+      this.addLank('right', this.loader.getThangType(slug))
+      if (enterOnStart) {
+        commands.push(this.moveLankCommand('right', position))
+      } else {
+        this.moveLank('right', position)
+      }
+    }
+
+    return commands
   }
 
   registerLank (side, lank) {
@@ -68,8 +103,10 @@ export default class CinematicLankBoss {
       y: pos.y,
       duration: ms,
       autoplay: false,
-      // Update required to ensure Lank sprite position is moved.
-      update: () => { this[side].thang.stateChanged = true }
+      easing: 'easeInOutQuart',
+      // Inform update engine to rerender thang at new position.
+      update: () => { this[side].thang.stateChanged = true },
+      complete: () => { this[side].thang.stateChanged = true }
     })
 
     return new AnimeCommand(animation)
@@ -101,7 +138,7 @@ export default class CinematicLankBoss {
    * @param {Object} thangType
    * @param {Object} systems
    */
-  addLank (side, thangType, systems) {
+  addLank (side, thangType) {
     assertSide(side)
     const thang = side === 'left'
       ? createThang({ pos: {
@@ -119,46 +156,12 @@ export default class CinematicLankBoss {
       resolutionFactor: 60,
       preloadSounds: false,
       thang,
-      camera: systems.camera,
+      camera: this.camera,
       groundLayer: this.groundLayer
     })
 
     this.layerAdapter.addLank(lank)
     this.registerLank(side, lank)
-  }
-}
-
-/**
- * AnimeCommand is used to turn animejs animation tweens into commands that the Command Runner can play and cancel.
- */
-class AnimeCommand extends AbstractCommand {
-  /**
-   * @param {anime} animation The animation that will be run.
-   */
-  constructor (animation) {
-    super()
-    this.animation = animation
-  }
-
-  /**
-   * Starts the animation, returning a cancellable promise that resolves when
-   * animation completes.
-   */
-  run () {
-    return new Promise((resolve, reject) => {
-      this.animation.play()
-      this.animation.complete = resolve
-    })
-  }
-
-  /**
-   * Cancel method ignores the promise and simply moves the animation
-   * to the end.
-   */
-  cancel (promise) {
-    const animation = this.animation
-    animation.seek(animation.duration)
-    return promise
   }
 }
 
