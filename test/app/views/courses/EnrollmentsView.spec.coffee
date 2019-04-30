@@ -64,22 +64,51 @@ describe 'EnrollmentsView', ->
       leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'low' })})
 
     describe 'shows the starter license upsell', ->
-      it 'when only starter licenses exist', ->
+      it 'when only subscription prepaids exist', ->
         @view.prepaids.set([])
         @view.prepaids.add(factories.makePrepaid({
-          type: 'starter_license'
+          type: 'subscription'
+          startDate: moment().subtract(3, 'weeks').toISOString()
+          endDate: moment().add(2, 'weeks').toISOString()
         }))
 
         @view.prepaids.trigger('sync')
-
         @view.render()
+
+        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
+
+      it 'when active starter licenses exist and they are less than two months old', ->
+        @view.prepaids.set([])
+        @view.prepaids.add(factories.makePrepaid({
+          type: 'starter_license'
+          startDate: moment().subtract(3, 'weeks').toISOString()
+          endDate: moment().add(2, 'weeks').toISOString()
+        }))
+
+        @view.prepaids.trigger('sync')
+        @view.render()
+
+        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
+
+      it 'when expired starter licenses exist and they are less than two months old', ->
+        @view.prepaids.set([])
+        @view.prepaids.add(factories.makePrepaid({
+          type: 'starter_license'
+          startDate: moment().subtract(3, 'week').toISOString()
+          endDate: moment().subtract(1, 'week').toISOString()
+        }))
+
+        @view.prepaids.trigger('sync')
+        @view.render()
+
         expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
 
       it 'when no prepaids exist', ->
         @view.prepaids.set([])
-        @view.prepaids.trigger('sync')
 
+        @view.prepaids.trigger('sync')
         @view.render()
+
         expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
 
     describe 'does not show the starter license upsell', ->
@@ -97,6 +126,28 @@ describe 'EnrollmentsView', ->
         @view.prepaids.set([])
         @view.prepaids.add(factories.makePrepaid({
           startDate: moment().subtract(2, 'month').toISOString()
+          endDate: moment().add(1, 'month').toISOString()
+        }))
+
+        @view.render()
+        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
+
+      it 'when expired starter licenses exist that are more than two months old', ->
+        @view.prepaids.set([])
+        @view.prepaids.add(factories.makePrepaid({
+          type: 'starter_license'
+          startDate: moment().subtract(2.5, 'month').toISOString()
+          endDate: moment().subtract(1, 'month').toISOString()
+        }))
+
+        @view.render()
+        expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
+
+      it 'when active starter licenses exist that more than two months old', ->
+        @view.prepaids.set([])
+        @view.prepaids.add(factories.makePrepaid({
+          type: 'starter_license'
+          startDate: moment().subtract(2.5, 'month').toISOString()
           endDate: moment().add(1, 'month').toISOString()
         }))
 
