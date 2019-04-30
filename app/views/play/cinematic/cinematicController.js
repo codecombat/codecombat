@@ -2,6 +2,7 @@ import CinematicLankBoss from './CinematicLankBoss'
 import Loader from './Loader'
 import { parseShot } from './Command/CinematicParser'
 import CommandRunner from './Command/CommandRunner'
+import DialogSystem from './DialogSystem'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -53,14 +54,23 @@ export class CinematicController {
 
     // TODO: Will be moved to camera commands.
     this.systems.camera.zoomTo({ x: 0, y: 0 }, 7, 0)
+    this.systems.loader = new Loader({ slug })
+
+    this.systems.dialogSystem = new DialogSystem({
+      canvasDiv,
+      camera: this.systems.camera
+    })
+
+    this.systems.dialogSystem.templateContext = {
+      name: me.get('name') || 'hero'
+    }
 
     this.systems.cinematicLankBoss = new CinematicLankBoss({
       groundLayer: this.stubRequiredLayer,
       layerAdapter: this.layerAdapter,
-      camera: this.systems.camera
+      camera: this.systems.camera,
+      loader: this.systems.loader
     })
-
-    this.systems.loader = new Loader({ slug })
 
     this.commands = []
 
@@ -81,6 +91,8 @@ export class CinematicController {
 
     const commands = data.shots
       .map(shot => parseShot(shot, this.systems))
+      .filter(commands => commands.length > 0)
+      .reduce((acc, commands) => [...acc, ...commands], [])
 
     // TODO: There must be a better way than an array of locks! In future add reasonable timeout with `Promise.race`.
     await Promise.all(this.startupLocks)
@@ -102,25 +114,26 @@ export class CinematicController {
   }
 
   /**
-   * Runs the next shot.
+   * Runs the next shot, mutating `this.commands`.
    */
   runShot () {
     if (this.runner) return
     this.onPlay()
-    this._runShot(this.commands)
+
+    if (!Array.isArray(this.commands) || this.commands.length === 0) {
+      return
+    }
+    const currentShot = this.commands.shift()
+    console.log(`Running batch of commands:`, { currentShot })
+    this._runShot(currentShot)
   }
 
   /**
-   * Runs a single shot from commands. Calls the `onPlay` when cinematic starts
+   * Runs the provided shot to completion. Calls the `onPlay` when cinematic starts
    * playing and calls `onPause` on the conclusion of the shot.
-   * @param {AbstractCommand[][]} commands - 2d list of commands. When user cancels it runs to the end of the inner list.
+   * @param {AbstractCommand[]} commands - List of commands. When user cancels it runs to the end of the list.
    */
-  async _runShot (commands) {
-    if (!Array.isArray(commands) || commands.length === 0) {
-      return
-    }
-
-    let currentShot = commands.shift()
+  async _runShot (currentShot) {
     if (!Array.isArray(currentShot) || currentShot.length === 0) {
       return
     }

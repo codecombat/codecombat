@@ -28,6 +28,10 @@ export default {
     enterDisabled: true
   }),
   mounted: function() {
+    if (!me.hasCinematicAccess()) {
+      // TODO: VOYAGER FEATURE: Remove when ready for production use.
+      return application.router.navigate('/', { trigger: true })
+    }
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']
     this.controller = new CinematicController({
