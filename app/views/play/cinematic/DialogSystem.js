@@ -1,8 +1,7 @@
 import anime from 'animejs/lib/anime.es.js'
 import { AnimeCommand, SyncFunction } from './Command/AbstractCommand'
 import { getClearText, getTextPosition, getSpeaker } from '../../../schemas/selectors/cinematic'
-import utils from 'app/core/utils'
-import tmpl from 'tmpl'
+import { processText } from './dialog-system/dialogSystemHelper'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
 const padding = 10
@@ -31,21 +30,21 @@ export default class DialogSystem {
     canvasDiv.appendChild(div)
 
     this.shownDialogBubbles = []
-    this._context = {}
+    this._templateDataParameters = {}
   }
 
   /**
-   * This context object can be accessed from the dialog text templates.
-   * E.g. a context object of: `{ name: 'Mary' }` can then be used in the following
+   * This templateDataParameters object can be accessed from the dialog text templates.
+   * E.g. a templateDataParameters object of: `{ name: 'Mary' }` can then be used in the following
    * dialog text:
    *   `Hello, <%=o.name%>`
    * Which then appears as:
    *   `Hello, Mary`
    *
-   * @param {Object} context - used for interpolation.
+   * @param {Object} templateDataParameters - used for interpolation.
    */
-  set templateContext (context) {
-    this._context = context
+  set templateContext (templateDataParameters) {
+    this._templateDataParameters = templateDataParameters
   }
 
   /**
@@ -55,7 +54,7 @@ export default class DialogSystem {
    */
   parseDialogNode (dialogNode) {
     const commands = []
-    const text = processText(dialogNode, this._context)
+    const text = processText(dialogNode, this._templateDataParameters)
     const shouldClear = getClearText(dialogNode)
     const { x, y } = getTextPosition(dialogNode) || { x: 200, y: 200 }
     const side = getSpeaker(dialogNode) || 'left'
@@ -128,7 +127,7 @@ class SpeechBubble {
       y: y - height,
       width,
       height,
-      clazz: this.id,
+      className: this.id,
       side
     })
     svg.appendChild(svgGroup)
@@ -188,13 +187,13 @@ class SpeechBubble {
  * @param {SvgBubbleOptions} svgOptions - Svg options for generating the svg shape.
  * @returns {SVGGElement} the group element of the svg bubble.
  */
-function createSvgShape ({ x, y, width, height, side, clazz }) {
+function createSvgShape ({ x, y, width, height, side, className }) {
   const g = document.createElementNS(SVGNS, 'g')
   g.setAttribute('transform', `translate(${x - padding}, ${y + height + 1 - padding})`)
   g.setAttribute('fill', 'white')
   // Animation will reveal this svg.
   g.setAttribute('opacity', '0')
-  g.setAttribute('class', clazz)
+  g.setAttribute('class', className)
 
   const rect = document.createElementNS(SVGNS, 'rect')
   rect.setAttribute('width', `${width}`)
@@ -211,104 +210,3 @@ function createSvgShape ({ x, y, width, height, side, clazz }) {
   g.appendChild(path)
   return g
 }
-
-/**
- * Extract the text from the DialogNode, and transform it into an html element ready for animation.
- *
- * This function handles internationalization, text interpolation and html processing.
- *
- * We use very light weight [Javascript-Templates](https://blueimp.github.io/JavaScript-Templates/)
- * in order to provide text templating.
- *
- * @param {DialogNode} dialogNode
- * @param {Object} context - The object referred to as `o` in the text templates.
- * @param {bool} wrap - Whether we want to wrap the transpiled text in html tags.
- * @returns {HTMLElement|undefined} The processed element.
- */
-export function processText (dialogNode, context, wrap = true) {
-  let text = utils.i18n(dialogNode, 'text')
-  text = tmpl(text || '', context)
-  if (!text) {
-    return undefined
-  }
-
-  if (wrap) {
-    return wrapText(`<div>${text}</div>`)
-  }
-  return text
-}
-
-/**
- * From the stackoverflow answer: https://stackoverflow.com/a/20693791/6421793
- *
- * Default behaviour:
- *
- * Wraps each letter with a span set at opacity 0.
- * This lets us calculate the bounding box of the html element.
- * To prevent the possible occurrance of line breaks in the middle of a word
- * we must also wrap words with a span tag.
- *
- * @param {string} htmlString is a raw string representation of html
- * @param {function} wrapLetterString takes a letter and can return a wrapped letter.
- * @param {function} wrapWordString takes a word and can return a wrapped word.
- * @returns {string} transformed html string.
- */
-export function wrapText (htmlString, wrapLetterString, wrapWordString) {
-  if (!wrapLetterString) {
-    wrapLetterString = l => `<span class="letter" style="display: inline-block; opacity:0">${l}</span>`
-  }
-  if (!wrapWordString) {
-    wrapWordString = l => `<span class="word" style="display: inline-block; whites-space: nowrap">${l}</span>`
-  }
-
-  // Method that replaces text content within an html string.
-  function replaceHtmlContent (str, match, replaceFn) {
-    // we use the "g" and "i" flags to make it replace all occurrences and ignore case
-    var re = new RegExp(match, 'gi')
-    // this RegExp will match any char sequence that doesn't contain "<" or ">"
-    // and that is followed by a tag
-    return str.replace(/([^<>]+)(?=<[^>]+>)/g, function (s, content) {
-      return content.replace(re, replaceFn)
-    })
-  }
-
-  function wrapLetter (src, match) {
-    return replaceHtmlContent(src, match, wrapLetterString)
-  }
-
-  // wrapWord maintains spaces on either side of the word.
-  function wrapWord (src, match) {
-    return replaceHtmlContent(src, match, function (str) {
-      let result = ''
-      if (str[0] === ' ') {
-        result += ' '
-      }
-      result += wrapLetter(wrapWordString(str.trim()), /[^ ]/)
-      if (str.substr(-1) === ' ') {
-        result += ' '
-      }
-      return result
-    })
-  }
-
-  return wrapWord(htmlString, / ?([^ ])+ ?/)
-}
-
-// Polyfill for `node.remove` method.
-// Reference: https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
-// from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
-(function (arr) {
-  arr.forEach(function (item) {
-    if (item.hasOwnProperty('remove')) {
-      return
-    }
-    Object.defineProperty(item, 'remove', {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: function remove () {
-        this.parentNode.removeChild(this)
-      }
-    })
-  })
-})([Element.prototype, CharacterData.prototype, DocumentType.prototype])

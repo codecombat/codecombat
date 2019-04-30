@@ -28,7 +28,7 @@ export default {
     enterDisabled: true
   }),
   mounted: function() {
-    if (!me.isAdmin()) {
+    if (!me.hasCinematicAccess()) {
       // TODO: VOYAGER FEATURE: Remove when ready for production use.
       return application.router.navigate('/', { trigger: true })
     }

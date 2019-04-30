@@ -1,9 +1,9 @@
 /* eslint-env jasmine */
-import { processText, wrapText } from '../../../../app/views/play/cinematic/DialogSystem'
+import { processText, wrapText } from '../../../../app/views/play/cinematic/dialog-system/dialogSystemHelper'
 
 const dialogNode = text => ({ text })
 
-describe('dialogSystem', () => {
+describe('processText', () => {
   describe('text processing', () => {
     it('letters wrapped with "<l>" and words wrapped with "<x>"', () => {
       const tests = [
