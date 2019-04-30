@@ -146,6 +146,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     view_progress: "Lihat Kemajuan"
     go_to_courses: "Pergi ke Kursusku"
     want_coco: "Mau CodeCombat ada di sekolahmu?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +171,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     twitter_follow: "Ikuti"
     my_classrooms: "Kelasku"
     my_courses: "Kursusku"
+#    my_teachers: "My Teachers"
     careers: "Karir"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -1577,6 +1581,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     code: "Kode __name__'"
     complete_solution: "Solusi Lengkap"
     course_not_started: "Siswa belum memulai kursus ini."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1786,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     gd3_curriculum_desc: "Rencana belajar untuk Pengembangan Permainan 3."
     wd1: "Pengembangan Web 1"
     wd1_curriculum: "Pengembangan Web 1 - Panduan Kurikulum"
-    wd1_curriculum_desc: "Rencana pembelajaran untuk Pengembangan Web 1."
+    wd1_curriculum_desc: "Rencana pembelajaran untuk Pengembangan Web 1." # {change}
     wd1_headlines: "Aktivitas Pokok Bahasan dan Header"
     wd1_headlines_example: "Lihat contoh solusi"
     wd1_headlines_desc: "Mengapa paragraf dan tag header sangat penting? Gunakan aktivitas ini untuk menunjukkan header yang terpilih dengan baik membuat halaman web lebih mudah dibaca. Ada banyak solusi tepat untuk ini!"
@@ -2222,6 +2230,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Terakhir diperoleh"
@@ -2808,3 +2817,19 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
