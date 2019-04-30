@@ -156,6 +156,7 @@ module.exports = class TeacherClassesView extends RootView
       req = @administratingTeachers.fetchByIds(administratingTeacherIds)
       @supermodel.trackRequest req
 
+    # TODO: Any reference to paidTeacher can be cleaned up post Teacher Appreciation week (after 2019-05-03)
     @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
 
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
