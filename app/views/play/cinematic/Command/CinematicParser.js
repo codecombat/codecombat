@@ -62,6 +62,7 @@ const parseSetup = (shot, systems) =>
 
 /**
  * Returns an array of commands.
+ * This is required as we update this list to add commands to the start and end.
  * @param {DialogNode} dialogNode
  * @param {Object} systems
  * @returns {AbstractCommand[]}
