@@ -78,7 +78,6 @@ export default class CinematicLankBoss {
       const { enterOnStart, thang: { pos } } = lHero
       moveCharacter('left', original, enterOnStart, pos)
     }
-
     const rHero = getRightHero(shot)
     if (rHero) {
       const { enterOnStart, thang: { pos } } = rHero
