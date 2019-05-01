@@ -41,7 +41,7 @@ const ThangTypeSchema = (title, description) => c.object({
 const CharacterSchema = (title) => c.object({
   title: title,
   description: 'ThangType that will appear on either the left or right side of the screen.',
-  required: ['type']
+  required: ['thangType']
 }, {
   thangType: ThangTypeSchema('Character', 'The thangType to display for this character'),
   enterOnStart: {
@@ -62,7 +62,6 @@ const ShotSetup = c.object({
 const DialogNode = c.object({
   title: 'Dialog Node',
   description: 'A node of a shot. Contains dialog instructions.',
-  required: ['dialogClear']
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
