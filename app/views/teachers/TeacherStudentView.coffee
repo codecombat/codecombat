@@ -80,14 +80,13 @@ module.exports = class TeacherStudentView extends RootView
       @calculateStandardDev()
       @updateSolutions()
       @render()
-      
-      # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
-      if window.location.hash
-        levelSlug = window.location.hash.substring(1)
-        @updateSelectedCourseProgress(levelSlug)
-        window.location.href = window.location.href 
 
     super()
+    # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
+    if window.location.hash
+      levelSlug = window.location.hash.substring(1)
+      @updateSelectedCourseProgress(levelSlug)
+      window.location.href = window.location.href 
 
   afterRender: ->
     super(arguments...)
