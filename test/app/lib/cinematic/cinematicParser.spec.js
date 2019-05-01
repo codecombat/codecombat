@@ -61,4 +61,24 @@ describe('parseShot', () => {
     expect(systems[0].parseSetupShot).toHaveBeenCalledWith(shot)
     expect(JSON.stringify(results)).toEqual('[["setup commands",{"commands":["dialog commands"]}],[{"commands":["dialog commands"]}]]')
   })
+
+  it('parseSetupShot must return array or error is thrown', () => {
+    const systems = [{
+      parseSetupShot: jasmine.createSpy()
+    }]
+    const shot = {
+      setupShot: 'example setup shot'
+    }
+    expect(() => parseShot(shot, systems)).toThrow()
+  })
+
+  it('parseDialogNode must return array or error is thrown', () => {
+    const systems = [{
+      parseDialogNode: jasmine.createSpy()
+    }]
+    const shot = {
+      dialogNodes: ['example setup shot']
+    }
+    expect(() => parseShot(shot, systems)).toThrow()
+  })
 })
