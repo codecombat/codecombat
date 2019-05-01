@@ -31,9 +31,13 @@
 const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
 
 /**
+ * @typedef TypeThangTypeSlug
+ * @param {string} slug
+ */
+
+/**
  * @typedef {Object} CharacterSchema
- * @property {string} type
- * @property {string} slug
+ * @property {string|TypeThangTypeSlug} type
  * @property {boolean} enterOnStart
  * @property {Point2d} position
  */
@@ -68,6 +72,15 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
  * @property {Shot[]} shots - The array of shots.
  */
 
+const DEFAULT_THANGTYPE = () => ({
+  scaleX: 1,
+  scaleY: 1,
+  pos: {
+    x: 0,
+    y: 0
+  }
+})
+
 /**
  * Takes the cinematic data that adheres to cinematic schema and returns
  * just the array of shots.
@@ -94,6 +107,79 @@ const leftCharacter = shotSetup => (shotSetup || {}).leftThangType
 const rightCharacter = shotSetup => (shotSetup || {}).rightThangType
 
 /**
+ * @param {ShotSetup} shotSetup
+ * @returns {Object|undefined} background Object
+ */
+const backgroundArt = shotSetup => (shotSetup || {}).backgroundArt
+
+/**
+ * @param {Object} o Object that may have slug property
+ * @returns {string|undefined}
+ */
+const slug = o => (o || {}).slug
+
+/**
+ * Returns properties required to place a background Lank.
+ * @param {Object} backgroundArt
+ * @returns {Object|undefined} a background object
+ */
+const background = backgroundArt => {
+  if (!(backgroundArt || {}).type) {
+    return
+  }
+  if (!(backgroundArt.type || {}).slug) {
+    return
+  }
+  const { pos, scaleX, scaleY } = backgroundArt
+
+  return {
+    slug: backgroundArt.type.slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), { pos, scaleX, scaleY })
+  }
+}
+
+/**
+ * @param {Object|undefined} thangType
+ * @returns {Object|undefined} the thang and slug.
+ */
+const getCharacterFromThangTypeSchema = thangType => {
+  if (!(thangType || {}).type) {
+    return
+  }
+  if (!(thangType.type || {}).slug) {
+    return
+  }
+  const slug = thangType.type.slug
+  const { scaleX, scaleY, pos } = thangType
+  return {
+    slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), { scaleX, scaleY, pos })
+  }
+}
+
+/**
+ * Check if this is the hero type.
+ * If so returns the properties associated.
+ * The caller must get the thangType original using:
+ * `me.get('heroConfig').thangType`
+ * @param {Object|undefined} thangType
+ * @returns {Object|undefined} the thang and hero original.
+ */
+const getHeroFromThangTypeSchema = thangType => {
+  if (!(thangType || {}).type) {
+    return
+  }
+  if (typeof thangType.type !== 'string' || thangType.type !== 'hero') {
+    return
+  }
+
+  const { scaleX, scaleY, pos } = thangType
+  return {
+    thang: _.merge(DEFAULT_THANGTYPE(), { scaleX, scaleY, pos })
+  }
+}
+
+/**
  * Returns exactly the data required to fulfill the information to place a character
  * onto the screen.
  * @param {CharacterSchema} character - the left or right character in CharacterSchema
@@ -102,49 +188,136 @@ const characterThangTypeSlug = character => {
   if (!character) {
     return
   }
-  if (!character.type || character.type !== 'slug') {
+
+  const thangType = getCharacterFromThangTypeSchema((character || {}).thangType)
+  if (!thangType) {
     return
   }
 
-  if (!character.slug) {
-    throw new Error(`no slug on char`)
-  }
-  if (!character.position) {
-    throw new Error('no position for char')
-  }
+  const { slug, thang } = thangType
 
   if (typeof character.enterOnStart !== 'boolean') {
     character.enterOnStart = false
   }
-
-  const type = character.type
-  const slug = character.slug
   const enterOnStart = character.enterOnStart
-  const position = character.position
 
-  return { type, slug, enterOnStart, position }
+  return { slug, enterOnStart, thang }
+}
+
+/**
+ * Returns exactly the data required to place a hero on the canvas.
+ * Does not return the thangType original.
+ * Get it with:
+ * `me.get('heroConfig').thangType`
+ * @param {CharacterSchema} character - the left or right hero
+ * @returns {Object|undefined} The thangType original and position data.
+ */
+const heroThangTypeOriginal = character => {
+  if (!character) {
+    return
+  }
+  const thangType = getHeroFromThangTypeSchema((character || {}).thangType)
+  if (!thangType) {
+    return
+  }
+  const { thang } = thangType
+
+  if (typeof character.enterOnStart !== 'boolean') {
+    character.enterOnStart = false
+  }
+  const enterOnStart = character.enterOnStart
+
+  return { enterOnStart, thang }
 }
 
 /**
  * Returns the left character if it's a thangType slug.
- * Throws error if malformed object data.
  * @param {Shot} shot
+ * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
 export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, characterThangTypeSlug)
 
 /**
  * Returns the right character if it's a thangType slug.
- * Throws error if malformed object data.
  * @param {Shot} shot
+ * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
 export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug)
 
 /**
  * @param {DialogNode} dialogNode
- * @returns {bool|undefined} whether we should clear all existing dialogs.
+ * @returns {bool} whether we should clear all existing dialogs.
  */
-export const getClearText = dialogNode => (dialogNode || {}).dialogClear
+export const getClearText = dialogNode => (dialogNode || {}).dialogClear || false
 
 export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
 
 export const getSpeaker = dialogNode => (dialogNode || {}).speaker
+
+export const getText = dialogNode => (dialogNode || {}).text
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns  {'left'|'right'|'both'|undefined}
+ */
+export const exitCharacter = dialogNode => (dialogNode || {}).exitCharacter
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {Object|undefined} triggers
+ */
+export const triggers = dialogNode => (dialogNode || {}).triggers
+
+const backgroundObject = triggers => {
+  const bgObject = (triggers || {}).backgroundObject
+  if (!bgObject) {
+    return
+  }
+
+  return _.merge(DEFAULT_THANGTYPE(), bgObject.thangType)
+}
+
+/**
+ * @param {Object} triggers
+ * @returns {undefined|number} Delay if it exists.
+ */
+const clearBackgroundObject = triggers => {
+  if (!triggers) {
+    return
+  }
+  return (triggers.clearBackgroundObject || {}).triggerStart
+}
+
+/**
+ * Returns if left hero character
+ * @param {Shot} shot
+ * @returns {bool}
+ */
+export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal)
+
+/**
+ * Returns the right hero character
+ * @param {Shot} shot
+ * @returns {bool}
+ */
+export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal)
+
+/**
+ * Returns the background slug
+ * @param {Shot} shot
+ * @returns {string|undefined}
+ */
+export const getBackground = compose(shotSetup, backgroundArt, background)
+export const getBackgroundSlug = compose(shotSetup, backgroundArt, background, slug)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {Object|undefined} backgroundObject
+ */
+export const getBackgroundObject = compose(triggers, backgroundObject)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number|undefined} the delay before removing the background object.
+ */
+export const getClearBackgroundObject = compose(triggers, clearBackgroundObject)
