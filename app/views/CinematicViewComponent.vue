@@ -27,6 +27,12 @@ module.exports = Vue.extend({
     inputting: true,
     slugInput: ''
   }),
+  mounted: function() {
+    if (!me.hasCinematicAccess()) {
+      // TODO: VOYAGER FEATURE: Remove when ready for production use.
+      return application.router.navigate('/', { trigger: true })
+    }
+  },
   methods: {
     playCinematic: function() {
       this.inputting = false
