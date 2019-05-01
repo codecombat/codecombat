@@ -8,6 +8,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
+voyagerUtils = require 'core/voyagerUtils'
 api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
@@ -36,15 +37,17 @@ module.exports = class CourseVictoryModal extends ModalView
     @playSound 'victory'
     @nextLevel = new Level()
     @nextAssessment = new Level()
-    nextLevelPromise = api.levels.fetchNextForCourse({
-      levelOriginalID: @level.get('original')
-      @courseInstanceID
-      @courseID
-      sessionID: @session.id
-    }).then ({ level, assessment }) =>
-      @nextLevel.set(level)
-      @nextAssessment.set(assessment)
-    @supermodel.trackPromise(nextLevelPromise)
+    # next level for voyager calculated in onLoaded since it needs @classroom
+    unless utils.voyagerCourseIDs.includes(@courseID)
+      nextLevelPromise = api.levels.fetchNextForCourse({
+        levelOriginalID: @level.get('original')
+        @courseInstanceID
+        @courseID
+        sessionID: @session.id
+      }).then ({ level, assessment }) =>
+        @nextLevel.set(level)
+        @nextAssessment.set(assessment)
+      @supermodel.trackPromise(nextLevelPromise)
 
     @course = options.course
     if @courseID and not @course
@@ -97,6 +100,16 @@ module.exports = class CourseVictoryModal extends ModalView
         rewardsView = new CourseRewardsView({level: @level, session: @session, achievements: @achievements, supermodel: @supermodel})
         rewardsView.on 'continue', @onViewContinue, @
         @views.push(rewardsView)
+
+    # get next level for voyager course, no `nextAssessment` in voyager
+    if utils.voyagerCourseIDs.includes(@courseID) and @classroom
+      currentLevel = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels?.find((l) => l.original == @level.get('original'))
+      nextLevelOriginal = voyagerUtils.getNextLevelOriginalForLevel(currentLevel)
+      if nextLevelOriginal
+        api.levels.getByOriginal(nextLevelOriginal).then((level) => 
+          @nextLevel.set(level)
+          @render()
+        )
 
     if @courseInstanceID
       # Defer level sessions fetch to follow supermodel-based loading of other dependent data

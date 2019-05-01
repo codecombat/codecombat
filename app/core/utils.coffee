@@ -119,6 +119,11 @@ courseIDs =
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
   COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
+# TODO add when final courses content created for voyager 
+voyagerCourseIDs = [
+  ''
+]
+
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
   courseIDs.GAME_DEVELOPMENT_1
@@ -779,4 +784,5 @@ module.exports = {
   premiumContent
   isValidEmail
   videoLevels
+  voyagerCourseIDs
 }

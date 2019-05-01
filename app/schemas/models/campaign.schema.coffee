@@ -78,6 +78,20 @@ _.extend CampaignSchema.properties, {
       #- normal properties
       position: c.point2d()
 
+      # properties relevant for voyager campaigns
+      nextLevels: {   # array of next levels
+        type: 'array'
+        format: 'next-level'
+        items: {
+          type: 'object'
+          additionalProperties: false
+          properties: {
+            levelOriginal: c.stringID()
+          }
+        }
+      }
+      first: {type: 'boolean'}   # is it the first level in the campaign
+
       #- denormalized properties from Levels are cloned below
     }
 

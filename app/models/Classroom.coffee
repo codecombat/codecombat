@@ -1,8 +1,10 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
 utils = require '../core/utils'
+voyagerUtils = require '../core/voyagerUtils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
+Level = require 'models/Level'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -167,10 +169,15 @@ module.exports = class Classroom extends CocoModel
       currentLevel = courseLevels.models[currentIndex]
       currentPlaytime = levelSessionMap[currentLevel.get('original')]?.get('playtime') ? 0
       needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) and not currentLevel.get('assessment')
-      nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
-    nextLevel = courseLevels.models[nextIndex]
-    nextLevel = arena if levelsLeft is 0
-    nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
+      unless utils.voyagerCourseIDs.includes(courseID)
+        nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
+    if utils.voyagerCourseIDs.includes(courseID)
+      # assuming that there will be only one next level in voyager v1 for now
+      nextLevel = new Level(voyagerUtils.findNextLevels(sessions, courseLevels.models)[0])
+    else
+      nextLevel = courseLevels.models[nextIndex]
+      nextLevel = arena if levelsLeft is 0
+      nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
     [_userStarted, courseComplete, _totalComplete] = coursesHelper.hasUserCompletedCourse(userLevels, levelsInCourse)
 
     stats =

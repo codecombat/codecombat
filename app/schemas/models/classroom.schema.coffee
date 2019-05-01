@@ -39,6 +39,19 @@ _.extend ClassroomSchema.properties,
       name: {type: 'string'}
       slug: {type: 'string'}
       position: c.point2d()
+
+      # properties relevant for voyager campaigns 
+      nextLevels: {   # array of next levels
+        type: 'array'
+        items: {
+          type: 'object'
+          additionalProperties: false
+          properties: {
+            levelOriginal: c.stringID()
+          }
+        }
+      }
+      first: {type: 'boolean'}   # is it the first level in the campaign
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
