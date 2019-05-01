@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 import AbstractCommand, { run, cancel } from '../../../../app/views/play/cinematic/Command/AbstractCommand'
-import { Noop } from '../../../../app/views/play/cinematic/Command/commands'
+import { Noop, SyncFunction, SequentialCommands, ConcurrentCommands } from '../../../../app/views/play/cinematic/Command/commands'
 import * as PromiseBB from 'bluebird'
 
 PromiseBB.config({
@@ -16,6 +16,17 @@ class PassInRunCommand extends AbstractCommand {
   }
 }
 
+const simpleRunFunctions = [
+  () => undefined,
+  () => true,
+  () => false,
+  () => '',
+  () => 'abc',
+  () => {},
+  () => ({ then: () => { } }), // Fake promise
+  () => Promise.resolve() // non cancellable promise
+]
+
 describe('AbstractCommand', () => {
   it('abstract class can\'t be constructed', () => {
     expect(() => new AbstractCommand()).toThrow()
@@ -30,20 +41,45 @@ describe('AbstractCommand', () => {
   })
 
   it('run must return a promise', () => {
-    const invalidRunFunctions = [
-      () => undefined,
-      () => true,
-      () => false,
-      () => '',
-      () => 'abc',
-      () => {},
-      () => ({ then: () => { } }), // Fake promise
-      () => Promise.resolve() // non cancellable promise
-    ]
-
-    for (const fn of invalidRunFunctions) {
+    for (const fn of simpleRunFunctions) {
       expect(() => (new PassInRunCommand(fn))[run]()).toThrow()
     }
+  })
+})
+
+describe('SyncFunction', () => {
+  it('runs any function passed in', () => {
+    for (const fn of simpleRunFunctions) {
+      expect(() => (new SyncFunction(fn))[run]()).not.toThrow()
+    }
+  })
+
+  it('not running command doesnt call function', () => {
+    const functionSpy = jasmine.createSpy()
+    const command = new SyncFunction(functionSpy)
+    expect(functionSpy).not.toHaveBeenCalled()
+    command[run]()
+    expect(functionSpy).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('SequentialCommands', () => {
+  it('runs commands sequentially', done => {
+    const functionSpy = jasmine.createSpy()
+    const commands = [
+      () => {
+        expect(functionSpy).not.toHaveBeenCalled()
+      },
+      functionSpy,
+      () => {
+        expect(functionSpy).toHaveBeenCalledTimes(1)
+      },
+      done
+    ]
+
+    const commands2 = commands.map(f => new SyncFunction(f));
+
+    (new SequentialCommands(commands2))[run]()
   })
 })
 
