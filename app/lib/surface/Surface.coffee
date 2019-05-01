@@ -115,6 +115,7 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLStage = new createjs.StageGL(@webGLCanvas[0])
     @normalStage.nextStage = @webGLStage
     @camera = new Camera(@webGLCanvas, { @gameUIState, @handleEvents })
+    @camera.dragDisabled = @world.cameraDragDisabled # This is defined as a parameter of Systems.UI and setup there for a level
     AudioPlayer.camera = @camera unless @options.choosing
 
     @normalLayers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
