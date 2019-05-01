@@ -296,6 +296,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
 
   calculateProgressAndLevelsAux: ->
+    return if @destroyed
     return unless @supermodel.progress is 1 and @allStatsLoaded()
     userLevelCompletedMap = @classroom.sessions.models.reduce((map, session) =>
       if session.completed()
