@@ -26,13 +26,17 @@
         <div class="col-md-4">
           <span>There is no autosave. Please click this button often.</span>
           <button v-on:click="saveCinematic" :disabled="state.saving || !cinematic">save</button>
+          <button v-on:click="runCinematic">Test Cinematic</button>
           <button><a href="/cinematic">Play View (please save first)</a></button>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
           <div id="treema-editor" ref="treemaEditor" v-once></div>
+        </div>
+        <div class="col-md-6" v-if="rawData">
+          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" />
         </div>
       </div>
 
@@ -44,6 +48,7 @@
 import { get, put, create, getAll } from 'core/api/cinematic'
 import Cinematic from 'app/models/Cinematic'
 import ListItem from 'app/components/cinematic/editor/ListItem'
+import CinematicCanvas from 'app/views/CinematicCanvas'
 
 require('lib/setupTreema')
 
@@ -55,12 +60,15 @@ module.exports = Vue.extend({
     cinematic: null,
     treema: null,
     cinematicList: null,
+    rawData: null,
     state: {
       saving: false
-    }
+    },
+    rerenderKey: 0
   }),
   components: {
-    'editor-list': ListItem
+    'editor-list': ListItem,
+    'cinematic-canvas': CinematicCanvas
   },
   mounted () {
     if (!me.isAdmin()) {
@@ -127,9 +135,22 @@ module.exports = Vue.extend({
      */
     async saveCinematic() {
       this.state.saving = true
+      try {
       await put({ data: this.cinematic.toJSON() })
       noty({ text: 'Saved', type: 'success', timeout: 1000 })
+      } catch (e) {
+        noty({ text: e.message, type: 'error', timeout: 1000 })
+      }
       this.state.saving = false
+    },
+
+    /**
+     * Runs the cinematic on the right hand side of the editor.
+     */
+    runCinematic() {
+      this.rerenderKey += 1;
+      this.rawData = this.rawData || {}
+      this.rawData.shots = this.treema.data.shots
     },
 
     async createCinematic() {

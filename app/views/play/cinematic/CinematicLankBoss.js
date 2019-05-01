@@ -1,8 +1,27 @@
 import anime from 'animejs/lib/anime.es.js'
-import { Noop, AnimeCommand } from './Command/AbstractCommand'
-import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug } from '../../../schemas/selectors/cinematic'
+import AbstractCommand from './Command/AbstractCommand'
+import { Noop, SyncFunction, Sleep, SequentialCommands } from './Command/commands'
+import {
+  getLeftCharacterThangTypeSlug,
+  getRightCharacterThangTypeSlug,
+  getLeftHero,
+  getRightHero,
+  getBackground,
+  exitCharacter,
+  getBackgroundObject,
+  getClearBackgroundObject
+} from '../../../schemas/selectors/cinematic'
 
+// Throws an error if `import ... from ..` syntax.
+const Promise = require('bluebird')
 const Lank = require('lib/surface/Lank')
+
+Promise.config({
+  cancellation: true
+})
+
+const BACKGROUND_OBJECT = 'backgroundObject'
+const BACKGROUND = 'background'
 
 /**
  * @typedef {import(./Command/CinematicParser).System} System
@@ -17,15 +36,19 @@ const Lank = require('lib/surface/Lank')
  * @implements {System}
  */
 export default class CinematicLankBoss {
-  constructor ({ groundLayer, layerAdapter, camera, loader }) {
+  constructor ({ groundLayer, layerAdapter, backgroundAdapter, camera, loader }) {
     this.groundLayer = groundLayer
-    this.layerAdapter = layerAdapter
+    this.layerAdapters = {
+      'Default': layerAdapter,
+      'Background': backgroundAdapter
+    }
     this.camera = camera
     this.stageBounds = {
       topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
       bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
     }
     this.loader = loader
+    this.lanks = {}
   }
 
   /**
@@ -33,36 +56,80 @@ export default class CinematicLankBoss {
    * @param {Shot} shot - the cinematic shot data.
    */
   parseSetupShot (shot) {
-    const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     const commands = []
 
-    if (leftCharSlug) {
-      const { slug, enterOnStart, position } = leftCharSlug
-      this.addLank('left', this.loader.getThangType(slug))
+    const moveCharacter = (side, resource, enterOnStart, pos) => {
       if (enterOnStart) {
-        commands.push(this.moveLankCommand('left', position))
+        commands.push(this.moveLankCommand({ key: side, resource, pos }))
       } else {
-        this.moveLank('left', position)
+        commands.push(this.moveLank({ key: side, resource, pos }))
       }
+    }
+
+    const background = getBackground(shot)
+    if (background) {
+      commands.push(this.setBackgroundCommand(background))
+    }
+
+    const lHero = getLeftHero(shot)
+    const original = me.get('heroConfig').thangType
+    if (lHero) {
+      const { enterOnStart, thang: { pos } } = lHero
+      moveCharacter('left', original, enterOnStart, pos)
+    }
+    const rHero = getRightHero(shot)
+    if (rHero) {
+      const { enterOnStart, thang: { pos } } = rHero
+      moveCharacter('right', original, enterOnStart, pos)
+    }
+
+    const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
+    if (leftCharSlug) {
+      const { slug, enterOnStart, thang: { pos } } = leftCharSlug
+      moveCharacter('left', slug, enterOnStart, pos)
     }
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
-      const { slug, enterOnStart, position } = rightCharSlug
-      this.addLank('right', this.loader.getThangType(slug))
-      if (enterOnStart) {
-        commands.push(this.moveLankCommand('right', position))
-      } else {
-        this.moveLank('right', position)
-      }
+      const { slug, enterOnStart, thang: { pos } } = rightCharSlug
+      moveCharacter('right', slug, enterOnStart, pos)
     }
 
     return commands
   }
 
-  registerLank (side, lank) {
-    assertSide(side)
-    this[side] = lank
+  parseDialogNode (dialogNode) {
+    const commands = []
+    const char = exitCharacter(dialogNode)
+    if (char === 'left' || char === 'both') {
+      commands.push(this.moveLankCommand({ key: 'left', pos: { x: -20 } }))
+    }
+    if (char === 'right' || char === 'both') {
+      commands.push(this.moveLankCommand({ key: 'right', pos: { x: 20 } }))
+    }
+
+    const bgObject = getBackgroundObject(dialogNode)
+    if (bgObject) {
+      const { scaleX, scaleY, pos: { x, y }, type: { slug } } = bgObject
+      const thangOptions = {
+        scaleFactorX: scaleX,
+        scaleFactorY: scaleY,
+        pos: { x, y },
+        stateChanged: true
+      }
+      commands.push(this.moveLank({ key: BACKGROUND_OBJECT, resource: slug, pos: { x, y }, thang: createThang(thangOptions) }))
+    }
+
+    const removeBgDelay = getClearBackgroundObject(dialogNode)
+    if (typeof removeBgDelay === 'number') {
+      commands.push(new SequentialCommands([
+        new Sleep(removeBgDelay),
+        new SyncFunction(() => {
+          this.removeLank(BACKGROUND_OBJECT)
+        })
+      ]))
+    }
+    return commands
   }
 
   /**
@@ -70,88 +137,163 @@ export default class CinematicLankBoss {
    * @param {'left'|'right'} side - the lank being moved.
    * @param {{x, y}} pos - the position in meters to move towards.
    */
-  moveLank (side, pos = {}) {
-    assertSide(side)
+  moveLank ({ key, resource, pos = {}, thang }) {
+    return new SyncFunction(() => {
+      this.addLank(key, this.loader.getThangType(resource), thang)
 
-    // normalize parameters
-    this[side].thang.pos.x = pos.x || this[side].thang.pos.x
-    this[side].thang.pos.y = pos.y || this[side].thang.pos.y
+      // normalize parameters
+      this.lanks[key].thang.pos.x = pos.x !== undefined ? pos.x : this.lanks[key].thang.pos.x
+      this.lanks[key].thang.pos.y = pos.y !== undefined ? pos.y : this.lanks[key].thang.pos.y
 
-    // Ensures lank is rendered.
-    this[side].thang.stateChanged = true
+      // Ensures lank is rendered.
+      this.lanks[key].thang.stateChanged = true
+    })
   }
 
   /**
    * Returns a command that will move the lank.
-   * @param {'left'|'right'} side
+   * @param {string} key
    * @param {{x, y}} pos
    * @param {number} ms
    */
-  moveLankCommand (side, pos = {}, ms = 1000) {
-    assertSide(side)
+  moveLankCommand ({ key, resource, pos, ms = 1000, thang }) {
+    return new MoveLank(() => {
+      if (resource) {
+        this.addLank(key, this.loader.getThangType(resource))
+      }
+      pos = pos || {}
+      // normalize parameters
+      console.log('have the key', key)
+      pos.x = pos.x !== undefined ? pos.x : this.lanks[key].thang.pos.x
+      pos.y = pos.y !== undefined ? pos.y : this.lanks[key].thang.pos.y
+      if (this.lanks[key].thang.pos.x === pos.x && this.lanks[key].thang.pos.y === pos.y) {
+        return new Noop()
+      }
+      const lankStateChanged = () => { this.lanks[key].thang.stateChanged = true }
+      const animation = anime({
+        targets: this.lanks[key].thang.pos,
+        x: pos.x,
+        y: pos.y,
+        duration: ms,
+        autoplay: false,
+        delay: 500, // Hack to provide some time for lank to load.
+        easing: 'easeInOutQuart',
+        // Inform update engine to rerender thang at new position.
+        update: lankStateChanged,
+        complete: lankStateChanged
+      })
 
-    // normalize parameters
-    pos.x = pos.x || this[side].thang.pos.x
-    pos.y = pos.y || this[side].thang.pos.y
-    if (this[side].thang.pos.x === pos.x && this[side].thang.pos.y === pos.y) {
-      return new Noop()
-    }
-
-    const animation = anime({
-      targets: this[side].thang.pos,
-      x: pos.x,
-      y: pos.y,
-      duration: ms,
-      autoplay: false,
-      easing: 'easeInOutQuart',
-      // Inform update engine to rerender thang at new position.
-      update: () => { this[side].thang.stateChanged = true },
-      complete: () => { this[side].thang.stateChanged = true }
+      return {
+        lankStateChanged,
+        animation,
+        run: () => new Promise((resolve, reject) => {
+          animation.play()
+          animation.complete = resolve
+        })
+      }
     })
-
-    return new AnimeCommand(animation)
-  }
-
-  queueAction (side, action) {
-    assertSide(side)
-    this[side].queueAction(action)
-    return Promise.resolve(null)
   }
 
   /**
-   * Updates the left and right lank if they exist.
+   * Sets the background.
+   *
+   * Handles backgrounds that may already exist or are simply being moved.
+   * @param {Object} background Background object.
+   */
+  setBackgroundCommand ({ slug, thang: { scaleX, scaleY, pos: { x, y } } }) {
+    return new SyncFunction(() => {
+      const thangType = this.loader.getThangType(slug)
+      if (!thangType) {
+        return
+      }
+      const thangOptions = {
+        scaleFactorX: scaleX,
+        scaleFactorY: scaleY,
+        pos: { x, y },
+        stateChanged: true
+      }
+
+      // If this background is already in use, just update thang instead of
+      // completely replacing the lank.
+      if (this.lanks[BACKGROUND] && this.lanks[BACKGROUND].thangType) {
+        if (this.lanks[BACKGROUND].thangType.get('slug') === slug) {
+          const thang = this.lanks[BACKGROUND].thang
+          _.merge(thang, thangOptions)
+          return
+        }
+      }
+
+      const backgroundThang = createThang(thangOptions)
+      this.addLank(BACKGROUND, thangType, backgroundThang)
+    })
+  }
+
+  /**
+   * Updates lanks
    * @param {bool} frameChanged - Needs to be true for Lank updates to occur.
    */
   update (frameChanged) {
-    this.left && this.left.update(frameChanged)
-    this.right && this.right.update(frameChanged)
+    Object.values(this.lanks)
+      .forEach(lank => lank.update(frameChanged))
   }
 
   /**
-   * Adds a lank to the given side.
-   * Needs to be able to check if there is an existing lank and handle appropriately.
-   * If a lank is created, it's always created offscreen.
-   *
-   * TODO: Handle existing lank
-   *
-   * @param {'left'|'right'} side
-   * @param {Object} thangType
-   * @param {Object} systems
+   * Removes and cleans up resources for the provided lank.
+   * @param {string} key unique key for given lank.
    */
-  addLank (side, thangType) {
-    assertSide(side)
-    const thang = side === 'left'
-      ? createThang({ pos: {
-        x: this.stageBounds.topLeft.x - 2,
-        y: this.stageBounds.bottomRight.y
+  removeLank (key) {
+    const lank = this.lanks[key]
+    if (!lank) { return }
+    lank.layer.removeLank(lank)
+    delete this.lanks[key]
+    lank.destroy()
+  }
+
+  /**
+   * Adds a lank to the screen.
+   *
+   * If the lank already exists this method is a noop.
+   * Otherwise if there is a conflicting lank it is removed and replaced.
+   * Automatically flips a lank if they key is `right` in order to accomodate for
+   * right hand side characters.
+   *
+   * @param {string} key
+   * @param {Object} thangType
+   * @param {Object|undefined} thang?
+   */
+  addLank (key, thangType, thang = undefined) {
+    // Handle a duplicate thangType with the same key.
+    if (this.lanks[key] && this.lanks[key].thangType) {
+      const original = this.lanks[key].thangType.get('original')
+      if (thangType.get('original') === original) {
+        // It's the same thangType. Don't add a new Lank.
+        return
+      } else {
+        // It's a lank we want to replace.
+        this.removeLank(key)
       }
+    }
+
+    console.log('adding lank', key)
+
+    // Initial coordinates for thangs being created offscreen.
+    if (key === 'right' && !thang) {
+      thang = createThang({
+        pos: {
+          x: this.stageBounds.bottomRight.x + 2,
+          y: this.stageBounds.bottomRight.y
+        },
+        rotation: Math.PI
       })
-      : createThang({ pos: {
-        x: this.stageBounds.bottomRight.x + 2,
-        y: this.stageBounds.bottomRight.y
-      },
-      rotation: Math.PI
+    } else if (key === 'left' && !thang) {
+      thang = createThang({
+        pos: {
+          x: this.stageBounds.topLeft.x - 2,
+          y: this.stageBounds.bottomRight.y
+        }
       })
+    }
+
     const lank = new Lank(thangType, {
       resolutionFactor: 60,
       preloadSounds: false,
@@ -159,9 +301,12 @@ export default class CinematicLankBoss {
       camera: this.camera,
       groundLayer: this.groundLayer
     })
-
-    this.layerAdapter.addLank(lank)
-    this.registerLank(side, lank)
+    if (key === BACKGROUND) {
+      this.layerAdapters['Background'].addLank(lank)
+    } else {
+      this.layerAdapters['Default'].addLank(lank)
+    }
+    this.lanks[key] = lank
   }
 }
 
@@ -194,10 +339,35 @@ const createThang = (options) => {
 }
 
 /**
- * @param {string} side - string enum of either 'left' or 'right'.
+ * A modified AnimeCommand that updates thang state ensuring lanks are correctly
+ * rendered.
  */
-function assertSide (side) {
-  if (!['left', 'right'].includes(side)) {
-    throw new Error(`Expected one of 'left' or 'right', got ${side}`)
+class MoveLank extends AbstractCommand {
+  /**
+   * Runs an anime js animation with some helper methods ensuring the lanks are
+   * properly rendered on the canvas.
+   * @param {Function} animationFn
+   */
+  constructor (animationFn) {
+    super()
+    this.animationFn = animationFn
+  }
+
+  run () {
+    const { run, animation, lankStateChanged } = this.animationFn()
+    this.animation = animation
+    this.lankStateChanged = lankStateChanged
+    return run()
+  }
+
+  cancel (promise) {
+    // Bound by the `runFn`.
+    const animation = this.animation
+    if (!animation) {
+      throw new Error('Incorrect use of MoveLank. Must attach animation.')
+    }
+    animation.seek(animation.duration)
+    this.lankStateChanged()
+    return promise
   }
 }

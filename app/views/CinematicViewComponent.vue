@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="inputting">
+    <div v-if="inputting && !loading">
       <p>Input the slug of your cinematic here. Make a new cinematic <a href="/editor/cinematic">here.</a>
       <p>The slug is the end bit of the url.</p>
       <div class="form-group">
@@ -8,8 +8,8 @@
         <button v-on:click="playCinematic()">Load+Play Cinematic</button>
       </div>
     </div>
-    <div v-else>
-      <cinematic-canvas :slug="slugInput" />
+    <div v-if="cinematicData">
+      <cinematic-canvas :cinematicData="cinematicData" />
     </div>
   </div>
 
@@ -21,11 +21,14 @@
  * Allows manual input of cinematic slug and play button.
  */
 import CinematicCanvas from "./CinematicCanvas.vue";
+import { get } from '../core/api/cinematic';
+
 module.exports = Vue.extend({
   components: { CinematicCanvas },
   data: () => ({
-    inputting: true,
-    slugInput: ''
+    slugInput: '',
+    loading: false,
+    cinematicData: null
   }),
   mounted: function() {
     if (!me.hasCinematicAccess()) {
@@ -35,7 +38,19 @@ module.exports = Vue.extend({
   },
   methods: {
     playCinematic: function() {
-      this.inputting = false
+      this.loading = true
+      get(this.slugInput)
+        .then(d => {
+          this.cinematicData = d
+        })
+        .then(() => {
+          this.loading = false
+        })
+    }
+  },
+  computed: {
+    inputting: function() {
+      return !this.cinematicData
     }
   }
 });
