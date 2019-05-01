@@ -78,6 +78,7 @@ export default class CinematicLankBoss {
       const { enterOnStart, thang: { pos } } = lHero
       moveCharacter('left', original, enterOnStart, pos)
     }
+
     const rHero = getRightHero(shot)
     if (rHero) {
       const { enterOnStart, thang: { pos } } = rHero
@@ -108,6 +109,7 @@ export default class CinematicLankBoss {
     if (char === 'left' || char === 'both') {
       commands.push(this.moveLankCommand({ key: 'left', pos: { x: this.stageBounds.topLeft.x - 4 } }))
     }
+
     if (char === 'right' || char === 'both') {
       commands.push(this.moveLankCommand({ key: 'right', pos: { x: this.stageBounds.bottomRight.x + 4 } }))
     }
