@@ -101,7 +101,7 @@ module.exports = class TeacherClassView extends RootView
 
     @urls = require('core/urls')
 
-    @debouncedRender = _.debounce @render, 300
+    @debouncedRender = _.debounce @render
     @calculateProgressAndLevels = _.debounce @calculateProgressAndLevelsAux, 800
 
     @state = new State(@getInitialState())
