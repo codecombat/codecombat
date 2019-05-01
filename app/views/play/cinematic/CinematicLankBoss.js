@@ -77,6 +77,7 @@ export default class CinematicLankBoss {
       const { enterOnStart, thang: { pos } } = lHero
       moveCharacter('left', original, enterOnStart, pos)
     }
+
     const rHero = getRightHero(shot)
     if (rHero) {
       const { enterOnStart, thang: { pos } } = rHero
@@ -104,6 +105,7 @@ export default class CinematicLankBoss {
     if (char === 'left' || char === 'both') {
       commands.push(this.moveLankCommand({ key: 'left', pos: { x: -20 } }))
     }
+
     if (char === 'right' || char === 'both') {
       commands.push(this.moveLankCommand({ key: 'right', pos: { x: 20 } }))
     }
@@ -274,13 +276,12 @@ export default class CinematicLankBoss {
       }
     }
 
-    console.log('adding lank', key)
-
     // Initial coordinates for thangs being created offscreen.
+    // This feels like it could be refactored to be nicer.
     if (key === 'right' && !thang) {
       thang = createThang({
         pos: {
-          x: this.stageBounds.bottomRight.x + 2,
+          x: this.stageBounds.bottomRight.x + 4,
           y: this.stageBounds.bottomRight.y
         },
         rotation: Math.PI
@@ -288,7 +289,7 @@ export default class CinematicLankBoss {
     } else if (key === 'left' && !thang) {
       thang = createThang({
         pos: {
-          x: this.stageBounds.topLeft.x - 2,
+          x: this.stageBounds.topLeft.x - 4,
           y: this.stageBounds.bottomRight.y
         }
       })
