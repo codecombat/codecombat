@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 import AbstractCommand, { run, cancel } from '../../../../app/views/play/cinematic/Command/AbstractCommand'
-import { Noop, SyncFunction, SequentialCommands, ConcurrentCommands } from '../../../../app/views/play/cinematic/Command/commands'
+import { Noop, SyncFunction, SequentialCommands } from '../../../../app/views/play/cinematic/Command/commands'
 import * as PromiseBB from 'bluebird'
 
 PromiseBB.config({

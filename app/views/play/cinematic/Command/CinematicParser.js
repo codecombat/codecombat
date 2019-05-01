@@ -90,10 +90,10 @@ const parseDialogNode = (dialogNode, systems) => {
  * @param {Object} systems The systems.
  * @returns {AbstractCommand[][]} A 2d array of commands.
  */
-export const parseShot = (shot, systems) => {
+export const parseShot = (shot, systems = {}) => {
   const setupCommands = parseSetup(shot, systems) || []
   const dialogNodes = (shot.dialogNodes || [])
-    .map((node) => parseDialogNode(node, systems))
+    .map(node => parseDialogNode(node, systems))
     .filter(dialogCommands => dialogCommands.length > 0)
 
   // If we have both dialogNodes and some setupCommands we want to
