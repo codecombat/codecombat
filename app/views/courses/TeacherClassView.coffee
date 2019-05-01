@@ -101,7 +101,8 @@ module.exports = class TeacherClassView extends RootView
 
     @urls = require('core/urls')
 
-    @debouncedRender = _.debounce @render
+    @debouncedRender = _.debounce @render, 300
+    @calculateProgressAndLevels = _.debounce @calculateProgressAndLevelsAux, 800
 
     @state = new State(@getInitialState())
 
@@ -156,7 +157,7 @@ module.exports = class TeacherClassView extends RootView
 
     @levels = new Levels()
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals'}})
-    me.getClientCreatorPermissions()?.then(() => @render?())
+    me.getClientCreatorPermissions()?.then(() => @debouncedRender?())
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
 
@@ -166,7 +167,7 @@ module.exports = class TeacherClassView extends RootView
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
-      @render?()
+      @debouncedRender?()
 
   fetchSessions: ->
     Promise.all(@classroom.sessions.fetchForAllClassroomMembers(@classroom))
@@ -174,7 +175,7 @@ module.exports = class TeacherClassView extends RootView
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
-      @render?()
+      @debouncedRender?()
 
   attachMediatorEvents: () ->
     # Model/Collection events
@@ -200,8 +201,6 @@ module.exports = class TeacherClassView extends RootView
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
       @calculateProgressAndLevels()
-      classStats = @calculateClassStats()
-      @state.set classStats: classStats if classStats
       @state.set students: @students
       checkboxStates = {}
       for student in @students.models
@@ -296,7 +295,7 @@ module.exports = class TeacherClassView extends RootView
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
 
-  calculateProgressAndLevels: ->
+  calculateProgressAndLevelsAux: ->
     return unless @supermodel.progress is 1 and @allStatsLoaded()
     userLevelCompletedMap = @classroom.sessions.models.reduce((map, session) =>
       if session.completed()
@@ -707,7 +706,7 @@ module.exports = class TeacherClassView extends RootView
       error: (prepaid, jqxhr) =>
         msg = jqxhr.responseJSON.message
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-      complete: => @render()
+      complete: => @debouncedRender()
     })
 
   onClickRevokeAllStudentsButton: ->
@@ -730,7 +729,7 @@ module.exports = class TeacherClassView extends RootView
           error: (prepaid, jqxhr) =>
             msg = jqxhr.responseJSON.message
             noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-          complete: => @render()
+          complete: => @debouncedRender()
         })
 
   onClickSelectAll: (e) ->
