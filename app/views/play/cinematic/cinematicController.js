@@ -3,6 +3,7 @@ import Loader from './Loader'
 import { parseShot } from './Command/CinematicParser'
 import CommandRunner from './Command/CommandRunner'
 import DialogSystem from './DialogSystem'
+import { CameraSystem } from './CameraSystem';
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -32,7 +33,7 @@ export class CinematicController {
     this.systems = {}
 
     this.stage = new createjs.StageGL(canvas)
-    const camera = this.systems.camera = new Camera($(canvas))
+    const camera = new Camera($(canvas))
     // stubRequiredLayer needed by Lanks as a dependency. We don't attach to canvas.
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
 
@@ -41,13 +42,13 @@ export class CinematicController {
     this.stage.addChild(this.backgroundAdapter.container)
     this.stage.addChild(this.layerAdapter.container)
 
-    // TODO: Will be moved to camera commands.
-    this.systems.camera.zoomTo({ x: 0, y: 0 }, 6, 0)
+    camera.zoomTo({ x: 0, y: 0 }, 6, 0)
+    this.systems.cameraSystem = new CameraSystem(camera)
     this.systems.loader = new Loader({ data: cinematicData })
 
     this.systems.dialogSystem = new DialogSystem({
       canvasDiv,
-      camera: this.systems.camera
+      camera
     })
 
     this.systems.dialogSystem.templateContext = {
@@ -58,7 +59,7 @@ export class CinematicController {
       groundLayer: this.stubRequiredLayer,
       layerAdapter: this.layerAdapter,
       backgroundAdapter: this.backgroundAdapter,
-      camera: this.systems.camera,
+      camera: camera,
       loader: this.systems.loader
     })
 

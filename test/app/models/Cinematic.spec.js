@@ -12,7 +12,8 @@ import {
   getBackgroundSlug,
   getExitCharacter,
   getTextPosition,
-  getText
+  getText,
+  getCamera
 } from '../../../app/schemas/selectors/cinematic'
 
 /**
@@ -143,6 +144,16 @@ describe('Cinematic', () => {
       const result2 = getText(shotFixture2.dialogNodes[0])
       expect(result2).toBeUndefined()
     })
+
+    it('getCamera', () => {
+      const result = getCamera(shotFixture1)
+      expect(result).toEqual({ pos: { x: 2, y: 0 }, zoom: 2 })
+
+      const result2 = getCamera(shotFixture2)
+      expect(result2).toBeUndefined()
+
+      expect(getCamera(undefined)).toBeUndefined()
+    })
   })
 })
 
@@ -193,6 +204,12 @@ var shotFixture1 = {
       },
       scaleX: 0.3,
       scaleY: 0.2
+    },
+    camera: {
+      pos: {
+        x: 2
+      },
+      zoom: 2
     }
   },
   dialogNodes: [
