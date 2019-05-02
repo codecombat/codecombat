@@ -48,7 +48,8 @@
     "standard": "standard",
     "fix": "standard --fix",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "lint": "eslint --max-warnings 0 '**/*.vue'"
   },
   "main": "index.js",
   "standard": {
@@ -189,7 +190,14 @@
     "copy-webpack-plugin": "^4.0.1",
     "country-data": "0.0.24",
     "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-script-tags": "^0.5.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.2.2",
     "exports-loader": "^0.6.3",
     "faker": "^3.1.0",
     "file-loader": "^0.11.2",
