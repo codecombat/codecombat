@@ -1,14 +1,20 @@
 <template>
-    <loading-progress :loading-status="[ backboneLoadProgress ]" :always-render="true">
-        <breadcrumbs v-if="!breadcrumbsLoading" :links="breadcrumbs"></breadcrumbs>
-        <backbone-view-harness
-                :backbone-view="backboneViewInstance"
-                :backbone-options="{ renderOnlyContent: true, readOnly: true }"
-                :backbone-args="[ $route.params.classroomId, $route.params.studentId ]"
+  <loading-progress
+    :loading-status="[ backboneLoadProgress ]"
+    :always-render="true"
+  >
+    <breadcrumbs
+      v-if="!breadcrumbsLoading"
+      :links="breadcrumbs"
+    />
 
-                v-on:loading="backboneLoadingEvent"
-        ></backbone-view-harness>
-    </loading-progress>
+    <backbone-view-harness
+      :backbone-view="backboneViewInstance"
+      :backbone-options="{ renderOnlyContent: true, readOnly: true }"
+      :backbone-args="[ $route.params.classroomId, $route.params.studentId ]"
+      v-on:loading="backboneLoadingEvent"
+    />
+  </loading-progress>
 </template>
 
 <script>
@@ -25,12 +31,6 @@
       Breadcrumbs
     },
 
-    created() {
-      this.fetchUserById(this.$route.params.teacherId)
-      this.fetchUserById(this.$route.params.studentId)
-      this.fetchClassroomForId(this.$route.params.classroomId)
-    },
-
     data: function () {
       return {
         backboneLoadProgress: 100,
@@ -38,7 +38,8 @@
       }
     },
 
-    computed: Object.assign({},
+    computed: Object.assign(
+      {},
       mapState('users', {
         teacherLoading: function (state) {
           return state.loading.byId[this.$route.params.teacherId]
@@ -59,10 +60,10 @@
         },
         classroom: function (state) {
           return state.classrooms.byClassroom[this.$route.params.classroomId]
-        },
+        }
       }),
       {
-        breadcrumbs: function() {
+        breadcrumbs: function () {
           return [{
             href: '/school-administrator',
             i18n: 'school_administrator.my_teachers'
@@ -83,7 +84,14 @@
       }
     ),
 
-    methods: Object.assign({},
+    created () {
+      this.fetchUserById(this.$route.params.teacherId)
+      this.fetchUserById(this.$route.params.studentId)
+      this.fetchClassroomForId(this.$route.params.classroomId)
+    },
+
+    methods: Object.assign(
+      {},
       mapActions({
         fetchUserById: 'users/fetchUserById',
         fetchClassroomForId: 'classrooms/fetchClassroomForId'
