@@ -45,8 +45,6 @@
     "proxy": "COCO_PROXY='true' nodemon",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json",
-    "standard": "standard",
-    "fix": "standard --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "lint": "eslint --max-warnings 0 '**/*.vue'"
