@@ -173,7 +173,8 @@ module.exports = class Classroom extends CocoModel
         nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     if utils.voyagerCourseIDs.includes(courseID)
       # assuming that there will be only one next level in voyager v1 for now
-      nextLevel = new Level(voyagerUtils.findNextLevels(sessions, courseLevels.models)[0])
+      nextLevelOriginal = voyagerUtils.findNextLevelsBySession(sessions, courseLevels.models)[0]
+      nextLevel = new Level(voyagerUtils.getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
     else
       nextLevel = courseLevels.models[nextIndex]
       nextLevel = arena if levelsLeft is 0

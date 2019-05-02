@@ -104,7 +104,7 @@ module.exports = class CourseVictoryModal extends ModalView
     # get next level for voyager course, no `nextAssessment` in voyager
     if utils.voyagerCourseIDs.includes(@courseID) and @classroom
       currentLevel = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels?.find((l) => l.original == @level.get('original'))
-      nextLevelOriginal = voyagerUtils.getNextLevelOriginalForLevel(currentLevel)
+      nextLevelOriginal = voyagerUtils.getNextLevelOriginalForLevel(currentLevel)[0] # assuming there will be only 1 next level for voyager v1
       if nextLevelOriginal
         api.levels.getByOriginal(nextLevelOriginal).then((level) => 
           @nextLevel.set(level)

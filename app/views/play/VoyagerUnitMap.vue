@@ -181,10 +181,10 @@ export default Vue.extend({
       }
       this.levelStatusMap = utils.getLevelStatusMap(this.levelSessions)
     },
-    determineNextLevel() { // set .next and .locked for this.levels
-      debugger
+    determineNextLevel() { // set .next and .locked for this.levels      
       if (this.courseInstanceId || this.campaignData.type == 'course') {  // TODO: what if some other campaign type
-        const nextLevels = utils.findNextLevels(this.levelSessions, this.levels, this.levelStatusMap)
+        const nextLevelOriginals = utils.findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
+        const nextLevels = utils.getLevelsDataByOriginals(this.levels, nextLevelOriginals)
         for (let level in this.levels) {
           if (this.levelStatusMap[level] == 'started' || this.levelStatusMap[level] == 'complete' || this.levels[level].first)
             this.levels[level].locked = false

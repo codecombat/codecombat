@@ -120,9 +120,7 @@ courseIDs =
   COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
 # TODO add when final courses content created for voyager 
-voyagerCourseIDs = [
-  ''
-]
+voyagerCourseIDs = []
 
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
