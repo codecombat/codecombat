@@ -49,6 +49,7 @@ import { getCinematic, putCinematic, createCinematic, getAllCinematics } from 'c
 import Cinematic from 'app/models/Cinematic'
 import ListItem from 'app/components/cinematic/editor/ListItem'
 import CinematicCanvas from 'app/views/CinematicCanvas'
+import DocumentFiles from 'app/collections/DocumentFiles'
 
 require('lib/setupTreema')
 
@@ -102,12 +103,22 @@ module.exports = Vue.extend({
         })
       }
 
+      // const files = await new Promise((resolve, reject) => {
+      //   (new DocumentFiles(this.cinematic)).fetch({
+      //     success: resolve,
+      //     error: reject
+      //   })
+      // })
+      // console.log('have files', files)
+
       const c = this.cinematic
       const data = $.extend(true, {}, c.attributes)
       const el = $(`<div></div>`);
       const treema = this.treema = TreemaNode.make(el, {
         data: data,
         schema: Cinematic.schema,
+        filePath: `db/cinematics/${this.cinematic.get('_id')}`,
+        // files,
         callbacks: {
           change: this.pushChanges
         }

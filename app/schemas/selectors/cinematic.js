@@ -58,6 +58,11 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
  */
 
 /**
+ * @typedef {Object} Sound
+ * @property {string} mp3
+ * @property {string} ogg
+ */
+/**
  * @typedef {Object} DialogNode
  * @property {string} text - The text to display
  * @property {Point2d} textLocation - The point information
@@ -295,6 +300,17 @@ const backgroundObject = triggers => {
 const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength || 1000
 
 /**
+ * @param {ShotSetup} shotSetup
+ * @returns {Sound} possibly contains `mp3` or `ogg` property.
+ */
+const setupMusic = shotSetup => {
+  if (!(shotSetup || {}).music) {
+    return
+  }
+  return shotSetup.music
+}
+
+/**
  * @param {Object} triggers
  * @returns {undefined|number} Delay if it exists.
  */
@@ -362,3 +378,8 @@ export const getTextAnimationLength = textAnimationLength
  * @returns {string|undefined} Lank action to play
  */
 export const getSpeakingAnimationAction = dialogNode => (dialogNode || {}).speakingAnimationAction
+
+/**
+ * @returns {string|undefined}
+ */
+export const getSetupMusic = compose(shotSetup, setupMusic)

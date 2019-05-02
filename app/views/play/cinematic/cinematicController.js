@@ -3,7 +3,8 @@ import Loader from './Loader'
 import { parseShot } from './Command/CinematicParser'
 import CommandRunner from './Command/CommandRunner'
 import DialogSystem from './DialogSystem'
-import { CameraSystem } from './CameraSystem';
+import { CameraSystem } from './CameraSystem'
+import { SoundSystem } from './sound-system/SoundSystem'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -44,6 +45,7 @@ export class CinematicController {
 
     this.systems.cameraSystem = new CameraSystem(camera)
     this.systems.loader = new Loader({ data: cinematicData })
+    this.systems.sound = new SoundSystem()
 
     this.systems.dialogSystem = new DialogSystem({
       canvasDiv,
