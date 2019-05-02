@@ -113,8 +113,9 @@ module.exports = class EnrollmentsView extends RootView
     coursePrepaids = @prepaids.filter((p) => p.get('type') == 'course')
 
     skipUpsellDueToExistingLicenses = coursePrepaids.length > 0
-    shouldUpsell = !skipUpsellDueToExistingLicenses and (@state.get('leadPriority') is 'low') and (me.get('preferredLanguage') isnt 'nl-BE')
+    skipUpsellForDutchLanguage = (me.get('preferredLanguage') || '').toLowerCase().startsWith('nl')
 
+    shouldUpsell = !skipUpsellForDutchLanguage and !skipUpsellDueToExistingLicenses and (@state.get('leadPriority') is 'low')
     @state.set({ shouldUpsell })
 
     if shouldUpsell and not @upsellTracked
