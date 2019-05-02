@@ -105,10 +105,11 @@ export class CinematicController {
     this.onPlay()
 
     if (!Array.isArray(this.commands) || this.commands.length === 0) {
+      this.systems.sound.stopAllSounds()
       return
     }
+
     const currentShot = this.commands.shift()
-    console.log(`Running batch of commands:`, { currentShot })
     this._runShot(currentShot)
   }
 

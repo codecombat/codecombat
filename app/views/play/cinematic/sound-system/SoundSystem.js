@@ -46,17 +46,8 @@ export class SoundSystem {
       src: sources,
       format: extensions,
       preload: true,
-      onload: function (...args) {
-        console.log(`loaded sound ${key} with args`, args)
-      },
-      onplay: soundId => {
-        // this.loadedSounds(soundId)
-      },
-      onend: function (...args) {
-        console.log(`End sound ${args}`)
-      },
-      onstop: function (...args) {
-        console.log(`Stop sound ${args}`)
+      onloaderror: function (...args) {
+        console.log(`Failed to load sound`, args)
       }
     }))
   }
@@ -67,26 +58,52 @@ export class SoundSystem {
     if (music) {
       const key = getMusicKey(music)
       this.preload(key, music)
-      commands.push(new SyncFunction(() => this.playSound(key)))
+      commands.push(new SyncFunction(() => this.playMusic(key)))
     }
     return commands
   }
 
-  playSound (key) {
+  /**
+   * Play loaded music.
+   * This will stop all other sounds that are playing.
+   * @param {string} key
+   */
+  playMusic (key) {
     const sound = this.loadedSounds.get(key)
     if (!sound) {
-      console.warn(`Tried to play sound '${key}' that doesn't exist.`)
+      console.warn(`Tried to play music '${key}' that doesn't exist.`)
       return
     }
     this.stopAllSounds()
+    this._playSound(sound)
+  }
+
+  /**
+   * Plays the sound, hooking the sound up  to various event handlers and
+   * tracking the sound in the `this.playingSound` map.
+   * @param {Howl} sound
+   */
+  _playSound (sound) {
     const soundInstanceId = sound.play()
+    const cleanupSound = (isStop = false) => () => {
+      const sound = this.playingSound.get(soundInstanceId)
+      if (!sound) { return }
+      if (sound.loop() && !isStop) {
+        return
+      }
+      this.playingSound.delete(soundInstanceId)
+
+      sound.off('stop', cleanupSound(true), soundInstanceId)
+      sound.off('end', cleanupSound(), soundInstanceId)
+    }
+    sound.once('stop', cleanupSound(true), soundInstanceId)
+    sound.once('end', cleanupSound(), soundInstanceId)
     this.playingSound.set(soundInstanceId, sound)
   }
 
   stopAllSounds () {
     for (const key of this.playingSound.keys()) {
       this.playingSound.get(key).stop(key)
-      this.playingSound.delete(key)
     }
   }
 }
