@@ -24,9 +24,7 @@ module.exports = {
             'baseIndent': 1,
             'switchCase': 0,
             'ignores': []
-        }],
-
-        "vue/v-on-style": ["error", "longform"]
+        }]
     },
 
     'overrides': [
