@@ -12,7 +12,7 @@
       :backbone-view="backboneViewInstance"
       :backbone-options="{ renderOnlyContent: true, readOnly: true }"
       :backbone-args="[ $route.params.classroomId, $route.params.studentId ]"
-      v-on:loading="backboneLoadingEvent"
+      @loading="backboneLoadingEvent"
     />
   </loading-progress>
 </template>
