@@ -47,7 +47,7 @@
     "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "lint": "eslint --max-warnings 0 '**/*.vue'"
+    "lint": "eslint --max-warnings 0 '**/*.{js,vue}'"
   },
   "main": "index.js",
   "standard": {
