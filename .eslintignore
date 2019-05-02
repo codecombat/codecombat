@@ -4,6 +4,19 @@ bower_components
 public
 vendor
 
+#################################################################
+#
+# List of existing files at time of eslint setup.
+#
+# These files are ignored so that our lint result represents lint
+# results for new files and existing files that have been updated
+# to conform to new lint rules.
+#
+# If you update a file in this list to conform to new standards,
+# please remove it from this list so it is linted in the future.
+#
+#################################################################
+
 app/core/api/cinematic.js
 app/core/api/thang-types.js
 app/core/social-handlers/GoogleClassroomHandler.js
