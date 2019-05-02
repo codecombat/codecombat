@@ -80,7 +80,7 @@ export class SoundSystem {
     }
     this.stopAllSounds()
     const soundInstanceId = sound.play()
-    this.playingSounds.set(soundInstanceId, sound)
+    this.playingSound.set(soundInstanceId, sound)
   }
 
   stopAllSounds () {
