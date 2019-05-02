@@ -15,7 +15,9 @@ import {
   getText,
   getCamera,
   getTextAnimationLength,
-  getSpeakingAnimationAction
+  getSpeakingAnimationAction,
+  getSetupMusic,
+  getSoundEffects
 } from '../../../app/schemas/selectors/cinematic'
 
 /**
@@ -172,6 +174,22 @@ describe('Cinematic', () => {
       const result2 = getSpeakingAnimationAction(shotFixture2.dialogNodes[0])
       expect(result2).toBeUndefined()
     })
+
+    it('getSoundEffects', () => {
+      const result = getSoundEffects(shotFixture1.dialogNodes[0])
+      expect(result).toEqual([ { sound: { mp3: 'path/music' }, triggerStart: 0 } ])
+
+      const result2 = getSoundEffects(shotFixture2.dialogNodes[0])
+      expect(result2).toEqual([ { sound: { mp3: 'path/music' }, triggerStart: 30 } ])
+    })
+
+    it('getSetupMusic', () => {
+      const result = getSetupMusic(shotFixture1)
+      expect(result).toEqual({ ogg: 'path/music', mp3: 'path/music/mp3' })
+
+      const result2 = getSetupMusic(shotFixture2)
+      expect(result2).toBeUndefined()
+    })
   })
 })
 
@@ -228,6 +246,10 @@ var shotFixture1 = {
         x: 2
       },
       zoom: 2
+    },
+    music: {
+      ogg: 'path/music',
+      mp3: 'path/music/mp3'
     }
   },
   dialogNodes: [
@@ -246,7 +268,14 @@ var shotFixture1 = {
         },
         clearBackgroundObject: {
           triggerStart: 7331
-        }
+        },
+        soundFxTriggers: [
+          {
+            sound: {
+              mp3: 'path/music'
+            }
+          }
+        ]
       }
     },
     {
@@ -281,8 +310,17 @@ var shotFixture2 = {
   },
   dialogNodes: [
     {
-      triggers: { },
       speaker: 'right',
+      triggers: {
+        soundFxTriggers: [
+          {
+            sound: {
+              mp3: 'path/music'
+            },
+            triggerStart: 30
+          }
+        ]
+      },
       textLocation: {
         x: 40,
         y: 10

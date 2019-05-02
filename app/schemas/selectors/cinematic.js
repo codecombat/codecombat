@@ -322,6 +322,32 @@ const clearBackgroundObject = triggers => {
 }
 
 /**
+ * @typedef {Object} SoundEffect
+ * @property {number} triggerStart
+ * @property {Sound} sound
+ */
+
+/**
+ * @param {Object} triggers
+ * @returns {SoundEffect[]|undefined}
+ */
+const soundEffects = triggers => {
+  if (!(triggers || {}).soundFxTriggers) {
+    return
+  }
+  const { soundFxTriggers } = triggers
+  if (!Array.isArray(soundFxTriggers)) {
+    console.warn(`Ensure 'triggers.soundFxTriggers' is an array. Go a ${typeof soundFxTriggers}`)
+    return
+  }
+  return soundFxTriggers
+    .map(sound => {
+      sound.triggerStart = sound.triggerStart || 0
+      return sound
+    })
+}
+
+/**
  * Returns if left hero character
  * @param {Shot} shot
  * @returns {bool}
@@ -383,3 +409,9 @@ export const getSpeakingAnimationAction = dialogNode => (dialogNode || {}).speak
  * @returns {string|undefined}
  */
 export const getSetupMusic = compose(shotSetup, setupMusic)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {SoundEffect[] | undefined}
+ */
+export const getSoundEffects = compose(triggers, soundEffects)

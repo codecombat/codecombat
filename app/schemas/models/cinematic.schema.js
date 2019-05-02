@@ -99,7 +99,19 @@ const DialogNode = c.object({
       description: 'Clears the background objects from the screen after a given duration'
     }, {
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until background object is cleared' })
-    })
+    }),
+    soundFxTriggers: c.array({
+      title: 'SoundFX triggers',
+      description: 'A list of sound effects that we can play. Unlike music they will overlap and wont prevent other sounds playing.'
+    },
+    c.object({
+      title: 'Sound Effect',
+      description: 'A sound effect that plays after a delay.',
+      required: ['sound']
+    }, {
+      sound: c.sound(),
+      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until the sound effect is played' })
+    }))
   }),
   dialogClear: {
     type: 'boolean',

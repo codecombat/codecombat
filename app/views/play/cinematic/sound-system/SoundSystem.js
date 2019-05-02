@@ -3,8 +3,8 @@
  * An abstraction around the `howler.js` sound library.
  */
 import { Howl } from 'howler'
-import { getSetupMusic } from '../../../../schemas/selectors/cinematic'
-import { SyncFunction } from '../Command/commands'
+import { getSetupMusic, getSoundEffects } from '../../../../schemas/selectors/cinematic'
+import { SyncFunction, Sleep, SequentialCommands } from '../Command/commands'
 
 /**
  * @param {import('../../../../schemas/selectors/cinematic').Sound} music
@@ -52,30 +52,39 @@ export class SoundSystem {
     }))
   }
 
+  /**
+   * System interface method that CinematicParser calls with
+   * each shot.
+   * @param {Shot} shot
+   * @returns {AbstractCommand[]}
+   */
   parseSetupShot (shot) {
     const commands = []
     const music = getSetupMusic(shot)
     if (music) {
       const key = getMusicKey(music)
       this.preload(key, music)
-      commands.push(new SyncFunction(() => this.playMusic(key)))
+      commands.push(new SyncFunction(() => { this.stopAllSounds(); this.playSound(key) }))
     }
     return commands
   }
 
   /**
-   * Play loaded music.
-   * This will stop all other sounds that are playing.
-   * @param {string} key
+   * System interface method that CinematicParser calls on each dialogNode
+   * of the cinematic.
+   * @param {DialogNode} dialogNode
+   * @returns {AbstractCommand[]}
    */
-  playMusic (key) {
-    const sound = this.loadedSounds.get(key)
-    if (!sound) {
-      console.warn(`Tried to play music '${key}' that doesn't exist.`)
-      return
-    }
-    this.stopAllSounds()
-    this._playSound(sound)
+  parseDialogNode (dialogNode) {
+    const soundEffects = getSoundEffects(dialogNode) || []
+    return soundEffects.map(({ sound, triggerStart }) => {
+      const key = getMusicKey(sound)
+      this.preload(key, sound)
+      return new SequentialCommands([
+        new Sleep(triggerStart),
+        new SyncFunction(() => this.playSound(key))
+      ])
+    })
   }
 
   /**
@@ -83,7 +92,12 @@ export class SoundSystem {
    * tracking the sound in the `this.playingSound` map.
    * @param {Howl} sound
    */
-  _playSound (sound) {
+  playSound (key) {
+    const sound = this.loadedSounds.get(key)
+    if (!sound) {
+      console.warn(`Tried to play music '${key}' that doesn't exist.`)
+      return
+    }
     const soundInstanceId = sound.play()
     const cleanupSound = (isStop = false) => () => {
       const sound = this.playingSound.get(soundInstanceId)
