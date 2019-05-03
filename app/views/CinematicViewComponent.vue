@@ -37,15 +37,11 @@ module.exports = Vue.extend({
     }
   },
   methods: {
-    playCinematic: function() {
+    playCinematic: async function() {
       this.loading = true
-      get(this.slugInput)
-        .then(d => {
-          this.cinematicData = d
-        })
-        .then(() => {
-          this.loading = false
-        })
+      const data = await get(this.slugInput)
+      this.cinematicData = data
+      this.loading = false
     }
   },
   computed: {
