@@ -22,6 +22,7 @@ Promise.config({
 
 const BACKGROUND_OBJECT = 'backgroundObject'
 const BACKGROUND = 'background'
+const RIGHT = Math.PI
 
 /**
  * @typedef {import(./Command/CinematicParser).System} System
@@ -284,7 +285,7 @@ export default class CinematicLankBoss {
           x: this.stageBounds.bottomRight.x + 4,
           y: this.stageBounds.bottomRight.y
         },
-        rotation: Math.PI
+        rotation: RIGHT
       })
     } else if (key === 'left' && !thang) {
       thang = createThang({
@@ -313,14 +314,12 @@ export default class CinematicLankBoss {
 
 /**
  * Creates a mock thang. Looking left by default.
- * You can pass in options to override default thang properties.
+ * You can pass in a thang to override default thang properties.
  *
- * A rotation of `Math.PI` is looking right.
- *
- * @param {Object} options - is merged onto default thang options
- * @returns {Object} thang object
+ * @param {Object} thang - is merged onto default thang settings.
+ * @returns {Object} thang object literal
  */
-const createThang = (options) => {
+const createThang = thang => {
   const defaults = {
     health: 10.0,
     maxHealth: 10.0,
@@ -336,18 +335,16 @@ const createThang = (options) => {
     //  Looking left
     rotation: 0
   }
-  return _.merge(defaults, options)
+  return _.merge(defaults, thang)
 }
 
 /**
- * A modified AnimeCommand that updates thang state ensuring lanks are correctly
- * rendered.
+ * A modified AnimeCommand that updates thang state ensuring lanks are correctly rendered.
  */
 class MoveLank extends AbstractCommand {
   /**
-   * Runs an anime js animation with some helper methods ensuring the lanks are
-   * properly rendered on the canvas.
-   * @param {Function} animationFn
+   * @param {Function} animationFn Function that returns a run function, animation tween
+   *                               and a function to update the state of the lank.
    */
   constructor (animationFn) {
     super()
@@ -362,7 +359,6 @@ class MoveLank extends AbstractCommand {
   }
 
   cancel (promise) {
-    // Bound by the `runFn`.
     const animation = this.animation
     if (!animation) {
       throw new Error('Incorrect use of MoveLank. Must attach animation.')
