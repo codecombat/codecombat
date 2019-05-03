@@ -48,7 +48,7 @@ module.exports = class HomeView extends RootView
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
+    @homePageEvent($(e.target).data('event-action'))
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
@@ -59,13 +59,13 @@ module.exports = class HomeView extends RootView
     application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
-    @homePageEvent('Started Signup', {trackABResult: true})
-    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
-    @homePageEvent('Started Signup', {trackABResult: true})
-    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   onClickTrackEvent: (e) ->

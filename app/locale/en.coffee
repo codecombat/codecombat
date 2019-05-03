@@ -86,6 +86,7 @@
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
     play_now: "Play Now"
+    im_an_educator: "I'm an Educator"
     im_a_teacher: "I'm a Teacher"
     im_a_student: "I'm a Student"
     learn_more: "Learn more"
