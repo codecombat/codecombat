@@ -137,12 +137,13 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
 
-      # Adding label for tracking home page A/B testing group on GA for analyzing results
-      # TODO: what if gaFieldObject.label already exists and we still want to track a/b results
+      # Send trackABResult as true in the properties to track a/b test results in GA as the event label
+      # TODO: what if gaFieldObject.label already exists
       # As of now gaFieldObject.label doesnt exist for the specific events which are relevant for a/b test results, so not a concern for now
       # Probably add multiple labels as keys in gaFieldObject.label in the future, if required.
-      if properties.trackABResult and not gaFieldObject.label and me.getHomePageTestGroup()
-        gaFieldObject.eventLabel = "{testGroup:"+ me.getHomePageTestGroup() + "}"  # {testGroup:A} / {testGroup:B} / {testGroup:C}
+      if properties.trackABResult and not gaFieldObject.label
+        if me.getHomePageTestGroup()
+          gaFieldObject.eventLabel = "{testGroup:"+ me.getHomePageTestGroup() + "}"  # {testGroup:A} / {testGroup:B} / {testGroup:C}
 
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay

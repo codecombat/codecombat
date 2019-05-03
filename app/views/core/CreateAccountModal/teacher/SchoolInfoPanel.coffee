@@ -67,7 +67,7 @@ SchoolInfoPanel =
 
     clickContinue: ->
       # Make sure to add conditions if we change this to be used on non-teacher path
-      window.tracker?.trackEvent 'CreateAccountModal Teacher SchoolInfoPanel Continue Clicked', { category: 'Teachers', trackABResult: true }
+      window.tracker?.trackEvent 'CreateAccountModal Teacher SchoolInfoPanel Continue Clicked', category: 'Teachers'
       requiredAttrs = _.pick(@, 'district', 'city', 'state', 'country')
       unless _.all(requiredAttrs)
         @showRequired = true
