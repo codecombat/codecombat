@@ -37,7 +37,7 @@ module.exports = class CourseVictoryModal extends ModalView
     @playSound 'victory'
     @nextLevel = new Level()
     @nextAssessment = new Level()
-    # next level for voyager calculated in onLoaded since it needs @classroom
+
     unless utils.voyagerCourseIDs.includes(@courseID)
       nextLevelPromise = api.levels.fetchNextForCourse({
         levelOriginalID: @level.get('original')
@@ -101,16 +101,6 @@ module.exports = class CourseVictoryModal extends ModalView
         rewardsView.on 'continue', @onViewContinue, @
         @views.push(rewardsView)
 
-    # get next level for voyager course, no `nextAssessment` in voyager
-    if utils.voyagerCourseIDs.includes(@courseID) and @classroom
-      currentLevel = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels?.find((l) => l.original == @level.get('original'))
-      nextLevelOriginal = voyagerUtils.getNextLevelOriginalForLevel(currentLevel)[0] # assuming there will be only 1 next level for voyager v1
-      if nextLevelOriginal
-        api.levels.getByOriginal(nextLevelOriginal).then((level) => 
-          @nextLevel.set(level)
-          @render()
-        )
-
     if @courseInstanceID
       # Defer level sessions fetch to follow supermodel-based loading of other dependent data
       # Not using supermodel.loadCollection because it can overwrite @session handle via LevelBus async saving
@@ -119,6 +109,9 @@ module.exports = class CourseVictoryModal extends ModalView
       # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
+    else if utils.voyagerCourseIDs.includes(@courseID)  # if it is voyager course and there is no course instance, load campaign so that we can calculate next levels
+      api.campaigns.get({campaignHandle: @course?.get('campaignID')}).then (@campaign) =>
+        @levelSessionsLoaded()
     else
       @levelSessionsLoaded()
 
@@ -127,6 +120,15 @@ module.exports = class CourseVictoryModal extends ModalView
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
 
+    # get next level for voyager course, no nextAssessment for voyager courses
+    if utils.voyagerCourseIDs.includes(@courseID) 
+      @getNextLevelVoyager().then (level) => 
+        @nextLevel.set(level)
+        @loadViews()
+    else
+      @loadViews()
+  
+  loadViews: ->
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id
 
@@ -155,6 +157,17 @@ module.exports = class CourseVictoryModal extends ModalView
     else
       @showVictoryComponent()
 
+  getNextLevelVoyager: ->
+    if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
+      classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
+      nextLevelOriginal = voyagerUtils.findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for voyager v1
+    else if @campaign # fetch next based on course's campaign levels (for teachers)
+      currentLevel = @campaign.levels[@level.get('original')]
+      nextLevelOriginal = voyagerUtils.getNextLevelOriginalForLevel(currentLevel)[0]
+    if nextLevelOriginal
+      return api.levels.getByOriginal(nextLevelOriginal)
+    else
+      return Promise.resolve({})  # no next level
 
   afterRender: ->
     super()
