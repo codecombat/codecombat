@@ -9,7 +9,11 @@ import {
   getBackground,
   getExitCharacter,
   getBackgroundObject,
-  getClearBackgroundObject
+  getClearBackgroundObject,
+  getText,
+  getTextAnimationLength,
+  getSpeakingAnimation,
+  getSpeaker
 } from '../../../schemas/selectors/cinematic'
 
 // Throws an error if `import ... from ..` syntax.
@@ -135,6 +139,26 @@ export default class CinematicLankBoss {
         })
       ]))
     }
+
+    const text = getText(dialogNode)
+    const animation = getSpeakingAnimation(dialogNode)
+    if (text && animation) {
+      const textLength = getTextAnimationLength(dialogNode)
+      const speaker = getSpeaker(dialogNode)
+      commands.push(new SequentialCommands([
+        new Sleep(Math.min(100, textLength)),
+        new SyncFunction(() => {
+          this.playActionOnLank(speaker, animation)
+        })
+      ]))
+
+      commands.push(new SequentialCommands([
+        new Sleep(textLength),
+        new SyncFunction(() => {
+          this.playActionOnLank(speaker, 'idle')
+        })
+      ]))
+    }
     return commands
   }
 
@@ -156,6 +180,20 @@ export default class CinematicLankBoss {
       // Ensures lank is rendered.
       this.lanks[key].thang.stateChanged = true
     })
+  }
+
+  /**
+   * Plays an action on a lank. If you want an animation to loop, and it isn't,
+   * you need to make the action loop on the ThangType.
+   * @param {string} key The lanks unique key
+   * @param {string} action The action to queue onto the lank
+   */
+  playActionOnLank (key, action) {
+    const lank = this.lanks[key]
+    if (!lank) {
+      return console.warn(`Tried to play action '${action}' on non existant lank '${key}'`)
+    }
+    lank.queueAction(action)
   }
 
   /**

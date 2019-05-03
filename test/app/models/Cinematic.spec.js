@@ -13,7 +13,9 @@ import {
   getExitCharacter,
   getTextPosition,
   getText,
-  getCamera
+  getCamera,
+  getTextAnimationLength,
+  getSpeakingAnimation
 } from '../../../app/schemas/selectors/cinematic'
 
 /**
@@ -104,10 +106,10 @@ describe('Cinematic', () => {
 
     it('getSpeaker', () => {
       const result = getSpeaker(shotFixture1.dialogNodes[0])
-      expect(result).toBeUndefined()
+      expect(result).toEqual('left')
 
       const result2 = getSpeaker(shotFixture2.dialogNodes[0])
-      expect(result2).toEqual('left')
+      expect(result2).toEqual('right')
     })
 
     it('getBackgroundSlug', () => {
@@ -153,6 +155,22 @@ describe('Cinematic', () => {
       expect(result2).toBeUndefined()
 
       expect(getCamera(undefined)).toBeUndefined()
+    })
+
+    it('getTextAnimationLength', () => {
+      const result = getTextAnimationLength(shotFixture1.dialogNodes[1])
+      expect(result).toEqual(42)
+
+      const result2 = getTextAnimationLength(shotFixture2.dialogNodes[0])
+      expect(result2).toEqual(1000)
+    })
+
+    it('getSpeakingAnimation', () => {
+      const result = getSpeakingAnimation(shotFixture1.dialogNodes[1])
+      expect(result).toEqual('talkyAnimation')
+
+      const result2 = getSpeakingAnimation(shotFixture2.dialogNodes[0])
+      expect(result2).toBeUndefined()
     })
   })
 })
@@ -232,7 +250,9 @@ var shotFixture1 = {
       }
     },
     {
-      dialogClear: false
+      dialogClear: false,
+      textAnimationLength: 42,
+      speakingAnimation: 'talkyAnimation'
     }
   ]
 }
@@ -262,7 +282,7 @@ var shotFixture2 = {
   dialogNodes: [
     {
       triggers: { },
-      speaker: 'left',
+      speaker: 'right',
       textLocation: {
         x: 40,
         y: 10
