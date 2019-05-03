@@ -48,9 +48,10 @@ export default class Loader {
 
     this.loadingThangTypes.set(
       original,
-      getThangTypeOriginal(original)
-        .then(attr => new ThangType(attr))
-        .then(t => this.loadedThangTypes.set(original, t))
+      (async () => {
+        const attr = await getThangTypeOriginal(original)
+        this.loadedThangTypes.set(original, new ThangType(attr))
+      })()
     )
   }
 
@@ -111,9 +112,10 @@ export default class Loader {
   queueThangType (slug) {
     this.loadingThangTypes.set(
       slug,
-      getThang({ slug })
-        .then(attr => new ThangType(attr))
-        .then(t => this.loadedThangTypes.set(slug, t))
+      (async () => {
+        const attr = await getThang({ slug })
+        this.loadedThangTypes.set(slug, new ThangType(attr))
+      })()
     )
   }
 
