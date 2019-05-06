@@ -32,7 +32,6 @@
     "moment": "~2.19.0",
     "ace-builds": "ajaxorg/ace-builds#ba3b91e04a5aa559d56ac70964f9054baa0f4caf",
     "underscore.string": "~2.3.3",
-    "d3": "~3.4.4",
     "jsondiffpatch": "^0.2.3",
     "nanoscroller": "~0.8.0",
     "treema": "https://github.com/codecombat/treema.git#master",

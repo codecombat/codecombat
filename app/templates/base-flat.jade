@@ -33,11 +33,11 @@ mixin accountLinks
                 span.icon-bar
               if me.useTarenaLogo()
                 a.navbar-brand(href="http://kidtts.tmooc.cn/ttsPage/login.html")
-                  img#logo-img(src="/images/pages/base/logo.png")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png")
                   img#tarena-logo(src="/images/pages/base/logo-tarena.png")
               else if serverConfig.codeNinjas
                 a.navbar-brand(href="/home")
-                  img#logo-img.code-ninjas-powered-by(src="/images/pages/base/logo.png")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png")
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
               else
                 a.navbar-brand(href="/home")
@@ -59,6 +59,9 @@ mixin accountLinks
                           a.text-p.text-teal(href="/students", data-i18n="nav.my_courses")
                         else
                           a.text-p(href="/students", data-i18n="nav.my_courses")
+                    if me.isSchoolAdmin()
+                        li
+                          a.text-p(href="/school-administrator", data-i18n="nav.my_teachers")
                     if !me.isAnonymous() && me.isTeacher()
                       li
                         if document.location.href.search('/teachers/classes') >= 0
@@ -96,7 +99,7 @@ mixin accountLinks
                       //- string replaced in RootView
                       span.language-dropdown-current Language
                       span.caret
-                    ul.dropdown-menu.language-dropdown
+                    ul(class="dropdown-menu language-dropdown" class=(!me.isAnonymous() ? "pull-right" : ""))
 
                 if me.isAnonymous()
                   ul.nav.navbar-nav.text-p.login-buttons
@@ -136,7 +139,8 @@ mixin accountLinks
                       li
                         a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                       if features.china
-                        li 京ICP备16061132号
+                        li
+                          a(href="http://www.miitbeian.gov.cn/") 京ICP备19012263号
                   .col-lg-3
                     if !me.isStudent()
                       h3(data-i18n="nav.educators")

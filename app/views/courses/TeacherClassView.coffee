@@ -1,7 +1,6 @@
 require('app/styles/courses/teacher-class-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
-template = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
@@ -11,6 +10,9 @@ EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 CoursesNotAssignedModal = require './CoursesNotAssignedModal'
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
+
+viewContentTemplate = require 'templates/courses/teacher-class-view'
+viewContentTemplateWithLayout = require 'templates/courses/teacher-class-view-full'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -35,7 +37,6 @@ GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
-  template: template
   helper: helper
 
   events:
@@ -86,6 +87,12 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+
+    if (options.renderOnlyContent)
+      @template = viewContentTemplate
+    else
+      @template = viewContentTemplateWithLayout
+
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
     @singleStudentCourseProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
@@ -95,8 +102,15 @@ module.exports = class TeacherClassView extends RootView
     @urls = require('core/urls')
 
     @debouncedRender = _.debounce @render
+    @calculateProgressAndLevels = _.debounce @calculateProgressAndLevelsAux, 800
 
     @state = new State(@getInitialState())
+
+    if options.readOnly
+      @state.set('readOnly', options.readOnly)
+    if options.renderOnlyContent
+      @state.set('renderOnlyContent', options.renderOnlyContent)
+
     @updateHash @state.get('activeTab') # TODO: Don't push to URL history (maybe don't use url fragment for default tab)
 
     @classroom = new Classroom({ _id: classroomID })
@@ -143,17 +157,17 @@ module.exports = class TeacherClassView extends RootView
 
     @levels = new Levels()
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals'}})
-    me.getClientCreatorPermissions()?.then(() => @render?())
+    me.getClientCreatorPermissions()?.then(() => @debouncedRender?())
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
-  
+
   fetchStudents: ->
     Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
     .then =>
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
-      @render?()
+      @debouncedRender?()
 
   fetchSessions: ->
     Promise.all(@classroom.sessions.fetchForAllClassroomMembers(@classroom))
@@ -161,7 +175,7 @@ module.exports = class TeacherClassView extends RootView
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
-      @render?()
+      @debouncedRender?()
 
   attachMediatorEvents: () ->
     # Model/Collection events
@@ -187,8 +201,6 @@ module.exports = class TeacherClassView extends RootView
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
       @calculateProgressAndLevels()
-      classStats = @calculateClassStats()
-      @state.set classStats: classStats if classStats
       @state.set students: @students
       checkboxStates = {}
       for student in @students.models
@@ -237,7 +249,7 @@ module.exports = class TeacherClassView extends RootView
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
-      
+
     if @classroom.hasAssessments()
       levels = []
       course = @state.get('selectedCourse')
@@ -250,14 +262,15 @@ module.exports = class TeacherClassView extends RootView
         if courseInstance
           courseInstance = courseInstance.toJSON()
       students = @state.get('students').toJSON()
-      
+
       propsData = {
         students
         levels,
         course: course?.toJSON(),
         progress: @state.get('progressData')?.get({ @classroom, course }),
         courseInstance,
-        classroom: @classroom.toJSON()
+        classroom: @classroom.toJSON(),
+        readOnly: @state.get('readOnly')
       }
       new TeacherClassAssessmentsTable({
         el: @$el.find('.assessments-table')[0]
@@ -282,7 +295,8 @@ module.exports = class TeacherClassView extends RootView
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
 
-  calculateProgressAndLevels: ->
+  calculateProgressAndLevelsAux: ->
+    return if @destroyed
     return unless @supermodel.progress is 1 and @allStatsLoaded()
     userLevelCompletedMap = @classroom.sessions.models.reduce((map, session) =>
       if session.completed()
@@ -693,9 +707,9 @@ module.exports = class TeacherClassView extends RootView
       error: (prepaid, jqxhr) =>
         msg = jqxhr.responseJSON.message
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-      complete: => @render()
+      complete: => @debouncedRender()
     })
-    
+
   onClickRevokeAllStudentsButton: ->
     s = $.i18n.t('teacher.revoke_all_confirm')
     return unless confirm(s)
@@ -716,7 +730,7 @@ module.exports = class TeacherClassView extends RootView
           error: (prepaid, jqxhr) =>
             msg = jqxhr.responseJSON.message
             noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-          complete: => @render()
+          complete: => @debouncedRender()
         })
 
   onClickSelectAll: (e) ->
@@ -784,7 +798,7 @@ module.exports = class TeacherClassView extends RootView
     scoreType = _.first(level.get('scoreTypes'))
     if _.isObject(scoreType)
       scoreType = scoreType.type
-    topScores = LevelSession.getTopScores({level: level.toJSON(), session: session.toJSON()}) 
+    topScores = LevelSession.getTopScores({level: level.toJSON(), session: session.toJSON()})
     topScore = _.find(topScores, {type: scoreType})
     return topScore
 
@@ -819,7 +833,7 @@ module.exports = class TeacherClassView extends RootView
           continue if not course.get('free')
           courseInstance = @courseInstances.findWhere({classroomID: @classroom.get("_id"), courseID: course.id})
           if courseInstance
-            importedMembers.forEach((i) => courseInstance.get("members").push(i._id))  
+            importedMembers.forEach((i) => courseInstance.get("members").push(i._id))
         @fetchStudents()
     , (err) =>
       noty text: err or 'Error in importing students.', layout: 'topCenter', timeout: 3000, type: 'error'

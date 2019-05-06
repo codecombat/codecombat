@@ -95,11 +95,14 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
     @handleEvents = @options.handleEvents ? true
+    @zoomToHero = @options.levelType isnt "game-dev" # In game-dev levels the hero is gameReferee
     @gameUIState = @options.gameUIState or new GameUIState({
       canDragCamera: true
     })
     @realTimeInputEvents = @gameUIState.get('realTimeInputEvents')
     @listenTo(@gameUIState, 'sprite:mouse-down', @onSpriteMouseDown)
+    if @world.trackMouseMove # This is defined as a parameter of Systems.UI and setup there for a level
+      @listenTo(@gameUIState, 'surface:stage-mouse-move', @onWorldMouseMove)
     @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
     @initAudio()
@@ -112,6 +115,7 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLStage = new createjs.StageGL(@webGLCanvas[0])
     @normalStage.nextStage = @webGLStage
     @camera = new Camera(@webGLCanvas, { @gameUIState, @handleEvents })
+    @camera.dragDisabled = @world.cameraDragDisabled # This is defined as a parameter of Systems.UI and setup there for a level
     AudioPlayer.camera = @camera unless @options.choosing
 
     @normalLayers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
@@ -254,7 +258,7 @@ module.exports = Surface = class Surface extends CocoClass
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
     if @handleEvents
-      if @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
+      if @zoomToHero and @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
         @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
     @lankBoss.update frameChanged
     @camera.updateZoom()  # Make sure to do this right after the LankBoss updates, not before, so it can properly target sprite positions.
@@ -549,6 +553,14 @@ module.exports = Surface = class Surface extends CocoClass
       pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
       time: @world.dt * @world.frames.length
       thangID: e.sprite.thang.id
+    })
+
+  onWorldMouseMove: (e) =>
+    return unless @realTime
+    @realTimeInputEvents.add({
+      type: 'mousemove'
+      pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
+      time: @world.dt * @world.frames.length
     })
 
   onMouseUp: (e) =>

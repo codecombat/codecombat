@@ -9,6 +9,7 @@ const glob = require('glob')
 require('coffee-script');
 require('coffee-script/register');
 const CompileStaticTemplatesPlugin = require('./compile-static-templates');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 console.log("Starting Webpack...");
 
@@ -60,8 +61,22 @@ module.exports = (env) => {
         { test: /\.coffee$/, use: [
           { loader: 'coffee-loader' },
         ] },
-        { test: /\.jade$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
-        { test: /\.pug$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
+        { test: /\.pug$/,
+          oneOf: [
+            // applies to <template lang="pug"> in Vue components
+            {
+              resourceQuery: /^\?vue/,
+              use: ['pug-plain-loader']
+            },
+            // applies to all other pug imports
+            {
+              use: { loader: 'pug-loader', options: { root: path.resolve('./app') } }
+            }
+          ]
+        },
+        { test: /\.jade$/,
+          use: [{ loader: 'jade-loader', options: { root: path.resolve('./app') } }]
+        },
         {
           oneOf: [
             { test: /jquery-ui.*css$/, use: [ // So we can ignore the images it references that we are missing
@@ -81,11 +96,16 @@ module.exports = (env) => {
           fallback: 'style-loader',
           use: [
             { loader: 'css-loader' },
-            { loader: 'sass-loader' },
+            {
+              loader: 'sass-loader',
+              options: {
+                indentedSyntax: true
+              }
+            },
           ]
         }) },
         { test: /\.scss$/, use: [
-          { loader: 'style-loader' },
+          { loader: 'vue-style-loader' },
           { loader: 'css-loader' },
           { loader: 'sass-loader' },
         ] },
@@ -98,7 +118,7 @@ module.exports = (env) => {
         path.resolve('./'), // Or you can use the full path /app/whatever
         'node_modules'  // Or maybe require('foo') for the Node module "foo".
       ],
-      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass', '.vue'],
+      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.pug', '.sass', '.vue'],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'lodash'
       }
@@ -154,6 +174,7 @@ module.exports = (env) => {
       new CompileStaticTemplatesPlugin({
         locals: {shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false},
       }),
+      new VueLoaderPlugin()
     ]
   }
 }

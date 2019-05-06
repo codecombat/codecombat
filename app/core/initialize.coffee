@@ -3,6 +3,17 @@ app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
 
+VueRouter = require 'vue-router'
+Vuex = require 'vuex'
+VTooltip = require 'v-tooltip'
+VueMoment = require 'vue-moment'
+
+Vue.use(VueRouter.default)
+Vue.use(Vuex.default)
+Vue.use(VueMoment.default)
+
+Vue.use(VTooltip.default)
+
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
   'bus': require 'schemas/subscriptions/bus'
@@ -114,6 +125,7 @@ watchForErrors = ->
 
   showError = (text) ->
     return if currentErrors >= 3
+    return if app.isProduction() and not me.isAdmin() # Don't show noty error messages in production when not an admin
     return unless me.isAdmin() or document.location.href.search(/codecombat.com/) is -1 or document.location.href.search(/\/editor\//) isnt -1
     ++currentErrors
     unless webkit?.messageHandlers  # Don't show these notys on iPad

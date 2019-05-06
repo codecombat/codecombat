@@ -18,6 +18,17 @@ module.exports = class CocoRouter extends Backbone.Router
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
 
+    # Lazily require and load VueRouter because it currently loads all of its dependencies
+    # in a single Webpack bundle.  The app initialization logic assumes that all Views are
+    # loaded lazily and thus will not be initialized as part of the initial page load.
+    #
+    # Because Vue router and its dependencies are loaded in a single bundle any CocoViews
+    # that are loaded via the Vue router are initialized too early.  Delaying loading of
+    # Vue router delays initialization of dependent CocoViews until an appropriate time.
+    #
+    # TODO Integrate webpack bundle loading with vueRouter and load this normally
+    @vueRouter = require('app/core/vueRouter').default()
+
   routes:
     '': ->
       if window.serverConfig.picoCTF
@@ -84,6 +95,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
+    'cinematic': go('CinematicView')
+
     'cla': go('CLAView')
 
     'clans': go('clans/ClansView')
@@ -131,6 +144,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView')
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
+    'editor/cinematic(/:cinematicSlug)': go('editor/cinematic/CinematicEditorView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -201,6 +215,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/videos/:courseID/:courseName': go('courses/CourseVideosView')
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
+
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
@@ -226,6 +241,8 @@ module.exports = class CocoRouter extends Backbone.Router
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
+    'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView')
+
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
@@ -245,6 +262,8 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
+    @vueRouter.push("/#{Backbone.history.getFragment()}")
+
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
 
@@ -279,8 +298,21 @@ module.exports = class CocoRouter extends Backbone.Router
       locale.load(me.get('preferredLanguage', true))
     ]).then ([ViewClass]) =>
       return go('NotFoundView') if not ViewClass
-      view = new ViewClass(options, args...)  # options, then any path fragment args
+
+      SingletonAppVueComponentView = require('views/core/SingletonAppVueComponentView').default
+      if ViewClass == SingletonAppVueComponentView && window.currentView instanceof SingletonAppVueComponentView
+        # The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it
+        # is already routed we do not need to route again
+        console.debug("Skipping route in Backbone - delegating to Vue app")
+        return
+      else if options.vueRoute  # Routing to a vue component using VueComponentView
+        vueComponentView = require 'views/core/VueComponentView'
+        view = new vueComponentView(ViewClass.default, options, args...)
+      else
+        view = new ViewClass(options, args...)  # options, then any path fragment args
+
       view.render()
+
       if window.alreadyLoadedView
         console.log "Need to merge view"
         delete window.alreadyLoadedView

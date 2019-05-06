@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 #parent-view
   #jumbotron.container-fluid
     .container

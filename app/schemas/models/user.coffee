@@ -126,6 +126,7 @@ _.extend UserSchema.properties,
   dateCreated: c.date({title: 'Date Joined'})
   anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
+  testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
@@ -161,7 +162,7 @@ _.extend UserSchema.properties,
       id: { type: 'string' }
       name: { type: 'string' }
       importedToCoco: { type: 'boolean', default: false }
-  
+
   importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
 
   points: {type: 'number'}
@@ -202,6 +203,8 @@ _.extend UserSchema.properties,
     courseMiscPatches: c.int()
     courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
+    licenses: c.object { additionalProperties: true }
+    students: c.object { additionalProperties: true }
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
@@ -308,6 +311,9 @@ _.extend UserSchema.properties,
       studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
       studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
+
+  administratedTeachers: c.array {}, c.objectId()
+  administratingTeachers: c.array {}, c.objectId()
 
   features:
     type: 'object'

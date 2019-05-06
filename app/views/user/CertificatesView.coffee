@@ -22,6 +22,9 @@ module.exports = class CertificatesView extends RootView
     return 'Certificate' if @user.broadName() is 'Anonymous'
     "Certificate: #{@user.broadName()}"
 
+  hashString: (str) ->
+    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c
+
   initialize: (options, @userID) ->
     if @userID is me.id
       @user = me
@@ -54,6 +57,8 @@ module.exports = class CertificatesView extends RootView
     @courseLevels = new Levels()
     @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse classroomID, courseID, data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n,thangs.id,thangs.components.config.programmableMethods' }
     @listenToOnce @courseLevels, 'sync', @calculateStats
+
+    @certificateNumber = @hashString(@user.id + @courseInstanceID)
 
   setHero: (heroOriginal=null) ->
     heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain

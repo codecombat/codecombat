@@ -94,14 +94,16 @@ export default Vue.extend({
     onImageClick: function(e) {
       let src = e.target.src
       src = src.slice(src.search('/images'))
-      let video_url = (this.videoLevels.find(l => l.thumbnail_unlocked == src) || {}).url
+      let video = (this.videoLevels.find(l => l.thumbnail_unlocked == src) || {})
       let frame = $('.video-frame')[0]
-      frame.src = video_url
+      frame.src = me.showChinaVideo() ? video.cn_url : video.url
       frame.style['z-index'] = 3
       $('#videos-content')[0].style.display = "none"
-      const p = new VideoPlayer(frame);
       $('#video-close-btn')[0].style.display = "block"
-      p.play().catch((err) => console.log("Error while playing the video:", err))
+      if(!me.showChinaVideo()){
+        const p = new VideoPlayer(frame);
+        p.play().catch((err) => console.log("Error while playing the video:", err))
+      }
     }
   },
 });

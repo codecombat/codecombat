@@ -12,6 +12,7 @@ CourseInstances = require 'collections/CourseInstances'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
 Prepaids = require 'collections/Prepaids'
+Users = require 'collections/Users'
 User = require 'models/User'
 utils = require 'core/utils'
 storage = require 'core/storage'
@@ -143,10 +144,20 @@ module.exports = class TeacherClassesView extends RootView
     latestHourTime = new Date() - -21 * 24 * 60 * 60 * 1000
     @upcomingOfficeHours = _.sortBy (oh for oh in officeHours when earliestHourTime < oh.time < latestHourTime), 'time'
     @howManyOfficeHours = if storage.load('hide-office-hours') then 'none' else 'some'
-    me.getClientCreatorPermissions()?.then(() => 
+    me.getClientCreatorPermissions()?.then(() =>
       @calculateQuestCompletion()
       @render?()
     )
+
+    administratingTeacherIds = me.get('administratingTeachers') || []
+
+    @administratingTeachers = new Users()
+    if administratingTeacherIds.length > 0
+      req = @administratingTeachers.fetchByIds(administratingTeacherIds)
+      @supermodel.trackRequest req
+
+    # TODO: Any reference to paidTeacher can be cleaned up post Teacher Appreciation week (after 2019-05-03)
+    @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
 
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
@@ -161,7 +172,7 @@ module.exports = class TeacherClassesView extends RootView
         html: true
         container: dot
       })
-  
+
   calculateQuestCompletion: ->
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
     for classroom in @classrooms.models
@@ -203,6 +214,7 @@ module.exports = class TeacherClassesView extends RootView
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
     @calculateQuestCompletion()
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
     if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
@@ -267,7 +279,7 @@ module.exports = class TeacherClassesView extends RootView
       courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
       if courseInstance
         importedStudents.forEach((i) => courseInstance.get("members").push(i._id))
-  
+
   onClickCreateTeacherButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', ['Mixpanel']
     application.router.navigate("/teachers/signup", { trigger: true })
@@ -327,7 +339,7 @@ module.exports = class TeacherClassesView extends RootView
     catch e
       console.error("Error in adding free course instances")
       return Promise.reject()
-    
+
 
   onClickSeeAllQuests: (e) =>
     $(e.target).hide()

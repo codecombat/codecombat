@@ -3,7 +3,7 @@ fetchJson = require './fetch-json'
 module.exports = {
   get: ({ classroomID }, options={}) ->
     fetchJson("/db/classroom/#{classroomID}", options)
-  
+
   # TODO: Set this up to allow using classroomID instead
   getMembers: ({classroom}, options) ->
     classroomID = classroom._id
@@ -36,4 +36,9 @@ module.exports = {
       method: 'POST'
       json: {members}
     }))
+
+  fetchByOwner: (ownerId) ->
+    fetchJson("/db/classroom?ownerID=#{ownerId}", {
+      method: 'GET'
+    })
 }

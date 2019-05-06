@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #apcsp-landing
     h1.text-center
       | Teaching AP <sup>®</sup> Computer Science Principles?
@@ -8,7 +8,7 @@
       img#ap-provider-badge(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
       div CodeCombat is recognized by the College Board as an endorsed provider of curriculum and professional development for AP<sup>®</sup> Computer Science Principles (AP CSP). This endorsement affirms that all components of CodeCombat‘s offerings are aligned to the AP Curriculum Framework standards and the AP CSP assessment. Using an endorsed provider affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s AP Course Audit, and officially recognized professional development that prepares teachers to teach AP CSP.
 
-    p Are you teaching AP<sup>®</sup> Computer Science Principles at your high school for the 2018-2019 school year? CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.
+    p Are you teaching AP<sup>®</sup> Computer Science Principles at your high school for the 2019-2020 school year? CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.
 
     p AP<sup>®</sup> Computer Science Principles spotlights how computing is changing the world, and provides ample opportunity for students from all backgrounds to connect abstract concepts to real-world implications of the field. Teachers can use our AP<sup>®</sup> CSP Curriculum and Professional Development Hub as their primary resource for teaching the course and preparing students for the AP<sup>®</sup> exam.
 
@@ -62,7 +62,7 @@
                     input(type="radio", name="currentlyTeaching" value="no", v-model="currentlyTeaching" v-bind:value="false")
                     | No
               .form-group
-                label Will you be teaching AP<sup>®</sup> CSP in the 2018-2019 school year? 
+                label Will you be teaching AP<sup>®</sup> CSP in the 2019-2020 school year? 
                 .radio-inline
                   label
                     input(type="radio", name="willTeachNextYear" value="yes", v-model="willTeachNextYear" v-bind:value="true")

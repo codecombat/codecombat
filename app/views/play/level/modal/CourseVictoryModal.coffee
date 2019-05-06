@@ -24,6 +24,9 @@ module.exports = class CourseVictoryModal extends ModalView
   initialize: (options) ->
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID or utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
+    if features.china and not @courseID and not @courseInstanceID   #just for china tarena hackthon 2019 classroom RestPoolLeaf
+      @courseID = '560f1a9f22961295f9427742'
+      @courseInstanceID = '5cb8403a60778e004634ee6e'
     @views = []
 
     @session = options.session

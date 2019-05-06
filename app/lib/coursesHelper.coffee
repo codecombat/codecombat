@@ -20,6 +20,7 @@ hasUserCompletedCourse = (userLevels, levelsInCourse) ->
       allComplete = false
     userLevelsSeen++
   allComplete = false unless userStarted
+
   [userStarted, allComplete and userLevelsSeen == levelsInCourse.size, completed]
 
 module.exports =
