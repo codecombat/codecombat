@@ -6,7 +6,8 @@ import {
   classificationSolutionSchema,
   interactiveInsertCodeSchema,
   interactiveDraggableClassificationSchema,
-  interactiveMultipleChoiceSchema
+  interactiveMultipleChoiceSchema,
+  interactiveFillInCodeSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -259,6 +260,52 @@ describe('interactiveMultipleChoiceSchema', () => {
 
   it('fails to validate incorrect properties on object', () => {
     const valid = ajv.validate(interactiveMultipleChoiceSchema, badInteractiveMultipleChoicePropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
+
+describe('interactiveFillInCodeSchema', () => {
+  const interactiveFillInCodeObject = {
+    starterCode: {
+      language: 'javascript', // or 'python'
+      code: 'console.log("hello world!")'
+    },
+    commonResponses: [{
+      text: 'Hi world',
+      responseId: 'hi-world',
+      triggerArt: 'globe'
+    }]
+  }
+  const badInteractiveFillInCodeObject = ['not', 'an', 'object']
+  const badInteractiveFillInCodePropertiesObject = {
+    starterCode: {
+      language: ['javascript'],
+      code: 42
+    },
+    commonResponses: { hello: 'world!' }
+  }
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(interactiveFillInCodeSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(interactiveFillInCodeSchema, interactiveFillInCodeObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(interactiveFillInCodeSchema, badInteractiveFillInCodeObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(interactiveFillInCodeSchema, badInteractiveFillInCodePropertiesObject)
     expect(valid).toBe(false)
     expect(ajv.errors.length).toBe(1)
   })

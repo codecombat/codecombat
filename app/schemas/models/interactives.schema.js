@@ -100,28 +100,31 @@ const interactiveMultipleChoiceSchema = {
   }
 }
 
-// const interactiveFillInCodeSchema = {
-//   type: 'object',
-//   properties: {
-//     starterCode: {
-//       type: 'object', properties: {
-//         language: { "enum": ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
-//         code: { type: 'string' }
-//       },
-//       commonResponses: {
-//         type: "array", items: {
-//           type: 'object', properties: {
-//             text: { type: 'string' },
-//             responseId: { type: 'string' },
-//             triggerArt: { type: 'string' }
-//           }
-//         }
-//       },
-//     },
-//     solution: singleSolutionSchema
-//   }
-// }
-//
+const interactiveFillInCodeSchema = {
+  type: 'object',
+  properties: {
+    starterCode: {
+      type: 'object',
+      properties: {
+        language: { "enum": ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
+        code: { type: 'string' }
+      },
+      commonResponses: {
+        type: "array",
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+            responseId: { type: 'string' },
+            triggerArt: { type: 'string' }
+          }
+        }
+      }
+    },
+    solution: singleSolutionSchema
+  }
+}
+
 // const interactiveDraggableStatementCompletionSchema = {
 //   type: 'object',
 //   properties: _.extend({}, interactiveDraggableOrderingSchema.properties)
@@ -335,7 +338,7 @@ export {
   interactiveInsertCodeSchema,
   interactiveDraggableClassificationSchema,
   interactiveMultipleChoiceSchema,
-  // interactiveFillInCodeSchema,
+  interactiveFillInCodeSchema,
   // interactiveDraggableStatementCompletionSchema,
   //
   // // Submission
