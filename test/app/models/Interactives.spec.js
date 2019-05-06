@@ -11,7 +11,8 @@ import {
   interactiveDraggableStatementCompletionSchema,
   draggableOrderingSubmissionSchema,
   insertCodeSubmissionSchema,
-  draggableClassificationSubmissionSchema
+  draggableClassificationSubmissionSchema,
+  multipleChoiceSubmissionSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -398,7 +399,7 @@ describe('insertCodeSubmissionSchema', () => {
   const badInsertCodeSubmissionObject = 42
   const badInsertCodeSubmissionPropertiesObject = {
     submission: {
-      not: 'an array'
+      not: 'a string'
     }
   }
 
@@ -462,6 +463,47 @@ describe('draggableClassificationSubmissionSchema', () => {
 
   it('fails to validate incorrect properties on object', () => {
     const valid = ajv.validate(draggableClassificationSubmissionSchema, badDraggableClassificationSubmissionPropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
+
+describe('multipleChoiceSubmissionSchema', () => {
+  const multipleChoiceSubmissionObject = {
+    submission: 'id-1'
+  }
+  const badMultipleChoiceSubmissionObject = 42
+  const badMultipleChoiceSubmissionPropertiesObject = {
+    submission: {
+      not: 'a string'
+    }
+  }
+
+  beforeEach(() => {
+    // TODO: Understand why errors persist through from the last test suite, here
+    ajv.errors = null
+  })
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(multipleChoiceSubmissionSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(multipleChoiceSubmissionSchema, multipleChoiceSubmissionObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(multipleChoiceSubmissionSchema, badMultipleChoiceSubmissionObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(multipleChoiceSubmissionSchema, badMultipleChoiceSubmissionPropertiesObject)
     expect(valid).toBe(false)
     expect(ajv.errors.length).toBe(1)
   })
