@@ -82,24 +82,24 @@ const interactiveDraggableClassificationSchema = {
   }
 }
 
-//
-// const interactiveMultipleChoiceSchema = {
-//   type: 'object',
-//   properties: {
-//     choices: {
-//       type: "array"
-//     },
-//     items: {
-//       type: 'object'
-//     },
-//     properties: {
-//       text: { type:'string' },
-//       choiceId: { type: 'string' }
-//     }
-//   },
-//   solution: singleSolutionSchema
-// }
-//
+
+const interactiveMultipleChoiceSchema = {
+  type: 'object',
+  properties: {
+    choices: {
+      type: "array",
+      items: {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+          choiceId: { type: 'string' }
+        }
+      }
+    },
+    solution: singleSolutionSchema
+  }
+}
+
 // const interactiveFillInCodeSchema = {
 //   type: 'object',
 //   properties: {
@@ -117,8 +117,8 @@ const interactiveDraggableClassificationSchema = {
 //           }
 //         }
 //       },
-//       solution: singleSolutionSchema
-//     }
+//     },
+//     solution: singleSolutionSchema
 //   }
 // }
 //
@@ -334,7 +334,7 @@ export {
   interactiveDraggableOrderingSchema,
   interactiveInsertCodeSchema,
   interactiveDraggableClassificationSchema,
-  // interactiveMultipleChoiceSchema,
+  interactiveMultipleChoiceSchema,
   // interactiveFillInCodeSchema,
   // interactiveDraggableStatementCompletionSchema,
   //

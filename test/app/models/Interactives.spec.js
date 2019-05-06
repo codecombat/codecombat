@@ -5,7 +5,8 @@ import {
   singleSolutionSchema,
   classificationSolutionSchema,
   interactiveInsertCodeSchema,
-  interactiveDraggableClassificationSchema
+  interactiveDraggableClassificationSchema,
+  interactiveMultipleChoiceSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -180,7 +181,6 @@ describe('interactiveInsertCodeSchema', () => {
 
 describe('interactiveDraggableClassificationSchema', () => {
   const interactiveDraggableClassificationObject = {
-  // const badInteractiveDraggableClassificationPropertiesObject = {
     categories: [{
       categoryId: 'draggable-id',
       text: 'Something draggable'
@@ -192,7 +192,6 @@ describe('interactiveDraggableClassificationSchema', () => {
   }
   const badInteractiveDraggableClassificationObject = ['something', 'draggable']
   const badInteractiveDraggableClassificationPropertiesObject = {
-  // const interactiveDraggableClassificationObject = {
     categories: {
       categoryId: 'draggable-id',
       text: 'Something draggable'
@@ -224,3 +223,44 @@ describe('interactiveDraggableClassificationSchema', () => {
     expect(ajv.errors.length).toBe(1)
   })
 })
+
+describe('interactiveMultipleChoiceSchema', () => {
+  const interactiveMultipleChoiceObject = {
+    choices: [{
+      text: 'It is dangerous to go alone',
+      choiceId: 'wooden-sword'
+    }]
+  }
+  const badInteractiveMultipleChoiceObject = 'not an object'
+  const badInteractiveMultipleChoicePropertiesObject = {
+    choices: [{
+      text: ['not just text'],
+      choiceId: { not: 'a choiceId' }
+    }]
+  }
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(interactiveMultipleChoiceSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(interactiveMultipleChoiceSchema, interactiveMultipleChoiceObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(interactiveMultipleChoiceSchema, badInteractiveMultipleChoiceObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(interactiveMultipleChoiceSchema, badInteractiveMultipleChoicePropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
+
