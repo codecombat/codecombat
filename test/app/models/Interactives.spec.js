@@ -3,7 +3,8 @@ import {
   interactiveDraggableOrderingSchema,
   elementOrderingSolutionSchema,
   singleSolutionSchema,
-  classificationSolutionSchema
+  classificationSolutionSchema,
+  interactiveInsertCodeSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -18,7 +19,8 @@ describe('interactiveDraggableOrderingSchema', () => {
     }],
     solution: ['My first code solution', 'My second code solution']
   }
-  const badInteractiveDraggableObject = {
+  const badInteractiveDraggableObject = 'wrong'
+  const badInteractiveDraggablePropertiesObject = {
     labels: { not: 'an array '},
     elements: [{ text: { not: 'just a string' }, elementId: ['not just a string'] }],
     solution: 'not an array'
@@ -38,6 +40,12 @@ describe('interactiveDraggableOrderingSchema', () => {
 
   it('fails to validate an incorrect object', () => {
     const valid = ajv.validate(interactiveDraggableOrderingSchema, badInteractiveDraggableObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(interactiveDraggableOrderingSchema, badInteractiveDraggablePropertiesObject)
     expect(valid).toBe(false)
     expect(ajv.errors.length).toBe(1)
   })
@@ -89,24 +97,81 @@ describe('singleSolutionSchema', () => {
   })
 })
 
-describe('singleSolutionSchema', () => {
-  const singleSolutionObject = '42'
-  const badSingleSolutionObject = 42
+describe('classificationSolutionSchema', () => {
+  const interactiveInsertCodeObject = [{ categoryId: '42', elements: ['element1', 'element2'] }]
+  const badInteractiveInsertCodeObject = { answer: 'wrong' }
+  const badClassificationSolutionPropertiesObject = [{ categoryId: 42, elements: 'element1' }]
 
   it('compiles the schema', () => {
-    const validate = ajv.compile(singleSolutionSchema)
+    const validate = ajv.compile(classificationSolutionSchema)
     expect(typeof validate).toBe('function')
     expect(ajv.errors).toBe(null)
   })
 
   it('validates a correct object', () => {
-    const valid = ajv.validate(singleSolutionSchema, singleSolutionObject)
+    const valid = ajv.validate(classificationSolutionSchema, interactiveInsertCodeObject)
     expect(valid).toBe(true)
     expect(ajv.errors).toBe(null)
   })
 
   it('fails to validate an incorrect object', () => {
-    const valid = ajv.validate(singleSolutionSchema, badSingleSolutionObject)
+    const valid = ajv.validate(classificationSolutionSchema, badInteractiveInsertCodeObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(classificationSolutionSchema, badClassificationSolutionPropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
+
+describe('interactiveInsertCodeSchema', () => {
+
+  const interactiveInsertCodeObject = {
+    starterCode: {
+      language: 'python', // 'javascript'
+      code: 'run '
+    },
+    choices: [{
+      text: 'AWAY!!!',
+      choiceId: 'away',
+      triggerArt: 'running-away'
+    }]
+  }
+  const badInteractiveInsertCodeObject = 'it is only a rabbit'
+  const badInteractiveInsertCodePropertiesObject = {
+    starterCode: {
+      language: 'monty python'
+    },
+    choices: [{
+      text: 42,
+      choiceId: [42],
+      triggerArt: { 'fail?': 'yep' }
+    }]
+  }
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(interactiveInsertCodeSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(interactiveInsertCodeSchema, interactiveInsertCodeObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(interactiveInsertCodeSchema, badInteractiveInsertCodeObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(interactiveInsertCodeSchema, badInteractiveInsertCodePropertiesObject)
     expect(valid).toBe(false)
     expect(ajv.errors.length).toBe(1)
   })

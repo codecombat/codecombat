@@ -22,11 +22,36 @@ const singleSolutionSchema = { type: 'string' }  // choiceId/responseId of the c
 const classificationSolutionSchema = {
   type : 'array',
   items: {
-    type: 'object'
-  },
+    type: 'object',
+    properties: {
+      categoryId: { type: 'string' },
+      elements: { type: 'array', items: { type: 'string' }}  // list of elementIds belonging to the categoryId
+    }
+  }
+}
+
+const interactiveInsertCodeSchema = {
+  type: 'object',
   properties: {
-    categoryId: { type: 'string' },
-    elements: { type: 'array', items: { type: 'string' }}  // list of elementIds belonging to the categoryId
+    starterCode: {
+      type: 'object',
+      properties: {
+        language: { "enum": ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
+        code: { type: 'string' }
+      },
+      choices: {
+        type: "array",
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+            choiceId: { type: 'string' },
+            triggerArt: { type: 'string' }
+          }
+        }
+      }
+    },
+    solution: singleSolutionSchema
   }
 }
 
@@ -34,24 +59,25 @@ const classificationSolutionSchema = {
 //   type: 'object',
 //   properties: {
 //     starterCode: {
-//       type: 'object'
-//     },
-//     properties: {
-//       language: { "enum" : ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
-//       code: { type: 'string' }
+//       type: 'object',
+//       properties: {
+//         language: { "enum": ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
+//         code: { type: 'string' }
+//       },
 //     },
 //     choices: { type: "array" },
-//     items: { type: 'object' },
-//     // broken json here
-//     properties: {
-//       text: { type:'string' },
-//       choiceId: { type: 'string' },
-//       triggerArt: { type: 'string' }
-//     }
-//   },
-//   solution: singleSolutionSchema
+//     items: {
+//       type: 'object',
+//       properties: {
+//         text: { type: 'string' },
+//         choiceId: { type: 'string' },
+//         triggerArt: { type: 'string' }
+//       },
+//     },
+//     solution: singleSolutionSchema
+//   }
 // }
-//
+
 // // weird structure
 // const interactiveDraggableClassificationSchema = {
 //   type: 'object',
@@ -329,7 +355,7 @@ export {
 
   // Interactive
   interactiveDraggableOrderingSchema,
-  // interactiveInsertCodeSchema,
+  interactiveInsertCodeSchema,
   // interactiveDraggableClassificationSchema,
   // interactiveMultipleChoiceSchema,
   // interactiveFillInCodeSchema,
