@@ -133,13 +133,13 @@ const interactiveDraggableStatementCompletionSchema = {
   properties: _.extend({}, interactiveDraggableOrderingSchema.properties)
 }
 
-// const draggableOrderingSubmissionSchema = {
-//   type: 'object',
-//   properties: {
-//     submission: interactiveDraggableOrderingSchema.properties.solution
-//   }
-// }
-//
+const draggableOrderingSubmissionSchema = {
+  type: 'object',
+  properties: {
+    submission: interactiveDraggableOrderingSchema.properties.solution
+  }
+}
+
 // const insertCodeSubmissionSchema = {
 //   type: 'object',
 //   properties: {
@@ -303,7 +303,7 @@ const interactiveDraggableStatementCompletionSchema = {
 // // Validation to be done:
 // // finalSubmission should exist only if complete: true
 //
-// const InteractiveSessionSchema = {
+// const interactiveSessionSchema = {
 //   type: 'object',
 //   properties: {
 //     interactiveId: { type: 'string' },
@@ -344,15 +344,16 @@ export {
   interactiveFillInCodeSchema,
   interactiveDraggableStatementCompletionSchema,
 
-  // // Submission
-  // draggableOrderingSubmissionSchema,
+  // Submission
+  draggableOrderingSubmissionSchema,
   // insertCodeSubmissionSchema,
   // draggableClassificationSubmissionSchema,
   // multipleChoiceSubmissionSchema,
   // fillInCodeSubmissionSchema,
   // draggableStatementCompletionSubmissionSchema,
-  //
-  // InteractiveSchema,
+
+  // Combined
+  // interactiveSchema,
   // submissionSchema,
-  // InteractiveSessionSchema,
+  // interactiveSessionSchema
 }

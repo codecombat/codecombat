@@ -8,7 +8,8 @@ import {
   interactiveDraggableClassificationSchema,
   interactiveMultipleChoiceSchema,
   interactiveFillInCodeSchema,
-  interactiveDraggableStatementCompletionSchema
+  interactiveDraggableStatementCompletionSchema,
+  draggableOrderingSubmissionSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -310,7 +311,6 @@ describe('interactiveFillInCodeSchema', () => {
   })
 })
 
-
 describe('interactiveDraggableStatementCompletionSchema', () => {
   const interactiveDraggableStatementCompletionObject = {
     labels: ['hello', 'world'],
@@ -355,3 +355,36 @@ describe('interactiveDraggableStatementCompletionSchema', () => {
   })
 })
 
+describe('draggableOrderingSubmissionSchema', () => {
+  const draggableOrderingSubmissionObject = {
+    submission: ['id-1', 'id-2']
+  }
+  const badDraggableOrderingSubmissionObject = 'not an array'
+  const badDraggableOrderingSubmissionPropertiesObject = {
+    submission: 'not an array'
+  }
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(draggableOrderingSubmissionSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(draggableOrderingSubmissionSchema, draggableOrderingSubmissionObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(draggableOrderingSubmissionSchema, badDraggableOrderingSubmissionObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(draggableOrderingSubmissionSchema, badDraggableOrderingSubmissionPropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
