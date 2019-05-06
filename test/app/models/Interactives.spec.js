@@ -12,7 +12,8 @@ import {
   draggableOrderingSubmissionSchema,
   insertCodeSubmissionSchema,
   draggableClassificationSubmissionSchema,
-  multipleChoiceSubmissionSchema
+  multipleChoiceSubmissionSchema,
+  fillInCodeSubmissionSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -329,7 +330,7 @@ describe('interactiveDraggableStatementCompletionSchema', () => {
   }
 
   beforeEach(() => {
-    // TODO: Understand why errors persist through from the last test suite, here
+    // TODO: Fix error that occurs when we compile two schemas similar to each other in a row
     ajv.errors = null
   })
 
@@ -480,7 +481,7 @@ describe('multipleChoiceSubmissionSchema', () => {
   }
 
   beforeEach(() => {
-    // TODO: Understand why errors persist through from the last test suite, here
+    // TODO: Fix error that occurs when we compile two schemas similar to each other in a row
     ajv.errors = null
   })
 
@@ -504,6 +505,47 @@ describe('multipleChoiceSubmissionSchema', () => {
 
   it('fails to validate incorrect properties on object', () => {
     const valid = ajv.validate(multipleChoiceSubmissionSchema, badMultipleChoiceSubmissionPropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
+
+describe('fillInCodeSubmissionSchema', () => {
+  const fillInCodeSubmissionObject = {
+    submission: 'id-1'
+  }
+  const badFillInCodeSubmissionObject = 42
+  const badFillInCodeSubmissionPropertiesObject= {
+    submission: {
+      not: 'a string'
+    }
+  }
+
+  beforeEach(() => {
+    // TODO: Fix error that occurs when we compile two schemas similar to each other in a row
+    ajv.errors = null
+  })
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(fillInCodeSubmissionSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(fillInCodeSubmissionSchema, fillInCodeSubmissionObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(fillInCodeSubmissionSchema, badFillInCodeSubmissionObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(fillInCodeSubmissionSchema, badFillInCodeSubmissionPropertiesObject)
     expect(valid).toBe(false)
     expect(ajv.errors.length).toBe(1)
   })
