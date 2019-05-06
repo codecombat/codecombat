@@ -7,7 +7,8 @@ import {
   interactiveInsertCodeSchema,
   interactiveDraggableClassificationSchema,
   interactiveMultipleChoiceSchema,
-  interactiveFillInCodeSchema
+  interactiveFillInCodeSchema,
+  interactiveDraggableStatementCompletionSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -19,14 +20,12 @@ describe('interactiveDraggableOrderingSchema', () => {
     elements: [{
       text: 'hello world',
       elementId: 'this-is-my-id!'
-    }],
-    solution: ['My first code solution', 'My second code solution']
+    }]
   }
   const badInteractiveDraggableObject = 'wrong'
   const badInteractiveDraggablePropertiesObject = {
     labels: { not: 'an array '},
-    elements: [{ text: { not: 'just a string' }, elementId: ['not just a string'] }],
-    solution: 'not an array'
+    elements: [{ text: { not: 'just a string' }, elementId: ['not just a string'] }]
   }
 
   it('compiles the schema', () => {
@@ -306,6 +305,51 @@ describe('interactiveFillInCodeSchema', () => {
 
   it('fails to validate incorrect properties on object', () => {
     const valid = ajv.validate(interactiveFillInCodeSchema, badInteractiveFillInCodePropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
+
+
+describe('interactiveDraggableStatementCompletionSchema', () => {
+  const interactiveDraggableStatementCompletionObject = {
+    labels: ['hello', 'world'],
+    elements: [{
+      text: 'hello world',
+      elementId: 'hello-world'
+    }]
+  }
+  const badInteractiveDraggableStatementCompletionObject = ['not', 'correct']
+  const badInteractiveDraggableStatementCompletionPropertiesObject = {
+    labels: 'not an array',
+    elements: [{ text: { not: 'a string' }, elementId: 42 }]
+  }
+
+  beforeEach(() => {
+    // TODO: Understand why errors persist through from the last test suite, here
+    ajv.errors = null
+  })
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(interactiveDraggableStatementCompletionSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(interactiveDraggableStatementCompletionSchema, interactiveDraggableStatementCompletionObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(interactiveDraggableStatementCompletionSchema, badInteractiveDraggableStatementCompletionObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(interactiveDraggableStatementCompletionSchema, badInteractiveDraggableStatementCompletionPropertiesObject)
     expect(valid).toBe(false)
     expect(ajv.errors.length).toBe(1)
   })

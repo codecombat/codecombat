@@ -6,7 +6,10 @@ const interactiveDraggableOrderingSchema = {
   type: 'object',
   properties: {
     labels: { type: 'array', items: { type: 'string' }},
-    elements: { type: 'array', items: { type: 'object',
+    elements: {
+      type: 'array',
+      items: {
+        type: 'object',
         properties: {
           text: { type: 'string' },
           elementId: { type: 'string' }
@@ -125,11 +128,11 @@ const interactiveFillInCodeSchema = {
   }
 }
 
-// const interactiveDraggableStatementCompletionSchema = {
-//   type: 'object',
-//   properties: _.extend({}, interactiveDraggableOrderingSchema.properties)
-// }
-//
+const interactiveDraggableStatementCompletionSchema = {
+  type: 'object',
+  properties: _.extend({}, interactiveDraggableOrderingSchema.properties)
+}
+
 // const draggableOrderingSubmissionSchema = {
 //   type: 'object',
 //   properties: {
@@ -339,8 +342,8 @@ export {
   interactiveDraggableClassificationSchema,
   interactiveMultipleChoiceSchema,
   interactiveFillInCodeSchema,
-  // interactiveDraggableStatementCompletionSchema,
-  //
+  interactiveDraggableStatementCompletionSchema,
+
   // // Submission
   // draggableOrderingSubmissionSchema,
   // insertCodeSubmissionSchema,
