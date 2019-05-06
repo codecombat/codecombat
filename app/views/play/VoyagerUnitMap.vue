@@ -38,7 +38,7 @@ export default Vue.extend({
     levels: {},
     classroomLevelMap: {},
     classroom: {},
-    levelSessions: {},
+    levelSessions: [],
     levelStatusMap: {},
   }),
   components: {

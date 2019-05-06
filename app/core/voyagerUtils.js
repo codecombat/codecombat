@@ -41,7 +41,8 @@ module.exports = {
    * Gets the next level original ids for a given level
    * @param {Object} level - The level object.
    * @param {Object[]} level.nextLevels - The array of nextLevels for the given level.
-   * @returns {string[]]} - Array of next level 'Original' ids.
+   * @param {string} level.nextLevels[].levelOriginal - Original id of the next level.
+   * @returns {string[]} - Array of next level 'Original' ids.
    */
   getNextLevelOriginalForLevel: function (level) {
     const nextLevels = level.nextLevels
@@ -58,6 +59,7 @@ module.exports = {
    * @param {Object[]} sessions - The list of level session objects.
    * @param {Object[]|Object} levels - The list of level objects, or an object with keys as level original id and value as level data.
    * @param {Object[]} levels.nextLevels - The array of nextLevels for a level.
+   * @param {string} levels.nextLevels[].levelOriginal - Original id of the next level.
    * @param {Object} levels.position - The object containing position of a level.
    * @param {boolean} levels.first - Value to determine if a level is the first level of classroom/campaign.
    * @param {Object} levelStatusMap - Optional. Object with key as the level original id, and value as complete/started.
