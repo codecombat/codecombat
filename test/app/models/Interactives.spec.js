@@ -14,7 +14,10 @@ import {
   draggableClassificationSubmissionSchema,
   multipleChoiceSubmissionSchema,
   fillInCodeSubmissionSchema,
-  draggableStatementCompletionSubmissionSchema
+  draggableStatementCompletionSubmissionSchema,
+  interactiveSchema,
+  submissionSchema,
+  interactiveSessionSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -592,4 +595,30 @@ describe('draggableStatementCompletionSubmissionSchema', () => {
   })
 })
 
+// TODO: Validate an object as well
+describe('interactiveSchema', () => {
+  it('compiles the schema', () => {
+    const validate = ajv.compile(interactiveSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+})
+
+// TODO: Validate an object as well
+describe('submissionSchema', () => {
+  it('compiles the schema', () => {
+    const validate = ajv.compile(submissionSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+})
+
+// TODO: Validate an object as well
+describe('interactiveSessionSchema', () => {
+  it('compiles the schema', () => {
+    const validate = ajv.compile(interactiveSessionSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+})
 

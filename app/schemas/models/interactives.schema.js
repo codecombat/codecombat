@@ -175,160 +175,156 @@ const draggableStatementCompletionSubmissionSchema = {
   }
 }
 
-// const InteractiveSchema = {
-//   type: 'object',
-//   properties: {
-//     type: {
-//       "enum" : ["draggable-ordering", "insert-code", "draggable-classification", "multiple-choice", "fill-in-code", "draggable-statement-completion"]
-//     },
-//     feedbackList: { // TBD
-//       type: 'array'
-//     },
-//     artAssets: {  // TBD
-//       type: 'array'
-//     },
-//     promptText: {type: 'string'},
-//     unitCodeLanguage: { "enum" : ["python", "javascript", "both"] }, // to allow content to be same/different for different languages
-//     allOf: [
-//       {
-//         if: {
-//           "properties": { "type": { "const": "draggable-ordering" } }
-//         },
-//         then: {
-//           "properties": { "interactiveData": interactiveDraggableOrderingSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "insert-code" } }
-//         },
-//         then: {
-//           "properties": { "interactiveData": interactiveInsertCodeSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "draggable-classification" } }
-//         },
-//         then: {
-//           "properties": { "interactiveData": interactiveDraggableClassificationSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "multiple-choice" } }
-//         },
-//         then: {
-//           "properties": { "interactiveData": interactiveMultipleChoiceSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "fill-in-code" } }
-//         },
-//         then: {
-//           "properties": { "interactiveData": interactiveFillInCodeSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "draggable-statement-completion" } }
-//         },
-//         then: {
-//           "properties": { "interactiveData": interactiveDraggableStatementCompletionSchema }
-//         }
-//       }
-//     ]
-//   }
-// }
-//
-// const submissionSchema = {
-//   type: 'object',
-//   properties: {
-//     allOf: [
-//       {
-//         if: {
-//           "properties": { "type": { "const": "draggable-ordering" } }
-//         },
-//         then: {
-//           "properties": { "submission": draggableOrderingSubmissionSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "insert-code" } }
-//         },
-//         then: {
-//           "properties": { "submission": insertCodeSubmissionSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "draggable-classification" } }
-//         },
-//         then: {
-//           "properties": { "submission": draggableClassificationSubmissionSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "multiple-choice" } }
-//         },
-//         then: {
-//           "properties": { "submission": multipleChoiceSubmissionSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "fill-in-code" } }
-//         },
-//         then: {
-//           "properties": { "submission": fillInCodeSubmissionSchema }
-//         }
-//       },
-//       {
-//         if: {
-//           "properties": { "type": { "const": "draggable-statement-completion" } }
-//         },
-//         then: {
-//           "properties": { "submission": draggableStatementCompletionSubmissionSchema }
-//         }
-//       }
-//     ]
-//   }
-// }
-//
-// // Interactive Session Schema
-// //
-// // Validation to be done:
-// // finalSubmission should exist only if complete: true
-//
-// const interactiveSessionSchema = {
-//   type: 'object',
-//   properties: {
-//     interactiveId: { type: 'string' },
-//     type: {
-//       "enum": ["draggable-ordering", "insert-code", "draggable-classification", "multiple-choice", "fill-in-code", "draggable-statement-completion"]
-//     },
-//     userId: { type: 'string' },
-//     sessionCodeLanguage: { "enum": ["python", "javascript"] },  // save this from the course instance language
-//     noOfSubmissions: { type: 'number' },
-//     complete: { type: 'boolean' },
-//     finalSubmission: submissionSchema,  // only if complete:true
-//     firstSubmission: {
-//       type: 'object', properties: {
-//         correct: { type: 'boolean' },
-//         submission: submissionSchema,
-//         if: {
-//           "properties": { "type": { "enum": ["draggable-classification", "draggable-ordering"] }}
-//         },
-//         then: {
-//           "properties": { "noOfCorrect": { type: 'number' }}
-//         }
-//       }
-//     }
-//   }
-// }
+
+
+const interactiveSchema = {
+  type: 'object',
+  properties: {
+    interactiveType: {
+      "enum" : ["draggable-ordering", "insert-code", "draggable-classification", "multiple-choice", "fill-in-code", "draggable-statement-completion"]
+    },
+    feedbackList: { // TBD
+      type: 'array'
+    },
+    artAssets: {  // TBD
+      type: 'array'
+    },
+    promptText: {type: 'string'},
+    unitCodeLanguage: { "enum" : ["python", "javascript", "both"] }, // to allow content to be same/different for different languages
+  },
+  allOf: [
+    {
+      if: {
+        "properties": { "interactiveType": { "type": "number" } }
+      },
+      then: {
+        "properties": { "interactiveData": interactiveDraggableOrderingSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "interactiveType": { "const": "insert-code" } }
+      },
+      then: {
+        "properties": { "interactiveData": interactiveInsertCodeSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "interactiveType": { "const": "draggable-classification" } }
+      },
+      then: {
+        "properties": { "interactiveData": interactiveDraggableClassificationSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "interactiveType": { "const": "multiple-choice" } }
+      },
+      then: {
+        "properties": { "interactiveData": interactiveMultipleChoiceSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "interactiveType": { "const": "fill-in-code" } }
+      },
+      then: {
+        "properties": { "interactiveData": interactiveFillInCodeSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "interactiveType": { "const": "draggable-statement-completion" } }
+      },
+      then: {
+        "properties": { "interactiveData": interactiveDraggableStatementCompletionSchema }
+      }
+    }
+  ]
+}
+
+const submissionSchema = {
+  type: 'object',
+  allOf: [
+    {
+      if: {
+        "properties": { "type": { "const": "draggable-ordering" } }
+      },
+      then: {
+        "properties": { "submission": draggableOrderingSubmissionSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "type": { "const": "insert-code" } }
+      },
+      then: {
+        "properties": { "submission": insertCodeSubmissionSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "type": { "const": "draggable-classification" } }
+      },
+      then: {
+        "properties": { "submission": draggableClassificationSubmissionSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "type": { "const": "multiple-choice" } }
+      },
+      then: {
+        "properties": { "submission": multipleChoiceSubmissionSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "type": { "const": "fill-in-code" } }
+      },
+      then: {
+        "properties": { "submission": fillInCodeSubmissionSchema }
+      }
+    },
+    {
+      if: {
+        "properties": { "type": { "const": "draggable-statement-completion" } }
+      },
+      then: {
+        "properties": { "submission": draggableStatementCompletionSubmissionSchema }
+      }
+    }
+  ]
+}
+
+const interactiveSessionSchema = {
+  type: 'object',
+  properties: {
+    interactiveId: { type: 'string' },
+    type: {
+      "enum": ["draggable-ordering", "insert-code", "draggable-classification", "multiple-choice", "fill-in-code", "draggable-statement-completion"]
+    },
+    userId: { type: 'string' },
+    sessionCodeLanguage: { "enum": ["python", "javascript"] },  // save this from the course instance language
+    noOfSubmissions: { type: 'number' },
+    complete: { type: 'boolean' },
+    finalSubmission: submissionSchema,  // only if complete:true
+    firstSubmission: {
+      type: 'object',
+      properties: {
+        correct: { type: 'boolean' },
+        submission: submissionSchema,
+        if: {
+          "properties": { "type": { "enum": ["draggable-classification", "draggable-ordering"] }}
+        },
+        then: {
+          "properties": { "noOfCorrect": { type: 'number' }}
+        }
+      }
+    }
+  }
+}
 
 export {
   // Solution
@@ -353,7 +349,7 @@ export {
   draggableStatementCompletionSubmissionSchema,
 
   // Combined
-  // interactiveSchema,
-  // submissionSchema,
-  // interactiveSessionSchema
+  interactiveSchema,
+  submissionSchema,
+  interactiveSessionSchema
 }
