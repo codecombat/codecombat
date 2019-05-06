@@ -9,7 +9,8 @@ import {
   interactiveMultipleChoiceSchema,
   interactiveFillInCodeSchema,
   interactiveDraggableStatementCompletionSchema,
-  draggableOrderingSubmissionSchema
+  draggableOrderingSubmissionSchema,
+  insertCodeSubmissionSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -384,6 +385,42 @@ describe('draggableOrderingSubmissionSchema', () => {
 
   it('fails to validate incorrect properties on object', () => {
     const valid = ajv.validate(draggableOrderingSubmissionSchema, badDraggableOrderingSubmissionPropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
+
+describe('insertCodeSubmissionSchema', () => {
+  const insertCodeSubmissionObject = {
+    submission: 'id-1'
+  }
+  const badInsertCodeSubmissionObject = 42
+  const badInsertCodeSubmissionPropertiesObject = {
+    submission: {
+      not: 'an array'
+    }
+  }
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(insertCodeSubmissionSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(insertCodeSubmissionSchema, insertCodeSubmissionObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(insertCodeSubmissionSchema, badInsertCodeSubmissionObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(insertCodeSubmissionSchema, badInsertCodeSubmissionPropertiesObject)
     expect(valid).toBe(false)
     expect(ajv.errors.length).toBe(1)
   })
