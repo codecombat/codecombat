@@ -119,8 +119,6 @@ export default Vue.extend({
         const courseInstance = await api.courseInstances.get({courseInstanceID: this.courseInstanceId})
         const courseId = this.courseId = courseInstance.courseID
         const classroomId = courseInstance.classroomID
-
-        const courseLevelSessions = await api.courseInstances.getSessions({courseInstanceID: this.courseInstanceId})
         
         // campaign snapshot of the levels
         const existingCampaignLevels = this.campaignData.levels
