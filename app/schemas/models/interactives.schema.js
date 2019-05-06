@@ -147,13 +147,13 @@ const insertCodeSubmissionSchema = {
   }
 }
 
-// const draggableClassificationSubmissionSchema = {
-//   type: 'object',
-//   properties: {
-//     submission: interactiveDraggableClassificationSchema.properties.solution,
-//   }
-// }
-//
+const draggableClassificationSubmissionSchema = {
+  type: 'object',
+  properties: {
+    submission: interactiveDraggableClassificationSchema.properties.solution,
+  }
+}
+
 // const multipleChoiceSubmissionSchema = {
 //   type: 'object',
 //   properties: {
@@ -347,7 +347,7 @@ export {
   // Submission
   draggableOrderingSubmissionSchema,
   insertCodeSubmissionSchema,
-  // draggableClassificationSubmissionSchema,
+  draggableClassificationSubmissionSchema,
   // multipleChoiceSubmissionSchema,
   // fillInCodeSubmissionSchema,
   // draggableStatementCompletionSubmissionSchema,
