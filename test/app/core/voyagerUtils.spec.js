@@ -26,12 +26,8 @@ function makeLevels (numberOfLevels) {
 // if length of `states` is 3 and length of `levels` is 4, then 4th level doesnt have a level session
 function makeLevelSessions (levels, state) {
   const sessions = []
-  let stateIndex = 0
-  for (const level of levels) {
-    if (state[stateIndex]) {
-      sessions.push(factories.makeLevelSession({ state: state[stateIndex] }, { level, creator: me }))
-    }
-    stateIndex++
+  for (let i = 0; i < state.length; i++) {
+    sessions.push(factories.makeLevelSession({ state: state[i] }, { level: levels[i], creator: me }))
   }
   return sessions // array of session objects
 }
