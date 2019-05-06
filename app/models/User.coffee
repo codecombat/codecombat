@@ -282,15 +282,9 @@ module.exports = class User extends CocoModel
     return me.get('testGroupNumber') % numVideos
 
   getHomePageTestGroup: () ->
+    return  # ending A/B test on homepage for now.
     return unless me.get('country') == 'united-states'
-    groupNumber = me.get('testGroupNumberUS')
-    # testGroupNumberUS is a random number from 0-255, dividing into 40%-40%-20%
-    if groupNumber >= 0 and groupNumber < 102  # first 40% of 256
-      return "A"
-    else if groupNumber >= 102 and groupNumber < 204  # next 40% of 256
-      return "B"
-    else  # remaining 20% of 256 
-      return "C"
+    # testGroupNumberUS is a random number from 0-255, use it to run A/B tests for US users.
 
   hasSubscription: ->
     return false if me.isStudent() or me.isTeacher()

@@ -127,7 +127,7 @@ module.exports = class TeacherClassesView extends RootView
           @calculateQuestCompletion()
           @render()
 
-    window.tracker?.trackEvent 'Teachers Classes Loaded', { category: 'Teachers', trackABResult: true }, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
 
     @courses = new Courses()
     @courses.fetch()
@@ -232,7 +232,7 @@ module.exports = class TeacherClassesView extends RootView
 
   openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin
-    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', { category: 'Teachers', trackABResult: true }, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers', ['Mixpanel']
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)

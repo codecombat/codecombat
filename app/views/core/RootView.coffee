@@ -80,7 +80,6 @@ module.exports = class RootView extends CocoView
       when 'home-view'
         properties = {
           category: 'Homepage'
-          trackABResult: true
         }
         window.tracker?.trackEvent('Started Signup', properties, [])
         eventAction = $(e.target)?.data('event-action')
