@@ -55,56 +55,33 @@ const interactiveInsertCodeSchema = {
   }
 }
 
-// const interactiveInsertCodeSchema = {
-//   type: 'object',
-//   properties: {
-//     starterCode: {
-//       type: 'object',
-//       properties: {
-//         language: { "enum": ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
-//         code: { type: 'string' }
-//       },
-//     },
-//     choices: { type: "array" },
-//     items: {
-//       type: 'object',
-//       properties: {
-//         text: { type: 'string' },
-//         choiceId: { type: 'string' },
-//         triggerArt: { type: 'string' }
-//       },
-//     },
-//     solution: singleSolutionSchema
-//   }
-// }
+const interactiveDraggableClassificationSchema = {
+  type: 'object',
+  properties: {
+    categories: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          categoryId: { type: 'string' },
+          text: { type: 'string' }
+        }
+      }
+    },
+    elements: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+          elementId: { type: 'string' }
+        }
+      }
+    },
+    solution: classificationSolutionSchema
+  }
+}
 
-// // weird structure
-// const interactiveDraggableClassificationSchema = {
-//   type: 'object',
-//   properties: {
-//     categories: {
-//       type: 'array'
-//     },
-//     items: {
-//       type: 'object'
-//     },
-//     properties: {
-//       categoryId: { type: 'string' },
-//       text: { type: 'string' }
-//     }
-//   },
-//   elements: {
-//     type: 'array'
-//   },
-//   items: {
-//     type: 'object',
-//     properties: {
-//       text: { type: 'string' },
-//       elementId: { type: 'string' }
-//     }
-//   },
-//   solution: classificationSolutionSchema
-// }
 //
 // const interactiveMultipleChoiceSchema = {
 //   type: 'object',
@@ -356,7 +333,7 @@ export {
   // Interactive
   interactiveDraggableOrderingSchema,
   interactiveInsertCodeSchema,
-  // interactiveDraggableClassificationSchema,
+  interactiveDraggableClassificationSchema,
   // interactiveMultipleChoiceSchema,
   // interactiveFillInCodeSchema,
   // interactiveDraggableStatementCompletionSchema,

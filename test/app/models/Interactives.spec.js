@@ -4,7 +4,8 @@ import {
   elementOrderingSolutionSchema,
   singleSolutionSchema,
   classificationSolutionSchema,
-  interactiveInsertCodeSchema
+  interactiveInsertCodeSchema,
+  interactiveDraggableClassificationSchema
 } from '../../../app/schemas/models/interactives.schema'
 import Ajv from 'ajv'
 
@@ -128,7 +129,6 @@ describe('classificationSolutionSchema', () => {
 })
 
 describe('interactiveInsertCodeSchema', () => {
-
   const interactiveInsertCodeObject = {
     starterCode: {
       language: 'python', // 'javascript'
@@ -178,3 +178,49 @@ describe('interactiveInsertCodeSchema', () => {
 })
 
 
+describe('interactiveDraggableClassificationSchema', () => {
+  const interactiveDraggableClassificationObject = {
+  // const badInteractiveDraggableClassificationPropertiesObject = {
+    categories: [{
+      categoryId: 'draggable-id',
+      text: 'Something draggable'
+    }],
+    elements: [{
+      text: 'Draggable number one',
+      elementId: 'draggable-1'
+    }]
+  }
+  const badInteractiveDraggableClassificationObject = ['something', 'draggable']
+  const badInteractiveDraggableClassificationPropertiesObject = {
+  // const interactiveDraggableClassificationObject = {
+    categories: {
+      categoryId: 'draggable-id',
+      text: 'Something draggable'
+    },
+    elements: 'only one element'
+  }
+
+  it('compiles the schema', () => {
+    const validate = ajv.compile(interactiveDraggableClassificationSchema)
+    expect(typeof validate).toBe('function')
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('validates a correct object', () => {
+    const valid = ajv.validate(interactiveDraggableClassificationSchema, interactiveDraggableClassificationObject)
+    expect(valid).toBe(true)
+    expect(ajv.errors).toBe(null)
+  })
+
+  it('fails to validate an incorrect object', () => {
+    const valid = ajv.validate(interactiveDraggableClassificationSchema, badInteractiveDraggableClassificationObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+
+  it('fails to validate incorrect properties on object', () => {
+    const valid = ajv.validate(interactiveDraggableClassificationSchema, badInteractiveDraggableClassificationPropertiesObject)
+    expect(valid).toBe(false)
+    expect(ajv.errors.length).toBe(1)
+  })
+})
