@@ -87,6 +87,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     classroom_edition: "Έκδοση Αίθουσας Διδασκαλίας:"
     learn_to_code: "Μάθε να προγραμματίζεις:"
     play_now: "Παίξε Τώρα"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Είμαι Δάσκαλος"
     im_a_student: "Είμαι Μαθητής"
     learn_more: "Μάθε περισσότερα"
@@ -146,6 +147,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     view_progress: "Προβολή της Προόδου"
     go_to_courses: "Εμφάνισε τα Μαθήματά Μου"
     want_coco: "Θέλετε το CodeCombat στο σχολείο σας;"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +172,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     twitter_follow: "Ακολούθησε"
     my_classrooms: "Οι Τάξεις Μου"
     my_courses: "Τα Μαθήματά Μου"
+#    my_teachers: "My Teachers"
     careers: "Καριέρες"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1568,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -1577,6 +1582,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     code: "Κώδικας του __name__"
     complete_solution: "Ολοκληρωμένη Λύση"
     course_not_started: "Ο μαθητής δεν έχει ξεκινήσει αυτό το μάθημα ακόμα."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1787,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     gd3_curriculum_desc: "Σχέδια μαθήματος για την Ανάπτυξη Παιχνιδιού 3."
     wd1: "Ανάπτυξη Ιστού 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
     wd1_headlines: "Δραστηριότητες με Τίτλους και Επικεφαλίδες"
     wd1_headlines_example: "Προβολή λύσης παράδειγμα"
     wd1_headlines_desc: "Γιατί είναι σημαντικές οι παράγραφοι και οι ετικέτες επικεφαλίδας; Χρησιμοποιήστε αυτήν τη δραστηριότητα για να δείξετε κατά πόσο καλά οι επιλεγμένες επικεφαλίδες κάνουν τις ιστοσελίδες πιο ευανάγνωστες. Υπάρχουν πολλές σωστές λύσεις!"
@@ -2222,6 +2231,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Τελευταίο Απόκτημα"
@@ -2808,3 +2818,19 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
