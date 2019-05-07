@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import voyagerUnitMap from 'views/play/VoyagerUnitMap'
+import ozariaUnitMap from 'views/play/OzariaUnitMap'
 import factories from 'test/app/factories'
 import Levels from 'collections/Levels'
 import CourseInstance from 'collections/CourseInstances'
@@ -7,7 +7,7 @@ import Course from 'collections/Courses'
 import api from 'core/api'
 
 const createComponent = (values = {}) => {
-  return mount(voyagerUnitMap, {
+  return mount(ozariaUnitMap, {
     propsData: values
   })
 }
@@ -39,7 +39,7 @@ const sessions = []
 let unitMapHomeWrapper = {}
 let unitMapClassroomWrapper = {}
 
-describe('Voyager Unit Map Page for Classroom users', () => {
+describe('Ozaria Unit Map Page for Classroom users', () => {
   beforeEach((done) => {
     spyOn(api.users, 'getLevelSessions').and.returnValue(Promise.resolve(sessions))
     spyOn(api.campaigns, 'get').and.returnValue(Promise.resolve(campaign))
@@ -81,7 +81,7 @@ describe('Voyager Unit Map Page for Classroom users', () => {
   })
 })
 
-describe('Voyager Unit Map Page for Home users', () => {
+describe('Ozaria Unit Map Page for Home users', () => {
   beforeEach((done) => {
     spyOn(api.users, 'getLevelSessions').and.returnValue(Promise.resolve(sessions))
     spyOn(api.campaigns, 'get').and.returnValue(Promise.resolve(campaign))

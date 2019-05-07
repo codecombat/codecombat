@@ -1,4 +1,4 @@
-import voyagerUtils from '../../../app/core/voyagerUtils'
+import ozariaUtils from '../../../app/core/ozariaUtils'
 import factories from 'test/app/factories'
 import Levels from 'collections/Levels'
 
@@ -32,7 +32,7 @@ function makeLevelSessions (levels, state) {
   return sessions // array of session objects
 }
 
-describe('voyager utilities', () => {
+describe('ozaria utilities', () => {
   describe('findNextLevelsBySession returns an array of next level original ids for a given list of levels based on level sessions', () => {
     beforeEach(() => {
       me.set(factories.makeUser().attributes)
@@ -44,7 +44,7 @@ describe('voyager utilities', () => {
       const levels = makeLevels(4)
       const sessions = makeLevelSessions(levels, [{ complete: true }, { complete: true }, { complete: false }])
       const expectedNextLevel = levels[2]
-      const nextLevelOriginal = voyagerUtils.findNextLevelsBySession(sessions, levels)
+      const nextLevelOriginal = ozariaUtils.findNextLevelsBySession(sessions, levels)
       expect(nextLevelOriginal.length).toBe(1)
       expect(nextLevelOriginal[0]).toEqual(expectedNextLevel.get('original'))
     })
@@ -53,7 +53,7 @@ describe('voyager utilities', () => {
       const levels = makeLevels(4)
       const sessions = makeLevelSessions(levels, [{ complete: false }])
       const expectedNextLevel = levels[0]
-      const nextLevelOriginal = voyagerUtils.findNextLevelsBySession(sessions, levels)
+      const nextLevelOriginal = ozariaUtils.findNextLevelsBySession(sessions, levels)
       expect(nextLevelOriginal.length).toBe(1)
       expect(nextLevelOriginal[0]).toEqual(expectedNextLevel.get('original'))
     })
@@ -62,7 +62,7 @@ describe('voyager utilities', () => {
       const levels = makeLevels(4)
       const sessions = makeLevelSessions(levels, [])
       const expectedNextLevel = levels.find((l) => l.get('first')) // first level will be next level
-      const nextLevelOriginal = voyagerUtils.findNextLevelsBySession(sessions, levels)
+      const nextLevelOriginal = ozariaUtils.findNextLevelsBySession(sessions, levels)
       expect(nextLevelOriginal.length).toBe(1)
       expect(nextLevelOriginal[0]).toEqual(expectedNextLevel.get('original'))
     })

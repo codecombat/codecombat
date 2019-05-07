@@ -1,7 +1,7 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
 utils = require '../core/utils'
-voyagerUtils = require '../core/voyagerUtils'
+ozariaUtils = require '../core/ozariaUtils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 Level = require 'models/Level'
@@ -169,12 +169,12 @@ module.exports = class Classroom extends CocoModel
       currentLevel = courseLevels.models[currentIndex]
       currentPlaytime = levelSessionMap[currentLevel.get('original')]?.get('playtime') ? 0
       needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) and not currentLevel.get('assessment')
-      unless utils.voyagerCourseIDs.includes(courseID)
+      unless utils.ozariaCourseIDs.includes(courseID)
         nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
-    if utils.voyagerCourseIDs.includes(courseID)
-      # assuming that there will be only one next level in voyager v1 for now
-      nextLevelOriginal = voyagerUtils.findNextLevelsBySession(sessions, courseLevels.models)[0]
-      nextLevel = new Level(voyagerUtils.getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
+    if utils.ozariaCourseIDs.includes(courseID)
+      # assuming that there will be only one next level in ozaria v1 for now
+      nextLevelOriginal = ozariaUtils.findNextLevelsBySession(sessions, courseLevels.models)[0]
+      nextLevel = new Level(ozariaUtils.getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
     else
       nextLevel = courseLevels.models[nextIndex]
       nextLevel = arena if levelsLeft is 0

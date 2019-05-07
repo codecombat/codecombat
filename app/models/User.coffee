@@ -581,8 +581,8 @@ module.exports = class User extends CocoModel
   useGoogleAnalytics: -> not (features?.chinaInfra ? false)
   # This flag is set globally for our China server.
   showChinaVideo: -> features?.china ? false
-  # Voyager flags
-  showVoyagerCampaign: -> @isAdmin()
+  # Ozaria flags
+  showOzariaCampaign: -> @isAdmin()
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" or campaignID == "5789236960deed1f00ec2ab8" or campaignID == "578913f2c8871ac2326fa3e4"
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
 

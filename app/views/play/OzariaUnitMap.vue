@@ -18,8 +18,8 @@
 // It is dependent on how we implement the capstone levels
 
 import api from 'core/api'
-import utils from 'core/voyagerUtils'
-import levelDot from 'views/play/VoyagerUnitMapLevelDot'
+import utils from 'core/ozariaUtils'
+import levelDot from 'views/play/OzariaUnitMapLevelDot'
 
 export default Vue.extend({
   props: {
@@ -45,7 +45,7 @@ export default Vue.extend({
     'level-dot' : levelDot
   },
   async created() {
-    if (!me.showVoyagerCampaign()){
+    if (!me.showOzariaCampaign()){
       // TODO: Remove when ready for production use
       return application.router.navigate('/', { trigger: true })
     }
@@ -182,7 +182,7 @@ export default Vue.extend({
           else
             this.levels[level].locked = true
           
-          // there would only be one next level as per voyager v1 as of now
+          // there would only be one next level as per ozaria v1 as of now
           if ((nextLevels || []).find((l) => (l || {}).original == level)){
             this.levels[level].next = true
             this.levels[level].locked = false

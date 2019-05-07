@@ -8,7 +8,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
-voyagerUtils = require 'core/voyagerUtils'
+ozariaUtils = require 'core/ozariaUtils'
 api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
@@ -38,7 +38,7 @@ module.exports = class CourseVictoryModal extends ModalView
     @nextLevel = new Level()
     @nextAssessment = new Level()
 
-    unless utils.voyagerCourseIDs.includes(@courseID)
+    unless utils.ozariaCourseIDs.includes(@courseID)
       nextLevelPromise = api.levels.fetchNextForCourse({
         levelOriginalID: @level.get('original')
         @courseInstanceID
@@ -109,7 +109,7 @@ module.exports = class CourseVictoryModal extends ModalView
       # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
-    else if utils.voyagerCourseIDs.includes(@courseID)  # if it is voyager course and there is no course instance, load campaign so that we can calculate next levels
+    else if utils.ozariaCourseIDs.includes(@courseID)  # if it is ozaria course and there is no course instance, load campaign so that we can calculate next levels
       api.campaigns.get({campaignHandle: @course?.get('campaignID')}).then (@campaign) =>
         @levelSessionsLoaded()
     else
@@ -120,9 +120,9 @@ module.exports = class CourseVictoryModal extends ModalView
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
 
-    # get next level for voyager course, no nextAssessment for voyager courses
-    if utils.voyagerCourseIDs.includes(@courseID) 
-      @getNextLevelVoyager().then (level) => 
+    # get next level for ozaria course, no nextAssessment for ozaria courses
+    if utils.ozariaCourseIDs.includes(@courseID) 
+      @getNextLevelOzaria().then (level) => 
         @nextLevel.set(level)
         @loadViews()
     else
@@ -157,13 +157,13 @@ module.exports = class CourseVictoryModal extends ModalView
     else
       @showVictoryComponent()
 
-  getNextLevelVoyager: ->
+  getNextLevelOzaria: ->
     if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
       classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
-      nextLevelOriginal = voyagerUtils.findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for voyager v1
+      nextLevelOriginal = ozariaUtils.findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for ozaria v1
     else if @campaign # fetch next based on course's campaign levels (for teachers)
       currentLevel = @campaign.levels[@level.get('original')]
-      nextLevelOriginal = voyagerUtils.getNextLevelOriginalForLevel(currentLevel)[0]
+      nextLevelOriginal = ozariaUtils.getNextLevelOriginalForLevel(currentLevel)[0]
     if nextLevelOriginal
       return api.levels.getByOriginal(nextLevelOriginal)
     else

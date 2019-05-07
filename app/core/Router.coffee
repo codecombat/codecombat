@@ -196,12 +196,12 @@ module.exports = class CocoRouter extends Backbone.Router
       @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
-    'play-voyager/:unit(?course-instance=:courseInstanceId)': (unit, courseInstanceId) ->
+    'play-ozaria/:unit(?course-instance=:courseInstanceId)': (unit, courseInstanceId) ->
       props = {
         campaign: unit,
         courseInstanceId: courseInstanceId
       }
-      @routeDirectly('play/VoyagerUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+      @routeDirectly('play/OzariaUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })

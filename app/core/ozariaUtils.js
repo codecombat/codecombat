@@ -48,7 +48,7 @@ module.exports = {
     const nextLevels = level.nextLevels
     const nextLevelOriginals = []
     if ((nextLevels || []).length > 0) {
-      nextLevelOriginals.push(nextLevels[0].levelOriginal) // assuming that there will be just one next level for voyager v1 as of now.
+      nextLevelOriginals.push(nextLevels[0].levelOriginal) // assuming that there will be just one next level for ozaria v1 as of now.
       // TODO: handle logic for 1FH capstone level
     }
     return nextLevelOriginals
@@ -65,7 +65,7 @@ module.exports = {
    * @param {Object} levelStatusMap - Optional. Object with key as the level original id, and value as complete/started.
    * @returns {string[]} - Array of next level original ids.
 
-   * There would only be 1 next level for voyager v1 as of now, hence use the first element of the array returned from here.
+   * There would only be 1 next level for ozaria v1 as of now, hence use the first element of the array returned from here.
    */
   findNextLevelsBySession: function (sessions, levels, levelStatusMap) {
     if (!levelStatusMap) {

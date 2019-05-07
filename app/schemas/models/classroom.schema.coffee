@@ -40,7 +40,7 @@ _.extend ClassroomSchema.properties,
       slug: {type: 'string'}
       position: c.point2d()
 
-      # properties relevant for voyager campaigns 
+      # properties relevant for ozaria campaigns 
       nextLevels: {
         type: 'array'
         description: 'array of next levels original id'
