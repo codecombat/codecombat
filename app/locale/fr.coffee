@@ -87,6 +87,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     classroom_edition: "Édition Salle de Classe:"
     learn_to_code: "Apprendre à programmer:"
     play_now: "Allons-y !"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Je suis un enseignant"
     im_a_student: "Je suis un étudiant"
     learn_more: "Apprenez-en plus"
@@ -146,6 +147,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     view_progress: "Voir Progrès"
     go_to_courses: "Aller à Mes Cours"
     want_coco: "Voulez-vous CodeCombat à votre école?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +172,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     twitter_follow: "Suivre"
     my_classrooms: "Mes Classes"
     my_courses: "Mes Cours"
+#    my_teachers: "My Teachers"
     careers: "Emplois"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1564,6 +1568,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Soyez le premier à publier un projet dans ce cours !"
@@ -1577,6 +1582,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    code: "__name__'s Code"
     complete_solution: "Solution complète"
     course_not_started: "L'étudiant n'a pas encore commencé ce cours."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
     hoc_happy_ed_week: "Bonne Semaine de l'enseignement de l'informatique !"
     hoc_blurb1: "En savoir plus sur le programme gratuit"
     hoc_blurb2: "Code, Jouer, Partager"
@@ -1778,7 +1787,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     gd3_curriculum_desc: "Plans de leçon pour le développement du jeu 3."
     wd1: "Développement Web 1"
     wd1_curriculum: "Développement Web 1 - Guide du curriculum"
-    wd1_curriculum_desc: "Plans de leçon pour le développement Web 1."
+    wd1_curriculum_desc: "Plans de leçon pour le développement Web 1." # {change}
     wd1_headlines: "Titres et en-têtes Activité"
     wd1_headlines_example: "Voir l'exemple de solution"
     wd1_headlines_desc: "Pourquoi les balises de paragraphe et d'en-tête sont-elles importantes ? Utilisez cette activité pour montrer comment des en-têtes bien choisis rendent les pages Web plus faciles à lire. Il existe de nombreuses solutions correctes à ce problème !"
@@ -2222,6 +2231,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     certificate_lines_of: "lignes de"
     certificate_levels_completed: "niveaux atteints"
     certificate_for: "Pour"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Dernièrement gagné"
@@ -2808,3 +2818,19 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     first_name: "Prénom"
     last_initial: "Dernière initiale"
     teacher_email: "Adresse électronique de l'enseignant(e)"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
