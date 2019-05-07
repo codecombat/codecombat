@@ -172,21 +172,26 @@ export default Vue.extend({
       }
       this.levelStatusMap = utils.getLevelStatusMap(this.levelSessions)
     },
-    determineNextLevel() { // set .next and .locked for this.levels      
+    determineNextLevel() { // set .next and .locked for this.levels
       if (this.courseInstanceId || this.campaignData.type == 'course') {
-        const nextLevelOriginals = utils.findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
-        const nextLevels = utils.getLevelsDataByOriginals(this.levels, nextLevelOriginals)
-        for (let level in this.levels) {
-          if (this.levelStatusMap[level] == 'started' || this.levelStatusMap[level] == 'complete' || this.levels[level].first)
-            this.levels[level].locked = false
-          else
-            this.levels[level].locked = true
-          
-          // there would only be one next level as per ozaria v1 as of now
-          if ((nextLevels || []).find((l) => (l || {}).original == level)){
-            this.levels[level].next = true
-            this.levels[level].locked = false
-          }
+        this.nextLevelOriginals = utils.findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
+        this.setUnlockedLevels()
+        this.setNextLevels()
+      }
+    },
+    setUnlockedLevels() {
+      for (let level in this.levels) {
+        if (this.levelStatusMap[level] == 'started' || this.levelStatusMap[level] == 'complete' || this.levels[level].first || this.nextLevelOriginals.includes(level))
+          this.levels[level].locked = false
+        else
+          this.levels[level].locked = true
+      }
+    },
+    setNextLevels() {
+      for (let level in this.levels) {
+        // there would only be one next level as per ozaria v1 as of now
+        if (this.nextLevelOriginals.includes(level)){
+          this.levels[level].next = true
         }
       }
     }
