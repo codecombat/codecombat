@@ -55,10 +55,8 @@ trackFirstArrival = ->
   storage.save(BEEN_HERE_BEFORE_KEY, true)
 
 setTestGroupNumberUS = ->
-  console.log("setting test group")
   if me and me.get("country") == 'united-states' and not me.get('testGroupNumberUS')?
     # Assign testGroupNumberUS to returning visitors; new ones in server/models/User
-    console.log("setting testgroup in if")
     me.set 'testGroupNumberUS', Math.floor(Math.random() * 256)
     me.patch()
 
