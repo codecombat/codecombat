@@ -41,8 +41,9 @@ _.extend ClassroomSchema.properties,
       position: c.point2d()
 
       # properties relevant for voyager campaigns 
-      nextLevels: {   # array of next levels
+      nextLevels: {
         type: 'array'
+        description: 'array of next levels original id'
         items: {
           type: 'object'
           additionalProperties: false
@@ -51,7 +52,7 @@ _.extend ClassroomSchema.properties,
           }
         }
       }
-      first: {type: 'boolean'}   # is it the first level in the campaign
+      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }

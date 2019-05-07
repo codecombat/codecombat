@@ -81,16 +81,14 @@ module.exports = {
     } else {
       levelDataMap = levels
     }
-    for (let [levelOriginal, level] of Object.entries(levelDataMap)) {
+    for (const [levelOriginal, level] of Object.entries(levelDataMap)) {
       if (levelStatusMap[levelOriginal] === 'started') {
         nextLevelOriginals.add(levelOriginal)
       } else if (levelStatusMap[levelOriginal] === 'complete') {
-        const unlockedLevelOriginals = this.getNextLevelOriginalForLevel(level)
-        if (unlockedLevelOriginals.length > 0) { // incomplete unlocks
-          unlockedLevelOriginals
-            .filter((original) => levelStatusMap[original] !== 'complete')
-            .forEach((original) => nextLevelOriginals.add(original))
-        }
+        const unlockedLevelOriginals = this.getNextLevelOriginalForLevel(level) || []
+        unlockedLevelOriginals
+          .filter((original) => levelStatusMap[original] !== 'complete')
+          .forEach((original) => nextLevelOriginals.add(original)) // incomplete unlocks
       } else if (level.first) {
         nextLevelOriginals.add(levelOriginal)
       }
