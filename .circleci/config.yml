@@ -54,8 +54,11 @@ jobs:
             git commit -a -m 'Run copy-i18n-tags'
             git push origin $BRANCH_NAME
 
-            # TODO remove reviewer after we're confident in script runs
-            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer jmif
+            # Pick a random reviewer
+            REVIEWERS=(jmif codeluggage AndrewJakubowicz shubhi1092)
+            reviewer=${REVIEWERS[$RANDOM % ${#REVIEWERS[@]}]}
+
+            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer $reviewer
 
 
 workflows:
