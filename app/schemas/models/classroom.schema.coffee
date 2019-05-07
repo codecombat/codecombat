@@ -39,6 +39,20 @@ _.extend ClassroomSchema.properties,
       name: {type: 'string'}
       slug: {type: 'string'}
       position: c.point2d()
+
+      # properties relevant for ozaria campaigns 
+      nextLevels: {
+        type: 'array'
+        description: 'array of next levels original id'
+        items: {
+          type: 'object'
+          additionalProperties: false
+          properties: {
+            levelOriginal: c.stringID()
+          }
+        }
+      }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
