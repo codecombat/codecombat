@@ -1,11 +1,11 @@
 import _ from 'lodash'
 
-const elementOrderingSolutionSchema = { type: 'array', items: { type: 'string' }} // list of elementId in correct order
+const elementOrderingSolutionSchema = { type: 'array', items: { type: 'string' } } // list of elementId in correct order
 
 const interactiveDraggableOrderingSchema = {
   type: 'object',
   properties: {
-    labels: { type: 'array', items: { type: 'string' }},
+    labels: { type: 'array', items: { type: 'string' } },
     elements: {
       type: 'array',
       items: {
@@ -20,15 +20,15 @@ const interactiveDraggableOrderingSchema = {
   }
 }
 
-const singleSolutionSchema = { type: 'string' }  // choiceId/responseId of the correct choice/response
+const singleSolutionSchema = { type: 'string' } // choiceId/responseId of the correct choice/response
 
 const classificationSolutionSchema = {
-  type : 'array',
+  type: 'array',
   items: {
     type: 'object',
     properties: {
       categoryId: { type: 'string' },
-      elements: { type: 'array', items: { type: 'string' }}  // list of elementIds belonging to the categoryId
+      elements: { type: 'array', items: { type: 'string' } } // list of elementIds belonging to the categoryId
     }
   }
 }
@@ -39,11 +39,11 @@ const interactiveInsertCodeSchema = {
     starterCode: {
       type: 'object',
       properties: {
-        language: { "enum": ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
+        language: { 'enum': ['python', 'javascript'] }, // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
         code: { type: 'string' }
       },
       choices: {
-        type: "array",
+        type: 'array',
         items: {
           type: 'object',
           properties: {
@@ -85,12 +85,11 @@ const interactiveDraggableClassificationSchema = {
   }
 }
 
-
 const interactiveMultipleChoiceSchema = {
   type: 'object',
   properties: {
     choices: {
-      type: "array",
+      type: 'array',
       items: {
         type: 'object',
         properties: {
@@ -109,11 +108,11 @@ const interactiveFillInCodeSchema = {
     starterCode: {
       type: 'object',
       properties: {
-        language: { "enum": ["python", "javascript"] },  // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
+        language: { 'enum': ['python', 'javascript'] }, // only if unitCodeLanguage in overall schema is `both`, else should be same as unitCodeLanguage
         code: { type: 'string' }
       },
       commonResponses: {
-        type: "array",
+        type: 'array',
         items: {
           type: 'object',
           properties: {
@@ -150,7 +149,7 @@ const insertCodeSubmissionSchema = {
 const draggableClassificationSubmissionSchema = {
   type: 'object',
   properties: {
-    submission: interactiveDraggableClassificationSchema.properties.solution,
+    submission: interactiveDraggableClassificationSchema.properties.solution
   }
 }
 
@@ -175,70 +174,68 @@ const draggableStatementCompletionSubmissionSchema = {
   }
 }
 
-
-
 const interactiveSchema = {
   type: 'object',
   properties: {
     interactiveType: {
-      "enum" : ["draggable-ordering", "insert-code", "draggable-classification", "multiple-choice", "fill-in-code", "draggable-statement-completion"]
+      'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion']
     },
     feedbackList: { // TBD
       type: 'array'
     },
-    artAssets: {  // TBD
+    artAssets: { // TBD
       type: 'array'
     },
-    promptText: {type: 'string'},
-    unitCodeLanguage: { "enum" : ["python", "javascript", "both"] }, // to allow content to be same/different for different languages
+    promptText: { type: 'string' },
+    unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'] } // to allow content to be same/different for different languages
   },
   allOf: [
     {
       if: {
-        "properties": { "interactiveType": { "type": "number" } }
+        'properties': { 'interactiveType': { 'type': 'number' } }
       },
       then: {
-        "properties": { "interactiveData": interactiveDraggableOrderingSchema }
+        'properties': { 'interactiveData': interactiveDraggableOrderingSchema }
       }
     },
     {
       if: {
-        "properties": { "interactiveType": { "const": "insert-code" } }
+        'properties': { 'interactiveType': { 'const': 'insert-code' } }
       },
       then: {
-        "properties": { "interactiveData": interactiveInsertCodeSchema }
+        'properties': { 'interactiveData': interactiveInsertCodeSchema }
       }
     },
     {
       if: {
-        "properties": { "interactiveType": { "const": "draggable-classification" } }
+        'properties': { 'interactiveType': { 'const': 'draggable-classification' } }
       },
       then: {
-        "properties": { "interactiveData": interactiveDraggableClassificationSchema }
+        'properties': { 'interactiveData': interactiveDraggableClassificationSchema }
       }
     },
     {
       if: {
-        "properties": { "interactiveType": { "const": "multiple-choice" } }
+        'properties': { 'interactiveType': { 'const': 'multiple-choice' } }
       },
       then: {
-        "properties": { "interactiveData": interactiveMultipleChoiceSchema }
+        'properties': { 'interactiveData': interactiveMultipleChoiceSchema }
       }
     },
     {
       if: {
-        "properties": { "interactiveType": { "const": "fill-in-code" } }
+        'properties': { 'interactiveType': { 'const': 'fill-in-code' } }
       },
       then: {
-        "properties": { "interactiveData": interactiveFillInCodeSchema }
+        'properties': { 'interactiveData': interactiveFillInCodeSchema }
       }
     },
     {
       if: {
-        "properties": { "interactiveType": { "const": "draggable-statement-completion" } }
+        'properties': { 'interactiveType': { 'const': 'draggable-statement-completion' } }
       },
       then: {
-        "properties": { "interactiveData": interactiveDraggableStatementCompletionSchema }
+        'properties': { 'interactiveData': interactiveDraggableStatementCompletionSchema }
       }
     }
   ]
@@ -249,50 +246,50 @@ const submissionSchema = {
   allOf: [
     {
       if: {
-        "properties": { "type": { "const": "draggable-ordering" } }
+        'properties': { 'type': { 'const': 'draggable-ordering' } }
       },
       then: {
-        "properties": { "submission": draggableOrderingSubmissionSchema }
+        'properties': { 'submission': draggableOrderingSubmissionSchema }
       }
     },
     {
       if: {
-        "properties": { "type": { "const": "insert-code" } }
+        'properties': { 'type': { 'const': 'insert-code' } }
       },
       then: {
-        "properties": { "submission": insertCodeSubmissionSchema }
+        'properties': { 'submission': insertCodeSubmissionSchema }
       }
     },
     {
       if: {
-        "properties": { "type": { "const": "draggable-classification" } }
+        'properties': { 'type': { 'const': 'draggable-classification' } }
       },
       then: {
-        "properties": { "submission": draggableClassificationSubmissionSchema }
+        'properties': { 'submission': draggableClassificationSubmissionSchema }
       }
     },
     {
       if: {
-        "properties": { "type": { "const": "multiple-choice" } }
+        'properties': { 'type': { 'const': 'multiple-choice' } }
       },
       then: {
-        "properties": { "submission": multipleChoiceSubmissionSchema }
+        'properties': { 'submission': multipleChoiceSubmissionSchema }
       }
     },
     {
       if: {
-        "properties": { "type": { "const": "fill-in-code" } }
+        'properties': { 'type': { 'const': 'fill-in-code' } }
       },
       then: {
-        "properties": { "submission": fillInCodeSubmissionSchema }
+        'properties': { 'submission': fillInCodeSubmissionSchema }
       }
     },
     {
       if: {
-        "properties": { "type": { "const": "draggable-statement-completion" } }
+        'properties': { 'type': { 'const': 'draggable-statement-completion' } }
       },
       then: {
-        "properties": { "submission": draggableStatementCompletionSubmissionSchema }
+        'properties': { 'submission': draggableStatementCompletionSubmissionSchema }
       }
     }
   ]
@@ -303,23 +300,23 @@ const interactiveSessionSchema = {
   properties: {
     interactiveId: { type: 'string' },
     type: {
-      "enum": ["draggable-ordering", "insert-code", "draggable-classification", "multiple-choice", "fill-in-code", "draggable-statement-completion"]
+      'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion']
     },
     userId: { type: 'string' },
-    sessionCodeLanguage: { "enum": ["python", "javascript"] },  // save this from the course instance language
+    sessionCodeLanguage: { 'enum': ['python', 'javascript'] }, // save this from the course instance language
     noOfSubmissions: { type: 'number' },
     complete: { type: 'boolean' },
-    finalSubmission: submissionSchema,  // only if complete:true
+    finalSubmission: submissionSchema, // only if complete:true
     firstSubmission: {
       type: 'object',
       properties: {
         correct: { type: 'boolean' },
         submission: submissionSchema,
         if: {
-          "properties": { "type": { "enum": ["draggable-classification", "draggable-ordering"] }}
+          'properties': { 'type': { 'enum': ['draggable-classification', 'draggable-ordering'] } }
         },
         then: {
-          "properties": { "noOfCorrect": { type: 'number' }}
+          'properties': { 'noOfCorrect': { type: 'number' } }
         }
       }
     }
