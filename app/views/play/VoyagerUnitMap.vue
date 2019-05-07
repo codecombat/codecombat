@@ -111,8 +111,6 @@ export default Vue.extend({
     1. levels list from the classroom snapshot
     2. position, nextLevels, first from the classroom snapshot, if does not exist then from campaign snapshot
     4. any other data from the campaign snapshot, but if doesnt exist in campaign any more then use the data in classroom snapshot
-    TODO: Update after clarification from Robin - i.e. if we want them to be in sync always, so that its easy to update classroom snapshot of levels;
-    or if we want specific properties to only exist in one of these as the single source of truth.
     */
     async buildLevelsDataForCourse () {
       try {
@@ -152,9 +150,6 @@ export default Vue.extend({
           if (this.classroomLevelMap[original].first)
             courseLevelsData[original].first = this.classroomLevelMap[original].first
         }
-        // TODO: what if level was removed from campaign, and classroom level map doesnt contain positions, nextLevels, and first? Is it a valid scenario?
-        // If yes, then use the logic from CampaignView for setting the missing positions using the prev and next level positions
-        // Not sure how to set the .first and .nextLevels in that case.
 
         return courseLevelsData
       }
@@ -164,8 +159,6 @@ export default Vue.extend({
     },
     createLevelStatusMap() {
       // Remove the level sessions for the levels played in another language - for the classroom version of unit map
-      // TODO: What if played in same language in another classroom
-      // TODO: What should be done for home version (i.e. played a level in another campaign)
       if(this.classroomLevelMap && this.classroom) {
         for (let session of this.levelSessions) {
           const classroomLevel = this.classroomLevelMap[session.level.original]
@@ -180,7 +173,7 @@ export default Vue.extend({
       this.levelStatusMap = utils.getLevelStatusMap(this.levelSessions)
     },
     determineNextLevel() { // set .next and .locked for this.levels      
-      if (this.courseInstanceId || this.campaignData.type == 'course') {  // TODO: what if some other campaign type
+      if (this.courseInstanceId || this.campaignData.type == 'course') {
         const nextLevelOriginals = utils.findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
         const nextLevels = utils.getLevelsDataByOriginals(this.levels, nextLevelOriginals)
         for (let level in this.levels) {

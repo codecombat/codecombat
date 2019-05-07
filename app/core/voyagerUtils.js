@@ -66,8 +66,6 @@ module.exports = {
    * @returns {string[]} - Array of next level original ids.
 
    * There would only be 1 next level for voyager v1 as of now, hence use the first element of the array returned from here.
-   * TODO: Edge case - If the 'sessions' contain a session for a level which has been played in another classroom, or another campaign;
-   * then it will be part of the nextLevels even if not unlocked for the current classroom/campaign.
    */
   findNextLevelsBySession: function (sessions, levels, levelStatusMap) {
     if (!levelStatusMap) {
