@@ -65,3 +65,11 @@ workflows:
           filters:
             branches:
               only: master
+
+    triggers:
+      - schedule:
+          cron: "0 7 */2 * *" # Every other day
+          filters:
+            branches:
+              only:
+                - master
