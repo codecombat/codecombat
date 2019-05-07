@@ -92,4 +92,9 @@ module.exports = {
         includeTrialRequests
       }
     })
+  
+  setCountryGeo: (options = {}) -> 
+    fetchJson("/db/user/setUserCountryGeo", _.assign({}, options, {
+      method: 'PUT'
+    }))
 }
