@@ -707,7 +707,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     keep_editing: "继续编辑"
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
-#    concept_unlocked: "Concept Unlocked"
+    concept_unlocked: "已解锁的概念"
 
   apis:
     methods: "函数"
@@ -1899,7 +1899,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    sync_google_classroom: "Sync Google Classroom"
 
   share_licenses:
-    share_licenses: "分享许可证"
+    share_licenses: "分享许可"
     shared_by: "分享自："
     add_teacher_label: "请准确地输入老师的邮箱："
     add_teacher_button: "添加老师"
