@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
 import { AnimeCommand, SyncFunction } from './Command/commands'
-import { getClearText, getTextPosition, getSpeaker } from '../../../schemas/selectors/cinematic'
+import { getClearText, getTextPosition, getSpeaker, getTextAnimationLength } from '../../../schemas/selectors/cinematic'
 import { processText } from './dialog-system/dialogSystemHelper'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
@@ -71,7 +71,8 @@ export default class DialogSystem {
         x,
         y,
         shownDialogBubbles: this.shownDialogBubbles,
-        side
+        side,
+        textDuration: getTextAnimationLength(dialogNode)
       })).createBubbleCommand())
     }
     return commands
@@ -102,7 +103,8 @@ class SpeechBubble {
     x,
     y,
     shownDialogBubbles,
-    side
+    side,
+    textDuration
   }) {
     this.id = `speech-${_id++}`
     const parser = new DOMParser()
@@ -154,7 +156,7 @@ class SpeechBubble {
       .add({
         targets: `#${this.id} .letter`,
         opacity: 1,
-        duration: 750,
+        duration: textDuration,
         delay: anime.stagger(50, { easing: 'linear' }),
         easing: 'easeOutQuad',
         complete: () => {

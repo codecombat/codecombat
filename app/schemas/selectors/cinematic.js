@@ -263,7 +263,7 @@ export const getClearText = dialogNode => (dialogNode || {}).dialogClear || fals
 
 export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
 
-export const getSpeaker = dialogNode => (dialogNode || {}).speaker
+export const getSpeaker = dialogNode => (dialogNode || {}).speaker || 'left'
 
 export const getText = dialogNode => (dialogNode || {}).text
 
@@ -287,6 +287,12 @@ const backgroundObject = triggers => {
 
   return _.merge(DEFAULT_THANGTYPE(), bgObject.thangType)
 }
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number}
+ */
+const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength || 1000
 
 /**
  * @param {Object} triggers
@@ -344,3 +350,15 @@ export const getClearBackgroundObject = compose(triggers, clearBackgroundObject)
  * @returns {Object|undefined}
  */
 export const getCamera = compose(shotSetup, camera)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number} defaults return of 1000
+ */
+export const getTextAnimationLength = textAnimationLength
+
+/**
+ * @param {DialogNode}  dialogNode
+ * @returns {string|undefined} Lank action to play
+ */
+export const getSpeakingAnimationAction = dialogNode => (dialogNode || {}).speakingAnimationAction
