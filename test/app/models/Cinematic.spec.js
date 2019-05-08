@@ -15,7 +15,7 @@ import {
   getText,
   getCamera,
   getTextAnimationLength,
-  getSpeakingAnimation
+  getSpeakingAnimationAction
 } from '../../../app/schemas/selectors/cinematic'
 
 /**
@@ -165,11 +165,11 @@ describe('Cinematic', () => {
       expect(result2).toEqual(1000)
     })
 
-    it('getSpeakingAnimation', () => {
-      const result = getSpeakingAnimation(shotFixture1.dialogNodes[1])
+    it('getSpeakingAnimationAction', () => {
+      const result = getSpeakingAnimationAction(shotFixture1.dialogNodes[1])
       expect(result).toEqual('talkyAnimation')
 
-      const result2 = getSpeakingAnimation(shotFixture2.dialogNodes[0])
+      const result2 = getSpeakingAnimationAction(shotFixture2.dialogNodes[0])
       expect(result2).toBeUndefined()
     })
   })
@@ -252,7 +252,7 @@ var shotFixture1 = {
     {
       dialogClear: false,
       textAnimationLength: 42,
-      speakingAnimation: 'talkyAnimation'
+      speakingAnimationAction: 'talkyAnimation'
     }
   ]
 }

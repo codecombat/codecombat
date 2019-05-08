@@ -12,7 +12,7 @@ import {
   getClearBackgroundObject,
   getText,
   getTextAnimationLength,
-  getSpeakingAnimation,
+  getSpeakingAnimationAction,
   getSpeaker
 } from '../../../schemas/selectors/cinematic'
 
@@ -141,11 +141,12 @@ export default class CinematicLankBoss {
     }
 
     const text = getText(dialogNode)
-    const animation = getSpeakingAnimation(dialogNode)
+    const animation = getSpeakingAnimationAction(dialogNode)
     if (text && animation) {
       const textLength = getTextAnimationLength(dialogNode)
       const speaker = getSpeaker(dialogNode)
       commands.push(new SequentialCommands([
+        // TODO: Is a minimum time of 100 required to ensure animation always plays?
         new Sleep(Math.min(100, textLength)),
         new SyncFunction(() => {
           this.playActionOnLank(speaker, animation)
@@ -187,11 +188,13 @@ export default class CinematicLankBoss {
    * you need to make the action loop on the ThangType.
    * @param {string} key The lanks unique key
    * @param {string} action The action to queue onto the lank
+   * @return {undefined}
    */
   playActionOnLank (key, action) {
     const lank = this.lanks[key]
     if (!lank) {
-      return console.warn(`Tried to play action '${action}' on non existant lank '${key}'`)
+      console.warn(`Tried to play action '${action}' on non existant lank '${key}'`)
+      return
     }
     lank.queueAction(action)
   }

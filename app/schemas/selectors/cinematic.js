@@ -361,4 +361,4 @@ export const getTextAnimationLength = textAnimationLength
  * @param {DialogNode}  dialogNode
  * @returns {string|undefined} Lank action to play
  */
-export const getSpeakingAnimation = dialogNode => (dialogNode || {}).speakingAnimation
+export const getSpeakingAnimationAction = dialogNode => (dialogNode || {}).speakingAnimationAction
