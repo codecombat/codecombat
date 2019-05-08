@@ -87,6 +87,7 @@ module.exports = {
   'views/user/IdentifyView': function () { return import(/* webpackChunkName: "user" */ 'views/user/IdentifyView') },
   'views/account/IsraelSignupView': function () { return import(/* webpackChunkName: "account" */ 'views/account/IsraelSignupView') },
   'views/LegalView': function () { return import(/* webpackChunkName: "LegalView" */ 'views/LegalView') },
+  'views/play/OzariaUnitMap': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'views/play/OzariaUnitMap') },
   'views/play/CampaignView': function () { return import(/* webpackChunkName: "play" */ 'views/play/CampaignView') },
   'views/ladder/LadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView') },
   'views/ladder/MainLadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView') },
