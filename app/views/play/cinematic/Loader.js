@@ -15,9 +15,9 @@ const ThangType = require('models/ThangType')
 export default class Loader {
   constructor ({ data }) {
     this.data = data
-    // Stores thangType with slug as the key.
+    // Stores thangType with slug or original as the key.
     this.loadedThangTypes = new Map()
-    // Stores the thangType loading promise with slug as key.
+    // Stores the thangType loading promise with slug or original as key.
     this.loadingThangTypes = new Map()
   }
 
@@ -62,7 +62,7 @@ export default class Loader {
   loadBackgroundObjects (shots) {
     shots
       .filter(shot => (shot.dialogNodes || []).length > 0)
-      .map(({ dialogNodes }) =>
+      .forEach(({ dialogNodes }) =>
         dialogNodes
           .map(dialogNode => getBackgroundObject(dialogNode))
           .filter(bgObject => bgObject)

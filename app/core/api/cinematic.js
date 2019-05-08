@@ -6,7 +6,7 @@ import fetchJson from './fetch-json'
  * @async
  * @return {Promise<import('../../schemas/selectors/cinematic').Cinematic} raw Cinematic object
  */
-export const get = (slug) => {
+export const getCinematic = (slug) => {
   if (!slug) {
     throw new Error(`No slug supplied`)
   }
@@ -24,14 +24,14 @@ export const get = (slug) => {
  * @async
  * @returns {Promise<CinematicName[]>} - Sorted by slug
  */
-export const getAll = () => fetchJson('/db/cinematic/all')
+export const getAllCinematics = () => fetchJson('/db/cinematic/all')
 
 /**
  * Updates a cinematic in the database.
  * @async
  * @returns {Promise<import('../../schemas/selectors/cinematic').Cinematic>} raw Cinematic object
  */
-export const put = ({ data }, options = {}) => {
+export const putCinematic = ({ data }, options = {}) => {
   if (!data) {
     throw new Error('Please pass in a data property.')
   }
@@ -50,7 +50,7 @@ export const put = ({ data }, options = {}) => {
  * @async
  * @returns {Promise<import('../../schemas/selectors/cinematic').Cinematic} raw Cinematic object
  */
-export const create = ({ name }, options = {}) =>
+export const createCinematic = ({ name }, options = {}) =>
   fetchJson('/db/cinematic', _.assign({}, options, {
     method: 'POST',
     json: { name }

@@ -21,7 +21,7 @@
  * Allows manual input of cinematic slug and play button.
  */
 import CinematicCanvas from "./CinematicCanvas.vue";
-import { get } from '../core/api/cinematic';
+import { getCinematic } from '../core/api/cinematic';
 
 module.exports = Vue.extend({
   components: { CinematicCanvas },
@@ -39,8 +39,7 @@ module.exports = Vue.extend({
   methods: {
     playCinematic: async function() {
       this.loading = true
-      const data = await get(this.slugInput)
-      this.cinematicData = data
+      this.cinematicData = await getCinematic(this.slugInput)
       this.loading = false
     }
   },

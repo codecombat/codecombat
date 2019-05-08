@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { get, put, create, getAll } from 'core/api/cinematic'
+import { getCinematic, putCinematic, createCinematic, getAllCinematics } from 'core/api/cinematic'
 import Cinematic from 'app/models/Cinematic'
 import ListItem from 'app/components/cinematic/editor/ListItem'
 import CinematicCanvas from 'app/views/CinematicCanvas'
@@ -88,7 +88,7 @@ module.exports = Vue.extend({
      */
     async fetchCinematic(slug) {
       try {
-        this.cinematic = new Cinematic(await get(slug))
+        this.cinematic = new Cinematic(await getCinematic(slug))
       } catch (e) {
         return noty({
           text: `Error finding slug '${slug}'.`,
@@ -119,7 +119,7 @@ module.exports = Vue.extend({
      * Fetch all names and slugs of cinematics from the database.
      */
     async fetchList() {
-      this.cinematicList = await getAll();
+      this.cinematicList = await getAllCinematics();
     },
     /**
      * Pushes changes from treema to the cinematic model.
@@ -136,8 +136,8 @@ module.exports = Vue.extend({
     async saveCinematic() {
       this.state.saving = true
       try {
-      await put({ data: this.cinematic.toJSON() })
-      noty({ text: 'Saved', type: 'success', timeout: 1000 })
+        await putCinematic({ data: this.cinematic.toJSON() })
+        noty({ text: 'Saved', type: 'success', timeout: 1000 })
       } catch (e) {
         noty({ text: e.message, type: 'error', timeout: 1000 })
       }
@@ -157,7 +157,7 @@ module.exports = Vue.extend({
       const name = window.prompt("Name of new cinematic?")
       if (!name) { return }
 
-      const result = await create({ name })
+      const result = await createCinematic({ name })
       return this.fetchList()
     }
   },

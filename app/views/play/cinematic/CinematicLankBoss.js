@@ -7,7 +7,7 @@ import {
   getLeftHero,
   getRightHero,
   getBackground,
-  exitCharacter,
+  getExitCharacter,
   getBackgroundObject,
   getClearBackgroundObject
 } from '../../../schemas/selectors/cinematic'
@@ -102,13 +102,15 @@ export default class CinematicLankBoss {
 
   parseDialogNode (dialogNode) {
     const commands = []
-    const char = exitCharacter(dialogNode)
-    if (char === 'left' || char === 'both') {
-      commands.push(this.moveLankCommand({ key: 'left', pos: { x: -20 } }))
-    }
 
+    // TODO: Do we need to give the designers more access to where the characters should exit?
+    //       Currently characters start 4 meters off the respective side of the camera bounds.
+    const char = getExitCharacter(dialogNode)
+    if (char === 'left' || char === 'both') {
+      commands.push(this.moveLankCommand({ key: 'left', pos: { x: this.stageBounds.topLeft.x - 4 } }))
+    }
     if (char === 'right' || char === 'both') {
-      commands.push(this.moveLankCommand({ key: 'right', pos: { x: 20 } }))
+      commands.push(this.moveLankCommand({ key: 'right', pos: { x: this.stageBounds.bottomRight.x + 4 } }))
     }
 
     const bgObject = getBackgroundObject(dialogNode)
@@ -137,6 +139,8 @@ export default class CinematicLankBoss {
 
   /**
    * Moves either the left or right lank to a given co-ordinates **instantly**.
+   *
+   * TODO: Refactor into the moveLankCommand method. Make it handle a delay of 0ms.
    * @param {'left'|'right'} side - the lank being moved.
    * @param {{x, y}} pos - the position in meters to move towards.
    */
@@ -166,7 +170,6 @@ export default class CinematicLankBoss {
       }
       pos = pos || {}
       // normalize parameters
-      console.log('have the key', key)
       pos.x = pos.x !== undefined ? pos.x : this.lanks[key].thang.pos.x
       pos.y = pos.y !== undefined ? pos.y : this.lanks[key].thang.pos.y
       if (this.lanks[key].thang.pos.x === pos.x && this.lanks[key].thang.pos.y === pos.y) {
@@ -201,6 +204,8 @@ export default class CinematicLankBoss {
    * Sets the background.
    *
    * Handles backgrounds that may already exist or are simply being moved.
+   * TODO: Refactor and fold into the moveLankCommand method. Make it handle delay of 0ms.
+   *       This method is a special case of the moveLank method.
    * @param {Object} background Background object.
    */
   setBackgroundCommand ({ slug, thang: { scaleX, scaleY, pos: { x, y } } }) {
