@@ -1,5 +1,19 @@
 /* eslint-env jasmine */
-import { getLeftCharacterThangTypeSlug, getRightCharacterThangTypeSlug } from '../../../app/schemas/selectors/cinematic'
+import {
+  getLeftCharacterThangTypeSlug,
+  getRightCharacterThangTypeSlug,
+  getLeftHero,
+  getRightHero,
+  getClearBackgroundObject,
+  getBackgroundObject,
+  getBackground,
+  getClearText,
+  getSpeaker,
+  getBackgroundSlug,
+  getExitCharacter,
+  getTextPosition,
+  getText
+} from '../../../app/schemas/selectors/cinematic'
 
 /**
  * This data can be used to check that none of the selectors that match
@@ -18,21 +32,117 @@ const invalidThangTypesSetupData = [
   { shotSetup: { rightThangType: { slug: 'abc', rand: 123 } } }
 ]
 
-const shotSetupChar = (thangType, data) => ({ [thangType]: data })
-
-const malformedErrorData = thangType => ([
-  { type: 'slug' },
-  { type: 'slug', slug: 'randomSlug' },
-  { type: 'slug', slug: 'a', enterOnStart: false },
-  { type: 'slug', enterOnStart: true },
-  { type: 'slug', position: { x: 0, y: 0 } },
-  { type: 'slug', position: { x: 0, y: 0 }, enterOnStart: false }
-]).map(d => ({ shotSetup: shotSetupChar(thangType, d) }))
-
 describe('Cinematic', () => {
   describe('Selectors', () => {
     getCharacterThangTypeSlugTest(getLeftCharacterThangTypeSlug, 'getLeftCharacterThangTypeSlug', invalidThangTypesSetupData, 'leftThangType')
     getCharacterThangTypeSlugTest(getRightCharacterThangTypeSlug, 'getRightCharacterThangTypeSlug', invalidThangTypesSetupData, 'rightThangType')
+
+    it('getLeftCharacterThangTypeSlug', () => {
+      const result = getLeftCharacterThangTypeSlug(shotFixture1)
+      expect(result).toBeUndefined()
+
+      const result2 = getLeftCharacterThangTypeSlug(shotFixture2)
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1, scaleY: 1, pos: { x: 0, y: 0 } } })
+    })
+
+    it('getRightCharacterThangTypeSlug', () => {
+      const result = getRightCharacterThangTypeSlug(shotFixture2)
+      expect(result).toBeUndefined()
+
+      const result2 = getRightCharacterThangTypeSlug(shotFixture1)
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1, scaleY: 1, pos: { x: 0, y: 0 } } })
+    })
+
+    it('getLeftHero', () => {
+      const result = getLeftHero(shotFixture1)
+      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } } })
+
+      const result2 = getLeftHero(shotFixture2)
+      expect(result2).toBeUndefined()
+    })
+
+    it('getRightHero', () => {
+      const result = getRightHero(shotFixture2)
+      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } } })
+
+      const result2 = getRightHero(shotFixture1)
+      expect(result2).toBeUndefined()
+    })
+
+    it('getClearBackgroundObject', () => {
+      const result = getClearBackgroundObject(shotFixture1.dialogNodes[0])
+      expect(result).toEqual(7331)
+
+      const result2 = getClearBackgroundObject(shotFixture2.dialogNodes[0])
+      expect(result2).toBeUndefined()
+    })
+
+    it('getBackgroundObject', () => {
+      const result = getBackgroundObject(shotFixture1.dialogNodes[0])
+      expect(result).toEqual({ scaleX: 1, scaleY: 1, pos: { x: 0, y: 0 }, type: { slug: 'background-obj-fixture' } })
+
+      const result2 = getBackgroundObject(shotFixture2.dialogNodes[0])
+      expect(result2).toBeUndefined()
+    })
+
+    it('getBackground', () => {
+      const result = getBackground(shotFixture1)
+      expect(result).toEqual({ slug: 'background-fixture-slug', thang: { scaleX: 0.3, scaleY: 0.2, pos: { x: 17, y: 18 } } })
+
+      const result2 = getBackground(shotFixture2)
+      expect(result2).toBeUndefined()
+    })
+
+    it('getClearText', () => {
+      const result = getClearText(shotFixture1.dialogNodes[0])
+      expect(result).toEqual(true)
+
+      const result2 = getClearText(shotFixture2.dialogNodes[0])
+      expect(result2).toEqual(false)
+    })
+
+    it('getSpeaker', () => {
+      const result = getSpeaker(shotFixture1.dialogNodes[0])
+      expect(result).toBeUndefined()
+
+      const result2 = getSpeaker(shotFixture2.dialogNodes[0])
+      expect(result2).toEqual('left')
+    })
+
+    it('getBackgroundSlug', () => {
+      const result = getBackgroundSlug(shotFixture1)
+      expect(result).toEqual('background-fixture-slug')
+
+      const result2 = getBackgroundSlug(shotFixture2)
+      expect(result2).toBeUndefined()
+    })
+
+    it('getExitCharacter', () => {
+      const result = getExitCharacter(shotFixture1.dialogNodes[0])
+      expect(result).toEqual('both')
+
+      const result2 = getExitCharacter(shotFixture2.dialogNodes[0])
+      expect(result2).toBeUndefined()
+    })
+
+    it('getTextPosition', () => {
+      const result = getTextPosition(shotFixture1.dialogNodes[0])
+      expect(result).toBeUndefined()
+
+      const result2 = getTextPosition(shotFixture2.dialogNodes[0])
+      expect(result2).toEqual({
+        x: 40,
+        y: 10
+      })
+    })
+
+    it('getText', () => {
+      const result = getText(shotFixture1.dialogNodes[0])
+      expect(result).toEqual('hello, world')
+
+      const result2 = getText(shotFixture2.dialogNodes[0])
+      expect(result2).toBeUndefined()
+    })
   })
 })
 
@@ -48,11 +158,98 @@ function getCharacterThangTypeSlugTest (selector, side, data, characterProperty)
         expect(selector(testData)).toBeUndefined()
       }
     })
-
-    it('throws error if type is slug but properties are not fulfilled', () => {
-      for (const testData of malformedErrorData(characterProperty)) {
-        expect(() => selector(testData)).toThrow()
-      }
-    })
   })
+}
+
+// Fixture testing selectors for cinematics.
+var shotFixture1 = {
+  shotSetup: {
+    leftThangType: {
+      thangType: {
+        type: 'hero',
+        pos: {
+          x: 3,
+          y: 10
+        },
+        scaleX: 1,
+        scaleY: 13
+      },
+      enterOnStart: true
+    },
+    rightThangType: {
+      thangType: {
+        type: {
+          slug: 'fake-slug-thangtype'
+        }
+      }
+    },
+    backgroundArt: {
+      type: {
+        slug: 'background-fixture-slug'
+      },
+      pos: {
+        x: 17,
+        y: 18
+      },
+      scaleX: 0.3,
+      scaleY: 0.2
+    }
+  },
+  dialogNodes: [
+    {
+      dialogClear: true,
+      exitCharacter: 'both',
+      text: 'hello, world',
+      triggers: {
+        backgroundObject: {
+          thangType: {
+            type: {
+              slug: 'background-obj-fixture'
+            }
+          },
+          triggerStart: 1337
+        },
+        clearBackgroundObject: {
+          triggerStart: 7331
+        }
+      }
+    },
+    {
+      dialogClear: false
+    }
+  ]
+}
+
+var shotFixture2 = {
+  shotSetup: {
+    rightThangType: {
+      thangType: {
+        type: 'hero',
+        pos: {
+          x: 3,
+          y: 10
+        },
+        scaleX: 1,
+        scaleY: 13
+      },
+      enterOnStart: true
+    },
+    leftThangType: {
+      thangType: {
+        type: {
+          slug: 'fake-slug-thangtype'
+        }
+      }
+    }
+  },
+  dialogNodes: [
+    {
+      triggers: { },
+      speaker: 'left',
+      textLocation: {
+        x: 40,
+        y: 10
+      }
+    }
+  ]
 }

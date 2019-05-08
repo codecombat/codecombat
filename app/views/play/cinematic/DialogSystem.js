@@ -1,5 +1,5 @@
 import anime from 'animejs/lib/anime.es.js'
-import { AnimeCommand, SyncFunction } from './Command/AbstractCommand'
+import { AnimeCommand, SyncFunction } from './Command/commands'
 import { getClearText, getTextPosition, getSpeaker } from '../../../schemas/selectors/cinematic'
 import { processText } from './dialog-system/dialogSystemHelper'
 
