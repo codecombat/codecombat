@@ -56,12 +56,22 @@ const ShotSetup = c.object({
 }, {
   rightThangType: CharacterSchema('Right Character'),
   leftThangType: CharacterSchema('Left Character'),
-  backgroundArt: ThangTypeSchema('Background Art', 'The rasterized image to place on the background')
+  backgroundArt: ThangTypeSchema('Background Art', 'The rasterized image to place on the background'),
+  camera: c.object({
+    title: 'Camera placement',
+    description: 'Where to place the camera at the beginning of the shot'
+  }, {
+    pos: c.point2d({
+      title: 'Position',
+      description: 'The position of the camera in meters.'
+    }),
+    zoom: { title: 'Zoom', description: 'The zoom level of the camera. A good default is 6. Recommended you change between 0 and 10.', type: 'number' }
+  })
 })
 
 const DialogNode = c.object({
   title: 'Dialog Node',
-  description: 'A node of a shot. Contains dialog instructions.',
+  description: 'A node of a shot. Contains dialog instructions.'
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },

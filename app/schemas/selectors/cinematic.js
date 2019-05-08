@@ -1,3 +1,5 @@
+import { CAMERA_DEFAULT } from '../../views/play/cinematic/CameraSystem'
+
 /**
  * Selector / verifier.
  *
@@ -44,9 +46,9 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
 
 /**
  * @typedef {Object} ShotSetup - Shot setup object
- * @property {string} cameraType - The camera type enum
  * @property {CharacterSchema} rightThangType
  * @property {CharacterSchema} leftThangType
+ * @property {Object} camera
  */
 
 /**
@@ -229,6 +231,17 @@ const heroThangTypeOriginal = character => {
 }
 
 /**
+ * @param {ShotStup} shotSetup
+ * @returns {Object|undefined} camera properties with sensible defaults.
+ */
+const camera = shotSetup => {
+  if (!(shotSetup || {}).camera) {
+    return
+  }
+  return _.merge(CAMERA_DEFAULT, shotSetup.camera)
+}
+
+/**
  * Returns the left character if it's a thangType slug.
  * @param {Shot} shot
  * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
@@ -325,3 +338,9 @@ export const getBackgroundObject = compose(triggers, backgroundObject)
  * @returns {number|undefined} the delay before removing the background object.
  */
 export const getClearBackgroundObject = compose(triggers, clearBackgroundObject)
+
+/**
+ * @param {Shot} shot
+ * @returns {Object|undefined}
+ */
+export const getCamera = compose(shotSetup, camera)

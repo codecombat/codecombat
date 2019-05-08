@@ -109,6 +109,7 @@ export default class CinematicLankBoss {
     if (char === 'left' || char === 'both') {
       commands.push(this.moveLankCommand({ key: 'left', pos: { x: this.stageBounds.topLeft.x - 4 } }))
     }
+
     if (char === 'right' || char === 'both') {
       commands.push(this.moveLankCommand({ key: 'right', pos: { x: this.stageBounds.bottomRight.x + 4 } }))
     }
