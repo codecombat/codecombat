@@ -1,5 +1,5 @@
 require('app/styles/play/level/goals.sass')
-CocoView = require 'views/core/CocoView'
+SubVueComponentView = require('views/core/SubVueComponentView').default
 template = require 'templates/play/level/goals'
 {me} = require 'core/auth'
 utils = require 'core/utils'
@@ -10,7 +10,9 @@ LevelGoals = require('./LevelGoals').default
 store = require 'core/store'
 
 
-module.exports = class LevelGoalsView extends CocoView
+module.exports = class LevelGoalsView extends SubVueComponentView
+  VueComponent: LevelGoals
+
   id: 'goals-view'
   template: template
   className: 'secret expanded'
@@ -37,17 +39,22 @@ module.exports = class LevelGoalsView extends CocoView
   constructor: (options) ->
     super options
     @level = options.level
-    
-  afterRender: ->
-    @levelGoalsComponent = new LevelGoals({
-      el: @$('.goals-component')[0],
-      store
-      propsData: { showStatus: true }
-    })
+
+  getMountPoint: ->
+    return @$('.goals-component')[0]
+
+#  afterRender: ->
+#    @levelGoalsComponent = new LevelGoals({
+#      el: @$('.goals-component')[0],
+#      store
+#      propsData: { showStatus: true }
+#    })
 
   onNewGoalStates: (e) ->
-    _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
-    @levelGoalsComponent.casting = false
+    @setState(_.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
+    @setState({ casting: false })
+#    _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
+#    @levelGoalsComponent.casting = false
 
     firstRun = not @previousGoalStatus?
     @previousGoalStatus ?= {}
@@ -68,7 +75,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   onTomeCast: (e) ->
     return if e.preload
-    @levelGoalsComponent.casting = true
+    @setState({ casting: true })
 
   onSetPlaying: (e) ->
     return unless e.playing

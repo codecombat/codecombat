@@ -312,7 +312,7 @@ module.exports = class CocoRouter extends Backbone.Router
         console.debug("Skipping route in Backbone - delegating to Vue app")
         return
       else if options.vueRoute  # Routing to a vue component using VueComponentView
-        vueComponentView = require 'views/core/VueComponentView'
+        vueComponentView = require 'app/views/core/VueComponentView'
         view = new vueComponentView(ViewClass.default, options, args...)
       else
         view = new ViewClass(options, args...)  # options, then any path fragment args

@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    // TODO: Split this into two components, one the ul, the other the goals-status 
+    // TODO: Split this into two components, one the ul, the other the goals-status
     ul#primary-goals-list(dir="auto")
       level-goal(
         v-for="goal in levelGoals",
@@ -18,7 +18,7 @@
         :goal="goal",
         :state="goalStates[goal.id]",
       )
-      
+
     div.goals-status.rtl-allowed(v-if="showStatus")
       span {{ $t("play_level.goals") }}
       span.spr :
@@ -36,16 +36,32 @@
   LevelGoal = require('./LevelGoal').default
 
   module.exports = Vue.extend({
-    props: ['showStatus']
-    
-    data: -> {
-      overallStatus: ''
-      timedOut: false
-      goals: [] # TODO: Get goals, goalStates from vuex
-      goalStates: {}
-      casting: false
-    },
-    
+    props: {
+        showStatus:
+          type: Boolean
+          default: false
+
+        overallStatus:
+          type: String
+          default: ''
+
+        timedOut:
+          type: Boolean
+          default: false
+
+        goals:
+          type: Array
+          default: []
+
+        goalStates:
+          type: Object
+          default: {}
+
+        casting:
+          type: Boolean
+          default: false
+    }
+
     computed: {
       classToShow: ->
         classToShow = 'success' if @overallStatus is 'success'
@@ -94,7 +110,7 @@
       color: rgb(245, 170, 49)
     .running
       color: rgb(200, 200, 200)
-  
+
   ul
     padding-left: 0
     margin-bottom: 0
@@ -102,7 +118,7 @@
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
       padding-right: 0
-  
+
   #concept-goals-list
     margin-left: 20px
 
