@@ -18,14 +18,14 @@ import { CinematicController } from './play/cinematic/cinematicController'
 
 export default {
   props: {
-    slug: {
-      type: String,
+    cinematicData: {
+      type: Object,
       required: true
     }
   },
   data: () => ({
     controller: null,
-    enterDisabled: true
+    enterDisabled: false
   }),
   mounted: function() {
     if (!me.hasCinematicAccess()) {
@@ -37,7 +37,7 @@ export default {
     this.controller = new CinematicController({
       canvas,
       canvasDiv,
-      slug: this.slug,
+      cinematicData: this.cinematicData,
       handlers: {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
@@ -75,6 +75,7 @@ export default {
   position: relative;
   font-size: 1.5em;
   height: 514px;
+  width: 800px;
 }
 
 #cinematic-div canvas {
