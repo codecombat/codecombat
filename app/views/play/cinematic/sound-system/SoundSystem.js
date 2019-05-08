@@ -30,7 +30,7 @@ export class SoundSystem {
    */
   preload (key, music) {
     if (this.loadedSounds.has(key)) {
-      console.error(`Can't assign sound with key '${key}' as it already exists`)
+      console.warn(`Sound with key: '${key}' is already loaded`)
       return
     }
     if (!music) {
@@ -88,7 +88,7 @@ export class SoundSystem {
   }
 
   /**
-   * Plays the sound, hooking the sound up  to various event handlers and
+   * Plays the sound, hooking the sound up to various event handlers and
    * tracking the sound in the `this.playingSound` map.
    * @param {Howl} sound
    */
@@ -99,9 +99,12 @@ export class SoundSystem {
       return
     }
     const soundInstanceId = sound.play()
+
     const cleanupSound = (isStop = false) => () => {
       const sound = this.playingSound.get(soundInstanceId)
-      if (!sound) { return }
+      if (!sound) {
+        return
+      }
       if (sound.loop() && !isStop) {
         return
       }
@@ -110,6 +113,7 @@ export class SoundSystem {
       sound.off('stop', cleanupSound(true), soundInstanceId)
       sound.off('end', cleanupSound(), soundInstanceId)
     }
+
     sound.once('stop', cleanupSound(true), soundInstanceId)
     sound.once('end', cleanupSound(), soundInstanceId)
     this.playingSound.set(soundInstanceId, sound)

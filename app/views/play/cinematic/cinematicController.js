@@ -144,6 +144,10 @@ export class CinematicController {
       this.onCompletion()
     }
   }
+
+  destroy () {
+    this.systems.sound.stopAllSounds()
+  }
 }
 
 /**

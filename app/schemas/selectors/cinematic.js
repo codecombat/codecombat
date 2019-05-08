@@ -337,7 +337,7 @@ const soundEffects = triggers => {
   }
   const { soundFxTriggers } = triggers
   if (!Array.isArray(soundFxTriggers)) {
-    console.warn(`Ensure 'triggers.soundFxTriggers' is an array. Go a ${typeof soundFxTriggers}`)
+    console.warn(`Ensure 'triggers.soundFxTriggers' is an array. Got a ${typeof soundFxTriggers}`)
     return
   }
   return soundFxTriggers

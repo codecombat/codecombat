@@ -65,6 +65,9 @@ export default {
     }
   },
   beforeDestroy: function()  {
+    if (this.controller) {
+      this.controller.destroy()
+    }
     window.removeEventListener('keypress', this.handleKeyboardCancellation)
   },
 }

@@ -112,7 +112,7 @@ module.exports = Vue.extend({
         schema: Cinematic.schema,
         // Automatically uploads the file to /file/cinematic/<fileName>
         // You can view files at /admin/files
-        filePath: `cinematic`,
+        filePath: 'cinematic',
         files,
         callbacks: {
           change: this.pushChanges
