@@ -11,6 +11,10 @@ export default class VueComponentView extends CocoView {
   constructor (options) {
     super(options)
 
+    if (!this.VueComponent) {
+      throw new Error('Class must be initialized with VueComponent')
+    }
+
     this.props = {}
   }
 
