@@ -1,3 +1,5 @@
+import { CAMERA_DEFAULT } from '../../views/play/cinematic/CameraSystem'
+
 /**
  * Selector / verifier.
  *
@@ -236,14 +238,7 @@ const camera = shotSetup => {
   if (!(shotSetup || {}).camera) {
     return
   }
-  const defaults = {
-    pos: {
-      x: 0,
-      y: 0
-    },
-    zoom: 6
-  }
-  return _.merge(defaults, shotSetup.camera)
+  return _.merge(CAMERA_DEFAULT, shotSetup.camera)
 }
 
 /**

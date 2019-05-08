@@ -42,7 +42,6 @@ export class CinematicController {
     this.stage.addChild(this.backgroundAdapter.container)
     this.stage.addChild(this.layerAdapter.container)
 
-    camera.zoomTo({ x: 0, y: 0 }, 6, 0)
     this.systems.cameraSystem = new CameraSystem(camera)
     this.systems.loader = new Loader({ data: cinematicData })
 

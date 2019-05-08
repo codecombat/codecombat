@@ -1,12 +1,24 @@
 import { getCamera } from '../../../schemas/selectors/cinematic'
 import { SyncFunction } from './Command/commands'
 
+// Seems to be a reasonable default camera.
+// TODO: Is this still reasonable with much larger art assets.
+export const CAMERA_DEFAULT = {
+  pos: {
+    x: 0,
+    y: 0
+  },
+  zoom: 6
+}
+
 /**
  * Thin wrapper on the camera to provide additional command methods.
  */
 export class CameraSystem {
   constructor (camera) {
     this.camera = camera
+
+    camera.zoomTo({ x: CAMERA_DEFAULT.pos.x, y: CAMERA_DEFAULT.pos.y }, CAMERA_DEFAULT.zoom, 0)
   }
 
   /**
