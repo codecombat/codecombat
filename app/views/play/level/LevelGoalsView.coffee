@@ -45,18 +45,9 @@ module.exports = class LevelGoalsView extends SubVueComponentView
   getMountPoint: ->
     return @$('.goals-component')[0]
 
-#  afterRender: ->
-#    @levelGoalsComponent = new LevelGoals({
-#      el: @$('.goals-component')[0],
-#      store
-#      propsData: { showStatus: true }
-#    })
-
   onNewGoalStates: (e) ->
     @setState(_.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
     @setState({ casting: false })
-#    _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
-#    @levelGoalsComponent.casting = false
 
     firstRun = not @previousGoalStatus?
     @previousGoalStatus ?= {}
