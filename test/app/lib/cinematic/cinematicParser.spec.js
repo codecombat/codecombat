@@ -33,7 +33,7 @@ describe('parseShot', () => {
     expect(results).toEqual([['setup command1', 'setup command2']])
   })
 
-  it('parses nothing correctly', () => {
+  it('dialogNode array data passed into parseDialogNode system', () => {
     const systems = [{
       parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
     }]

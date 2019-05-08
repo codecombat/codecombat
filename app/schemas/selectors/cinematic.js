@@ -31,7 +31,7 @@
 const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
 
 /**
- * @typedef TypeThangTypeSlug
+ * @typedef {Object} TypeThangTypeSlug
  * @param {string} slug
  */
 
@@ -142,7 +142,7 @@ const background = backgroundArt => {
  * @param {Object|undefined} thangType
  * @returns {Object|undefined} the thang and slug.
  */
-const getCharacterFromThangTypeSchema = thangType => {
+const characterFromThangTypeSchema = thangType => {
   if (!(thangType || {}).type) {
     return
   }
@@ -163,7 +163,7 @@ const getCharacterFromThangTypeSchema = thangType => {
  * The caller must get the thangType original using:
  * `me.get('heroConfig').thangType`
  * @param {Object|undefined} thangType
- * @returns {Object|undefined} the thang and hero original.
+ * @returns {Object|undefined} thang data
  */
 const getHeroFromThangTypeSchema = thangType => {
   if (!(thangType || {}).type) {
@@ -183,23 +183,21 @@ const getHeroFromThangTypeSchema = thangType => {
  * Returns exactly the data required to fulfill the information to place a character
  * onto the screen.
  * @param {CharacterSchema} character - the left or right character in CharacterSchema
+ * @return {Object|undefined} with slug, enterOnStart, and thang properties object.
  */
 const characterThangTypeSlug = character => {
   if (!character) {
     return
   }
 
-  const thangType = getCharacterFromThangTypeSchema((character || {}).thangType)
+  const thangType = characterFromThangTypeSchema((character || {}).thangType)
   if (!thangType) {
     return
   }
 
   const { slug, thang } = thangType
 
-  if (typeof character.enterOnStart !== 'boolean') {
-    character.enterOnStart = false
-  }
-  const enterOnStart = character.enterOnStart
+  const enterOnStart = character.enterOnStart || false
 
   return { slug, enterOnStart, thang }
 }
@@ -260,7 +258,7 @@ export const getText = dialogNode => (dialogNode || {}).text
  * @param {DialogNode} dialogNode
  * @returns  {'left'|'right'|'both'|undefined}
  */
-export const exitCharacter = dialogNode => (dialogNode || {}).exitCharacter
+export const getExitCharacter = dialogNode => (dialogNode || {}).exitCharacter
 
 /**
  * @param {DialogNode} dialogNode
@@ -303,11 +301,17 @@ export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOrigin
 export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal)
 
 /**
- * Returns the background slug
+ * Returns the background
+ * @param {Shot} shot
+ * @returns {Object|undefined}
+ */
+export const getBackground = compose(shotSetup, backgroundArt, background)
+
+/**
+ * Return the background slug.
  * @param {Shot} shot
  * @returns {string|undefined}
  */
-export const getBackground = compose(shotSetup, backgroundArt, background)
 export const getBackgroundSlug = compose(shotSetup, backgroundArt, background, slug)
 
 /**

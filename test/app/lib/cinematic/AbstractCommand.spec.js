@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 import AbstractCommand, { run, cancel } from '../../../../app/views/play/cinematic/Command/AbstractCommand'
-import { Noop, SyncFunction, SequentialCommands } from '../../../../app/views/play/cinematic/Command/commands'
+import { Noop, SyncFunction, SequentialCommands, ConcurrentCommands, Sleep } from '../../../../app/views/play/cinematic/Command/commands'
 import * as PromiseBB from 'bluebird'
 
 PromiseBB.config({
@@ -54,12 +54,20 @@ describe('SyncFunction', () => {
     }
   })
 
-  it('not running command doesnt call function', () => {
+  it('correctly calls function', () => {
     const functionSpy = jasmine.createSpy()
     const command = new SyncFunction(functionSpy)
     expect(functionSpy).not.toHaveBeenCalled()
     command[run]()
     expect(functionSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('canceled function is still called', () => {
+    const functionSpy = jasmine.createSpy()
+    const command = new SyncFunction(functionSpy)
+    command[run]()
+    command[cancel]()
+    expect(functionSpy).toHaveBeenCalled()
   })
 })
 
@@ -80,6 +88,46 @@ describe('SequentialCommands', () => {
     const commands2 = commands.map(f => new SyncFunction(f));
 
     (new SequentialCommands(commands2))[run]()
+  })
+})
+
+describe('ConcurrentCommands', () => {
+  it('runs commands concurrently', done => {
+    const functionSpy = jasmine.createSpy()
+
+    const commands = [
+      new SyncFunction(() => expect(functionSpy).not.toHaveBeenCalled()),
+      new SequentialCommands([new Sleep(100), new SyncFunction(functionSpy)]),
+      new SequentialCommands([
+        new Sleep(300),
+        new SyncFunction(() => {
+          expect(functionSpy).toHaveBeenCalledTimes(1)
+          done()
+        })
+      ])
+    ]
+
+    const concurrentCommands = new ConcurrentCommands(commands)
+    concurrentCommands[run]()
+  })
+
+  it('running commands concurrently still works when commands not in array order', done => {
+    const functionSpy = jasmine.createSpy()
+
+    const commands = [
+      new SequentialCommands([new Sleep(100), new SyncFunction(functionSpy)]),
+      new SequentialCommands([
+        new Sleep(300),
+        new SyncFunction(() => {
+          expect(functionSpy).toHaveBeenCalledTimes(1)
+          done()
+        })
+      ]),
+      new SyncFunction(() => expect(functionSpy).not.toHaveBeenCalled())
+    ]
+
+    const concurrentCommands = new ConcurrentCommands(commands)
+    concurrentCommands[run]()
   })
 })
 

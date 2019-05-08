@@ -10,7 +10,7 @@ import {
   getClearText,
   getSpeaker,
   getBackgroundSlug,
-  exitCharacter,
+  getExitCharacter,
   getTextPosition,
   getText
 } from '../../../app/schemas/selectors/cinematic'
@@ -117,11 +117,11 @@ describe('Cinematic', () => {
       expect(result2).toBeUndefined()
     })
 
-    it('exitCharacter', () => {
-      const result = exitCharacter(shotFixture1.dialogNodes[0])
+    it('getExitCharacter', () => {
+      const result = getExitCharacter(shotFixture1.dialogNodes[0])
       expect(result).toEqual('both')
 
-      const result2 = exitCharacter(shotFixture2.dialogNodes[0])
+      const result2 = getExitCharacter(shotFixture2.dialogNodes[0])
       expect(result2).toBeUndefined()
     })
 
