@@ -1,7 +1,3 @@
-
-// This is the base backbone view to render any VueComponent.
-// Pass the vue component, propsData, base template into the constructor
-
 import CocoView from 'views/core/CocoView'
 import store from 'core/store'
 
@@ -40,7 +36,7 @@ export default class VueComponentView extends CocoView {
     }
   }
 
-  afterRender() {
+  afterRender () {
     if (!this.vueComponent) {
       this.vueComponent = this.buildVueComponent()
     }

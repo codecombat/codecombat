@@ -1,4 +1,3 @@
-
 // This is the base backbone view to render any VueComponent.
 // Pass the vue component, propsData, base template into the constructor
 
@@ -10,14 +9,16 @@ const silentStore = { commit: _.noop, dispatch: _.noop }
 module.exports = class VueComponentView extends RootView {
   constructor (component, options) {
     super(options)
+
     const baseTemplate = options.baseTemplate || 'base-flat'  //base template, by default using base-flat
     this.id = 'vue-component-view'
+
     try {
       this.template = require('templates/'+ baseTemplate)
-    }
-    catch (err) {
+    } catch (err) {
       console.error("Error in importing the base template.", err)
     }
+
     this.VueComponent = component
     this.propsData = options.propsData
   }
@@ -30,19 +31,30 @@ module.exports = class VueComponentView extends RootView {
     })
   }
 
+  setState (state = {})  {
+    for (const key of Object.keys(state)) {
+      Vue.set(
+        this.props,
+        key,
+        state[key]
+      )
+    }
+  }
+
   afterRender() {
     if (this.vueComponent) {
       this.$el.find('#site-content-area').replaceWith(this.vueComponent.$el)
-    }
-    else{
+    } else {
       this.vueComponent = this.buildVueComponent()
       window.rootComponent = this.vueComponent
     }
 
+    this.propsData = this.vueComponent.$props
+
     super.afterRender()
   }
 
-  destroy() {
+  destroy () {
     super.destroy()
 
     this.vueComponent.$destroy()
