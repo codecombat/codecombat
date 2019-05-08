@@ -40,6 +40,8 @@ module.exports = class LevelGoalsView extends SubVueComponentView
     super options
     @level = options.level
 
+    @setState({ showStatus: true })
+
   getMountPoint: ->
     return @$('.goals-component')[0]
 
