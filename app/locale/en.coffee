@@ -2221,6 +2221,7 @@
     ogres: "Blue"
 
   user:
+    user_title: '__name__ - Learn to Code with CodeCombat'
     stats: "Stats"
     singleplayer_title: "Singleplayer Levels"
     multiplayer_title: "Multiplayer Levels"
