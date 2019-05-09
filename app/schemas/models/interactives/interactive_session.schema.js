@@ -1,3 +1,4 @@
+// Overall schema for interactive sessions.
 // This schema uses features from json schema draft-07
 // Use ajv to validate against this schema instead of legacy tv4 - See Interactive.spec.js
 

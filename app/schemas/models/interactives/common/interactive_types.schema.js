@@ -1,3 +1,5 @@
+// Specific schemas for different types of interactives
+
 const solutionSchema = require('./solutions.schema')
 const schema = require('../../../schemas')
 

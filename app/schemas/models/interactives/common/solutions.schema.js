@@ -1,3 +1,5 @@
+// Schemas for different types of solutions in various interactives
+
 const schema = require('../../../schemas')
 
 const elementOrderingSolutionSchema = {

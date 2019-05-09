@@ -1,3 +1,5 @@
+// Schemas for different types of submissions in various interactive_sessions.
+
 const interactiveTypeSchema = require('./interactive_types.schema')
 const schema = require('../../../schemas')
 
