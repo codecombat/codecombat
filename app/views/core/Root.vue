@@ -5,9 +5,15 @@
 
 <script>
   export default {
-    metaInfo: {
-      title: 'CodeCombat - Learn how to code by playing a game',
-      titleTemplate: '%s | CodeCombat'
+    metaInfo: function () {
+      return {
+        title: 'CodeCombat - Learn how to code by playing a game',
+        titleTemplate: '%s | CodeCombat',
+
+        meta: [
+          { name: 'description', content: this.$t('common.default_meta_description') }
+        ]
+      }
     }
   }
 </script>

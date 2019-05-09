@@ -1,5 +1,7 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   new_home:
+    title: "CodeCombat - Learn Python and JavaScript through a coding game"
+    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own games and websites."
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Computer Science"
@@ -422,6 +424,8 @@
     books: "Books"
 
   common:
+    default_title: "CodeCombat - Learn Python and JavaScript through a coding game"
+    default_meta_description: "Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!"
     back: "Back" # When used as an action verb, like "Navigate backward"
     coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"

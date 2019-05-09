@@ -130,10 +130,8 @@ module.exports = class RootView extends CocoView
     $('body').removeClass('is-playing')
 
     meta = @getMeta()
-    if meta.title
-      meta.title += ' | CodeCombat'
-    else
-      meta.title = 'CodeCombat - Learn how to code by playing a game'
+    if !meta.title && @getTitle().length > 0
+      meta.title = @getTitle()
 
     if localStorage?.showViewNames
       meta.title = @constructor.name
@@ -225,7 +223,6 @@ module.exports = class RootView extends CocoView
     noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true
 
   initializeMetaBinding: ->
-
     if @metaBinding
       return @metaBinding
 
