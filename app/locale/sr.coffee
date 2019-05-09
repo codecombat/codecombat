@@ -87,6 +87,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     classroom_edition: "Издање учионице:"
     learn_to_code: "Научи да кодираш:"
     play_now: "Играј сад"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Ја сам наставник"
     im_a_student: "Ја сам ученик"
     learn_more: "Сазнај више"
@@ -146,6 +147,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     view_progress: "Види напредак"
     go_to_courses: "Иди на моје курсеве"
     want_coco: "Желиш CodeCombat у својој школи?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +172,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     twitter_follow: "Прати"
     my_classrooms: "Моји разреди"
     my_courses: "Моји курсеви"
+#    my_teachers: "My Teachers"
     careers: "Каријере"
     facebook: "Фејсбук"
     twitter: "Твитер"
@@ -1564,6 +1568,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -1577,6 +1582,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     code: "Код ученика који се зове __name__ "
     complete_solution: "Заврши решење"
     course_not_started: "Ученик још није започео курс."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1787,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     gd3_curriculum_desc: "Наставни планови за Развој игре 3."
     wd1: "Веб развој 1"
     wd1_curriculum: "Веб развој 1 - водич за наставни план"
-    wd1_curriculum_desc: "Наставни планови за Веб развој 1."
+    wd1_curriculum_desc: "Наставни планови за Веб развој 1." # {change}
     wd1_headlines: "Активност за наслове и заглавља"
     wd1_headlines_example: "Погледај узорак решења"
     wd1_headlines_desc: "Зашто су тагови параграфа и заглавља важни? Користи ову активност да прикажеш како добро изабрана заглавља чине да се веб страница лакше прочита. Има пуно правилних решења за ово! "
@@ -2222,6 +2231,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     certificate_lines_of: "линије"
     certificate_levels_completed: "завршени нивои"
     certificate_for: "За"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Последње стечено"
@@ -2808,3 +2818,19 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
