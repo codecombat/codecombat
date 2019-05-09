@@ -129,7 +129,7 @@ module.exports = class RootView extends CocoView
     @buildLanguages()
     $('body').removeClass('is-playing')
 
-    meta = @getMeta
+    meta = @getMeta()
     if meta.title
       meta.title += ' | CodeCombat'
     else
@@ -225,11 +225,15 @@ module.exports = class RootView extends CocoView
     noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true
 
   initializeMetaBinding: ->
-    if @skipMetaBinding
-      return
 
     if @metaBinding
       return @metaBinding
+
+    if @skipMetaBinding
+      return @metaBinding = {
+        $destroy: ->
+        setMeta: ->
+      }
 
     vueMetaContainer = document.getElementById('vue-meta-binding')
     @metaBinding = new BackboneMetaBinding({

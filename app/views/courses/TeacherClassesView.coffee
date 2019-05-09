@@ -100,7 +100,10 @@ module.exports = class TeacherClassesView extends RootView
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
 
-  getTitle: -> $.i18n.t 'teacher.my_classes'
+  getMeta: ->
+    {
+      title: $.i18n.t 'teacher.my_classes'
+    }
 
   initialize: (options) ->
     super(options)

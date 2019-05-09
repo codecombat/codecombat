@@ -2819,6 +2819,7 @@
     teacher_email: "Teacher's email address"
 
   school_administrator:
+    title: 'School Administrator Dashboard',
     my_teachers: 'My Teachers'
     last_login: 'Last Login'
     licenses_used: 'licenses used'
