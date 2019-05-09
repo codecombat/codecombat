@@ -210,6 +210,8 @@
     subscribe_as_diplomat: "Subscribe as a Diplomat"
 
   play:
+    title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
+    meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
     level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
     anon_signup_title_1: "CodeCombat has a"
     anon_signup_title_2: "Classroom Version!"
@@ -1033,6 +1035,8 @@
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   about:
+    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Learn More"
     main_title:"If you want to learn to program, you need to write (a lot of) code."
     main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
@@ -1321,6 +1325,8 @@
     contribute_to_the_project: "Contribute to the project"
 
   clans:
+    title: 'Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML'
+    meta_description: 'Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills.'
     clan: "Clan"
     clans: "Clans"
     new_name: "New clan name"

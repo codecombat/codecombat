@@ -63,8 +63,14 @@ class CampaignsCollection extends CocoCollection
   model: Campaign
 
 module.exports = class CampaignView extends RootView
-  id: 'campaign-view'
+  gd: 'campaign-view'
   template: template
+
+  getMeta: ->
+    title: $.i18n.t 'play.title'
+    meta: [
+      { name: 'description', content: $.i18n.t 'play.meta_description' }
+    ]
 
   subscriptions:
     'subscribe-modal:subscribed': 'onSubscribed'
@@ -440,7 +446,7 @@ module.exports = class CampaignView extends RootView
           unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
             @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
           @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
-       
+
   buildLevelScoreMap: ->
     for session in @sessions.models
       levels = @getLevels()
@@ -1006,9 +1012,9 @@ module.exports = class CampaignView extends RootView
     courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
 
     classroomLevel = @classroomLevelMap?[levelOriginal]
-    
+
     # If classroomItems is on, don't go to PlayLevelView directly.
-    # Go through LevelSetupManager which will load required modals before going to PlayLevelView. 
+    # Go through LevelSetupManager which will load required modals before going to PlayLevelView.
     if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel?.isAssessment())
       @startLevel levelElement, courseID, courseInstanceID
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
@@ -1427,7 +1433,7 @@ module.exports = class CampaignView extends RootView
 
     if what in ['back-to-classroom']
       return isStudentOrTeacher and not application.getHocCampaign()
-    
+
     if what in ['videos']
       return me.isStudent() and @course?.get('_id') == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 

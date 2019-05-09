@@ -14,6 +14,11 @@ module.exports = class ClansView extends RootView
   id: 'clans-view'
   template: template
 
+  getMeta: ->
+    title: $.i18n.t 'clans.title'
+    meta: [
+      { name: 'description', content: $.i18n.t 'clans.meta_description' }
+    ]
 
   events:
     'click .create-clan-btn': 'onClickCreateClan'
