@@ -120,6 +120,15 @@ module.exports = class RootView extends CocoView
     #location.hash = hash
     @renderScrollbar()
 
+  render: ->
+    try
+      @initializeMetaBinding()
+    catch e
+      console.error 'Failed to initialize meta binding', e
+
+    super()
+
+
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
       @$el.addClass('site-chrome')
@@ -130,8 +139,6 @@ module.exports = class RootView extends CocoView
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
     $('body').removeClass('is-playing')
-
-    @initializeMetaBinding()
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
