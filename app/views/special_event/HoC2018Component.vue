@@ -93,7 +93,6 @@
 <script>
 module.exports = Vue.extend({
   metaInfo: function () {
-    console.log("WHAT")
     return {
       title: this.$t('teacher.hoc_title'),
       meta: [

@@ -63,7 +63,7 @@ class CampaignsCollection extends CocoCollection
   model: Campaign
 
 module.exports = class CampaignView extends RootView
-  gd: 'campaign-view'
+  id: 'campaign-view'
   template: template
 
   getMeta: ->
