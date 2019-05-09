@@ -220,22 +220,31 @@ module.exports = class RootView extends CocoView
   onTreemaError: (e) ->
     noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true
 
+  # Initialize the binding to vue-meta by initializing a Vue component that sets the head tags
+  # on render.  This binding will be destroyed via the Vue component's $destory method when
+  # this view is destroyed.  Views can specify @skipMetaBinding = true when they want to manage
+  # head tags in their own way.  This is useful for legacy Vue components that eventually inherit
+  # from RootView (ie RootComponent and VueComponentView).  These views can use vue-meta directly
+  # within their Vue components.
   initializeMetaBinding: ->
     if @metaBinding
       return @metaBinding
 
+    # Set a noop meta binding object when the view opts to skip meta binding
     if @skipMetaBinding
       return @metaBinding = {
         $destroy: ->
         setMeta: ->
       }
 
+    # Create an empty, mounted element so that the vue component actually renders and runs vue-meta
     vueMetaContainer = document.getElementById('vue-meta-binding')
     @metaBinding = new BackboneMetaBinding({
       el: vueMetaContainer
       propsData: {}
     })
 
+    # Set up default meta configuration
     meta = @getMeta() || {}
     title = @getTitle() || ''
     if !meta.title && title.length > 0
@@ -246,6 +255,7 @@ module.exports = class RootView extends CocoView
 
     @metaBinding.setMeta(
       merge(
+        {},
         meta,
         @pendingMeta || {}
       )
@@ -253,9 +263,18 @@ module.exports = class RootView extends CocoView
 
     delete @pendingMeta if @pendingMeta
 
+  # Set the page title when the view is loaded.  This value is merged into the
+  # result of getMeta.  It will override any title specified in getMeta.  Kept
+  # for backwards compatibility
   getTitle: -> ''
+
+  # Head tag configuration used to configure vue-meta when the View is loaded.
+  # See https://vue-meta.nuxtjs.org/ for available configuration options.  This
+  # can be later modified by calling setMeta
   getMeta: -> {}
 
+  # Allow async updates of the view's meta configuration.  This can be used in addition to getMeta
+  # to update meta configuration when the meta configuration is computed asynchronously
   setMeta: (meta) ->
     if @metaBinding
       @metaBinding.setMeta(meta)
@@ -269,3 +288,4 @@ module.exports = class RootView extends CocoView
 
     if @metaBinding
       @metaBinding.$destroy()
+      delete @metaBinding

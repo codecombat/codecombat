@@ -11,6 +11,7 @@ export default class SingletonAppVueComponentView extends VueComponentView {
     // For now we only support the default the default base-flat template
     super(null, {})
 
+    // Head tag management will be performed inside of Vue app
     this.skipMetaBinding = true
   }
 
