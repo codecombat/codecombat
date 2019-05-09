@@ -2685,6 +2685,8 @@
     your_parentheses_must_match: "Your parentheses must match."
 
   apcsp:
+    title: 'AP Computer Science Principals | College Board Endorsed'
+    meta_description: 'CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.'
     syllabus: "AP CS Principles Syllabus"
     syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
     computational_thinking_practices: "Computational Thinking Practices"
