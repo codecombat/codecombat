@@ -39,6 +39,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
 
   initialize: (@options, @sessionID) ->
+    super(@options)
+
     @state = new State({
       loading: true
       progress: 0
@@ -77,6 +79,11 @@ module.exports = class PlayGameDevLevelView extends RootView
 
     .then (levelLoader) =>
       { @level, @session, @world } = levelLoader
+
+      @setMeta({
+        title: $.i18n.t 'play.game_development_title', { level: @level.get('name') }
+      })
+
       @god.setLevel(@level.serialize {@supermodel, @session})
       @god.setWorldClassMap(@world.classMap)
       @goalManager = new GoalManager(@world, @level.get('goals'), @team)
@@ -223,7 +230,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     if @world.uiText?.levelName
       @levelName = @world.uiText.levelName
       @renderSelectors '#directions'
-  
+
   updateVictoryMessage: ->
     if @world.uiText?.victoryMessage
       @victoryMessage = @world.uiText?.victoryMessage

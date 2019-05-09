@@ -18,6 +18,8 @@ module.exports = class PrepaidView extends RootView
     'click #redeem-code-btn': 'onClickRedeemCodeButton'
 
   initialize: ->
+    super()
+
     # HACK: Make this one specific page responsive on mobile.
     $('head').append('<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">');
 
@@ -30,13 +32,16 @@ module.exports = class PrepaidView extends RootView
       @ppcQuery = true
       @loadPrepaid(@ppc)
 
+  getMeta: ->
+    title: $.i18n.t 'account.prepaids_title'
+
   afterRender: ->
     super()
     @$el.find("span[title]").tooltip()
 
   statusMessage: (message, type='alert') ->
     noty text: message, layout: 'topCenter', type: type, killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3
-    
+
   confirmRedeem: =>
 
     options =
