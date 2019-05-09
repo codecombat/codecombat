@@ -2260,6 +2260,13 @@
     left_xp_postfix: ""
 
   account:
+    title: 'Account'
+    settings_title: 'Account Settings'
+    unsubscribe_title: 'Unsubscribe'
+    payments_title: 'Payments'
+    subscription_title: 'Subscription'
+    invoices_title: 'Invoices'
+    prepaids_title: 'Prepaids'
     payments: "Payments"
     prepaid_codes: "Prepaid Codes"
     purchased: "Purchased"

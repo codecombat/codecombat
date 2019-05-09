@@ -30,13 +30,16 @@ module.exports = class PrepaidView extends RootView
       @ppcQuery = true
       @loadPrepaid(@ppc)
 
+  getMeta: ->
+    title: $.i18n.t 'account.prepaids_title'
+
   afterRender: ->
     super()
     @$el.find("span[title]").tooltip()
 
   statusMessage: (message, type='alert') ->
     noty text: message, layout: 'topCenter', type: type, killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3
-    
+
   confirmRedeem: =>
 
     options =
