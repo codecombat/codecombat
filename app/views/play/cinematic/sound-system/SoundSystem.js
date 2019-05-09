@@ -88,9 +88,10 @@ export class SoundSystem {
   }
 
   /**
-   * Plays the sound, hooking the sound up to various event handlers and
-   * tracking the sound in the `this.playingSound` map.
-   * @param {Howl} sound
+   * Finds and plays the sound associated to the given key, hooking the sound up
+   * to various event handlers and tracking the sound in the `this.playingSound`
+   * map.
+   * @param {Howl} key
    */
   playSound (key) {
     const sound = this.loadedSounds.get(key)
