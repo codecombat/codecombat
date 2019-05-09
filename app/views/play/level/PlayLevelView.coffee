@@ -109,7 +109,7 @@ module.exports = class PlayLevelView extends RootView
     # workaround to get users out of permanent idle status
     if application.userIsIdle
       application.idleTracker.onVisible()
-    
+
     #hide context menu if visible
     if @$('#surface-context-menu-view').is(":visible")
       Backbone.Mediator.publish 'level:surface-context-menu-hide', {}
@@ -237,6 +237,11 @@ module.exports = class PlayLevelView extends RootView
     console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
+
+    @setMeta({
+      title: $.i18n.t('play.level_title', { level: @level.get('name') })
+    })
+
     randomTeam = @world?.teamForPlayer()  # If no team is set, then we will want to equally distribute players to teams
     team = utils.getQueryVariable('team') ?  @session.get('team') ? randomTeam ? 'humans'
     @loadOpponentTeam(team)
@@ -358,7 +363,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
-    @insertSubView new SurfaceContextMenuView session: @session, level: @level 
+    @insertSubView new SurfaceContextMenuView session: @session, level: @level
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
@@ -716,7 +721,7 @@ module.exports = class PlayLevelView extends RootView
     pos = x: e.clientX, y: e.clientY
     wop = @surface.coordinateDisplay.lastPos
     Backbone.Mediator.publish 'level:surface-context-menu-pressed', posX: pos.x, posY: pos.y, wopX: wop.x, wopY: wop.y
-    
+
 
   # Dynamic sound loading
 

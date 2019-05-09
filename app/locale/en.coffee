@@ -210,6 +210,7 @@
     subscribe_as_diplomat: "Subscribe as a Diplomat"
 
   play:
+    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
     anon_signup_title_1: "CodeCombat has a"
     anon_signup_title_2: "Classroom Version!"
     anon_signup_enter_code: "Enter Class Code:"

@@ -1,6 +1,8 @@
 # A root view is one that replaces everything else on the screen when it
 # comes into being, as opposed to sub-views which get inserted into other views.
 
+merge = require('lodash').merge
+
 CocoView = require './CocoView'
 
 {logoutUser, me} = require('core/auth')
@@ -129,18 +131,7 @@ module.exports = class RootView extends CocoView
     @buildLanguages()
     $('body').removeClass('is-playing')
 
-    meta = @getMeta()
-    if !meta.title && @getTitle().length > 0
-      meta.title = @getTitle()
-
-    if localStorage?.showViewNames
-      meta.title = @constructor.name
-
-    metaBinding = @initializeMetaBinding()
-    metaBinding.setMeta(meta)
-
-  getTitle: -> ''
-  getMeta: -> {}
+    @initializeMetaBinding()
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
@@ -237,6 +228,34 @@ module.exports = class RootView extends CocoView
       el: vueMetaContainer
       propsData: {}
     })
+
+    meta = @getMeta() || {}
+    title = @getTitle() || ''
+    if !meta.title && title.length > 0
+      meta.title = title
+
+    if localStorage?.showViewNames
+      meta.title = @constructor.name
+
+    @metaBinding.setMeta(
+      merge(
+        meta,
+        @pendingMeta || {}
+      )
+    )
+
+    delete @pendingMeta if @pendingMeta
+
+  getTitle: -> ''
+  getMeta: -> {}
+
+  setMeta: (meta) ->
+    if @metaBinding
+      @metaBinding.setMeta(meta)
+    else if @pendingMeta
+      @pendingMeta = merge(@pendingMeta || {}, meta)
+    else
+      console.error('Unexpected meta binding state')
 
   destroy: ->
     super()

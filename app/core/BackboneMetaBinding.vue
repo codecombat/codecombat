@@ -23,7 +23,7 @@
 
     methods: {
       setMeta: function (meta) {
-        this.meta = meta
+        this.meta = merge({}, this.meta, meta)
       }
     }
   })
