@@ -1,6 +1,5 @@
 /*
  * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
  * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
  * DS103: Rewrite code to no longer use __guard__
@@ -28,11 +27,6 @@ const GoalManager = require('lib/world/GoalManager')
 const ScriptManager = require('lib/scripts/ScriptManager')
 const LevelBus = require('lib/LevelBus')
 const LevelLoader = require('lib/LevelLoader')
-// const LevelSession = require('models/LevelSession')
-// const Level = require('models/Level')
-// const LevelComponent = require('models/LevelComponent')
-// const Article = require('models/Article')
-// const Camera = require('lib/surface/Camera')
 const AudioPlayer = require('lib/AudioPlayer')
 const Simulator = require('lib/simulator/Simulator')
 const GameUIState = require('models/GameUIState')
@@ -76,28 +70,13 @@ class PlayLevelView extends RootView {
   // Initial Setup #############################################################
 
   constructor (options, levelID) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super()
-      }
-      let thisFn = (() => {
-        return this
-      }).toString()
-      let thisName = thisFn.match(
-        /return (?:_assertThisInitialized\()*(\w+)\)*;/
-      )[1]
-      eval(`${thisName} = this;`)
+    super(options)
+    if (typeof console.profile === 'function' && PROFILE_ME) {
+      console.profile()
     }
     this.onWindowResize = this.onWindowResize.bind(this)
     this.onSubmissionComplete = this.onSubmissionComplete.bind(this)
     this.levelID = levelID
-    if (PROFILE_ME) {
-      if (typeof console.profile === 'function') {
-        console.profile()
-      }
-    }
-    super(options)
 
     this.courseID = options.courseID || utils.getQueryVariable('course')
     this.courseInstanceID =
@@ -114,7 +93,7 @@ class PlayLevelView extends RootView {
     }
     this.gameUIState = new GameUIState()
 
-    $('flying-focus').remove() //Causes problems, so yank it out for play view.
+    $('flying-focus').remove() // Causes problems, so yank it out for play view.
     $(window).on('resize', this.onWindowResize)
 
     if (this.isEditorPreview) {
@@ -281,16 +260,6 @@ class PlayLevelView extends RootView {
 
   showAds () {
     return false // No ads for now.
-    if (
-      application.isProduction() &&
-      !me.isPremium() &&
-      !me.isTeacher() &&
-      !window.serverConfig.picoCTF &&
-      !this.isCourseMode()
-    ) {
-      return me.getCampaignAdsGroup() === 'leaderboard-ads';
-    }
-    return false
   }
 
   // CocoView overridden methods ###############################################
@@ -359,7 +328,7 @@ class PlayLevelView extends RootView {
           ? left1
           : randomTeam) != null
         ? left
-        : 'humans';
+        : 'humans'
     this.loadOpponentTeam(team)
     this.setupGod()
     this.setTeam(team)
@@ -381,7 +350,7 @@ class PlayLevelView extends RootView {
     store.commit('game/setLevel', this.level.attributes)
     if (this.level.isType('web-dev')) {
       this.$el.addClass('web-dev') // Hide some of the elements we won't be using
-      return;
+      return
     }
     this.world = this.levelLoader.world
     if (this.level.isType('game-dev')) {
@@ -537,15 +506,15 @@ class PlayLevelView extends RootView {
 
   setTeam (team) {
     if (!_.isString(team)) {
-      team = team != null ? team.team : undefined
+      team = (team || {}).team
     }
-    if (team == null) {
-      team = 'humans';
+    if (!team) {
+      team = 'humans'
     }
     me.team = team
     this.session.set('team', team)
     Backbone.Mediator.publish('level:team-set', { team }) // Needed for scripts
-    return (this.team = team)
+    this.team = team
   }
 
   initGoalManager () {
@@ -559,15 +528,15 @@ class PlayLevelView extends RootView {
       this.team,
       options
     )
-    return this.god != null
-      ? this.god.setGoalManager(this.goalManager)
-      : undefined
+    if (typeof (this.god || {}).setGoalManager === 'function') {
+      this.god.setGoalManager(this.goalManager)
+    }
   }
 
   updateGoals (goals) {
     this.level.set('goals', goals)
     this.goalManager.destroy()
-    return this.initGoalManager()
+    this.initGoalManager()
   }
 
   updateSpellPalette (thang, spell) {
@@ -585,7 +554,7 @@ class PlayLevelView extends RootView {
     const useHero =
       /hero/.test(spell.getSource()) ||
       !/(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    return (this.spellPaletteView = this.insertSubView(
+    this.spellPaletteView = this.insertSubView(
       new SpellPaletteView({
         thang,
         supermodel: this.supermodel,
@@ -602,7 +571,7 @@ class PlayLevelView extends RootView {
         courseInstanceID: this.courseInstanceID,
         useHero
       })
-    ))
+    )
   }
   // @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
 
@@ -616,27 +585,26 @@ class PlayLevelView extends RootView {
     this.hintsState.on('change:hidden', (hintsState, newHiddenValue) =>
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
-    this.insertSubView(
-      (this.tome = new TomeView({
-        levelID: this.levelID,
-        session: this.session,
-        otherSession: this.otherSession,
-        playLevelView: this,
-        thangs:
-          (this.world != null ? this.world.thangs : undefined) != null
-            ? this.world != null
-              ? this.world.thangs
-              : undefined
-            : [],
-        supermodel: this.supermodel,
-        level: this.level,
-        observing: this.observing,
-        courseID: this.courseID,
-        courseInstanceID: this.courseInstanceID,
-        god: this.god,
-        hintsState: this.hintsState
-      }))
-    )
+    this.tome = new TomeView({
+      levelID: this.levelID,
+      session: this.session,
+      otherSession: this.otherSession,
+      playLevelView: this,
+      thangs:
+        (this.world != null ? this.world.thangs : undefined) != null
+          ? this.world != null
+            ? this.world.thangs
+            : undefined
+          : [],
+      supermodel: this.supermodel,
+      level: this.level,
+      observing: this.observing,
+      courseID: this.courseID,
+      courseInstanceID: this.courseInstanceID,
+      god: this.god,
+      hintsState: this.hintsState
+    })
+    this.insertSubView(this.tome)
     if (!this.level.isType('web-dev')) {
       this.insertSubView(
         new LevelPlaybackView({ session: this.session, level: this.level })
@@ -693,31 +661,30 @@ class PlayLevelView extends RootView {
         })
       )
     }
+    this.controlBar = new ControlBarView({
+      worldName: utils.i18n(this.level.attributes, 'name'),
+      session: this.session,
+      level: this.level,
+      supermodel: this.supermodel,
+      courseID: this.courseID,
+      courseInstanceID: this.courseInstanceID
+    })
+    this.insertSubView(this.controlBar)
+    this.hintsView = new HintsView({
+      session: this.session,
+      level: this.level,
+      hintsState: this.hintsState
+    })
     this.insertSubView(
-      (this.controlBar = new ControlBarView({
-        worldName: utils.i18n(this.level.attributes, 'name'),
-        session: this.session,
-        level: this.level,
-        supermodel: this.supermodel,
-        courseID: this.courseID,
-        courseInstanceID: this.courseInstanceID
-      }))
-    )
-    this.insertSubView(
-      (this.hintsView = new HintsView({
-        session: this.session,
-        level: this.level,
-        hintsState: this.hintsState
-      })),
+      this.hintsView,
       this.$('.hints-view')
     )
     if (this.level.isType('web-dev')) {
-      return this.insertSubView(
-        (this.webSurface = new WebSurfaceView({
-          level: this.level,
-          goalManager: this.goalManager
-        }))
-      )
+      this.webSurface = new WebSurfaceView({
+        level: this.level,
+        goalManager: this.goalManager
+      })
+      this.insertSubView(this.webSurface)
     }
   }
   // _.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
