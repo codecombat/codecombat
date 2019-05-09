@@ -1326,6 +1326,7 @@
 
   clans:
     title: 'Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML'
+    clan_title: '__clan__ - Join CodeCombat Clans and Learn to Code'
     meta_description: 'Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills.'
     clan: "Clan"
     clans: "Clans"
