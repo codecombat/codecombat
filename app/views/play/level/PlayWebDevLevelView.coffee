@@ -26,6 +26,10 @@ module.exports = class PlayWebDevLevelView extends RootView
         @level.once 'sync', =>
           levelResource.markLoaded()
 
+          @setMeta({
+            title: $.i18n.t 'play.web_development_title', { level: @level.get('name') }
+          })
+
   onLoaded: ->
     super()
     @insertSubView @webSurface = new WebSurfaceView {level: @level}

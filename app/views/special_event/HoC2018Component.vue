@@ -92,6 +92,15 @@
 
 <script>
 module.exports = Vue.extend({
+  metaInfo: function () {
+    return {
+      title: this.$t('teacher.hoc_title'),
+      meta: [
+        { vmid: 'meta-description', name: 'description', content: this.$t('teacher.hoc_meta_description') }
+      ]
+    }
+  },
+
   data: function() {
     return {
       teacherEmail: ''

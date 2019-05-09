@@ -7,9 +7,12 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 module.exports = class AccountSettingsRootView extends RootView
   id: "account-settings-root-view"
   template: template
-  
+
   events:
     'click #save-button': -> @accountSettingsView.save()
+
+  getMeta: ->
+    title: $.i18n.t 'account.settings_title'
 
   shortcuts:
     'enter': -> @
