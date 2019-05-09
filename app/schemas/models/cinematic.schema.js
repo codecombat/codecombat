@@ -66,7 +66,8 @@ const ShotSetup = c.object({
       description: 'The position of the camera in meters.'
     }),
     zoom: { title: 'Zoom', description: 'The zoom level of the camera. A good default is 6. Recommended you change between 0 and 10.', type: 'number' }
-  })
+  }),
+  music: c.sound()
 })
 
 const DialogNode = c.object({
@@ -98,7 +99,19 @@ const DialogNode = c.object({
       description: 'Clears the background objects from the screen after a given duration'
     }, {
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until background object is cleared' })
-    })
+    }),
+    soundFxTriggers: c.array({
+      title: 'SoundFX triggers',
+      description: 'A list of sound effects that we can play. Unlike music they will overlap and wont prevent other sounds playing.'
+    },
+    c.object({
+      title: 'Sound Effect',
+      description: 'A sound effect that plays after a delay.',
+      required: ['sound']
+    }, {
+      sound: c.sound(),
+      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until the sound effect is played' })
+    }))
   }),
   dialogClear: {
     type: 'boolean',

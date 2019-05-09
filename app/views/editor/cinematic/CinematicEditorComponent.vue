@@ -49,6 +49,8 @@ import { getCinematic, putCinematic, createCinematic, getAllCinematics } from 'c
 import Cinematic from 'app/models/Cinematic'
 import ListItem from 'app/components/cinematic/editor/ListItem'
 import CinematicCanvas from 'app/views/CinematicCanvas'
+import CocoCollection from 'app/collections/CocoCollection'
+const api = require('core/api')
 
 require('lib/setupTreema')
 
@@ -101,13 +103,17 @@ module.exports = Vue.extend({
           }
         })
       }
-
       const c = this.cinematic
       const data = $.extend(true, {}, c.attributes)
       const el = $(`<div></div>`);
+      const files = new CocoCollection(await api.files.getDirectory({path: 'cinematic'}), { model: Cinematic })
       const treema = this.treema = TreemaNode.make(el, {
         data: data,
         schema: Cinematic.schema,
+        // Automatically uploads the file to /file/cinematic/<fileName>
+        // You can view files at /admin/files
+        filePath: 'cinematic',
+        files,
         callbacks: {
           change: this.pushChanges
         }

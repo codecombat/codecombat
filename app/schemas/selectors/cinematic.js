@@ -58,6 +58,11 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
  */
 
 /**
+ * @typedef {Object} Sound
+ * @property {string} mp3
+ * @property {string} ogg
+ */
+/**
  * @typedef {Object} DialogNode
  * @property {string} text - The text to display
  * @property {Point2d} textLocation - The point information
@@ -295,6 +300,17 @@ const backgroundObject = triggers => {
 const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength || 1000
 
 /**
+ * @param {ShotSetup} shotSetup
+ * @returns {Sound} possibly contains `mp3` or `ogg` property.
+ */
+const setupMusic = shotSetup => {
+  if (!(shotSetup || {}).music) {
+    return
+  }
+  return shotSetup.music
+}
+
+/**
  * @param {Object} triggers
  * @returns {undefined|number} Delay if it exists.
  */
@@ -303,6 +319,32 @@ const clearBackgroundObject = triggers => {
     return
   }
   return (triggers.clearBackgroundObject || {}).triggerStart
+}
+
+/**
+ * @typedef {Object} SoundEffect
+ * @property {number} triggerStart
+ * @property {Sound} sound
+ */
+
+/**
+ * @param {Object} triggers
+ * @returns {SoundEffect[]|undefined}
+ */
+const soundEffects = triggers => {
+  if (!(triggers || {}).soundFxTriggers) {
+    return
+  }
+  const { soundFxTriggers } = triggers
+  if (!Array.isArray(soundFxTriggers)) {
+    console.warn(`Ensure 'triggers.soundFxTriggers' is an array. Got a ${typeof soundFxTriggers}`)
+    return
+  }
+  return soundFxTriggers
+    .map(sound => {
+      sound.triggerStart = sound.triggerStart || 0
+      return sound
+    })
 }
 
 /**
@@ -362,3 +404,14 @@ export const getTextAnimationLength = textAnimationLength
  * @returns {string|undefined} Lank action to play
  */
 export const getSpeakingAnimationAction = dialogNode => (dialogNode || {}).speakingAnimationAction
+
+/**
+ * @returns {string|undefined}
+ */
+export const getSetupMusic = compose(shotSetup, setupMusic)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {SoundEffect[] | undefined}
+ */
+export const getSoundEffects = compose(triggers, soundEffects)

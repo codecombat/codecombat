@@ -5,6 +5,7 @@ div.container
   select#folder-select(v-model="directory")
     option(value="music") Music
     option(value="interface") Interface
+    option(value="cinematic") Cinematic
 
   a.btn.btn-primary#upload-button
     span.glyphicon.glyphicon-upload(v-on:click="uploadFile")
