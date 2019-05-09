@@ -39,6 +39,12 @@ module.exports = class HomeView extends RootView
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
+  getMeta: ->
+    title: $.i18n.t 'new_home.title'
+    meta: [
+        { name: 'description', content: $.i18n.t 'new_home.meta_description' }
+    ]
+
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']

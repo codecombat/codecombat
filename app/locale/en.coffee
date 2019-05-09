@@ -1831,6 +1831,8 @@
     starter_license: "Starter License"
     trial: "Trial"
     hoc_welcome: "Happy Computer Science Education Week"
+    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
     hoc_self_led: "Self-Led Gameplay"
     hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
