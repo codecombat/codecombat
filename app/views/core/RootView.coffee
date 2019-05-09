@@ -11,6 +11,8 @@ AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
 
+BackboneMetaBinding = require('app/core/BackboneMetaBinding').default
+
 # TODO remove
 
 filterKeyboardEvents = (allowedEvents, func) ->
@@ -95,8 +97,8 @@ module.exports = class RootView extends CocoView
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
       properties = { category: 'Homepage' }
-      window.tracker?.trackEvent 'Login', properties, ['Google Analytics'] 
-      
+      window.tracker?.trackEvent 'Login', properties, ['Google Analytics']
+
       eventAction = $(e.target)?.data('event-action')
       if $(e.target)?.hasClass('track-ab-result')
         _.extend(properties, { trackABResult: true })
@@ -127,15 +129,20 @@ module.exports = class RootView extends CocoView
     @buildLanguages()
     $('body').removeClass('is-playing')
 
-    if title = @getTitle() then title += ' | CodeCombat'
-    else title = 'CodeCombat - Learn how to code by playing a game'
+    meta = @getMeta
+    if meta.title
+      meta.title += ' | CodeCombat'
+    else
+      meta.title = 'CodeCombat - Learn how to code by playing a game'
 
     if localStorage?.showViewNames
-      title = @constructor.name
+      meta.title = @constructor.name
 
-    $('title').text(title)
+    metaBinding = @initializeMetaBinding()
+    metaBinding.setMeta(meta)
 
   getTitle: -> ''
+  getMeta: -> {}
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
@@ -216,3 +223,22 @@ module.exports = class RootView extends CocoView
 
   onTreemaError: (e) ->
     noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true
+
+  initializeMetaBinding: ->
+    if @skipMetaBinding
+      return
+
+    if @metaBinding
+      return @metaBinding
+
+    vueMetaContainer = document.getElementById('vue-meta-binding')
+    @metaBinding = new BackboneMetaBinding({
+      el: vueMetaContainer
+      propsData: {}
+    })
+
+  destroy: ->
+    super()
+
+    if @metaBinding
+      @metaBinding.$destroy()
