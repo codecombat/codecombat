@@ -4,6 +4,10 @@ module.exports = {
         'plugin:vue/recommended'
     ],
 
+    'globals': {
+        "Vue": "readonly"
+    },
+
     'env': {
         'browser': true,
         'es6': true

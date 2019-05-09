@@ -17,6 +17,12 @@
     import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.jade'
 
     export default {
+      metaInfo: function () {
+        return {
+          title: this.$t('school_administrator.title')
+        }
+      },
+
       data: () => ({ teacherDashboardNavTemplate }),
 
       components: {

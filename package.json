@@ -158,6 +158,7 @@
     "underscore.string": "~2.3.3",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.6.10",
+    "vue-meta": "^1.6.0",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.2",
     "vuex": "^2.4.0",
