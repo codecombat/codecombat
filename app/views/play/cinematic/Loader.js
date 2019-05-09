@@ -1,5 +1,5 @@
-import { get } from 'core/api/cinematic'
-import { getThang } from '../../../core/api/thang-types'
+import { getThang, getThangTypeOriginal } from '../../../core/api/thang-types'
+import { getBackgroundSlug, getBackgroundObject, getRightCharacterThangTypeSlug, getLeftCharacterThangTypeSlug } from '../../../schemas/selectors/cinematic';
 
 /**
  * @typedef {import('../../../schemas/selectors/cinematic')} Cinematic
@@ -13,12 +13,11 @@ const ThangType = require('models/ThangType')
  */
 
 export default class Loader {
-  constructor ({ slug }) {
-    this.slug = slug
-
-    // Stores thangType with slug as the key.
+  constructor ({ data }) {
+    this.data = data
+    // Stores thangType with slug or original as the key.
     this.loadedThangTypes = new Map()
-    // Stores the thangType loading promise with slug as key.
+    // Stores the thangType loading promise with slug or original as key.
     this.loadingThangTypes = new Map()
   }
 
@@ -27,10 +26,50 @@ export default class Loader {
    * @returns {Cinematic} The raw JSON object with Cinematic data.
    */
   async loadAssets () {
-    this.data = await get(this.slug)
     this.loadThangTypes(this.data.shots)
+    this.loadPlayerThangType()
+    this.loadBackgroundObjects(this.data.shots)
     await this.load()
     return this.data
+  }
+
+  /**
+   * Loads the player thangType from the global `me` object if accessible.
+   * Has a side effect of storing the players thangType by original as a resource.
+   */
+  loadPlayerThangType () {
+    if ((me || {}) && !me.get('heroConfig')) {
+      return
+    }
+    const original = me.get('heroConfig').thangType
+    if (!original) {
+      return
+    }
+
+    this.loadingThangTypes.set(
+      original,
+      (async () => {
+        const attr = await getThangTypeOriginal(original)
+        this.loadedThangTypes.set(original, new ThangType(attr))
+      })()
+    )
+  }
+
+  /**
+   * Queues up the background objects
+   * @param {Shot[]} shots
+   */
+  loadBackgroundObjects (shots) {
+    shots
+      .filter(shot => (shot.dialogNodes || []).length > 0)
+      .forEach(({ dialogNodes }) =>
+        dialogNodes
+          .map(dialogNode => getBackgroundObject(dialogNode))
+          .filter(bgObject => bgObject)
+          .map(({ type: { slug } }) => slug)
+          .filter(slug => slug)
+          .forEach(slug => this.queueThangType(slug))
+      )
   }
 
   /**
@@ -40,32 +79,44 @@ export default class Loader {
    * TODO: Add retry logic to the getThang function.
    */
   loadThangTypes (shots) {
-    const characterArray = []
+    const slugs = []
     shots
-      .map(({ shotSetup }) => shotSetup)
-      .filter(setup => setup)
-      .forEach(({ leftThangType, rightThangType }) => {
-        if (leftThangType) {
-          characterArray.push(leftThangType)
+      .forEach(shot => {
+        const { slug } = getLeftCharacterThangTypeSlug(shot) || {}
+        if (slug) {
+          slugs.push(slug)
         }
-        if (rightThangType) {
-          characterArray.push(rightThangType)
+        const { slug: slug2 } = getRightCharacterThangTypeSlug(shot) || {}
+        if (slug2) {
+          slugs.push(slug2)
+        }
+
+        const backgroundSlug = getBackgroundSlug(shot) || {}
+        if (backgroundSlug) {
+          slugs.push(backgroundSlug)
         }
       })
-    // Now we have a list of only character objects, we can fetch the data,
+    // Now we have a list of only slugs, we can fetch the data,
     // storing the promise in our `loadedThangTypes` Map.
-    characterArray
+    slugs
       .filter(character => character)
-      .filter(({ type = undefined, slug = undefined }) => type === 'slug' && slug)
-      .filter(({ slug }) => !(this.loadedThangTypes.has(slug) || this.loadingThangTypes.has(slug)))
-      .map(({ slug }) => slug)
-      .forEach(slug =>
-        this.loadingThangTypes.set(
-          slug,
-          getThang({ slug })
-            .then(attr => new ThangType(attr))
-            .then(t => this.loadedThangTypes.set(slug, t))
-        ))
+      .filter(slug => typeof slug === 'string')
+      .filter(slug => !(this.loadedThangTypes.has(slug) || this.loadingThangTypes.has(slug)))
+      .forEach(slug => this.queueThangType(slug))
+  }
+
+  /**
+   * Queues a ThangType resource for async loading.
+   * @param {string} slug ThangType slug.
+   */
+  queueThangType (slug) {
+    this.loadingThangTypes.set(
+      slug,
+      (async () => {
+        const attr = await getThang({ slug })
+        this.loadedThangTypes.set(slug, new ThangType(attr))
+      })()
+    )
   }
 
   /**
@@ -84,11 +135,13 @@ export default class Loader {
   /**
    * Get a loaded thangType by slug.
    * @param {string} slug - Slug of a thangType
+   * @returns {object|undefined} May return thangType or undefined
    */
   getThangType (slug) {
     const thangType = this.loadedThangTypes.get(slug)
     if (!thangType) {
-      throw new Error(`Make sure '${slug}' thangType is loaded before getting`)
+      console.error(`Make sure '${slug}' thangType is loaded before getting`)
+      return
     }
     return thangType
   }

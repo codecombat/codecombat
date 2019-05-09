@@ -1,4 +1,4 @@
-import AbstractCommand from './AbstractCommand'
+import { ConcurrentCommands } from './commands'
 
 /**
  * @typedef {import('../../../../schemas/selectors/cinematic').Cinematic} Cinematic
@@ -53,7 +53,7 @@ const parseSetup = (shot, systems) =>
     .reduce((commands, sys) => {
       const systemCommands = sys.parseSetupShot(shot)
       if (!Array.isArray(systemCommands)) {
-        throw new Error('Your system should always return an array of commands.')
+        throw new Error('Your system should always return an array of commands for a systemSetup')
       }
       return [...commands, ...systemCommands]
     }
@@ -61,15 +61,23 @@ const parseSetup = (shot, systems) =>
 
 /**
  * Returns an array of commands.
- * @param {*} dialogNode 
- * @param {*} systems 
+ * This is required as we update this list to add commands to the start and end.
+ * @param {DialogNode} dialogNode
+ * @param {Object} systems
+ * @returns {AbstractCommand[]}
  */
-const parseDialogNode = (dialogNode, systems) =>
-  Object.values(systems)
+const parseDialogNode = (dialogNode, systems) => {
+  const dialogCommands = Object.values(systems)
     .filter(sys => sys !== undefined && typeof sys.parseDialogNode === 'function')
-    .reduce((commands, sys) => (
-      [...commands, ...sys.parseDialogNode(dialogNode)]
-    ), [])
+    .reduce((commands, sys) => {
+      const dialogCommands = sys.parseDialogNode(dialogNode)
+      if (!Array.isArray(dialogCommands)) {
+        throw new Error('Your system should always return an array of commands for a dialogNode')
+      }
+      return [...commands, ...dialogCommands]
+    }, [])
+  return [new ConcurrentCommands(dialogCommands)]
+}
 
 /**
  * Parses a shot and dialog nodes.
@@ -82,17 +90,16 @@ const parseDialogNode = (dialogNode, systems) =>
  * @param {Object} systems The systems.
  * @returns {AbstractCommand[][]} A 2d array of commands.
  */
-export const parseShot = (shot, cinematicSystems) => {
-  const setupCommands = parseSetup(shot, cinematicSystems) || []
+export const parseShot = (shot, systems = {}) => {
+  const setupCommands = parseSetup(shot, systems) || []
   const dialogNodes = (shot.dialogNodes || [])
-    .map((node) => parseDialogNode(node, cinematicSystems))
+    .map(node => parseDialogNode(node, systems))
     .filter(dialogCommands => dialogCommands.length > 0)
 
   // If we have both dialogNodes and some setupCommands we want to
   // have the setup occur just before the first dialogNode.
   if (dialogNodes.length > 0 && setupCommands.length > 0) {
-    const commands = [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
-    return commands
+    return [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
   }
   if (dialogNodes.length === 0) {
     return [setupCommands]
