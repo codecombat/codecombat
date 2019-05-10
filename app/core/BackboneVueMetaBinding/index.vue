@@ -31,10 +31,22 @@
     },
 
     data: function () {
-      const titleOverride = (this.legacyTitle.length > 0) ? this.legacyTitle : undefined
+      const currentUrl = new URL(window.location.href)
+      const currentQueryParams = {}
+
+      new URLSearchParams(currentUrl.search).forEach((v, k) => {
+        currentQueryParams[k] = v
+      })
+
+      const meta = merge({}, this.baseMeta)
+
+      if (this.legacyTitle.trim().length > 0) {
+        meta.title = this.legacyTitle.trim()
+      }
 
       return {
-        meta: merge({}, this.baseMeta, { title: titleOverride })
+        meta,
+        currentQueryParams
       }
     },
 
@@ -47,7 +59,7 @@
 </script>
 
 <template>
-  <meta-manager>
+  <meta-manager :current-query-params="currentQueryParams">
     <meta-info-injector :meta="meta" />
   </meta-manager>
 </template>
