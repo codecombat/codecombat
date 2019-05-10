@@ -14,6 +14,8 @@ module.exports = class PlayWebDevLevelView extends RootView
   template: require 'templates/play/level/play-web-dev-level-view'
 
   initialize: (@options, @sessionID) ->
+    super(@options)
+
     @courseID = utils.getQueryVariable 'course'
     @session = @supermodel.loadModel(new LevelSession _id: @sessionID).model
     @level = new Level()
@@ -29,6 +31,13 @@ module.exports = class PlayWebDevLevelView extends RootView
           @setMeta({
             title: $.i18n.t 'play.web_development_title', { level: @level.get('name') }
           })
+
+  getMeta: ->
+    return {
+      links: [
+        { vmid: 'rel-canonical', rel: 'canonical', href: 'https://' + window.location.hostname + '/play'}
+      ]
+    }
 
   onLoaded: ->
     super()
