@@ -17,7 +17,6 @@ const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
 const utils = require('core/utils')
 const storage = require('core/storage')
-// const { createAetherOptions } = require('lib/aether_utils')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 
 // tools
@@ -49,7 +48,6 @@ const DuelStatsView = require('app/views/play/level/DuelStatsView')
 const VictoryModal = require('app/views/play/level/modal/VictoryModal')
 const HeroVictoryModal = require('app/views/play/level/modal/HeroVictoryModal')
 const CourseVictoryModal = require('app/views/play/level/modal/CourseVictoryModal')
-const PicoCTFVictoryModal = require('app/views/play/level/modal/PicoCTFVictoryModal')
 const HoC2018VictoryModal = require('views/special_event/HoC2018VictoryModal')
 const InfiniteLoopModal = require('app/views/play/level/modal/InfiniteLoopModal')
 const LevelSetupManager = require('lib/LevelSetupManager')
@@ -67,6 +65,8 @@ window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
 const PROFILE_ME = false
 
 class PlayLevelView extends RootView {
+  // Prototype definitions have been moved to the end.
+
   // Initial Setup #############################################################
 
   constructor (options, levelID) {
@@ -87,10 +87,7 @@ class PlayLevelView extends RootView {
       utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
 
-    this.opponentSessionID = utils.getQueryVariable('opponent')
-    if (this.opponentSessionID == null) {
-      this.opponentSessionID = this.options.opponent
-    }
+    this.opponentSessionID = utils.getQueryVariable('opponent') || this.options.opponent
     this.gameUIState = new GameUIState()
 
     $('flying-focus').remove() // Causes problems, so yank it out for play view.
@@ -113,13 +110,11 @@ class PlayLevelView extends RootView {
     } else {
       this.load()
       if (!this.observing) {
-        if (application.tracker != null) {
-          application.tracker.trackEvent('Started Level Load', {
-            category: 'Play Level',
-            level: this.levelID,
-            label: this.levelID
-          })
-        }
+        trackEvent('Started Level Load', {
+          category: 'Play Level',
+          level: this.levelID,
+          label: this.levelID
+        })
       }
     }
   }
@@ -234,23 +229,19 @@ class PlayLevelView extends RootView {
     console.debug(
       `Level unveiled after ${(this.loadDuration / 1000).toFixed(2)}s`
     )
-    if (!this.observing) {
-      if (application.tracker != null) {
-        application.tracker.trackEvent('Finished Level Load', {
-          category: 'Play Level',
-          label: this.levelID,
-          level: this.levelID,
-          loadDuration: this.loadDuration
-        })
-      }
-      return application.tracker != null
-        ? application.tracker.trackTiming(
-          this.loadDuration,
-          'Level Load Time',
-          this.levelID,
-          this.levelID
-        )
-        : undefined
+    if (!this.observing && application.tracker) {
+      trackEvent('Finished Level Load', {
+        category: 'Play Level',
+        label: this.levelID,
+        level: this.levelID,
+        loadDuration: this.loadDuration
+      })
+      application.tracker.trackTiming(
+        this.loadDuration,
+        'Level Load Time',
+        this.levelID,
+        this.levelID
+      )
     }
   }
 
@@ -301,9 +292,6 @@ class PlayLevelView extends RootView {
     ) // May not have @level loaded yet
     this.$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
-    if (this.isIPadApp()) {
-      return $('body').bind('touchmove', false)
-    }
   }
 
   afterInsert () {
@@ -687,7 +675,6 @@ class PlayLevelView extends RootView {
       this.insertSubView(this.webSurface)
     }
   }
-  // _.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume () {
     let volume = me.get('volume')
@@ -730,9 +717,6 @@ class PlayLevelView extends RootView {
     if (this.session) {
       return
     }
-    Backbone.Mediator.publish('ipad:language-chosen', {
-      language: (left = e.session.get('codeLanguage')) != null ? left : 'python'
-    })
     // Just the level and session have been loaded by the level loader
     if (
       e.level.isType('hero', 'hero-ladder', 'hero-coop') &&
@@ -931,14 +915,12 @@ class PlayLevelView extends RootView {
     this.playAmbientSound()
     // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
     if (!this.observing) {
-      if (application.tracker != null) {
-        application.tracker.trackEvent('Started Level', {
-          category: 'Play Level',
-          label: this.levelID,
-          levelID: this.levelID,
-          ls: this.session != null ? this.session.get('_id') : undefined
-        })
-      }
+      trackEvent('Started Level', {
+        category: 'Play Level',
+        label: this.levelID,
+        levelID: this.levelID,
+        ls: this.session != null ? this.session.get('_id') : undefined
+      })
     }
     $(window).trigger('resize')
     return _.delay(
@@ -1267,25 +1249,23 @@ class PlayLevelView extends RootView {
     const victoryTime = new Date() - this.loadEndTime
     if (!this.observing && victoryTime > 10 * 1000) {
       // Don't track it if we're reloading an already-beaten level
-      if (application.tracker != null) {
-        application.tracker.trackEvent('Saw Victory', {
-          category: 'Play Level',
-          level: this.level.get('name'),
-          label: this.level.get('name'),
-          levelID: this.levelID,
-          ls: this.session != null ? this.session.get('_id') : undefined,
-          playtime:
-            this.session != null ? this.session.get('playtime') : undefined
-        })
-      }
-      return application.tracker != null
-        ? application.tracker.trackTiming(
+      trackEvent('Saw Victory', {
+        category: 'Play Level',
+        level: this.level.get('name'),
+        label: this.level.get('name'),
+        levelID: this.levelID,
+        ls: this.session != null ? this.session.get('_id') : undefined,
+        playtime:
+          this.session != null ? this.session.get('playtime') : undefined
+      })
+      if (applicatioon.tracker) {
+        application.tracker.trackTiming(
           victoryTime,
           'Level Victory Time',
           this.levelID,
           this.levelID
         )
-        : undefined
+      }
     }
   }
 
@@ -1338,9 +1318,6 @@ class PlayLevelView extends RootView {
         utils.getQueryVariable('course-instance') ||
         utils.getQueryVariable('league')
     }
-    if (window.serverConfig.picoCTF) {
-      ModalClass = PicoCTFVictoryModal
-    }
     if (
       this.level.get('slug') === 'code-play-share' &&
       this.level.get('shareable')
@@ -1355,7 +1332,7 @@ class PlayLevelView extends RootView {
       hocModal.once('hidden', () => {
         return (this.showVictoryHandlingInProgress = false)
       })
-      return;
+      return
     }
     const victoryModal = new ModalClass(options)
     this.openModalView(victoryModal)
@@ -1376,13 +1353,11 @@ class PlayLevelView extends RootView {
     Backbone.Mediator.publish('level:restarted', {})
     $('#level-done-button', this.$el).hide()
     if (!this.observing) {
-      return application.tracker != null
-        ? application.tracker.trackEvent('Confirmed Restart', {
-          category: 'Play Level',
-          level: this.level.get('name'),
-          label: this.level.get('name')
-        })
-        : undefined
+      trackEvent('Confirmed Restart', {
+        category: 'Play Level',
+        level: this.level.get('name'),
+        label: this.level.get('name')
+      })
     }
   }
 
@@ -1394,13 +1369,11 @@ class PlayLevelView extends RootView {
       new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem })
     )
     if (!this.observing) {
-      return application.tracker != null
-        ? application.tracker.trackEvent('Saw Initial Infinite Loop', {
-          category: 'Play Level',
-          level: this.level.get('name'),
-          label: this.level.get('name')
-        })
-        : undefined
+      trackEvent('Saw Initial Infinite Loop', {
+        category: 'Play Level',
+        level: this.level.get('name'),
+        label: this.level.get('name')
+      })
     }
   }
 
@@ -1605,7 +1578,7 @@ class PlayLevelView extends RootView {
   // Cinematice playback
   onCinematicPlaybackStarted (e) {
     this.$el.addClass('cinematic').focus()
-    return this.onWindowResize()
+    this.onWindowResize()
   }
 
   onCinematicPlaybackEnded (e) {
@@ -1613,7 +1586,7 @@ class PlayLevelView extends RootView {
       return
     }
     this.$el.removeClass('cinematic')
-    return this.onWindowResize()
+    this.onWindowResize()
   }
 
   onSubmissionComplete () {
@@ -1670,7 +1643,6 @@ class PlayLevelView extends RootView {
     if (this.bus != null) {
       this.bus.destroy()
     }
-    // @instance.save() unless @instance.loading
     delete window.nextURL
     if (PROFILE_ME) {
       if (typeof console.profileEnd === 'function') {
@@ -1678,10 +1650,6 @@ class PlayLevelView extends RootView {
       }
     }
     return super.destroy()
-  }
-
-  onIPadMemoryWarning (e) {
-    return (this.hasReceivedMemoryWarning = true)
   }
 
   onItemPurchased (e) {
@@ -1746,7 +1714,6 @@ PlayLevelView.prototype.subscriptions = {
   'playback:real-time-playback-ended': 'onRealTimePlaybackEnded',
   'playback:cinematic-playback-started': 'onCinematicPlaybackStarted',
   'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded',
-  'ipad:memory-warning': 'onIPadMemoryWarning',
   'store:item-purchased': 'onItemPurchased',
   'tome:manual-cast': 'onRunCode'
 }
@@ -1770,6 +1737,17 @@ PlayLevelView.prototype.events = {
 PlayLevelView.prototype.shortcuts = {
   'ctrl+s': 'onCtrlS',
   esc: 'onEscapePressed'
+}
+
+/**
+ * @param {string} action
+ * @param {Object} properties
+ * @param {string[]} includeIntegrations
+ */
+function trackEvent (action, properties = {}, includeIntegrations = []) {
+  if (application.tracker != null) {
+    application.tracker.trackEvent(action, properties, includeIntegrations)
+  }
 }
 
 function __guard__ (value, transform) {
