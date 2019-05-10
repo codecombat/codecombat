@@ -3,7 +3,7 @@
 // Use ajv to validate against this schema instead of legacy tv4 - See Interactive.spec.js
 
 const interactiveTypeSchema = require('./common/interactive_types.schema')
-const schema = require('../../schema')
+const schema = require('../../schemas')
 
 const interactiveSchema = {
   type: 'object',
