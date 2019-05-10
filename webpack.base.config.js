@@ -179,7 +179,7 @@ module.exports = (env) => {
         }
       ]),
       new CompileStaticTemplatesPlugin({
-        locals: { shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false, china: process.env.COCO_ALIBABA_INFRASTRUCTURE || false }
+        locals: { shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false }
       }),
       new VueLoaderPlugin()
     ]
