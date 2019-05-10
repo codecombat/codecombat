@@ -6,7 +6,7 @@
         titleTemplate: '%s | CodeCombat',
 
         meta: [
-          { name: 'description', content: this.$t('common.default_meta_description') }
+          { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description') }
         ]
       }
     },
