@@ -18,8 +18,11 @@
 
       if (utmKeys.length > 0) {
         const urlWithoutUtm = new URL(window.location.href)
-        utmKeys.forEach(k => urlWithoutUtm.searchParams.delete(k))
 
+        const urlSearchParams = new URLSearchParams(urlWithoutUtm.search)
+        utmKeys.forEach(k => urlSearchParams.delete(k))
+
+        urlWithoutUtm.search = urlSearchParams.toString()
         links.push({ vmid: 'rel-canonical', rel: 'canonical', href: urlWithoutUtm.toString() })
       }
 
