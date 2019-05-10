@@ -298,22 +298,11 @@ class PlayLevelView extends RootView {
   // Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded () {
-    let left, left1, left2
     console.debug('PlayLevelView: world necessities loaded')
     // Called when we have enough to build the world, but not everything is loaded
     this.grabLevelLoaderData()
-    const randomTeam =
-      this.world != null ? this.world.teamForPlayer() : undefined // If no team is set, then we will want to equally distribute players to teams
-    const team =
-      (left =
-        (left1 =
-          (left2 = utils.getQueryVariable('team')) != null
-            ? left2
-            : this.session.get('team')) != null
-          ? left1
-          : randomTeam) != null
-        ? left
-        : 'humans'
+    const randomTeam = this.world && this.world.teamForPlayer() // If no team is set, then we will want to equally distribute players to teams
+    const team = utils.getQueryVariable('team') || this.session.get('team') || randomTeam || 'humans'
     this.loadOpponentTeam(team)
     this.setupGod()
     this.setTeam(team)
@@ -410,22 +399,13 @@ class PlayLevelView extends RootView {
     }
     this.lastWorldLoadPercent = worldLoadPercent
     if (worldLoadPercent === 100) {
-      return (this.worldFakeLoadResources = null)
+      this.worldFakeLoadResources = null
     } // Done, don't need to watch progress any more.
   }
 
   loadOpponentTeam (myTeam) {
-    let left, left1
     let opponentSpells = []
-    const object =
-      (left =
-        (left1 = this.session.get('teamSpells')) != null
-          ? left1
-          : this.otherSession != null
-            ? this.otherSession.get('teamSpells')
-            : undefined) != null
-        ? left
-        : {}
+    const object = this.session.get('teamSpells') || (this.otherSession && this.otherSession.get('teamSpells')) || {}
     for (let spellTeam in object) {
       const spells = object[spellTeam]
       if (spellTeam === myTeam || !myTeam) {
@@ -1075,7 +1055,7 @@ class PlayLevelView extends RootView {
         playtime:
           this.session != null ? this.session.get('playtime') : undefined
       })
-      if (applicatioon.tracker) {
+      if (application.tracker) {
         application.tracker.trackTiming(
           victoryTime,
           'Level Victory Time',
@@ -1109,7 +1089,6 @@ class PlayLevelView extends RootView {
       level: this.level,
       supermodel: this.supermodel,
       session: this.session,
-      hasReceivedMemoryWarning: this.hasReceivedMemoryWarning,
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
       world: this.world,
@@ -1147,21 +1126,18 @@ class PlayLevelView extends RootView {
       })
       this.openModalView(hocModal)
       hocModal.once('hidden', () => {
-        return (this.showVictoryHandlingInProgress = false)
+        this.showVictoryHandlingInProgress = false
       })
       return
     }
     const victoryModal = new ModalClass(options)
     this.openModalView(victoryModal)
     victoryModal.once('hidden', () => {
-      return (this.showVictoryHandlingInProgress = false)
+      this.showVictoryHandlingInProgress = false
     })
 
     if (me.get('anonymous')) {
-      let left
-      return (window.nextURL = `/play/${
-        (left = this.level.get('campaign')) != null ? left : ''
-      }`) // Signup will go here on completion instead of reloading.
+      window.nextURL = `/play/${this.level.get('campaign') || ''}` // Signup will go here on completion instead of reloading.
     }
   }
 
@@ -1329,7 +1305,7 @@ class PlayLevelView extends RootView {
     this.updateStudentGoals()
     this.updateLevelName()
     this.onWindowResize()
-    return (this.realTimePlaybackWaitingForFrames = true)
+    this.realTimePlaybackWaitingForFrames = true
   }
 
   updateStudentGoals () {
@@ -1386,7 +1362,7 @@ class PlayLevelView extends RootView {
     ) {
       return _.delay(this.onSubmissionComplete, 750) // Wait for transition to end.
     } else {
-      return (this.waitingForSubmissionComplete = true)
+      this.waitingForSubmissionComplete = true
     }
   }
 
