@@ -68,6 +68,17 @@ class PlayLevelView extends RootView {
 
   constructor (options, levelID) {
     super(options)
+
+    // TODO: Remove when confident with Ozaria:
+    // Only allow admin access to the Ozaria refactor.
+    if (!me || !me.isAdmin()) {
+      if ((application || {}).router) {
+        return application.router.navigate('/', { trigger: true })
+      }
+      // If application hasn't loaded manually redirect to home page.
+      window.location.pathname = '/'
+    }
+
     if (typeof console.profile === 'function' && PROFILE_ME) {
       console.profile()
     }
