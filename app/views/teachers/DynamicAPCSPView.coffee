@@ -12,7 +12,7 @@ module.exports = class DynamicAPCSPView extends RootView
   getMeta: ->
     title: $.i18n.t 'apcsp.title'
     meta: [
-      { name: 'description', content: $.i18n.t 'apcsp.meta_description' }
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'apcsp.meta_description' }
     ]
 
   initialize: (options, @name) ->

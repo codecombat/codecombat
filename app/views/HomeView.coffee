@@ -42,7 +42,7 @@ module.exports = class HomeView extends RootView
   getMeta: ->
     title: $.i18n.t 'new_home.title'
     meta: [
-        { name: 'description', content: $.i18n.t 'new_home.meta_description' }
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
     ]
 
   onLoaded: ->

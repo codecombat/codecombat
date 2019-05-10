@@ -96,7 +96,7 @@ module.exports = Vue.extend({
     return {
       title: this.$t('teacher.hoc_title'),
       meta: [
-        { name: 'description', content: this.$t('teacher.hoc_meta_description') }
+        { vmid: 'meta-description', name: 'description', content: this.$t('teacher.hoc_meta_description') }
       ]
     }
   },

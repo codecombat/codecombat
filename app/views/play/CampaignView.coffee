@@ -69,7 +69,7 @@ module.exports = class CampaignView extends RootView
   getMeta: ->
     title: $.i18n.t 'play.title'
     meta: [
-      { name: 'description', content: $.i18n.t 'play.meta_description' }
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'play.meta_description' }
     ]
 
   subscriptions:

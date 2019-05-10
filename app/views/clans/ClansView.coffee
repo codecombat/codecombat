@@ -17,7 +17,7 @@ module.exports = class ClansView extends RootView
   getMeta: ->
     title: $.i18n.t 'clans.title'
     meta: [
-      { name: 'description', content: $.i18n.t 'clans.meta_description' }
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'clans.meta_description' }
     ]
 
   events:

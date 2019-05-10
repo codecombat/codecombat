@@ -22,7 +22,7 @@ module.exports = class AboutView extends RootView
   getMeta: ->
     title: $.i18n.t 'about.title'
     meta: [
-      { name: 'description', content: $.i18n.t 'about.meta_description' }
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'about.meta_description' }
     ]
 
   afterRender: ->
