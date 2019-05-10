@@ -84,7 +84,7 @@ const interactiveSchema = {
   ]
 }
 
-schema.extendBasicProperties(interactiveSchema, 'interactive')
-schema.extendNamedProperties(interactiveSchema)
+schema.extendBasicPropertiesNew(interactiveSchema, 'interactive')
+schema.extendNamedPropertiesNew(interactiveSchema)
 
 module.exports = interactiveSchema
