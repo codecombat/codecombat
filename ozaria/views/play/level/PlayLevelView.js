@@ -17,7 +17,6 @@ const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
 const utils = require('core/utils')
 const storage = require('core/storage')
-const loadAetherLanguage = require('lib/loadAetherLanguage')
 
 // tools
 const Surface = require('lib/surface/Surface')
@@ -27,7 +26,6 @@ const ScriptManager = require('lib/scripts/ScriptManager')
 const LevelBus = require('lib/LevelBus')
 const LevelLoader = require('lib/LevelLoader')
 const AudioPlayer = require('lib/AudioPlayer')
-const Simulator = require('lib/simulator/Simulator')
 const GameUIState = require('models/GameUIState')
 const createjs = require('lib/createjs-parts')
 
@@ -35,7 +33,6 @@ const createjs = require('lib/createjs-parts')
 const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
 const ProblemAlertView = require('app/views/play/level/tome/ProblemAlertView')
 const TomeView = require('app/views/play/level/tome/TomeView')
-const ChatView = require('app/views/play/level/LevelChatView') // TODO: Consider removing.
 const HUDView = require('app/views/play/level/LevelHUDView')
 const LevelDialogueView = require('app/views/play/level/LevelDialogueView')
 const ControlBarView = require('app/views/play/level/ControlBarView')
@@ -621,13 +618,6 @@ class PlayLevelView extends RootView {
       new LevelDialogueView({ level: this.level, sessionID: this.session.id })
     )
     this.insertSubView(
-      new ChatView({
-        levelID: this.levelID,
-        sessionID: this.session.id,
-        session: this.session
-      })
-    )
-    this.insertSubView(
       new ProblemAlertView({
         session: this.session,
         level: this.level,
@@ -923,13 +913,6 @@ class PlayLevelView extends RootView {
       })
     }
     $(window).trigger('resize')
-    return _.delay(
-      () =>
-        typeof this.perhapsStartSimulating === 'function'
-          ? this.perhapsStartSimulating()
-          : undefined,
-      10 * 1000
-    )
   }
 
   onSetVolume (e) {
@@ -980,170 +963,6 @@ class PlayLevelView extends RootView {
       suppress: false
     })
     return this.surface != null ? this.surface.focusOnHero() : undefined
-  }
-
-  perhapsStartSimulating () {
-    if (!this.shouldSimulate()) {
-      return
-    }
-    let languagesToLoad = ['javascript', 'python', 'coffeescript', 'lua'] // java
-    return Array.from(languagesToLoad).map(language =>
-      (language => {
-        return loadAetherLanguage(language).then(aetherLang => {
-          languagesToLoad = _.without(languagesToLoad, language)
-          if (!languagesToLoad.length) {
-            return this.simulateNextGame()
-          }
-        })
-      })(language)
-    )
-  }
-
-  simulateNextGame () {
-    if (this.simulator) {
-      return this.simulator.fetchAndSimulateOneGame()
-    }
-    const simulatorOptions = {
-      background: true,
-      leagueID: this.courseInstanceID
-    }
-    if (this.level.isType('course-ladder', 'hero-ladder')) {
-      simulatorOptions.levelID = this.level.get('slug')
-    }
-    this.simulator = new Simulator(simulatorOptions)
-    // Crude method of mitigating Simulator memory leak issues
-    const fetchAndSimulateOneGameOriginal = this.simulator
-      .fetchAndSimulateOneGame
-    this.simulator.fetchAndSimulateOneGame = () => {
-      if (this.simulator.simulatedByYou >= 10) {
-        console.log(
-          '------------------- Destroying Simulator and making a new one -----------------'
-        )
-        this.simulator.destroy()
-        this.simulator = null
-        return this.simulateNextGame()
-      } else {
-        return fetchAndSimulateOneGameOriginal.apply(this.simulator)
-      }
-    }
-    return this.simulator.fetchAndSimulateOneGame()
-  }
-
-  shouldSimulate () {
-    let needle
-    if (utils.getQueryVariable('simulate') === true) {
-      return true
-    }
-    return false // Disabled due to unresolved crashing issues
-    if (utils.getQueryVariable('simulate') === false) {
-      return false
-    }
-    if (this.isEditorPreview) {
-      return false
-    }
-    const defaultCores = 2
-    const cores = window.navigator.hardwareConcurrency || defaultCores // Available on Chrome/Opera, soon Safari
-    const defaultHeapLimit = 793000000
-    const heapLimit =
-      __guard__(
-        window.performance != null ? window.performance.memory : undefined,
-        x => x.jsHeapSizeLimit
-      ) || defaultHeapLimit // Only available on Chrome, basically just says 32- vs. 64-bit
-    const gamesSimulated = me.get('simulatedBy')
-    console.debug(
-      'Should we start simulating? Cores:',
-      window.navigator.hardwareConcurrency,
-      'Heap limit:',
-      __guard__(
-        window.performance != null ? window.performance.memory : undefined,
-        x1 => x1.jsHeapSizeLimit
-      ),
-      'Load duration:',
-      this.loadDuration
-    )
-    if (!($.browser != null ? $.browser.desktop : undefined)) {
-      return false
-    }
-    if (
-      ($.browser != null ? $.browser.msie : undefined) ||
-      ($.browser != null ? $.browser.msedge : undefined)
-    ) {
-      return false
-    }
-    if ($.browser.linux) {
-      return false
-    }
-    if (me.level() < 8) {
-      return false
-    }
-    if (
-      ((needle = this.level.get('slug')),
-      ['zero-sum', 'ace-of-coders', 'elemental-wars'].includes(needle))
-    ) {
-      return false
-    }
-    if (this.level.isType('course', 'game-dev', 'web-dev')) {
-      return false
-    } else if (this.level.isType('hero') && gamesSimulated) {
-      if (cores < 8) {
-        return false
-      }
-      if (heapLimit < defaultHeapLimit) {
-        return false
-      }
-      if (this.loadDuration > 10000) {
-        return false
-      }
-    } else if (this.level.isType('hero-ladder') && gamesSimulated) {
-      if (cores < 4) {
-        return false
-      }
-      if (heapLimit < defaultHeapLimit) {
-        return false
-      }
-      if (this.loadDuration > 15000) {
-        return false
-      }
-    } else if (this.level.isType('hero-ladder') && !gamesSimulated) {
-      if (cores < 8) {
-        return false
-      }
-      if (heapLimit <= defaultHeapLimit) {
-        return false
-      }
-      if (this.loadDuration > 12000) {
-        return false
-      }
-    } else if (this.level.isType('course-ladder')) {
-      if (cores <= defaultCores) {
-        return false
-      }
-      if (heapLimit < defaultHeapLimit) {
-        return false
-      }
-      if (this.loadDuration > 18000) {
-        return false
-      }
-    } else {
-      console.warn(
-        `Unwritten level type simulation heuristics; fill these in for new level type ${this.level.get(
-          'type'
-        )}?`
-      )
-      if (cores < 8) {
-        return false
-      }
-      if (heapLimit < defaultHeapLimit) {
-        return false
-      }
-      if (this.loadDuration > 10000) {
-        return false
-      }
-    }
-    console.debug(
-      'We should have the power. Begin background ladder simulation.'
-    )
-    return true
   }
 
   // callbacks
@@ -1215,17 +1034,15 @@ class PlayLevelView extends RootView {
     if (this.wasFocusedOn) {
       $(this.wasFocusedOn).focus()
     }
-    return (this.wasFocusedOn = null)
+    this.wasFocusedOn = null
   }
 
   onDonePressed () {
-    return this.showVictory()
+    this.showVictory()
   }
 
   onShowVictory (e) {
-    if (e == null) {
-      e = {}
-    }
+    e = e || {}
     if (
       !this.level.isType(
         'hero',
@@ -1395,19 +1212,17 @@ class PlayLevelView extends RootView {
   }
 
   onContactClicked (e) {
-    let contactModal
     if (me.isStudent()) {
       console.error('Student clicked contact modal.')
-      return;
+      return
     }
+    const contactModal = new ContactModal({
+      levelID: this.level.get('slug') || this.level.id,
+      courseID: this.courseID,
+      courseInstanceID: this.courseInstanceID
+    })
     Backbone.Mediator.publish('level:contact-button-pressed', {})
-    this.openModalView(
-      (contactModal = new ContactModal({
-        levelID: this.level.get('slug') || this.level.id,
-        courseID: this.courseID,
-        courseInstanceID: this.courseInstanceID
-      }))
-    )
+    this.openModalView(contactModal)
     const screenshot = this.surface.screenshot(1, 'image/png', 1.0, 1)
     const body = {
       b64png: screenshot.replace('data:image/png;base64,', ''),
@@ -1425,10 +1240,10 @@ class PlayLevelView extends RootView {
     return $.ajax('/file', {
       type: 'POST',
       data: body,
-      success (e) {
-        return typeof contactModal.updateScreenshot === 'function'
-          ? contactModal.updateScreenshot()
-          : undefined
+      success () {
+        if (typeof contactModal.updateScreenshot === 'function') {
+          contactModal.updateScreenshot()
+        }
       }
     })
   }
@@ -1628,9 +1443,6 @@ class PlayLevelView extends RootView {
     }
     if (this.setupManager != null) {
       this.setupManager.destroy()
-    }
-    if (this.simulator != null) {
-      this.simulator.destroy()
     }
     if ((ambientSound = this.ambientSound)) {
       // Doesn't seem to work; stops immediately.
