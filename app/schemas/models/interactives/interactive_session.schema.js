@@ -9,12 +9,12 @@ const interactiveSessionSchema = {
   type: 'object',
   required: ['interactiveId', 'interactiveType', 'userId', 'sessionCodeLanguage'],
   properties: {
-    interactiveId: schema.stringID(),
+    interactiveId: schema.objectId(),
     interactiveType: {
       'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion']
     },
-    userId: schema.stringID(),
-    sessionCodeLanguage: { 'enum': ['python', 'javascript'] }, // this will come from the course instance / campaign language
+    userId: schema.objectId(),
+    sessionCodeLanguage: { 'enum': ['python', 'javascript'] }, // this will come from the course instance / intro level language
     submissionCount: { type: 'number' },
     complete: { type: 'boolean' },
     created: schema.stringDate(),
