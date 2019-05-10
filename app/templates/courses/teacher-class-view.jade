@@ -25,16 +25,20 @@ mixin addStudentsButton
 
 mixin studentsTab
   #students-tab
-    div(dir=['he', 'ar', 'fa', 'ur'].indexOf(me.get('preferredLanguage', true)) == -1 ? 'ltr' : 'rtl')
-      +bulkAssignControls
+    if !state.get('readOnly')
+      div(dir=['he', 'ar', 'fa', 'ur'].indexOf(me.get('preferredLanguage', true)) == -1 ? 'ltr' : 'rtl')
+        +bulkAssignControls
+    else
+      br
     table.students-table
       thead
-        th.checkbox-col.select-all.small.text-center
-          span(data-i18n="teacher.select_all")
-          .checkbox-flat
-            - var allStudentsChecked = _.all(state.get('checkboxStates'))
-            input(type='checkbox', id='checkbox-all-students', checked=allStudentsChecked)
-            label.checkmark(for='checkbox-all-students')
+        if !state.get('readOnly')
+          th.checkbox-col.select-all.small.text-center
+            span(data-i18n="teacher.select_all")
+            .checkbox-flat
+              - var allStudentsChecked = _.all(state.get('checkboxStates'))
+              input(type='checkbox', id='checkbox-all-students', checked=allStudentsChecked)
+              label.checkmark(for='checkbox-all-students')
         th
           +sortButtons
       tbody
@@ -50,10 +54,11 @@ mixin sortButtons
 
 mixin studentRow(student)
   tr.student-row.alternating-background
-    td.checkbox-col.student-checkbox
-      .checkbox-flat
-        input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id, checked=state.get('checkboxStates')[student.id])
-        label.checkmark(for='checkbox-student-' + student.id)
+    if !state.get('readOnly')
+      td.checkbox-col.student-checkbox
+        .checkbox-flat
+          input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id, checked=state.get('checkboxStates')[student.id])
+          label.checkmark(for='checkbox-student-' + student.id)
     td.student-info-col
       .student-info
         if student.get('deleted')
