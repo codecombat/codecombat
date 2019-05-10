@@ -131,7 +131,6 @@ module.exports = class RootView extends CocoView
   render: ->
     super()
 
-
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
       @$el.addClass('site-chrome')
