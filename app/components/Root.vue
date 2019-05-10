@@ -1,10 +1,11 @@
-<template>
-    <router-view></router-view>
-</template>
-
-
 <script>
+  import MetaManger from './common/MetaManager'
+
   export default {
+    components: {
+      'meta-manager': MetaManger
+    },
+
     metaInfo: function () {
       return {
         title: 'CodeCombat - Learn how to code by playing a game',
@@ -17,3 +18,9 @@
     }
   }
 </script>
+
+<template>
+  <meta-manager>
+    <router-view />
+  </meta-manager>
+</template>

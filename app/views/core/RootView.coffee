@@ -13,7 +13,7 @@ AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
 
-BackboneMetaBinding = require('app/core/BackboneMetaBinding').default
+BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 
 # TODO remove
 
@@ -42,6 +42,14 @@ module.exports = class RootView extends CocoView
 
   shortcuts:
     'ctrl+shift+a': 'navigateToAdmin'
+
+  initialize: (options) ->
+    super(options)
+
+    try
+      @initializeMetaBinding()
+    catch e
+      console.error 'Failed to initialize meta binding', e
 
   showNewAchievement: (achievement, earnedAchievement) ->
     earnedAchievement.set('notified', true)
@@ -121,11 +129,6 @@ module.exports = class RootView extends CocoView
     @renderScrollbar()
 
   render: ->
-    try
-      @initializeMetaBinding()
-    catch e
-      console.error 'Failed to initialize meta binding', e
-
     super()
 
 
@@ -237,31 +240,18 @@ module.exports = class RootView extends CocoView
         setMeta: ->
       }
 
-    # Create an empty, mounted element so that the vue component actually renders and runs vue-meta
-    vueMetaContainer = document.getElementById('vue-meta-binding')
-    @metaBinding = new BackboneMetaBinding({
-      el: vueMetaContainer
-      propsData: {}
-    })
-
-    # Set up default meta configuration
-    meta = @getMeta() || {}
-    title = @getTitle() || ''
-    if !meta.title && title.length > 0
-      meta.title = title
-
+    legacyTitle = @getTitle()
     if localStorage?.showViewNames
-      meta.title = @constructor.name
+      legacyTitle = @constructor.name
 
-    @metaBinding.setMeta(
-      merge(
-        {},
-        meta,
-        @pendingMeta || {}
-      )
-    )
-
-    delete @pendingMeta if @pendingMeta
+    # Create an empty, mounted element so that the vue component actually renders and runs vue-meta
+    @metaBinding = new BackboneVueMetaBinding({
+      el: document.createElement('div'),
+      propsData: {
+        baseMeta: @getMeta(),
+        legacyTitle: legacyTitle
+      }
+    })
 
   # Set the page title when the view is loaded.  This value is merged into the
   # result of getMeta.  It will override any title specified in getMeta.  Kept
@@ -276,12 +266,7 @@ module.exports = class RootView extends CocoView
   # Allow async updates of the view's meta configuration.  This can be used in addition to getMeta
   # to update meta configuration when the meta configuration is computed asynchronously
   setMeta: (meta) ->
-    if @metaBinding
-      @metaBinding.setMeta(meta)
-    else if @pendingMeta
-      @pendingMeta = merge(@pendingMeta || {}, meta)
-    else
-      console.error('Unexpected meta binding state')
+    @metaBinding.setMeta(meta)
 
   destroy: ->
     super()

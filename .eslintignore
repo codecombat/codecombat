@@ -61,7 +61,6 @@ app/views/special_event/HoC2018VictoryModal.vue
 app/views/LicensorViewComponent.vue
 app/views/core/LoadingProgress.vue
 app/views/core/ParentReferTeacherModalComponent.vue
-app/views/core/Root.vue
 app/views/minigames/ConditionalMinigameComponent.vue
 app/views/school-administrator/SchoolAdministratorComponent.vue
 app/views/school-administrator/teachers/SchoolAdminTeacherListRow.vue
