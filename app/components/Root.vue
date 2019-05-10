@@ -20,7 +20,9 @@
 </script>
 
 <template>
-  <meta-manager>
-    <router-view />
-  </meta-manager>
+  <router-view>
+    <meta-manager>
+      <slot />
+    </meta-manager>
+  </router-view>
 </template>
