@@ -17,7 +17,8 @@ block header
             a(href="/teachers/classes", data-i18n="nav.my_classrooms")
           if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
             a(href="/play", data-i18n="common.play")
-            a(href=view.forumLink(), data-i18n="nav.forum")
+            if !features.china
+              a(href=view.forumLink(), data-i18n="nav.forum")
           a(href='/community', data-i18n="nav.community")
 
           if me.get('anonymous') === false
@@ -54,7 +55,7 @@ block header
                 if !features.codePlay
                   li
                     a#logout-button(data-i18n="login.log_out")
-  
+
           else
             button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
             button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
@@ -86,7 +87,7 @@ block footer
       if me.isAdmin()
         a(href='/admin') Admin
 
-      if usesSocialMedia && me.useSocialSignOn()
+      if usesSocialMedia && me.useSocialSignOn() && !features.china
         .share-buttons
           if !isIE
             .g-plusone(data-href="http://codecombat.com", data-size="medium")
