@@ -3,11 +3,11 @@
  * An abstraction around the `howler.js` sound library.
  */
 import { Howl } from 'howler'
-import { getSetupMusic, getSoundEffects } from '../../../../schemas/selectors/cinematic'
+import { getSetupMusic, getSoundEffects } from '../../../schemas/selectors/cinematic'
 import { SyncFunction, Sleep, SequentialCommands } from '../Command/commands'
 
 /**
- * @param {import('../../../../schemas/selectors/cinematic').Sound} music
+ * @param {import('../../../schemas/selectors/cinematic').Sound} music
  */
 const getMusicKey = (music) => {
   const key = music.mp3 || music.ogg
@@ -26,7 +26,7 @@ export class SoundSystem {
 
   /**
    * @param {string} key
-   * @param {import('../../../../schemas/selectors/cinematic').Sound} music
+   * @param {import('../../../schemas/selectors/cinematic').Sound} music
    */
   preload (key, music) {
     if (this.loadedSounds.has(key)) {

@@ -1,19 +1,19 @@
 import { ConcurrentCommands } from './commands'
 
 /**
- * @typedef {import('../../../../schemas/selectors/cinematic').Cinematic} Cinematic
+ * @typedef {import('../../../schemas/selectors/cinematic').Cinematic} Cinematic
  */
 
 /**
- * @typedef {import('../../../../schemas/selectors/cinematic').Shot} Shot
+ * @typedef {import('../../../schemas/selectors/cinematic').Shot} Shot
  */
 
 /**
- * @typedef {import('../../../../schemas/selectors/cinematic').ShotSetup} ShotSetup
+ * @typedef {import('../../../schemas/selectors/cinematic').ShotSetup} ShotSetup
  */
 
 /**
- * @typedef {import('../../../../schemas/selectors/cinematic').DialogNode} DialogNode
+ * @typedef {import('../../../schemas/selectors/cinematic').DialogNode} DialogNode
  */
 
 /**

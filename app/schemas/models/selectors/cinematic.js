@@ -1,4 +1,4 @@
-import { CAMERA_DEFAULT } from '../../views/play/cinematic/CameraSystem'
+import { CAMERA_DEFAULT } from '../../lib/cinematic/CameraSystem'
 
 /**
  * Selector / verifier.
@@ -262,15 +262,9 @@ export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter,
 
 /**
  * @param {DialogNode} dialogNode
- * @returns {bool} whether we should clear all existing dialogs. Defaults to true.
+ * @returns {bool} whether we should clear all existing dialogs.
  */
-export const getClearText = dialogNode => {
-  const shouldClearDialogue = (dialogNode || {}).dialogClear
-  if (typeof shouldClearDialogue === 'undefined') {
-    return true
-  }
-  return shouldClearDialogue
-}
+export const getClearText = dialogNode => (dialogNode || {}).dialogClear || false
 
 export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
 

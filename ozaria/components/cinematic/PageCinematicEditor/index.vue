@@ -1,54 +1,8 @@
-<template>
-  <div class="container">
-    <div v-if="!cinematicSlug">
-      <div class="row">
-        <div class="col-md-12"><h1>{{ heading }}</h1></div>
-      </div>
-      <div class="row">
-        <!-- List of cinematics -->
-        <ul>
-          <editor-list
-            v-for="cinematic in cinematicList"
-            :key="cinematic.slug"
-            :text="cinematic.name"
-            :slug="cinematic.slug"
-            ></editor-list>
-            <li><button v-on:click="createCinematic">+</button></li>
-        </ul>
-        
-      </div>
-    </div>
-
-    <div v-else>
-      <!-- Have a cinematic Slug -->
-      <div class="row">
-        <div class="col-md-8"><h1>{{ heading }}</h1></div>
-        <div class="col-md-4">
-          <span>There is no autosave. Please click this button often.</span>
-          <button v-on:click="saveCinematic" :disabled="state.saving || !cinematic">save</button>
-          <button v-on:click="runCinematic">Test Cinematic</button>
-          <button><a href="/cinematic">Play View (please save first)</a></button>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div id="treema-editor" ref="treemaEditor" v-once></div>
-        </div>
-        <div class="col-md-6" v-if="rawData">
-          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" />
-        </div>
-      </div>
-
-    </div>
-  </div>
-</template>
-
 <script>
-import { getCinematic, putCinematic, createCinematic, getAllCinematics } from 'core/api/cinematic'
-import Cinematic from 'app/models/Cinematic'
-import ListItem from 'app/components/cinematic/editor/ListItem'
-import CinematicCanvas from 'app/views/CinematicCanvas'
+import { getCinematic, putCinematic, createCinematic, getAllCinematics } from '../../../api/cinematic'
+import Cinematic from '../../../models/Cinematic'
+import ListItem from '../common/BaseListItem'
+import CinematicCanvas from '../common/CinematicCanvas'
 import CocoCollection from 'app/collections/CocoCollection'
 const api = require('core/api')
 
@@ -56,7 +10,7 @@ require('lib/setupTreema')
 
 module.exports = Vue.extend({
   props: {
-    cinematicSlug: String
+    slug: String
   },
   data: () => ({
     cinematic: null,
@@ -66,18 +20,22 @@ module.exports = Vue.extend({
     state: {
       saving: false
     },
-    rerenderKey: 0
+    rerenderKey: 0,
+    cinematicSlug: ""
   }),
   components: {
     'editor-list': ListItem,
     'cinematic-canvas': CinematicCanvas
   },
   mounted () {
-    if (!me.isAdmin()) {
+    if (!me.hasCinematicAccess()) {
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/editor', { trigger: true })
     }
-
+    console.log(`Got the slug: ${this.cinematicSlug} with type ${typeof this.cinematicSlug}`)
+    if (this.slug)  {
+      this.cinematicSlug = this.slug
+    }
     if (this.cinematicSlug) {
       this.fetchCinematic(this.cinematicSlug)
     } else {
@@ -89,6 +47,7 @@ module.exports = Vue.extend({
      * Fetch and populate treema with cinematic slug.
      */
     async fetchCinematic(slug) {
+      this.cinematicList = null
       try {
         this.cinematic = new Cinematic(await getCinematic(slug))
       } catch (e) {
@@ -123,8 +82,13 @@ module.exports = Vue.extend({
     },
     /**
      * Fetch all names and slugs of cinematics from the database.
+     * Clears the slug.
      */
-    async fetchList() {
+    async fetchList () {
+      this.cinematicSlug = ''
+      this.cinematic = null
+      this.treema = null
+      this.rawData = null
       this.cinematicList = await getAllCinematics();
     },
     /**
@@ -165,7 +129,8 @@ module.exports = Vue.extend({
 
       const result = await createCinematic({ name })
       return this.fetchList()
-    }
+    },
+
   },
   computed: {
     heading: function() {
@@ -177,6 +142,53 @@ module.exports = Vue.extend({
   }
 })
 </script>
+
+<template>
+  <div class="container">
+    <div v-if="!cinematic">
+      <div class="row">
+        <div class="col-md-12"><h1>{{ heading }}</h1></div>
+      </div>
+      <div class="row">
+        <!-- List of cinematics -->
+        <ul>
+          <editor-list
+            v-for="cinematic in cinematicList"
+            :key="cinematic.slug"
+            :text="cinematic.name"
+            :slug="cinematic.slug"
+            :clickHandler="() => fetchCinematic(cinematic.slug)"
+            ></editor-list>
+            <li><button v-on:click="createCinematic">+</button></li>
+        </ul>
+        
+      </div>
+    </div>
+
+    <div v-else>
+      <!-- Have a cinematic Slug -->
+      <div class="row">
+        <div class="col-md-8"><h1>{{ heading }}</h1></div>
+        <div class="col-md-4">
+          <span>There is no autosave. Please click this button often.</span>
+          <button v-on:click="saveCinematic" :disabled="state.saving || !cinematic">save</button>
+          <button v-on:click="runCinematic">Test Cinematic</button>
+          <button><a v-on:click="fetchList">Back to list view</a></button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div id="treema-editor" ref="treemaEditor" v-once></div>
+        </div>
+        <div class="col-md-6" v-if="rawData">
+          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
 
 <style scoped>
   .container {

@@ -18,7 +18,7 @@ import {
   getSpeakingAnimationAction,
   getSetupMusic,
   getSoundEffects
-} from '../../../app/schemas/selectors/cinematic'
+} from '../../../ozaria/schemas/selectors/cinematic'
 
 /**
  * This data can be used to check that none of the selectors that match

@@ -1,12 +1,12 @@
-import fetchJson from './fetch-json'
+import fetchJson from 'app/core/api/fetch-json'
 
 /**
  * Retrieves the json representation of a cinematic.
  * @param {string} slug - Slug of the cinematic.
  * @async
- * @return {Promise<import('../../schemas/selectors/cinematic').Cinematic} raw Cinematic object
+ * @return {Promise<import('../schemas/selectors/cinematic').Cinematic} raw Cinematic object
  */
-export const getCinematic = (slug) => {
+export const getCinematic = slug => {
   if (!slug) {
     throw new Error(`No slug supplied`)
   }
@@ -29,7 +29,7 @@ export const getAllCinematics = () => fetchJson('/db/cinematic/all')
 /**
  * Updates a cinematic in the database.
  * @async
- * @returns {Promise<import('../../schemas/selectors/cinematic').Cinematic>} raw Cinematic object
+ * @returns {Promise<import('../schemas/selectors/cinematic').Cinematic>} raw Cinematic object
  */
 export const putCinematic = ({ data }, options = {}) => {
   if (!data) {
@@ -48,7 +48,7 @@ export const putCinematic = ({ data }, options = {}) => {
 /**
  * Creates a new cinematic in the database.
  * @async
- * @returns {Promise<import('../../schemas/selectors/cinematic').Cinematic} raw Cinematic object
+ * @returns {Promise<import('../schemas/selectors/cinematic').Cinematic} raw Cinematic object
  */
 export const createCinematic = ({ name }, options = {}) =>
   fetchJson('/db/cinematic', _.assign({}, options, {

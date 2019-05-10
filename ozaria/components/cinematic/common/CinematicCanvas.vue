@@ -14,7 +14,7 @@
  * This vue component initializes the cinematic experience via the
  * CinematicController.
  */
-import { CinematicController } from './play/cinematic/cinematicController'
+import { CinematicController } from '../../../lib/cinematic/cinematicController'
 
 export default {
   props: {
@@ -29,7 +29,6 @@ export default {
   }),
   mounted: function() {
     if (!me.hasCinematicAccess()) {
-      // TODO: VOYAGER FEATURE: Remove when ready for production use.
       return application.router.navigate('/', { trigger: true })
     }
     const canvas = this.$refs['cinematic-canvas']

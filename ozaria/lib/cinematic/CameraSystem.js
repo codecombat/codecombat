@@ -1,4 +1,4 @@
-import { getCamera } from '../../../schemas/selectors/cinematic'
+import { getCamera } from '../../schemas/selectors/cinematic'
 import { SyncFunction } from './Command/commands'
 
 // Seems to be a reasonable default camera.

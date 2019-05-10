@@ -1,5 +1,5 @@
 /* eslint-env jasmine */
-import { parseShot } from '../../../../app/views/play/cinematic/Command/CinematicParser'
+import { parseShot } from '../../../../ozaria/lib/cinematic/Command/CinematicParser'
 
 describe('parseShot', () => {
   it('handles an empty shot', () => {

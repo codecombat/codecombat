@@ -672,12 +672,11 @@ class PlayLevelView extends RootView {
     this.bus.setSession(this.session)
     return this.bus.setSpells(this.tome.spells)
   }
-  // @bus.connect() if @session.get('multiplayer')  # TODO: session's multiplayer flag removed; connect bus another way if we care about it
 
   // Load Completed Setup ######################################################
 
   onSessionLoaded (e) {
-    let left, left1
+    let left1
     console.log('PlayLevelView: loaded session', e.session)
     store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') || 0)
     store.commit(

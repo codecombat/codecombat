@@ -7,6 +7,8 @@ import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/Sch
 import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
 import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
 
+import PageCinematicEditor from '../../ozaria/components/cinematic/PageCinematicEditor'
+
 let vueRouter
 
 export default function getVueRouter () {
@@ -16,6 +18,11 @@ export default function getVueRouter () {
       mode: 'abstract',
 
       routes: [
+        {
+          path: '/editor/cinematic/:slug?',
+          component: PageCinematicEditor,
+          props: true
+        },
         {
           path: '/school-administrator',
           component: SchoolAdminDashboard,

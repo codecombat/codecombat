@@ -1,4 +1,4 @@
-import CocoModel from './CocoModel'
+import CocoModel from 'app/models/CocoModel'
 import schema from 'schemas/models/cinematic.schema'
 
 class Cinematic extends CocoModel { }
