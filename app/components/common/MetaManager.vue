@@ -1,4 +1,7 @@
 <script>
+  /**
+   * Renderless component that manages default head tag configuration for vue-meta.
+   */
   export default {
     metaInfo: function () {
       return {
