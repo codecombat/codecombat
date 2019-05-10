@@ -59,9 +59,9 @@ module.exports = (env) => {
           }]
         },
         { test: /\.coffee$/,
-use: [
-          { loader: 'coffee-loader' }
-        ] },
+          use: [
+            { loader: 'coffee-loader' }
+          ] },
         { test: /\.pug$/,
           oneOf: [
             // applies to <template lang="pug"> in Vue components
@@ -81,41 +81,41 @@ use: [
         {
           oneOf: [
             { test: /jquery-ui.*css$/,
-use: [ // So we can ignore the images it references that we are missing
-              { loader: 'style-loader' },
-              { loader: 'css-loader', options: { url: false } }
-            ] },
+              use: [ // So we can ignore the images it references that we are missing
+                { loader: 'style-loader' },
+                { loader: 'css-loader', options: { url: false } }
+              ] },
             { test: /\.css$/,
-use: [
-              { loader: 'style-loader' },
-              { loader: 'css-loader' } // TODO Webpack: Maybe use url:false here as well
-            ] }
+              use: [
+                { loader: 'style-loader' },
+                { loader: 'css-loader' } // TODO Webpack: Maybe use url:false here as well
+              ] }
           ]
         },
         { test: /\.sass$/,
-enforce: 'pre',
-use: [ // Allow importing * in app.sass
-          { loader: 'import-glob-loader' }
-        ] },
+          enforce: 'pre',
+          use: [ // Allow importing * in app.sass
+            { loader: 'import-glob-loader' }
+          ] },
         { test: /\.sass$/,
-use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            { loader: 'css-loader' },
-            {
-              loader: 'sass-loader',
-              options: {
-                indentedSyntax: true
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              { loader: 'css-loader' },
+              {
+                loader: 'sass-loader',
+                options: {
+                  indentedSyntax: true
+                }
               }
-            }
-          ]
-        }) },
+            ]
+          }) },
         { test: /\.scss$/,
-use: [
-          { loader: 'vue-style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'sass-loader' }
-        ] }
+          use: [
+            { loader: 'vue-style-loader' },
+            { loader: 'css-loader' },
+            { loader: 'sass-loader' }
+          ] }
       ]
     },
     resolve: {
@@ -179,7 +179,7 @@ use: [
         }
       ]),
       new CompileStaticTemplatesPlugin({
-        locals: { shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false }
+        locals: { shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false, china: process.env.COCO_ALIBABA_INFRASTRUCTURE || false }
       }),
       new VueLoaderPlugin()
     ]

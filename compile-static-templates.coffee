@@ -45,6 +45,7 @@ compile = (contents, locals, filename, cb) ->
     locals = _.merge({_, i18n}, locals, require './static-mock')
     # TODO: how do we eventually use dynamic global feature flags here?
     # TODO: this should use chinaUx feature flag instead, but currently comes from process.env
+    locals.me.showChinaVideo = -> locals.china ? false
     locals.me.useDexecure = -> not (locals.chinaInfra ? false)
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
