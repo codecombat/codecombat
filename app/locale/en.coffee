@@ -214,6 +214,8 @@
     meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
     level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
     video_title: '__video__ | Video Level'
+    game_development_title: '__level__ | Game Development'
+    web_development_title: '__level__ | Web Development'
     anon_signup_title_1: "CodeCombat has a"
     anon_signup_title_2: "Classroom Version!"
     anon_signup_enter_code: "Enter Class Code:"
