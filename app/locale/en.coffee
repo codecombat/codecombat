@@ -2157,6 +2157,8 @@
     helpful_ambassadors: "Our Helpful Ambassadors:"
 
   ladder:
+    title: 'Multiplayer Arenas'
+    arena_title: '__arena__ | Multiplayer Arenas'
     my_matches: "My Matches"
     simulate: "Simulate"
     simulation_explanation: "By simulating games you can get your game ranked faster!"

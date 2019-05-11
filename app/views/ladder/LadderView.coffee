@@ -42,9 +42,15 @@ module.exports = class LadderView extends RootView
     'click .spectate-button': 'onClickSpectateButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
+    super(options)
+
     if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
       @leagueID = @leagueType = null
+
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
+    @level.once 'sync', (level) =>
+      @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
+
     onLoaded = =>
       return if @destroyed
       @levelDescription = marked(@level.get('description')) if @level.get('description')
@@ -61,6 +67,9 @@ module.exports = class LadderView extends RootView
 
     @loadLeague()
     @urls = require('core/urls')
+
+  getMeta: ->
+    title: $.i18n.t 'ladder.title'
 
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
