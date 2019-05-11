@@ -574,7 +574,7 @@ module.exports = class User extends CocoModel
   useGoogleClassroom: -> not (features?.chinaUx ? false) and me.get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not (features?.chinaInfra ? false)
   # features.china is set globally for our China server
-  showChinaVideo: -> features?.china ? features?.chinaInfra ? false
+  showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" or campaignID == "5789236960deed1f00ec2ab8" or campaignID == "578913f2c8871ac2326fa3e4"
