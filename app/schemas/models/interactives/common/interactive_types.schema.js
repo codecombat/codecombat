@@ -15,7 +15,7 @@ const interactiveDraggableOrderingSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          elementId: schema.objectId()
+          elementId: schema.objectId({ hidden: true })
         }
       }
     },
@@ -35,7 +35,7 @@ const interactiveInsertCodeSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          choiceId: schema.objectId(),
+          choiceId: schema.objectId({ hidden: true }),
           triggerArt: { type: 'string' }
         }
       }
@@ -54,7 +54,7 @@ const interactiveDraggableClassificationSchema = {
         type: 'object',
         additionalProperties: false,
         properties: {
-          categoryId: schema.objectId(),
+          categoryId: schema.objectId({ hidden: true }),
           text: { type: 'string' }
         }
       }
@@ -66,7 +66,7 @@ const interactiveDraggableClassificationSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          elementId: schema.objectId()
+          elementId: schema.objectId({ hidden: true })
         }
       }
     },
@@ -85,7 +85,7 @@ const interactiveMultipleChoiceSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          choiceId: schema.objectId()
+          choiceId: schema.objectId({ hidden: true })
         }
       }
     },
@@ -105,7 +105,7 @@ const interactiveFillInCodeSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          responseId: schema.objectId(),
+          responseId: schema.objectId({ hidden: true }),
           triggerArt: { type: 'string' }
         }
       }

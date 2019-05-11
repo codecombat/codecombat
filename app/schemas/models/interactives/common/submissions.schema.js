@@ -7,7 +7,7 @@ const draggableOrderingSubmissionSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    submissionId: schema.objectId(),
+    submissionId: schema.objectId({ hidden: true }),
     submissionDate: schema.stringDate(),
     correct: { type: 'boolean' },
     submittedSolution: interactiveTypeSchema.interactiveDraggableOrderingSchema.properties.solution,
@@ -19,7 +19,7 @@ const insertCodeSubmissionSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    submissionId: schema.objectId(),
+    submissionId: schema.objectId({ hidden: true }),
     submissionDate: schema.stringDate(),
     correct: { type: 'boolean' },
     submittedSolution: interactiveTypeSchema.interactiveInsertCodeSchema.properties.solution
@@ -30,7 +30,7 @@ const draggableClassificationSubmissionSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    submissionId: schema.objectId(),
+    submissionId: schema.objectId({ hidden: true }),
     submissionDate: schema.stringDate(),
     correct: { type: 'boolean' },
     submittedSolution: interactiveTypeSchema.interactiveDraggableClassificationSchema.properties.solution,
@@ -42,7 +42,7 @@ const multipleChoiceSubmissionSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    submissionId: schema.objectId(),
+    submissionId: schema.objectId({ hidden: true }),
     submissionDate: schema.stringDate(),
     correct: { type: 'boolean' },
     submittedSolution: interactiveTypeSchema.interactiveMultipleChoiceSchema.properties.solution
@@ -53,7 +53,7 @@ const fillInCodeSubmissionSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    submissionId: schema.objectId(),
+    submissionId: schema.objectId({ hidden: true }),
     submissionDate: schema.stringDate(),
     correct: { type: 'boolean' },
     submittedSolution: interactiveTypeSchema.interactiveFillInCodeSchema.properties.solution
@@ -64,7 +64,7 @@ const draggableStatementCompletionSubmissionSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    submissionId: schema.objectId(),
+    submissionId: schema.objectId({ hidden: true }),
     submissionDate: schema.stringDate(),
     correct: { type: 'boolean' },
     submittedSolution: interactiveTypeSchema.interactiveDraggableStatementCompletionSchema.properties.solution
