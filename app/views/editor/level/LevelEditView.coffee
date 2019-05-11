@@ -95,6 +95,10 @@ module.exports = class LevelEditView extends RootView
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
 
+    @setMeta({
+      title: "LevelEditor - " + (@level.get('name') or '...')
+    })
+
   destroy: ->
     clearInterval @timerIntervalID
     super()
@@ -102,8 +106,6 @@ module.exports = class LevelEditView extends RootView
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
     super($el)
-
-  getTitle: -> "LevelEditor - " + (@level.get('name') or '...')
 
   onLoaded: ->
     _.defer =>
@@ -160,7 +162,7 @@ module.exports = class LevelEditView extends RootView
   openRevertModal: (e) ->
     e.stopPropagation()
     @openModalView new RevertModal()
-  
+
   openGenerateTerrainModal: (e) ->
     e.stopPropagation()
     @openModalView new GenerateTerrainModal()
