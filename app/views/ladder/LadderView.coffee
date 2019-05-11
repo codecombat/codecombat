@@ -70,6 +70,9 @@ module.exports = class LadderView extends RootView
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'
+    link: [
+      { vmid: 'rel-canonical', rel: 'canonical', content: 'http://' + window.location.href + '/play' }
+    ]
 
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']

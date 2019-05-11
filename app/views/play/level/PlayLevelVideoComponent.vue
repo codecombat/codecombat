@@ -59,7 +59,10 @@ export default Vue.extend({
 
   metaInfo () {
     return {
-      title: this.$t('play.video_title', { video: this.videoData.title })
+      title: this.$t('play.video_title', { video: this.videoData.title }),
+      link: [
+        { vmid: 'rel-canonical', rel: 'canonical', content: 'http://' + window.location.href + '/play' }
+      ]
     }
   },
 
