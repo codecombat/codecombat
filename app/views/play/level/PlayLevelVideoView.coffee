@@ -6,6 +6,7 @@ module.exports = class PlayLevelVideoView extends RootComponent
   id: 'play-level-video-view'
   template: require 'templates/base-flat'
   VueComponent: PlayLevelVideoComponent
+  skipMetaBinding: true
 
   constructor: (options, @levelID) ->
     @propsData ?= {}
