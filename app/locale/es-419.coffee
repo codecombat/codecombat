@@ -1169,7 +1169,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     district_label: "Distrito"
     district_name: "Nombre del Distrito"
     district_na: "Ingresa N/A si no aplica"
-   organization_label: "Escuela / Distrito" # {change}
+    organization_label: "Escuela / Distrito" # {change}
     school_name: "Nombre de la Escuela"
     city: "Ciudad"
     state: "Estado"
@@ -1392,7 +1392,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     average_levels: "Niveles Promedio completados:"
     total_levels: "Total de niveles completados:"
     students: "Estudiantes"
-    concepts: "Conceptos"
+    concepts: "Con ceptos"
     play_time: "Tiempo de Juego:"
     completed: "Completados:"
     enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea" # {change}
