@@ -11,6 +11,7 @@ exports.features =
   playViewsOnly: false
 
 exports.me =
+  showingStaticPagesWhileLoading: () -> true
   isStudent: () -> false
   isAnonymous: () -> @get('anonymous')
   hasSubscription: () -> false
