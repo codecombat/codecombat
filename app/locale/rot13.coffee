@@ -1786,7 +1786,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     gd3_curriculum_desc: "Yrffba cynaf sbe Tnzr Qrirybczrag 3."
     wd1: "Jro Qrirybczrag 1"
     wd1_curriculum: "Jro Qrirybczrag 1 - Pheevphyhz Thvqr"
-    wd1_curriculum_desc: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf, naq zber sbe Jro Qrirybczrag 1." # {punatr}
+    wd1_curriculum_desc: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf, naq zber sbe Jro Qrirybczrag 1."
     wd1_headlines: "Urnqyvarf & Urnqref Npgvivgl"
     wd1_headlines_example: "Ivrj fnzcyr fbyhgvba"
     wd1_headlines_desc: "Jul ner cnentencu naq urnqre gntf vzcbegnag? Hfr guvf npgvivgl gb fubj ubj jryy-pubfra urnqref znxr jro cntrf rnfvre gb ernq. Gurer ner znal pbeerpg fbyhgvbaf gb guvf!"
