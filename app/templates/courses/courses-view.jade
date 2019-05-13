@@ -100,6 +100,9 @@ block content
                         span.spr= i18n(course, 'name')
                         small
                           a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
+                          // the ranking will only be visible in this class
+                          if courseInstance.id==="5cd4352deed476002dd14019"
+                            a.view-ranking-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_ranking")
                           if view.courseInstanceHasProject(courseInstance)
                             a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
                           if classroom.hasAssessments({courseId: course._id})

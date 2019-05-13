@@ -193,6 +193,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'seen': go('HomeView')
     'SEEN': go('HomeView')
 
+    'students/ranking/:map': go('courses/StudentRankingView')
+
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
@@ -200,6 +202,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/videos/:courseID/:courseName': go('courses/CourseVideosView')
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
+    
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
