@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     maka_title: "Klanten Ombudsman"
     robin_title: "UX Design & Onderzoek" # {change}
     nolan_title: "Regio-manager" # {change}
-    lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
     david_title: "Manager Marketing"
     titles_csm: "Kundesuksessleder"
     titles_territory_manager: "Regiomanager"

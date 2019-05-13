@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     maka_title: "Адвокат клиентов"
     robin_title: "Менеджер продукта" # {change}
     nolan_title: "Менеджер продаж"
-    lisa_title: "Менеджер по экономическому развитию"
     david_title: "Менеджер по работе с клиентами"
     titles_csm: "Менеджер по работе с клиентами"
     titles_territory_manager: "Региональный менеджер"

@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     maka_title: "מקדם לקוחות"
     robin_title: "מנהלת מוצר" # {change}
     nolan_title: "מנהל טריטוריה" # {change}
-    lisa_title: "מומחית לבתי ספר" # {change}
 #    david_title: "Marketing Lead"
     titles_csm: "מנהל הצלחה לקוחות"
     titles_territory_manager: "מנהל טריטוריה"

@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     maka_title: "Chăm Sóc Khách Hàng"
     robin_title: "Thiết Kế UX & Nghiên Cứu" # {change}
     nolan_title: "Giám Đốc Khu Vực" # {change}
-#    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
     titles_csm: "Quản lý thành công khách hàng"
     titles_territory_manager: "Giám Đốc Khu Vực"

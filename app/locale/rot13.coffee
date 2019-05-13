@@ -1046,7 +1046,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     maka_title: "Phfgbzre Nqibpngr"
     robin_title: "Fravbe Cebqhpg Znantre"
     nolan_title: "Fnyrf Znantre"
-    lisa_title: "Ohfvarff Qrirybczrag Znantre"
     david_title: "Znexrgvat Yrnq"
     titles_csm: "Phfgbzre Fhpprff Znantre"
     titles_territory_manager: "Greevgbel Znantre"

@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     maka_title: "Заступник корисника"
     robin_title: "Дизајн и истраживање корисничког искуства" # {change}
     nolan_title: "Руководилац подручја" # {change}
-    lisa_title: "Школски специјалиста" # {change}
     david_title: "Вођа маркетинга"
     titles_csm: "Цустомер Суццесс Манагер"
     titles_territory_manager: "Територијални менаџер"

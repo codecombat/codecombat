@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     maka_title: "Адвокат клієнтів"
     robin_title: "Менеджер з продукту" # {change}
     nolan_title: "Менеджер територій" # {change}
-    lisa_title: "Шкільний спеціаліст" # {change}
 #    david_title: "Marketing Lead"
     titles_csm: "Менеджер успіху клієнтів"
     titles_territory_manager: "Менеджер територій"
