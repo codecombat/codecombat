@@ -35,33 +35,34 @@ block content
             img(src="/images/pages/home/type_real_code_logo.gif"
               alt="CodeCombat character Anya follows typed code block to reach chest of gems")
 
-    .row.row-dark#classroom-in-box-row
-      .col-lg-12
-        .container
-          .row
-            .col-lg-7.col-md-12
-              .video-iframe
-                if me.showChinaVideo()
-                  video(controls width="640" height="350" poster="/images/pages/home/video_thumb.png" preload="metadata")
-                    source(src="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4" type="video/mp4")
-                    a(href="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4")
-                      img(src="/images/pages/home/video_thumb.png" style="width: 640px; height:350px")
-                else
-                  iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="640" height="350")
-            .col-lg-5.col-md-12
-              h2(data-i18n="new_home.classroom_in_box_title")
-              img(src="/images/pages/home/pink_rectangle.png"
-               alt="")
-              ul
-                li
-                  span.text-p(data-i18n="new_home.classroom_in_box_blurb1")
-                li
-                  span.text-p(data-i18n="new_home.classroom_in_box_blurb2")
-                li
-                  span.text-p(data-i18n="new_home.classroom_in_box_blurb3")
-          if me.isAnonymous()
-            .row.signup_btn
-              button.btn.btn-lg.btn-primary.signup-button.signup-home-btn(data-event-action="Homepage Sign Up #2 CTA", data-i18n="signup.sign_up")
+    if !me.showingStaticPagesWhileLoading()
+      .row.row-dark#classroom-in-box-row
+        .col-lg-12
+          .container
+            .row
+              .col-lg-7.col-md-12
+                .video-iframe
+                  if me.showChinaVideo()
+                    video(controls width="640" height="350" poster="/images/pages/home/video_thumb.png" preload="metadata")
+                      source(src="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4" type="video/mp4")
+                      a(href="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4")
+                        img(src="/images/pages/home/video_thumb.png" style="width: 640px; height:350px")
+                  else
+                    iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="640" height="350")
+              .col-lg-5.col-md-12
+                h2(data-i18n="new_home.classroom_in_box_title")
+                img(src="/images/pages/home/pink_rectangle.png"
+                alt="")
+                ul
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb1")
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb2")
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb3")
+            if me.isAnonymous()
+              .row.signup_btn
+                button.btn.btn-lg.btn-primary.signup-button.signup-home-btn(data-event-action="Homepage Sign Up #2 CTA", data-i18n="signup.sign_up")
 
     .row#creativity-rigor
       .col-lg-12
