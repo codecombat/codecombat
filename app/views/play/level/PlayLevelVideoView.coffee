@@ -8,7 +8,7 @@ module.exports = class PlayLevelVideoView extends RootComponent
   VueComponent: PlayLevelVideoComponent
   skipMetaBinding: true
 
-  constructor: (options, @levelID) ->
+  initialize: (options, @levelID) ->
     @propsData ?= {}
     @propsData.levelSlug = @levelID
     @propsData.courseID = utils.getQueryVariable 'course'
