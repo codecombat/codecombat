@@ -112,19 +112,27 @@
 
   #team
     ul
+      display: flex
+      flex-direction: row
+      justify-content: center
+      flex-wrap: wrap
       text-align: center
       margin-top: 40px
       padding: 0
       li
+        display: flex
+        flex-direction: column
         width: 200px
         height: 230px
         list-style: none
-        display: inline-block
         text-align: center
         color: black
+        .team-bio
+          padding: 10px
+          padding-top: 0
+          height: 107px
         small
           display: block
-          white-space: nowrap
         .img-thumbnail
           border-radius: 50%
           padding: 0
@@ -136,11 +144,15 @@
         .headshot
           border: 5px solid #fff
           height: 110px
+      .profile-pic
+        height: 110px
+        flex-grow: 0
+        flex-shrink: 0
       .profile-pic:hover .headshot
-          display: none
+        display: none
       .profile-pic:hover .avatar
-          display: inline
-          border: 5px solid $gold
+        display: inline
+        border: 5px solid $gold
 
   // #community
   //   margin-top: 100px

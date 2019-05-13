@@ -1,4 +1,4 @@
-extends /templates/base-flat
+extends /templates/base-flat.jade
 
 block content
   .container
@@ -6,7 +6,7 @@ block content
       .col-xs-12
         if me.isTeacher()
           .alert.alert-danger.text-center
-            // DNT: Temporary
+            //- DNT: Temporary
             h3 ATTENTION TEACHERS:
             p We are transitioning to a new classroom management system; this page will soon be student-only.
             a(href="/teachers/classes") Go to teachers area.
@@ -39,21 +39,6 @@ block content
 
             .text-center
               h1(data-i18n="courses.welcome_to_page")
-
-            //- TODO: remove temporary HoC 2018 blurb anytime after 2018-12-14
-            if new Date() >= new Date('2018-11-28') && new Date() <= new Date('2018-12-14')
-              #announcement
-                h3.text-center(data-i18n='teacher.hoc_happy_ed_week')
-                .row
-                  .col-xs-9
-                    p
-                      span(data-i18n='courses.hoc_blurb1')
-                      strong.spr.spl(data-i18n='courses.hoc_blurb2')
-                      span.spr(data-i18n='courses.hoc_blurb3')
-                  .col-xs-3
-                    p.announcement-button
-                      a.btn.btn-navy.btn-lg(href="https://codecombat.com/play/hoc-2018")
-                        span(data-i18n='new_home.play_now')
 
             if me.showAvatarOnStudentDashboard()
               .current-hero-container.text-center.row
@@ -135,6 +120,7 @@ block content
 mixin course-instance-body(courseInstance, classroom)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
   - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+  - var nextLevel = stats.levels.next;
 
   if stats.courseComplete
     .text-success
@@ -155,14 +141,13 @@ mixin course-instance-body(courseInstance, classroom)
           span(data-i18n="courses.view_project")
       else
         a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
-    else
-      - var next = stats.levels.next;
+    else if nextLevel
       - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
-      if stats.levels.next != stats.levels.first
-        a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Continue Course")
+      if nextLevel != stats.levels.first
+        a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
           span(data-i18n="common.continue")
       else
-        a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Start Course")
+        a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
           span(data-i18n="courses.start")
 
   if stats.courseComplete

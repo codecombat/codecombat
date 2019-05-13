@@ -9,7 +9,7 @@ flat-layout
       .row.video-row
         .col-sm-12.video-col(v-if="videoData")
           iframe.video(
-            :src="videoData.url"
+            :src="videoUrl"
             frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen
           )
       .row.buttons-row
@@ -58,6 +58,7 @@ export default Vue.extend({
   },
   data: () => ({
     videoData: {},
+    videoUrl: "",
     originalDisplaySettings: {}
   }),
   components: {
@@ -65,13 +66,16 @@ export default Vue.extend({
   },
   created() {
     this.videoData = utils.videoLevels[this.levelOriginalID]
+    this.videoUrl = me.showChinaVideo() ? this.videoData.cn_url : this.videoData.url
   },
   mounted() {
     this.$nextTick(function () {
-      const player = new VideoPlayer($('.video')[0]);
-      player.on('ended', function() {
-        $('#next-level-btn')[0].style.display = "block"
-      })
+      if(!me.showChinaVideo()){
+        const player = new VideoPlayer($('.video')[0]);
+        player.on('ended', function() {
+          $('#next-level-btn')[0].style.display = "block"
+        })
+      }
       // hack to remove base template's header and footer
       // store existing display settings to revert to these before leaving 
       this.originalDisplaySettings = {
@@ -154,13 +158,14 @@ export default Vue.extend({
       color: white
 
   .video-container
+    z-index: 3
     width: 100%
     height: 100%
     position: absolute
     background: transparent url('/images/level/videos/videos_background_dungeon.png') no-repeat 
     background-position: 0px 0px
     background-size: 100% 100%
-      
+
     .video-background
       position: absolute
       left: 10%

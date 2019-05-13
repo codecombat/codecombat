@@ -2,6 +2,7 @@ require('app/styles/teachers/teacher-student-view.sass')
 RootView = require 'views/core/RootView'
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
+State = require 'models/State'
 Courses = require 'collections/Courses'
 Levels = require 'collections/Levels'
 LevelSession = require 'models/LevelSession'
@@ -12,10 +13,11 @@ CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+fullPageTemplate = require 'templates/teachers/teacher-student-view-full'
+viewTemplate = require 'templates/teachers/teacher-student-view'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
-  template: require 'templates/teachers/teacher-student-view'
 
   events:
     'change #course-dropdown': 'onChangeCourseChart'
@@ -33,9 +35,22 @@ module.exports = class TeacherStudentView extends RootView
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
+    @state = new State({
+      'renderOnlyContent': options.renderOnlyContent
+    })
+
+    if (options.renderOnlyContent)
+      @template = viewTemplate
+    else
+      @template = fullPageTemplate
+
     @classroom = new Classroom({_id: classroomID})
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())
+
+    if @studentID
+      @user = new User({ _id: @studentID })
+      @supermodel.trackRequest(@user.fetch())
 
     @courses = new Courses()
     @supermodel.trackRequest(@courses.fetch({data: { project: 'name,i18n,slug' }}))
@@ -65,14 +80,13 @@ module.exports = class TeacherStudentView extends RootView
       @calculateStandardDev()
       @updateSolutions()
       @render()
-      
-      # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
-      if window.location.hash
-        levelSlug = window.location.hash.substring(1)
-        @updateSelectedCourseProgress(levelSlug)
-        window.location.href = window.location.href 
 
     super()
+    # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
+    if window.location.hash
+      levelSlug = window.location.hash.substring(1)
+      @updateSelectedCourseProgress(levelSlug)
+      window.location.href = window.location.href 
 
   afterRender: ->
     super(arguments...)
@@ -146,9 +160,18 @@ module.exports = class TeacherStudentView extends RootView
   calculateStandardDev: ->
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @levelData
 
+    levelSessionsByStudentByLevel = {}
+    for session in @sessions.models
+      userSessions = levelSessionsByStudentByLevel[session.get('creator')] or {}
+      userSessionsForLevel = userSessions[session.get('level').original] or []
+      userSessionsForLevel.push session
+      userSessions[session.get('level').original] = userSessionsForLevel
+      levelSessionsByStudentByLevel[session.get('creator')] = userSessions
+    levelDataByLevel = {}
+    for levelDatum in @levelData
+      levelDataByLevel[levelDatum.levelID] = levelDatum
     @courseComparisonMap = []
     for versionedCourse in @classroom.getSortedCourses() or []
-      # course = _.find @courses.models, (c) => c.id is versionedCourse._id
       course = @courses.get(versionedCourse._id)
       numbers = []
       studentCourseTotal = 0
@@ -157,14 +180,14 @@ module.exports = class TeacherStudentView extends RootView
         number = 0
         memberPlayed = 0 # number of levels a member has played that this student has also played
         for versionedLevel in versionedCourse.levels
-          for session in @sessions.models
-            if session.get('level').original is versionedLevel.original and session.get('creator') is member
-              playedLevel = _.findWhere(@levelData, {levelID: session.get('level').original})
-              if playedLevel.levelProgress is 'complete' or playedLevel.levelProgress is 'started'
-                number += session.get('playtime') or 0
-                memberPlayed += 1
-              if session.get('creator') is @studentID
-                studentCourseTotal += session.get('playtime') or 0
+          sessions = (levelSessionsByStudentByLevel[member] ? {})[versionedLevel.original] ? []
+          for session in sessions
+            playedLevel = levelDataByLevel[session.get('level').original]
+            if playedLevel.levelProgress is 'complete' or playedLevel.levelProgress is 'started'
+              number += session.get('playtime') or 0
+              memberPlayed += 1
+            if session.get('creator') is @studentID
+              studentCourseTotal += session.get('playtime') or 0
         if memberPlayed > 0 then members += 1
         numbers.push number
 
@@ -406,6 +429,7 @@ module.exports = class TeacherStudentView extends RootView
     date = if expires? then moment(expires).utc().format('l') else ''
     utils.formatStudentLicenseStatusDate(status, date)
 
+  canViewStudentProfile: () -> @classroom && (@classroom.get('ownerID') == me.id || me.isAdmin())
 
   # TODO: Hookup enroll/assign functionality
 

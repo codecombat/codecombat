@@ -48,6 +48,15 @@ NOTE: BasicInfoView's two children (SingleSignOn...View) inherit from it.
 This allows them to have the same form-handling logic, but different templates.
 ###
 
+# "Teacher signup started" event for reaching the Create Teacher form.
+startSignupTracking = ->
+  properties =
+    category: 'Homepage'
+    user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+  window.tracker?.trackEvent(
+    'Teacher signup started',
+    properties)
+
 module.exports = class CreateAccountModal extends ModalView
   id: 'create-account-modal'
   template: template
@@ -82,7 +91,9 @@ module.exports = class CreateAccountModal extends ModalView
     switch startOnPath
       when 'student' then @signupState.set({ path: 'student', screen: 'segment-check' })
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
-      when 'teacher' then @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' })
+      when 'teacher'
+        startSignupTracking()
+        @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' })
       else
         if /^\/play/.test(location.pathname)
           @signupState.set({ path: 'individual', screen: 'segment-check' })
@@ -94,6 +105,7 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @insertSubView(new ChooseAccountTypeView()),
       'choose-path': (path) ->
         if path is 'teacher'
+          startSignupTracking()
           window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers' # This is a legacy event name
           @signupState.set { path, screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }
         else
@@ -210,6 +222,10 @@ module.exports = class CreateAccountModal extends ModalView
       store.unregisterModule('modal')
 
   onClickLoginLink: ->
+    properties =
+      category: 'Homepage'
+      subview: @signupState.get('path') || "choosetype"
+    window.tracker?.trackEvent('Log in from CreateAccount', properties)
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))
 
   segmentCheckRequiredInCountry: ->

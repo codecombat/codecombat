@@ -1,7 +1,7 @@
-extends /templates/base-flat
+extends /templates/base-flat.jade
 
 block content
-  .style-flat(data-spy="scroll", data-target="#nav-container")
+  div(data-spy="scroll", data-target="#nav-container")
     .container-fluid#jumbotron
       .container
         .row
@@ -53,8 +53,8 @@ block content
         ul
           // Full time
           li
-            a(href="http://www.nickwinter.net" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="http://www.nickwinter.net" rel="external")
                 img(src="/images/pages/about/team-avatars/nick-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/nick-headshot.png").img-thumbnail.headshot
             .team-bio
@@ -64,8 +64,8 @@ block content
               br
 
           li
-            a(href="http://www.mattlott.com/" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="http://www.mattlott.com/" rel="external")
                 img(src="/images/pages/about/team-avatars/matt-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/matt-headshot.png").img-thumbnail.headshot
             .team-bio
@@ -75,8 +75,8 @@ block content
               br
 
           li
-            a(href="http://robinyang.com/" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="http://robinyang.com/" rel="external")
                 img(src="/images/pages/about/team-avatars/robin-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/robin-headshot.png").img-thumbnail.headshot
             .team-bio
@@ -86,8 +86,8 @@ block content
               br
 
           li
-            a(href="http://bryukh.com" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="http://bryukh.com" rel="external")
                 img(src="/images/pages/about/team-avatars/bryukh-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/bryukh-headshot.jpg").img-thumbnail.headshot
             .team-bio
@@ -111,7 +111,7 @@ block content
               img(src="/images/pages/about/team-headshots/sean-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Sean McNulty
-              small(data-i18n="about.sean_title")
+              small(data-i18n="about.titles_territory_manager")
               br
 
           li
@@ -120,18 +120,18 @@ block content
               img(src="/images/pages/about/team-headshots/liz-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Liz Coluni
-              small(data-i18n="about.liz_title")
+              small(data-i18n="about.titles_territory_manager")
               br
 
           li
-            a(href="https://www.linkedin.com/in/jane-park-90bb11b/" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="https://www.linkedin.com/in/jane-park-90bb11b/" rel="external")
                 img(src="/images/pages/about/team-avatars/jane-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/jane-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
                 a(href="https://www.linkedin.com/in/jane-park-90bb11b/" rel="external") Jane Park
-              small(data-i18n="about.jane_title")
+              small(data-i18n="about.titles_territory_manager")
               br
 
           li
@@ -167,12 +167,12 @@ block content
               img(src="/images/pages/about/team-headshots/lawrence-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Lawrence Kotovets
-              small Partnership Manager
+              small(data-i18n="about.titles_csm")
               br
 
           li
-            a(href="https://www.linkedin.com/in/stephanie-rockett-phd-b63a0464/" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="https://www.linkedin.com/in/stephanie-rockett-phd-b63a0464/" rel="external")
                 img(src="/images/pages/about/team-avatars/stephanie-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/stephanie-headshot.png").img-thumbnail.headshot
             .team-bio
@@ -182,8 +182,8 @@ block content
               br
 
           li
-            a(href="https://andrewjakubowicz.github.io/" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="https://andrewjakubowicz.github.io/" rel="external")
                 img(src="/images/pages/about/team-avatars/andrew-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/andrew-headshot.png").img-thumbnail.headshot
             .team-bio
@@ -193,8 +193,8 @@ block content
               br
 
           li
-            a(href="http://www.magicalunderworld.com/" rel="external")
-              .profile-pic
+            .profile-pic
+              a(href="http://www.magicalunderworld.com/" rel="external")
                 img(src="/images/pages/about/team-avatars/brian-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/brian-headshot.png").img-thumbnail.headshot
             .team-bio
@@ -381,41 +381,6 @@ block content
                 li.small(data-i18n="about.jobs_benefit_7")
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-               h5 Engineering Manager
-                 .text-center
-                   small.label
-                     | San Francisco • Full-time
-                 p.small Ever wanted to work on games or education?  Why not do both!
-                 p.small CodeCombat is looking for an experienced engineering leader to help build our next-gen learning platform as well as guide our friendly and efficient engineering team.
-                 a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/38d91038-8417-4aa1-9936-77a082ffa050?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external")
-                  span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-                h5 Senior Software Engineer
-                  .text-center
-                    small.label
-                      | San Francisco • Remote
-                  .text-center
-                    small.label
-                      | Full-time
-                  p.small CodeCombat is looking for a Senior Software Engineer to help build our next-gen learning platform.  If you’re interested in blending games and education, that’s the crux of what we do.
-                  p.small Considering SF and remote candidates.
-                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/18a8182d-938a-4e2a-b2a2-ccfb51ccd9b9?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external")
-                    span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-                h5 Customer Support Specialist
-                  .text-center
-                    small.label
-                      | Remote
-                  .text-center
-                    small.label
-                      | Full-time
-                  p.small Help provide a great experience for users in need of support!
-                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/434ac69a-0766-4f20-8a68-679c3e67b8e4?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external")
-                    span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
               h5 Head of Operations (China)
                 .text-center
                   small.label
@@ -423,8 +388,8 @@ block content
                 p.small Help us get our China office up and running!
                 p.small CodeCombat is searching for a leader to build our China operations team in Beijing.
                 a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/7c9371ba-c41f-4de2-8deb-0911e65bdd7a?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external")
-                  span(data-i18n="about.learn_more")   
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0                  
+                  span(data-i18n="about.learn_more")
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
               h5 Partnership Development Lead (China)
                 .text-center

@@ -54,7 +54,7 @@ module.exports = {
     if sources.levels
       levelsMap = {}
       sources.levels.each (level) ->
-        levelsMap[level.id] = level.toJSON()
+        levelsMap[level.get('original')] = level.toJSON()
       attrs.levels = levelsMap
 
     return new Campaign(attrs)

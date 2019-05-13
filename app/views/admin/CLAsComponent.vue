@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div#admin-clas-view.container
   h1 CLAs
 

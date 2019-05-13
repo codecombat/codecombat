@@ -33,6 +33,7 @@ module.exports = {
   'views/teachers/DynamicAPCSPView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/DynamicAPCSPView') },
   'views/minigames/ConditionalMinigameView': function() { return import(/* webpackChunkName: "artisans" */ 'views/minigames/ConditionalMinigameView') },
   'views/ParentsView': function () { return import(/* webpackChunkName: "ParentsView" */ 'views/ParentsView') },
+  'views/CinematicView': function() { return import(/* webpackChunkName: "CinematicView" */ 'views/CinematicView' )},
   'views/artisans/ArtisansView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArtisansView') },
   'views/artisans/LevelTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelTasksView') },
   'views/artisans/SolutionProblemsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SolutionProblemsView') },
@@ -72,6 +73,7 @@ module.exports = {
   'views/editor/verifier/i18nVerifierView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/verifier/i18nVerifierView') },
   'views/editor/course/CourseSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseSearchView') },
   'views/editor/course/CourseEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseEditView') },
+  'views/editor/cinematic/CinematicEditorView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/cinematic/CinematicEditorView') },
   'views/i18n/I18NHomeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NHomeView') },
   'views/i18n/I18NEditThangTypeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditThangTypeView') },
   'views/i18n/I18NEditComponentView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditComponentView') },
@@ -85,6 +87,7 @@ module.exports = {
   'views/user/IdentifyView': function () { return import(/* webpackChunkName: "user" */ 'views/user/IdentifyView') },
   'views/account/IsraelSignupView': function () { return import(/* webpackChunkName: "account" */ 'views/account/IsraelSignupView') },
   'views/LegalView': function () { return import(/* webpackChunkName: "LegalView" */ 'views/LegalView') },
+  'views/play/OzariaUnitMap': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'views/play/OzariaUnitMap') },
   'views/play/CampaignView': function () { return import(/* webpackChunkName: "play" */ 'views/play/CampaignView') },
   'views/ladder/LadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView') },
   'views/ladder/MainLadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView') },
@@ -126,5 +129,12 @@ module.exports = {
   'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
   'views/user/AnonCertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/AnonCertificatesView') },
   'views/LicensorView': function() { return import(/* webpackChunkName: "LicensorView" */ 'views/LicensorView')},
+<<<<<<< HEAD
   'views/courses/StudentRankingView': function() { return import(/* webpackChunkName: "StudentRankingView" */ 'views/courses/StudentRankingView')}
+=======
+
+  // All Vue app components will be loaded via a vue chunk.  Eventually we will integrate webpack loading with Vue and
+  // at that time we can remove this dynamic import and instead include SingletonAppVueComponentView in the main bundle
+  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
+>>>>>>> upstream/master
 }

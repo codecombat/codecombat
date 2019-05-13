@@ -26,6 +26,13 @@ exports.me =
   get: (prop) -> props[prop]
   isOnPremiumServer: () -> false
   freeOnly: -> false
+  isTarena: -> false
+  useTarenaLogo: -> false
+  hideTopRightNav: -> false
+  hideFooter: -> false
+  useGoogleAnalytics: -> true
+  showChinaVideo: -> false
+  getHomePageTestGroup: -> undefined
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'

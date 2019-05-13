@@ -26,6 +26,7 @@ module.exports = class RootView extends CocoView
     'click #logout-button': 'logoutAccount'
     'click #nav-stop-spying-button': 'stopSpying'
     'change .language-dropdown': 'onLanguageChanged'
+    'click .language-dropdown li': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .signup-button': 'onClickSignupButton'
     'click .login-button': 'onClickLoginButton'
@@ -58,7 +59,13 @@ module.exports = class RootView extends CocoView
     window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
-    logoutUser($('#login-email').val())
+    if me.isTarena()
+      logoutUser({
+        success: ->
+          window.location = "http://kidtts.tmooc.cn/ttsPage/login.html"
+      })
+    else
+      logoutUser()
 
   stopSpying: ->
     me.stopSpying({
@@ -67,11 +74,16 @@ module.exports = class RootView extends CocoView
         errors.showNotyNetworkError(arguments...)
     })
 
-  onClickSignupButton: ->
+  onClickSignupButton: (e) ->
     CreateAccountModal = require 'views/core/CreateAccountModal'
     switch @id
       when 'home-view'
-        window.tracker?.trackEvent 'Started Signup', category: 'Homepage', label: 'Homepage'
+        properties = {
+          category: 'Homepage'
+        }
+        window.tracker?.trackEvent('Started Signup', properties, [])
+        eventAction = $(e.target)?.data('event-action')
+        window.tracker?.trackEvent(eventAction, properties, []) if eventAction
       when 'world-map-view'
         # TODO: add campaign data
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
@@ -79,9 +91,16 @@ module.exports = class RootView extends CocoView
         window.tracker?.trackEvent 'Started Signup', label: @id
     @openModalView new CreateAccountModal()
 
-  onClickLoginButton: ->
+  onClickLoginButton: (e) ->
     AuthModal = require 'views/core/AuthModal'
-    window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
+    if @id is 'home-view'
+      properties = { category: 'Homepage' }
+      window.tracker?.trackEvent 'Login', properties, ['Google Analytics'] 
+      
+      eventAction = $(e.target)?.data('event-action')
+      if $(e.target)?.hasClass('track-ab-result')
+        _.extend(properties, { trackABResult: true })
+      window.tracker?.trackEvent(eventAction, properties, []) if eventAction
     @openModalView new AuthModal()
 
   showLoading: ($el) ->
@@ -131,23 +150,34 @@ module.exports = class RootView extends CocoView
 
   addLanguagesToSelect: ($select, initialVal) ->
     initialVal ?= me.get('preferredLanguage', true)
+    if $select.is('ul') # base-flat
+      @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
     for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
-      $select.append(
-        $('<option></option>').val(code).text(localeInfo.nativeDescription))
-      if code is 'pt-BR'
+      if $select.is('ul') # base-flat template
         $select.append(
-          $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
-    $select.val(initialVal)
+          $('<li data-code="' + code + '"><a class="language-dropdown-item">' + localeInfo.nativeDescription + '</a></li>'))
+        if code is 'pt-BR'
+          $select.append($('<li role="separator" class="divider"</li>'))
+      else # base template
+        $select.append($('<option></option>').val(code).text(localeInfo.nativeDescription))
+        if code is 'pt-BR'
+          $select.append(
+            $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
+        $select.val(initialVal)
 
-  onLanguageChanged: ->
-    newLang = $('.language-dropdown').val()
+  onLanguageChanged: (event)->
+    targetElem = $(event.currentTarget)
+    if targetElem.is('li') # base-flat template
+      newLang = targetElem.data('code')
+      @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
+    else # base template
+      newLang = $('.language-dropdown').val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
-
     locale.load(me.get('preferredLanguage', true)).then =>
       @onLanguageLoaded()
       window.tracker.promptForCookieConsent()

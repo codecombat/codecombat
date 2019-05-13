@@ -10,35 +10,25 @@ storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
-#  TODO: auto margin feature paragraphs
-
 module.exports = class HomeView extends RootView
   id: 'home-view'
-  className: 'style-flat'
   template: template
 
   events:
-    'click .open-video-btn': 'onClickOpenVideoButton'
-    'click .play-btn': 'onClickPlayButton'
-    'change #school-level-dropdown': 'onChangeSchoolLevelDropdown'
+    'click .continue-playing-btn': 'onClickTrackEvent'
+    'click .example-gd-btn': 'onClickTrackEvent'
+    'click .example-wd-btn': 'onClickTrackEvent'
+    'click .play-btn': 'onClickTrackEvent'
+    'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
-    'click #learn-more-link': 'onClickLearnMoreLink'
-    'click .screen-thumbnail': 'onClickScreenThumbnail'
-    'click #carousel-left': 'onLeftPressed'
-    'click #carousel-right': 'onRightPressed'
-    'click .request-demo': 'onClickRequestDemo'
+    'click .request-quote': 'onClickRequestQuote'
     'click .logout-btn': 'logoutAccount'
-    'click .profile-btn': 'onClickViewProfile'
+    'click .profile-btn': 'onClickTrackEvent'
     'click .setup-class-btn': 'onClickSetupClass'
-    'click .my-classes-btn': 'onClickMyClassesButton'
-    'click .resource-btn': 'onClickResourceButton'
+    'click .my-classes-btn': 'onClickTrackEvent'
+    'click .my-courses-btn': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
-
-  shortcuts:
-    'right': 'onRightPressed'
-    'left': 'onLeftPressed'
-    'esc': 'onEscapePressed'
 
   initialize: (options) ->
     @courses = new Courses()
@@ -49,66 +39,52 @@ module.exports = class HomeView extends RootView
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
-    @playURL = if me.isStudent()
-      '/students'
-    else
-      '/play'
-
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
     super()
 
-  onClickOpenVideoButton: (event) ->
-    unless @$('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      # Modal opening happens automatically from bootstrap
-      @$('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
-    @vimeoPlayer.play()
-
-  onCloseLightbox: ->
-    @vimeoPlayer.pause()
-
-  onClickLearnMoreLink: ->
-    window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', []
-    @scrollToLink('#classroom-in-box-container')
-
-  onClickPlayButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-
-  onClickRequestDemo: (e) ->
+  onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent($(e.target).data('event-action'))
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
-      application.router.navigate '/teachers/demo', trigger: true
+      application.router.navigate '/teachers/quote', trigger: true
 
   onClickSetupClass: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent($(e.target).data('event-action'))
     application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
-  onClickViewProfile: (e) ->
-    e.preventDefault()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+  onClickTrackEvent: (e) ->
+    if $(e.target)?.hasClass('track-ab-result')
+      properties = {trackABResult: true}
+    @homePageEvent($(e.target).data('event-action'), properties || {})
 
-  onClickMyClassesButton: (e) ->
-    e.preventDefault()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+  # Provides a uniform interface for collecting information from the homepage.
+  # Always provides the category Homepage and includes the user role.
+  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+    defaults =
+      category: 'Homepage'
+      user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+    properties = _.merge(defaults, extraproperties)
 
-  onClickResourceButton: (e) ->
-    e.preventDefault()
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    window.tracker?.trackEvent(
+        action,
+        properties,
+        includeIntegrations )
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -119,35 +95,27 @@ module.exports = class HomeView extends RootView
       anchorText = $.i18n.t(translationKey, {lng: 'en-US'})
     else
       anchorText = anchor.text
+
+    if $(e.target)?.hasClass('track-ab-result')
+      properties = {trackABResult: true}
+
     if anchorText
-      window.tracker?.trackEvent "Link: #{anchorText}", category: 'Homepage', ['Google Analytics']
+      @homePageEvent("Link: #{anchorText}", properties || {}, ['Google Analytics'])
+    else
+      _.extend(properties || {}, {
+        clicked: e?.currentTarget?.host or "unknown"
+      })
+      @homePageEvent("Link:", properties, ['Google Analytics'])
 
   afterRender: ->
-    require.ensure(['@vimeo/player'], (require) =>
-      Player = require('@vimeo/player').default
-      @vimeoPlayer = new Player(@$('.vimeo-player')[0])
-    , (e) =>
-      console.log e
-    , 'vimeo')
-    @onChangeSchoolLevelDropdown()
-    @$('#screenshot-lightbox')
-      .modal()
-      .on 'hide.bs.modal', (e)=>
-        @vimeoPlayer.pause()
-      .on 'shown.bs.modal', (e)=>
-        if @$('.video-carousel-item').hasClass('active')
-          @vimeoPlayer.play()
-    @$('#screenshot-carousel')
-      .carousel({
-        interval: 0
-        keyboard: false
-      })
-      .on 'slide.bs.carousel', (e) =>
-        if not $(e.relatedTarget).hasClass('.video-carousel-item')
-          @vimeoPlayer.pause()
-    $(window).on 'resize', @fitToPage
-    @fitToPage()
-    setTimeout(@fitToPage, 0)
+    if !me.showChinaVideo()
+      require.ensure(['@vimeo/player'], (require) =>
+        Player = require('@vimeo/player').default
+        @vimeoPlayer = new Player(@$('.vimeo-player')[0])
+      , (e) =>
+        console.error e
+      , 'vimeo')
+
     if me.isAnonymous()
       if document.location.hash is '#create-account'
         @openModalView(new CreateAccountModal())
@@ -169,90 +137,9 @@ module.exports = class HomeView extends RootView
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
 
-  destroy: ->
-    $(window).off 'resize', @fitToPage
-    super()
-
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()
-
-  onChangeSchoolLevelDropdown: (e) ->
-    levels =
-      elementary:
-        'introduction-to-computer-science': '2-4'
-        'game-development-1': '2-3'
-        'web-development-1': '2-3'
-        'game-development-2': '2-3'
-        'web-development-2': '2-3'
-        'computer-science-6': '24-30'
-        'computer-science-7': '30-40'
-        'computer-science-8': '30-40'
-        default: '16-25'
-        total: '150-215 hours (about two and a half years)'
-      middle:
-        'introduction-to-computer-science': '1-3'
-        'game-development-1': '1-3'
-        'web-development-1': '1-3'
-        'game-development-2': '1-3'
-        'web-development-2': '1-3'
-        'computer-science-6': '12-14'
-        'computer-science-7': '14-16'
-        'computer-science-8': '14-16'
-        default: '8-12'
-        total: '75-100 hours (about one and a half years)'
-      high:
-        'introduction-to-computer-science': '1'
-        'game-development-1': '1-2'
-        'web-development-1': '1-2'
-        'game-development-2': '1-2'
-        'web-development-2': '1-2'
-        'computer-science-6': '10-12'
-        'computer-science-7': '12-16'
-        'computer-science-8': '12-16'
-        default: '8-10'
-        total: '65-85 hours (about one year)'
-    level = if e then $(e.target).val() else 'middle'
-    @$el.find('#courses-row .course-details').each ->
-      slug = $(@).data('course-slug')
-      duration = levels[level][slug] or levels[level].default
-      $(@).find('.course-duration .course-hours').text duration
-      $(@).find('.course-duration .unit').text($.i18n.t(if duration is '1' then 'units.hour' else 'units.hours'))
-    @$el.find('#semester-duration').text levels[level].total
-
-  onRightPressed: (event) ->
-    # Special handling, otherwise after you click the control, keyboard presses move the slide twice
-    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
-    if $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      $('#screenshot-carousel').carousel('next')
-
-  onLeftPressed: (event) ->
-    return if event.type is 'keydown' and $(document.activeElement).is('.carousel-control')
-    if $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      $('#screenshot-carousel').carousel('prev')
-
-  onEscapePressed: (event) ->
-    if $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      $('#screenshot-lightbox').modal('hide')
-
-  onClickScreenThumbnail: (event) ->
-    unless $('#screenshot-lightbox').data('bs.modal')?.isShown
-      event.preventDefault()
-      # Modal opening happens automatically from bootstrap
-      $('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
-
-  fitToPage: =>
-    windowHeight = $(window).height()
-    linkBox = @$("#learn-more-link").parent()
-    linkOffset = linkBox.offset()
-    adjustment = windowHeight - (linkOffset.top + linkBox.height())
-    target = @$('.top-spacer').first()
-    newOffset = parseInt(target.css('height') || 0) + adjustment
-    newOffset = Math.min(Math.max(0, newOffset), 170)
-    target.css(height: "#{newOffset}px")
 
   mergeWithPrerendered: (el) ->
     true
