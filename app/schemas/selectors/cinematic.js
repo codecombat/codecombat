@@ -265,11 +265,9 @@ export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter,
  * @returns {bool} whether we should clear all existing dialogs. Defaults to true.
  */
 export const getClearText = dialogNode => {
-  const shouldClearDialogue = (dialogNode || {}).dialogClear
-  if (typeof shouldClearDialogue === 'undefined') {
-    return true
-  }
-  return shouldClearDialogue
+  const dialogueNode = dialogNode || {}
+  const dialogClear = dialogueNode.dialogClear || true
+  return dialogClear
 }
 
 export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
