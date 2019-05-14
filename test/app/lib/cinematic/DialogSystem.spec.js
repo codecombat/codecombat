@@ -1,5 +1,5 @@
 /* eslint-env jasmine */
-import { processText, wrapText } from '../../../../ozaria/engine/cinematic/dialog-system/dialogSystemHelper'
+import { processText, wrapText } from '../../../../ozaria/engine/cinematic/dialogsystem/helper'
 
 const dialogNode = text => ({ text })
 

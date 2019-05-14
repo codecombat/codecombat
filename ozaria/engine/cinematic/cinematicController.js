@@ -1,10 +1,10 @@
 import CinematicLankBoss from './CinematicLankBoss'
 import Loader from './Loader'
-import { parseShot } from './Command/CinematicParser'
-import CommandRunner from './Command/CommandRunner'
-import DialogSystem from './DialogSystem'
+import { parseShot } from './commands/CinematicParser'
+import CommandRunner from './commands/CommandRunner'
+import DialogSystem from './dialogsystem/DialogSystem'
 import { CameraSystem } from './CameraSystem'
-import { SoundSystem } from './sound-system/SoundSystem'
+import { SoundSystem } from './SoundSystem'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')

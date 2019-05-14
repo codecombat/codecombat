@@ -1,5 +1,5 @@
 import { getCamera, CAMERA_DEFAULT } from '../../../app/schemas/models/selectors/cinematic'
-import { SyncFunction } from './Command/commands'
+import { SyncFunction } from './commands/commands'
 
 /**
  * Thin wrapper on the camera to provide additional command methods.

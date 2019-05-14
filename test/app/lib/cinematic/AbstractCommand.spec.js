@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
-import AbstractCommand, { run, cancel } from '../../../../ozaria/engine/cinematic/Command/AbstractCommand'
-import { Noop, SyncFunction, SequentialCommands, ConcurrentCommands, Sleep } from '../../../../ozaria/engine/cinematic/Command/commands'
+import AbstractCommand, { run, cancel } from '../../../../ozaria/engine/cinematic/commands/AbstractCommand'
+import { Noop, SyncFunction, SequentialCommands, ConcurrentCommands, Sleep } from '../../../../ozaria/engine/cinematic/commands/commands'
 import * as PromiseBB from 'bluebird'
 
 PromiseBB.config({

@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
-import AbstractCommand from './Command/AbstractCommand'
-import { Noop, SyncFunction, Sleep, SequentialCommands } from './Command/commands'
+import AbstractCommand from './commands/AbstractCommand'
+import { Noop, SyncFunction, Sleep, SequentialCommands } from './commands/commands'
 import {
   getLeftCharacterThangTypeSlug,
   getRightCharacterThangTypeSlug,
@@ -29,7 +29,7 @@ const BACKGROUND = 'background'
 const RIGHT = Math.PI
 
 /**
- * @typedef {import(./Command/CinematicParser).System} System
+ * @typedef {import(./commands/CinematicParser).System} System
  */
 
 /**
