@@ -1,5 +1,3 @@
-import { CAMERA_DEFAULT } from '../../lib/cinematic/CameraSystem'
-
 /**
  * Selector / verifier.
  *
@@ -233,6 +231,15 @@ const heroThangTypeOriginal = character => {
   const enterOnStart = character.enterOnStart
 
   return { enterOnStart, thang }
+}
+
+// A camera default setting.
+export const CAMERA_DEFAULT = {
+  pos: {
+    x: 0,
+    y: 0
+  },
+  zoom: 6
 }
 
 /**

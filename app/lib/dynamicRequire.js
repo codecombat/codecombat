@@ -133,5 +133,5 @@ module.exports = {
   'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
 
   // Ozaria file split
-  'views/ozaria/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "OzariaPlay" */ 'ozaria/views/play/level/PlayLevelView') },
+  'views/ozaria/site/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "OzariaPlay" */ 'ozaria/site/views/play/level/PlayLevelView') },
 }

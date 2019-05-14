@@ -7,7 +7,7 @@ import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/Sch
 import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
 import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
 
-import PageCinematicEditor from '../../ozaria/components/cinematic/PageCinematicEditor'
+import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
 
 let vueRouter
 

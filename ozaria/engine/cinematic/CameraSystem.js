@@ -1,15 +1,5 @@
-import { getCamera } from '../../schemas/selectors/cinematic'
+import { getCamera, CAMERA_DEFAULT } from '../../../app/schemas/models/selectors/cinematic'
 import { SyncFunction } from './Command/commands'
-
-// Seems to be a reasonable default camera.
-// TODO: Is this still reasonable with much larger art assets.
-export const CAMERA_DEFAULT = {
-  pos: {
-    x: 0,
-    y: 0
-  },
-  zoom: 6
-}
 
 /**
  * Thin wrapper on the camera to provide additional command methods.

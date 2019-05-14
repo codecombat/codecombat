@@ -174,7 +174,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-    'ozaria/play/level/:levelID': go('ozaria/play/level/PlayLevelView')
+    'ozaria/play/level/:levelID': go('views/ozaria/site/play/level/PlayLevelView')
     'parents': go('ParentsView')
 
     'paypal/subscribe-callback': go('play/CampaignView')

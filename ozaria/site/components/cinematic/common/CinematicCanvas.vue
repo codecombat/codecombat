@@ -14,7 +14,7 @@
  * This vue component initializes the cinematic experience via the
  * CinematicController.
  */
-import { CinematicController } from '../../../lib/cinematic/cinematicController'
+import { CinematicController } from '../../../../engine/cinematic/cinematicController'
 
 export default {
   props: {

@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
-import CommandRunner from '../../../../ozaria/lib/cinematic/Command/CommandRunner'
-import AbstractCommand from '../../../../ozaria/lib/cinematic/Command/AbstractCommand'
+import CommandRunner from '../../../../ozaria/engine/cinematic/Command/CommandRunner'
+import AbstractCommand from '../../../../ozaria/engine/cinematic/Command/AbstractCommand'
 import Promise from 'bluebird'
 const utils = require('../../utils.coffee')
 

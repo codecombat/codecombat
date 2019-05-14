@@ -1,8 +1,8 @@
 import { getThang, getThangTypeOriginal } from '../../../app/core/api/thang-types'
-import { getBackgroundSlug, getBackgroundObject, getRightCharacterThangTypeSlug, getLeftCharacterThangTypeSlug } from '../../schemas/selectors/cinematic'
+import { getBackgroundSlug, getBackgroundObject, getRightCharacterThangTypeSlug, getLeftCharacterThangTypeSlug } from '../../../app/schemas/models/selectors/cinematic'
 
 /**
- * @typedef {import('../../schemas/selectors/cinematic')} Cinematic
+ * @typedef {import('../../../app/schemas/models/selectors/cinematic')} Cinematic
  */
 
 const ThangType = require('models/ThangType')

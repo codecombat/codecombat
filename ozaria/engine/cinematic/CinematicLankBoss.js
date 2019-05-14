@@ -14,7 +14,7 @@ import {
   getTextAnimationLength,
   getSpeakingAnimationAction,
   getSpeaker
-} from '../../schemas/selectors/cinematic'
+} from '../../../app/schemas/models/selectors/cinematic'
 
 // Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
