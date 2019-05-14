@@ -27,6 +27,8 @@ module.exports = class ClansView extends RootView
     'click .private-clan-checkbox': 'onClickPrivateCheckbox'
 
   initialize: ->
+    super()
+
     @publicClansArray = []
     @myClansArray = []
     @idNameMap = {}
