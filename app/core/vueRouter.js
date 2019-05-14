@@ -19,6 +19,7 @@ export default function getVueRouter () {
 
       routes: [
         {
+          // TODO: The cinematic editor route should use vue guards to check for admin access.
           path: '/editor/cinematic/:slug?',
           component: PageCinematicEditor,
           props: true
