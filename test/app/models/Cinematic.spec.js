@@ -100,10 +100,10 @@ describe('Cinematic', () => {
 
     it('getClearText', () => {
       const result = getClearText(shotFixture1.dialogNodes[0])
-      expect(result).toEqual(true)
+      expect(result).toEqual(false)
 
       const result2 = getClearText(shotFixture2.dialogNodes[0])
-      expect(result2).toEqual(false)
+      expect(result2).toEqual(true)
     })
 
     it('getSpeaker', () => {
@@ -254,7 +254,7 @@ var shotFixture1 = {
   },
   dialogNodes: [
     {
-      dialogClear: true,
+      dialogClear: false,
       exitCharacter: 'both',
       text: 'hello, world',
       triggers: {
