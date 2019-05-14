@@ -3,11 +3,9 @@ import submissionSchema from '../../../app/schemas/models/interactives/common/su
 import interactiveSessionSchema from '../../../app/schemas/models/interactives/interactive_session.schema'
 import Ajv from 'ajv'
 
-// If we want to use both draft-04 and draft-06/07 schemas then use { schemaId: 'auto' }
-const ajv = new Ajv()
-
 function schemaCompileTest (schemaObject) {
   it('compiles successfully', () => {
+    const ajv = new Ajv() // If we want to use both draft-04 and draft-06/07 schemas then use { schemaId: 'auto' }
     const validate = ajv.compile(schemaObject)
     expect(typeof validate).toBe('function')
     expect(ajv.errors).toBe(null)
@@ -16,6 +14,7 @@ function schemaCompileTest (schemaObject) {
 
 function schemaValidateObjectTest (schemaObject, testObject) {
   it('validates a correct object', () => {
+    const ajv = new Ajv()
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(true)
     expect(ajv.errors).toBe(null)
@@ -24,6 +23,7 @@ function schemaValidateObjectTest (schemaObject, testObject) {
 
 function schemaValidateBadObjectTest (schemaObject, testObject) {
   it('fails to validate an incorrect object', () => {
+    const ajv = new Ajv()
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(false)
     expect(ajv.errors).toBeDefined()
@@ -32,6 +32,7 @@ function schemaValidateBadObjectTest (schemaObject, testObject) {
 
 function schemaValidateBadPropertyTest (schemaObject, testObject) {
   it('fails to validate incorrect properties on object', () => {
+    const ajv = new Ajv()
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(false)
     expect(ajv.errors).toBeDefined()
@@ -80,9 +81,6 @@ const draggableStatementCompletionSubmissionObject = {
 }
 
 describe('interactive submission schema for each type', () => {
-  beforeEach(() => {
-    ajv.errors = null
-  })
   describe('draggableOrderingSubmissionSchema', () => {
     const badDraggableOrderingSubmissionObject = 'not an array'
     const badDraggableOrderingSubmissionPropertiesObject = {
@@ -160,9 +158,6 @@ describe('interactive submission schema for each type', () => {
 })
 
 describe('overall interactive session schema', () => {
-  beforeEach(() => {
-    ajv.errors = null
-  })
   const interactiveSessionObject = {
     interactiveId: 'i123456789abcdefghijklmn',
     userId: 'u123456789abcdefghijklmn',

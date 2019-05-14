@@ -16,11 +16,9 @@ import interactiveSchema from '../../../app/schemas/models/interactives/interact
 
 import Ajv from 'ajv'
 
-// If we want to use both draft-04 and draft-06/07 schemas then use { schemaId: 'auto' }
-const ajv = new Ajv()
-
 function schemaCompileTest (schemaObject) {
   it('compiles successfully', () => {
+    const ajv = new Ajv() // If we want to use both draft-04 and draft-06/07 schemas then use { schemaId: 'auto' }
     const validate = ajv.compile(schemaObject)
     expect(typeof validate).toBe('function')
     expect(ajv.errors).toBe(null)
@@ -29,6 +27,7 @@ function schemaCompileTest (schemaObject) {
 
 function schemaValidateObjectTest (schemaObject, testObject) {
   it('validates a correct object', () => {
+    const ajv = new Ajv()
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(true)
     expect(ajv.errors).toBe(null)
@@ -37,6 +36,7 @@ function schemaValidateObjectTest (schemaObject, testObject) {
 
 function schemaValidateBadObjectTest (schemaObject, testObject) {
   it('fails to validate an incorrect object', () => {
+    const ajv = new Ajv()
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(false)
     expect(ajv.errors).toBeDefined()
@@ -45,6 +45,7 @@ function schemaValidateBadObjectTest (schemaObject, testObject) {
 
 function schemaValidateBadPropertyTest (schemaObject, testObject) {
   it('fails to validate incorrect properties on object', () => {
+    const ajv = new Ajv()
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(false)
     expect(ajv.errors).toBeDefined()
@@ -119,9 +120,6 @@ const interactiveDraggableStatementCompletionObject = {
 }
 
 describe('interactive solutions schema tests', () => {
-  beforeEach(() => {
-    ajv.errors = null
-  })
   describe('elementOrderingSolutionSchema', () => {
     const elementOrderingObject = ['0123456789abcdefghijklmn', '1123456789abcdefghijklmn']
     const badElementOrderingObject = { 'string in object': 'hello' }
@@ -150,10 +148,6 @@ describe('interactive solutions schema tests', () => {
 })
 
 describe('interactive-type schema tests', () => {
-  beforeEach(() => {
-    ajv.errors = null
-  })
-
   describe('interactiveDraggableOrderingSchema', () => {
     const badInteractiveDraggableObject = 'wrong'
     const badInteractiveDraggablePropertiesObject = {
@@ -240,9 +234,6 @@ describe('interactive-type schema tests', () => {
 })
 
 describe('interactive overall schema', () => {
-  beforeEach(() => {
-    ajv.errors = null
-  })
   const interactivesObject = {
     interactiveType: 'draggable-ordering',
     promptText: 'prompt text for interactive',
