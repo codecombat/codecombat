@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     maka_title: "Adwokat użytkowników"
     robin_title: "Menedżer produktu" # {change}
     nolan_title: "Menedżer regionu" # {change}
-    lisa_title: "Specjalista od szkół" # {change}
 #    david_title: "Marketing Lead"
     titles_csm: "Menedżer sukcesu klienta"
     titles_territory_manager: "Menedżer regionu"

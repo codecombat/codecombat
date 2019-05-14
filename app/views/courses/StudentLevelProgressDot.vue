@@ -42,7 +42,8 @@
       'student',
       'courseInstance',
       'course',
-      'classroom'
+      'classroom',
+      'readOnly'
     ],
     components: {
       PieChart
@@ -70,7 +71,11 @@
         utils.i18n(@level, 'name')
       link: ->
         if @progress.started
-          link = '/teachers/classes/' + @classroom._id + '/' + @student._id + '#' + @level.slug
+          if @readOnly
+            link = '/school-administrator/teacher/' + @classroom.ownerID + '/classroom/' + @classroom._id
+          else
+            link = '/teachers/classes/' + @classroom._id
+          link += '/' + @student._id + '#' + @level.slug
         if Level.isLadder(@level) and @courseInstance
           link = urls.courseArenaLadder({@level, @courseInstance});
         if Level.isProject(@level) and @progress.started

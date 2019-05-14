@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    maka_title: "Customer Advocate"
 #    robin_title: "Senior Product Manager"
 #    nolan_title: "Sales Manager"
-#    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
     titles_csm: "Správce úspěšných zákazníků"
 #    titles_territory_manager: "Territory Manager"

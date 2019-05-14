@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     maka_title: "Advocat de clients"
     robin_title: "Gerent de producció"
     nolan_title: "Cap de vendes"
-    lisa_title: "Gerent de Desenvolupament de Negocis"
     david_title: "Direcció de Comercialització"
     titles_csm: "Gerent d'èxit del client"
     titles_territory_manager: "Administrador de territori"

@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     maka_title: "Pomocník pre užívateľov"
     robin_title: "Produktový manažér" # {change}
     nolan_title: "Oblastný manažér" # {change}
-    lisa_title: "Školská špecialistka" # {change}
 #    david_title: "Marketing Lead"
     titles_csm: "Správca úspechu zákazníka"
     titles_territory_manager: "Oblastný manažér"

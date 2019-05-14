@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    maka_title: "Customer Advocate"
     robin_title: "Grafische Interface Ontwerp & Onderzoek" # {change}
 #    nolan_title: "Sales Manager"
-#    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
 #    titles_csm: "Customer Success Manager"
 #    titles_territory_manager: "Territory Manager"

@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     maka_title: "顧客主義"
     robin_title: "デザイン＆研究" # {change}
     nolan_title: "地区担当マネージャー" # {change}
-    lisa_title: "市場開発代表" # {change}
 #    david_title: "Marketing Lead"
     titles_csm: "カスタマーサクセスマネージャー"
     titles_territory_manager: "地域部長"

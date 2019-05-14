@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     maka_title: "Defensor del Consumidor"
     robin_title: "Diseñadora de UX & Investigadora" # {change}
     nolan_title: "Administrador de territorio" # {change}
-    lisa_title: "Gerente de Desarrollo de Negocios"
     david_title: "Director de Marketing"
     titles_csm: "Gerente de éxito del cliente"
     titles_territory_manager: "Administrador de territorio"
