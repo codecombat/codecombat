@@ -26,13 +26,17 @@
         <div class="col-md-4">
           <span>There is no autosave. Please click this button often.</span>
           <button v-on:click="saveCinematic" :disabled="state.saving || !cinematic">save</button>
+          <button v-on:click="runCinematic">Test Cinematic</button>
           <button><a href="/cinematic">Play View (please save first)</a></button>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
           <div id="treema-editor" ref="treemaEditor" v-once></div>
+        </div>
+        <div class="col-md-6" v-if="rawData">
+          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" />
         </div>
       </div>
 
@@ -41,9 +45,12 @@
 </template>
 
 <script>
-import { get, put, create, getAll } from 'core/api/cinematic'
+import { getCinematic, putCinematic, createCinematic, getAllCinematics } from 'core/api/cinematic'
 import Cinematic from 'app/models/Cinematic'
 import ListItem from 'app/components/cinematic/editor/ListItem'
+import CinematicCanvas from 'app/views/CinematicCanvas'
+import CocoCollection from 'app/collections/CocoCollection'
+const api = require('core/api')
 
 require('lib/setupTreema')
 
@@ -55,12 +62,15 @@ module.exports = Vue.extend({
     cinematic: null,
     treema: null,
     cinematicList: null,
+    rawData: null,
     state: {
       saving: false
-    }
+    },
+    rerenderKey: 0
   }),
   components: {
-    'editor-list': ListItem
+    'editor-list': ListItem,
+    'cinematic-canvas': CinematicCanvas
   },
   mounted () {
     if (!me.isAdmin()) {
@@ -80,7 +90,7 @@ module.exports = Vue.extend({
      */
     async fetchCinematic(slug) {
       try {
-        this.cinematic = new Cinematic(await get(slug))
+        this.cinematic = new Cinematic(await getCinematic(slug))
       } catch (e) {
         return noty({
           text: `Error finding slug '${slug}'.`,
@@ -93,13 +103,17 @@ module.exports = Vue.extend({
           }
         })
       }
-
       const c = this.cinematic
       const data = $.extend(true, {}, c.attributes)
       const el = $(`<div></div>`);
+      const files = new CocoCollection(await api.files.getDirectory({path: 'cinematic'}), { model: Cinematic })
       const treema = this.treema = TreemaNode.make(el, {
         data: data,
         schema: Cinematic.schema,
+        // Automatically uploads the file to /file/cinematic/<fileName>
+        // You can view files at /admin/files
+        filePath: 'cinematic',
+        files,
         callbacks: {
           change: this.pushChanges
         }
@@ -111,7 +125,7 @@ module.exports = Vue.extend({
      * Fetch all names and slugs of cinematics from the database.
      */
     async fetchList() {
-      this.cinematicList = await getAll();
+      this.cinematicList = await getAllCinematics();
     },
     /**
      * Pushes changes from treema to the cinematic model.
@@ -127,16 +141,29 @@ module.exports = Vue.extend({
      */
     async saveCinematic() {
       this.state.saving = true
-      await put({ data: this.cinematic.toJSON() })
-      noty({ text: 'Saved', type: 'success', timeout: 1000 })
+      try {
+        await putCinematic({ data: this.cinematic.toJSON() })
+        noty({ text: 'Saved', type: 'success', timeout: 1000 })
+      } catch (e) {
+        noty({ text: e.message, type: 'error', timeout: 1000 })
+      }
       this.state.saving = false
+    },
+
+    /**
+     * Runs the cinematic on the right hand side of the editor.
+     */
+    runCinematic() {
+      this.rerenderKey += 1;
+      this.rawData = this.rawData || {}
+      this.rawData.shots = this.treema.data.shots
     },
 
     async createCinematic() {
       const name = window.prompt("Name of new cinematic?")
       if (!name) { return }
 
-      const result = await create({ name })
+      const result = await createCinematic({ name })
       return this.fetchList()
     }
   },

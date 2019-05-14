@@ -30,6 +30,19 @@ export const getThang = (options = {}) => {
   return fetchJson(`/db/thang.type/${options.slug}`, { data })
 }
 
+/**
+ * Retrieves a thangType from the database by original.
+ * @param {string} original The ThangType original
+ * @async
+ * @returns {Promise<Object>} - the ThangType object
+ */
+export const getThangTypeOriginal = original => {
+  if (!original) {
+    throw new Error('You must pass an \'original\' property into getThangOriginal')
+  }
+  return fetchJson(`/db/thang.type/${original}/version`)
+}
+
 export const getHeroes = (options) => {
   const data = {
     view: 'heroes'

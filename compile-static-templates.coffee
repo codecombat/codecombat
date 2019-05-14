@@ -43,8 +43,8 @@ compile = (contents, locals, filename, cb) ->
 
   try
     locals = _.merge({_, i18n}, locals, require './static-mock')
-    # TODO: how do we eventually use dynamic global feature flags here?
-    # TODO: this should use chinaUx feature flag instead, but currently comes from process.env
+    # NOTE: do NOT add more build env-driven feature flags here if at all possible.
+    # NOTE: instead, use showingStaticPagesWhileLoading (in static-mock) to delay/hide UI until features flags loaded
     locals.me.useDexecure = -> not (locals.chinaInfra ? false)
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)

@@ -711,6 +711,7 @@
     learn_new_concepts: "Learn new concepts"
     watch_a_video: "Watch a video on __concept_name__"
     concept_unlocked: "Concept Unlocked"
+    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Methods"
@@ -1046,7 +1047,6 @@
     maka_title: "Customer Advocate"
     robin_title: "Senior Product Manager"
     nolan_title: "Sales Manager"
-    lisa_title: "Business Development Manager"
     david_title: "Marketing Lead"
     titles_csm: "Customer Success Manager"
     titles_territory_manager: "Territory Manager"
@@ -1786,7 +1786,7 @@
     gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web Development 1"
     wd1_curriculum: "Web Development 1 - Curriculum Guide"
-    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1." # {change}
+    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
     wd1_headlines: "Headlines & Headers Activity"
     wd1_headlines_example: "View sample solution"
     wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"

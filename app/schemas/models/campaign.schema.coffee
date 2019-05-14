@@ -78,6 +78,20 @@ _.extend CampaignSchema.properties, {
       #- normal properties
       position: c.point2d()
 
+      # properties relevant for ozaria campaigns
+      nextLevels: {
+        type: 'array'
+        description: 'array of next levels original id'
+        items: {
+          type: 'object'
+          additionalProperties: false
+          properties: {
+            levelOriginal: c.stringID()
+          }
+        }
+      }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
+
       #- denormalized properties from Levels are cloned below
     }
 

@@ -87,6 +87,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     classroom_edition: "Edição de Turma:"
     learn_to_code: "Aprender a programar:"
     play_now: "Jogar Agora"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Sou um Professor"
     im_a_student: "Sou um Estudante"
     learn_more: "Saber mais"
@@ -146,6 +147,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     view_progress: "Ver Progresso"
     go_to_courses: "Ir para Os Meus Cursos"
     want_coco: "Queres o CodeCombat na tua escola?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +172,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     twitter_follow: "Seguir"
     my_classrooms: "As Minhas Turmas"
     my_courses: "Os Meus Cursos"
+#    my_teachers: "My Teachers"
     careers: "Carreiras"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -1043,7 +1047,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     maka_title: "Defensor dos Clientes"
     robin_title: "Gestora de Produto Sénior"
     nolan_title: "Gestor de Vendas"
-    lisa_title: "Gestora de Desenvolvimento de Negócio"
     david_title: "Líder de Marketing"
     titles_csm: "Gerente de Sucesso do Cliente"
     titles_territory_manager: "Gestora de Território"
@@ -1564,6 +1567,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Sê o primeiro a publicar um projeto neste curso!"
@@ -1577,6 +1581,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     code: "Código de __name__"
     complete_solution: "Solução Completa"
 #    course_not_started: "Student has not started this course yet."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1786,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
 #    wd1: "Web Development 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"
 #    wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"
@@ -2222,6 +2230,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Último Ganho"
@@ -2808,3 +2817,19 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
