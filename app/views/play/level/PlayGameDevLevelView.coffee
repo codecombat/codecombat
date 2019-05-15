@@ -157,6 +157,13 @@ module.exports = class PlayGameDevLevelView extends RootView
       throw e if e.stack
       @state.set('errorMessage', e.message)
 
+  getMeta: ->
+    return {
+      links: [
+        { vmid: 'rel-canonical', rel: 'canonical', href: 'https://' + window.location.hostname + '/play'}
+      ]
+    }
+
   onEditLevelButton: ->
     viewClass = 'views/play/level/PlayLevelView'
     route = "/play/level/#{@level.get('slug')}"

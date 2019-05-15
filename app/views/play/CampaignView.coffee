@@ -71,6 +71,9 @@ module.exports = class CampaignView extends RootView
     meta: [
       { vmid: 'meta-description', name: 'description', content: $.i18n.t 'play.meta_description' }
     ]
+    link: [
+      { vmid: 'rel-canonical', rel: 'canonical', content: 'http://' + window.location.href + '/play' }
+    ]
 
   subscriptions:
     'subscribe-modal:subscribed': 'onSubscribed'
