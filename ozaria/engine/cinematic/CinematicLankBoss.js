@@ -309,9 +309,6 @@ export default class CinematicLankBoss {
    * @param {Object|undefined} thang?
    */
   addLank (key, thangType, thang) {
-    if (!thangType) {
-      return
-    }
     thang = thang || {}
     // Handle a duplicate thangType with the same key.
     if (this.lanks[key] && this.lanks[key].thangType) {
