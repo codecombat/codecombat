@@ -41,9 +41,17 @@ module.exports = class CoursesView extends RootView
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
 
-  getTitle: -> return $.i18n.t('courses.students')
+  getMeta: ->
+    return {
+      title: $.i18n.t('courses.students')
+      links: [
+        { vmid: 'rel-canonical', rel: 'canonical', href: 'https://' + window.location.hostname + '/students'}
+      ]
+    }
 
   initialize: ->
+    super()
+
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf ci.get('courseID')
@@ -245,7 +253,7 @@ module.exports = class CoursesView extends RootView
     courseID = $(e.target).data('course-id')
     window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/assessments/#{classroomID}##{courseID}", { trigger: true })
-  
+
   onClickViewVideosLink: (e) ->
     classroomID = $(e.target).data('classroom-id')
     courseID = $(e.target).data('course-id')

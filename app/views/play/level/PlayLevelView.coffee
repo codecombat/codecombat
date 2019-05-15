@@ -147,6 +147,11 @@ module.exports = class PlayLevelView extends RootView
       @load()
       application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID unless @observing
 
+  getMeta: ->
+    link: [
+      { vmid: 'rel-canonical', rel: 'canonical', content: 'http://' + window.location.href + '/play' }
+    ]
+
   setLevel: (@level, givenSupermodel) ->
     @supermodel.models = givenSupermodel.models
     @supermodel.collections = givenSupermodel.collections
