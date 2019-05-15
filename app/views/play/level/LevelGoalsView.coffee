@@ -53,7 +53,7 @@ module.exports = class LevelGoalsView extends CocoView
     @previousGoalStatus ?= {}
     @succeeded = e.overallStatus is 'success'
     for goal in e.goals
-      state = e.goalStates[goal.id]
+      state = e.goalStates[goal.id] or { status: 'incomplete' }
       if not firstRun and state.status is 'success' and @previousGoalStatus[goal.id] isnt 'success'
         @soundToPlayWhenPlaybackEnded = 'goal-success'
       else if not firstRun and state.status isnt 'success' and @previousGoalStatus[goal.id] is 'success'

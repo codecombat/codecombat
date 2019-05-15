@@ -8,6 +8,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
+
+import CapstoneProgressModal from './modal/CapstoneProgressModal'
+import CapstoneVictoryModal from './modal/CapstoneVictoryModal'
+
 require('app/styles/play/level/level-loading-view.sass')
 require('app/styles/play/level/tome/spell_palette_entry.sass')
 require('app/styles/play/play-level-view.sass')
@@ -494,7 +498,10 @@ class PlayLevelView extends RootView {
   }
 
   initGoalManager () {
-    const options = {}
+    const options = {
+      additionalGoals: this.level.get('additionalGoals'),
+      session: this.session
+    }
     if (this.level.get('assessment') === 'cumulative') {
       options.minGoalsToComplete = 1
     }
@@ -1083,10 +1090,13 @@ class PlayLevelView extends RootView {
     if (this.level.hasLocalChanges()) {
       return
     } // Don't award achievements when beating level changed in level editor
+
+    const additionalGoals = this.level.get('additionalGoals')
     if (
       this.level.isType('game-dev') &&
       this.level.get('shareable') &&
-      !options.manual
+      !options.manual &&
+      !additionalGoals
     ) {
       return
     }
@@ -1140,6 +1150,20 @@ class PlayLevelView extends RootView {
       })
       return
     }
+
+    if (additionalGoals) {
+      const state = this.session.get('state')
+      options.capstoneStage = state ? state.capstoneStage : undefined
+      options.remainingGoals = this.goalManager.getRemainingGoals()
+      options.levelSlug = this.level.get('slug')
+
+      if (options.remainingGoals.length > 0) {
+        ModalClass = CapstoneProgressModal
+      } else {
+        ModalClass = CapstoneVictoryModal
+      }
+    }
+
     const victoryModal = new ModalClass(options)
     this.openModalView(victoryModal)
     victoryModal.once('hidden', () => {
@@ -1394,13 +1418,23 @@ class PlayLevelView extends RootView {
     if (this.destroyed) {
       return
     }
+
     Backbone.Mediator.publish('level:set-time', { ratio: 1 })
+
+    // Don't award achievements when beating level changed in level editor
     if (this.level.hasLocalChanges()) {
       return
-    } // Don't award achievements when beating level changed in level editor
-    if (this.goalManager.checkOverallStatus() === 'success') {
+    }
+
+    if (this.goalManager.finishLevel()) {
+      const options = { showModal: true }
+      const state = this.session.get('state')
+      if (state && state.capstoneStage && this.goalManager.getRemainingGoals().length > 0) {
+        options.capstoneInProgress = true
+      }
+
       const showModalFn = () =>
-        Backbone.Mediator.publish('level:show-victory', { showModal: true })
+        Backbone.Mediator.publish('level:show-victory', options)
       this.session.recordScores(this.world.scores, this.level)
       if (this.level.get('replayable')) {
         return this.session.increaseDifficulty(showModalFn)

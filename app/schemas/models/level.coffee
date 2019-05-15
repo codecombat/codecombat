@@ -393,7 +393,7 @@ _.extend LevelSchema.properties,
     minItems: 1,
     uniqueItems: true,
     properties: {
-      stage: { type: 'integer', title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
+      stage: { type: 'integer', minimum: 2, title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
       goals: c.array { title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema
     }
   }

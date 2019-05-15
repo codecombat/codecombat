@@ -267,6 +267,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
     'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView')
+    'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView')
 
     'test(/*subpath)': go('TestView')
 
