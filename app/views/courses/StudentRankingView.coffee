@@ -168,15 +168,6 @@ module.exports = class StrudentRankingView extends RootView
         usuario++
         @levelStatusMap = {}
 
-  calculateExperienceScore: ->
-    adultPoint = me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']  # They have to have answered the poll for this, likely after Shadow Guard.
-    speedPoints = 0
-    for [levelSlug, speedThreshold] in [['dungeons-of-kithgard', 50], ['gems-in-the-deep', 55], ['shadow-guard', 55], ['forgetful-gemsmith', 40], ['true-names', 40]]
-      if _.find(@sessions?.models, (session) -> session.get('levelID') is levelSlug)?.attributes.playtime <= speedThreshold
-        ++speedPoints
-    experienceScore = adultPoint + speedPoints  # 0-6 score of how likely we think they are to be experienced and ready for Kithgard Mastery
-    return experienceScore
-
   onSessionsLoaded: (e) ->
     @render()
     
