@@ -14,7 +14,7 @@ const interactiveSessionSchema = {
       'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion']
     },
     userId: schema.objectId(),
-    sessionCodeLanguage: { 'enum': ['python', 'javascript'] }, // this will come from the course instance / intro level language
+    sessionCodeLanguage: { 'enum': ['python', 'javascript'] }, // this will come from the course instance(for classroom) / me.aceConfig (for home users)
     submissionCount: { type: 'number' },
     complete: { type: 'boolean' },
     created: schema.stringDate(),
