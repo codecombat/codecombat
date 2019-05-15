@@ -10,13 +10,17 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
+locale = require 'locale/locale'
 
 module.exports = class CertificatesView extends RootView
   id: 'certificates-view'
   template: require 'templates/user/certificates-view'
+  nowLang: me.get('preferredLanguage', true)
+  needToggle: false
 
   events:
     'click .print-btn': 'onClickPrintButton'
+    'click .toggle-btn': 'onClickToggleButton'
 
   getTitle: ->
     return 'Certificate' if @user.broadName() is 'Anonymous'
@@ -59,6 +63,7 @@ module.exports = class CertificatesView extends RootView
     @listenToOnce @courseLevels, 'sync', @calculateStats
 
     @certificateNumber = @hashString(@user.id + @courseInstanceID)
+    @needToggle = @nowLang.split('-')[0] != 'en'
 
   setHero: (heroOriginal=null) ->
     heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
@@ -101,6 +106,16 @@ module.exports = class CertificatesView extends RootView
 
   onClickPrintButton: ->
     window.print()
+
+  onClickToggleButton: ->
+    newLang = 'en'
+    if @nowLang.split('-')[0] == 'en'
+      newLang = me.get('preferredLanguage', true)
+    @nowLang = newLang
+    $.i18n.setLng(newLang, {})
+    locale.load(newLang).then =>
+      @render()
+
 
   afterRender: ->
     @autoSizeText '.student-name'
