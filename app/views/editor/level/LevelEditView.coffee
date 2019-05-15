@@ -95,9 +95,8 @@ module.exports = class LevelEditView extends RootView
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses, 'courses')
 
-    @setMeta({
-      title: "LevelEditor - " + (@level.get('name') or '...')
-    })
+  getMeta: ->
+    title: 'Level Editor'
 
   destroy: ->
     clearInterval @timerIntervalID
