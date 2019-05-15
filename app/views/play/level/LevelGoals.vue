@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    // TODO: Split this into two components, one the ul, the other the goals-status 
+    // TODO: Split this into two components, one the ul, the other the goals-status
     ul#primary-goals-list(dir="auto")
       level-goal(
         v-for="goal in levelGoals",
@@ -9,7 +9,7 @@
       )
     level-goal(
       v-if="conceptGoals.length",
-      :goal="{ name: 'Use at least one concept:' }",
+      :goal="{ name: $t('play_level.use_at_least_one_concept') }",
       :state="{ status: conceptStatus }",
     )
     ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")

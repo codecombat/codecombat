@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    maka_title: "Customer Advocate"
 #    robin_title: "Senior Product Manager"
 #    nolan_title: "Sales Manager"
-#    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
 #    titles_csm: "Customer Success Manager"
 #    titles_territory_manager: "Territory Manager"

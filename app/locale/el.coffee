@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     maka_title: "Συνήγορος Πελατών"
     robin_title: "Υπεύθυνος Προϊόντων" # {change}
     nolan_title: "Υπεύθυνος Πωλήσεων"
-    lisa_title: "Διευθυντής Ανάπτυξης Επιχειρήσεων"
     david_title: "Υπεύθυνος Προώθησης Προϊόντων"
     titles_csm: "Διαχειριστής επιτυχίας πελατών"
     titles_territory_manager: "Διευθυντής Περιοχής"

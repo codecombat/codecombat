@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     maka_title: "고객 옹호자"
     robin_title: "UX 디자인 & 연구원" # {change}
 #    nolan_title: "Sales Manager"
-#    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
     titles_csm: "고객 성공 관리자"
 #    titles_territory_manager: "Territory Manager"

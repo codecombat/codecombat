@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     maka_title: "客戶代言人"
     robin_title: "產品經理" # {change}
     nolan_title: "區域經理" # {change}
-    lisa_title: "校園專家" # {change}
 #    david_title: "Marketing Lead"
     titles_csm: "客户成功经理"
     titles_territory_manager: "區域經理"

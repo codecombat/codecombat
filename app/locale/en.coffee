@@ -711,6 +711,7 @@
     learn_new_concepts: "Learn new concepts"
     watch_a_video: "Watch a video on __concept_name__"
     concept_unlocked: "Concept Unlocked"
+    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Methods"
@@ -1046,7 +1047,6 @@
     maka_title: "Customer Advocate"
     robin_title: "Senior Product Manager"
     nolan_title: "Sales Manager"
-    lisa_title: "Business Development Manager"
     david_title: "Marketing Lead"
     titles_csm: "Customer Success Manager"
     titles_territory_manager: "Territory Manager"
