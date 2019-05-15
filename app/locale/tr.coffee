@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    maka_title: "Customer Advocate"
     robin_title: "Ürün Yöneticisi" # {change}
 #    nolan_title: "Sales Manager"
-#    lisa_title: "Business Development Manager"
 #    david_title: "Marketing Lead"
 #    titles_csm: "Customer Success Manager"
 #    titles_territory_manager: "Territory Manager"

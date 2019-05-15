@@ -5,7 +5,7 @@ flat-layout
       .row.title-row
         .col-sm-12(v-if="videoData")
           h3.text-center.text-uppercase.video-title
-            | {{ $t('play_level.concept_unlocked') }} : {{ videoData.title }}
+            | {{ $t('play_level.concept_unlocked') }} : {{ $t(`courses.${videoData.i18name}`) }}
       .row.video-row
         .col-sm-12.video-col(v-if="videoData")
           iframe.video(

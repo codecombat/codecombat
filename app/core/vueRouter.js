@@ -7,6 +7,8 @@ import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/Sch
 import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
 import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
 
+import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
+
 let vueRouter
 
 export default function getVueRouter () {
@@ -16,6 +18,13 @@ export default function getVueRouter () {
       mode: 'abstract',
 
       routes: [
+        {
+          // TODO: The cinematic editor route should use vue guards to check for admin access.
+          // TODO: Once we have a base editor component, use the nested route structure.
+          path: '/editor/cinematic/:slug?',
+          component: PageCinematicEditor,
+          props: true
+        },
         {
           path: '/school-administrator',
           component: SchoolAdminDashboard,

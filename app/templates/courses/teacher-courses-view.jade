@@ -124,8 +124,7 @@ mixin course-info(course)
       .row.m-t-3
         each videoLevel, originalId in view.videoLevels
           .col-sm-4
-            span.video-title.semibold.small 
-              | #{videoLevel.title}
+            span.video-title.semibold.small(data-i18n=`courses.${videoLevel.i18name}`)
             img.video-thumbnail(src="#{videoLevel.thumbnail_unlocked}")
             p.video-text.small
               span (

@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     maka_title: "Az ügyfelek őrangyala"
     robin_title: "UX-tervező és -fejlesztő" # {change}
     nolan_title: "Territory Manager" # {change}
-    lisa_title: "Üzletfejlesztési képviselő" # {change}
 #    david_title: "Marketing Lead"
     titles_csm: "Ügyfél sikermenedzser"
 #    titles_territory_manager: "Territory Manager"

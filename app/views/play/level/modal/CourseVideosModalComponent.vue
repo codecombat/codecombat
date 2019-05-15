@@ -22,9 +22,9 @@
                   img.img-locked(src = '/images/pages/play/modal/locked_banner.png')
               .video-text.m-t-2
                 span.rtl-allowed.video-title.gray-text
-                  | {{ level.title }}
+                  | {{ $t(`courses.${level.i18name}`) }}
                 p.video-desc.gray-text
-                  | {{ $t('courses.locked_videos_desc', { concept_name: level.title }) }}
+                  | {{ $t('courses.locked_videos_desc', { concept_name: $t(`courses.${level.i18name}`) }) }}
             .unlocked(v-else-if="level.videoStatus === 'unlocked'")
               .video-link
                 img.video-image(
@@ -35,9 +35,9 @@
                   img.img-unlocked(src = '/images/pages/play/modal/unlocked_banner.png')
               .video-text.m-t-2
                 span.rtl-allowed.video-title
-                  | {{ level.title }}
+                  | {{ $t(`courses.${level.i18name}`) }}
                 p.video-desc
-                  | {{ $t('courses.unlocked_videos_desc', { concept_name: level.title }) }}
+                  | {{ $t('courses.unlocked_videos_desc', { concept_name: $t(`courses.${level.i18name}`) }) }}
 </template>
 
 <script>

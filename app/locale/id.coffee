@@ -1047,7 +1047,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     maka_title: "Penasihat Pelanggan"
     robin_title: "Manajer Produk" # {change}
     nolan_title: "Manajer Penjualan"
-    lisa_title: "Manajer Pengembangan Bisnis"
     david_title: "Pemimpin Pemasaran"
     titles_csm: "Manajer Sukses Pelanggan"
     titles_territory_manager: "Manajer Wilayah"

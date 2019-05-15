@@ -401,7 +401,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_list_resource_hub_3: "关卡解决方案，和"
     teacher_list_resource_hub_4: "资源汇总"
     teacher_list_resource_hub_5: "课程指导，课程活动和更多信息！"
-    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系__supportEmail__。"
+    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 bill@codecombat.com。"
     dont_use_our_email_silly: "请填写家长的邮箱地址。"
     want_codecombat_in_school: "想接着玩CodeCombat?"
     eu_confirmation: "我同意 CodeCombat 在美国的服务器上存储我的数据"
@@ -615,7 +615,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_available_spells: "可用的法术"
     tome_your_skills: "您的技能"
     hints: "提示"
-#    videos: "Videos"
+    videos: "视频"
     hints_title: "提示 {{number}}"
     code_saved: "代码已保存"
     skip_tutorial: "跳过（esc）"
@@ -711,7 +711,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     keep_editing: "继续编辑"
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
-#    concept_unlocked: "Concept Unlocked"
+    concept_unlocked: "已解锁的概念"
+    use_at_least_one_concept: "请使用以下至少一个概念： "
 
   apis:
     methods: "函数"
@@ -876,7 +877,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     year_subscription: "年度订阅"
     year_price: "$__price__/年"
     support_part1: "付款时需要帮助? Email" # {change}
-    support_part2: "support@codecombat.com"
+    support_part2: "bill@codecombat.com"
 
   announcement:
     now_available: "现在订阅者可以获得更多内容"
@@ -1047,7 +1048,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     maka_title: "客户代言人"
     robin_title: "产品经理" # {change}
     nolan_title: "区域经理" # {change}
-    lisa_title: "校园专家" # {change}
     david_title: "客户成功经理" # {change}
     titles_csm: "客户成功经理"
     titles_territory_manager: "区域经理"
@@ -1115,7 +1115,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     low_price_title: "每个学生仅仅只要 __starterLicensePrice__ 元 "
     low_price_description: "学生入门许可证在购买后的 __starterLicenseLengthMonths__ 个月内有效."
     three_great_courses: "学生入门许可证中包含三个伟大的课程:"
-    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 __supportEmail__. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
+    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 bill@codecombat.com. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
     student_starter_license: "学生入门许可"
     purchase_starter_licenses: "购买入门许可证"
     purchase_starter_licenses_to_grant: "购买入门许可证可被授权访问 __starterLicenseCourseList__"
@@ -1561,9 +1561,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     basic_syntax_desc: "语法是我们编写代码的规则。语法在编写代码中很重要，就像拼写和语法在写故事和短文中那么重要。我们善于分辨语句的具体意思，即使语句有时候表达并不精确。但计算机没那么聪明，它需要你写得非常精确。"
     while_loops_desc: "循环是一种可以在程序中重复操作的方法。您可以使用它们，来避免重复编写代码，或者当您不确定代码需要执行多少次才能完成一项任务时，你可以使用循环语句。"
     variables_desc: "使用变量就像在盒子中放东西一样。你给盒子起了一个名字，比如\"学习用品\"，然后你把东西放进去。盒子里的东西可能过段时间就变化了，但无论里面是什么，都被称为\"学习用品\"。在编程中，变量是用于存储数据的符号，这些数据可能在程序过程中发生改变。变量可以包含多种数据类型，包括数字和字符串。"
-#    locked_videos_desc: "Keep playing the game to unlock the __concept_name__ concept video."
-#    unlocked_videos_desc: "Review the __concept_name__ concept video."
-#    video_shown_before: "shown before __level__"
+    locked_videos_desc: "继续通关来解锁概念视频《__concept_name__》"
+    unlocked_videos_desc: "复习一下概念视频《__concept_name__》"
+    video_shown_before: "在关卡《__level__》前显示"
 #    link_google_classroom: "Link Google Classroom"
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
@@ -1679,9 +1679,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     not_assigned_modal_title: "课程未分配"
     not_assigned_modal_starter_body_1: "本课程需要学生许可证。您没有足够的学生许可证来分配本课程给所有选课的学生。"
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
-#    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
-    not_assigned_modal_full_body_2: "您只有可用的__numFullLicensesAvailable__完整许可证（__numStudentsWithoutFullLicenses__学生目前没有激活完整许可证）。"
-    not_assigned_modal_full_body_3: "请选择更少的学生，或者联系__supportEmail__寻求帮助。"
+    not_assigned_modal_full_body_1: "本课程需要许可证才能使用。您没有足够的许可证, 因此无法将此课程分配给已选定的 __selected__ 名学生。"
+    not_assigned_modal_full_body_2: "您当前仅有__numFullLicensesAvailable__个许可证可供使用 (__numStudentsWithoutFullLicenses__名学生目前没有许可证) 。"
+    not_assigned_modal_full_body_3: "请适量减少选定的学生数量, 或联系bill@codecombat.com寻求帮助。"
     assigned: "已添加"
     enroll_selected_students: "注册选中的学生"
     no_students_selected: "没有学生被选中。"
@@ -1908,7 +1908,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    sync_google_classroom: "Sync Google Classroom"
 
   share_licenses:
-    share_licenses: "分享许可证"
+    share_licenses: "分配许可"
     shared_by: "分享自："
     add_teacher_label: "请准确地输入老师的邮箱："
     add_teacher_button: "添加老师"
