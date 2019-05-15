@@ -36,15 +36,11 @@ export default class Loader {
   /**
    * Loads the player thangType from the global `me` object if accessible.
    * Has a side effect of storing the players thangType by original as a resource.
+   *
+   * If an admin or player doesn't have a hero, falls back to a default.
    */
   loadPlayerThangType () {
-    if ((me || {}) && !me.get('heroConfig')) {
-      return
-    }
-    const original = me.get('heroConfig').thangType
-    if (!original) {
-      return
-    }
+    const original = (me.get('heroConfig') || {}).thangType || '55527eb0b8abf4ba1fe9a107'
 
     this.loadingThangTypes.set(
       original,
