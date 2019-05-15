@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js'
 import AbstractCommand from './commands/AbstractCommand'
-import { Noop, SyncFunction, Sleep, SequentialCommands } from './commands/commands'
+import { SyncFunction, Sleep, SequentialCommands } from './commands/commands'
 import {
   getLeftCharacterThangTypeSlug,
   getRightCharacterThangTypeSlug,
@@ -63,11 +63,11 @@ export default class CinematicLankBoss {
   parseSetupShot (shot) {
     const commands = []
 
-    const moveCharacter = (side, resource, enterOnStart, pos) => {
+    const moveCharacter = (side, resource, enterOnStart, thang) => {
       if (enterOnStart) {
-        commands.push(this.moveLankCommand({ key: side, resource, pos }))
+        commands.push(this.moveLankCommand({ key: side, resource, thang, ms: 1000 }))
       } else {
-        commands.push(this.moveLank({ key: side, resource, pos }))
+        commands.push(this.moveLankCommand({ key: side, resource, thang, ms: 0 }))
       }
     }
 
@@ -77,28 +77,28 @@ export default class CinematicLankBoss {
     }
 
     const lHero = getLeftHero(shot)
-    const original = me.get('heroConfig').thangType
+    const original = (me.get('heroConfig') || {}).thangType || '55527eb0b8abf4ba1fe9a107'
     if (lHero) {
-      const { enterOnStart, thang: { pos } } = lHero
-      moveCharacter('left', original, enterOnStart, pos)
+      const { enterOnStart, thang } = lHero
+      moveCharacter('left', original, enterOnStart, thang)
     }
 
     const rHero = getRightHero(shot)
     if (rHero) {
-      const { enterOnStart, thang: { pos } } = rHero
-      moveCharacter('right', original, enterOnStart, pos)
+      const { enterOnStart, thang } = rHero
+      moveCharacter('right', original, enterOnStart, thang)
     }
 
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     if (leftCharSlug) {
-      const { slug, enterOnStart, thang: { pos } } = leftCharSlug
-      moveCharacter('left', slug, enterOnStart, pos)
+      const { slug, enterOnStart, thang } = leftCharSlug
+      moveCharacter('left', slug, enterOnStart, thang)
     }
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
-      const { slug, enterOnStart, thang: { pos } } = rightCharSlug
-      moveCharacter('right', slug, enterOnStart, pos)
+      const { slug, enterOnStart, thang } = rightCharSlug
+      moveCharacter('right', slug, enterOnStart, thang)
     }
 
     return commands
@@ -108,26 +108,26 @@ export default class CinematicLankBoss {
     const commands = []
 
     // TODO: Do we need to give the designers more access to where the characters should exit?
-    //       Currently characters start 4 meters off the respective side of the camera bounds.
+    //       Currently characters start 8 meters off the respective side of the camera bounds.
     const char = getExitCharacter(dialogNode)
     if (char === 'left' || char === 'both') {
-      commands.push(this.moveLankCommand({ key: 'left', pos: { x: this.stageBounds.topLeft.x - 4 } }))
+      commands.push(this.moveLankCommand({ key: 'left', thang: { pos: { x: this.stageBounds.topLeft.x - 8 } }, ms: 800 }))
     }
 
     if (char === 'right' || char === 'both') {
-      commands.push(this.moveLankCommand({ key: 'right', pos: { x: this.stageBounds.bottomRight.x + 4 } }))
+      commands.push(this.moveLankCommand({ key: 'right', thang: { pos: { x: this.stageBounds.bottomRight.x + 8 } }, ms: 800 }))
     }
 
     const bgObject = getBackgroundObject(dialogNode)
     if (bgObject) {
       const { scaleX, scaleY, pos: { x, y }, type: { slug } } = bgObject
       const thangOptions = {
-        scaleFactorX: scaleX,
-        scaleFactorY: scaleY,
+        scaleX,
+        scaleY,
         pos: { x, y },
         stateChanged: true
       }
-      commands.push(this.moveLank({ key: BACKGROUND_OBJECT, resource: slug, pos: { x, y }, thang: createThang(thangOptions) }))
+      commands.push(this.moveLankCommand({ key: BACKGROUND_OBJECT, resource: slug, pos: { x, y }, thang: thangOptions, ms: 0 }))
     }
 
     const removeBgDelay = getClearBackgroundObject(dialogNode)
@@ -164,26 +164,6 @@ export default class CinematicLankBoss {
   }
 
   /**
-   * Moves either the left or right lank to a given co-ordinates **instantly**.
-   *
-   * TODO: Refactor into the moveLankCommand method. Make it handle a delay of 0ms.
-   * @param {'left'|'right'} side - the lank being moved.
-   * @param {{x, y}} pos - the position in meters to move towards.
-   */
-  moveLank ({ key, resource, pos = {}, thang }) {
-    return new SyncFunction(() => {
-      this.addLank(key, this.loader.getThangType(resource), thang)
-
-      // normalize parameters
-      this.lanks[key].thang.pos.x = pos.x !== undefined ? pos.x : this.lanks[key].thang.pos.x
-      this.lanks[key].thang.pos.y = pos.y !== undefined ? pos.y : this.lanks[key].thang.pos.y
-
-      // Ensures lank is rendered.
-      this.lanks[key].thang.stateChanged = true
-    })
-  }
-
-  /**
    * Plays an action on a lank. If you want an animation to loop, and it isn't,
    * you need to make the action loop on the ThangType.
    * @param {string} key The lanks unique key
@@ -201,21 +181,52 @@ export default class CinematicLankBoss {
 
   /**
    * Returns a command that will move the lank.
-   * @param {string} key
-   * @param {{x, y}} pos
-   * @param {number} ms
+   * You must provide either a key for an existing lank, or a key and resource
+   * to create a new lank with the given key.
+   * @param {Object} options
+   * @param {string} options.key The key of the lank
+   * @param {string} options.resource The slug or originalId of the thangType
+   * @param {Object} options.thang  Thang object properties
+   * @param {Object} options.ms Time to move lank to position.
    */
-  moveLankCommand ({ key, resource, pos, ms = 1000, thang }) {
+  moveLankCommand ({
+    key,
+    resource,
+    thang: {
+      scaleX = 1,
+      scaleY = 1,
+      pos: { x, y } = {}
+    } = {},
+    ms = 1000
+  }) {
+    const thang = { scaleX, scaleY, pos: { x, y } }
+    const pos = { x, y } || {}
+    if (ms === 0) {
+      return new SyncFunction(() => {
+        if (resource) {
+          this.addLank(key, this.loader.getThangType(resource), thang)
+        }
+
+        _.merge(this.lanks[key].thang, {
+          pos: thang.pos,
+          scaleFactorX: thang.scaleX,
+          scaleFactorY: thang.scaleY,
+          stateChanged: true
+        })
+      })
+    }
     return new MoveLank(() => {
       if (resource) {
-        this.addLank(key, this.loader.getThangType(resource))
+        this.addLank(key, this.loader.getThangType(resource), thang)
       }
-      pos = pos || {}
+      if (!this.lanks[key]) {
+        console.warn('You may be using a lank that hasn\'t been created yet, in setup!')
+      }
       // normalize parameters
       pos.x = pos.x !== undefined ? pos.x : this.lanks[key].thang.pos.x
       pos.y = pos.y !== undefined ? pos.y : this.lanks[key].thang.pos.y
       if (this.lanks[key].thang.pos.x === pos.x && this.lanks[key].thang.pos.y === pos.y) {
-        return new Noop()
+        console.warn('Are you accidentally not moving the Lank?')
       }
       const lankStateChanged = () => { this.lanks[key].thang.stateChanged = true }
       const animation = anime({
@@ -226,7 +237,7 @@ export default class CinematicLankBoss {
         autoplay: false,
         delay: 500, // Hack to provide some time for lank to load.
         easing: 'easeInOutQuart',
-        // Inform update engine to rerender thang at new position.
+        // Inform update engine to render thang at new position.
         update: lankStateChanged,
         complete: lankStateChanged
       })
@@ -244,37 +255,17 @@ export default class CinematicLankBoss {
 
   /**
    * Sets the background.
-   *
    * Handles backgrounds that may already exist or are simply being moved.
-   * TODO: Refactor and fold into the moveLankCommand method. Make it handle delay of 0ms.
-   *       This method is a special case of the moveLank method.
-   * @param {Object} background Background object.
+   * @param {Object} backgroundInfo
+   * @param {string} backgroundInfo.slug Background object slug
+   * @param {Object} backgroundInfo.thang The thang object for the background. Contains scale and position information.
    */
-  setBackgroundCommand ({ slug, thang: { scaleX, scaleY, pos: { x, y } } }) {
-    return new SyncFunction(() => {
-      const thangType = this.loader.getThangType(slug)
-      if (!thangType) {
-        return
-      }
-      const thangOptions = {
-        scaleFactorX: scaleX,
-        scaleFactorY: scaleY,
-        pos: { x, y },
-        stateChanged: true
-      }
-
-      // If this background is already in use, just update thang instead of
-      // completely replacing the lank.
-      if (this.lanks[BACKGROUND] && this.lanks[BACKGROUND].thangType) {
-        if (this.lanks[BACKGROUND].thangType.get('slug') === slug) {
-          const thang = this.lanks[BACKGROUND].thang
-          _.merge(thang, thangOptions)
-          return
-        }
-      }
-
-      const backgroundThang = createThang(thangOptions)
-      this.addLank(BACKGROUND, thangType, backgroundThang)
+  setBackgroundCommand ({ slug, thang }) {
+    return this.moveLankCommand({
+      key: BACKGROUND,
+      resource: slug,
+      thang,
+      ms: 0
     })
   }
 
@@ -299,6 +290,12 @@ export default class CinematicLankBoss {
     lank.destroy()
   }
 
+  cleanup () {
+    for (const key in this.lanks) {
+      this.removeLank(key)
+    }
+  }
+
   /**
    * Adds a lank to the screen.
    *
@@ -311,7 +308,11 @@ export default class CinematicLankBoss {
    * @param {Object} thangType
    * @param {Object|undefined} thang?
    */
-  addLank (key, thangType, thang = undefined) {
+  addLank (key, thangType, thang) {
+    if (!thangType) {
+      return
+    }
+    thang = thang || {}
     // Handle a duplicate thangType with the same key.
     if (this.lanks[key] && this.lanks[key].thangType) {
       const original = this.lanks[key].thangType.get('original')
@@ -326,20 +327,24 @@ export default class CinematicLankBoss {
 
     // Initial coordinates for thangs being created offscreen.
     // This feels like it could be refactored to be nicer.
-    if (key === 'right' && !thang) {
+    if (key === 'right') {
       thang = createThang({
         pos: {
           x: this.stageBounds.bottomRight.x + 4,
           y: this.stageBounds.bottomRight.y
         },
-        rotation: RIGHT
+        rotation: RIGHT,
+        scaleFactorX: thang.scaleX || 1,
+        scaleFactorY: thang.scaleY || 1
       })
-    } else if (key === 'left' && !thang) {
+    } else if (key === 'left') {
       thang = createThang({
         pos: {
           x: this.stageBounds.topLeft.x - 4,
           y: this.stageBounds.bottomRight.y
-        }
+        },
+        scaleFactorX: thang.scaleX || 1,
+        scaleFactorY: thang.scaleY || 1
       })
     }
 
@@ -378,6 +383,8 @@ const createThang = thang => {
       z: 1
     },
     shadow: 0,
+    scaleFactorX: 1,
+    scaleFactorY: 1,
     action: 'idle',
     //  Looking left
     rotation: 0

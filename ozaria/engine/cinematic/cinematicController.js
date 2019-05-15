@@ -147,6 +147,7 @@ export class CinematicController {
 
   destroy () {
     this.systems.sound.stopAllSounds()
+    this.systems.cinematicLankBoss.cleanup()
   }
 }
 
