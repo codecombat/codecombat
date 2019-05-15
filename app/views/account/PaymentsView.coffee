@@ -9,6 +9,8 @@ module.exports = class PaymentsView extends RootView
   template: template
 
   initialize: ->
+    super()
+
     @payments = new Payments()
     @supermodel.trackRequest @payments.fetchByRecipient(me.id)
     @prepaids = new Prepaids()
