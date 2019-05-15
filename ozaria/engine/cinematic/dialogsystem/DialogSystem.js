@@ -1,7 +1,7 @@
 import anime from 'animejs/lib/anime.es.js'
-import { AnimeCommand, SyncFunction } from './Command/commands'
-import { getClearText, getTextPosition, getSpeaker, getTextAnimationLength } from '../../../schemas/selectors/cinematic'
-import { processText } from './dialog-system/dialogSystemHelper'
+import { AnimeCommand, SyncFunction } from '../commands/commands'
+import { getClearText, getTextPosition, getSpeaker, getTextAnimationLength } from '../../../../app/schemas/models/selectors/cinematic'
+import { processText } from './helper'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
 const padding = 10
@@ -49,7 +49,7 @@ export default class DialogSystem {
 
   /**
    * The system method that is run on every dialogNode.
-   * @param {import('../../../schemas/selectors/cinematic').DialogNode} dialogNode
+   * @param {import('../../../../app/schemas/models/selectors/cinematic').DialogNode} dialogNode
    * @returns {AbstractCommand[]}
    */
   parseDialogNode (dialogNode) {

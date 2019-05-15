@@ -1,6 +1,6 @@
 <template>
   <li>
-    <a :href="'/editor/cinematic/' + slug">{{ text }}</a><span> slug: '{{ slug }}'</span>
+    <a v-on:click="clickHandler">{{ text }}</a><span v-if="slug"> slug: '{{ slug }}'</span>
   </li>
 </template>
 
@@ -12,11 +12,15 @@ export default {
       type: String,
       required: true
     },
-    slug: {
-      type: String,
+    clickHandler: {
+      type: Function,
       required: true
     },
-  }
+    slug: {
+      type: String,
+      required: false
+    }
+  },
 }
 </script>
 
