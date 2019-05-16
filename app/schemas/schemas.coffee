@@ -65,6 +65,15 @@ me.extendBasicProperties = (schema, linkFragment) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, basicProps(linkFragment))
 
+# Basic props for new schemas using json draft 07 
+basicPropsNew = (linkFragment) ->
+  _id: me.objectId(links: [{rel: 'self', href: "/db/#{linkFragment}/{($)}"}], hidden: true)
+  __v: {title: 'Mongoose Version', hidden: true}
+
+me.extendBasicPropertiesNew = (schema, linkFragment) ->
+  schema.properties = {} unless schema.properties?
+  _.extend(schema.properties, basicPropsNew(linkFragment))
+
 # PATCHABLE
 
 patchableProps = ->
@@ -89,6 +98,16 @@ namedProps = ->
 me.extendNamedProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, namedProps())
+
+
+# Named props for new schemas using json draft 07 
+namedPropsNew = ->
+  name: me.shortString({title: 'Name'})
+  slug: me.shortString({title: 'Slug', hidden: true})
+
+me.extendNamedPropertiesNew = (schema) ->
+  schema.properties = {} unless schema.properties?
+  _.extend(schema.properties, namedPropsNew())
 
 # VERSIONED
 
