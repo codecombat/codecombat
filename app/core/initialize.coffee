@@ -7,12 +7,14 @@ VueRouter = require 'vue-router'
 Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
+VueMeta = require 'vue-meta'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
 
 Vue.use(VTooltip.default)
+Vue.use(VueMeta)
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'

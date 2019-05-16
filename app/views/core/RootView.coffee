@@ -1,6 +1,8 @@
 # A root view is one that replaces everything else on the screen when it
 # comes into being, as opposed to sub-views which get inserted into other views.
 
+merge = require('lodash').merge
+
 CocoView = require './CocoView'
 
 {logoutUser, me} = require('core/auth')
@@ -10,6 +12,8 @@ Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
+
+BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 
 # TODO remove
 
@@ -38,6 +42,14 @@ module.exports = class RootView extends CocoView
 
   shortcuts:
     'ctrl+shift+a': 'navigateToAdmin'
+
+  initialize: (options) ->
+    super(options)
+
+    try
+      @initializeMetaBinding()
+    catch e
+      console.error 'Failed to initialize meta binding', e
 
   showNewAchievement: (achievement, earnedAchievement) ->
     earnedAchievement.set('notified', true)
@@ -95,8 +107,8 @@ module.exports = class RootView extends CocoView
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
       properties = { category: 'Homepage' }
-      window.tracker?.trackEvent 'Login', properties, ['Google Analytics'] 
-      
+      window.tracker?.trackEvent 'Login', properties, ['Google Analytics']
+
       eventAction = $(e.target)?.data('event-action')
       if $(e.target)?.hasClass('track-ab-result')
         _.extend(properties, { trackABResult: true })
@@ -126,16 +138,6 @@ module.exports = class RootView extends CocoView
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
     $('body').removeClass('is-playing')
-
-    if title = @getTitle() then title += ' | CodeCombat'
-    else title = 'CodeCombat - Learn how to code by playing a game'
-
-    if localStorage?.showViewNames
-      title = @constructor.name
-
-    $('title').text(title)
-
-  getTitle: -> ''
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
@@ -216,3 +218,55 @@ module.exports = class RootView extends CocoView
 
   onTreemaError: (e) ->
     noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true
+
+  # Initialize the binding to vue-meta by initializing a Vue component that sets the head tags
+  # on render.  This binding will be destroyed via the Vue component's $destory method when
+  # this view is destroyed.  Views can specify @skipMetaBinding = true when they want to manage
+  # head tags in their own way.  This is useful for legacy Vue components that eventually inherit
+  # from RootView (ie RootComponent and VueComponentView).  These views can use vue-meta directly
+  # within their Vue components.
+  initializeMetaBinding: ->
+    if @metaBinding
+      return @metaBinding
+
+    # Set a noop meta binding object when the view opts to skip meta binding
+    if @skipMetaBinding
+      return @metaBinding = {
+        $destroy: ->
+        setMeta: ->
+      }
+
+    legacyTitle = @getTitle()
+    if localStorage?.showViewNames
+      legacyTitle = @constructor.name
+
+    # Create an empty, mounted element so that the vue component actually renders and runs vue-meta
+    @metaBinding = new BackboneVueMetaBinding({
+      el: document.createElement('div'),
+      propsData: {
+        baseMeta: @getMeta(),
+        legacyTitle: legacyTitle
+      }
+    })
+
+  # Set the page title when the view is loaded.  This value is merged into the
+  # result of getMeta.  It will override any title specified in getMeta.  Kept
+  # for backwards compatibility
+  getTitle: -> ''
+
+  # Head tag configuration used to configure vue-meta when the View is loaded.
+  # See https://vue-meta.nuxtjs.org/ for available configuration options.  This
+  # can be later modified by calling setMeta
+  getMeta: -> {}
+
+  # Allow async updates of the view's meta configuration.  This can be used in addition to getMeta
+  # to update meta configuration when the meta configuration is computed asynchronously
+  setMeta: (meta) ->
+    @metaBinding.setMeta(meta)
+
+  destroy: ->
+    super()
+
+    if @metaBinding
+      @metaBinding.$destroy()
+      delete @metaBinding

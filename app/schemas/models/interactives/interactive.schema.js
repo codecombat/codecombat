@@ -7,7 +7,6 @@ const schema = require('../../schemas')
 
 const interactiveSchema = {
   type: 'object',
-  required: ['interactiveType', 'promptText', 'interactiveData', 'unitCodeLanguage'],
   properties: {
     interactiveType: {
       'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion']
