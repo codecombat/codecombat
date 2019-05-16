@@ -134,4 +134,5 @@ module.exports = {
 
   // TODO: Why does chunk name `ozariaPlay` not work?
   'views/ozaria/site/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "OzariaPlay" */ 'ozaria/site/views/play/level/PlayLevelView') },
+  'views/courses/StudentRankingView': function() { return import(/* webpackChunkName: "StudentRankingView" */ 'views/courses/StudentRankingView')}
 }

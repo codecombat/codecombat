@@ -212,6 +212,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'seen': go('HomeView')
     'SEEN': go('HomeView')
 
+    'students/ranking/:map': go('courses/StudentRankingView')
+
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
