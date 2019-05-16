@@ -231,7 +231,7 @@
     "vue-loader": "^15.x.x",
     "vue-template-compiler": "^2.6.10",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-livereload-plugin": "https://github.com/codecombat/webpack-livereload-plugin/tarball/master"
+    "webpack-livereload-plugin": "codecombat/webpack-livereload-plugin"
   },
   "optionalDependencies": {
     "newrelic": "^1.24.0",
