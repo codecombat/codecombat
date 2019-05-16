@@ -16,6 +16,8 @@ import {
   getSpeaker
 } from '../../../app/schemas/models/selectors/cinematic'
 
+export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
+
 // Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
 const Lank = require('lib/surface/Lank')
@@ -63,7 +65,7 @@ export default class CinematicLankBoss {
   parseSetupShot (shot) {
     const commands = []
 
-    const moveCharacter = (side, resource, enterOnStart, thang) => {
+    const addMoveCharacterCommand = (side, resource, enterOnStart, thang) => {
       if (enterOnStart) {
         commands.push(this.moveLankCommand({ key: side, resource, thang, ms: 1000 }))
       } else {
@@ -77,28 +79,28 @@ export default class CinematicLankBoss {
     }
 
     const lHero = getLeftHero(shot)
-    const original = (me.get('heroConfig') || {}).thangType || '55527eb0b8abf4ba1fe9a107'
+    const original = (me.get('heroConfig') || {}).thangType || HERO_THANG_ID
     if (lHero) {
       const { enterOnStart, thang } = lHero
-      moveCharacter('left', original, enterOnStart, thang)
+      addMoveCharacterCommand('left', original, enterOnStart, thang)
     }
 
     const rHero = getRightHero(shot)
     if (rHero) {
       const { enterOnStart, thang } = rHero
-      moveCharacter('right', original, enterOnStart, thang)
+      addMoveCharacterCommand('right', original, enterOnStart, thang)
     }
 
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     if (leftCharSlug) {
       const { slug, enterOnStart, thang } = leftCharSlug
-      moveCharacter('left', slug, enterOnStart, thang)
+      addMoveCharacterCommand('left', slug, enterOnStart, thang)
     }
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
       const { slug, enterOnStart, thang } = rightCharSlug
-      moveCharacter('right', slug, enterOnStart, thang)
+      addMoveCharacterCommand('right', slug, enterOnStart, thang)
     }
 
     return commands
@@ -111,11 +113,25 @@ export default class CinematicLankBoss {
     //       Currently characters start 8 meters off the respective side of the camera bounds.
     const char = getExitCharacter(dialogNode)
     if (char === 'left' || char === 'both') {
-      commands.push(this.moveLankCommand({ key: 'left', thang: { pos: { x: this.stageBounds.topLeft.x - 8 } }, ms: 800 }))
+      commands.push(this.moveLankCommand({
+        key: 'left',
+        thang: {
+          pos: {
+            x: this.stageBounds.topLeft.x - 8
+          }
+        },
+        ms: 800 }))
     }
 
     if (char === 'right' || char === 'both') {
-      commands.push(this.moveLankCommand({ key: 'right', thang: { pos: { x: this.stageBounds.bottomRight.x + 8 } }, ms: 800 }))
+      commands.push(this.moveLankCommand({
+        key: 'right',
+        thang: {
+          pos: {
+            x: this.stageBounds.bottomRight.x + 8
+          }
+        },
+        ms: 800 }))
     }
 
     const bgObject = getBackgroundObject(dialogNode)
@@ -127,7 +143,14 @@ export default class CinematicLankBoss {
         pos: { x, y },
         stateChanged: true
       }
-      commands.push(this.moveLankCommand({ key: BACKGROUND_OBJECT, resource: slug, pos: { x, y }, thang: thangOptions, ms: 0 }))
+      commands.push(
+        this.moveLankCommand({
+          key: BACKGROUND_OBJECT,
+          resource: slug,
+          thang: thangOptions,
+          ms: 0
+        })
+      )
     }
 
     const removeBgDelay = getClearBackgroundObject(dialogNode)
@@ -201,6 +224,7 @@ export default class CinematicLankBoss {
   }) {
     const thang = { scaleX, scaleY, pos: { x, y } }
     const pos = { x, y } || {}
+
     if (ms === 0) {
       return new SyncFunction(() => {
         if (resource) {
@@ -215,12 +239,13 @@ export default class CinematicLankBoss {
         })
       })
     }
+
     return new MoveLank(() => {
       if (resource) {
         this.addLank(key, this.loader.getThangType(resource), thang)
       }
       if (!this.lanks[key]) {
-        console.warn('You may be using a lank that hasn\'t been created yet, in setup!')
+        throw new Error('You are using a lank that hasn\'t been created yet, in setup!')
       }
       // normalize parameters
       pos.x = pos.x !== undefined ? pos.x : this.lanks[key].thang.pos.x
@@ -308,8 +333,7 @@ export default class CinematicLankBoss {
    * @param {Object} thangType
    * @param {Object|undefined} thang?
    */
-  addLank (key, thangType, thang) {
-    thang = thang || {}
+  addLank (key, thangType, thang = {}) {
     // Handle a duplicate thangType with the same key.
     if (this.lanks[key] && this.lanks[key].thangType) {
       const original = this.lanks[key].thangType.get('original')
