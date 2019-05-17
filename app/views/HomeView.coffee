@@ -47,7 +47,7 @@ module.exports = class HomeView extends RootView
         { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
     ],
     link: [
-      { vmid: 'rel-canonical', rel: 'canonical', href: 'https://' + window.location.hostname  }
+      { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
 
     ]
 
