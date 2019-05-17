@@ -5,13 +5,13 @@ template = require 'templates/courses/student-ranking-view'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 Campaign = require 'models/Campaign'
-Level = require 'models/Level'
+#Level = require 'models/Level'
 utils = require 'core/utils'
-require 'three'
-UserPollsRecord = require 'models/UserPollsRecord'
-Poll = require 'models/Poll'
-CourseInstance = require 'models/CourseInstance'
-api = require 'core/api'
+#require 'three'
+#UserPollsRecord = require 'models/UserPollsRecord'
+#Poll = require 'models/Poll'
+#CourseInstance = require 'models/CourseInstance'
+#api = require 'core/api'
 Classroom = require 'models/Classroom'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
@@ -45,6 +45,10 @@ module.exports = class StrudentRankingView extends RootView
   
   constructor: (options, @terrain) ->
 
+    @courseInstanceID = utils.getQueryVariable('course-instance')
+    if (@courseInstanceID != '5cd4352deed476002dd14019')
+      application.router.redirectHome()
+
     super options
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
@@ -70,7 +74,6 @@ module.exports = class StrudentRankingView extends RootView
     @campaign = new Campaign({_id:@terrain})
     @campaign = @supermodel.loadModel(@campaign).model
     @courseLevelsFake = {}
-    @courseInstanceID = utils.getQueryVariable('course-instance')
     @courseInstance = new CourseInstance(_id: @courseInstanceID)
     jqxhr = @courseInstance.fetch()
     @supermodel.trackRequest(jqxhr)
@@ -168,14 +171,6 @@ module.exports = class StrudentRankingView extends RootView
         usuario++
         @levelStatusMap = {}
 
-  calculateExperienceScore: ->
-    adultPoint = me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']  # They have to have answered the poll for this, likely after Shadow Guard.
-    speedPoints = 0
-    for [levelSlug, speedThreshold] in [['dungeons-of-kithgard', 50], ['gems-in-the-deep', 55], ['shadow-guard', 55], ['forgetful-gemsmith', 40], ['true-names', 40]]
-      if _.find(@sessions?.models, (session) -> session.get('levelID') is levelSlug)?.attributes.playtime <= speedThreshold
-        ++speedPoints
-    experienceScore = adultPoint + speedPoints  # 0-6 score of how likely we think they are to be experienced and ready for Kithgard Mastery
-    return experienceScore
 
   onSessionsLoaded: (e) ->
     @render()
@@ -185,14 +180,5 @@ module.exports = class StrudentRankingView extends RootView
   getLevels: () ->
     return @courseLevelsFake if @courseLevels?
     @campaign?.get('levels')
-
-
-
-  removeDeletedStudents: () ->
-    return unless @classroom.loaded and @students.loaded
-    _.remove(@classroom.get('members'), (memberID) =>
-      not @students.get(memberID) or @students.get(memberID)?.get('deleted')
-    )
-    true
 
   
