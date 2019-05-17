@@ -45,7 +45,7 @@ module.exports = class CoursesView extends RootView
     return {
       title: $.i18n.t('courses.students')
       links: [
-        { vmid: 'rel-canonical', rel: 'canonical', href: 'https://' + window.location.hostname + '/students'}
+        { vmid: 'rel-canonical', rel: 'canonical', href: '/students'}
       ]
     }
 
