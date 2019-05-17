@@ -35,7 +35,7 @@ module.exports = class PlayWebDevLevelView extends RootView
   getMeta: ->
     return {
       links: [
-        { vmid: 'rel-canonical', rel: 'canonical', href: 'https://' + window.location.hostname + '/play'}
+        { vmid: 'rel-canonical', rel: 'canonical', href: '/play'}
       ]
     }
 
