@@ -2,16 +2,16 @@ const schema = require('./../schemas')
 
 const Tint = schema.object({
   title: 'Group Tint',
-  description: 'A list of allowed colors for tinting a particular group'
+  description: 'A list of tint options'
 }, {
-  colorGroupName: schema.shortString({
-    title: 'Color Group Name',
-    description: 'Name of the group we are tinting on a ThangType.'
-  }),
-  allowedTints: schema.array({
-    title: 'Tints',
-    description: 'Legal tints for the color group'
-  }, schema.colorConfig())
+  allowedTints: schema.array(
+    {
+      title: 'Tints',
+      description: 'Legal tints for the color group'
+    },
+    // Property is the colorGroup name, and value is a colorConfig object.
+    schema.object({ additionalProperties: schema.colorConfig() })
+  )
 })
 
 schema.extendBasicProperties(Tint, 'tint')
