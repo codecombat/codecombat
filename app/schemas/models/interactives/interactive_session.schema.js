@@ -73,6 +73,6 @@ const interactiveSessionSchema = {
   ]
 }
 
-schema.extendBasicPropertiesNew(interactiveSessionSchema, 'interactive.session')
+schema.extendBasicProperties(interactiveSessionSchema, 'interactive.session')
 
 module.exports = interactiveSessionSchema
