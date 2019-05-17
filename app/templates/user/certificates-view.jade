@@ -31,7 +31,7 @@ style.
 .style-flat
   .menu
     .print-btn.btn.btn-success Print
-    if view.needToggle
+    if view.needLanguageToggle
       .toggle-btn.btn.btn-success Toggle
 
   .certificate
@@ -48,7 +48,7 @@ style.
           h4.course-name
             span(data-i18n="user.certificate_for")
             span= ' '
-            span= i18n(view.course.attributes, 'name', view.nowLang)
+            span= i18n(view.course.attributes, 'name', view.currentLang)
           .code-results.outcome-section
             h3.learned-title(data-i18n="user.certificate_stats")
             ul.list-unstyled
