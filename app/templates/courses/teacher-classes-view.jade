@@ -57,18 +57,6 @@ block content
             else if view.howManyOfficeHours == 'some' && limited
               a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
-      //- TODO: remove temporary Teacher appreciation anytime after 2019-05-03
-      if (!view.paidTeacher) && me.get('country') == "united-states" && new Date() >= new Date('2019-04-29') && new Date() <= new Date('2019-05-03')
-        .container
-          .row
-            .col-xs-12
-              #announcement
-                p(data-i18n='[html]teacher.appreciation_week_blurb1')
-                ul.text-left
-                  li(data-i18n="teacher.appreciation_week_blurb2")
-                  li(data-i18n="teacher.appreciation_week_blurb3")
-                  li(data-i18n="teacher.appreciation_week_blurb4")
-
     .container
       +teacher-quests
 
