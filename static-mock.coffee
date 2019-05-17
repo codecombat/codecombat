@@ -34,6 +34,9 @@ exports.me =
   useGoogleAnalytics: -> true
   showChinaVideo: -> false
   getHomePageTestGroup: -> undefined
+  showForumLink: -> true
+  showGithubLink: -> true
+  showChinaICPinfo: -> false
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
