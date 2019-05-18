@@ -8,7 +8,7 @@ export default {
 
   state: {
     loading: {
-      sessionsByClassroom: {}
+      sessionsByClassroom: {},
       byUserId: {}
     },
 

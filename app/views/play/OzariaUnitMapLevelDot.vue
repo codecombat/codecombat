@@ -4,63 +4,93 @@
 </template>
 
 <script>
-export default Vue.extend({
-  props: {
-    levelData: {
-      type: Object,
-      required: true
-    },
-    courseId: {
-      type: String
-    },
-    courseInstanceId: {
-      type: String
-    }
-  },
-  computed: {
-    // red - unlocked levels; yellow - next level (also unlocked); grey - locked level
-    // TODO: update CSS after UI specs
-    levelDotStyle: function() {
-      let position = {
-        left: this.levelData.position.x + '%',
-        bottom: this.levelData.position.y + "%",
-      }
-      if (this.levelData.locked) {
-        return _.extend({}, position, {
-          'background-color': 'grey'
-        })
-      } else if (this.levelData.next) {
-        return _.extend({}, position, {
-          'background-color': 'yellow'
-        })
-      } else {
-        return _.extend({}, position, {
-          'background-color': 'rgb(255, 80, 60)' //this.levelData.color
-        })
-      }
-    },
-    levelDotClass: function() {
-      return {
-        locked: this.levelData.locked,
-        next: this.levelData.next
-      }
-    },
-    getPlayLevelLink: function() {
-      let link = ''
-      if (this.levelData.locked)
-        return '#'
+  import { mapGetters } from 'vuex'
 
-      if (this.courseId && this.courseInstanceId) {
-        link = "/play/level/"+this.levelData.slug+"?course="+this.courseId+"&course-instance="+this.courseInstanceId
-        if (this.levelData.primerLanguage)
-          link += "&codeLanguage=" + this.levelData.primerLanguage 
+  export default {
+    props: {
+      levelData: {
+        type: Object,
+        required: true
+      },
+
+      courseId: {
+        type: String
+      },
+
+      courseInstanceId: {
+        type: String
       }
-      else
-        link = "/play/level/"+this.levelData.slug
-      return link || '#'
+    },
+
+    computed: {
+      ...mapGetters('game', [
+        'isLevelUnlocked',
+        'isLevelNext'
+      ]),
+
+      levelLocked () {
+        return !this.isLevelUnlocked(this.level.original)
+      },
+
+      levelNext () {
+        return this.isLevelNext(this.level.original)
+      },
+
+      // red - unlocked levels; yellow - next level (also unlocked); grey - locked level
+      // TODO: update CSS after UI specs
+      levelDotStyle: function () {
+
+        let position = {
+          left: this.levelData.position.x + '%',
+          bottom: this.levelData.position.y + '%'
+        }
+
+        if (this.levelLocked) {
+          return _.extend({}, position, {
+            'background-color': 'grey'
+          })
+        } else if (this.levelNext) {
+          return _.extend({}, position, {
+            'background-color': 'yellow'
+          })
+        } else {
+          return _.extend({}, position, {
+            'background-color': 'rgb(255, 80, 60)' // this.levelData.color
+          })
+        }
+      },
+
+      levelDotClass: function () {
+        return {
+          locked: this.levelLocked,
+          next: this.levelNext
+        }
+      },
+
+      getPlayLevelLink: function () {
+        let link = ''
+        if (this.levelLocked) {
+          return '#'
+        }
+
+        if (this.courseId && this.courseInstanceId) {
+          // TODO encode uri component
+          link = '/play/level/' +
+            this.levelData.slug +
+            '?course=' + this.courseId +
+            '&course-instance=' + this.courseInstanceId
+
+          if (this.levelData.primerLanguage) {
+            link += '&codeLanguage=' + this.levelData.primerLanguage
+          }
+        } else {
+          link = '/play/level/' + this.levelData.slug
+        }
+
+        return link || '#'
+      }
     }
   }
-})
 </script>
 
 <style lang="sass">
@@ -70,8 +100,8 @@ export default Vue.extend({
     height: 2%
     border: 2px groove white
     border-radius: 50%
-  
-  .level-dot-link 
+
+  .level-dot-link
     width: 100%
     height: 100%
     position: absolute
