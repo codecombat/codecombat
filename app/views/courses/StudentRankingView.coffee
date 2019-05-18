@@ -46,7 +46,7 @@ module.exports = class StrudentRankingView extends RootView
   constructor: (options, @terrain) ->
 
     @courseInstanceID = utils.getQueryVariable('course-instance')
-    if (@courseInstanceID != '5cd4352deed476002dd14019')
+    if (@courseInstanceID != '5cd4352deed476002dd14019' && @courseInstanceID != '5cd57c5216f64600245afedd') && @courseInstanceID !='5ce01f45da3b2900357d7ed7'
       application.router.redirectHome()
 
     super options
