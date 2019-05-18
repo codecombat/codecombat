@@ -20,12 +20,13 @@ store = new Vuex.Store({
   modules: {
     me: require('./modules/me'),
     courses: require('./modules/courses'),
-    game: require('./modules/game'),
+    game: require('./modules/game').default,
     schoolAdministrator: require('./modules/schoolAdministrator').default
     classrooms: require('./modules/classrooms').default
     courseInstances: require('./modules/courseInstances').default
     levelSessions: require('./modules/levelSessions').default
     users: require('./modules/users').default
+    campaigns: require('./modules/campaigns').default
   }
 })
 

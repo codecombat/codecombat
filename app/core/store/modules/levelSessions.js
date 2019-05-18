@@ -1,4 +1,5 @@
 import levelSessionsApi from 'core/api/level-sessions'
+import usersApi from 'core/api/users'
 
 const SESSIONS_PER_REQUEST = 10
 
@@ -8,6 +9,7 @@ export default {
   state: {
     loading: {
       sessionsByClassroom: {}
+      byUserId: {}
     },
 
     /*
@@ -20,10 +22,20 @@ export default {
      *     }
      *  }
      */
-    levelSessionsByClassroom: {}
+    levelSessionsByClassroom: {},
+    byUserId: {}
   },
 
   mutations: {
+    toggleUserLoading: (state, userId) => {
+      let loading = true;
+      if (state.loading.byUserId[userId]) {
+        loading = false
+      }
+
+      Vue.set(state.loading.byUserId, userId, loading)
+    },
+
     toggleClassroomLoading: (state, classroomId) => {
       let loading = true;
       if (state.loading.sessionsByClassroom[classroomId]) {
@@ -51,7 +63,10 @@ export default {
 
     addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) => {
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = levelCompletionsByUser
-    }
+    },
+
+    addLevelSessionsForUser: (state, { userId, levelSessions}) =>
+      Vue.set(state.byUserId, userId, levelSessions)
   },
 
   // TODO add a way to clear out old level session data
@@ -96,6 +111,26 @@ export default {
         })
         .catch((e) => noty({ text: 'Fetch level sessions failure' + e, type: 'error' }))
         .finally(() => commit('toggleClassroomLoading', classroom._id))
+    },
+
+    async fetchByUserId ({ commit }, userId) {
+      commit('toggleLoadingByUser', userId)
+
+      try {
+        const levelSessions = await usersApi.getLevelSessions(userId)
+        if (levelSessions) {
+          commit('addLevelSessionsForUser', {
+            userId: userId,
+            levelSessions
+          })
+
+          return levelSessions
+        }
+      } catch (e) {
+        // TODO handle
+      } finally {
+        commit('toggleLoadingByUser', userId)
+      }
     },
 
     computeLevelCompletionsByUserForClassroom ({ commit, state }, classroomId) {

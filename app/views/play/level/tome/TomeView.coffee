@@ -103,6 +103,7 @@ module.exports = class TomeView extends CocoView
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
+    console.log('this is my world', world)
     for thang in programmableThangs
       continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
@@ -191,6 +192,7 @@ module.exports = class TomeView extends CocoView
       @setSpellView spell, e.thang
 
   setSpellView: (spell, thang) ->
+    console.log 'is this happening', spell
     unless spell.view is @spellView
       @spellView = spell.view
       @spellTopBarView = spell.topBarView

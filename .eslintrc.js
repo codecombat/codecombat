@@ -5,7 +5,10 @@ module.exports = {
     ],
 
     'globals': {
-        "Vue": "readonly"
+        "Vue": "readonly",
+        "Backbone": "readonly",
+
+        "noty": "readonly"
     },
 
     'env': {

@@ -54,6 +54,7 @@ module.exports = class Spell
       @setLanguage 'javascript'
 
     @source = @originalSource
+    console.log('dis is the original source', @source)
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
       if sessionSource isnt '// Should fill in some default source\n'  # TODO: figure out why session is getting this default source in there and stop it

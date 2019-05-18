@@ -20,7 +20,6 @@ vendor
 app/core/api/cinematic.js
 app/core/api/thang-types.js
 app/core/social-handlers/GoogleClassroomHandler.js
-app/core/store/modules/courseInstances.js
 app/core/store/modules/users.js
 app/core/store/modules/schoolAdministrator.js
 app/core/store/modules/classrooms.js

@@ -191,6 +191,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "country-data": "0.0.24",
     "cross-env": "^5.2.0",
+    "decaffeinate": "^5.1.12",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.17.2",

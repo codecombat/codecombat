@@ -70,6 +70,8 @@ export default {
               teacherId,
               classrooms: res
             })
+
+            return res
           } else {
             throw new Error('Unexpected response from fetch classrooms API.')
           }
@@ -77,6 +79,7 @@ export default {
         .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
+
     fetchClassroomForId: ({ commit }, classroomID) => {
       commit('toggleLoadingForClassroom', classroomID)
 
