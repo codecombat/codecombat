@@ -148,10 +148,27 @@ _.extend UserSchema.properties,
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  customization: c.object {
-    title: 'Player Customization',
-    descipription: 'Individual player customization options'
-  }, { colorConfig: c.object { additionalProperties: c.colorConfig() } }
+  customization: c.object(
+    {
+      title: 'Player Customization',
+      descipription: 'Individual player customization options'
+    }, {
+      tints: c.array(
+        {
+          title: 'Tints',
+          description: 'Array of possible tints'
+        },
+        c.object({
+          title: 'tintGroup',
+          description: 'Duplicate data that would be found in a tint',
+          required: ['slug', 'colorGroups']
+        }, {
+          slug: c.shortString({
+            title: 'Tint Slug',
+          }),
+          colorGroups: c.object({ additionalProperties: c.colorConfig() })
+        }))
+    })
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
     language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
