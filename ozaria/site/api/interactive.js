@@ -1,7 +1,7 @@
 import fetchJson from 'app/core/api/fetch-json'
 
 /**
- * Retrieves the json representation of a interactive.
+ * Retrieves the json representation of an interactive.
  * @param {string} slug - Slug of the interactive.
  * @return {Promise<Object>} - Raw Interactive object
  */
@@ -26,7 +26,7 @@ export const getInteractive = slug => {
 export const getAllInteractives = () => fetchJson('/db/interactives')
 
 /**
- * Updates a interactive in the database.
+ * Updates an interactive in the database.
  * @returns {Promise<Object>} - Raw Interactive object
  */
 export const putInteractive = ({ data }, options = {}) => {
