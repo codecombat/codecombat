@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription: "Dutch (Netherlands)", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -209,6 +211,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     subscribe_as_diplomat: "Abonneren als Diplomaat"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -423,6 +431,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     books: "Boeken"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Terug" # When used as an action verb, like "Navigate backward"
     coming_soon: "Binnenkort!"
     continue: "Doorgaan" # When used as an action verb, like "Continue forward"
@@ -712,6 +722,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Methodes"
@@ -1028,6 +1039,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     editor_config_behaviors_description: "Automatisch aanvullen van (gekrulde) haakjes en aanhalingstekens."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Lees meer"
     main_title: "Als je wilt leren programmeren, moet je (heel veel) code schrijven."
     main_description: "Bij CodeCombat, is het ons doel om te zorgen dat je dat doet met een glimlach op je gezicht."
@@ -1316,6 +1329,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     contribute_to_the_project: "Help mee met het project"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Clan"
     clans: "Clans"
     new_name: "Nieuwe clannaam"
@@ -1826,6 +1842,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     starter_license: "Starter Licentie"
     trial: "Uitproberen"
     hoc_welcome: "Fijne Computer Wetenschap Educatie Week!"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "Er zijn drie manieren waarop uw klas kan meedoen aan het Code Uur met CodeCombat"
     hoc_self_led: "Zelfstandig Gamen"
     hoc_self_led_desc: "Leerlingen kunnen zelfstandig 2 uur CodeCombat tutorials spelen"
@@ -2143,6 +2161,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     helpful_ambassadors: "Onze behulpzame Ambassadeurs:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Mijn Wedstrijden"
     simulate: "Simuleer"
     simulation_explanation: "Door spellen te simuleren kun je zelf sneller beoordeeld worden!"
@@ -2207,6 +2227,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     ogres: "Blauw"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Statistieken"
     singleplayer_title: "Singleplayer Levels"
     multiplayer_title: "Multiplayer Levels"
@@ -2245,6 +2266,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Betalingen"
     prepaid_codes: "Prepaidcodes"
     purchased: "Gekocht"
@@ -2678,6 +2706,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     your_parentheses_must_match: "Je haakjes moeten overeenkomen."
 
   apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
     syllabus_description: "Gebruik dit hulpmiddel om het CodeCombat-curriculum (leerplan) te plannen voor uw informaticales. Begrippen worden niet vertaald naar het Nederlands."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2819,6 +2849,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    teacher_email: "Teacher's email address"
 
 #  school_administrator:
+#    title: "School Administrator Dashboard"
 #    my_teachers: "My Teachers"
 #    last_login: "Last Login"
 #    licenses_used: "licenses used"

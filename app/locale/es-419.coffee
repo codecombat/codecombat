@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "Español (América Latina)", englishDescription: "Spanish (Latin America)", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     built_for_teachers_title: "Un Juego de programación construido teniendo el mente a los maestros."
     built_for_teachers_blurb: "Enseñar a los niños a programar puede ser abrumador. CodeCombat ayuda a todos los educadores a enseñar a los estudiantes cómo programar en JavaScript o Python, dos de los lenguajes de programación más populares. Con un plan de estudios comprensivo que incluye seis unidades de Ciencias de la Computación, y refuerza el aprendizaje a través de unidades en el desarrollo de juegos y desarrollo web basados en proyectos, los niños progresarán en un viaje desde la sintaxis básica hasta la recursión!"
     built_for_teachers_subtitle1: "Ciencias de la Computación"
@@ -209,6 +211,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     subscribe_as_diplomat: "Suscríbete como un Diplomático"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
     anon_signup_title_1: "CodeCombat tiene un"
     anon_signup_title_2: "¡Versión de aula!"
     anon_signup_enter_code: "Ingresa el código de la clase:"
@@ -423,6 +431,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     books: "Libros"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Atrás" # When used as an action verb, like "Navigate backward"
     coming_soon: "¡Próximamente!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
@@ -712,8 +722,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     learn_new_concepts: "Aprende nuevos conceptos"
     watch_a_video: "Mira un video de __concept_name__"
     concept_unlocked: "Concepto desbloqueado"
+#    use_at_least_one_concept: "Use at least one concept: "
 
-  apis: #{review}
+  apis:
     methods: "Métodos"
     events: "Eventos"
     handlers: "Manipuladores"
@@ -733,7 +744,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     number: "Número"
     webjavascript: "JavaScript"
 
-  amazon_hoc: #{review}
+  amazon_hoc:
     title: "¡Sigue aprendiendo con Amazon!"
     congrats: "¡Felicitaciones por conquistar esa desafiante Hora de Código!"
     educate_1: "Ahora, continúa aprendiendo sobre programación y computación en la nube con AWS Educate, un programa emocionante y gratuito de Amazon para estudiantes y maestros. Con AWS Educate, puedes obtener insignias geniales a medida que aprendes sobre los conceptos básicos de la nube y las tecnologías de vanguardia, como los juegos, la realidad virtual y Alexa."
@@ -744,7 +755,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     future_eng_4: "Amazon Future Engineer"
     future_eng_5: "programa que crea oportunidades de aprendizaje y trabajo para todos los estudiantes de K-12 en los Estados Unidos que desean dedicarse a Ciencias de la Computación."
 
-  play_game_dev_level: #{review}
+  play_game_dev_level:
     created_by: "Creado por {{name}}"
     created_during_hoc: "Creado durante Hora de Código"
     restart: "Reiniciar Nivel"
@@ -1028,6 +1039,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     editor_config_behaviors_description: "Autocompleta corchetes, llaves y comillas."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Aprende más"
     main_title: "Si queres aprender a programar, necesitas escribir (un montón de) código."
     main_description: "En CodeCombat, nuestro trabajo es asegurarnos que estás haciendo eso con una sonrisa en tu cara."
@@ -1316,6 +1329,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     contribute_to_the_project: "Contribuir al proyecto"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Clan"
     clans: "Clanes"
     new_name: "Nuevo nombre de clan"
@@ -1826,6 +1842,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    starter_license: "Starter License"
 #    trial: "Trial"
 #    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
 #    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
@@ -2143,6 +2161,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     helpful_ambassadors: "Nuestros amables Embajadores:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Mis Partidas"
     simulate: "Simular"
     simulation_explanation: "¡Simulando tus juegos puedes mejorar tu posición más rápido!"
@@ -2207,6 +2227,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     ogres: "Azul"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Estados"
     singleplayer_title: "Nivel un jugador"
     multiplayer_title: "Niveles multijugador"
@@ -2245,6 +2266,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Pagos"
     prepaid_codes: "Códigos Prepagados"
     purchased: "Comprado"
@@ -2678,6 +2706,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     your_parentheses_must_match: "Los paréntesis deben coincidir."
 
 #  apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2819,6 +2849,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    teacher_email: "Teacher's email address"
 
 #  school_administrator:
+#    title: "School Administrator Dashboard"
 #    my_teachers: "My Teachers"
 #    last_login: "Last Login"
 #    licenses_used: "licenses used"
