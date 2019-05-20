@@ -2,7 +2,7 @@
   <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
   <!-- Currently fixed size to the aspect ratio of our play view. -->
   <div id="cinematic-canvas-div">
-    <div height="850px" id="cinematic-div" ref="cinematic-div" v-on:click="skipShot">
+    <div id="cinematic-div" ref="cinematic-div" v-on:click="skipShot">
       <canvas
         id="cinematic-canvas"
         ref="cinematic-canvas"
