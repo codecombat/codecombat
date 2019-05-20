@@ -22,7 +22,6 @@
  */
 import { CinematicController } from '../../../../engine/cinematic/cinematicController'
 
-
 export default {
   props: {
     cinematicData: {
