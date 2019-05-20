@@ -65,7 +65,11 @@ const ShotSetup = c.object({
       title: 'Position',
       description: 'The position of the camera in meters.'
     }),
-    zoom: { title: 'Zoom', description: 'The zoom level of the camera. A good default is 6. Recommended you change between 0 and 10.', type: 'number' }
+    zoom: {
+      title: 'Zoom',
+      description: 'The zoom level of the camera. A good default is \'2.1\'. There is a bug with the value 2. Recommended you change between 0 and 10.',
+      type: 'number'
+    }
   }),
   music: c.sound()
 })

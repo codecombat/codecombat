@@ -1,9 +1,15 @@
 <template>
   <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
   <!-- Currently fixed size to the aspect ratio of our play view. -->
-  <div>
-    <div height="514px" id="cinematic-div" ref="cinematic-div" v-on:click="skipShot">
-      <canvas width="800" height="514" id="cinematic-canvas" ref="cinematic-canvas"></canvas>
+  <div id="cinematic-canvas-div">
+    <div height="850px" id="cinematic-div" ref="cinematic-div" v-on:click="skipShot">
+      <canvas
+        id="cinematic-canvas"
+        ref="cinematic-canvas"
+        :width="width"
+        :height="height"
+        :style="{ width: width+'px', height: height+'px' }">
+      </canvas>
     </div>
     <button :disabled="enterDisabled" v-on:click="nextShot">Enter</button>
   </div>
@@ -16,6 +22,7 @@
  */
 import { CinematicController } from '../../../../engine/cinematic/cinematicController'
 
+
 export default {
   props: {
     cinematicData: {
@@ -25,7 +32,9 @@ export default {
   },
   data: () => ({
     controller: null,
-    enterDisabled: false
+    enterDisabled: false,
+    width: 1280,
+    height: 850
   }),
   mounted: function() {
     if (!me.hasCinematicAccess()) {
@@ -76,8 +85,8 @@ export default {
 #cinematic-div {
   position: relative;
   font-size: 1.5em;
-  height: 514px;
-  width: 800px;
+  height: 850px;
+  width: 1280px;
 }
 
 #cinematic-div canvas {
