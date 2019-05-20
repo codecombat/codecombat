@@ -96,7 +96,7 @@ module.exports = Vue.extend({
       else {
         console.error('Schema validation error', ajv.errors)
         noty({
-          text: 'Schema validation error.',
+          text: 'Schema validation error. Please check the console for errors.',
           type:'error',
           timeout: 1000
         })
@@ -107,24 +107,24 @@ module.exports = Vue.extend({
      * Saves the properties of the interactive to the database.
      */
     async saveInteractive() {
-      if (this.valid) {
-        this.state.saving = true
-        try {
-          this.interactive = new Interactive(await putInteractive({ data: this.interactive.toJSON() }))
-          this.treema.set('/', $.extend(true, {}, this.interactive.attributes))
-          noty({ text: 'Saved', type: 'success', timeout: 1000 })
-        } catch (e) {
-          console.error("Error while saving the interactive", e)
-          noty({ text: 'Error occured while saving the interactive', type: 'error', timeout: 1000 })
-        }
-        this.state.saving = false
-      } else {
+      if (!this.valid) {
         noty({
           text: `Cant save since the schema is not valid.`,
           type:'error',
           timeout: 1000
         })
+        return
       }
+      this.state.saving = true
+      try {
+        this.interactive = new Interactive(await putInteractive({ data: this.interactive.toJSON() }))
+        this.treema.set('/', $.extend(true, {}, this.interactive.attributes))
+        noty({ text: 'Saved', type: 'success', timeout: 1000 })
+      } catch (e) {
+        console.error("Error while saving the interactive", e)
+        noty({ text: 'Error occured while saving the interactive', type: 'error', timeout: 1000 })
+      }
+      this.state.saving = false
     },
 
     /**
