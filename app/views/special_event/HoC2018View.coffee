@@ -7,6 +7,7 @@ module.exports = class HoC2018View extends RootComponent
   id: 'hoc-2018'
   template: template
   VueComponent: HoC2018
+  skipMetaBinding: true
 
   constructor: (options) ->
     super(options)

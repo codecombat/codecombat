@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Indonesian", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -87,6 +89,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     classroom_edition: "Edisi Ruang Kelas:"
     learn_to_code: "Belajar membuat kode:"
     play_now: "Mainkan Sekarang"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Aku seorang guru"
     im_a_student: "Aku seorang siswa"
     learn_more: "Pelajari lebih lanjut"
@@ -146,6 +149,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     view_progress: "Lihat Kemajuan"
     go_to_courses: "Pergi ke Kursusku"
     want_coco: "Mau CodeCombat ada di sekolahmu?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +174,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     twitter_follow: "Ikuti"
     my_classrooms: "Kelasku"
     my_courses: "Kursusku"
+#    my_teachers: "My Teachers"
     careers: "Karir"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -205,6 +211,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     subscribe_as_diplomat: "Berlangganan sebagai seorang Diplomat"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -419,6 +431,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     books: "Buku-buku"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Kembali" # When used as an action verb, like "Navigate backward"
     coming_soon: "Segera Hadir!"
     continue: "Lanjutkan" # When used as an action verb, like "Continue forward"
@@ -708,6 +722,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
 
 #  apis:
 #    methods: "Methods"
@@ -1024,6 +1039,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     editor_config_behaviors_description: "Otomatis komplit tanda kurung, kurung kurawal, dan tanda petik."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Pelajari Lebih"
     main_title: "Jika kamu ingin belajar memprogram, kamu membutuhkan menulis (banyak) kode."
     main_description: "Dalam CodeCombat, tugas kamu adalah memastikan kamu melakukannya dengan senyum diwajahmu."
@@ -1043,7 +1060,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     maka_title: "Penasihat Pelanggan"
     robin_title: "Manajer Produk" # {change}
     nolan_title: "Manajer Penjualan"
-    lisa_title: "Manajer Pengembangan Bisnis"
     david_title: "Pemimpin Pemasaran"
     titles_csm: "Manajer Sukses Pelanggan"
     titles_territory_manager: "Manajer Wilayah"
@@ -1313,6 +1329,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     contribute_to_the_project: "Berkontribusi pada proyek"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Klan"
     clans: "Klan"
     new_name: "Nama baru klan"
@@ -1564,6 +1583,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -1577,6 +1597,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     code: "Kode __name__'"
     complete_solution: "Solusi Lengkap"
     course_not_started: "Siswa belum memulai kursus ini."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1802,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     gd3_curriculum_desc: "Rencana belajar untuk Pengembangan Permainan 3."
     wd1: "Pengembangan Web 1"
     wd1_curriculum: "Pengembangan Web 1 - Panduan Kurikulum"
-    wd1_curriculum_desc: "Rencana pembelajaran untuk Pengembangan Web 1."
+    wd1_curriculum_desc: "Rencana pembelajaran untuk Pengembangan Web 1." # {change}
     wd1_headlines: "Aktivitas Pokok Bahasan dan Header"
     wd1_headlines_example: "Lihat contoh solusi"
     wd1_headlines_desc: "Mengapa paragraf dan tag header sangat penting? Gunakan aktivitas ini untuk menunjukkan header yang terpilih dengan baik membuat halaman web lebih mudah dibaca. Ada banyak solusi tepat untuk ini!"
@@ -1818,6 +1842,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     starter_license: "Lisensi Awal"
     trial: "Percobaan"
     hoc_welcome: "Selamat Pekan Pendidikan Ilmu Komputer"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "Ada tiga jalan untuk supaya kelasmu dapat berpartisipasi dalam Hour of Code dengan CodeCombat"
     hoc_self_led: "Permainan Mandiri"
     hoc_self_led_desc: "Siswa dapat bermain sampai dua jam pengajaran Kode CodeCombat secara mandiri"
@@ -2135,6 +2161,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
 #  ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
@@ -2199,6 +2227,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    ogres: "Blue"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Statistik"
     singleplayer_title: "Level Pemain Tunggal"
     multiplayer_title: "Level Multi Pemain"
@@ -2222,6 +2251,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Terakhir diperoleh"
@@ -2236,6 +2266,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Pembayaran"
     prepaid_codes: "Kode Prabayar"
     purchased: "Dibeli"
@@ -2669,6 +2706,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    your_parentheses_must_match: "Your parentheses must match."
 
 #  apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2808,3 +2847,20 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    title: "School Administrator Dashboard"
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

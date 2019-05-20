@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "Català", englishDescription: "Catalan", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -87,6 +89,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     classroom_edition: "Edició d'Aula:"
     learn_to_code: "Aprendre a programar:"
     play_now: "Juga Ara"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Sóc Docent"
     im_a_student: "Sóc Alumna/e"
     learn_more: "Aprén més"
@@ -146,6 +149,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     view_progress: "Veure Progrés"
     go_to_courses: "Vés a Els meus Cursos"
     want_coco: "Vols CodeCombat al teu centre?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +174,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     twitter_follow: "Segueix-nos"
     my_classrooms: "Les Meves Classes"
     my_courses: "Els Meus Cursos"
+#    my_teachers: "My Teachers"
     careers: "Professions"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -205,6 +211,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -419,6 +431,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     books: "Llibres"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Endarrere" # When used as an action verb, like "Navigate backward"
     coming_soon: "Pròximament!"
     continue: "Continua" # When used as an action verb, like "Continue forward"
@@ -708,6 +722,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Mètodes"
@@ -1024,6 +1039,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     editor_config_behaviors_description: "Autocompleta claudàtors, correctors i cometes."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Aprèn més"
     main_title: "Si vols aprendre a programar, has d'escriure (molt) codi."
     main_description: "A CodeCombat, el nostre treball és assegurar-vos que ho feu amb un somriure a la cara."
@@ -1043,7 +1060,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     maka_title: "Advocat de clients"
     robin_title: "Gerent de producció"
     nolan_title: "Cap de vendes"
-    lisa_title: "Gerent de Desenvolupament de Negocis"
     david_title: "Direcció de Comercialització"
     titles_csm: "Gerent d'èxit del client"
     titles_territory_manager: "Administrador de territori"
@@ -1313,6 +1329,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     contribute_to_the_project: "Contribueix al projecte"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Clan"
     clans: "Clans"
     new_name: "Nou nom de clan"
@@ -1564,6 +1583,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -1577,6 +1597,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     code: "Codi d'en/na __name__"
     complete_solution: "Solució Completa"
     course_not_started: "L'alumnat encara no ha començat aquest curs."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1802,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     gd3_curriculum_desc: "Planificació de classes per Desenvolupament del Joc 3."
     wd1: "Desenvolupament Web 1"
     wd1_curriculum: "Desenvolupament Web 1 - Guia del Currículum"
-    wd1_curriculum_desc: "Planificació de classes per Desenvolupament Web 1."
+    wd1_curriculum_desc: "Planificació de classes per Desenvolupament Web 1." # {change}
     wd1_headlines: "Activitats amb Titulars i Encapçalaments"
     wd1_headlines_example: "Veure un exemple de solució"
     wd1_headlines_desc: "Per què són importants els paràgrafs i les etiquetes de capçalera? Utilitzeu aquesta activitat per mostrar com els encapçalaments ben escollits fan que les pàgines web siguin més fàcils de llegir. Hi ha moltes solucions correctes per a això."
@@ -1818,6 +1842,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     starter_license: "Llicència Inicial"
     trial: "Prova"
     hoc_welcome: "Feliç setmana de l'aprenentatge d'Informàtica"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "Hi ha tres maneres per a que la vostra classe participi en Hora del Codi amb CodeCombat"
     hoc_self_led: "Joc d'autoaprenentatge"
     hoc_self_led_desc: "Els alumnes poden accedir a dues hores de tutorials de CodeCombat per compte propi"
@@ -2135,6 +2161,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     helpful_ambassadors: "Els Nostres Ambaixadors Útils:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Les meves partides"
     simulate: "Simula"
     simulation_explanation: "Al simular jocs, pots aconseguir que el teu joc sigui més ràpid!"
@@ -2199,6 +2227,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     ogres: "Blau"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Estadístiques"
     singleplayer_title: "Nivell d'un sol jugador"
     multiplayer_title: "Nivells multijugador"
@@ -2222,6 +2251,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     certificate_lines_of: "línies de"
     certificate_levels_completed: "nivells completats"
     certificate_for: "Per"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Últim aconseguit"
@@ -2236,6 +2266,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Pagaments"
     prepaid_codes: "Codis prepagats"
     purchased: "Comprat"
@@ -2669,6 +2706,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     your_parentheses_must_match: "Els teus parèntesis han de coincidir."
 
   apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
     syllabus: "Pla d'Estudis de Fonaments de Programació"
     syllabus_description: "Utilitza aquest recurs per planificar el currículum de CodeCombat pel teu Pla d'Estudis de Fonaments de Programació de la teva classe."
     computational_thinking_practices: "Pràctiques de Pensament Computacional"
@@ -2808,3 +2847,20 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    title: "School Administrator Dashboard"
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

@@ -17,7 +17,8 @@ module.exports = class ThangTypeColorsTabView extends CocoView
   constructor: (@thangType, options) ->
     super options
     @supermodel.loadModel @thangType
-    @colorConfig = {hue: 0, saturation: 0.5, lightness: 0.5}
+    @currentColorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
+    @tintedColorConfig = { }
     @spriteBuilder = new SpriteBuilder(@thangType) if @thangType.get('raw')
     f = =>
       @offset++
@@ -33,6 +34,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     super()
     return unless @supermodel.finished()
     @createShapeButtons()
+    @createColorGroupTintButtons()
     @initStage()
     @initSliders()
     @tryToBuild()
@@ -46,7 +48,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   makeSliderCallback: (property) ->
     (e, result) =>
-      @colorConfig[property] = result.value / 100
+      @currentColorConfig[property] = result.value / 100
       @updateMovieClip()
 
   # movie clip
@@ -66,8 +68,8 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     animation = animations[index]
     return @updateContainer() unless animation
     @stage.removeChild(@movieClip) if @movieClip
-    options = {colorConfig: {}}
-    options.colorConfig[@currentColorGroupTreema.keyForParent] = @colorConfig
+    options = {colorConfig: _.cloneDeep(@tintedColorConfig)}
+    options.colorConfig[@currentColorGroupTreema.keyForParent] = @currentColorConfig
     @spriteBuilder.setOptions options
     @spriteBuilder.buildColorMaps()
     @movieClip = @spriteBuilder.buildMovieClip animation
@@ -86,7 +88,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @stage.removeChild(@container) if @container
     return unless idle?.container
     options = {colorConfig: {}}
-    options.colorConfig[@currentColorGroupTreema.keyForParent] = @colorConfig
+    options.colorConfig[@currentColorGroupTreema.keyForParent] = @currentColorConfig
     @spriteBuilder.setOptions options
     @spriteBuilder.buildColorMaps()
     @container = @spriteBuilder.buildContainerFromStore idle.container
@@ -117,6 +119,35 @@ module.exports = class ThangTypeColorsTabView extends CocoView
       @updateColorGroup()
     @$el.find('#shape-buttons').replaceWith(buttons)
     @buttons = buttons
+
+  # Attaches hard coded color tabs for manipulating defined color groups on the ThangType
+  createColorGroupTintButtons: ->
+    buttons = $('<div></div>').prop('id', 'saved-color-tabs')
+    buttons.append($("<h1>Saved Color Presets</h1>"))
+    hardCodedGroups = {
+      skin: ['#FFDBAC', '#F1C27D', '#E0AC69', '#C68642', '#8D5524'],
+      hair: ['#090808', '#3B3024', '#DEBC99', '#8D4A43', '#71635A', '#A7856A', '#7FB4BE', '#f9a1fc', '#236d21']
+    }
+
+    for groupColor, colors of hardCodedGroups
+      @addColorTintGroup(buttons, groupColor, colors)
+
+    @$el.find('#saved-color-tabs').replaceWith(buttons)
+
+  addColorTintGroup: (buttons, groupName, colors) ->
+    buttons.append($("<h3>#{groupName}</h3>"))
+
+    for color in colors
+      button = $('<button></button>').addClass('btn')
+      button.css('background', color)
+      # How you capture a variable in a closure in coffeescript
+      ((color) =>
+        button.click (e) =>
+          [hue, saturation, lightness] = hexToHSL(color)
+          @tintedColorConfig[groupName] = {hue, saturation, lightness}
+          @updateMovieClip()
+      )(color)
+      buttons.append(button)
 
   tryToBuild: ->
     return unless @thangType.loaded

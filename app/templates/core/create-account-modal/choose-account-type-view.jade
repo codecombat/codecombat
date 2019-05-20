@@ -45,11 +45,12 @@
           .text-h6
             span(data-i18n="signup.signup_as_student")
 
-  .individual-section
-    .individual-title
-      span(data-i18n="signup.individuals_or_parents")
-    p.individual-description.small
-      span(data-i18n="signup.individual_type")
-    button.btn.btn-lg.btn-navy.individual-path-button
-      .text-h6
-        span(data-i18n="signup.signup_as_individual")
+  if me.showIndividualRegister()
+    .individual-section
+      .individual-title
+        span(data-i18n="signup.individuals_or_parents")
+      p.individual-description.small
+        span(data-i18n="signup.individual_type")
+      button.btn.btn-lg.btn-navy.individual-path-button
+        .text-h6
+          span(data-i18n="signup.signup_as_individual")

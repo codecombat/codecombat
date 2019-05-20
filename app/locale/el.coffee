@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "Ελληνικά", englishDescription: "Greek", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -87,6 +89,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     classroom_edition: "Έκδοση Αίθουσας Διδασκαλίας:"
     learn_to_code: "Μάθε να προγραμματίζεις:"
     play_now: "Παίξε Τώρα"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Είμαι Δάσκαλος"
     im_a_student: "Είμαι Μαθητής"
     learn_more: "Μάθε περισσότερα"
@@ -146,6 +149,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     view_progress: "Προβολή της Προόδου"
     go_to_courses: "Εμφάνισε τα Μαθήματά Μου"
     want_coco: "Θέλετε το CodeCombat στο σχολείο σας;"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +174,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     twitter_follow: "Ακολούθησε"
     my_classrooms: "Οι Τάξεις Μου"
     my_courses: "Τα Μαθήματά Μου"
+#    my_teachers: "My Teachers"
     careers: "Καριέρες"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -205,6 +211,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     subscribe_as_diplomat: "Εγγραφή ως Διπλωμάτης"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -419,6 +431,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     books: "Βιβλία"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Προηγούμενο" # When used as an action verb, like "Navigate backward"
     coming_soon: "Έρχεται σύντομα! Coming soon!"
     continue: "Συνέχεια" # When used as an action verb, like "Continue forward"
@@ -708,6 +722,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Μέθοδοι"
@@ -1024,6 +1039,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     editor_config_behaviors_description: "Συμπληρώνει αυτόματα αγκύλες, άγκιστρα και εισαγωγικά."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Μάθετε Περισσότερα"
     main_title: "Εάν θέλετε να μάθετε να προγραμματίζετε, πρέπει να γράψετε (πολύ) κώδικα."
     main_description: "Στο CodeCombat, η δουλειά μας είναι να βεβαιωθούμε ότι το κάνετε αυτό με ένα χαμόγελο στο πρόσωπό σας."
@@ -1043,7 +1060,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     maka_title: "Συνήγορος Πελατών"
     robin_title: "Υπεύθυνος Προϊόντων" # {change}
     nolan_title: "Υπεύθυνος Πωλήσεων"
-    lisa_title: "Διευθυντής Ανάπτυξης Επιχειρήσεων"
     david_title: "Υπεύθυνος Προώθησης Προϊόντων"
     titles_csm: "Διαχειριστής επιτυχίας πελατών"
     titles_territory_manager: "Διευθυντής Περιοχής"
@@ -1313,6 +1329,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     contribute_to_the_project: "Συμβάλλετε στο έργο"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Φατρία"
     clans: "Φατρίες"
     new_name: "Όνομα νέας φατρίας"
@@ -1564,6 +1583,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -1577,6 +1597,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     code: "Κώδικας του __name__"
     complete_solution: "Ολοκληρωμένη Λύση"
     course_not_started: "Ο μαθητής δεν έχει ξεκινήσει αυτό το μάθημα ακόμα."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1802,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     gd3_curriculum_desc: "Σχέδια μαθήματος για την Ανάπτυξη Παιχνιδιού 3."
     wd1: "Ανάπτυξη Ιστού 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
     wd1_headlines: "Δραστηριότητες με Τίτλους και Επικεφαλίδες"
     wd1_headlines_example: "Προβολή λύσης παράδειγμα"
     wd1_headlines_desc: "Γιατί είναι σημαντικές οι παράγραφοι και οι ετικέτες επικεφαλίδας; Χρησιμοποιήστε αυτήν τη δραστηριότητα για να δείξετε κατά πόσο καλά οι επιλεγμένες επικεφαλίδες κάνουν τις ιστοσελίδες πιο ευανάγνωστες. Υπάρχουν πολλές σωστές λύσεις!"
@@ -1818,6 +1842,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     starter_license: "Άδεια Εκκίνησης"
     trial: "Δοκιμαστικά"
     hoc_welcome: "Ευτυχισμένη Εβδομάδα Εκπαίδευσης στη Πληροφορική"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "Υπάρχουν τρεις τρόποι με τους οποίους η τάξη σας μπορεί να συμμετάσχει στην Ώρα του Κώδικα με το CodeCombat"
     hoc_self_led: "Αυτόνομο Παιχνίδι"
     hoc_self_led_desc: "Οι μαθητές μπορούν να εξασκηθούν στην Ώρα του Κώδικα στο CodeCombat στη δικιά τους"
@@ -2135,6 +2161,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     helpful_ambassadors: "Οι πάντα πρόθυμοι να βοηθήσουν Πρεσβευτές μας:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Οι αγώνες μου"
     simulate: "Προσομοίωση"
     simulation_explanation: "Προσομοιώνοντας παιχνίδια τα παιχνίδια σου βαθμολογούνται πιο γρήγορα!"
@@ -2199,6 +2227,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     ogres: "Μπλε"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Στατιστικά"
     singleplayer_title: "Επίπεδα Ενός Παίκτη"
     multiplayer_title: "Επίπεδα Πολλαπλών Παικτών"
@@ -2222,6 +2251,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Τελευταίο Απόκτημα"
@@ -2236,6 +2266,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Πληρωμές"
     prepaid_codes: "Προπληρωμές"
     purchased: "Αγοράστηκαν"
@@ -2669,6 +2706,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     your_parentheses_must_match: "Οι παρενθέσεις σου πρέπει να ταιριάζουν."
 
 #  apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2808,3 +2847,20 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    title: "School Administrator Dashboard"
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

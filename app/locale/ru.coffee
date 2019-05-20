@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -87,6 +89,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
     play_now: "Играть сейчас"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Я учитель"
     im_a_student: "Я ученик"
     learn_more: "Узнать больше"
@@ -146,6 +149,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     view_progress: "Посмотреть Прогресс"
     go_to_courses: "Перейти в Мои курсы"
     want_coco: "Хотите CodeCombat в вашей школе?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +174,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     twitter_follow: "Подписаться"
     my_classrooms: "Мои классы"
     my_courses: "Мои курсы"
+#    my_teachers: "My Teachers"
     careers: "Карьера"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -205,6 +211,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     subscribe_as_diplomat: "Зарегистрируйтесь как Дипломат"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -419,6 +431,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     books: "Книги"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Вернуться" # When used as an action verb, like "Navigate backward"
     coming_soon: "Скоро!"
     continue: "Продолжить" # When used as an action verb, like "Continue forward"
@@ -708,6 +722,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Методы"
@@ -1024,6 +1039,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor_config_behaviors_description: "Автозавершение кавычек, квадратных и фигурных скобок."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Узнать больше"
     main_title: "Чтобы научиться программировать, необходимо (много) писать код."
     main_description: "Задача CodeCombat в том, чтобы вы проходили обучение с улыбкой на лице."
@@ -1043,7 +1060,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     maka_title: "Адвокат клиентов"
     robin_title: "Менеджер продукта" # {change}
     nolan_title: "Менеджер продаж"
-    lisa_title: "Менеджер по экономическому развитию"
     david_title: "Менеджер по работе с клиентами"
     titles_csm: "Менеджер по работе с клиентами"
     titles_territory_manager: "Региональный менеджер"
@@ -1313,6 +1329,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     contribute_to_the_project: "Сотрудничайте с проектом"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Клан"
     clans: "Кланы"
     new_name: "Имя нового клана"
@@ -1564,6 +1583,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1577,6 +1597,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     code: "Код, написанный __name__"
     complete_solution: "Полное решение"
     course_not_started: "Студент еще не начал этот курс."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1802,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Веб-разработка 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"
 #    wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"
@@ -1818,6 +1842,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     starter_license: "Начальная лицензия"
     trial: "Триал"
 #    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
 #    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
@@ -2135,6 +2161,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     helpful_ambassadors: "Наши полезные Послы:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Мои матчи"
     simulate: "Симулирование"
     simulation_explanation: "Симулированием игр вы сможете быстрее получить оценку игры!"
@@ -2199,6 +2227,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     ogres: "Синих"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Характеристики"
     singleplayer_title: "Уровни одиночной игры"
     multiplayer_title: "Уровни многопользовательской игры"
@@ -2222,6 +2251,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     certificate_lines_of: "строк кода на"
     certificate_levels_completed: "уровней завершено"
     certificate_for: "Для"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Последнее"
@@ -2236,6 +2266,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Платежи"
     prepaid_codes: "Предоплаченные коды"
     purchased: "Куплено"
@@ -2669,6 +2706,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     your_parentheses_must_match: "Скобки должны совпадать."
 
 #  apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2808,3 +2847,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    title: "School Administrator Dashboard"
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

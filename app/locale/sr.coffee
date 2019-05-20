@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "српски", englishDescription: "Serbian", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -87,6 +89,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     classroom_edition: "Издање учионице:"
     learn_to_code: "Научи да кодираш:"
     play_now: "Играј сад"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Ја сам наставник"
     im_a_student: "Ја сам ученик"
     learn_more: "Сазнај више"
@@ -146,6 +149,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     view_progress: "Види напредак"
     go_to_courses: "Иди на моје курсеве"
     want_coco: "Желиш CodeCombat у својој школи?"
+#    educator: "Educator"
+#    student: "Student"
 
   nav:
 #    educators: "Educators"
@@ -169,6 +174,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     twitter_follow: "Прати"
     my_classrooms: "Моји разреди"
     my_courses: "Моји курсеви"
+#    my_teachers: "My Teachers"
     careers: "Каријере"
     facebook: "Фејсбук"
     twitter: "Твитер"
@@ -205,6 +211,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     subscribe_as_diplomat: "Претплати се као Дипломата"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -419,6 +431,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     books: "Књиге"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Врати се" # When used as an action verb, like "Navigate backward"
     coming_soon: "У припреми - биће доступно ускоро!"
     continue: "Настави" # When used as an action verb, like "Continue forward"
@@ -708,6 +722,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Методе"
@@ -1024,6 +1039,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     editor_config_behaviors_description: "Аутоматски довршава угласте и витичасте заграде и наводнике."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Сазнај више"
     main_title: "Ако желиш да научиш да програмираш, мораш (доста) да кодираш."
     main_description: "У CodeCombat-у, наш посао је да будемо сигурни да то радиш с осмехом на лицу."
@@ -1043,7 +1060,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     maka_title: "Заступник корисника"
     robin_title: "Дизајн и истраживање корисничког искуства" # {change}
     nolan_title: "Руководилац подручја" # {change}
-    lisa_title: "Школски специјалиста" # {change}
     david_title: "Вођа маркетинга"
     titles_csm: "Цустомер Суццесс Манагер"
     titles_territory_manager: "Територијални менаџер"
@@ -1313,6 +1329,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     contribute_to_the_project: "Допринеси пројекту"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Клан"
     clans: "Кланови"
     new_name: "Име новог клана"
@@ -1564,6 +1583,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -1577,6 +1597,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     code: "Код ученика који се зове __name__ "
     complete_solution: "Заврши решење"
     course_not_started: "Ученик још није започео курс."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1778,7 +1802,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     gd3_curriculum_desc: "Наставни планови за Развој игре 3."
     wd1: "Веб развој 1"
     wd1_curriculum: "Веб развој 1 - водич за наставни план"
-    wd1_curriculum_desc: "Наставни планови за Веб развој 1."
+    wd1_curriculum_desc: "Наставни планови за Веб развој 1." # {change}
     wd1_headlines: "Активност за наслове и заглавља"
     wd1_headlines_example: "Погледај узорак решења"
     wd1_headlines_desc: "Зашто су тагови параграфа и заглавља важни? Користи ову активност да прикажеш како добро изабрана заглавља чине да се веб страница лакше прочита. Има пуно правилних решења за ово! "
@@ -1818,6 +1842,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     starter_license: "Почетна лиценца"
     trial: "Проба"
     hoc_welcome: "Срећа недеља образовања компјутерском науком"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "Постоји три начина да твој разред учествује у Сату кода уз CodeCombat"
     hoc_self_led: "Самоиницијативна игра"
     hoc_self_led_desc: "Ученици могу да играју два Сата кода CodeCombat туторијала сами"
@@ -2135,6 +2161,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     helpful_ambassadors: "Наши амбасадори од помоћи:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Моји мечеви"
     simulate: "Симулирај"
     simulation_explanation: "Симулирајући игре твоја игра може брже да се оцени! "
@@ -2199,6 +2227,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     ogres: "Плато"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Статистика"
     singleplayer_title: "Нивои за једног играча"
     multiplayer_title: "Нивои за више играча"
@@ -2222,6 +2251,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     certificate_lines_of: "линије"
     certificate_levels_completed: "завршени нивои"
     certificate_for: "За"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Последње стечено"
@@ -2236,6 +2266,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Уплате"
     prepaid_codes: "Припејд кодови"
     purchased: "Купљено"
@@ -2669,6 +2706,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     your_parentheses_must_match: "Твоје заграде морају да се споје"
 
   apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
     syllabus: "AP CS силабус принципа"
     syllabus_description: "Користи овај ресурс за планирање CodeCombat наставног плана за твој час AP принципа компјутерске науке."
     computational_thinking_practices: "Праксе компјутерског размишљања"
@@ -2808,3 +2847,20 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    title: "School Administrator Dashboard"
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."

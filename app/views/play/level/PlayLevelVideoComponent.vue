@@ -5,7 +5,7 @@ flat-layout
       .row.title-row
         .col-sm-12(v-if="videoData")
           h3.text-center.text-uppercase.video-title
-            | {{ $t('play_level.concept_unlocked') }} : {{ videoData.title }}
+            | {{ $t('play_level.concept_unlocked') }} : {{ $t(`courses.${videoData.i18name}`) }}
       .row.video-row
         .col-sm-12.video-col(v-if="videoData")
           iframe.video(
@@ -17,7 +17,7 @@ flat-layout
           a#skip-btn(
             @click="onSkip",
             :href="nextLevelLink"
-          ) 
+          )
             u {{ $t('play_level.skip') }}
         .col-sm-6.text-uppercase
           a#next-level-btn.btn-illustrated.btn-success.btn-block.btn-lg.btn(
@@ -56,18 +56,24 @@ export default Vue.extend({
       required: true
     }
   },
+
+  metaInfo () {
+    return {
+      title: this.$t('play.video_title', { video: this.videoData.title }),
+      link: [
+        { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
+      ]
+    }
+  },
+
   data: () => ({
-    videoData: {},
-    videoUrl: "",
     originalDisplaySettings: {}
   }),
+
   components: {
     'flat-layout': FlatLayout
   },
-  created() {
-    this.videoData = utils.videoLevels[this.levelOriginalID]
-    this.videoUrl = me.showChinaVideo() ? this.videoData.cn_url : this.videoData.url
-  },
+
   mounted() {
     this.$nextTick(function () {
       if(!me.showChinaVideo()){
@@ -77,7 +83,7 @@ export default Vue.extend({
         })
       }
       // hack to remove base template's header and footer
-      // store existing display settings to revert to these before leaving 
+      // store existing display settings to revert to these before leaving
       this.originalDisplaySettings = {
         'main-nav': $('#main-nav')[0]? $('#main-nav')[0].style.display : "",
         'footer': $('#footer')[0]? $('#footer')[0].style.display : "",
@@ -88,13 +94,23 @@ export default Vue.extend({
       if ($('#final-footer')[0])  $('#final-footer')[0].style.display = "none"
     })
   },
+
   beforeDestroy () {
     // make header and footer visible again before leaving
     if ($('#main-nav')[0])  $('#main-nav')[0].style.display = this.originalDisplaySettings['main-nav']
     if ($('#footer')[0])  $('#footer')[0].style.display = this.originalDisplaySettings['footer']
     if ($('#final-footer')[0])  $('#final-footer')[0].style.display = this.originalDisplaySettings['final-footer']
   },
+
   computed: {
+    videoData: function () {
+      return utils.videoLevels[this.levelOriginalID] || {}
+    },
+
+    videoUrl: function () {
+      return me.showChinaVideo() ? this.videoData.cn_url : this.videoData.url
+    },
+
     nextLevelLink: function () {
       let link = ''
       if (me.isSessionless()){
@@ -110,6 +126,7 @@ export default Vue.extend({
       return link
     }
   },
+
   methods: {
     onNextLevel: function() {
       if (window.tracker){
@@ -124,8 +141,9 @@ export default Vue.extend({
         )
       }
     },
+
     onSkip: function() {
-      if (window.tracker){  
+      if (window.tracker){
         window.tracker.trackEvent(
         'Play Video Skip',
           {
@@ -162,7 +180,7 @@ export default Vue.extend({
     width: 100%
     height: 100%
     position: absolute
-    background: transparent url('/images/level/videos/videos_background_dungeon.png') no-repeat 
+    background: transparent url('/images/level/videos/videos_background_dungeon.png') no-repeat
     background-position: 0px 0px
     background-size: 100% 100%
 
@@ -170,7 +188,7 @@ export default Vue.extend({
       position: absolute
       left: 10%
       top: 5%
-      background: transparent url('/images/level/popover_background.png') no-repeat 
+      background: transparent url('/images/level/popover_background.png') no-repeat
       background-position: 0px 0px
       background-size: 100% 100%
       width: 80%
@@ -196,7 +214,7 @@ export default Vue.extend({
         .video-col
           width: 100%
           height: 100%
-      
+
           .video
             margin: auto
             width: 100%
@@ -217,7 +235,7 @@ export default Vue.extend({
           border-radius: 0
           font-weight: bold
           font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
-      
+
       .img-unlocked
         position: absolute
         left: -35px
