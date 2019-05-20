@@ -132,6 +132,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
     'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
+    'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
