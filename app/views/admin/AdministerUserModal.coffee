@@ -325,8 +325,6 @@ module.exports = class AdministerUserModal extends ModalView
 
   onClickRemoveAdministeredTeacher: (e) ->
     teacher = $(e.target).closest('tr').data('user-id')
-    @userSaveState = 'removing...'
-
     @render()
 
     fetchJson("/db/user/#{@user.id}/schoolAdministrator/administratedTeacher/#{teacher}", {
@@ -334,8 +332,6 @@ module.exports = class AdministerUserModal extends ModalView
     }).then (res) =>
       @administratedTeachers = @administratedTeachers.filter (t) -> t._id isnt teacher
       @updateAdministratedTeachers()
-      @userSaveState = null
-      @render()
     null
 
   onSearchRequestSuccess: (teachers) =>
