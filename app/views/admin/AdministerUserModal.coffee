@@ -320,6 +320,12 @@ module.exports = class AdministerUserModal extends ModalView
       }
     }).then (res) =>
       @administratedTeachers.push(teacher)
+    .catch (jqxhr) =>
+      errorString = "There was an error adding teacher, see the console"
+      @userSaveState = errorString
+      console.error errorString, jqxhr
+      @render()
+    .finally =>
       @updateAdministratedTeachers()
     null
 
@@ -371,6 +377,7 @@ module.exports = class AdministerUserModal extends ModalView
     @$el.find('#teacher-search-result').html('')
 
   onSubmitTeacherSearchForm: (e) ->
+    @userSaveState = null
     e.preventDefault()
     forms.disableSubmit(@$('#teacher-search-button'))
 
