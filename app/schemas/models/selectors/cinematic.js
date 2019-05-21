@@ -239,7 +239,8 @@ export const CAMERA_DEFAULT = {
     x: 0,
     y: 0
   },
-  zoom: 6
+  // There appears to be a bug in our camera and it can't support exactly 2.
+  zoom: 2.01
 }
 
 /**
