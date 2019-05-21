@@ -246,7 +246,7 @@ module.exports = class CoursesView extends RootView
   onClickViewRanking: (e) ->
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
-    window.tracker?.trackEvent 'Students View Ranking', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
+    #window.tracker?.trackEvent 'Students View Ranking', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
     course = store.state.courses.byId[courseID]
     courseInstance = @courseInstances.get(courseInstanceID)
     rankingUrl = @urls.courseRanking({course, courseInstance})
