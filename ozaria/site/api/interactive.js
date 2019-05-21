@@ -2,14 +2,14 @@ import fetchJson from 'app/core/api/fetch-json'
 
 /**
  * Retrieves the json representation of an interactive.
- * @param {string} slug - Slug of the interactive.
+ * @param {string} idOrSlug - Id/Slug of the interactive.
  * @return {Promise<Object>} - Raw Interactive object
  */
-export const getInteractive = slug => {
-  if (!slug) {
-    throw new Error(`No slug supplied`)
+export const getInteractive = idOrSlug => {
+  if (!idOrSlug) {
+    throw new Error(`No slug/id supplied`)
   }
-  return fetchJson(`/db/interactive/${slug}`)
+  return fetchJson(`/db/interactive/${idOrSlug}`)
 }
 
 /**
@@ -47,8 +47,25 @@ export const putInteractive = ({ data }, options = {}) => {
  * Creates a new interactive in the database.
  * @returns {Promise<Object>} - Raw Interactive object
  */
-export const postInteractive = ({ name }, options = {}) =>
+export const postInteractive = ({ name }, options = {}) => {
   fetchJson('/db/interactive', _.assign({}, options, {
     method: 'POST',
     json: { name }
   }))
+}
+
+/**
+ * Retrieves the json representation of interactive session.
+ * @param {string} idOrSlug - Id/Slug of the interactive.
+ * @return {Promise<Object>} - Raw Interactive Session object
+ */
+export const getSession = (idOrSlug, options = {}) => {
+  if (!idOrSlug) {
+    throw new Error(`No slug/id supplied`)
+  }
+  if (options.courseInstanceId) {
+    return fetchJson(`/db/interactive/${idOrSlug}/session?introLevelId=${options.introLevelId}&courseInstanceId=${options.courseInstanceId}`)
+  } else {
+    return fetchJson(`/db/interactive/${idOrSlug}/session?introLevelId=${options.introLevelId}`)
+  }
+}

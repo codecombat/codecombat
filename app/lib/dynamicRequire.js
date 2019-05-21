@@ -132,6 +132,7 @@ module.exports = {
   // at that time we can remove this dynamic import and instead include SingletonAppVueComponentView in the main bundle
   'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
 
-  // TODO: Why does chunk name `ozariaPlay` not work?
-  'views/ozaria/site/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "OzariaPlay" */ 'ozaria/site/views/play/level/PlayLevelView') },
+  // TODO: Why does chunk name `ozariaPlay` not work sporadically?
+  'views/ozaria/site/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/views/play/level/PlayLevelView') },
+  'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') }
 }

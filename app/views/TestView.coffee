@@ -13,7 +13,7 @@ unless application.karmaTest # Karma doesn't use these two libraries, needs them
   require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot')
 require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax')
 
-requireTests = require.context('test/app', true, /.*\.(coffee|js)$/)
+requireTests = require.context('test', true, /.*\.(coffee|js)$/)
 
 TEST_REQUIRE_PREFIX = './'
 TEST_URL_PREFIX = '/test/'
