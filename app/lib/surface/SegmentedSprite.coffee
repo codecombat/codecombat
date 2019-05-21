@@ -1,4 +1,3 @@
-SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 createjs = require 'lib/createjs-parts'
 
 # Put this on MovieClips

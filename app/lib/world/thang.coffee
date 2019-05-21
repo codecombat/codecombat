@@ -175,6 +175,13 @@ module.exports = class Thang
     colorConfigs = @teamColors or @world?.getTeamColors() or {}
     options = {colorConfig: {}}
     if @id is 'Hero Placeholder' and not @world.getThangByID 'Hero Placeholder 1'
+
+      player_tints = me.get('customization')?.tints or []
+      player_tints.forEach((tint) =>
+        for key,value of (tint.colorGroups or {})
+          options.colorConfig[key] = _.clone(value)
+      )
+
       return options  # No team colors for heroes on single-player levels
     if @team and teamColor = colorConfigs[@team]
       options.colorConfig.team = teamColor
