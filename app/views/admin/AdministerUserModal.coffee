@@ -274,17 +274,7 @@ module.exports = class AdministerUserModal extends ModalView
       }
     }).then (res) =>
       @userSaveState = 'saved'
-      permissions = @user.get('permissions')
-
-      if checked and res.schoolAdministrator == 0
-          permissions.push('schoolAdministrator')
-      else if not checked and res.schoolAdministrator == 1
-        _.remove(permissions, (p) -> p == 'schoolAdministrator')
-      else
-        @userSaveState = 'Checkbox and server state mismatch. Close and open this dialog again to refresh.'
-
-      @user.set('permissions', permissions)
-      @render()
+      @user.fetch({cache: false}).then => @render()
     null
 
   onClickEditSchoolAdmins: (e) ->
