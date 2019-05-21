@@ -1,6 +1,6 @@
 <script>
 
-import interactiveApi from '../../../api/interactive'
+import { getInteractive, getSession } from '../../../api/interactive'
 import draggableOrderingComponent from './draggableOrdering'
 import insertCodeComponent from './insertCode'
 import draggableStatementCompletionComponent from './draggableStatementCompletion'
@@ -37,14 +37,18 @@ module.exports = Vue.extend({
       return application.router.navigate('/', { trigger: true })
     }
     try {
-      this.interactive = await interactiveApi.getInteractive(this.interactiveIdOrSlug)
+      this.interactive = await getInteractive(this.interactiveIdOrSlug)
       this.interactiveType = this.interactive.interactiveType
       if (!this.interactiveType) {
         console.error("Interactive type is not set for the interactive", this.interactiveIdOrSlug)
         noty({ text: 'Interactive type is not set for the interactive', type: 'error', timeout: '2000' })
         return
       }
-      this.interactiveSession = await interactiveApi.getSession(this.interactiveIdOrSlug, {introLevelId: this.introLevelId, courseInstanceId: this.courseInstanceId} )
+      const getSessionOptions = {
+        introLevelId: this.introLevelId,
+        courseInstanceId: this.courseInstanceId
+      }
+      this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions )
     } catch (err) {
       console.error("Error:", err)
       noty({ text: 'Error occured in getting interactives data.', type: 'error', timeout: '2000' })
