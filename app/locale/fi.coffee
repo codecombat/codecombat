@@ -1,16 +1,18 @@
 module.exports = nativeDescription: "suomi", englishDescription: "Finnish", translation:
 
   new_home:
-#    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
-#    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
-#    built_for_teachers_subtitle1: "Computer Science"
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    built_for_teachers_title: "Ohjelmointipeli, joka on rakennettu opettajat mielessä pitäen"
+    built_for_teachers_blurb: "Ohjelmoinnin opettaminen lapsille voi usein tuntua ylivoimaiselta. CodeCombat auttaa kaikkia opettajia opettamaan oppilaitaan, miten ohjelmoida joko Javascriptilla tai Pythonilla, kahdella maailman suosituimmista ohjelmointikielistä. Kattava opetussuunnitelma sisältää kuusi tietotekniikan osa-aluetta ja vahvistaa oppimista projektipohjaisten peli- ja web-kehitysosioiden avulla, joten lapset etenevät matkalla perussyntaksista rekursioon saakka!"
+    built_for_teachers_subtitle1: "Tietotekniikka"
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
-#    built_for_teachers_subtitle2: "Game Development"
+    built_for_teachers_subtitle2: "Pelinkehitys"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
-#    built_for_teachers_subtitle3: "Web Development"
+    built_for_teachers_subtitle3: "Web-kehitys"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
-#    century_skills_title: "21st Century Skills"
-#    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
+    century_skills_title: "2000-luvun taitoja"
+    century_skills_blurb1: "Oppilaat eivät kehitä vain sankareitaan, he kehittävät itseään"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
 #    century_skills_subtitle1: "Critical Thinking"
 #    century_skills_subblurb1: "With coding puzzles that are naturally scaffolded into increasingly challenging levels, CodeCombat's programming game ensures kids are always practicing critical thinking."
@@ -66,7 +68,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    get_started: "Get started"
 #    global_title: "Join Our Global Community of Learners and Educators"
 #    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
+    global_subtitle2: "Riviä koodia"
 #    global_subtitle3: "Teachers"
 #    global_subtitle4: "Countries"
 #    go_to_my_classes: "Go to my classes"
@@ -174,8 +176,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     my_courses: "Minun kurssini"
 #    my_teachers: "My Teachers"
     careers: "Ura"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
+    facebook: "Facebook"
+    twitter: "Twitter"
     create_a_class: "Luo luokka"
     other: "Muu"
     learn_to_code: "Opi koodaamaan!"
@@ -185,13 +187,13 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     open_source: "Avoin lähdekoodi (GitHub)"
     support: "Tuki"
     faqs: "UKK"
-#    copyright_prefix: "Copyright"
-#    copyright_suffix: "All Rights Reserved."
+    copyright_prefix: "Tekijänoikeus"
+    copyright_suffix: "Kaikki oikeudet pidätetään."
     help_pref: "Tarviksetko apua? lähetä viesti"
     help_suff: "ja me autamme!"
     resource_hub: "Resurssit"
 #    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    parent: "Vanhemmat"
 
   modal:
     close: "Sulje"
@@ -209,6 +211,12 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     subscribe_as_diplomat: "Tilaa Diplomaatin uutiskirje"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -236,7 +244,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     poll: "Kysely" # Tooltip on poll button from /play
     next: "Seuraava" # Go from choose hero to choose inventory before playing a level
     change_hero: "Vaihda sankaria" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Vaihda sankaria tai kieltä"
     buy_gems: "Osta jalokiviä"
     subscribers_only: "Vain tilaajille!"
     subscribe_unlock: "Tilaa avataksesi!"
@@ -333,12 +341,12 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     create_teacher_header: "Luo Opettajan Tili"
     create_individual_header: "Luo Yksittäinen Tili"
     email_announcements: "Haluatko ilmoituksia sähköpostiisi" # {change}
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "Kirjaudu sisään tai luo tunnus jatkaaksesi"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Luodaan tili..."
     sign_up: "Luo tili"
     log_in: "kirjaudu sisään salasanalla"
-#    login: "Login"
+    login: "Kirjaudu sisään"
     required: "Kirjaudu ensin jotta pääset jatkamaan."
     login_switch: "Onko sinulla jo tili?"
     optional: "vapaaehtoinen"
@@ -392,7 +400,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     select_your_starting_hero: "Valitse aloitussankarisi:"
     you_can_always_change_your_hero_later: "Voit vaihtaa sankariasi myöhemmin."
 #    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
+    teacher_ready_to_create_class: "Olet valmis luomaan ensimmäisen oppituntisi!"
 #    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
@@ -405,8 +413,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     dont_use_our_email_silly: "Laita vanhempiesi sähköposti tähän. Ei omaasi."
 #    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 #    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
-#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
+    eu_confirmation_place_of_processing: "Lue lisää mahdollisista riskeistä"
+    eu_confirmation_student: "Jos et ole varma, kysy opettajaltasi."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
@@ -423,6 +431,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     books: "Kirjat"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Takaisin" # When used as an action verb, like "Navigate backward"
     coming_soon: "Tulossa pian!"
     continue: "Jatka" # When used as an action verb, like "Continue forward"
@@ -547,9 +557,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     course: "Kurssi:"
     done: "Valmis"
     next_level: "Seuraava taso"
-#    combo_challenge: "Combo Challenge"
+    combo_challenge: "Kombohaaste"
 #    concept_challenge: "Concept Challenge"
-#    challenge_unlocked: "Challenge Unlocked"
+    challenge_unlocked: "Haaste avattu"
 #    combo_challenge_unlocked: "Combo Challenge Unlocked"
 #    concept_challenge_unlocked: "Concept Challenge Unlocked"
 #    concept_challenge_complete: "Concept Challenge Complete!"
@@ -559,7 +569,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    combo_concepts_used: "__complete__/__total__ Concepts Used"
 #    combo_all_concepts_used: "You used all concepts possible to solve the challenge. Great job!"
 #    combo_not_all_concepts_used: "You used __complete__ out of the __total__ concepts possible to solve the challenge. Try to get all __total__ concepts next time!"
-#    start_challenge: "Start Challenge"
+    start_challenge: "Aloita haaste"
     next_game: "Seuraava peli"
     languages: "Kielet"
     programming_language: "Ohjelmointikieli"
@@ -615,7 +625,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     tome_available_spells: "Saatavissa olevat taiat"
     tome_your_skills: "Taitosi"
     hints: "Vihjeet"
-#    videos: "Videos"
+    videos: "Videoita"
     hints_title: "Vihje {{number}}"
     code_saved: "Koodi on tallennettu"
     skip_tutorial: "Ohita (esc)"
@@ -712,6 +722,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
 
 #  apis:
 #    methods: "Methods"
@@ -824,9 +835,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     purchase: "Osta"
     purchased: "Ostettu"
 
-#  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
-#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+  subscribe_for_gems:
+    prompt_title: "Ei riittävästi jalokiviä!"
+    prompt_body: "Tilaa Premium saadaksesi jalokiviä ja vielä enemmän tasoja!"
 
   earn_gems:
     prompt_title: "Ei tarpeeksi jalokiviä"
@@ -1028,6 +1039,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     editor_config_behaviors_description: "Täydentää automaattisesti sulut ja lainausmerkit."
 
 #  about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
 #    learn_more: "Learn More"
 #    main_title: "If you want to learn to program, you need to write (a lot of) code."
 #    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
@@ -1316,6 +1329,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    contribute_to_the_project: "Contribute to the project"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Klaani"
     clans: "Klaanit"
     new_name: "Klaanin nimi"
@@ -1826,6 +1842,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    starter_license: "Starter License"
 #    trial: "Trial"
 #    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
 #    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
@@ -2143,6 +2161,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
 #  ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
@@ -2207,6 +2227,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    ogres: "Blue"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Tilastot"
     singleplayer_title: "Yksinpelitasot"
     multiplayer_title: "Moninpelitasot"
@@ -2245,6 +2266,13 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Ostot"
     prepaid_codes: "Prepaid koodi"
     purchased: "Ostettu"
@@ -2678,6 +2706,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    your_parentheses_must_match: "Your parentheses must match."
 
 #  apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2819,6 +2849,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    teacher_email: "Teacher's email address"
 
 #  school_administrator:
+#    title: "School Administrator Dashboard"
 #    my_teachers: "My Teachers"
 #    last_login: "Last Login"
 #    licenses_used: "licenses used"

@@ -1,5 +1,6 @@
 import { getThang, getThangTypeOriginal } from '../../../app/core/api/thang-types'
 import { getBackgroundSlug, getBackgroundObject, getRightCharacterThangTypeSlug, getLeftCharacterThangTypeSlug } from '../../../app/schemas/models/selectors/cinematic'
+import { HERO_THANG_ID } from './CinematicLankBoss'
 
 /**
  * @typedef {import('../../../app/schemas/models/selectors/cinematic')} Cinematic
@@ -36,15 +37,11 @@ export default class Loader {
   /**
    * Loads the player thangType from the global `me` object if accessible.
    * Has a side effect of storing the players thangType by original as a resource.
+   *
+   * If an admin or player doesn't have a hero, falls back to a default.
    */
   loadPlayerThangType () {
-    if ((me || {}) && !me.get('heroConfig')) {
-      return
-    }
-    const original = me.get('heroConfig').thangType
-    if (!original) {
-      return
-    }
+    const original = (me.get('heroConfig') || {}).thangType || HERO_THANG_ID
 
     this.loadingThangTypes.set(
       original,

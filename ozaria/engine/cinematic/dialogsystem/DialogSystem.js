@@ -112,17 +112,24 @@ class SpeechBubble {
     const textDiv = html.body.firstChild
     textDiv.style.display = 'inline-block'
     textDiv.style.position = 'absolute'
-    textDiv.style.left = `${x}`
-    textDiv.style.top = `${y}`
     textDiv.id = this.id
 
     div.appendChild(textDiv)
 
-    // We've created and attached the dialog text.
-    // Now we can calculate the bounding box and draw the svg shape.
+    // Calculate bounding box for svg shape
     const bbox = textDiv.getBoundingClientRect()
     const width = (bbox.right - bbox.left) + 2 * padding
     const height = (bbox.bottom - bbox.top) + 2 * padding
+
+    // Set the origin for the left character speech bubble on the bottom left.
+    // Set the origin for the right character speech bubble on the bottom right.
+    y -= (height - padding)
+    if (side === 'right') {
+      x -= width
+    }
+
+    textDiv.style.left = `${x}px`
+    textDiv.style.top = `${y}px`
 
     const svgGroup = createSvgShape({
       x,

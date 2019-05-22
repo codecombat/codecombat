@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
@@ -87,7 +89,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
     play_now: "开始游戏"
-#    im_an_educator: "I'm an Educator"
+    im_an_educator: "我是教育者"
     im_a_teacher: "我是老师"
     im_a_student: "我是学生"
     learn_more: "了解更多"
@@ -209,6 +211,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "提交“外交官”申请"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -423,6 +431,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
     continue: "继续" # When used as an action verb, like "Continue forward"
@@ -709,8 +719,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     view_gallery: "查看展览"
     project_published_noty: "您的关卡已发布！"
     keep_editing: "继续编辑"
-#    learn_new_concepts: "Learn new concepts"
-#    watch_a_video: "Watch a video on __concept_name__"
+    learn_new_concepts: "学习新概念"
+    watch_a_video: "观看 __concept_name__视频"
     concept_unlocked: "已解锁的概念"
     use_at_least_one_concept: "请使用以下至少一个概念： "
 
@@ -1029,6 +1039,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "学习更多"
     main_title: "如果你想学习编程，你需要写（一大堆）代码。"
     main_description: "在CodeCombat里，我们的职责就是让你面带微笑完成这项任务。"
@@ -1317,6 +1329,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     contribute_to_the_project: "为项目做贡献"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "部落"
     clans: "部落"
     new_name: "新部落的名字"
@@ -1827,6 +1842,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     starter_license: "入门许可"
     trial: "试用"
 #    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
 #    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
@@ -2144,6 +2161,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     helpful_ambassadors: "我们亲切的使节:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "我的对手"
     simulate: "模拟"
     simulation_explanation: "通过模拟游戏，您可以让您的游戏更快的得到评分。"
@@ -2208,6 +2227,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ogres: "蓝方"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "成就"
     singleplayer_title: "单人游戏关卡"
     multiplayer_title: "多人游戏关卡"
@@ -2246,6 +2266,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "支付方式"
     prepaid_codes: "预付费码"
     purchased: "已购买"
@@ -2679,6 +2706,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    your_parentheses_must_match: "Your parentheses must match."
 
 #  apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2819,18 +2848,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
 
-#  school_administrator:
-#    my_teachers: "My Teachers"
-#    last_login: "Last Login"
-#    licenses_used: "licenses used"
-#    total_students: "total students"
-#    active_students: "active students"
-#    projects_created: "projects created"
-#    other: "Other"
-#    notice: "The following school administrators have view-only access to your classroom data:"
-#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
-#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
-#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
-#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
-#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
-#    no_teachers: "You are not administrating any teachers."
+  school_administrator:
+#    title: "School Administrator Dashboard"
+    my_teachers: "我的老师"
+    last_login: "上次登录"
+    licenses_used: "已使用许可证"
+    total_students: "学生总数"
+    active_students: "活跃学生数"
+    projects_created: "学生作品数"
+    other: "其他"
+    notice: "学校管理员只能查看您的以下课堂数据："
+    add_additional_teacher: "需要添加其他的教师吗？请联系您的CodeCombat客户经理或发送电子邮件至bill@codecombat.com。 "
+    license_stat_description: "可用许可证是教师可用的许可证总数，包括共享的许可证。"
+    students_stat_description: "学生总数是所有教室的所有学生数，不管他们是否使用了许可证，都会被计算在内。"
+    active_students_stat_description: "活跃学生数是在过去60天登录CodeCombat的学生人数。"
+    project_stat_description: "学生作品数是学生已经创建的游戏开发和网页开发作品的总数。"
+    no_teachers: "你目前没有管理其他老师。"

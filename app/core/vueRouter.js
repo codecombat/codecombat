@@ -8,6 +8,7 @@ import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
 import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
 
 import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
+import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
 
 let vueRouter
 
@@ -23,6 +24,11 @@ export default function getVueRouter () {
           // TODO: Once we have a base editor component, use the nested route structure.
           path: '/editor/cinematic/:slug?',
           component: PageCinematicEditor,
+          props: true
+        },
+        {
+          path: '/editor/interactive/:slug?',
+          component: PageInteractiveEditor,
           props: true
         },
         {

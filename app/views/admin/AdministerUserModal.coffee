@@ -265,6 +265,19 @@ module.exports = class AdministerUserModal extends ModalView
 
   onClickSchoolAdminCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
+    cancelled = false
+    if checked
+      unless window.confirm("ENABLE school administator for #{@user.get('email') || @user.broadName()}?")
+        cancelled = true
+    else
+      unless window.confirm("DISABLE school administator for #{@user.get('email') || @user.broadName()}?")
+        cancelled = true
+    if cancelled
+      e.preventDefault()
+      @userSaveState = null
+      @render()
+      return
+
     @userSaveState = 'saving'
     @render()
     fetchJson("/db/user/#{@user.id}/schoolAdministrator", {
