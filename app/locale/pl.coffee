@@ -9,7 +9,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
 #    built_for_teachers_subtitle2: "Game Development"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
-#    built_for_teachers_subtitle3: "Web Development"
+    built_for_teachers_subtitle3: "Tworzenie stron internetowych"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
 #    century_skills_title: "21st Century Skills"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
