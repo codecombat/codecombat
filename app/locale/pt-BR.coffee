@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "Português (Brasil)", englishDescription: "Portuguese (Brazil)", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     built_for_teachers_title: "Um jogo de codificação construído com professores em mente"
     built_for_teachers_blurb: "Ensinar as crianças a codificar muitas vezes pode parecer esmagadora. O CodeCombat ajuda todos os educadores a ensinar os alunos a codificar em JavaScript ou Python, duas das linguagens de programação mais populares. Com um currículo abrangente que inclui seis unidades de ciência da computação e reforça o aprendizado através do desenvolvimento de jogos baseados em projetos e unidades de desenvolvimento web, as crianças progridem em uma jornada da sintaxe básica à recursão!"
     built_for_teachers_subtitle1: "Ciências da Computação"
@@ -87,7 +89,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     classroom_edition: "Editar sala de aula:"
     learn_to_code: "Aprenda a programar:"
     play_now: "Jogue Agora"
-#    im_an_educator: "I'm an Educator"
+    im_an_educator: "Eu sou um professor(a)"
     im_a_teacher: "Eu sou um professor(a)"
     im_a_student: "Eu sou um Aluno"
     learn_more: "Aprenda mais"
@@ -209,6 +211,12 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     subscribe_as_diplomat: "Inscrever-se como um Diplomata"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
     anon_signup_title_1: "CodeCombat têm"
     anon_signup_title_2: "Versão de Classe!"
     anon_signup_enter_code: "Entre com um código da turma:"
@@ -423,6 +431,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     books: "Livros"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Voltar" # When used as an action verb, like "Navigate backward"
     coming_soon: "Em breve!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
@@ -712,6 +722,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     learn_new_concepts: "Aprenda novos conceitos"
     watch_a_video: "Assista o vídeo __concept_name__"
     concept_unlocked: "Conceito Desbloqueado"
+#    use_at_least_one_concept: "Use at least one concept: "
 
   apis:
     methods: "Métodos"
@@ -1028,6 +1039,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     editor_config_behaviors_description: "Completar automaticamente colchetes, chaves e aspas."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Saiba mais"
     main_title: "Se quer aprender a programar, você precisa escrever (bastante) código."
     main_description: "No CodeCombat, nosso trabalho é assegurar que você está fazendo isso com um sorriso no rosto."
@@ -1316,6 +1329,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     contribute_to_the_project: "Contribuir para o projeto"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Clã"
     clans: "Clãs"
     new_name: "Novo nome para o clã"
@@ -1830,6 +1846,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     starter_license: "Licença de Iniciante"
     trial: "Teste"
     hoc_welcome: "Feliz Semana da Educação em Ciência da Computação"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "Existem três maneiras de sua classe participar da Hora do Código com o CodeCombat"
     hoc_self_led: "Jogo autônomo"
     hoc_self_led_desc: "Os alunos podem jogar através de dois tutoriais Hour of Code CodeCombat por conta própria"
@@ -2147,6 +2165,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     helpful_ambassadors: "Nossos Prestativos Embaixadores:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Minhas Partidas"
     simulate: "Simular"
     simulation_explanation: "Por simular partidas você pode classificar seu jogo mais rápido!"
@@ -2211,6 +2231,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     ogres: "Azul"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Estatísticas"
     singleplayer_title: "Níveis Jogador Único"
     multiplayer_title: "Níveis Multijogador"
@@ -2249,6 +2270,13 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Pagamentos"
     prepaid_codes: "Código prépagos"
     purchased: "Comprado"
@@ -2682,6 +2710,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     your_parentheses_must_match: "Os parênteses devem corresponder."
 
   apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
     syllabus: "Programa de Estudos de Ciências da Computação"
     syllabus_description: "Use este recurso para planejar o currículo do CodeCombat para a aula de Princípios de Ciência da Computaçã."
     computational_thinking_practices: "Práticas de Pensamento Computacional"
@@ -2823,6 +2853,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    teacher_email: "Teacher's email address"
 
 #  school_administrator:
+#    title: "School Administrator Dashboard"
 #    my_teachers: "My Teachers"
 #    last_login: "Last Login"
 #    licenses_used: "licenses used"

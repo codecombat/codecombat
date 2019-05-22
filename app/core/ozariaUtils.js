@@ -108,5 +108,15 @@ module.exports = {
       levelDataMap = levels
     }
     return levelOriginals.map((original) => levelDataMap[original])
+  },
+
+  /**
+   * Returns the options to be used with ajv for json schema validation (used for draft-07 as of now)
+   */
+  getAjvOptions: function () {
+    const options = {
+      unknownFormats: ['ace', 'hidden', 'i18n'] // list of formats unknown to ajv but need to be supported
+    }
+    return options // If we want to support both draft-04 and draft-06/07 schemas then add { schemaId: 'auto' } to options
   }
 }

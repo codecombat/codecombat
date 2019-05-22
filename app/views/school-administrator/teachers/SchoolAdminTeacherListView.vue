@@ -1,3 +1,48 @@
+<script>
+  import { mapActions, mapState } from 'vuex'
+
+  import LoadingProgress from 'views/core/LoadingProgress'
+  import DashboardTeacherRow from './SchoolAdminTeacherListRow'
+
+  export default {
+    components: {
+      'loading-progress': LoadingProgress,
+      'teacher-row': DashboardTeacherRow
+    },
+
+    computed: Object.assign(
+      {},
+      mapState('schoolAdministrator', {
+        teachersLoading: s => s.loading.teachers,
+        administratedTeachers: s => s.administratedTeachers || []
+      }),
+
+      {
+        groupedTeachers: function () {
+          const groupedTeachers = {}
+
+          for (const teacher of this.administratedTeachers) {
+            const trialRequest = teacher._trialRequest || {}
+
+            groupedTeachers[trialRequest.organization] = groupedTeachers[trialRequest.organization] || []
+            groupedTeachers[trialRequest.organization].push(teacher)
+          }
+
+          return Object.freeze(groupedTeachers)
+        }
+      }
+    ),
+
+    created () {
+      this.fetch()
+    },
+
+    methods: mapActions({
+      fetch: 'schoolAdministrator/fetchTeachers'
+    })
+  }
+</script>
+
 <style scoped>
     .teacher-list {
         margin: 0;
@@ -26,87 +71,53 @@
         padding: 50px;
         text-align: center;
     }
-
-
 </style>
 
 <template>
-    <div>
-        <h3>{{ $t('school_administrator.my_teachers') }}</h3>
+  <div>
+    <h3>{{ $t('school_administrator.my_teachers') }}</h3>
 
-        <loading-progress :loading-status="teachersLoading">
-            <div class="content">
-                <ul
-                        class="teacher-list"
-                        v-for="(teachers, groupName) of groupedTeachers"
-                >
-                    <li class="group-title">
-                        <h4 v-if="groupName">{{ groupName }}</h4>
-                        <h4 v-else>{{ $t('school_administrator.other') }}</h4>
-                    </li>
+    <loading-progress :loading-status="teachersLoading">
+      <div class="content">
+        <ul
+          v-for="(teachers, groupName) of groupedTeachers"
+          :key="groupName"
+          class="teacher-list"
+        >
+          <li class="group-title">
+            <h4 v-if="groupName">
+              {{ groupName }}
+            </h4>
+            <h4 v-else>
+              {{ $t('school_administrator.other') }}
+            </h4>
+          </li>
 
-                    <teacher-row v-for="teacher in teachers" :key="teacher.id" :teacher="teacher" />
-                </ul>
+          <teacher-row
+            v-for="teacher in teachers"
+            :key="teacher.id"
+            :teacher="teacher"
+          />
+        </ul>
 
-                <div v-if="administratedTeachers.length === 0" class="no-teachers">
-                    {{ $t('school_administrator.no_teachers') }}
-                </div>
-            </div>
+        <div
+          v-if="administratedTeachers.length === 0"
+          class="no-teachers"
+        >
+          {{ $t('school_administrator.no_teachers') }}
+        </div>
+      </div>
 
-            <div class="school-admin-details">
-                {{ $t('school_administrator.add_additional_teacher')}}
-                <p></p>
+      <div class="school-admin-details">
+        {{ $t('school_administrator.add_additional_teacher') }}
 
-                {{ $t('school_administrator.license_stat_description') }}<br />
-                {{ $t('school_administrator.students_stat_description') }}<br />
-                {{ $t('school_administrator.active_students_stat_description') }}<br />
-                <!-- TODO: remove comment once this stat is included -->
-                <!-- {{ $t('school_administrator.project_stat_description') }} -->
-            </div>
-        </loading-progress>
-    </div>
+        <p />
+
+        {{ $t('school_administrator.license_stat_description') }} <br>
+        {{ $t('school_administrator.students_stat_description') }} <br>
+        {{ $t('school_administrator.active_students_stat_description') }} <br>
+        {{ $t('school_administrator.project_stat_description') }}
+      </div>
+    </loading-progress>
+  </div>
 </template>
-
-<script>
-  import { mapActions, mapState } from 'vuex'
-
-  import LoadingProgress from 'views/core/LoadingProgress'
-  import DashboardTeacherRow from './SchoolAdminTeacherListRow'
-
-  export default {
-    components: {
-      'loading-progress': LoadingProgress,
-      'teacher-row': DashboardTeacherRow
-    },
-
-    created() {
-      this.fetch()
-    },
-
-    computed: Object.assign({},
-      mapState('schoolAdministrator', {
-        teachersLoading: s => s.loading.teachers,
-        administratedTeachers: s => s.administratedTeachers || []
-      }),
-
-      {
-        groupedTeachers: function () {
-          const groupedTeachers = {}
-
-          for (const teacher of this.administratedTeachers) {
-            const trialRequest = teacher._trialRequest || {}
-
-            groupedTeachers[trialRequest.organization] = groupedTeachers[trialRequest.organization] || []
-            groupedTeachers[trialRequest.organization].push(teacher)
-          }
-
-          return Object.freeze(groupedTeachers)
-        }
-      }
-    ),
-
-    methods: mapActions({
-      fetch: 'schoolAdministrator/fetchTeachers'
-    }),
-  }
-</script>

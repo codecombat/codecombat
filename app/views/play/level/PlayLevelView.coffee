@@ -149,7 +149,7 @@ module.exports = class PlayLevelView extends RootView
 
   getMeta: ->
     link: [
-      { vmid: 'rel-canonical', rel: 'canonical', content: 'http://' + window.location.href + '/play' }
+      { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
     ]
 
   setLevel: (@level, givenSupermodel) ->

@@ -1,7 +1,7 @@
 <script>
 import { getCinematic, putCinematic, createCinematic, getAllCinematics } from '../../../api/cinematic'
 import Cinematic from '../../../models/Cinematic'
-import ListItem from '../common/BaseListItem'
+import ListItem from '../../common/BaseListItem'
 import CinematicCanvas from '../common/CinematicCanvas'
 import CocoCollection from 'app/collections/CocoCollection'
 const api = require('core/api')
