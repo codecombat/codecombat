@@ -2849,6 +2849,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    teacher_email: "Teacher's email address"
 
   school_administrator:
+#    title: "School Administrator Dashboard"
     my_teachers: "我的老师"
     last_login: "上次登录"
     licenses_used: "已使用许可证"

@@ -201,6 +201,16 @@ module.exports = class CocoRouter extends Backbone.Router
         courseInstanceId: courseInstanceId
       }
       @routeDirectly('play/OzariaUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    
+    # Adding this route to test interactives until we have the intro levels implemented
+    # TODO: remove this route when intro level is ready to test the interactives.
+    'interactive/:interactiveIdOrSlug(?course-instance=:courseInstanceId)': (interactiveIdOrSlug, courseInstanceId) ->
+      props = {
+        interactiveIdOrSlug: interactiveIdOrSlug,
+        introLevelId: '5411cb3769152f1707be029c' # TODO sending a random level id (dungeon of kithgard) for now, will be sent from intro level page later
+        courseInstanceId: courseInstanceId # This will also come from intro level page later
+      }
+      @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
@@ -212,6 +222,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'schools': go('HomeView')
     'seen': go('HomeView')
     'SEEN': go('HomeView')
+
+    'students/ranking/:courseID?:courseInstanceID': go('courses/StudentRankingView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
