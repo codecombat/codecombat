@@ -12,6 +12,9 @@ TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
 api = require 'core/api'
 
+# TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
+# TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
+
 module.exports = class AdministerUserModal extends ModalView
   id: 'administer-user-modal'
   template: template
