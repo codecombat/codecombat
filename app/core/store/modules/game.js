@@ -88,8 +88,8 @@ export default {
 
         const userId = rootState.me._id.toString()
 
-        const levelSessionsPromise = dispatch('levelSessions/fetchByUserId', userId)
-        const campaignDataPromise = dispatch('campaigns/fetchByHandle', campaignHandle)
+        const levelSessionsPromise = dispatch('levelSessions/fetchByUserId', userId, { root: true })
+        const campaignDataPromise = dispatch('campaigns/fetchByHandle', campaignHandle, { root: true })
 
         const levelSessions = await levelSessionsPromise
         const campaignData = await campaignDataPromise
@@ -116,10 +116,10 @@ export default {
 
         const userId = rootState.me._id.toString()
 
-        const levelSessionsPromise = dispatch('levelSessions/fetchByUserId', userId)
-        const campaignDataPromise = dispatch('campaigns/fetchByHandle', campaignHandle)
+        const levelSessionsPromise = dispatch('levelSessions/fetchByUserId', userId, { root: true })
+        const campaignDataPromise = dispatch('campaigns/fetchByHandle', campaignHandle, { root: true })
 
-        const courseInstance = await dispatch('courseInstances/fetchById', courseInstanceId)
+        const courseInstance = await dispatch('courseInstances/fetchById', courseInstanceId, { root: true })
 
         // TODO integrate this with store
         const classroomCourseLevelsDataPromise = await api.classrooms.getCourseLevels({
@@ -127,7 +127,7 @@ export default {
           courseID: courseInstanceId.courseID
         })
 
-        const classroom = await dispatch('classrooms/fetchClassroomForId', courseInstance.classroomID)
+        const classroom = await dispatch('classrooms/fetchClassroomForId', courseInstance.classroomID, { root: true })
 
         const levelSessions = await levelSessionsPromise
         const campaignData = await campaignDataPromise
@@ -157,7 +157,7 @@ export default {
       return classroomCourses.find(course => course._id === state.courseInstance.courseID)
     },
 
-    getCampaignLevels (state) {
+    campaignLevels (state) {
       const campaignData = state.campaignData || {}
       return campaignData.levels || []
     },
@@ -173,8 +173,8 @@ export default {
       return classroomLevelMap
     },
 
-    getCourseLevels (state, getters) {
-      const existingCampaignLevels = getters.getCampaignLevels()
+    courseLevels (state, getters) {
+      const existingCampaignLevels = getters.campaignLevels
       const classroomLevelMap = getters.getClassroomLevelMap()
 
       const courseLevelsData = {}
@@ -202,12 +202,12 @@ export default {
       return courseLevelsData
     },
 
-    getLevels (state, getters) {
+    levels (state, getters) {
       if (state.courseInstance) {
-        return getters.getCourseLevels()
+        return getters.courseLevels
       }
 
-      return getters.getCampaignLevels()
+      return getters.campaignLevels
     },
 
     getLevelStatusMap (state, getters) {

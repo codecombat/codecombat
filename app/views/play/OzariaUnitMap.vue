@@ -1,14 +1,27 @@
-<template lang="pug">
-  h2(v-if="notAvailable")
-    | This page is not available for teachers and students. However, students can access the world map from their classroom.
-  .unit-map-container(:style="[backgroundColor, containerBaseStyle]")(v-else)
-    .unit-map
-      .unit-map-background(:style="[backgroundImage, backgroundBaseStyle]")
-      level-dot(
+<template>
+  <div
+    class="unit-map-container"
+    :style="[ backgroundColor, containerBaseStyle ]"
+  >
+    <h2 v-if="notAvailable">
+      <!-- TODO i18n -->
+      This page is not available for teachers and students. However, students can access the world map from their classroom.
+    </h2>
+
+    <div
+      v-else
+      class="unit-map"
+    >
+      <div class="unit-map-background" :style="[ backgroundImage, backgroundBaseStyle ]" />
+      <level-dot
+        v-for="level of levels"
+        :key="level.original"
         :levelData="level"
-        :courseId="courseId"
-        :courseInstanceId="courseInstanceId"
-        )(v-for="level of getLevels()")
+        :course-id="courseId"
+        :course-instance-id="courseInstanceId"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -40,7 +53,6 @@
       notAvailable: false,
       campaignData: {},
       courseId: '',
-      levels: {},
       classroomLevelMap: {},
       classroom: {},
       levelSessions: [],
@@ -49,7 +61,7 @@
 
     computed: {
       ...mapGetters('game', [
-        'getLevels'
+        'levels'
       ]),
 
       // TODO move to class in style tag

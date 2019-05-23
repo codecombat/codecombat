@@ -133,5 +133,5 @@ module.exports = {
   'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
 
   // TODO: Why does chunk name `ozariaPlay` not work?
-  'views/ozaria/site/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "OzariaPlay" */ 'ozaria/site/views/play/level/PlayLevelView') },
+  'views/ozaria/site/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/views/play/level/PlayLevelView') },
 }

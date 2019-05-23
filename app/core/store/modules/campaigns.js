@@ -20,14 +20,14 @@ export default {
   },
 
   actions: {
-    async fetchByHandle ({ commit }, handle) {
+    async fetchByHandle ({ commit }, campaignHandle) {
       commit('toggleLoadingByHandle', 'handle')
 
       try {
-        const campaign = await campaignsApi.get(handle)
+        const campaign = await campaignsApi.get({ campaignHandle })
         if (campaign) {
           commit('addCampaignByHandle', {
-            handle,
+            campaignHandle,
             campaign
           })
 

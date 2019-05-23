@@ -114,7 +114,7 @@ export default {
     },
 
     async fetchByUserId ({ commit }, userId) {
-      commit('toggleLoadingByUser', userId)
+      commit('toggleUserLoading', userId)
 
       try {
         const levelSessions = await usersApi.getLevelSessions(userId)
@@ -129,7 +129,7 @@ export default {
       } catch (e) {
         // TODO handle
       } finally {
-        commit('toggleLoadingByUser', userId)
+        commit('toggleUserLoading', userId)
       }
     },
 
