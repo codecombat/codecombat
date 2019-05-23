@@ -566,7 +566,7 @@ module.exports = class User extends CocoModel
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
   skipHeroSelectOnStudentSignUp: -> features?.classroomItems ? false
   useDexecure: -> not (features?.chinaInfra ? false)
-  useSocialSignOn: -> not (features?.chinaUx ? false)
+  useSocialSignOn: -> not ((features?.chinaUx ? false) or (features?.china ? false))
   isTarena: -> features?.Tarena ? false
   useTarenaLogo: -> @isTarena()
   hideTopRightNav: -> @isTarena()
@@ -577,6 +577,10 @@ module.exports = class User extends CocoModel
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" or campaignID == "5789236960deed1f00ec2ab8" or campaignID == "578913f2c8871ac2326fa3e4"
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
+  hasCinematicAccess: -> @isAdmin()
+  showForumLink: -> not (features?.china ? false)
+  showGithubLink: -> not (features?.china ? false)
+  showChinaICPinfo: -> features?.china ? false
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
   showIndividualRegister: -> not (features?.china ? false)
