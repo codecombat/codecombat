@@ -2,10 +2,15 @@ require('app/styles/editor/thang/colors_tab.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/thang/colors_tab'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
-{hexToHSL} = require 'core/utils'
+{hexToHSL, hslToHex} = require 'core/utils'
 require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 initSlider = require 'lib/initSlider'
+tintApi = require('../../../../ozaria/site/api/tint')
+tintSchema = require 'app/schemas/models/tint.schema.js'
+
+COLORGROUPTAB = 'COLORGROUPTAB'
+TINTTAB = 'TINTTAB'
 
 module.exports = class ThangTypeColorsTabView extends CocoView
   id: 'editor-thang-colors-tab-view'
@@ -14,11 +19,17 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   offset: 0
 
+  events:
+    'click #color-group-btn': 'onColorGroupTab'
+    'click #tint-assignment-btnTint': 'onTintAssignmentTab'
+
   constructor: (@thangType, options) ->
     super options
+    @tab = COLORGROUPTAB
     @supermodel.loadModel @thangType
     @currentColorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
-    @tintedColorConfig = { }
+    # tint slug and index pairs.
+    @tintedColorChoices = { }
     @spriteBuilder = new SpriteBuilder(@thangType) if @thangType.get('raw')
     f = =>
       @offset++
@@ -27,6 +38,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   destroy: ->
     @colorGroups?.destroy()
+    @tintAssignments?.destroy()
     clearInterval @interval
     super()
 
@@ -39,6 +51,17 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @initSliders()
     @tryToBuild()
 
+    if @tab == COLORGROUPTAB
+      $("#color-tint-treema").hide()
+      $("#color-groups-treema").show()
+      $("#shape-buttons").show()
+      $("#saved-color-tabs").hide()
+    else if @tab == TINTTAB
+      $("#color-tint-treema").show()
+      $("#color-groups-treema").hide()
+      $("#shape-buttons").hide()
+      $("#saved-color-tabs").show()
+
   # sliders
 
   initSliders: ->
@@ -49,7 +72,56 @@ module.exports = class ThangTypeColorsTabView extends CocoView
   makeSliderCallback: (property) ->
     (e, result) =>
       @currentColorConfig[property] = result.value / 100
+      console.log(@currentColorConfig)
       @updateMovieClip()
+
+  getColorConfig: ->
+    colorConfig = {}
+    if @tab == COLORGROUPTAB
+      colorConfig[@currentColorGroupTreema.keyForParent] = @currentColorConfig
+      return colorConfig
+
+    if not @tintAssignments
+      return colorConfig
+    
+    tintMap = {}
+    for tint in @tintAssignments.data
+      tintMap[tint.name] = tint
+
+    for k, v of @tintedColorChoices
+      colorConfig = _.merge(colorConfig, tintMap[k].allowedTints[v])
+    colorConfig
+
+  onColorGroupTab: ->
+    @tintAssignments?.destroy()
+    @tab = COLORGROUPTAB
+    @render()
+
+  onTintAssignmentTab: ->
+    @tab = TINTTAB
+    @render()
+
+    fetch("/db/tint/all")
+      .then((res) -> res.json())
+      .then((tintData)=>
+        tintData = tintData.filter((o) => o.slug)
+        # Create a custom schema for the colorGroups.
+        treemaOptions =
+          data: tintData
+          schema: {
+            type: 'array',
+            items: tintSchema
+          }
+          readOnly: true unless me.isAdmin()
+          callbacks:
+            change: @createColorGroupTintButtons()
+
+        @tintAssignments = @$el.find('#color-tint-treema').treema treemaOptions
+        @tintAssignments.build()
+        @tintAssignments.open()
+
+        @createColorGroupTintButtons()
+      )
 
   # movie clip
 
@@ -68,8 +140,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     animation = animations[index]
     return @updateContainer() unless animation
     @stage.removeChild(@movieClip) if @movieClip
-    options = {colorConfig: _.cloneDeep(@tintedColorConfig)}
-    options.colorConfig[@currentColorGroupTreema.keyForParent] = @currentColorConfig
+    options = { colorConfig: @getColorConfig() }
     @spriteBuilder.setOptions options
     @spriteBuilder.buildColorMaps()
     @movieClip = @spriteBuilder.buildMovieClip animation
@@ -122,31 +193,43 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   # Attaches hard coded color tabs for manipulating defined color groups on the ThangType
   createColorGroupTintButtons: ->
+    return unless @tintAssignments
     buttons = $('<div></div>').prop('id', 'saved-color-tabs')
     buttons.append($("<h1>Saved Color Presets</h1>"))
-    hardCodedGroups = {
-      skin: ['#FFDBAC', '#F1C27D', '#E0AC69', '#C68642', '#8D5524'],
-      hair: ['#090808', '#3B3024', '#DEBC99', '#8D4A43', '#71635A', '#A7856A', '#7FB4BE', '#f9a1fc', '#236d21']
-    }
 
-    for groupColor, colors of hardCodedGroups
-      @addColorTintGroup(buttons, groupColor, colors)
+    colors = @tintAssignments.data
+    for tint, i in colors
+      tintName = tint.name
+      @addColorTintGroup(buttons, tintName, tint.allowedTints or [], i)
 
     @$el.find('#saved-color-tabs').replaceWith(buttons)
 
-  addColorTintGroup: (buttons, groupName, colors) ->
-    buttons.append($("<h3>#{groupName}</h3>"))
+  addColorTintGroup: (buttons, tintName, tints, index) ->
+    buttons.append($("<h3>#{tintName}</h3>"))
+    saveButton = $("<button>#{tintName}</button>")
+    buttons.append($('<button />', {
+      text: "Save '#{tintName}' Tints",
+      class: 'save-btn',
+      click: ((index) => () =>
+        tintApi.putTint({data: @tintAssignments.data[index]})
+          .catch((e) ->
+            console.error(e)
+          )
+        )(index)
+    }))
 
-    for color in colors
+    for tint, index in tints
+      tint = Object.values(tint)
+      continue unless tint.length
       button = $('<button></button>').addClass('btn')
-      button.css('background', color)
+      # Add one of the tint group colors.
+      button.css('background', hslToHex([tint[0].hue, tint[0].saturation, tint[0].lightness]))
       # How you capture a variable in a closure in coffeescript
-      ((color) =>
+      ((index) =>
         button.click (e) =>
-          [hue, saturation, lightness] = hexToHSL(color)
-          @tintedColorConfig[groupName] = {hue, saturation, lightness}
+          @tintedColorChoices[tintName] = index
           @updateMovieClip()
-      )(color)
+      )(index)
       buttons.append(button)
 
   tryToBuild: ->
