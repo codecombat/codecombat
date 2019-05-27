@@ -1587,6 +1587,8 @@
     no_classrooms_found: "No classrooms found"
     create_classroom_manually: "Create classroom manually"
     classes: "Classes"
+    certificate_btn_print: "Print"
+    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
