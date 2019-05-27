@@ -97,6 +97,8 @@ block content
           - var gettingStartedURL = "/teachers/resources/getting-started";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     gettingStartedURL += "-pt-BR";
+          - if (me.get('preferredLanguage') == 'zh-HANS')
+          -     gettingStartedURL += "-zh-HANS";
           a(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
