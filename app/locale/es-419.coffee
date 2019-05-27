@@ -1556,6 +1556,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     update_old_classroom_detail_2: "y entregando a los estudiantes el nuevo Código de Clase que aparecerá."
     view_assessments: "Ver evaluaciones"
     view_challenges: "ver niveles de desafío"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Desafío:"
     challenge_level: "Nivel de Desafío:"
     status: "Estado:"
@@ -1584,6 +1588,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_classrooms_found: "No se encontraron sulas"
     create_classroom_manually: "Crear un aula manualmente"
     classes: "Clases"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "¡Sé el primero en publicar un proyecto en este curso!"
