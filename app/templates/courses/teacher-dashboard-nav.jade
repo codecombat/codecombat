@@ -38,6 +38,8 @@
             -     faqURL = "/teachers/resources/faq-HE";
             - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
             -     faqURL = "/teachers/resources/faq-pt-BR";
+            - if (me.get('preferredLanguage') == 'zh-HANS')
+            -     faqURL = "/teachers/resources/faq-zh-HANS";
             a(href=faqURL)
               small.label(data-i18n='teacher.educator_faq')
           //- li(class= path.indexOf('TODO') === 0 ? 'active' : '')
