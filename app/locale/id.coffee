@@ -1556,6 +1556,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     update_old_classroom_detail_2: "dan berikan siswa-siswa Kelas Kode yang baru muncul"
     view_assessments: "Lihat Penilaian"
     view_challenges: "lihat level tantangan"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Tantangan:"
     challenge_level: "Level Tantangan:"
     status: "Status:"
@@ -1584,6 +1588,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
