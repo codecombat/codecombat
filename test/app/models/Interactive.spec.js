@@ -15,11 +15,11 @@ import {
 import interactiveSchema from '../../../app/schemas/models/interactives/interactive.schema'
 
 import Ajv from 'ajv'
-import ozariaUtils from 'core/ozariaUtils'
+import { getAjvOptions } from 'ozaria/site/common/OzariaUtils'
 
 function schemaCompileTest (schemaObject) {
   it('compiles successfully', () => {
-    const ajv = new Ajv(ozariaUtils.getAjvOptions())
+    const ajv = new Ajv(getAjvOptions())
     const validate = ajv.compile(schemaObject)
     expect(typeof validate).toBe('function')
     expect(ajv.errors).toBe(null)
@@ -28,7 +28,7 @@ function schemaCompileTest (schemaObject) {
 
 function schemaValidateObjectTest (schemaObject, testObject) {
   it('validates a correct object', () => {
-    const ajv = new Ajv(ozariaUtils.getAjvOptions())
+    const ajv = new Ajv(getAjvOptions())
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(true)
     expect(ajv.errors).toBe(null)
@@ -37,7 +37,7 @@ function schemaValidateObjectTest (schemaObject, testObject) {
 
 function schemaValidateBadObjectTest (schemaObject, testObject) {
   it('fails to validate an incorrect object', () => {
-    const ajv = new Ajv(ozariaUtils.getAjvOptions())
+    const ajv = new Ajv(getAjvOptions())
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(false)
     expect(ajv.errors).toBeDefined()
@@ -46,7 +46,7 @@ function schemaValidateBadObjectTest (schemaObject, testObject) {
 
 function schemaValidateBadPropertyTest (schemaObject, testObject) {
   it('fails to validate incorrect properties on object', () => {
-    const ajv = new Ajv(ozariaUtils.getAjvOptions())
+    const ajv = new Ajv(getAjvOptions())
     const valid = ajv.validate(schemaObject, testObject)
     expect(valid).toBe(false)
     expect(ajv.errors).toBeDefined()

@@ -3,7 +3,7 @@ import { getInteractive, putInteractive, postInteractive, getAllInteractives } f
 import Interactive from '../../../models/Interactive'
 import ListItem from '../../common/BaseListItem'
 import Ajv from 'ajv'
-import ozariaUtils from 'app/core/ozariaUtils'
+import { getAjvOptions } from 'ozaria/site/common/OzariaUtils'
 
 require('lib/setupTreema')
 
@@ -87,7 +87,7 @@ module.exports = Vue.extend({
      * Performs schema validation and pushes changes from treema to the interactive model.
      */
     onTreemaChanged() {
-      const ajv = new Ajv(ozariaUtils.getAjvOptions())
+      const ajv = new Ajv(getAjvOptions())
       const data = this.treema.data
       this.valid = ajv.validate(Interactive.schema, data)
       if (this.valid) {

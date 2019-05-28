@@ -8,7 +8,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
-ozariaUtils = require 'core/ozariaUtils'
+{ findNextLevelsBySession, getNextLevelOriginalForLevel } = require 'ozaria/site/common/OzariaUtils'
 api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
@@ -163,10 +163,10 @@ module.exports = class CourseVictoryModal extends ModalView
   getNextLevelOzaria: ->
     if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
       classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
-      nextLevelOriginal = ozariaUtils.findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for ozaria v1
+      nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for ozaria v1
     else if @campaign # fetch next based on course's campaign levels (for teachers)
       currentLevel = @campaign.levels[@level.get('original')]
-      nextLevelOriginal = ozariaUtils.getNextLevelOriginalForLevel(currentLevel)[0]
+      nextLevelOriginal = getNextLevelOriginalForLevel(currentLevel)[0]
     if nextLevelOriginal
       return api.levels.getByOriginal(nextLevelOriginal)
     else

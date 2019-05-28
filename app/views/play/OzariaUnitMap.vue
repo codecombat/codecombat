@@ -18,7 +18,7 @@
 // It is dependent on how we implement the capstone levels
 
 import api from 'core/api'
-import utils from 'core/ozariaUtils'
+import { getLevelStatusMap, findNextLevelsBySession } from 'ozaria/site/common/OzariaUtils'
 import levelDot from 'views/play/OzariaUnitMapLevelDot'
 
 export default Vue.extend({
@@ -170,11 +170,11 @@ export default Vue.extend({
           } 
         }
       }
-      this.levelStatusMap = utils.getLevelStatusMap(this.levelSessions)
+      this.levelStatusMap = getLevelStatusMap(this.levelSessions)
     },
     determineNextLevel() { // set .next and .locked for this.levels
       if (this.courseInstanceId || this.campaignData.type == 'course') {
-        this.nextLevelOriginals = utils.findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
+        this.nextLevelOriginals = findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
         this.setUnlockedLevels()
         this.setNextLevels()
       }
