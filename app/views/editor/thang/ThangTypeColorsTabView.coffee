@@ -105,21 +105,19 @@ module.exports = class ThangTypeColorsTabView extends CocoView
       .then((res) -> res.json())
       .then((tintData)=>
         tintData = tintData.filter((o) => o.slug)
-        # Create a custom schema for the colorGroups.
+
         treemaOptions =
           data: tintData
-          schema: {
-            type: 'array',
+          schema:
+            type: 'array'
             items: tintSchema
-          }
           readOnly: true unless me.isAdmin()
           callbacks:
-            change: @createColorGroupTintButtons()
+            change: () => @createColorGroupTintButtons()
 
         @tintAssignments = @$el.find('#color-tint-treema').treema treemaOptions
         @tintAssignments.build()
         @tintAssignments.open()
-
         @createColorGroupTintButtons()
       )
 
@@ -193,6 +191,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   # Attaches hard coded color tabs for manipulating defined color groups on the ThangType
   createColorGroupTintButtons: ->
+    return if @destroyed
     return unless @tintAssignments
     buttons = $('<div></div>').prop('id', 'saved-color-tabs')
     buttons.append($("<h1>Saved Color Presets</h1>"))
