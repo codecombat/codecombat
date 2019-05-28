@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import pageInteractive from 'ozaria/site/components/interactive/PageInteractive/index'
 import factories from 'test/app/factories'
 import * as interactiveApi from 'ozaria/site/api/interactive'
-import draggableOrderingComponent from 'ozaria/site/components/interactive/PageInteractive/draggableOrdering'
+import draggableOrderingComponent from 'ozaria/site/components/interactive/PageInteractive/draggableOrdering/index'
 import inserCodeComponent from 'ozaria/site/components/interactive/PageInteractive/insertCode'
 import draggableStatementCompletionComponent from 'ozaria/site/components/interactive/PageInteractive/draggableStatementCompletion'
 

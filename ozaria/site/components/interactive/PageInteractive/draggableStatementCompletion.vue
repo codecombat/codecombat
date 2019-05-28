@@ -1,9 +1,12 @@
 <script>
   import draggable from 'vuedraggable'
 
+  import BaseInteractiveTitle from '../BaseInteractiveTitle'
+
   export default {
     components: {
-      'draggable': draggable
+      'draggable': draggable,
+      'base-interactive-title': BaseInteractiveTitle
     },
 
     props: {
@@ -67,9 +70,9 @@
 
 <template>
   <div class="interactive-container">
-    <h1 class="question">
-      {{ questionTitle }}
-    </h1>
+    <base-interactive-title
+      :interactive-title="questionTitle"
+    />
 
     <div class="prompt-row">
       <draggable
@@ -135,11 +138,6 @@
         </li>
       </draggable>
     </div>
-
-    <div>{{ answers }}</div>
-    <div>{{ answerSlot1 }}</div>
-    <div>{{ answerSlot2 }}</div>
-    <div>{{ answerSlot3 }}</div>
   </div>
 </template>
 
@@ -151,11 +149,6 @@
     flex-direction: column;
 
     background-color: #FFF;
-  }
-
-  .question {
-    width: 100%;
-    text-align: center;
   }
 
   .prompt-row {
