@@ -37,7 +37,7 @@
       return {
         draggableGroup: Math.random().toString(),
 
-        answers: [
+        slotOptions: [
           {
             id: 1,
             text: 'Answer One'
@@ -52,9 +52,7 @@
           }
         ],
 
-        answerSlot1: undefined,
-        answerSlot2: undefined,
-        answerSlot3: undefined
+        answerSlots: Array(3).fill(undefined),
       }
     }
   }
@@ -69,40 +67,31 @@
     <div class="prompt-row">
       <div class="answer-bank">
         <draggable
-          v-model="answers"
+          v-model="slotOptions"
           tag="ul"
           :group="draggableGroup"
         >
           <li
-            v-for="answer of answers"
-            :key="answer.id"
+            v-for="slot of slotOptions"
+            :key="slot.id"
           >
-            {{ answer.text }}
+            {{ slot.text }}
           </li>
         </draggable>
       </div>
 
       <div class="art-container">
-        <img
-          src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
-          alt="Art!"
-        >
+        <img src="https://codecombat.com/images/pages/home/built_for_teachers1.png">
       </div>
     </div>
 
     <div class="answer-row">
       <statement-slot
-        v-model="answerSlot1"
-        :draggable-group="draggableGroup"
-      />
+        v-for="(answerSlot, i) of answerSlots"
+        :key="i"
 
-      <statement-slot
-        v-model="answerSlot2"
-        :draggable-group="draggableGroup"
-      />
+        v-model="answerSlots[i]"
 
-      <statement-slot
-        v-model="answerSlot3"
         :draggable-group="draggableGroup"
       />
     </div>
