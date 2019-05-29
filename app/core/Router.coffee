@@ -212,6 +212,12 @@ module.exports = class CocoRouter extends Backbone.Router
       }
       @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
+    'cinematic/:cinematicIdOrSlug': (cinematicIdOrSlug) ->
+      props = {
+        cinematicIdOrSlug: cinematicIdOrSlug,
+      }
+      @routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
