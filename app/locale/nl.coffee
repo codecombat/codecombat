@@ -1556,6 +1556,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     update_old_classroom_detail_2: "en door de leerlingen de nieuwe klassencode te geven die verschijnt."
     view_assessments: "Bekijk Evaluaties"
     view_challenges: "Bekijk Challenge Levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Uitdaging/Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1588,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"

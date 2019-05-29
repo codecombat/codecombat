@@ -60,7 +60,8 @@ module.exports = class CertificatesView extends RootView
     @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse classroomID, courseID, data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n,thangs.id,thangs.components.config.programmableMethods' }
     @listenToOnce @courseLevels, 'sync', @calculateStats
 
-    @certificateNumber = @hashString(@user.id + @courseInstanceID)
+    if features?.chinaUx
+      @certificateNumber = @hashString(@user.id + @courseInstanceID)
 
     @currentLang = me.get('preferredLanguage', true)
     @needLanguageToggle = @currentLang.split('-')[0] != 'en'

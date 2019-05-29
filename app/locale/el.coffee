@@ -1556,6 +1556,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     update_old_classroom_detail_2: "και δίνοντας στους μαθητές σας τον νέο Κώδικα Τάξης που εμφανίζεται."
     view_assessments: "Προβολή Αξιολογήσεων"
     view_challenges: "προβολή επιπέδων πρόκλησης"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Πρόκληση:"
     challenge_level: "Επίπεδο Πρόκλησης:"
     status: "Κατάσταση:"
@@ -1584,6 +1588,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
