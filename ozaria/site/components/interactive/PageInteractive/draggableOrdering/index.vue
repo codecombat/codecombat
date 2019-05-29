@@ -32,6 +32,8 @@
 
     data () {
       return {
+        draggableGroup: Math.random().toString(),
+
         promptSlots: [
           { id: 1, text: 'one option' },
           { id: 2, text: 'two option' },
@@ -41,11 +43,6 @@
 
         answerSlots: []
       }
-    },
-
-    methods: {
-      answersUpdated () {
-      }
     }
   }
 </script>
@@ -53,7 +50,7 @@
 <template>
   <div class="draggable-ordering-container">
     <base-interactive-title
-      :interactive="this.interactive"
+      :interactive="interactive"
     />
 
     <div class="prompt-row">
@@ -66,12 +63,15 @@
 
       <ordering-slots
         v-model="promptSlots"
+
+        :draggable-group="draggableGroup"
       />
 
       <ordering-slots
         v-model="answerSlots"
         :num-slots="4"
-        @input="answersUpdated"
+
+        :draggable-group="draggableGroup"
       />
     </div>
   </div>
