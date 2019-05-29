@@ -138,6 +138,9 @@ export default class CinematicLankBoss {
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
+      // Remove the hero dog if not a hero being added to the right.
+      commands.push(new SyncFunction(() => this.removeLank(HERO_DOG)))
+
       const { slug, enterOnStart, thang } = rightCharSlug
       addMoveCharacterCommand(RIGHT_LANK_KEY, slug, enterOnStart, thang)
     }
