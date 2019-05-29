@@ -14,7 +14,8 @@ import {
   getText,
   getTextAnimationLength,
   getSpeakingAnimationAction,
-  getSpeaker
+  getSpeaker,
+  getHeroDog
 } from '../../../app/schemas/models/selectors/cinematic'
 import { LETTER_ANIMATE_TIME, getHeroSlug } from './constants'
 
@@ -29,9 +30,26 @@ Promise.config({
   cancellation: true
 })
 
-const BACKGROUND_OBJECT = 'backgroundObject'
-const BACKGROUND = 'background'
+// Key constants for special lank types
+const LEFT_LANK_KEY = 'left'
+const RIGHT_LANK_KEY = 'right'
+const HERO_DOG = 'HERO_DOG'
+const BACKGROUND_OBJECT = 'BACKGROUND_OBJECT'
+const BACKGROUND = 'BACKGROUND'
+
+// Backgrounds
+const DEFAULT_LAYER = 'Default'
+const BACKGROUND_LAYER = 'Background'
+
+// Lank to Background mapping. If not set, will default to 'Default' layer.
+const lankLayer = new Map([
+  [ BACKGROUND, BACKGROUND_LAYER ],
+  [ HERO_DOG, BACKGROUND_LAYER ]
+])
+
+// Thang rotation constants
 const RIGHT = Math.PI
+const LEFT = 0
 
 /**
  * @typedef {import(./commands/CinematicParser).System} System
@@ -49,8 +67,8 @@ export default class CinematicLankBoss {
   constructor ({ groundLayer, layerAdapter, backgroundAdapter, camera, loader }) {
     this.groundLayer = groundLayer
     this.layerAdapters = {
-      'Default': layerAdapter,
-      'Background': backgroundAdapter
+      [DEFAULT_LAYER]: layerAdapter,
+      [BACKGROUND_LAYER]: backgroundAdapter
     }
     this.camera = camera
     this.loader = loader
@@ -84,30 +102,44 @@ export default class CinematicLankBoss {
       commands.push(this.setBackgroundCommand(background))
     }
 
+    const heroDog = getHeroDog(shot)
+    if (heroDog) {
+      const { slug, thang } = heroDog
+      thang.rotation = RIGHT
+      this.heroDogOffset = thang.pos
+      const moveDog = this.moveLankCommand({
+        key: HERO_DOG,
+        resource: slug,
+        thang,
+        ms: 0
+      })
+      commands.push(moveDog)
+    }
+
     const lHero = getLeftHero(shot)
     // TODO: Replace hard coded hero with user hero
     const original = getHeroSlug()
     if (lHero) {
       const { enterOnStart, thang } = lHero
-      addMoveCharacterCommand('left', original, enterOnStart, thang)
+      addMoveCharacterCommand(LEFT_LANK_KEY, original, enterOnStart, thang)
     }
 
     const rHero = getRightHero(shot)
     if (rHero) {
       const { enterOnStart, thang } = rHero
-      addMoveCharacterCommand('right', original, enterOnStart, thang)
+      addMoveCharacterCommand(RIGHT_LANK_KEY, original, enterOnStart, thang)
     }
 
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     if (leftCharSlug) {
       const { slug, enterOnStart, thang } = leftCharSlug
-      addMoveCharacterCommand('left', slug, enterOnStart, thang)
+      addMoveCharacterCommand(LEFT_LANK_KEY, slug, enterOnStart, thang)
     }
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
       const { slug, enterOnStart, thang } = rightCharSlug
-      addMoveCharacterCommand('right', slug, enterOnStart, thang)
+      addMoveCharacterCommand(RIGHT_LANK_KEY, slug, enterOnStart, thang)
     }
 
     return commands
@@ -119,9 +151,9 @@ export default class CinematicLankBoss {
     // TODO: Do we need to give the designers more access to where the characters should exit?
     //       Currently characters start 8 meters off the respective side of the camera bounds.
     const char = getExitCharacter(dialogNode)
-    if (char === 'left' || char === 'both') {
+    if (char === LEFT_LANK_KEY || char === 'both') {
       commands.push(this.moveLankCommand({
-        key: 'left',
+        key: LEFT_LANK_KEY,
         thang: {
           pos: {
             x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET
@@ -130,9 +162,9 @@ export default class CinematicLankBoss {
         ms: 800 }))
     }
 
-    if (char === 'right' || char === 'both') {
+    if (char === RIGHT_LANK_KEY || char === 'both') {
       commands.push(this.moveLankCommand({
-        key: 'right',
+        key: RIGHT_LANK_KEY,
         thang: {
           pos: {
             x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET
@@ -228,16 +260,12 @@ export default class CinematicLankBoss {
   moveLankCommand ({
     key,
     resource,
+    thang,
     thang: {
-      scaleX = 1,
-      scaleY = 1,
-      pos: { x, y } = {}
+      pos
     } = {},
     ms = 1000
   }) {
-    const thang = { scaleX, scaleY, pos: { x, y } }
-    const pos = { x, y } || {}
-
     if (ms === 0) {
       return new SyncFunction(() => {
         if (resource) {
@@ -313,8 +341,30 @@ export default class CinematicLankBoss {
    * @param {bool} frameChanged - Needs to be true for Lank updates to occur.
    */
   update (frameChanged) {
+    this.updateHeroDogPosition()
     Object.values(this.lanks)
       .forEach(lank => lank.update(frameChanged))
+  }
+
+  /**
+   * Custom update method that pins the hero dog to the right
+   * character if it exists, by updating the hero dog thang.
+   */
+  updateHeroDogPosition () {
+    if (!(this.lanks[HERO_DOG] && this.lanks[RIGHT_LANK_KEY])) {
+      return
+    }
+
+    const dogThang = this.lanks[HERO_DOG].thang
+    const rightThang = this.lanks[RIGHT_LANK_KEY].thang
+    if (!rightThang.stateChanged) {
+      return
+    }
+
+    dogThang.stateChanged = true
+    dogThang.pos = _.clone(rightThang.pos)
+    dogThang.pos.x += this.heroDogOffset.x
+    dogThang.pos.y += this.heroDogOffset.y
   }
 
   /**
@@ -362,7 +412,7 @@ export default class CinematicLankBoss {
 
     // Initial coordinates for thangs being created offscreen.
     // This feels like it could be refactored to be nicer.
-    if (key === 'right') {
+    if (key === RIGHT_LANK_KEY) {
       thang = createThang({
         pos: {
           x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET,
@@ -372,7 +422,7 @@ export default class CinematicLankBoss {
         scaleFactorX: thang.scaleX || 1,
         scaleFactorY: thang.scaleY || 1
       })
-    } else if (key === 'left') {
+    } else if (key === LEFT_LANK_KEY) {
       thang = createThang({
         pos: {
           x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET,
@@ -381,6 +431,13 @@ export default class CinematicLankBoss {
         scaleFactorX: thang.scaleX || 1,
         scaleFactorY: thang.scaleY || 1
       })
+    } else if (key === HERO_DOG) {
+      // Hack to ensure dog renders off screen
+      // TODO: Remove when we have a way to make lanks invisible.
+      thang.pos = {
+        x: this.stageBounds.bottomRight.x * 10,
+        y: this.stageBounds.bottomRight.y * 10
+      }
     }
 
     const lank = new Lank(thangType, {
@@ -391,11 +448,9 @@ export default class CinematicLankBoss {
       groundLayer: this.groundLayer,
       isCinematic: true
     })
-    if (key === BACKGROUND) {
-      this.layerAdapters['Background'].addLank(lank)
-    } else {
-      this.layerAdapters['Default'].addLank(lank)
-    }
+
+    const layer = lankLayer.get(key) || DEFAULT_LAYER
+    this.layerAdapters[layer].addLank(lank)
     this.lanks[key] = lank
   }
 }
@@ -422,8 +477,7 @@ const createThang = thang => {
     scaleFactorX: 1,
     scaleFactorY: 1,
     action: 'idle',
-    //  Looking left
-    rotation: 0
+    rotation: LEFT
   }
   return _.cloneDeep(_.merge(defaults, thang))
 }
