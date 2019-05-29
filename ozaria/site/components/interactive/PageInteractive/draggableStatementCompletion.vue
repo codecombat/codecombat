@@ -1,7 +1,7 @@
 <script>
   import draggable from 'vuedraggable'
 
-  import BaseInteractiveTitle from '../BaseInteractiveTitle'
+  import BaseInteractiveTitle from './BaseInteractiveTitle'
 
   export default {
     components: {
@@ -54,12 +54,6 @@
       }
     },
 
-    computed: {
-      questionTitle () {
-        return this.interactive.title || 'Question Title'
-      }
-    },
-
     methods: {
       onAnswerMoved () {
         console.log('yo')
@@ -69,9 +63,9 @@
 </script>
 
 <template>
-  <div class="interactive-container">
+  <div class="draggable-ordering-container">
     <base-interactive-title
-      :interactive-title="questionTitle"
+      :interactive="interactive"
     />
 
     <div class="prompt-row">
@@ -141,69 +135,67 @@
   </div>
 </template>
 
-<style scoped>
-  .interactive-container {
+<style lang="scss" scoped>
+  .draggable-ordering-container {
     padding: 75px;
 
     display: flex;
     flex-direction: column;
-
-    background-color: #FFF;
   }
 
   .prompt-row {
     display: flex;
     flex-direction: row;
-  }
 
-  .prompt-row .art-container {
-    flex-grow: 1;
+    .art-container {
+      flex-grow: 1;
 
-    padding: 15px;
-    padding-top: 0px;
-  }
+      padding: 15px;
+      padding-top: 0px;
 
-  .prompt-row .art-container img {
-    width: 100%;
+      img {
+        width: 100%;
+      }
+    }
   }
 
   .answer-bank {
     list-style: none;
 
     height: 100%;
-    width: 30%
-  }
+    width: 30%;
 
-  .answer-bank li {
-    padding: 25px;
+    li {
+      padding: 25px;
 
-    border: 1px solid black;
-    font-weight: bold;
+      border: 1px solid black;
+      font-weight: bold;
 
-    font-size: 15px;
+      font-size: 15px;
+    }
   }
 
   .answer-row {
     display: flex;
     flex-direction: row;
-  }
 
-  .answer-row ul {
-    margin: 10px;
-    padding: 0;
+    ul {
+      margin: 10px;
+      padding: 0;
 
-    list-style: none;
+      list-style: none;
 
-    border: 1px solid black;
+      border: 1px solid black;
 
-    width: 33%;
-    height: 50px;
-  }
+      width: 33%;
+      height: 50px;
 
-  .answer-row ul li {
-    text-align: center;
+      li {
+        text-align: center;
 
-    height: 100%;
-    width: 100%;
+        height: 100%;
+        width: 100%;
+      }
+    }
   }
 </style>

@@ -31,10 +31,30 @@
     },
 
     data: () => ({
+      loading: false,
       interactive: {},
       interactiveSession: {},
       interactiveType: ''
     }),
+
+    computed: {
+      interactiveComponent () {
+        switch (this.interactive.interactiveType) {
+        case 'draggable-statement-completion':
+          return draggableStatementCompletionComponent
+
+        case 'insert-code':
+          return insertCodeComponent
+
+        case 'draggable-ordering':
+          return draggableOrderingComponent
+
+        default:
+          noty({ text: 'Interactive type is not set for the interactive', type: 'error', timeout: '2000' })
+          throw new Error('Invalid interactive type provided for interactive')
+        }
+      }
+    },
 
     watch: {
       interactiveIdOrSlug: async function () {
@@ -57,6 +77,8 @@
       },
 
       async getInteractiveData () {
+        this.loading = true
+
         try {
           this.interactive = await getInteractive(this.interactiveIdOrSlug)
           this.interactiveType = this.interactive.interactiveType
@@ -73,6 +95,8 @@
         } catch (err) {
           console.error('Error:', err)
           return noty({ text: 'Error occured in creating interactives data.', type: 'error', timeout: '2000' })
+        } finally {
+          this.loading = false
         }
       }
     }
@@ -80,34 +104,25 @@
 </script>
 
 <template>
-  <draggable-statement-completion
-   v-if="false"
-   :interactive="interactive"
-   :introLevelId="introLevelId"
-   :interactiveSession="interactiveSession"
-   :courseInstanceId="courseInstanceId"
-   @completed="onCompleted"
-  />
+  <div class="interactive-container">
+    <h1 v-if="loading">
+      LOADING
+    </h1>
 
-  <draggable-ordering
-    v-else-if="false"
-    :interactive="interactive"
-    :introLevelId="introLevelId"
-    :interactiveSession="interactiveSession"
-    :courseInstanceId="courseInstanceId"
-    @completed="onCompleted"
-  />
-
-  <insert-code
-    v-else-if="true"
-    :interactive="interactive"
-    :introLevelId="introLevelId"
-    :interactiveSession="interactiveSession"
-    :courseInstanceId="courseInstanceId"
-    @completed="onCompleted"
-  />
+    <component
+      :is="interactiveComponent"
+      v-else
+      :interactive="interactive"
+      :intro-level-id="introLevelId"
+      :interactive-session="interactiveSession"
+      :course-instance-id="courseInstanceId"
+      @completed="onCompleted"
+    />
+  </div>
 </template>
 
 <style scoped>
-
+  .interactive-container {
+    background-color: #FFF;
+  }
 </style>

@@ -6,9 +6,12 @@
   import 'codemirror/mode/python/python'
   import 'codemirror/lib/codemirror.css'
 
+  import BaseInteractiveTitle from './BaseInteractiveTitle'
+
   export default {
     components: {
-      codemirror
+      codemirror,
+      'base-interactive-title': BaseInteractiveTitle
     },
 
     props: {
@@ -86,10 +89,13 @@
 </script>
 
 <template>
-  <div class="interactive-container">
+  <div class="draggable-ordering-container">
     <div class="question-container">
       <div class="question">
-        <h3>Question</h3>
+        <base-interactive-title
+          :interactive="interactive"
+        />
+
         <ul>
           <li
             v-for="answerOption in answerOptions"
@@ -101,6 +107,7 @@
           </li>
         </ul>
       </div>
+
       <div class="answer">
         <codemirror
           :value="code"
@@ -108,6 +115,7 @@
         />
       </div>
     </div>
+
     <div class="art-container">
       <img
         src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
@@ -118,14 +126,12 @@
 </template>
 
 <style scoped lang="scss">
-  .interactive-container {
+  .draggable-ordering-container {
     display: flex;
     flex-direction: row;
-
-    background-color: #FFF;
   }
 
-  .interactive-container .art-container {
+  .draggable-ordering-container .art-container {
     flex-grow: 1;
 
     padding: 15px;
@@ -135,7 +141,7 @@
     }
   }
 
-  .interactive-container .question-container {
+  .draggable-ordering-container .question-container {
     width: 30%;
 
     display: flex;
