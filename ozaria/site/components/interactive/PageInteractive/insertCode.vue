@@ -1,5 +1,9 @@
 <script>
   import { codemirror } from 'vue-codemirror'
+
+  // TODO dynamically import these
+  import 'codemirror/mode/javascript/javascript'
+  import 'codemirror/mode/python/python'
   import 'codemirror/lib/codemirror.css'
 
   export default {
@@ -36,13 +40,46 @@
           mode: 'text/javascript',
           lineNumbers: true,
           readOnly: 'nocursor'
-        }
+        },
+
+        selectedAnswer: undefined
       }
     },
 
     computed: {
       code () {
-        return 'let x = "y"'
+        const codePrompt = [
+          'let x = "y"',
+          undefined,
+          'let a = "b"',
+          'console.log(x + a)'
+        ]
+
+        return codePrompt.reduce((code, codeLine) => {
+          let line = codeLine
+          if (typeof line === 'undefined') {
+            if (this.selectedAnswer) {
+              line = this.selectedAnswer.line
+            }
+          }
+
+          return `${code}\n${line || ''}`
+        })
+      },
+
+      answerOptions () {
+        return [
+          { id: 1, line: 'line.one()' },
+          { id: 2, line: 'const z = "aaa"' },
+          { id: 3, line: 'line.three()' },
+          { id: 4, line: 'line.four()' }
+        ]
+      }
+    },
+
+    methods: {
+      selectAnswer (answer) {
+        this.selectedAnswer = answer
       }
     }
   }
@@ -52,16 +89,23 @@
   <div class="interactive-container">
     <div class="question-container">
       <div class="question">
-        <h2>Question</h2>
+        <h3>Question</h3>
         <ul>
-          <li>choice.one()</li>
-          <li>choice.two()</li>
-          <li>choice.three()</li>
-          <li>choice.four()</li>
+          <li
+            v-for="answerOption in answerOptions"
+            :key="answerOption.id"
+          >
+            <button @click="selectAnswer(answerOption)">
+              {{ answerOption.line }}
+            </button>
+          </li>
         </ul>
       </div>
       <div class="answer">
-        <codemirror :value="code" :options="codemirrorOptions"></codemirror>
+        <codemirror
+          :value="code"
+          :options="codemirrorOptions"
+        />
       </div>
     </div>
     <div class="art-container">
@@ -73,7 +117,7 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .interactive-container {
     display: flex;
     flex-direction: row;
@@ -85,10 +129,10 @@
     flex-grow: 1;
 
     padding: 15px;
-  }
 
-  .interactive-container .art-container img {
-    width: 100%;
+    img {
+      width: 100%;
+    }
   }
 
   .interactive-container .question-container {
@@ -96,16 +140,55 @@
 
     display: flex;
     flex-direction: column;
-  }
 
-  .interactive-container .question-container .question {
-    height: 30%;
-    width: 100%;
-  }
+    h3 {
+      text-align: center;
+    }
 
-  .interactive-container .question-container .answer {
-    width: 100%;
+    .question {
+      min-height: 30%;
+      width: 100%;
 
-    flex-grow: 1;
+      ul {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        list-style: none;
+
+        margin: 0;
+        padding: 0;
+
+        width: 100%;
+
+        li {
+          margin: 0 0 10px;
+
+          padding: 0;
+
+          width: 70%;
+
+          &:last-of-type {
+            margin-bottom: 0;
+          }
+
+          button {
+            width: 100%;
+            height: 20px;
+
+            background: transparent;
+            border: 1px solid black;
+          }
+        }
+      }
+    }
+
+    .answer {
+      width: 100%;
+
+      flex-grow: 1;
+    }
   }
 </style>
