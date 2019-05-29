@@ -1,6 +1,6 @@
-extends /templates/core/modal-base-flat
+extends /templates/core/modal-base-flat.jade
 
-// DNT
+//- DNT
 
 block modal-header-content
 
@@ -41,6 +41,13 @@ block modal-header-content
       input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
       span.p-l-1
         | APCSP Verified Teacher (has access to private forum)
+    br
+    label
+      input#school-admin-checkbox(type='checkbox', checked=view.userIsSchoolAdmin())
+      span.p-l-1
+        | Enable School Administrator
+      span.p-l-1
+        a(href="#edit-school-admins-link")#edit-school-admins-link edit teachers
     div
       if view.userSaveState == 'saving'
         | Saving...
@@ -50,6 +57,28 @@ block modal-header-content
         | &nbsp;
 
 block modal-body-content
+  if view.editingSchoolAdmins
+    h3.m-t-3#school-admins-title Edit School Admin Teacher Access
+    h5 Add teacher
+    table.table.table-condensed
+      .form-horizontal
+        form#teacher-search-form.form-group
+        .col-sm-4
+          input.form-control#teacher-search(type="text")
+        .col-sm-1
+          button.btn.btn-primary.btn-large#teacher-search-button Search
+        .col-sm-1
+          button.btn.btn-large#clear-teacher-search-button Clear results
+      #teacher-search-result
+    if view.userSaveState
+      br
+      div= view.userSaveState
+    br
+    h5 Edit teachers
+    br
+    table.table.table-condensed
+      #school-admin-result
+
 
   if view.prepaids.size()
     h3.m-t-3#prepaids Existing Prepaids

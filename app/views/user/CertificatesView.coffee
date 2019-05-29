@@ -10,6 +10,7 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
+locale = require 'locale/locale'
 
 module.exports = class CertificatesView extends RootView
   id: 'certificates-view'
@@ -17,10 +18,14 @@ module.exports = class CertificatesView extends RootView
 
   events:
     'click .print-btn': 'onClickPrintButton'
+    'click .toggle-btn': 'onClickToggleButton'
 
   getTitle: ->
     return 'Certificate' if @user.broadName() is 'Anonymous'
     "Certificate: #{@user.broadName()}"
+
+  hashString: (str) ->
+    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c
 
   initialize: (options, @userID) ->
     if @userID is me.id
@@ -54,6 +59,13 @@ module.exports = class CertificatesView extends RootView
     @courseLevels = new Levels()
     @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse classroomID, courseID, data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n,thangs.id,thangs.components.config.programmableMethods' }
     @listenToOnce @courseLevels, 'sync', @calculateStats
+
+    if features?.chinaUx
+      @certificateNumber = @hashString(@user.id + @courseInstanceID)
+
+    @currentLang = me.get('preferredLanguage', true)
+    @needLanguageToggle = @currentLang.split('-')[0] != 'en'
+
 
   setHero: (heroOriginal=null) ->
     heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
@@ -96,6 +108,16 @@ module.exports = class CertificatesView extends RootView
 
   onClickPrintButton: ->
     window.print()
+
+  onClickToggleButton: ->
+    newLang = 'en'
+    if @currentLang.split('-')[0] == 'en'
+      newLang = me.get('preferredLanguage', true)
+    @currentLang = newLang
+    $.i18n.setLng(newLang, {})
+    locale.load(newLang).then =>
+      @render()
+
 
   afterRender: ->
     @autoSizeText '.student-name'

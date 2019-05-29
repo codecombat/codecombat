@@ -1,11 +1,11 @@
-<template lang="jade">
+<template lang="pug">
 
 .container
   form
     label
       | Teacher email:
-      input(v-model.trim="teacherEmail", :disabled="teacher")
-    button(type="submit" @click.prevent="submitEmail")
+      input(v-model.trim="teacherEmail", :disabled="dataFetching")
+    button(type="submit", @click.prevent="submitEmail", :disabled="dataFetching")
       | Next
 
 
@@ -112,6 +112,7 @@ OutcomesReportComponent = {
     courses: null
     courseInstances: []
     dataReady: false
+    dataFetching: false
     isClassroomSelected: {}
     isCourseSelected: {}
     startDate: null
@@ -249,8 +250,11 @@ OutcomesReportComponent = {
       courseCompletion
 
     submitEmail: (e) ->
+      @dataReady = false
+      @dataFetching = true
       @fetchData().then =>
         @dataReady = true
+        @dataFetching = false
 
     fetchByEmail: ->
       new Promise (accept, reject) =>

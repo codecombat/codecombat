@@ -16,6 +16,10 @@ _.extend ClassroomSchema.properties,
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
+  classDateStart: c.stringDate()
+  classDateEnd: c.stringDate()
+  classesPerWeek: { type: 'string' }
+  minutesPerClass: { type: 'string' }
   archived:
     type: 'boolean'
     default: false
@@ -35,8 +39,23 @@ _.extend ClassroomSchema.properties,
       name: {type: 'string'}
       slug: {type: 'string'}
       position: c.point2d()
+
+      # properties relevant for ozaria campaigns 
+      nextLevels: {
+        type: 'array'
+        description: 'array of next levels original id'
+        items: {
+          type: 'object'
+          additionalProperties: false
+          properties: {
+            levelOriginal: c.stringID()
+          }
+        }
+      }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
     }
   }
+  googleClassroomId: { title: 'Google classroom id', type: 'string' }
   settings: c.object {title: 'Classroom Settings', required: []}, {
     optionsEditable: { type: 'boolean', description: 'Allow teacher to use these settings.', default: false }
     map: { type: 'boolean', description: 'Classroom map.', default: false }
@@ -44,7 +63,8 @@ _.extend ClassroomSchema.properties,
     gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
     xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
   }
-   
+
+  stats: c.object { additionalProperties: true }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 ClassroomSchema.properties.settings.additionalProperties = true

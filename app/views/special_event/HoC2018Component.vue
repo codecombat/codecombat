@@ -11,7 +11,7 @@
       .row.get-started
         .col-md-4
           h4.bold-header(data-i18n="hoc_2018.step_1")
-          <iframe src="https://www.youtube.com/embed/SzZiOkZ-vRk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe src="https://www.youtube.com/embed/k965LUC7oww" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         .col-md-4
           h4.bold-header(data-i18n="hoc_2018.step_2")
           img(src='/images/pages/teachers/hour-of-code/code_play_share.png')
@@ -92,6 +92,15 @@
 
 <script>
 module.exports = Vue.extend({
+  metaInfo: function () {
+    return {
+      title: this.$t('teacher.hoc_title'),
+      meta: [
+        { vmid: 'meta-description', name: 'description', content: this.$t('teacher.hoc_meta_description') }
+      ]
+    }
+  },
+
   data: function() {
     return {
       teacherEmail: ''

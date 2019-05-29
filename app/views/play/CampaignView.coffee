@@ -45,6 +45,7 @@ require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
+CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 
 require 'lib/game-libraries'
 
@@ -64,6 +65,15 @@ class CampaignsCollection extends CocoCollection
 module.exports = class CampaignView extends RootView
   id: 'campaign-view'
   template: template
+
+  getMeta: ->
+    title: $.i18n.t 'play.title'
+    meta: [
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'play.meta_description' }
+    ]
+    link: [
+      { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
+    ]
 
   subscriptions:
     'subscribe-modal:subscribed': 'onSubscribed'
@@ -99,6 +109,7 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
+    'click #videos-button': 'onClickVideosButton'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -108,6 +119,13 @@ module.exports = class CampaignView extends RootView
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
     @requiresSubscription = not me.isPremium()
+    # Allow only admins to view the ozaria campaign and only in editor mode
+    # New page for non-editor mode `/play-ozaria`
+    # Assuming, the ozaria placeholder campaigns will start with 'ozaria'
+    # TODO: Remove/update this check before final ozaria launch
+    if _.string.startsWith(@terrain, "ozaria") and (not me.showOzariaCampaign() or not @editorMode)
+      console.error("ozaria dummy campaign, only editor mode is available for admins!")
+      return
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
@@ -354,6 +372,9 @@ module.exports = class CampaignView extends RootView
     window.tracker?.trackEvent 'Anonymous Classroom Signup Modal Create Teacher', category: 'Signup'
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
+  onClickVideosButton: ->
+    @openModalView(new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @course.get('_id')}))
+
   getLevelPlayCounts: ->
     return unless me.isAdmin()
     return  # TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
@@ -428,7 +449,7 @@ module.exports = class CampaignView extends RootView
           unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
             @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
           @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
-       
+
   buildLevelScoreMap: ->
     for session in @sessions.models
       levels = @getLevels()
@@ -994,9 +1015,9 @@ module.exports = class CampaignView extends RootView
     courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
 
     classroomLevel = @classroomLevelMap?[levelOriginal]
-    
+
     # If classroomItems is on, don't go to PlayLevelView directly.
-    # Go through LevelSetupManager which will load required modals before going to PlayLevelView. 
+    # Go through LevelSetupManager which will load required modals before going to PlayLevelView.
     if(me.showHeroAndInventoryModalsToStudents() and not classroomLevel?.isAssessment())
       @startLevel levelElement, courseID, courseInstanceID
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
@@ -1415,6 +1436,9 @@ module.exports = class CampaignView extends RootView
 
     if what in ['back-to-classroom']
       return isStudentOrTeacher and not application.getHocCampaign()
+
+    if what in ['videos']
+      return me.isStudent() and @course?.get('_id') == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
     if what in ['buy-gems']
       return not (isIOS or me.freeOnly() or isStudentOrTeacher or !me.canBuyGems() or (application.getHocCampaign() and me.isAnonymous()))

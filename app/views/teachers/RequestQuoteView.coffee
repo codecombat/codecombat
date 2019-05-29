@@ -33,6 +33,9 @@ module.exports = class RequestQuoteView extends RootView
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
+    'click #submit-request-btn': 'onClickRequestButton'
+
+  getTitle: -> $.i18n.t('new_home.request_quote')
 
   initialize: ->
     @trialRequest = new TrialRequest()
@@ -133,6 +136,11 @@ module.exports = class RequestQuoteView extends RootView
     unless @formChanged
       window.tracker?.trackEvent 'Teachers Request Demo Form Started', category: 'Teachers', ['Mixpanel']
     @formChanged = true
+
+  onClickRequestButton: (e) ->
+    eventAction = $(e.target).data('event-action')
+    if eventAction
+      window.tracker?.trackEvent(eventAction, category: 'Teachers')
 
   onSubmitRequestForm: (e) ->
     e.preventDefault()

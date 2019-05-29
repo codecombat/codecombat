@@ -49,18 +49,30 @@ module.exports = class MainAdminView extends RootView
     if search = utils.getQueryVariable 'search'
       $('#user-search').val search
       $('#user-search-button').click()
+    if spy = utils.getQueryVariable 'spy'
+      if @amActually
+        @stopSpying()
+      else
+        $('#espionage-name-or-email').val spy
+        $('#enter-espionage-mode').click()
     if userID = utils.getQueryVariable 'user'
       @openModalView new AdministerUserModal({}, userID)
 
-  onClickStopSpyingButton: ->
-    button = @$('#stop-spying-btn')
-    forms.disableSubmit(button)
+  clearQueryParams: -> window.history.pushState({}, '', document.location.href.split('?')[0])
+
+  stopSpying: ->
     me.stopSpying({
       success: -> document.location.reload()
       error: ->
         forms.enableSubmit(button)
         errors.showNotyNetworkError(arguments...)
     })
+
+  onClickStopSpyingButton: ->
+    button = @$('#stop-spying-btn')
+    forms.disableSubmit(button)
+    @clearQueryParams()
+    @stopSpying()
 
   onClickClearFeatureModeButton: (e) ->
     e.preventDefault()
@@ -71,6 +83,7 @@ module.exports = class MainAdminView extends RootView
     button = @$('#enter-espionage-mode')
     userNameOrEmail = @$el.find('#espionage-name-or-email').val().toLowerCase()
     forms.disableSubmit(button)
+    @clearQueryParams()
     me.spy(userNameOrEmail, {
       success: -> window.location.reload()
       error: ->

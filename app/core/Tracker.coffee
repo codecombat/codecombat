@@ -81,7 +81,7 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
     if me.isTeacher(true)
       traitsToReport.push('firstName', 'lastName')
     for userTrait in traitsToReport
@@ -136,6 +136,15 @@ module.exports = class Tracker extends CocoClass
         eventAction: action
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
+
+      # Send trackABResult as true in the properties to track a/b test results in GA as the event label
+      # TODO: what if gaFieldObject.label already exists
+      # As of now gaFieldObject.label doesnt exist for the specific events which are relevant for a/b test results, so not a concern for now
+      # Probably add multiple labels as keys in gaFieldObject.label in the future, if required.
+      if properties.trackABResult and not gaFieldObject.label
+        if me.getHomePageTestGroup()
+          gaFieldObject.eventLabel = "{testGroup:"+ me.getHomePageTestGroup() + "}"  # {testGroup:A} / {testGroup:B} / {testGroup:C}
+
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay
 
@@ -154,6 +163,7 @@ module.exports = class Tracker extends CocoClass
       'Simulator Result',
       'Started Level Load', 'Finished Level Load',
       'Start HoC Campaign', 'Show Amazon Modal Button', 'Click Amazon Modal Button', 'Click Amazon link',
+      'Error in ssoConfirmView'  # TODO: Event for only detecting an error in prod. Tracking this only via GA. Remove when not required.
     ]
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
@@ -198,7 +208,8 @@ module.exports = class Tracker extends CocoClass
     return if @isProduction and me.isAdmin()
     return unless @supermodel?
     # Skipping heavily logged actions we don't use internally
-    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load']
+    # TODO: 'Error in ssoConfirmView' event is only for detecting an error in prod. Tracking this only via GA. Remove when not required.
+    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load', 'Error in ssoConfirmView']
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']

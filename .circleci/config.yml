@@ -1,0 +1,75 @@
+version: 2.1
+
+jobs:
+  copy-i18n-tags:
+    docker:
+      # specify the version you desire here
+      - image: jmif/coco-ci-node:latest
+
+    working_directory: ~/repo
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - 'e8:68:ce:57:44:0b:96:a1:2d:50:92:6c:97:04:55:f1'
+
+      - checkout
+
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: Install Hub
+          command: |
+            mkdir -p /tmp/hub
+            cd /tmp/hub
+
+            curl -L -o hub.tgz https://github.com/github/hub/releases/download/v2.10.0/hub-linux-amd64-2.10.0.tgz
+            tar -xzvf hub.tgz --strip 1
+            sudo mv ./bin/hub /usr/local/bin
+
+      - run: node -r coffee-script/register scripts/copy-i18n-tags.js
+
+      - run:
+          command: |
+            echo "Checking for changes..."
+            if output=$(git status --porcelain) && [ -z "$output" ]; then
+              echo "No changes found.  Exiting."
+              exit 0
+            fi
+
+            BRANCH_NAME=copy-i18n-tags-$(date +%s)
+
+            git config user.email circle-ci@codecombat.com
+            git config user.name 'CoCo CI'
+
+            git checkout -b $BRANCH_NAME
+            git commit -a -m 'Run copy-i18n-tags'
+            git push origin $BRANCH_NAME
+
+            # TODO remove reviewer after we're confident in script runs
+            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer AndrewJakubowicz
+
+
+workflows:
+  copy-i18n:
+    jobs:
+      - copy-i18n-tags:
+          filters:
+            branches:
+              only: master
+
+    triggers:
+      - schedule:
+          cron: "0 7 * * 1,4" # Every Monday and Thursday
+          filters:
+            branches:
+              only:
+                - master

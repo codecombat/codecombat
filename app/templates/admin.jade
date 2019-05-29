@@ -1,4 +1,4 @@
-extends /templates/base
+extends /templates/base.jade
 
 block content
 
@@ -45,7 +45,7 @@ block content
         .col-sm-1
           button.btn.btn-primary.btn-large#user-search-button  Search
     #user-search-result
-    
+
   if !me.isAdmin()
     div.text-center You must be logged in as an admin to view this page.
   else
@@ -60,8 +60,8 @@ block content
     ul
       li
         a(href="/admin/classrooms-progress?startDay=2017-08-01&endDay=2018-08-01") Classroom Progress vs. Available Content
-      li
-        a(href="/admin/classroom-content") Amount of Classroom Content
+      //- li
+      //-   a(href="/admin/classroom-content") Amount of Classroom Content
       li
         a(href="/admin/classroom-levels") Classroom Levels
       li
@@ -96,6 +96,29 @@ block content
         a(href="/admin/skipped-contacts") Sales — Contacts skipped by sales automation scripts
 
     hr
+    h3 URL query parameters for *this page*
+    p You can create special URLs for this page to do things automatically.
+    p
+      strong General format:
+      - var s = "/admin?parameter1=value1" + "&" + "parameter2=value2" + "&" + "parameter3=value3"
+      span.spl= s
+    p
+      strong search:
+      span.spl automatically searches for the given user
+      div
+        a(href="/admin?search=matt") /admin?search=matt
+    p
+      strong spy:
+      span.spl automatically spys on a given user
+      div
+        a(href="/admin?spy=matt@example.com") /admin?spy=matt@example.com
+    p
+      strong user:
+      span.spl automatically open the user dialog for given user id
+      div
+        a(href="/admin?user=1234567890") /admin?user=1234567890
+
+    hr
     h3 Prepaids
     a.btn.btn-secondary#create-free-sub-btn Create Free Subscription Link
     span.spl.spr
@@ -119,7 +142,7 @@ block content
 
     input#increment-field(type="text")
     a.btn.btn-secondary#increment-button(href="#") Increment
-    
+
     hr
 
     .form-horizontal

@@ -180,6 +180,7 @@ describe 'TeacherClassView', ->
                   expect(simplerLine).toMatch /0,0,0/
               done()
             reader.readAsText(blob);
+          @view.calculateProgressAndLevelsAux()
           @view.$el.find('.export-student-progress-btn').click()
 
     describe 'when javascript classroom', ->
@@ -240,6 +241,7 @@ describe 'TeacherClassView', ->
                   expect(simplerLine).toMatch /0,0,0/
               done()
             reader.readAsText(blob);
+          @view.calculateProgressAndLevelsAux()
           @view.$el.find('.export-student-progress-btn').click()
 
     describe '.assignCourse(courseID, members)', ->

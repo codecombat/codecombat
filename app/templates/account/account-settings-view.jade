@@ -66,17 +66,20 @@ else
       //    .text-center
       //      a(href="https://gravatar.com/", data-i18n="account_settings.use_gravatar")
 
-      .panel.panel-default
-        .panel-heading
-          .panel-title(data-i18n="general.password")
-        .panel-body
-          .form
-            .form-group
-              label.control-label(for="password", data-i18n="account_settings.new_password") New Password
-              input#password.form-control(name="password", type="password")
-            .form-group
-              label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
-              input#password2.form-control(name="password2", type="password")
+
+      //hide password setting for Tarena users
+      if !me.isCreatedByTarena()
+        .panel.panel-default
+          .panel-heading
+            .panel-title(data-i18n="general.password")
+          .panel-body
+            .form
+              .form-group
+                label.control-label(for="password", data-i18n="account_settings.new_password") New Password
+                input#password.form-control(name="password", type="password")
+              .form-group
+                label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
+                input#password2.form-control(name="password2", type="password")
 
       .panel.panel-default
         .panel-heading

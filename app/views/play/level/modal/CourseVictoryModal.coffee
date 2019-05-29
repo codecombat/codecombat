@@ -8,6 +8,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
+ozariaUtils = require 'core/ozariaUtils'
 api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
@@ -24,6 +25,9 @@ module.exports = class CourseVictoryModal extends ModalView
   initialize: (options) ->
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID or utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
+    if features.china and not @courseID and not @courseInstanceID   #just for china tarena hackthon 2019 classroom RestPoolLeaf
+      @courseID = '560f1a9f22961295f9427742'
+      @courseInstanceID = '5cb8403a60778e004634ee6e'
     @views = []
 
     @session = options.session
@@ -36,15 +40,17 @@ module.exports = class CourseVictoryModal extends ModalView
     @playSound 'victory'
     @nextLevel = new Level()
     @nextAssessment = new Level()
-    nextLevelPromise = api.levels.fetchNextForCourse({
-      levelOriginalID: @level.get('original')
-      @courseInstanceID
-      @courseID
-      sessionID: @session.id
-    }).then ({ level, assessment }) =>
-      @nextLevel.set(level)
-      @nextAssessment.set(assessment)
-    @supermodel.trackPromise(nextLevelPromise)
+
+    unless utils.ozariaCourseIDs.includes(@courseID)
+      nextLevelPromise = api.levels.fetchNextForCourse({
+        levelOriginalID: @level.get('original')
+        @courseInstanceID
+        @courseID
+        sessionID: @session.id
+      }).then ({ level, assessment }) =>
+        @nextLevel.set(level)
+        @nextAssessment.set(assessment)
+      @supermodel.trackPromise(nextLevelPromise)
 
     @course = options.course
     if @courseID and not @course
@@ -106,6 +112,9 @@ module.exports = class CourseVictoryModal extends ModalView
       # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
+    else if utils.ozariaCourseIDs.includes(@courseID)  # if it is ozaria course and there is no course instance, load campaign so that we can calculate next levels
+      api.campaigns.get({campaignHandle: @course?.get('campaignID')}).then (@campaign) =>
+        @levelSessionsLoaded()
     else
       @levelSessionsLoaded()
 
@@ -114,6 +123,15 @@ module.exports = class CourseVictoryModal extends ModalView
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
 
+    # get next level for ozaria course, no nextAssessment for ozaria courses
+    if utils.ozariaCourseIDs.includes(@courseID) 
+      @getNextLevelOzaria().then (level) => 
+        @nextLevel.set(level)
+        @loadViews()
+    else
+      @loadViews()
+  
+  loadViews: ->
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id
 
@@ -142,6 +160,17 @@ module.exports = class CourseVictoryModal extends ModalView
     else
       @showVictoryComponent()
 
+  getNextLevelOzaria: ->
+    if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
+      classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
+      nextLevelOriginal = ozariaUtils.findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for ozaria v1
+    else if @campaign # fetch next based on course's campaign levels (for teachers)
+      currentLevel = @campaign.levels[@level.get('original')]
+      nextLevelOriginal = ozariaUtils.getNextLevelOriginalForLevel(currentLevel)[0]
+    if nextLevelOriginal
+      return api.levels.getByOriginal(nextLevelOriginal)
+    else
+      return Promise.resolve({})  # no next level
 
   afterRender: ->
     super()

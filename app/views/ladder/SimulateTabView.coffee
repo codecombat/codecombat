@@ -3,6 +3,7 @@ CocoClass = require 'core/CocoClass'
 SimulatorsLeaderboardCollection = require 'collections/SimulatorsLeaderboardCollection'
 Simulator = require 'lib/simulator/Simulator'
 {me} = require 'core/auth'
+loadAetherLanguage = require("lib/loadAetherLanguage");
 
 module.exports = class SimulateTabView extends CocoView
   id: 'simulate-tab-view'
@@ -15,11 +16,11 @@ module.exports = class SimulateTabView extends CocoView
     @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
     @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators', {cache: false})
     @simulatorsLeaderboardDataRes.load()
-    require 'bower_components/aether/build/javascript'
-    require 'bower_components/aether/build/python'
-    require 'bower_components/aether/build/coffeescript'
-    require 'bower_components/aether/build/lua'
-    require 'bower_components/aether/build/java'
+    Promise.all(
+      ["javascript", "python", "coffeescript", "lua"].map(
+        loadAetherLanguage
+      )
+    )
 
   onLoaded: ->
     super()

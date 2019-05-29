@@ -606,6 +606,7 @@ module.exports = Lank = class Lank extends CocoClass
   updateEffectMarks: ->
     return if _.isEqual @thang.effectNames, @previousEffectNames
     return if @stopped
+    @thang.effectNames ?= []
     for effect in @thang.effectNames
       mark = @addMark effect, @options.floatingLayer, effect
       mark.statusEffect = true
@@ -655,8 +656,8 @@ module.exports = Lank = class Lank extends CocoClass
       d.toggle debug
       d.updatePosition()
 
-  addLabel: (name, style) ->
-    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style
+  addLabel: (name, style, labelOptions={}) ->
+    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style, labelOptions: labelOptions
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->
@@ -703,13 +704,14 @@ module.exports = Lank = class Lank extends CocoClass
 
   updateLabels: ->
     return unless @thang
-    blurb = if @thang.health <= 0 then null else @thang.sayMessage  # Dead men tell no tales
+    blurb = if @thang.health? and @thang.health <= 0 then null else @thang.sayMessage  # Dead men tell no tales, however non-alive can
     blurb = null if blurb in ['For Thoktar!', 'Bones!', 'Behead!', 'Destroy!', 'Die, humans!']  # Let's just hear, not see, these ones.
     if /Hero Placeholder/.test(@thang.id)
       labelStyle = Label.STYLE_DIALOGUE
     else
       labelStyle = @thang.labelStyle ? Label.STYLE_SAY
-    @addLabel 'say', labelStyle if blurb
+    if blurb
+      @addLabel 'say', labelStyle, @thang.sayLabelOptions
     if @labels.say?.setText blurb
       @notifySpeechUpdated blurb: blurb
 

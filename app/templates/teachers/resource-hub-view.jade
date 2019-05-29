@@ -1,4 +1,4 @@
-extends /templates/base-flat
+extends /templates/base-flat.jade
 
 block page_nav
   include ../courses/teacher-dashboard-nav.jade
@@ -157,6 +157,13 @@ block content
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_javascript_desc")
         li
+          - var arenasURL = "http://files.codecombat.com/docs/resources/assessment_guide.pdf";
+          //- - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          //- -     arenasURL += '-pt-BR'
+          a(href=arenasURL)
+            span(data-i18n="teacher.assessments_curriculum")
+          p(data-i18n="teacher.assessments_curriculum_desc")
+        li
           - var arenasURL = "/teachers/resources/arenas";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     arenasURL += '-pt-BR'
@@ -218,6 +225,10 @@ block content
         //  a(href=wd1URL)
         //    span(data-i18n="teacher.wd1_curriculum")
         //  p(data-i18n="teacher.wd1_curriculum_desc")
+        li
+          a(href="/teachers/resources/wd1guide")
+            span(data-i18n="teacher.wd1_curriculum")
+          p(data-i18n="teacher.wd1_curriculum_desc")
         li
           a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesWorksheet.pdf")
             span(data-i18n="teacher.wd1_headlines")

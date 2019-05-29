@@ -9,7 +9,7 @@ module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
   @schema: schema
   urlRoot: '/db/campaign'
-  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards']))
+  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
 
   initialize: (options = {}) ->
@@ -39,6 +39,11 @@ module.exports = class Campaign extends CocoModel
       assessment = @levelIsAssessment level
       levels.push({key: level.original, practice, assessment})
     return utils.createLevelNumberMap(levels)
+
+  getLevelNameMap: () ->
+    levelNameMap = {}
+    @getLevels().models.map((l) => levelNameMap[l.get('original')] = utils.i18n(l.attributes, 'name'))
+    return levelNameMap
 
   getLevelNumber: (levelID, defaultNumber) ->
     @levelNumberMap ?= Campaign.getLevelNumberMap(@attributes)

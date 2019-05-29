@@ -13,9 +13,13 @@ compile = (contents, locals, filename, cb) ->
   outFile = filename.replace /.static.pug$/, '.html'
   # console.log {outFile, filename, basePath}
   out = pug.compileClientWithDependenciesTracked contents,
-    pretty: true
     filename: path.join(basePath, 'templates/static', filename)
     basedir: basePath
+
+  outFn = pug.compile(contents, {
+    filename: path.join(basePath, 'templates/static', filename),
+    basedir: basePath
+  })
 
   translate = (key) ->
     html = /^\[html\]/.test(key)
@@ -38,16 +42,17 @@ compile = (contents, locals, filename, cb) ->
     k[v]
 
   try
-    fn = new Function(out.body + '\n return template;')()
     locals = _.merge({_, i18n}, locals, require './static-mock')
-    # TODO: how do we eventually use dynamic global feature flags here?
-    # TODO: this should use chinaUx feature flag instead, but currently comes from process.env
+    # NOTE: do NOT add more build env-driven feature flags here if at all possible.
+    # NOTE: instead, use showingStaticPagesWhileLoading (in static-mock) to delay/hide UI until features flags loaded
     locals.me.useDexecure = -> not (locals.chinaInfra ? false)
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
-    str = fn(locals)
+    locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
+    str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath
     console.log 'ERROR', e.message
+    throw new Error(e.message)
     return cb(e.message)
 
   c = cheerio.load(str)
@@ -102,6 +107,7 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
         console.log "\nCompiled static file: #{filename}"
       catch err
         console.log "\nError compiling #{filename}:", err
+        return callback("\nError compiling #{filename}:", err)
     callback()
 
   # Watch the static template files for changes

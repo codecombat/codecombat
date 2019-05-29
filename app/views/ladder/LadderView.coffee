@@ -6,6 +6,7 @@ CocoCollection = require 'collections/CocoCollection'
 {teamDataFromLevel} = require './utils'
 {me} = require 'core/auth'
 # application = require 'core/application'
+co = require 'co'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -41,7 +42,15 @@ module.exports = class LadderView extends RootView
     'click .spectate-button': 'onClickSpectateButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
+    super(options)
+
+    if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
+      @leagueID = @leagueType = null
+
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
+    @level.once 'sync', (level) =>
+      @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
+
     onLoaded = =>
       return if @destroyed
       @levelDescription = marked(@level.get('description')) if @level.get('description')
@@ -59,6 +68,12 @@ module.exports = class LadderView extends RootView
     @loadLeague()
     @urls = require('core/urls')
 
+  getMeta: ->
+    title: $.i18n.t 'ladder.title'
+    link: [
+      { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
+    ]
+
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
     return unless @leagueID
@@ -70,9 +85,12 @@ module.exports = class LadderView extends RootView
       else
         @listenToOnce @league, 'sync', @onCourseInstanceLoaded
 
-  onCourseInstanceLoaded: (@courseInstance) ->
+  onCourseInstanceLoaded: co.wrap (@courseInstance) ->
     return if @destroyed
     @classroomID = @courseInstance.get('classroomID')
+    @ownerID = @courseInstance.get('ownerID')
+    @isSchoolAdmin = yield me.isSchoolAdminOf({ classroomId: @classroomID })
+    @isTeacher = yield me.isTeacherOf({ classroomId: @classroomID })
     course = new Course({_id: @courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render

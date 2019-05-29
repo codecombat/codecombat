@@ -4,18 +4,7 @@ CocoClass = require 'core/CocoClass'
 storage = require 'core/storage'
 GPLUS_TOKEN_KEY = 'gplusToken'
 
-# gplus user object props to
-userPropsToSave =
-  'name.givenName': 'firstName'
-  'name.familyName': 'lastName'
-  'gender': 'gender'
-  'id': 'gplusID'
-
-fieldsToFetch = 'displayName,gender,image,name(familyName,givenName),id'
-plusURL = '/plus/v1/people/me?fields='+fieldsToFetch
-revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token='
 clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
-scope = 'https://www.googleapis.com/auth/plus.login email'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
@@ -34,21 +23,21 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     window.gapi =
       client:
         load: (api, version, cb) -> cb()
-        plus:
+        people:
           people:
             get: -> {
               execute: (cb) ->
                 cb({
-                  name: {
+                  resourceName: 'people/abcd'
+                  names: [{
                     givenName: 'Mr'
                     familyName: 'Bean'
-                  }
-                  id: 'abcd'
-                  emails: [{value: 'some@email.com'}]
+                  }]
+                  emailAddresses: [{value: 'some@email.com'}]
                 })
             }
 
-      auth:
+      auth2:
         authorize: (opts, cb) ->
           cb({access_token: '1234'})
 
@@ -71,22 +60,13 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       po = document.createElement('script')
       po.type = 'text/javascript'
       po.async = true
-      po.src = 'https://apis.google.com/js/client:platform.js?onload=onGPlusLoaded'
+      po.src = 'https://apis.google.com/js/client:platform.js?onload=init'
       s = document.getElementsByTagName('script')[0]
       s.parentNode.insertBefore po, s
       @startedLoading = true
-      window.onGPlusLoaded = =>
+      window.init = =>
         @apiLoaded = true
-        if @accessToken and me.get('gplusID')
-          # We need to check the current state, given our access token
-          gapi.auth.setToken 'token', @accessToken
-          session_state = @accessToken.session_state
-          gapi.auth.checkSessionState {client_id: clientID, session_state: session_state}, (connected) =>
-            @connected = connected
-            @trigger 'load-api'
-        else
-          @connected = false
-          @trigger 'load-api'
+        @trigger 'load-api'
 
 
   connect: (options={}) ->
@@ -94,9 +74,15 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     options.context ?= options
     authOptions = {
       client_id: clientID
-      scope: 'https://www.googleapis.com/auth/plus.login email'
+      scope: options.scope || 'profile email'
+      response_type: 'permission'
     }
-    gapi.auth.authorize authOptions, (e) =>
+    if me.get('gplusID') and me.get('email')  # when already logged in and reauthorizing for new scopes or new access token
+      authOptions.login_hint = me.get('email')
+    gapi.auth2.authorize authOptions, (e) =>
+      if (e.error and options.error)
+        options.error.bind(options.context)()
+        return
       return unless e.access_token
       @connected = true
       try
@@ -114,21 +100,23 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     options.success ?= _.noop
     options.context ?= options
     # email and profile data loaded separately
-    gapi.client.load 'plus', 'v1', =>
-      gapi.client.plus.people.get({userId: 'me'}).execute (r) =>
-        attrs = {}
-        for gpProp, userProp of userPropsToSave
-          keys = gpProp.split('.')
-          value = r
-          for key in keys
-            value = value[key]
-          if value
-            attrs[userProp] = value
-
-        if r.emails?.length
-          attrs.email = r.emails[0].value
-        @trigger 'load-person', attrs
-        options.success.bind(options.context)(attrs)
+    gapi.client.load 'people', 'v1', =>
+      gapi.client.people.people.get({
+          'resourceName': 'people/me'
+          'personFields': 'names,genders,emailAddresses'
+        }).execute (r) =>
+          attrs = {}
+          if r.resourceName
+            attrs.gplusID = r.resourceName.split('/')[1]   # resourceName is of the form 'people/<id>'
+          if r.names?.length
+            attrs.firstName = r.names[0].givenName
+            attrs.lastName = r.names[0].familyName
+          if r.emailAddresses?.length
+            attrs.email = r.emailAddresses[0].value
+          if r.genders?.length
+            attrs.gender = r.genders[0].value
+          @trigger 'load-person', attrs
+          options.success.bind(options.context)(attrs)
 
 
   renderButtons: ->

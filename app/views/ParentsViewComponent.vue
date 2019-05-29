@@ -1,5 +1,5 @@
-<template lang="jade">
-#parent-view.style-flat
+<template lang="pug">
+#parent-view
   #jumbotron.container-fluid
     .container
       .row

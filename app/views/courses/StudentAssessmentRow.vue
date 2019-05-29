@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .row.level-row
     .col-xs-5
       div.level-type

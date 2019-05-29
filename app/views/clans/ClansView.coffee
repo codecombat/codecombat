@@ -14,6 +14,11 @@ module.exports = class ClansView extends RootView
   id: 'clans-view'
   template: template
 
+  getMeta: ->
+    title: $.i18n.t 'clans.title'
+    meta: [
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'clans.meta_description' }
+    ]
 
   events:
     'click .create-clan-btn': 'onClickCreateClan'
@@ -22,6 +27,8 @@ module.exports = class ClansView extends RootView
     'click .private-clan-checkbox': 'onClickPrivateCheckbox'
 
   initialize: ->
+    super()
+
     @publicClansArray = []
     @myClansArray = []
     @idNameMap = {}

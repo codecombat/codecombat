@@ -37,12 +37,22 @@ module.exports = class CoursesView extends RootView
     'click .play-btn': 'onClickPlay'
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
+    'click .view-ranking-link': 'onClickViewRanking'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
+    'click .view-videos-link': 'onClickViewVideosLink'
 
-  getTitle: -> return $.i18n.t('courses.students')
+  getMeta: ->
+    return {
+      title: $.i18n.t('courses.students')
+      links: [
+        { vmid: 'rel-canonical', rel: 'canonical', href: '/students'}
+      ]
+    }
 
   initialize: ->
+    super()
+
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf ci.get('courseID')
@@ -114,6 +124,9 @@ module.exports = class CoursesView extends RootView
     versionedCourse = _.find(classroom.get('courses'), {_id: courseInstance.get('courseID')})
     levels = versionedCourse.levels
     _.any(levels, { shareable: 'project' })
+
+  showVideosLinkForCourse: (courseId) ->
+    courseId == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
   onClickLogInButton: ->
     modal = new AuthModal()
@@ -230,6 +243,15 @@ module.exports = class CoursesView extends RootView
     levelsUrl = @urls.courseWorldMap({course, courseInstance})
     application.router.navigate(levelsUrl, { trigger: true })
 
+  onClickViewRanking: (e) ->
+    courseID = $(e.target).data('course-id')
+    courseInstanceID = $(e.target).data('courseinstance-id')
+    #window.tracker?.trackEvent 'Students View Ranking', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
+    course = store.state.courses.byId[courseID]
+    courseInstance = @courseInstances.get(courseInstanceID)
+    rankingUrl = @urls.courseRanking({course, courseInstance})
+    application.router.navigate(rankingUrl, { trigger: true })
+
   onClickViewProjectGalleryLink: (e) ->
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
@@ -241,3 +263,10 @@ module.exports = class CoursesView extends RootView
     courseID = $(e.target).data('course-id')
     window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/assessments/#{classroomID}##{courseID}", { trigger: true })
+
+  onClickViewVideosLink: (e) ->
+    classroomID = $(e.target).data('classroom-id')
+    courseID = $(e.target).data('course-id')
+    courseName = $(e.target).data('course-name')
+    window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
+    application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })

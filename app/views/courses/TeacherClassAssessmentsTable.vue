@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #teacher-class-assessments-table(v-if="courseInstance && courseInstance.members.length > 0")
     div.table-row(v-if="levels.length === 0")
       div.table-cell No assessment levels available for this course yet.
@@ -14,7 +14,8 @@
           div.table-cell.name
             div
               strong
-                a(:href="studentLink(student._id)") {{ broadName(student) }}
+                a(v-if="!readOnly" :href="studentLink(student._id)") {{ broadName(student) }}
+                span(v-else) {{ broadName(student) }}
             div.student-email {{ student.email || student.name }}
     div.data-column(ref="dataColumn", @scroll="updateArrows" v-if="levels.length > 0")
       div(v-for="(student, index) in students")
@@ -39,7 +40,8 @@
               :courseInstance="courseInstance",
               :course="course",
               :classroom="classroom",
-            ) 
+              :readOnly="readOnly"
+            )
   div(v-else)
     h2.text-center
       i(data-i18n='teacher.no_student_assigned')
@@ -57,7 +59,8 @@
       progress: { default: -> {} }
       course: {}
       courseInstance: {}
-      classroom: {}
+      classroom: {},
+      readOnly: Boolean
     },
     data: ->
       showPrevArrows: false
@@ -91,7 +94,7 @@
 
 <style lang="sass">
   @import "app/styles/bootstrap/variables"
-  
+
   #teacher-class-assessments-table
     .table-row.lighter
       .table-cell

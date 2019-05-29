@@ -30,26 +30,25 @@ style.
 
 .style-flat
   .menu
-    .print-btn.btn.btn-success Print
+    .print-btn.btn.btn-success(data-i18n="courses.certificate_btn_print")
+    if view.needLanguageToggle
+      .toggle-btn.btn.btn-success(data-i18n="courses.certificate_btn_toggle")
 
   .certificate
     if view.courseStats
       img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
-    div(class="certificate-contents" + ((view.courseStats && !view.courseStats.courseComplete) ? " in-progress" : ""))
+    div(class="certificate-contents")
       img.logo-img(src="/images/pages/base/logo.png")
       .certificate-text-container
         if view.supermodel.isLoading || !view.courseStats
           h1.loading-indicator(data-i18n="common.loading")
         else
-          if !view.courseStats.courseComplete
-            h3.certificate-of-completion(data-i18n="teacher.in_progress")
-          else
-            h3.certificate-of-completion(data-i18n="user.certificate_of_completion")
+          h3.certificate-of-completion(data-i18n="user.certificate_of_completion")
           h1.student-name= view.studentName || view.user.broadName()
           h4.course-name
             span(data-i18n="user.certificate_for")
             span= ' '
-            span= i18n(view.course.attributes, 'name')
+            span= i18n(view.course.attributes, 'name', view.currentLang)
           .code-results.outcome-section
             h3.learned-title(data-i18n="user.certificate_stats")
             ul.list-unstyled
@@ -81,6 +80,10 @@ style.
               span(data-i18n="courses.teacher")
               span= ': '
               span= view.teacherName
+          if view.certificateNumber
+            .certificate-number-info
+              span(data-i18n="user.certificate_number")
+              span= ' ' + view.certificateNumber
           if view.thangType && view.thangType.loaded
             .hero-signature
               img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')

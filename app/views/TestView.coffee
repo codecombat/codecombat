@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
+loadAetherLanguage = require("lib/loadAetherLanguage")
 
 require('vendor/styles/jasmine.css')
 window.getJasmineRequireObj = require('exports-loader?getJasmineRequireObj!vendor/scripts/jasmine')
@@ -12,7 +13,7 @@ unless application.karmaTest # Karma doesn't use these two libraries, needs them
   require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot')
 require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax')
 
-requireTests = require.context('test/app', true, /.*\.(coffee|js)$/)
+requireTests = require.context('test', true, /.*\.(coffee|js)$/)
 
 TEST_REQUIRE_PREFIX = './'
 TEST_URL_PREFIX = '/test/'
@@ -46,11 +47,17 @@ module.exports = TestView = class TestView extends RootView
     @loadedFileIDs = []
 
   afterInsert: ->
-    @initSpecFiles()
-    @render()
-    TestView.runTests(@specFiles, @demosOn, @)
-    window.runJasmine()
-    
+    Promise.all(
+      ["python", "coffeescript", "lua"].map(
+        loadAetherLanguage
+      )
+    ).then(=>
+      @initSpecFiles()
+      @render()
+      TestView.runTests(@specFiles, @demosOn, @)
+      window.runJasmine()
+    )
+
   # EVENTS
 
   onClickShowDemosButton: ->

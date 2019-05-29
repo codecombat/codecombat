@@ -20,6 +20,7 @@ hasUserCompletedCourse = (userLevels, levelsInCourse) ->
       allComplete = false
     userLevelsSeen++
   allComplete = false unless userStarted
+
   [userStarted, allComplete and userLevelsSeen == levelsInCourse.size, completed]
 
 module.exports =
@@ -178,7 +179,7 @@ module.exports =
             numStarted: 0
             # numCompleted: 0
           }
-          isOptional = level.get('practice') or level.get('assessment')
+          isOptional = level.get('practice') or level.get('assessment') or level.isLadder()
           sessionsForLevel = _.filter classroom.sessions.models, (session) ->
             session.get('level').original is levelID
 

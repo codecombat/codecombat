@@ -126,6 +126,7 @@ _.extend UserSchema.properties,
   dateCreated: c.date({title: 'Date Joined'})
   anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
+  testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
@@ -142,8 +143,32 @@ _.extend UserSchema.properties,
   preferredLanguage: {'enum': [null].concat(c.getLanguageCodeArray())}
 
   signedCLA: c.date({title: 'Date Signed the CLA'})
+
+  # Legacy customizable wizard from a very early version of the game.
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
+
+  customization: c.object(
+    {
+      title: 'Player Customization',
+      descipription: 'Individual player customization options'
+    }, {
+      tints: c.array(
+        {
+          title: 'Tints',
+          description: 'Array of possible tints'
+        },
+        c.object({
+          title: 'tintGroup',
+          description: 'Duplicate data that would be found in a tint',
+          required: ['slug', 'colorGroups']
+        }, {
+          slug: c.shortString({
+            title: 'Tint Slug',
+          }),
+          colorGroups: c.object({ additionalProperties: c.colorConfig() })
+        }))
+    })
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
     language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
@@ -155,6 +180,14 @@ _.extend UserSchema.properties,
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
+
+  googleClassrooms: c.array { title: 'Google classrooms for the teacher' },
+    c.object { required: ['name', 'id'] },
+      id: { type: 'string' }
+      name: { type: 'string' }
+      importedToCoco: { type: 'boolean', default: false }
+
+  importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
 
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
@@ -194,6 +227,8 @@ _.extend UserSchema.properties,
     courseMiscPatches: c.int()
     courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
+    licenses: c.object { additionalProperties: true }
+    students: c.object { additionalProperties: true }
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
@@ -300,6 +335,9 @@ _.extend UserSchema.properties,
       studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
       studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
+
+  administratedTeachers: c.array {}, c.objectId()
+  administratingTeachers: c.array {}, c.objectId()
 
   features:
     type: 'object'

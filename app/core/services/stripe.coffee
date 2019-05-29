@@ -2,8 +2,10 @@ publishableKey = if application.isProduction() then 'pk_live_27jQZozjDGN1HSUTnSu
 
 if me.isAnonymous()
   module.exports = {
+    open: _.noop # for tests to spy on
     openAsync: _.noop # for tests to spy on
   }
+  _.extend(module.exports, Backbone.Events)
   module.exports.makeNewInstance = _.clone(module.exports)
 else if not StripeCheckout?
   module.exports = {}
@@ -19,6 +21,7 @@ else
         handler.trigger 'received-token', { token }
         Backbone.Mediator.publish 'stripe:received-token', { token: token }
       locale: 'auto'
+      zipCode: true
     })
     handler.id = _.uniqueId()
     handler.openAsync = (options) ->
