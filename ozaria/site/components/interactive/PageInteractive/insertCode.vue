@@ -8,6 +8,13 @@
 
   import BaseInteractiveTitle from './BaseInteractiveTitle'
 
+  const SAMPLE_CODE = `
+          let x = "y"
+
+          let a = "b"
+          console.log(x + a)
+          `
+
   export default {
     components: {
       codemirror,
@@ -50,24 +57,36 @@
     },
 
     computed: {
-      code () {
-        const codePrompt = [
-          'let x = "y"',
-          undefined,
-          'let a = "b"',
-          'console.log(x + a)'
+      sampleCodeSplit () {
+        const splitSampleCode = SAMPLE_CODE
+          .trim()
+          .split('\n')
+          .map(line => line.trim())
+
+        let emptyIndex = splitSampleCode.indexOf('')
+        if (emptyIndex === -1) {
+          emptyIndex = splitSampleCode.length
+        }
+
+        console.log('got empty index', emptyIndex)
+
+        return [
+          splitSampleCode.slice(0, emptyIndex).join('\n'),
+          splitSampleCode.slice(emptyIndex + 1).join('\n')
         ]
+      },
 
-        return codePrompt.reduce((code, codeLine) => {
-          let line = codeLine
-          if (typeof line === 'undefined') {
-            if (this.selectedAnswer) {
-              line = this.selectedAnswer.line
-            }
-          }
+      code () {
+        const splitSampleCode = this.sampleCodeSplit
+        console.log(splitSampleCode)
 
-          return `${code}\n${line || ''}`
-        })
+        let selectedAnswerLine = ''
+        if (this.selectedAnswer) {
+          selectedAnswerLine = this.selectedAnswer.line.trim()
+        }
+
+        console.log(splitSampleCode[0], selectedAnswerLine, splitSampleCode[1])
+        return `${splitSampleCode[0]}\n${selectedAnswerLine}\n${splitSampleCode[1]}`
       },
 
       answerOptions () {
