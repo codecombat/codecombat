@@ -32,8 +32,8 @@ export default {
   data: () => ({
     controller: null,
     enterDisabled: false,
-    width: 1280,
-    height: 850
+    width: 1366,
+    height: 768
   }),
   mounted: function() {
     if (!me.hasCinematicAccess()) {
