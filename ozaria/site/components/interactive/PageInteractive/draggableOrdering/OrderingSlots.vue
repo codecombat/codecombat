@@ -7,6 +7,11 @@
     },
 
     props: {
+      draggableGroup: {
+        type: String,
+        required: true
+      },
+
       numSlots: {
         type: Number,
         default: undefined
@@ -24,9 +29,9 @@
       if (typeof this.numSlots !== 'undefined') {
         slotData = Array(this.numSlots)
           .fill(undefined)
-          .map(() => ({ data: [] }))
+          .map(() => [])
       } else {
-        slotData = this.value.map(s => ({ data: [ s ] }))
+        slotData = this.value.map(s => [ s ])
       }
 
       return {
@@ -38,7 +43,7 @@
       changed () {
         this.$emit(
           'input',
-          this.slotData.map(s => s.data[0])
+          this.slotData.map(s => s[0])
         )
       }
     }
@@ -51,17 +56,17 @@
       v-for="(slot, i) in slotData"
       :key="i"
 
-      v-model="slot.data"
+      v-model="slotData[i]"
 
       tag="ul"
-      :group="{ name: 'asdf', pull: true, put: slot.data.length === 0 }"
+      :group="{ name: draggableGroup, pull: true, put: true }"
 
       class="ordering-slot"
 
       @change="changed"
     >
       <li
-        v-for="s in slot.data"
+        v-for="s in slotData[i]"
         :key="s.id"
       >
         {{ s.text }}
