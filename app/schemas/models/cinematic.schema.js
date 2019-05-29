@@ -56,6 +56,7 @@ const ShotSetup = c.object({
 }, {
   rightThangType: CharacterSchema('Right Character'),
   leftThangType: CharacterSchema('Left Character'),
+  heroDogThangType: ThangTypeSchema('Hero Dog', 'The position property will be used to place the dog at an offset on the right lank.'),
   backgroundArt: ThangTypeSchema('Background Art', 'The rasterized image to place on the background'),
   camera: c.object({
     title: 'Camera placement',

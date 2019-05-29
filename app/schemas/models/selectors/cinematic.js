@@ -158,10 +158,34 @@ const rightCharacter = shotSetup => (shotSetup || {}).rightThangType
 const backgroundArt = shotSetup => (shotSetup || {}).backgroundArt
 
 /**
+ * @param {ShotSetup} shotSetup
+ * @returns {Object|undefined} heroDogThangType
+ */
+const heroDogThangType = shotSetup => (shotSetup || {}).heroDogThangType
+
+/**
  * @param {Object} o Object that may have slug property
  * @returns {string|undefined}
  */
 const slug = o => (o || {}).slug
+
+/**
+ * Returns a thang from a thangType if properties exist.
+ * @param {Object} thangType that matches the ThangTypeSchema with a Character Slug
+ * @returns {Object|undefined} returns thang if required properties exist.
+ */
+const extractThangTypeSchemaSlug = thangType => {
+  if (!(thangType || {}).type) {
+    return
+  }
+  if (!(thangType.type || {}).slug) {
+    return
+  }
+  const { pos, scaleX, scaleY } = thangType
+  const thang = { pos, scaleX, scaleY }
+  const slug = thangType.type.slug
+  return { thang, slug }
+}
 
 /**
  * Returns properties required to place a background Lank.
@@ -169,17 +193,33 @@ const slug = o => (o || {}).slug
  * @returns {Object|undefined} a background object
  */
 const background = backgroundArt => {
-  if (!(backgroundArt || {}).type) {
+  const thangData = extractThangTypeSchemaSlug(backgroundArt)
+  if (!thangData) {
     return
   }
-  if (!(backgroundArt.type || {}).slug) {
-    return
-  }
-  const { pos, scaleX, scaleY } = backgroundArt
+  const { slug, thang } = thangData
 
   return {
-    slug: backgroundArt.type.slug,
-    thang: _.merge(DEFAULT_THANGTYPE(), { pos, scaleX, scaleY })
+    slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), thang)
+  }
+}
+
+/**
+ * Returns properties required to place a hero dog Lank.
+ * @param {Object} heroDogSchema
+ * @returns {Object|undefined} a dog object with slug and thang
+ */
+const heroDog = heroDog => {
+  const thangData = extractThangTypeSchemaSlug(heroDog)
+  if (!thangData) {
+    return
+  }
+  const { slug, thang } = thangData
+
+  return {
+    slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), thang)
   }
 }
 
@@ -439,6 +479,13 @@ export const getBackground = compose(shotSetup, backgroundArt, background)
  * @returns {string|undefined}
  */
 export const getBackgroundSlug = compose(shotSetup, backgroundArt, background, slug)
+
+/**
+ * Get hero dog thang
+ * @param {Shot} shot
+ * @returns {Object|undefined}
+ */
+export const getHeroDog = compose(shotSetup, heroDogThangType, heroDog)
 
 /**
  * @param {DialogNode} dialogNode
