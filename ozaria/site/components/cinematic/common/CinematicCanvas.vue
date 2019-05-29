@@ -85,8 +85,8 @@ export default {
 #cinematic-div {
   position: relative;
   font-size: 1.5em;
-  height: 850px;
-  width: 1280px;
+  height: 768px;
+  width: 1366px;
 }
 
 #cinematic-div canvas {
