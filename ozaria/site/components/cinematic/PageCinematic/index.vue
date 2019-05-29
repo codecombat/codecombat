@@ -34,10 +34,18 @@ module.exports = Vue.extend({
         }
       })
     }
-  }
+  },
+  methods: {
+    completedHandler () {
+      this.$emit('completed')
+    }
+  },
 })
 </script>
 
 <template>
-  <cinematic-canvas v-if="cinematicData" :cinematicData="cinematicData" />
+  <cinematic-canvas
+    v-if="cinematicData"
+    v-on:completed="completedHandler"
+    :cinematicData="cinematicData" />
 </template>
