@@ -81,7 +81,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #cinematic-div {
   position: relative;
   font-size: 1.5em;
@@ -92,5 +92,42 @@ export default {
 #cinematic-div canvas {
   display: block;
   position: absolute;
+}
+
+.speech-left {
+  border: 2px solid black;
+  border-image:
+    url(/images/cinematic/DialogBubble_Left.png);
+
+  /* Values that work for the dev art speech bubble */
+  border-image-slice: 27.58% 21.98% 24.35% 52.03% fill;
+  border-image-width: 12px; 
+  border-image-outset: 12px;
+}
+
+.speech-left {
+  border: 2px solid black;
+  background-color: white;
+  border-image:
+    url(/images/cinematic/DialogBubble_Left.png);
+
+  /* Values that work for the dev art speech bubble */
+  border-image-slice: 27.58% 52.03% 34.01% 35.58% fill;
+  border-image-width: 12px;
+  border-image-outset: 12px;
+  padding: 4px;
+}
+
+.speech-right {
+  border: 2px solid black;
+  background-color: white;
+  border-image:
+    url(/images/cinematic/DialogBubble_Right.png);
+
+  /* Values that work for the dev art speech bubble */
+  border-image-slice: 27.58% 21.98% 24.35% 52.03% fill;
+  border-image-width: 12px; 
+  border-image-outset: 12px;
+  padding: 4px;
 }
 </style>

@@ -113,6 +113,7 @@ class SpeechBubble {
     textDiv.style.display = 'inline-block'
     textDiv.style.position = 'absolute'
     textDiv.id = this.id
+    textDiv.className = `speech-${side}`
 
     div.appendChild(textDiv)
 
