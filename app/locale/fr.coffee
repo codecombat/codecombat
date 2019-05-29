@@ -1556,6 +1556,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     update_old_classroom_detail_2: "et en donnant aux élèves le nouveau code de classe qui apparaît."
     view_assessments: "Voir les évaluations"
     view_challenges: "voir les niveaux de défi"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Défi:"
     challenge_level: "Niveau de défi :"
     status: "Statut:"
@@ -1584,6 +1588,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Soyez le premier à publier un projet dans ce cours !"

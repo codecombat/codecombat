@@ -1555,6 +1555,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     update_old_classroom_detail_2: "naq tvivat fghqragf gur arj Pynff Pbqr gung nccrnef."
     view_assessments: "Ivrj Nffrffzragf"
     view_challenges: "ivrj punyyratr yriryf"
+    view_ranking: "ivrj enaxvat"
+    ranking_position: "Cbfvgvba"
+    ranking_players: "Cynlref"
+    ranking_completed_leves: "Pbzcyrgrq yriryf"
     challenge: "Punyyratr:"
     challenge_level: "Punyyratr Yriry:"
     status: "Fgnghf:"
@@ -1583,6 +1587,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     no_classrooms_found: "Ab pynffebbzf sbhaq"
     create_classroom_manually: "Perngr pynffebbz znahnyyl"
     classes: "Pynffrf"
+    certificate_btn_print: "Cevag"
+    certificate_btn_toggle: "Gbttyr"
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"

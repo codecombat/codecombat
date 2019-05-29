@@ -1556,6 +1556,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     update_old_classroom_detail_2: "i donant a l'alumnat el nou Codi de Classe que apareixerà."
     view_assessments: "Veure Avaluacions"
     view_challenges: "veure els nivells de desafiament"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Desafiament:"
     challenge_level: "Nivell de Desafiament:"
     status: "Estat:"
@@ -1584,6 +1588,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"

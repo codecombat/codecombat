@@ -1588,6 +1588,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     no_classrooms_found: "Nenhuma turma encontrada"
     create_classroom_manually: "Crie a sua turma manualmente"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Seja o primeiro a publicar um projeto neste curso!"

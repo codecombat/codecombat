@@ -62,9 +62,9 @@ module.exports = class CertificatesView extends RootView
 
     tenbillion = 10000000
     nintybillion = 90000000
-    @certificateNumber =   # keep only 8 digits
-      ((@hashString(@user.id + @courseInstanceID) % nintybillion) + nintybillion) % nintybillion + tenbillion   # 10000000 ~ 99999999
-
+    if features?.chinaUx
+      @certificateNumber =   # keep only 8 digits
+        ((@hashString(@user.id + @courseInstanceID) % nintybillion) + nintybillion) % nintybillion + tenbillion   # 10000000 ~ 99999999
 
     @currentLang = me.get('preferredLanguage', true)
     @needLanguageToggle = @currentLang.split('-')[0] != 'en'
