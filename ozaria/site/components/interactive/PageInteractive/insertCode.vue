@@ -40,7 +40,7 @@
       return {
         codemirrorOptions: {
           tabSize: 2,
-          mode: 'text/javascript',
+          mode: 'text/javascript', // TODO drive this from the classroom
           lineNumbers: true,
           readOnly: 'nocursor'
         },

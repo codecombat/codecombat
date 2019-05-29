@@ -2,7 +2,7 @@
   import { getInteractive, getSession } from '../../../api/interactive'
   import draggableOrderingComponent from './draggableOrdering/index'
   import insertCodeComponent from './insertCode'
-  import draggableStatementCompletionComponent from './draggableStatementCompletion'
+  import draggableStatementCompletionComponent from './draggableStatementCompletion/index'
 
   module.exports = Vue.extend({
     components: {

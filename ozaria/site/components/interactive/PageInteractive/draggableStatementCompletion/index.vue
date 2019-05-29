@@ -1,12 +1,14 @@
 <script>
   import draggable from 'vuedraggable'
 
-  import BaseInteractiveTitle from './BaseInteractiveTitle'
+  import StatementSlot from './StatementSlot'
+  import BaseInteractiveTitle from '../BaseInteractiveTitle'
 
   export default {
     components: {
       'draggable': draggable,
-      'base-interactive-title': BaseInteractiveTitle
+      'base-interactive-title': BaseInteractiveTitle,
+      'statement-slot': StatementSlot
     },
 
     props: {
@@ -33,6 +35,8 @@
 
     data () {
       return {
+        draggableGroup: Math.random().toString(),
+
         answers: [
           {
             id: 1,
@@ -48,15 +52,9 @@
           }
         ],
 
-        answerSlot1: [],
-        answerSlot2: [],
-        answerSlot3: []
-      }
-    },
-
-    methods: {
-      onAnswerMoved () {
-        console.log('yo')
+        answerSlot1: undefined,
+        answerSlot2: undefined,
+        answerSlot3: undefined
       }
     }
   }
@@ -69,19 +67,20 @@
     />
 
     <div class="prompt-row">
-      <draggable
-        v-model="answers"
-        tag="ul"
-        class="answer-bank"
-        group="test"
-      >
-        <li
-          v-for="answer of answers"
-          :key="answer.id"
+      <div class="answer-bank">
+        <draggable
+          v-model="answers"
+          tag="ul"
+          :group="draggableGroup"
         >
-          {{ answer.text }}
-        </li>
-      </draggable>
+          <li
+            v-for="answer of answers"
+            :key="answer.id"
+          >
+            {{ answer.text }}
+          </li>
+        </draggable>
+      </div>
 
       <div class="art-container">
         <img
@@ -92,45 +91,20 @@
     </div>
 
     <div class="answer-row">
-      <draggable
+      <statement-slot
         v-model="answerSlot1"
-        tag="ul"
-        :group="{ name: 'test', pull: true, put: answerSlot1.length === 0 }"
-        :move="onAnswerMoved"
-      >
-        <li
-          v-for="answer of answerSlot1"
-          :key="answer.id"
-        >
-          {{ answer.text }}
-        </li>
-      </draggable>
+        :draggable-group="draggableGroup"
+      />
 
-      <draggable
+      <statement-slot
         v-model="answerSlot2"
-        tag="ul"
-        :group="{ name: 'test', pull: true, put: answerSlot2.length === 0 }"
-      >
-        <li
-          v-for="answer of answerSlot2"
-          :key="answer.id"
-        >
-          {{ answer.text }}
-        </li>
-      </draggable>
+        :draggable-group="draggableGroup"
+      />
 
-      <draggable
+      <statement-slot
         v-model="answerSlot3"
-        tag="ul"
-        :group="{ name: 'test', pull: true, put: answerSlot3.length === 0 }"
-      >
-        <li
-          v-for="answer of answerSlot3"
-          :key="answer.id"
-        >
-          {{ answer.text }}
-        </li>
-      </draggable>
+        :draggable-group="draggableGroup"
+      />
     </div>
   </div>
 </template>
@@ -147,31 +121,38 @@
     display: flex;
     flex-direction: row;
 
+    max-height: 700px;
+
     .art-container {
       flex-grow: 1;
 
       padding: 15px;
       padding-top: 0px;
 
+      text-align: center;
+
       img {
-        width: 100%;
+        height: 100%;
       }
     }
   }
 
   .answer-bank {
-    list-style: none;
-
-    height: 100%;
     width: 30%;
 
-    li {
-      padding: 25px;
+    ul {
+      list-style: none;
 
-      border: 1px solid black;
-      font-weight: bold;
+      height: 100%;
 
-      font-size: 15px;
+      li {
+        padding: 25px;
+
+        border: 1px solid black;
+        font-weight: bold;
+
+        font-size: 15px;
+      }
     }
   }
 
