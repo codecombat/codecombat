@@ -31,7 +31,6 @@
     },
 
     data: () => ({
-      loading: false,
       interactive: {},
       interactiveSession: {},
       interactiveType: ''
