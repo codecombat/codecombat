@@ -1,5 +1,5 @@
 <script>
-  import BaseInteractiveTitle from '../../BaseInteractiveTitle'
+  import BaseInteractiveTitle from '../BaseInteractiveTitle'
   import OrderingSlots from './OrderingSlots'
 
   export default {
@@ -43,12 +43,6 @@
       }
     },
 
-    computed: {
-      questionTitle () {
-        return this.interactive.title || 'Question Title'
-      }
-    },
-
     methods: {
       answersUpdated () {
       }
@@ -57,9 +51,9 @@
 </script>
 
 <template>
-  <div class="interactive-container">
+  <div class="draggable-ordering-container">
     <base-interactive-title
-      :interactive-title="questionTitle"
+      :interactive="this.interactive"
     />
 
     <div class="prompt-row">
@@ -83,8 +77,8 @@
   </div>
 </template>
 
-<style scoped>
-  .interactive-container {
+<style lang="scss" scoped>
+  .draggable-ordering-container {
     padding: 75px;
 
     display: flex;
@@ -96,16 +90,15 @@
   .prompt-row {
     display: flex;
     flex-direction: row;
-  }
 
-  .prompt-row .art-container {
-    flex-grow: 1;
+    .art-container {
+      flex-grow: 1;
 
-    padding: 15px;
-    padding-top: 0px;
-  }
+      padding: 0 15px 15px;
 
-  .prompt-row .art-container img {
-    width: 100%;
+      img {
+        width: 100%;
+      }
+    }
   }
 </style>

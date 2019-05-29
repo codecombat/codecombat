@@ -1,9 +1,17 @@
 <script>
+  import { i18n } from 'app/core/utils'
+
   export default {
     props: {
-      interactiveTitle: {
-        type: String,
+      interactive: {
+        type: Object,
         required: true
+      }
+    },
+
+    computed: {
+      interactiveTitle () {
+        return i18n(this.interactive, 'promptText')
       }
     }
   }
