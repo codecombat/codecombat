@@ -24,14 +24,9 @@ module.exports = Vue.extend({
       this.cinematicData = await getCinematic(this.cinematicIdOrSlug)
     } catch (e) {
       return noty({
-        text: `Error finding slug '${cinematicIdOrSlug}'.`,
+        text: `Error finding cinematic '${cinematicIdOrSlug}'.`,
         type:'error',
-        timeout: 3000,
-        callback: {
-          onClose: () => {
-            application.router.navigate('/editor/cinematic', { trigger: true })
-          }
-        }
+        timeout: 3000
       })
     }
   },
