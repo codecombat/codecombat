@@ -1,5 +1,6 @@
 <script>
-  import { getInteractive, getSession } from '../../../api/interactive'
+  import { mapGetters, mapActions } from 'vuex'
+
   import draggableOrderingComponent from './draggableOrdering'
   import insertCodeComponent from './insertCode'
   import draggableStatementCompletionComponent from './draggableStatementCompletion'
@@ -30,15 +31,15 @@
       }
     },
 
-    data: () => ({
-      interactive: {},
-      interactiveSession: {},
-      interactiveType: ''
-    }),
-
     computed: {
+      ...mapGetters('interactives', [
+        'currentInteractiveDataLoading',
+        'currentInteractive',
+        'currentInteractiveSession'
+      ]),
+
       interactiveComponent () {
-        switch (this.interactive.interactiveType) {
+        switch (this.currentInteractive.interactiveType) {
         case 'draggable-statement-completion':
           return draggableStatementCompletionComponent
 
@@ -71,6 +72,11 @@
     },
 
     methods: {
+      ...mapActions('interactives', [
+        'loadInteractive',
+        'loadInteractiveSession'
+      ]),
+
       onCompleted () {
         this.$emit('completed')
       },
@@ -79,23 +85,20 @@
         this.loading = true
 
         try {
-          this.interactive = await getInteractive(this.interactiveIdOrSlug)
-          this.interactiveType = this.interactive.interactiveType
-          if (!this.interactiveType) {
-            return Promise.reject('Interactive type is not set for the interactive ' + this.interactiveIdOrSlug)
-          }
-          if (!me.isSessionless()) { // not saving progress/session for teachers
-            const getSessionOptions = {
+          const interactivePromise = this.loadInteractive(this.interactiveIdOrSlug)
+          const interactiveSessionPromise = this.loadInteractiveSession({
+            interactiveIdOrSlug: this.interactiveIdOrSlug,
+            sessionOptions: {
               introLevelId: this.introLevelId,
               courseInstanceId: this.courseInstanceId
             }
-            this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions )
-          }
+          })
+
+          await interactivePromise
+          await interactiveSessionPromise
         } catch (err) {
           console.error('Error:', err)
           return noty({ text: 'Error occured in creating interactives data.', type: 'error', timeout: '2000' })
-        } finally {
-          this.loading = false
         }
       }
     }
@@ -104,16 +107,16 @@
 
 <template>
   <div class="interactive-container">
-    <h1 v-if="loading">
+    <h1 v-if="currentInteractiveDataLoading">
       LOADING
     </h1>
 
     <component
       :is="interactiveComponent"
       v-else
-      :interactive="interactive"
+      :interactive="currentInteractive"
       :intro-level-id="introLevelId"
-      :interactive-session="interactiveSession"
+      :interactive-session="currentInteractiveSession"
       :course-instance-id="courseInstanceId"
       @completed="onCompleted"
     />
