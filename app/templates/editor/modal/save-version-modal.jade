@@ -13,9 +13,10 @@ block modal-body-content
       .form-group.commit-message
         input.form-control#commit-message(name="commitMessage", type="text")
       if !view.isPatch && !view.options.noNewMajorVersions
-        .checkbox
+        // We don't use the major version feature, and it might be buggy, so hide for now.
+        .checkbox.hide
           label
-            input#major-version(name="version-is-major", type="checkbox")
+            input#major-version(name="version-is-major", type="checkbox", disabled=true)
             span(data-i18n="versions.new_major_version") New Major Version
   else
     .alert.alert-danger(data-i18n="delta.no_changes") No changes
