@@ -32,8 +32,8 @@ export default {
   data: () => ({
     controller: null,
     enterDisabled: false,
-    width: 1280,
-    height: 850
+    width: 1366,
+    height: 768
   }),
   mounted: function() {
     if (!me.hasCinematicAccess()) {
@@ -48,6 +48,7 @@ export default {
       handlers: {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
+        onCompletion: () => this.$emit('completed')
       }})
     window.addEventListener('keypress', this.handleKeyboardCancellation)
   },
@@ -84,8 +85,8 @@ export default {
 #cinematic-div {
   position: relative;
   font-size: 1.5em;
-  height: 850px;
-  width: 1280px;
+  height: 768px;
+  width: 1366px;
 }
 
 #cinematic-div canvas {
