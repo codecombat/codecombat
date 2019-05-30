@@ -6,6 +6,7 @@ import {
   getRightHero,
   getClearBackgroundObject,
   getBackgroundObject,
+  getBackgroundObjectDelay,
   getBackground,
   getClearText,
   getSpeaker,
@@ -87,6 +88,14 @@ describe('Cinematic', () => {
       expect(result).toEqual({ scaleX: 1, scaleY: 1, pos: { x: 0, y: 0 }, type: { slug: 'background-obj-fixture' } })
 
       const result2 = getBackgroundObject(shotFixture2.dialogNodes[0])
+      expect(result2).toBeUndefined()
+    })
+
+    it('getBackgroundObjectDelay', () => {
+      const result = getBackgroundObjectDelay(shotFixture1.dialogNodes[0])
+      expect(result).toEqual(1337)
+
+      const result2 = getBackgroundObjectDelay(shotFixture2.dialogNodes[0])
       expect(result2).toBeUndefined()
     })
 
