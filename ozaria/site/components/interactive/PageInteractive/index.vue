@@ -31,32 +31,49 @@ module.exports = Vue.extend({
     'insert-code': insertCodeComponent,
     'draggable-statement-completion': draggableStatementCompletionComponent
   },
+  watch : {
+    interactiveIdOrSlug: async function() {
+      try {
+        await this.getInteractiveData()
+      } catch (err) {
+        console.error("Error:", err)
+        return noty({ text: 'Error occured in creating interactives data.', type: 'error', timeout: '2000' })
+      }
+    }
+  },
   async created() {
     if (!me.hasInteractiveAccess()) {
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/', { trigger: true })
     }
     try {
-      this.interactive = await getInteractive(this.interactiveIdOrSlug)
-      this.interactiveType = this.interactive.interactiveType
-      if (!this.interactiveType) {
-        console.error("Interactive type is not set for the interactive", this.interactiveIdOrSlug)
-        noty({ text: 'Interactive type is not set for the interactive', type: 'error', timeout: '2000' })
-        return
-      }
-      const getSessionOptions = {
-        introLevelId: this.introLevelId,
-        courseInstanceId: this.courseInstanceId
-      }
-      this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions )
+      await this.getInteractiveData()
     } catch (err) {
       console.error("Error:", err)
-      noty({ text: 'Error occured in getting interactives data.', type: 'error', timeout: '2000' })
+      return noty({ text: 'Error occured in creating interactives data.', type: 'error', timeout: '2000' })
     }
   },
   methods: {
     onCompleted() {
       this.$emit('completed')
+    },
+    async getInteractiveData() {
+      try {
+        this.interactive = await getInteractive(this.interactiveIdOrSlug)
+        this.interactiveType = this.interactive.interactiveType
+        if (!this.interactiveType) {
+          return Promise.reject("Interactive type is not set for the interactive " + this.interactiveIdOrSlug)
+        }
+        if (!me.isSessionless()) {
+          const getSessionOptions = {
+            introLevelId: this.introLevelId,
+            courseInstanceId: this.courseInstanceId
+          }
+          this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions )
+        }
+      } catch (err) {
+        return Promise.reject(err)
+      }
     }
   }
 })

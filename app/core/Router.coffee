@@ -175,6 +175,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
+    'ozaria/play/intro/:introLevelOriginalId': go('core/SingletonAppVueComponentView')
     'ozaria/play/level/:levelID': go('views/ozaria/site/play/level/PlayLevelView')
     'parents': go('ParentsView')
 

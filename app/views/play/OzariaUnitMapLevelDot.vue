@@ -50,13 +50,17 @@ export default Vue.extend({
       if (this.levelData.locked)
         return '#'
 
+      if (this.levelData.type == 'intro') {
+        link = '/ozaria/play/intro/' + this.levelData.slug
+      } else {
+        link = '/ozaria/play/level/' + this.levelData.slug
+      }
+
       if (this.courseId && this.courseInstanceId) {
-        link = "/play/level/"+this.levelData.slug+"?course="+this.courseId+"&course-instance="+this.courseInstanceId
+        link += "?course=" + this.courseId + "&course-instance=" + this.courseInstanceId
         if (this.levelData.primerLanguage)
           link += "&codeLanguage=" + this.levelData.primerLanguage 
       }
-      else
-        link = "/play/level/"+this.levelData.slug
       return link || '#'
     }
   }
