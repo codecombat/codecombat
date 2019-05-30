@@ -9,6 +9,7 @@ import {
   getBackground,
   getExitCharacter,
   getBackgroundObject,
+  getBackgroundObjectDelay,
   getClearBackgroundObject,
   getText,
   getTextAnimationLength,
@@ -143,14 +144,17 @@ export default class CinematicLankBoss {
         pos: { x, y },
         stateChanged: true
       }
-      commands.push(
+      const delay = getBackgroundObjectDelay(dialogNode)
+
+      commands.push(new SequentialCommands([
+        new Sleep(delay),
         this.moveLankCommand({
           key: BACKGROUND_OBJECT,
           resource: slug,
           thang: thangOptions,
           ms: 0
         })
-      )
+      ]))
     }
 
     const removeBgDelay = getClearBackgroundObject(dialogNode)
