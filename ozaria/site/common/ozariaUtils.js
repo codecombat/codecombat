@@ -70,13 +70,13 @@ export const getNextLevelOriginalForLevel = (level) => {
   */
 export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
   if (!levelStatusMap) {
-    levelStatusMap = this.getLevelStatusMap(sessions)
+    levelStatusMap = getLevelStatusMap(sessions)
   }
   const nextLevelOriginals = new Set() // next level = started levels + incomplete unlocked levels + not-started first levels
 
   let levelDataMap = {}
   if (_.isArray(levels)) {
-    levelDataMap = this.getLevelDataMap(levels)
+    levelDataMap = getLevelDataMap(levels)
   } else {
     levelDataMap = levels
   }
@@ -84,7 +84,7 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
     if (levelStatusMap[levelOriginal] === 'started') {
       nextLevelOriginals.add(levelOriginal)
     } else if (levelStatusMap[levelOriginal] === 'complete') {
-      const unlockedLevelOriginals = this.getNextLevelOriginalForLevel(level) || []
+      const unlockedLevelOriginals = getNextLevelOriginalForLevel(level) || []
       unlockedLevelOriginals
         .filter((original) => levelStatusMap[original] !== 'complete')
         .forEach((original) => nextLevelOriginals.add(original)) // incomplete unlocks
@@ -104,7 +104,7 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
 export const getLevelsDataByOriginals = (levels, levelOriginals) => {
   let levelDataMap = {}
   if (_.isArray(levels)) {
-    levelDataMap = this.getLevelDataMap(levels)
+    levelDataMap = getLevelDataMap(levels)
   } else {
     levelDataMap = levels
   }
@@ -120,3 +120,5 @@ export const getAjvOptions = () => {
   }
   return options // If we want to support both draft-04 and draft-06/07 schemas then add { schemaId: 'auto' } to options
 }
+
+export const defaultCodeLanguage = 'python'
