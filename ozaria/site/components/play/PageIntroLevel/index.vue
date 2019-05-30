@@ -2,7 +2,7 @@
 import api from 'core/api'
 import interactivesComponent from '../../interactive/PageInteractive'
 import cinematicsComponent from '../../cinematic/PageCinematic'
-import { defaultCodeLanguage } from 'ozaria/site/common/OzariaUtils'
+import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
 
 module.exports = Vue.extend({
   props: {

@@ -1,5 +1,5 @@
 /* eslint-env jasmine */
-import { findNextLevelsBySession } from 'ozaria/site/common/OzariaUtils'
+import { findNextLevelsBySession } from 'ozaria/site/common/ozariaUtils'
 import factories from 'test/app/factories'
 import Levels from 'collections/Levels'
 

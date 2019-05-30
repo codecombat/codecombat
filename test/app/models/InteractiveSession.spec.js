@@ -2,7 +2,7 @@
 import submissionSchema from '../../../app/schemas/models/interactives/common/submissions.schema'
 import interactiveSessionSchema from '../../../app/schemas/models/interactives/interactive_session.schema'
 import Ajv from 'ajv'
-import { getAjvOptions } from 'ozaria/site/common/OzariaUtils'
+import { getAjvOptions } from 'ozaria/site/common/ozariaUtils'
 
 function schemaCompileTest (schemaObject) {
   it('compiles successfully', () => {

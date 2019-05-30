@@ -3,7 +3,7 @@ import { getInteractive, putInteractive, postInteractive, getAllInteractives } f
 import Interactive from '../../../models/Interactive'
 import ListItem from '../../common/BaseListItem'
 import Ajv from 'ajv'
-import { getAjvOptions } from 'ozaria/site/common/OzariaUtils'
+import { getAjvOptions } from 'ozaria/site/common/ozariaUtils'
 
 require('lib/setupTreema')
 

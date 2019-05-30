@@ -15,7 +15,7 @@ import {
 import interactiveSchema from '../../../app/schemas/models/interactives/interactive.schema'
 
 import Ajv from 'ajv'
-import { getAjvOptions } from 'ozaria/site/common/OzariaUtils'
+import { getAjvOptions } from 'ozaria/site/common/ozariaUtils'
 
 function schemaCompileTest (schemaObject) {
   it('compiles successfully', () => {

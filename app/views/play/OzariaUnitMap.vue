@@ -18,7 +18,7 @@
 // It is dependent on how we implement the capstone levels
 
 import api from 'core/api'
-import { getLevelStatusMap, findNextLevelsBySession } from 'ozaria/site/common/OzariaUtils'
+import { getLevelStatusMap, findNextLevelsBySession } from 'ozaria/site/common/ozariaUtils'
 import levelDot from 'views/play/OzariaUnitMapLevelDot'
 
 export default Vue.extend({
