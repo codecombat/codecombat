@@ -132,9 +132,3 @@ module.exports = Vue.extend({
 <style scoped>
 
 </style>
-
-
-
-What happens if a user plays a level(and his progress is saved for that level), and then the level content is updated(i.e. a new minor version of level created)?
-The next time the user plays the same level, does it use the same level session or a new level session is created for newer version of the level?
-From the code, it seems that it still loads the same level session(i.e. for previous level version), but then does the data in level session becomes inconsistent?  
