@@ -47,7 +47,8 @@ export default {
       handlers: {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
-        onCompletion: () => this.$emit('completed')
+        onCompletion: () => this.$emit('completed'),
+        onLoaded: this.userInterruptionEvent
       }})
     window.addEventListener('keypress', this.handleKeyboardCancellation)
   },

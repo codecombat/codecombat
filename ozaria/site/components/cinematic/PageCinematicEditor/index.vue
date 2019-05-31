@@ -95,7 +95,7 @@ module.exports = Vue.extend({
      * Pushes changes from treema to the cinematic model.
      */
     pushChanges() {
-      const shots = this.treema.data.shots
+      const shots = _.cloneDeep(this.treema.data.shots)
       this.cinematic.set('shots', shots)
     },
 
@@ -120,7 +120,7 @@ module.exports = Vue.extend({
     runCinematic() {
       this.rerenderKey += 1;
       this.rawData = this.rawData || {}
-      this.rawData.shots = this.treema.data.shots
+      this.rawData.shots = JSON.parse(JSON.stringify(this.treema.data.shots))
     },
 
     async createCinematic() {
