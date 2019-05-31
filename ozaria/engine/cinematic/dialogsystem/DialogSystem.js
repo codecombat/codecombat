@@ -121,7 +121,7 @@ class SpeechBubble {
     const textDiv = html.body.firstChild
     textDiv.style.display = 'inline-block'
     textDiv.style.position = 'absolute'
-    textDiv.style.maxWidth = `350px`
+    textDiv.style.maxWidth = `400px`
     textDiv.id = this.id
 
     div.appendChild(textDiv)
