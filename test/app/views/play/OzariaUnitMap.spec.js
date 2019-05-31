@@ -1,16 +1,12 @@
-import { mount } from '@vue/test-utils'
+/* eslint-env jasmine */
+import { mount, createLocalVue } from '@vue/test-utils'
 import ozariaUnitMap from 'views/play/OzariaUnitMap'
 import factories from 'test/app/factories'
 import Levels from 'collections/Levels'
 import CourseInstance from 'collections/CourseInstances'
 import Course from 'collections/Courses'
 import api from 'core/api'
-
-const createComponent = (values = {}) => {
-  return mount(ozariaUnitMap, {
-    propsData: values
-  })
-}
+import Vuex from 'vuex'
 
 const levels = new Levels(_.times(4, () => factories.makeLevel()))
 // set position, nextLevels, and first property
@@ -38,6 +34,34 @@ const sessions = []
 
 let unitMapHomeWrapper = {}
 let unitMapClassroomWrapper = {}
+
+// creating vuex store for testing
+const localVue = createLocalVue()
+localVue.use(Vuex)
+const store = new Vuex.Store({
+  modules: {
+    campaigns: {
+      namespaced: true,
+      state: {
+        byId: {}
+      },
+      actions: {
+        fetch: () => {
+          return campaign
+        }
+      }
+    }
+  }
+})
+store.state.campaigns.byId[campaign._id] = campaign
+
+const createComponent = (values = {}) => {
+  return mount(ozariaUnitMap, {
+    propsData: values,
+    store,
+    localVue
+  })
+}
 
 describe('Ozaria Unit Map Page for Classroom users', () => {
   beforeEach((done) => {

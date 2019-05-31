@@ -1,19 +1,15 @@
 /* eslint-env jasmine */
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import pageIntroLevel from 'ozaria/site/components/play/PageIntroLevel/index'
 import factories from 'test/app/factories'
 import api from 'core/api'
 import interactiveComponent from 'ozaria/site/components/interactive/PageInteractive'
 import cinematicComponent from 'ozaria/site/components/cinematic/PageCinematic'
-
-const createComponent = (values = {}) => {
-  return shallowMount(pageIntroLevel, {
-    propsData: values
-  })
-}
+import Vuex from 'vuex'
 
 const introLevel = {
   _id: 'intro-level-id',
+  original: 'intro-level-id',
   slug: 'intro-level-slug',
   introContent: [
     {
@@ -33,15 +29,45 @@ const introLevelSession = {
   }
 }
 
+const campaign = factories.makeCampaignObject({ type: 'course' }, { levels: [introLevel] })
+
+// creating vuex store for testing
+const localVue = createLocalVue()
+localVue.use(Vuex)
+const store = new Vuex.Store({
+  modules: {
+    campaigns: {
+      namespaced: true,
+      state: {
+        byId: {}
+      },
+      actions: {
+        fetch: () => {
+          return campaign
+        }
+      }
+    }
+  }
+})
+store.state.campaigns.byId[campaign._id] = campaign
+const createComponent = (values = {}) => {
+  return shallowMount(pageIntroLevel, {
+    propsData: values,
+    store,
+    localVue
+  })
+}
+
 let pageIntroLevelWrapper
 
 describe('Intro level Page', () => {
   beforeEach((done) => {
     spyOn(api.levels, 'getByIdOrSlug').and.returnValue(Promise.resolve(introLevel))
     spyOn(api.levels, 'upsertSession').and.returnValue(Promise.resolve(introLevelSession))
+    spyOn(api.levelSessions, 'update').and.returnValue(Promise.resolve({}))
 
     me.set(factories.makeUser({ permissions: ['admin'] }).attributes)
-    pageIntroLevelWrapper = createComponent({ introLevelIdOrSlug: introLevel.slug })
+    pageIntroLevelWrapper = createComponent({ introLevelIdOrSlug: introLevel.slug, campaignId: campaign._id })
     _.defer(done)
   })
 

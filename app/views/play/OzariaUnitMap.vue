@@ -1,7 +1,7 @@
 <template lang="pug">
   h2(v-if="notAvailable")
     | This page is not available for teachers and students. However, students can access the world map from their classroom.
-  .unit-map-container(:style="[backgroundColor, containerBaseStyle]")(v-else)
+  .unit-map-container(:style="[backgroundColor, containerBaseStyle]")(v-else-if="dataLoaded")
     .unit-map
       .unit-map-background(:style="[backgroundImage, backgroundBaseStyle]")
       level-dot(
@@ -41,6 +41,7 @@ export default Vue.extend({
     classroom: {},
     levelSessions: [],
     levelStatusMap: {},
+    dataLoaded: false
   }),
   components: {
     'level-dot' : levelDot
@@ -68,6 +69,7 @@ export default Vue.extend({
       }
       this.createLevelStatusMap()
       this.determineNextLevel()
+      this.dataLoaded = true
     }
     catch (err) {
       console.error("ERROR:", err)

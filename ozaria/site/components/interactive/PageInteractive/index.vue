@@ -24,7 +24,8 @@ module.exports = Vue.extend({
   data: () => ({
     interactive: {},
     interactiveSession: {},
-    interactiveType: ''
+    interactiveType: '',
+    dataLoaded: false
   }),
   components: {
     'draggable-ordering': draggableOrderingComponent,
@@ -42,6 +43,7 @@ module.exports = Vue.extend({
       return application.router.navigate('/', { trigger: true })
     }
     await this.getInteractiveData()
+    this.dataLoaded = true
   },
   methods: {
     onCompleted() {
@@ -71,30 +73,32 @@ module.exports = Vue.extend({
 </script>
 
 <template>
-  <draggable-ordering
-    v-if="interactiveType == 'draggable-ordering'"
-    :interactive="interactive"
-    :introLevelId="introLevelId"
-    :interactiveSession="interactiveSession"
-    :courseInstanceId="courseInstanceId"
-    v-on:completed="onCompleted">
-  </draggable-ordering>
-  <insert-code
-    v-else-if="interactiveType == 'insert-code'"
-    :interactive="interactive"
-    :introLevelId="introLevelId"
-    :interactiveSession="interactiveSession"
-    :courseInstanceId="courseInstanceId"
-    v-on:completed="onCompleted">
-  </insert-code>
-  <draggable-statement-completion
-    v-else-if="interactiveType == 'draggable-statement-completion'"
-    :interactive="interactive"
-    :introLevelId="introLevelId"
-    :interactiveSession="interactiveSession"
-    :courseInstanceId="courseInstanceId"
-    v-on:completed="onCompleted">
-  </draggable-statement-completion>
+  <div v-if="dataLoaded">
+    <draggable-ordering
+      v-if="interactiveType == 'draggable-ordering'"
+      :interactive="interactive"
+      :introLevelId="introLevelId"
+      :interactiveSession="interactiveSession"
+      :courseInstanceId="courseInstanceId"
+      v-on:completed="onCompleted">
+    </draggable-ordering>
+    <insert-code
+      v-else-if="interactiveType == 'insert-code'"
+      :interactive="interactive"
+      :introLevelId="introLevelId"
+      :interactiveSession="interactiveSession"
+      :courseInstanceId="courseInstanceId"
+      v-on:completed="onCompleted">
+    </insert-code>
+    <draggable-statement-completion
+      v-else-if="interactiveType == 'draggable-statement-completion'"
+      :interactive="interactive"
+      :introLevelId="introLevelId"
+      :interactiveSession="interactiveSession"
+      :courseInstanceId="courseInstanceId"
+      v-on:completed="onCompleted">
+    </draggable-statement-completion>
+  </div>
 </template>
 
 <style scoped>

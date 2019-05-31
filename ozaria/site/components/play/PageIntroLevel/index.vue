@@ -32,7 +32,8 @@ module.exports = Vue.extend({
     currentIndex: 0,
     language: '',
     campaignData: {},
-    nextLevel: {}
+    nextLevel: {},
+    dataLoaded: false
   }),
   components: {
     'interactives-component': interactivesComponent,
@@ -89,7 +90,8 @@ module.exports = Vue.extend({
     }
     // Assign first content in the sequence to this.currentContent
     this.currentIndex = 0
-    this.currentContent = this.introContent[this.currentIndex] 
+    this.currentContent = this.introContent[this.currentIndex]
+    this.dataLoaded = true
   },
   methods: {
     onContentCompleted: async function () {
@@ -144,7 +146,7 @@ module.exports = Vue.extend({
 </script>
 
 <template>
-  <div>
+  <div v-if="dataLoaded">
     <interactives-component
       v-if="currentContent.type == 'interactive'"
       :interactiveIdOrSlug="currentContent.contentSlug"
