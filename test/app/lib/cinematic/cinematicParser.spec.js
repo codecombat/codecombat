@@ -33,7 +33,7 @@ describe('parseShot', () => {
     expect(results).toEqual([['setup command1', 'setup command2']])
   })
 
-  it('dialogNode array data passed into parseDialogNode system', () => {
+  it('dialogNode array data passed into parseDialogNode system with shot information', () => {
     const systems = [{
       parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
     }]
@@ -41,7 +41,8 @@ describe('parseShot', () => {
       dialogNodes: ['DialogNode1', 'DialogNode2']
     }
     const results = parseShot(shot, systems)
-    expect(systems[0].parseDialogNode.calls.all().map(o => o.args)).toEqual([['DialogNode1'], ['DialogNode2']])
+    expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
+      .toEqual([ [ 'DialogNode1', { dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ], [ 'DialogNode2', { dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ] ])
     // I don't like this test but I couldn't figure out another way.
     expect(JSON.stringify(results)).toEqual('[[{"commands":["dialog commands"]}],[{"commands":["dialog commands"]}]]')
   })
@@ -57,7 +58,8 @@ describe('parseShot', () => {
     }
 
     const results = parseShot(shot, systems)
-    expect(systems[0].parseDialogNode.calls.all().map(o => o.args)).toEqual([['DialogNode1'], ['DialogNode2']])
+    expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
+      .toEqual([ [ 'DialogNode1', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ], [ 'DialogNode2', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ] ])
     expect(systems[0].parseSetupShot).toHaveBeenCalledWith(shot)
     expect(JSON.stringify(results)).toEqual('[["setup commands",{"commands":["dialog commands"]}],[{"commands":["dialog commands"]}]]')
   })
