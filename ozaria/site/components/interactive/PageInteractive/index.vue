@@ -33,12 +33,7 @@ module.exports = Vue.extend({
   },
   watch : {
     interactiveIdOrSlug: async function() {
-      try {
-        await this.getInteractiveData()
-      } catch (err) {
-        console.error("Error:", err)
-        return noty({ text: 'Error occured in creating interactives data.', type: 'error', timeout: '2000' })
-      }
+      await this.getInteractiveData()
     }
   },
   async created() {
@@ -46,12 +41,7 @@ module.exports = Vue.extend({
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/', { trigger: true })
     }
-    try {
-      await this.getInteractiveData()
-    } catch (err) {
-      console.error("Error:", err)
-      return noty({ text: 'Error occured in creating interactives data.', type: 'error', timeout: '2000' })
-    }
+    await this.getInteractiveData()
   },
   methods: {
     onCompleted() {
@@ -64,7 +54,7 @@ module.exports = Vue.extend({
         if (!this.interactiveType) {
           return Promise.reject("Interactive type is not set for the interactive " + this.interactiveIdOrSlug)
         }
-        if (!me.isSessionless()) {
+        if (!me.isSessionless()) { // not saving progress/session for teachers
           const getSessionOptions = {
             introLevelId: this.introLevelId,
             courseInstanceId: this.courseInstanceId
@@ -72,7 +62,8 @@ module.exports = Vue.extend({
           this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions )
         }
       } catch (err) {
-        return Promise.reject(err)
+        console.error("Error:", err)
+        return noty({ text: 'Error occured in creating interactives data.', type: 'error', timeout: '2000' })
       }
     }
   }

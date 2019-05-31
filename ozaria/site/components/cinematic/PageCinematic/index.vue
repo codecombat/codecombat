@@ -17,16 +17,7 @@ module.exports = Vue.extend({
   },
   watch : {
     cinematicIdOrSlug: async function() {
-      try {
-        await this.getCinematicData()
-      } catch (e) {
-        console.error(e)
-        return noty({
-          text: `Error finding cinematic '${this.cinematicIdOrSlug}'.`,
-          type:'error',
-          timeout: 3000
-        })
-      }
+      await this.getCinematicData()
     }
   },
   async created () {
@@ -34,16 +25,7 @@ module.exports = Vue.extend({
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/', { trigger: true })
     }
-    try {
-      await this.getCinematicData()
-    } catch (e) {
-      console.error(e)
-      return noty({
-        text: `Error finding cinematic '${this.cinematicIdOrSlug}'.`,
-        type:'error',
-        timeout: 3000
-      })
-    }
+    await this.getCinematicData()
   },
   methods: {
     completedHandler () {
@@ -53,7 +35,12 @@ module.exports = Vue.extend({
       try {
         this.cinematicData = await getCinematic(this.cinematicIdOrSlug)
       } catch (e) {
-        return Promise.reject(e)
+        console.error(e)
+        return noty({
+          text: `Error finding cinematic '${this.cinematicIdOrSlug}'.`,
+          type:'error',
+          timeout: 3000
+        })
       }
     }
   },

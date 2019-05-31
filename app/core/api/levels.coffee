@@ -22,7 +22,7 @@ module.exports = {
 
   upsertSession: (levelId, options={}) ->
     if options.courseInstanceId
-      url = "/db/level/#{levelId}/session&courseInstanceId=#{options.courseInstanceId}"
+      url = "/db/level/#{levelId}/session?courseInstanceId=#{encodeURIComponent(options.courseInstanceId)}"
     else
       url = "/db/level/#{levelId}/session"
     return fetchJson(url, options)
