@@ -51,12 +51,15 @@ export default class CinematicLankBoss {
       'Background': backgroundAdapter
     }
     this.camera = camera
-    this.stageBounds = {
+    this.loader = loader
+    this.lanks = {}
+  }
+
+  get stageBounds () {
+    return {
       topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
       bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
     }
-    this.loader = loader
-    this.lanks = {}
   }
 
   /**
@@ -241,6 +244,7 @@ export default class CinematicLankBoss {
           scaleFactorY: thang.scaleY,
           stateChanged: true
         })
+        this.lanks[key].updateScale()
       })
     }
 
@@ -378,7 +382,8 @@ export default class CinematicLankBoss {
       preloadSounds: false,
       thang,
       camera: this.camera,
-      groundLayer: this.groundLayer
+      groundLayer: this.groundLayer,
+      isCinematic: true
     })
     if (key === BACKGROUND) {
       this.layerAdapters['Background'].addLank(lank)
@@ -414,7 +419,7 @@ const createThang = thang => {
     //  Looking left
     rotation: 0
   }
-  return _.merge(defaults, thang)
+  return _.cloneDeep(_.merge(defaults, thang))
 }
 
 /**
