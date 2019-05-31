@@ -8,6 +8,7 @@
         :levelData="level"
         :courseId="courseId"
         :courseInstanceId="courseInstanceId"
+        :campaignId="campaignData._id"
         )(v-for="level of levels")
 </template>
 
@@ -23,7 +24,7 @@ import levelDot from 'views/play/OzariaUnitMapLevelDot'
 
 export default Vue.extend({
   props: {
-    campaign: {    // campaign name / campaign id
+    campaign: {    // campaign slug / campaign id
       type: String,
       required: true
     },
@@ -56,7 +57,8 @@ export default Vue.extend({
 
     try {
       this.levelSessions = await api.users.getLevelSessions({userID: me.get('_id')})
-      this.campaignData = await api.campaigns.get({campaignHandle: this.campaign})
+      await this.$store.dispatch('campaigns/fetch', this.campaign)
+      this.campaignData = _.cloneDeep(this.$store.state.campaigns.byId[this.campaign] || this.$store.state.campaigns.bySlug[this.campaign])
       if (this.courseInstanceId) {
         this.levels = await this.buildLevelsDataForCourse()
       }

@@ -122,3 +122,37 @@ export const getAjvOptions = () => {
 }
 
 export const defaultCodeLanguage = 'python'
+
+/**
+ * Constructs the next level link
+ * @param {Object} levelData - Level object
+ * @param {string} levelData.type - level type
+ * @param {string} levelData.slug - level slug
+ * @param {string} levelData.primerLanguage - Optional, used only if it exists
+ * @param {Object} options - Options for the next level link
+ * @param {string} options.courseId
+ * @param {string} options.courseInstanceId
+ * @param {string} options.campaignId
+ * @returns {string}
+ */
+export const getNextLevelLink = (levelData, options) => {
+  let link = ''
+  if (levelData.type === 'intro') {
+    link = '/ozaria/play/intro/' + levelData.slug
+  } else {
+    link = '/ozaria/play/level/' + levelData.slug
+  }
+
+  if (options.courseId && options.courseInstanceId) {
+    link += `?course=${encodeURIComponent(options.courseId)}&course-instance=${encodeURIComponent(options.courseInstanceId)}`
+    if (levelData.primerLanguage) {
+      link += `&codeLanguage=${encodeURIComponent(levelData.primerLanguage)}`
+    }
+    if (options.campaignId) {
+      link += `&campaignId=${encodeURIComponent(options.campaignId)}`
+    }
+  } else if (options.campaignId) {
+    link += `?campaignId=${encodeURIComponent(options.campaignId)}`
+  }
+  return link
+}

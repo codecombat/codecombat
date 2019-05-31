@@ -2,7 +2,7 @@
 import api from 'core/api'
 import interactivesComponent from '../../interactive/PageInteractive'
 import cinematicsComponent from '../../cinematic/PageCinematic'
-import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
+import { defaultCodeLanguage, getNextLevelLink, getNextLevelOriginalForLevel } from 'ozaria/site/common/ozariaUtils'
 
 module.exports = Vue.extend({
   props: {
@@ -20,6 +20,9 @@ module.exports = Vue.extend({
     courseId: {
       type: String
     },
+    campaignId: {
+      type: String
+    }
   },
   data: () => ({
     introLevelData: {},
@@ -27,7 +30,9 @@ module.exports = Vue.extend({
     introContent: [],
     currentContent: {},
     currentIndex: 0,
-    language: ''
+    language: '',
+    campaignData: {},
+    nextLevel: {}
   }),
   components: {
     'interactives-component': interactivesComponent,
@@ -65,6 +70,18 @@ module.exports = Vue.extend({
         noty({text: 'Invalid intro content', type: 'error', timeout: 2000})
         return
       }
+
+      // fetch campaign data
+      if (!this.campaignId && this.courseId) {
+        const course = await api.courses.get({courseID: this.courseId})
+        const campaignId = course.campaignID
+        await this.$store.dispatch('campaigns/fetch', campaignId)
+        this.campaignData = _.cloneDeep(this.$store.state.campaigns.byId[campaignId])
+      } else if (this.campaignId) {
+        await this.$store.dispatch('campaigns/fetch', this.campaignId)
+        this.campaignData = _.cloneDeep(this.$store.state.campaigns.byId[this.campaignId])
+      }
+
     } catch (err) {
       console.error('Error in creating data for intro level', err)
       noty({text: 'Error in creating data for intro level', type: 'error', timeout: 2000})
@@ -80,23 +97,46 @@ module.exports = Vue.extend({
       if (this.currentIndex < this.introContent.length) { // increment current content
         this.currentContent = this.introContent[this.currentIndex]
       } else { // whole intro content completed
-        try {
-          await this.setIntroLevelComplete()
-          console.log("proceed to next level") // TODO
-        } catch (err) {
-          console.error('Error in saving intro level session', err)
-          noty({text: 'Error in saving intro level session', type: 'error', timeout: 2000})
+        await this.setIntroLevelComplete()
+        await this.fetchNextLevel()
+        const link = this.fetchNextLevelLink()
+        if (link) {
+          return application.router.navigate(link, { trigger: true })
         }
       }
     },
     setIntroLevelComplete: async function () {
-      if (!me.isSessionless()) {
+      if (!me.isSessionless()) { // not saving progress/session for teachers
         try {
           this.introLevelSession.state.complete = true
           await api.levelSessions.update(this.introLevelSession)
         } catch (err) {
-          return Promise.reject(err)
+          console.error('Error in saving intro level session', err)
+          return noty({text: 'Error in saving intro level session', type: 'error', timeout: 2000})
         }
+      }
+    },
+    fetchNextLevel: async function () {
+      try {
+        const currentLevel = this.campaignData.levels[this.introLevelData.original]
+        const nextLevelOriginal = getNextLevelOriginalForLevel(currentLevel)[0]
+        if (nextLevelOriginal)
+          this.nextLevel = await api.levels.getByOriginal(nextLevelOriginal)
+      } catch (err) {
+        console.error("Error in fetching next level", err)
+        noty({text: 'Error in fetching next level', type: 'error', timeout: 2000})
+      }
+    },
+    fetchNextLevelLink: function() {
+      if (this.nextLevel.slug && this.nextLevel.type) {
+        const nextLevelOptions = {
+          courseId: this.courseId,
+          courseInstanceId: this.courseInstanceId,
+          campaignId: this.campaignId
+        }
+        return getNextLevelLink(this.nextLevel, nextLevelOptions)
+      } else {
+        console.log("no next level found") // TODO what to do if last level of campaign
       }
     }
   }

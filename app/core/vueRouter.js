@@ -38,9 +38,10 @@ export default function getVueRouter () {
           props: (route) => {
             return {
               introLevelIdOrSlug: route.params.introLevelIdOrSlug,
-              courseInstanceId: route.query.courseInstanceId,
+              courseInstanceId: route.query['course-instance'],
               codeLanguage: route.query.codeLanguage,
-              courseId: route.query.courseId
+              courseId: route.query.course,
+              campaignId: route.query.campaignId
             }
           }
         },
