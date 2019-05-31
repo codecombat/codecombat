@@ -14,17 +14,24 @@ export default {
     }
   },
 
+  getters: {
+    getCampaignData: (state) => (idOrSlug) => {
+      return state.byId[idOrSlug] || state.bySlug[idOrSlug]
+    }
+  },
+
   actions: {
-    fetch: ({ commit, state }, campaignHandle) => {
-      if (state.byId.campaignHandle || state.bySlug.campaignHandle) {
-        return Promise.resolve()
+    fetch: async ({ commit, state }, campaignHandle) => {
+      if (state.byId[campaignHandle] || state.bySlug[campaignHandle]) {
+        return
       }
-      return campaignsApi.get({ campaignHandle: campaignHandle })
-        .then(res => commit('setCampaignData', res))
-        .catch((e) => {
-          console.error('Error in fetching campaign', e)
-          noty({ text: 'Fetch campaign failure', type: 'error' })
-        })
+      try {
+        const campaignData = await campaignsApi.get({ campaignHandle: campaignHandle })
+        commit('setCampaignData', campaignData)
+      } catch (e) {
+        console.error('Error in fetching campaign', e)
+        noty({ text: 'Fetch campaign failure', type: 'error' })
+      }
     }
   }
 }

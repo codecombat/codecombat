@@ -45,6 +45,11 @@ const store = new Vuex.Store({
       state: {
         byId: {}
       },
+      getters: {
+        getCampaignData: () => () => {
+          return campaign
+        }
+      },
       actions: {
         fetch: () => {
           return campaign
