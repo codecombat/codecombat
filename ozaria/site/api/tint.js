@@ -18,3 +18,10 @@ export const putTint = ({ data }, options = {}) => {
     json: data
   }))
 }
+
+/**
+ * Returns a list of all tint objects.
+ * @async
+ * @returns {Object[]} tints
+ */
+export const getAllTints = () => fetchJson('/db/tint/all')

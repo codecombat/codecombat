@@ -9,8 +9,8 @@ initSlider = require 'lib/initSlider'
 tintApi = require('../../../../ozaria/site/api/tint')
 tintSchema = require 'app/schemas/models/tint.schema.js'
 
-COLORGROUPTAB = 'COLORGROUPTAB'
-TINTTAB = 'TINTTAB'
+COLOR_GROUP_TAB = 'COLORGROUPTAB'
+TINT_TAB = 'TINTTAB'
 
 module.exports = class ThangTypeColorsTabView extends CocoView
   id: 'editor-thang-colors-tab-view'
@@ -25,7 +25,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   constructor: (@thangType, options) ->
     super options
-    @tab = COLORGROUPTAB
+    @tab = COLOR_GROUP_TAB
     @supermodel.loadModel @thangType
     @currentColorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
     # tint slug and index pairs.
@@ -51,12 +51,12 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @initSliders()
     @tryToBuild()
 
-    if @tab == COLORGROUPTAB
+    if @tab == COLOR_GROUP_TAB
       $("#color-tint-treema").hide()
       $("#color-groups-treema").show()
       $("#shape-buttons").show()
       $("#saved-color-tabs").hide()
-    else if @tab == TINTTAB
+    else if @tab == TINT_TAB
       $("#color-tint-treema").show()
       $("#color-groups-treema").hide()
       $("#shape-buttons").hide()
@@ -77,7 +77,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   getColorConfig: ->
     colorConfig = {}
-    if @tab == COLORGROUPTAB
+    if @tab == COLOR_GROUP_TAB
       colorConfig[@currentColorGroupTreema.keyForParent] = @currentColorConfig
       return colorConfig
 
@@ -94,15 +94,14 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   onColorGroupTab: ->
     @tintAssignments?.destroy()
-    @tab = COLORGROUPTAB
+    @tab = COLOR_GROUP_TAB
     @render()
 
   onTintAssignmentTab: ->
-    @tab = TINTTAB
+    @tab = TINT_TAB
     @render()
 
-    fetch("/db/tint/all")
-      .then((res) -> res.json())
+    tintApi.getAllTints()
       .then((tintData)=>
         tintData = tintData.filter((o) => o.slug)
 
@@ -209,6 +208,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     buttons.append($('<button />', {
       text: "Save '#{tintName}' Tints",
       class: 'save-btn',
+      # Bind the variable `index` to the function in coffeescript.
       click: ((index) => () =>
         tintApi.putTint({data: @tintAssignments.data[index]})
           .catch((e) ->
