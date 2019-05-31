@@ -15,7 +15,7 @@ import {
   getTextAnimationLength,
   getSpeakingAnimationAction,
   getSpeaker,
-  getHeroDog
+  getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
 import { LETTER_ANIMATE_TIME, getHeroSlug } from './constants'
 
@@ -33,7 +33,7 @@ Promise.config({
 // Key constants for special lank types
 const LEFT_LANK_KEY = 'left'
 const RIGHT_LANK_KEY = 'right'
-const HERO_DOG = 'HERO_DOG'
+const HERO_PET = 'HERO_PET'
 const BACKGROUND_OBJECT = 'BACKGROUND_OBJECT'
 const BACKGROUND = 'BACKGROUND'
 
@@ -44,7 +44,7 @@ const BACKGROUND_LAYER = 'Background'
 // Lank to Background mapping. If not set, will default to 'Default' layer.
 const lankLayer = new Map([
   [ BACKGROUND, BACKGROUND_LAYER ],
-  [ HERO_DOG, BACKGROUND_LAYER ]
+  [ HERO_PET, BACKGROUND_LAYER ]
 ])
 
 // Thang rotation constants
@@ -102,18 +102,18 @@ export default class CinematicLankBoss {
       commands.push(this.setBackgroundCommand(background))
     }
 
-    const heroDog = getHeroDog(shot)
-    if (heroDog) {
-      const { slug, thang } = heroDog
+    const heroPet = getHeroPet(shot)
+    if (heroPet) {
+      const { slug, thang } = heroPet
       thang.rotation = RIGHT
-      this.heroDogOffset = thang.pos
-      const moveDog = this.moveLankCommand({
-        key: HERO_DOG,
+      this.heroPetOffset = thang.pos
+      const placePet = this.moveLankCommand({
+        key: HERO_PET,
         resource: slug,
         thang,
         ms: 0
       })
-      commands.push(moveDog)
+      commands.push(placePet)
     }
 
     const lHero = getLeftHero(shot)
@@ -138,8 +138,8 @@ export default class CinematicLankBoss {
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
-      // Remove the hero dog if not a hero being added to the right.
-      commands.push(new SyncFunction(() => this.removeLank(HERO_DOG)))
+      // Remove the hero pet if not a hero being added to the right.
+      commands.push(new SyncFunction(() => this.removeLank(HERO_PET)))
 
       const { slug, enterOnStart, thang } = rightCharSlug
       addMoveCharacterCommand(RIGHT_LANK_KEY, slug, enterOnStart, thang)
@@ -344,30 +344,30 @@ export default class CinematicLankBoss {
    * @param {bool} frameChanged - Needs to be true for Lank updates to occur.
    */
   update (frameChanged) {
-    this.updateHeroDogPosition()
+    this.updateHeroPetPosition()
     Object.values(this.lanks)
       .forEach(lank => lank.update(frameChanged))
   }
 
   /**
-   * Custom update method that pins the hero dog to the right
-   * character if it exists, by updating the hero dog thang.
+   * Custom update method that pins the hero pet to the right
+   * character if it exists, by updating the hero pet thang.
    */
-  updateHeroDogPosition () {
-    if (!(this.lanks[HERO_DOG] && this.lanks[RIGHT_LANK_KEY])) {
+  updateHeroPetPosition () {
+    if (!(this.lanks[HERO_PET] && this.lanks[RIGHT_LANK_KEY])) {
       return
     }
 
-    const dogThang = this.lanks[HERO_DOG].thang
+    const petThang = this.lanks[HERO_PET].thang
     const rightThang = this.lanks[RIGHT_LANK_KEY].thang
     if (!rightThang.stateChanged) {
       return
     }
 
-    dogThang.stateChanged = true
-    dogThang.pos = _.clone(rightThang.pos)
-    dogThang.pos.x += this.heroDogOffset.x
-    dogThang.pos.y += this.heroDogOffset.y
+    petThang.stateChanged = true
+    petThang.pos = _.clone(rightThang.pos)
+    petThang.pos.x += this.heroPetOffset.x
+    petThang.pos.y += this.heroPetOffset.y
   }
 
   /**
@@ -434,8 +434,8 @@ export default class CinematicLankBoss {
         scaleFactorX: thang.scaleX || 1,
         scaleFactorY: thang.scaleY || 1
       })
-    } else if (key === HERO_DOG) {
-      // Hack to ensure dog renders off screen
+    } else if (key === HERO_PET) {
+      // Hack to ensure pet renders off screen
       // TODO: Remove when we have a way to make lanks invisible.
       thang.pos = {
         x: this.stageBounds.bottomRight.x * 10,

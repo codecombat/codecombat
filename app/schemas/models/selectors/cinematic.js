@@ -159,9 +159,9 @@ const backgroundArt = shotSetup => (shotSetup || {}).backgroundArt
 
 /**
  * @param {ShotSetup} shotSetup
- * @returns {Object|undefined} heroDogThangType
+ * @returns {Object|undefined} heroPetThangType
  */
-const heroDogThangType = shotSetup => (shotSetup || {}).heroDogThangType
+const heroPetThangType = shotSetup => (shotSetup || {}).heroPetThangType
 
 /**
  * @param {Object} o Object that may have slug property
@@ -206,12 +206,12 @@ const background = backgroundArt => {
 }
 
 /**
- * Returns properties required to place a hero dog Lank.
- * @param {Object} heroDogSchema
- * @returns {Object|undefined} a dog object with slug and thang
+ * Returns properties required to place a hero pet Lank.
+ * @param {Object} heroPetSchema
+ * @returns {Object|undefined} a pet object with slug and thang
  */
-const heroDog = heroDog => {
-  const thangData = extractThangTypeSchemaSlug(heroDog)
+const heroPet = heroPet => {
+  const thangData = extractThangTypeSchemaSlug(heroPet)
   if (!thangData) {
     return
   }
@@ -481,11 +481,11 @@ export const getBackground = compose(shotSetup, backgroundArt, background)
 export const getBackgroundSlug = compose(shotSetup, backgroundArt, background, slug)
 
 /**
- * Get hero dog thang
+ * Get hero pet thang
  * @param {Shot} shot
  * @returns {Object|undefined}
  */
-export const getHeroDog = compose(shotSetup, heroDogThangType, heroDog)
+export const getHeroPet = compose(shotSetup, heroPetThangType, heroPet)
 
 /**
  * @param {DialogNode} dialogNode

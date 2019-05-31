@@ -4,7 +4,7 @@ import {
   getBackgroundObject,
   getRightCharacterThangTypeSlug,
   getLeftCharacterThangTypeSlug,
-  getHeroDog
+  getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
 import { HERO_THANG_ID } from './CinematicLankBoss'
 import { getHeroSlug } from './constants'
@@ -100,9 +100,9 @@ export default class Loader {
         if (backgroundSlug) {
           slugs.push(backgroundSlug)
         }
-        const heroDogSlug = (getHeroDog(shot) || {}).slug
-        if (heroDogSlug) {
-          slugs.push(heroDogSlug)
+        const heroPetSlug = (getHeroPet(shot) || {}).slug
+        if (heroPetSlug) {
+          slugs.push(heroPetSlug)
         }
       })
     // Now we have a list of only slugs, we can fetch the data,
