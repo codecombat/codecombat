@@ -87,6 +87,46 @@ const DEFAULT_THANGTYPE = () => ({
 })
 
 /**
+ * @param {Object} thangDefaults
+ * @returns {Function} sets thangDefaults on the thang property for a character.
+ */
+const setCharacterDefaults = ({ pos, scaleX, scaleY }) =>
+  character => {
+    if (!character) {
+      return
+    }
+
+    const thang = character.thang || {}
+    thang.pos = _.merge(pos, (thang.pos || {}))
+    thang.scaleX = thang.scaleX || scaleX
+    thang.scaleY = thang.scaleY || scaleY
+    character.thang = thang
+    return character
+  }
+
+/**
+ * @param {Object|undefined} leftCharacter The left character object
+ * @param {Object} leftCharacter.thang The thang options for the left character.
+ * @returns {Object|undefined} leftCharacter with default values set on thang.
+ */
+const setLeftCharacterDefaults = setCharacterDefaults({
+  pos: { x: -30, y: -73 },
+  scaleX: 0.7,
+  scaleY: 0.7
+})
+
+/**
+ * @param {Object|undefined} rightCharacter The left character object
+ * @param {Object} rightCharacter.thang The thang options for the left character.
+ * @returns {Object|undefined} rightCharacter with default values set on thang.
+ */
+const setRightCharacterDefaults = setCharacterDefaults({
+  pos: { x: 35, y: -65 },
+  scaleX: 0.7,
+  scaleY: 0.7
+})
+
+/**
  * Takes the cinematic data that adheres to cinematic schema and returns
  * just the array of shots.
  * @param {Cinematic} cinematicData
@@ -158,7 +198,7 @@ const characterFromThangTypeSchema = thangType => {
   const { scaleX, scaleY, pos } = thangType
   return {
     slug,
-    thang: _.merge(DEFAULT_THANGTYPE(), { scaleX, scaleY, pos })
+    thang: { scaleX, scaleY, pos }
   }
 }
 
@@ -180,7 +220,7 @@ const getHeroFromThangTypeSchema = thangType => {
 
   const { scaleX, scaleY, pos } = thangType
   return {
-    thang: _.merge(DEFAULT_THANGTYPE(), { scaleX, scaleY, pos })
+    thang: { scaleX, scaleY, pos }
   }
 }
 
@@ -259,14 +299,14 @@ const camera = shotSetup => {
  * @param {Shot} shot
  * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
-export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, characterThangTypeSlug)
+export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, characterThangTypeSlug, setLeftCharacterDefaults)
 
 /**
  * Returns the right character if it's a thangType slug.
  * @param {Shot} shot
  * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
-export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug)
+export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug, setRightCharacterDefaults)
 
 /**
  * @param {DialogNode} dialogNode
@@ -378,14 +418,14 @@ const soundEffects = triggers => {
  * @param {Shot} shot
  * @returns {bool}
  */
-export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal)
+export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal, setLeftCharacterDefaults)
 
 /**
  * Returns the right hero character
  * @param {Shot} shot
  * @returns {bool}
  */
-export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal)
+export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal, setRightCharacterDefaults)
 
 /**
  * Returns the background
