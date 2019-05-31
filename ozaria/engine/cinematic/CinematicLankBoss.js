@@ -237,6 +237,7 @@ export default class CinematicLankBoss {
         if (resource) {
           this.addLank(key, this.loader.getThangType(resource), thang)
         }
+
         _.merge(this.lanks[key].thang, {
           pos: thang.pos,
           scaleFactorX: thang.scaleX,
@@ -375,6 +376,7 @@ export default class CinematicLankBoss {
         scaleFactorY: thang.scaleY || 1
       })
     }
+
     const lank = new Lank(thangType, {
       resolutionFactor: 60,
       preloadSounds: false,

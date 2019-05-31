@@ -350,6 +350,7 @@ module.exports = Lank = class Lank extends CocoClass
 #    console.error 'No thang for', @ unless @thang
     @sprite.scaleX = @sprite.baseScaleX * @scaleFactorX * scaleX
     @sprite.scaleY = @sprite.baseScaleY * @scaleFactorY * scaleY
+
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
     if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank
