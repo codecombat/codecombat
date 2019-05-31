@@ -68,7 +68,7 @@ module.exports = Lank = class Lank extends CocoClass
     @options = _.extend($.extend(true, {}, @options), options)
     @gameUIState = @options.gameUIState
     @handleEvents = @options.handleEvents
-    @isCinematicLank = options.isCinematic or false
+    @isCinematicLank = @options.isCinematic or false
     @setThang @options.thang
     @setColorConfig()
 
