@@ -279,8 +279,7 @@ export const CAMERA_DEFAULT = {
     x: 0,
     y: 0
   },
-  // There appears to be a bug in our camera and it can't support exactly 2.
-  zoom: 2.01
+  zoom: 1
 }
 
 /**
@@ -461,7 +460,7 @@ export const getClearBackgroundObject = compose(triggers, clearBackgroundObject)
 
 /**
  * @param {Shot} shot
- * @returns {Object|undefined}
+ * @returns {Object} Always returns a camera
  */
 export const getCamera = compose(shotSetup, camera)
 

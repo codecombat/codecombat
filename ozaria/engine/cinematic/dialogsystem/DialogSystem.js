@@ -1,6 +1,12 @@
 import anime from 'animejs/lib/anime.es.js'
 import { AnimeCommand, SyncFunction } from '../commands/commands'
-import { getClearText, getTextPosition, getSpeaker, getTextAnimationLength } from '../../../../app/schemas/models/selectors/cinematic'
+import {
+  getClearText,
+  getTextPosition,
+  getSpeaker,
+  getTextAnimationLength,
+  getCamera
+} from '../../../../app/schemas/models/selectors/cinematic'
 import { processText } from './helper'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
@@ -50,13 +56,13 @@ export default class DialogSystem {
   /**
    * The system method that is run on every dialogNode.
    * @param {import('../../../../app/schemas/models/selectors/cinematic').DialogNode} dialogNode
+   * @param {Shot} currentShot
    * @returns {AbstractCommand[]}
    */
-  parseDialogNode (dialogNode) {
+  parseDialogNode (dialogNode, shot) {
     const commands = []
     const text = processText(dialogNode, this._templateDataParameters)
     const shouldClear = getClearText(dialogNode)
-    const { x, y } = getTextPosition(dialogNode) || { x: 200, y: 200 }
     const side = getSpeaker(dialogNode) || 'left'
 
     if (shouldClear) {
@@ -64,6 +70,9 @@ export default class DialogSystem {
     }
 
     if (text) {
+      // Use the camera setting from the shotSetup.
+      const { pos, zoom } = getCamera(shot)
+      const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom, pos)
       commands.push((new SpeechBubble({
         div: this.div,
         svg: this.svg,
@@ -218,4 +227,38 @@ function createSvgShape ({ x, y, width, height, side, className }) {
   g.appendChild(rect)
   g.appendChild(path)
   return g
+}
+
+/**
+ * Try to guess the frame of the camera and provide sensible defaults for the
+ * text bubbles. Uses values sourced from Brian.
+ *
+ * If value can't be guessed, sets the text bubble in the center of the canvas.
+ *
+ * @param {'left'|'right'} speaker
+ * @param {number} cameraZoom
+ * @param {Object} cameraPosition
+ * @param {number} cameraPosition.x
+ */
+function getDefaultTextPosition (speaker, cameraZoom, { x }) {
+  const cameraX = x
+  // Handling special cases of zoom, checking if speaker is in frame.
+  if (speaker === 'left') {
+    if (cameraZoom === 1) {
+      return { x: 550, y: 330 }
+    }
+    // Then zoom must be 2.
+    if (cameraX < -145) {
+      return { x: 800, y: 250 }
+    }
+  } else if (speaker === 'right') {
+    if (cameraZoom === 1) {
+      return { x: 850, y: 300 }
+    }
+    if (cameraX > 145) {
+      return { x: 550, y: 250 }
+    }
+  }
+  // Default to center
+  return { x: 1366 / 2, y: 768 / 2 }
 }
