@@ -24,12 +24,14 @@ export class CinematicController {
     handlers: {
       onPlay,
       onPause,
-      onCompletion
+      onCompletion,
+      onLoaded
     }
   }) {
     this.onPlay = onPlay || (() => {})
     this.onPause = onPause || (() => {})
     this.onCompletion = onCompletion || (() => {})
+    this.onLoaded = onLoaded || (() => {})
 
     this.systems = {}
 
@@ -86,6 +88,7 @@ export class CinematicController {
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
     this.commands = commands
+    this.onLoaded()
   }
 
   /**
@@ -146,8 +149,11 @@ export class CinematicController {
   }
 
   destroy () {
-    this.systems.sound.stopAllSounds()
+    this.systems.cameraSystem.destroy()
+    createjs.Ticker.removeAllEventListeners()
     this.systems.cinematicLankBoss.cleanup()
+    this.stage.removeAllEventListeners()
+    this.systems.sound.stopAllSounds()
   }
 }
 
