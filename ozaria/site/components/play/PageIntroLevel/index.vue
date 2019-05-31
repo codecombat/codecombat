@@ -49,7 +49,7 @@ module.exports = Vue.extend({
     }
     try {
       this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
-      if (me.isSessionless()) {
+      if (me.isSessionless()) { // not saving progress/session for teachers
         this.language = this.codeLanguage || defaultCodeLanguage
       } else {
         this.introLevelSession = await api.levels.upsertSession(this.introLevelIdOrSlug, {courseInstanceId: this.courseInstanceId})
