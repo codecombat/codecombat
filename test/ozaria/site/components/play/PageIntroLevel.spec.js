@@ -1,11 +1,11 @@
 /* eslint-env jasmine */
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import pageIntroLevel from 'ozaria/site/components/play/PageIntroLevel/index'
 import factories from 'test/app/factories'
 import api from 'core/api'
 import interactiveComponent from 'ozaria/site/components/interactive/PageInteractive'
 import cinematicComponent from 'ozaria/site/components/cinematic/PageCinematic'
-import Vuex from 'vuex'
+import store from 'core/store'
 
 const introLevel = {
   _id: 'intro-level-id',
@@ -31,35 +31,10 @@ const introLevelSession = {
 
 const campaign = factories.makeCampaignObject({ type: 'course' }, { levels: [introLevel] })
 
-// creating vuex store for testing
-const localVue = createLocalVue()
-localVue.use(Vuex)
-const store = new Vuex.Store({
-  modules: {
-    campaigns: {
-      namespaced: true,
-      state: {
-        byId: {}
-      },
-      getters: {
-        getCampaignData: () => () => {
-          return campaign
-        }
-      },
-      actions: {
-        fetch: () => {
-          return campaign
-        }
-      }
-    }
-  }
-})
-store.state.campaigns.byId[campaign._id] = campaign
 const createComponent = (values = {}) => {
   return shallowMount(pageIntroLevel, {
     propsData: values,
-    store,
-    localVue
+    store
   })
 }
 
@@ -70,6 +45,7 @@ describe('Intro level Page', () => {
     spyOn(api.levels, 'getByIdOrSlug').and.returnValue(Promise.resolve(introLevel))
     spyOn(api.levels, 'upsertSession').and.returnValue(Promise.resolve(introLevelSession))
     spyOn(api.levelSessions, 'update').and.returnValue(Promise.resolve({}))
+    spyOn(api.campaigns, 'get').and.returnValue(Promise.resolve(campaign))
 
     me.set(factories.makeUser({ permissions: ['admin'] }).attributes)
     pageIntroLevelWrapper = createComponent({ introLevelIdOrSlug: introLevel.slug, campaignId: campaign._id })
