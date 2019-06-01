@@ -2,7 +2,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   new_home:
     title: "CodeCombat - PythonとJavaScriptを学ぶコーディングゲーム"
-    meta_description: "プログラミングゲームを通してコードを学ぼう。Python、JavaScript、HTMLをパズルを解くように学んで、あなた自身のコーディングゲームやウェブサイト作りを学びましょう。"
+    meta_description: "プログラミングゲームを通してコードを学ぼう。Python、JavaScript、HTMLをパズルを解くように学んで、あなた自身のゲームやウェブサイト作りを学びましょう。"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -189,8 +189,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     faqs: "FAQ"
     copyright_prefix: "コピーライト"
     copyright_suffix: "全著作権所有。"
-    help_pref: "ヘルプが必要ですか? Email"
-    help_suff: "をくれれば協力します！"
+    help_pref: "ヘルプが必要？ Email"
+    help_suff: "そして連絡を取り合います！"
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "親"
