@@ -14,6 +14,11 @@
         required: true
       },
 
+      localizedInteractiveConfig: {
+        type: Object,
+        required: true
+      },
+
       introLevelId: {
         type: String,
         required: true
@@ -31,7 +36,7 @@
     },
 
     data () {
-      const interactiveConfig = this.interactive.draggableStatementCompletionData || {}
+      const interactiveConfig = this.localizedInteractiveConfig || {}
 
       return {
         draggableGroup: Math.random().toString(),

@@ -14,6 +14,11 @@
         required: true
       },
 
+      localizedInteractiveConfig: {
+        type: Object,
+        required: true
+      },
+
       introLevelId: {
         type: String,
         required: true
@@ -34,12 +39,10 @@
       return {
         draggableGroup: Math.random().toString(),
 
-        promptSlots: [
-          { id: 1, text: 'one option' },
-          { id: 2, text: 'two option' },
-          { id: 3, text: 'three option' },
-          { id: 4, text: 'four option' }
-        ],
+        promptSlots: this.localizedInteractiveConfig.elements.map(option => ({
+          id: option.elementId,
+          text: option.text
+        })),
 
         answerSlots: []
       }
