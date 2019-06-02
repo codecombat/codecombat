@@ -28,6 +28,11 @@
         default: () => ({})
       },
 
+      localizedInteractiveConfig: {
+        type: Object,
+        required: true
+      },
+
       introLevelId: {
         type: String,
         required: true,
@@ -58,7 +63,7 @@
 
     computed: {
       sampleCodeSplit () {
-        const splitSampleCode = SAMPLE_CODE
+        const splitSampleCode = this.localizedInteractiveConfig.starterCode
           .trim()
           .split('\n')
           .map(line => line.trim())
@@ -86,12 +91,10 @@
       },
 
       answerOptions () {
-        return [
-          { id: 1, line: 'line.one()' },
-          { id: 2, line: 'const z = "aaa"' },
-          { id: 3, line: 'line.three()' },
-          { id: 4, line: 'line.four()' }
-        ]
+        return this.localizedInteractiveConfig.choices.map(choice => ({
+          id: choice.id,
+          line: choice.text
+        }))
       }
     },
 
