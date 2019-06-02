@@ -1,7 +1,7 @@
 <script>
   import draggable from 'vuedraggable'
 
-  import StatementSlot from './StatementSlot'
+  import StatementSlot from '../BaseDraggableSlot'
   import BaseInteractiveTitle from '../BaseInteractiveTitle'
 
   export default {
@@ -52,7 +52,7 @@
           }
         ],
 
-        answerSlots: Array(3).fill(undefined),
+        answerSlots: Array(3).fill(undefined)
       }
     }
   }
@@ -66,18 +66,14 @@
 
     <div class="prompt-row">
       <div class="answer-bank">
-        <draggable
-          v-model="slotOptions"
-          tag="ul"
-          :group="draggableGroup"
-        >
-          <li
-            v-for="slot of slotOptions"
-            :key="slot.id"
-          >
-            {{ slot.text }}
-          </li>
-        </draggable>
+        <statement-slot
+          v-for="(slot, i) of slotOptions"
+          :key="slot.id"
+
+          v-model="slotOptions[i]"
+
+          :draggable-group="draggableGroup"
+        />
       </div>
 
       <div class="art-container">
@@ -131,8 +127,9 @@
 
     ul {
       list-style: none;
+      padding: 0;
 
-      height: 100%;
+      height: 30px;
 
       li {
         padding: 25px;
