@@ -1,12 +1,9 @@
 <script>
-  import draggable from 'vuedraggable'
-
   import StatementSlot from '../BaseDraggableSlot'
   import BaseInteractiveTitle from '../BaseInteractiveTitle'
 
   export default {
     components: {
-      'draggable': draggable,
       'base-interactive-title': BaseInteractiveTitle,
       'statement-slot': StatementSlot
     },
@@ -34,23 +31,15 @@
     },
 
     data () {
+      const interactiveConfig = this.interactive.draggableStatementCompletionData || {}
+
       return {
         draggableGroup: Math.random().toString(),
 
-        slotOptions: [
-          {
-            id: 1,
-            text: 'Answer One'
-          },
-          {
-            id: 2,
-            text: 'Answer Two'
-          },
-          {
-            id: 3,
-            text: 'Answer Three'
-          }
-        ],
+        slotOptions: interactiveConfig.elements.map((interactive) => ({
+          id: interactive.elementId,
+          text: interactive.text
+        })),
 
         answerSlots: Array(3).fill(undefined)
       }
@@ -68,7 +57,7 @@
       <div class="answer-bank">
         <statement-slot
           v-for="(slot, i) of slotOptions"
-          :key="slot.id"
+          :key="i"
 
           v-model="slotOptions[i]"
 
