@@ -59,7 +59,7 @@
       v-model="slotData[i]"
 
       tag="ul"
-      :group="{ name: draggableGroup, pull: true, put: true }"
+      :group="{ name: draggableGroup, pull: true, put: (slotData[i].length === 0) }"
 
       class="ordering-slot"
 

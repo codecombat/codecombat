@@ -29,7 +29,7 @@
         return {
           name: this.draggableGroup,
           pull: true,
-          put: (typeof value === 'undefined')
+          put: (this.answers.length === 0)
         }
       }
     },
@@ -50,6 +50,7 @@
     v-model="answers"
     tag="ul"
     :group="draggableGroupConfig"
+    :sort="false"
 
     @change="changed"
   >
@@ -62,5 +63,10 @@
   </draggable>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+  ul {
+    li {
+      height: 100%;
+    }
+  }
 </style>
