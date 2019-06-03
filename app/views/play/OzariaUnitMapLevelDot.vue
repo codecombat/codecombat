@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import { getNextLevelLink } from 'ozaria/site/common/ozariaUtils'
 export default Vue.extend({
   props: {
     levelData: {
@@ -14,6 +15,9 @@ export default Vue.extend({
       type: String
     },
     courseInstanceId: {
+      type: String
+    },
+    campaignId: {
       type: String
     }
   },
@@ -46,17 +50,15 @@ export default Vue.extend({
       }
     },
     getPlayLevelLink: function() {
-      let link = ''
       if (this.levelData.locked)
         return '#'
 
-      if (this.courseId && this.courseInstanceId) {
-        link = "/play/level/"+this.levelData.slug+"?course="+this.courseId+"&course-instance="+this.courseInstanceId
-        if (this.levelData.primerLanguage)
-          link += "&codeLanguage=" + this.levelData.primerLanguage 
+      const nextLevelOptions = {
+        courseId: this.courseId,
+        courseInstanceId: this.courseInstanceId,
+        campaignId: this.campaignId
       }
-      else
-        link = "/play/level/"+this.levelData.slug
+      const link = getNextLevelLink(this.levelData, nextLevelOptions)
       return link || '#'
     }
   }

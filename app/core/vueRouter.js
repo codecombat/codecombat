@@ -9,6 +9,7 @@ import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vu
 
 import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
 import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
+import PageIntroLevel from '../../ozaria/site/components/play/PageIntroLevel'
 
 let vueRouter
 
@@ -30,6 +31,19 @@ export default function getVueRouter () {
           path: '/editor/interactive/:slug?',
           component: PageInteractiveEditor,
           props: true
+        },
+        {
+          path: '/ozaria/play/intro/:introLevelIdOrSlug?',
+          component: PageIntroLevel,
+          props: (route) => {
+            return {
+              introLevelIdOrSlug: route.params.introLevelIdOrSlug,
+              courseInstanceId: route.query['course-instance'],
+              codeLanguage: route.query.codeLanguage,
+              courseId: route.query.course,
+              campaignId: route.query.campaignId
+            }
+          }
         },
         {
           path: '/school-administrator',

@@ -1,7 +1,7 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
 utils = require '../core/utils'
-ozariaUtils = require '../core/ozariaUtils'
+{ findNextLevelsBySession, getLevelsDataByOriginals } = require 'ozaria/site/common/ozariaUtils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 Level = require 'models/Level'
@@ -173,8 +173,8 @@ module.exports = class Classroom extends CocoModel
         nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     if utils.ozariaCourseIDs.includes(courseID)
       # assuming that there will be only one next level in ozaria v1 for now
-      nextLevelOriginal = ozariaUtils.findNextLevelsBySession(sessions, courseLevels.models)[0]
-      nextLevel = new Level(ozariaUtils.getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
+      nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)[0]
+      nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
     else
       nextLevel = courseLevels.models[nextIndex]
       nextLevel = arena if levelsLeft is 0

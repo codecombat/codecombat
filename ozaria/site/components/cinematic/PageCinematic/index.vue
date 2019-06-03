@@ -15,24 +15,33 @@ module.exports = Vue.extend({
   components: {
     'cinematic-canvas': CinematicCanvas
   },
+  watch : {
+    cinematicIdOrSlug: async function() {
+      await this.getCinematicData()
+    }
+  },
   async created () {
     if (!me.hasCinematicAccess())  {
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/', { trigger: true })
     }
-    try {
-      this.cinematicData = await getCinematic(this.cinematicIdOrSlug)
-    } catch (e) {
-      return noty({
-        text: `Error finding cinematic '${cinematicIdOrSlug}'.`,
-        type:'error',
-        timeout: 3000
-      })
-    }
+    await this.getCinematicData()
   },
   methods: {
     completedHandler () {
       this.$emit('completed')
+    },
+    async getCinematicData() {
+      try {
+        this.cinematicData = await getCinematic(this.cinematicIdOrSlug)
+      } catch (e) {
+        console.error(e)
+        return noty({
+          text: `Error finding cinematic '${this.cinematicIdOrSlug}'.`,
+          type:'error',
+          timeout: 3000
+        })
+      }
     }
   },
 })
