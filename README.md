@@ -55,7 +55,7 @@ Note: the levels on codecombat.com are [not open source](LICENSE-LEVELS.md).
 ![George Saines](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/George%20Saines/george_small.png "George Saines")
 ![Scott Erickson](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Scott%20Erickson/scott-avatar.png "Scott Erickson")
 ![Matt Lott](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Matt%20Lott/matt-avatar.png "Matt Lott")
-![Catherine Weresow](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Cat%20Weresow/cat-avatar.png "Catherine Weresow")
+![Catherine Weresow](https://sjc1.discourse-cdn.com/business6/user_avatar/discourse.codecombat.com/catsync/240/6431_2.png "Catherine Weresow")
 ![Maka Gradin](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Maka%20Gradin/maka_gradin_100.png "Maka Gradin")
 ![Rob Blanckaert](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Rob%20Blanckaert/rob_blanckaert_100.png "Rob Blanckaert")
 ![Josh Callebaut](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Josh%20Callebaut/josh_callebaut_100.png "Josh Callebaut")
