@@ -300,11 +300,23 @@ export const triggers = dialogNode => (dialogNode || {}).triggers
 
 const backgroundObject = triggers => {
   const bgObject = (triggers || {}).backgroundObject
-  if (!bgObject) {
+  if (!(bgObject || {}).thangType) {
     return
   }
 
   return _.merge(DEFAULT_THANGTYPE(), bgObject.thangType)
+}
+
+/**
+ * @param {Object} triggers
+ * @returns {number|undefined} number of ms before background object appears
+ */
+const backgroundObjectDelay = triggers => {
+  const bgObject = (triggers || {}).backgroundObject
+  if (!bgObject) {
+    return
+  }
+  return bgObject.triggerStart || 0
 }
 
 /**
@@ -394,6 +406,12 @@ export const getBackgroundSlug = compose(shotSetup, backgroundArt, background, s
  * @returns {Object|undefined} backgroundObject
  */
 export const getBackgroundObject = compose(triggers, backgroundObject)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number|undefined} delay
+ */
+export const getBackgroundObjectDelay = compose(triggers, backgroundObjectDelay)
 
 /**
  * @param {DialogNode} dialogNode
