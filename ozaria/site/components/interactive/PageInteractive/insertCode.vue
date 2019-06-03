@@ -109,23 +109,21 @@
 
 <template>
   <div class="insert-code-container">
-    <div class="question-container">
-      <div class="question">
-        <base-interactive-title
-          :interactive="interactive"
-        />
+    <base-interactive-title
+      :interactive="interactive"
+    />
 
-        <ul>
-          <li
-            v-for="answerOption in answerOptions"
-            :key="answerOption.id"
-          >
-            <button @click="selectAnswer(answerOption)">
-              {{ answerOption.line }}
-            </button>
-          </li>
-        </ul>
-      </div>
+    <div class="question-container">
+      <ul class="question">
+        <li
+          v-for="answerOption in answerOptions"
+          :key="answerOption.id"
+        >
+          <button @click="selectAnswer(answerOption)">
+            {{ answerOption.line }}
+          </button>
+        </li>
+      </ul>
 
       <div class="answer">
         <codemirror
@@ -133,13 +131,13 @@
           :options="codemirrorOptions"
         />
       </div>
-    </div>
 
-    <div class="art-container">
-      <img
-        src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
-        alt="Art!"
-      >
+      <div class="art-container">
+        <img
+          src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
+          alt="Art!"
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -147,73 +145,67 @@
 <style scoped lang="scss">
   .insert-code-container {
     display: flex;
-    flex-direction: row;
-  }
-
-  .insert-code-container .art-container {
-    flex-grow: 1;
-
-    padding: 15px;
-
-    img {
-      width: 100%;
-    }
+    flex-direction: column;
   }
 
   .insert-code-container .question-container {
-    width: 30%;
-
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    h3 {
-      text-align: center;
-    }
+    ul.question {
+      width: 30%;
 
-    .question {
-      min-height: 30%;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
 
-      ul {
-        display: flex;
-        flex-direction: column;
+      align-items: center;
 
-        align-items: center;
-        justify-content: center;
+      list-style: none;
 
-        list-style: none;
+      margin: 0;
+      padding: 0;
 
-        margin: 0;
+      li {
+        margin: 0 0 10px;
+
         padding: 0;
 
-        width: 100%;
+        width: 70%;
 
-        li {
-          margin: 0 0 10px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
 
-          padding: 0;
+        button {
+          width: 100%;
+          height: 20px;
 
-          width: 70%;
-
-          &:last-of-type {
-            margin-bottom: 0;
-          }
-
-          button {
-            width: 100%;
-            height: 20px;
-
-            background: transparent;
-            border: 1px solid black;
-          }
+          background: transparent;
+          border: 1px solid black;
         }
       }
     }
 
     .answer {
-      width: 100%;
+      width: 30%;
 
       flex-grow: 1;
+    }
+
+    .art-container {
+      flex-grow: 1;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 15px;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
     }
   }
 </style>
