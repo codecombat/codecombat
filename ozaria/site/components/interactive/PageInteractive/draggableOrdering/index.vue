@@ -72,6 +72,7 @@
         :draggable-group="draggableGroup"
 
         class="ordering-column"
+        :labels="localizedInteractiveConfig.labels"
       />
 
       <div class="art-container">

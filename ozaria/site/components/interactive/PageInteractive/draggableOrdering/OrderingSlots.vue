@@ -20,6 +20,11 @@
       value: {
         type: Array,
         default: () => ([])
+      },
+
+      labels: {
+        type: Array,
+        default: () => ([])
       }
     },
 
@@ -56,10 +61,10 @@
       :key="i"
 
       v-model="slotData[i]"
-
       :draggable-group="draggableGroup"
-
       class="draggable-slot"
+
+      :label-text="labels[i] || ''"
 
       @change="changed"
     />
