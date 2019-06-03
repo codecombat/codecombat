@@ -7,10 +7,11 @@ import {
   getTextAnimationLength,
   getCamera
 } from '../../../../app/schemas/models/selectors/cinematic'
-import { processText } from './helper'
+import { processText, getDefaultTextPosition } from './helper'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
 const padding = 10
+const SPEECH_BUBBLE_MAX_WIDTH = `400px`
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
@@ -121,7 +122,7 @@ class SpeechBubble {
     const textDiv = html.body.firstChild
     textDiv.style.display = 'inline-block'
     textDiv.style.position = 'absolute'
-    textDiv.style.maxWidth = `400px`
+    textDiv.style.maxWidth = SPEECH_BUBBLE_MAX_WIDTH
     textDiv.id = this.id
 
     div.appendChild(textDiv)
@@ -228,38 +229,4 @@ function createSvgShape ({ x, y, width, height, side, className }) {
   g.appendChild(rect)
   g.appendChild(path)
   return g
-}
-
-/**
- * Try to guess the frame of the camera and provide sensible defaults for the
- * text bubbles. Uses values sourced from Brian.
- *
- * If value can't be guessed, sets the text bubble in the center of the canvas.
- *
- * @param {'left'|'right'} speaker
- * @param {number} cameraZoom
- * @param {Object} cameraPosition
- * @param {number} cameraPosition.x
- */
-function getDefaultTextPosition (speaker, cameraZoom, { x }) {
-  const cameraX = x
-  // Handling special cases of zoom, checking if speaker is in frame.
-  if (speaker === 'left') {
-    if (cameraZoom === 1) {
-      return { x: 550, y: 330 }
-    }
-    // Then zoom must be 2.
-    if (cameraX < -145) {
-      return { x: 800, y: 250 }
-    }
-  } else if (speaker === 'right') {
-    if (cameraZoom === 1) {
-      return { x: 850, y: 300 }
-    }
-    if (cameraX > 145) {
-      return { x: 550, y: 250 }
-    }
-  }
-  // Default to center
-  return { x: 1366 / 2, y: 768 / 2 }
 }
