@@ -11,7 +11,7 @@ import { processText, getDefaultTextPosition } from './helper'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
 const padding = 10
-const SPEECH_BUBBLE_MAX_WIDTH = `400px`
+const SPEECH_BUBBLE_MAX_WIDTH = `443px` // Removed 20 px to account for padding.
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
