@@ -59,7 +59,7 @@
 </script>
 
 <template>
-  <div class="draggable-ordering-container">
+  <div class="insert-code-container">
     <base-interactive-title
       :interactive="interactive"
     />
@@ -99,7 +99,7 @@
 </template>
 
 <style lang="scss" scoped>
-  .draggable-ordering-container {
+  .insert-code-container {
     padding: 75px;
 
     display: flex;

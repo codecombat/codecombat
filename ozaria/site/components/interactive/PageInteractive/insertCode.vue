@@ -108,7 +108,7 @@
 </script>
 
 <template>
-  <div class="draggable-ordering-container">
+  <div class="insert-code-container">
     <div class="question-container">
       <div class="question">
         <base-interactive-title
@@ -145,12 +145,12 @@
 </template>
 
 <style scoped lang="scss">
-  .draggable-ordering-container {
+  .insert-code-container {
     display: flex;
     flex-direction: row;
   }
 
-  .draggable-ordering-container .art-container {
+  .insert-code-container .art-container {
     flex-grow: 1;
 
     padding: 15px;
@@ -160,7 +160,7 @@
     }
   }
 
-  .draggable-ordering-container .question-container {
+  .insert-code-container .question-container {
     width: 30%;
 
     display: flex;
