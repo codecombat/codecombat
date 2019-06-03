@@ -38,6 +38,7 @@
     data () {
       const interactiveConfig = this.localizedInteractiveConfig || {}
 
+      console.log(interactiveConfig)
       return {
         draggableGroup: Math.random().toString(),
 
@@ -47,6 +48,12 @@
         })),
 
         answerSlots: Array(3).fill(undefined)
+      }
+    },
+
+    computed: {
+      answerSlotLabels () {
+        return (this.localizedInteractiveConfig || {}).labels || []
       }
     }
   }
@@ -87,6 +94,7 @@
         :draggable-group="draggableGroup"
 
         class="slot"
+        :label-text="answerSlotLabels[i] || ''"
       />
     </div>
   </div>
@@ -102,7 +110,7 @@
 
   .prompt-row {
     display: flex;
-    flex-direction: row;
+
 
     max-height: 700px;
 
