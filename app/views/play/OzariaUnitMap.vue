@@ -118,6 +118,7 @@ export default Vue.extend({
         }
         catch (err) {
           console.error("ERROR:", err)
+          // TODO: update after a consistent error handling strategy is decided
           noty({text: 'Error in creating unit map data', layout: 'topCenter', type: 'error'})
         }
       },

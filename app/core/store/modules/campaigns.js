@@ -30,6 +30,7 @@ export default {
         commit('setCampaignData', campaignData)
       } catch (e) {
         console.error('Error in fetching campaign', e)
+        // TODO: update after a consistent error handling strategy is decided
         noty({ text: 'Fetch campaign failure', type: 'error' })
       }
     }
