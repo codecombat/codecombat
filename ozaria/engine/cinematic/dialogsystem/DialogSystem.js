@@ -1,10 +1,17 @@
 import anime from 'animejs/lib/anime.es.js'
 import { AnimeCommand, SyncFunction } from '../commands/commands'
-import { getClearText, getTextPosition, getSpeaker, getTextAnimationLength } from '../../../../app/schemas/models/selectors/cinematic'
-import { processText } from './helper'
+import {
+  getClearText,
+  getTextPosition,
+  getSpeaker,
+  getTextAnimationLength,
+  getCamera
+} from '../../../../app/schemas/models/selectors/cinematic'
+import { processText, getDefaultTextPosition } from './helper'
 
 const SVGNS = 'http://www.w3.org/2000/svg'
 const padding = 10
+const SPEECH_BUBBLE_MAX_WIDTH = `443px` // Removed 20 px to account for padding.
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
@@ -50,13 +57,13 @@ export default class DialogSystem {
   /**
    * The system method that is run on every dialogNode.
    * @param {import('../../../../app/schemas/models/selectors/cinematic').DialogNode} dialogNode
+   * @param {Shot} currentShot
    * @returns {AbstractCommand[]}
    */
-  parseDialogNode (dialogNode) {
+  parseDialogNode (dialogNode, shot) {
     const commands = []
     const text = processText(dialogNode, this._templateDataParameters)
     const shouldClear = getClearText(dialogNode)
-    const { x, y } = getTextPosition(dialogNode) || { x: 200, y: 200 }
     const side = getSpeaker(dialogNode) || 'left'
 
     if (shouldClear) {
@@ -64,6 +71,9 @@ export default class DialogSystem {
     }
 
     if (text) {
+      // Use the camera setting from the shotSetup.
+      const { pos, zoom } = getCamera(shot)
+      const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom, pos)
       commands.push((new SpeechBubble({
         div: this.div,
         svg: this.svg,
@@ -112,6 +122,7 @@ class SpeechBubble {
     const textDiv = html.body.firstChild
     textDiv.style.display = 'inline-block'
     textDiv.style.position = 'absolute'
+    textDiv.style.maxWidth = SPEECH_BUBBLE_MAX_WIDTH
     textDiv.id = this.id
 
     div.appendChild(textDiv)
