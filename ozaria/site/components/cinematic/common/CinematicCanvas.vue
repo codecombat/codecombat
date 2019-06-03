@@ -86,7 +86,10 @@ export default {
 </script>
 
 <style scoped>
+
 #cinematic-div {
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   font-size: 1.5em;
   height: 768px;
