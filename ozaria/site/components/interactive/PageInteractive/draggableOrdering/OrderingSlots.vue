@@ -1,9 +1,9 @@
 <script>
-  import draggable from 'vuedraggable'
+  import BaseDraggableSlot from '../BaseDraggableSlot'
 
   export default {
     components: {
-      draggable
+      'base-draggable-slot': BaseDraggableSlot
     },
 
     props: {
@@ -29,9 +29,8 @@
       if (typeof this.numSlots !== 'undefined') {
         slotData = Array(this.numSlots)
           .fill(undefined)
-          .map(() => [])
       } else {
-        slotData = this.value.map(s => [ s ])
+        slotData = this.value
       }
 
       return {
@@ -52,41 +51,47 @@
 
 <template>
   <div class="ordering-slots-container">
-    <draggable
+    <base-draggable-slot
       v-for="(slot, i) in slotData"
       :key="i"
 
       v-model="slotData[i]"
 
-      tag="ul"
-      :group="{ name: draggableGroup, pull: true, put: (slotData[i].length === 0) }"
+      :draggable-group="draggableGroup"
 
-      class="ordering-slot"
+      class="draggable-slot"
 
       @change="changed"
-    >
-      <li
-        v-for="s in slotData[i]"
-        :key="s.id"
-      >
-        {{ s.text }}
-      </li>
-    </draggable>
+    />
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .ordering-slots-container {
     width: 25%;
-  }
 
-  .ordering-slot {
-    height: 40px;
-    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
 
-    padding: 0;
+    align-items: center;
+    justify-content: space-evenly;
 
-    list-style: none;
+    /deep/ .draggable-slot {
+      height: 55px;
+      border: 1px solid black;
+
+      padding: 0;
+
+      width: 100%;
+
+      ul {
+        width: 100%;
+
+        li {
+          text-align: center;
+        }
+      }
+    }
   }
 
   .ordering-slot li {
