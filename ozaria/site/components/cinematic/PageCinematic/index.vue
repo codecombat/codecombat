@@ -1,7 +1,7 @@
 <script>
 import { getCinematic } from '../../../api/cinematic'
 import CinematicCanvas from '../common/CinematicCanvas'
-import LayoutChrome from '../common/LayoutChrome'
+import LayoutChrome from '../../common/LayoutChrome'
 import LayoutCenterCinematic from '../common/LayoutCenterCinematic'
 
 module.exports = Vue.extend({
