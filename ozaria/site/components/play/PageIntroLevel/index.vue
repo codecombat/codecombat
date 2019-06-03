@@ -50,6 +50,11 @@ module.exports = Vue.extend({
     }
     await this.loadIntroLevel()
   },
+  watch: {
+    introLevelIdOrSlug: async function () {
+      await this.loadIntroLevel()
+    }
+  },
   computed: Object.assign({},
     mapGetters({
       campaignDataByIdOrSlug: 'campaigns/getCampaignData'
@@ -61,6 +66,7 @@ module.exports = Vue.extend({
     }),
     {
       loadIntroLevel: async function() {
+        this.dataLoaded = false
         try {
           this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
           if (me.isSessionless()) { // not saving progress/session for teachers
@@ -89,15 +95,7 @@ module.exports = Vue.extend({
           }
 
           // fetch campaign data
-          if (!this.campaignId && this.courseId) {
-            const course = await api.courses.get({courseID: this.courseId})
-            const campaignId = course.campaignID
-            await this.fetchCampaign(campaignId)
-            this.campaignData = this.campaignDataByIdOrSlug(campaignId)
-          } else if (this.campaignId) {
-            await this.fetchCampaign(this.campaignId)
-            this.campaignData = this.campaignDataByIdOrSlug(this.campaignId)
-          }
+          await this.loadCampaignData()
 
         } catch (err) {
           console.error('Error in creating data for intro level', err)
@@ -109,6 +107,17 @@ module.exports = Vue.extend({
         this.currentIndex = 0
         this.currentContent = this.introContent[this.currentIndex]
         this.dataLoaded = true
+      },
+      loadCampaignData: async function () {
+        if (!this.campaignId && this.courseId) {
+          const course = await api.courses.get({courseID: this.courseId})
+          const campaignId = course.campaignID
+          await this.fetchCampaign(campaignId)
+          this.campaignData = this.campaignDataByIdOrSlug(campaignId)
+        } else if (this.campaignId) {
+          await this.fetchCampaign(this.campaignId)
+          this.campaignData = this.campaignDataByIdOrSlug(this.campaignId)
+        }
       },
       onContentCompleted: async function () {
         this.currentIndex++

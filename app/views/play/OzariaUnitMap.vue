@@ -58,6 +58,11 @@ export default Vue.extend({
     }
     await this.loadUnitMapData()
   },
+  watch: {
+    campaign: async function () {
+      await this.loadUnitMapData()
+    }
+  },
   computed: Object.assign({},
     mapGetters({
       campaignDataByIdOrSlug: 'campaigns/getCampaignData'
@@ -102,6 +107,7 @@ export default Vue.extend({
     {
       async loadUnitMapData () {
         try {
+          this.dataLoaded = false
           this.levelSessions = await api.users.getLevelSessions({userID: me.get('_id')})
           await this.fetchCampaign(this.campaign)
           this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
