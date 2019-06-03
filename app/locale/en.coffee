@@ -1060,6 +1060,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     robin_title: "Senior Product Manager"
     nolan_title: "Sales Manager"
     david_title: "Marketing Lead"
+    titles_csm: "Customer Success Manager"
+    titles_territory_manager: "Territory Manager"
     lawrence_title: "Customer Success Manager"
     sean_title: "Senior Account Executive"
     liz_title: "Senior Account Executive"
