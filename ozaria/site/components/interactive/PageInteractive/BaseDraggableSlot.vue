@@ -17,7 +17,7 @@
         default: () => undefined
       },
 
-      label: {
+      labelText: {
         type: String,
         default: () => ''
       }
@@ -60,7 +60,7 @@
       class="expand slot-label"
       :style="{ display: (!displayLabel) ? 'none': undefined }"
     >
-      {{ label }}
+      {{ labelText }}
     </div>
 
     <draggable
