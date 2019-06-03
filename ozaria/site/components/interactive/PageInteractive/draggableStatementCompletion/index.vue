@@ -73,6 +73,8 @@
           v-model="slotOptions[i]"
 
           :draggable-group="draggableGroup"
+
+          class="slot"
         />
       </div>
 
@@ -89,6 +91,8 @@
         v-model="answerSlots[i]"
 
         :draggable-group="draggableGroup"
+
+        class="slot"
       />
     </div>
   </div>
@@ -117,24 +121,19 @@
       text-align: center;
 
       img {
-        height: 100%;
+        max-height: 100%;
+        max-width: 100%;
       }
     }
   }
 
-  .answer-bank {
-    width: 30%;
+  .slot {
+    height: 30px;
 
     ul {
-      list-style: none;
-      padding: 0;
-
-      height: 30px;
-
       li {
         padding: 25px;
 
-        border: 1px solid black;
         font-weight: bold;
 
         font-size: 15px;
@@ -142,26 +141,26 @@
     }
   }
 
+  .answer-bank {
+    width: 30%;
+  }
+
   .answer-row {
     display: flex;
     flex-direction: row;
 
-    ul {
-      margin: 10px;
-      padding: 0;
+    align-items: center;
+    justify-content: center;
 
-      list-style: none;
+    .slot {
+      width: 25%;
 
       border: 1px solid black;
 
-      width: 33%;
-      height: 50px;
+      margin-right: 25px;
 
-      li {
-        text-align: center;
-
-        height: 100%;
-        width: 100%;
+      &:last-of-type {
+        margin-right: 0;
       }
     }
   }

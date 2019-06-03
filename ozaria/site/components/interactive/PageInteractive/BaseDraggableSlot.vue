@@ -15,6 +15,11 @@
       value: {
         type: Object,
         default: () => undefined
+      },
+
+      label: {
+        type: String,
+        default: () => ''
       }
     },
 
@@ -31,6 +36,10 @@
           pull: true,
           put: (this.answers.length === 0)
         }
+      },
+
+      displayLabel () {
+        return this.answers.length === 0
       }
     },
 
@@ -46,27 +55,63 @@
 </script>
 
 <template>
-  <draggable
-    v-model="answers"
-    tag="ul"
-    :group="draggableGroupConfig"
-    :sort="false"
-
-    @change="changed"
-  >
-    <li
-      v-for="answer of answers"
-      :key="answer.id"
+  <div class="slot-container">
+    <div
+      class="expand slot-label"
+      :style="{ display: (!displayLabel) ? 'none': undefined }"
     >
-      {{ answer.text }}
-    </li>
-  </draggable>
+      {{ label }}
+    </div>
+
+    <draggable
+      v-model="answers"
+      tag="ul"
+      :group="draggableGroupConfig"
+      :sort="false"
+
+      @change="changed"
+    >
+      <li
+        v-for="answer of answers"
+        :key="answer.id"
+      >
+        {{ answer.text }}
+      </li>
+    </draggable>
+  </div>
 </template>
 
 <style scoped lang="scss">
-  ul {
-    li {
+  .slot-container {
+    position: relative;
+
+    .expand {
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .slot-label {
+
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      list-style: none;
+
+      background-color: transparent;
+
       height: 100%;
+      width: 100%;
+
+      li {
+        height: 100%;
+      }
     }
   }
 </style>
