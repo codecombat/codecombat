@@ -127,12 +127,13 @@
     }
   }
 
-  .slot {
-    height: 30px;
+  /deep/ .slot {
+    height: 35px;
+
+    border: 1px solid black;
 
     ul {
       li {
-        padding: 25px;
 
         font-weight: bold;
 
@@ -150,18 +151,10 @@
     flex-direction: row;
 
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 
     .slot {
       width: 25%;
-
-      border: 1px solid black;
-
-      margin-right: 25px;
-
-      &:last-of-type {
-        margin-right: 0;
-      }
     }
   }
 </style>
