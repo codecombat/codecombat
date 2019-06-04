@@ -387,6 +387,16 @@ _.extend LevelSchema.properties,
       { title: 'Intro content array', description: 'Intro content sequence for all languages', type: 'array', items: IntroContentObject }
     ]
   }
+  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
+    title: 'Goals',
+    description: 'Goals for this stage',
+    minItems: 1,
+    uniqueItems: true,
+    properties: {
+      stage: { type: 'integer', title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
+      goals: c.array { title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema
+    }
+  }
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
