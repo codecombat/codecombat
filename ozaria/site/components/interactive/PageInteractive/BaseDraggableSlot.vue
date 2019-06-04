@@ -14,12 +14,22 @@
 
       value: {
         type: Object,
-        default: () => undefined
+        default: undefined
       },
 
       labelText: {
         type: String,
-        default: () => ''
+        default: ''
+      },
+
+      slotEmptyClass: {
+        type: String,
+        default: 'empty'
+      },
+
+      slotFilledClass: {
+        type: String,
+        default: 'filled'
       }
     },
 
@@ -38,8 +48,12 @@
         }
       },
 
-      displayLabel () {
-        return this.answers.length === 0
+      hasAnswer () {
+        return this.answers.length === 1
+      },
+
+      emptyFilledClass () {
+        return (this.hasAnswer) ? this.slotFilledClass : this.slotEmptyClass
       }
     },
 
@@ -55,12 +69,11 @@
 </script>
 
 <template>
-  <div class="slot-container">
+  <div :class="[ 'slot-container', emptyFilledClass ]">
     <div
       class="expand slot-label"
-      :style="{ display: (!displayLabel) ? 'none': undefined }"
     >
-      {{ labelText }}
+      TEST {{ labelText }}
     </div>
 
     <draggable
@@ -95,10 +108,14 @@
     }
 
     .slot-label {
-
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     ul {
+      position: relative;
+
       margin: 0;
       padding: 0;
 
@@ -111,6 +128,7 @@
 
       li {
         height: 100%;
+        background-color: #FFF;
       }
     }
   }

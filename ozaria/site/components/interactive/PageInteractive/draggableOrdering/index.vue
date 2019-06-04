@@ -92,6 +92,21 @@
 
     /deep/ .ordering-column {
       margin-right: 10px;
+
+      ul {
+        li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          font-weight: bold;
+          font-size: 15px;
+        }
+      }
+
+      .empty {
+        border: 1px dashed grey;
+      }
     }
   }
 
