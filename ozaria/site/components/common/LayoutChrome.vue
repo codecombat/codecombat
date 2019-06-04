@@ -9,7 +9,7 @@
 
 #layout-chrome
   border-image: url('/images/ozaria/layout/Layout-Chrome.png')
-  border-image-slice: 30 70 30 30 fill
+  border-image-slice: 30 64 30 30 fill
   border-image-width: 30px 70px 30px 30px
   border-image-repeat: round
   width: 100%
