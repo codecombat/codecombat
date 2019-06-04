@@ -43,6 +43,8 @@
 
     data () {
       return {
+        codemirrorReady: false,
+
         codemirrorOptions: {
           tabSize: 2,
           mode: 'text/javascript', // TODO drive this from the classroom
@@ -56,31 +58,35 @@
 
     computed: {
       sampleCodeSplit () {
-        const splitSampleCode = this.localizedInteractiveConfig.starterCode
+        return this.localizedInteractiveConfig.starterCode
           .trim()
           .split('\n')
           .map(line => line.trim())
+      },
 
-        let emptyIndex = splitSampleCode.indexOf('')
+      sampleCodeEmptyIndex () {
+        let emptyIndex = this.sampleCodeSplit.indexOf('')
         if (emptyIndex === -1) {
-          emptyIndex = splitSampleCode.length
+          emptyIndex = this.sampleCodeSplit.length
         }
 
+        return emptyIndex
+      },
+
+      sampleCodeParts () {
         return [
-          splitSampleCode.slice(0, emptyIndex).join('\n'),
-          splitSampleCode.slice(emptyIndex + 1).join('\n')
+          this.sampleCodeSplit.slice(0, this.sampleCodeEmptyIndex).join('\n'),
+          this.sampleCodeSplit.slice(this.sampleCodeEmptyIndex + 1).join('\n')
         ]
       },
 
       code () {
-        const splitSampleCode = this.sampleCodeSplit
-
         let selectedAnswerLine = ''
         if (this.selectedAnswer) {
           selectedAnswerLine = this.selectedAnswer.line.trim()
         }
 
-        return `${splitSampleCode[0]}\n${selectedAnswerLine}\n${splitSampleCode[1]}`
+        return `${this.sampleCodeParts[0]}\n${selectedAnswerLine}\n${this.sampleCodeParts[1]}`
       },
 
       answerOptions () {
@@ -91,9 +97,39 @@
       }
     },
 
+    watch: {
+      sampleCodeEmptyIndex () {
+        this.updatedHighlightedLine()
+      },
+
+      selectedAnswer () {
+        this.updatedHighlightedLine()
+      }
+    },
+
     methods: {
       selectAnswer (answer) {
         this.selectedAnswer = answer
+      },
+
+      onCodeMirrorReady () {
+        this.codeMirrorReady = true
+        this.updatedHighlightedLine()
+      },
+
+      updatedHighlightedLine () {
+        if (!this.codeMirrorReady) {
+          return
+        }
+
+        const codeMirrorComponent = this.$refs.codeMirrorComponent
+        const cm = codeMirrorComponent.codemirror
+
+        if (!this.selectedAnswer) {
+          cm.addLineClass(this.sampleCodeEmptyIndex, 'background', 'highlight-line')
+        } else {
+          cm.removeLineClass(this.sampleCodeEmptyIndex, 'background', 'highlight-line')
+        }
       }
     }
   }
@@ -119,8 +155,11 @@
 
       <div class="answer">
         <codemirror
+          ref="codeMirrorComponent"
           :value="code"
           :options="codemirrorOptions"
+
+          @ready="onCodeMirrorReady"
         />
       </div>
 
@@ -182,6 +221,10 @@
       width: 30%;
 
       flex-grow: 1;
+
+      /deep/ .highlight-line {
+        background-color: #f8ff89;
+      }
     }
 
     .art-container {
