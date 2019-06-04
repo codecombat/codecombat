@@ -73,7 +73,7 @@
     <div
       class="expand slot-label"
     >
-      TEST {{ labelText }}
+      {{ labelText }}
     </div>
 
     <draggable
