@@ -54,17 +54,12 @@
     />
 
     <div class="prompt-row">
-      <div class="art-container">
-        <img
-          src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
-          alt="Art!"
-        >
-      </div>
-
       <ordering-slots
         v-model="promptSlots"
 
         :draggable-group="draggableGroup"
+
+        class="ordering-column"
       />
 
       <ordering-slots
@@ -72,7 +67,16 @@
         :num-slots="4"
 
         :draggable-group="draggableGroup"
+
+        class="ordering-column"
       />
+
+      <div class="art-container">
+        <img
+          src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
+          alt="Art!"
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -85,6 +89,10 @@
     flex-direction: column;
 
     background-color: #FFF;
+
+    /deep/ .ordering-column {
+      margin-right: 10px;
+    }
   }
 
   .prompt-row {
