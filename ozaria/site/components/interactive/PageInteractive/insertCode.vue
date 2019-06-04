@@ -8,13 +8,6 @@
 
   import BaseInteractiveTitle from './BaseInteractiveTitle'
 
-  const SAMPLE_CODE = `
-          let x = "y"
-
-          let a = "b"
-          console.log(x + a)
-          `
-
   export default {
     components: {
       codemirror,
