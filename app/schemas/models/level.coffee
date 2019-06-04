@@ -387,8 +387,7 @@ _.extend LevelSchema.properties,
       { title: 'Intro content array', description: 'Intro content sequence for all languages', type: 'array', items: IntroContentObject }
     ]
   }
-  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, {
-    type: 'object',
+  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
     title: 'Goals',
     description: 'Goals for this stage',
     minItems: 1,
