@@ -68,8 +68,6 @@
           emptyIndex = splitSampleCode.length
         }
 
-        console.log('got empty index', emptyIndex)
-
         return [
           splitSampleCode.slice(0, emptyIndex).join('\n'),
           splitSampleCode.slice(emptyIndex + 1).join('\n')
@@ -78,14 +76,12 @@
 
       code () {
         const splitSampleCode = this.sampleCodeSplit
-        console.log(splitSampleCode)
 
         let selectedAnswerLine = ''
         if (this.selectedAnswer) {
           selectedAnswerLine = this.selectedAnswer.line.trim()
         }
 
-        console.log(splitSampleCode[0], selectedAnswerLine, splitSampleCode[1])
         return `${splitSampleCode[0]}\n${selectedAnswerLine}\n${splitSampleCode[1]}`
       },
 
