@@ -38,7 +38,6 @@
     data () {
       const interactiveConfig = this.localizedInteractiveConfig || {}
 
-      console.log(interactiveConfig)
       return {
         draggableGroup: Math.random().toString(),
 
