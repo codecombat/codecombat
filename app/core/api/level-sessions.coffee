@@ -31,4 +31,10 @@ module.exports = {
       method: 'GET'
       remove: false
     }))
+
+  update: (levelSession, options={}) ->
+    fetchJson("/db/level.session/#{levelSession._id}", _.assign({}, options, {
+      method: 'PUT'
+      json: levelSession
+    }))
 }

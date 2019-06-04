@@ -206,6 +206,15 @@ GeneralArticleSchema = c.object {
   original: c.objectId(title: 'Original', description: 'A reference to the original Article.')#, format: 'hidden')  # hidden?
   majorVersion: {title: 'Major Version', description: 'Which major version of the Article is being used.', type: 'integer', minimum: 0} #, format: 'hidden'}  # hidden?
 
+IntroContentObject = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    type: { title: 'Content type', enum: ['cinematic', 'interactive', 'cutscene-video', 'avatarSelectionScreen'] }
+    contentSlug: { type: 'string', title: 'Content Slug' }
+  }
+}
+
 LevelSchema = c.object {
   title: 'Level'
   description: 'A spectacular level which will delight and educate its stalwart players with the sorcery of coding.'
@@ -264,7 +273,7 @@ _.extend LevelSchema.properties,
   i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip', 'studentPlayInstructions'], description: 'Help translate this level'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev'])
+  type: c.shortString(title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'intro'])
   kind: c.shortString(title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'])
   terrain: c.terrainString
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
@@ -366,7 +375,28 @@ _.extend LevelSchema.properties,
   picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
   password: { type: 'string', description: 'The password required to create a session for this level' }
   mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
-
+  introContent: { # valid for levels of type 'intro'
+    oneOf: [
+      {
+        title: 'Intro content object',
+        description: 'Intro content sequence for individual languages'
+        type: 'object',
+        format: 'code-languages-object',
+        additionalProperties: { type: 'array', items: IntroContentObject }
+      }
+      { title: 'Intro content array', description: 'Intro content sequence for all languages', type: 'array', items: IntroContentObject }
+    ]
+  }
+  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
+    title: 'Goals',
+    description: 'Goals for this stage',
+    minItems: 1,
+    uniqueItems: true,
+    properties: {
+      stage: { type: 'integer', title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
+      goals: c.array { title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema
+    }
+  }
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

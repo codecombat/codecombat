@@ -25,4 +25,8 @@ export class CameraSystem {
     }
     return commands
   }
+
+  destroy () {
+    this.camera.destroy()
+  }
 }

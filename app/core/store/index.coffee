@@ -26,6 +26,7 @@ store = new Vuex.Store({
     courseInstances: require('./modules/courseInstances').default
     levelSessions: require('./modules/levelSessions').default
     users: require('./modules/users').default
+    campaigns: require('./modules/campaigns').default
   }
 })
 

@@ -1,3 +1,4 @@
+/* eslint-env jasmine */
 import { mount } from '@vue/test-utils'
 import ozariaUnitMap from 'views/play/OzariaUnitMap'
 import factories from 'test/app/factories'
@@ -5,12 +6,7 @@ import Levels from 'collections/Levels'
 import CourseInstance from 'collections/CourseInstances'
 import Course from 'collections/Courses'
 import api from 'core/api'
-
-const createComponent = (values = {}) => {
-  return mount(ozariaUnitMap, {
-    propsData: values
-  })
-}
+import store from 'core/store'
 
 const levels = new Levels(_.times(4, () => factories.makeLevel()))
 // set position, nextLevels, and first property
@@ -38,6 +34,13 @@ const sessions = []
 
 let unitMapHomeWrapper = {}
 let unitMapClassroomWrapper = {}
+
+const createComponent = (values = {}) => {
+  return mount(ozariaUnitMap, {
+    propsData: values,
+    store
+  })
+}
 
 describe('Ozaria Unit Map Page for Classroom users', () => {
   beforeEach((done) => {
@@ -72,8 +75,7 @@ describe('Ozaria Unit Map Page for Classroom users', () => {
       if (i === 0) {
         expect(levelDots.at(i).classes()).toContain('next')
         expect(levelDots.at(i).classes()).not.toContain('locked')
-      }
-      else {
+      } else {
         expect(levelDots.at(i).classes()).not.toContain('next')
         expect(levelDots.at(i).classes()).toContain('locked')
       }
@@ -105,8 +107,7 @@ describe('Ozaria Unit Map Page for Home users', () => {
       if (i === 0) {
         expect(levelDots.at(i).classes()).toContain('next')
         expect(levelDots.at(i).classes()).not.toContain('locked')
-      }
-      else {
+      } else {
         expect(levelDots.at(i).classes()).not.toContain('next')
         expect(levelDots.at(i).classes()).toContain('locked')
       }

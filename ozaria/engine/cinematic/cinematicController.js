@@ -149,8 +149,8 @@ export class CinematicController {
   }
 
   destroy () {
-    this.systems.cameraSystem.destroy()
     createjs.Ticker.removeAllEventListeners()
+    this.systems.cameraSystem.destroy()
     this.systems.cinematicLankBoss.cleanup()
     this.stage.removeAllEventListeners()
     this.systems.sound.stopAllSounds()
