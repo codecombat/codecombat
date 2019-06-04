@@ -132,11 +132,17 @@
 
     border: 1px solid black;
 
+    &.empty {
+      border: 1px dashed grey;
+    }
+
     ul {
       li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         font-weight: bold;
-
         font-size: 15px;
       }
     }
