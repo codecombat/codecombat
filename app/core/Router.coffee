@@ -177,6 +177,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
     'ozaria/play/intro/:introLevelOriginalId': go('core/SingletonAppVueComponentView')
     'ozaria/play/level/:levelID': go('views/ozaria/site/play/level/PlayLevelView')
+    # TODO move to vue router after support for empty template is added there
+    'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
+      props = {
+        campaign: campaign,
+        courseInstanceId: courseInstanceId
+      }
+      @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
     'parents': go('ParentsView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
@@ -196,12 +203,6 @@ module.exports = class CocoRouter extends Backbone.Router
       @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
-    'play-ozaria/:unit(?course-instance=:courseInstanceId)': (unit, courseInstanceId) ->
-      props = {
-        campaign: unit,
-        courseInstanceId: courseInstanceId
-      }
-      @routeDirectly('play/OzariaUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
     
     # Adding this route to test interactives until we have the intro levels implemented
     # TODO: remove this route when intro level is ready to test the interactives.

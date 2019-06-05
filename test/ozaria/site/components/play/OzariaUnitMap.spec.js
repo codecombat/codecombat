@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 import { mount } from '@vue/test-utils'
-import ozariaUnitMap from 'views/play/OzariaUnitMap'
+import ozariaUnitMap from 'ozaria/site/components/play/PageUnitMap'
 import factories from 'test/app/factories'
 import Levels from 'collections/Levels'
 import CourseInstance from 'collections/CourseInstances'
