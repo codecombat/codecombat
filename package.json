@@ -74,6 +74,7 @@
     "@sendgrid/mail": "^6.2.1",
     "@vimeo/player": "^2.2.0",
     "@vuex-orm/core": "^0.31.12",
+    "@vuex-orm/plugin-axios": "^0.5.0",
     "ajv": "^6.10.0",
     "algoliasearch": "^3.13.1",
     "animejs": "^3.0.1",

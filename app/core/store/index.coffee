@@ -1,3 +1,4 @@
+VuexORMAxios = require '@vuex-orm/plugin-axios'
 Course = require './models/Course'
 
 database = new VuexORM.Database()
@@ -5,8 +6,23 @@ database = new VuexORM.Database()
 # NOTE: If we ever want to be more specific, we can define a module in the second argument here
 database.register(Course.default, {})
 
+# See https://github.com/vuex-orm/plugin-axios for details on config for @vuex-orm/plugin-axios
+VuexORM.use(VuexORMAxios, {
+  database
+  http: {
+    baseURL: process.env.COCO_MAIN_HOSTNAME or 'localhost:3000'
+    url: '/' # Let each VuexORM Model set this so it is searchable in the codebase
+    headers: {
+#      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+})
+
 store = new Vuex.Store({
   strict: not application.isProduction()
+
+  namespaced: true
 
   plugins: [VuexORM.install(database)]
 

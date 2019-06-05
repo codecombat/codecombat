@@ -14,4 +14,13 @@ export default class Course extends Model {
       members: this.attr([])
     }
   }
+
+  static get methodConf () {
+    return {
+      http: {
+        url: '/db/course'
+      }
+      // methods: {} // customize specific REST calls here
+    }
+  }
 }
