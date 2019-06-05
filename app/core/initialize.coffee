@@ -8,6 +8,7 @@ Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
+VuexORM = require '@vuex-orm/core'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
@@ -15,6 +16,8 @@ Vue.use(VueMoment.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
+
+Vue.use(VuexORM.default)
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'

@@ -114,7 +114,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import Course from 'app/core/store/models/Course'
 
   import { courseAcronyms as COURSE_ACRONYMS } from 'core/utils'
 
@@ -125,26 +125,26 @@
     },
 
     computed: Object.assign({},
-      // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
-      mapState('courses', {
-        courses: function (state) {
-          return state.byId
-        }
-      }),
-
-      mapState('courseInstances', {
-        // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
-        courseInstancesLoading (state) {
-          return state.loading.byTeacher[this.$props.classroom.ownerID]
-        },
-
-        courseInstance (state) {
-          const instances = state.courseInstancesByTeacher[this.$props.classroom.ownerID] || []
-
-          return instances
-            .find(i => i.courseID === this.$props.course._id && i.classroomID === this.$props.classroom._id)
-        }
-      }),
+      // // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
+      // mapState('courses', {
+      //   courses: function (state) {
+      //     return state.byId
+      //   }
+      // }),
+      //
+      // mapState('courseInstances', {
+      //   // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
+      //   courseInstancesLoading (state) {
+      //     return state.loading.byTeacher[this.$props.classroom.ownerID]
+      //   },
+      //
+      //   courseInstance (state) {
+      //     const instances = state.courseInstancesByTeacher[this.$props.classroom.ownerID] || []
+      //
+      //     return instances
+      //       .find(i => i.courseID === this.$props.course._id && i.classroomID === this.$props.classroom._id)
+      //   }
+      // }),
 
       mapState('levelSessions', {
         // TODO this could be loading (top level component prevents this now but may not in future).  Handle loading state here
