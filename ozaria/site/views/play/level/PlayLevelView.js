@@ -127,6 +127,12 @@ class PlayLevelView extends RootView {
     }
   }
 
+  getMeta () {
+    return {
+      link: [{ vmid: 'rel-canonical', rel: 'canonical', content: '/play' }]
+    }
+  }
+
   onClick () {
     // workaround to get users out of permanent idle status
     if (application.userIsIdle) {
