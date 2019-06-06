@@ -397,6 +397,7 @@ _.extend LevelSchema.properties,
       goals: c.array { title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema
     }
   }
+  isPlayedInStages: {type: 'boolean', title: 'Is Played in Stages', description: 'Is this level played in stages and other content(cinematics) is loaded in between stages'}
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
