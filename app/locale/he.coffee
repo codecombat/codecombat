@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     social_discource: "הצטרפו לדיון בפורום ה-Discourse שלנו"
     social_facebook: "תנו ל-CodeCombat \"לייק\" ב-Facebook"
     social_twitter: "עקבו אחרי CodeCombat ב-Twitter"
-    social_gplus: "הצטרפו ל-CodeCombat ב-Google+‎"
     social_slack: "שוחחו עמנו בצ'אט בערוץ ה-Slack הציבורי של CodeCombat"
     contribute_to_the_project: "תרמו לפרויקט"
 

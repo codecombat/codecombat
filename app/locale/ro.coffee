@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     social_discource: "Alăturăte discuțiilor pe forumul Discourse"
     social_facebook: "Lasă un Like pentru CodeCombat pe facebook"
     social_twitter: "Urmărește CodeCombat pe Twitter"
-    social_gplus: "Alăturăte pe Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Contribuie la proiect"
 

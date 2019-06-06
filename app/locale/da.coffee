@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     social_discource: "Deltag i diskussionen på vores Discourse-forum"
     social_facebook: "Like CodeCombat på Facebook"
     social_twitter: "Følg CodeCombat på Twitter"
-    social_gplus: "Følg CodeCombat på Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Bidrag til projektet"
 

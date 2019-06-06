@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     social_discource: "Μπείτε στη συζήτηση στο φόρουμ μας που είναι βασισμένο στο Discourse"
     social_facebook: "Κάντε Like στο CodeCombat στο Facebook"
     social_twitter: "Ακολουθείστε το CodeCombat στο Twitter"
-    social_gplus: "Συνδεθείτε με το CodeCombat στο Google+"
     social_slack: "Συζητήστε μαζί μας στο δημόσιο κανάλι του CodeCombat στο Slack"
     contribute_to_the_project: "Συμβάλλετε στο έργο"
 

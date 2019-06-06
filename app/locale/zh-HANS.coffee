@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     social_discource: "在我们的论坛参与讨论"
     social_facebook: "关注CodeCombat的Facebook主页"
     social_twitter: "关注CodeCombat的Twitter"
-    social_gplus: "关注CodeCombat的Google+主页"
     social_slack: "在公共 CodeCombat Slack 聊天频道与我们交谈"
     contribute_to_the_project: "为项目做贡献"
 

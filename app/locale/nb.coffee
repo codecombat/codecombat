@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     social_discource: "Diskuter CodeCombat i forumet vårt på Discourse"
     social_facebook: "Lik CodeCombat på Facebook"
     social_twitter: "Følg CodeCombat på Twitter"
-    social_gplus: "Følg CodeCombat på Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Bidra på prosjektet"
 

@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     social_discource: "Discourse のフォーラムで議論しよう"
     social_facebook: "Facebook で CodeCombat にいいね！する"
     social_twitter: "Twitter の CodeCombat をフォローする"
-    social_gplus: "Google+ の CodeCombat に参加する"
     social_slack: "公開CodeCombat Slackチャンネルで私たちと話す"
     contribute_to_the_project: "プロジェクトに貢献する"
 

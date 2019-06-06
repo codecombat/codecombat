@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     social_discource: "토론 포럼에서 토론에 참여하기"
     social_facebook: "Facebook에서 코드컴뱃 좋아요하기"
     social_twitter: "Twitter에서 코드컴뱃 팔로우하기"
-    social_gplus: "Google+로 코드컴뱃 참여하기"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "프로젝트에 기여하기"
 

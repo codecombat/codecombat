@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     social_discource: "Wbva gur qvfphffvba ba bhe Qvfpbhefr sbehz"
     social_facebook: "Yvxr PbqrPbzong ba Snprobbx"
     social_twitter: "Sbyybj PbqrPbzong ba Gjvggre"
-    social_gplus: "Wbva PbqrPbzong ba Tbbtyr+"
     social_slack: "Pung jvgu hf va gur choyvp PbqrPbzong Fynpx punaary"
     contribute_to_the_project: "Pbagevohgr gb gur cebwrpg"
 

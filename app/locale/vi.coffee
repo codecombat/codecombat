@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     social_discource: "Tham gia giao lưu trên diễn đàn Discourse"
     social_facebook: "Thích trang Facebook của CodeCombat"
     social_twitter: "Theo dõi CodeCombat trên Twitter"
-    social_gplus: "Gia nhập CodeCombat trên Google+"
     social_slack: "Chat với chúng tôi trên kênh Slack của CodeCombat"
     contribute_to_the_project: "Đóng góp vào dự án"
 

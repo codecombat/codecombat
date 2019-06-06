@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     social_discource: "Pridaj sa k diskusii na fóre Discourse"
     social_facebook: "Daj Like CodeCombatu na Facebooku"
     social_twitter: "Sleduj CodeCombat na Twitteri"
-    social_gplus: "Pripoj sa ku CodeCombatu na Google+"
     social_slack: "Chatuj s nami na verejnom kanáli Slack."
     contribute_to_the_project: "Prispej svojou prácou"
 

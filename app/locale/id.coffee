@@ -1345,7 +1345,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     social_discource: "Bergabung dalam diskusi di forum Discourse kami"
     social_facebook: "Like CodeCombat di Facebook"
     social_twitter: "Follow CodeCombat di Twitter"
-    social_gplus: "Bergabung CodeCombat di Google+"
     social_slack: "Mengobrol bersama kami di channel publik Slack CodeCombat"
     contribute_to_the_project: "Berkontribusi pada proyek"
 
