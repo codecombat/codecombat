@@ -116,28 +116,25 @@ export default {
   margin-right: auto
   position: relative
 
-  span
-    font-size: 1.5rem
+  .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
+    font-size: 24px
     line-height: 1.42
-    color: blue
-
+    color: #0e1111
 
 #cinematic-div canvas
   display: block
   position: absolute
 
-
 .cinematic-speech-bubble-right
   border-image: url('/images/ozaria/cinematic/bubble_right_slice.png')
   border-image-slice: 50 100 50 50 fill
   border-image-width: 40px 80px 40px 40px
-  border-image-outset: 10px 45px 15px 15px
-
+  border-image-outset: 10px 58px 15px 15px
 
 .cinematic-speech-bubble-left
   border-image: url('/images/ozaria/cinematic/bubble_left_slice.png')
   border-image-slice: 50 50 50 100 fill
   border-image-width: 40px 40px 40px 80px
-  border-image-outset: 10px 15px 15px 45px
+  border-image-outset: 10px 15px 15px 58px
 
 </style>
