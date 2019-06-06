@@ -108,33 +108,36 @@ export default {
 }
 </script>
 
-<style>
-/* 
-  This should not be scoped so it works on
-  programmatically created divs.
-*/
-#cinematic-div {
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  font-size: 1.5em;
-}
+<style lang="sass">
+//   This should not be scoped so it works on
+//   programmatically created divs.
+#cinematic-div
+  margin-left: auto
+  margin-right: auto
+  position: relative
 
-#cinematic-div canvas {
-  display: block;
-  position: absolute;
-}
+  span
+    font-size: 1.5rem
+    line-height: 1.42
+    color: blue
 
-.cinematic-speech-bubble-left {
-  background-color: red;
-}
 
-.cinematic-speech-bubble-right {
-  background-color: blue;
-}
-/* 
-#dialogsystem-div, #dialogsystem-svg {
-  width: 1366px;
-  height: 768px;
-} */
+#cinematic-div canvas
+  display: block
+  position: absolute
+
+
+.cinematic-speech-bubble-right
+  border-image: url('/images/ozaria/cinematic/bubble_right_slice.png')
+  border-image-slice: 50 100 50 50 fill
+  border-image-width: 40px 80px 40px 40px
+  border-image-outset: 10px 45px 15px 15px
+
+
+.cinematic-speech-bubble-left
+  border-image: url('/images/ozaria/cinematic/bubble_left_slice.png')
+  border-image-slice: 50 50 50 100 fill
+  border-image-width: 40px 40px 40px 80px
+  border-image-outset: 10px 15px 15px 45px
+
 </style>
