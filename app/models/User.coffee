@@ -309,6 +309,7 @@ module.exports = class User extends CocoModel
   isOnPremiumServer: ->
     return true if me.get('country') in ['brazil']
     return true if me.get('country') in ['china'] and (me.isPremium() or me.get('stripe'))
+    return true if features?.china
     return false
 
   sendVerificationCode: (code) ->

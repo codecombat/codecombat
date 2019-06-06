@@ -88,6 +88,8 @@ block content
           -     faqURL += "-he";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     faqURL += "-pt-BR";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     faqURL += "-zh-HANS";
           a(href=faqURL)
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
@@ -95,6 +97,8 @@ block content
           - var gettingStartedURL = "/teachers/resources/getting-started";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     gettingStartedURL += "-pt-BR";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     gettingStartedURL += "-zh-HANS";
           a(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
@@ -167,6 +171,8 @@ block content
           - var arenasURL = "/teachers/resources/arenas";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     arenasURL += '-pt-BR'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     arenasURL += '-zh-HANS'
           a(href=arenasURL)
             span(data-i18n="teacher.arenas_curriculum")
           p(data-i18n="teacher.arenas_curriculum_desc")
