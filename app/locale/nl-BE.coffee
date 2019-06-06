@@ -1346,7 +1346,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    social_facebook: "Like CodeCombat on Facebook"
 #    social_twitter: "Follow CodeCombat on Twitter"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
-#    contribute_to_the_project: "Contribute to the project"
+    contribute_to_the_project: "Help mee met het project"
 
   clans:
 #    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
