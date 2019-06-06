@@ -16,6 +16,9 @@
   left: 0
   height: 100%
   width: 100%
+  background-image: url("/images/ozaria/cinematic/background.png")
+  background-color: #F4E4AC
+  background-size: 100%
 
 .middle
   display: table-cell

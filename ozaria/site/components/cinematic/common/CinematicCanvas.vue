@@ -91,7 +91,7 @@ export default {
       const userHeight = Math.min(window.innerHeight
         || document.documentElement.clientHeight
         || document.body.clientHeight, HEIGHT)
-      console.log(`User width:`, {userWidth, userHeight})
+
       const width = this.width = Math.min(userWidth, WIDTH)
       const height = this.height = Math.min(userWidth * CINEMATIC_ASPECT_RATIO, HEIGHT)
 
