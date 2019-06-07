@@ -8,9 +8,9 @@ import {
   getCamera
 } from '../../../../app/schemas/models/selectors/cinematic'
 import { processText, getDefaultTextPosition } from './helper'
+import { WIDTH, HEIGHT } from '../constants'
 
-const SVGNS = 'http://www.w3.org/2000/svg'
-const padding = 10
+const BUBBLE_PADDING = 10
 const SPEECH_BUBBLE_MAX_WIDTH = `300px` // Removed 20 px to account for padding.
 
 /**
@@ -20,20 +20,7 @@ const SPEECH_BUBBLE_MAX_WIDTH = `300px` // Removed 20 px to account for padding.
 export default class DialogSystem {
   constructor ({ canvasDiv, camera }) {
     const div = this.div = document.createElement('div')
-    const width = camera.canvasWidth
-    const height = camera.canvasHeight
-    div.style.width = `${width}px`
-    div.style.height = `${height}px`
 
-    const svg = this.svg = document.createElementNS(SVGNS, 'svg')
-    svg.setAttribute('xmlns', SVGNS)
-    svg.setAttribute('height', `${height}`)
-    svg.setAttribute('width', `${width}`)
-
-    svg.style.pointerEvents = div.style.pointerEvents = 'none'
-    svg.style.position = div.style.postition = 'absolute'
-
-    canvasDiv.appendChild(svg)
     canvasDiv.appendChild(div)
 
     this.shownDialogBubbles = []
@@ -76,7 +63,6 @@ export default class DialogSystem {
       const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom, pos)
       commands.push((new SpeechBubble({
         div: this.div,
-        svg: this.svg,
         htmlString: text,
         x,
         y,
@@ -103,12 +89,11 @@ let _id = 0
  * Creates a speech bubble eagerly.
  * Can return a command to display the speech bubble when called.
  *
- * Attaches itself to the svg canvas and div canvas.
+ * Attaches itself to the div canvas.
  */
 class SpeechBubble {
   constructor ({
     div,
-    svg,
     htmlString,
     x,
     y,
@@ -123,52 +108,38 @@ class SpeechBubble {
     textDiv.style.display = 'inline-block'
     textDiv.style.position = 'absolute'
     textDiv.style.maxWidth = SPEECH_BUBBLE_MAX_WIDTH
+    textDiv.style.opacity = 0
     textDiv.id = this.id
+    textDiv.className = `cinematic-speech-bubble-${side}`
 
     div.appendChild(textDiv)
 
-    // Calculate bounding box for svg shape
+    // Calculate bounding box
     const bbox = textDiv.getBoundingClientRect()
-    const width = (bbox.right - bbox.left) + 2 * padding
-    const height = (bbox.bottom - bbox.top) + 2 * padding
+    const width = (bbox.right - bbox.left) + 2 * BUBBLE_PADDING
+    const height = (bbox.bottom - bbox.top) + 2 * BUBBLE_PADDING
 
     // Set the origin for the left character speech bubble on the bottom left.
     // Set the origin for the right character speech bubble on the bottom right.
-    y -= (height - padding)
+    y -= (height - BUBBLE_PADDING)
     if (side === 'right') {
       x -= width
     }
 
-    textDiv.style.left = `${x}px`
-    textDiv.style.top = `${y}px`
-
-    const svgGroup = createSvgShape({
-      x,
-      y: y - height,
-      width,
-      height,
-      className: this.id,
-      side
-    })
-    svg.appendChild(svgGroup)
+    textDiv.style.left = `${ x / WIDTH * 100}%`
+    textDiv.style.top = `${ y / HEIGHT * 100}%`
 
     // We set up the animation but don't play it yet.
-    // On completion we attach html node and svg node to the `shownDialogBubbles`
+    // On completion we attach html node to the `shownDialogBubbles`
     // array for future cleanup.
     this.animation = anime
       .timeline({
         autoplay: false
       })
       .add({
-        targets: `svg g.${this.id}`,
+        targets: `#${this.id}`,
         opacity: 1,
         duration: 100,
-        easing: 'easeInOutQuart'
-      })
-      .add({
-        targets: `svg g.${this.id} rect`,
-        height: [height],
-        duration: 300,
         easing: 'easeInOutQuart'
       })
       .add({
@@ -178,7 +149,6 @@ class SpeechBubble {
         delay: anime.stagger(50, { easing: 'linear' }),
         easing: 'easeOutQuad',
         complete: () => {
-          shownDialogBubbles.push(svgGroup)
           shownDialogBubbles.push(textDiv)
         }
       })
@@ -190,43 +160,4 @@ class SpeechBubble {
   createBubbleCommand () {
     return new AnimeCommand(this.animation)
   }
-}
-
-/**
- * @typedef {Object} SvgBubbleOptions
- * @property {number} x - x position of the bubble.
- * @property {number} y - y position
- * @property {number} width
- * @property {number} height
- * @property {'left'|'right'} side
- * @property {string} class - the unique class for this bubble
- */
-
-/**
- * Returns a svg speech bubble that can be attached to an svg canvas.
- * @param {SvgBubbleOptions} svgOptions - Svg options for generating the svg shape.
- * @returns {SVGGElement} the group element of the svg bubble.
- */
-function createSvgShape ({ x, y, width, height, side, className }) {
-  const g = document.createElementNS(SVGNS, 'g')
-  g.setAttribute('transform', `translate(${x - padding}, ${y + height + 1 - padding})`)
-  g.setAttribute('fill', 'white')
-  // Animation will reveal this svg.
-  g.setAttribute('opacity', '0')
-  g.setAttribute('class', className)
-
-  const rect = document.createElementNS(SVGNS, 'rect')
-  rect.setAttribute('width', `${width}`)
-
-  // Animation will add the future height.
-  rect.setAttribute('height', `${0}`)
-
-  const path = document.createElementNS(SVGNS, 'path')
-  path.setAttribute('d', 'M -20 20 l 21 -10 0 20 z')
-  if (side === 'right') {
-    path.setAttribute('transform', `translate(${width},0) scale(-1, 1)`)
-  }
-  g.appendChild(rect)
-  g.appendChild(path)
-  return g
 }
