@@ -43,6 +43,7 @@ const interactiveInsertCodeSchema = {
         }
       }
     },
+    lineToReplace: { type: 'number', title: 'Line number to replace' },
     solution: solutionSchema.singleSolutionSchema
   }
 }
