@@ -80,13 +80,17 @@ _.extend CampaignSchema.properties, {
 
       # properties relevant for ozaria campaigns
       nextLevels: {
-        type: 'array'
-        description: 'array of next levels original id'
-        items: {
+        type: 'object'
+        description: 'object containing next levels original id and their details'
+        format: 'levels' # key is level original id
+        additionalProperties: {
           type: 'object'
-          additionalProperties: false
+          format: 'nextLevel'
           properties: {
-            levelOriginal: c.stringID()
+            nextLevelStage: {type: 'number', title: 'Next Level Stage', description: 'Which capstone stage is unlocked'}
+            conditions: c.object({}, {
+              afterCapstoneStage: {type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level'}
+            })
           }
         }
       }
@@ -141,6 +145,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'campaign'
   'campaignIndex'
   'scoreTypes'
+  'isPlayedInStages'
 ]
 hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for prop in CampaignSchema.denormalizedLevelProperties

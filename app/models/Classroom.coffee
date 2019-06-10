@@ -172,8 +172,7 @@ module.exports = class Classroom extends CocoModel
       unless utils.ozariaCourseIDs.includes(courseID)
         nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     if utils.ozariaCourseIDs.includes(courseID)
-      # assuming that there will be only one next level in ozaria v1 for now
-      nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)[0]
+      nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)
       nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
     else
       nextLevel = courseLevels.models[nextIndex]

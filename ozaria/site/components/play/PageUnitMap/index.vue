@@ -1,9 +1,5 @@
 <script>
 
-// Currently this only handles the linear flow for any unit
-// TODO: handle the 1FH capstone flow which involves back and forth with intro levels
-// It is dependent on how we implement the capstone levels
-
   import api from 'core/api'
   import { getLevelStatusMap, findNextLevelsBySession } from 'ozaria/site/common/ozariaUtils'
   import levelDot from './UnitMapLevelDot'
@@ -32,7 +28,8 @@
       classroom: {},
       levelSessions: [],
       levelStatusMap: {},
-      dataLoaded: false
+      dataLoaded: false,
+      nextLevelOriginal: ''
     }),
     computed: Object.assign(
       {},
@@ -129,7 +126,7 @@
             const classroomId = courseInstance.classroomID
 
             // campaign snapshot of the levels
-            const existingCampaignLevels = this.campaignData.levels
+            const existingCampaignLevels = _.cloneDeep(this.campaignData.levels)
 
             // classroom snapshot of the levels for the course
             const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
@@ -184,14 +181,14 @@
         },
         determineNextLevel () { // set .next and .locked for this.levels
           if (this.courseInstanceId || this.campaignData.type === 'course') {
-            this.nextLevelOriginals = findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
+            this.nextLevelOriginal = findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
             this.setUnlockedLevels()
             this.setNextLevels()
           }
         },
         setUnlockedLevels () {
           for (let level in this.levels) {
-            if (this.levelStatusMap[level] === 'started' || this.levelStatusMap[level] === 'complete' || this.levels[level].first || this.nextLevelOriginals.includes(level)) {
+            if (this.levelStatusMap[level] || this.levels[level].first || this.nextLevelOriginal === level) {
               this.levels[level].locked = false
             } else {
               this.levels[level].locked = true
@@ -199,11 +196,8 @@
           }
         },
         setNextLevels () {
-          for (let level in this.levels) {
-            // there would only be one next level as per ozaria v1 as of now
-            if (this.nextLevelOriginals.includes(level)) {
-              this.levels[level].next = true
-            }
+          if (this.nextLevelOriginal) {
+            this.levels[this.nextLevelOriginal].next = true
           }
         }
       }
