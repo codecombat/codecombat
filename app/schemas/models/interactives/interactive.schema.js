@@ -19,7 +19,7 @@ const interactiveSchema = {
     multipleChoiceData: interactiveTypeSchema.interactiveMultipleChoiceSchema,
     fillInCodeData: interactiveTypeSchema.interactiveFillInCodeSchema,
     draggableStatementCompletionData: interactiveTypeSchema.interactiveDraggableStatementCompletionSchema,
-    unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'], title: 'Code Language' },
+    unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'], title: 'Programming Language' },
     i18n: { type: 'object', format: 'i18n', props: ['promptText'], description: 'Help translate this interactive.' }
   },
   allOf: [

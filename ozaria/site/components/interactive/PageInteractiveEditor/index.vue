@@ -59,7 +59,7 @@
         try {
           this.interactive = new Interactive(await getInteractive(slug))
         } catch (e) {
-          noty({ text: `Error finding slug '${slug}'.`, type: 'error', timeout: '1000' })
+          noty({ text: `Error finding slug '${slug}'.`, type: 'error', timeout: 2000 })
           return this.fetchList()
         }
         const data = $.extend(true, {}, this.interactive.attributes)
@@ -89,7 +89,7 @@
           this.interactiveList = await getAllInteractives()
         } catch (e) {
           console.error('Error while fetching the interactive list:', e)
-          noty({ text: 'Error occured while fetching the interactive list', type: 'error', timeout: 1000 })
+          noty({ text: 'Error occured while fetching the interactive list', type: 'error', timeout: 2000 })
         }
       },
 
@@ -107,7 +107,7 @@
           noty({
             text: 'Schema validation error. Please check the console for errors.',
             type: 'error',
-            timeout: 1000
+            timeout: 2000
           })
         }
       },
@@ -120,18 +120,24 @@
           noty({
             text: `Cant save since the schema is not valid.`,
             type: 'error',
-            timeout: 1000
+            timeout: 2000
           })
           return
         }
         this.state.saving = true
         try {
-          this.interactive = new Interactive(await putInteractive({ data: this.interactive.toJSON() }))
-          this.treema.set('/', $.extend(true, {}, this.interactive.attributes))
-          noty({ text: 'Saved', type: 'success', timeout: 1000 })
+          const interactiveData = this.interactive.toJSON()
+          if (!interactiveData.unitCodeLanguage) {
+            console.error('Programming language is required to save the interactive')
+            noty({ text: 'Cannot save the interactive without programming language', type: 'error', timeout: 2000 })
+          } else {
+            this.interactive = new Interactive(await putInteractive({ data: interactiveData }))
+            this.treema.set('/', $.extend(true, {}, this.interactive.attributes))
+            noty({ text: 'Saved', type: 'success', timeout: 2000 })
+          }
         } catch (e) {
           console.error('Error while saving the interactive', e)
-          noty({ text: 'Error occured while saving the interactive', type: 'error', timeout: 1000 })
+          noty({ text: 'Error occured while saving the interactive', type: 'error', timeout: 2000 })
         }
         this.state.saving = false
       },
@@ -147,7 +153,7 @@
           return this.fetchList()
         } catch (e) {
           console.error('Error:', e)
-          noty({ text: 'An error occurred', type: 'error', timeout: 1000 })
+          noty({ text: 'Cannot create interactive. Please check the console for errors.', type: 'error', timeout: 2000 })
         }
       }
 
