@@ -148,6 +148,11 @@ export class CinematicController {
     }
   }
 
+  onResize ({ width, height }) {
+    this.stage.updateViewport(width, height)
+    this.systems.cameraSystem.camera.onResize(width, height)
+  }
+
   destroy () {
     createjs.Ticker.removeAllEventListeners()
     this.systems.cameraSystem.destroy()

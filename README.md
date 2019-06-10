@@ -6,7 +6,7 @@
   </a>
 </div>
 
-[![Build Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
+[![Buildarte Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
 [![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
 
 **NOTE: The process for setting up the dev environment has changed. Please refer to [the docs for details](../../wiki/Dev-Setup:-General-Information).**
