@@ -149,8 +149,10 @@ module.exports = class ThangTypeEditView extends RootView
   events:
     'click #clear-button': 'clearRawData'
     'click #upload-button': -> @$el.find('input#real-upload-button').click()
+    'click #upload-animate-button': -> @$el.find('input#real-animate-upload-button').click()
     'click #set-vector-icon': 'onClickSetVectorIcon'
     'change #real-upload-button': 'animationFileChosen'
+    'change #real-animate-upload-button': 'animateAnimationFileChosen'
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
     'click #stop-button': 'stopAnimation'
@@ -337,18 +339,39 @@ module.exports = class ThangTypeEditView extends RootView
   # upload
 
   animationFileChosen: (e) ->
-    @file = e.target.files[0]
-    return unless @file
-    return unless _.string.endsWith @file.type, 'javascript'
+    file = e.target.files[0]
+    return unless file
+    return unless _.string.endsWith file.type, 'javascript'
 #    @$el.find('#upload-button').prop('disabled', true)
     @reader = new FileReader()
     @reader.onload = @onFileLoad
-    @reader.readAsText(@file)
+    @reader.readAsText(file)
+
+  animateAnimationFileChosen: (e) ->
+    file = e.target.files[0]
+    return unless file
+    if not _.string.endsWith file.type, 'javascript'
+      noty({text: "Only accepts files ending with '.js'", type:"error", timeout: 5000})
+      return
+
+    @reader = new FileReader()
+    @reader.onload = @onAnimateFileLoad
+    @reader.readAsText(file)
+
+  onAnimateFileLoad: (e) =>
+    result = @reader.result
+    # result = # TODO Joes parser here.
+    # merge the raw data into the current thangType.raw
+    console.log(result)
+    @fileLoaded()
 
   onFileLoad: (e) =>
     result = @reader.result
     parser = new SpriteParser(@thangType)
     parser.parse(result)
+    @fileLoaded()
+
+  fileLoaded: () =>
     @treema.set('raw', @thangType.get('raw'))
     @updateSelectBox()
     @refreshAnimation()
