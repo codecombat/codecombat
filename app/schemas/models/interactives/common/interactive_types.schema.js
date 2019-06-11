@@ -39,7 +39,7 @@ const interactiveInsertCodeSchema = {
         properties: {
           text: { type: 'string' },
           choiceId: schema.stringID({ readOnly: true }),
-          triggerArt: { type: 'string' }
+          triggerArt: { type: 'string', format: 'image-file' }
         }
       }
     },
@@ -115,7 +115,7 @@ const interactiveFillInCodeSchema = {
         properties: {
           text: { type: 'string' },
           responseId: schema.stringID({ readOnly: true }),
-          triggerArt: { type: 'string' }
+          triggerArt: { type: 'string', format: 'image-file' }
         }
       }
     },

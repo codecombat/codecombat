@@ -67,6 +67,9 @@
         const treemaOptions = {
           data: data,
           schema: Interactive.schema,
+          // Automatically uploads the file to /file/interactives/<fileName>
+          // You can view files at /admin/files
+          filePath: 'interactives',
           callbacks: {
             change: this.onTreemaChanged
           }
