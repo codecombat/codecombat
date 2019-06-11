@@ -10,8 +10,7 @@ require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
-AdobeAnimateParser = require('sprite-anim/build/index').default
-translate = require('sprite-anim/build/lib/translate').default
+{ AdobeAnimation, translate } = require('codecombat-adobe-animate-parser')
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -364,7 +363,7 @@ module.exports = class ThangTypeEditView extends RootView
 
   onAnimateFileLoad: (e) =>
     result = @reader.result
-    parser = new AdobeAnimateParser(result)
+    parser = new AdobeAnimation(result)
     parser.parse()
     output = translate(parser.parsedEntryPoint)
     @thangType.attributes.raw = @thangType.attributes.raw or {}
