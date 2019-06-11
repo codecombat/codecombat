@@ -9,7 +9,7 @@ export const defaultCodeLanguage = 'python'
  * @param {Object[]} sessions - The list of level session objects.
  * @param {Object[]|Object} levels - The list of level objects, or an object with keys as level original id and value as level data.
  * @param {Object} levels.nextLevels - The array of nextLevels for a level.
- * @param {Object} level.isPlayedInStages - True/false/undefined
+ * @param {boolean|undefined} levels.isPlayedInStages - True/false/undefined
  * @param {Object} levels.position - The object containing position of a level.
  * @param {boolean} levels.first - Value to determine if a level is the first level of classroom/campaign.
  * @param {Object} levelStatusMap - Optional. Object with key as the level original id, and value as complete/started.
@@ -30,12 +30,13 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
   for (const [levelOriginal, level] of Object.entries(levelDataMap)) {
     const levelStatus = levelStatusMap[levelOriginal]
     const isLevelStarted = typeof levelStatus === 'string' && levelStatus === 'started'
-    const isLevelCompleted = (typeof levelStatus === 'string' && levelStatus === 'complete') || (typeof levelStatus === 'number' && levelStatus > 0)
+    const isLevelCompleted = typeof levelStatus === 'string' && levelStatus === 'complete'
+    const hasCompletedStages = typeof levelStatus === 'number' && levelStatus > 0
 
     if (isLevelStarted) {
       nextLevelOriginals.add(levelOriginal)
-    } else if (isLevelCompleted) {
-      let unlockedLevel = []
+    } else if (isLevelCompleted || hasCompletedStages) {
+      let unlockedLevel = {}
       if (level.isPlayedInStages) {
         const stageCompleted = levelStatusMap[levelOriginal]
         unlockedLevel = getNextLevelForLevel(level, stageCompleted) || {}
@@ -110,7 +111,7 @@ export const getLevelStatusMap = (sessions) => {
     const capstoneStage = sessionState.capstoneStage // current capstone stage (undefined if user is on stage 1)
     const isLevelAreadyComplete = levelOriginal && (levelStatusMap[levelOriginal] === 'complete' || (capstoneStage && levelStatusMap[levelOriginal] === capstoneStage - 1))
     if (!isLevelAreadyComplete) { // Don't overwrite a complete session with an incomplete one
-      if (capstoneStage > 1) {
+      if (capstoneStage && capstoneStage > 1) {
         levelStatusMap[levelOriginal] = capstoneStage - 1 // for levels played in stages(1fh capstone), levelStatusMap = last completed stage
       } else if (sessionState.complete) {
         levelStatusMap[levelOriginal] = 'complete'
@@ -126,7 +127,7 @@ export const getLevelStatusMap = (sessions) => {
  * Gets the next level original ids for a given level
  * @param {Object} level - The level object.
  * @param {Object} level.nextLevels - The array of nextLevels for the given level.
- * @param {Object} level.isPlayedInStages - True/false/undefined
+ * @param {boolean|undefined} level.isPlayedInStages - True/false/undefined
  * @param {number} capstoneStage - Stage of 1FH capstone level for which we need the next level
  * @returns {Object} - Next level object containing 'Original' id and next level's stage.
  */
