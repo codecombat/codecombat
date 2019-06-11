@@ -10,6 +10,8 @@ require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
+AdobeAnimateParser = require('sprite-anim/build/index').default
+translate = require('sprite-anim/build/lib/translate').default
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -353,16 +355,20 @@ module.exports = class ThangTypeEditView extends RootView
     if not _.string.endsWith file.type, 'javascript'
       noty({text: "Only accepts files ending with '.js'", type:"error", timeout: 5000})
       return
-
+    if not confirm("This button may have unknown effects. Are you sure you want to continue?")
+      noty({text: "Cancelled import of '.js' file", type:"info", timeout: 3000})
+      return
     @reader = new FileReader()
     @reader.onload = @onAnimateFileLoad
     @reader.readAsText(file)
 
   onAnimateFileLoad: (e) =>
     result = @reader.result
-    # result = # TODO Joes parser here.
-    # merge the raw data into the current thangType.raw
-    console.log(result)
+    parser = new AdobeAnimateParser(result)
+    parser.parse()
+    output = translate(parser.parsedEntryPoint)
+    @thangType.attributes.raw = @thangType.attributes.raw or {}
+    _.merge(@thangType.attributes.raw, output)
     @fileLoaded()
 
   onFileLoad: (e) =>
