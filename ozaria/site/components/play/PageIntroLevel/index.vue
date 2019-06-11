@@ -2,7 +2,7 @@
   import api from 'core/api'
   import interactivesComponent from '../../interactive/PageInteractive'
   import cinematicsComponent from '../../cinematic/PageCinematic'
-  import { defaultCodeLanguage, getNextLevelLink, getNextLevelOriginalForLevel } from 'ozaria/site/common/ozariaUtils'
+  import { defaultCodeLanguage, getNextLevelLink, getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
   import { mapActions, mapGetters } from 'vuex'
 
   export default Vue.extend({
@@ -152,9 +152,10 @@
         fetchNextLevel: async function () {
           try {
             const currentLevel = this.campaignData.levels[this.introLevelData.original]
-            const nextLevelOriginal = getNextLevelOriginalForLevel(currentLevel)[0]
+            const nextLevelOriginal = (getNextLevelForLevel(currentLevel) || {}).original
             if (nextLevelOriginal) {
               this.nextLevel = await api.levels.getByOriginal(nextLevelOriginal)
+              // TODO If next level is played in stages, how to load it from a certain stage if there is no level session, i.e. for teachers?
             }
           } catch (err) {
             console.error('Error in fetching next level', err)
@@ -167,7 +168,8 @@
             const nextLevelOptions = {
               courseId: this.courseId,
               courseInstanceId: this.courseInstanceId,
-              campaignId: this.campaignId
+              campaignId: this.campaignId,
+              codeLanguage: this.codeLanguage
             }
             return getNextLevelLink(this.nextLevel, nextLevelOptions)
           } else {

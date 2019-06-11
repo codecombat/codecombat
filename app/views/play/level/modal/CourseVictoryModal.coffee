@@ -8,7 +8,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
-{ findNextLevelsBySession, getNextLevelOriginalForLevel } = require 'ozaria/site/common/ozariaUtils'
+{ findNextLevelsBySession, getNextLevelForLevel } = require 'ozaria/site/common/ozariaUtils'
 api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
@@ -163,10 +163,13 @@ module.exports = class CourseVictoryModal extends ModalView
   getNextLevelOzaria: ->
     if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
       classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
-      nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for ozaria v1
+      nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels)
     else if @campaign # fetch next based on course's campaign levels (for teachers)
       currentLevel = @campaign.levels[@level.get('original')]
-      nextLevelOriginal = getNextLevelOriginalForLevel(currentLevel)[0]
+      # TODO how to get current level stage for capstone and load capstone from the next stage, if there is no level session
+      # if (currentLevel.isPlayedInStages)
+      #   currentLevelStage = ?
+      nextLevelOriginal = (getNextLevelForLevel(currentLevel) || {}).original
     if nextLevelOriginal
       return api.levels.getByOriginal(nextLevelOriginal)
     else
