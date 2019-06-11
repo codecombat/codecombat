@@ -146,7 +146,7 @@
     "promise-polyfill": "^5.2.1",
     "request": "^2.75.0",
     "serve-favicon": "^2.3.2",
-    "codecombat-adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
+    "adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
     "stream-buffers": "0.2.x",
     "string_score": "^0.1.20",
     "stripe": "~2.9.0",

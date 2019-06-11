@@ -10,7 +10,7 @@ require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
-{ AdobeAnimation, translate } = require('codecombat-adobe-animate-parser')
+{ AdobeAnimation, translate } = require('adobe-animate-parser')
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -363,11 +363,15 @@ module.exports = class ThangTypeEditView extends RootView
 
   onAnimateFileLoad: (e) =>
     result = @reader.result
-    parser = new AdobeAnimation(result)
-    parser.parse()
-    output = JSON.parse(JSON.stringify(translate(parser.parsedEntryPoint)))
-    @thangType.attributes.raw = @thangType.attributes.raw or {}
-    _.merge(@thangType.attributes.raw, output)
+    try
+      parser = new AdobeAnimation(result)
+      parser.parse()
+      output = JSON.parse(JSON.stringify(translate(parser.parsedEntryPoint)))
+      @thangType.attributes.raw = @thangType.attributes.raw or {}
+      _.merge(@thangType.attributes.raw, output)
+    catch e
+      noty({text: "Error occurred. Check console. Please inform eng team and provide Adobe Animate File.", type:"error", timeout: 10000})
+      throw e
     @fileLoaded()
 
   onFileLoad: (e) =>
