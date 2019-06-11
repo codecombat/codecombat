@@ -365,7 +365,7 @@ module.exports = class ThangTypeEditView extends RootView
     result = @reader.result
     parser = new AdobeAnimation(result)
     parser.parse()
-    output = translate(parser.parsedEntryPoint)
+    output = JSON.parse(JSON.stringify(translate(parser.parsedEntryPoint)))
     @thangType.attributes.raw = @thangType.attributes.raw or {}
     _.merge(@thangType.attributes.raw, output)
     @fileLoaded()
