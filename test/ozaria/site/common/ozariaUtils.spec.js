@@ -8,11 +8,63 @@ function makeLevels (numberOfLevels) {
   // set position, nextLevels, and first property
   for (let [index, level] of levels.models.entries()) {
     level.set('position', { x: (index + 1) * 10, y: 20 })
-    let nextLevel = []
+    let nextLevel = {}
     if (index + 1 < levels.models.length) {
-      nextLevel.push({
-        levelOriginal: levels.models[index + 1].get('original')
-      })
+      const nextLevelData = levels.models[index + 1]
+      nextLevel[nextLevelData.get('original')] = {
+        original: nextLevelData.get('original'),
+        name: nextLevelData.get('name'),
+        slug: nextLevelData.get('slug')
+      }
+    }
+    level.set('nextLevels', nextLevel)
+    if (index === 0) {
+      level.set('first', true)
+    }
+  }
+  return levels.models
+}
+
+/**
+ * creates 4 levels with second level as the level played in stages
+ * the next levels store the information about capstone stage
+ */
+function makeLevelsForCapstoneFlow () {
+  const levels = new Levels(_.times(4, () => factories.makeLevel()))
+  // set position, nextLevels, and first property
+  let nextLevelStage = 1
+  for (let [index, level] of levels.models.entries()) {
+    level.set('position', { x: (index + 1) * 10, y: 20 })
+    let nextLevel = {}
+    if (index === 1) {
+      const firstNextLevelData = levels.models[2]
+      nextLevel[firstNextLevelData.get('original')] = {
+        original: firstNextLevelData.get('original'),
+        name: firstNextLevelData.get('name'),
+        slug: firstNextLevelData.get('slug'),
+        conditions: {
+          afterCapstoneStage: 1
+        }
+      }
+      const secondNextLevelData = levels.models[3]
+      nextLevel[secondNextLevelData.get('original')] = {
+        original: secondNextLevelData.get('original'),
+        name: secondNextLevelData.get('name'),
+        slug: secondNextLevelData.get('slug'),
+        conditions: {
+          afterCapstoneStage: 2
+        }
+      }
+      level.set('isPlayedInStages', true)
+    } else {
+      const nextLevelData = levels.models[1]
+      nextLevel[nextLevelData.get('original')] = {
+        original: nextLevelData.get('original'),
+        name: nextLevelData.get('name'),
+        slug: nextLevelData.get('slug'),
+        nextLevelStage: nextLevelStage
+      }
+      nextLevelStage++
     }
     level.set('nextLevels', nextLevel)
     if (index === 0) {
@@ -34,20 +86,20 @@ function makeLevelSessions (levels, state) {
 }
 
 describe('ozaria utilities', () => {
-  describe('findNextLevelsBySession returns an array of next level original ids for a given list of levels based on level sessions', () => {
+  describe('findNextLevelsBySession returns the next level original id for a given list of levels based on level sessions', () => {
     beforeEach(() => {
       me.set(factories.makeUser().attributes)
     })
 
-    // c:completed, *:current level (not completed), n:not started (no level session)
+    // c:completed, *:current level (not completed), n:not started (no level session), <number>:current capstone stage(for levels played in stages)
 
     it('for levels that are cc*n', () => {
       const levels = makeLevels(4)
       const sessions = makeLevelSessions(levels, [{ complete: true }, { complete: true }, { complete: false }])
       const expectedNextLevel = levels[2]
       const nextLevelOriginal = findNextLevelsBySession(sessions, levels)
-      expect(nextLevelOriginal.length).toBe(1)
-      expect(nextLevelOriginal[0]).toEqual(expectedNextLevel.get('original'))
+      expect(nextLevelOriginal).toBeDefined()
+      expect(nextLevelOriginal).toEqual(expectedNextLevel.get('original'))
     })
 
     it('for levels that are *nnn', () => {
@@ -55,8 +107,8 @@ describe('ozaria utilities', () => {
       const sessions = makeLevelSessions(levels, [{ complete: false }])
       const expectedNextLevel = levels[0]
       const nextLevelOriginal = findNextLevelsBySession(sessions, levels)
-      expect(nextLevelOriginal.length).toBe(1)
-      expect(nextLevelOriginal[0]).toEqual(expectedNextLevel.get('original'))
+      expect(nextLevelOriginal).toBeDefined()
+      expect(nextLevelOriginal).toEqual(expectedNextLevel.get('original'))
     })
 
     it('for levels that are nnnn', () => {
@@ -64,8 +116,44 @@ describe('ozaria utilities', () => {
       const sessions = makeLevelSessions(levels, [])
       const expectedNextLevel = levels.find((l) => l.get('first')) // first level will be next level
       const nextLevelOriginal = findNextLevelsBySession(sessions, levels)
-      expect(nextLevelOriginal.length).toBe(1)
-      expect(nextLevelOriginal[0]).toEqual(expectedNextLevel.get('original'))
+      expect(nextLevelOriginal).toBeDefined()
+      expect(nextLevelOriginal).toEqual(expectedNextLevel.get('original'))
+    })
+
+    it('for capstone played in stages: c1nn', () => {
+      const levels = makeLevelsForCapstoneFlow()
+      const sessions = makeLevelSessions(levels, [{ complete: true }, { complete: false }]) // capstoneStage is undefined when playing stage 1
+      const expectedNextLevel = levels[1]
+      const nextLevelOriginal = findNextLevelsBySession(sessions, levels)
+      expect(nextLevelOriginal).toBeDefined()
+      expect(nextLevelOriginal).toEqual(expectedNextLevel.get('original'))
+    })
+
+    it('for capstone played in stages: c2nn', () => {
+      const levels = makeLevelsForCapstoneFlow()
+      const sessions = makeLevelSessions(levels, [{ complete: true }, { capstoneStage: 2 }])
+      const expectedNextLevel = levels[2]
+      const nextLevelOriginal = findNextLevelsBySession(sessions, levels)
+      expect(nextLevelOriginal).toBeDefined()
+      expect(nextLevelOriginal).toEqual(expectedNextLevel.get('original'))
+    })
+
+    it('for capstone played in stages: c2cn', () => {
+      const levels = makeLevelsForCapstoneFlow()
+      const sessions = makeLevelSessions(levels, [{ complete: true }, { capstoneStage: 2 }, { complete: true }])
+      const expectedNextLevel = levels[1] // next level should be capstone level
+      const nextLevelOriginal = findNextLevelsBySession(sessions, levels)
+      expect(nextLevelOriginal).toBeDefined()
+      expect(nextLevelOriginal).toEqual(expectedNextLevel.get('original'))
+    })
+
+    it('for capstone played in stages: c3cn', () => {
+      const levels = makeLevelsForCapstoneFlow()
+      const sessions = makeLevelSessions(levels, [{ complete: true }, { capstoneStage: 3 }, { complete: true }])
+      const expectedNextLevel = levels[3]
+      const nextLevelOriginal = findNextLevelsBySession(sessions, levels)
+      expect(nextLevelOriginal).toBeDefined()
+      expect(nextLevelOriginal).toEqual(expectedNextLevel.get('original'))
     })
   })
 })

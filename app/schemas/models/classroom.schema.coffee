@@ -42,13 +42,19 @@ _.extend ClassroomSchema.properties,
 
       # properties relevant for ozaria campaigns 
       nextLevels: {
-        type: 'array'
-        description: 'array of next levels original id'
-        items: {
+        type: 'object'
+        description: 'object containing next levels original id and their details'
+        additionalProperties: { # key is the level original id
           type: 'object'
-          additionalProperties: false
           properties: {
-            levelOriginal: c.stringID()
+            type: c.shortString()
+            original: c.objectId()
+            name: {type: 'string'}
+            slug: {type: 'string'}
+            nextLevelStage: {type: 'number', title: 'Next Level Stage', description: 'Which capstone stage is unlocked'}
+            conditions: c.object({}, {
+              afterCapstoneStage: {type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level'}
+            })
           }
         }
       }
