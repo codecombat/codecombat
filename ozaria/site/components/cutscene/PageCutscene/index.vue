@@ -22,6 +22,9 @@ module.exports = Vue.extend({
     'layout-center-content': LayoutCenterContent
   },
   mounted: function() {
+    if (!me.hasCutsceneAccess()) {
+      return application.router.navigate('/', { trigger: true })
+    }
     const player_div = this.$refs['player']
     new Plyr(player_div);
 

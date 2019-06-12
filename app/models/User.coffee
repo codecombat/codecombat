@@ -578,7 +578,6 @@ module.exports = class User extends CocoModel
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" or campaignID == "5789236960deed1f00ec2ab8" or campaignID == "578913f2c8871ac2326fa3e4"
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
-  hasCinematicAccess: -> @isAdmin()
   showForumLink: -> not (features?.china ? false)
   showGithubLink: -> not (features?.china ? false)
   showChinaICPinfo: -> features?.china ? false
@@ -589,6 +588,7 @@ module.exports = class User extends CocoModel
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()
   hasCinematicAccess: -> @isAdmin()
+  hasCutsceneAccess: -> @isAdmin()
   hasInteractiveAccess: -> @isAdmin()
   hasIntroLevelAccess: -> @isAdmin()
 
