@@ -8,7 +8,16 @@ const interactiveDraggableOrderingSchema = {
   additionalProperties: false,
   title: 'Draggable Ordering interactive data',
   properties: {
-    labels: { type: 'array', items: { type: 'string' } },
+    labels: { type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          text: { type: 'string' },
+          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true }
+        }
+      }
+    },
     elements: {
       type: 'array',
       items: {
@@ -16,6 +25,7 @@ const interactiveDraggableOrderingSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
+          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true },
           elementId: schema.stringID({ readOnly: true })
         }
       }
