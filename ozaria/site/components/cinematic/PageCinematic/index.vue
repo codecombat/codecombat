@@ -2,7 +2,7 @@
 import { getCinematic } from '../../../api/cinematic'
 import CinematicCanvas from '../common/CinematicCanvas'
 import LayoutChrome from '../../common/LayoutChrome'
-import LayoutCenterCinematic from '../common/LayoutCenterCinematic'
+import LayoutCenterContent from '../../LayoutCenterContent'
 
 module.exports = Vue.extend({
   props: {
@@ -17,7 +17,7 @@ module.exports = Vue.extend({
   components: {
     'cinematic-canvas': CinematicCanvas,
     'layout-chrome': LayoutChrome,
-    'layout-center-cinematic': LayoutCenterCinematic
+    'layout-center-content': LayoutCenterContent
   },
   watch : {
     cinematicIdOrSlug: async function() {
@@ -53,11 +53,11 @@ module.exports = Vue.extend({
 
 <template>
   <layout-chrome>
-    <layout-center-cinematic>
+    <layout-center-content>
       <cinematic-canvas
         v-if="cinematicData"
         v-on:completed="completedHandler"
         :cinematicData="cinematicData" />
-    </layout-center-cinematic>
+    </layout-center-content>
   </layout-chrome>
 </template>
