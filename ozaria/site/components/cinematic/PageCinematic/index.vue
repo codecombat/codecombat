@@ -2,7 +2,7 @@
 import { getCinematic } from '../../../api/cinematic'
 import CinematicCanvas from '../common/CinematicCanvas'
 import LayoutChrome from '../../common/LayoutChrome'
-import LayoutCenterContent from '../../LayoutCenterContent'
+import LayoutCenterContent from '../../common/LayoutCenterContent'
 
 module.exports = Vue.extend({
   props: {

@@ -92,8 +92,8 @@ export default {
         || document.documentElement.clientHeight
         || document.body.clientHeight, HEIGHT)
 
-      const width = this.width = Math.min(userWidth, WIDTH)
-      const height = this.height = Math.min(userWidth * CINEMATIC_ASPECT_RATIO, HEIGHT)
+      const height = this.height = Math.min(userWidth * CINEMATIC_ASPECT_RATIO, HEIGHT, userHeight)
+      const width = this.width = Math.min(this.height / CINEMATIC_ASPECT_RATIO)
 
       this.controller.onResize({ width, height })
     }
@@ -111,11 +111,14 @@ export default {
 <style lang="sass">
 //   This should not be scoped so it works on
 //   programmatically created divs.
+
+#cinematic-canvas-div
+  transform: translateX(-20px)
+
 #cinematic-div
   margin-left: auto
   margin-right: auto
   position: relative
-
   .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
     font-size: 24px
     line-height: 1.42
