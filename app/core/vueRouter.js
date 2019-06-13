@@ -11,6 +11,8 @@ import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCine
 import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
 import PageIntroLevel from '../../ozaria/site/components/play/PageIntroLevel'
 
+import CinematicPlaceholder from '../../ozaria/site/components/cinematic/CinematicPlaceholder'
+
 let vueRouter
 
 export default function getVueRouter () {
@@ -54,7 +56,16 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: TeacherStudentView }
           ]
-        }
+        },
+        {
+          path: '/cinematicplaceholder/:levelSlug?',
+          component: CinematicPlaceholder,
+          props: (route) => {
+            return {
+              levelSlug: route.params.levelSlug
+            }
+          }
+        },
       ]
     })
   }
