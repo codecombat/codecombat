@@ -5,6 +5,7 @@ import CommandRunner from './commands/CommandRunner'
 import DialogSystem from './dialogsystem/DialogSystem'
 import { CameraSystem } from './CameraSystem'
 import { SoundSystem } from './SoundSystem'
+import Autoplay from './systems/autoplay';
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -48,6 +49,7 @@ export class CinematicController {
     this.systems.cameraSystem = new CameraSystem(camera)
     this.systems.loader = new Loader({ data: cinematicData })
     this.systems.sound = new SoundSystem()
+    this.systems.autoplay = new Autoplay()
 
     this.systems.dialogSystem = new DialogSystem({
       canvasDiv,
@@ -142,10 +144,17 @@ export class CinematicController {
   cleanupRunShot () {
     if (!this.runner) return
     this.runner = null
-    this.onPause()
+
     if (Array.isArray(this.commands) && this.commands.length === 0) {
       this.onCompletion()
     }
+
+    if (this.systems.autoplay.autoplay) {
+      this.systems.autoplay.autoplay = false
+      return this.runShot()
+    }
+
+    this.onPause()
   }
 
   onResize ({ width, height }) {
