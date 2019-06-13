@@ -360,9 +360,9 @@ const backgroundObjectDelay = triggers => {
 
 /**
  * @param {DialogNode} dialogNode
- * @returns {number}
+ * @returns {number|undefined}
  */
-const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength || 1000
+const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength
 
 /**
  * @param {ShotSetup} shotSetup

@@ -173,7 +173,7 @@ describe('Cinematic', () => {
       expect(result).toEqual(42)
 
       const result2 = getTextAnimationLength(shotFixture2.dialogNodes[0])
-      expect(result2).toEqual(1000)
+      expect(result2).toBeUndefined()
     })
 
     it('getSpeakingAnimationAction', () => {
