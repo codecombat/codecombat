@@ -1,8 +1,7 @@
 <script>
 import LayoutChrome from '../../common/LayoutChrome'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
-const Plyr = require('plyr')
-import 'plyr/dist/plyr.css'
+import BaseVideo from '../common/BaseVideo'
 
 const CUTSCENE_ASPECT_RATIO = 16 / 9
 
@@ -19,14 +18,13 @@ module.exports = Vue.extend({
   }),
   components: {
     'layout-chrome': LayoutChrome,
-    'layout-center-content': LayoutCenterContent
+    'layout-center-content': LayoutCenterContent,
+    'base-video': BaseVideo
   },
   mounted: function() {
     if (!me.hasCutsceneAccess()) {
       return application.router.navigate('/', { trigger: true })
     }
-    const player_div = this.$refs['player']
-    new Plyr(player_div);
 
     window.addEventListener('resize', this.onResize)
     this.onResize()
@@ -57,13 +55,16 @@ module.exports = Vue.extend({
     <layout-center-content>
       <div id="cutscene-player"
       :style="{ width: width+'px', height: height+'px' }">
-        <div
-          id="player"
-          ref="player"
-          data-plyr-provider="vimeo"
-          v-bind:data-plyr-embed-id="cutsceneId"
-        >
-      </div>
+        <base-video
+    videoSrc="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4"
+    :captions="[{
+      label:'English captions',
+      src:'/captions/example.vtt',
+      srclang:'en'
+    }]"
+    :width="width"
+    :height="height"
+  />`
       </div>
     </layout-center-content>
   </layout-chrome>

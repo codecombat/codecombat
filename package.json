@@ -45,7 +45,7 @@
     "proxy": "COCO_PROXY='true' nodemon",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -s ./app/assets -p 6006",
     "build-storybook": "build-storybook",
     "lint": "eslint --max-warnings 0 '**/*.{js,vue}'"
   },
@@ -72,8 +72,7 @@
   "dependencies": {
     "@basicer/geoip-lite": "^1.1.6",
     "@sendgrid/mail": "^6.2.1",
-    "@vimeo/player": "^2.2.0",
-    "adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
+    "@vimeo/player": "^2.9.1",
     "ajv": "^6.10.0",
     "algoliasearch": "^3.13.1",
     "animejs": "^3.0.1",
