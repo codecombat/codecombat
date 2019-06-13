@@ -54,12 +54,19 @@ function schemaValidateBadPropertyTest (schemaObject, testObject) {
 }
 
 const interactiveDraggableObject = {
-  labels: ['label1', 'label2'],
+  labels: [
+    {
+      text: 'label1',
+      textStyleCode: true
+    }, {
+      text: 'label2'
+    }],
   elements: [{
     text: 'element 1',
     elementId: '0123456789abcdefghijklmn'
   }, {
     text: 'element 2',
+    textStyleCode: true,
     elementId: '1123456789abcdefghijklmn'
   }],
   solution: ['1123456789abcdefghijklmn', '0123456789abcdefghijklmn']
@@ -109,7 +116,12 @@ const interactiveFillInCodeObject = {
 }
 
 const interactiveDraggableStatementCompletionObject = {
-  labels: ['hello', 'world'],
+  labels: [{
+    text: 'hello'
+  }, {
+    text: 'world',
+    textStyleCode: true
+  }],
   elements: [{
     text: 'world',
     elementId: '0123456789abcdefghijklmn'
