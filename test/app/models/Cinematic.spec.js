@@ -18,7 +18,8 @@ import {
   getTextAnimationLength,
   getSpeakingAnimationAction,
   getSetupMusic,
-  getSoundEffects
+  getSoundEffects,
+  getWaitUserInput
 } from '../../../app/schemas/models/selectors/cinematic'
 
 /**
@@ -198,6 +199,13 @@ describe('Cinematic', () => {
 
       const result2 = getSetupMusic(shotFixture2)
       expect(result2).toBeUndefined()
+    })
+
+    it('getWaitUserInput', () => {
+      expect(getWaitUserInput({ waitUserInput: false })).toEqual(false)
+      expect(getWaitUserInput({})).toEqual(true)
+      expect(getWaitUserInput()).toEqual(true)
+      expect(getWaitUserInput({ waitUserInput: true })).toEqual(true)
     })
   })
 })

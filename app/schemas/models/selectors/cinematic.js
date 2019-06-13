@@ -486,3 +486,15 @@ export const getSetupMusic = compose(shotSetup, setupMusic)
  * @returns {SoundEffect[] | undefined}
  */
 export const getSoundEffects = compose(triggers, soundEffects)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {bool}
+ */
+export const getWaitUserInput = dialogNode => {
+  const waitUserInput = (dialogNode || {}).waitUserInput
+  if (typeof waitUserInput === 'boolean') {
+    return waitUserInput
+  }
+  return true
+}
