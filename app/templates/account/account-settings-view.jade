@@ -40,7 +40,7 @@ else
                 else
                   label.control-label(for="lastName", data-i18n="general.last_name")
                   input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}")
-            if !isProduction
+            //if !isProduction
               .form-group.checkbox
                 label(for="admin", data-i18n="account_settings.admin")
                 input#admin(name="admin", type="checkbox", checked=admin)
