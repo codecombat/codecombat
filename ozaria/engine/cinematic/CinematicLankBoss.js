@@ -18,6 +18,7 @@ import {
 } from '../../../app/schemas/models/selectors/cinematic'
 
 export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
+const OFF_CAMERA_OFFSET = 20
 
 // Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
@@ -121,7 +122,7 @@ export default class CinematicLankBoss {
         key: 'left',
         thang: {
           pos: {
-            x: this.stageBounds.topLeft.x - 20
+            x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET
           }
         },
         ms: 800 }))
@@ -132,7 +133,7 @@ export default class CinematicLankBoss {
         key: 'right',
         thang: {
           pos: {
-            x: this.stageBounds.bottomRight.x + 20
+            x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET
           }
         },
         ms: 800 }))
@@ -359,7 +360,7 @@ export default class CinematicLankBoss {
     if (key === 'right') {
       thang = createThang({
         pos: {
-          x: this.stageBounds.bottomRight.x + 20,
+          x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET,
           y: (thang.pos || {}).y || this.stageBounds.bottomRight.y
         },
         rotation: RIGHT,
@@ -369,7 +370,7 @@ export default class CinematicLankBoss {
     } else if (key === 'left') {
       thang = createThang({
         pos: {
-          x: this.stageBounds.topLeft.x - 20,
+          x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET,
           y: (thang.pos || {}).y || this.stageBounds.bottomRight.y
         },
         scaleFactorX: thang.scaleX || 1,
