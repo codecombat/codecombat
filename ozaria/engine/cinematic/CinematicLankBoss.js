@@ -121,7 +121,7 @@ export default class CinematicLankBoss {
         key: 'left',
         thang: {
           pos: {
-            x: this.stageBounds.topLeft.x - 8
+            x: this.stageBounds.topLeft.x - 20
           }
         },
         ms: 800 }))
@@ -132,7 +132,7 @@ export default class CinematicLankBoss {
         key: 'right',
         thang: {
           pos: {
-            x: this.stageBounds.bottomRight.x + 8
+            x: this.stageBounds.bottomRight.x + 20
           }
         },
         ms: 800 }))
@@ -359,8 +359,8 @@ export default class CinematicLankBoss {
     if (key === 'right') {
       thang = createThang({
         pos: {
-          x: this.stageBounds.bottomRight.x + 4,
-          y: this.stageBounds.bottomRight.y
+          x: this.stageBounds.bottomRight.x + 20,
+          y: (thang.pos || {}).y || this.stageBounds.bottomRight.y
         },
         rotation: RIGHT,
         scaleFactorX: thang.scaleX || 1,
@@ -369,8 +369,8 @@ export default class CinematicLankBoss {
     } else if (key === 'left') {
       thang = createThang({
         pos: {
-          x: this.stageBounds.topLeft.x - 4,
-          y: this.stageBounds.bottomRight.y
+          x: this.stageBounds.topLeft.x - 20,
+          y: (thang.pos || {}).y || this.stageBounds.bottomRight.y
         },
         scaleFactorX: thang.scaleX || 1,
         scaleFactorY: thang.scaleY || 1
