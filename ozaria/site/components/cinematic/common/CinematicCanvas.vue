@@ -93,7 +93,7 @@ export default {
         || document.body.clientHeight, HEIGHT)
 
       const height = this.height = Math.min(userWidth * CINEMATIC_ASPECT_RATIO, HEIGHT, userHeight)
-      const width = this.width = Math.min(this.height / CINEMATIC_ASPECT_RATIO)
+      const width = this.width = this.height / CINEMATIC_ASPECT_RATIO
 
       this.controller.onResize({ width, height })
     }

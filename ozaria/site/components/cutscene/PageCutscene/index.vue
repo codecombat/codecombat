@@ -43,8 +43,8 @@ module.exports = Vue.extend({
         || document.documentElement.clientHeight
         || document.body.clientHeight
 
-      const height = this.height = Math.min(userWidth / CUTSCENE_ASPECT_RATIO, userHeight)
-      const width = this.width = Math.min(userWidth, userHeight * CUTSCENE_ASPECT_RATIO)
+      this.height = Math.min(userWidth / CUTSCENE_ASPECT_RATIO, userHeight)
+      this.width = this.height * CUTSCENE_ASPECT_RATIO
     }
   }
 })
@@ -55,16 +55,17 @@ module.exports = Vue.extend({
     <layout-center-content>
       <div id="cutscene-player"
       :style="{ width: width+'px', height: height+'px' }">
+      <!-- Currently this video is a hard coded example, that will be fetched from Cutscene collection -->
         <base-video
-    videoSrc="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4"
-    :captions="[{
-      label:'English captions',
-      src:'/captions/example.vtt',
-      srclang:'en'
-    }]"
-    :width="width"
-    :height="height"
-  />`
+          videoSrc="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4"
+          :captions="[{
+            label:'English captions',
+            src:'/captions/example.vtt',
+            srclang:'en'
+          }]"
+          :width="width"
+          :height="height"
+        />
       </div>
     </layout-center-content>
   </layout-chrome>
