@@ -8,6 +8,8 @@ import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
 import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
 
 import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
+import PageCutsceneEditorList from '../../ozaria/site/components/cutscene/PageCutsceneEditorList'
+import PageCutsceneEditor from '../../ozaria/site/components/cutscene/PageCutsceneEditor'
 import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
 import PageIntroLevel from '../../ozaria/site/components/play/PageIntroLevel'
 
@@ -27,6 +29,15 @@ export default function getVueRouter () {
           // TODO: Once we have a base editor component, use the nested route structure.
           path: '/editor/cinematic/:slug?',
           component: PageCinematicEditor,
+          props: true
+        },
+        {
+          path: '/editor/cutscene',
+          component: PageCutsceneEditorList
+        },
+        {
+          path: '/editor/cutscene/:slugOrId',
+          component: PageCutsceneEditor,
           props: true
         },
         {
@@ -65,7 +76,7 @@ export default function getVueRouter () {
               levelSlug: route.params.levelSlug
             }
           }
-        },
+        }
       ]
     })
   }
