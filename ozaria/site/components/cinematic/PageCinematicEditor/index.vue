@@ -95,8 +95,7 @@ module.exports = Vue.extend({
      * Pushes changes from treema to the cinematic model.
      */
     pushChanges() {
-      const shots = _.cloneDeep(this.treema.data.shots)
-      this.cinematic.set('shots', shots)
+      this.cinematic.set(_.cloneDeep(this.treema.data))
     },
 
     /**
