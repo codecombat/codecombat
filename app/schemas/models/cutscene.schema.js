@@ -13,4 +13,4 @@ const CutsceneSchema = schema.object({
 schema.extendBasicProperties(CutsceneSchema, 'cutscene')
 schema.extendNamedProperties(CutsceneSchema)
 
-module.exports = schema
+module.exports = CutsceneSchema
