@@ -1,7 +1,15 @@
 <template>
-  <li>
-    <a v-on:click="clickHandler">{{ text }}</a><span v-if="slug"> slug: '{{ slug }}'</span>
-  </li>
+  <div class="row list-item">
+    <div class="col-xs-4">
+      <a v-on:click="clickHandler">{{ text }}</a>
+    </div>
+    <div class="col-xs-4" v-if="slug">
+      <span class="slug">{{ slug }}</span>
+    </div>
+    <div class="col-xs-4" v-if="id">
+      <span class="id">{{ id }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -19,11 +27,20 @@ export default {
     slug: {
       type: String,
       required: false
+    },
+    id: {
+      type: String,
+      required: false
     }
   },
 }
 </script>
 
-<style>
-
+<style scoped>
+.slug {
+  color: #333333
+}
+.id {
+  font-size: 0.7em
+}
 </style>
