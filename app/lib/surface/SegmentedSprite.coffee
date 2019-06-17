@@ -189,8 +189,9 @@ module.exports = class SegmentedSprite extends createjs.Container
         shape._off = true
       else
         shape = @buildShapeFromStore(localShape.gn)
-        if localShape.m
-          shape.mask = map[localShape.m]
+        # TODO Ensure the level "coinucopia" works with masking
+        # if localShape.m
+        #   shape.mask = map[localShape.m]
       map[localShape.bn] = shape
     map
 
