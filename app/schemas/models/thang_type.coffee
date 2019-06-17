@@ -15,6 +15,7 @@ ShapeObjectSchema = c.object {title: 'Shape'},
   ss: {type: 'array', title: 'Stroke Style'}
   t: c.array {}, {type: 'number', title: 'Transform'}
   m: {type: 'string', title: 'Mask'}
+  bounds: c.array {title: 'Bounds'}, {type: 'number'}
 
 ContainerObjectSchema = c.object {format: 'container'},
   b: c.array {title: 'Bounds'}, {type: 'number'}
