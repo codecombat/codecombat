@@ -214,7 +214,6 @@ module.exports = class SegmentedSprite extends createjs.Container
     shape.graphics.de shapeData.de... if shapeData.de?
     shape.graphics.p shapeData.p if shapeData.p?
     shape.setTransform shapeData.t...
-    # shape.cache(0, 0, 300, 300)
     shape
 
   buildMovieClipContainers: (localContainers) ->
