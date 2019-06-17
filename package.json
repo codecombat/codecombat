@@ -167,7 +167,6 @@
     "webpack": "git://github.com/codecombat/webpack.git#webpack-3",
     "webpack-shell-plugin": "^0.5.0",
     "winston": "0.6.x",
-    "worker-loader": "^1.0.0",
     "yamljs": "^0.2.8"
   },
   "devDependencies": {
@@ -233,7 +232,8 @@
     "vue-loader": "^15.x.x",
     "vue-template-compiler": "^2.6.10",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-livereload-plugin": "https://github.com/codecombat/webpack-livereload-plugin/tarball/master"
+    "webpack-livereload-plugin": "https://github.com/codecombat/webpack-livereload-plugin/tarball/master",
+    "worker-loader": "^1.1.1"
   },
   "optionalDependencies": {
     "newrelic": "^1.24.0",

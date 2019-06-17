@@ -10,7 +10,6 @@ require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
-{ AdobeAnimation, translate } = require('adobe-animate-parser')
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -29,6 +28,8 @@ ExportThangTypeModal = require './ExportThangTypeModal'
 RevertModal = require 'views/modal/RevertModal'
 
 require 'lib/game-libraries'
+
+AnimateImporterWorker = require 'worker-loader!./AnimateImportWorker.js'
 
 CENTER = {x: 200, y: 400}
 
@@ -363,16 +364,25 @@ module.exports = class ThangTypeEditView extends RootView
 
   onAnimateFileLoad: (e) =>
     result = @reader.result
-    try
-      parser = new AdobeAnimation(result)
-      parser.parse()
-      output = JSON.parse(JSON.stringify(translate(parser.parsedEntryPoint)))
-      @thangType.attributes.raw = @thangType.attributes.raw or {}
-      _.merge(@thangType.attributes.raw, output)
-    catch e
-      noty({text: "Error occurred. Check console. Please inform eng team and provide Adobe Animate File.", type:"error", timeout: 10000})
-      throw e
-    @fileLoaded()
+
+    worker = new AnimateImporterWorker()
+    worker.addEventListener('message', (event) =>
+      worker.terminate()
+
+      data = event.data
+
+      console.log('got data back', data)
+      if (data.output)
+        @thangType.attributes.raw = @thangType.attributes.raw or {}
+        _.merge(@thangType.attributes.raw, JSON.parse(data.output))
+
+        @fileLoaded()
+      else if (data.error)
+        noty({ text: "Error occurred. Check console. Please inform eng team and provide Adobe Animate File.", type:"error", timeout: 10000})
+        throw data.error
+    )
+
+    worker.postMessage({ input: result })
 
   onFileLoad: (e) =>
     result = @reader.result
