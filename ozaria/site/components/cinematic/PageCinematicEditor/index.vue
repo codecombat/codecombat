@@ -28,10 +28,7 @@ module.exports = Vue.extend({
     'cinematic-canvas': CinematicCanvas
   },
   mounted () {
-    if (!me.hasCinematicAccess()) {
-      alert('You must be logged in as an admin to use this page.')
-      return application.router.navigate('/editor', { trigger: true })
-    }
+    
     console.log(`Got the slug: ${this.cinematicSlug} with type ${typeof this.cinematicSlug}`)
     if (this.slug)  {
       this.cinematicSlug = this.slug
