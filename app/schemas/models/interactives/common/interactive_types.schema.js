@@ -8,7 +8,16 @@ const interactiveDraggableOrderingSchema = {
   additionalProperties: false,
   title: 'Draggable Ordering interactive data',
   properties: {
-    labels: { type: 'array', items: { type: 'string' } },
+    labels: { type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          text: { type: 'string' },
+          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true }
+        }
+      }
+    },
     elements: {
       type: 'array',
       items: {
@@ -16,6 +25,7 @@ const interactiveDraggableOrderingSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
+          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true },
           elementId: schema.stringID({ readOnly: true })
         }
       }
@@ -39,10 +49,11 @@ const interactiveInsertCodeSchema = {
         properties: {
           text: { type: 'string' },
           choiceId: schema.stringID({ readOnly: true }),
-          triggerArt: { type: 'string' }
+          triggerArt: { type: 'string', format: 'image-file' }
         }
       }
     },
+    lineToReplace: { type: 'number', title: 'Line number to replace' },
     solution: solutionSchema.singleSolutionSchema
   }
 }
@@ -114,7 +125,7 @@ const interactiveFillInCodeSchema = {
         properties: {
           text: { type: 'string' },
           responseId: schema.stringID({ readOnly: true }),
-          triggerArt: { type: 'string' }
+          triggerArt: { type: 'string', format: 'image-file' }
         }
       }
     },

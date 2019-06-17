@@ -48,7 +48,7 @@ export const putInteractive = ({ data }, options = {}) => {
  * @returns {Promise<Object>} - Raw Interactive object
  */
 export const postInteractive = ({ name }, options = {}) => {
-  fetchJson('/db/interactive', _.assign({}, options, {
+  return fetchJson('/db/interactive', _.assign({}, options, {
     method: 'POST',
     json: { name }
   }))

@@ -143,7 +143,7 @@ _.extend LevelSessionSchema.properties,
     capstoneStage:
       type: 'number'
       title: 'Capstone Stage'
-      description: 'Current capstone stage of the level. A capstone level is not complete until all stages are complete.'
+      description: 'Current capstone stage of the level. If, say, stage 7 is yet incomplete, capstoneStage will be 7. If stage 7 is complete, capstoneStage will be 8. When a capstone level is complete, capstoneStage will be 1 higher than the final stage number.'
 
   code:
     type: 'object'
