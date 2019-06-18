@@ -368,6 +368,7 @@ module.exports = class ThangTypeEditView extends RootView
     worker = new AnimateImporterWorker()
     worker.addEventListener('message', (event) =>
       worker.terminate()
+      @hideLoading()
 
       data = event.data
 
@@ -382,6 +383,8 @@ module.exports = class ThangTypeEditView extends RootView
         throw data.error
     )
 
+    @showLoading()
+    @updateProgress(0.50)
     worker.postMessage({ input: result })
 
   onFileLoad: (e) =>
