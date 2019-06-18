@@ -135,13 +135,15 @@ module.exports = class SegmentedSprite extends createjs.Container
 
     locals = {}
 
-    try
-      # Protects us from legacy art regressions.
-      localShapes = @buildMovieClipShapes(animData.shapes)
-      _.extend locals, localShapes
-    catch e
-      console.error("Couldn't create shapes for '#{@thangType.get('name')}':", e.message)
-      console.error(e.stack)
+    # TODO Add support for shapes to segmented sprites.
+    # TODO Ensure this change works on http://direct.codecombat.com/play/level/coinucopia
+    # try
+    #   # Protects us from legacy art regressions.
+    #   localShapes = @buildMovieClipShapes(animData.shapes)
+    #   _.extend locals, localShapes
+    # catch e
+    #   console.error("Couldn't create shapes for '#{@thangType.get('name')}':", e.message)
+    #   console.error(e.stack)
 
     _.extend locals, @buildMovieClipContainers(animData.containers)
     _.extend locals, @buildMovieClipAnimations(animData.animations)

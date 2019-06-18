@@ -8,7 +8,7 @@ import {
   getCamera
 } from '../../../../app/schemas/models/selectors/cinematic'
 import { processText, getDefaultTextPosition } from './helper'
-import { WIDTH, HEIGHT } from '../constants'
+import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
 
 const BUBBLE_PADDING = 10
 const SPEECH_BUBBLE_MAX_WIDTH = `300px` // Removed 20 px to account for padding.
@@ -129,6 +129,10 @@ class SpeechBubble {
     textDiv.style.left = `${ x / WIDTH * 100}%`
     textDiv.style.top = `${ y / HEIGHT * 100}%`
 
+    const letters = (document.querySelectorAll(`#${this.id} .letter`) || []).length || 1
+    if (textDuration === undefined) {
+      textDuration = letters * LETTER_ANIMATE_TIME
+    }
     // We set up the animation but don't play it yet.
     // On completion we attach html node to the `shownDialogBubbles`
     // array for future cleanup.
@@ -145,8 +149,8 @@ class SpeechBubble {
       .add({
         targets: `#${this.id} .letter`,
         opacity: 1,
-        duration: textDuration,
-        delay: anime.stagger(50, { easing: 'linear' }),
+        duration: 20,
+        delay: anime.stagger(textDuration / letters, { easing: 'linear' }),
         easing: 'easeOutQuad',
         complete: () => {
           shownDialogBubbles.push(textDiv)
