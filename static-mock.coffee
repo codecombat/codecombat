@@ -37,6 +37,7 @@ exports.me =
   showForumLink: -> true
   showGithubLink: -> true
   showChinaICPinfo: -> false
+  showChinaResourceInfo: -> false
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
