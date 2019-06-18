@@ -8,3 +8,5 @@
 export const WIDTH = 1366
 export const HEIGHT = 768
 export const CINEMATIC_ASPECT_RATIO = HEIGHT / WIDTH
+
+export const LETTER_ANIMATE_TIME = 90

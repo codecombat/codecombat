@@ -16,6 +16,7 @@ import {
   getSpeakingAnimationAction,
   getSpeaker
 } from '../../../app/schemas/models/selectors/cinematic'
+import { LETTER_ANIMATE_TIME } from './constants'
 
 export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
 const OFF_CAMERA_OFFSET = 20
@@ -174,7 +175,10 @@ export default class CinematicLankBoss {
     const text = getText(dialogNode)
     const animation = getSpeakingAnimationAction(dialogNode)
     if (text && animation) {
-      const textLength = getTextAnimationLength(dialogNode)
+      let textLength = getTextAnimationLength(dialogNode)
+      if (textLength === undefined) {
+        textLength = text.length * LETTER_ANIMATE_TIME
+      }
       const speaker = getSpeaker(dialogNode)
       commands.push(new SequentialCommands([
         // TODO: Is a minimum time of 100 required to ensure animation always plays?

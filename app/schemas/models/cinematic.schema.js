@@ -80,7 +80,7 @@ const DialogNode = c.object({
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
-  textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate out. Defaults to 1000ms.' }),
+  textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate in.' }),
   speakingAnimationAction: c.shortString({ title: 'Speaking Animation', description: 'The animation to play on the lank while the text is being animated.' }),
   i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this cinematic dialogNode.' },
   waitUserInput: { type: 'boolean', title: 'User Input?', description: 'Whether or not user input is required to continue to the next dialog node or shot setup. Defaults to true.' },
