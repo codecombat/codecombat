@@ -372,7 +372,6 @@ module.exports = class ThangTypeEditView extends RootView
 
       data = event.data
 
-      console.log('got data back', data)
       if (data.output)
         @thangType.attributes.raw = @thangType.attributes.raw or {}
         _.merge(@thangType.attributes.raw, JSON.parse(data.output))
