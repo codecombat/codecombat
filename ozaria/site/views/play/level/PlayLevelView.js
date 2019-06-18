@@ -336,7 +336,12 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
-    if (this.capstoneStage && me.isSessionless() && (me.isAdmin() || me.isTeacher())) {
+    console.log('CAPSTONE: grabLevelLoaderData with : ')
+    console.log(this.capstoneStage)
+    console.log(me.isSessionless())
+
+    // if (this.capstoneStage && me.isSessionless() && (me.isAdmin() || me.isTeacher())) {
+    if (this.capstoneStage && me.isAdmin()) {
       const state = this.session.get('state') || {}
       state.capstoneStage = this.capstoneStage
       this.session.set('state', state)
