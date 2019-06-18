@@ -19,7 +19,6 @@ module.exports = Vue.extend({
     async fetchList () {
       try {
         this.cutscenes = await getAllCutscenes()
-        console.log(this.cutscenes)
       } catch (e) {
         noty({ text: e.message, type: 'error', timeout: 3000 })
         console.error(e)

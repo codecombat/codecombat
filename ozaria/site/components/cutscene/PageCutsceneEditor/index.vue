@@ -27,7 +27,6 @@ export default {
     async loadTreema(slugOrId) {
       try {
         this.cutscene = new Cutscene(await getCutscene(slugOrId))
-        debugger
       } catch (e) {
         return noty({
           text: `Error finding slug '${slugOrId}'.`,
