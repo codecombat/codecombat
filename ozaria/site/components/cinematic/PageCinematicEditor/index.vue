@@ -95,8 +95,7 @@ module.exports = Vue.extend({
      * Pushes changes from treema to the cinematic model.
      */
     pushChanges() {
-      const shots = _.cloneDeep(this.treema.data.shots)
-      this.cinematic.set('shots', shots)
+      this.cinematic.set(_.cloneDeep(this.treema.data))
     },
 
     /**
@@ -151,16 +150,28 @@ module.exports = Vue.extend({
       </div>
       <div class="row">
         <!-- List of cinematics -->
-        <ul>
+        <div class="container">
+          <div class="row headings">
+            <div class="col-xs-4">
+              <h2>Name</h2>
+            </div>
+            <div class="col-xs-4">
+              <h2>Slug</h2>
+            </div>
+            <div class="col-xs-4">
+              <h2>Id</h2>
+            </div>
+          </div>
           <editor-list
             v-for="cinematic in cinematicList"
             :key="cinematic.slug"
             :text="cinematic.name"
             :slug="cinematic.slug"
+            :id="cinematic._id"
             :clickHandler="() => fetchCinematic(cinematic.slug)"
             ></editor-list>
             <li><button v-on:click="createCinematic">+</button></li>
-        </ul>
+        </div>
         
       </div>
     </div>
@@ -200,4 +211,14 @@ module.exports = Vue.extend({
     margin: 5px;
     padding: 5px;
   }
+
+  .list-item:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  .headings {
+    border-bottom: 2px solid #dddddd;
+    margin-bottom: 20px
+  }
+
 </style>
