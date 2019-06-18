@@ -20,6 +20,7 @@
 
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'core/CocoClass'
+AnimateSprite = require './AnimateSprite'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
 ThangType = require 'models/ThangType'
@@ -516,7 +517,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.baseScaleX = sprite.baseScaleY = 1
 
     else
-      SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
+      SpriteClass
+      switch (lank.thangType.get('spriteType') or @defaultSpriteType)
+        when 'segmented' then SpriteClass = SegmentedSprite
+        when 'animate' then SpriteClass = AnimateSprite
+        else SpriteClass = SingularSprite
+
       prefix = @renderGroupingKey(lank.thangType, null, lank.options.colorConfig) + '.'
       sprite = new SpriteClass(@spriteSheet, lank.thangType, prefix, @resolutionFactor)
 

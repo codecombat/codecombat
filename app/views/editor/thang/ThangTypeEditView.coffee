@@ -373,6 +373,7 @@ module.exports = class ThangTypeEditView extends RootView
       data = event.data
 
       if (data.output)
+        @thangType.set('spriteType', 'animate')
         @thangType.attributes.raw = @thangType.attributes.raw or {}
         _.merge(@thangType.attributes.raw, JSON.parse(data.output))
 
