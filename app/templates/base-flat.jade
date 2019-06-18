@@ -147,7 +147,16 @@ mixin accountLinks
                       h3(data-i18n="nav.educators")
                       ul.list-unstyled
                         li
-                          a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
+                          - var faqURL = "/teachers/resources/faq";
+                          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                          -     faqURL = "/teachers/resources/faq-nl-NL";
+                          - if (me.get('preferredLanguage') == 'he')
+                          -     faqURL = "/teachers/resources/faq-HE";
+                          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                          -     faqURL = "/teachers/resources/faq-pt-BR";
+                          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                          -     faqURL = "/teachers/resources/faq-zh-HANS";
+                          a(href=faqURL, data-i18n="teacher.educator_faq")
                         li
                           a(href="/teachers/resources", data-i18n="nav.resource_hub")
                         li
@@ -181,6 +190,9 @@ mixin accountLinks
       #final-footer(dir="ltr")
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         .float-right
+          if me.showChinaResourceInfo()
+            a.small 商务合作：bill@codecombat.com
+            a.small 业务咨询：13810906731 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
           span(data-i18n="nav.copyright_prefix")
           span= ' ©2019 CodeCombat Inc. '
           span.spl(data-i18n="nav.copyright_suffix")
