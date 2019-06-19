@@ -8,7 +8,7 @@ specialGoToAndStop = (frame) ->
     @gotoAndStop(frame)
     @childrenCopy = @children.slice(0)
 
-module.exports = class SegmentedSprite extends createjs.Container
+module.exports = class AnimateSprite extends createjs.Container
   childMovieClips: null
 
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix, @resolutionFactor=SPRITE_RESOLUTION_FACTOR) ->
