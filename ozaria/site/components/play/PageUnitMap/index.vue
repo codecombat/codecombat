@@ -2,12 +2,18 @@
 
   import api from 'core/api'
   import { getLevelStatusMap, findNextLevelsBySession } from 'ozaria/site/common/ozariaUtils'
-  import levelDot from './UnitMapLevelDot'
   import { mapActions, mapGetters } from 'vuex'
+  import LayoutChrome from '../../common/LayoutChrome'
+  import LayoutCenterContent from '../../common/LayoutCenterContent'
+  import unitMapTitle from './common/UnitMapTitle'
+  import unitMapBackground from './common/UnitMapBackground'
 
   export default Vue.extend({
     components: {
-      'level-dot': levelDot
+      'layout-chrome': LayoutChrome,
+      'layout-center-content': LayoutCenterContent,
+      'unit-map-title': unitMapTitle,
+      'unit-map-background': unitMapBackground
     },
     props: {
       campaign: { // campaign slug / campaign id
@@ -20,7 +26,6 @@
       }
     },
     data: () => ({
-      notAvailable: false,
       campaignData: {},
       courseId: '',
       levels: {},
@@ -37,35 +42,8 @@
         campaignDataByIdOrSlug: 'campaigns/getCampaignData'
       }),
       {
-        containerBaseStyle: function () {
-          return {
-            position: 'absolute',
-            width: '100%',
-            height: '100%'
-          }
-        },
-        backgroundColor: function () {
-          if (this.campaignData.backgroundColor) {
-            return {
-              'background-color': this.campaignData.backgroundColor
-            }
-          }
-        },
-        backgroundBaseStyle: function () {
-          return {
-            'background-size': '100%',
-            width: '100%',
-            height: '100%',
-            'background-repeat': 'no-repeat'
-          }
-        },
-        backgroundImage: function () {
-          // using dungeon image for now, update later as per UI specs
-          if (this.campaignData.backgroundImage) {
-            return {
-              'background-image': 'url(/file/' + this.campaignData.backgroundImage[0].image + ')'
-            }
-          }
+        codeLanguage: function () {
+          return (this.classroom.aceConfig || {}).language || (me.get('aceConfig') || {}).language || 'python'
         }
       }
     ),
@@ -74,16 +52,22 @@
         await this.loadUnitMapData()
       }
     },
-    async created () {
+    async mounted () {
       if (!me.showOzariaCampaign()) {
         // TODO: Remove when ready for production use
         return application.router.navigate('/', { trigger: true })
       }
-      if ((me.isStudent() && !this.courseInstanceId) || me.isTeacher()) {
-        this.notAvailable = true // showing not available text for now on the page, can update later as per requirements.
-        return
+      if ((me.isStudent() && !this.courseInstanceId)) {
+        return application.router.navigate('/students', { trigger: true })
+      } else if (me.isTeacher()) {
+        return application.router.navigate('/teachers', { trigger: true })
       }
       await this.loadUnitMapData()
+      window.addEventListener('resize', this.onWindowResize)
+      this.onWindowResize()
+    },
+    beforeDestroy () {
+      window.removeEventListener('resize', this.onWindowResize)
     },
     methods: Object.assign(
       {},
@@ -199,31 +183,64 @@
           if (this.nextLevelOriginal) {
             this.levels[this.nextLevelOriginal].next = true
           }
+        },
+        onWindowResize () {
+          const mapHeight = 768
+          const mapWidth = 1366
+          const aspectRatio = mapWidth / mapHeight
+          const pageWidth = window.innerWidth
+          const pageHeight = window.innerHeight
+          const widthRatio = pageWidth / mapWidth
+          const heightRatio = pageHeight / mapHeight
+          let resultingHeight
+          let resultingWidth
+          if (heightRatio <= widthRatio) {
+            // Left and right margin
+            resultingHeight = pageHeight
+            resultingWidth = resultingHeight * aspectRatio
+          } else {
+            // Top and bottom margin
+            resultingWidth = pageWidth
+            resultingHeight = resultingWidth / aspectRatio
+          }
+          $('#unit-map-container').css({
+            width: resultingWidth,
+            height: resultingHeight
+          })
         }
       }
     )
   })
 </script>
 
-<template lang="pug">
-  h2(v-if="notAvailable")
-    | This page is not available for teachers and students. However, students can access the world map from their classroom.
-  .unit-map-container(:style="[backgroundColor, containerBaseStyle]")(v-else-if="dataLoaded")
-    .unit-map
-      .unit-map-background(:style="[backgroundImage, backgroundBaseStyle]")
-      level-dot(
-        :levelData="level"
-        :courseId="courseId"
-        :courseInstanceId="courseInstanceId"
-        :campaignId="campaignData._id"
-        )(v-for="level of levels")
+<template>
+  <layout-chrome>
+    <layout-center-content>
+      <div
+        v-if="dataLoaded"
+        id="unit-map-container"
+      >
+        <unit-map-title
+          :title="campaignData.name"
+        />
+        <unit-map-background
+          :campaign-data="campaignData"
+          :levels="levels"
+          :course-id="courseId"
+          :course-instance-id="courseInstanceId"
+          :code-language="codeLanguage"
+        />
+      </div>
+    </layout-center-content>
+  </layout-chrome>
 </template>
 
 <style scoped>
-.unit-map{
-  width: 80%;
-  height: 100%;
-  margin: auto;
+#unit-map-container{
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1366px;
+  height: 768px;
 }
 </style>

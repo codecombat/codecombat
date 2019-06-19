@@ -112,6 +112,7 @@
   Level = require 'models/Level'
   LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
+  { getNextLevelLink } = require 'ozaria/site/common/ozariaUtils'
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
@@ -120,6 +121,8 @@
       PieChart
     }
     computed: {
+      ozariaCourse: ->
+        return utils.ozariaCourseIDs.includes(@course._id)
       challengeLink: ->
         if me.isSessionless()
           link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
@@ -130,6 +133,8 @@
       mapLink: ->
         if me.isSessionless()
           link = "/teachers/courses"
+        else if this.ozariaCourse
+          link = "/ozaria/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         else
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         return link
@@ -137,6 +142,8 @@
         if !me.showHeroAndInventoryModalsToStudents()
           if me.isSessionless()
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
+          else if this.ozariaCourse
+            link = getNextLevelLink(@nextLevel, {courseId: @course._id, courseInstanceId: @courseInstanceID})
           else
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
             link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage

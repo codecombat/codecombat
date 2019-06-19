@@ -70,7 +70,7 @@ describe('Ozaria Unit Map Page for Classroom users', () => {
   })
 
   it('shows first level as unlocked and others as locked', () => {
-    const levelDots = unitMapClassroomWrapper.findAll('.level-dot')
+    const levelDots = unitMapClassroomWrapper.findAll('.level-dot-image')
     for (let i = 0; i < levelDots.length; i++) {
       if (i === 0) {
         expect(levelDots.at(i).classes()).toContain('next')
@@ -102,7 +102,7 @@ describe('Ozaria Unit Map Page for Home users', () => {
   })
 
   it('shows first level as unlocked and others as locked', () => {
-    const levelDots = unitMapClassroomWrapper.findAll('.level-dot')
+    const levelDots = unitMapClassroomWrapper.findAll('.level-dot-image')
     for (let i = 0; i < levelDots.length; i++) {
       if (i === 0) {
         expect(levelDots.at(i).classes()).toContain('next')

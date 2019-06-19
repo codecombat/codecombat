@@ -132,7 +132,7 @@
             await this.setIntroLevelComplete()
             await this.fetchNextLevel()
             const link = this.fetchNextLevelLink()
-            if (link) {
+            if (link && !application.testing) {
               return application.router.navigate(link, { trigger: true })
             }
           }
@@ -173,7 +173,8 @@
             }
             return getNextLevelLink(this.nextLevel, nextLevelOptions)
           } else {
-            console.log('no next level found') // TODO what to do if last level of campaign
+            console.log('no next level found')
+            return `/ozaria/play/${this.campaignData.slug}`
           }
         }
       }
