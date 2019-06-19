@@ -24,10 +24,14 @@ class SpriteExporter extends CocoClass
 
   build: ->
     spriteSheetBuilder = new createjs.SpriteSheetBuilder()
+
     if @spriteType is 'segmented'
       @renderSegmentedThangType(spriteSheetBuilder)
+    else if @spriteType is 'animate'
+      throw new Error('Animate sprite type not currently supported in sprite exporter')
     else
       @renderSingularThangType(spriteSheetBuilder)
+
     try
       spriteSheetBuilder.buildAsync()
     catch e
