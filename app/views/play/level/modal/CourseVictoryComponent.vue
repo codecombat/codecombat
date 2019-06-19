@@ -140,10 +140,15 @@
         return link
       nextLevelLink: ->
         if !me.showHeroAndInventoryModalsToStudents()
-          if me.isSessionless()
+          if this.ozariaCourse
+            linkOptions = {
+              courseId: @course._id,
+              courseInstanceId: @courseInstanceID,
+              codeLanguage: utils.getQueryVariable('codeLanguage', 'python')
+            }
+            link = getNextLevelLink(@nextLevel, linkOptions)
+          else if me.isSessionless()
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
-          else if this.ozariaCourse
-            link = getNextLevelLink(@nextLevel, {courseId: @course._id, courseInstanceId: @courseInstanceID})
           else
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
             link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
