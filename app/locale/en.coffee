@@ -2253,7 +2253,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
     live_tournament: "Live Tournament"
-    tournament_rules: "Tournament Rules and Scoring"
     awaiting_tournament_title: "Tournament Inactive"
     awaiting_tournament_blurb: "The tournament arena is not currently active."
 
