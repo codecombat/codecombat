@@ -264,10 +264,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       actionNames = (bundle.actionName for bundle in bundleGrouping)
       args = [thangType, colorConfig, actionNames, builder]
       if thangType.get('raw') or thangType.get('prerenderedSpriteSheetData')
-        if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented'
-          @renderSegmentedThangType(args...)
-        else
-          @renderSingularThangType(args...)
+        switch (thangType.get('spriteType') or @defaultSpriteType)
+          when 'segmented' then @renderSegmentedThangType(args...)
+          when 'animate' then throw new Error('animate sprite type not supported')
+          else @renderSingularThangType(args...)
       else
         @renderRasterThangType(thangType, builder)
 

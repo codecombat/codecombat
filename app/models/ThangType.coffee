@@ -511,6 +511,8 @@ module.exports = class ThangType extends CocoModel
     @prerenderedSpriteSheets = new PrerenderedSpriteSheets(data)
 
   getPrerenderedSpriteSheet: (colorConfig, defaultSpriteType) ->
+    throw new Error('animate sprite type not supported') if defaultSpriteType == 'animate'
+
     return unless @prerenderedSpriteSheets
     spriteType = @get('spriteType') or defaultSpriteType
     result = @prerenderedSpriteSheets.find (pss) ->
