@@ -7,6 +7,7 @@ CocoCollection = require 'collections/CocoCollection'
 {me} = require 'core/auth'
 # application = require 'core/application'
 co = require 'co'
+utils = require 'core/utils'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -53,7 +54,7 @@ module.exports = class LadderView extends RootView
 
     onLoaded = =>
       return if @destroyed
-      @levelDescription = marked(@level.get('description')) if @level.get('description')
+      @levelDescription = marked(utils.i18n(@level.attributes, 'description')) if @level.get('description')
       @teams = teamDataFromLevel @level
 
     if @level.loaded then onLoaded() else @level.once('sync', onLoaded)

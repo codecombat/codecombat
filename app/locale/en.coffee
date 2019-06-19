@@ -2252,6 +2252,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wins: "Wins"  # At end of multiplayer match playback
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
+    live_tournament: "Live Tournament"
+    tournament_rules: "Tournament Rules and Scoring"
+    awaiting_tournament_title: "Tournament Inactive"
+    awaiting_tournament_blurb: "The tournament arena is not currently active."
 
   user:
     user_title: '__name__ - Learn to Code with CodeCombat'
