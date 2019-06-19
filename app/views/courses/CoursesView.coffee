@@ -122,7 +122,7 @@ module.exports = class CoursesView extends RootView
 
     if features.china and @classrooms.find {id: '5d0082964ebb960059fc40b2'}
       if new Date() >= new Date(2019, 5, 19, 12) && new Date() <= new Date(2019, 5, 25, 0)
-        if window.serverConfig?.currentTournament or true
+        if window.serverConfig?.currentTournament
           @showTournament = true
         else
           @awaitingTournament = true
