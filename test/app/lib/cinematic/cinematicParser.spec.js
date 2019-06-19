@@ -83,4 +83,28 @@ describe('parseShot', () => {
     }
     expect(() => parseShot(shot, systems, { programmingLanguage: 'python' })).toThrow()
   })
+
+  it('dialogNode language filtering works correctly for python', () => {
+    const systems = [{
+      parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
+    }]
+    const shot = {
+      dialogNodes: [{ programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' }]
+    }
+    parseShot(shot, systems, { programmingLanguage: 'python' })
+    expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
+      .toEqual([ [ { programmingLanguageFilter: 'python' }, { dialogNodes: [ { programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' } ] } ] ])
+  })
+
+  it('dialogNode language filtering works correctly for javascript', () => {
+    const systems = [{
+      parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
+    }]
+    const shot = {
+      dialogNodes: [{ programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' }]
+    }
+    parseShot(shot, systems, { programmingLanguage: 'javascript' })
+    expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
+      .toEqual([ [ { programmingLanguageFilter: 'javascript' }, { dialogNodes: [ { programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' } ] } ] ])
+  })
 })
