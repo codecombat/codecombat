@@ -7,6 +7,8 @@
   import LayoutCenterContent from '../../common/LayoutCenterContent'
   import unitMapTitle from './common/UnitMapTitle'
   import unitMapBackground from './common/UnitMapBackground'
+  import AudioPlayer from 'app/lib/AudioPlayer'
+  import createjs from 'app/lib/createjs-parts'
 
   export default Vue.extend({
     components: {
@@ -34,7 +36,8 @@
       levelSessions: [],
       levelStatusMap: {},
       dataLoaded: false,
-      nextLevelOriginal: ''
+      nextLevelOriginal: '',
+      ambientSound: undefined
     }),
     computed: Object.assign(
       {},
@@ -65,8 +68,12 @@
       await this.loadUnitMapData()
       window.addEventListener('resize', this.onWindowResize)
       this.onWindowResize()
+      this.playAmbientSound()
     },
     beforeDestroy () {
+      if (this.ambientSound) {
+        createjs.Tween.get(this.ambientSound).to({ volume: 0.0 }, 1500).call(this.ambientSound.stop())
+      }
       window.removeEventListener('resize', this.onWindowResize)
     },
     methods: Object.assign(
@@ -75,6 +82,20 @@
         fetchCampaign: 'campaigns/fetch'
       }),
       {
+        playAmbientSound () {
+          const file = ((this.campaignData || {}).ambientSound || {})[AudioPlayer.ext.substr(1)]
+          if (!file || !me.get('volume') || this.ambientSound) {
+            return
+          }
+          const src = `/file/${file}`
+          if (!(AudioPlayer.getStatus(src) || {}).loaded) {
+            AudioPlayer.preloadSound(src)
+            Backbone.Mediator.subscribeOnce('audio-player:loaded', this.playAmbientSound, this)
+            return
+          }
+          this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
+          return createjs.Tween.get(this.ambientSound).to({ volume: 1.0 }, 1000)
+        },
         async loadUnitMapData () {
           try {
             this.dataLoaded = false
