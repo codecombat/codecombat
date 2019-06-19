@@ -266,7 +266,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       if thangType.get('raw') or thangType.get('prerenderedSpriteSheetData')
         switch (thangType.get('spriteType') or @defaultSpriteType)
           when 'segmented' then @renderSegmentedThangType(args...)
-          when 'animate' then throw new Error('animate sprite type not supported')
+          when 'animate' then @renderAnimateThangType(args...)
           else @renderSingularThangType(args...)
       else
         @renderRasterThangType(thangType, builder)
@@ -348,8 +348,20 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       g.drawRect(bounds...)
     new createjs.Shape(g)
 
-  #- Rendering containers for segmented thang types
+  renderAnimateThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+    spriteBuilder = new SpriteBuilder(thangType, { colorConfig: colorConfig })
 
+    for action in actionNames
+      animation = thangType.getAnimationForAction(action)
+      if not animation
+        throw new Error('No animation for action ' + action)
+
+      movieClip = spriteBuilder.buildMovieClip(animation)
+      frame = spriteSheetBuilder.addFrame(movieClip, null, @resolutionFactor * (thangType.get('scale') or 1))
+
+      spriteSheetBuilder.addAnimation(action, [ frame ], false)
+
+  #- Rendering containers for segmented thang types
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'segmented')
     if prerenderedSpriteSheet and not prerenderedSpriteSheet.loadedImage

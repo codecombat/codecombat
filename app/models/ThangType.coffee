@@ -476,6 +476,14 @@ module.exports = class ThangType extends CocoModel
     #console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
     playerLevel
 
+  getAnimationForAction: (action) ->
+    actions = @getActions()
+    action = _.find(actions, { name: action })
+    if action.container
+      return undefined
+    else if action.animation
+      return action.animation
+
   getContainersForAnimation: (animation, action) ->
     rawAnimation = @get('raw').animations[animation]
     if not rawAnimation
