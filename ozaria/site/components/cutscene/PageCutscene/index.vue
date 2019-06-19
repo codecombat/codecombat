@@ -2,6 +2,7 @@
 import LayoutChrome from '../../common/LayoutChrome'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
 import BaseVideo from '../common/BaseVideo'
+import { getCutscene } from '../../../api/cutscene';
 
 const CUTSCENE_ASPECT_RATIO = 16 / 9
 
@@ -15,6 +16,7 @@ module.exports = Vue.extend({
   data: () => ({
     width: 1920,
     height: 1080,
+    vimeoId: null
   }),
   components: {
     'layout-chrome': LayoutChrome,
@@ -25,10 +27,7 @@ module.exports = Vue.extend({
     if (!me.hasCutsceneAccess()) {
       return application.router.navigate('/', { trigger: true })
     }
-
-    window.addEventListener('resize', this.onResize)
-    this.onResize()
-
+    this.loadCutscene()
   },
   destroyed() {
     window.removeEventListener("resize", this.onResize)
@@ -45,6 +44,13 @@ module.exports = Vue.extend({
 
       this.height = Math.min(userWidth / CUTSCENE_ASPECT_RATIO, userHeight)
       this.width = this.height * CUTSCENE_ASPECT_RATIO
+    },
+    async loadCutscene() {
+      const cutscene = await getCutscene(this.cutsceneId)
+      this.vimeoId = cutscene.vimeoId
+
+      window.addEventListener('resize', this.onResize)
+      this.onResize()
     }
   }
 })
@@ -54,15 +60,10 @@ module.exports = Vue.extend({
   <layout-chrome>
     <layout-center-content>
       <div id="cutscene-player"
-      :style="{ width: width+'px', height: height+'px' }">
+      :style="{ width: width+'px', height: height+'px' }" v-if="vimeoId">
       <!-- Currently this video is a hard coded example, that will be fetched from Cutscene collection -->
         <base-video
-          videoSrc="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4"
-          :captions="[{
-            label:'English captions',
-            src:'/captions/example.vtt',
-            srclang:'en'
-          }]"
+          :vimeoId="vimeoId"
           :width="width"
           :height="height"
         />

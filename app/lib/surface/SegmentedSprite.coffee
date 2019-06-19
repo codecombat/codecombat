@@ -214,6 +214,7 @@ module.exports = class SegmentedSprite extends createjs.Container
     shape.graphics.de shapeData.de... if shapeData.de?
     shape.graphics.p shapeData.p if shapeData.p?
     shape.setTransform shapeData.t...
+    shape.nominalBounds = new createjs.Rectangle(shapeData.bounds...) if shapeData.bounds
     shape
 
   buildMovieClipContainers: (localContainers) ->
