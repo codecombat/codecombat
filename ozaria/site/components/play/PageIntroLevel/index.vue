@@ -185,14 +185,14 @@
   <div v-if="dataLoaded">
     <interactives-component
       v-if="currentContent.type == 'interactive'"
-      :interactive-id-or-slug="currentContent.contentSlug"
+      :interactive-id-or-slug="currentContent.contentId"
       :intro-level-id="introLevelData.original"
       :course-instance-id="courseInstanceId"
       @completed="onContentCompleted"
     />
     <cinematics-component
       v-else-if="currentContent.type == 'cinematic'"
-      :cinematic-id-or-slug="currentContent.contentSlug"
+      :cinematic-id-or-slug="currentContent.contentId"
       :userOptions="{ programmingLanguage: language }"
       @completed="onContentCompleted"
     />
