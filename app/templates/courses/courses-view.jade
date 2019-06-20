@@ -37,6 +37,44 @@ block content
 
           else
 
+            if view.showTournament || view.awaitingTournament
+              .tournament-logo
+                img(src="/images/pages/courses/tarena-discovery-cup-tournament-logo.png")
+              .text-center
+                h1#tournament-title(data-i18n="ladder.live_tournament")
+                a#tournament-rules(data-i18n="ladder.tournament_rules")
+                #tournament-rules-content.hide.rtl-allowed
+                  if /^zh/.test(me.get('preferredLanguage', true))
+                    p Welcome to the Tarena CodeCombat live tournament! Compete for the top 200 spots to qualify for the next round.
+
+                    p Scoring is as follows: your code will play constantly in the background against other players to determine how strong it is. The number of points you earn for a match are determined by a Bayesian calculation predicting how likely you were to win that match. So if you beat a player ranked more highly than you, you gain more points. Beat a player lower than you, gain fewer points. Lose to a weaker player, lose more points. Lose to a stronger player, lose fewer points. Your code will play on both the red and blue teams, but scoring will be based on the red team.
+
+                    p You can test your code against any player and improve your strategy until you win, but remember: no points are scored until you submit your latest code and it starts to automatically plays matches against other players.
+                  else
+                    p Welcome to the Tarena CodeCombat live tournament! Compete for the top 200 spots to qualify for the next round.
+
+                    p Scoring is as follows: your code will play constantly in the background against other players to determine how strong it is. The number of points you earn for a match are determined by a Bayesian calculation predicting how likely you were to win that match. So if you beat a player ranked more highly than you, you gain more points. Beat a player lower than you, gain fewer points. Lose to a weaker player, lose more points. Lose to a stronger player, lose fewer points. Your code will play on both the red and blue teams, but scoring will be based on the red team.
+
+                    p You can test your code against any player and improve your strategy until you win, but remember: no points are scored until you submit your latest code and it starts to automatically plays matches against other players.
+
+            if view.awaitingTournament
+              .text-center
+                h2(data-i18n="ladder.awaiting_tournament_title")
+                p(data-i18n="ladder.awaiting_tournament_blurb")
+                br
+                br
+            else if view.showTournament
+              for level in view.tournamentArenas()
+                a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, title=level.description)
+                  .level
+                    if level.image
+                      img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
+                    else
+                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
+                      h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
+                    .play-text-container
+                      .overlay-text.play-text(data-i18n="common.play")
+
             .text-center
               h1(data-i18n="courses.welcome_to_page")
 

@@ -2252,6 +2252,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     wins: "勝利" # At end of multiplayer match playback
     humans: "紅隊" # Ladder page display team name
     ogres: "藍隊"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
