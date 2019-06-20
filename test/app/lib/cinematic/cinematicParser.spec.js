@@ -84,27 +84,33 @@ describe('parseShot', () => {
     expect(() => parseShot(shot, systems, { programmingLanguage: 'python' })).toThrow()
   })
 
-  it('dialogNode language filtering works correctly for python', () => {
-    const systems = [{
-      parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
-    }]
-    const shot = {
-      dialogNodes: [{ programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' }]
-    }
-    parseShot(shot, systems, { programmingLanguage: 'python' })
-    expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
-      .toEqual([ [ { programmingLanguageFilter: 'python' }, { dialogNodes: [ { programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' } ] } ] ])
-  })
+  describe('dialogNode language filtering', () => {
+    // A dialog node is called with two arguments. A node and the entire cinematic.
+    // In these tests we expect nodes that aren't tagged with the correct programming
+    // language to be filtered out.
+    // These dialogNodes are still visibile in the complete cinematic data.
+    it('works correctly for python', () => {
+      const systems = [{
+        parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
+      }]
+      const shot = {
+        dialogNodes: [{ programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' }]
+      }
+      parseShot(shot, systems, { programmingLanguage: 'python' })
+      expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
+        .toEqual([ [ { programmingLanguageFilter: 'python' }, shot ] ])
+    })
 
-  it('dialogNode language filtering works correctly for javascript', () => {
-    const systems = [{
-      parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
-    }]
-    const shot = {
-      dialogNodes: [{ programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' }]
-    }
-    parseShot(shot, systems, { programmingLanguage: 'javascript' })
-    expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
-      .toEqual([ [ { programmingLanguageFilter: 'javascript' }, { dialogNodes: [ { programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' } ] } ] ])
+    it('works correctly for javascript', () => {
+      const systems = [{
+        parseDialogNode: jasmine.createSpy().and.returnValue(['dialog commands'])
+      }]
+      const shot = {
+        dialogNodes: [{ programmingLanguageFilter: 'python' }, { programmingLanguageFilter: 'javascript' }]
+      }
+      parseShot(shot, systems, { programmingLanguage: 'javascript' })
+      expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
+        .toEqual([ [ { programmingLanguageFilter: 'javascript' }, shot ] ])
+    })
   })
 })
