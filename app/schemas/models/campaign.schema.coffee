@@ -94,7 +94,7 @@ _.extend CampaignSchema.properties, {
           }
         }
       }
-      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign', default: true }
 
       #- denormalized properties from Levels are cloned below
     }
