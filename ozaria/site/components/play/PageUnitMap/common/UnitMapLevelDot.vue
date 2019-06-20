@@ -37,8 +37,7 @@
         const introContent = this.levelData.introContent
         if (_.isArray(introContent)) {
           return introContent.length === 1 && introContent[0].type === 'cutscene-video'
-        }
-        else if (_.isObject(introContent)) {
+        } else if (_.isObject(introContent)) {
           const language = this.codeLanguage || 'python'
           const content = introContent[language] || []
           return content.length === 1 && content[0].type === 'cutscene-video'
@@ -52,14 +51,14 @@
         }
         return position
       },
-      levelDotClass: function () {
+      levelDotClasses: function () {
         return {
           locked: this.levelData.locked,
           next: this.levelData.next,
           'has-tooltip': this.levelData.next || !this.levelData.locked
         }
       },
-      getPlayLevelLink: function () {
+      playLevelLink: function () {
         if (this.levelData.locked) { return '#' }
 
         const nextLevelOptions = {
@@ -139,10 +138,23 @@
   })
 </script>
 
-<template lang="pug">
-  div.level-dot(:style="levelDotPosition")
-    a.level-dot-link(:href="getPlayLevelLink")
-      img.level-dot-image(:src="levelIcon[levelStatus]", :class="levelDotClass", :title="tooltipText")
+<template>
+  <div
+    class="level-dot"
+    :style="levelDotPosition"
+  >
+    <a
+      class="level-dot-link"
+      :href="playLevelLink"
+    >
+      <img
+        class="level-dot-image"
+        :class="levelDotClasses"
+        :src="levelIcon[levelStatus]"
+        :title="tooltipText"
+      >
+    </a>
+  </div>
 </template>
 
 <style lang="sass">

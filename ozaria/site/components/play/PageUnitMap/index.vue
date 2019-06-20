@@ -5,8 +5,8 @@
   import { mapActions, mapGetters } from 'vuex'
   import LayoutChrome from '../../common/LayoutChrome'
   import LayoutCenterContent from '../../common/LayoutCenterContent'
-  import unitMapTitle from './common/UnitMapTitle'
-  import unitMapBackground from './common/UnitMapBackground'
+  import UnitMapTitle from './common/UnitMapTitle'
+  import UnitMapBackground from './common/UnitMapBackground'
   import AudioPlayer from 'app/lib/AudioPlayer'
   import createjs from 'app/lib/createjs-parts'
 
@@ -14,8 +14,8 @@
     components: {
       'layout-chrome': LayoutChrome,
       'layout-center-content': LayoutCenterContent,
-      'unit-map-title': unitMapTitle,
-      'unit-map-background': unitMapBackground
+      'unit-map-title': UnitMapTitle,
+      'unit-map-background': UnitMapBackground
     },
     props: {
       campaign: { // campaign slug / campaign id
