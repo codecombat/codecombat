@@ -45,6 +45,7 @@ RawAnimationObjectSchema = c.object {},
     gn: {type: 'string', title: 'Global Name'}
     t: c.array {}, {type: 'number', title: 'Transform'}
     a: c.array {title: 'Arguments'}
+    off: {type: 'bolean', title: 'Starts Hidden (_off)'}
   tweens: c.array {},
     c.array {title: 'Function Chain'},
       c.object {title: 'Function Call'},

@@ -86,6 +86,7 @@ module.exports = class SpriteBuilder
     for localAnimation in localAnimations
       animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
       animation.setTransform(localAnimation.t...)
+      animation._off = true if localAnimation.off
       map[localAnimation.bn] = animation
     map
 
