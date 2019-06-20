@@ -1,6 +1,7 @@
 import { getThang, getThangTypeOriginal } from '../../../app/core/api/thang-types'
 import { getBackgroundSlug, getBackgroundObject, getRightCharacterThangTypeSlug, getLeftCharacterThangTypeSlug } from '../../../app/schemas/models/selectors/cinematic'
 import { HERO_THANG_ID } from './CinematicLankBoss'
+import { getHeroSlug } from './constants'
 
 /**
  * @typedef {import('../../../app/schemas/models/selectors/cinematic')} Cinematic
@@ -77,6 +78,8 @@ export default class Loader {
    */
   loadThangTypes (shots) {
     const slugs = []
+    // TODO: Remove hard coded hero slug used for content creation.
+    slugs.push(getHeroSlug())
     shots
       .forEach(shot => {
         const { slug } = getLeftCharacterThangTypeSlug(shot) || {}

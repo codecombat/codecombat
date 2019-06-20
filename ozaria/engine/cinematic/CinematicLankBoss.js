@@ -16,7 +16,7 @@ import {
   getSpeakingAnimationAction,
   getSpeaker
 } from '../../../app/schemas/models/selectors/cinematic'
-import { LETTER_ANIMATE_TIME } from './constants'
+import { LETTER_ANIMATE_TIME, getHeroSlug } from './constants'
 
 export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
 const OFF_CAMERA_OFFSET = 20
@@ -85,7 +85,8 @@ export default class CinematicLankBoss {
     }
 
     const lHero = getLeftHero(shot)
-    const original = (me.get('heroConfig') || {}).thangType || HERO_THANG_ID
+    // TODO: Replace hard coded hero with user hero
+    const original = getHeroSlug()
     if (lHero) {
       const { enterOnStart, thang } = lHero
       addMoveCharacterCommand('left', original, enterOnStart, thang)

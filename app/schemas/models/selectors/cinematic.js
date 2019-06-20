@@ -110,9 +110,9 @@ const setCharacterDefaults = ({ pos, scaleX, scaleY }) =>
  * @returns {Object|undefined} leftCharacter with default values set on thang.
  */
 const setLeftCharacterDefaults = setCharacterDefaults({
-  pos: { x: -30, y: -73 },
-  scaleX: 0.7,
-  scaleY: 0.7
+  pos: { x: -30, y: -72 },
+  scaleX: 0.82,
+  scaleY: 0.82
 })
 
 /**
@@ -121,9 +121,9 @@ const setLeftCharacterDefaults = setCharacterDefaults({
  * @returns {Object|undefined} rightCharacter with default values set on thang.
  */
 const setRightCharacterDefaults = setCharacterDefaults({
-  pos: { x: 35, y: -65 },
-  scaleX: 0.7,
-  scaleY: 0.7
+  pos: { x: 30, y: -72 },
+  scaleX: 0.82,
+  scaleY: 0.82
 })
 
 /**
@@ -274,13 +274,13 @@ const heroThangTypeOriginal = character => {
 }
 
 // A camera default setting.
-export const CAMERA_DEFAULT = {
+export const CAMERA_DEFAULT = () => ({
   pos: {
     x: 0,
     y: 0
   },
   zoom: 1
-}
+})
 
 /**
  * @param {ShotStup} shotSetup
@@ -290,7 +290,7 @@ const camera = shotSetup => {
   if (!(shotSetup || {}).camera) {
     return
   }
-  return _.merge(CAMERA_DEFAULT, shotSetup.camera)
+  return _.merge(CAMERA_DEFAULT(), shotSetup.camera)
 }
 
 /**

@@ -10,3 +10,6 @@ export const HEIGHT = 768
 export const CINEMATIC_ASPECT_RATIO = HEIGHT / WIDTH
 
 export const LETTER_ANIMATE_TIME = 90
+
+// TODO: This is for content generation purposes.
+export const getHeroSlug = () => 'hero-a-cinematic'

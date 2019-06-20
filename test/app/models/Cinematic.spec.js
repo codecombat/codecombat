@@ -50,7 +50,7 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getLeftCharacterThangTypeSlug(shotFixture2)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 0.7, scaleY: 0.7, pos: { x: -30, y: -73 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 0.82, scaleY: 0.82, pos: { x: -30, y: -72 } } })
     })
 
     it('getRightCharacterThangTypeSlug', () => {
@@ -58,7 +58,7 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getRightCharacterThangTypeSlug(shotFixture1)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 0.7, scaleY: 0.7, pos: { x: 35, y: -65 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 0.82, scaleY: 0.82, pos: { x: 30, y: -72 } } })
     })
 
     it('getLeftHero', () => {

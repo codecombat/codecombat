@@ -59,8 +59,8 @@ export default class DialogSystem {
 
     if (text) {
       // Use the camera setting from the shotSetup.
-      const { pos, zoom } = getCamera(shot)
-      const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom, pos)
+      const { zoom } = getCamera(shot)
+      const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom)
       commands.push((new SpeechBubble({
         div: this.div,
         htmlString: text,
