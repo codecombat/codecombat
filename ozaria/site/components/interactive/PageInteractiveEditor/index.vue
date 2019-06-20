@@ -173,20 +173,30 @@
         </div>
       </div>
       <div class="row">
-        <ul>
-          <list-item
-            v-for="int in interactiveList"
-            :key="int.slug"
-            :text="int.name"
-            :slug="int.slug"
-            :click-handler="() => fetchInteractive(int.slug)"
-          />
-          <li>
-            <button @click="createInteractive">
-              +
-            </button>
-          </li>
-        </ul>
+        <div class="row headings">
+          <div class="col-xs-4">
+            <h2>Name</h2>
+          </div>
+          <div class="col-xs-4">
+            <h2>Slug</h2>
+          </div>
+          <div class="col-xs-4">
+            <h2>Id</h2>
+          </div>
+        </div>
+        <list-item
+          v-for="int in interactiveList"
+          :id="int._id"
+          :key="int.slug"
+          :text="int.name"
+          :slug="int.slug"
+          :click-handler="() => fetchInteractive(int.slug)"
+        />
+        <li>
+          <button @click="createInteractive">
+            +
+          </button>
+        </li>
       </div>
     </div>
 
@@ -230,5 +240,14 @@
   button {
     margin: 5px;
     padding: 5px;
+  }
+
+  .list-item:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  .headings {
+    border-bottom: 2px solid #dddddd;
+    margin-bottom: 20px
   }
 </style>

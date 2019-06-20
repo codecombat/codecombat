@@ -21,7 +21,7 @@ export const getInteractive = idOrSlug => {
 
 /**
  * Returns a list of all interactives in the database.
- * @returns {Promise<InteractiveList[]>} - List of interactives sorted by slug
+ * @returns {Promise<InteractiveList[]>} - List of interactives
  */
 export const getAllInteractives = () => fetchJson('/db/interactives')
 
