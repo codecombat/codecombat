@@ -25,6 +25,7 @@
   height: 100%
   position: fixed
   pointer-events: none
+  z-index: 10
 
 #corner1
   transform: rotate(180deg) scale(0.59) translate(66px, 38px)

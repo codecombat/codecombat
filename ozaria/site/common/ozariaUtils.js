@@ -25,7 +25,7 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
   if (_.isArray(levels)) {
     levelDataMap = getLevelDataMap(levels)
   } else {
-    levelDataMap = levels
+    levelDataMap = levels || {}
   }
   for (const [levelOriginal, level] of Object.entries(levelDataMap)) {
     const levelStatus = levelStatusMap[levelOriginal]

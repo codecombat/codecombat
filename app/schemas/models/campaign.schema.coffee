@@ -94,7 +94,7 @@ _.extend CampaignSchema.properties, {
           }
         }
       }
-      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign', default: true }
 
       #- denormalized properties from Levels are cloned below
     }
@@ -147,6 +147,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'scoreTypes'
   'isPlayedInStages'
   'ozariaType'
+  'introContent'
 ]
 hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for prop in CampaignSchema.denormalizedLevelProperties
