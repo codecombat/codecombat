@@ -87,6 +87,7 @@ const DialogNode = c.object({
   textLocation: c.object({ title: 'Text Location', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y'] }, {
     x: { title: 'x', description: 'The x coordinate.', type: 'number', 'default': 0 },
     y: { title: 'y', description: 'The y coordinate.', type: 'number', 'default': 0 } }),
+  programmingLanguageFilter: c.shortString({ enum: ['python', 'javascript'], title: 'Programming Language Filter', description: 'If set, this node is only shown if the user is using the programming language selected.' }),
   triggers: c.object({
     title: 'Triggers',
     description: 'Events that can occur during the dialogue.'

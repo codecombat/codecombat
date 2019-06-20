@@ -9,6 +9,10 @@ module.exports = Vue.extend({
     cinematicIdOrSlug: {
       type: String,
       required: true
+    },
+    userOptions: {
+      type: Object,
+      required: false
     }
   },
   data: () => ({
@@ -57,7 +61,9 @@ module.exports = Vue.extend({
       <cinematic-canvas
         v-if="cinematicData"
         v-on:completed="completedHandler"
-        :cinematicData="cinematicData" />
+        :cinematicData="cinematicData"
+        :userOptions="userOptions"
+        />
     </layout-center-content>
   </layout-chrome>
 </template>

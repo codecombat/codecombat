@@ -5,7 +5,7 @@ import CommandRunner from './commands/CommandRunner'
 import DialogSystem from './dialogsystem/DialogSystem'
 import { CameraSystem } from './CameraSystem'
 import { SoundSystem } from './SoundSystem'
-import Autoplay from './systems/autoplay';
+import Autoplay from './systems/autoplay'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -27,12 +27,19 @@ export class CinematicController {
       onPause,
       onCompletion,
       onLoaded
-    }
+    },
+    userOptions: {
+      programmingLanguage
+    } = {}
   }) {
     this.onPlay = onPlay || (() => {})
     this.onPause = onPause || (() => {})
     this.onCompletion = onCompletion || (() => {})
     this.onLoaded = onLoaded || (() => {})
+
+    this.userOptions = {
+      programmingLanguage: programmingLanguage || 'python'
+    }
 
     this.systems = {}
 
@@ -83,7 +90,7 @@ export class CinematicController {
     const data = await this.systems.loader.loadAssets()
 
     const commands = data.shots
-      .map(shot => parseShot(shot, this.systems))
+      .map(shot => parseShot(shot, this.systems, this.userOptions))
       .filter(commands => commands.length > 0)
       .reduce((acc, commands) => [...acc, ...commands], [])
 

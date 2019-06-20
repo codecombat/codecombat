@@ -19,7 +19,8 @@ import {
   getSpeakingAnimationAction,
   getSetupMusic,
   getSoundEffects,
-  getWaitUserInput
+  getWaitUserInput,
+  getLanguageFilter
 } from '../../../app/schemas/models/selectors/cinematic'
 
 /**
@@ -206,6 +207,13 @@ describe('Cinematic', () => {
       expect(getWaitUserInput({})).toEqual(true)
       expect(getWaitUserInput()).toEqual(true)
       expect(getWaitUserInput({ waitUserInput: true })).toEqual(true)
+    })
+
+    it('getLanguageFilter', () => {
+      expect(getLanguageFilter({})).toBeUndefined()
+      expect(getLanguageFilter()).toBeUndefined()
+      expect(getLanguageFilter({ programmingLanguageFilter: 'python' })).toEqual('python')
+      expect(getLanguageFilter({ programmingLanguageFilter: 'javascript' })).toEqual('javascript')
     })
   })
 })

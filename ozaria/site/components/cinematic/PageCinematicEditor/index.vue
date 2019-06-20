@@ -21,7 +21,8 @@ module.exports = Vue.extend({
       saving: false
     },
     rerenderKey: 0,
-    cinematicSlug: ""
+    cinematicSlug: '',
+    programmingLanguage: 'python'
   }),
   components: {
     'editor-list': ListItem,
@@ -190,10 +191,14 @@ module.exports = Vue.extend({
 
       <div class="row">
         <div class="col-md-6">
+          <label>User Language:</label><select v-model="programmingLanguage">
+            <option>python</option>
+            <option>javascript</option>
+          </select>
           <div id="treema-editor" ref="treemaEditor" v-once></div>
         </div>
         <div class="col-md-6" v-if="rawData">
-          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" />
+          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" :userOptions="{ programmingLanguage }" />
         </div>
       </div>
 
