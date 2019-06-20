@@ -176,6 +176,9 @@ export const getNextLevelLink = (levelData, options) => {
     if (options.codeLanguage) {
       link += `&codeLanguage=${encodeURIComponent(options.codeLanguage)}`
     }
+    if (options.nextLevelStage) {
+      link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
+    }
   } else if (options.campaignId) {
     link += `?campaignId=${encodeURIComponent(options.campaignId)}`
   }

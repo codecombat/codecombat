@@ -1127,6 +1127,7 @@ class PlayLevelView extends RootView {
       : VictoryModal
     if (this.isCourseMode() || me.isSessionless()) {
       ModalClass = CourseVictoryModal
+      options.capstoneStage = utils.getQueryVariable('capstoneStage')
     }
     if (this.level.isType('course-ladder')) {
       ModalClass = CourseVictoryModal
