@@ -211,7 +211,7 @@ IntroContentObject = {
   additionalProperties: false,
   properties: {
     type: { title: 'Content type', enum: ['cinematic', 'interactive', 'cutscene-video', 'avatarSelectionScreen'] }
-    contentSlug: { type: 'string', title: 'Content Slug' }
+    contentId: c.stringID(title: 'Content ID')
   }
 }
 
