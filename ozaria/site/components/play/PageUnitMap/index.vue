@@ -72,7 +72,7 @@
     },
     beforeDestroy () {
       if (this.ambientSound) {
-        createjs.Tween.get(this.ambientSound).to({ volume: 0.0 }, 1500).call(this.ambientSound.stop())
+        createjs.Tween.get(this.ambientSound).to({ volume: 0.0 }, 1500).call(this.ambientSound.stop)
       }
       window.removeEventListener('resize', this.onWindowResize)
     },
