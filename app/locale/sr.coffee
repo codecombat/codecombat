@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     referrer: "Од кога си чуо за нас?"
     referrer_help: "На пример: од другог наставника, конференција, твојих ученика, Code.org, итд."
     referrer_default: "Изабери једно"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Сат кода"
     referrer_teacher: "Наставник"
     referrer_admin: "Администратор"

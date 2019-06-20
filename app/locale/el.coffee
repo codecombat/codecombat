@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     referrer: "Πως άκουσες για εμάς;"
     referrer_help: "Για παράδειγμα: από άλλον δάσκαλο, σε κάποιο συνέδριο, από τους μαθητές σας, από κάποιο οργανισμό Προγραμματισμού, κλπ."
     referrer_default: "Επιλέξτε Ένα"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Ώρα του Κωδικά"
     referrer_teacher: "Δάσκαλο"
     referrer_admin: "Διαχειριστή πληροφορικής"

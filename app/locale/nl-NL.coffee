@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     referrer: "Hoe heb je over ons gehoord?"
     referrer_help: "Bijvoorbeeld: van een andere leraar, een conferentie, je leerlingen, Code.org, etc."
     referrer_default: "Kies er één"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Een leraar"
     referrer_admin: "Een administratief medewerker"

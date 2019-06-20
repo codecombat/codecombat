@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     referrer: "כיצד שמעתם עלינו?"
     referrer_help: "לדוגמה: ממורה אחר, בכנס, מתלמידים, ב-Code.org וכו'."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"

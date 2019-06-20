@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     referrer: "Bagaimana kamu mengetahui mengenai kami?"
     referrer_help: "Sebagai contoh: dari guru lain, dari konferensi, dari siswa anda, Code.org, dsb."
     referrer_default: "Pilih Salah Satu"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Guru"
     referrer_admin: "Adminstrator"

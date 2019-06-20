@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     referrer: "Com ens va conèixer?"
     referrer_help: "Per exemple: d'un altre professor, una conferència, els vostres estudiants, Code.org, etc."
     referrer_default: "Selecciona una"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Un professor"
     referrer_admin: "Un administrador"

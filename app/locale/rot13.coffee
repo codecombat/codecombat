@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     referrer: "Ubj qvq lbh urne nobhg hf?"
     referrer_help: "Sbe rknzcyr: sebz nabgure grnpure, n pbasrerapr, lbhe fghqragf, Pbqr.bet, rgp."
     referrer_default: "Fryrpg Bar"
+    referrer_conference: "Pbasrerapr (r.t. VFGR)"
     referrer_hoc: "Pbqr.bet/Ubhe bs Pbqr"
     referrer_teacher: "N grnpure"
     referrer_admin: "Na nqzvavfgengbe"
