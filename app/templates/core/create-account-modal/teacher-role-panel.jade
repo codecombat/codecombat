@@ -35,6 +35,7 @@ div.school-info-panel.text-left
           span.spl.text-muted.optional-text {{ $t("signup.optional") }}
         select.form-control(v-model="referrer" name="referrer")
           option(value='') {{ $t("teachers_quote.referrer_default") }}
+          option(value='Conference (e.g. ISTE)') {{ $t("teachers_quote.referrer_conference") }}
           option(value='Code.org/Hour of Code') {{ $t("teachers_quote.referrer_hoc") }}
           option(value='A teacher') {{ $t("teachers_quote.referrer_teacher") }}
           option(value='An administrator') {{ $t("teachers_quote.referrer_admin") }}

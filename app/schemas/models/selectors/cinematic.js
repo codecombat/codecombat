@@ -498,3 +498,9 @@ export const getWaitUserInput = dialogNode => {
   }
   return true
 }
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {string|undefined}
+ */
+export const getLanguageFilter = dialogNode => (dialogNode || {}).programmingLanguageFilter

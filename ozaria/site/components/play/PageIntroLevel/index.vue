@@ -193,6 +193,7 @@
     <cinematics-component
       v-else-if="currentContent.type == 'cinematic'"
       :cinematic-id-or-slug="currentContent.contentSlug"
+      :userOptions="{ programmingLanguage: language }"
       @completed="onContentCompleted"
     />
     <!-- TODO add when ready -->

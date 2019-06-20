@@ -32,6 +32,10 @@ export default {
     cinematicData: {
       type: Object,
       required: true
+    },
+    userOptions: {
+      type: Object,
+      required: false
     }
   },
   data: () => ({
@@ -50,6 +54,7 @@ export default {
       canvas,
       canvasDiv,
       cinematicData: this.cinematicData,
+      userOptions: this.userOptions,
       handlers: {
         onPlay: this.handlePlay,
         onPause: this.handleWait,

@@ -1,4 +1,5 @@
 import { ConcurrentCommands } from './commands'
+import { getLanguageFilter } from '../../../../app/schemas/models/selectors/cinematic'
 
 /**
  * @typedef {import('../../../../app/schemas/models/selectors/cinematic').Cinematic} Cinematic
@@ -92,9 +93,10 @@ const parseDialogNode = ({ dialogNode, systems, shot }) => {
  * @param {Object} systems The systems.
  * @returns {AbstractCommand[][]} A 2d array of commands.
  */
-export const parseShot = (shot, systems = {}) => {
+export const parseShot = (shot, systems, { programmingLanguage }) => {
   const setupCommands = parseSetup(shot, systems) || []
   const dialogNodes = (shot.dialogNodes || [])
+    .filter(node => getLanguageFilter(node) === undefined || getLanguageFilter(node) === programmingLanguage)
     .map(node => parseDialogNode({ dialogNode: node, systems, shot }))
     .filter(dialogCommands => dialogCommands.length > 0)
 
