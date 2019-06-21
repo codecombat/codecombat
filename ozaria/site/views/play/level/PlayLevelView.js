@@ -96,10 +96,10 @@ class PlayLevelView extends RootView {
     this.sessionID = utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
     this.opponentSessionID = utils.getQueryVariable('opponent') || this.options.opponent
-    this.capstoneStage =
+    this.capstoneStage = parseInt(
       utils.getQueryVariable('capstoneStage') ||
       utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
-      this.options.capstoneStage
+      this.options.capstoneStage, 10)
 
     this.gameUIState = new GameUIState()
 
