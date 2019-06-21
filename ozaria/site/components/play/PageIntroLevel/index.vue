@@ -132,7 +132,7 @@
             await this.setIntroLevelComplete()
             await this.fetchNextLevel()
             const link = this.fetchNextLevelLink()
-            if (link) {
+            if (link && !application.testing) {
               return application.router.navigate(link, { trigger: true })
             }
           }
@@ -173,7 +173,8 @@
             }
             return getNextLevelLink(this.nextLevel, nextLevelOptions)
           } else {
-            console.log('no next level found') // TODO what to do if last level of campaign
+            console.log('no next level found')
+            return `/ozaria/play/${this.campaignData.slug}`
           }
         }
       }
@@ -185,14 +186,14 @@
   <div v-if="dataLoaded">
     <interactives-component
       v-if="currentContent.type == 'interactive'"
-      :interactive-id-or-slug="currentContent.contentSlug"
+      :interactive-id-or-slug="currentContent.contentId"
       :intro-level-id="introLevelData.original"
       :course-instance-id="courseInstanceId"
       @completed="onContentCompleted"
     />
     <cinematics-component
       v-else-if="currentContent.type == 'cinematic'"
-      :cinematic-id-or-slug="currentContent.contentSlug"
+      :cinematic-id-or-slug="currentContent.contentId"
       :userOptions="{ programmingLanguage: language }"
       @completed="onContentCompleted"
     />

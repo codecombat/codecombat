@@ -14,11 +14,11 @@ const introLevel = {
   introContent: [
     {
       type: 'cinematic',
-      contentSlug: 'cinematic-slug-1'
+      contentId: 'cinematic-slug-1'
     },
     {
       type: 'interactive',
-      contentSlug: 'interactive-slug-1'
+      contentId: 'interactive-slug-1'
     }
   ]
 }

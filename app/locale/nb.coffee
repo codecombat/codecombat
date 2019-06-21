@@ -2252,6 +2252,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     wins: "Vinner" # At end of multiplayer match playback
     humans: "Rød" # Ladder page display team name
     ogres: "Blå"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
