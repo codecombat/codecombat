@@ -1,5 +1,6 @@
 import { getCamera, CAMERA_DEFAULT, getSpeaker } from '../../../app/schemas/models/selectors/cinematic'
 import { SyncFunction } from './commands/commands'
+import { LEFT_SPEAKER_CAMERA_POS, RIGHT_SPEAKER_CAMERA_POS } from './constants'
 
 /**
  * Thin wrapper on the camera to provide additional command methods.
@@ -44,9 +45,9 @@ export class CameraSystem {
     }
     const speaker = getSpeaker(dialogNode)
     if (speaker === 'left') {
-      commands.push(this.zoomToCommand({ x: -165, y: -65 }, 2))
+      commands.push(this.zoomToCommand(LEFT_SPEAKER_CAMERA_POS, 2))
     } else if (speaker === 'right') {
-      commands.push(this.zoomToCommand({ x: 165, y: -65 }, 2))
+      commands.push(this.zoomToCommand(RIGHT_SPEAKER_CAMERA_POS, 2))
     }
     return commands
   }

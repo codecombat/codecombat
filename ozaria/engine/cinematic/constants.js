@@ -11,5 +11,8 @@ export const CINEMATIC_ASPECT_RATIO = HEIGHT / WIDTH
 
 export const LETTER_ANIMATE_TIME = 90
 
+export const LEFT_SPEAKER_CAMERA_POS = { x: -165, y: -65 }
+export const RIGHT_SPEAKER_CAMERA_POS = { x: 165, y: -65 }
+
 // TODO: This is for content generation purposes.
 export const getHeroSlug = () => 'hero-a-cinematic'
