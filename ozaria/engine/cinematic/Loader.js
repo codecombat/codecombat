@@ -31,6 +31,29 @@ export default class Loader {
     this.loadPlayerThangType()
     this.loadBackgroundObjects(this.data.shots)
     await this.load()
+    // HARD CODED LOADING OF CREATEJS ASSET
+    const AdobeAn = {}
+    const movieclipDef = require('app/assets/sprite-hardcode/Isometric view_Hero 2 - Walk Right_HTML5 Canvas.js').default
+    movieclipDef(createjs, AdobeAn)
+    const loader = new createjs.LoadQueue(false)
+    const handleComplete = new Promise((resolve, reject) => loader.addEventListener("complete", resolve))
+    loader.loadFile({
+      src:"/images/segmented_sprite.png",
+      id:"Isometric view_Hero 2 _ Walk Right_HTML5 Canvas_atlas_"
+    })
+    const evt = await handleComplete
+    // HANDLE LOAD COMPLETION
+    const comp=AdobeAn.getComposition("FCE452BBC2564C9DA080716A40DEE065");
+    const lib=comp.getLibrary();
+    const ss=comp.getSpriteSheet();
+    const queue = evt.target;
+    const ssMetadata = lib.ssMetadata;
+    for(let i=0; i<ssMetadata.length; i++) {
+      ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+    }
+    // Created an easy way to share the "lib" object.
+    // This is so we can instantiate the movieclip elsewhere.
+    this.lib = lib
     return this.data
   }
 

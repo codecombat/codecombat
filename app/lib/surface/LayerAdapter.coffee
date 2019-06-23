@@ -151,7 +151,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   addLank: (lank) ->
     lank.options.resolutionFactor = @resolutionFactor
     lank.layer = @
-    @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
     lank.thangType.initPrerenderedSpriteSheets() unless utils.getQueryVariable 'jitSpritesheets'
     prerenderedSpriteSheet = lank.thangType.getPrerenderedSpriteSheet(lank.options.colorConfig, @defaultSpriteType)
@@ -262,7 +261,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       colorConfig = bundleGrouping[0].colorConfig
       actionNames = (bundle.actionName for bundle in bundleGrouping)
       args = [thangType, colorConfig, actionNames, builder]
-      if thangType.get('raw') or thangType.get('prerenderedSpriteSheetData')
+      if thangType.get('spriteType') is 'animate'
+        # Do nothing.
+        console.warn "Don't need render because we prerender these"
+      else if thangType.get('raw') or thangType.get('prerenderedSpriteSheetData')
         if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented'
           @renderSegmentedThangType(args...)
         else
@@ -505,7 +507,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.regX = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH / 2
       sprite.regY = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
       sprite.baseScaleX = sprite.baseScaleY = sprite.scaleX = sprite.scaleY = 10 / (@resolutionFactor * SPRITE_PLACEHOLDER_WIDTH)
-
+    else if lank.thangType.get('spriteType') is 'animate'
+      # Hard coded movieclip as an example...
+      # We would wrap this in a "animate" sprite type
+      # Because lank requires some other methods.
+      sprite = new this.lib.Isometricview_Hero2WalkRight_HTML5Canvas();
+      
     else if lank.thangType.get('raster')
       sprite = new createjs.Sprite(@spriteSheet)
       scale = lank.thangType.get('scale') or 1
@@ -524,7 +531,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     sprite.camera = @camera
     sprite.layerPriority = lank.thang?.layerPriority ? lank.thangType.get 'layerPriority'
     sprite.name = lank.thang?.spriteName or lank.thangType.get 'name'
-    lank.setSprite(sprite)
+    # Lank would delete the parent when it's on animate mode.
+    lank.setSprite(sprite) unless lank.thangType.get('spriteType') is 'animate'
     lank.update(true)
     @container.addChild(sprite)
     lank.updateScale true if lank.thangType.get 'matchWorldDimensions'  # Otherwise it's at the wrong scale for some reason.

@@ -41,7 +41,20 @@ export class CinematicController {
       programmingLanguage: programmingLanguage || 'python'
     }
 
+    this.startUp({ canvasDiv, canvas, cinematicData })
+  }
+
+  /**
+   * Method that loads and initializes the cinematic.
+   *
+   *
+   * Finally we run the cinematic runner.
+   */
+  async startUp ({ canvasDiv, canvas, cinematicData }) {
     this.systems = {}
+
+    this.systems.loader = new Loader({ data: cinematicData })
+    const data = await this.systems.loader.loadAssets()
 
     this.stage = new createjs.StageGL(canvas)
     const camera = new Camera($(canvas))
@@ -49,12 +62,13 @@ export class CinematicController {
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
 
     this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
+    this.layerAdapter.lib = this.systems.loader.lib
     this.backgroundAdapter = new LayerAdapter({ name: 'Background', webGL: true, camera: camera })
     this.stage.addChild(this.backgroundAdapter.container)
     this.stage.addChild(this.layerAdapter.container)
 
     this.systems.cameraSystem = new CameraSystem(camera)
-    this.systems.loader = new Loader({ data: cinematicData })
+
     this.systems.sound = new SoundSystem()
     this.systems.autoplay = new Autoplay()
 
@@ -77,17 +91,6 @@ export class CinematicController {
 
     this.commands = []
 
-    this.startUp()
-  }
-
-  /**
-   * Method that loads and initializes the cinematic.
-   *
-   *
-   * Finally we run the cinematic runner.
-   */
-  async startUp () {
-    const data = await this.systems.loader.loadAssets()
 
     const commands = data.shots
       .map(shot => parseShot(shot, this.systems, this.userOptions))

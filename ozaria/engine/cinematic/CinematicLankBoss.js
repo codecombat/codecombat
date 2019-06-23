@@ -17,6 +17,7 @@ import {
   getSpeaker
 } from '../../../app/schemas/models/selectors/cinematic'
 import { LETTER_ANIMATE_TIME } from './constants'
+const ThangType = require('models/ThangType')
 
 export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
 const OFF_CAMERA_OFFSET = 20
@@ -55,6 +56,14 @@ export default class CinematicLankBoss {
     this.camera = camera
     this.loader = loader
     this.lanks = {}
+    // CREATE A MOCK THANG ON ALL CINEMATICS
+    // THIS WOULD CONTAIN THE DATA THAT HAS:
+    //  - ANIMATE JS FILE
+    //  - ANIMATE SEGMENTED FILE
+    this.addLank('test', new ThangType({
+      actions: { idle: { animation: 'hard-coded' } },
+      spriteType: 'animate'
+    }), createThang())
   }
 
   get stageBounds () {

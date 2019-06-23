@@ -59,11 +59,11 @@ export default {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
         onCompletion: () => this.$emit('completed'),
-        onLoaded: this.userInterruptionEvent
+        onLoaded: () => this.onResize() || this.userInterruptionEvent
       }})
     window.addEventListener('keypress', this.handleKeyboardCancellation)
     window.addEventListener('resize', this.onResize)
-    this.onResize()
+    
   },
   methods: {
     handlePlay: function() {
