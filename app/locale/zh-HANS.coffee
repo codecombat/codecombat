@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     referrer: "您是怎么知道我们的？"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     referrer_default: "选择一个"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "老师"
     referrer_admin: "管理员"
