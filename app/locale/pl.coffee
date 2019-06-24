@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     referrer: "Jak się o nas dowiedziałeś?"
     referrer_help: "Na przykład: od innego nauczyciela, na konferencji, od swoich uczniów, Code.org, itp."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
