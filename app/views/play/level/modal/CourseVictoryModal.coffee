@@ -32,6 +32,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @session = options.session
     @level = options.level
+    @capstoneStage = options.capstoneStage
 
     if @courseInstanceID
       @classroom = new Classroom()
@@ -166,10 +167,11 @@ module.exports = class CourseVictoryModal extends ModalView
       nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels)
     else if @campaign # fetch next based on course's campaign levels (for teachers)
       currentLevel = @campaign.levels[@level.get('original')]
-      # TODO how to get current level stage for capstone and load capstone from the next stage, if there is no level session
-      # if (currentLevel.isPlayedInStages)
-      #   currentLevelStage = ?
-      nextLevelOriginal = (getNextLevelForLevel(currentLevel) || {}).original
+      if (currentLevel.isPlayedInStages && @capstoneStage) # @capstoneStage comes from PlayLevelView's query params
+        currentLevelStage = @capstoneStage
+      nextLevelData = getNextLevelForLevel(currentLevel, currentLevelStage) || {}
+      nextLevelOriginal = nextLevelData.original
+      @nextLevelStage = nextLevelData.nextLevelStage
     if nextLevelOriginal
       return api.levels.getByOriginal(nextLevelOriginal)
     else
@@ -197,6 +199,7 @@ module.exports = class CourseVictoryModal extends ModalView
   showVictoryComponent: ->
     propsData = {
       nextLevel: @nextLevel.toJSON(),
+      nextLevelStage: @nextLevelStage
       nextAssessment: @nextAssessment.toJSON()
       level: @level.toJSON(),
       session: @session.toJSON(),

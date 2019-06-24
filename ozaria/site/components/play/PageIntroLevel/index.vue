@@ -45,7 +45,8 @@
       language: '',
       campaignData: {},
       nextLevel: {},
-      dataLoaded: false
+      dataLoaded: false,
+      nextLevelStage: undefined
     }),
     computed: Object.assign(
       {},
@@ -152,10 +153,11 @@
         fetchNextLevel: async function () {
           try {
             const currentLevel = this.campaignData.levels[this.introLevelData.original]
-            const nextLevelOriginal = (getNextLevelForLevel(currentLevel) || {}).original
+            const nextLevelData = getNextLevelForLevel(currentLevel) || {}
+            const nextLevelOriginal = nextLevelData.original
+            this.nextLevelStage = nextLevelData.nextLevelStage
             if (nextLevelOriginal) {
               this.nextLevel = await api.levels.getByOriginal(nextLevelOriginal)
-              // TODO If next level is played in stages, how to load it from a certain stage if there is no level session, i.e. for teachers?
             }
           } catch (err) {
             console.error('Error in fetching next level', err)
@@ -169,7 +171,8 @@
               courseId: this.courseId,
               courseInstanceId: this.courseInstanceId,
               campaignId: this.campaignId,
-              codeLanguage: this.codeLanguage
+              codeLanguage: this.codeLanguage,
+              nextLevelStage: this.nextLevelStage
             }
             return getNextLevelLink(this.nextLevel, nextLevelOptions)
           } else {
