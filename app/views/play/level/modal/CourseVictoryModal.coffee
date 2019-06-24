@@ -32,7 +32,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @session = options.session
     @level = options.level
-    @capstoneStage = Number(options.capstoneStage)
+    @capstoneStage = options.capstoneStage
 
     if @courseInstanceID
       @classroom = new Classroom()

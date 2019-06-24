@@ -131,7 +131,7 @@ export const getLevelStatusMap = (sessions) => {
  * @param {number} capstoneStage - Stage of 1FH capstone level for which we need the next level
  * @returns {Object} - Next level object containing 'Original' id and next level's stage.
  */
-export const getNextLevelForLevel = (level, capstoneStage) => {
+export const getNextLevelForLevel = (level, capstoneStage = 1) => {
   const nextLevels = level.nextLevels || {}
   let nextLevel = []
   if (capstoneStage && level.isPlayedInStages) {
