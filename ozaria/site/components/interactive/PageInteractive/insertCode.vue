@@ -14,7 +14,7 @@ export default {
     interactiveSession: {
       type: Object
     },
-    courseInstanceId: {
+    codeLanguage: {
       type: String
     }
   }

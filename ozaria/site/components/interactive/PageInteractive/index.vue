@@ -4,6 +4,7 @@ import { getInteractive, getSession } from '../../../api/interactive'
 import draggableOrderingComponent from './draggableOrdering'
 import insertCodeComponent from './insertCode'
 import draggableStatementCompletionComponent from './draggableStatementCompletion'
+import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
 
 module.exports = Vue.extend({
   props: {
@@ -17,8 +18,9 @@ module.exports = Vue.extend({
       required: true,
       default: ''
     },
-    courseInstanceId: {
-      type: String
+    codeLanguage: {
+      type: String,
+      default: defaultCodeLanguage
     }
   },
   data: () => ({
@@ -59,9 +61,9 @@ module.exports = Vue.extend({
         if (!me.isSessionless()) { // not saving progress/session for teachers
           const getSessionOptions = {
             introLevelId: this.introLevelId,
-            courseInstanceId: this.courseInstanceId
+            codeLanguage: this.codeLanguage
           }
-          this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions )
+          this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions)
         }
       } catch (err) {
         console.error("Error:", err)
@@ -79,7 +81,7 @@ module.exports = Vue.extend({
       :interactive="interactive"
       :introLevelId="introLevelId"
       :interactiveSession="interactiveSession"
-      :courseInstanceId="courseInstanceId"
+      :codeLanguage="codeLanguage"
       v-on:completed="onCompleted">
     </draggable-ordering>
     <insert-code
@@ -87,7 +89,7 @@ module.exports = Vue.extend({
       :interactive="interactive"
       :introLevelId="introLevelId"
       :interactiveSession="interactiveSession"
-      :courseInstanceId="courseInstanceId"
+      :codeLanguage="codeLanguage"
       v-on:completed="onCompleted">
     </insert-code>
     <draggable-statement-completion
@@ -95,7 +97,7 @@ module.exports = Vue.extend({
       :interactive="interactive"
       :introLevelId="introLevelId"
       :interactiveSession="interactiveSession"
-      :courseInstanceId="courseInstanceId"
+      :codeLanguage="codeLanguage"
       v-on:completed="onCompleted">
     </draggable-statement-completion>
   </div>
