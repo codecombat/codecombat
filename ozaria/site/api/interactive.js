@@ -63,9 +63,8 @@ export const getSession = (idOrSlug, options = {}) => {
   if (!idOrSlug) {
     throw new Error(`No slug/id supplied`)
   }
-  if (options.courseInstanceId) {
-    return fetchJson(`/db/interactive/${idOrSlug}/session?introLevelId=${options.introLevelId}&courseInstanceId=${options.courseInstanceId}`)
-  } else {
-    return fetchJson(`/db/interactive/${idOrSlug}/session?introLevelId=${options.introLevelId}`)
-  }
+  return fetchJson(`/db/interactive/${idOrSlug}/session`, {
+    method: 'GET',
+    data: options
+  })
 }

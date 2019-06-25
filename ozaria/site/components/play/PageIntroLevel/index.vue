@@ -191,7 +191,7 @@
       v-if="currentContent.type == 'interactive'"
       :interactive-id-or-slug="currentContent.contentId"
       :intro-level-id="introLevelData.original"
-      :course-instance-id="courseInstanceId"
+      :code-language="language"
       @completed="onContentCompleted"
     />
     <cinematics-component
