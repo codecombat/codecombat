@@ -33,7 +33,7 @@ export default class Loader {
     await this.load()
     // HARD CODED LOADING OF CREATEJS ASSET
     const AdobeAn = {}
-    const movieclipDef = require('app/assets/sprite-hardcode/Isometric view_Hero 2 - Walk Right_HTML5 Canvas.js').default
+    const movieclipDef = require('app/assets/hardcoded/Isometric view_Hero 2 - Walk Right_HTML5 Canvas.js').default
     movieclipDef(createjs, AdobeAn)
     const loader = new createjs.LoadQueue(false)
     const handleComplete = new Promise((resolve, reject) => loader.addEventListener("complete", resolve))
