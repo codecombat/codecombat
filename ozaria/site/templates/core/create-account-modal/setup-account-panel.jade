@@ -1,0 +1,34 @@
+.setup-account-panel.text-left
+  .p-a-3
+    div.text-center(v-if="saving")
+      | {{ $t("common.saving") }}
+    div.text-center(v-else-if="error")
+      | {{ $t("loading_error.error") }}
+      =": "
+      | {{ error }}
+    div(v-else)
+      h3.text-center {{ $t("signup.teacher_ready_to_create_class") }}
+      p.m-t-3 {{ $t("signup.teacher_students_can_start_now") }}
+      ol
+        li {{ $t("signup.teacher_list_create_class") }}
+        li {{ $t("signup.teacher_list_add_students") }}
+        li
+          span {{ $t("signup.teacher_list_resource_hub_1") }}
+          =" "
+          a(href="/teachers/courses") {{ $t("signup.teacher_list_resource_hub_2") }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_3") }}
+          =" "
+          a(href="/teachers/resources") {{ $t("signup.teacher_list_resource_hub_4") }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_5") }}
+      span(v-html="$t('signup.teacher_additional_questions', {supportEmail: supportEmail})")
+
+    br
+    div.text-center
+      input#subscribe-input(type="checkbox" name="subscribe" v-bind:checked="!inEU")
+      span.spl {{ $t("signup.teacher_email_announcements") }}
+
+  .history-nav-buttons
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack" v-if="error") {{ $t("common.back") }}
+    button.next-button.btn.btn-lg.btn-navy(v-on:click="clickFinish" v-else-if="!saving") {{ $t("signup.finish") }}

@@ -1,0 +1,31 @@
+//- DNT
+.modal-dialog
+  .modal-content
+    img#modal-background(src="/images/pages/play/modal/announcement_modal_bg.png")
+    h1 Do you like Minecraft?
+    #close-modal
+      span.glyphicon.glyphicon-remove
+    #mine-content
+      #image-content
+        img#pickaxe(src="/images/minecraft/icon_stone_pick.png")
+        img#hands(src="/images/minecraft/hans4.png")
+      #text-content
+        #details-header Play CodeCombat in Minecraft!
+        br
+        #info-text
+          ul
+            li Access a private Minecraft server where you can script the world
+            li Write code to change the world around you
+            li Control units to mine, build, and fight for your avatar
+        #capacity-text
+          div We are not currently accepting additional beta users for CodeCombat Minecraft, but hope to make more available in the future.
+          form#notify-me-form
+            .checkbox
+              label
+                // NOTE: This needs to be written as HTML or it won't pick up contained text
+                <input id="notify-me-check" type="checkbox"> Yes, please notify me about the CodeCombat Minecraft beta
+        #button-container
+          button#buy-now-button.btn.btn-lg.btn-illustrated.purchase-button
+            span= "Buy Now $" + (view.price ? view.price : "...") + "/"
+            span.no-text-transform mo
+          button#submit-button.btn.btn-lg.btn-illustrated.sale-button Submit

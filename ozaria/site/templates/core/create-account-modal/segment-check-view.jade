@@ -1,0 +1,76 @@
+form.modal-body.segment-check
+  .modal-body-content
+    case view.signupState.get('path')
+      when 'student'
+        span(data-i18n="signup.enter_class_code")
+        .class-code-input-group.form-group
+          input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
+          .render
+            unless _.isEmpty(view.signupState.get('classCode'))
+              if state.get('classCodeValid')
+                span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+              else
+                span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
+        
+        p.render
+          if _.isEmpty(view.signupState.get('classCode'))
+            span(data-i18n="signup.ask_teacher_1")
+          else if state.get('classCodeValid')
+            span.small(data-i18n="signup.about_to_join")
+            br
+            span.classroom-name= view.classroom.get('name')
+            br
+            if view.classroom.owner.get('firstName')
+              span.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+            else if view.classroom.owner.get('name')
+              span.teacher-name= view.classroom.owner.get('name')
+          else
+            span(data-i18n="signup.classroom_not_found")
+          if me.showIndividualRegister() && (_.isEmpty(view.signupState.get('classCode')) || !state.get('classCodeValid'))
+            br
+            span.spr(data-i18n="signup.ask_teacher_2")
+            a.individual-path-button
+              span(data-i18n="signup.ask_teacher_3")
+            span.spl(data-i18n="signup.ask_teacher_4")
+          
+      when 'teacher'
+        // TODO
+      when 'individual'
+        if view.signupState.get('subModalContinue')
+          span(data-i18n="signup.sign_in_to_continue")
+          br
+        .birthday-form-group.form-group
+          span(data-i18n="signup.enter_birthdate")
+          .input-border
+            select#birthday-month-input.input-large.form-control(name="birthdayMonth", style="width: 106px; float: left")
+              option(value='',data-i18n="calendar.month")
+              for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']
+                - var month = index + 1
+                option(data-i18n="calendar.#{name}" value=month, selected=(month == view.signupState.get('birthdayMonth')))
+            select#birthday-day-input.input-large.form-control(name="birthdayDay", style="width: 75px; float: left")
+              option(value='',data-i18n="calendar.day")
+              for day in _.range(1,32)
+                option(selected=(day == view.signupState.get('birthdayDay'))) #{day}
+            select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px; float: left")
+              option(value='',data-i18n="calendar.year")
+              - var thisYear = new Date().getFullYear()
+              for year in _.range(thisYear, thisYear - 100, -1)
+                option(selected=(year == view.signupState.get('birthdayYear'))) #{year}
+        .parent_birthdate(data-i18n="signup.parent_use_birthdate")
+
+      default
+        p
+          span Sign-up error, please contact 
+          =" "
+          a(href="mailto:support@codecombat.com") support@codecombat.com
+          | .
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    //- disabled=!view.signupState.get('segmentCheckValid')
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="common.continue")
+
+    if !view.signupState.get('subModalContinue')
+      button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
+        span(data-i18n="common.back")
