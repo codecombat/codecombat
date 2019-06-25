@@ -69,7 +69,7 @@ module.exports = class LadderView extends RootView
     if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000}[@levelID]
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
-    @displayTabContent = 'block'
+    @displayTabContent = 'display: block'
 
     @loadLeague()
     @urls = require('core/urls')
@@ -81,7 +81,7 @@ module.exports = class LadderView extends RootView
       return if @destroyed
       if data?[0]?.currentTournament isnt 'magic-rush'
         @tournamentEnd = true
-        @displayTabContent = 'none'
+        @displayTabContent = 'display: none'
       else
         setTimeout @checkForTournamentEnd, 60 * 1000
 
