@@ -27,7 +27,6 @@
       span(v-if="classToShow === 'incomplete'").goal-status.incomplete {{ $t("play_level.incomplete") }}
       span(v-if="classToShow === 'timed-out'").goal-status.timed-out {{ $t("play_level.timed_out") }}
       span(v-if="classToShow === 'failing'").goal-status.failure {{ $t("play_level.failing") }}
-
 </template>
 
 <script lang="coffee">
@@ -67,7 +66,7 @@
     }
 
     components: {
-      LevelGoal
+      'level-goal': LevelGoal
     }
   })
 </script>
@@ -105,7 +104,4 @@
   
   #concept-goals-list
     margin-left: 20px
-
-
-
 </style>

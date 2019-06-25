@@ -1,11 +1,21 @@
-<template lang="pug">
-  li(:class="goalClass" v-if="showGoal")
-    i(v-if="state.status === 'incomplete' && isConceptGoal")=" • "
-    i.glyphicon(:class="iconClass" v-else)
-    | {{ goalText }}
+<template>
+  <li>
+    <i class="rectangle"></i>
+    <img v-if="state.status === 'complete'"
+         class="check-mark" alt="Checked box"
+         src="/public/images/ozaria/level/check_mark.png" />
+
+    {{ goalText }}
+  </li>
 </template>
 
 <script lang="coffee">
+
+#  li(:class="goalClass" v-if="showGoal")
+#  i(v-if="state.status === 'incomplete' && isConceptGoal")=" • "
+#  i.glyphicon(:class="iconClass" v-else)
+#  | {{ goalText }}
+
   {me} = require 'core/auth'
   utils = require 'core/utils'
 
@@ -48,19 +58,20 @@
   })
 </script>
 
-<style lang="sass" scoped>
-  li
-    list-style: none
-    margin-right: 5px
-    i
-      margin-right: 5px
+<style scoped>
+  .rectangle {
+    height: 18px;
+    width: 18px;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    box-shadow: inset 1px 1px 3px 0 #5D73E1;
+  }
 
-  li.status-incomplete
-    color: #333
-
-  li.status-failure
-    color: darkred
-
-  li.status-success
-    color: darkgreen
+  .check-mark {
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    bottom: 20%;
+    z-index: 5;
+  }
 </style>
