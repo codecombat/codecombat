@@ -63,8 +63,8 @@ export const getSession = (idOrSlug, options = {}) => {
   if (!idOrSlug) {
     throw new Error(`No slug/id supplied`)
   }
-  return fetchJson(`/db/interactive/${idOrSlug}/session`, _.assign({}, {
+  return fetchJson(`/db/interactive/${idOrSlug}/session`, {
     method: 'GET',
     data: options
-  }))
+  })
 }
