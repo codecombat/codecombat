@@ -15,6 +15,9 @@
         :height="height"
         :style="{ width: width+'px', height: height+'px' }">
       </canvas>
+      <div id="click-anywhere">
+        <span>Click anywhere to Continue</span>
+      </div>
     </div>
   </div>
 </template>
@@ -144,5 +147,22 @@ export default {
   border-image-slice: 50 50 50 100 fill
   border-image-width: 40px 40px 40px 80px
   border-image-outset: 10px 15px 15px 58px
+
+#click-anywhere
+  font-size: 18px
+  text-align: center
+  color: #000000
+  letter-spacing: 0.75px
+  line-height: 24px
+  span
+    position: absolute
+    top: 5.1%
+    right: 5.1%
+    height: 38px
+    width: 303px
+    padding-top: 6px
+    border-radius: 19px
+    background-color: #D8DBE8
+    border: 1px solid #AAABAF
 
 </style>
