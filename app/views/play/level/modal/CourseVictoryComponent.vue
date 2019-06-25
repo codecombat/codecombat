@@ -116,7 +116,7 @@
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
-    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
+    props: ['nextLevel', 'nextLevelStage', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
     components: {
       PieChart
     }
@@ -144,7 +144,8 @@
             linkOptions = {
               courseId: @course._id,
               courseInstanceId: @courseInstanceID,
-              codeLanguage: utils.getQueryVariable('codeLanguage', 'python')
+              codeLanguage: utils.getQueryVariable('codeLanguage', 'python'),
+              nextLevelStage: @nextLevelStage
             }
             link = getNextLevelLink(@nextLevel, linkOptions)
           else if me.isSessionless()

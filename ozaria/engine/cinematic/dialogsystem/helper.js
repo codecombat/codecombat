@@ -91,26 +91,20 @@ export function wrapText (htmlString, wrapLetterString, wrapWordString) {
  *
  * @param {'left'|'right'} speaker
  * @param {number} cameraZoom
- * @param {Object} cameraPosition
- * @param {number} cameraPosition.x
  */
-export function getDefaultTextPosition (speaker, cameraZoom, { x }) {
-  const cameraX = x
+export function getDefaultTextPosition (speaker, cameraZoom) {
   // Handling special cases of zoom, checking if speaker is in frame.
   if (speaker === 'left') {
     if (cameraZoom === 1) {
-      return { x: 550, y: 330 }
-    }
-    // Then zoom must be 2.
-    if (cameraX < -145) {
+      return { x: 540, y: 280 }
+    } else if (cameraZoom === 2) {
       return { x: 800, y: 250 }
     }
   } else if (speaker === 'right') {
     if (cameraZoom === 1) {
-      return { x: 850, y: 300 }
-    }
-    if (cameraX > 145) {
-      return { x: 550, y: 250 }
+      return { x: 875, y: 280 }
+    } else if (cameraZoom === 2) {
+      return { x: 600, y: 300 }
     }
   }
   // Default to center
