@@ -165,5 +165,4 @@ export default {
     background-color: #D8DBE8
     border: 1px solid #AAABAF
 
-
 </style>
