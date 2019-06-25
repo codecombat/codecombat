@@ -48,6 +48,9 @@ module.exports = class LadderView extends RootView
     if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
       @leagueID = @leagueType = null
 
+    if features.china and @levelID == 'magic-rush'
+      @checkForTournamentEnd()
+
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
       @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
@@ -66,8 +69,23 @@ module.exports = class LadderView extends RootView
     if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000}[@levelID]
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
+    @displayTabContent = 'block'
+
     @loadLeague()
     @urls = require('core/urls')
+
+  checkForTournamentEnd: =>
+    console.log @destroyed
+    return if @destroyed
+    return false if me.isAdmin()
+    $.get '/db/mandate', (data) =>
+      console.log data
+      return if @destroyed
+      if data?[0]?.currentTournament isnt 'magic-rush'
+        @tournamentEnd = true
+        @displayTabContent = 'none'
+      else
+        setTimeout @checkForTournamentEnd, 60 * 1000
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'

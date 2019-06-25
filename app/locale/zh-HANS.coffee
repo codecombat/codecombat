@@ -2256,6 +2256,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     live_tournament: "最近的比赛"
     awaiting_tournament_title: "比赛未开始"
     awaiting_tournament_blurb: "比赛将于6月22日下午开启，敬请期待"
+    tournament_end_desc: "比赛已结束，感谢您的参与"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
