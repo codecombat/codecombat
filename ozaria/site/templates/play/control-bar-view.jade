@@ -1,0 +1,58 @@
+- var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course) || view.level.isType('course-ladder');
+if includeHomeLink
+  .left-cap
+.right-cap
+.center-chain
+.right-chain
+.wood-background
+
+if includeHomeLink
+  .levels-link-area
+    a.levels-link(href=homeLink || "/", dir="ltr")
+      .glyphicon.glyphicon-play
+      span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.map")).home-text
+
+.level-name-area-container
+  .level-name-area
+    if view.course
+      .level-label= i18n(view.course.attributes, 'name')
+    .level-name(title=difficultyTitle || "")
+      if view.levelName
+        span(dir="auto")= view.levelName
+      else
+        - var levelNumberLabel = ''
+        if view.level && view.level.get('assessment')
+          - levelNumberLabel = $.i18n.t('courses.challenge') + ' '
+        else if view.levelNumber
+          - levelNumberLabel = view.levelNumber + '. '
+        span(dir="auto") #{levelNumberLabel}#{worldName.replace('Course: ', '')}
+      if levelDifficulty
+        sup.level-difficulty= levelDifficulty
+
+.buttons-area
+
+  if !observing
+    button.btn.btn-inverse#game-menu-button(data-i18n="[title]play_level.show_menu", title="Show game menu")
+      .hamburger
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      span.game-menu-text(data-i18n="play_level.game_menu") Game Menu
+
+  if spectateGame
+    button.btn.btn-xs.btn-inverse.banner#next-game-button(data-i18n="play_level.next_game") Next game
+
+  if !observing
+    button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
+
+  if me.get('anonymous') && !features.noAuth
+    button.btn.btn-xs.btn-primary.banner#control-bar-sign-up-button(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="signup.sign_up")
+
+  if me.isAdmin()
+    - var otherVersion = view.course ? 'Home' : 'Classroom'
+    button.btn.btn-xs.btn-inverse.banner#version-switch-button
+      span= otherVersion
+      span= ' '
+      span.code-language-selector(data-code-language='javascript') JS
+      span= ' | '
+      span.code-language-selector(data-code-language='python') PY

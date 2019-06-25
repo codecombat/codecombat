@@ -1,0 +1,23 @@
+.duel-stats-background
+for player in view.players
+  div(class="player-container team-" + player.team)
+    .player-portrait
+      .thang-avatar-placeholder
+    .player-info
+      .name-and-power
+        if view.showsPower
+          .player-power
+            .power-icon
+            .power-value
+        if view.options.showsGold
+          .player-gold
+            .gold-icon
+            .gold-value
+        .player-name= player.name || 'Anonymous'
+      .player-health
+        .health-icon
+        .health-bar-container
+          .health-bar
+        .health-value
+
+
