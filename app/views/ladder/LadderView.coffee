@@ -75,11 +75,9 @@ module.exports = class LadderView extends RootView
     @urls = require('core/urls')
 
   checkForTournamentEnd: =>
-    console.log @destroyed
     return if @destroyed
     return false if me.isAdmin()
     $.get '/db/mandate', (data) =>
-      console.log data
       return if @destroyed
       if data?[0]?.currentTournament isnt 'magic-rush'
         @tournamentEnd = true
