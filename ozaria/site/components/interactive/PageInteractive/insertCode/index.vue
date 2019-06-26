@@ -10,10 +10,12 @@
 
   const SAMPLE_CODE = `
           let x = "y"
-
+          # This is the line to replace
           let a = "b"
           console.log(x + a)
           `
+  // This is 1 indexed. The first line is 1 not 0.
+  const LINE_TO_REPLACE = 4
 
   export default {
     components: {
@@ -45,6 +47,10 @@
 
     data () {
       const langauge = (this.codeLanguage || "").toLowerCase() === 'javascript' ? 'javascript' : 'python'
+      // selectedAnswer starts with the `lineToReplace` line from SAMPLE_CODE.
+      // TODO handle_error_ozaria - this can crash with invalid input.
+      const startingLine = SAMPLE_CODE.trim().split('\n')[LINE_TO_REPLACE-1].trim()
+
       return {
         codemirrorOptions: {
           tabSize: 2,
@@ -53,7 +59,7 @@
           readOnly: 'nocursor'
         },
 
-        selectedAnswer: undefined
+        selectedAnswer: { id: -1, line: startingLine }
       }
     },
 
@@ -64,14 +70,9 @@
           .split('\n')
           .map(line => line.trim())
 
-        let emptyIndex = splitSampleCode.indexOf('')
-        if (emptyIndex === -1) {
-          emptyIndex = splitSampleCode.length
-        }
-
         return [
-          splitSampleCode.slice(0, emptyIndex).join('\n'),
-          splitSampleCode.slice(emptyIndex + 1).join('\n')
+          splitSampleCode.slice(0, LINE_TO_REPLACE-1).join('\n'),
+          splitSampleCode.slice(LINE_TO_REPLACE).join('\n')
         ]
       },
 
@@ -83,7 +84,7 @@
           selectedAnswerLine = this.selectedAnswer.line.trim()
         }
 
-        return `${splitSampleCode[0]}\n${selectedAnswerLine}\n${splitSampleCode[1]}`
+        return `${splitSampleCode[0]}\n${selectedAnswerLine}\n${splitSampleCode[1]}`.trim()
       },
 
       answerOptions () {
