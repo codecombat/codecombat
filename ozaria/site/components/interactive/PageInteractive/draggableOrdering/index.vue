@@ -1,6 +1,7 @@
 <script>
   import BaseInteractiveTitle from '../common/BaseInteractiveTitle'
   import OrderingSlots from './OrderingSlots'
+  import Sortable from 'sortablejs'
 
   export default {
     components: {
@@ -42,6 +43,18 @@
 
         answerSlots: (new Array(4)).fill(undefined)
       }
+    },
+
+    mounted () {
+      const draggableUl = this.$refs['draggable-col']
+      Sortable.create(draggableUl, {
+        swap: true,
+        onChange: e => {
+          const temp = this.promptSlots[e.oldIndex]
+          this.promptSlots[e.oldIndex] = this.promptSlots[e.newIndex]
+          this.promptSlots[e.newIndex] = temp
+        }
+      })
     }
   }
 </script>
@@ -53,13 +66,11 @@
     />
 
     <div class="prompt-row">
-      <ordering-slots
-        v-model="promptSlots"
-
-        :draggable-group="draggableGroup"
-
-        class="ordering-column"
-      />
+      <div id='draggable-col' class='slots-container' key="draggable-col" ref="draggable-col">
+        <ul v-for="prompt in promptSlots" class="draggable-slot" :key="prompt.id">
+          <li>{{ prompt.text }}</li>
+        </ul>
+      </div>
 
       <ordering-slots
         v-model="answerSlots"
@@ -122,4 +133,28 @@
       }
     }
   }
+
+  .slots-container {
+    width: 25%;
+    margin-right: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    /deep/ .draggable-slot {
+      height: 53px;
+      border: 1px solid black;
+
+      padding: 0;
+      list-style: none;
+      width: 100%;
+      li {
+        text-align: center;
+      }
+    }
+  }
+
 </style>
