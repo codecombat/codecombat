@@ -173,7 +173,8 @@ block content
       li
         a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
-  div.tab-content(style=view.displayTabContent) //don't render when tournament is ended in order to control page height
+  //don't render when tournament is ended in order to control page height
+  div.tab-content(style=view.displayTabContent)
     .tab-pane.active.well#ladder
       #ladder-tab-view
     .tab-pane.well#my-matches
