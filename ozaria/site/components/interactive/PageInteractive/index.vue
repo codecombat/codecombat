@@ -1,7 +1,7 @@
 <script>
   import { getInteractive, getSession } from '../../../api/interactive'
   import draggableOrderingComponent from './draggableOrdering/index'
-  import insertCodeComponent from './insertCode'
+  import insertCodeComponent from './insertCode/index'
   import draggableStatementCompletionComponent from './draggableStatementCompletion/index'
   import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
 
@@ -91,6 +91,7 @@
               introLevelId: this.introLevelId,
               codeLanguage: this.codeLanguage
             }
+            // TODO: throws error regarding intro and language session
             this.interactiveSession = await getSession(this.interactiveIdOrSlug, getSessionOptions)
           }
         } catch (err) {
@@ -116,7 +117,7 @@
       :interactive="interactive"
       :intro-level-id="introLevelId"
       :interactive-session="interactiveSession"
-      :code-language="courseInstanceId"
+      :code-language="codeLanguage"
       @completed="onCompleted"
     />
   </div>

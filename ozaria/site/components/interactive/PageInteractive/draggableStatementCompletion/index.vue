@@ -1,8 +1,8 @@
 <script>
   import draggable from 'vuedraggable'
 
-  import StatementSlot from '../BaseDraggableSlot'
-  import BaseInteractiveTitle from '../BaseInteractiveTitle'
+  import StatementSlot from '../common/BaseDraggableSlot'
+  import BaseInteractiveTitle from '../common/BaseInteractiveTitle'
 
   export default {
     components: {
@@ -28,8 +28,7 @@
       },
 
       codeLanguage: {
-        type: String,
-        default: undefined
+        type: String
       }
     },
 
@@ -59,7 +58,7 @@
 </script>
 
 <template>
-  <div class="insert-code-container">
+  <div class="draggable-statement-completion">
     <base-interactive-title
       :interactive="interactive"
     />
@@ -99,7 +98,7 @@
 </template>
 
 <style lang="scss" scoped>
-  .insert-code-container {
+  .draggable-statement-completion {
     padding: 75px;
 
     display: flex;

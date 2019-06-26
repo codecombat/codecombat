@@ -1,5 +1,5 @@
 <script>
-  import BaseDraggableSlot from '../BaseDraggableSlot'
+  import BaseDraggableSlot from '../common/BaseDraggableSlot'
 
   export default {
     components: {
@@ -12,11 +12,6 @@
         required: true
       },
 
-      numSlots: {
-        type: Number,
-        default: undefined
-      },
-
       value: {
         type: Array,
         default: () => ([])
@@ -24,17 +19,8 @@
     },
 
     data () {
-      let slotData = []
-
-      if (typeof this.numSlots !== 'undefined') {
-        slotData = Array(this.numSlots)
-          .fill(undefined)
-      } else {
-        slotData = this.value
-      }
-
       return {
-        slotData
+        slotData: this.value
       }
     },
 

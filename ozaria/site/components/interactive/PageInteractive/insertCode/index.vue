@@ -6,7 +6,7 @@
   import 'codemirror/mode/python/python'
   import 'codemirror/lib/codemirror.css'
 
-  import BaseInteractiveTitle from './BaseInteractiveTitle'
+  import BaseInteractiveTitle from '../common/BaseInteractiveTitle'
 
   const SAMPLE_CODE = `
           let x = "y"
@@ -44,10 +44,11 @@
     },
 
     data () {
+      const langauge = (this.codeLanguage || "").toLowerCase() === 'javascript' ? 'javascript' : 'python'
       return {
         codemirrorOptions: {
           tabSize: 2,
-          mode: 'text/javascript', // TODO drive this from the classroom
+          mode: `text/${langauge}`,
           lineNumbers: true,
           readOnly: 'nocursor'
         },

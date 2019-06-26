@@ -1,5 +1,5 @@
 <script>
-  import BaseInteractiveTitle from '../BaseInteractiveTitle'
+  import BaseInteractiveTitle from '../common/BaseInteractiveTitle'
   import OrderingSlots from './OrderingSlots'
 
   export default {
@@ -24,9 +24,8 @@
         default: undefined
       },
 
-      courseInstanceId: {
-        type: String,
-        default: undefined
+      codeLanguage: {
+        type: String
       }
     },
 
@@ -41,14 +40,14 @@
           { id: 4, text: 'four option' }
         ],
 
-        answerSlots: []
+        answerSlots: (new Array(4)).fill(undefined)
       }
     }
   }
 </script>
 
 <template>
-  <div class="insert-code-container">
+  <div class="draggable-ordering-container">
     <base-interactive-title
       :interactive="interactive"
     />
@@ -64,7 +63,6 @@
 
       <ordering-slots
         v-model="answerSlots"
-        :num-slots="4"
 
         :draggable-group="draggableGroup"
 
@@ -82,7 +80,7 @@
 </template>
 
 <style lang="scss" scoped>
-  .insert-code-container {
+  .draggable-ordering-container {
     padding: 75px;
 
     display: flex;
