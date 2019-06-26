@@ -1,10 +1,9 @@
 <template>
   <li>
-    <i class="rectangle"></i>
-    <img v-if="state.status === 'complete'"
+    <p class="rectangle"></p>
+    <img v-if="complete"
          class="check-mark" alt="Checked box"
-         src="/public/images/ozaria/level/check_mark.png" />
-
+         src="/images/ozaria/level/check_mark.png" />
     {{ goalText }}
   </li>
 </template>
@@ -54,15 +53,18 @@
         return text
       goalClass: -> "status-#{@state.status}"
       iconClass: -> stateIconMap[@state.status] or ''
+      complete: -> @state.status == 'complete'
     }
   })
 </script>
 
 <style scoped>
   .rectangle {
+    position: absolute;
+    left: 5px;
     height: 18px;
     width: 18px;
-    border-radius: 4px;
+    border: 2px solid #000;
     background-color: #FFFFFF;
     box-shadow: inset 1px 1px 3px 0 #5D73E1;
   }
@@ -70,8 +72,7 @@
   .check-mark {
     position: absolute;
     left: 10%;
-    top: 20%;
-    bottom: 20%;
     z-index: 5;
+    width: 15px;
   }
 </style>

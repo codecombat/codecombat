@@ -1,32 +1,33 @@
 <template lang="pug">
   div
-    // TODO: Split this into two components, one the ul, the other the goals-status
-    ul#primary-goals-list(dir="auto")
-      level-goal(
-        v-for="goal in levelGoals",
-        :goal="goal",
-        :state="goalStates[goal.id]",
-      )
-    level-goal(
-      v-if="conceptGoals.length",
-      :goal="{ name: $t('play_level.use_at_least_one_concept') }",
-      :state="{ status: conceptStatus }",
-    )
-    ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
-      level-goal.concept-goal(
-        v-for="goal in conceptGoals",
-        :goal="goal",
-        :state="goalStates[goal.id]",
-      )
-      
     div.goals-status.rtl-allowed(v-if="showStatus")
       span {{ $t("play_level.goals") }}
       span.spr :
-      span(v-if="classToShow === 'running'").goal-status.running {{ $t("play_level.running") }}
-      span(v-if="classToShow === 'success'").goal-status.success {{ $t("play_level.success") }}
-      span(v-if="classToShow === 'incomplete'").goal-status.incomplete {{ $t("play_level.incomplete") }}
-      span(v-if="classToShow === 'timed-out'").goal-status.timed-out {{ $t("play_level.timed_out") }}
-      span(v-if="classToShow === 'failing'").goal-status.failure {{ $t("play_level.failing") }}
+      span {{ $t("play_level." + goalStatus) }}
+    div.level-goals
+      // TODO: Split this into two components, one the ul, the other the goals-status
+      ul#primary-goals-list(dir="auto")
+        level-goal(
+          v-for="goal in levelGoals",
+          :goal="goal",
+          :state="goalStates[goal.id]",
+        )
+        level-goal(
+          v-for="goal in levelGoals",
+          :goal="goal",
+          :state="goalStates[goal.id]",
+        )
+      level-goal(
+        v-if="conceptGoals.length",
+        :goal="{ name: $t('play_level.use_at_least_one_concept') }",
+        :state="{ status: conceptStatus }",
+      )
+      ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
+        level-goal.concept-goal(
+          v-for="goal in conceptGoals",
+          :goal="goal",
+          :state="goalStates[goal.id]",
+        )
 </template>
 
 <script lang="coffee">
@@ -46,13 +47,13 @@
     },
     
     computed: {
-      classToShow: ->
-        classToShow = 'success' if @overallStatus is 'success'
-        classToShow = 'incomplete' if @overallStatus is 'failure'
-        classToShow ?= 'timed-out' if @timedOut
-        classToShow ?= 'incomplete'
-        classToShow = 'running' if @casting
-        return classToShow
+      goalStatus: ->
+        goalStatus = 'success' if @overallStatus is 'success'
+        goalStatus = 'incomplete' if @overallStatus is 'failure'
+        goalStatus ?= 'timed-out' if @timedOut
+        goalStatus ?= 'incomplete'
+        goalStatus = 'running' if @casting
+        return goalStatus
       levelGoals: ->
         @goals.filter((g) => not g.concepts?.length)
       conceptGoals: ->
@@ -72,32 +73,19 @@
 </script>
 
 <style lang="sass" scoped>
+  ul
+    list-style-type: none
+    margin: 0
+    padding-left: 5px
+
+  .level-goals
+    background: rgb(60, 60, 60)
   .goals-status
     margin: 5px 0 0 0
-    position: absolute
     color: white
-    text-transform: uppercase
 
     &[dir="rtl"]
       right: 0
-
-    .success
-      color: lightgreen
-      text-shadow: 1px 1px 0px black
-    .timed-out
-      color: rgb(230, 230, 230)
-    .failure
-      color: rgb(239, 61, 71)
-      text-shadow: 1px 1px 0px black
-    .incomplete
-      color: rgb(245, 170, 49)
-    .running
-      color: rgb(200, 200, 200)
-  
-  ul
-    padding-left: 0
-    margin-bottom: 0
-    color: black
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
       padding-right: 0
