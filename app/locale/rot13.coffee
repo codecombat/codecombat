@@ -2256,6 +2256,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     live_tournament: "Yvir Gbheanzrag"
     awaiting_tournament_title: "Gbheanzrag Vanpgvir"
     awaiting_tournament_blurb: "Gur gbheanzrag neran vf abg pheeragyl npgvir."
+    tournament_end_desc: "Gur gbheanzrag vf bire, gunaxf sbe cynlvat"
 
   user:
     user_title: '__anzr__ - Yrnea gb Pbqr jvgu PbqrPbzong'
