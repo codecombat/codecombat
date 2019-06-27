@@ -73,23 +73,23 @@
 </script>
 
 <style lang="sass" scoped>
+  .goals-status
+    position: fixed
+    width: 100%
+    background: black
+    color: white
+    height: 20px
+
+  .level-goals
+    display: inline-block
+    margin: 5px 0 0 0
+    width: 100%
+    background: rgb(60, 60, 60)
+    white-space: nowrap
+    padding-top: 1.5em
+
   ul
     list-style-type: none
     margin: 0
     padding-left: 5px
-
-  .level-goals
-    background: rgb(60, 60, 60)
-  .goals-status
-    margin: 5px 0 0 0
-    color: white
-
-    &[dir="rtl"]
-      right: 0
-
-    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
-      padding-right: 0
-  
-  #concept-goals-list
-    margin-left: 20px
 </style>

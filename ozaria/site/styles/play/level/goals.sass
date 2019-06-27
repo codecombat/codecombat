@@ -7,11 +7,13 @@
   width: 100%
   $paddingTop: 10px
   $paddingBottom: 25px
-  overflow: scroll
-  padding: 0 25px 0 25px
-  white-space: nowrap
+  margin-left: 18px
   position: relative
-  background: black
+  overflow-x: scroll
   z-index: 2
   color: white
-
+  background-color: black
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    padding-right: 0
+  &[dir="rtl"]
+    right: 0

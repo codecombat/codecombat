@@ -1,5 +1,5 @@
 <template>
-  <li>
+  <li class="goal">
     <p class="rectangle"></p>
     <img v-if="complete"
          class="check-mark" alt="Checked box"
@@ -60,11 +60,10 @@
 
 <style scoped>
   .rectangle {
-    position: absolute;
-    left: 5px;
     height: 18px;
     width: 18px;
     border: 2px solid #000;
+    margin-right: 5px;
     background-color: #FFFFFF;
     box-shadow: inset 1px 1px 3px 0 #5D73E1;
   }
@@ -74,5 +73,9 @@
     left: 10%;
     z-index: 5;
     width: 15px;
+  }
+
+  .goal {
+    display: flex;
   }
 </style>
