@@ -1,26 +1,18 @@
 <script>
   import { codemirror } from 'vue-codemirror'
 
+  import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
+  import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+
   // TODO dynamically import these
   import 'codemirror/mode/javascript/javascript'
   import 'codemirror/mode/python/python'
   import 'codemirror/lib/codemirror.css'
 
-  import BaseInteractiveTitle from '../common/BaseInteractiveTitle'
-
-  const SAMPLE_CODE = `
-          let x = "y"
-          # This is the line to replace
-          let a = "b"
-          console.log(x + a)
-          `
-  // This is 1 indexed. The first line is 1 not 0.
-  const LINE_TO_REPLACE = 4
-
   export default {
     components: {
       codemirror,
-      'base-interactive-title': BaseInteractiveTitle
+      BaseInteractiveLayout
     },
 
     props: {
@@ -30,22 +22,42 @@
         default: () => ({})
       },
 
+      localizedInteractiveConfig: {
+        type: Object,
+        required: true
+      },
+
       interactiveSession: {
         type: Object
       },
 
       codeLanguage: {
-        type: String
+        type: String,
+        required: true
       }
     },
 
     data () {
-      const language = (this.codeLanguage || "").toLowerCase() === 'javascript' ? 'javascript' : 'python'
-      // selectedAnswer starts with the `lineToReplace` line from SAMPLE_CODE.
-      // TODO handle_error_ozaria - this can crash with invalid input.
-      const startingLine = SAMPLE_CODE.trim().split('\n')[LINE_TO_REPLACE-1].trim()
+      const language = this.codeLanguage.toLowerCase()
+      if (language !== 'python' && language !== 'javascript') {
+        // TODO handle_error_ozaria - this can crash with invalid input.
+        throw new Error('Unexpected language type')
+      }
+
+      const splitSampleCode = this.localizedInteractiveConfig
+        .starterCode
+        .trim()
+        .split('\n')
+        .map(line => line.trim())
+
+      let defaultImage
+      if (this.interactive.defaultArtAsset) {
+        defaultImage = getOzariaAssetUrl(this.interactive.defaultArtAsset)
+      }
 
       return {
+        codemirrorReady: false,
+
         codemirrorOptions: {
           tabSize: 2,
           mode: `text/${language}`,
@@ -53,150 +65,184 @@
           readOnly: 'nocursor'
         },
 
-        selectedAnswer: { id: -1, line: startingLine }
+        splitSampleCode,
+
+        defaultImage,
+
+        selectedAnswer: {
+          id: -1,
+          text: undefined,
+          triggerArt: undefined
+        }
       }
     },
 
     computed: {
-      sampleCodeSplit () {
-        const splitSampleCode = SAMPLE_CODE
-          .trim()
-          .split('\n')
-          .map(line => line.trim())
-
-        return [
-          splitSampleCode.slice(0, LINE_TO_REPLACE-1).join('\n'),
-          splitSampleCode.slice(LINE_TO_REPLACE).join('\n')
-        ]
-      },
-
       code () {
-        const splitSampleCode = this.sampleCodeSplit
+        const arrayIndexToReplace = this.localizedInteractiveConfig.lineToReplace - 1
+        let finalCode = this.splitSampleCode
+        if (this.selectedAnswer.id !== -1) {
+          finalCode = finalCode.map((v, i) => {
+            if (i === arrayIndexToReplace) {
+              return this.selectedAnswer.text
+            }
 
-        let selectedAnswerLine = ''
-        if (this.selectedAnswer) {
-          selectedAnswerLine = this.selectedAnswer.line.trim()
+            return v
+          })
         }
 
-        return `${splitSampleCode[0]}\n${selectedAnswerLine}\n${splitSampleCode[1]}`.trim()
+        return finalCode.join('\n')
       },
 
       answerOptions () {
-        return [
-          { id: 1, line: 'line.one()' },
-          { id: 2, line: 'const z = "aaa"' },
-          { id: 3, line: 'line.three()' },
-          { id: 4, line: 'line.four()' }
-        ]
+        return this.localizedInteractiveConfig.choices
+      },
+
+      codemirror () {
+        return this.$refs.codeMirrorComponent.codemirror
+      },
+
+      artUrl () {
+        return this.selectedAnswer.triggerArt || this.defaultImage
+      }
+    },
+
+    watch: {
+      selectedAnswer () {
+        this.updateHighlightedLine()
       }
     },
 
     methods: {
       selectAnswer (answer) {
-        this.selectedAnswer = answer
+        let triggerArt
+        if (answer.triggerArt) {
+          triggerArt = getOzariaAssetUrl(answer.triggerArt)
+        }
+
+        this.selectedAnswer = {
+          ...answer,
+          triggerArt
+        }
+      },
+
+      onCodeMirrorReady () {
+        this.codemirrorReady = true
+        this.updateHighlightedLine()
+      },
+
+      onCodeMirrorUpdated () {
+        this.updateHighlightedLine()
+      },
+
+      updateHighlightedLine () {
+        if (!this.codemirrorReady) {
+          return
+        }
+
+        const lineToReplace = this.localizedInteractiveConfig.lineToReplace - 1
+
+        if (this.selectedAnswer.id !== -1) {
+          this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')
+          this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-prompt')
+        } else {
+          this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-prompt')
+          this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-answered')
+        }
       }
     }
   }
 </script>
 
 <template>
-  <div class="insert-code-container">
-    <base-interactive-title
-      :interactive="interactive"
-    />
-
-    <div class="question-container">
+  <base-interactive-layout
+    :interactive="interactive"
+    :art-url="artUrl"
+  >
+    <div class="insert-code-content">
       <ul class="question">
         <li
           v-for="answerOption in answerOptions"
           :key="answerOption.id"
         >
           <button @click="selectAnswer(answerOption)">
-            {{ answerOption.line }}
+            {{ answerOption.text }}
           </button>
         </li>
       </ul>
 
       <div class="answer">
         <codemirror
+          ref="codeMirrorComponent"
           :value="code"
           :options="codemirrorOptions"
+
+          @ready="onCodeMirrorReady"
+          @input="onCodeMirrorUpdated"
         />
       </div>
-
-      <div class="art-container">
-        <img
-          src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
-          alt="Art!"
-        >
-      </div>
     </div>
-  </div>
+  </base-interactive-layout>
 </template>
 
 <style scoped lang="scss">
-  .insert-code-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .insert-code-container .question-container {
+  .insert-code-content {
     display: flex;
     flex-direction: row;
 
-    ul.question {
-      width: 30%;
+    height: 100%;
+  }
 
-      display: flex;
-      flex-direction: column;
+  ul.question {
+    width: 30%;
 
-      align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-      list-style: none;
+    list-style: none;
 
-      margin: 0;
+    margin: 0;
+    padding: 0;
+    padding-top: 20px;
+
+    background-color: #E1FBFA;
+
+    li {
+      font-family: monospace; // TODO fallback font?
+
+      margin: 0 0 10px;
       padding: 0;
+      width: 70%;
 
-      li {
-        margin: 0 0 10px;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
 
-        padding: 0;
+      button {
+        padding: 10px;
 
-        width: 70%;
+        width: 100%;
 
-        &:last-of-type {
-          margin-bottom: 0;
-        }
-
-        button {
-          width: 100%;
-          height: 20px;
-
-          background: transparent;
-          border: 1px solid black;
-        }
+        border: 2px solid #979797;
+        background-color: #FFF;
       }
     }
+  }
 
-    .answer {
-      width: 30%;
+  .answer {
+    width: 30%;
+    flex-grow: 1;
 
-      flex-grow: 1;
-    }
+    height: 100%;
 
-    .art-container {
-      flex-grow: 1;
+    /deep/ {
+      &.highlight-line-prompt {
+        background-color: #d8d8d8;
+      }
 
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 15px;
-
-      img {
-        max-width: 100%;
-        max-height: 100%;
+      &.highlight-line-answered {
+        background-color: #cdd4f8;
       }
     }
   }

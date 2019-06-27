@@ -1,8 +1,14 @@
+import { merge } from 'lodash'
+
 /**
  Utility functions for ozaria
  */
 
 export const defaultCodeLanguage = 'python'
+
+export function getOzariaAssetUrl (assetName) {
+  return `/file/${encodeURI(assetName)}`
+}
 
 /**
  * Calculates all the next levels for a list of levels in a classroom/campaign based on the level sessions.
@@ -183,4 +189,23 @@ export const getNextLevelLink = (levelData, options) => {
     link += `?campaignId=${encodeURIComponent(options.campaignId)}`
   }
   return link
+}
+
+export function internationalizeConfig (levelConfig, userLocale) {
+  const interactiveConfigI18n = levelConfig.i18n || {}
+
+  const userGeneralLocale = (userLocale || '').split('-')[0]
+  const fallbackLocale = 'en'
+
+  const userLocaleObject = interactiveConfigI18n[userLocale] || {}
+  const generalLocaleObject = interactiveConfigI18n[userGeneralLocale] || {}
+  const fallbackLocaleObject = interactiveConfigI18n[fallbackLocale] || {}
+
+  return merge(
+    {},
+    levelConfig,
+    fallbackLocaleObject,
+    generalLocaleObject,
+    userLocaleObject
+  )
 }

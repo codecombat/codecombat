@@ -1,16 +1,22 @@
 <script>
-  import BaseInteractiveTitle from '../common/BaseInteractiveTitle'
-  import OrderingSlots from './OrderingSlots'
-  import Sortable from 'sortablejs'
+  import VueDraggable from 'vuedraggable'
+
+  import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
+  import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
 
   export default {
     components: {
-      'base-interactive-title': BaseInteractiveTitle,
-      'ordering-slots': OrderingSlots
+      BaseInteractiveLayout,
+      'draggable': VueDraggable
     },
 
     props: {
       interactive: {
+        type: Object,
+        required: true
+      },
+
+      localizedInteractiveConfig: {
         type: Object,
         required: true
       },
@@ -21,116 +27,103 @@
       },
 
       codeLanguage: {
-        type: String
+        type: String,
+        required: true
       }
     },
 
     data () {
       return {
-        draggableGroup: Math.random().toString(),
-
-        promptSlots: [
-          { id: 1, text: 'one option' },
-          { id: 2, text: 'two option' },
-          { id: 3, text: 'three option' },
-          { id: 4, text: 'four option' }
-        ],
-
-        answerSlots: (new Array(4)).fill(undefined)
+        promptSlots: (this.localizedInteractiveConfig.elements || [])
+          .map(({ elementId, ...rest }) => ({
+            ...rest,
+            id: elementId
+          }))
       }
     },
 
-    mounted () {
-      const draggableUl = this.$refs['draggable-col']
-      Sortable.create(draggableUl, {
-        swap: true,
-        onChange: e => {
-          const temp = this.promptSlots[e.oldIndex]
-          this.promptSlots[e.oldIndex] = this.promptSlots[e.newIndex]
-          this.promptSlots[e.newIndex] = temp
+    computed: {
+      labels () {
+        return (this.localizedInteractiveConfig.labels || []).map((label) => {
+          if (typeof label === 'string') {
+            return { text: label }
+          }
+
+          return label
+        })
+      },
+
+      artUrl () {
+        if (this.interactive.defaultArtAsset) {
+          return getOzariaAssetUrl(this.interactive.defaultArtAsset)
         }
-      })
+
+        return undefined
+      }
     }
   }
 </script>
 
 <template>
-  <div class="draggable-ordering-container">
-    <base-interactive-title
-      :interactive="interactive"
-    />
-
-    <div class="prompt-row">
-      <div id='draggable-col' class='slots-container' key="draggable-col" ref="draggable-col">
-        <ul v-for="prompt in promptSlots" class="draggable-slot" :key="prompt.id">
-          <li>{{ prompt.text }}</li>
-        </ul>
-      </div>
-
-      <ordering-slots
-        v-model="answerSlots"
-
-        :draggable-group="draggableGroup"
-
-        class="ordering-column"
-      />
-
-      <div class="art-container">
-        <img
-          src="https://codecombat.com/images/pages/home/built_for_teachers1.png"
-          alt="Art!"
+  <base-interactive-layout
+    :interactive="interactive"
+    :art-url="artUrl"
+  >
+    <div class="draggable-ordering-content">
+      <draggable
+        :list="promptSlots"
+        class="slots-container prompt-slots"
+        ghost-class="ghost-slot"
+        tag="ul"
+        :force-fallback="true"
+        fallback-class="dragging-slot"
+      >
+        <li
+          v-for="prompt in promptSlots"
+          :key="prompt.id"
+          :class="{ 'prompt': true, 'monospaced': (prompt.textStyleCode === true) }"
         >
-      </div>
+          {{ prompt.text }}
+        </li>
+      </draggable>
+
+      <ul
+        class="slots-container"
+      >
+        <li
+          v-for="(label, index) in labels"
+          :key="index"
+          :class="{ 'prompt-label': true, 'monospaced': (label.textStyleCode === true) }"
+        >
+          {{ label.text }}
+        </li>
+      </ul>
     </div>
-  </div>
+  </base-interactive-layout>
 </template>
 
 <style lang="scss" scoped>
-  .draggable-ordering-container {
-    padding: 75px;
+  .draggable-ordering-content {
+    padding: 20px;
 
-    display: flex;
-    flex-direction: column;
-
-    background-color: #FFF;
-
-    /deep/ .ordering-column {
-      margin-right: 10px;
-
-      ul {
-        li {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          font-weight: bold;
-          font-size: 15px;
-        }
-      }
-
-      .empty {
-        border: 1px dashed grey;
-      }
-    }
-  }
-
-  .prompt-row {
     display: flex;
     flex-direction: row;
 
-    .art-container {
-      flex-grow: 1;
+    align-items: center;
+    justify-content: center;
 
-      padding: 0 15px 15px;
-
-      img {
-        width: 100%;
-      }
-    }
+    height: 100%;
   }
 
-  .slots-container {
-    width: 25%;
+  ul.slots-container {
+    height: 100%;
+    width: 50%;
+
+    max-width: 500px;
+
+    padding: 0;
+
+    margin: 0;
     margin-right: 10px;
 
     display: flex;
@@ -139,17 +132,38 @@
     align-items: center;
     justify-content: space-evenly;
 
-    /deep/ .draggable-slot {
-      height: 53px;
-      border: 1px solid black;
+    li {
+      margin-bottom: 15px;
 
-      padding: 0;
-      list-style: none;
       width: 100%;
-      li {
-        text-align: center;
-      }
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      text-align: center;
+      font-size: 15px;
+
+      min-height: 50px;
+    }
+
+    li.prompt {
+      border: 2px solid #acb9fa;
+    }
+
+    li.prompt-label {
+      background-color: #acb9fa;
+      border: 2px solid #acb9fa;
+    }
+
+    li.monospaced {
+      font-family: monospace;
+    }
+
+    li.dragging-slot {
+      // TODO this doesn't work because vue-draggable also uses transforms for positioing
+      transform: rotate(5deg);
     }
   }
-
 </style>

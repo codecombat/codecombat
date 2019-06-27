@@ -1,5 +1,7 @@
 <script>
-  import { i18n } from 'app/core/utils'
+  import { mapGetters } from 'vuex'
+
+  import { internationalizeConfig } from '../../../../common/ozariaUtils'
 
   export default {
     props: {
@@ -10,8 +12,12 @@
     },
 
     computed: {
-      interactiveTitle () {
-        return i18n(this.interactive, 'promptText')
+      ...mapGetters({
+        userLocale: 'me/preferredLocale'
+      }),
+
+      localizedInteractive () {
+        return internationalizeConfig(this.interactive, this.userLocale)
       }
     }
   }
@@ -19,14 +25,13 @@
 
 <template>
   <div class="title-container">
-    {{ interactiveTitle }}
+    {{ localizedInteractive.promptText }}
   </div>
 </template>
 
 <style scoped>
   .title-container {
     padding: 30px;
-    margin-bottom: 20px;
 
     width: 100%;
 
