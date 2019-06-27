@@ -336,10 +336,7 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
-    console.log('CAPSTONE: grabLevelLoaderData with : ')
-    console.log(this.capstoneStage)
-    console.log(me.isSessionless())
-
+    // TODO: After Ozaria launch, comment this out to give proper access
     // if (this.capstoneStage && me.isSessionless() && (me.isAdmin() || me.isTeacher())) {
     if (this.capstoneStage && me.isAdmin()) {
       const state = this.session.get('state') || {}
