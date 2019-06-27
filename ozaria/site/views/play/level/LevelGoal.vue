@@ -60,7 +60,7 @@
 
 <style scoped>
   .rectangle {
-    height: 18px;
+    height: 19px;
     width: 18px;
     border-radius: 4px;
     margin-right: 5px;

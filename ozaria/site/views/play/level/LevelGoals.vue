@@ -2,7 +2,7 @@
   div
     div.goals-status.rtl-allowed(v-if="showStatus")
       span {{ $t("play_level.goals") }}
-      span.spr :
+      span.spr :&nbsp;
       span {{ $t("play_level." + goalStatus) }}
     div.level-goals
       // TODO: Split this into two components, one the ul, the other the goals-status
@@ -86,6 +86,7 @@
     letter-spacing: 0.69px
     line-height: 25px
     z-index: 1
+    padding-left: 13px
 
   .level-goals
     display: inline-block
