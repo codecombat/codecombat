@@ -29,7 +29,6 @@
     },
     computed: {
       showGoal: ->
-        console.log('inside showGoal with status; ', @)
         return false if @goal.optional and @$store.state.game.level.type is 'course' and @state.status isnt 'success'
         if @goal.hiddenGoal
           return false if @goal.optional and @state.status isnt 'success'
