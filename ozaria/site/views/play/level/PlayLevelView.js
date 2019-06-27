@@ -91,15 +91,16 @@ class PlayLevelView extends RootView {
     this.levelID = levelID
 
     this.courseID = options.courseID || utils.getQueryVariable('course')
-    this.courseInstanceID =
-      options.courseInstanceID || utils.getQueryVariable('course-instance')
-
+    this.courseInstanceID = options.courseInstanceID || utils.getQueryVariable('course-instance')
     this.isEditorPreview = utils.getQueryVariable('dev')
-    this.sessionID =
-      utils.getQueryVariable('session') || this.options.sessionID
+    this.sessionID = utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
-
     this.opponentSessionID = utils.getQueryVariable('opponent') || this.options.opponent
+    this.capstoneStage = parseInt(
+      utils.getQueryVariable('capstoneStage') ||
+      utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
+      this.options.capstoneStage, 10)
+
     this.gameUIState = new GameUIState()
 
     $('flying-focus').remove() // Causes problems, so yank it out for play view.
@@ -335,6 +336,14 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
+    // TODO: After Ozaria launch, comment this out to give proper access
+    // if (this.capstoneStage && me.isSessionless() && (me.isAdmin() || me.isTeacher())) {
+    if (this.capstoneStage && me.isAdmin()) {
+      const state = this.session.get('state') || {}
+      state.capstoneStage = this.capstoneStage
+      this.session.set('state', state)
+    }
+
     this.level = this.levelLoader.level
     store.commit('game/setLevel', this.level.attributes)
     if (this.level.isType('web-dev')) {
@@ -1154,7 +1163,7 @@ class PlayLevelView extends RootView {
 
     if (additionalGoals) {
       const state = this.session.get('state')
-      options.capstoneStage = state ? state.capstoneStage : undefined
+      options.capstoneStage = (state || {}).capstoneStage
       options.remainingGoals = this.goalManager.getRemainingGoals()
       options.levelSlug = this.level.get('slug')
 
