@@ -42,7 +42,7 @@
       goals: [] # TODO: Get goals, goalStates from vuex
       goalStates: {}
       casting: false
-    },
+    }
     
     computed: {
       goalStatus: ->

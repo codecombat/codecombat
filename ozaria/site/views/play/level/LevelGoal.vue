@@ -1,26 +1,16 @@
 <template>
-  <li class="goal">
+  <li class="goal" v-if="showGoal">
     <p class="rectangle"></p>
     <img v-if="goalComplete"
-         class="check-mark" alt="Checked box"
+         class="check-mark" alt="Check mark for checkbox"
          src="/images/ozaria/level/check_mark.png" />
     {{ goalText }}
   </li>
 </template>
 
 <script lang="coffee">
-
-#  li(:class="goalClass" v-if="showGoal")
-#  i(v-if="state.status === 'incomplete' && isConceptGoal")=" • "
-#  i.glyphicon(:class="iconClass" v-else)
-#  | {{ goalText }}
-
   {me} = require 'core/auth'
   utils = require 'core/utils'
-
-  stateIconMap =
-    success: 'glyphicon-ok'
-    failure: 'glyphicon-remove'
 
   module.exports = Vue.extend({
     props: {
@@ -35,8 +25,6 @@
           return false if not @goal.optional and @state.status isnt 'failure'
         return false if @goal.team and me.team isnt @goal.team
         return true
-      isConceptGoal: ->
-        @goal.concepts?.length
       goalText: ->
         text = utils.i18n @goal, 'name'
         if @state.killed
@@ -52,7 +40,6 @@
 
         return text
       goalComplete: -> @state.status == 'success'
-      iconClass: -> stateIconMap[@state.status] or ''
     }
   })
 </script>
