@@ -85,6 +85,7 @@
     font-size: 20px
     letter-spacing: 0.69px
     line-height: 25px
+    z-index: 1
 
   .level-goals
     display: inline-block
