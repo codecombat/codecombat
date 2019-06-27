@@ -77,5 +77,11 @@
 
   .goal {
     display: flex;
+    font-family: Open Sans Regular,serif;
+    height: 23px;
+    color: #FFFFFF;
+    font-size: 16px;
+    letter-spacing: 0.55px;
+    line-height: 22px;
   }
 </style>

@@ -75,10 +75,16 @@
 <style lang="sass" scoped>
   .goals-status
     position: fixed
+    display: flex
+    align-items: center
     width: 100%
     background: black
-    color: white
-    height: 20px
+    height: 39px
+    color: #FFFFFF
+    font-family: Arvo
+    font-size: 20px
+    letter-spacing: 0.69px
+    line-height: 25px
 
   .level-goals
     display: inline-block
@@ -86,7 +92,7 @@
     width: 100%
     background: rgb(60, 60, 60)
     white-space: nowrap
-    padding-top: 1.5em
+    padding-top: 39px
 
   ul
     list-style-type: none
