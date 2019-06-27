@@ -190,7 +190,6 @@
     <interactives-component
       v-if="currentContent.type == 'interactive'"
       :interactive-id-or-slug="currentContent.contentId"
-      :intro-level-id="introLevelData.original"
       :code-language="language"
       @completed="onContentCompleted"
     />

@@ -19,12 +19,6 @@
         default: ''
       },
 
-      introLevelId: {
-        type: String,
-        required: true,
-        default: ''
-      },
-
       codeLanguage: {
         type: String,
         default: defaultCodeLanguage
@@ -88,7 +82,6 @@
           }
           if (!me.isSessionless()) { // not saving progress/session for teachers
             const getSessionOptions = {
-              introLevelId: this.introLevelId,
               codeLanguage: this.codeLanguage
             }
             // TODO: throws error regarding intro and language session
@@ -115,7 +108,6 @@
       :is="interactiveComponent"
       v-else
       :interactive="interactive"
-      :intro-level-id="introLevelId"
       :interactive-session="interactiveSession"
       :code-language="codeLanguage"
       @completed="onCompleted"

@@ -210,7 +210,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->
       props = {
         interactiveIdOrSlug: interactiveIdOrSlug,
-        introLevelId: '5411cb3769152f1707be029c' # TODO sending a random level id (dungeon of kithgard) for now, will be sent from intro level page later
         codeLanguage: codeLanguage # This will also come from intro level page later
       }
       @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})

@@ -30,12 +30,6 @@
         default: () => ({})
       },
 
-      introLevelId: {
-        type: String,
-        required: true,
-        default: ''
-      },
-
       interactiveSession: {
         type: Object
       },
