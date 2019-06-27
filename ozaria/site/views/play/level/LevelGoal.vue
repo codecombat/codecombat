@@ -75,7 +75,7 @@
     height: 19px;
     width: 18px;
     border-radius: 4px;
-    margin-right: 5px;
+    margin-right: 10px;
     background-color: #FFFFFF;
     box-shadow: inset 1px 1px 3px 0 #5D73E1;
   }
