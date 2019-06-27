@@ -15,11 +15,6 @@
         required: true
       },
 
-      introLevelId: {
-        type: String,
-        required: true
-      },
-
       interactiveSession: {
         type: Object,
         default: undefined

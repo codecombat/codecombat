@@ -2256,6 +2256,7 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    live_tournament: "Live Tournament"
 #    awaiting_tournament_title: "Tournament Inactive"
 #    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
 #  user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
