@@ -46,7 +46,7 @@
     },
 
     data () {
-      const langauge = (this.codeLanguage || "").toLowerCase() === 'javascript' ? 'javascript' : 'python'
+      const language = (this.codeLanguage || "").toLowerCase() === 'javascript' ? 'javascript' : 'python'
       // selectedAnswer starts with the `lineToReplace` line from SAMPLE_CODE.
       // TODO handle_error_ozaria - this can crash with invalid input.
       const startingLine = SAMPLE_CODE.trim().split('\n')[LINE_TO_REPLACE-1].trim()
@@ -54,7 +54,7 @@
       return {
         codemirrorOptions: {
           tabSize: 2,
-          mode: `text/${langauge}`,
+          mode: `text/${language}`,
           lineNumbers: true,
           readOnly: 'nocursor'
         },
