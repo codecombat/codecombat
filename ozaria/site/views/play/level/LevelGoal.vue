@@ -59,6 +59,18 @@
 </script>
 
 <style scoped>
+  .goal {
+    display: flex;
+    font-family: Open Sans;
+    height: 23px;
+    color: #FFFFFF;
+    font-size: 16px;
+    letter-spacing: 0.55px;
+    line-height: 22px;
+    font-weight: lighter;
+    margin-bottom: 7px;
+  }
+
   .rectangle {
     height: 19px;
     width: 18px;
@@ -72,16 +84,5 @@
     position: absolute;
     left: 1.2%;
     width: 21px;
-  }
-
-  .goal {
-    display: flex;
-    font-family: Open Sans;
-    height: 23px;
-    color: #FFFFFF;
-    font-size: 16px;
-    letter-spacing: 0.55px;
-    line-height: 22px;
-    font-weight: lighter;
   }
 </style>

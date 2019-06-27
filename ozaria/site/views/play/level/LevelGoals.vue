@@ -1,33 +1,31 @@
-<template lang="pug">
-  div
-    div.goals-status.rtl-allowed(v-if="showStatus")
-      span {{ $t("play_level.goals") }}
-      span.spr :&nbsp;
-      span {{ $t("play_level." + goalStatus) }}
-    div.level-goals
-      // TODO: Split this into two components, one the ul, the other the goals-status
-      ul#primary-goals-list(dir="auto")
-        level-goal(
-          v-for="goal in levelGoals",
-          :goal="goal",
-          :state="goalStates[goal.id]",
-        )
-        level-goal(
-          v-for="goal in levelGoals",
-          :goal="goal",
-          :state="goalStates[goal.id]",
-        )
-      level-goal(
-        v-if="conceptGoals.length",
-        :goal="{ name: $t('play_level.use_at_least_one_concept') }",
-        :state="{ status: conceptStatus }",
-      )
-      ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
-        level-goal.concept-goal(
-          v-for="goal in conceptGoals",
-          :goal="goal",
-          :state="goalStates[goal.id]",
-        )
+<template>
+  <div>
+    <div v-if="showStatus" class="goals-status rtl-allowed">
+      <span>{{ $t("play_level.goals") }} : {{ $t("play_level." + goalStatus) }}</span>
+    </div>
+    <div class="level-goals">
+      <!-- TODO: Split this into two components, one the ul, the other the goals-status-->
+      <ul id="primary-goals-list" dir="auto">
+        <level-goal v-for="goal in levelGoals"
+                    :key="goal.id"
+                    :goal="goal"
+                    :state="goalStates[goal.id]">
+        </level-goal>
+      </ul>
+      <level-goal v-if="conceptGoals.length"
+                  :goal="{ name: $t('play_level.use_at_least_one_concept') }"
+                  :state="{ status: conceptStatus }">
+      </level-goal>
+      <ul id="concept-goals-list" dir="auto" v-if="conceptGoals.length">
+        <level-goal v-for="goal in conceptGoals"
+                    :key="goal.id"
+                    class="concept-goal"
+                    :goal="goal"
+                    :state="goalStates[goal.id]">
+        </level-goal>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script lang="coffee">
