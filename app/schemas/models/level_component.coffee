@@ -106,6 +106,8 @@ PropertyDocumentationSchema = c.object {
         title: 'Variable Name'
         description: 'Variable name this property is autocompleted into.'
         default: 'result'
+  section: { type: 'string', title: 'Methods Bank Section' }
+  subSection: { type: 'string', title: 'Methods Bank Sub-Section' }
 
 DependencySchema = c.object {
   title: 'Component Dependency'
