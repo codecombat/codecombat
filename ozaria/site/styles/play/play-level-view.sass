@@ -2,6 +2,9 @@
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/play/variables"
 
+body
+  height: 100vh
+
 body.is-playing
   background-color: black
 
@@ -9,6 +12,7 @@ $level-resize-transition-time: 0.5s
 // TODO: use this for real-time playback but not cinematic playback
 
 #level-view
+  height: 100%
   margin: 0 auto
   position: absolute
   overflow: hidden
