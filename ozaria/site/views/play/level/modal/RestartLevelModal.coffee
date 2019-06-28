@@ -1,8 +1,8 @@
 ModalView = require 'views/core/ModalView'
-template = require 'ozaria/site/templates/play/level/modal/reload-level-modal'
+template = require 'ozaria/site/templates/play/level/modal/restart-level-modal'
 
-module.exports = class ReloadLevelModal extends ModalView
-  id: '#reload-level-modal'
+module.exports = class RestartLevelModal extends ModalView
+  id: '#restart-level-modal'
   template: template
 
   events:

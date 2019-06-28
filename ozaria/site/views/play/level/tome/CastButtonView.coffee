@@ -3,7 +3,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'ozaria/site/templates/play/level/tome/cast-button-view'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
-ReloadLevelModal = require 'ozaria/site/views/play/level/modal/ReloadLevelModal'
+ReloadLevelModal = require 'ozaria/site/views/play/level/modal/RestartLevelModal'
 LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
 
@@ -16,7 +16,7 @@ module.exports = class CastButtonView extends CocoView
     'click .submit-button': 'onCastRealTimeButtonClick'
     'click .done-button': 'onDoneButtonClick'
     'click .game-dev-play-btn': 'onClickGameDevPlayButton'
-    'click .reload-code': 'onCodeReload'
+    'click #reload-code': 'onCodeReload'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
