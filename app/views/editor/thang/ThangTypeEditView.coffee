@@ -378,7 +378,7 @@ module.exports = class ThangTypeEditView extends RootView
 
         @fileLoaded()
       else if (data.error)
-        noty({ text: "Error occurred. Check console. Please inform eng team and provide Adobe Animate File.", type:"error", timeout: 10000})
+        noty({ text: "Error occurred. Check console. Please inform eng team and provide Adobe Animate File.", type:"error", timeout: 10000000 })
         throw data.error
     )
 

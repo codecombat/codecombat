@@ -1,4 +1,7 @@
-import { AdobeAnimation, translate } from 'adobe-animate-parser'
+import {
+  AdobeAnimation,
+  translateToCoco
+} from 'adobe-animate-parser'
 
 self.addEventListener('message', (event) => {
   const { data } = event
@@ -8,9 +11,11 @@ self.addEventListener('message', (event) => {
       const parser = new AdobeAnimation(data.input)
       parser.parse()
 
-      self.postMessage({ output: JSON.stringify(translate(parser.parsedEntryPoint)) })
+      const schema = translateToCoco(parser.parsedEntryPoint)
+
+      self.postMessage({ output: JSON.stringify(schema) })
     } catch (error) {
-      self.postMessage({ error })
+      self.postMessage({ error: error.message })
     }
   }
 })
