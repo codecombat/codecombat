@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/level/tome/cast_button.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/level/tome/cast-button-view'
+template = require 'ozaria/site/templates/play/level/tome/cast-button-view-ext'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 ReloadLevelModal = require 'ozaria/site/views/play/level/modal/RestartLevelModal'
@@ -8,7 +8,7 @@ LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
 
 module.exports = class CastButtonView extends CocoView
-  id: 'cast-button-view'
+  id: 'cast-button-view-ext'
   template: template
 
   events:
