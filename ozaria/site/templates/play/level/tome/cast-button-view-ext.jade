@@ -2,7 +2,9 @@ if view.options.level.isType('game-dev')
   img.game-dev-play-btn(src="/images/ozaria/level/emerald.png", alt=$.i18n.t("common.play"))
   button.btn.btn-lg.btn-illustrated.btn-success.done-button.secret
     span(data-i18n="play_level.done")
-  img#reload-code(src="/images/ozaria/level/refresh.svg", alt=$.i18n.t("play_level.restart"))
+  div#reload-code
+    img(src="/images/ozaria/level/refresh.svg", alt=$.i18n.t("play_level.restart"))
+    p(data-i18n="play_level.restart")
 
 else
 
