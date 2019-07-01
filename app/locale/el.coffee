@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     no_code_yet: "Ο μαθητής δεν έχει γράψει καθόλου κώδικα γι' αυτό το επίπεδο ακόμα."
     open_ended_level: "Ανοικτό Επίπεδο"
     partial_solution: "Μερική Λύση"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Αφαίρεση μαθήματος"
     solution_arena_blurb: "Οι μαθητές ενθαρρύνονται να επιλύσουν δημιουργικά τα επίπεδα της αρένας. Η παρακάτω λύση πληροί τις απαιτήσεις του επιπέδου της αρένας."
     solution_challenge_blurb: "Οι μαθητές ενθαρρύνονται να επιλύουν δημιουργικά τα ανοικτά επίπεδα πρόκλησης. Μια πιθανή λύση εμφανίζεται παρακάτω."

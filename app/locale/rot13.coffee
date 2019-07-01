@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     no_code_yet: "Fghqrag unf abg jevggra nal pbqr sbe guvf yriry lrg."
     open_ended_level: "Bcra-Raqrq Yriry"
     partial_solution: "Cnegvny Fbyhgvba"
+    capstone_solution: "Pncfgbar Fbyhgvba"
     removing_course: "Erzbivat pbhefr"
     solution_arena_blurb: "Fghqragf ner rapbhentrq gb fbyir neran yriryf perngviryl. Gur fbyhgvba cebivqrq orybj zrrgf gur erdhverzragf bs gur neran yriry."
     solution_challenge_blurb: "Fghqragf ner rapbhentrq gb fbyir bcra-raqrq punyyratr yriryf perngviryl. Bar cbffvoyr fbyhgvba vf qvfcynlrq orybj."

@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_code_yet: "Студент еще не писал код для этого уровня."
     open_ended_level: "Открытый Уровень"
     partial_solution: "Частичное решение"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Удаление курса"
     solution_arena_blurb: "Студенты поощряются за креативное решение уровней арены. Решение, представленное ниже, отвечает требованиям уровня арены."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."

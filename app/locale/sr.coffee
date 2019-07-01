@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     no_code_yet: "Ученик још није написао код за овај ниво."
     open_ended_level: "Отворени ниво"
     partial_solution: "Парцијално решење"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Уклањање курса"
     solution_arena_blurb: "Ученици се подстичу да креативно реше нивое арене. Понуђено решење испод испуњава захтеве нивоа арене."
     solution_challenge_blurb: "Ученици се подстичу да креативно реше отворене нивое изазова. Једно могуће решење је приказано испод. "

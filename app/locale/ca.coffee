@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     no_code_yet: "L'alumnat encara no ha escrit cap codi en aquest nivell."
     open_ended_level: "Nivell obert"
     partial_solution: "Solució Parcial"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Esborrant curs"
     solution_arena_blurb: "Es recomana a l'alumnat que resolgui els nivells del camp de joc amb creativitat. La solució que es proporciona a continuació compleix els requisits del nivell del camp de joc."
     solution_challenge_blurb: "Es recomana a l'alumnat que resolgui els nivells de desafiament obert amb creativitat. Una possible solució es mostra a continuació."
