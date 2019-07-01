@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
     partial_solution: "Solução Parcial"
+#    capstone_solution: "Capstone Solution"
     removing_course: "A remover o curso"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."

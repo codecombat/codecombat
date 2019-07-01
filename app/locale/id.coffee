@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     no_code_yet: "Siswa belum menulis kode apapun di level ini."
     open_ended_level: "Level Akhir-Terbuka"
     partial_solution: "Solusi Sebagian"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Menghapus kursus"
     solution_arena_blurb: "Para siswa didorong untuk memecahkan level arena secara kreatif. Solusi yang tersedia di bawah memenuhi persyaratan level arena."
     solution_challenge_blurb: "Para siswa didorong untuk memecahkan tantangan level akhir-terbuka secara kreatif. Salah satu solusi kemungkinan ditampilkan di bawah."
