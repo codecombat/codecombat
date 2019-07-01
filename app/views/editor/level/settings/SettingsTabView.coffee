@@ -22,7 +22,7 @@ module.exports = class SettingsTabView extends CocoView
     'practiceThresholdMinutes', 'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
     'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes',
     'maximumHealth', 'assessmentPlacement', 'password', 'mirrorMatch', 'autocompleteReplacement', 'introContent',
-    'additionalGoals', 'isPlayedInStages', 'ozariaType'
+    'additionalGoals', 'isPlayedInStages', 'ozariaType', 'methodsBankList'
   ]
 
   subscriptions:

@@ -40,6 +40,8 @@ module.exports = class SpellPaletteThangEntryView extends CocoView
         description: "![#{@thang.get('name')}](#{@thang.getPortraitURL()}) #{description}"
         example: example
       example: example
+      section: options.section
+      subSection: options.subSection
 
     #@aceEditors = []
 

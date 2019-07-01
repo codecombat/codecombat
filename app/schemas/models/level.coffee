@@ -399,6 +399,14 @@ _.extend LevelSchema.properties,
     }
   }
   isPlayedInStages: {type: 'boolean', title: 'Is Played in Stages', description: 'Is this level played in stages and other content(cinematics) is loaded in between stages'}
+  methodsBankList: c.array {title: 'Methods Bank List'}, c.object {
+    properties: {
+      name: c.shortString(title: 'Name'),
+      section: c.shortString(title: 'Methods Bank Section', pattern: '^[a-z]+$'),
+      subSection: c.shortString(title: 'Methods Bank Sub-Section', pattern: '^[a-z]+$'),
+      componentName: c.shortString(title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation'),
+    }
+  }
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

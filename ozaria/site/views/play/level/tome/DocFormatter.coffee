@@ -99,6 +99,10 @@ module.exports = class DocFormatter
       if translatedName isnt @doc.name
         @doc.translatedShortName = @doc.shortName.replace(@doc.name, translatedName)
 
+    # Add section and sub-section for methods bank list on frontend
+    @doc.section = @options.section
+    @doc.subSection = @options.subSection
+
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
     toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]
