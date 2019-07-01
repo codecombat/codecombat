@@ -6,7 +6,7 @@ import 'plyr/dist/plyr.css'
 export default {
   props: {
     vimeoId: {
-      type: Number,
+      type: String,
       required: false
     },
     width: {
@@ -23,7 +23,7 @@ export default {
     },
     captions: {
       type: Array,
-      default: [],
+      default: ()=>([]),
       required: false
     }
   },
@@ -33,7 +33,11 @@ export default {
     }
 
     if (this.vimeoId) {
-      new VimeoPlayer('vimeo-player')
+      const player = new VimeoPlayer('vimeo-player')
+      player.ready().then(() => {
+        player.play()
+      })
+      player.on('ended', () => this.$emit('completed'))
     } else if (this.videoSrc) {
       new Plyr(this.$refs['player'], { captions: {active: true } })
     }
