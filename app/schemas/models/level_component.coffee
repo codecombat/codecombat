@@ -32,6 +32,18 @@ PropertyDocumentationSchema = c.object {
   codeLanguages: c.array {title: 'Specific Code Languages', description: 'If present, then only the languages specified will show this documentation. Leave unset for language-independent documentation.', format: 'code-languages-array'}, c.shortString(title: 'Code Language', description: 'A specific code language to show this documentation for.', format: 'code-language')
   # not actual JS types, just whatever they describe...
   type: c.shortString(title: 'Type', description: 'Intended type of the property.')
+  shortDescription:
+    oneOf: [
+      {
+        type: 'object',
+        title: 'Language Descriptions (short)',
+        description: 'Property short-descriptions by code language.',
+        additionalProperties: {type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
+        format: 'code-languages-object'
+        default: {javascript: ''}
+      }
+      {title: 'Short Description', type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
+    ]
   description:
     oneOf: [
       {
@@ -106,8 +118,6 @@ PropertyDocumentationSchema = c.object {
         title: 'Variable Name'
         description: 'Variable name this property is autocompleted into.'
         default: 'result'
-  section: c.shortString(title: 'Methods Bank Section')
-  subSection: c.shortString(title: 'Methods Bank Sub-Section')
 
 DependencySchema = c.object {
   title: 'Component Dependency'
