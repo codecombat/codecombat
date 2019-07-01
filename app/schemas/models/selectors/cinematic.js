@@ -111,8 +111,8 @@ const setCharacterDefaults = ({ pos, scaleX, scaleY }) =>
  */
 const setLeftCharacterDefaults = setCharacterDefaults({
   pos: { x: -30, y: -72 },
-  scaleX: 0.82,
-  scaleY: 0.82
+  scaleX: 1.2,
+  scaleY: 1.2
 })
 
 /**
@@ -122,8 +122,8 @@ const setLeftCharacterDefaults = setCharacterDefaults({
  */
 const setRightCharacterDefaults = setCharacterDefaults({
   pos: { x: 30, y: -72 },
-  scaleX: 0.82,
-  scaleY: 0.82
+  scaleX: 1.2,
+  scaleY: 1.2
 })
 
 /**
