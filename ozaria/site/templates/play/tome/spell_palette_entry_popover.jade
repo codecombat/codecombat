@@ -18,8 +18,8 @@ if doc.translatedShortName
   h5
     span.translated-name= doc.translatedShortName
 
-.description.rtl-allowed.rtl-right-aligned(dir="auto")
-  p(dir="auto")!= marked(doc.description || 'Still undocumented, sorry.')
+.short-description.rtl-allowed.rtl-right-aligned(dir="auto")
+  p(dir="auto")!= marked(doc.shortDescription || 'Still undocumented, sorry.')
   div.clear(style="clear: both")
   if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
     p
@@ -97,6 +97,11 @@ if !selectedMethod
               span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
             else if language == 'io'
               span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
+
+if doc.description
+  .description.rtl-allowed.rtl-right-aligned(dir="auto")
+    p(dir="auto")!= marked(doc.description)
+    div.clear(style="clear: both")
 
 if (doc.type != 'function' && doc.type != 'snippet' && doc.type != 'spawnable' && doc.type != 'event' && doc.type != 'handler' && doc.type != 'property' && !_.contains(['HTML', 'CSS', 'WebJavaScript', 'jQuery'], doc.owner)) || doc.name == 'now'
   p.value

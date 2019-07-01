@@ -1,6 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell-palette-thang-entry'
-popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
+popoverTemplate = require 'ozaria/site/templates/play/tome/spell_palette_entry_popover'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'

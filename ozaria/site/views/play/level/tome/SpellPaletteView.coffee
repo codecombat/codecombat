@@ -85,7 +85,10 @@ module.exports = class SpellPaletteView extends CocoView
 
     methodsBankList = @options.level.get('methodsBankList') || []
     
-    @organizePaletteHero methodsBankList, allDocs, excludedDocs
+    if methodsBankList.length == 0
+      console.log("Methods Bank list is empty!!")
+    else
+      @organizePaletteHero methodsBankList, allDocs, excludedDocs
     @publishAutoCompleteEvent(allDocs)
 
   # Reads the methods bank list and find its documentation from allDocs(i.e. docs coming from level components)
