@@ -2,11 +2,19 @@
   import VueDraggable from 'vuedraggable'
 
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
+
+  import { putSession } from 'ozaria/site/api/interactive'
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+
+  import BaseButton from '../common/BaseButton'
+  import ModalInteractive from '../common/ModalInteractive.vue'
 
   export default {
     components: {
+      BaseButton,
+      ModalInteractive,
       BaseInteractiveLayout,
+
       'draggable': VueDraggable
     },
 
@@ -34,6 +42,9 @@
 
     data () {
       return {
+        showModal: false,
+        submitEnabled: true,
+
         promptSlots: (this.localizedInteractiveConfig.elements || [])
           .map(({ elementId, ...rest }) => ({
             ...rest,
@@ -59,6 +70,58 @@
         }
 
         return undefined
+      },
+
+      userAnswer () {
+        return this.promptSlots.map((s) => s.id)
+      },
+
+      solutionCorrect () {
+        for (let i = 0; i < this.userAnswer.length; i++) {
+          if (this.userAnswer[i] !== this.localizedInteractiveConfig.solution[i]) {
+            return false
+          }
+        }
+
+        return true
+      }
+    },
+
+    methods: {
+      async submitSolution () {
+        this.showModal = true
+        this.submitEnabled = false
+
+        // TODO save through vuex and block progress until save is successful
+        await putSession(this.interactive._id, {
+          json: {
+            codeLanguage: this.codeLanguage,
+            submission: {
+              correct: this.solutionCorrect,
+              submittedSolution: this.userAnswer
+            }
+          }
+        })
+      },
+
+      closeModal () {
+        if (this.solutionCorrect) {
+          this.$emit('completed')
+        } else {
+          this.resetAnswer()
+        }
+
+        this.showModal = false
+        this.submitEnabled = true
+      },
+
+      resetAnswer () {
+        // TODO consolidate with initial state setting
+        this.promptSlots = (this.localizedInteractiveConfig.elements || [])
+          .map(({ elementId, ...rest }) => ({
+            ...rest,
+            id: elementId
+          }))
       }
     }
   }
@@ -70,34 +133,53 @@
     :art-url="artUrl"
   >
     <div class="draggable-ordering-content">
-      <draggable
-        :list="promptSlots"
-        class="slots-container prompt-slots"
-        ghost-class="ghost-slot"
-        tag="ul"
-        :force-fallback="true"
-        fallback-class="dragging-slot"
-      >
-        <li
-          v-for="prompt in promptSlots"
-          :key="prompt.id"
-          :class="{ 'prompt': true, 'monospaced': (prompt.textStyleCode === true) }"
+      <div class="draggable-ordering-lists">
+        <draggable
+          :list="promptSlots"
+          class="slots-container prompt-slots"
+          ghost-class="ghost-slot"
+          tag="ul"
+          :force-fallback="true"
+          fallback-class="dragging-slot"
         >
-          {{ prompt.text }}
-        </li>
-      </draggable>
+          <li
+            v-for="prompt in promptSlots"
+            :key="prompt.id"
+            :class="{ 'prompt': true, 'monospaced': (prompt.textStyleCode === true) }"
+          >
+            {{ prompt.text }}
+          </li>
+        </draggable>
 
-      <ul
-        class="slots-container"
-      >
-        <li
-          v-for="(label, index) in labels"
-          :key="index"
-          :class="{ 'prompt-label': true, 'monospaced': (label.textStyleCode === true) }"
+        <ul
+          class="slots-container"
         >
-          {{ label.text }}
-        </li>
-      </ul>
+          <li
+            v-for="(label, index) in labels"
+            :key="index"
+            :class="{ 'prompt-label': true, 'monospaced': (label.textStyleCode === true) }"
+          >
+            {{ label.text }}
+          </li>
+        </ul>
+      </div>
+
+      <base-button
+        class="submit"
+        :on-click="submitSolution"
+        :enabled="submitEnabled"
+      >
+        {{ $t('common.submit') }}
+      </base-button>
+
+      <modal-interactive
+        v-if="showModal"
+        @close="closeModal"
+      >
+        <template v-slot:body>
+          <h1>{{ solutionCorrect ? "Did it!" : "Try Again!" }}</h1>
+        </template>
+      </modal-interactive>
     </div>
   </base-interactive-layout>
 </template>
@@ -107,12 +189,28 @@
     padding: 20px;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
-    align-items: center;
-    justify-content: center;
+    .draggable-ordering-lists {
+      flex-grow: 1;
+
+      width: 100%;
+
+      display: flex;
+      flex-direction: row;
+
+      align-items: center;
+      justify-content: center;
+    }
 
     height: 100%;
+  }
+
+  .submit {
+    justify-content: flex-end;
+
+    margin: 0px auto;
+    margin-top: auto;
   }
 
   ul.slots-container {
