@@ -1637,6 +1637,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     no_code_yet: "Leerling heeft nog geen code voor dit level geschreven"
     open_ended_level: "Open-einde-level"
     partial_solution: "Gedeeltelijke oplossing"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Cursus wordt verwijderd"
     solution_arena_blurb: "Studenten worden aangemoedigd om arena-levels creatief op te lossen. De onderstaande oplossing voldoet aan de vereisten van het arena-level."
     solution_challenge_blurb: "Studenten worden aangemoedigd om open-ended (met een open einde) challenge levels op een creatieve manier op te lossen. Een mogelijke oplossing wordt hieronder weergegeven."
