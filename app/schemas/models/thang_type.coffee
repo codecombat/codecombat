@@ -214,6 +214,7 @@ _.extend ThangTypeSchema.properties,
   restricted: {type: 'string', title: 'Restricted', description: 'If set, this ThangType will only be accessible by admins and whoever it is restricted to.'}
   releasePhase: { enum: ['beta', 'released'], description: "How far along the ThangType's development is, determining who sees it." }
   gender: { enum: ['female', 'male'], type: 'string', title: 'Hero Gender', description: 'Affects which paper doll image set and language pronouns to use.' }
+  ozaria: { type: 'boolean', description: 'Marks this thang as an Ozaria only type. Used to prevent Ozaria hero\'s from appearing in CodeCombat hero selector.'}
 
 ThangTypeSchema.required = []
 
