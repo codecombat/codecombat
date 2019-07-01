@@ -46,7 +46,10 @@ module.exports = class SpellPaletteView extends CocoView
       entrySubGroups = _.groupBy entries, (entry) -> entry.doc.subSection || 'none'
       for subGroup, entries of entrySubGroups
         if subGroup != 'none'
-          header = $("<a class='sub-section-header btn btn-small btn-illustrated' data-panel='#sub-section-#{subGroup}-#{group}'><span>#{subGroup}</span><div style='float: right' class='glyphicon glyphicon-chevron-down'></div></a>").appendTo itemGroup
+          header = $("<a class='sub-section-header btn btn-small btn-illustrated' data-panel='#sub-section-#{subGroup}-#{group}'>
+              <span>#{subGroup}</span>
+              <div style='float: right' class='glyphicon glyphicon-chevron-down'></div>
+            </a>").appendTo itemGroup
           itemSubGroup = $("<div class='property-entry-item-sub-group collapse' id='sub-section-#{subGroup}-#{group}'></div>").appendTo itemGroup
         for entry, entryIndex in entries
           if subGroup != 'none'
