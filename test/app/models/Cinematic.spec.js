@@ -20,7 +20,8 @@ import {
   getSetupMusic,
   getSoundEffects,
   getWaitUserInput,
-  getLanguageFilter
+  getLanguageFilter,
+  getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
 
 /**
@@ -50,7 +51,7 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getLeftCharacterThangTypeSlug(shotFixture2)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 0.82, scaleY: 0.82, pos: { x: -30, y: -72 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: -30, y: -72 } } })
     })
 
     it('getRightCharacterThangTypeSlug', () => {
@@ -58,7 +59,7 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getRightCharacterThangTypeSlug(shotFixture1)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 0.82, scaleY: 0.82, pos: { x: 30, y: -72 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: 30, y: -72 } } })
     })
 
     it('getLeftHero', () => {
@@ -215,6 +216,14 @@ describe('Cinematic', () => {
       expect(getLanguageFilter({ programmingLanguageFilter: 'python' })).toEqual('python')
       expect(getLanguageFilter({ programmingLanguageFilter: 'javascript' })).toEqual('javascript')
     })
+
+    it('getHeroPet', () => {
+      const result = getHeroPet(shotFixture1)
+      expect(result).toEqual({ slug: 'hero-dog-slug', thang: { scaleX: 1, scaleY: 2, pos: { x: 2, y: 0 } } })
+
+      const result2 = getHeroPet(shotFixture2)
+      expect(result2).toBeUndefined()
+    })
   })
 })
 
@@ -254,6 +263,15 @@ var shotFixture1 = {
           slug: 'fake-slug-thangtype'
         }
       }
+    },
+    heroPetThangType: {
+      type: {
+        slug: 'hero-dog-slug'
+      },
+      pos: {
+        x: 2
+      },
+      scaleY: 2
     },
     backgroundArt: {
       type: {

@@ -1,4 +1,4 @@
-popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
+popoverTemplate = require 'ozaria/site/templates/play/tome/spell_palette_entry_popover'
 {downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
 utils = require 'core/utils'
@@ -98,6 +98,10 @@ module.exports = class DocFormatter
       translatedName = utils.i18n(@doc, 'name')
       if translatedName isnt @doc.name
         @doc.translatedShortName = @doc.shortName.replace(@doc.name, translatedName)
+
+    # Add section and sub-section for methods bank list on frontend
+    @doc.section = @options.section
+    @doc.subSection = @options.subSection
 
 
     # Grab the language-specific documentation for some sub-properties, if we have it.

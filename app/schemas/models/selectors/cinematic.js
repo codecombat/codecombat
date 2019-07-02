@@ -111,8 +111,8 @@ const setCharacterDefaults = ({ pos, scaleX, scaleY }) =>
  */
 const setLeftCharacterDefaults = setCharacterDefaults({
   pos: { x: -30, y: -72 },
-  scaleX: 0.82,
-  scaleY: 0.82
+  scaleX: 1.2,
+  scaleY: 1.2
 })
 
 /**
@@ -122,8 +122,8 @@ const setLeftCharacterDefaults = setCharacterDefaults({
  */
 const setRightCharacterDefaults = setCharacterDefaults({
   pos: { x: 30, y: -72 },
-  scaleX: 0.82,
-  scaleY: 0.82
+  scaleX: 1.2,
+  scaleY: 1.2
 })
 
 /**
@@ -158,10 +158,34 @@ const rightCharacter = shotSetup => (shotSetup || {}).rightThangType
 const backgroundArt = shotSetup => (shotSetup || {}).backgroundArt
 
 /**
+ * @param {ShotSetup} shotSetup
+ * @returns {Object|undefined} heroPetThangType
+ */
+const heroPetThangType = shotSetup => (shotSetup || {}).heroPetThangType
+
+/**
  * @param {Object} o Object that may have slug property
  * @returns {string|undefined}
  */
 const slug = o => (o || {}).slug
+
+/**
+ * Returns a thang from a thangType if properties exist.
+ * @param {Object} thangType that matches the ThangTypeSchema with a Character Slug
+ * @returns {Object|undefined} returns thang if required properties exist.
+ */
+const extractThangTypeSchemaSlug = thangType => {
+  if (!(thangType || {}).type) {
+    return
+  }
+  if (!(thangType.type || {}).slug) {
+    return
+  }
+  const { pos, scaleX, scaleY } = thangType
+  const thang = { pos, scaleX, scaleY }
+  const slug = thangType.type.slug
+  return { thang, slug }
+}
 
 /**
  * Returns properties required to place a background Lank.
@@ -169,17 +193,33 @@ const slug = o => (o || {}).slug
  * @returns {Object|undefined} a background object
  */
 const background = backgroundArt => {
-  if (!(backgroundArt || {}).type) {
+  const thangData = extractThangTypeSchemaSlug(backgroundArt)
+  if (!thangData) {
     return
   }
-  if (!(backgroundArt.type || {}).slug) {
-    return
-  }
-  const { pos, scaleX, scaleY } = backgroundArt
+  const { slug, thang } = thangData
 
   return {
-    slug: backgroundArt.type.slug,
-    thang: _.merge(DEFAULT_THANGTYPE(), { pos, scaleX, scaleY })
+    slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), thang)
+  }
+}
+
+/**
+ * Returns properties required to place a hero pet Lank.
+ * @param {Object} heroPetSchema
+ * @returns {Object|undefined} a pet object with slug and thang
+ */
+const heroPet = heroPet => {
+  const thangData = extractThangTypeSchemaSlug(heroPet)
+  if (!thangData) {
+    return
+  }
+  const { slug, thang } = thangData
+
+  return {
+    slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), thang)
   }
 }
 
@@ -439,6 +479,13 @@ export const getBackground = compose(shotSetup, backgroundArt, background)
  * @returns {string|undefined}
  */
 export const getBackgroundSlug = compose(shotSetup, backgroundArt, background, slug)
+
+/**
+ * Get hero pet thang
+ * @param {Shot} shot
+ * @returns {Object|undefined}
+ */
+export const getHeroPet = compose(shotSetup, heroPetThangType, heroPet)
 
 /**
  * @param {DialogNode} dialogNode
