@@ -2,15 +2,16 @@
   import api from 'core/api'
   import interactivesComponent from '../../interactive/PageInteractive'
   import cinematicsComponent from '../../cinematic/PageCinematic'
+  import cutsceneVideoComponent from '../../cutscene/PageCutscene'
   import { defaultCodeLanguage, getNextLevelLink, getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
   import { mapActions, mapGetters } from 'vuex'
 
   export default Vue.extend({
     components: {
       'interactives-component': interactivesComponent,
-      'cinematics-component': cinematicsComponent
+      'cinematics-component': cinematicsComponent,
+      'cutscene-video-component': cutsceneVideoComponent
       // TODO add when ready
-      // 'cutscene-video-component': cutsceneVideoComponent,
       // 'avatar-selection-screen': avatarSelectionScreen
     },
     props: {
@@ -196,15 +197,16 @@
     <cinematics-component
       v-else-if="currentContent.type == 'cinematic'"
       :cinematic-id-or-slug="currentContent.contentId"
-      :userOptions="{ programmingLanguage: language }"
+      :user-options="{ programmingLanguage: language }"
+      @completed="onContentCompleted"
+    />
+    <cutscene-video-component
+      v-else-if="currentContent.type == 'cutscene-video'"
+      :cutscene-id="currentContent.contentId"
       @completed="onContentCompleted"
     />
     <!-- TODO add when ready -->
-    <!-- <cutscene-video-component
-      v-else-if="currentContent.type == 'cutscene-video'"
-      v-on:completed="onContentCompleted">
-    </cutscene-video-component>
-    <avatar-selection-screen
+    <!-- <avatar-selection-screen
       v-else-if="currentContent.type == 'avatarSelectionScreen'"
       v-on:completed="onContentCompleted">
     </avatar-selection-screen> -->
