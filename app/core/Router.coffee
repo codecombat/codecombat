@@ -176,7 +176,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-    'ozaria/play/intro/:introLevelOriginalId': go('core/SingletonAppVueComponentView')
     'ozaria/play/level/:levelID': go('views/ozaria/site/play/level/PlayLevelView')
     # TODO move to vue router after support for empty template is added there
     'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
@@ -185,6 +184,11 @@ module.exports = class CocoRouter extends Backbone.Router
         courseInstanceId: courseInstanceId
       }
       @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    'ozaria/play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
+      props = {
+        introLevelIdOrSlug: introLevelIdOrSlug
+      }
+      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
     'parents': go('ParentsView')
 
     'paypal/subscribe-callback': go('play/CampaignView')

@@ -2,15 +2,17 @@
   import api from 'core/api'
   import interactivesComponent from '../../interactive/PageInteractive'
   import cinematicsComponent from '../../cinematic/PageCinematic'
+  import cutsceneVideoComponent from '../../cutscene/PageCutscene'
   import { defaultCodeLanguage, getNextLevelLink, getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
   import { mapActions, mapGetters } from 'vuex'
+  import utils from 'core/utils'
 
   export default Vue.extend({
     components: {
       'interactives-component': interactivesComponent,
-      'cinematics-component': cinematicsComponent
+      'cinematics-component': cinematicsComponent,
+      'cutscene-video-component': cutsceneVideoComponent
       // TODO add when ready
-      // 'cutscene-video-component': cutsceneVideoComponent,
       // 'avatar-selection-screen': avatarSelectionScreen
     },
     props: {
@@ -41,6 +43,7 @@
       introLevelSession: {},
       introContent: [],
       currentContent: {},
+      currentContentId: '',
       currentIndex: 0,
       language: '',
       campaignData: {},
@@ -74,6 +77,13 @@
       {
         loadIntroLevel: async function () {
           this.dataLoaded = false
+
+          // Reading query params because this is rendered via backbone router and cannot be directly passed in as props
+          // They need to be in a specific order in the url to read and send them as props directy from backbone router, hence using query params here.
+          this.courseInstanceId = this.courseInstanceId || utils.getQueryVariable('course-instance')
+          this.codeLanguage = this.codeLanguage || utils.getQueryVariable('code-language')
+          this.courseId = this.courseId || utils.getQueryVariable('course')
+          this.campaignId = this.campaignId || utils.getQueryVariable('campaign')
           try {
             this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
             if (me.isSessionless()) { // not saving progress/session for teachers
@@ -83,35 +93,20 @@
               this.language = this.introLevelSession.codeLanguage
             }
 
-            const content = this.introLevelData.introContent
-            if (_.isArray(content)) {
-              this.introContent = content
-            } else if (_.isObject(content)) {
-              if (!content[this.language]) {
-                console.error(`Intro content for language ${this.language} not found`)
-                // TODO: update after a consistent error handling strategy is decided
-                noty({ text: 'Invalid intro content', type: 'error', timeout: 2000 })
-                return
-              }
-              this.introContent = content[this.language]
-            } else {
-              console.error('Invalid intro content, it should be an array or an object')
-              // TODO: update after a consistent error handling strategy is decided
-              noty({ text: 'Invalid intro content', type: 'error', timeout: 2000 })
-              return
-            }
+            this.introContent = this.introLevelData.introContent
 
             // fetch campaign data
             await this.loadCampaignData()
           } catch (err) {
             console.error('Error in creating data for intro level', err)
-            // TODO: update after a consistent error handling strategy is decided
+            // TODO handle_error_ozaria
             noty({ text: 'Error in creating data for intro level', type: 'error', timeout: 2000 })
             return
           }
           // Assign first content in the sequence to this.currentContent
           this.currentIndex = 0
           this.currentContent = this.introContent[this.currentIndex]
+          this.setCurrentContentId(this.currentContent)
           this.dataLoaded = true
         },
         loadCampaignData: async function () {
@@ -129,13 +124,30 @@
           this.currentIndex++
           if (this.currentIndex < this.introContent.length) { // increment current content
             this.currentContent = this.introContent[this.currentIndex]
+            this.setCurrentContentId(this.currentContent)
           } else { // whole intro content completed
             await this.setIntroLevelComplete()
-            await this.fetchNextLevel()
-            const link = this.fetchNextLevelLink()
-            if (link && !application.testing) {
-              return application.router.navigate(link, { trigger: true })
+            if ((this.campaignData || {}).levels) {
+              await this.fetchNextLevel()
+              const link = this.fetchNextLevelLink()
+              if (link && !application.testing) {
+                return application.router.navigate(link, { trigger: true })
+              }
             }
+          }
+        },
+        setCurrentContentId: function (content) {
+          if (_.isObject(content.contentId)) {
+            if (!content.contentId[this.language]) {
+              console.error(`Intro content for language ${this.language} not found`)
+              // TODO handle_error_ozaria
+              noty({ text: 'Invalid intro content', type: 'error', timeout: 2000 })
+              this.currentContentId = ''
+              return
+            }
+            this.currentContentId = content.contentId[this.language]
+          } else {
+            this.currentContentId = content.contentId
           }
         },
         setIntroLevelComplete: async function () {
@@ -145,7 +157,7 @@
               await api.levelSessions.update(this.introLevelSession)
             } catch (err) {
               console.error('Error in saving intro level session', err)
-              // TODO: update after a consistent error handling strategy is decided
+              // TODO handle_error_ozaria
               return noty({ text: 'Error in saving intro level session', type: 'error', timeout: 2000 })
             }
           }
@@ -161,7 +173,7 @@
             }
           } catch (err) {
             console.error('Error in fetching next level', err)
-            // TODO: update after a consistent error handling strategy is decided
+            // TODO handle_error_ozaria
             noty({ text: 'Error in fetching next level', type: 'error', timeout: 2000 })
           }
         },
@@ -189,22 +201,23 @@
   <div v-if="dataLoaded">
     <interactives-component
       v-if="currentContent.type == 'interactive'"
-      :interactive-id-or-slug="currentContent.contentId"
+      :interactive-id-or-slug="currentContentId"
       :code-language="language"
       @completed="onContentCompleted"
     />
     <cinematics-component
       v-else-if="currentContent.type == 'cinematic'"
-      :cinematic-id-or-slug="currentContent.contentId"
-      :userOptions="{ programmingLanguage: language }"
+      :cinematic-id-or-slug="currentContentId"
+      :user-options="{ programmingLanguage: language }"
+      @completed="onContentCompleted"
+    />
+    <cutscene-video-component
+      v-else-if="currentContent.type == 'cutscene-video'"
+      :cutscene-id="currentContentId"
       @completed="onContentCompleted"
     />
     <!-- TODO add when ready -->
-    <!-- <cutscene-video-component
-      v-else-if="currentContent.type == 'cutscene-video'"
-      v-on:completed="onContentCompleted">
-    </cutscene-video-component>
-    <avatar-selection-screen
+    <!-- <avatar-selection-screen
       v-else-if="currentContent.type == 'avatarSelectionScreen'"
       v-on:completed="onContentCompleted">
     </avatar-selection-screen> -->

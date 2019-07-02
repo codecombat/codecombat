@@ -35,14 +35,7 @@
           return false
         }
         const introContent = this.levelData.introContent
-        if (_.isArray(introContent)) {
-          return introContent.length === 1 && introContent[0].type === 'cutscene-video'
-        } else if (_.isObject(introContent)) {
-          const language = this.codeLanguage || 'python'
-          const content = introContent[language] || []
-          return content.length === 1 && content[0].type === 'cutscene-video'
-        }
-        return false
+        return introContent.length === 1 && introContent[0].type === 'cutscene-video'
       },
       levelDotPosition: function () {
         let position = {
