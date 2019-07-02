@@ -20,7 +20,8 @@ import {
   getSetupMusic,
   getSoundEffects,
   getWaitUserInput,
-  getLanguageFilter
+  getLanguageFilter,
+  getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
 
 /**
@@ -215,6 +216,14 @@ describe('Cinematic', () => {
       expect(getLanguageFilter({ programmingLanguageFilter: 'python' })).toEqual('python')
       expect(getLanguageFilter({ programmingLanguageFilter: 'javascript' })).toEqual('javascript')
     })
+
+    it('getHeroPet', () => {
+      const result = getHeroPet(shotFixture1)
+      expect(result).toEqual({ slug: 'hero-dog-slug', thang: { scaleX: 1, scaleY: 2, pos: { x: 2, y: 0 } } })
+
+      const result2 = getHeroPet(shotFixture2)
+      expect(result2).toBeUndefined()
+    })
   })
 })
 
@@ -254,6 +263,15 @@ var shotFixture1 = {
           slug: 'fake-slug-thangtype'
         }
       }
+    },
+    heroPetThangType: {
+      type: {
+        slug: 'hero-dog-slug'
+      },
+      pos: {
+        x: 2
+      },
+      scaleY: 2
     },
     backgroundArt: {
       type: {
