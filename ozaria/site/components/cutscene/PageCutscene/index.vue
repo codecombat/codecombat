@@ -2,7 +2,7 @@
 import LayoutChrome from '../../common/LayoutChrome'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
 import BaseVideo from '../common/BaseVideo'
-import { getCutscene } from '../../../api/cutscene';
+import { getCutscene } from '../../../api/cutscene'
 
 const CUTSCENE_ASPECT_RATIO = 16 / 9
 
@@ -33,7 +33,7 @@ module.exports = Vue.extend({
     window.removeEventListener("resize", this.onResize)
   },
   methods: {
-    onResize: function() {
+    onResize () {
       const userWidth = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth
@@ -45,12 +45,15 @@ module.exports = Vue.extend({
       this.height = Math.min(userWidth / CUTSCENE_ASPECT_RATIO, userHeight)
       this.width = this.height * CUTSCENE_ASPECT_RATIO
     },
-    async loadCutscene() {
+    async loadCutscene () {
       const cutscene = await getCutscene(this.cutsceneId)
       this.vimeoId = cutscene.vimeoId
 
       window.addEventListener('resize', this.onResize)
       this.onResize()
+    },
+    onCompleted () {
+      this.$emit('completed')
     }
   }
 })
@@ -66,6 +69,8 @@ module.exports = Vue.extend({
           :vimeoId="vimeoId"
           :width="width"
           :height="height"
+
+          v-on:completed="onCompleted"
         />
       </div>
     </layout-center-content>
