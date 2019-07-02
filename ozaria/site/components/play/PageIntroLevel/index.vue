@@ -140,10 +140,12 @@
             this.currentContent = this.introContent[this.currentIndex]
           } else { // whole intro content completed
             await this.setIntroLevelComplete()
-            await this.fetchNextLevel()
-            const link = this.fetchNextLevelLink()
-            if (link && !application.testing) {
-              return application.router.navigate(link, { trigger: true })
+            if ((this.campaignData || {}).levels) {
+              await this.fetchNextLevel()
+              const link = this.fetchNextLevelLink()
+              if (link && !application.testing) {
+                return application.router.navigate(link, { trigger: true })
+              }
             }
           }
         },
