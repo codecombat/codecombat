@@ -18,7 +18,9 @@ const introLevel = {
     },
     {
       type: 'interactive',
-      contentId: 'interactive-slug-1'
+      contentId: {
+        python: 'interactive-slug-1'
+      }
     }
   ]
 }
@@ -26,7 +28,8 @@ const introLevel = {
 const introLevelSession = {
   state: {
     complete: false
-  }
+  },
+  codeLanguage: 'python'
 }
 
 const campaign = factories.makeCampaignObject({ type: 'course' }, { levels: [introLevel] })
@@ -67,5 +70,6 @@ describe('Intro level Page', () => {
   it('sets complete:true in the intro level session when all content completed', () => {
     pageIntroLevelWrapper.find(cinematicComponent).vm.$emit('completed')
     pageIntroLevelWrapper.find(interactiveComponent).vm.$emit('completed')
+    expect(api.levelSessions.update).toHaveBeenCalled()
   })
 })

@@ -43,6 +43,7 @@
       introLevelSession: {},
       introContent: [],
       currentContent: {},
+      currentContentId: '',
       currentIndex: 0,
       language: '',
       campaignData: {},
@@ -92,23 +93,7 @@
               this.language = this.introLevelSession.codeLanguage
             }
 
-            const content = this.introLevelData.introContent
-            if (_.isArray(content)) {
-              this.introContent = content
-            } else if (_.isObject(content)) {
-              if (!content[this.language]) {
-                console.error(`Intro content for language ${this.language} not found`)
-                // TODO: update after a consistent error handling strategy is decided
-                noty({ text: 'Invalid intro content', type: 'error', timeout: 2000 })
-                return
-              }
-              this.introContent = content[this.language]
-            } else {
-              console.error('Invalid intro content, it should be an array or an object')
-              // TODO: update after a consistent error handling strategy is decided
-              noty({ text: 'Invalid intro content', type: 'error', timeout: 2000 })
-              return
-            }
+            this.introContent = this.introLevelData.introContent
 
             // fetch campaign data
             await this.loadCampaignData()
@@ -121,6 +106,7 @@
           // Assign first content in the sequence to this.currentContent
           this.currentIndex = 0
           this.currentContent = this.introContent[this.currentIndex]
+          this.setCurrentContentId(this.currentContent)
           this.dataLoaded = true
         },
         loadCampaignData: async function () {
@@ -138,6 +124,7 @@
           this.currentIndex++
           if (this.currentIndex < this.introContent.length) { // increment current content
             this.currentContent = this.introContent[this.currentIndex]
+            this.setCurrentContentId(this.currentContent)
           } else { // whole intro content completed
             await this.setIntroLevelComplete()
             if ((this.campaignData || {}).levels) {
@@ -149,6 +136,20 @@
             }
           }
         },
+        setCurrentContentId: function (content) {
+          if (_.isObject(content.contentId)) {
+            if (!content.contentId[this.language]) {
+              console.error(`Intro content for language ${this.language} not found`)
+              // TODO handle_error_ozaria
+              noty({ text: 'Invalid intro content', type: 'error', timeout: 2000 })
+              this.currentContentId = ''
+              return
+            }
+            this.currentContentId = content.contentId[this.language]
+          } else {
+            this.currentContentId = content.contentId
+          }
+        },
         setIntroLevelComplete: async function () {
           if (!me.isSessionless()) { // not saving progress/session for teachers
             try {
@@ -156,7 +157,7 @@
               await api.levelSessions.update(this.introLevelSession)
             } catch (err) {
               console.error('Error in saving intro level session', err)
-              // TODO: update after a consistent error handling strategy is decided
+              // TODO handle_error_ozaria
               return noty({ text: 'Error in saving intro level session', type: 'error', timeout: 2000 })
             }
           }
@@ -172,7 +173,7 @@
             }
           } catch (err) {
             console.error('Error in fetching next level', err)
-            // TODO: update after a consistent error handling strategy is decided
+            // TODO handle_error_ozaria
             noty({ text: 'Error in fetching next level', type: 'error', timeout: 2000 })
           }
         },
@@ -200,19 +201,19 @@
   <div v-if="dataLoaded">
     <interactives-component
       v-if="currentContent.type == 'interactive'"
-      :interactive-id-or-slug="currentContent.contentId"
+      :interactive-id-or-slug="currentContentId"
       :code-language="language"
       @completed="onContentCompleted"
     />
     <cinematics-component
       v-else-if="currentContent.type == 'cinematic'"
-      :cinematic-id-or-slug="currentContent.contentId"
+      :cinematic-id-or-slug="currentContentId"
       :user-options="{ programmingLanguage: language }"
       @completed="onContentCompleted"
     />
     <cutscene-video-component
       v-else-if="currentContent.type == 'cutscene-video'"
-      :cutscene-id="currentContent.contentId"
+      :cutscene-id="currentContentId"
       @completed="onContentCompleted"
     />
     <!-- TODO add when ready -->
