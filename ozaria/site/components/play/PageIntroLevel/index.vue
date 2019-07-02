@@ -5,6 +5,7 @@
   import cutsceneVideoComponent from '../../cutscene/PageCutscene'
   import { defaultCodeLanguage, getNextLevelLink, getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
   import { mapActions, mapGetters } from 'vuex'
+  import utils from 'core/utils'
 
   export default Vue.extend({
     components: {
@@ -75,6 +76,13 @@
       {
         loadIntroLevel: async function () {
           this.dataLoaded = false
+
+          // Reading query params because this is rendered via backbone router and cannot be directly passed in as props
+          // They need to be in a specific order in the url to read and send them as props directy from backbone router, hence using query params here.
+          this.courseInstanceId = this.courseInstanceId || utils.getQueryVariable('course-instance')
+          this.codeLanguage = this.codeLanguage || utils.getQueryVariable('code-language')
+          this.courseId = this.courseId || utils.getQueryVariable('course')
+          this.campaignId = this.campaignId || utils.getQueryVariable('campaign')
           try {
             this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
             if (me.isSessionless()) { // not saving progress/session for teachers
