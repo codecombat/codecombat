@@ -37,6 +37,8 @@ export default {
       player.ready().then(() => {
         player.play()
       })
+      // TODO: Instead of emitting completed, requires end screen UI.
+      //        Currently a stop gap to provide Intro support.
       player.on('ended', () => this.$emit('completed'))
     } else if (this.videoSrc) {
       new Plyr(this.$refs['player'], { captions: {active: true } })
