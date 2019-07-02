@@ -99,7 +99,7 @@
             await this.loadCampaignData()
           } catch (err) {
             console.error('Error in creating data for intro level', err)
-            // TODO: update after a consistent error handling strategy is decided
+            // TODO handle_error_ozaria
             noty({ text: 'Error in creating data for intro level', type: 'error', timeout: 2000 })
             return
           }
