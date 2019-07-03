@@ -444,7 +444,6 @@ export default class CinematicLankBoss {
     }
 
     const lank = new Lank(thangType, {
-      resolutionFactor: 60,
       preloadSounds: false,
       thang,
       camera: this.camera,
@@ -465,7 +464,7 @@ export default class CinematicLankBoss {
  * @param {Object} thang - is merged onto default thang settings.
  * @returns {Object} thang object literal
  */
-const createThang = thang => {
+export const createThang = thang => {
   const defaults = {
     health: 10.0,
     maxHealth: 10.0,
