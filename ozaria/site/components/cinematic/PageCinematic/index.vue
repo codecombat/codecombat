@@ -23,11 +23,6 @@ module.exports = Vue.extend({
     'layout-chrome': LayoutChrome,
     'layout-center-content': LayoutCenterContent
   },
-  watch : {
-    cinematicIdOrSlug: async function() {
-      await this.getCinematicData()
-    }
-  },
   async created () {
     if (!me.hasCinematicAccess())  {
       alert('You must be logged in as an admin to use this page.')

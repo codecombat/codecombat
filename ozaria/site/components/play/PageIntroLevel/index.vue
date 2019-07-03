@@ -201,18 +201,21 @@
   <div v-if="dataLoaded">
     <interactives-component
       v-if="currentContent.type == 'interactive'"
+      :key="currentContentId"
       :interactive-id-or-slug="currentContentId"
       :code-language="language"
       @completed="onContentCompleted"
     />
     <cinematics-component
       v-else-if="currentContent.type == 'cinematic'"
+      :key="currentContentId"
       :cinematic-id-or-slug="currentContentId"
       :user-options="{ programmingLanguage: language }"
       @completed="onContentCompleted"
     />
     <cutscene-video-component
       v-else-if="currentContent.type == 'cutscene-video'"
+      :key="currentContentId"
       :cutscene-id="currentContentId"
       @completed="onContentCompleted"
     />
