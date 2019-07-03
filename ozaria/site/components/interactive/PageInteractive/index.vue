@@ -51,12 +51,6 @@
       }
     },
 
-    watch: {
-      interactiveIdOrSlug: async function () {
-        await this.getInteractiveData()
-      }
-    },
-
     async created () {
       if (!me.hasInteractiveAccess()) {
         alert('You must be logged in as an admin to use this page.')
