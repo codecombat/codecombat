@@ -95,7 +95,6 @@ module.exports = class PlayHeroesModal extends ModalView
       return null
 
   getRenderData: (context={}) ->
-    console.log('calling render', @heroes.models)
     context = super(context)
     context.heroes = @heroes.models
     context.level = @options.level
