@@ -211,7 +211,17 @@ IntroContentObject = {
   additionalProperties: false,
   properties: {
     type: { title: 'Content type', enum: ['cinematic', 'interactive', 'cutscene-video', 'avatarSelectionScreen'] }
-    contentId: c.stringID(title: 'Content ID')
+    contentId: {
+      oneOf: [
+        c.stringID(title: 'Content ID for all languages')
+        {
+          type: 'object',
+          title: 'Content ID specific to languages',
+          additionalProperties: c.stringID(),
+          format: 'code-languages-object'
+        }
+      ]
+    }
   }
 }
 
@@ -377,16 +387,10 @@ _.extend LevelSchema.properties,
   password: { type: 'string', description: 'The password required to create a session for this level' }
   mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
   introContent: { # valid for levels of type 'intro'
-    oneOf: [
-      {
-        title: 'Intro content object',
-        description: 'Intro content sequence for individual languages'
-        type: 'object',
-        format: 'code-languages-object',
-        additionalProperties: { type: 'array', items: IntroContentObject }
-      }
-      { title: 'Intro content array', description: 'Intro content sequence for all languages', type: 'array', items: IntroContentObject }
-    ]
+    title: 'Intro content',
+    description: 'Intro content sequence',
+    type: 'array',
+    items: IntroContentObject
   }
   additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
     title: 'Goals',

@@ -11,7 +11,6 @@ import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCine
 import PageCutsceneEditorList from '../../ozaria/site/components/cutscene/PageCutsceneEditorList'
 import PageCutsceneEditor from '../../ozaria/site/components/cutscene/PageCutsceneEditor'
 import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
-import PageIntroLevel from '../../ozaria/site/components/play/PageIntroLevel'
 
 import CinematicPlaceholder from '../../ozaria/site/components/cinematic/CinematicPlaceholder'
 
@@ -44,19 +43,6 @@ export default function getVueRouter () {
           path: '/editor/interactive/:slug?',
           component: PageInteractiveEditor,
           props: true
-        },
-        {
-          path: '/ozaria/play/intro/:introLevelIdOrSlug?',
-          component: PageIntroLevel,
-          props: (route) => {
-            return {
-              introLevelIdOrSlug: route.params.introLevelIdOrSlug,
-              courseInstanceId: route.query['course-instance'],
-              codeLanguage: route.query.codeLanguage,
-              courseId: route.query.course,
-              campaignId: route.query.campaignId
-            }
-          }
         },
         {
           path: '/school-administrator',
