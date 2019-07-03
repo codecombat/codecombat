@@ -82,3 +82,31 @@ export function wrapText (htmlString, wrapLetterString, wrapWordString) {
 
   return wrapWord(htmlString, / ?([^ ])+ ?/)
 }
+
+/**
+ * Try to guess the frame of the camera and provide sensible defaults for the
+ * text bubbles. Uses values sourced from Brian.
+ *
+ * If value can't be guessed, sets the text bubble in the center of the canvas.
+ *
+ * @param {'left'|'right'} speaker
+ * @param {number} cameraZoom
+ */
+export function getDefaultTextPosition (speaker, cameraZoom) {
+  // Handling special cases of zoom, checking if speaker is in frame.
+  if (speaker === 'left') {
+    if (cameraZoom === 1) {
+      return { x: 540, y: 280 }
+    } else if (cameraZoom === 2) {
+      return { x: 800, y: 250 }
+    }
+  } else if (speaker === 'right') {
+    if (cameraZoom === 1) {
+      return { x: 875, y: 280 }
+    } else if (cameraZoom === 2) {
+      return { x: 600, y: 300 }
+    }
+  }
+  // Default to center
+  return { x: 1366 / 2, y: 768 / 2 }
+}

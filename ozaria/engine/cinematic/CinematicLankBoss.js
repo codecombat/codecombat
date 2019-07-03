@@ -9,14 +9,18 @@ import {
   getBackground,
   getExitCharacter,
   getBackgroundObject,
+  getBackgroundObjectDelay,
   getClearBackgroundObject,
   getText,
   getTextAnimationLength,
   getSpeakingAnimationAction,
-  getSpeaker
+  getSpeaker,
+  getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
+import { LETTER_ANIMATE_TIME, getHeroSlug } from './constants'
 
 export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
+const OFF_CAMERA_OFFSET = 20
 
 // Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
@@ -26,9 +30,26 @@ Promise.config({
   cancellation: true
 })
 
-const BACKGROUND_OBJECT = 'backgroundObject'
-const BACKGROUND = 'background'
+// Key constants for special lank types
+const LEFT_LANK_KEY = 'left'
+const RIGHT_LANK_KEY = 'right'
+const HERO_PET = 'HERO_PET'
+const BACKGROUND_OBJECT = 'BACKGROUND_OBJECT'
+const BACKGROUND = 'BACKGROUND'
+
+// Backgrounds
+const DEFAULT_LAYER = 'Default'
+const BACKGROUND_LAYER = 'Background'
+
+// Lank to Background mapping. If not set, will default to 'Default' layer.
+const lankLayer = new Map([
+  [ BACKGROUND, BACKGROUND_LAYER ],
+  [ HERO_PET, BACKGROUND_LAYER ]
+])
+
+// Thang rotation constants
 const RIGHT = Math.PI
+const LEFT = 0
 
 /**
  * @typedef {import(./commands/CinematicParser).System} System
@@ -46,16 +67,19 @@ export default class CinematicLankBoss {
   constructor ({ groundLayer, layerAdapter, backgroundAdapter, camera, loader }) {
     this.groundLayer = groundLayer
     this.layerAdapters = {
-      'Default': layerAdapter,
-      'Background': backgroundAdapter
+      [DEFAULT_LAYER]: layerAdapter,
+      [BACKGROUND_LAYER]: backgroundAdapter
     }
     this.camera = camera
-    this.stageBounds = {
+    this.loader = loader
+    this.lanks = {}
+  }
+
+  get stageBounds () {
+    return {
       topLeft: this.camera.canvasToWorld({ x: 0, y: 0 }),
       bottomRight: this.camera.canvasToWorld({ x: this.camera.canvasWidth, y: this.camera.canvasHeight })
     }
-    this.loader = loader
-    this.lanks = {}
   }
 
   /**
@@ -78,29 +102,47 @@ export default class CinematicLankBoss {
       commands.push(this.setBackgroundCommand(background))
     }
 
+    const heroPet = getHeroPet(shot)
+    if (heroPet) {
+      const { slug, thang } = heroPet
+      thang.rotation = RIGHT
+      this.heroPetOffset = thang.pos
+      const placePet = this.moveLankCommand({
+        key: HERO_PET,
+        resource: slug,
+        thang,
+        ms: 0
+      })
+      commands.push(placePet)
+    }
+
     const lHero = getLeftHero(shot)
-    const original = (me.get('heroConfig') || {}).thangType || HERO_THANG_ID
+    // TODO: Replace hard coded hero with user hero
+    const original = getHeroSlug()
     if (lHero) {
       const { enterOnStart, thang } = lHero
-      addMoveCharacterCommand('left', original, enterOnStart, thang)
+      addMoveCharacterCommand(LEFT_LANK_KEY, original, enterOnStart, thang)
     }
 
     const rHero = getRightHero(shot)
     if (rHero) {
       const { enterOnStart, thang } = rHero
-      addMoveCharacterCommand('right', original, enterOnStart, thang)
+      addMoveCharacterCommand(RIGHT_LANK_KEY, original, enterOnStart, thang)
     }
 
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     if (leftCharSlug) {
       const { slug, enterOnStart, thang } = leftCharSlug
-      addMoveCharacterCommand('left', slug, enterOnStart, thang)
+      addMoveCharacterCommand(LEFT_LANK_KEY, slug, enterOnStart, thang)
     }
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
+      // Remove the hero pet if not a hero being added to the right.
+      commands.push(new SyncFunction(() => this.removeLank(HERO_PET)))
+
       const { slug, enterOnStart, thang } = rightCharSlug
-      addMoveCharacterCommand('right', slug, enterOnStart, thang)
+      addMoveCharacterCommand(RIGHT_LANK_KEY, slug, enterOnStart, thang)
     }
 
     return commands
@@ -112,23 +154,23 @@ export default class CinematicLankBoss {
     // TODO: Do we need to give the designers more access to where the characters should exit?
     //       Currently characters start 8 meters off the respective side of the camera bounds.
     const char = getExitCharacter(dialogNode)
-    if (char === 'left' || char === 'both') {
+    if (char === LEFT_LANK_KEY || char === 'both') {
       commands.push(this.moveLankCommand({
-        key: 'left',
+        key: LEFT_LANK_KEY,
         thang: {
           pos: {
-            x: this.stageBounds.topLeft.x - 8
+            x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET
           }
         },
         ms: 800 }))
     }
 
-    if (char === 'right' || char === 'both') {
+    if (char === RIGHT_LANK_KEY || char === 'both') {
       commands.push(this.moveLankCommand({
-        key: 'right',
+        key: RIGHT_LANK_KEY,
         thang: {
           pos: {
-            x: this.stageBounds.bottomRight.x + 8
+            x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET
           }
         },
         ms: 800 }))
@@ -143,14 +185,17 @@ export default class CinematicLankBoss {
         pos: { x, y },
         stateChanged: true
       }
-      commands.push(
+      const delay = getBackgroundObjectDelay(dialogNode)
+
+      commands.push(new SequentialCommands([
+        new Sleep(delay),
         this.moveLankCommand({
           key: BACKGROUND_OBJECT,
           resource: slug,
           thang: thangOptions,
           ms: 0
         })
-      )
+      ]))
     }
 
     const removeBgDelay = getClearBackgroundObject(dialogNode)
@@ -166,7 +211,10 @@ export default class CinematicLankBoss {
     const text = getText(dialogNode)
     const animation = getSpeakingAnimationAction(dialogNode)
     if (text && animation) {
-      const textLength = getTextAnimationLength(dialogNode)
+      let textLength = getTextAnimationLength(dialogNode)
+      if (textLength === undefined) {
+        textLength = text.length * LETTER_ANIMATE_TIME
+      }
       const speaker = getSpeaker(dialogNode)
       commands.push(new SequentialCommands([
         // TODO: Is a minimum time of 100 required to ensure animation always plays?
@@ -215,16 +263,12 @@ export default class CinematicLankBoss {
   moveLankCommand ({
     key,
     resource,
+    thang,
     thang: {
-      scaleX = 1,
-      scaleY = 1,
-      pos: { x, y } = {}
+      pos
     } = {},
     ms = 1000
   }) {
-    const thang = { scaleX, scaleY, pos: { x, y } }
-    const pos = { x, y } || {}
-
     if (ms === 0) {
       return new SyncFunction(() => {
         if (resource) {
@@ -237,6 +281,7 @@ export default class CinematicLankBoss {
           scaleFactorY: thang.scaleY,
           stateChanged: true
         })
+        this.lanks[key].updateScale()
       })
     }
 
@@ -299,8 +344,30 @@ export default class CinematicLankBoss {
    * @param {bool} frameChanged - Needs to be true for Lank updates to occur.
    */
   update (frameChanged) {
+    this.updateHeroPetPosition()
     Object.values(this.lanks)
       .forEach(lank => lank.update(frameChanged))
+  }
+
+  /**
+   * Custom update method that pins the hero pet to the right
+   * character if it exists, by updating the hero pet thang.
+   */
+  updateHeroPetPosition () {
+    if (!(this.lanks[HERO_PET] && this.lanks[RIGHT_LANK_KEY])) {
+      return
+    }
+
+    const petThang = this.lanks[HERO_PET].thang
+    const rightThang = this.lanks[RIGHT_LANK_KEY].thang
+    if (!rightThang.stateChanged) {
+      return
+    }
+
+    petThang.stateChanged = true
+    petThang.pos = _.clone(rightThang.pos)
+    petThang.pos.x += this.heroPetOffset.x
+    petThang.pos.y += this.heroPetOffset.y
   }
 
   /**
@@ -348,25 +415,32 @@ export default class CinematicLankBoss {
 
     // Initial coordinates for thangs being created offscreen.
     // This feels like it could be refactored to be nicer.
-    if (key === 'right') {
+    if (key === RIGHT_LANK_KEY) {
       thang = createThang({
         pos: {
-          x: this.stageBounds.bottomRight.x + 4,
-          y: this.stageBounds.bottomRight.y
+          x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET,
+          y: (thang.pos || {}).y || this.stageBounds.bottomRight.y
         },
         rotation: RIGHT,
         scaleFactorX: thang.scaleX || 1,
         scaleFactorY: thang.scaleY || 1
       })
-    } else if (key === 'left') {
+    } else if (key === LEFT_LANK_KEY) {
       thang = createThang({
         pos: {
-          x: this.stageBounds.topLeft.x - 4,
-          y: this.stageBounds.bottomRight.y
+          x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET,
+          y: (thang.pos || {}).y || this.stageBounds.bottomRight.y
         },
         scaleFactorX: thang.scaleX || 1,
         scaleFactorY: thang.scaleY || 1
       })
+    } else if (key === HERO_PET) {
+      // Hack to ensure pet renders off screen
+      // TODO: Remove when we have a way to make lanks invisible.
+      thang.pos = {
+        x: this.stageBounds.bottomRight.x * 10,
+        y: this.stageBounds.bottomRight.y * 10
+      }
     }
 
     const lank = new Lank(thangType, {
@@ -374,13 +448,12 @@ export default class CinematicLankBoss {
       preloadSounds: false,
       thang,
       camera: this.camera,
-      groundLayer: this.groundLayer
+      groundLayer: this.groundLayer,
+      isCinematic: true
     })
-    if (key === BACKGROUND) {
-      this.layerAdapters['Background'].addLank(lank)
-    } else {
-      this.layerAdapters['Default'].addLank(lank)
-    }
+
+    const layer = lankLayer.get(key) || DEFAULT_LAYER
+    this.layerAdapters[layer].addLank(lank)
     this.lanks[key] = lank
   }
 }
@@ -407,10 +480,9 @@ const createThang = thang => {
     scaleFactorX: 1,
     scaleFactorY: 1,
     action: 'idle',
-    //  Looking left
-    rotation: 0
+    rotation: LEFT
   }
-  return _.merge(defaults, thang)
+  return _.cloneDeep(_.merge(defaults, thang))
 }
 
 /**

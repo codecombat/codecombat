@@ -2,7 +2,12 @@
   <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
   <!-- Currently fixed size to the aspect ratio of our play view. -->
   <div id="cinematic-canvas-div">
-    <div id="cinematic-div" ref="cinematic-div" v-on:click="skipShot">
+    <div
+      id="cinematic-div"
+      ref="cinematic-div"
+      v-on:click="userInterruptionEvent"
+      :style="{ width: width+'px', height: height+'px' }"
+    >
       <canvas
         id="cinematic-canvas"
         ref="cinematic-canvas"
@@ -10,8 +15,10 @@
         :height="height"
         :style="{ width: width+'px', height: height+'px' }">
       </canvas>
+      <div id="click-anywhere">
+        <span>Click anywhere to Continue</span>
+      </div>
     </div>
-    <button :disabled="enterDisabled" v-on:click="nextShot">Enter</button>
   </div>
 </template>
 
@@ -21,19 +28,24 @@
  * CinematicController.
  */
 import { CinematicController } from '../../../../engine/cinematic/cinematicController'
+import { WIDTH, HEIGHT, CINEMATIC_ASPECT_RATIO} from '../../../../engine/cinematic/constants'
 
 export default {
   props: {
     cinematicData: {
       type: Object,
       required: true
+    },
+    userOptions: {
+      type: Object,
+      required: false
     }
   },
   data: () => ({
     controller: null,
-    enterDisabled: false,
-    width: 1280,
-    height: 850
+    cinematicPlaying: false,
+    width: WIDTH,
+    height: HEIGHT
   }),
   mounted: function() {
     if (!me.hasCinematicAccess()) {
@@ -45,31 +57,53 @@ export default {
       canvas,
       canvasDiv,
       cinematicData: this.cinematicData,
+      userOptions: this.userOptions,
       handlers: {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
-        onCompletion: () => this.$emit('completed')
+        onCompletion: () => this.$emit('completed'),
+        onLoaded: this.userInterruptionEvent
       }})
     window.addEventListener('keypress', this.handleKeyboardCancellation)
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
   },
   methods: {
     handlePlay: function() {
-      this.enterDisabled = true
+      this.cinematicPlaying = true
     },
     handleWait: function() {
-      this.enterDisabled = false
+      this.cinematicPlaying = false
     },
-    nextShot: function() {
+    playNextShot: function() {
       this.controller && this.controller.runShot()
     },
-    skipShot: function() {
-      this.controller.cancelShot()
+    userInterruptionEvent: function() {
+      if (this.cinematicPlaying) {
+        this.controller.cancelShot()
+      } else {
+        this.playNextShot()
+      }
     },
     handleKeyboardCancellation: function(e) {
       const code = e.code || e.key
       if (code === "Enter") {
-        this.skipShot()
+        this.userInterruptionEvent()
       }
+    },
+    onResize: function(e) {
+      const userWidth = Math.min(window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth, WIDTH)
+
+      const userHeight = Math.min(window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight, HEIGHT)
+
+      const height = this.height = Math.min(userWidth * CINEMATIC_ASPECT_RATIO, HEIGHT, userHeight)
+      const width = this.width = this.height / CINEMATIC_ASPECT_RATIO
+
+      this.controller.onResize({ width, height })
     }
   },
   beforeDestroy: function()  {
@@ -77,20 +111,58 @@ export default {
       this.controller.destroy()
     }
     window.removeEventListener('keypress', this.handleKeyboardCancellation)
+    window.removeEventListener('resize', this.onResize)
   },
 }
 </script>
 
-<style scoped>
-#cinematic-div {
-  position: relative;
-  font-size: 1.5em;
-  height: 850px;
-  width: 1280px;
-}
+<style lang="sass">
+//   This should not be scoped so it works on
+//   programmatically created divs.
 
-#cinematic-div canvas {
-  display: block;
-  position: absolute;
-}
+#cinematic-canvas-div
+  transform: translateX(-20px)
+
+#cinematic-div
+  margin-left: auto
+  margin-right: auto
+  position: relative
+  .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
+    font-size: 24px
+    line-height: 1.42
+    color: #0e1111
+
+#cinematic-div canvas
+  display: block
+  position: absolute
+
+.cinematic-speech-bubble-right
+  border-image: url('/images/ozaria/cinematic/bubble_right_slice.png')
+  border-image-slice: 50 100 50 50 fill
+  border-image-width: 40px 80px 40px 40px
+  border-image-outset: 10px 58px 15px 15px
+
+.cinematic-speech-bubble-left
+  border-image: url('/images/ozaria/cinematic/bubble_left_slice.png')
+  border-image-slice: 50 50 50 100 fill
+  border-image-width: 40px 40px 40px 80px
+  border-image-outset: 10px 15px 15px 58px
+
+#click-anywhere
+  font-size: 18px
+  text-align: center
+  color: #000000
+  letter-spacing: 0.75px
+  line-height: 24px
+  span
+    position: absolute
+    top: 5.1%
+    right: 5.1%
+    height: 38px
+    width: 303px
+    padding-top: 6px
+    border-radius: 19px
+    background-color: #D8DBE8
+    border: 1px solid #AAABAF
+
 </style>

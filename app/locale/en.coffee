@@ -1219,6 +1219,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     referrer: "How did you hear about us?"
     referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     referrer_default: "Select One"
+    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "A teacher"
     referrer_admin: "An administrator"
@@ -1636,6 +1637,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_code_yet: "Student has not written any code for this level yet."
     open_ended_level: "Open-Ended Level"
     partial_solution: "Partial Solution"
+    capstone_solution: "Capstone Solution"
     removing_course: "Removing course"
     solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
     solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2252,6 +2254,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wins: "Wins"  # At end of multiplayer match playback
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
+    live_tournament: "Live Tournament"
+    awaiting_tournament_title: "Tournament Inactive"
+    awaiting_tournament_blurb: "The tournament arena is not currently active."
+    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
     user_title: '__name__ - Learn to Code with CodeCombat'

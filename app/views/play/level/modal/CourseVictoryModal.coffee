@@ -8,7 +8,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
-ozariaUtils = require 'core/ozariaUtils'
+{ findNextLevelsBySession, getNextLevelForLevel } = require 'ozaria/site/common/ozariaUtils'
 api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
@@ -32,6 +32,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @session = options.session
     @level = options.level
+    @capstoneStage = options.capstoneStage
 
     if @courseInstanceID
       @classroom = new Classroom()
@@ -163,10 +164,14 @@ module.exports = class CourseVictoryModal extends ModalView
   getNextLevelOzaria: ->
     if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
       classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
-      nextLevelOriginal = ozariaUtils.findNextLevelsBySession(@levelSessions.models, classroomLevels)[0] # assuming there will be only 1 next level for ozaria v1
+      nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels)
     else if @campaign # fetch next based on course's campaign levels (for teachers)
       currentLevel = @campaign.levels[@level.get('original')]
-      nextLevelOriginal = ozariaUtils.getNextLevelOriginalForLevel(currentLevel)[0]
+      if (currentLevel.isPlayedInStages && @capstoneStage) # @capstoneStage comes from PlayLevelView's query params
+        currentLevelStage = @capstoneStage
+      nextLevelData = getNextLevelForLevel(currentLevel, currentLevelStage) || {}
+      nextLevelOriginal = nextLevelData.original
+      @nextLevelStage = nextLevelData.nextLevelStage
     if nextLevelOriginal
       return api.levels.getByOriginal(nextLevelOriginal)
     else
@@ -194,6 +199,7 @@ module.exports = class CourseVictoryModal extends ModalView
   showVictoryComponent: ->
     propsData = {
       nextLevel: @nextLevel.toJSON(),
+      nextLevelStage: @nextLevelStage
       nextAssessment: @nextAssessment.toJSON()
       level: @level.toJSON(),
       session: @session.toJSON(),

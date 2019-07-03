@@ -1,0 +1,21 @@
+img(src="/images/level/code_editor_background.png").code-background
+span.code-background
+.ace
+.save-status(data-i18n="play_level.code_saved")
+.programming-language-container.rtl-allowed
+  if view.spell.level.isType('web-dev')
+    - var campaign = view.spell.level.get('campaign') || '';
+    if campaign.indexOf('web-dev-1') >= 0
+      span.programming-language-label(data-i18n='teacher.language')
+      span.programming-language-label.spr :
+      span.programming-language HTML
+    else
+      span.programming-language-label(data-i18n='play_level.languages')
+      span.programming-language-label.spr :
+      span.programming-language.spr HTML
+      span.programming-language-label.spr /
+      span.programming-language JavaScript
+  else
+    span.programming-language-label(data-i18n='play_level.programming_language')
+    span.programming-language-label.spr :
+    span.programming-language= view.spell.displayCodeLanguage

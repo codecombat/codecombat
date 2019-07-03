@@ -56,6 +56,7 @@ const ShotSetup = c.object({
 }, {
   rightThangType: CharacterSchema('Right Character'),
   leftThangType: CharacterSchema('Left Character'),
+  heroPetThangType: ThangTypeSchema('Hero Pet', 'The position property will be used to place the dog at an offset on the right lank.'),
   backgroundArt: ThangTypeSchema('Background Art', 'The rasterized image to place on the background'),
   camera: c.object({
     title: 'Camera placement',
@@ -80,12 +81,14 @@ const DialogNode = c.object({
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
-  textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate out. Defaults to 1000ms.' }),
+  textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate in.' }),
   speakingAnimationAction: c.shortString({ title: 'Speaking Animation', description: 'The animation to play on the lank while the text is being animated.' }),
   i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this cinematic dialogNode.' },
+  waitUserInput: { type: 'boolean', title: 'User Input?', description: 'Whether or not user input is required to continue to the next dialog node or shot setup. Defaults to true.' },
   textLocation: c.object({ title: 'Text Location', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y'] }, {
     x: { title: 'x', description: 'The x coordinate.', type: 'number', 'default': 0 },
     y: { title: 'y', description: 'The y coordinate.', type: 'number', 'default': 0 } }),
+  programmingLanguageFilter: c.shortString({ enum: ['python', 'javascript'], title: 'Programming Language Filter', description: 'If set, this node is only shown if the user is using the programming language selected.' }),
   triggers: c.object({
     title: 'Triggers',
     description: 'Events that can occur during the dialogue.'

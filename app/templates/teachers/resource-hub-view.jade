@@ -88,6 +88,8 @@ block content
           -     faqURL += "-he";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     faqURL += "-pt-BR";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     faqURL += "-zh-HANS";
           a(href=faqURL)
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
@@ -95,6 +97,8 @@ block content
           - var gettingStartedURL = "/teachers/resources/getting-started";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     gettingStartedURL += "-pt-BR";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     gettingStartedURL += "-zh-HANS";
           a(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
@@ -167,6 +171,8 @@ block content
           - var arenasURL = "/teachers/resources/arenas";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     arenasURL += '-pt-BR'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     arenasURL += '-zh-HANS'
           a(href=arenasURL)
             span(data-i18n="teacher.arenas_curriculum")
           p(data-i18n="teacher.arenas_curriculum_desc")
@@ -206,7 +212,7 @@ block content
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     gd1URL += '-pt-BR'
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     gd1URL += '-zh-HANS'
+          -     gd1URL = '/teachers/resources/gd1-zh-HANS'
           a(href=gd1URL)
             span(data-i18n="teacher.gd1_guide")
           p(data-i18n="teacher.gd1_guide_desc")
@@ -225,8 +231,12 @@ block content
         //  a(href=wd1URL)
         //    span(data-i18n="teacher.wd1_curriculum")
         //  p(data-i18n="teacher.wd1_curriculum_desc")
+
         li
-          a(href="/teachers/resources/wd1guide")
+          - var wd1guideURL = "/teachers/resources/wd1guide";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     wd1guideURL += '-zh-HANS'
+          a(href=wd1guideURL)
             span(data-i18n="teacher.wd1_curriculum")
           p(data-i18n="teacher.wd1_curriculum_desc")
         li
@@ -253,6 +263,8 @@ block content
           - var cs2URL = "/teachers/resources/cs2";
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           -     cs2URL += '-pt-BR'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     cs2URL += '-zh-HANS'
           a(href=cs2URL)
             span(data-i18n="teacher.cs2_curriculum")
           p(data-i18n="teacher.cs2_curriculum_desc")

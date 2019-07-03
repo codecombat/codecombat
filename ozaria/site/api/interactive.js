@@ -21,7 +21,7 @@ export const getInteractive = idOrSlug => {
 
 /**
  * Returns a list of all interactives in the database.
- * @returns {Promise<InteractiveList[]>} - List of interactives sorted by slug
+ * @returns {Promise<InteractiveList[]>} - List of interactives
  */
 export const getAllInteractives = () => fetchJson('/db/interactives')
 
@@ -48,7 +48,7 @@ export const putInteractive = ({ data }, options = {}) => {
  * @returns {Promise<Object>} - Raw Interactive object
  */
 export const postInteractive = ({ name }, options = {}) => {
-  fetchJson('/db/interactive', _.assign({}, options, {
+  return fetchJson('/db/interactive', _.assign({}, options, {
     method: 'POST',
     json: { name }
   }))
@@ -63,9 +63,8 @@ export const getSession = (idOrSlug, options = {}) => {
   if (!idOrSlug) {
     throw new Error(`No slug/id supplied`)
   }
-  if (options.courseInstanceId) {
-    return fetchJson(`/db/interactive/${idOrSlug}/session?introLevelId=${options.introLevelId}&courseInstanceId=${options.courseInstanceId}`)
-  } else {
-    return fetchJson(`/db/interactive/${idOrSlug}/session?introLevelId=${options.introLevelId}`)
-  }
+  return fetchJson(`/db/interactive/${idOrSlug}/session`, {
+    method: 'GET',
+    data: options
+  })
 }

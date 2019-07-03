@@ -245,6 +245,7 @@ module.exports = class CampaignEditorView extends RootView
       nodeClasses:
         levels: LevelsNode
         level: LevelNode
+        nextLevel: NextLevelNode 
         campaigns: CampaignsNode
         campaign: CampaignNode
         achievement: AchievementNode
@@ -398,6 +399,12 @@ class LevelNode extends TreemaObjectNode
   populateData: ->
     return if @data.name?
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.denormalizedLevelProperties
+    _.extend @data, data
+
+class NextLevelNode extends LevelNode
+  populateData: ->
+    return if @data.name?
+    data = _.pick LevelsNode.levels[@keyForParent].attributes, ['original', 'name', 'slug', 'type']
     _.extend @data, data
 
 class CampaignsNode extends TreemaObjectNode

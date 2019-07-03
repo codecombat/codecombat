@@ -1,0 +1,36 @@
+form.modal-body.coppa-deny
+  .modal-body-content
+    .parent-email-input-group.form-group
+      if !view.state.get('parentEmailSent')
+        label.control-label.text-h4(for="parent-email-input")
+          span(data-i18n="signup.enter_parent_email")
+        input#parent-email-input(type="email" name="parentEmail" value=state.get('parentEmail'))
+    
+        if state.get('error')
+          p.small.error
+            span(data-i18n="signup.parent_email_error")
+        
+        p.error(class=(state.get('dontUseOurEmailSilly') ?  '' : 'hidden'))
+          span(data-i18n="signup.dont_use_our_email_silly")
+        
+        p.small.parent-email-blurb.render
+          span
+            != translate('signup.parent_email_blurb').replace('{{email_link}}', '<a href="mailto:team@codecombat.com">team@codecombat.com</a>')
+
+      
+      if view.state.get('parentEmailSent')
+        p.small.parent-email-blurb
+          span(data-i18n="signup.parent_email_sent")
+
+        a.btn.btn-navy.btn-lg(href="/play" data-dismiss="modal") Play without saving
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSent') || state.get('parentEmailSending') ||  state.get('dontUseOurEmailSilly'))
+      if state.get('parentEmailSent')
+        span(data-i18n="common.sent")
+      else
+        span(data-i18n="common.send")
+
+    button.back-btn.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="common.back")

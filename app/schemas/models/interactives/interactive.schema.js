@@ -7,6 +7,7 @@ const schema = require('../../schemas')
 
 const interactiveSchema = {
   type: 'object',
+  additionalProperties: false,
   properties: {
     interactiveType: {
       'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion'],
@@ -19,8 +20,9 @@ const interactiveSchema = {
     multipleChoiceData: interactiveTypeSchema.interactiveMultipleChoiceSchema,
     fillInCodeData: interactiveTypeSchema.interactiveFillInCodeSchema,
     draggableStatementCompletionData: interactiveTypeSchema.interactiveDraggableStatementCompletionSchema,
-    unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'], title: 'Code Language' },
-    i18n: { type: 'object', format: 'i18n', props: ['promptText'], description: 'Help translate this interactive.' }
+    unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'], title: 'Programming Language' },
+    i18n: { type: 'object', format: 'i18n', props: ['promptText'], description: 'Help translate this interactive.' },
+    defaultArtAsset: { type: 'string', format: 'image-file', title: 'Default Art Asset' }
   },
   allOf: [
     {

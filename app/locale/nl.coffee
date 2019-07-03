@@ -1063,9 +1063,30 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     david_title: "Manager Marketing"
 #    titles_csm: "Customer Success Manager"
     titles_territory_manager: "Regiomanager"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Software Engineer"
+    bryukh_title: "Speldesigner" # {change}
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
@@ -1198,6 +1219,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     referrer: "Hoe heb je over ons gehoord?"
     referrer_help: "Bijvoorbeeld: van een andere leraar, een conferentie, je leerlingen, Code.org, etc."
     referrer_default: "Kies er één"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Een leraar"
     referrer_admin: "Een administratief medewerker"
@@ -1615,6 +1637,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     no_code_yet: "Leerling heeft nog geen code voor dit level geschreven"
     open_ended_level: "Open-einde-level"
     partial_solution: "Gedeeltelijke oplossing"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Cursus wordt verwijderd"
     solution_arena_blurb: "Studenten worden aangemoedigd om arena-levels creatief op te lossen. De onderstaande oplossing voldoet aan de vereisten van het arena-level."
     solution_challenge_blurb: "Studenten worden aangemoedigd om open-ended (met een open einde) challenge levels op een creatieve manier op te lossen. Een mogelijke oplossing wordt hieronder weergegeven."
@@ -2231,6 +2254,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     wins: "Wint" # At end of multiplayer match playback
     humans: "Rood" # Ladder page display team name
     ogres: "Blauw"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"

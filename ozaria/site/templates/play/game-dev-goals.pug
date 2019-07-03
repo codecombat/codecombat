@@ -1,0 +1,26 @@
+mixin game-dev-goals(goals)
+  ul.goals
+    - var moveGoals = false
+    each goal in goals
+      if goal.type == "manual"
+        li.goal= goal.config.description
+      else if goal.type == "survive"
+        if goal.config.seconds
+          li.goal(data-i18n="play_game_dev_level.goal_survive_time", data-i18n-options={seconds: goal.config.seconds})
+        else
+          li.goal(data-i18n="play_game_dev_level.goal_survive")
+      else if goal.type == "defeat"
+        if goal.config.amount
+          li.goal(data-i18n="play_game_dev_level.goal_defeat_amount", data-i18n-options={amount: goal.config.amount})
+        else
+          li.goal(data-i18n="play_game_dev_level.goal_defeat")
+      else if goal.type == "move" && !moveGoals
+        li.goal(data-i18n="play_game_dev_level.goal_move")
+        - moveGoals = true
+      else if goal.type == "collect"
+        if goal.config.amount
+          li.goal(data-i18n="play_game_dev_level.goal_collect_amount", data-i18n-options={amount: goal.config.amount})
+        else
+          li.goal(data-i18n="play_game_dev_level.goal_collect")
+      else if goal.type == "user_defined"
+        li.goal= goal.direction

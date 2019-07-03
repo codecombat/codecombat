@@ -51,6 +51,12 @@ updateState = (aether, evaluator) ->
           f.variables = variables
 
         rng = top.ast.originalRange
+
+        if not rng and top.ast.loc?
+          rng =
+            start: {row:top.ast.loc.start.line - 1, col:top.ast.loc.start.column}
+            end: {row:top.ast.loc.end.line - 1, col:top.ast.loc.end.column}
+
         f.range = [rng.start, rng.end] if rng
         f.type = top.ast.type
 

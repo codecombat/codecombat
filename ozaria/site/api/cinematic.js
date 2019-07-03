@@ -2,15 +2,15 @@ import fetchJson from 'app/core/api/fetch-json'
 
 /**
  * Retrieves the json representation of a cinematic.
- * @param {string} slug - Slug of the cinematic.
+ * @param {string} slugOrId - Slug or Id of the cinematic.
  * @async
  * @return {Promise<import('../../../app/schemas/models/selectors/cinematic').Cinematic} raw Cinematic object
  */
-export const getCinematic = slug => {
-  if (!slug) {
-    throw new Error(`No slug supplied`)
+export const getCinematic = slugOrId => {
+  if (!slugOrId) {
+    throw new Error(`No slugOrId supplied`)
   }
-  return fetchJson(`/db/cinematic/${slug}`)
+  return fetchJson(`/db/cinematic/${slugOrId}`)
 }
 
 /**
@@ -24,7 +24,7 @@ export const getCinematic = slug => {
  * @async
  * @returns {Promise<CinematicName[]>} - Sorted by slug
  */
-export const getAllCinematics = () => fetchJson('/db/cinematic/all')
+export const getAllCinematics = () => fetchJson('/db/cinematic?project=slug,name')
 
 /**
  * Updates a cinematic in the database.

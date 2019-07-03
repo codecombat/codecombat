@@ -7,6 +7,7 @@ CocoCollection = require 'collections/CocoCollection'
 {me} = require 'core/auth'
 # application = require 'core/application'
 co = require 'co'
+utils = require 'core/utils'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -47,13 +48,16 @@ module.exports = class LadderView extends RootView
     if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
       @leagueID = @leagueType = null
 
+    if features.china and @levelID == 'magic-rush'
+      @checkForTournamentEnd()
+
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
       @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
 
     onLoaded = =>
       return if @destroyed
-      @levelDescription = marked(@level.get('description')) if @level.get('description')
+      @levelDescription = marked(utils.i18n(@level.attributes, 'description')) if @level.get('description')
       @teams = teamDataFromLevel @level
 
     if @level.loaded then onLoaded() else @level.once('sync', onLoaded)
@@ -65,8 +69,21 @@ module.exports = class LadderView extends RootView
     if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000}[@levelID]
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
+    @displayTabContent = 'display: block'
+
     @loadLeague()
     @urls = require('core/urls')
+
+  checkForTournamentEnd: =>
+    return if @destroyed
+    return false if me.isAdmin()
+    $.get '/db/mandate', (data) =>
+      return if @destroyed
+      if data?[0]?.currentTournament isnt 'magic-rush'
+        @tournamentEnd = true
+        @displayTabContent = 'display: none'
+      else
+        setTimeout @checkForTournamentEnd, 60 * 1000
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'

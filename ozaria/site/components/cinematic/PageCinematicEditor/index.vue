@@ -21,7 +21,8 @@ module.exports = Vue.extend({
       saving: false
     },
     rerenderKey: 0,
-    cinematicSlug: ""
+    cinematicSlug: '',
+    programmingLanguage: 'python'
   }),
   components: {
     'editor-list': ListItem,
@@ -95,8 +96,7 @@ module.exports = Vue.extend({
      * Pushes changes from treema to the cinematic model.
      */
     pushChanges() {
-      const shots = this.treema.data.shots
-      this.cinematic.set('shots', shots)
+      this.cinematic.set(_.cloneDeep(this.treema.data))
     },
 
     /**
@@ -120,7 +120,7 @@ module.exports = Vue.extend({
     runCinematic() {
       this.rerenderKey += 1;
       this.rawData = this.rawData || {}
-      this.rawData.shots = this.treema.data.shots
+      this.rawData.shots = JSON.parse(JSON.stringify(this.treema.data.shots))
     },
 
     async createCinematic() {
@@ -151,16 +151,28 @@ module.exports = Vue.extend({
       </div>
       <div class="row">
         <!-- List of cinematics -->
-        <ul>
+        <div class="container">
+          <div class="row headings">
+            <div class="col-xs-4">
+              <h2>Name</h2>
+            </div>
+            <div class="col-xs-4">
+              <h2>Slug</h2>
+            </div>
+            <div class="col-xs-4">
+              <h2>Id</h2>
+            </div>
+          </div>
           <editor-list
             v-for="cinematic in cinematicList"
             :key="cinematic.slug"
             :text="cinematic.name"
             :slug="cinematic.slug"
+            :id="cinematic._id"
             :clickHandler="() => fetchCinematic(cinematic.slug)"
             ></editor-list>
             <li><button v-on:click="createCinematic">+</button></li>
-        </ul>
+        </div>
         
       </div>
     </div>
@@ -179,10 +191,14 @@ module.exports = Vue.extend({
 
       <div class="row">
         <div class="col-md-6">
+          <label>User Language:</label><select v-model="programmingLanguage">
+            <option>python</option>
+            <option>javascript</option>
+          </select>
           <div id="treema-editor" ref="treemaEditor" v-once></div>
         </div>
         <div class="col-md-6" v-if="rawData">
-          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" />
+          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" :userOptions="{ programmingLanguage }" />
         </div>
       </div>
 
@@ -200,4 +216,14 @@ module.exports = Vue.extend({
     margin: 5px;
     padding: 5px;
   }
+
+  .list-item:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  .headings {
+    border-bottom: 2px solid #dddddd;
+    margin-bottom: 20px
+  }
+
 </style>
