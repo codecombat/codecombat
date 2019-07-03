@@ -70,11 +70,7 @@ module.exports = class DocFormatter
           when 'lua' then "#{ownerName}:#{docName}(#{argString})"
           else "#{ownerName}.#{docName}(#{argString});"
       else
-        @doc.shortName = switch @options.language
-          when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}"
-          when 'python' then "#{ownerName}.#{@doc.name}"
-          when 'lua' then "#{ownerName}.#{@doc.name}"
-          else "#{ownerName}.#{@doc.name};"
+        @doc.shortName = @doc.name
       @doc.shorterName = @doc.shortName
       if @doc.type is 'function' and argString
         @doc.shortName = @doc.shorterName.replace argString, argNames
