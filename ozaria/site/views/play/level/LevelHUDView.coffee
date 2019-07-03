@@ -1,4 +1,4 @@
-require('app/styles/play/level/hud.sass')
+require('ozaria/site/styles/play/level/hud.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
