@@ -177,7 +177,7 @@ module.exports = class Thang
     if @id is 'Hero Placeholder' and not @world.getThangByID 'Hero Placeholder 1'
 
       # Single player color customization options
-      player_tints = me.get('ozariaHeroConfig')?.tints or []
+      player_tints = me.get('customization')?.tints or []
       player_tints.forEach((tint) =>
         for key,value of (tint.colorGroups or {})
           options.colorConfig[key] = _.clone(value)
