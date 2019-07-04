@@ -31,7 +31,13 @@ Click the blue “Create a New Class” button, then choose a class name that wi
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/create-new-class-modal.png" title="Create a New Class" alt="create-new-class-modal" width="400px" />
 
+If you signed up with Google, you can now link your Google Classrooms to CodeCombat. To do so:
+- Click “Create a Class.”
+- Click “Link Google Classroom” & accept permissions.
+- Finish class creation by selecting a programming language (JavaScript or Python).
 
+You’re done! Students now have accounts and can sign in using Google single sign-on (SSO).
+That’s it! You can now add students in less than a minute!
 
 ### Should I choose Python or JavaScript?
 We recommend Python, because it’s both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python.
