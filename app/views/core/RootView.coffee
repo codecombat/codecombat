@@ -186,7 +186,7 @@ module.exports = class RootView extends CocoView
 
   onLanguageLoaded: ->
     @render()
-    unless me.get('preferredLanguage').split('-')[0] is 'en'
+    unless me.get('preferredLanguage').split('-')[0] is 'en' or me.hideDiplomatModal()
       DiplomatModal = require 'views/core/DiplomatSuggestionModal'
       @openModalView(new DiplomatModal())
 

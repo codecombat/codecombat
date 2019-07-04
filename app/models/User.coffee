@@ -585,6 +585,7 @@ module.exports = class User extends CocoModel
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
   showIndividualRegister: -> not (features?.china ? false)
+  hideDiplomatModal: -> features?.china ? false
 
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()
