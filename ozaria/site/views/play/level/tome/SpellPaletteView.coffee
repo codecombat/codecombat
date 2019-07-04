@@ -46,9 +46,9 @@ module.exports = class SpellPaletteView extends CocoView
       entrySubGroups = _.groupBy entries, (entry) -> entry.doc.subSection || 'none'
       for subGroup, entries of entrySubGroups
         if subGroup != 'none'
-          header = $("<a class='sub-section-header btn btn-small btn-illustrated' data-panel='#sub-section-#{subGroup}-#{group}'>
+          header = $("<div class='sub-section-header' data-panel='#sub-section-#{subGroup}-#{group}'>
               <span>#{subGroup}</span>
-              <div style='float: right' class='glyphicon glyphicon-chevron-down'></div>
+              <div style='float: right; padding-top: 3px;' class='glyphicon glyphicon-chevron-down blue-glyphicon'></div>
             </a>").appendTo itemGroup
           itemSubGroup = $("<div class='property-entry-item-sub-group collapse' id='sub-section-#{subGroup}-#{group}'></div>").appendTo itemGroup
         for entry, entryIndex in entries
@@ -198,9 +198,11 @@ module.exports = class SpellPaletteView extends CocoView
     if isCollapsed
       target.collapse 'show'
       $et.find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up')
+      $et.toggleClass('selected', true)
     else
       target.collapse 'hide'
       $et.find('.glyphicon').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down')
+      $et.toggleClass('selected', false)
 
     setTimeout () =>
       @$('.nano').nanoScroller alwaysVisible: true
@@ -227,6 +229,7 @@ module.exports = class SpellPaletteView extends CocoView
     # Initialize Ace for each popover code snippet that still needs it
     content.find('.docs-ace').each ->
       aceEditor = aceUtils.initializeACE @, codeLanguage
+      aceEditor.renderer.setShowGutter true
       aceEditors.push aceEditor
 
   destroy: ->

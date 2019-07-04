@@ -13,7 +13,7 @@ import CapstoneProgressModal from './modal/CapstoneProgressModal'
 import CapstoneVictoryModal from './modal/CapstoneVictoryModal'
 
 require('app/styles/play/level/level-loading-view.sass')
-require('app/styles/play/level/tome/spell_palette_entry.sass')
+require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
 require('ozaria/site/styles/play/play-level-view.sass')
 const RootView = require('views/core/RootView')
 const template = require('../../../templates/play/play-level-view.pug')
