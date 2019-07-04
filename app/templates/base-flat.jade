@@ -191,8 +191,10 @@ mixin accountLinks
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         .float-right
           if me.showChinaResourceInfo()
-            a.small 商务合作：bill@codecombat.com
-            a.small 业务咨询：13810906731 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            span 商务合作：
+            span.contact(data-i18n='new_home.china_contact_email')
+            span 业务咨询：
+            span.contact(data-i18n='new_home.china_contact_phone')
           span(data-i18n="nav.copyright_prefix")
           span= ' ©2019 CodeCombat Inc. '
           span.spl(data-i18n="nav.copyright_suffix")
