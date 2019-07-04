@@ -1,4 +1,4 @@
-require('app/styles/play/level/level-playback-view.sass')
+require('ozaria/site/styles/play/level/level-playback-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-playback-view'
 {me} = require 'core/auth'

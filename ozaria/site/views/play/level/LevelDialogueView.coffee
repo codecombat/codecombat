@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/level/level-dialogue-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/level-dialogue-view'
+template = require 'ozaria/site/templates/play/level/level-dialogue-view'
 DialogueAnimator = require './DialogueAnimator'
 PlayItemsModal = require 'views/play/modal/PlayItemsModal'
 
@@ -53,8 +53,6 @@ module.exports = class LevelDialogueView extends CocoView
 
   onSpriteClearDialogue: ->
     @$el.removeClass 'active speaking'
-    $('body').removeClass('dialogue-view-active')
-    @$el.find('img').remove()
     @$el.removeClass(@lastMood) if @lastMood
 
   setMessage: (message, mood, responses) ->
@@ -64,7 +62,6 @@ module.exports = class LevelDialogueView extends CocoView
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
     @$el.removeClass(@lastMood) if @lastMood
-    @$el.find('img').remove()
     @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')

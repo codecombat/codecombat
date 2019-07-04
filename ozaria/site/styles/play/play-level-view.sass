@@ -8,6 +8,10 @@ body.is-playing
 $level-resize-transition-time: 0.5s
 // TODO: use this for real-time playback but not cinematic playback
 
+#canvas-wrapper
+  top: 0 !important
+  width: 58% !important
+
 #level-view
   margin: 0 auto
   position: absolute
@@ -59,8 +63,6 @@ $level-resize-transition-time: 0.5s
       left: 20%
       width: 60%
       text-align: center
-    #level-dialogue-view
-      display: none
 
     .level-content
       margin: 0px auto
@@ -370,7 +372,7 @@ $level-resize-transition-time: 0.5s
     left: 0
     right: 0
 
-    #playback-view, #thang-hud, #level-dialogue-view, #play-footer, #level-footer-background, #level-footer-shadow
+    #playback-view, #thang-hud, #play-footer, #level-footer-background, #level-footer-shadow
       display: none
 
     .game-container, .level-content, #game-area, #canvas-wrapper
