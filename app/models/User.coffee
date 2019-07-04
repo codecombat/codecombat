@@ -576,7 +576,7 @@ module.exports = class User extends CocoModel
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
-  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" or campaignID == "5789236960deed1f00ec2ab8" or campaignID == "578913f2c8871ac2326fa3e4"
+  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   showForumLink: -> not (features?.china ? false)
   showGithubLink: -> not (features?.china ? false)
