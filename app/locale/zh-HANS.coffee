@@ -151,8 +151,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     want_coco: "把 CodeCombat 带到您的学校？"
 #    educator: "Educator"
 #    student: "Student"
-    china_contact_phone: '13810906731'
-    china_contact_email: 'bill@codecombat.com'
 
   nav:
     educators: "教育者"

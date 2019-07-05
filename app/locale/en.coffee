@@ -150,6 +150,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     want_coco: "Want CodeCombat at your school?"
     educator: "Educator"
     student: "Student"
+    china_contact_phone: '13810906731'
+    china_contact_email: 'bill@codecombat.com'
 
   nav:
     educators: "Educators"
