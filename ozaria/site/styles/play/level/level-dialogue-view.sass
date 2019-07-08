@@ -6,19 +6,19 @@
   position: absolute
   left: 0
   top: 0
-  width: 57%
+  width: 56.5%
   height: 145px
   background: transparentize(black, 0.6)
   z-index: 22
   display: flex
-  align-items: center
-  justify-content: center
 
   .dialogue-area
     display: flex
+    position: relative
     justify-content: center
     align-items: center
-    height: 73px
+    height: 106px
+    width: 100%
     border: 4px solid #1FBAB4
     background-color: #FFFFFF
     box-shadow: 2px 2px 8px 0 #ACB9FC
@@ -28,16 +28,34 @@
     margin-right: 30px
 
     .vega-narrator
-      width: 18%
+      position: absolute
+      width: 14.5%
+      width: 134px
+      left: 0
+      top: -1px
+      height: 100px
 
     .vega-dialogue
-      position: relative
       color: #232323
       font-family: "Open Sans"
       font-size: 18px
       letter-spacing: 0.71px
       line-height: 24px
-      margin-top: 23px
+      margin-top: 9px
       margin-bottom: 23px
-      margin-left: 35px
-      margin-right: 50px
+      margin-left: 151px
+      margin-right: 20px
+
+    .continue
+      position: absolute
+      height: 17px
+      width: 140px
+      top: 80px
+      bottom: 9px
+      right: 20px
+      color: #1FBAB4
+      font-family: "Open Sans"
+      font-size: 12px
+      letter-spacing: 0.51px
+      line-height: 17px
+      text-align: right
