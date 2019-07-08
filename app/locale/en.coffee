@@ -722,6 +722,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     watch_a_video: "Watch a video on __concept_name__"
     concept_unlocked: "Concept Unlocked"
     use_at_least_one_concept: "Use at least one concept: "
+    command_bank: "Command Bank"
 
   apis:
     methods: "Methods"
@@ -1017,6 +1018,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     optional_parameters: "Optional Parameters"
     returns: "Returns"
     granted_by: "Granted by"
+    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Saved"

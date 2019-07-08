@@ -47,7 +47,7 @@ div.popover-header.closeBtn(role="button" dir="ltr")
 
 .popover-body
   .short-description.rtl-allowed.rtl-right-aligned(dir="auto")
-    p(dir="auto")!= marked(doc.shortDescription || 'Still undocumented, sorry.')
+    p(dir="auto")!= marked(doc.shortDescription || $.i18n.t("skill_docs.still_undocumented"))
     div.clear(style="clear: both")
 
   if !selectedMethod
