@@ -10,7 +10,7 @@ aceUtils = require 'core/aceUtils'
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: require 'ozaria/site/templates/play/tome/spell-palette-view'
+  template: require 'ozaria/site/templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:
