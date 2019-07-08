@@ -1,6 +1,6 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
-@import "app/styles/play/variables"
+@import "ozaria/site/styles/play/variables"
 
 #spell-palette-view
   position: absolute
@@ -8,13 +8,12 @@
   width: $api-bar-width
   bottom: 0px
   top: 0px
-  padding: 0 4px 0px 10px
-  background: transparent url(/images/level/wood_texture.png)
-  background-size: auto 100%
   z-index: 7
   @include transition(top 0.25s ease-in-out, width 0.25s ease-in-out)
   box-shadow: 10px 4px 4px black
   overflow: hidden
+  #spell-palette-api-bar
+    top: 40px
   #spell-palette-api-bar[disabled=disabled]
     pointer-events: none
     #palette-tab-api-area
@@ -23,9 +22,9 @@
     display: none
     visibility: hidden
   &.open
-    width: $api-bar-width + 360px
+    width: $api-bar-width + 384px
   .container
-    width: $api-bar-width + 360px
+    width: $api-bar-width + 384px
     height: 100%
     position: relative
     .left
@@ -34,11 +33,54 @@
       top: 80px
       bottom: 0px
       height: auto
-      width: $api-bar-width - 13
-      .section-header, .sub-section-header
+      width: $api-bar-width
+      background-color: #f7f9f9
+      .header, .section-header, .sub-section-header
         display: block
-        color: white
+        color: #000000
         margin-right: 10px
+        width: $api-bar-width
+
+        .white-glyphicon
+          color: #ffffff
+
+      .header
+        background-color: #b5b4b4
+        height: 44px
+        font-family: 'Open Sans'
+        font-size: 20px
+        font-weight: bold
+        letter-spacing: 0.69px
+        line-height: 27px
+        padding: 5px 6px 0px 15px
+      
+      .section-header
+        height: 35px
+        background-color: #d8d8d8
+        box-shadow: 2px 2px 2px 0 rgba(93,115,225,0.32)
+        font-family: 'Open Sans'
+        font-size: 16px
+        font-weight: bold
+        letter-spacing: 0.55px
+        line-height: 22px
+        padding: 5px 6px 0px 15px
+
+      .sub-section-header
+        height: 35px
+        background-color: #ffffff
+        box-shadow: inset 0 1px 3px 0 rgba(93,115,225,0.5), 2px 2px 2px 0 rgba(93,115,225,0.32)
+        font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+        font-size: 16px
+        line-height: 19px
+        padding: 7px 6px 0px 30px
+
+        .blue-glyphicon
+          color: #5d73e1
+
+        &.selected
+          box-shadow: 2px 2px 2px 0 rgba(93,115,225,0.32)
+          background-color: #e9ebeb
+          border-left: 5px solid #5d73e1
 
       .spell-palette-thang-entry-view
         display: inline-block
@@ -63,19 +105,16 @@
     .right
       position: absolute
       right: 20px
-      min-width: 200px
-      left: $api-bar-width - 10px
-      top: 60px
+      min-width: 384px
+      left: $api-bar-width
+      top: 80px
       bottom: 0px
+      background-color: #ffffff
       //width: calc(100% - #{$api-bar-width + 50px})
       @include box-shadow(0 0 0 #000)
       .scrollArea
         max-height: calc(100% - 20px)
         width: 100%
-        border-style: solid
-        border-image: url(/images/level/popover_border_background.png) 16 12 fill round
-        border-width: 16px 12px
-        margin-top: 20px
         margin-bottom: 20px
         position: relative
         overflow-y: auto
@@ -86,15 +125,30 @@
           img
             float: left
 
-      .closeBtn
-        position: absolute
-        right: -10px
-        top: 15px
-        width: 40px
-        height: 40px
-        cursor: pointer
-        font-size: 20px
-        z-index: 2
+      .popover-header
+        background-color: #5d73e1
+        height: 44px
+        color: #ffffff
+        font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+        font-size: 18px
+        line-height: 21px
+        padding: 11px 6px 0px 15px
+      
+      .popover-body
+        font-family: 'Open Sans'
+        color: #232323
+        padding: 5px 6px 0px 14px
+
+        .short-description, .example, .args, .returns
+          font-size: 18px
+          letter-spacing: 0.71px
+          line-height: 24px
+
+        .description
+          font-size: 16px
+          letter-spacing: 0.6px
+          line-height: 20px
+
 
       h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
         font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
@@ -129,11 +183,13 @@
 
       .docs-ace-container
         padding: 2px 4px
+        border: 0.5px solid #979797
         border-radius: 4px
+        padding: 5px
 
         &, .docs-ace
-          background-color: #f9f2f4
-          font-size: 12px
+          font-size: 16px
+          line-height: 19px
           font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
 
           body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
@@ -142,6 +198,16 @@
         .docs-ace
           .ace_cursor, .ace_bracket
             display: none
+          .ace_gutter-active-line
+            background: #ffffff
+
+      .ace-tm
+        color: #232323
+
+      .ace-tm .ace_gutter
+        background: #ffffff
+        border-right: 1px solid #979797
+        color: #232323
 
       code
         color: black
@@ -200,11 +266,10 @@
     @include flex-align-content-start()
 
     .property-entry-item-group, .property-entry-item-sub-group
-      min-height: 38px
+      min-height: 35px
       width: 212px
       position: relative
       background-color: rgb(20, 13, 8)
-      margin: 1px
 
       img.item-image
         width: 38px
@@ -218,21 +283,12 @@
 
   &.shortenize.hero .properties
     .property-entry-item-group, .property-entry-item-sub-group
-      width: 175px
+      width: $api-bar-width
 
       .spell-palette-entry-view
-        width: 137px
-        width: -webkit-calc(100% - 38px)
-        width: calc(100% - 38px)
-
-  &.web-dev.hero .properties
-    .property-entry-item-group
-      width: 100px
-
-      .spell-palette-entry-view
-        margin-left: 0
-        width: 100px
-
+        width: 100%
+        height: 35px
+        padding: 5px 6px 0px 45px
   //Fixes punctuation but puts comment marker on right, which is apparently worse.
   //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
   //  .ace_text-layer .ace_comment
