@@ -1,4 +1,4 @@
-require('app/styles/play/level/control-bar-view.sass')
+require('ozaria/site/styles/play/level/control-bar-view.sass')
 storage = require 'core/storage'
 
 CocoView = require 'views/core/CocoView'

@@ -1,4 +1,4 @@
-require('app/styles/play/level/level-dialogue-view.sass')
+require('ozaria/site/styles/play/level/level-dialogue-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-dialogue-view'
 DialogueAnimator = require './DialogueAnimator'

@@ -1,0 +1,221 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/variables"
+
+#thang-hud
+  width: calc(#{$game-view-width} - #{$api-bar-width})
+  #level-view.no-api &
+    width: $game-view-width
+  height: 80px
+  position: relative
+  overflow: visible
+
+  &.controls-disabled
+    pointer-events: none
+
+    .wood-background, .hinge, .avatar-wrapper-container, .center
+      @include filter(brightness(50%))
+
+  .wood-background
+    position: absolute
+    left: 0
+    top: -2px
+    background: transparent url(/images/level/hud_wood_background.png)
+    background-size: auto 100%
+    width: 100%
+    height: 100px
+    z-index: 4
+
+  .hinge
+    position: absolute
+    top: -16px
+    background: transparent url(/images/level/hud_hinge.png)
+    width: 27px
+    height: 44px
+    background-size: contain
+    z-index: 4
+    pointer-events: none
+
+  .hinge-0
+    left: 3%
+  .hinge-1
+    left: 12%
+  .hinge-2
+    left: 86%
+    @include scaleX(-1)
+  .hinge-3
+    left: 95%
+    @include scaleX(-1)
+
+  .avatar-wrapper-container
+    position: absolute
+    width: 100px
+    height: 100px
+    top: 0
+    left: 18%
+    left: -webkit-calc(50% - (560px - 100px) / 2 - 10px)
+    left: calc(50% - (560px - 100px) / 2 - 10px)
+    z-index: 5
+
+    .thang-canvas-wrapper
+      width: 80px
+      height: 80px
+      position: relative
+      border-radius: 4px
+      @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
+  
+      &.team-humans
+        border-color: darkred
+        @include gradient-radial-custom-stops(hsla(4,80%,74%,1), 20%, hsla(4,80%,51%,1), 70%)
+  
+      &.team-ogres
+        border-color: darkblue
+        @include gradient-radial-custom-stops(hsla(205,100%,74%,1), 20%, hsla(205,100%,31%,1), 70%)
+  
+      &.team-allies, &.team-minions
+        border-color: darkgreen
+        @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
+  
+      .thang-canvas
+        width: 100%
+  
+      .avatar-frame
+        position: absolute
+        left: -18%
+        top: -19%
+        width: 145%
+
+  &.hide-hud-properties .center:hover
+    // Don't allow them to hover over confusing HUD stuff until later levels
+    top: 24px
+
+  .center
+    width: 560px
+    height: 166px
+    position: absolute
+    top: 24px
+    left: 13%
+    left: -webkit-calc(50% - 560px / 2)
+    left: calc(50% - 560px / 2)
+    padding: 10px 20px 0 145px
+    background-image: url(/images/level/hud_background.png)
+    color: white
+    text-transform: uppercase
+    font-family: $headings-font-family
+    font-weight: bold
+    font-size: 16px
+    z-index: 4
+    @include transition(0.5s ease)
+
+    &:hover
+      top: -36px
+
+    .thang-name
+      font-size: 18px
+      margin: 10px 0 0 0
+
+    .thang-props
+      margin: 24px 0 0 0
+      float: left
+      @include user-select(text)
+
+      .prop:not([name="health"])
+        min-width: 120px
+        display: inline-block
+        line-height: 16px
+
+      &.nonexistent
+        visibility: hidden
+
+      .text-prop
+        width: 50%
+
+      .prop-label-icon
+        $iconSize: 16px
+        display: inline-block
+        width: $iconSize
+        height: $iconSize
+        margin-right: 5px
+        background: transparent url(/images/level/hud_info_icons.png) no-repeat
+        background-size: auto $iconSize
+        float: left
+
+        &.prop-label-icon-pos
+          background-position: (-1 * $iconSize) 0px
+        &.prop-label-icon-target
+          background-position: (-2 * $iconSize) 0px
+        &.prop-label-icon-collectedThangIDs
+          background-position: (-3 * $iconSize) 0px
+        &.prop-label-icon-visualRange
+          background-position: (-4 * $iconSize) 0px
+        &.prop-label-icon-attackDamage
+          background-position: (-5 * $iconSize) 0px
+        &.prop-label-icon-attackRange, &.prop-label-icon-attackNearbyEnemyRange
+          background-position: (-6 * $iconSize) 0px
+        &.prop-label-icon-maxSpeed
+          background-position: (-7 * $iconSize) 0px
+        &.prop-label-icon-gold, &.prop-label-icon-bountyGold, &.prop-label-icon-value
+          background-position: (-8 * $iconSize) 0px
+
+      .prop[name="health"]
+        position: absolute
+        right: 35px
+        top: 23px
+        height: 18px
+        line-height: 18px
+        font-size: 18px
+
+        .prop-value.bar-prop
+          width: 150px
+          margin: 1px 10px 0 0
+          height: 16px
+          background: rgb(32, 27, 21)
+          padding: 4px
+          border-radius: 8px
+          border: 0
+
+          .bar
+            background: rgb(234, 35, 45)
+            height: 8px
+            border-radius: 4px
+
+        .bar-prop-value
+          vertical-align: top
+
+      .prop-value.bar-prop
+        width: 100px
+        display: inline-block
+        height: 6px
+        background: #ddd
+        border: 1px solid black
+        border-radius: 6px
+        overflow: hidden
+
+        .bar
+          background: black
+          width: 100%
+          height: 100%
+
+      .message
+        text-align: center
+        display: table
+        height: 100%
+        width: 100%
+
+        p
+          display: table-cell
+          vertical-align: middle
+          font-size: 20px
+
+  &.code-play
+    .avatar-wrapper-container
+      left: calc(50% - (560px - 100px) / 2 - 10px + 50px)
+
+    .center .thang-name
+      margin-left: 45px
+
+    .center .thang-props .prop[name="health"]
+      right: 90px
+      .prop-value.bar-prop
+        width: 100px
+        
