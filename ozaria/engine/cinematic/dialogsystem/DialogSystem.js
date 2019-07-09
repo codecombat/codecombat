@@ -18,7 +18,7 @@ const SPEECH_BUBBLE_MAX_WIDTH = `300px` // Removed 20 px to account for padding.
  * It is also responsible for localization and interpolation of the speech bubbles.
  */
 export default class DialogSystem {
-  constructor ({ canvasDiv, camera }) {
+  constructor ({ canvasDiv }) {
     const div = this.div = document.createElement('div')
 
     canvasDiv.appendChild(div)
@@ -126,8 +126,8 @@ class SpeechBubble {
       x -= width
     }
 
-    textDiv.style.left = `${ x / WIDTH * 100}%`
-    textDiv.style.top = `${ y / HEIGHT * 100}%`
+    textDiv.style.left = `${x / WIDTH * 100}%`
+    textDiv.style.top = `${y / HEIGHT * 100}%`
 
     const letters = (document.querySelectorAll(`#${this.id} .letter`) || []).length || 1
     if (textDuration === undefined) {
