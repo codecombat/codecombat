@@ -1,0 +1,647 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#hero-victory-modal
+  $hero-yellow-text: rgb(252, 201, 53)
+
+  //- Top-level modal container
+  .modal-dialog
+    margin-top: 0
+    padding-top: 0
+    width: 750px
+
+    .modal-content
+      position: relative
+      margin-top: -251px
+
+  &.full-achievements
+    @media only screen and (max-height: 720px)
+      .modal-dialog
+        margin-top: -76px
+        #victory-header
+          background: transparent
+    @media only screen and (max-height: 640px)
+      .modal-dialog
+        margin-top: -130px
+        #victory-header
+          display: none
+
+  //- Header
+
+  .background-wrapper
+    //background: url("/images/pages/play/level/modal/victory_modal_background.png")
+    width: 750px
+    background: transparent
+    border: 0px solid transparent
+    border-style: solid
+    border-image: url("/images/pages/play/level/modal/victory_modal_border_background.png") 250 0 100 0 fill round
+    border-width: 250px 0 100px 0
+    border-radius: 12px
+
+  .modal-header
+    border: none
+    position: absolute
+    left: 188px
+    width: 378px
+    height: 134px
+    margin: 0
+    padding: 0
+
+    #victory-header
+      position: relative
+      // http://easings.net/#easeOutBack plus tweaked a bit: http://cubic-bezier.com/#.18,.68,.75,2
+      @include transition(0.5s cubic-bezier(0.18, 0.68, 0.75, 2))
+      z-index: 1
+      width: 100%
+      height: 100%
+      text-align: center
+      background: transparent url(/images/pages/play/level/modal/victory_hero.png) no-repeat
+      background-position: center -88px
+
+      &.out
+        @include scale(0)
+
+      #victory-title
+        display: inline-block
+        margin-top: 74px
+
+        h1
+          text-transform: uppercase
+          text-align: center
+          color: $hero-yellow-text
+          font-size: 80px
+          margin: 0
+          padding: 0
+          text-shadow: black 8px 8px 0, black -8px -8px 0, black 8px -8px 0, black -8px 8px 0, black 8px 0px 0, black 0px -8px 0, black -8px 0px 0, black 0px 8px 0
+
+  //- Achievement panels
+
+  .modal-body
+    padding: 0 20px
+    min-height: 30px
+    margin-top: 160px
+
+  .achievement-panel
+    background: transparent url("/images/pages/play/level/modal/victory_modal_shelf.png") no-repeat center 73px
+    width: 824px
+    height: 127px
+    margin: 0px -37px 0px -57px
+    position: relative
+
+    @include transition-duration(1s)
+
+    -webkit-filter: grayscale(100%) brightness(75%)
+    -moz-filter: grayscale(100%) brightness(75%)
+    -o-filter: grayscale(100%) brightness(75%)
+    filter: grayscale(100%) brightness(75%)
+
+    &.earned
+      -webkit-filter: none
+      -moz-filter: none
+      -o-filter: none
+      filter: none
+
+      .achievement-description
+        @include opacity(1)
+
+  .achievement-description
+    @include opacity(0.75)
+    z-index: 1
+    position: absolute
+    text-align: center
+    left: 95px
+    right: 98px
+    top: 86px
+    color: $hero-yellow-text
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .achievement-rewards
+    position: absolute
+    left: 25px
+    right: 23px
+    top: 0
+    @include flexbox()
+    @include flex-justify-center()
+
+  //- Reward panels
+
+  .reward-panel
+    background: url("/images/pages/play/level/modal/reward_plate.png")
+    width: 77px
+    height: 85px
+    float: left
+    margin: 0 1.8px
+    position: relative
+    z-index: 1
+    @include transition(0.25s ease)
+
+    &.hero, &.item, &.xp, &.gems
+      background: url("/images/pages/play/level/modal/reward_plate_wide.png")
+      width: 120px
+      height: 83px
+      margin-top: 1px
+
+      .reward-image-container
+        left: 33px
+
+    &.hero
+      background: url("/images/pages/play/level/modal/reward_plate_wide_premium.png")
+
+      .reward-image-container
+        height: 49px
+
+    &.item.premium
+      background: none
+
+      .reward-border
+        height: 100%
+        background: url("/images/pages/play/level/modal/reward_plate_wide_premium.png")
+
+      .reward-image-container
+        top: -77px
+        left: 36px
+
+    &.animating
+      @include scale(1.5)
+      z-index: 2
+
+    &.numerical &.animating .reward-text, .subscribe-text
+      font-size: 18px
+      overflow: visible
+      bottom: 9px
+
+    .reward-image-container
+      top: 8px
+      left: 11px
+      height: 55px
+      width: 56px
+      position: relative
+
+      @include scale(0)
+      @include transition-duration(0.5s)
+
+      &.show
+        @include scale(1)
+
+      &.pending-reward-image
+        img
+          -webkit-filter: brightness(2000%) contrast(25%)
+          -moz-filter: brightness(2000%) contrast(25%)
+          -o-filter: brightness(2000%) contrast(25%)
+          filter: brightness(2000%) contrast(25%)
+
+      img
+        margin: 0
+        position: absolute
+        top: 50%
+        left: 50%
+        margin-right: -50%
+        @include transition-duration(0.5s)
+        @include translate(-50%, -50%)
+        max-width: 56px
+        max-height: 55px
+
+    .reward-text
+      position: absolute
+      bottom: 6px
+      left: 4px
+      right: 3px
+      height: 15px
+      text-align: center
+      color: white
+      font-weight: bold
+      font-size: 12px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+    .subscribe-text
+      position: absolute
+      bottom: 84px
+      left: 4px
+      right: 3px
+      height: 15px
+      text-align: center
+      color: white
+      font-weight: bold
+      font-size: 12px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+
+  //- Pulse effect
+
+  +keyframes(rewardPulse)
+    from
+      max-width: 56px
+      max-height: 55px
+    50%
+      width: 66px
+      max-width: 66px
+      max-height: 66px
+    to
+      max-width: 56px
+      max-height: 55px
+
+  .xp .pulse
+    @include animation(rewardPulse 0.15s infinite)
+
+  .gems .pulse
+    @include animation(rewardPulse 0.25s infinite)
+
+
+  //- Footer
+
+  #lenovo-link
+    width: 100%
+    padding-top: 20px
+
+  #sweepstakes-entry
+    height: 60px
+    display: inline-block
+
+  #totals
+    width: 709px
+    height: 96px
+    background: transparent url(/images/pages/play/level/modal/xp_gems_parchment.png)
+    position: relative
+    text-align: left
+
+    .total-wrapper
+      position: absolute
+      top: 18px
+
+      &#xp-wrapper
+        left: 117px
+        width: 300px
+
+      &#gem-wrapper
+        left: 529px
+
+        .total-label
+          width: 90px
+
+      .total-count
+        float: left
+        font-size: 45px
+        font-weight: bold
+        color: rgb(40, 33, 22)
+        margin-right: 12px
+        width: 78px
+
+        &.four-digits
+          font-size: 40px
+          margin-top: 3px
+
+        &.five-digits
+          font-size: 30px
+          margin-top: 10px
+
+      .total-label
+        float: left
+        color: rgb(103, 92, 76)
+        text-transform: uppercase
+        font-weight: bold
+        font-family: $headings-font-family
+        font-size: 18px
+        margin-top: 13px
+        line-height: 18px
+
+      .xp-bar-outer
+        background-color: rgb(40, 33, 22)
+        border: 4px solid rgb(40, 33, 22)
+        border-radius: 8px
+        width: 150px
+        height: 16px
+        margin-top: 3px
+        position: relative
+        float: left
+
+        .xp-bar-already-achieved
+          background-color: rgb(166, 213, 88)
+          //background-color: white
+          border-radius: 8px
+          height: 100%
+          position: absolute
+          z-index: 1
+
+        .xp-bar-total
+          background-color: rgb(253, 171, 45)
+          border: 1px solid rgb(239, 177, 73)
+          border-radius: 8px
+          height: 100%
+          position: absolute
+
+  #share-level-container
+    width: 709px
+    height: 96px
+    background: transparent url(/images/pages/play/level/modal/share_level_parchment.png)
+    position: relative
+    text-align: left
+    padding: 12px 20px 0 20px
+    text-align: center
+
+    .share-level-label
+      color: rgb(103, 92, 76)
+      text-transform: uppercase
+      font-weight: bold
+      font-family: $headings-font-family
+      font-size: 18px
+      margin-top: 13px
+      line-height: 18px
+      text-align: center
+
+    #share-level-input, #share-game-with-teacher-input
+      font-size: 12px
+      margin-top: 8px
+
+    #share-level-btn, #share-game-with-teacher-btn
+      width: 100%
+      margin-top: 7px
+
+    &.with-email
+      height: 140px
+      background: transparent
+      border-image: url(/images/pages/play/level/modal/share_level_parchment.png) 41 41 19 fill stretch stretch
+      border-image-width: 41px 41px 19px 36px
+
+  //- Footer - other stuff
+
+  .modal-footer
+    // Negative bottom margin counteracts most of the extra the border image height.
+    margin: 0 0 -80px 0
+    padding: 0 20px
+    text-align: center
+
+  .sign-up-poke
+    width: 430px
+
+    &.code-play
+     width: 495px
+
+    .sign-up-blurb
+      width: 175px
+      font-family: $headings-font-family
+      font-weight: bold
+      text-transform: uppercase
+      font-size: 18px
+      line-height: 18px
+      text-align: left
+      float: left
+      margin: 5px 0 0 5px
+      color: rgb(160, 150, 126)
+
+      &.code-play
+        font-size: 14px
+        line-height: 14px
+
+    .sign-up-button
+      width: 250px
+      height: 60px
+      line-height: 30px
+      margin: 0
+      float: left
+
+      &.code-play
+        width: 315px
+
+        strong
+          font-size: 22px
+          color: $hero-yellow-text
+          opacity: 1
+          letter-spacing: -1px
+
+  .subscribe-button
+    width: 209px
+    height: 60px
+    flex-grow: 1
+    text-align: center
+    text-transform: uppercase
+    font-size: 24.5px
+    font-family: $headings-font-family
+    line-height: 20px
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+    background-color: black
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
+
+  .leaderboard-button, .courses-button
+    height: 60px
+    line-height: 30px
+    margin: 0 10px
+    float: right
+
+  .return-to-course-button
+    width: 258px
+    float: left
+
+  .next-level-buttons
+    float: right
+
+    .next-level-button, .return-to-ladder-button
+      width: 258px
+      height: 60px
+      line-height: 30px
+      margin: 0 10px
+
+      &.code-play
+        width: 190px
+
+    .ladder-submission-view
+      display: inline-block
+      color: white
+
+      .rank-button.btn-block
+        display: inline-block
+        width: auto
+        padding-left: 19px
+        padding-right: 19px
+
+      .last-submitted
+        float: none
+
+  .hour-of-code-done
+    width: 424px
+    height: 80px
+    background: transparent url(/images/pages/play/level/modal/share_level_parchment.png)
+    position: relative
+    text-align: left
+    padding: 12px 20px 0 20px
+    text-align: center
+
+    .hoc-label
+      color: rgb(103, 92, 76)
+      font-family: $headings-font-family
+      font-size: 18px
+      font-weight: bold
+      text-transform: uppercase
+
+  .offer
+    display: none
+
+    img
+      margin: 5px 10px
+
+    p
+      color: white
+
+  #victory-text
+    z-index: 1
+    text-align: center
+    padding: 30px 13px 0 13px
+    margin-bottom: 35px
+    font-size: 24px
+    color: white
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+  .level-title
+    z-index: 1
+    margin: 10px
+    font-size: 24px
+    color: $hero-yellow-text
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+  .level-name
+    z-index: 1
+    text-align: center
+    font-size: 18px
+    color: white
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+  #level-feedback
+    color: $hero-yellow-text
+    font-weight: bold
+    text-transform: uppercase
+    font-size: 20px
+    font-family: $headings-font-family
+    padding: 0 13px 20px 13px
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+    .rating
+      position: relative
+      margin-top: 5px
+      text-align: center
+      float: left
+      width: 50%
+
+      .rating-label
+        margin-bottom: 8px
+
+      i
+        cursor: pointer
+        padding: 5px
+        font-size: 48px
+        text-shadow: black 3px 3px 0, black -3px -3px 0, black 3px -3px 0, black -3px 3px 0, black 3px 0px 0, black 0px -3px 0, black -3px 0px 0, black 0px 3px 0
+
+    .review-label
+      margin-top: 5px
+      text-align: center
+      float: right
+      width: 50%
+
+    .review
+      width: 100%
+      text-align: center
+
+      textarea
+        float: right
+        width: 50%
+        height: 80px
+        box-sizing: border-box
+        background-color: rgba(255, 255, 255, 0.7)
+        font-size: 16px
+
+  &:not(.with-achievements)
+    #totals
+      display: none
+
+  &.with-achievements
+    #victory-text
+      display: none
+
+html.no-borderimage
+  #hero-victory-modal
+    .modal-dialog
+      margin-top: 251px
+    .background-wrapper
+      border: 0
+      background: url("/images/pages/play/level/modal/victory_modal_background.png")
+      height: 713px
+
+    &.full-achievements
+      @media only screen and (max-height: 720px)
+        .modal-dialog
+          margin-top: 175px
+          #victory-header
+            background: transparent
+      @media only screen and (max-height: 640px)
+        .modal-dialog
+          margin-top: 121px
+          #victory-header
+            display: none
+
+
+body.ipad
+  #hero-victory-modal
+    // This animation is slow and wigs out on iPad and very old computers.
+    .xp .pulse, .gems .pulse
+      @include animation(none)
+
+body[lang='ru'], body[lang^='es-ES'], body[lang^='it'], body[lang^='hu'], body[lang^='mk-MK'], body[lang^='ja'], body[lang^='uk']
+  #hero-victory-modal #totals .total-wrapper .total-label
+    font-size: 12px
+
+body[lang^='nl'], body[lang^='de'], body[lang^='he']
+  #hero-victory-modal #totals .total-wrapper .total-label
+    font-size: 15px
+
+body[lang^='es']
+  #hero-victory-modal .sign-up-poke.code-play
+    .sign-up-blurb
+      font-size: 12px
+      letter-spacing: -1px
+
+    .sign-up-button
+      font-size: 16px
+
+body[lang^='de']
+  #hero-victory-modal .sign-up-poke.code-play
+    .sign-up-blurb
+      font-size: 12px
+
+    .sign-up-button
+      font-size: 14px
+      letter-spacing: 1px
+      white-space: normal
+      line-height: 16px
+
+      strong
+        font-size: 28px
+        letter-spacing: 1px
