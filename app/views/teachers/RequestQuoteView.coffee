@@ -9,6 +9,7 @@ ConfirmModal = require 'views/core/ConfirmModal'
 User = require 'models/User'
 algolia = require 'core/services/algolia'
 State = require 'models/State'
+parseFullName = require('parse-full-name').parseFullName
 
 SIGNUP_REDIRECT = '/teachers'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
@@ -83,11 +84,6 @@ module.exports = class RequestQuoteView extends RootView
     properties = @trialRequest.get('properties')
     if properties
       forms.objectToForm(@$('#request-form'), properties)
-      commonLevels = _.map @$('[name="educationLevel"]'), (el) -> $(el).val()
-      submittedLevels = properties.educationLevel or []
-      otherLevel = _.first(_.difference(submittedLevels, commonLevels)) or ''
-      @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
-      @$('#other-education-level-input').val(otherLevel)
 
     $("#organization-control").algolia_autocomplete({hint: false}, [
       source: (query, callback) ->
@@ -151,11 +147,6 @@ module.exports = class RequestQuoteView extends RootView
     # Don't save n/a district entries, but do validate required district client-side
     trialRequestAttrs = _.omit(trialRequestAttrs, 'district') if trialRequestAttrs.district?.replace(/\s/ig, '').match(/n\/a/ig)
 
-    # custom other input logic
-    if @$('#other-education-level-checkbox').is(':checked')
-      val = @$('#other-education-level-input').val()
-      trialRequestAttrs.educationLevel.push(val) if val
-
     forms.clearFormAlerts(form)
     requestFormSchema = if me.isAnonymous() then requestFormSchemaAnonymous else requestFormSchemaLoggedIn
     result = tv4.validateMultiple(trialRequestAttrs, requestFormSchemaAnonymous)
@@ -166,16 +157,30 @@ module.exports = class RequestQuoteView extends RootView
     if not error and not forms.validateEmail(trialRequestAttrs.email)
       forms.setErrorToProperty(form, 'email', 'invalid email')
       error = true
-    if not _.size(trialRequestAttrs.educationLevel)
-      forms.setErrorToProperty(form, 'educationLevel', 'include at least one')
-      error = true
+
     unless attrs.district
       forms.setErrorToProperty(form, 'district', $.i18n.t('common.required_field'))
       error = true
+
+    trialRequestAttrs['siteOrigin'] = 'demo request'
+
+    try
+      parsedName = parseFullName(trialRequestAttrs['fullName'], 'all', -1, true)
+      if parsedName.first and parsedName.last
+        trialRequestAttrs['firstName'] = parsedName.first
+        trialRequestAttrs['lastName'] = parsedName.last
+    catch e
+      # TODO handle_error_ozaria
+
+    if not trialRequestAttrs['firstName'] or not trialRequestAttrs['lastName']
+      error = true
+      forms.clearFormAlerts($('#full-name'))
+      forms.setErrorToProperty(form, 'fullName', $.i18n.t('teachers_quote.full_name_required'))
+
     if error
       forms.scrollToFirstError()
       return
-    trialRequestAttrs['siteOrigin'] = 'demo request'
+
     @trialRequest = new TrialRequest({
       type: 'course'
       properties: trialRequestAttrs
@@ -320,7 +325,7 @@ module.exports = class RequestQuoteView extends RootView
         window.location.reload()
       error: errors.showNotyNetworkError
     })
-    
+
   updateAuthModalInitialValues: (values) ->
     @state.set {
       authModalInitialValues: _.merge @state.get('authModalInitialValues'), values
@@ -367,10 +372,10 @@ module.exports = class RequestQuoteView extends RootView
   onChangeEmail: (e) ->
     @updateAuthModalInitialValues { email: @$(e.currentTarget).val() }
     @checkEmail()
-    
+
   checkEmail: ->
     email = @$('[name="email"]').val()
-    
+
     if not _.isEmpty(email) and email is @state.get('checkEmailValue')
       return @state.get('checkEmailPromise')
 
@@ -381,11 +386,11 @@ module.exports = class RequestQuoteView extends RootView
         checkEmailPromise: null
       })
       return Promise.resolve()
-      
+
     @state.set({
       checkEmailState: 'checking'
       checkEmailValue: email
-      
+
       checkEmailPromise: (User.checkEmailExists(email)
       .then ({exists}) =>
         return unless email is @$('[name="email"]').val()
@@ -399,22 +404,18 @@ module.exports = class RequestQuoteView extends RootView
       )
     })
     return @state.get('checkEmailPromise')
-    
-
 
 requestFormSchemaAnonymous = {
   type: 'object'
   required: [
-    'firstName', 'lastName', 'email', 'role', 'purchaserRole', 'numStudents',
-    'numStudentsTotal', 'city', 'state', 'country']
+    'fullName', 'email', 'role', 'numStudents', 'numStudentsTotal', 'city', 'state',
+    'country', 'organization', 'phoneNumber'
+  ]
   properties:
-    firstName: { type: 'string' }
-    lastName: { type: 'string' }
-    name: { type: 'string' }
+    fullName: { type: 'string' }
     email: { type: 'string', format: 'email' }
     phoneNumber: { type: 'string' }
     role: { type: 'string' }
-    purchaserRole: { type: 'string' }
     organization: { type: 'string' }
     district: { type: 'string' }
     city: { type: 'string' }
@@ -422,11 +423,6 @@ requestFormSchemaAnonymous = {
     country: { type: 'string' }
     numStudents: { type: 'string' }
     numStudentsTotal: { type: 'string' }
-    educationLevel: {
-      type: 'array'
-      items: { type: 'string' }
-    }
-    notes: { type: 'string' },
 }
 
 for key in SCHOOL_NCES_KEYS
