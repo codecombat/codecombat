@@ -1,6 +1,6 @@
-require('app/styles/play/level/tome/spell.sass')
+require('ozaria/site/styles/play/level/tome/spell.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell'
+template = require 'ozaria/site/templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 ace = require('lib/aceContainer')
@@ -870,7 +870,7 @@ module.exports = class SpellView extends CocoView
     lineOffsetPx = 0
     if problem.row?
       for i in [0...problem.row]
-        lineOffsetPx += @aceSession.getRowLength(i) * @ace.renderer.lineHeight
+        lineOffsetPx += @aceSession.getRowLength(i) * (@ace.renderer.lineHeight || 20)
       lineOffsetPx -= @ace.session.getScrollTop()
     if problem.level not in ['info', 'warning']
       Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}

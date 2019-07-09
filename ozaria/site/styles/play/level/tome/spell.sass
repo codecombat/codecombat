@@ -10,7 +10,7 @@
 #spell-view
   margin-top: 10px
   padding-top: 20px
-  padding-left: 30px
+  padding-left: 0px
   padding-bottom: 95px
   display: none
   position: relative
@@ -28,8 +28,7 @@
     border: 1px solid transparent
 
   span.code-background
-    border-width: 115px 76px 64px 40px
-    border-image: url(/images/level/code_editor_background_border.png) 124 76 64 40 fill stretch
+    background-color: #ffffff
 
   img.code-background
     display: none
@@ -111,6 +110,10 @@
 
     .ace_active-line, .ace_gutter-active-line
       background-color: rgba(255, 255, 255, 0.4)
+
+    .ace_gutter-cell.ace_error
+      background-image: url(/images/ozaria/level/error_icon.png) !important
+      background-size: 40%
 
     .ace_content
       .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error, .problem-line
