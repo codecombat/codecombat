@@ -225,8 +225,9 @@ module.exports = class RequestQuoteView extends RootView
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Request Demo Form Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
-    me.setRole @trialRequest.get('properties').role.toLowerCase(), true
-    defaultName = [@trialRequest.get('firstName'), @trialRequest.get('lastName')].join(' ')
+    trialRequestProperties = @trialRequest.get('properties')
+    me.setRole trialRequestProperties.role.toLowerCase(), true
+    defaultName = [trialRequestProperties.firstName, trialRequestProperties.lastName].join(' ')
     @$('input[name="name"]').val(defaultName)
     @$('#request-form, #form-submit-success').toggleClass('hide')
     @scrollToTop(0)
