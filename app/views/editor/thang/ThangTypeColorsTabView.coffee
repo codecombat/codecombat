@@ -9,6 +9,7 @@ initSlider = require 'lib/initSlider'
 tintApi = require('../../../../ozaria/site/api/tint')
 tintSchema = require 'app/schemas/models/tint.schema.js'
 ColorCalculator = require('./hslCalculator.vue').default
+
 COLOR_GROUP_TAB = 'COLORGROUPTAB'
 TINT_TAB = 'TINTTAB'
 
@@ -174,20 +175,22 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     buttons = $('<div></div>').prop('id', 'shape-buttons')
     inputSelectionDiv = $('<div></div>')
     inputSelectionDiv.css('margin-bottom', '15px')
+
     input = $('<input id="color-select" placeholder="#ffdd01"/>')
     input.css('width', '65px')
+    inputSelectionDiv.append(input)
+
     inputBtn = $('<button>Select hex color</button>')
-    inputBtn.click(()=>
+    inputBtn.click(() =>
       input = document.getElementById("color-select").value
-      @buttons.children('button').each(()->
+      @buttons.children('button').each(() ->
         if $(this).val().toLowerCase() == input.toLowerCase().trim()
           $(this).toggleClass('selected')
       )
       @updateColorGroup()
     )
-    inputSelectionDiv.append(input)
-    inputSelectionDiv.append(inputBtn)
 
+    inputSelectionDiv.append(inputBtn)
     buttons.append(inputSelectionDiv)
 
     shapes = (shape for key, shape of @thangType.get('raw')?.shapes or {})
