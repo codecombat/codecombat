@@ -1185,7 +1185,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Learn more about CodeCombat with an interactive walk through of the product!" # {change}
+    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!" # {change}
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "What's the best number to reach you?"
