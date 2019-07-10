@@ -484,14 +484,11 @@ const createThang = thang => {
     // This method is required by the Lank to support customization
     getLankOptions: function () {
       // TODO: Make this only applied to hero character instead of anything customizable.
-      let options = { colorConfig: {} }
+      const options = { colorConfig: {} }
       const playerTints = (me.get('ozariaHeroConfig') || {}).tints || []
-      playerTints.forEach((tint) => {
+      playerTints.forEach(tint => {
         const colorGroups = (tint.colorGroups || {})
-        for (const key in colorGroups) {
-          const value = colorGroups[key]
-          options.colorConfig[key] = value
-        }
+        options.colorConfig = _.merge(options.colorConfig, colorGroups)
       })
       return options
     }
