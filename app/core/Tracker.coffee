@@ -143,6 +143,7 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
 
+      # NOTE these custom dimensions need to be configured in GA prior to being reported
       gaFieldObject.dimension1 = experiments.getRequestAQuoteGroup(me)
 
       ga? 'send', gaFieldObject
