@@ -143,7 +143,7 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
 
-      gaFieldObject.dimension0 = experiments.getRequestAQuoteGroup(me)
+      gaFieldObject.dimension1 = experiments.getRequestAQuoteGroup(me)
 
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay
