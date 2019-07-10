@@ -8,16 +8,26 @@
   // Position these at the end of the spell editor, right above the spell toolbar.
   top: 45px
   right: 500px
-  background: transparent
-  border: 1px solid transparent
-  padding: 0
-  font-size: 18px
+  background-color: #ffffff
+  padding: 18.5px 13px
+  font-size: 16px
+  font-family: "Open Sans"
+  letter-spacing: 0.63px
+  line-height: 24px
   text-shadow: none
-  color: white
+  color: #232323
   word-wrap: break-word
-  border-style: solid
-  border-image: url(/images/level/code_editor_error_background.png) 16 20 fill round
-  border-width: 16px 20px
+  max-width: 342px
+
+  &::after
+    content: ' '
+    height: 0
+    position: absolute
+    width: 0
+    right: -20px
+    top: 35px
+    border: 10px solid transparent
+    border-left-color: #ffffff
 
   // Jiggle animation
   +keyframes(jiggle)
@@ -34,49 +44,3 @@
 
   &.jiggling
     @include animation(jiggle .3s infinite)
-
-  &.no-hint
-    // Since it's probably only one line, let's make it not look weird by being tiny.
-    padding: 7px
-
-  .problem-alert-title
-    color: white
-    border-bottom: 1px solid white
-
-  .close
-    @include opacity(0.80)
-    text-shadow: none
-    cursor: pointer
-    color: white
-    float: right
-
-    &:hover, &:focus
-      @include opacity(1)
-
-  .problem-subtitle
-    font-size: 80%
-
-  //&.alert-error
-
-  &.alert-warning
-    border-image-source: url(/images/level/code_editor_warning_background.png)
-
-  &.alert-info
-    border-image-source: url(/images/level/code_editor_info_background.png)
-
-  .duck-img
-    margin-right: 10px
-
-html.no-borderimage
-  .problem-alert
-    border-width: 0
-    border-image: none
-    background: transparent url(/images/level/code_editor_error_background.png) no-repeat
-    background-size: 100% 100%
-    padding: 18px 35px 18px 14px
-
-    &.alert-warning
-      background-image: url(/images/level/code_editor_warning_background.png)
-      
-    &.alert-info
-      background-image: url(/images/level/code_editor_info_background.png)
