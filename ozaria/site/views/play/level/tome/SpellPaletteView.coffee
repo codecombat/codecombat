@@ -19,12 +19,14 @@ module.exports = class SpellPaletteView extends CocoView
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
     'tome:palette-clicked': 'onPalleteClick'
-    'surface:stage-mouse-down': 'hide'
+    'surface:stage-mouse-down': 'closeCommandBank'
 
 
   events:
+    'click .command-bank-header': 'onClickHeader'
     'click .closeBtn': 'onClickClose'
     'click .sub-section-header': 'onSubSectionHeaderClick'
+    'click': 'onClick'
 
   initialize: (options) ->
     {@level, @session, @thang, @useHero} = options
@@ -213,6 +215,21 @@ module.exports = class SpellPaletteView extends CocoView
     @createPalette()
     @render()
 
+  onClick: (e) ->
+    rightBorderWidth = parseInt(@$el.css('borderRightWidth'))
+    leftPanelWidth = parseInt(@$el.find('.left').css('width'))
+    rightPanelWidth = parseInt(@$el.find('.right').css('width'))
+    viewWidth = parseInt(@$el.css('width'))
+    viewWidthOpen = rightBorderWidth + leftPanelWidth # when only left panel is open
+    viewWidthExpanded = rightBorderWidth + leftPanelWidth + rightPanelWidth # when completely open with left and right panel
+    if viewWidth == rightBorderWidth
+      @$el.addClass('open')
+    else if (viewWidth == viewWidthOpen && e.offsetX > leftPanelWidth) || (viewWidth == viewWidthExpanded && e.offsetX > leftPanelWidth + rightPanelWidth)
+      @closeCommandBank()
+
+  onClickHeader: (e) ->
+    @closeCommandBank()
+
   onSubSectionHeaderClick: (e) ->
     $et = @$(e.currentTarget)
     target = @$($et.attr('data-panel'))
@@ -232,14 +249,18 @@ module.exports = class SpellPaletteView extends CocoView
     e.preventDefault()
 
   onClickClose: (e) ->
-    @hide()
+    @closeRightPanel()
 
-  hide: () =>
+  closeRightPanel: () =>
     @$el.find('.left .selected').removeClass 'selected'
+    @$el.removeClass('expand')
+
+  closeCommandBank: () =>
+    @closeRightPanel()
     @$el.removeClass('open')
 
   onPalleteClick: (e) ->
-    @$el.addClass('open')
+    @$el.addClass('expand')
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)
     content.i18n()
