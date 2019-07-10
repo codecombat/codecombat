@@ -485,7 +485,7 @@ const createThang = thang => {
     getLankOptions: function () {
       // TODO: Make this only applied to hero character instead of anything customizable.
       let options = { colorConfig: {} }
-      const playerTints = (me.get('customization') || {}).tints || []
+      const playerTints = (me.get('ozariaHeroConfig') || {}).tints || []
       playerTints.forEach((tint) => {
         const colorGroups = (tint.colorGroups || {})
         for (const key in colorGroups) {
