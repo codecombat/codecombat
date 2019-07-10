@@ -5,6 +5,8 @@ CocoClass = require 'core/CocoClass'
 loadSegmentIo = require('core/services/segment')
 api = require('core/api')
 
+experiments = require('core/experiments')
+
 debugAnalytics = false
 
 module.exports = class Tracker extends CocoClass
@@ -81,7 +83,11 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    traitsToReport = [
+      'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
+      'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role'
+    ]
+
     if me.isTeacher(true)
       traitsToReport.push('firstName', 'lastName')
     for userTrait in traitsToReport
@@ -136,6 +142,9 @@ module.exports = class Tracker extends CocoClass
         eventAction: action
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
+
+      gaFieldObject.dimmension0 = me.getHomePageTestGroup()
+      gaFieldObject.dimmension1 = experiments.getRequestAQuoteGroup(me)
 
       # Send trackABResult as true in the properties to track a/b test results in GA as the event label
       # TODO: what if gaFieldObject.label already exists
