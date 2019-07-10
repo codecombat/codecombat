@@ -147,6 +147,7 @@
     "paypal-rest-sdk": "^1.7.1",
     "plyr": "^3.5.4",
     "promise-polyfill": "^5.2.1",
+    "random-seed": "^0.3.0",
     "request": "^2.75.0",
     "serve-favicon": "^2.3.2",
     "sortablejs": "^1.10.0-rc2",

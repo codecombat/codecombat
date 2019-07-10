@@ -6,6 +6,7 @@
 
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+  import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
   import BaseButton from '../common/BaseButton'
   import ModalInteractive from '../common/ModalInteractive.vue'
@@ -63,10 +64,17 @@
         defaultImage = getOzariaAssetUrl(this.interactive.defaultArtAsset)
       }
 
+      const choices = this.localizedInteractiveConfig.choices || []
+
       return {
         showModal: false,
         codemirrorReady: false,
         submitEnabled: true,
+
+        shuffle: deterministicShuffleForUserAndDay(
+          me,
+          [ ...Array(choices.length).keys() ]
+        ),
 
         codemirrorOptions: {
           tabSize: 2,
@@ -123,7 +131,8 @@
       },
 
       answerOptions () {
-        return this.localizedInteractiveConfig.choices
+        return this.shuffle
+          .map(idx => this.localizedInteractiveConfig.choices[idx])
       },
 
       codemirror () {

@@ -5,6 +5,7 @@
 
   import { putSession } from 'ozaria/site/api/interactive'
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+  import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
   import BaseButton from '../common/BaseButton'
   import ModalInteractive from '../common/ModalInteractive.vue'
@@ -41,15 +42,17 @@
     },
 
     data () {
+      const shuffle = deterministicShuffleForUserAndDay(
+        me,
+        [ ...Array(this.localizedInteractiveConfig.elements.length).keys() ]
+      )
+
       return {
         showModal: false,
         submitEnabled: true,
 
-        promptSlots: (this.localizedInteractiveConfig.elements || [])
-          .map(({ elementId, ...rest }) => ({
-            ...rest,
-            id: elementId
-          }))
+        shuffle,
+        promptSlots: this.getShuffledPrompt(shuffle)
       }
     },
 
@@ -115,13 +118,24 @@
         this.submitEnabled = true
       },
 
-      resetAnswer () {
-        // TODO consolidate with initial state setting
-        this.promptSlots = (this.localizedInteractiveConfig.elements || [])
-          .map(({ elementId, ...rest }) => ({
+      getShuffledPrompt (shuffle) {
+        const elements = this.localizedInteractiveConfig.elements || []
+
+        return shuffle.map((idx) => {
+          const {
+            elementId,
+            ...rest
+          } = elements[idx]
+
+          return {
             ...rest,
             id: elementId
-          }))
+          }
+        })
+      },
+
+      resetAnswer () {
+        this.promptSlots = this.getShuffledPrompt(this.shuffle)
       }
     }
   }

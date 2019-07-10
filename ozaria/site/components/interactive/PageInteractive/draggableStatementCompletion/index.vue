@@ -4,6 +4,7 @@
 
   import { putSession } from 'ozaria/site/api/interactive'
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+  import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
   import BaseButton from '../common/BaseButton'
   import ModalInteractive from '../common/ModalInteractive.vue'
@@ -41,7 +42,10 @@
     },
 
     data () {
-      const interactiveConfig = this.localizedInteractiveConfig || {}
+      const shuffle = deterministicShuffleForUserAndDay(
+        me,
+        [ ...Array(this.localizedInteractiveConfig.elements.length).keys() ]
+      )
 
       return {
         showModal: false,
@@ -49,11 +53,8 @@
 
         draggableGroup: Math.random().toString(),
 
-        slotOptions: (interactiveConfig.elements || [])
-          .map(({ elementId, text }) => ({
-            id: elementId,
-            text
-          })),
+        shuffle,
+        slotOptions: this.getShuffledPrompt(shuffle),
 
         answerSlots: Array(3).fill(undefined)
       }
@@ -138,15 +139,25 @@
         this.submitEnabled = true
       },
 
+      getShuffledPrompt (shuffle) {
+        const elements = this.localizedInteractiveConfig.elements || []
+
+        return shuffle.map((idx) => {
+          const {
+            elementId,
+            ...rest
+          } = elements[idx]
+
+          return {
+            ...rest,
+            id: elementId
+          }
+        })
+      },
+
       resetAnswer () {
         this.answerSlots = Array(3).fill(undefined)
-
-        // TODO consolidate with initial state setting
-        this.slotOptions = (this.localizedInteractiveConfig.elements || [])
-          .map(({ elementId, text }) => ({
-            id: elementId,
-            text
-          }))
+        this.slotOptions = this.getShuffledPrompt(this.shuffle)
       }
     }
   }
