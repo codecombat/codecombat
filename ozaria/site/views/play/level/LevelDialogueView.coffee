@@ -22,7 +22,10 @@ module.exports = class LevelDialogueView extends CocoView
 
   onSpriteDialogue: (e) ->
     if e.message
-      $('.vega-dialogue').text(e.message)
+      currentMessage = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
+      $('.vega-dialogue').text(currentMessage)
+      # The entire view is invisible until we have a message
+      $('#level-dialogue-view')[0].style.display = 'flex'
 
   isFullScreen: ->
     document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
