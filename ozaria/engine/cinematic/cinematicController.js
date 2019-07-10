@@ -64,7 +64,7 @@ export class CinematicController {
     })
 
     this.systems.dialogSystem.templateContext = {
-      name: me.get('name') || 'hero'
+      name: (me.get('ozariaHeroConfig') || {}).playerHeroName || me.get('name') || 'hero'
     }
 
     this.systems.cinematicLankBoss = new CinematicLankBoss({

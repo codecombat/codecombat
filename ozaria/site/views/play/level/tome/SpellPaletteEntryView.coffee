@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/tome/spell_palette_entry'
+template = require 'ozaria/site/templates/play/level/tome/spell_palette_entry'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
