@@ -40,6 +40,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
   destroy: ->
     @colorGroups?.destroy()
     @tintAssignments?.destroy()
+    @colorCalculator?.$destroy()
     clearInterval @interval
     super()
 
@@ -63,8 +64,8 @@ module.exports = class ThangTypeColorsTabView extends CocoView
       $("#shape-buttons").hide()
       $("#saved-color-tabs").show()
 
-    # Attach a stateless calculator widget
-    new ColorCalculator({ el: '#color-calculator' })
+    # Attach a stateless color calculator widget
+    @colorCalculator = new ColorCalculator({ el: '#color-calculator' })
 
   # sliders
 

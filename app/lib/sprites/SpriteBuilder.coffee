@@ -155,6 +155,7 @@ module.exports = class SpriteBuilder
     for shapeKey in shapes
       shape = @shapeStore[shapeKey]
       continue if not shape.fc?
+      # Store the color we'd like the shape to be rendered with.
       @colorMap[shapeKey] = hslToHex([config.hue, config.saturation, config.lightness])
 
   buildColorMapForGroup: (shapes, config) ->
