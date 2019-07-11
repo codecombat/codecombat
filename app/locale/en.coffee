@@ -1086,7 +1086,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     andrew_title: "Software Engineer"
     stephanie_title: "Customer Support Specialist"
     rob_title: "Sales Development Representative"
-    shubhangi_title: "Software Engineer"
+    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Gameplay Developer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
