@@ -1,7 +1,7 @@
-require('app/styles/play/level/tome/problem_alert.sass')
+require('ozaria/site/styles/play/level/tome/problem_alert.sass')
 CocoView = require 'views/core/CocoView'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
-template = require 'templates/play/level/tome/problem_alert'
+template = require 'ozaria/site/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 
 module.exports = class ProblemAlertView extends CocoView
@@ -47,7 +47,7 @@ module.exports = class ProblemAlertView extends CocoView
   afterRender: ->
     super()
     if @problem?
-      @$el.addClass('alert').addClass("alert-#{@problem.level}").hide().fadeIn('slow')
+      @$el.addClass("alert-#{@problem.level}").hide().fadeIn('slow')
       @$el.addClass('no-hint') unless @problem.hint
       @playSound 'error_appear'
 
@@ -104,13 +104,9 @@ module.exports = class ProblemAlertView extends CocoView
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky
     if @problem?
-      levelContentWidth = $('.level-content').outerWidth(true)
-      goalsViewWidth = $('#goals-view').outerWidth(true)
       codeAreaWidth = $('#code-area').outerWidth(true)
-      # problem alert view has 20px padding
-      @$el.css('max-width', levelContentWidth - codeAreaWidth - goalsViewWidth + 40 + 'px')
-      @$el.css('right', codeAreaWidth + 'px')
+      @$el.css('right', codeAreaWidth + 20 + 'px')
 
-      # 110px from top roughly aligns top of alert with top of first code line
+      # 90px from top roughly aligns top of alert with top of first code line
       # TODO: calculate this in a more dynamic, less sketchy way
-      @$el.css('top', (110 + @lineOffsetPx) + 'px')
+      @$el.css('top', (90 + @lineOffsetPx) + 'px')

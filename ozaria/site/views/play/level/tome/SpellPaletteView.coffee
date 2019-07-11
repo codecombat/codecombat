@@ -135,6 +135,7 @@ module.exports = class SpellPaletteView extends CocoView
   # This can potentially be merged with the logic in organizePaletteHero, but currently doing that makes it behave differently, so keeping it as it is for now
   publishAutoCompleteEvent: (allDocs) ->
     propsByItem = {}
+    itemsByProp = {}
     if @options.programmable
       propStorage =
         'this': 'programmableProperties'
@@ -162,6 +163,27 @@ module.exports = class SpellPaletteView extends CocoView
     
     itemThangTypes = {}
     itemThangTypes[tt.get('name')] = tt for tt in @supermodel.getModels ThangType  # Also heroes
+
+    # Make sure that we get the spellbook first, then the primary hand, then anything else.
+    slots = _.sortBy _.keys(@thang.inventoryThangTypeNames ? {}), (slot) ->
+      if slot is 'left-hand' then 0 else if slot is 'right-hand' then 1 else 2
+    for slot in slots
+      thangTypeName = @thang.inventoryThangTypeNames[slot]
+      if item = itemThangTypes[thangTypeName]
+        unless item.get('components')
+          console.error 'Item', item, 'did not have any components when we went to assemble docs.'
+        for component in item.get('components') ? [] when component.config
+          for owner, storages of propStorage
+            if props = component.config[storages]
+              for prop in _.sortBy(props) when prop[0] isnt '_' and not itemsByProp[prop]  # no private properties
+                continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
+                continue if @thang.excludedProperties and prop in @thang.excludedProperties
+                propsByItem[item.get('name')] ?= []
+                propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
+                itemsByProp[prop] = item
+      else
+        console.log @thang.id, "couldn't find item ThangType for", slot, thangTypeName
+
     for owner, storage of propStorage
       continue unless owner in ['this', 'more', 'snippets', 'HTML', 'CSS', 'WebJavaScript', 'jQuery']
       for prop in _.reject(@thang[storage] ? [], (prop) -> prop[0] is '_')  # no private properties
