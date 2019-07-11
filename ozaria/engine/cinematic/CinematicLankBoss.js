@@ -480,7 +480,18 @@ const createThang = thang => {
     scaleFactorX: 1,
     scaleFactorY: 1,
     action: 'idle',
-    rotation: LEFT
+    rotation: LEFT,
+    // This method is required by the Lank to support customization
+    getLankOptions: function () {
+      // TODO: Make this only applied to hero character instead of anything customizable.
+      const options = { colorConfig: {} }
+      const playerTints = (me.get('ozariaHeroConfig') || {}).tints || []
+      playerTints.forEach(tint => {
+        const colorGroups = (tint.colorGroups || {})
+        options.colorConfig = _.merge(options.colorConfig, colorGroups)
+      })
+      return options
+    }
   }
   return _.cloneDeep(_.merge(defaults, thang))
 }
