@@ -144,7 +144,11 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventValue = properties.value if properties.value?
 
       # NOTE these custom dimensions need to be configured in GA prior to being reported
-      gaFieldObject.dimension1 = experiments.getRequestAQuoteGroup(me)
+      try
+        gaFieldObject.dimension1 = experiments.getRequestAQuoteGroup(me)
+      catch e
+        # TODO handle_error_ozaria
+        console.error(e)
 
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay
