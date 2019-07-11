@@ -1,17 +1,16 @@
-<template lang="pug">
-  li(:class="goalClass" v-if="showGoal")
-    i(v-if="state.status === 'incomplete' && isConceptGoal")=" • "
-    i.glyphicon(:class="iconClass" v-else)
-    | {{ goalText }}
+<template>
+  <li class="goal" v-if="showGoal">
+    <p class="rectangle"></p>
+    <img v-if="goalComplete"
+         class="check-mark" alt="Check mark for checkbox"
+         src="/images/ozaria/level/check_mark.png" />
+    {{ goalText }}
+  </li>
 </template>
 
 <script lang="coffee">
   {me} = require 'core/auth'
   utils = require 'core/utils'
-
-  stateIconMap =
-    success: 'glyphicon-ok'
-    failure: 'glyphicon-remove'
 
   module.exports = Vue.extend({
     props: {
@@ -26,8 +25,6 @@
           return false if not @goal.optional and @state.status isnt 'failure'
         return false if @goal.team and me.team isnt @goal.team
         return true
-      isConceptGoal: ->
-        @goal.concepts?.length
       goalText: ->
         text = utils.i18n @goal, 'name'
         if @state.killed
@@ -42,25 +39,36 @@
             text = text + " (#{completed}/#{targeted})"
 
         return text
-      goalClass: -> "status-#{@state.status}"
-      iconClass: -> stateIconMap[@state.status] or ''
+      goalComplete: -> @state.status == 'success'
     }
   })
 </script>
 
-<style lang="sass" scoped>
-  li
-    list-style: none
-    margin-right: 5px
-    i
-      margin-right: 5px
+<style scoped>
+  .goal {
+    display: flex;
+    font-family: Open Sans;
+    height: 23px;
+    color: #FFFFFF;
+    font-size: 16px;
+    letter-spacing: 0.55px;
+    line-height: 22px;
+    font-weight: lighter;
+    margin-bottom: 7px;
+  }
 
-  li.status-incomplete
-    color: #333
+  .rectangle {
+    height: 19px;
+    width: 18px;
+    border-radius: 4px;
+    margin-right: 10px;
+    background-color: #FFFFFF;
+    box-shadow: inset 1px 1px 3px 0 #5D73E1;
+  }
 
-  li.status-failure
-    color: darkred
-
-  li.status-success
-    color: darkgreen
+  .check-mark {
+    position: absolute;
+    left: 1.2%;
+    width: 21px;
+  }
 </style>
