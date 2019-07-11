@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     submit_changes: "Veranderingen indienen"
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
+#    submit: "Submit"
 
   general:
     and: "en"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Methodes"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     optional_parameters: "Optionele Parameters"
     returns: "Geeft terug"
     granted_by: "Verleend door"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Opgeslagen"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Gebruik CodeCombat voor jouw klas of programmeerclub!"
+    subtitle: "Gebruik CodeCombat voor jouw klas of programmeerclub!" # {change}
     email_exists: "Er bestaat al een gebruiker met dit emailadres."
     phone_number: "Telefoonnummer"
     phone_number_help: "Waarop kunnen we je bereiken tijdens kantooruren?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     organization_label: "Schoolnaam" # {change}
     school_name: "Naam van de school"
     city: "Stad"
-    state: "Provincie"
+    state: "Provincie" # {change}
     country: "Land"
     num_students_help: "Voor hoeveel leerlingen zou je CodeCombat willen gebruiken?" # {change}
     num_students_default: "Selecteer bereik"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create_account_subtitle: "Krijg toegang tot exclusieve hulpmiddelen voor docenten door CodeCombat in de klas te gebruiken. <strong>Maak een klas aan</strong>, voeg leerlingen toe, en <strong>bekijk hun vooruitgang</strong>!"
     convert_account_title: "Verander in een docenten-account"
     not: "niet"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Nieuwe versie opslaan"

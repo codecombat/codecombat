@@ -464,6 +464,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     submit_changes: "Потврди измене"
     save_changes: "Сачувај измене"
     required_field: "Обавезно поље" # {change}
+#    submit: "Submit"
 
   general:
     and: "и"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Методе"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     optional_parameters: "Опциони параметри"
     returns: "Враћа"
     granted_by: "Додељено од"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Сачувано"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Нека твоји ученици почну за мање од једног сата. Моћи ћеш да <strong>направиш разред, додаш ученике и пратиш њихов напредак</strong> док уче компјутерске науке."
+    subtitle: "Нека твоји ученици почну за мање од једног сата. Моћи ћеш да <strong>направиш разред, додаш ученике и пратиш њихов напредак</strong> док уче компјутерске науке." # {change}
     email_exists: "Корисник постоји са овим и-мејлом."
     phone_number: "Број телефона"
     phone_number_help: "Где можемо да те добијемо током радног дана?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     organization_label: "Име школе/округа" # {change}
     school_name: "Име школе "
     city: "Град"
-    state: "Савезна држава"
+    state: "Савезна држава" # {change}
     country: "Држава"
     num_students_help: "Колико ученика очекујеш да се упишу на CodeCombat?" # {change}
     num_students_default: "Изабери опсег"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     create_account_subtitle: "Добиј приступ алатима само за наставнике за коришћење CodeCombat-а у учионици.  <strong>Подеси разред</strong>, додај своје ученике и <strong>посматрај њихов напредак</strong>!"
     convert_account_title: "Ажурирај у Наставнички налог"
     not: "Није"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Сачувај нову верзију"

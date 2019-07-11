@@ -464,6 +464,7 @@ module.exports = nativeDescription: "қазақ тілі", englishDescription: "
 #    submit_changes: "Submit Changes"
 #    save_changes: "Save Changes"
 #    required_field: "required"
+#    submit: "Submit"
 
 #  general:
 #    and: "and"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "қазақ тілі", englishDescription: "
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "қазақ тілі", englishDescription: "
 #    optional_parameters: "Optional Parameters"
 #    returns: "Returns"
 #    granted_by: "Granted by"
+#    still_undocumented: "Still undocumented, sorry."
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "қазақ тілі", englishDescription: "
 #    course_suffix: ""
 
 #  teachers_quote:
-#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+#    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "What's the best number to reach you?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "қазақ тілі", englishDescription: "
 #    organization_label: "School"
 #    school_name: "School Name"
 #    city: "City"
-#    state: "State"
+#    state: "State / Region"
 #    country: "Country"
 #    num_students_help: "How many students will use CodeCombat?"
 #    num_students_default: "Select Range"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "қазақ тілі", englishDescription: "
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
+#    full_name_required: "First and last name required"
 
 #  versions:
 #    save_version_title: "Save New Version"

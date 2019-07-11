@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     submit_changes: "Änderungen einreichen"
     save_changes: "Änderungen speichern"
     required_field: "Pflichtfeld"
+#    submit: "Submit"
 
   general:
     and: "und"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Methoden"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     optional_parameters: "Optionale Parameter"
     returns: "Gibt zurück"
     granted_by: "Gewährt durch"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Gespeichert"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Holen Sie sich CodeCombat in ihren Klassenraum, Club, ihre Schule oder Ortsteil!"
+    subtitle: "Holen Sie sich CodeCombat in ihren Klassenraum, Club, ihre Schule oder Ortsteil!" # {change}
     email_exists: "Benutzer mit dieser E-Mail existiert bereits."
     phone_number: "Telefonnummer"
     phone_number_help: "Wo können wir Sie wochentags erreichen?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     organization_label: "Schule"
     school_name: "Schulname"
     city: "Ort"
-    state: "Bundesland"
+    state: "Bundesland" # {change}
     country: "Land"
     num_students_help: "Wieviele Schüler sollen bei CodeCombat eingeschrieben werden?" # {change}
     num_students_default: "Umfang auswählen"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     create_account_subtitle: "Erhalte Zugriff auf Lehrerwerkzeuge zu, die man im CodeCombat-Klassenzimmer benutzen kann.  <strong>Richte eine Klasse ein</strong>, füge deine Schüler hinzu <strong>und verfolge ihren Fortschritt</strong>!"
     convert_account_title: "In Lehrerkonto umwandeln"
     not: "Nicht"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Neue Version speichern"
