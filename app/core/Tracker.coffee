@@ -5,6 +5,8 @@ CocoClass = require 'core/CocoClass'
 loadSegmentIo = require('core/services/segment')
 api = require('core/api')
 
+experiments = require('core/experiments')
+
 debugAnalytics = false
 
 module.exports = class Tracker extends CocoClass
@@ -81,7 +83,11 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    traitsToReport = [
+      'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
+      'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role'
+    ]
+
     if me.isTeacher(true)
       traitsToReport.push('firstName', 'lastName')
     for userTrait in traitsToReport
@@ -137,13 +143,12 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
 
-      # Send trackABResult as true in the properties to track a/b test results in GA as the event label
-      # TODO: what if gaFieldObject.label already exists
-      # As of now gaFieldObject.label doesnt exist for the specific events which are relevant for a/b test results, so not a concern for now
-      # Probably add multiple labels as keys in gaFieldObject.label in the future, if required.
-      if properties.trackABResult and not gaFieldObject.label
-        if me.getHomePageTestGroup()
-          gaFieldObject.eventLabel = "{testGroup:"+ me.getHomePageTestGroup() + "}"  # {testGroup:A} / {testGroup:B} / {testGroup:C}
+      # NOTE these custom dimensions need to be configured in GA prior to being reported
+      try
+        gaFieldObject.dimension1 = experiments.getRequestAQuoteGroup(me)
+      catch e
+        # TODO handle_error_ozaria
+        console.error(e)
 
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay

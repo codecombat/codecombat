@@ -241,6 +241,7 @@ module.exports = class User extends CocoModel
         return
     return errors
 
+  # TODO move to app/core/experiments when updated
   getCampaignAdsGroup: ->
     return @campaignAdsGroup if @campaignAdsGroup
     # group = me.get('testGroupNumber') % 2
@@ -253,6 +254,7 @@ module.exports = class User extends CocoModel
     @campaignAdsGroup
 
   # TODO: full removal of sub modal test
+  # TODO move to app/core/experiments when updated
   getSubModalGroup: () ->
     return @subModalGroup if @subModalGroup
     @subModalGroup = 'both-subs'
@@ -264,6 +266,7 @@ module.exports = class User extends CocoModel
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   # ... and stopped working well until another update on March 10, so maybe March 11+...
   # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
+  # TODO move to app/core/experiments when updated
   getFourthLevelGroup: ->
     return 'forgetful-gemsmith'
     return @fourthLevelGroup if @fourthLevelGroup
@@ -281,6 +284,7 @@ module.exports = class User extends CocoModel
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
 
+  # TODO move to app/core/experiments when updated
   getHomePageTestGroup: () ->
     return  # ending A/B test on homepage for now.
     return unless me.get('country') == 'united-states'
