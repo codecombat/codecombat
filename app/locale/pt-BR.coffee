@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     submit_changes: "Enviar Mudanças"
     save_changes: "Salvar Mudanças"
     required_field: "obrigatório"
+#    submit: "Submit"
 
   general:
     and: "e"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     watch_a_video: "Assista o vídeo __concept_name__"
     concept_unlocked: "Conceito Desbloqueado"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Métodos"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     optional_parameters: "Parâmetros opcionais"
     returns: "Retorna"
     granted_by: "Concebido por"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Salvo"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "Comece a ensinar hoje! Você poderá <strong>criar uma turma, adicionar alunos e monitorar o progresso </strong>à medida que eles aprendem ciência da computação."
+    subtitle: "Comece a ensinar hoje! Você poderá <strong>criar uma turma, adicionar alunos e monitorar o progresso </strong>à medida que eles aprendem ciência da computação." # {change}
     email_exists: "Existe um usuário com este email."
     phone_number: "Número de telefone"
     phone_number_help: "Onde podemos contatá-lo durante o dia de trabalho?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     organization_label: "Nome da escola" # {change}
     school_name: "Nome da Escola"
     city: "Cidade"
-    state: "Estado"
+    state: "Estado" # {change}
     country: "País"
     num_students_help: "Quantos alunos usarão o CodeCombat?" # {change}
     num_students_default: "Selecione Intervalo"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     create_account_subtitle: "Tenha acesso a ferramentas exclusivas de professores para usar o CodeCombat na sala de aula.  <strong>Configure uma turma</strong>, adicione seus alunos, e <strong>monitore seu progresso.</strong>!"
     convert_account_title: "Atualizar para conta de professor"
     not: "Não"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Salvar nova versão"

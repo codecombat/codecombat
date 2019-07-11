@@ -464,6 +464,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     submit_changes: "Soumettre des Changements"
     save_changes: "Sauvegarder les modifications"
     required_field: "Champ requis" # {change}
+#    submit: "Submit"
 
   general:
     and: "et"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Méthodes"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     optional_parameters: "Paramètres facultatifs"
     returns: "Retour"
     granted_by: "Accordé par"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Sauvegardé"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Faites démarrer vos étudiants en moins d'une heure. Vous serez capable de <strong>créer une classe, ajouter des étudiants, et suivre leur progression </strong> pendant qu'ils apprennent la programmation."
+    subtitle: "Faites démarrer vos étudiants en moins d'une heure. Vous serez capable de <strong>créer une classe, ajouter des étudiants, et suivre leur progression </strong> pendant qu'ils apprennent la programmation." # {change}
     email_exists: "Un Utilisateur existe avec ce mél."
     phone_number: "Numéro de Téléphone"
     phone_number_help: "Où peut-on vous joindre pendant les heures de bureau?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     organization_label: "École"
     school_name: "Nom de l'École"
     city: "Ville"
-    state: "État"
+    state: "État" # {change}
     country: "Pays"
     num_students_help: "Combien d'étudiants utiliseront CodeCombat?"
     num_students_default: "Sélectionnez une fourchette"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     create_account_subtitle: "Ayez accès aux outils réservés aux professeurs permettant d'utiiser CodeCombat dans la classe. Définissez une classe, ajoutez vos étudiants, et suivez leur progression  !"
     convert_account_title: "Mettez à jour votre compte de Professeur"
     not: "Non"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Enregistrer une nouvelle version"

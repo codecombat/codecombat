@@ -464,6 +464,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     submit_changes: "שלח שינויים"
     save_changes: "שמור שינויים"
     required_field: "חובה"
+#    submit: "Submit"
 
   general:
     and: "וכן"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     optional_parameters: "פרמטרים אופציונליים"
     returns: "מחזיר"
     granted_by: "מתקבל מ:"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "נשמר"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "התלמידים שלכם יוכלו להתחיל תוך פחות משעה אחת. תוכלו <strong>ליצור כיתה, להוסיף תלמידים ולעקוב אחר ההתקדמות שלהם</strong> בלימודי מדעי המחשב."
+    subtitle: "התלמידים שלכם יוכלו להתחיל תוך פחות משעה אחת. תוכלו <strong>ליצור כיתה, להוסיף תלמידים ולעקוב אחר ההתקדמות שלהם</strong> בלימודי מדעי המחשב." # {change}
     email_exists: "כבר קיים משתמש עם כתובת דואר אלקטרוני זו."
     phone_number: "מספר טלפון"
     phone_number_help: "היכן ניתן להשיג אתכם בשעות העבודה?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     organization_label: "מוסד לימודים"
     school_name: "שם מוסד הלימודים"
     city: "עיר"
-    state: "מדינה (אם בארה\"ב)"
+    state: "מדינה (אם בארה\"ב)" # {change}
     country: "ארץ"
     num_students_help: "עם כמה תלמידים, לדעתכם, אתם צפויים להשתמש ב-CodeCombat?" # {change}
     num_students_default: "בחרו טווח"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_account_subtitle: "קבלו גישה לכלים המיועדים למורים בלבד, לצורך השימוש ב-CodeCombat בכיתה.  <strong>הקימו כיתה</strong>, הוסיפו תלמידים, <strong>ועקבו אחר ההתקדמות שלהם</strong>!"
     convert_account_title: "עדכון לחשבון מורה"
     not: "לא"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "שמור גרסה חדשה"

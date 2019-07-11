@@ -464,6 +464,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     submit_changes: "Indsend ændringer"
     save_changes: "Gem ændringer"
 #    required_field: "required"
+#    submit: "Submit"
 
   general:
     and: "og"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    optional_parameters: "Optional Parameters"
     returns: "Returnerer"
     granted_by: "Givet af"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Gemte"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "Få dine elever startet på mindre end en time. Du vil være i stand til at <strong>oprette en klasse, tilføje elever, og overvåge deres fremgang</strong> mens de lærer datalogi!"
+    subtitle: "Få dine elever startet på mindre end en time. Du vil være i stand til at <strong>oprette en klasse, tilføje elever, og overvåge deres fremgang</strong> mens de lærer datalogi!" # {change}
     email_exists: "En bruger med denne email eksisterer allerede."
     phone_number: "Telefonnummer"
     phone_number_help: "Hvor kan vi få fat i dig i løbet af arbejdsdagen?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     organization_label: "Navn på Skole/Område" # {change}
 #    school_name: "School Name"
     city: "By"
-    state: "Stat"
+    state: "Stat" # {change}
     country: "Land"
     num_students_help: "Hvor mange forventer du at indskrive i CodeCombat?" # {change}
 #    num_students_default: "Select Range"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Gem ny version"

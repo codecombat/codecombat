@@ -464,6 +464,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit_changes: "提交更新"
     save_changes: "保存更新"
     required_field: "必填" # {change}
+#    submit: "Submit"
 
   general:
     and: "与"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     watch_a_video: "观看 __concept_name__视频"
     concept_unlocked: "已解锁的概念"
     use_at_least_one_concept: "请使用以下至少一个概念： "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "函数"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     optional_parameters: "可选"
     returns: "返回值"
     granted_by: "技能来自"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "保存"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！"
+    subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
     email_exists: "使用该账号的电子邮箱"
     phone_number: "电话号码"
     phone_number_help: "工作日时我们在哪可以找到您？"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     organization_label: "学校："
     school_name: "学校名称"
     city: "城市"
-    state: "省"
+    state: "省" # {change}
     country: "国家"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_account_subtitle: "在 CodeCombat 班级中使用老师专用工具。 <strong>创建班级</strong>添加学生、<strong>观察学生进度</strong>！"
     convert_account_title: "升级为老师账号"
     not: "不是"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "保存新版本"
