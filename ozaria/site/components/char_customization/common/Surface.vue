@@ -15,6 +15,15 @@
       selectedHero: {
         type: String,
         required: true
+      },
+
+      thang: {
+        type: Object,
+        default: () => ({
+          scaleFactorX: 1,
+          scaleFactorY: 1,
+          pos: { y: -37 }
+        })
       }
     },
     data: () => ({
@@ -57,12 +66,7 @@
       }
       createjs.Ticker.addEventListener('tick', this.onTickHandler)
 
-      const thang = createThang({
-        scaleFactorX: 1.7,
-        scaleFactorY: 1.7,
-        pos: { y: -35 },
-        shadow: 10
-      })
+      const thang = createThang(this.thang)
       const lank = new Lank(this.loadedThangTypes[this.selectedHero], {
         perloadSounds: false,
         thang,
@@ -83,7 +87,7 @@
 </script>
 
 <template>
-  <canvas  ref="canvas" width="200px" height="700px"></canvas>
+  <canvas  ref="canvas" width="230px" height="700px"></canvas>
 </template>
 
 <style>
