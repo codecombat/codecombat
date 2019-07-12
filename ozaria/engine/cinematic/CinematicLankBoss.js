@@ -17,9 +17,9 @@ import {
   getSpeaker,
   getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
-import { LETTER_ANIMATE_TIME, getHeroSlug } from './constants'
+import { LETTER_ANIMATE_TIME } from './constants'
 
-export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
+export const HERO_THANG_ID = '5d03e18887ed53004682e340'
 const OFF_CAMERA_OFFSET = 20
 
 // Throws an error if `import ... from ..` syntax.
@@ -118,7 +118,7 @@ export default class CinematicLankBoss {
 
     const lHero = getLeftHero(shot)
     // TODO: Replace hard coded hero with user hero
-    const original = getHeroSlug()
+    const original = (me.get('ozariaHeroConfig') || {}).thangType || HERO_THANG_ID
     if (lHero) {
       const { enterOnStart, thang } = lHero
       addMoveCharacterCommand(LEFT_LANK_KEY, original, enterOnStart, thang)

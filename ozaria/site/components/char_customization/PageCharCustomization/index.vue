@@ -49,11 +49,12 @@
     created () {
       // TODO handle_error_ozaria - Retry logic is recommended
       const loader = []
-      this.fetchTints()
+      const tintLoadingPromise = this.fetchTints()
         .then(() => {
           Vue.set(this.tintIndexSelection, 'skin', Math.floor(Math.random() * this.skinSwatches.length))
           Vue.set(this.tintIndexSelection, 'hair', Math.floor(Math.random() * this.hairSwatches.length))
         })
+      loader.push(tintLoadingPromise)
       for (const heroKey in ozariaHeroes) {
         const thangLoading = getThangTypeOriginal(ozariaHeroes[heroKey].original)
           .then(attr => new ThangType(attr))
@@ -118,6 +119,36 @@
 
       onClickSwatch (slug, i) {
         Vue.set(this.tintIndexSelection, slug, i)
+      },
+
+      handleSubmit () {
+        const valid = this.$refs['name-form'].reportValidity()
+        const name = this.characterName.trim()
+        if (!valid) {
+          return
+        }
+        if (name === '') {
+          return noty({ text:"Invalid Name", layout: 'topCenter', type: 'error' })
+        }
+
+        const ozariaConfig = me.get('ozariaHeroConfig') || {}
+        ozariaConfig.playerHeroName = name
+
+        ozariaConfig.tints = [
+          {
+            slug: 'hair',
+            colorGroups: this.tintBySlug('hair')[this.tintIndexSelection.hair]
+          },
+          {
+            slug: 'skin',
+            colorGroups: this.tintBySlug('skin')[this.tintIndexSelection.skin]
+          }
+        ]
+
+        ozariaConfig.thangType = this.ozariaHeroes[this.selectedHero].original
+
+        me.set('ozariaHeroConfig', ozariaConfig)
+        me.save()
       }
     }
   })
@@ -125,6 +156,9 @@
 
 <template>
   <div class="container">
+    <div class="row" style="text-align: center;">
+      <h1>Customize Your Hero</h1>
+    </div>
     <div class="row">
       <div class="col-xs-4">
         <h1>Body</h1>
@@ -138,51 +172,59 @@
         </ul>
       </div>
       <div class="col-xs-4 webgl-area">
-        <h1>Web GL area</h1>
-        <keep-alive>
-          <surface
-            v-if="loaded && selectedHero"
-            :loadedThangTypes="loadedThangTypes"
-            :selectedHero="selectedHero"
-            :thang="selectedThang"
-            :key="selectedHero + `${tintIndexSelection.skin}` + `${tintIndexSelection.hair}`"
-          />
-        </keep-alive>
+        <surface
+          v-if="loaded && selectedHero"
+          :loadedThangTypes="loadedThangTypes"
+          :selectedHero="selectedHero"
+          :thang="selectedThang"
+          :key="selectedHero + `${tintIndexSelection.skin}` + `${tintIndexSelection.hair}`"
+        />
       </div>
       <div class="col-xs-4">
-        <h1>Hero's Name</h1>
-        <input
-          v-model="characterName"
-        />
+        <form ref="name-form">
+          <label for="heroNameInput">Hero's Name</label>
+          <input
+            v-model="characterName"
+            maxlength="25"
+            id="heroNameInput"
+            class="form-control"
+            required
+          />
+        </form>
         <div>
-          <h2>Skin Color</h2>
-          <!-- Todo: Pick one randomly -->
-          <template v-for="(tint, i) in hairSwatches">
-            <div
-              :key="i"
-              :class="['swatch', tintIndexSelection.hair === i ? 'selected' : '']"
-              :style="{ backgroundColor: tint }"
-              @click="() => onClickSwatch('hair', i)"
-            ></div>
-          </template>
+          <label>Skin Color</label>
+          <div>
+            <template v-for="(tint, i) in hairSwatches">
+              <div
+                :key="i"
+                :class="['swatch', tintIndexSelection.hair === i ? 'selected' : '']"
+                :style="{ backgroundColor: tint }"
+                @click="() => onClickSwatch('hair', i)"
+              ></div>
+            </template>
+          </div>
         </div>
         <div>
-          <h2>Hair Color</h2>
-          <!-- Todo: Pick on randomly -->
-          <template v-for="(tint, i) in skinSwatches">
-            <div
-              :key="i"
-              :class="['swatch', tintIndexSelection.skin === i ? 'selected' : '']"
-              :style="{ backgroundColor: tint }"
-              @click="() => onClickSwatch('skin', i)"
-            ></div>
-          </template>
+          <label>Hair Color</label>
+          <div>
+            <template v-for="(tint, i) in skinSwatches">
+              <div
+                :key="i"
+                :class="['swatch', tintIndexSelection.skin === i ? 'selected' : '']"
+                :style="{ backgroundColor: tint }"
+                @click="() => onClickSwatch('skin', i)"
+              ></div>
+            </template>
+          </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-xs-3 col-xs-push-9">
-        <button>
+        <button
+          v-if="loaded"
+          @click="handleSubmit"
+        >
           Next
         </button>
       </div>
@@ -205,5 +247,8 @@
 
   &.selected
     border: 4px solid #4298f5
+
+#heroNameInput
+  max-width: 240px
 
 </style>
