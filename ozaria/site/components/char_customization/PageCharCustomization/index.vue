@@ -181,12 +181,12 @@
         ozariaConfig.thangType = this.ozariaHeroes[this.selectedHero].original
 
         me.set('ozariaHeroConfig', ozariaConfig)
-        // TODO validation is failing but the save is completing.
         // TODO button doesn't have any behavior yet.
         me.save(null, {
           success: () => {
             this.$emit('completed')
-          }
+            alert('saved')
+          },
         })
       }
     }
