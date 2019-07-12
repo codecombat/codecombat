@@ -6,7 +6,7 @@ import {
   getLeftCharacterThangTypeSlug,
   getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
-import { HERO_THANG_ID } from './CinematicLankBoss'
+import { HERO_THANG_ID } from './constants'
 
 /**
  * @typedef {import('../../../app/schemas/models/selectors/cinematic')} Cinematic
@@ -47,7 +47,7 @@ export default class Loader {
    * If an admin or player doesn't have a hero, falls back to a default.
    */
   loadPlayerThangType () {
-    const original = (me.get('ozariaHeroConfig') || {}).thangType || HERO_THANG_ID
+    const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
 
     this.loadingThangTypes.set(
       original,

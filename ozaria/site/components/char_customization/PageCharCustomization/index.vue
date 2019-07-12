@@ -9,6 +9,7 @@
 
   const hslToHex_aux = ({ hue, saturation, lightness }) => hslToHex([hue, saturation, lightness])
 
+  // TODO Ozaria Heroes need to be driven from the database.
   const ozariaHeroes = {
     'hero-b': {
       buttonIcon: 'Replace HeroB icon',
@@ -128,15 +129,18 @@
           this.selectedHero = Object.keys(ozariaHeroes)[Math.floor(Math.random() * Object.keys(ozariaHeroes).length)]
         }
 
-        for (const { slug, colorGroups } of ozariaHeroConfig.tints) {
+        for (const { slug, colorGroups } of (ozariaHeroConfig.tints || [])) {
           const allowedTints = this.tintBySlug(slug)
           for (let i = 0; i < allowedTints.length; i++) {
             if (_.isEqual(allowedTints[i], colorGroups)) {
               Vue.set(this.tintIndexSelection, slug, i)
             }
           }
+        }
 
+        for (const slug in this.tintIndexSelection) {
           if (this.tintIndexSelection[slug] === -1) {
+            const allowedTints = this.tintBySlug(slug)
             Vue.set(this.tintIndexSelection, slug, Math.floor(Math.random() * allowedTints.length))
           }
         }
@@ -161,6 +165,7 @@
           return
         }
         if (name === '') {
+          // TODO: handle_error_ozaria
           return noty({ text:"Invalid Name", layout: 'topCenter', type: 'error' })
         }
 
@@ -178,13 +183,15 @@
           }
         ]
 
-        ozariaConfig.thangType = this.ozariaHeroes[this.selectedHero].original
+        ozariaConfig.cinematicThangTypeOriginal = this.ozariaHeroes[this.selectedHero].original
 
         me.set('ozariaHeroConfig', ozariaConfig)
-        // TODO button doesn't have any behavior yet.
+
+        // TODO handle_error_ozaria - What happens on failure?
         me.save(null, {
           success: () => {
-            this.$emit('completed')
+            // TODO add next button behavior
+            // TODO button should become disabled while saving.
             alert('saved')
           },
         })
