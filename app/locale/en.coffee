@@ -1075,7 +1075,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lance_title: "Software Engineer Intern, China"
     matias_title: "Senior Software Engineer"
     ryan_title: "Customer Support Specialist"
-    maya_title: "Curriculum Developer"
+    maya_title: "Senior Curriculum Developer"
     bill_title: "General Manager, China"
     shasha_title: "Product and Visual Designer"
     daniela_title: "Marketing Manager"
