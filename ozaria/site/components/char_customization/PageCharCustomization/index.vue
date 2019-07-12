@@ -1,5 +1,6 @@
 <script>
   import Surface from '../common/Surface'
+  // TODO migrate api calls to the Vuex store.
   import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
   import { mapGetters, mapActions } from 'vuex'
 
@@ -39,30 +40,34 @@
       loadedThangTypes: {},
       loaded: false,
       ozariaHeroes: ozariaHeroes,
-      selectedHero: Object.keys(ozariaHeroes)[Math.floor(Math.random() * Object.keys(ozariaHeroes).length)],
+      selectedHero: null,
       tintIndexSelection: {
         hair: -1,
         skin: -1
       }
     }),
 
-    created () {
-      // TODO handle_error_ozaria - Retry logic is recommended
+    async created () {
+      if (!me.hasCharCustomizationAccess())  {
+        return application.router.navigate('/', { trigger: true })
+      }
+      // TODO handle_error_ozaria - Retry logic is recommended.
       const loader = []
+
       const tintLoadingPromise = this.fetchTints()
-        .then(() => {
-          Vue.set(this.tintIndexSelection, 'skin', Math.floor(Math.random() * this.skinSwatches.length))
-          Vue.set(this.tintIndexSelection, 'hair', Math.floor(Math.random() * this.hairSwatches.length))
-        })
       loader.push(tintLoadingPromise)
+
       for (const heroKey in ozariaHeroes) {
         const thangLoading = getThangTypeOriginal(ozariaHeroes[heroKey].original)
           .then(attr => new ThangType(attr))
           .then(thangType => this.loadedThangTypes[heroKey] = thangType)
         loader.push(thangLoading)
       }
-      Promise.all(loader)
+
+      await Promise.all(loader)
         .then(() => this.loaded = true)
+
+      this.setInitialData()
     },
 
     computed: {
@@ -74,7 +79,7 @@
         const bodyTypes = []
         for (const k in ozariaHeroes) {
           const hero = {
-            text: ozariaHeroes[k].buttonIcon,
+            slug: k,
             onClick: () => this.selectBodyType(k)
           }
 
@@ -108,6 +113,34 @@
 
     methods: {
       ...mapActions('tints', ['fetchTints']),
+
+      setInitialData () {
+        const ozariaHeroConfig = me.get('ozariaHeroConfig') || {}
+        this.characterName = ozariaHeroConfig.playerHeroName || ''
+
+        if (ozariaHeroConfig.thangType) {
+          for (const key of Object.keys(ozariaHeroes)) {
+            if (ozariaHeroConfig.thangType === ozariaHeroes[key].original) {
+              this.selectedHero = key
+            }
+          }
+        } else {
+          this.selectedHero = Object.keys(ozariaHeroes)[Math.floor(Math.random() * Object.keys(ozariaHeroes).length)]
+        }
+
+        for (const { slug, colorGroups } of ozariaHeroConfig.tints) {
+          const allowedTints = this.tintBySlug(slug)
+          for (let i = 0; i < allowedTints.length; i++) {
+            if (_.isEqual(allowedTints[i], colorGroups)) {
+              Vue.set(this.tintIndexSelection, slug, i)
+            }
+          }
+
+          if (this.tintIndexSelection[slug] === -1) {
+            Vue.set(this.tintIndexSelection, slug, Math.floor(Math.random() * allowedTints.length))
+          }
+        }
+      },
 
       selectBodyType (hero) {
         this.selectedHero = hero
@@ -148,7 +181,13 @@
         ozariaConfig.thangType = this.ozariaHeroes[this.selectedHero].original
 
         me.set('ozariaHeroConfig', ozariaConfig)
-        me.save()
+        // TODO validation is failing but the save is completing.
+        // TODO button doesn't have any behavior yet.
+        me.save(null, {
+          success: () => {
+            this.$emit('completed')
+          }
+        })
       }
     }
   })
@@ -161,15 +200,21 @@
     </div>
     <div class="row">
       <div class="col-xs-4">
-        <h1>Body</h1>
-        <ul>
-          <li
-            v-for="body in bodyTypes"
-            v-bind:key="body.text"
+        <div class='body-label'>
+          <label>Body</label>
+        </div>
+          <div
+            v-for="(body) in bodyTypes"
+            v-bind:key="body.slug"
+            class='row body-row'
           >
-            <button @click="body.onClick">{{ body.text }}</button>
-          </li>
-        </ul>
+            <div
+              @click="body.onClick"
+              :class="['swatch', body.slug === selectedHero ? 'selected' : '']"
+              style="background-color: #ccc;"
+            >
+            </div>
+          </div>
       </div>
       <div class="col-xs-4 webgl-area">
         <surface
@@ -224,6 +269,7 @@
         <button
           v-if="loaded"
           @click="handleSubmit"
+          id="next-button"
         >
           Next
         </button>
@@ -250,5 +296,23 @@
 
 #heroNameInput
   max-width: 240px
+
+.body-row
+  text-align: right
+
+.body-label
+  text-align: right
+  margin-right: 7px
+
+#next-button
+  background-color: #4B90E2
+  color: white
+  width: 150px
+  height: 40px
+  border: unset
+  margin: 0 40px 40px
+
+  &:hover
+    background-color: #3b80d2
 
 </style>
