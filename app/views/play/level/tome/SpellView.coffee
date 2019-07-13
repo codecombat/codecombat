@@ -1079,7 +1079,6 @@ module.exports = class SpellView extends CocoView
     @fetchTokenForSource().then (token) =>
       if thang = e.world.getThangByID @spell.thang?.thang.id
         aether = e.world.userCodeMap[thang.id]?[@spell.name]
-        console.log("oNW aehter", aether)
         @spell.thang.castAether = aether
         @spell.thang.aether = @spell.createAether thang
         #console.log thang.id, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
