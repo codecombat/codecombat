@@ -42,6 +42,22 @@ export default {
 
     currentInteractiveSession (state) {
       return state.interactiveSession
+    },
+
+    correctSubmissionFromSession (state, getters) {
+      const currentInteractiveSession = getters.currentInteractiveSession
+      if (!currentInteractiveSession) {
+        return undefined
+      }
+
+      const submissions = currentInteractiveSession.submissions || []
+      for (const submission of submissions) {
+        if (submission.correct) {
+          return submission
+        }
+      }
+
+      return undefined
     }
   },
 
@@ -69,10 +85,11 @@ export default {
 
       try {
         const interactiveSession = await getSession(interactiveIdOrSlug, sessionOptions)
-
         if (!interactiveSession) {
           throw new Error('Invalid interactive session received')
         }
+
+        commit('addInteractiveSession', interactiveSession)
       } catch (e) {
         // TODO handle_error_ozaria
         throw new Error('Failed to load interactive session')

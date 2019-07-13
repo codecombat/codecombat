@@ -1,8 +1,14 @@
-<script>
+<script xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  import { mapGetters } from 'vuex'
   import { codemirror } from 'vue-codemirror'
+
+  import { putSession } from 'ozaria/site/api/interactive'
 
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+
+  import BaseButton from '../common/BaseButton'
+  import ModalInteractive from '../common/ModalInteractive.vue'
 
   // TODO dynamically import these
   import 'codemirror/mode/javascript/javascript'
@@ -12,7 +18,9 @@
   export default {
     components: {
       codemirror,
-      BaseInteractiveLayout
+      BaseInteractiveLayout,
+      'base-button': BaseButton,
+      'modal-interactive': ModalInteractive
     },
 
     props: {
@@ -56,7 +64,9 @@
       }
 
       return {
+        showModal: false,
         codemirrorReady: false,
+        submitEnabled: true,
 
         codemirrorOptions: {
           tabSize: 2,
@@ -69,19 +79,37 @@
 
         defaultImage,
 
-        selectedAnswer: {
-          id: -1,
-          text: undefined,
-          triggerArt: undefined
-        }
+        localSelectedAnswer: {}
       }
     },
 
     computed: {
+      ...mapGetters({
+        userCorrectSubmission: 'interactives/correctSubmissionFromSession'
+      }),
+
+      selectedAnswer () {
+        if (this.userCorrectSubmission) {
+          const choice = this.localizedInteractiveConfig
+            .choices
+            .find(c => c.choiceId === this.userCorrectSubmission.submittedSolution)
+
+          if (!choice) {
+            // Unexpected state - choices array does not contain selected submission
+            // TODO handle_error_ozaria
+            return this.localSelectedAnswer
+          }
+
+          return choice
+        } else {
+          return this.localSelectedAnswer
+        }
+      },
+
       code () {
         const arrayIndexToReplace = this.localizedInteractiveConfig.lineToReplace - 1
         let finalCode = this.splitSampleCode
-        if (this.selectedAnswer.id !== -1) {
+        if (this.questionAnswered) {
           finalCode = finalCode.map((v, i) => {
             if (i === arrayIndexToReplace) {
               return this.selectedAnswer.text
@@ -104,6 +132,17 @@
 
       artUrl () {
         return this.selectedAnswer.triggerArt || this.defaultImage
+      },
+
+      questionAnswered () {
+        return this.selectedAnswer.choiceId !== undefined
+      },
+
+      solution () {
+        return {
+          correct: this.localizedInteractiveConfig.solution === this.selectedAnswer.choiceId,
+          submittedSolution: this.selectedAnswer.choiceId
+        }
       }
     },
 
@@ -114,13 +153,17 @@
     },
 
     methods: {
+      resetAnswer () {
+        this.localSelectedAnswer = {}
+      },
+
       selectAnswer (answer) {
         let triggerArt
         if (answer.triggerArt) {
           triggerArt = getOzariaAssetUrl(answer.triggerArt)
         }
 
-        this.selectedAnswer = {
+        this.localSelectedAnswer = {
           ...answer,
           triggerArt
         }
@@ -142,13 +185,45 @@
 
         const lineToReplace = this.localizedInteractiveConfig.lineToReplace - 1
 
-        if (this.selectedAnswer.id !== -1) {
+        if (this.questionAnswered) {
           this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')
           this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-prompt')
         } else {
           this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-prompt')
           this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-answered')
         }
+      },
+
+      async submitSolution () {
+        if (!this.questionAnswered) {
+          return
+        }
+
+        this.showModal = true
+        this.submitEnabled = false
+
+        // TODO save through vuex and block progress until save is successful
+        await putSession(this.interactive._id, {
+          json: {
+            codeLanguage: this.codeLanguage,
+            submission: {
+              correct: this.solutionCorrect,
+              submittedSolution: this.selectedAnswer.choiceId
+            }
+          }
+        })
+      },
+
+      closeModal () {
+        if (this.solutionCorrect) {
+          this.$emit('completed')
+        } else {
+          this.resetAnswer()
+          this.updateHighlightedLine()
+        }
+
+        this.showModal = false
+        this.submitEnabled = true
       }
     }
   }
@@ -177,11 +252,30 @@
           :value="code"
           :options="codemirrorOptions"
 
+          class="code"
+
           @ready="onCodeMirrorReady"
           @input="onCodeMirrorUpdated"
         />
+
+        <base-button
+          class="submit"
+          :on-click="submitSolution"
+          :enabled="submitEnabled"
+        >
+          {{ $t('common.submit') }}
+        </base-button>
       </div>
     </div>
+
+    <modal-interactive
+      v-if="showModal"
+      @close="closeModal"
+    >
+      <template v-slot:body>
+        <h1>{{ solution.correct ? "Did it!" : "Try Again!" }}</h1>
+      </template>
+    </modal-interactive>
   </base-interactive-layout>
 </template>
 
@@ -234,7 +328,21 @@
     width: 30%;
     flex-grow: 1;
 
+    display: flex;
+    flex-direction: column;
+
     height: 100%;
+
+    .code {
+      flex-grow: 1;
+    }
+
+    .submit {
+      justify-content: flex-end;
+
+      margin: 0px auto;
+      margin-top: auto;
+    }
 
     /deep/ {
       &.highlight-line-prompt {
