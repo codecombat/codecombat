@@ -57,6 +57,7 @@ export const postInteractive = ({ name }, options = {}) => {
 /**
  * Retrieves the json representation of interactive session.
  * @param {string} idOrSlug - Id/Slug of the interactive.
+ * @param {'javascript'|'python'} options.codeLanguage - interactive session language
  * @return {Promise<Object>} - Raw Interactive Session object
  */
 export const getSession = (idOrSlug, options = {}) => {
