@@ -594,6 +594,7 @@ module.exports = class User extends CocoModel
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()
   hasCinematicAccess: -> @isAdmin()
+  hasCharCustomizationAccess: -> @isAdmin()
   hasCutsceneAccess: -> @isAdmin()
   hasInteractiveAccess: -> @isAdmin()
   hasIntroLevelAccess: -> @isAdmin()
