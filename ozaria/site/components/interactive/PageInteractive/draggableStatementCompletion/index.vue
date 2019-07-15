@@ -264,6 +264,8 @@
     }
 
     &.answer-slot-row {
+      margin-bottom: 50px;
+
       /deep/ .slot {
         .slot-label {
           position: absolute;
@@ -295,8 +297,7 @@
   .submit {
     justify-content: flex-end;
 
-    margin: 0px auto;
-    margin-top: auto;
+    margin: auto auto 18.69px auto;
   }
 
   /deep/ .slot {
