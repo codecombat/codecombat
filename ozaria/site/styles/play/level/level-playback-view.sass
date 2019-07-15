@@ -3,18 +3,16 @@
 @import "ozaria/site/styles/play/variables"
 
 #playback-view
-  $playback-button-color: rgb(248, 197, 146)
+  $playback-button-color: #ffffff
   // When 75% alpha, it will look like the rgb(194, 154, 114) from Heald's design
   width: calc(#{$game-view-width} -  #{$api-bar-width})
   #level-view.no-api &
     width: $game-view-width
   height: 60px
-  padding-top: 17px
+  padding-top: 12px
   position: relative
-  background: transparent url(/images/level/scrubber_background.png)
-  background-size: 100% 100%
-  // Counteract 50px height of absolutely positioned control bar, but overlap by 10px of jagged transparent top.
-  margin-top: 50px - 10px
+  background-color: #000000
+  margin-top: 50px
   z-index: 3
 
   &.controls-disabled
@@ -75,7 +73,7 @@
     display: inline-block
   #play-button.paused .glyphicon-play
     display: inline-block
-  #play-button.ended .glyphicon-repeat
+  #play-button.ended .glyphicon-play
     display: inline-block
 
   #volume-button.vol-up .glyphicon.glyphicon-volume-up
@@ -90,31 +88,26 @@
 
   .scrubber
     position: absolute
-    left: 170px
-    top: 21px
+    left: 60px
+    top: 17px
     bottom: 0px
-    right: 175px
+    right: 155px
     background: rgb(3, 3, 3)
     height: 28px
-    border: 1px solid rgb(67, 67, 44)
-    border-radius: 14px
 
     .scrubber-inner
-      border: 1px solid rgb(44, 38, 29)
       width: 100%
       height: 100%
-      border-radius: 14px
       padding: 6px 8px
 
     .progress
       float: left
       width: 100%
-      height: 12px
+      height: 14px
       cursor: pointer
       overflow: visible
-      border: 1px solid #444
-      background: rgb(80, 67, 53)
-      border-radius: 6px
+      background: #d8d8d8
+      border-radius: 7px
       border: 0
       // Can't do this transition because handle then jitters, but would be good for streaming.
       //@include transition(width .2s linear)
@@ -129,16 +122,15 @@
         @include transition(width .0s linear)
         position: relative
         // Remove gradient background in favor of solid fill
-        background: rgb(245, 170, 49)
-        border: 1px solid rgb(62, 45, 16)
-        border-radius: 6px
+        background: #9b9b9b
+        border-radius: 7px
 
         .scrubber-handle
           cursor: pointer
           position: absolute
           right: -18px
           top: -11px
-          background: transparent url(/images/level/scrubber_knob.png)
+          background: transparent url(/images/ozaria/level/scrubber_knob.png)
           background-size: contain
           width: 36px
           height: 36px

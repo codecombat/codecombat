@@ -133,6 +133,7 @@ module.exports = {
 
   // TODO: Why does chunk name `ozariaPlay` not work sporadically?
   'views/ozaria/site/play/PageUnitMap': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageUnitMap') },
+  'views/ozaria/site/characterCustomization': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/char_customization/PageCharCustomization') },
   'views/ozaria/site/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/views/play/level/PlayLevelView') },
   'views/cinematic': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cinematic/PageCinematic') },
   'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },

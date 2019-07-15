@@ -13,7 +13,6 @@ include game-dev-goals
   #level-loading-view
 
   .level-content
-    #control-bar-view
 
     #fullscreen-editor-background-screen(title="Click to minimize the code editor")
 
@@ -21,8 +20,6 @@ include game-dev-goals
       #goals-view
       #code-area-gradient.gradient
       #tome-view
-
-    #spell-palette-view
 
     #problem-alert-view
     #game-area
@@ -35,6 +32,8 @@ include game-dev-goals
         #ascii-surface
         #canvas-left-gradient.gradient
         #canvas-top-gradient.gradient
+      
+      #spell-palette-view
 
       #level-flags-view
 
@@ -42,21 +41,9 @@ include game-dev-goals
 
       #game-dev-track-view
 
-      #level-chat-view
-
-      #multiplayer-status-view
-
-      #duel-stats-view
-
       #playback-view
 
-      #thang-hud
-
-      #level-dialogue-view
-
       button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
-
-    #surface-context-menu-view
 
     if features.codePlay
       a(href=document.location.protocol+"//lenovogamestate.com/pages/products/")
@@ -96,9 +83,3 @@ include game-dev-goals
     .hints-view.hide
 
   #level-footer-shadow
-  #level-footer-background
-
-  if !me.get('anonymous') && !me.isStudent() && !features.codePlay
-    #play-footer(class=me.isPremium() ? "premium" : "")
-      p(class='footer-link-text').picoctf-hide
-        a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact")

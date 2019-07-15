@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/level/level-playback-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/level-playback-view'
+template = require 'ozaria/site/templates/play/level/level-playback-view'
 {me} = require 'core/auth'
 store = require 'core/store'
 
@@ -33,11 +33,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {} unless @realTime
-    'mouseenter #timeProgress': 'onProgressEnter'
-    'mouseleave #timeProgress': 'onProgressLeave'
-    'mousemove #timeProgress': 'onProgressHover'
     'tapstart #timeProgress': 'onProgressTapStart'
-    'tapend #timeProgress': 'onProgressTapEnd'
     'tapmove #timeProgress': 'onProgressTapMove'
 
   shortcuts:
@@ -60,7 +56,6 @@ module.exports = class LevelPlaybackView extends CocoView
     ua = navigator.userAgent.toLowerCase()
     if /safari/.test(ua) and not /chrome/.test(ua)
       @$el.find('.toggle-fullscreen').hide()
-    @timePopup ?= new HoverPopup
     t = $.i18n.t
     @second = t 'units.second'
     @seconds = t 'units.seconds'
@@ -70,9 +65,6 @@ module.exports = class LevelPlaybackView extends CocoView
     @current = t 'play_level.time_current'
     @total = t 'play_level.time_total'
     @$el.find('#play-button').css('visibility', 'hidden') if @options.level.get 'hidesPlayButton'  # Don't show for first few levels, confuses new players.
-
-  updatePopupContent: ->
-    @timePopup?.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
 
   # These functions could go to some helper class
 
@@ -124,8 +116,9 @@ module.exports = class LevelPlaybackView extends CocoView
 
   updateBarWidth: (loadedFrameCount, maxTotalFrames, dt) ->
     @totalTime = (loadedFrameCount - 1) * dt
-    pct = parseInt(100 * loadedFrameCount / (maxTotalFrames - 1)) + '%'
-    @barWidth = $('.progress', @$el).css('width', pct).show().width()
+    # Not calculating the width of progress bar based on loaded frame counts for ozaria
+    # pct = parseInt(100 * loadedFrameCount / (maxTotalFrames - 1)) + '%'
+    @barWidth = $('.progress', @$el).css('width', '100%').show().width()
     $('.scrubber .progress', @$el).slider('enable', true)
     @newTime = 0
     @currentTime = 0
@@ -194,49 +187,23 @@ module.exports = class LevelPlaybackView extends CocoView
   onFrameChanged: (e) ->
     if e.progress isnt @lastProgress
       @currentTime = e.frame / e.world.frameRate
-      @updatePopupContent() if @timePopup?.shown
       @updateProgress(e.progress, e.world)
       @updatePlayButton(e.progress)
     @lastProgress = e.progress
 
-  onProgressEnter: (e) ->
-    # Why it needs itself as parameter you ask? Ask Twitter instead.
-    @timePopup?.enter @timePopup
-
-  onProgressLeave: (e) ->
-    @timePopup?.leave @timePopup
-
-  onProgressHover: (e, offsetX) ->
-    timeRatio = @$progressScrubber.width() / @totalTime
-    offsetX ?= e.clientX - $(e.target).closest('#timeProgress').offset().left
-    offsetX = Math.max 0, offsetX
-    @newTime = offsetX / timeRatio
-    @updatePopupContent()
-    @timePopup?.onHover e
-
-    # Show it instantaneously if close enough to current time.
-    if @timePopup and Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
-      @timePopup.show()
-
   onProgressTapStart: (e, touchData) ->
     return unless application.isIPadApp
-    @onProgressEnter e
     screenOffsetX = e.clientX ? touchData?.position.x ? 0
     offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
     offsetX = Math.max offsetX, 0
     @scrubTo offsetX / @$progressScrubber.width()
     @onTogglePlay() if @$el.find('#play-button').hasClass 'playing'
 
-  onProgressTapEnd: (e, touchData) ->
-    return unless application.isIPadApp
-    @onProgressLeave e
-
   onProgressTapMove: (e, touchData) ->
     return unless application.isIPadApp  # Not sure why the tap events would fire when it's not one.
     screenOffsetX = e.clientX ? touchData?.position.x ? 0
     offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
     offsetX = Math.max offsetX, 0
-    @onProgressHover e, offsetX
     @scrubTo offsetX / @$progressScrubber.width()
 
   updateProgress: (progress, world) ->

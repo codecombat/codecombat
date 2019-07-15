@@ -1075,7 +1075,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lance_title: "Software Engineer Intern, China"
     matias_title: "Senior Software Engineer"
     ryan_title: "Customer Support Specialist"
-    maya_title: "Curriculum Developer"
+    maya_title: "Senior Curriculum Developer"
     bill_title: "General Manager, China"
     shasha_title: "Product and Visual Designer"
     daniela_title: "Marketing Manager"
@@ -1086,7 +1086,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     andrew_title: "Software Engineer"
     stephanie_title: "Customer Support Specialist"
     rob_title: "Sales Development Representative"
-    shubhangi_title: "Software Engineer"
+    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Gameplay Developer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
@@ -1185,7 +1185,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!" # {change}
+    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "What's the best number to reach you?"
@@ -1209,7 +1209,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     organization_label: "School"
     school_name: "School Name"
     city: "City"
-    state: "State / Region" # {change}
+    state: "State / Region"
     country: "Country"
     num_students_help: "How many students will use CodeCombat?"
     num_students_default: "Select Range"
