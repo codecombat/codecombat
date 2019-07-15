@@ -13,3 +13,8 @@ storiesOf('LayoutChrome', module).add('On state', () => ({
   components: { LayoutChrome },
   template: '<layout-chrome :chromeOn="true" />'
 }))
+
+storiesOf('LayoutChrome', module).add('On state with text', () => ({
+  components: { LayoutChrome },
+  template: '<layout-chrome :chromeOn="true" title="Optional Title Label" />'
+}))
