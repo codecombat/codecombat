@@ -1,12 +1,22 @@
+<script>
+export default {
+  props: {
+    chromeOn: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  }
+}
+</script>
+
 <template>
   <div>
     <slot></slot>
-    <div id="layout-chrome">
-      <img id="corner1" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="corner2" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="corner3" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="corner4" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="button-tray" src="/images/ozaria/layout/chrome/Chrome_buttontray.png" />
+    <div
+      id="layout-chrome"
+      :class="[chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
+      >
       <img id="btn-home" src="/images/ozaria/layout/chrome/Chrome_HomeButton.png" />
       <img id="btn-top" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
       <img id="btn-bottom" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
@@ -17,37 +27,22 @@
 <style lang="sass">
 
 #layout-chrome
-  border-image: url('/images/ozaria/layout/chrome/Layout-Chrome.png')
-  border-image-slice: 60 141 60 62 fill
-  border-image-width: 28px 70px 27px 37px
-  border-image-repeat: round
   width: 100%
   height: 100%
   position: fixed
   pointer-events: none
   z-index: 10
 
-#corner1
-  transform: rotate(180deg) scale(0.59) translate(66px, 38px)
-  position: fixed
+  &.chrome-on-slice
+    border-image: url('/images/ozaria/layout/chrome/Layout-Chrome-on.png')
 
-#corner2
-  transform: scaleY(-1) scale(0.59) translate(66px, 37px)
-  position: fixed
-  top: 0
-  right: 0
+  &.chrome-off-slice
+    border-image: url('/images/ozaria/layout/chrome/Layout-Chrome-off.png')
 
-#corner3
-  transform: scale(0.59) translate(66px, 38px)
-  position: fixed
-  bottom: 0
-  right: 0
-
-#corner4
-  transform: scaleX(-1) scale(0.59) translate(66px, 38px)
-  position: fixed
-  bottom: 0
-  left: 0
+  &.chrome-off-slice, &.chrome-on-slice
+    border-image-slice: 182 194 130 118 fill
+    border-image-width: 140px 140px 105px 106px
+    border-image-repeat: round
 
 #button-tray
   position: fixed
