@@ -265,7 +265,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    teacher_button: "For Teachers"
 #    get_more_codecombat: "Get More CodeCombat"
 
-#  code:
+  code:
     if: "eğer şöyleyse..." # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "değilse"
     elif: "eğer şöyleyse....."
