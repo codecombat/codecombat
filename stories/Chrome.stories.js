@@ -9,6 +9,11 @@ storiesOf('LayoutChrome', module).add('Default off state', () => ({
   template: '<layout-chrome />'
 }))
 
+storiesOf('LayoutChrome', module).add('Off state with text', () => ({
+  components: { LayoutChrome },
+  template: '<layout-chrome :chromeOn="false" title="Placeholder text - Off" />'
+}))
+
 storiesOf('LayoutChrome', module).add('On state', () => ({
   components: { LayoutChrome },
   template: '<layout-chrome :chromeOn="true" />'

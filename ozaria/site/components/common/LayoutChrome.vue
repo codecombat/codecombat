@@ -24,9 +24,9 @@ export default {
       <img id="btn-home" src="/images/ozaria/layout/chrome/Chrome_HomeButton.png" />
       <img id="btn-top" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
       <img id="btn-bottom" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
+      <div :class="[chromeOn ? 'side-center-on' : 'side-center-off']"></div>
       <div v-if="title">
         <div id="text-tab">
-          <img class="tab-img" src="/images/ozaria/layout/chrome/Tab-Title.png" />
           <div class='text-contents'>
             <span>{{ title }}</span>
           </div>
@@ -55,30 +55,33 @@ export default {
     border-image-slice: 182 194 130 118 fill
     border-image-width: 140px 140px 105px 106px
     border-image-repeat: round
-  
-  #text-tab
-    position: fixed
-    left: 50%
-    top: 10px
-    transform: translate(-50%, 0)
 
-    .tab-img
-      z-index: -1
+  .side-center-on
+    background: url(/images/ozaria/layout/chrome/central_on.png)
+
+  .side-center-off
+    background: url(/images/ozaria/layout/chrome/central_off.png)
+
+  .side-center-off, .side-center-on
+    width: 67px
+    height: 100%
+    overflow: hidden
+    position: fixed
+    right: 0
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+
+  #text-tab
+    background: url(/images/ozaria/layout/chrome/Tab-Title.png)
+    background-position-x: center
+    background-repeat: no-repeat
 
     .text-contents
-      position: absolute
-      top: 0
-      height: 59px
-      width: 100%
       text-align: center
       color: #48FAFC
-      padding-top: 12px
-
-#button-tray
-  position: fixed
-  right: 0
-  top: 50%
-  transform: translate(14%, -50%) scale(0.8)
+      padding: 12px 0
+      height: 30px
 
 #btn-home
   position: fixed
