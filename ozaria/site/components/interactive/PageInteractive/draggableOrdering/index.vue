@@ -256,7 +256,7 @@
     }
 
     li.monospaced {
-      font-family: monospace;
+      font-family: 'Roboto Mono', monospace;
     }
 
     li.dragging-slot {

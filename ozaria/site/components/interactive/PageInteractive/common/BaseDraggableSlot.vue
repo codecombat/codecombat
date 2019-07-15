@@ -127,6 +127,8 @@
       width: 100%;
 
       li {
+        cursor: pointer;
+
         height: 100%;
         background-color: #FFF;
       }

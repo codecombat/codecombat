@@ -158,7 +158,7 @@
     :art-url="artUrl"
   >
     <div class="statement-completion-content">
-      <div class="slot-row">
+      <div class="slot-row prompt-slot-row">
         <statement-slot
           v-for="(slot, i) of slotOptions"
           :key="i"
@@ -171,18 +171,39 @@
         />
       </div>
 
-      <div class="slot-row">
+      <div class="slot-row answer-slot-row">
         <statement-slot
-          v-for="(answerSlot, i) of answerSlots"
-          :key="i"
-
-          v-model="answerSlots[i]"
+          v-model="answerSlots[0]"
 
           :draggable-group="draggableGroup"
 
           class="slot"
-          :label-text="(answerSlotLabels[i] || {}).text || ''"
+          :label-text="(answerSlotLabels[0] || {}).text || ''"
         />
+
+        <div class="syntax">.</div>
+
+        <statement-slot
+          v-model="answerSlots[1]"
+
+          :draggable-group="draggableGroup"
+
+          class="slot"
+          :label-text="(answerSlotLabels[1] || {}).text || ''"
+        />
+
+        <div class="syntax">(</div>
+
+        <statement-slot
+          v-model="answerSlots[2]"
+
+          :draggable-group="draggableGroup"
+
+          class="slot"
+          :label-text="(answerSlotLabels[2] || {}).text || ''"
+        />
+
+        <div class="syntax">)</div>
       </div>
 
       <base-button
@@ -206,6 +227,9 @@
 </template>
 
 <style lang="scss" scoped>
+  /* TODO load font properly */
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
   .statement-completion-content {
     padding: 25px;
     height: 100%;
@@ -216,14 +240,55 @@
 
   .slot-row {
     display: flex;
+
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
 
     margin-bottom: 20px;
 
+    font-family: 'Roboto Mono', monospace;
+
     .slot {
+      font-size: 16px;
+      color: #232323;
+
       width: 25%;
+      height: 32.15px;
+    }
+
+    &.prompt-slot-row {
+      .slot {
+        margin-right: 30px;
+      }
+    }
+
+    &.answer-slot-row {
+      /deep/ .slot {
+        .slot-label {
+          position: absolute;
+          top: 100%;
+
+          height: 32.15px;
+
+          text-align: left;
+          justify-content: left;
+
+          color: #232323;
+          font-size: 16px;
+
+          padding: 5px;
+        }
+      }
+
+      .syntax {
+        width: 30px;
+
+        color: #BD10E0;
+        font-size: 19.29px;
+
+        text-align: center;
+      }
     }
   }
 
@@ -236,10 +301,10 @@
 
   /deep/ .slot {
     height: 35px;
-    border: 1px solid black;
+    border: 2px solid #ACB9FC;
 
     &.empty {
-      border: 1px dashed grey;
+      border: 1.17px dashed #ACB9FC;
     }
 
     ul {
