@@ -1390,7 +1390,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    track_concepts8: "to join"
 #    private_require_sub: "Private clans require a subscription to create or join."
 
-#  courses:
+  courses:
 #    create_new_class: "Create New Class"
 #    hoc_blurb1: "Try the"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1590,7 +1590,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    view_project: "View Project"
 #    edit_project: "Edit Project"
 
-#  teacher:
+  teacher:
 #    assigning_course: "Assigning course"
 #    back_to_top: "Back to Top"
 #    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
@@ -1962,7 +1962,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #  game_dev:
 #    creator: "Creator"
 
-#  web_dev:
+  web_dev:
 #    image_gallery_title: "Image Gallery"
 #    select_an_image: "Select an image you want to use"
 #    scroll_down_for_more_images: "(Scroll down for more images)"
