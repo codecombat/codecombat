@@ -87,6 +87,14 @@
         }
 
         return true
+      },
+
+      modalMessageTag () {
+        if (this.solutionCorrect) {
+          return 'interactives.phenomenal_job'
+        } else {
+          return 'interactives.try_again'
+        }
       }
     },
 
@@ -188,11 +196,11 @@
 
       <modal-interactive
         v-if="showModal"
+
+        :success="solutionCorrect"
         @close="closeModal"
       >
-        <template v-slot:body>
-          <h1>{{ solutionCorrect ? "Did it!" : "Try Again!" }}</h1>
-        </template>
+        {{ $t(modalMessageTag) }}
       </modal-interactive>
     </div>
   </base-interactive-layout>
