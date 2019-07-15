@@ -267,6 +267,8 @@
       margin-bottom: 50px;
 
       /deep/ .slot {
+        border: 2px solid #5D73E1;
+
         .slot-label {
           position: absolute;
           top: 100%;
