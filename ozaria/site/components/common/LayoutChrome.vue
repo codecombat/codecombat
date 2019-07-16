@@ -21,9 +21,13 @@ export default {
       id="layout-chrome"
       :class="[chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
       >
-      <img id="btn-home" src="/images/ozaria/layout/chrome/Chrome_HomeButton.png" />
-      <img id="btn-top" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
-      <img id="btn-bottom" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
+      <div id="chrome-menu">
+        <div class="button-flex-item options-btn"></div>
+        <div class="button-flex-item restart-btn"></div>
+        <div class="spacer"></div>
+        <div class="button-flex-item map-btn"></div>
+        <div class="button-flex-item sound-btn"></div>
+      </div>
       <div :class="[chromeOn ? 'side-center-on' : 'side-center-off']"></div>
       <div v-if="title">
         <div id="text-tab">
@@ -37,6 +41,7 @@ export default {
 </template>
 
 <style lang="sass">
+$topOffset: 25px
 
 #layout-chrome
   width: 100%
@@ -53,7 +58,7 @@ export default {
 
   &.chrome-off-slice, &.chrome-on-slice
     border-image-slice: 182 194 130 118 fill
-    border-image-width: 140px 140px 105px 106px
+    border-image-width: 140px 148px 124px 90px
     border-image-repeat: round
 
   .side-center-on
@@ -63,14 +68,49 @@ export default {
     background: url(/images/ozaria/layout/chrome/central_off.png)
 
   .side-center-off, .side-center-on
-    width: 67px
+    width: 75px
     height: 100%
     overflow: hidden
-    position: fixed
+    position: absolute
     right: 0
+    top: $topOffset
     background-position: center
     background-size: contain
     background-repeat: no-repeat
+
+  #chrome-menu
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    width: 58px
+    height: 80vh
+    position: absolute
+    top: calc(10vh + #{$topOffset})
+    right: 0
+    .button-flex-item
+      width: 58px
+      height: 58px
+      margin: 10px 0
+
+    .spacer
+      flex-grow: 1
+
+    .options-btn
+      background: url(/images/ozaria/layout/chrome/button_settings.png)
+
+    .restart-btn
+      background: url(/images/ozaria/layout/chrome/button_replay.png)
+
+    .map-btn
+      background: url(/images/ozaria/layout/chrome/button_map.png)
+
+    .sound-btn
+      background: url(/images/ozaria/layout/chrome/button_sound.png)
+
+    .options-btn, .restart-btn, .map-btn, .sound-btn
+      background-size: 45px
+      background-position: center
+      background-repeat: no-repeat
 
   #text-tab
     background: url(/images/ozaria/layout/chrome/Tab-Title.png)
