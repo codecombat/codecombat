@@ -262,6 +262,8 @@
     &.prompt-slot-row {
       .slot {
         margin-right: 30px;
+
+        background-color: #D8DBDB;
       }
     }
 
@@ -269,9 +271,14 @@
       margin-bottom: $height + 15px;
 
       /deep/ .slot {
+        ul:empty {
+          border: 1.17px dashed #ACB9FC;
+        }
 
         &.filled {
-          border: 2px solid #5D73E1;
+          li {
+            border: 2px solid #5D73E1;
+          }
         }
 
         .slot-label {
@@ -309,11 +316,6 @@
 
   /deep/ .slot {
     height: 35px;
-    border: 2px solid #ACB9FC;
-
-    &.empty {
-      border: 1.17px dashed #ACB9FC;
-    }
 
     ul {
       li {
@@ -322,6 +324,8 @@
         align-items: center;
         font-weight: bold;
         font-size: 15px;
+
+        border: 2px solid #ACB9FC;
       }
     }
   }
