@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     submit_changes: "Submit thay đổi"
     save_changes: "Lưu thay dổi"
     required_field: "Thông tin bắt buộc" # {change}
+#    submit: "Submit"
 
   general:
     and: "và"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    optional_parameters: "Optional Parameters"
 #    returns: "Returns"
 #    granted_by: "Granted by"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Đã lưu"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
 #    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "Soạn giáo án chỉ trong vòng một tiếng đồng hồ. Bạn sẽ có thể <strong>tạo lớp học, thêm học viên, và theo dõi quá trình học tập của họ</strong> trong khi tham gia lớp học công nghệ thông tin."
+    subtitle: "Soạn giáo án chỉ trong vòng một tiếng đồng hồ. Bạn sẽ có thể <strong>tạo lớp học, thêm học viên, và theo dõi quá trình học tập của họ</strong> trong khi tham gia lớp học công nghệ thông tin." # {change}
     email_exists: "Email đã được sử dụng."
     phone_number: "Số Điện Thoại"
     phone_number_help: "Chúng tôi có thể liên hệ với bạn ở đâu vào những ngày trong tuần?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     organization_label: "Tên Trường/Quận" # {change}
 #    school_name: "School Name"
     city: "Thành Phố"
-    state: "Tiểu Bang"
+    state: "Tiểu Bang" # {change}
     country: "Quốc Gia"
     num_students_help: "Số lượng học viên dự kiến tham gia CodeCombat?" # {change}
     num_students_default: "Lựa chọn khoảng"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
     convert_account_title: "Năng cấp lên tài khoản Giáo Viên"
     not: "Không phải"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Lưu phiên bản mới"

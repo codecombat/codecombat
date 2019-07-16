@@ -464,6 +464,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     submit_changes: "Prześlij zmiany"
     save_changes: "Zapisz zmiany"
     required_field: "wymagane"
+#    submit: "Submit"
 
   general:
     and: "i"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     optional_parameters: "Opcjonalne parametry"
     returns: "Zwraca"
     granted_by: "Zdobyte dzięki:"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Zapisano"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
 #    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Ilustracje"
     retrostyle_blurb: "RetroStyle Games"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Twoi uczniowie mogą zacząć nukę w mniej niż godzinę. Będziesz mógł <strong>utworzyć klasy, dodać uczniów, doglądać ich postępy</strong> w nauce programowania."
+    subtitle: "Twoi uczniowie mogą zacząć nukę w mniej niż godzinę. Będziesz mógł <strong>utworzyć klasy, dodać uczniów, doglądać ich postępy</strong> w nauce programowania." # {change}
     email_exists: "Ten adres email jest już zajęty."
     phone_number: "Numer telefonu"
     phone_number_help: "Jak możemy skontaktować się z tobą w ciągu dnia pracy?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     organization_label: "Szkoła"
     school_name: "Nazwa szkoły"
     city: "Miasto"
-    state: "Województwo"
+    state: "Województwo" # {change}
     country: "Kraj"
     num_students_help: "Ile osób masz zamiar zapisać do CodeCombat?" # {change}
     num_students_default: "Wybierz zakres"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     create_account_subtitle: "Uzyskaj wyłączny dostęp do narzędzi pomocnych podczas zajęć. <strong>Utwórz swoją klasę</strong>, dodaj uczniów i <strong>śledź ich postępy</strong>!"
     convert_account_title: "Aktualizuj do konta nauczyciela"
     not: "Nie jesteś"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Zapisz nową wersję"

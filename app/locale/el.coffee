@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     submit_changes: "Υποβολή αλλαγών"
     save_changes: "Αποθήκευση Αλλαγών"
     required_field: "απαιτείται"
+#    submit: "Submit"
 
   general:
     and: "και"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Μέθοδοι"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     optional_parameters: "Προαιρετικές Παράμετροι"
     returns: "Επιστρέφει"
     granted_by: "Παραχωρήθηκε από "
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Αποθηκεύτηκε"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ξεκινήστε με τους μαθητές σας σε λιγότερο από μία ώρα. Θα μπορείτε να <strong>δημιουργήσετε μια τάξη, να προσθέσετε μαθητές και να παρακολουθήσετε την πρόοδό τους</strong> καθώς μαθαίνουν την επιστήμη των υπολογιστών."
+    subtitle: "Ξεκινήστε με τους μαθητές σας σε λιγότερο από μία ώρα. Θα μπορείτε να <strong>δημιουργήσετε μια τάξη, να προσθέσετε μαθητές και να παρακολουθήσετε την πρόοδό τους</strong> καθώς μαθαίνουν την επιστήμη των υπολογιστών." # {change}
     email_exists: "Ο χρήστης με αυτό το email υπάρχει."
     phone_number: "Αριθμός τηλεφώνου"
     phone_number_help: "Πού μπορούμε να επικοινωνήσουμε μαζί σας κατά τη διάρκεια μιας εργάσιμης ημέρας;"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     organization_label: "Σχολείο"
     school_name: "Όνομα Σχολείου"
     city: "Πόλη"
-    state: "Πολιτεία"
+    state: "Πολιτεία" # {change}
     country: "Χώρα"
     num_students_help: "Για πόσους μαθητές προορίζετε το CodeCombat;"
     num_students_default: "Επιλογή Εύρους"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     create_account_subtitle: "Αποκτήστε πρόσβαση σε εργαλεία μόνο για εκπαιδευτικούς για τη χρήση του CodeCombat στην τάξη. <strong>Δημιουργήστε μια τάξη</strong>, προσθέστε τους μαθητές σας και <strong>παρακολουθήστε την πρόοδό τους</strong>!"
     convert_account_title: "Αναβάθμιση σε Λογαριασμό Εκπαιδευτικού"
     not: "Όχι"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Αποθήκευση Νέας Έκδοσης"

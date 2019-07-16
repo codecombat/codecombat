@@ -10,7 +10,7 @@ aceUtils = require 'core/aceUtils'
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: require 'ozaria/site/templates/play/tome/spell-palette-view'
+  template: require 'ozaria/site/templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:
@@ -19,12 +19,14 @@ module.exports = class SpellPaletteView extends CocoView
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
     'tome:palette-clicked': 'onPalleteClick'
-    'surface:stage-mouse-down': 'hide'
+    'surface:stage-mouse-down': 'closeCommandBank'
 
 
   events:
+    'click .command-bank-header': 'onClickHeader'
     'click .closeBtn': 'onClickClose'
     'click .sub-section-header': 'onSubSectionHeaderClick'
+    'click': 'onClick'
 
   initialize: (options) ->
     {@level, @session, @thang, @useHero} = options
@@ -46,9 +48,9 @@ module.exports = class SpellPaletteView extends CocoView
       entrySubGroups = _.groupBy entries, (entry) -> entry.doc.subSection || 'none'
       for subGroup, entries of entrySubGroups
         if subGroup != 'none'
-          header = $("<a class='sub-section-header btn btn-small btn-illustrated' data-panel='#sub-section-#{subGroup}-#{group}'>
+          header = $("<div class='sub-section-header' data-panel='#sub-section-#{subGroup}-#{group}'>
               <span>#{subGroup}</span>
-              <div style='float: right' class='glyphicon glyphicon-chevron-down'></div>
+              <div style='float: right; padding-top: 3px;' class='glyphicon glyphicon-chevron-down blue-glyphicon'></div>
             </a>").appendTo itemGroup
           itemSubGroup = $("<div class='property-entry-item-sub-group collapse' id='sub-section-#{subGroup}-#{group}'></div>").appendTo itemGroup
         for entry, entryIndex in entries
@@ -135,6 +137,7 @@ module.exports = class SpellPaletteView extends CocoView
   # This can potentially be merged with the logic in organizePaletteHero, but currently doing that makes it behave differently, so keeping it as it is for now
   publishAutoCompleteEvent: (allDocs) ->
     propsByItem = {}
+    itemsByProp = {}
     if @options.programmable
       propStorage =
         'this': 'programmableProperties'
@@ -162,6 +165,27 @@ module.exports = class SpellPaletteView extends CocoView
     
     itemThangTypes = {}
     itemThangTypes[tt.get('name')] = tt for tt in @supermodel.getModels ThangType  # Also heroes
+
+    # Make sure that we get the spellbook first, then the primary hand, then anything else.
+    slots = _.sortBy _.keys(@thang.inventoryThangTypeNames ? {}), (slot) ->
+      if slot is 'left-hand' then 0 else if slot is 'right-hand' then 1 else 2
+    for slot in slots
+      thangTypeName = @thang.inventoryThangTypeNames[slot]
+      if item = itemThangTypes[thangTypeName]
+        unless item.get('components')
+          console.error 'Item', item, 'did not have any components when we went to assemble docs.'
+        for component in item.get('components') ? [] when component.config
+          for owner, storages of propStorage
+            if props = component.config[storages]
+              for prop in _.sortBy(props) when prop[0] isnt '_' and not itemsByProp[prop]  # no private properties
+                continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
+                continue if @thang.excludedProperties and prop in @thang.excludedProperties
+                propsByItem[item.get('name')] ?= []
+                propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
+                itemsByProp[prop] = item
+      else
+        console.log @thang.id, "couldn't find item ThangType for", slot, thangTypeName
+
     for owner, storage of propStorage
       continue unless owner in ['this', 'more', 'snippets', 'HTML', 'CSS', 'WebJavaScript', 'jQuery']
       for prop in _.reject(@thang[storage] ? [], (prop) -> prop[0] is '_')  # no private properties
@@ -191,6 +215,21 @@ module.exports = class SpellPaletteView extends CocoView
     @createPalette()
     @render()
 
+  onClick: (e) ->
+    rightBorderWidth = parseInt(@$el.css('borderRightWidth'))
+    leftPanelWidth = parseInt(@$el.find('.left').css('width'))
+    rightPanelWidth = parseInt(@$el.find('.right').css('width'))
+    viewWidth = parseInt(@$el.css('width'))
+    viewWidthOpen = rightBorderWidth + leftPanelWidth # when only left panel is open
+    viewWidthExpanded = rightBorderWidth + leftPanelWidth + rightPanelWidth # when completely open with left and right panel
+    if viewWidth == rightBorderWidth
+      @$el.addClass('open')
+    else if (viewWidth == viewWidthOpen && e.offsetX > leftPanelWidth) || (viewWidth == viewWidthExpanded && e.offsetX > leftPanelWidth + rightPanelWidth)
+      @closeCommandBank()
+
+  onClickHeader: (e) ->
+    @closeCommandBank()
+
   onSubSectionHeaderClick: (e) ->
     $et = @$(e.currentTarget)
     target = @$($et.attr('data-panel'))
@@ -198,9 +237,11 @@ module.exports = class SpellPaletteView extends CocoView
     if isCollapsed
       target.collapse 'show'
       $et.find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up')
+      $et.toggleClass('selected', true)
     else
       target.collapse 'hide'
       $et.find('.glyphicon').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down')
+      $et.toggleClass('selected', false)
 
     setTimeout () =>
       @$('.nano').nanoScroller alwaysVisible: true
@@ -208,14 +249,18 @@ module.exports = class SpellPaletteView extends CocoView
     e.preventDefault()
 
   onClickClose: (e) ->
-    @hide()
+    @closeRightPanel()
 
-  hide: () =>
+  closeRightPanel: () =>
     @$el.find('.left .selected').removeClass 'selected'
+    @$el.removeClass('expand')
+
+  closeCommandBank: () =>
+    @closeRightPanel()
     @$el.removeClass('open')
 
   onPalleteClick: (e) ->
-    @$el.addClass('open')
+    @$el.addClass('expand')
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)
     content.i18n()
@@ -227,6 +272,7 @@ module.exports = class SpellPaletteView extends CocoView
     # Initialize Ace for each popover code snippet that still needs it
     content.find('.docs-ace').each ->
       aceEditor = aceUtils.initializeACE @, codeLanguage
+      aceEditor.renderer.setShowGutter true
       aceEditors.push aceEditor
 
   destroy: ->

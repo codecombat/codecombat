@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     submit_changes: "Puja canvis"
     save_changes: "Guarda canvis"
     required_field: "obligatori"
+#    submit: "Submit"
 
   general:
     and: "i"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Mètodes"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     optional_parameters: "Paràmetres opcionals"
     returns: "Retorna"
     granted_by: "Atorgat per"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Desats"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Dissenyador de jocs"
     retrostyle_title: "Il·lustració"
     retrostyle_blurb: "Jocs estil retro"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Feu que els vostres estudiants comencin en menys d'una hora. Podràs <strong>crear una classe, afegir alumnes, i monitoritzar el seu progrés</strong> mentre aprenen informàtica."
+    subtitle: "Feu que els vostres estudiants comencin en menys d'una hora. Podràs <strong>crear una classe, afegir alumnes, i monitoritzar el seu progrés</strong> mentre aprenen informàtica." # {change}
     email_exists: "L'usuari existeix amb aquest correu electrònic."
     phone_number: "Número de telèfon"
     phone_number_help: "On podem trobar-te durant la jornada laboral?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     organization_label: "Centre"
     school_name: "Nom de l'escola/institut"
     city: "Ciutat"
-    state: "Província"
+    state: "Província" # {change}
     country: "País"
     num_students_help: "Quants alumnes usaran CodeCombat?"
     num_students_default: "Selecciona Rang"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     create_account_subtitle: "Obteniu accés a les eines exclusives de professors per utilitzar CodeCombat a l'aula. <strong>Configura una classe</strong>, afegeix els teus alumnes, i <strong>supervisa el seu progrés</strong>!"
     convert_account_title: "Actualitza a compte del professor"
     not: "No"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Guarda una nova versió"

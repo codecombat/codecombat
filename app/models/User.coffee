@@ -241,6 +241,7 @@ module.exports = class User extends CocoModel
         return
     return errors
 
+  # TODO move to app/core/experiments when updated
   getCampaignAdsGroup: ->
     return @campaignAdsGroup if @campaignAdsGroup
     # group = me.get('testGroupNumber') % 2
@@ -253,6 +254,7 @@ module.exports = class User extends CocoModel
     @campaignAdsGroup
 
   # TODO: full removal of sub modal test
+  # TODO move to app/core/experiments when updated
   getSubModalGroup: () ->
     return @subModalGroup if @subModalGroup
     @subModalGroup = 'both-subs'
@@ -264,6 +266,7 @@ module.exports = class User extends CocoModel
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   # ... and stopped working well until another update on March 10, so maybe March 11+...
   # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
+  # TODO move to app/core/experiments when updated
   getFourthLevelGroup: ->
     return 'forgetful-gemsmith'
     return @fourthLevelGroup if @fourthLevelGroup
@@ -281,6 +284,7 @@ module.exports = class User extends CocoModel
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
 
+  # TODO move to app/core/experiments when updated
   getHomePageTestGroup: () ->
     return  # ending A/B test on homepage for now.
     return unless me.get('country') == 'united-states'
@@ -576,7 +580,7 @@ module.exports = class User extends CocoModel
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
-  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" or campaignID == "5789236960deed1f00ec2ab8" or campaignID == "578913f2c8871ac2326fa3e4"
+  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   showForumLink: -> not (features?.china ? false)
   showGithubLink: -> not (features?.china ? false)
@@ -585,10 +589,13 @@ module.exports = class User extends CocoModel
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
   showIndividualRegister: -> not (features?.china ? false)
+  hideDiplomatModal: -> features?.china ? false
+  showChinaRemindToast: -> features?.china ? false
 
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()
   hasCinematicAccess: -> @isAdmin()
+  hasCharCustomizationAccess: -> @isAdmin()
   hasCutsceneAccess: -> @isAdmin()
   hasInteractiveAccess: -> @isAdmin()
   hasIntroLevelAccess: -> @isAdmin()

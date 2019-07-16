@@ -1,0 +1,156 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
++keyframes(castablePulse)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px skyblue)
+    color: skyblue
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+
++keyframes(winnablePulse)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px #87CEFF)
+    color: #87CEFF
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+
+#cast-button-view
+  display: none
+  position: absolute
+
+  z-index: 2
+  width: 100%
+  border-radius: 6px
+
+  background: transparent url(/images/level/code_toolbar_background.png)
+  background-size: 100% 100%
+  left: -15px
+  right: 15px
+  height: 94px
+  margin-top: -8px
+  padding: 20px 2.8%
+
+  .btn.btn-illustrated
+    height: 46px
+    font-size: 24px
+    line-height: 24px
+    width: 45%
+    width: -webkit-calc(50% - 10px)
+    width: calc(50% - 10px)
+    border-style: solid
+    border-image: url(/images/level/code_toolbar_run_button_active.png) 14 20 20 20 fill round
+    border-width: 7px 10px 10px 10px
+
+    &:active
+      border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+
+    &.submit-button, &.done-button, &.rank-button
+      margin-left: 10px
+      border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+      
+      &:active
+        border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
+
+  .ladder-submission-view
+    width: 45%
+    width: -webkit-calc(50% - 10px)
+    width: calc(50% - 10px)
+    display: inline-block
+
+    .btn.btn-illustrated
+      width: 100%
+      font-size: 18px
+
+  
+  .cast-button
+    @include opacity(0.77)
+  
+    &:hover, &.castable
+      @include opacity(1)
+
+  .submit-button > *, .done-button > *
+    @include opacity(0.9)
+  
+    &:hover
+      @include opacity(1)
+
+  &:not(.winnable)
+
+    .btn.btn-illustrated
+
+      &.cast-button.castable
+        font-weight: bold
+        @include animation(castablePulse 3s infinite)
+        border-image: url(/images/level/code_toolbar_run_button_zazz.png) 14 20 20 20 fill round
+
+        &:active
+          border-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png) 14 20 20 20 fill round
+
+      &.submit-button
+        font-size: 16px
+
+  &.winnable .btn.btn-illustrated.cast-button
+    font-size: 16px
+
+  &.winnable.has-seen-winning-replay
+
+    .btn.btn-illustrated
+      &.submit-button, &.done-button
+        font-weight: bold
+        @include animation(winnablePulse 3s infinite)
+
+        border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
+
+        &:active
+          border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
+
+
+html.no-borderimage #cast-button-view
+  .btn.btn-illustrated
+    border: 0
+    background-image: url(/images/level/code_toolbar_run_button_active.png)
+    background-size: 100% 100%
+    padding: 7px 10px 10px 10px
+  
+    &:active
+      background-image: url(/images/level/code_toolbar_run_button_active_pressed.png)
+      padding: 9px 8px 8px 12px
+      border: 0
+
+    &.submit-button, &.done-button
+      background-image: url(/images/level/code_toolbar_submit_button_active.png)
+      border: 0
+
+      &:active
+        background-image: url(/images/level/code_toolbar_submit_button_active_pressed.png)
+        border: 0
+
+  &:not(.winnable)
+    .btn.btn-illustrated
+      &.cast-button.castable
+        border: 0
+        background-image: url(/images/level/code_toolbar_run_button_zazz.png)
+
+        &:active
+          background-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png)
+
+  &.winnable
+    .btn.btn-illustrated
+      &.submit-button, &.done-button
+        border: 0
+        background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
+
+        &:active
+          border: 0
+          background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
+          

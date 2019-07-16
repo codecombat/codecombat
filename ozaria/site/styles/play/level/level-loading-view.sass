@@ -1,0 +1,217 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+@mixin wing-background($url: '', $backgroundPosition: left)
+  background: black
+  background-image: url($url)
+  background-repeat: no-repeat
+  background-position: top $backgroundPosition
+  background-size: contain
+
+$UNVEIL_TIME: 1.2s
+
+#level-loading-view
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  position: absolute
+  z-index: 20
+
+  &.unveiled
+    pointer-events: none
+
+  &.preview-screen
+    background-color: rgba(0, 0, 0, 0.5)
+
+  .left-wing, .right-wing
+    width: 100%
+    height: 100%
+    position: absolute
+    pointer-events: none
+
+  .left-wing
+    @include wing-background('/images/level/loading_left_wing_1920.jpg', right)
+    @media screen and ( max-width: 1366px )
+      @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
+    left: -50%
+    @include transition(all $UNVEIL_TIME ease)
+
+  .right-wing
+    @include wing-background('/images/level/loading_right_wing_1920.jpg', left)
+    @media screen and ( max-width: 1366px )
+      @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
+    right: -50%
+    @include transition(all $UNVEIL_TIME ease)
+
+  #loading-details
+    position: absolute
+    top: 86px
+    right: 50%
+    $WIDTH: 450px
+    width: $WIDTH
+    height: 450px
+    margin-right: (-$WIDTH / 2)
+    z-index: 100
+    background: transparent url(/images/level/code_editor_background.png) no-repeat
+    background-size: 100% 100%
+    color: darkslategray
+    font-size: 15px
+    padding: 4% 80px 40px 80px
+    text-align: center
+    // http://matthewlein.com/ceaser/  Bounce down a bit, then snap up.
+    @include transition($UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600))
+    font-family: 'Open Sans Condensed'
+
+    &.preview
+      top: 0
+      right: 0
+      margin-right: 0
+      width: 45%
+      height: auto
+      pointer-events: all
+      @include transition($UNVEIL_TIME ease-in-out)
+
+      padding: 11vh 70px 40px 50px
+      .progress-or-start-container.intro-footer
+        bottom: 30px
+
+    .level-loading-goals
+      text-align: left
+
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        text-align: right
+
+        ul
+          padding-right: 0
+
+      .goals-title
+        font-size: 32px
+        color: black
+        font-weight: bold
+
+      li
+        font-size: 20px
+        color: black
+        margin-left: -25px
+
+    .intro-doc
+      text-align: left
+      font-size: 16px
+      //overflow-y: scroll  // using nanoscroller now
+
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        text-align: right
+
+      img
+        max-width: 100%
+
+      pre
+        box-sizing: content-box 
+        border: 5px solid white
+        padding: 0
+        .ace_content
+          .ace_marker-layer
+            .ace_bracket
+              display: none
+          .ace_cursor-layer
+            .ace_cursor
+              display: none
+
+    .progress-or-start-container
+      position: absolute
+      bottom: 95px
+      height: 80px
+      left: 48px
+      right: 77px
+      @include transition(bottom $UNVEIL_TIME ease-out)
+
+      .load-progress
+        width: 100%
+        height: 45px
+        margin: 20px auto 0 auto
+
+        .progress
+          height: 100%
+          position: relative
+          background-color: transparent
+          @include box-shadow(none)
+
+          .progress-background
+            width: 100%
+            height: 100%
+            background: transparent url(/images/level/loading_bar_back.png) no-repeat
+            background-size: 100% 100%
+            position: absolute
+            z-index: -1
+
+          .progress-bar-container
+            width: 75%
+            height: 100%
+            left: 10%
+            position: absolute
+
+            .progress-bar
+              width: 1%
+              height: 100%
+              transition-duration: 0
+              background: transparent url(/images/level/loading_bar_fill.png) no-repeat
+              background-size: 325px 100%
+              @include box-shadow(none)
+
+          &.active .progress-bar
+            transition-duration: 1.2s
+
+          .rim
+            position: absolute
+            left: 0
+            top: 0
+            width: 100%
+            height: 100%
+            background: transparent url(/images/level/loading_bar_rim.png) no-repeat
+            background-size: 100% 100%
+
+      .start-level-button
+        display: none
+        width: 100%
+        height: auto
+        margin: 0px auto
+        font-size: 40px
+        line-height: 45px
+        font-variant: small-caps
+        text-transform: none
+
+    .subscription-required, .course-membership-required, .could-not-load, .license-required
+      display: none
+      margin-top: 40px
+      color: black
+      font-size: 24px
+
+      .btn
+        width: 100%
+        margin: 20px auto 0px
+        font-size: 40px
+        font-variant: small-caps
+
+    #tip-wrapper
+      position: absolute
+      z-index: 2
+      bottom: 40px
+      left: 25px
+      width: 401px
+      color: #666
+
+    &.preview #tip-wrapper
+      left: 48px
+      right: 77px
+      width: auto
+      
+  
+#level-view.web-dev
+  #loading-details.preview
+    @media screen and ( min-height: 900px )
+      background: transparent
+      border: 1px solid transparent
+      border-width: 124px 76px 64px 40px
+      border-image: url(/images/level/code_editor_background.png) 124 76 64 40 fill round
+      padding: 0 35px 0 15px

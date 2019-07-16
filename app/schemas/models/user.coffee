@@ -151,9 +151,10 @@ _.extend UserSchema.properties,
   ozariaHeroConfig: c.object(
     {
       title: 'Player Ozaria Customization',
-      descipription: 'Player customization options, including hero name, objectId and applied color tints.'
+      description: 'Player customization options, including hero name, objectId and applied color tints.'
     }, {
-      thangType: c.objectId(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type'),
+      cinematicThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type'),
+      playerHeroName: c.shortString({ title: 'Ozaria Hero Name', description: 'The user set name for the ozaria hero. Used in cinematics.' }),
       tints: c.array(
         {
           title: 'Tints',

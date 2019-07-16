@@ -464,6 +464,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     submit_changes: "Változások véglegesítése"
     save_changes: "Változások mentése"
     required_field: "kötelező"
+#    submit: "Submit"
 
   general:
     and: "és"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     optional_parameters: "Nem kötelező paraméterek"
     returns: "Visszatérés"
     granted_by: "Megkapva"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Mentve"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
 #    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "A diákok akár egy órán belül elkezdhetik a játékot. A bemutatóval <strong>osztályokat állíthatsz össze, hozzájuk rendelheted a diákokat, és nyomon követheted tanítványaid fejlődését,</strong> miközben ők elmélyednek az informatikában."
+    subtitle: "A diákok akár egy órán belül elkezdhetik a játékot. A bemutatóval <strong>osztályokat állíthatsz össze, hozzájuk rendelheted a diákokat, és nyomon követheted tanítványaid fejlődését,</strong> miközben ők elmélyednek az informatikában." # {change}
     email_exists: "Ehhez az e-mail címhez már tartozik egy felhasználói fiók."
     phone_number: "Telefonszám"
     phone_number_help: "Milyen számon érhetünk el munkaidőben?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     organization_label: "Iskola"
 #    school_name: "School Name"
     city: "Város"
-    state: "Megye"
+    state: "Megye" # {change}
     country: "Ország"
     num_students_help: "Hány tanulóval szeretnéd megismertetni a CodeCombatet?" # {change}
     num_students_default: "Válassz egy tartományt"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     create_account_subtitle: "Férj hozzá az oktatói funkciókhoz, amelyekkel a CodeCombat tanterved szerves részévé válhat.  <strong>Állíts össze osztályokat</strong>, rendeld hozzájuk a diákokat, és <strong>kövesd nyomon a fejlődésüket</strong>!"
     convert_account_title: "Frissítés oktatói fiókra"
     not: "Nem"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Új verzió mentése"

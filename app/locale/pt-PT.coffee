@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     submit_changes: "Submeter Alterações"
     save_changes: "Guardar Alterações"
     required_field: "necessário"
+#    submit: "Submit"
 
   general:
     and: "e"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Métodos"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     optional_parameters: "Parâmetros Opcionais"
     returns: "Devolve"
     granted_by: "Garantido por"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Guardados"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
 #    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "'RetroStyle Games'"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    course_suffix: ""
 
   teachers_quote:
-#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+#    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
 #    email_exists: "User exists with this email."
     phone_number: "Número de telemóvel"
     phone_number_help: "Qual é o melhor número para entrarmos em contacto contigo?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     organization_label: "Escola"
     school_name: "Nome da Escola"
     city: "Cidade"
-    state: "Estado"
+    state: "Estado" # {change}
     country: "País"
     num_students_help: "Quantos estudantes vão usar o CodeCombat?"
     num_students_default: "Selecionar Intervalo"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     create_account_subtitle: "Obtém acesso a ferramentas reservadas a professores para usares o CodeCombat na sala de aula. <strong>Cria uma turma</strong>, adiciona os teus estudantes e <strong>monitoriza o progresso deles</strong>!"
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Guardar Nova Versão"

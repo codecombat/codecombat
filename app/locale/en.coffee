@@ -463,6 +463,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
     required_field: "required"
+    submit: "Submit"
 
   general:
     and: "and"
@@ -515,6 +516,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     warrior: "Warrior"
     ranger: "Ranger"
     wizard: "Wizard"
+    name: "Name"
     first_name: "First Name"
     last_name: "Last Name"
     last_initial: "Last Initial"
@@ -722,6 +724,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     watch_a_video: "Watch a video on __concept_name__"
     concept_unlocked: "Concept Unlocked"
     use_at_least_one_concept: "Use at least one concept: "
+    command_bank: "Command Bank"
 
   apis:
     methods: "Methods"
@@ -1017,6 +1020,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     optional_parameters: "Optional Parameters"
     returns: "Returns"
     granted_by: "Granted by"
+    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Saved"
@@ -1071,7 +1075,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lance_title: "Software Engineer Intern, China"
     matias_title: "Senior Software Engineer"
     ryan_title: "Customer Support Specialist"
-    maya_title: "Curriculum Developer"
+    maya_title: "Senior Curriculum Developer"
     bill_title: "General Manager, China"
     shasha_title: "Product and Visual Designer"
     daniela_title: "Marketing Manager"
@@ -1082,7 +1086,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     andrew_title: "Software Engineer"
     stephanie_title: "Customer Support Specialist"
     rob_title: "Sales Development Representative"
-    shubhangi_title: "Software Engineer"
+    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Gameplay Developer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
@@ -1181,7 +1185,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "What's the best number to reach you?"
@@ -1205,7 +1209,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     organization_label: "School"
     school_name: "School Name"
     city: "City"
-    state: "State"
+    state: "State / Region"
     country: "Country"
     num_students_help: "How many students will use CodeCombat?"
     num_students_default: "Select Range"
@@ -1242,6 +1246,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
     convert_account_title: "Update to Teacher Account"
     not: "Not"
+    full_name_required: 'First and last name required'
 
   versions:
     save_version_title: "Save New Version"

@@ -1,0 +1,32 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/variables"
+
+#game-dev-track-view
+  position: absolute
+  display: none
+  transition: right 0.25s, opacity 0.125s, z-index 1s
+  &:not(playback-float-right)
+    right: calc(43% + 10px + #{$api-bar-width})
+    z-index: 6
+  &.playback-float-right
+    right: calc(20% + 10px)
+    z-index: 10
+  top: 60px
+
+  border: 16px solid black
+  border-image: url(/images/pages/play/level-info-background.png) fill 20 stretch
+
+  #listings
+    .track-elem
+      display: flex
+      cursor: default
+      .track-icon, .track-text
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        overflow: hidden
+        text-align: center
+      .track-text
+        width: 48px

@@ -8,7 +8,6 @@ require('app/styles/play/level/tome/tome.sass')
 #     - a Thang that uses that Spell, with an aether and a castAether
 #     - a SpellView, which has
 #       - tons of stuff; the meat
-#     - a SpellTopBarView, which has some controls
 # - a SpellPaletteView, which has
 #   - for each programmableProperty:
 #     - a SpellPaletteEntryView
@@ -20,7 +19,7 @@ require('app/styles/play/level/tome/tome.sass')
 # SpellPaletteViews are destroyed and recreated whenever you switch Thangs.
 
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/tome/tome.jade'
+template = require 'ozaria/site/templates/play/level/tome/tome.jade'
 {me} = require 'core/auth'
 Spell = require './Spell'
 SpellPaletteView = require './SpellPaletteView'
@@ -195,7 +194,6 @@ module.exports = class TomeView extends CocoView
       @spellView = spell.view
       @spellTopBarView = spell.topBarView
       @$el.find('#' + @spellView.id).after(@spellView.el).remove()
-      @$el.find('#' + @spellTopBarView.id).after(@spellTopBarView.el).remove()
       @castButton?.attachTo @spellView
     @updateSpellPalette thang, spell
     @spellView?.setThang thang

@@ -1,0 +1,15 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#goals-view
+  height: 145px
+  width: 100%
+  position: relative
+  overflow-x: scroll
+  z-index: 2
+  color: white
+  background-color: black
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    padding-right: 0
+  &[dir="rtl"]
+    right: 0

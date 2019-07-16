@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submit_changes: "Enviar cambios"
     save_changes: "Guardar cambios"
     required_field: "Requisito necesario" # {change}
+#    submit: "Submit"
 
   general:
     and: "y"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     watch_a_video: "Mira un video de __concept_name__"
     concept_unlocked: "Concepto desbloqueado"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Métodos"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     optional_parameters: "Parámetros Opcionales"
     returns: "Devoluciones"
     granted_by: "Concedido por"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Guardado"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Desarrollador de Juego"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "¡Obtén CodeCombat en tu clase, club, escuela o distrito!"
+    subtitle: "¡Obtén CodeCombat en tu clase, club, escuela o distrito!" # {change}
     email_exists: "Existe un usuario con este email."
     phone_number: "Teléfono"
     phone_number_help: "¿Dónde podemos contactarte durante el horario de trabajo ?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     organization_label: "Escuela / Distrito" # {change}
     school_name: "Nombre de la Escuela"
     city: "Ciudad"
-    state: "Estado"
+    state: "Estado" # {change}
     country: "País"
     num_students_help: "¿Cuántos prevees inscribir en CodeCombat?" # {change}
     num_students_default: "Seleccionar Rango"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     create_account_subtitle: "Obtenga acceso a herramientas exclusivas para maestros de CodeCombat. <strong>Configurar una clase</strong>, agregar estudiantes, y <strong>monitorear su progreso</strong>!"
     convert_account_title: "Actualizar mi perfil a Cuenta de maestro"
     not: "No"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Guardar nueva versión"

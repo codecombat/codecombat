@@ -184,11 +184,16 @@ module.exports = class CocoRouter extends Backbone.Router
         courseInstanceId: courseInstanceId
       }
       @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+
     'ozaria/play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
       props = {
         introLevelIdOrSlug: introLevelIdOrSlug
       }
       @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+
+    'ozaria/character-customization': () ->
+      @routeDirectly('ozaria/site/characterCustomization', [], { vueRoute: true, baseTemplate: 'base-empty' })
+
     'parents': go('ParentsView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
