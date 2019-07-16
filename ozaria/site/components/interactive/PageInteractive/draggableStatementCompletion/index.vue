@@ -230,6 +230,8 @@
   /* TODO load font properly */
   @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 
+  $height: 55px;
+
   .statement-completion-content {
     padding: 25px;
     height: 100%;
@@ -254,7 +256,7 @@
       color: #232323;
 
       width: 25%;
-      height: 32.15px;
+      height: $height;
     }
 
     &.prompt-slot-row {
@@ -264,7 +266,7 @@
     }
 
     &.answer-slot-row {
-      margin-bottom: 50px;
+      margin-bottom: $height + 15px;
 
       /deep/ .slot {
 
@@ -276,7 +278,7 @@
           position: absolute;
           top: 100%;
 
-          height: 32.15px;
+          height: $height;
 
           text-align: left;
           justify-content: left;
