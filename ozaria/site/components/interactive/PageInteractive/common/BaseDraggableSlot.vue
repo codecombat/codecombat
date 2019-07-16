@@ -131,6 +131,11 @@
 
         height: 100%;
         background-color: #FFF;
+
+        background-image: url('/images/ozaria/interactives/drag_handle.svg');
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 7px 11px;
       }
     }
   }
