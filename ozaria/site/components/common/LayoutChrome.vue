@@ -1,59 +1,127 @@
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      required: false,
+    },
+    chromeOn: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  }
+}
+</script>
+
 <template>
   <div>
     <slot></slot>
-    <div id="layout-chrome">
-      <img id="corner1" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="corner2" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="corner3" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="corner4" src="/images/ozaria/layout/chrome/Chrome_corner.png" />
-      <img id="button-tray" src="/images/ozaria/layout/chrome/Chrome_buttontray.png" />
-      <img id="btn-home" src="/images/ozaria/layout/chrome/Chrome_HomeButton.png" />
-      <img id="btn-top" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
-      <img id="btn-bottom" src="/images/ozaria/layout/chrome/Chrome_Button.png" />
+    <div
+      id="layout-chrome"
+      :class="[chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
+      >
+      <div id="chrome-menu">
+        <div class="button-flex-item options-btn"></div>
+        <div class="button-flex-item restart-btn"></div>
+        <div class="spacer"></div>
+        <div class="button-flex-item map-btn"></div>
+        <div class="button-flex-item sound-btn"></div>
+      </div>
+      <div :class="[chromeOn ? 'side-center-on' : 'side-center-off']"></div>
+      <div v-if="title">
+        <div id="text-tab">
+          <div class='text-contents'>
+            <span>{{ title }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="sass">
+$topOffset: 25px
 
 #layout-chrome
-  border-image: url('/images/ozaria/layout/chrome/Layout-Chrome.png')
-  border-image-slice: 60 141 60 62 fill
-  border-image-width: 28px 70px 27px 37px
-  border-image-repeat: round
   width: 100%
   height: 100%
   position: fixed
   pointer-events: none
   z-index: 10
 
-#corner1
-  transform: rotate(180deg) scale(0.59) translate(66px, 38px)
-  position: fixed
+  &.chrome-on-slice
+    border-image: url('/images/ozaria/layout/chrome/Layout-Chrome-on.png')
 
-#corner2
-  transform: scaleY(-1) scale(0.59) translate(66px, 37px)
-  position: fixed
-  top: 0
-  right: 0
+  &.chrome-off-slice
+    border-image: url('/images/ozaria/layout/chrome/Layout-Chrome-off.png')
 
-#corner3
-  transform: scale(0.59) translate(66px, 38px)
-  position: fixed
-  bottom: 0
-  right: 0
+  &.chrome-off-slice, &.chrome-on-slice
+    border-image-slice: 182 194 130 118 fill
+    border-image-width: 140px 148px 124px 90px
+    border-image-repeat: round
 
-#corner4
-  transform: scaleX(-1) scale(0.59) translate(66px, 38px)
-  position: fixed
-  bottom: 0
-  left: 0
+  .side-center-on
+    background: url(/images/ozaria/layout/chrome/central_on.png)
 
-#button-tray
-  position: fixed
-  right: 0
-  top: 50%
-  transform: translate(14%, -50%) scale(0.8)
+  .side-center-off
+    background: url(/images/ozaria/layout/chrome/central_off.png)
+
+  .side-center-off, .side-center-on
+    width: 75px
+    height: 100%
+    overflow: hidden
+    position: absolute
+    right: 0
+    top: $topOffset
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+
+  #chrome-menu
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    width: 58px
+    height: 80vh
+    position: absolute
+    top: calc(10vh + #{$topOffset})
+    right: 0
+    .button-flex-item
+      width: 58px
+      height: 58px
+      margin: 10px 0
+
+    .spacer
+      flex-grow: 1
+
+    .options-btn
+      background: url(/images/ozaria/layout/chrome/button_settings.png)
+
+    .restart-btn
+      background: url(/images/ozaria/layout/chrome/button_replay.png)
+
+    .map-btn
+      background: url(/images/ozaria/layout/chrome/button_map.png)
+
+    .sound-btn
+      background: url(/images/ozaria/layout/chrome/button_sound.png)
+
+    .options-btn, .restart-btn, .map-btn, .sound-btn
+      background-size: 45px
+      background-position: center
+      background-repeat: no-repeat
+
+  #text-tab
+    background: url(/images/ozaria/layout/chrome/Tab-Title.png)
+    background-position-x: center
+    background-repeat: no-repeat
+
+    .text-contents
+      text-align: center
+      color: #48FAFC
+      padding: 12px 0
+      height: 30px
 
 #btn-home
   position: fixed

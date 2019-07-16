@@ -1075,7 +1075,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1086,7 +1086,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Speldesigner" # {change}
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"

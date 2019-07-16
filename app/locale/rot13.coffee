@@ -1075,7 +1075,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     lance_title: "Fbsgjner Ratvarre Vagrea, Puvan"
     matias_title: "Fravbe Fbsgjner Ratvarre"
     ryan_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
-    maya_title: "Pheevphyhz Qrirybcre"
+    maya_title: "Fravbe Pheevphyhz Qrirybcre"
     bill_title: "Trareny Znantre, Puvan"
     shasha_title: "Cebqhpg naq Ivfhny Qrfvtare"
     daniela_title: "Znexrgvat Znantre"
@@ -1086,7 +1086,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     andrew_title: "Fbsgjner Ratvarre"
     stephanie_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
     rob_title: "Fnyrf Qrirybczrag Ercerfragngvir"
-    shubhangi_title: "Fbsgjner Ratvarre"
+    shubhangi_title: "Fravbe Fbsgjner Ratvarre"
     bryukh_title: "Tnzrcynl Qrirybcre"
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"
@@ -1185,7 +1185,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Yrnea zber nobhg PbqrPbzong jvgu na vagrenpgvir jnyx guebhtu bs gur cebqhpg, cevpvat, naq vzcyrzragngvba!" # {punatr}
+    subtitle: "Yrnea zber nobhg PbqrPbzong jvgu na vagrenpgvir jnyx guebhtu bs gur cebqhpg, cevpvat, naq vzcyrzragngvba!"
     email_exists: "Hfre rkvfgf jvgu guvf rznvy."
     phone_number: "Cubar ahzore"
     phone_number_help: "Jung'f gur orfg ahzore gb ernpu lbh?"
@@ -1209,7 +1209,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     organization_label: "Fpubby"
     school_name: "Fpubby Anzr"
     city: "Pvgl"
-    state: "Fgngr / Ertvba" # {punatr}
+    state: "Fgngr / Ertvba"
     country: "Pbhagel"
     num_students_help: "Ubj znal fghqragf jvyy hfr PbqrPbzong?"
     num_students_default: "Fryrpg Enatr"
