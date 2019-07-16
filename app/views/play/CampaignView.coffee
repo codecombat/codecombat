@@ -449,6 +449,9 @@ module.exports = class CampaignView extends RootView
           unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
             @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
           @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
+        if @courseInstance.get('classroomID') == "5d12e7e36eea5a00ac71dc8f"  # Tarena national final classroom
+          unless @levelStatusMap['game-dev-2-final-project']  #make sure all players could access GD2 final on competition day
+            @levelStatusMap['game-dev-2-final-project'] = 'started'
 
   buildLevelScoreMap: ->
     for session in @sessions.models
