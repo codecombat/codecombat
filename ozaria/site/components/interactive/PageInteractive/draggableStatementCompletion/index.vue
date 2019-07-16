@@ -227,9 +227,6 @@
 </template>
 
 <style lang="scss" scoped>
-  /* TODO load font properly */
-  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
-
   $height: 55px;
 
   .statement-completion-content {
