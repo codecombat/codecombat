@@ -95,6 +95,10 @@ module.exports = class User extends CocoModel
     return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
+  isPaidTeacher: ->
+    return false unless @isTeacher()
+    return @isCreatedByClient() or (/@codeninjas.com$/i.test me.get('email'))
+
   isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
     if not me.isTeacher()
       return false

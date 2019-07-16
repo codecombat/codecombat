@@ -39,7 +39,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @levelNumberMap = {}
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    @paidTeacher = me.isAdmin() or me.isCreatedByClient() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
+    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 
