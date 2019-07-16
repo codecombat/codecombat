@@ -158,7 +158,7 @@
     :art-url="artUrl"
   >
     <div class="statement-completion-content">
-      <div class="slot-row">
+      <div class="slot-row prompt-slot-row">
         <statement-slot
           v-for="(slot, i) of slotOptions"
           :key="i"
@@ -171,18 +171,39 @@
         />
       </div>
 
-      <div class="slot-row">
+      <div class="slot-row answer-slot-row">
         <statement-slot
-          v-for="(answerSlot, i) of answerSlots"
-          :key="i"
-
-          v-model="answerSlots[i]"
+          v-model="answerSlots[0]"
 
           :draggable-group="draggableGroup"
 
           class="slot"
-          :label-text="(answerSlotLabels[i] || {}).text || ''"
+          :label-text="(answerSlotLabels[0] || {}).text || ''"
         />
+
+        <div class="syntax">.</div>
+
+        <statement-slot
+          v-model="answerSlots[1]"
+
+          :draggable-group="draggableGroup"
+
+          class="slot"
+          :label-text="(answerSlotLabels[1] || {}).text || ''"
+        />
+
+        <div class="syntax">(</div>
+
+        <statement-slot
+          v-model="answerSlots[2]"
+
+          :draggable-group="draggableGroup"
+
+          class="slot"
+          :label-text="(answerSlotLabels[2] || {}).text || ''"
+        />
+
+        <div class="syntax">)</div>
       </div>
 
       <base-button
@@ -206,6 +227,8 @@
 </template>
 
 <style lang="scss" scoped>
+  $height: 55px;
+
   .statement-completion-content {
     padding: 25px;
     height: 100%;
@@ -216,31 +239,80 @@
 
   .slot-row {
     display: flex;
+
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
 
     margin-bottom: 20px;
 
+    font-family: 'Roboto Mono', monospace;
+
     .slot {
+      font-size: 16px;
+      color: #232323;
+
       width: 25%;
+      height: $height;
+    }
+
+    &.prompt-slot-row {
+      .slot {
+        margin-right: 30px;
+
+        background-color: #D8DBDB;
+      }
+    }
+
+    &.answer-slot-row {
+      margin-bottom: $height + 15px;
+
+      /deep/ .slot {
+        ul:empty {
+          border: 1.17px dashed #ACB9FC;
+        }
+
+        &.filled {
+          li {
+            border: 2px solid #5D73E1;
+          }
+        }
+
+        .slot-label {
+          position: absolute;
+          top: 100%;
+
+          height: $height;
+
+          text-align: left;
+          justify-content: left;
+
+          color: #232323;
+          font-size: 16px;
+
+          padding: 5px;
+        }
+      }
+
+      .syntax {
+        width: 30px;
+
+        color: #BD10E0;
+        font-size: 19.29px;
+
+        text-align: center;
+      }
     }
   }
 
   .submit {
     justify-content: flex-end;
 
-    margin: 0px auto;
-    margin-top: auto;
+    margin: auto auto 18.69px auto;
   }
 
   /deep/ .slot {
     height: 35px;
-    border: 1px solid black;
-
-    &.empty {
-      border: 1px dashed grey;
-    }
 
     ul {
       li {
@@ -249,6 +321,8 @@
         align-items: center;
         font-weight: bold;
         font-size: 15px;
+
+        border: 2px solid #ACB9FC;
       }
     }
   }
