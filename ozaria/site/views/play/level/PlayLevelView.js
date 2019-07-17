@@ -11,6 +11,7 @@
 
 import CapstoneProgressModal from './modal/CapstoneProgressModal'
 import CapstoneVictoryModal from './modal/CapstoneVictoryModal'
+import LevelIntroModal from './modal/LevelIntroModal'
 
 require('ozaria/site/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
@@ -901,24 +902,32 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
-      // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
-      Backbone.Mediator.publish('level:set-playing', { playing: true })
-    }
-    this.loadingView.$el.remove()
-    this.removeSubView(this.loadingView)
-    this.loadingView = null
-    this.playAmbientSound()
-    // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-    if (!this.observing) {
-      trackEvent('Started Level', {
-        category: 'Play Level',
-        label: this.levelID,
-        levelID: this.levelID,
-        ls: this.session != null ? this.session.get('_id') : undefined
-      })
-    }
-    $(window).trigger('resize')
+    this.openModalView(new LevelIntroModal({
+      level: this.level,
+      onStart: (function (_this) {
+        return function () {
+          Backbone.Mediator.publish('level:loading-view-unveiling', {})
+          if (_this.level.isType('course-ladder', 'hero-ladder') || _this.observing) {
+            // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+            Backbone.Mediator.publish('level:set-playing', { playing: true })
+          }
+          _this.loadingView.$el.remove()
+          _this.removeSubView(_this.loadingView)
+          _this.loadingView = null
+          _this.playAmbientSound()
+          // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
+          if (!_this.observing) {
+            trackEvent('Started Level', {
+              category: 'Play Level',
+              label: _this.levelID,
+              levelID: _this.levelID,
+              ls: _this.session != null ? _this.session.get('_id') : undefined
+            })
+          }
+          $(window).trigger('resize')
+        }
+      })(this)
+    }))
   }
 
   onSetVolume (e) {
