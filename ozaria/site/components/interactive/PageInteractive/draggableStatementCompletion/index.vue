@@ -104,17 +104,29 @@
         }
 
         return true
+      },
+
+      modalMessageTag () {
+        if (this.questionAnswered) {
+          if (this.solutionCorrect) {
+            return 'interactives.phenomenal_job'
+          } else {
+            return 'interactives.try_again'
+          }
+        } else {
+          return 'interactives.fill_boxes'
+        }
       }
     },
 
     methods: {
       async submitSolution () {
+        this.showModal = true
+        this.submitEnabled = false
+
         if (!this.questionAnswered) {
           return
         }
-
-        this.showModal = true
-        this.submitEnabled = false
 
         // TODO save through vuex and block progress until save is successful
         await putSession(this.interactive._id, {
@@ -228,11 +240,13 @@
 
     <modal-interactive
       v-if="showModal"
+
+      :success="solutionCorrect"
+      :small-text="!questionAnswered"
+
       @close="closeModal"
     >
-      <template v-slot:body>
-        <h1>{{ solutionCorrect ? "Did it!" : "Try Again!" }}</h1>
-      </template>
+      {{ $t(modalMessageTag) }}
     </modal-interactive>
   </base-interactive-layout>
 </template>
