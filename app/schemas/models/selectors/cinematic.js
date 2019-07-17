@@ -97,7 +97,7 @@ const setCharacterDefaults = ({ pos: { x, y }, scaleX, scaleY }) =>
     }
 
     const thang = character.thang || {}
-    thang.pos = { ...{ x, y }, ...thang.pos }
+    thang.pos = { ...{ x, y }, ...(thang.pos || {}) }
     thang.scaleX = thang.scaleX || scaleX
     thang.scaleY = thang.scaleY || scaleY
     character.thang = thang
