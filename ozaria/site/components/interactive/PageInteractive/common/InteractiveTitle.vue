@@ -31,15 +31,22 @@
 
 <style scoped>
   .title-container {
-    padding: 30px;
+    padding: 15px 30px 15px 30px;
 
+    height: 100px;
     width: 100%;
 
-    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    text-align: center;
+    background: url('/images/ozaria/interactives/prompt_background.png');
+    background-size: cover;
 
-    font-size: 30px;
+    color: #1FBAB4;
+    font-family: 'Works Sans', 'Open Sans', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.48px;
     line-height: 30px;
   }
 </style>
