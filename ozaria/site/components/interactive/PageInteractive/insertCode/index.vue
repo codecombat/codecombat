@@ -96,23 +96,29 @@
         pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
       }),
 
-      selectedAnswer () {
-        if (this.userAnswer) {
-          return this.userAnswer
-        }
-
+      correctChoiceFromPastSubmission () {
         if (this.pastCorrectSubmission) {
           const choice = this.localizedInteractiveConfig
             .choices
             .find(c => c.choiceId === this.pastCorrectSubmission.submittedSolution)
 
-          if (!choice) {
-            // Unexpected state - choices array does not contain selected submission
-            // TODO handle_error_ozaria
-            return this.userAnswer
+          if (choice) {
+            return choice
           }
+        }
 
-          return choice
+        // Unexpected state - choices array does not contain selected submission
+        // TODO handle_error_ozaria
+        return undefined
+      },
+
+      selectedAnswer () {
+        if (this.userAnswer) {
+          return this.userAnswer
+        }
+
+        if (this.correctChoiceFromPastSubmission) {
+          return this.correctChoiceFromPastSubmission
         }
 
         return undefined
