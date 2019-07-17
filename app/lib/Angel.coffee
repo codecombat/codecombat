@@ -387,9 +387,11 @@ module.exports = class Angel extends CocoClass
     console?.profileEnd?() if imitateIE9?
     console.log 'Construction:', (work.t1 - work.t0).toFixed(0), 'ms. Simulation:', (work.t2 - work.t1).toFixed(0), 'ms --', ((work.t2 - work.t1) / work.world.frames.length).toFixed(3), 'ms per frame, profiled.'
 
-    # If performance was really a priority in IE9, we would rework things to be able to skip this step.
-    goalStates = work.world.goalManager?.getGoalStates()
-    work.world.goalManager.worldGenerationEnded() if work.world.ended
+    if work.world.ended
+      work.world.goalManager.worldGenerationEnded()
+      work.world.goalManager.notifyGoalChanges()
+    goalStates = work.world.goalManager.getGoalStates()
+
     @running = false
 
     if work.headless
