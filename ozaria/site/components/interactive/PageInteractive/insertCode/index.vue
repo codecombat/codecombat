@@ -37,7 +37,8 @@
       },
 
       interactiveSession: {
-        type: Object
+        type: Object,
+        default: undefined
       },
 
       codeLanguage: {
@@ -187,7 +188,24 @@
       }
     },
 
+    mounted () {
+      window.addEventListener('resize', this.onResize)
+      this.onResize()
+    },
+
+    beforeDestroy () {
+      window.removeEventListener('resize', this.onResize)
+    },
+
     methods: {
+      onResize () {
+        if (!this.codemirrorReady) {
+          return
+        }
+
+        window.requestAnimationFrame(() => this.codemirror.setSize('100%', '100%'))
+      },
+
       resetAnswer () {
         this.userAnswer = undefined
       },
@@ -199,6 +217,7 @@
       onCodeMirrorReady () {
         this.codemirrorReady = true
         this.updateHighlightedLine()
+        this.onResize()
       },
 
       onCodeMirrorUpdated () {
@@ -319,6 +338,8 @@
   ul.question {
     width: 30%;
 
+    flex-grow: 3;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -355,7 +376,7 @@
 
   .answer {
     width: 30%;
-    flex-grow: 1;
+    flex-grow: 4;
 
     display: flex;
     flex-direction: column;
