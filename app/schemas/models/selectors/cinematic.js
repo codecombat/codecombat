@@ -90,14 +90,14 @@ const DEFAULT_THANGTYPE = () => ({
  * @param {Object} thangDefaults
  * @returns {Function} sets thangDefaults on the thang property for a character.
  */
-const setCharacterDefaults = ({ pos, scaleX, scaleY }) =>
+const setCharacterDefaults = ({ pos: { x, y }, scaleX, scaleY }) =>
   character => {
     if (!character) {
       return
     }
 
     const thang = character.thang || {}
-    thang.pos = _.merge(pos, (thang.pos || {}))
+    thang.pos = { ...{ x, y }, ...(thang.pos || {}) }
     thang.scaleX = thang.scaleX || scaleX
     thang.scaleY = thang.scaleY || scaleY
     character.thang = thang
