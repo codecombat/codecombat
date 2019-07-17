@@ -1,4 +1,6 @@
 <script>
+  import { mapGetters } from 'vuex'
+
   import StatementSlot from '../common/BaseDraggableSlot'
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
 
@@ -51,16 +53,22 @@
         showModal: false,
         submitEnabled: true,
 
+        initializedAnswer: false,
+
         draggableGroup: Math.random().toString(),
 
         shuffle,
-        slotOptions: this.getShuffledPrompt(shuffle),
+        promptSlots: this.getShuffledPrompt(shuffle),
 
         answerSlots: Array(3).fill(undefined)
       }
     },
 
     computed: {
+      ...mapGetters({
+        pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
+      }),
+
       answerSlotLabels () {
         return (this.localizedInteractiveConfig || {}).labels || []
       },
@@ -119,6 +127,16 @@
       }
     },
 
+    watch: {
+      pastCorrectSubmission () {
+        this.initializeFromPastSubmission()
+      }
+    },
+
+    created () {
+      this.initializeFromPastSubmission()
+    },
+
     methods: {
       async submitSolution () {
         this.showModal = true
@@ -169,7 +187,38 @@
 
       resetAnswer () {
         this.answerSlots = Array(3).fill(undefined)
-        this.slotOptions = this.getShuffledPrompt(this.shuffle)
+        this.promptSlots = this.getShuffledPrompt(this.shuffle)
+
+        this.initializedAnswer = false
+        this.initializeFromPastSubmission()
+      },
+
+      initializeFromPastSubmission () {
+        if (!this.pastCorrectSubmission || this.initializedAnswer) {
+          return
+        }
+
+        this.initializedAnswer = true
+
+        let missingAnswer = false
+        const answer = this.pastCorrectSubmission.submittedSolution.map((elementId) => {
+          const choice = this.localizedInteractiveConfig.elements.find(e => e.elementId === elementId)
+
+          if (choice) {
+            return choice
+          } else {
+            missingAnswer = true
+            return undefined
+          }
+        })
+
+        if (missingAnswer) {
+          // TODO handle_error_ozaria - undefined state
+          return undefined
+        }
+
+        this.promptSlots = Array(3).fill(undefined)
+        this.answerSlots = answer
       }
     }
   }
@@ -183,10 +232,10 @@
     <div class="statement-completion-content">
       <div class="slot-row prompt-slot-row">
         <statement-slot
-          v-for="(slot, i) of slotOptions"
+          v-for="(slot, i) of promptSlots"
           :key="i"
 
-          v-model="slotOptions[i]"
+          v-model="promptSlots[i]"
 
           :draggable-group="draggableGroup"
 

@@ -174,8 +174,8 @@
         this.initializedAnswer = true
 
         let missingAnswer = false
-        const answer = this.pastCorrectSubmission.submittedSolution.map((choiceId) => {
-          const choice = this.localizedInteractiveConfig.elements.find(e => e.elementId === choiceId)
+        const answer = this.pastCorrectSubmission.submittedSolution.map((elementId) => {
+          const choice = this.localizedInteractiveConfig.elements.find(e => e.elementId === elementId)
 
           if (choice) {
             return choice
