@@ -286,7 +286,10 @@
           v-for="answerOption in answerOptions"
           :key="answerOption.id"
         >
-          <button @click="selectAnswer(answerOption)">
+          <button
+            :class="{ selected: (questionAnswered && answerOption.id === selectedAnswer.choiceId) }"
+            @click="selectAnswer(answerOption)"
+          >
             {{ answerOption.text }}
           </button>
         </li>
@@ -351,16 +354,22 @@
     padding-top: 20px;
 
     background-color: #E1FBFA;
+    border: 1px solid #979797;
+    border-top: 0 none;
 
     li {
-      font-family: monospace; // TODO fallback font?
-
       margin: 0 0 10px;
       padding: 0;
       width: 70%;
 
+      border: 0 none;
+
       &:last-of-type {
         margin-bottom: 0;
+      }
+
+      &:hover {
+        border: 2px solid #5D73E1;
       }
 
       button {
@@ -370,6 +379,16 @@
 
         border: 2px solid #979797;
         background-color: #FFF;
+
+        font-family: 'Roboto Mono', monospace;
+        font-size: 16px;
+        line-height: 19px;
+        color: #232323;
+
+        &.selected {
+          border-color: #5D73E1;
+          background-color: #5D73E1;
+        }
       }
     }
   }
@@ -385,23 +404,29 @@
 
     .code {
       flex-grow: 1;
+
+      /deep/ .CodeMirror {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 16px;
+        line-height: 20px;
+        color: #232323;
+
+        &.highlight-line-prompt {
+          background-color: #d8d8d8;
+          color: #0170E9;
+        }
+
+        &.highlight-line-answered {
+          background-color: #cdd4f8;
+          color: inherit;
+        }
+      }
     }
 
     .submit {
       justify-content: flex-end;
 
-      margin: 0px auto;
-      margin-top: auto;
-    }
-
-    /deep/ {
-      &.highlight-line-prompt {
-        background-color: #d8d8d8;
-      }
-
-      &.highlight-line-answered {
-        background-color: #cdd4f8;
-      }
+      margin: 18.69px auto;
     }
   }
 </style>
