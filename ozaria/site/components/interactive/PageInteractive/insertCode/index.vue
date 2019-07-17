@@ -109,6 +109,7 @@
 
         // Unexpected state - choices array does not contain selected submission
         // TODO handle_error_ozaria
+        console.error('Unexpected state recovering answer')
         return undefined
       },
 

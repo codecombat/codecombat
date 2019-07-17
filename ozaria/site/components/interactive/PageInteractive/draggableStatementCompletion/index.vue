@@ -214,6 +214,7 @@
 
         if (missingAnswer) {
           // TODO handle_error_ozaria - undefined state
+          console.error('Unexpected state recovering answer')
           return undefined
         }
 
