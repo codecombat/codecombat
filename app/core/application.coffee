@@ -49,9 +49,8 @@ Application = {
   initialize: ->
 #    if features.codePlay and me.isAnonymous()
 #      document.location.href = '//lenovogamestate.com/login/'
-
     Router = require('core/Router')
-    @isProduction = -> document.location.href.search('https?://localhost') is -1 and document.location.href.search('172.') is not 0
+    @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
 
     # propagate changes from global 'me' User to 'me' vuex module
@@ -61,6 +60,16 @@ Application = {
     )
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
+    if me.showChinaRemindToast()
+      setInterval ( -> noty {
+        text: '你已经练习了一个小时了，建议休息一会儿哦'
+        layout: 'topRight'
+        type:'warning'
+        killer: false
+        timeout: 5000
+        }), 3600000  # one hour
+
+
     @store = store
     @api = api
 

@@ -11,8 +11,9 @@
 
 import CapstoneProgressModal from './modal/CapstoneProgressModal'
 import CapstoneVictoryModal from './modal/CapstoneVictoryModal'
+import LevelIntroModal from './modal/LevelIntroModal'
 
-require('app/styles/play/level/level-loading-view.sass')
+require('ozaria/site/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
 require('ozaria/site/styles/play/play-level-view.sass')
 const RootView = require('views/core/RootView')
@@ -901,24 +902,30 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
-      // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
-      Backbone.Mediator.publish('level:set-playing', { playing: true })
-    }
-    this.loadingView.$el.remove()
-    this.removeSubView(this.loadingView)
-    this.loadingView = null
-    this.playAmbientSound()
-    // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-    if (!this.observing) {
-      trackEvent('Started Level', {
-        category: 'Play Level',
-        label: this.levelID,
-        levelID: this.levelID,
-        ls: this.session != null ? this.session.get('_id') : undefined
-      })
-    }
-    $(window).trigger('resize')
+    this.openModalView(new LevelIntroModal({
+      level: this.level,
+      onStart: () => {
+        Backbone.Mediator.publish('level:loading-view-unveiling', {})
+        if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
+          // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+          Backbone.Mediator.publish('level:set-playing', { playing: true })
+        }
+        this.loadingView.$el.remove()
+        this.removeSubView(this.loadingView)
+        this.loadingView = null
+        this.playAmbientSound()
+        // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
+        if (!this.observing) {
+          trackEvent('Started Level', {
+            category: 'Play Level',
+            label: this.levelID,
+            levelID: this.levelID,
+            ls: this.session != null ? this.session.get('_id') : undefined
+          })
+        }
+        $(window).trigger('resize')
+      }
+    }))
   }
 
   onSetVolume (e) {

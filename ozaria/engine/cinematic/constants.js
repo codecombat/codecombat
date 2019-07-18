@@ -14,5 +14,6 @@ export const LETTER_ANIMATE_TIME = 90
 export const LEFT_SPEAKER_CAMERA_POS = { x: -165, y: -65 }
 export const RIGHT_SPEAKER_CAMERA_POS = { x: 165, y: -65 }
 
-// TODO: This is for content generation purposes.
-export const getHeroSlug = () => 'hero-a-cinematic'
+// The default hero if the user has malformed state or missing hero.
+// Useful if an admin is testing without selecting a hero in advance.
+export const HERO_THANG_ID = '5d03e18887ed53004682e340'

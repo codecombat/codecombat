@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     submit_changes: "Надіслати зміни"
     save_changes: "Зберегти зміни"
     required_field: "обов'язкове поле"
+#    submit: "Submit"
 
   general:
     and: "та"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Методи"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     optional_parameters: "Необов'якові параметри"
     returns: "Повертає"
     granted_by: "Забезпечує"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Збережено"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
 #    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Ілюстрація"
     retrostyle_blurb: "RetroStyle Games"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ваші учні можуть розпочати менш ніж за годину. Ви зможете <strong>створити клас, додати учнів та спостерігати за їхнім прогресом</strong> у вивченні комп'ютерних наук."
+    subtitle: "Ваші учні можуть розпочати менш ніж за годину. Ви зможете <strong>створити клас, додати учнів та спостерігати за їхнім прогресом</strong> у вивченні комп'ютерних наук." # {change}
     email_exists: "Користувач з цим email вже існує."
     phone_number: "Номер телефону"
     phone_number_help: "Як можна з вами зв'язатись під час робочого дня?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     organization_label: "Школа"
 #    school_name: "School Name"
     city: "Місто"
-    state: "Штат"
+    state: "Штат" # {change}
     country: "Країна"
     num_students_help: "Скільки учнів ви очікуєте залучити до CodeCombat?" # {change}
     num_students_default: "Оберіть діапазон"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     create_account_subtitle: "Отримайте доступ до інструментів, доступних лише вчителям, для використання CodeCombat в класі. <strong>Налаштуйте клас</strong>, додайте учнів та <strong>слідкуйте за їхнім прогресом</strong>!"
     convert_account_title: "Оновити до обліківки вчителя"
     not: "Ні"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Зберегти нову версію"

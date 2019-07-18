@@ -557,12 +557,13 @@ module.exports = class SpellView extends CocoView
       @onAllLoaded()
 
   onAllLoaded: =>
-    @spell.transpile @spell.source
-    @spell.loaded = true
-    Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
-    @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
-    @createToolbarView()
-    @updateHTML create: true if @options.level.isType('web-dev')
+    @fetchToken(@spell.source, @spell.language).then (token) =>
+      @spell.transpile token
+      @spell.loaded = true
+      Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
+      @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
+      @createToolbarView()
+      @updateHTML create: true if @options.level.isType('web-dev')
 
   createDebugView: ->
     return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
@@ -707,14 +708,15 @@ module.exports = class SpellView extends CocoView
     @updateLines()
 
   recompile: (cast=true, realTime=false, cinematic=false) ->
-    hasChanged = @spell.source isnt @getSource()
-    if hasChanged
-      @spell.transpile @getSource()
-      @updateAether true, false
-    if cast  #and (hasChanged or realTime)  # just always cast now
-      @cast(false, realTime, false, cinematic)
-    if hasChanged
-      @notifySpellChanged()
+    @fetchTokenForSource().then (source) =>
+      hasChanged = @spell.source isnt source
+      if hasChanged
+        @spell.transpile source
+        @updateAether true, false
+      if cast  #and (hasChanged or realTime)  # just always cast now
+        @cast(false, realTime, false, cinematic)
+      if hasChanged
+        @notifySpellChanged()
 
   updateACEText: (source) ->
     @eventsSuppressed = true
@@ -779,49 +781,64 @@ module.exports = class SpellView extends CocoView
   # * The editor will reserve space for one annotation as a codeless area.
   # - Problem alerts and ranges will only show on fully cast worlds. Annotations will show continually.
 
+  fetchToken: (source, language) =>
+    if language not in ['java']
+      return Promise.resolve(source)
+
+    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+    .then (x) => x.json()
+    .then (x) => x.token
+
+  fetchTokenForSource: () =>
+    source = @ace.getValue()
+    @fetchToken(source, @spell.language)
+
   updateAether: (force=false, fromCodeChange=true) =>
     # Depending on whether we have any code changes, significant code changes, or have switched
     # to a new spellThang, we may want to refresh our Aether display.
     return unless aether = @spellThang?.aether
-    source = @getSource()
-    @spell.hasChangedSignificantly source, aether.raw, (hasChanged) =>
-      codeHasChangedSignificantly = force or hasChanged
-      needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
-      return if not needsUpdate and aether is @displayedAether
-      castAether = @spellThang.castAether
-      codeIsAsCast = castAether and source is castAether.raw
-      aether = castAether if codeIsAsCast
-      return if not needsUpdate and aether is @displayedAether
+    @fetchTokenForSource().then (source) =>
+      @spell.hasChangedSignificantly source, aether.raw, (hasChanged) =>
+        codeHasChangedSignificantly = force or hasChanged
+        needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+        return if not needsUpdate and aether is @displayedAether
+        castAether = @spellThang.castAether
+        codeIsAsCast = castAether and source is castAether.raw
+        aether = castAether if codeIsAsCast
+        return if not needsUpdate and aether is @displayedAether
 
-      # Now that that's figured out, perform the update.
-      # The web worker Aether won't track state, so don't have to worry about updating it
-      finishUpdatingAether = (aether) =>
-        @clearAetherDisplay() # In case problems were added since last clearing
-        @displayAether aether, codeIsAsCast
-        @lastUpdatedAetherSpellThang = @spellThang
-        @guessWhetherFinished aether if fromCodeChange
+        # Now that that's figured out, perform the update.
+        # The web worker Aether won't track state, so don't have to worry about updating it
+        finishUpdatingAether = (aether) =>
+          @clearAetherDisplay() # In case problems were added since last clearing
+          @displayAether aether, codeIsAsCast
+          @lastUpdatedAetherSpellThang = @spellThang
+          @guessWhetherFinished aether if fromCodeChange
 
-      @clearAetherDisplay()
-      if codeHasChangedSignificantly and not codeIsAsCast
-        if @worker
-          workerMessage =
-            function: 'transpile'
-            spellKey: @spell.spellKey
-            source: source
+        @clearAetherDisplay()
+        if codeHasChangedSignificantly and not codeIsAsCast
+          if @worker
+            workerMessage =
+              function: 'transpile'
+              spellKey: @spell.spellKey
+              source: source
 
-          @worker.addEventListener 'message', (e) =>
-            workerData = JSON.parse e.data
-            if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
-              @worker.removeEventListener 'message', arguments.callee, false
-              aether.problems = workerData.problems
-              aether.raw = source
-              finishUpdatingAether(aether)
-          @worker.postMessage JSON.stringify(workerMessage)
+            @worker.addEventListener 'message', (e) =>
+              workerData = JSON.parse e.data
+              if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
+                @worker.removeEventListener 'message', arguments.callee, false
+                aether.problems = workerData.problems
+                aether.raw = source
+                finishUpdatingAether(aether)
+            @worker.postMessage JSON.stringify(workerMessage)
+          else
+            aether.transpile source
+            finishUpdatingAether(aether)
         else
-          aether.transpile source
           finishUpdatingAether(aether)
-      else
-        finishUpdatingAether(aether)
 
   # Each problem-generating piece (aether, web-dev, ace html worker) clears its own problems/annotations
   clearAetherDisplay: ->
@@ -1059,16 +1076,18 @@ module.exports = class SpellView extends CocoView
     @updateAether false, false
 
   onNewWorld: (e) ->
-    if thang = e.world.getThangByID @spell.thang?.thang.id
-      aether = e.world.userCodeMap[thang.id]?[@spell.name]
-      @spell.thang.castAether = aether
-      @spell.thang.aether = @spell.createAether thang
-      #console.log thang.id, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
-    else
-      @spell.thang = null
+    @fetchTokenForSource().then (token) =>
+      if thang = e.world.getThangByID @spell.thang?.thang.id
+        aether = e.world.userCodeMap[thang.id]?[@spell.name]
+        @spell.thang.castAether = aether
+        @spell.thang.aether = @spell.createAether thang
+        #console.log thang.id, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
+      else
+        @spell.thang = null
 
-    @spell.transpile()  # TODO: is there any way we can avoid doing this if it hasn't changed? Causes a slight hang.
-    @updateAether false, false
+
+      @spell.transpile token
+      @updateAether false, false
 
   # --------------------------------------------------------------------------------------------------
 

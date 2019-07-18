@@ -463,6 +463,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     submit_changes: "Fhozvg Punatrf"
     save_changes: "Fnir Punatrf"
     required_field: "erdhverq"
+    submit: "Fhozvg"
 
   general:
     and: "naq"
@@ -515,6 +516,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     warrior: "Jneevbe"
     ranger: "Enatre"
     wizard: "Jvmneq"
+    name: "Anzr"
     first_name: "Svefg Anzr"
     last_name: "Ynfg Anzr"
     last_initial: "Ynfg Vavgvny"
@@ -722,6 +724,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     watch_a_video: "Jngpu n ivqrb ba __pbaprcg_anzr__"
     concept_unlocked: "Pbaprcg Haybpxrq"
     use_at_least_one_concept: "Hfr ng yrnfg bar pbaprcg: "
+    command_bank: "Pbzznaq Onax"
 
   apis:
     methods: "Zrgubqf"
@@ -1017,6 +1020,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     optional_parameters: "Bcgvbany Cnenzrgref"
     returns: "Ergheaf"
     granted_by: "Tenagrq ol"
+    still_undocumented: "Fgvyy haqbphzragrq, fbeel."
 
   save_load:
     granularity_saved_games: "Fnirq"
@@ -1071,7 +1075,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     lance_title: "Fbsgjner Ratvarre Vagrea, Puvan"
     matias_title: "Fravbe Fbsgjner Ratvarre"
     ryan_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
-    maya_title: "Pheevphyhz Qrirybcre"
+    maya_title: "Fravbe Pheevphyhz Qrirybcre"
     bill_title: "Trareny Znantre, Puvan"
     shasha_title: "Cebqhpg naq Ivfhny Qrfvtare"
     daniela_title: "Znexrgvat Znantre"
@@ -1082,7 +1086,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     andrew_title: "Fbsgjner Ratvarre"
     stephanie_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
     rob_title: "Fnyrf Qrirybczrag Ercerfragngvir"
-    shubhangi_title: "Fbsgjner Ratvarre"
+    shubhangi_title: "Fravbe Fbsgjner Ratvarre"
     bryukh_title: "Tnzrcynl Qrirybcre"
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"
@@ -1181,7 +1185,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Trg lbhe fghqragf fgnegrq va yrff guna na ubhe. Lbh'yy or noyr gb <fgebat>perngr n pynff, nqq fghqragf, naq zbavgbe gurve cebterff</fgebat> nf gurl yrnea pbzchgre fpvrapr."
+    subtitle: "Yrnea zber nobhg PbqrPbzong jvgu na vagrenpgvir jnyx guebhtu bs gur cebqhpg, cevpvat, naq vzcyrzragngvba!"
     email_exists: "Hfre rkvfgf jvgu guvf rznvy."
     phone_number: "Cubar ahzore"
     phone_number_help: "Jung'f gur orfg ahzore gb ernpu lbh?"
@@ -1205,7 +1209,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     organization_label: "Fpubby"
     school_name: "Fpubby Anzr"
     city: "Pvgl"
-    state: "Fgngr"
+    state: "Fgngr / Ertvba"
     country: "Pbhagel"
     num_students_help: "Ubj znal fghqragf jvyy hfr PbqrPbzong?"
     num_students_default: "Fryrpg Enatr"
@@ -1242,6 +1246,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     create_account_subtitle: "Trg npprff gb grnpure-bayl gbbyf sbe hfvat PbqrPbzong va gur pynffebbz.  <fgebat>Frg hc n pynff</fgebat>, nqq lbhe fghqragf, naq <fgebat>zbavgbe gurve cebterff</fgebat>!"
     convert_account_title: "Hcqngr gb Grnpure Nppbhag"
     not: "Abg"
+    full_name_required: 'Svefg naq ynfg anzr erdhverq'
 
   versions:
     save_version_title: "Fnir Arj Irefvba"

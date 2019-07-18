@@ -464,6 +464,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submit_changes: "Отослать изменения"
     save_changes: "Сохранить изменения"
     required_field: "обязательное поле"
+#    submit: "Submit"
 
   general:
     and: "и"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
   apis:
     methods: "Методы"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     optional_parameters: "Необязательные параметры"
     returns: "Возвращает"
     granted_by: "Предоставлено"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Сохранено"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Дизайнер игры"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ваши студенты смогут приступить менее чем через час. Вы сможете <strong>создать класс, добавить студентов и следить за их прогрессом</strong> в изучении информатики."
+    subtitle: "Ваши студенты смогут приступить менее чем через час. Вы сможете <strong>создать класс, добавить студентов и следить за их прогрессом</strong> в изучении информатики." # {change}
     email_exists: "Пользователь с этим email уже существует."
     phone_number: "Телефонный номер"
     phone_number_help: "Как можно с вами связаться в течении рабочего дня?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     organization_label: "Школа"
     school_name: "Название школы"
     city: "Город"
-    state: "Область"
+    state: "Область" # {change}
     country: "Страна"
     num_students_help: "Сколько учеников вы ожидаете привлечь в CodeCombat?" # {change}
     num_students_default: "Выберите диапазон"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_account_subtitle: "Получите доступ к инструментам, доступным только учителям, для использования CodeCombat в класной комнате. <strong>Подготовьте класс</strong>, добавьте ваших учеников и <strong>наблюдайте за их прогрессом</strong>!"
     convert_account_title: "Улучшить до аккаунта учителя"
     not: "Нет"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Сохранить новую версию"

@@ -57,6 +57,7 @@ export const postInteractive = ({ name }, options = {}) => {
 /**
  * Retrieves the json representation of interactive session.
  * @param {string} idOrSlug - Id/Slug of the interactive.
+ * @param {'javascript'|'python'} options.codeLanguage - interactive session language
  * @return {Promise<Object>} - Raw Interactive Session object
  */
 export const getSession = (idOrSlug, options = {}) => {
@@ -66,5 +67,29 @@ export const getSession = (idOrSlug, options = {}) => {
   return fetchJson(`/db/interactive/${idOrSlug}/session`, {
     method: 'GET',
     data: options
+  })
+}
+
+/**
+ * Puts an interactive session into the database
+ * @param {string} idOrSlug - Interactive id or slug
+ * @param {Object} options.json.submission - Interactive submissions
+ * @param {'javascript'|'python'} options.json.codeLanguage - session language
+ */
+export const putSession = (idOrSlug, options = {}) => {
+  if (!idOrSlug) {
+    throw new Error(`No slug/id supplied`)
+  }
+  if (!(options.json || {}).codeLanguage) {
+    throw new Error(`CodeLanguage required to post interactive submission`)
+  }
+  if (!(options.json || {}).submission) {
+    throw new Error(`Need to post a submission`)
+  }
+
+  return fetchJson(`/db/interactive/${idOrSlug}/submission`, {
+    method: 'POST',
+
+    ...options
   })
 }

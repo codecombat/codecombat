@@ -72,10 +72,11 @@
     width: 94%
     position: relative
     background-color: transparent
-    line-height: 20px
+    line-height: 19px
     overflow: visible
     // https://github.com/codecombat/codecombat/issues/1411#issuecomment-60492750 -- trying to make sure system defaults don't mess up our monospace font.
     font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+    font-size: 16px
     @include transition(height 0.25s ease-in-out)
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
@@ -103,7 +104,7 @@
 
     .ace_scroller
       background-color: transparent
-      //padding-left: 10px  // Interrupts gutter and line highlighting
+      padding-left: 10px
 
     .ace_active-line, .ace_gutter-active-line
       background-color: rgba(255, 255, 255, 0.4)

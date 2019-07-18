@@ -118,8 +118,20 @@ module.exports = class Aether
   transpile: (@raw) ->
     @reset()
     rawCode = @raw
-    @problems = @lint rawCode
-    @pure = @purifyCode rawCode
+    if /^\u56E7[a-zA-Z0-9+/=]+\f$/.test rawCode
+      token = JSON.parse atob(rawCode.substr(1, rawCode.length-2))
+      @raw = token.src
+      if token.error
+        error = new SyntaxError(token.error.message, '', token.error.data.line)
+        Object.assign(error, token.error.data)
+        problemOptions = error: error, code: token.src, codePrefix: "", reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
+        @addProblem @createUserCodeProblem problemOptions
+      else
+        @pure = token.src
+        @ast = token.ast
+    else
+      @problems = @lint rawCode
+      @pure = @purifyCode rawCode
     @pure
 
   # Perform some fast static analysis (without transpiling) and find any lint problems.

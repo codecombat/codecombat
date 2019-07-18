@@ -464,6 +464,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     submit_changes: "送出修改"
     save_changes: "保存更改"
     required_field: "需求"
+#    submit: "Submit"
 
   general:
     and: "和"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     optional_parameters: "選擇性參數"
     returns: "回傳"
     granted_by: "賦予"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "已儲存"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
 #    bryukh_title: "Gameplay Developer"
     retrostyle_title: "插畫師"
     retrostyle_blurb: "復古風格的遊戲"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "讓您的學生在一個小時內上手。在他們學習計算機科學時您將會<strong>創建一個班級，加入您的學生，並且掌握他們的學習過程。</strong>"
+    subtitle: "讓您的學生在一個小時內上手。在他們學習計算機科學時您將會<strong>創建一個班級，加入您的學生，並且掌握他們的學習過程。</strong>" # {change}
     email_exists: "已經存在使用這個email的使用者。"
     phone_number: "電話號碼"
     phone_number_help: "在工作天中我們能在哪裡找到您?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     organization_label: "學校"
 #    school_name: "School Name"
     city: "城市"
-    state: "州"
+    state: "州" # {change}
     country: "國家"
     num_students_help: "您預估將有多少人加入CodeCombat?" # {change}
     num_students_default: "選擇範圍"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     create_account_subtitle: "取得教師專用工具來在教室中使用CodeCombat<strong>建立一個班級</strong>加入您的學生，並且<strong>掌握他們的學習過程</strong>!"
     convert_account_title: "升級成教師帳號"
     not: "取消"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "保存新版本"

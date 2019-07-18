@@ -17,9 +17,8 @@ import {
   getSpeaker,
   getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
-import { LETTER_ANIMATE_TIME, getHeroSlug } from './constants'
+import { LETTER_ANIMATE_TIME, HERO_THANG_ID } from './constants'
 
-export const HERO_THANG_ID = '55527eb0b8abf4ba1fe9a107'
 const OFF_CAMERA_OFFSET = 20
 
 // Throws an error if `import ... from ..` syntax.
@@ -117,8 +116,8 @@ export default class CinematicLankBoss {
     }
 
     const lHero = getLeftHero(shot)
-    // TODO: Replace hard coded hero with user hero
-    const original = getHeroSlug()
+
+    const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
     if (lHero) {
       const { enterOnStart, thang } = lHero
       addMoveCharacterCommand(LEFT_LANK_KEY, original, enterOnStart, thang)
@@ -444,7 +443,6 @@ export default class CinematicLankBoss {
     }
 
     const lank = new Lank(thangType, {
-      resolutionFactor: 60,
       preloadSounds: false,
       thang,
       camera: this.camera,
@@ -465,7 +463,7 @@ export default class CinematicLankBoss {
  * @param {Object} thang - is merged onto default thang settings.
  * @returns {Object} thang object literal
  */
-const createThang = thang => {
+export const createThang = thang => {
   const defaults = {
     health: 10.0,
     maxHealth: 10.0,
@@ -480,7 +478,18 @@ const createThang = thang => {
     scaleFactorX: 1,
     scaleFactorY: 1,
     action: 'idle',
-    rotation: LEFT
+    rotation: LEFT,
+    // This method is required by the Lank to support customization
+    getLankOptions: function () {
+      // TODO: Make this only applied to hero character instead of anything customizable.
+      const options = { colorConfig: {} }
+      const playerTints = (me.get('ozariaHeroConfig') || {}).tints || []
+      playerTints.forEach(tint => {
+        const colorGroups = (tint.colorGroups || {})
+        options.colorConfig = _.merge(options.colorConfig, colorGroups)
+      })
+      return options
+    }
   }
   return _.cloneDeep(_.merge(defaults, thang))
 }

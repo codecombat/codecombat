@@ -8,7 +8,6 @@ require('ozaria/site/styles/play/level/tome/tome.sass')
 #     - a Thang that uses that Spell, with an aether and a castAether
 #     - a SpellView, which has
 #       - tons of stuff; the meat
-#     - a SpellTopBarView, which has some controls
 # - a SpellPaletteView, which has
 #   - for each programmableProperty:
 #     - a SpellPaletteEntryView
@@ -195,7 +194,6 @@ module.exports = class TomeView extends CocoView
       @spellView = spell.view
       @spellTopBarView = spell.topBarView
       @$el.find('#' + @spellView.id).after(@spellView.el).remove()
-      @$el.find('#' + @spellTopBarView.id).after(@spellTopBarView.el).remove()
       @castButton?.attachTo @spellView
     @updateSpellPalette thang, spell
     @spellView?.setThang thang

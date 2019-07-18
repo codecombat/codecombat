@@ -464,6 +464,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     submit_changes: "Kirim Perubahan"
     save_changes: "Simpan Perubahan"
     required_field: "wajib"
+#    submit: "Submit"
 
   general:
     and: "dan"
@@ -723,6 +724,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
 
 #  apis:
 #    methods: "Methods"
@@ -1018,6 +1020,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    optional_parameters: "Optional Parameters"
 #    returns: "Returns"
 #    granted_by: "Granted by"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Tersimpan"
@@ -1072,7 +1075,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    lance_title: "Software Engineer Intern, China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
-#    maya_title: "Curriculum Developer"
+#    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
@@ -1083,7 +1086,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
+#    shubhangi_title: "Senior Software Engineer"
     bryukh_title: "Perancang Permainan" # {change}
     retrostyle_title: "Ilustrasi"
     retrostyle_blurb: "Permainan RetroStyle"
@@ -1181,7 +1184,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ajak siswa-siswamu mulai dalam kurang dari satu jam. Kamu dapat <strong>membuat kelas, menambahkan siswa, dan mengawasi perkembangan mereka</strong> selagi mereka belajar ilmu komputer."
+    subtitle: "Ajak siswa-siswamu mulai dalam kurang dari satu jam. Kamu dapat <strong>membuat kelas, menambahkan siswa, dan mengawasi perkembangan mereka</strong> selagi mereka belajar ilmu komputer." # {change}
     email_exists: "User telah ada dengan email ini."
     phone_number: "Nomor telepon"
     phone_number_help: "Dimanakah kami dapat menjangkau kamu ketika hari bekerja?"
@@ -1205,7 +1208,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     organization_label: "Sekolah"
     school_name: "Nama Sekolah"
     city: "Kota"
-    state: "Provinsi"
+    state: "Provinsi" # {change}
     country: "Negara"
     num_students_help: "Berapa banyak siswa yang akan menggunakan CodeCombat"
     num_students_default: "Pilih Jumlah"
@@ -1242,6 +1245,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     create_account_subtitle: "Dapatkan akses peralatan hanya untuk guru jika menggunakan CodeCombat di ruang kelas. <strong>Mempersiapkan kelas</strong>, menambah siswamu, dan <strong>mengawasi perkembangan mereka</strong>!"
     convert_account_title: "Ubah ke Akun Guru"
     not: "Tidak"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Simpan Versi Baru"
