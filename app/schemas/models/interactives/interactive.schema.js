@@ -5,6 +5,13 @@
 const interactiveTypeSchema = require('./common/interactive_types.schema')
 const schema = require('../../schemas')
 
+// Specific articles schema for documentation (similar to levels)
+const SpecificArticleSchema = schema.object()
+schema.extendNamedProperties(SpecificArticleSchema)
+SpecificArticleSchema.properties.body = { type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown' }
+SpecificArticleSchema.properties.i18n = { type: 'object', format: 'i18n', props: ['name', 'body'], description: 'Help translate this article' }
+SpecificArticleSchema.displayProperty = 'name'
+
 const interactiveSchema = {
   type: 'object',
   additionalProperties: false,
@@ -22,7 +29,15 @@ const interactiveSchema = {
     draggableStatementCompletionData: interactiveTypeSchema.interactiveDraggableStatementCompletionSchema,
     unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'], title: 'Programming Language' },
     i18n: { type: 'object', format: 'i18n', props: ['promptText'], description: 'Help translate this interactive.' },
-    defaultArtAsset: { type: 'string', format: 'image-file', title: 'Default Art Asset' }
+    defaultArtAsset: { type: 'string', format: 'image-file', title: 'Default Art Asset' },
+    documentation: schema.object({
+      title: 'Documentation',
+      description: 'Documentation articles relating to this interactive.',
+      'default': { specificArticles: [] },
+      properties: {
+        specificArticles: schema.array({ title: 'Specific Articles', description: 'Specific documentation articles that live only in this interactive.', uniqueItems: true }, SpecificArticleSchema)
+      }
+    })
   },
   allOf: [
     {
