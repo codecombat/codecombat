@@ -725,6 +725,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     concept_unlocked: "Concept Unlocked"
     use_at_least_one_concept: "Use at least one concept: "
     command_bank: "Command Bank"
+    learning_goals: "Learning Goals"
+    start: "Start"
 
   apis:
     methods: "Methods"

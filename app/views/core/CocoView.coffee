@@ -292,6 +292,8 @@ module.exports = class CocoView extends Backbone.View
     modalView.afterInsert()
     visibleModal = modalView
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
+    if typeof modalView.closesOnEscape is 'boolean' and modalView.closesOnEscape is false # by default, closes on escape, i.e. if modalView.closesOnEscape = undefined
+      modalOptions.keyboard = false
     $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
