@@ -12,10 +12,10 @@ module.exports = class CastButtonView extends CocoView
   template: template
 
   events:
-    'click .cast-button': 'onCastButtonClick'
+    'click .play-button': 'onCastButtonClick'
     'click .submit-button': 'onCastRealTimeButtonClick'
     'click .done-button': 'onDoneButtonClick'
-    'click .game-dev-play-btn': 'onClickGameDevPlayButton'
+    'click .game-dev-play-button': 'onClickGameDevPlayButton'
     'click #reload-code': 'onCodeReload'
 
   subscriptions:

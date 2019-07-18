@@ -1,3 +1,4 @@
+require 'ozaria/site/styles/play/level/tome/spell_toolbar.sass'
 CocoView = require 'views/core/CocoView'
 template = require 'ozaria/site/templates/play/level/tome/spell_toolbar'
 
