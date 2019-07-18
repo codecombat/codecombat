@@ -727,6 +727,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     command_bank: "Command Bank"
     learning_goals: "Learning Goals"
     start: "Start"
+    vega_character: "Vega Character"
+    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Methods"
