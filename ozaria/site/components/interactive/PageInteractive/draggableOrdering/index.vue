@@ -1,5 +1,6 @@
 <script>
   import VueDraggable from 'vuedraggable'
+  import { mapGetters } from 'vuex'
 
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
 
@@ -51,12 +52,18 @@
         showModal: false,
         submitEnabled: true,
 
+        initializedAnswer: false,
+
         shuffle,
         promptSlots: this.getShuffledPrompt(shuffle)
       }
     },
 
     computed: {
+      ...mapGetters({
+        pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
+      }),
+
       labels () {
         return (this.localizedInteractiveConfig.labels || []).map((label) => {
           if (typeof label === 'string') {
@@ -96,6 +103,16 @@
           return 'interactives.try_again'
         }
       }
+    },
+
+    watch: {
+      pastCorrectSubmission () {
+        this.initializeFromPastSubmission()
+      }
+    },
+
+    created () {
+      this.initializeFromPastSubmission()
     },
 
     methods: {
@@ -144,6 +161,37 @@
 
       resetAnswer () {
         this.promptSlots = this.getShuffledPrompt(this.shuffle)
+
+        this.initializedAnswer = false
+        this.initializeFromPastSubmission()
+      },
+
+      initializeFromPastSubmission () {
+        if (!this.pastCorrectSubmission || this.initializedAnswer) {
+          return
+        }
+
+        this.initializedAnswer = true
+
+        let missingAnswer = false
+        const answer = this.pastCorrectSubmission.submittedSolution.map((elementId) => {
+          const choice = this.localizedInteractiveConfig.elements.find(e => e.elementId === elementId)
+
+          if (choice) {
+            return choice
+          } else {
+            missingAnswer = true
+            return undefined
+          }
+        })
+
+        if (missingAnswer) {
+          // TODO handle_error_ozaria - undefined state
+          console.error('Unexpected state recovering answer')
+          return undefined
+        }
+
+        this.promptSlots = answer
       }
     }
   }
