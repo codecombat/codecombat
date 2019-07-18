@@ -16,7 +16,6 @@ module.exports = Vue.extend({
   }),
 
   components: {
-    LayoutAspectRatioContainer,
     LayoutChrome,
     BaseVideo
   },
@@ -46,7 +45,7 @@ module.exports = Vue.extend({
   <layout-chrome>
     <base-video
       :vimeoId="vimeoId"
-      :style="{ width: 'calc(100vw - 106px)', height: 'calc(100vh - 106px)' }"
+      id="cutscene-player"
 
       v-on:completed="onCompleted"
     />
@@ -54,10 +53,11 @@ module.exports = Vue.extend({
 </template>
 
 <style lang="sass">
+  @import "ozaria/site/styles/common/variables.sass"
 
   #cutscene-player
-    margin-left: auto
-    margin-right: auto
+    width: calc(100vw - #{$chromeRightPadding + $chromeLeftPadding})
+    height: calc(100vh - #{$chromeTopPadding + $chromeBottomPadding})
 
 </style>
 
