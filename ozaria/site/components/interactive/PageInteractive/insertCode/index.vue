@@ -368,10 +368,6 @@
         margin-bottom: 0;
       }
 
-      &:hover {
-        border: 2px solid #5D73E1;
-      }
-
       button {
         padding: 10px;
 
@@ -384,6 +380,10 @@
         font-size: 16px;
         line-height: 19px;
         color: #232323;
+
+        &:hover {
+          border: 2px solid #5D73E1;
+        }
 
         &.selected {
           border-color: #5D73E1;
