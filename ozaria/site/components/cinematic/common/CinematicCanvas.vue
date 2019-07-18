@@ -89,16 +89,13 @@ export default {
       }
     },
     onResize: _.debounce(function(e) {
-      // TODO handle_error_ozaria - Not an error but brittle.
-      const hard_coded_chrome_padding = 105;
-
-      const userWidth = Math.min((window.innerWidth
+      const userWidth = Math.min(window.innerWidth
         || document.documentElement.clientWidth
-        || document.body.clientWidth) - hard_coded_chrome_padding, WIDTH)
+        || document.body.clientWidth, WIDTH)
 
-      const userHeight = Math.min((window.innerHeight
+      const userHeight = Math.min(window.innerHeight
         || document.documentElement.clientHeight
-        || document.body.clientHeight) - hard_coded_chrome_padding, HEIGHT)
+        || document.body.clientHeight, HEIGHT)
 
       const height = this.height = Math.min(userWidth * CINEMATIC_ASPECT_RATIO, HEIGHT, userHeight)
       const width = this.width = this.height / CINEMATIC_ASPECT_RATIO
@@ -122,7 +119,7 @@ export default {
 
 #cinematic-canvas-div
   // Changing this transform may cause artifacts in border-image-slice of speech bubbles.
-  transform: translate(-23px, 16px)
+  transform: translate(-24px, 16px)
 
 #cinematic-div
   margin-left: auto
