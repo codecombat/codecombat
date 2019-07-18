@@ -725,6 +725,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     concept_unlocked: "Pbaprcg Haybpxrq"
     use_at_least_one_concept: "Hfr ng yrnfg bar pbaprcg: "
     command_bank: "Pbzznaq Onax"
+    learning_goals: "Yrneavat Tbnyf"
+    start: "Fgneg"
 
   apis:
     methods: "Zrgubqf"
@@ -2902,3 +2904,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     active_students_stat_description: 'Npgvir fghqragf pbhagf gur ahzore bs fghqragf gung unir ybttrq vagb PbqrPbzong va gur ynfg 60 qnlf.'
     project_stat_description: 'Cebwrpgf perngrq pbhagf gur gbgny ahzore bs Tnzr naq Jro qrirybczrag cebwrpgf gung unir orra perngrq.'
     no_teachers: 'Lbh ner abg nqzvavfgengvat nal grnpuref.'
+
+  interactives:
+    phenomenal_job: 'Curabzrany Wbo!'
+    try_again: 'Jubbcf, gel ntnva!'
+    select_statement_left: 'Jubbcf, fryrpg n fgngrzrag sebz gur yrsg orsber uvggvat "Fhozvg."'
+    fill_boxes: 'Jubbcf, znxr fher gb svyy nyy obkrf orsber uvggvat "Fhozvg."'
