@@ -7,12 +7,12 @@ import BaseVideo from '../ozaria/site/components/cutscene/common/BaseVideo.vue'
 
 storiesOf('BaseVideo', module).add('vimeo at 1080p size', () => ({
   components: { BaseVideo },
-  template: '<base-video :vimeoId="341904732" :width="1920" :height="1080" />'
+  template: `<base-video :vimeoId="341904732" :style="{ width: '1920px', height: '1080px' }"/>`
 }))
 
 storiesOf('BaseVideo', module).add('vimeo at ~480p size', () => ({
   components: { BaseVideo },
-  template: '<base-video :vimeoId="341904732" :width="640" :height="360" />'
+  template: `<base-video :vimeoId="341904732" :style="{ width: '640px', height: '360px' }" />`
 }))
 
 storiesOf('BaseVideo', module).add('video file at 480p size', () => ({
@@ -24,8 +24,7 @@ storiesOf('BaseVideo', module).add('video file at 480p size', () => ({
       src:'/captions/example.vtt',
       srclang:'en'
     }]"
-    :width="640"
-    :height="480"
+    :style="{ width: '640px', height: '360px' }"
   />`
 }))
 
@@ -42,7 +41,6 @@ storiesOf('BaseVideo', module).add('video file at 1080p size', () => ({
       src:'/captions/example.vtt',
       srclang:'cn'
     }]"
-    :width="1920"
-    :height="1080"
+    :style="{ width: '1920px', height: '1080px' }"
   />`
 }))

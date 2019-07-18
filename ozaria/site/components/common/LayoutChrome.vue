@@ -43,6 +43,7 @@
 </template>
 
 <style lang="sass" scoped>
+  @import "ozaria/site/styles/common/variables.sass"
   $topOffset: 25px
 
   .chrome-container
@@ -53,7 +54,7 @@
     right: 0
     bottom: 0
 
-    padding: 69px 76px 37px 30px
+    padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
 
   .chrome-border
     position: absolute
