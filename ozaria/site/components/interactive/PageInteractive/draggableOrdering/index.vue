@@ -1,5 +1,5 @@
 <script>
-  import VueDraggable from 'vuedraggable'
+  import SwappingVueDraggable from '../../../common/SwappingVueDraggable'
   import { mapGetters } from 'vuex'
 
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
@@ -17,7 +17,7 @@
       ModalInteractive,
       BaseInteractiveLayout,
 
-      'draggable': VueDraggable
+      SwappingVueDraggable
     },
 
     props: {
@@ -204,13 +204,10 @@
   >
     <div class="draggable-ordering-content">
       <div class="draggable-ordering-lists">
-        <draggable
+        <swapping-vue-draggable
           :list="promptSlots"
           class="slots-container prompt-slots"
-          ghost-class="ghost-slot"
           tag="ul"
-          :force-fallback="true"
-          fallback-class="dragging-slot"
         >
           <li
             v-for="prompt in promptSlots"
@@ -219,7 +216,7 @@
           >
             {{ prompt.text }}
           </li>
-        </draggable>
+        </swapping-vue-draggable>
 
         <ul
           class="slots-container"
