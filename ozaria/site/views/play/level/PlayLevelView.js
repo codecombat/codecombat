@@ -884,17 +884,9 @@ class PlayLevelView extends RootView {
       this.surface.showLevel()
     }
     Backbone.Mediator.publish('level:set-time', { time: 0 })
-    if (
-      (this.isEditorPreview || this.observing) &&
-      !utils.getQueryVariable('intro')
-    ) {
-      this.loadingView.startUnveiling()
-      return this.loadingView.unveil(true)
-    } else {
-      return this.scriptManager != null
-        ? this.scriptManager.initializeCamera()
-        : undefined
-    }
+    return this.scriptManager != null
+      ? this.scriptManager.initializeCamera()
+      : undefined
   }
 
   onLoadingViewUnveiling (e) {
@@ -910,9 +902,11 @@ class PlayLevelView extends RootView {
           // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
           Backbone.Mediator.publish('level:set-playing', { playing: true })
         }
-        this.loadingView.$el.remove()
-        this.removeSubView(this.loadingView)
-        this.loadingView = null
+        if (this.loadingView) {
+          this.loadingView.$el.remove()
+          this.removeSubView(this.loadingView)
+          this.loadingView = null
+        }
         this.playAmbientSound()
         // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
         if (!this.observing) {
