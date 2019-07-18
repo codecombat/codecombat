@@ -1,6 +1,5 @@
 <script>
 import LayoutChrome from '../../common/LayoutChrome'
-import LayoutAspectRatioContainer from '../../common/LayoutAspectRatioContainer'
 import BaseVideo from '../common/BaseVideo'
 import { getCutscene } from '../../../api/cutscene'
 
@@ -45,14 +44,12 @@ module.exports = Vue.extend({
 
 <template>
   <layout-chrome>
-    <LayoutAspectRatioContainer>
-      <base-video
-        :vimeoId="vimeoId"
-        :style="{ width: 'calc(100vw - 106px)', height: 'calc(100vh - 106px)' }"
+    <base-video
+      :vimeoId="vimeoId"
+      :style="{ width: 'calc(100vw - 106px)', height: 'calc(100vh - 106px)' }"
 
-        v-on:completed="onCompleted"
-      />
-    </LayoutAspectRatioContainer>
+      v-on:completed="onCompleted"
+    />
   </layout-chrome>
 </template>
 
