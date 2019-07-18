@@ -1,15 +1,13 @@
 .modal-dialog.game
   .background-wrapper
     .modal-content
-      block modal-header
-        .modal-header
-          if view.closeButton
-            .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
-          block modal-header-content
-            if view.options.headerContent
+      if view.options.headerContent
+        block modal-header
+          .modal-header
+            if view.closeButton
+              .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+            block modal-header-content
               h3!= view.options.headerContent
-            else
-              h3 man bites God
 
       block modal-body
         .modal-body
@@ -17,9 +15,7 @@
             if view.options.bodyContent
               div!= view.options.bodyContent
             else
-              p Man Bites God are the bad boys of the Melbourne live music and comedy scene. It is like being drowned in a bathtub of harmony.
-              img(src="http://www.manbitesgod.com/images/picturecoupleb.jpg")
-              img(src="http://www.manbitesgod.com/images/manrantb.jpg")
+              p There should be some content here! We need to take one of our own lessons! ;)
 
         .modal-body.wait.secret
           block modal-body-wait-content

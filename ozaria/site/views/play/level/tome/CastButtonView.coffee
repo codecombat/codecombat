@@ -1,8 +1,9 @@
-require('app/styles/play/level/tome/cast_button.sass')
+require('ozaria/site/styles/play/level/tome/cast_button.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/cast-button-view'
+template = require 'ozaria/site/templates/play/level/tome/cast-button-view'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
+ReloadLevelModal = require 'ozaria/site/views/play/level/modal/RestartLevelModal'
 LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
 
@@ -11,10 +12,11 @@ module.exports = class CastButtonView extends CocoView
   template: template
 
   events:
-    'click .cast-button': 'onCastButtonClick'
-    'click .submit-button': 'onCastRealTimeButtonClick'
+    'click #run': 'onCastButtonClick'
+    'click #update-game': 'onCastRealTimeButtonClick'
     'click .done-button': 'onDoneButtonClick'
-    'click .game-dev-play-btn': 'onClickGameDevPlayButton'
+    #'click #update-game': 'onClickGameDevPlayButton'
+    'click #reload-code': 'onCodeReload'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -141,6 +143,9 @@ module.exports = class CastButtonView extends CocoView
   onPlaybackEndedChanged: (e) ->
     return unless e.ended and @winnable
     @$el.toggleClass 'has-seen-winning-replay', true
+
+  onCodeReload: (e) ->
+    @openModalView new ReloadLevelModal()
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
