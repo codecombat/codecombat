@@ -16,7 +16,6 @@
           <img
             class="vega-face-image"
             src="/images/ozaria/level/vega_face.png"
-            style="height: 100%; width: 100%;"
           >
         </div>
         <div class="narrative-div">
@@ -102,6 +101,10 @@
     top: 100px
     left: -10px
     width: 17%
+
+    .vega-face-image
+      width: 100%
+      height: 100%
 
   .narrative-div
     position: relative
