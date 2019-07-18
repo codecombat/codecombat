@@ -24,20 +24,55 @@
     color: white
 
 #cast-button-view
-  display: none
+  display: flex
+  justify-content: center
   position: absolute
-
-  z-index: 2
   width: 100%
-  border-radius: 6px
-
-  background: transparent url(/images/level/code_toolbar_background.png)
+  height: 65px
+  bottom: 46px
+  background: #ffffff
   background-size: 100% 100%
-  left: -15px
-  right: 15px
-  height: 94px
-  margin-top: -8px
-  padding: 20px 2.8%
+  z-index: 2
+
+  div.play-button
+    position: relative
+    width: 107px
+    height: 45px
+    margin-right: 33px
+    margin-bottom: 10px
+    margin-top: 10px
+    cursor: pointer
+    img.active-button
+      width: 100%
+    div.active-button-text
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+      color: #FFFFFF
+      font-family: "Roboto Mono"
+      font-size: 18px
+      font-weight: bold
+      letter-spacing: 0.71px
+      line-height: 21px
+
+  #reload-code
+    display: flex
+    flex-direction: column
+    height: 47px
+    width: 44px
+    margin-bottom: 10px
+    margin-top: 10px
+    cursor: pointer
+    p
+      height: 17px
+      width: 44px
+      color: #33ECC9
+      font-family: Open Sans
+      font-weight: lighter
+      font-size: 12px
+      letter-spacing: 0.47px
+      line-height: 17px
 
   .btn.btn-illustrated
     height: 46px
@@ -50,17 +85,6 @@
     border-image: url(/images/level/code_toolbar_run_button_active.png) 14 20 20 20 fill round
     border-width: 7px 10px 10px 10px
 
-    &:active
-      border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
-      padding: 2px 0 0 2px
-
-    &.submit-button, &.done-button, &.rank-button
-      margin-left: 10px
-      border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
-      
-      &:active
-        border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
-
   .ladder-submission-view
     width: 45%
     width: -webkit-calc(50% - 10px)
@@ -71,16 +95,16 @@
       width: 100%
       font-size: 18px
 
-  
+
   .cast-button
     @include opacity(0.77)
-  
+
     &:hover, &.castable
       @include opacity(1)
 
   .submit-button > *, .done-button > *
     @include opacity(0.9)
-  
+
     &:hover
       @include opacity(1)
 
@@ -121,7 +145,7 @@ html.no-borderimage #cast-button-view
     background-image: url(/images/level/code_toolbar_run_button_active.png)
     background-size: 100% 100%
     padding: 7px 10px 10px 10px
-  
+
     &:active
       background-image: url(/images/level/code_toolbar_run_button_active_pressed.png)
       padding: 9px 8px 8px 12px

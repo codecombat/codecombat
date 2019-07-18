@@ -1,25 +1,11 @@
-if view.options.level.isType('game-dev')
-  button.btn.btn-lg.btn-illustrated.btn-success.game-dev-play-btn
-    span(data-i18n="common.play")
-  button.btn.btn-lg.btn-illustrated.btn-success.done-button.secret
-    span(data-i18n="play_level.done")
-
+if !view.options.level.isType('game-dev')
+  div.play-button#run
+    img.active-button(src="/images/ozaria/level/Button_Active.png", alt=$.i18n.t("play_level.tome_cast_button_run"))
+    div.active-button-text(data-i18n="play_level.tome_cast_button_run")
 else
-
-  button.btn.btn-lg.btn-illustrated.cast-button(title=view.castVerbose())
-    span(data-i18n="play_level.tome_cast_button_ran") Ran
-
-  if !view.observing
-    if view.mirror
-      .ladder-submission-view
-    else
-      button.btn.btn-lg.btn-illustrated.submit-button(title=view.castRealTimeVerbose())
-        span(data-i18n="play_level.tome_submit_button") Submit
-        span.spl.secret.submit-again-time
-
-      button.btn.btn-lg.btn-illustrated.btn-success.done-button.secret
-        span(data-i18n="play_level.done") Done
-
-      if view.autoSubmitsToLadder
-        .hidden
-          .ladder-submission-view
+  div.play-button#update-game
+    img.active-button(src="/images/ozaria/level/Button_Active.png", alt=$.i18n.t("play_level.tome_cast_button_update"))
+    div.active-button-text(data-i18n="play_level.tome_cast_button_update")
+  div.play-button#next
+    img.active-button(src="/images/ozaria/level/Button_Inactive.png", alt=$.i18n.t("play.next"))
+    div.active-button-text(data-i18n="play.next")
