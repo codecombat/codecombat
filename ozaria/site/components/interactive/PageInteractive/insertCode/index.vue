@@ -6,6 +6,7 @@
 
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+  import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
   import BaseButton from '../common/BaseButton'
   import ModalInteractive from '../common/ModalInteractive.vue'
@@ -63,10 +64,17 @@
         defaultImage = getOzariaAssetUrl(this.interactive.defaultArtAsset)
       }
 
+      const choices = this.localizedInteractiveConfig.choices || []
+
       return {
         showModal: false,
         codemirrorReady: false,
         submitEnabled: true,
+
+        shuffle: deterministicShuffleForUserAndDay(
+          me,
+          [ ...Array(choices.length).keys() ]
+        ),
 
         codemirrorOptions: {
           tabSize: 2,
@@ -79,31 +87,42 @@
 
         defaultImage,
 
-        localSelectedAnswer: {}
+        userAnswer: undefined
       }
     },
 
     computed: {
       ...mapGetters({
-        userCorrectSubmission: 'interactives/correctSubmissionFromSession'
+        pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
       }),
 
-      selectedAnswer () {
-        if (this.userCorrectSubmission) {
+      correctChoiceFromPastSubmission () {
+        if (this.pastCorrectSubmission) {
           const choice = this.localizedInteractiveConfig
             .choices
-            .find(c => c.choiceId === this.userCorrectSubmission.submittedSolution)
+            .find(c => c.choiceId === this.pastCorrectSubmission.submittedSolution)
 
-          if (!choice) {
-            // Unexpected state - choices array does not contain selected submission
-            // TODO handle_error_ozaria
-            return this.localSelectedAnswer
+          if (choice) {
+            return choice
           }
-
-          return choice
-        } else {
-          return this.localSelectedAnswer
         }
+
+        // Unexpected state - choices array does not contain selected submission
+        // TODO handle_error_ozaria
+        console.error('Unexpected state recovering answer')
+        return undefined
+      },
+
+      selectedAnswer () {
+        if (this.userAnswer) {
+          return this.userAnswer
+        }
+
+        if (this.correctChoiceFromPastSubmission) {
+          return this.correctChoiceFromPastSubmission
+        }
+
+        return undefined
       },
 
       code () {
@@ -123,7 +142,8 @@
       },
 
       answerOptions () {
-        return this.localizedInteractiveConfig.choices
+        return this.shuffle
+          .map(idx => this.localizedInteractiveConfig.choices[idx])
       },
 
       codemirror () {
@@ -131,17 +151,32 @@
       },
 
       artUrl () {
-        return this.selectedAnswer.triggerArt || this.defaultImage
+        let art = this.selectedAnswer.triggerArt || this.defaultImage
+
+        if (!art.startsWith('/')) {
+          art = getOzariaAssetUrl(art)
+        }
+
+        return art
       },
 
       questionAnswered () {
         return this.selectedAnswer.choiceId !== undefined
       },
 
-      solution () {
-        return {
-          correct: this.localizedInteractiveConfig.solution === this.selectedAnswer.choiceId,
-          submittedSolution: this.selectedAnswer.choiceId
+      solutionCorrect () {
+        return this.localizedInteractiveConfig.solution === this.selectedAnswer.choiceId
+      },
+
+      modalMessageTag () {
+        if (this.questionAnswered) {
+          if (this.solutionCorrect) {
+            return 'interactives.phenomenal_job'
+          } else {
+            return 'interactives.try_again'
+          }
+        } else {
+          return 'interactives.fill_boxes'
         }
       }
     },
@@ -154,19 +189,11 @@
 
     methods: {
       resetAnswer () {
-        this.localSelectedAnswer = {}
+        this.userAnswer = undefined
       },
 
       selectAnswer (answer) {
-        let triggerArt
-        if (answer.triggerArt) {
-          triggerArt = getOzariaAssetUrl(answer.triggerArt)
-        }
-
-        this.localSelectedAnswer = {
-          ...answer,
-          triggerArt
-        }
+        this.userAnswer = answer
       },
 
       onCodeMirrorReady () {
@@ -195,12 +222,12 @@
       },
 
       async submitSolution () {
+        this.showModal = true
+        this.submitEnabled = false
+
         if (!this.questionAnswered) {
           return
         }
-
-        this.showModal = true
-        this.submitEnabled = false
 
         // TODO save through vuex and block progress until save is successful
         await putSession(this.interactive._id, {
@@ -270,11 +297,13 @@
 
     <modal-interactive
       v-if="showModal"
+
+      :success="solutionCorrect"
+      :small-text="!questionAnswered"
+
       @close="closeModal"
     >
-      <template v-slot:body>
-        <h1>{{ solution.correct ? "Did it!" : "Try Again!" }}</h1>
-      </template>
+      {{ $t(modalMessageTag) }}
     </modal-interactive>
   </base-interactive-layout>
 </template>

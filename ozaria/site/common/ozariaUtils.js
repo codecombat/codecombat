@@ -67,7 +67,7 @@ export const findNextLevelsBySession = (sessions, levels, levelStatusMap) => {
  */
 export const getAjvOptions = () => {
   const options = {
-    unknownFormats: ['ace', 'hidden', 'i18n', 'image-file'] // list of formats unknown to ajv but need to be supported
+    unknownFormats: ['ace', 'hidden', 'i18n', 'image-file', 'markdown'] // list of formats unknown to ajv but need to be supported
   }
   return options // If we want to support both draft-04 and draft-06/07 schemas then add { schemaId: 'auto' } to options
 }

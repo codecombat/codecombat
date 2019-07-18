@@ -1,10 +1,12 @@
 <script>
   import VueDraggable from 'vuedraggable'
+  import { mapGetters } from 'vuex'
 
   import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
 
   import { putSession } from 'ozaria/site/api/interactive'
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
+  import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
   import BaseButton from '../common/BaseButton'
   import ModalInteractive from '../common/ModalInteractive.vue'
@@ -41,19 +43,27 @@
     },
 
     data () {
+      const shuffle = deterministicShuffleForUserAndDay(
+        me,
+        [ ...Array(this.localizedInteractiveConfig.elements.length).keys() ]
+      )
+
       return {
         showModal: false,
         submitEnabled: true,
 
-        promptSlots: (this.localizedInteractiveConfig.elements || [])
-          .map(({ elementId, ...rest }) => ({
-            ...rest,
-            id: elementId
-          }))
+        initializedAnswer: false,
+
+        shuffle,
+        promptSlots: this.getShuffledPrompt(shuffle)
       }
     },
 
     computed: {
+      ...mapGetters({
+        pastCorrectSubmission: 'interactives/correctSubmissionFromSession'
+      }),
+
       labels () {
         return (this.localizedInteractiveConfig.labels || []).map((label) => {
           if (typeof label === 'string') {
@@ -84,7 +94,25 @@
         }
 
         return true
+      },
+
+      modalMessageTag () {
+        if (this.solutionCorrect) {
+          return 'interactives.phenomenal_job'
+        } else {
+          return 'interactives.try_again'
+        }
       }
+    },
+
+    watch: {
+      pastCorrectSubmission () {
+        this.initializeFromPastSubmission()
+      }
+    },
+
+    created () {
+      this.initializeFromPastSubmission()
     },
 
     methods: {
@@ -115,13 +143,55 @@
         this.submitEnabled = true
       },
 
-      resetAnswer () {
-        // TODO consolidate with initial state setting
-        this.promptSlots = (this.localizedInteractiveConfig.elements || [])
-          .map(({ elementId, ...rest }) => ({
+      getShuffledPrompt (shuffle) {
+        const elements = this.localizedInteractiveConfig.elements || []
+
+        return shuffle.map((idx) => {
+          const {
+            elementId,
+            ...rest
+          } = elements[idx]
+
+          return {
             ...rest,
             id: elementId
-          }))
+          }
+        })
+      },
+
+      resetAnswer () {
+        this.promptSlots = this.getShuffledPrompt(this.shuffle)
+
+        this.initializedAnswer = false
+        this.initializeFromPastSubmission()
+      },
+
+      initializeFromPastSubmission () {
+        if (!this.pastCorrectSubmission || this.initializedAnswer) {
+          return
+        }
+
+        this.initializedAnswer = true
+
+        let missingAnswer = false
+        const answer = this.pastCorrectSubmission.submittedSolution.map((elementId) => {
+          const choice = this.localizedInteractiveConfig.elements.find(e => e.elementId === elementId)
+
+          if (choice) {
+            return choice
+          } else {
+            missingAnswer = true
+            return undefined
+          }
+        })
+
+        if (missingAnswer) {
+          // TODO handle_error_ozaria - undefined state
+          console.error('Unexpected state recovering answer')
+          return undefined
+        }
+
+        this.promptSlots = answer
       }
     }
   }
@@ -174,11 +244,11 @@
 
       <modal-interactive
         v-if="showModal"
+
+        :success="solutionCorrect"
         @close="closeModal"
       >
-        <template v-slot:body>
-          <h1>{{ solutionCorrect ? "Did it!" : "Try Again!" }}</h1>
-        </template>
+        {{ $t(modalMessageTag) }}
       </modal-interactive>
     </div>
   </base-interactive-layout>

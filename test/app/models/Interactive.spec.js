@@ -252,7 +252,13 @@ describe('Interactive', () => {
       interactiveType: 'draggable-ordering',
       promptText: 'prompt text for interactive',
       draggableOrderingData: interactiveDraggableObject,
-      unitCodeLanguage: 'python'
+      unitCodeLanguage: 'python',
+      documentation: {
+        specificArticles: [ {
+          name: 'Learning Goals',
+          body: 'Practice the programming concepts.'
+        }]
+      }
     }
     const badInteractivesObjectProperties = {
       interactiveType: 'draggable-ordering',

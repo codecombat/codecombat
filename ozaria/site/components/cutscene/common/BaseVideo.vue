@@ -9,14 +9,6 @@ export default {
       type: String,
       required: false
     },
-    width: {
-      type: Number,
-      required: true
-    },
-    height: {
-      type: Number,
-      required: true
-    },
     videoSrc: {
       type: String,
       required: false
@@ -49,18 +41,16 @@ export default {
 </script>
 
 <template>
-  <div>
-    <iframe v-if="vimeoId" id="vimeo-player" :src="`https://player.vimeo.com/video/${vimeoId}`" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen :width="width" :height="height"></iframe>
-    <div v-else :style="{ width: width+'px', height: height+'px' }">
-      <video id="player" ref="player" playsinline controls>
-        <source :src="videoSrc" type="video/mp4" />
+  <iframe v-if="vimeoId" id="vimeo-player" :src="`https://player.vimeo.com/video/${vimeoId}`" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  <div v-else>
+    <video id="player" ref="player" playsinline controls>
+      <source :src="videoSrc" type="video/mp4" />
 
-        <!-- Captions are optional -->
-        <template v-for="caption in captions">
-          <track :key="caption.label" kind="captions" :label="caption.label" :src="caption.src" :srclang="caption.srclang" default />
-        </template>
-    </video>
-    </div>
+      <!-- Captions are optional -->
+      <template v-for="caption in captions">
+        <track :key="caption.label" kind="captions" :label="caption.label" :src="caption.src" :srclang="caption.srclang" default />
+      </template>
+  </video>
   </div>
 </template>
 
