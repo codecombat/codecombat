@@ -64,8 +64,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @goto = t 'play_level.time_goto'
     @current = t 'play_level.time_current'
     @total = t 'play_level.time_total'
-    @$el.find('#play-button').css('visibility', 'hidden') if @options.level.get 'hidesPlayButton'  # Don't show for first few levels, confuses new players.
-
+    
   # These functions could go to some helper class
 
   pad2: (num) ->

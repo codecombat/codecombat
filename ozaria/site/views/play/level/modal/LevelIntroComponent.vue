@@ -5,7 +5,7 @@
         class="modal-header-content"
         style="text-align:center;"
       >
-        <span class="title">
+        <span class="title text-capitalize">
           {{ title }}
         </span>
       </div>
