@@ -104,18 +104,30 @@ class SpeechBubble {
     this.id = `speech-${_id++}`
     const parser = new DOMParser()
     const html = parser.parseFromString(htmlString, 'text/html')
-    const textDiv = html.body.firstChild
-    textDiv.style.display = 'inline-block'
-    textDiv.style.position = 'absolute'
-    textDiv.style.maxWidth = SPEECH_BUBBLE_MAX_WIDTH
-    textDiv.style.opacity = 0
-    textDiv.id = this.id
-    textDiv.className = `cinematic-speech-bubble-${side}`
 
-    div.appendChild(textDiv)
+    const textDiv = html.body.firstChild
+    const speechBubbleDiv = document.createElement('div')
+
+    speechBubbleDiv.style.display = 'inline-block'
+    speechBubbleDiv.style.position = 'absolute'
+    speechBubbleDiv.style.maxWidth = SPEECH_BUBBLE_MAX_WIDTH
+    speechBubbleDiv.id = this.id
+    speechBubbleDiv.className = `cinematic-speech-bubble-${side}`
+    speechBubbleDiv.style.opacity = 0
+
+    speechBubbleDiv.appendChild(textDiv)
+
+    const clickToContinue = document.createElement('div')
+    clickToContinue.className = `cinematic-speech-bubble-click-continue`
+    // TODO punted i18n for Click to Continue.
+    clickToContinue.innerHTML = '<span>Click To Continue</span>'
+    clickToContinue.style.opacity = 0
+
+    speechBubbleDiv.appendChild(clickToContinue)
+    div.appendChild(speechBubbleDiv)
 
     // Calculate bounding box
-    const bbox = textDiv.getBoundingClientRect()
+    const bbox = speechBubbleDiv.getBoundingClientRect()
     const width = (bbox.right - bbox.left) + 2 * BUBBLE_PADDING
     const height = (bbox.bottom - bbox.top) + 2 * BUBBLE_PADDING
 
@@ -126,8 +138,8 @@ class SpeechBubble {
       x -= width
     }
 
-    textDiv.style.left = `${x / WIDTH * 100}%`
-    textDiv.style.top = `${y / HEIGHT * 100}%`
+    speechBubbleDiv.style.left = `${x / WIDTH * 100}%`
+    speechBubbleDiv.style.top = `${y / HEIGHT * 100}%`
 
     const letters = (document.querySelectorAll(`#${this.id} .letter`) || []).length || 1
     if (textDuration === undefined) {
@@ -151,9 +163,14 @@ class SpeechBubble {
         opacity: 1,
         duration: 20,
         delay: anime.stagger(textDuration / letters, { easing: 'linear' }),
-        easing: 'easeOutQuad',
+        easing: 'easeOutQuad'
+      })
+      .add({
+        targets: `#${this.id} .cinematic-speech-bubble-click-continue`,
+        opacity: 1,
+        duration: 700,
         complete: () => {
-          shownDialogBubbles.push(textDiv)
+          shownDialogBubbles.push(speechBubbleDiv)
         }
       })
   }
