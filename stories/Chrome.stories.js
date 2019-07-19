@@ -21,5 +21,20 @@ storiesOf('LayoutChrome', module).add('On state', () => ({
 
 storiesOf('LayoutChrome', module).add('On state with text', () => ({
   components: { LayoutChrome },
-  template: '<layout-chrome :chromeOn="true" title="Optional Title Label" />'
+  template: `<layout-chrome :chromeOn="true" title="Optional Title Label" />`
+}))
+
+storiesOf('LayoutChrome', module).add('Menu Items with Functions', () => ({
+  components: { LayoutChrome },
+  methods: {
+    optionsHandler: function () { console.log('clicked options') },
+    restartHandler: function () { console.log('clicked restart') }
+  },
+  template: `
+    <layout-chrome
+      :chromeOn="true"
+      title="Optional Title Label"
+      :optionsClickHandler="optionsHandler"
+      :restartClickHandler="restartHandler"
+    />`
 }))

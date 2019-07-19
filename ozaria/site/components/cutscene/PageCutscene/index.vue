@@ -44,8 +44,10 @@ module.exports = Vue.extend({
 <template>
   <layout-chrome>
     <base-video
-      :vimeoId="vimeoId"
+      v-if="vimeoId"
+
       id="cutscene-player"
+      :vimeoId="vimeoId"
 
       v-on:completed="onCompleted"
     />

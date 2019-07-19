@@ -9,6 +9,28 @@
       chromeOn: {
         type: Boolean,
         default: false
+      },
+
+      optionsClickHandler: {
+        type: Function
+      },
+
+      restartClickHandler: {
+        type: Function
+      }
+    },
+
+    methods: {
+      clickOptions () {
+        if (this.optionsClickHandler) {
+          this.optionsClickHandler()
+        }
+      },
+
+      clickRestart () {
+        if (this.restartClickHandler) {
+          this.restartClickHandler()
+        }
       }
     }
   }
@@ -20,8 +42,16 @@
       :class="[ 'chrome-border', chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
     >
       <div id="chrome-menu">
-        <div class="button-flex-item options-btn" />
-        <div class="button-flex-item restart-btn" />
+        <div
+          class="button-flex-item options-btn"
+          :class="{ hideBtn: !optionsClickHandler }"
+          @click="clickOptions"
+        />
+        <div
+          class="button-flex-item restart-btn"
+          :class="{ hideBtn: !restartClickHandler }"
+          @click="clickRestart"
+        />
         <div class="spacer" />
         <div class="button-flex-item map-btn" />
         <div class="button-flex-item sound-btn" />
@@ -55,6 +85,12 @@
     bottom: 0
 
     padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
+
+    // Use pointer events to allow mouse to click buttons.
+    pointer-events: none
+
+    & > *
+      pointer-events: auto
 
   .chrome-border
     position: absolute
@@ -104,6 +140,7 @@
       position: absolute
       top: calc(10vh + #{$topOffset})
       right: 0
+      pointer-events: auto
       .button-flex-item
         width: 58px
         height: 58px
@@ -111,6 +148,9 @@
 
       .spacer
         flex-grow: 1
+
+      .hideBtn
+        visibility: hidden
 
       .options-btn
         background: url(/images/ozaria/layout/chrome/button_settings.png)
