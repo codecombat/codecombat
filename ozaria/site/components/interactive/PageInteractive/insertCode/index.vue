@@ -106,11 +106,12 @@
           if (choice) {
             return choice
           }
+
+          // Unexpected state - choices array does not contain selected submission
+          // TODO handle_error_ozaria
+          console.error('Unexpected state recovering answer')
         }
 
-        // Unexpected state - choices array does not contain selected submission
-        // TODO handle_error_ozaria
-        console.error('Unexpected state recovering answer')
         return undefined
       },
 
@@ -159,7 +160,7 @@
 
         art = art || this.defaultImage
 
-        if (!art.startsWith('/')) {
+        if (art && !art.startsWith('/')) {
           art = getOzariaAssetUrl(art)
         }
 
@@ -167,7 +168,7 @@
       },
 
       questionAnswered () {
-        return this.selectedAnswer.choiceId !== undefined
+        return this.selectedAnswer && this.selectedAnswer.choiceId !== undefined
       },
 
       solutionCorrect () {
@@ -235,13 +236,17 @@
         }
 
         const lineToReplace = this.localizedInteractiveConfig.lineToReplace - 1
+        console.log(lineToReplace)
 
         if (this.questionAnswered) {
           this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')
           this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-prompt')
+
+          this.codemirror.removeLineClass(lineToReplace, 'text', 'line-text-prompt')
         } else {
           this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-prompt')
           this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-answered')
+          this.codemirror.addLineClass(lineToReplace, 'text', 'line-text-prompt')
         }
       },
 
@@ -416,14 +421,20 @@
         line-height: 20px;
         color: #232323;
 
-        &.highlight-line-prompt {
-          background-color: #d8d8d8;
+        .CodeMirror-line {
+          padding: 3px;
+        }
+
+        .line-text-prompt {
           color: #0170E9;
         }
 
-        &.highlight-line-answered {
+        .highlight-line-prompt {
+          background-color: #d8d8d8;
+        }
+
+        .highlight-line-answered {
           background-color: #cdd4f8;
-          color: inherit;
         }
       }
     }
