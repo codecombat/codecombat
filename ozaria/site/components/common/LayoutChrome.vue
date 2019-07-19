@@ -1,4 +1,6 @@
 <script>
+  import { mapGetters, mapActions } from 'vuex'
+
   export default {
     props: {
       title: {
@@ -20,7 +22,15 @@
       }
     },
 
+    computed: {
+      ...mapGetters('ozariaOptions', [
+        'isSoundOn'
+      ])
+    },
+
     methods: {
+      ...mapActions('ozariaOptions', ['toggleSoundAction']),
+
       clickOptions () {
         if (this.optionsClickHandler) {
           this.optionsClickHandler()
@@ -54,7 +64,10 @@
         />
         <div class="spacer" />
         <div class="button-flex-item map-btn" />
-        <div class="button-flex-item sound-btn" />
+        <div
+          class="button-flex-item sound-btn"
+          :class="{ menuVolumeOff: !isSoundOn }"
+          @click="toggleSoundAction" />
       </div>
 
       <div :class="[ chromeOn ? 'side-center-on' : 'side-center-off']" />
@@ -163,6 +176,10 @@
 
       .sound-btn
         background: url(/images/ozaria/layout/chrome/button_sound.png)
+
+        &.menuVolumeOff
+          // Temp until we have icon
+          filter: grayscale(100%)
 
       .options-btn, .restart-btn, .map-btn, .sound-btn
         background-size: 45px

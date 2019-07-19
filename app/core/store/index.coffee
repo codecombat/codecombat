@@ -29,6 +29,7 @@ store = new Vuex.Store({
     interactives: require('./modules/interactives').default
     campaigns: require('./modules/campaigns').default
     tints: require('./modules/tints').default
+    ozariaOptions: require('./modules/ozariaOptions').default
   }
 })
 
