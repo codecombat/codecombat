@@ -1,12 +1,18 @@
 /* eslint-env jasmine */
-import { mount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import ozariaUnitMap from 'ozaria/site/components/play/PageUnitMap'
 import factories from 'test/app/factories'
 import Levels from 'collections/Levels'
 import CourseInstance from 'collections/CourseInstances'
 import Course from 'collections/Courses'
 import api from 'core/api'
-import store from 'core/store'
+import VTooltip from 'v-tooltip'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
+localVue.use(VTooltip)
+
+const store = require('core/store')
 
 const levels = new Levels(_.times(4, () => factories.makeLevel()))
 // set position, nextLevels, and first property
@@ -38,7 +44,8 @@ let unitMapClassroomWrapper = {}
 const createComponent = (values = {}) => {
   return mount(ozariaUnitMap, {
     propsData: values,
-    store
+    store,
+    localVue
   })
 }
 
