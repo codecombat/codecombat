@@ -83,7 +83,7 @@
       },
 
       userAnswer () {
-        return this.promptSlots.map((s) => s.id)
+        return this.promptSlots.map((s) => s.elementId)
       },
 
       solutionCorrect () {
@@ -146,17 +146,7 @@
       getShuffledPrompt (shuffle) {
         const elements = this.localizedInteractiveConfig.elements || []
 
-        return shuffle.map((idx) => {
-          const {
-            elementId,
-            ...rest
-          } = elements[idx]
-
-          return {
-            ...rest,
-            id: elementId
-          }
-        })
+        return shuffle.map((idx) => elements[idx])
       },
 
       resetAnswer () {
