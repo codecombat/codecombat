@@ -28,6 +28,7 @@ export default {
       try {
         const campaignData = await campaignsApi.get({ campaignHandle: campaignHandle })
         commit('setCampaignData', campaignData)
+        commit('layoutChrome/setCurrentCampaignId', campaignData._id, { root: true })
       } catch (e) {
         console.error('Error in fetching campaign', e)
         // TODO: update after a consistent error handling strategy is decided

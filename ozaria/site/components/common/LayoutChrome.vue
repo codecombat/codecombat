@@ -23,13 +23,22 @@
     },
 
     computed: {
-      ...mapGetters('ozariaOptions', [
-        'isSoundOn'
-      ])
+      ...mapGetters({
+        isSoundOn: 'layoutChrome/isSoundOn',
+        getCurrentCampaignId: 'layoutChrome/getCurrentCampaignId',
+        getCourseInstanceId: 'layoutChrome/getCurrentCourseInstanceId'
+      }),
+
+      mapLink () {
+        if (me.isSessionless() || !this.getCurrentCampaignId || !this.getCourseInstanceId) {
+          return '/teachers/courses'
+        }
+        return `/ozaria/play/${this.getCurrentCampaignId}?course-instance=${this.getCourseInstanceId}`
+      }
     },
 
     methods: {
-      ...mapActions('ozariaOptions', ['toggleSoundAction']),
+      ...mapActions('layoutChrome', ['toggleSoundAction']),
 
       clickOptions () {
         if (this.optionsClickHandler) {
@@ -77,13 +86,15 @@
           @click="clickRestart"
         />
         <div class="spacer" />
-        <div class="button-flex-item map-btn"
-          v-tooltip="{
-            content: 'Back to Map',
-            placement: 'right',
-            classes: 'layoutChromeTooltip',
-          }"
-        />
+        <a :href="mapLink">
+          <div class="button-flex-item map-btn"
+            v-tooltip="{
+              content: 'Back to Map',
+              placement: 'right',
+              classes: 'layoutChromeTooltip',
+            }"
+          />
+        </a>
         <div
           class="button-flex-item sound-btn"
           :class="{ menuVolumeOff: !isSoundOn }"

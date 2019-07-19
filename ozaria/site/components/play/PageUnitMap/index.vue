@@ -103,6 +103,8 @@
             await this.fetchCampaign(this.campaign)
             this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
             if (this.courseInstanceId) {
+              // TODO: There might be a better place to initialize this.
+              this.$store.commit('layoutChrome/setCurrentCourseInstanceId', this.courseInstanceId, { root: true })
               this.levels = await this.buildLevelsDataForCourse()
             } else {
               // for anonymous/home users
