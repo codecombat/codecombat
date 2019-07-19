@@ -152,7 +152,12 @@
       },
 
       artUrl () {
-        let art = this.selectedAnswer.triggerArt || this.defaultImage
+        let art
+        if (this.selectedAnswer) {
+          art = this.selectedAnswer.triggerArt
+        }
+
+        art = art || this.defaultImage
 
         if (!art.startsWith('/')) {
           art = getOzariaAssetUrl(art)
