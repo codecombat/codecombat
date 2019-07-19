@@ -15,12 +15,12 @@
     },
 
     computed: {
-      myHeight () {
+      finalHeight () {
         return Math.min(this.parentWidth / this.aspectRatio, this.parentHeight)
       },
 
-      myWidth () {
-        return this.myHeight * this.aspectRatio
+      finalWidth () {
+        return this.finalHeight * this.aspectRatio
       }
     },
 
@@ -50,6 +50,15 @@
           this.parentHeight = parent.clientHeight
         }
 
+        const computedStyle = window.getComputedStyle(parent)
+        const paddingLeft = parseInt(computedStyle.getPropertyValue('padding-left') || 0, 10)
+        const paddingRight = parseInt(computedStyle.getPropertyValue('padding-right') || 0, 10)
+        const paddingTop = parseInt(computedStyle.getPropertyValue('padding-top') || 0, 10)
+        const paddingBottom = parseInt(computedStyle.getPropertyValue('padding-bottom') || 0, 10)
+
+        this.parentWidth = this.parentWidth - paddingLeft - paddingRight
+        this.parentHeight = this.parentWidth - paddingTop - paddingBottom
+
         this.$emit('resize')
       }
     }
@@ -59,7 +68,7 @@
 <template>
   <div
     ref="el"
-    :style="{ width: myWidth + 'px', height: myHeight + 'px' }"
+    :style="{ width: finalWidth + 'px', height: finalHeight + 'px' }"
   >
     <slot />
   </div>
