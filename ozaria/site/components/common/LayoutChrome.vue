@@ -55,18 +55,45 @@
         <div
           class="button-flex-item options-btn"
           :class="{ hideBtn: !optionsClickHandler }"
+
+          v-tooltip="{
+            content: 'Level Options',
+            placement: 'right',
+            classes: 'layoutChromeTooltip',
+          }"
+
           @click="clickOptions"
         />
         <div
           class="button-flex-item restart-btn"
           :class="{ hideBtn: !restartClickHandler }"
+
+          v-tooltip="{
+            content: 'Restart Level',
+            placement: 'right',
+            classes: 'layoutChromeTooltip',
+          }"
+
           @click="clickRestart"
         />
         <div class="spacer" />
-        <div class="button-flex-item map-btn" />
+        <div class="button-flex-item map-btn"
+          v-tooltip="{
+            content: 'Back to Map',
+            placement: 'right',
+            classes: 'layoutChromeTooltip',
+          }"
+        />
         <div
           class="button-flex-item sound-btn"
           :class="{ menuVolumeOff: !isSoundOn }"
+
+          v-tooltip="{
+            content: isSoundOn ? 'Sound Off' : 'Sound On',
+            placement: 'right',
+            classes: 'layoutChromeTooltip',
+          }"
+
           @click="toggleSoundAction" />
       </div>
 
@@ -85,7 +112,7 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
+<style lang="sass">
   @import "ozaria/site/styles/common/variables.sass"
   $topOffset: 25px
 
@@ -204,22 +231,81 @@
         background-size: 100% 100%
         min-width: 370px
 
-  #btn-home
-    position: fixed
-    right: 0
-    top: 50%
-    transform: translate(0, -50%) scale(0.5)
+    #btn-home
+      position: fixed
+      right: 0
+      top: 50%
+      transform: translate(0, -50%) scale(0.5)
 
-  #btn-top
-    position: fixed
-    right: 0
-    top: 50%
-    transform: translate(0, -50%) translate(-4px, -60px) scale(0.5)
+    #btn-top
+      position: fixed
+      right: 0
+      top: 50%
+      transform: translate(0, -50%) translate(-4px, -60px) scale(0.5)
 
-  #btn-bottom
-    position: fixed
-    right: 0
-    top: 50%
-    transform: translate(0, -50%) translate(-4px, 60px) scale(0.5)
+    #btn-bottom
+      position: fixed
+      right: 0
+      top: 50%
+      transform: translate(0, -50%) translate(-4px, 60px) scale(0.5)
+
+  .tooltip.layoutChromeTooltip
+    $chromeTooltipBackground: #74E8CA
+    display: block !important
+    z-index: 10000
+
+    font-family: 'Open Sans', serif
+    font-size: 16px
+
+    &[aria-hidden='true'] 
+      visibility: hidden
+      opacity: 0
+      transition: opacity .15s, visibility .15s
+
+    &[aria-hidden='false'] 
+      visibility: visible
+      opacity: 1
+      transition: opacity .15s
+
+    .tooltip-inner
+      background: $chromeTooltipBackground
+      color: black
+      border-radius: 8px
+      padding: 5px 10px 4px
+
+    .tooltip-arrow
+      width: 0
+      height: 0
+      border-style: solid
+      position: absolute
+      margin: 5px
+      border-color: $chromeTooltipBackground
+      z-index: 1
+
+    &[x-placement^="left"]
+      margin-right: 5px
+
+      .tooltip-arrow
+        border-width: 5px 0 5px 5px
+        border-top-color: transparent !important
+        border-right-color: transparent !important
+        border-bottom-color: transparent !important
+        right: -5px
+        top: calc(50% - 5px)
+        margin-left: 0
+        margin-right: 0
+
+    &[x-placement^="right"] 
+      margin-left: 5px
+
+      .tooltip-arrow 
+        border-width: 5px 5px 5px 0
+        border-left-color: transparent !important
+        border-top-color: transparent !important
+        border-bottom-color: transparent !important
+        left: -5px
+        top: calc(50% - 5px)
+        margin-left: 0
+        margin-right: 0
 
 </style>
