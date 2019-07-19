@@ -97,7 +97,7 @@
         </a>
         <div
           class="button-flex-item sound-btn"
-          :class="{ menuVolumeOff: !isSoundOn }"
+          :class="{ menuVolumeOff: isSoundOn }"
 
           v-tooltip="{
             content: isSoundOn ? 'Sound Off' : 'Sound On',
@@ -204,25 +204,38 @@
         visibility: hidden
 
       .options-btn
-        background: url(/images/ozaria/layout/chrome/button_settings.png)
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_LevelOptions.png)
+
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_LevelOptions.png)
 
       .restart-btn
-        background: url(/images/ozaria/layout/chrome/button_replay.png)
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_Restart.png)
 
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_Restart.png)
       .map-btn
-        background: url(/images/ozaria/layout/chrome/button_map.png)
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_Map.png)
 
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_Map.png)
       .sound-btn
-        background: url(/images/ozaria/layout/chrome/button_sound.png)
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOn.png)
+
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOn.png)
 
         &.menuVolumeOff
-          // Temp until we have icon
-          filter: grayscale(100%)
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOff.png)
 
-      .options-btn, .restart-btn, .map-btn, .sound-btn
-        background-size: 45px
-        background-position: center
-        background-repeat: no-repeat
+        &.menuVolumeOff:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
+
+      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff
+        &, &:hover
+          background-size: 45px
+          background-position: center
+          background-repeat: no-repeat
 
     #text-tab
       text-align: center
