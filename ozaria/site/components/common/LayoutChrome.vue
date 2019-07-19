@@ -187,15 +187,22 @@
         background-repeat: no-repeat
 
     #text-tab
-      background: url(/images/ozaria/layout/chrome/Tab-Title.png)
-      background-position-x: center
-      background-repeat: no-repeat
+      text-align: center
 
       .text-contents
-        text-align: center
-        color: #48FAFC
-        padding: 12px 0
-        height: 30px
+        display: inline-block
+        color: #40F3E4
+        padding: 10px 70px 30px
+        font-family: 'Open Sans', serif
+        font-size: 24px
+        letter-spacing: 1.78px
+        line-height: 24px
+        text-shadow: 0 2px 4px rgba(51,236,201,0.55)
+
+        background: url(/images/ozaria/layout/chrome/Tab-Title.png)
+        background-position-x: center
+        background-size: 100% 100%
+        min-width: 370px
 
   #btn-home
     position: fixed
