@@ -37,7 +37,8 @@
       },
 
       interactiveSession: {
-        type: Object
+        type: Object,
+        default: undefined
       },
 
       codeLanguage: {
@@ -105,11 +106,12 @@
           if (choice) {
             return choice
           }
+
+          // Unexpected state - choices array does not contain selected submission
+          // TODO handle_error_ozaria
+          console.error('Unexpected state recovering answer')
         }
 
-        // Unexpected state - choices array does not contain selected submission
-        // TODO handle_error_ozaria
-        console.error('Unexpected state recovering answer')
         return undefined
       },
 
@@ -151,9 +153,14 @@
       },
 
       artUrl () {
-        let art = this.selectedAnswer.triggerArt || this.defaultImage
+        let art
+        if (this.selectedAnswer) {
+          art = this.selectedAnswer.triggerArt
+        }
 
-        if (!art.startsWith('/')) {
+        art = art || this.defaultImage
+
+        if (art && !art.startsWith('/')) {
           art = getOzariaAssetUrl(art)
         }
 
@@ -161,7 +168,7 @@
       },
 
       questionAnswered () {
-        return this.selectedAnswer.choiceId !== undefined
+        return this.selectedAnswer && this.selectedAnswer.choiceId !== undefined
       },
 
       solutionCorrect () {
@@ -187,7 +194,24 @@
       }
     },
 
+    mounted () {
+      window.addEventListener('resize', this.onResize)
+      this.onResize()
+    },
+
+    beforeDestroy () {
+      window.removeEventListener('resize', this.onResize)
+    },
+
     methods: {
+      onResize () {
+        if (!this.codemirrorReady) {
+          return
+        }
+
+        window.requestAnimationFrame(() => this.codemirror.setSize('100%', '100%'))
+      },
+
       resetAnswer () {
         this.userAnswer = undefined
       },
@@ -199,6 +223,7 @@
       onCodeMirrorReady () {
         this.codemirrorReady = true
         this.updateHighlightedLine()
+        this.onResize()
       },
 
       onCodeMirrorUpdated () {
@@ -215,9 +240,12 @@
         if (this.questionAnswered) {
           this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')
           this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-prompt')
+
+          this.codemirror.removeLineClass(lineToReplace, 'text', 'line-text-prompt')
         } else {
           this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-prompt')
           this.codemirror.removeLineClass(lineToReplace, 'background', 'highlight-line-answered')
+          this.codemirror.addLineClass(lineToReplace, 'text', 'line-text-prompt')
         }
       },
 
@@ -267,7 +295,10 @@
           v-for="answerOption in answerOptions"
           :key="answerOption.id"
         >
-          <button @click="selectAnswer(answerOption)">
+          <button
+            :class="{ selected: (questionAnswered && answerOption.id === selectedAnswer.choiceId) }"
+            @click="selectAnswer(answerOption)"
+          >
             {{ answerOption.text }}
           </button>
         </li>
@@ -319,6 +350,8 @@
   ul.question {
     width: 30%;
 
+    flex-grow: 3;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -330,13 +363,15 @@
     padding-top: 20px;
 
     background-color: #E1FBFA;
+    border: 1px solid #979797;
+    border-top: 0 none;
 
     li {
-      font-family: monospace; // TODO fallback font?
-
       margin: 0 0 10px;
       padding: 0;
       width: 70%;
+
+      border: 0 none;
 
       &:last-of-type {
         margin-bottom: 0;
@@ -349,13 +384,27 @@
 
         border: 2px solid #979797;
         background-color: #FFF;
+
+        font-family: 'Roboto Mono', monospace;
+        font-size: 16px;
+        line-height: 19px;
+        color: #232323;
+
+        &:hover {
+          border: 2px solid #5D73E1;
+        }
+
+        &.selected {
+          border-color: #5D73E1;
+          background-color: #5D73E1;
+        }
       }
     }
   }
 
   .answer {
     width: 30%;
-    flex-grow: 1;
+    flex-grow: 4;
 
     display: flex;
     flex-direction: column;
@@ -364,23 +413,35 @@
 
     .code {
       flex-grow: 1;
+
+      /deep/ .CodeMirror {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 16px;
+        line-height: 20px;
+        color: #232323;
+
+        .CodeMirror-line {
+          padding: 3px;
+        }
+
+        .line-text-prompt {
+          color: #0170E9;
+        }
+
+        .highlight-line-prompt {
+          background-color: #d8d8d8;
+        }
+
+        .highlight-line-answered {
+          background-color: #cdd4f8;
+        }
+      }
     }
 
     .submit {
       justify-content: flex-end;
 
-      margin: 0px auto;
-      margin-top: auto;
-    }
-
-    /deep/ {
-      &.highlight-line-prompt {
-        background-color: #d8d8d8;
-      }
-
-      &.highlight-line-answered {
-        background-color: #cdd4f8;
-      }
+      margin: 18.69px auto;
     }
   }
 </style>
