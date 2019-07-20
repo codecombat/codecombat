@@ -236,7 +236,6 @@
         }
 
         const lineToReplace = this.localizedInteractiveConfig.lineToReplace - 1
-        console.log(lineToReplace)
 
         if (this.questionAnswered) {
           this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')
