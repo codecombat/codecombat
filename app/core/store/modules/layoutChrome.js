@@ -1,14 +1,27 @@
 export default {
   namespaced: true,
 
-  state: {
-    soundOn: true,
-    currentCourseInstanceId: null,
-    currentCampaignId: null
+  state () {
+    // TODO: Currently saving volume to session instead of database.
+    let cachedSound
+    if (window.sessionStorage) {
+      cachedSound = window.sessionStorage.getItem('layoutChrome/soundOn')
+    }
+
+    return {
+      soundOn: cachedSound !== 'false',
+      currentCourseInstanceId: null,
+      currentCampaignId: null
+    }
   },
 
   mutations: {
-    toggleSound (state) { Vue.set(state, 'soundOn', !state.soundOn ) },
+    toggleSound (state) {
+      Vue.set(state, 'soundOn', !state.soundOn)
+      if (window.sessionStorage) {
+        window.sessionStorage.setItem('layoutChrome/soundOn', state.soundOn)
+      }
+    },
     setCourseInstanceId (state, courseInstanceId) { Vue.set(state, 'currentCourseInstanceId', courseInstanceId) },
     setCurrentCampaignId (state, campaignId) { Vue.set(state, 'currentCampaignId', campaignId) }
   },

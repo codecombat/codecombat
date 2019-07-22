@@ -18,6 +18,7 @@ module.exports = Vue.extend({
       required: false
     }
   },
+
   data: () => ({
     cinematicData: null
   }),
@@ -34,6 +35,7 @@ module.exports = Vue.extend({
       return application.router.navigate('/', { trigger: true })
     }
     await this.getCinematicData()
+    this.handleSoundVolume()
   },
 
   computed: {
@@ -57,16 +59,20 @@ module.exports = Vue.extend({
           timeout: 3000
         })
       }
-    }
-  },
+    },
 
-  watch: {
-    isSoundOn(handleSoundOn) {
-      if (handleSoundOn) {
+    handleSoundVolume () {
+      if (this.isSoundOn) {
         Howler.volume(1)
       } else {
         Howler.volume(0)
       }
+    }
+  },
+
+  watch: {
+    isSoundOn() {
+      this.handleSoundVolume()
     }
   }
 })

@@ -59,6 +59,7 @@ export default {
         return
       }
 
+      // TODO: This can sometimes pause the video when turning on the volume.
       this.vimeoPlayer.setVolume(handleSoundOn ? 1 : 0)
         .catch((e) => console.warn(`Couldn't set volume of cutscene`))
     }
