@@ -44,7 +44,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    featured_partners_blurb4: "Code.org Official Partner"
 #    featured_partners_blurb5: "CSforAll Official Member"
 #    featured_partners_blurb6: "Hour of Code Activity Partner"
-     for_leaders_title: "Для лидеров школы"
+    for_leaders_title: "Для лидеров школы"
 #    for_leaders_blurb: "A Comprehensive, Standards-Aligned Computer Science Program"
 #    for_leaders_subtitle1: "Easy Implementation"
 #    for_leaders_subblurb1: "A web-based program that requires no IT support. Get started in under 5 minutes using Google or Clever Single Sign-On (SSO)."
