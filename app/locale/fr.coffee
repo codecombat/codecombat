@@ -198,6 +198,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   modal:
     close: "Fermer"
     okay: "D'accord"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Page introuvable"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     reload_title: "Recommencer tout le code ?"
     reload_really: "Êtes-vous sûr de vouloir recommencer ce niveau et retourner au début ?"
     reload_confirm: "Tout recommencer"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Niveau de Test"
     victory: "Victoire"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_cast_button_run: "Exécuter"
     tome_cast_button_running: "En cours d'exécution"
     tome_cast_button_ran: "Exécuté"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Envoyer"
     tome_reload_method: "Recharger le code original pour recommencer le niveau"
     tome_available_spells: "Sorts diponibles"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Méthodes"
@@ -2901,3 +2909,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   modal:
     close: "Κλείσιμο"
     okay: "Εντάξει"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Η σελίδα δεν βρέθηκε"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     reload_title: "Ανανέωση όλου του κώδικα;"
     reload_really: "Είσαι σίγουρος ότι θέλεις να φορτώσεις αυτό το επίπεδο από την αρχή;"
     reload_confirm: "Ανανέωση όλων"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Δοκιμή Επιπέδου"
     victory: "Νίκη"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tome_cast_button_run: "Εκτέλεση"
     tome_cast_button_running: "Εκτελείται"
     tome_cast_button_ran: "Εκτελέστηκε"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Υποβολή"
     tome_reload_method: "Φόρτωσε ξανά τον αρχικό κώδικα για να επανεκκινήσεις το επίπεδο"
     tome_available_spells: "Διαθέσιμα ξόρκια"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Μέθοδοι"
@@ -2901,3 +2909,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

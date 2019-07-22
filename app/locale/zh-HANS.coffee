@@ -198,6 +198,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   modal:
     close: "关闭"
     okay: "是"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "找不到网页"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
     reload_confirm: "重载所有"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "测试关卡"
     victory: "胜利"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_cast_button_run: "运行"
     tome_cast_button_running: "正在运行"
     tome_cast_button_ran: "运行过"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "提交"
     tome_reload_method: "恢复关卡初始代码"
     tome_available_spells: "可用的法术"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concept_unlocked: "已解锁的概念"
     use_at_least_one_concept: "请使用以下至少一个概念： "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "函数"
@@ -1056,16 +1064,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     mission_description_2: "同时，他们也能迅速学习，因为学习的方式变快了。学习就像是对话而不是阅读枯燥的手册。我们想将这种对话带给每所学校和<strong>每个学生</strong>，因为每个人都应有机会学习编程的魔法。"
     team_title: "与CodeCombat团队见面"
     team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲历亲为，因为在团队中我们收获了成长与经验。"
-#    nick_title: "共同创始人，CEO"
-#    matt_title: "共同创始人，CTO"
-#    cat_title: "关卡设计师"
-#    scott_title: "共同创始人，软件工程师"
-#    maka_title: "客户代言人"
-#    robin_title: "产品经理" # {change}
-#    nolan_title: "区域经理" # {change}
-#    david_title: "客户成功经理" # {change}
-#    titles_csm: "客户成功经理"
-#    titles_territory_manager: "区域经理"
+#    nick_title: "Cofounder, CEO"
+#    matt_title: "Cofounder, CTO"
+#    cat_title: "Game Designer"
+#    scott_title: "Cofounder, Software Engineer"
+#    maka_title: "Customer Advocate"
+#    robin_title: "Senior Product Manager"
+#    nolan_title: "Sales Manager"
+#    david_title: "Marketing Lead"
+#    titles_csm: "Customer Success Manager"
+#    titles_territory_manager: "Territory Manager"
 #    lawrence_title: "Customer Success Manager"
 #    sean_title: "Senior Account Executive"
 #    liz_title: "Senior Account Executive"
@@ -1086,10 +1094,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
-#    bryukh_title: "游戏设计师"
-#    retrostyle_title: "插画师"
-#    retrostyle_blurb: "复古风格的游戏"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
     bryukh_blurb: "构建拼图"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
@@ -2901,3 +2909,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     active_students_stat_description: "活跃学生数是在过去60天登录CodeCombat的学生人数。"
     project_stat_description: "学生作品数是学生已经创建的游戏开发和网页开发作品的总数。"
     no_teachers: "你目前没有管理其他老师。"
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
