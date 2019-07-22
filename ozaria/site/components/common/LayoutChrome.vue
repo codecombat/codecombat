@@ -126,7 +126,6 @@
 
 <style lang="sass">
   @import "ozaria/site/styles/common/variables.sass"
-  $topOffset: 25px
 
   .chrome-container
     position: fixed
@@ -138,13 +137,8 @@
 
     padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
 
-    // Use pointer events to allow mouse to click buttons.
-    pointer-events: none
-
-    & > *
-      pointer-events: auto
-
   .chrome-border
+    $topOffset: 25px
     position: absolute
 
     top: 0
