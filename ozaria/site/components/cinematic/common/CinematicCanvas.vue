@@ -1,7 +1,11 @@
 <template>
   <!-- TODO: Canvas needs to be responsive to scaling up and down. -->
   <!-- Currently fixed size to the aspect ratio of our play view. -->
-  <div id="cinematic-canvas-div">
+  <div
+    id="cinematic-canvas-div"
+    ref="cinematic-canvas-el"
+    class="cinematic-container"
+  >
     <div
       id="cinematic-div"
       ref="cinematic-div"
@@ -33,23 +37,28 @@ export default {
       type: Object,
       required: true
     },
+
     userOptions: {
       type: Object,
       required: false
     }
   },
+
   data: () => ({
     controller: null,
     cinematicPlaying: false,
     width: WIDTH,
     height: HEIGHT
   }),
-  mounted: function() {
+
+  mounted () {
     if (!me.hasCinematicAccess()) {
       return application.router.navigate('/', { trigger: true })
     }
+
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']
+
     this.controller = new CinematicController({
       canvas,
       canvasDiv,
@@ -61,20 +70,25 @@ export default {
         onCompletion: () => this.$emit('completed'),
         onLoaded: this.userInterruptionEvent
       }})
+
     window.addEventListener('keypress', this.handleKeyboardCancellation)
     window.addEventListener('resize', this.onResize)
     this.onResize()
   },
+
   methods: {
     handlePlay: function() {
       this.cinematicPlaying = true
     },
+
     handleWait: function() {
       this.cinematicPlaying = false
     },
+
     playNextShot: function() {
       this.controller && this.controller.runShot()
     },
+
     userInterruptionEvent: function() {
       if (this.cinematicPlaying) {
         this.controller.cancelShot()
@@ -82,27 +96,34 @@ export default {
         this.playNextShot()
       }
     },
+
     handleKeyboardCancellation: function(e) {
       const code = e.code || e.key
       if (code === "Enter") {
         this.userInterruptionEvent()
       }
     },
+
     onResize: _.debounce(function(e) {
-      const userWidth = Math.min(window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth, WIDTH)
+      let parentWidth, parentHeight
+      const parent = this.$refs['cinematic-canvas-el'].parentElement
+      const boundingRect = parent.getBoundingClientRect()
 
-      const userHeight = Math.min(window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight, HEIGHT)
+      if (boundingRect) {
+        parentWidth = boundingRect.width
+        parentHeight = boundingRect.height
+      } else {
+        parentWidth = parent.clientWidth
+        parentHeight = parent.clientHeight
+      }
 
-      const height = this.height = Math.min(userWidth * CINEMATIC_ASPECT_RATIO, HEIGHT, userHeight)
+      const height = this.height = Math.min(parentWidth * CINEMATIC_ASPECT_RATIO, HEIGHT, parentHeight)
       const width = this.width = this.height / CINEMATIC_ASPECT_RATIO
 
       this.controller.onResize({ width, height })
     }, 250)
   },
+
   beforeDestroy: function()  {
     if (this.controller) {
       this.controller.destroy()
@@ -117,13 +138,7 @@ export default {
 // This should not be scoped so it works on programmatically created divs like
 // speech bubbles.
 
-#cinematic-canvas-div
-  // Changing this transform may cause artifacts in border-image-slice of speech bubbles.
-  transform: translate(-24px, 16px)
-
 #cinematic-div
-  margin-left: auto
-  margin-right: auto
   position: relative
   .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
     font-size: 24px
@@ -133,10 +148,6 @@ export default {
 #cinematic-div canvas
   display: block
   position: absolute
-
-.cinematic-speech-bubble-right, .cinematic-speech-bubble-left
-  // HACK: This transform fixes a speech bubble artifact - 9 slice is visible.
-  transform: translate(-2px, -1px)
 
 .cinematic-speech-bubble-right
   border-image: url('/images/ozaria/cinematic/bubble_right_slice.png')

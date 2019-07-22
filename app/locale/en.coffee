@@ -1344,6 +1344,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Maximize/minimize code editor."
 
+  cinematic:
+    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Community"
     introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
