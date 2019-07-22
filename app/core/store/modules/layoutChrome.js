@@ -3,6 +3,7 @@ export default {
 
   state () {
     // TODO: Currently saving volume to session instead of database.
+    // TODO: Investigate using vuex-persist for caching state.
     let cachedSound
     if (window.sessionStorage) {
       cachedSound = window.sessionStorage.getItem('layoutChrome/soundOn')
@@ -10,20 +11,20 @@ export default {
 
     return {
       soundOn: cachedSound !== 'false',
-      currentCourseInstanceId: null,
-      currentCampaignId: null
+      // TODO: Move this into a dedicated courseInstance module
+      currentCourseInstanceId: null
     }
   },
 
   mutations: {
     toggleSound (state) {
-      Vue.set(state, 'soundOn', !state.soundOn)
+      state.soundOn = !state.soundOn
       if (window.sessionStorage) {
         window.sessionStorage.setItem('layoutChrome/soundOn', state.soundOn)
       }
     },
+
     setCourseInstanceId (state, courseInstanceId) { Vue.set(state, 'currentCourseInstanceId', courseInstanceId) },
-    setCurrentCampaignId (state, campaignId) { Vue.set(state, 'currentCampaignId', campaignId) }
   },
 
   getters: {
@@ -31,8 +32,14 @@ export default {
       return state.soundOn
     },
 
-    getCurrentCampaignId (state) {
-      return state.currentCampaignId
+    getMapUrl (state, _getters, _rootState, rootGetters) {
+      const campaignId = rootGetters['campaigns/getLatestCampaignId']
+      const courseInstanceId = state.currentCourseInstanceId
+
+      if (!(campaignId && courseInstanceId)) {
+        return undefined
+      }
+      return `/ozaria/play/${campaignId}?course-instance=${courseInstanceId}`
     },
 
     getCurrentCourseInstanceId (state) {
@@ -47,10 +54,6 @@ export default {
 
     setCurrentCourseInstanceId ({ commit }, courseInstanceId) {
       commit('setCourseInstanceId', courseInstanceId)
-    },
-
-    setCurrentCampaignId ({ commit }, campaignId) {
-      commit('setCurrentCampaignId', campaignId)
     }
   }
 }

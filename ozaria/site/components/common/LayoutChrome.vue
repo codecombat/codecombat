@@ -25,15 +25,14 @@
     computed: {
       ...mapGetters({
         isSoundOn: 'layoutChrome/isSoundOn',
-        getCurrentCampaignId: 'layoutChrome/getCurrentCampaignId',
-        getCourseInstanceId: 'layoutChrome/getCurrentCourseInstanceId'
+        getMapUrl: 'layoutChrome/getMapUrl',
       }),
 
       mapLink () {
-        if (me.isSessionless() || !this.getCurrentCampaignId || !this.getCourseInstanceId) {
+        if (me.isSessionless() || !this.getMapUrl) {
           return '/teachers/courses'
         }
-        return `/ozaria/play/${this.getCurrentCampaignId}?course-instance=${this.getCourseInstanceId}`
+        return this.getMapUrl
       }
     },
 
