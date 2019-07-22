@@ -67,7 +67,7 @@
           :class="{ hideBtn: !optionsClickHandler }"
 
           v-tooltip="{
-            content: 'Level Options',
+            content: $t('ozaria_chrome.level_options'),
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
@@ -79,7 +79,7 @@
           :class="{ hideBtn: !restartClickHandler }"
 
           v-tooltip="{
-            content: 'Restart Level',
+            content: $t('ozaria_chrome.restart_level'),
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
@@ -90,7 +90,7 @@
         <a :href="mapLink">
           <div class="button-flex-item map-btn"
             v-tooltip="{
-              content: 'Back to Map',
+              content: $t('ozaria_chrome.back_to_map'),
               placement: 'right',
               classes: 'layoutChromeTooltip',
             }"
@@ -101,7 +101,9 @@
           :class="{ menuVolumeOff: isSoundOn }"
 
           v-tooltip="{
-            content: isSoundOn ? 'Sound Off' : 'Sound On',
+            content: isSoundOn
+              ? $t('ozaria_chrome.sound_off')
+              : $t('ozaria_chrome.sound_on'),
             placement: 'right',
             classes: 'layoutChromeTooltip'
           }"
