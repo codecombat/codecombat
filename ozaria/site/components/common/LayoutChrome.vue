@@ -102,7 +102,7 @@
           v-tooltip="{
             content: isSoundOn ? 'Sound Off' : 'Sound On',
             placement: 'right',
-            classes: 'layoutChromeTooltip',
+            classes: 'layoutChromeTooltip'
           }"
 
           @click="toggleSoundAction" />
