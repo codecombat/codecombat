@@ -15,9 +15,6 @@
         :height="height"
         :style="{ width: width+'px', height: height+'px' }">
       </canvas>
-      <div id="click-anywhere">
-        <span>Click anywhere to Continue</span>
-      </div>
     </div>
   </div>
 </template>
@@ -91,7 +88,7 @@ export default {
         this.userInterruptionEvent()
       }
     },
-    onResize: function(e) {
+    onResize: _.debounce(function(e) {
       const userWidth = Math.min(window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth, WIDTH)
@@ -104,7 +101,7 @@ export default {
       const width = this.width = this.height / CINEMATIC_ASPECT_RATIO
 
       this.controller.onResize({ width, height })
-    }
+    }, 250)
   },
   beforeDestroy: function()  {
     if (this.controller) {
@@ -117,11 +114,12 @@ export default {
 </script>
 
 <style lang="sass">
-//   This should not be scoped so it works on
-//   programmatically created divs.
+// This should not be scoped so it works on programmatically created divs like
+// speech bubbles.
 
 #cinematic-canvas-div
-  transform: translateX(-20px)
+  // Changing this transform may cause artifacts in border-image-slice of speech bubbles.
+  transform: translate(-24px, 16px)
 
 #cinematic-div
   margin-left: auto
@@ -136,6 +134,10 @@ export default {
   display: block
   position: absolute
 
+.cinematic-speech-bubble-right, .cinematic-speech-bubble-left
+  // HACK: This transform fixes a speech bubble artifact - 9 slice is visible.
+  transform: translate(-2px, -1px)
+
 .cinematic-speech-bubble-right
   border-image: url('/images/ozaria/cinematic/bubble_right_slice.png')
   border-image-slice: 50 100 50 50 fill
@@ -148,21 +150,13 @@ export default {
   border-image-width: 40px 40px 40px 80px
   border-image-outset: 10px 15px 15px 58px
 
-#click-anywhere
-  font-size: 18px
+.cinematic-speech-bubble-click-continue
   text-align: center
-  color: #000000
-  letter-spacing: 0.75px
-  line-height: 24px
-  span
-    position: absolute
-    top: 5.1%
-    right: 5.1%
-    height: 38px
-    width: 303px
-    padding-top: 6px
-    border-radius: 19px
-    background-color: #D8DBE8
-    border: 1px solid #AAABAF
+  color: #1FBAB4
+  font-family: "Open Sans"
+  font-size: 12px
+  letter-spacing: 0.51px
+  line-height: 26px
+  font-style: italic
 
 </style>

@@ -34,6 +34,7 @@ PropertyDocumentationSchema = c.object {
   type: c.shortString(title: 'Type', description: 'Intended type of the property.')
   shortDescription:
     oneOf: [
+      {title: 'Short Description', type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
       {
         type: 'object',
         title: 'Language Descriptions (short)',
@@ -42,10 +43,10 @@ PropertyDocumentationSchema = c.object {
         format: 'code-languages-object'
         default: {javascript: ''}
       }
-      {title: 'Short Description', type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
     ]
   description:
     oneOf: [
+      {title: 'Description', type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
       {
         type: 'object',
         title: 'Language Descriptions',
@@ -54,7 +55,6 @@ PropertyDocumentationSchema = c.object {
         format: 'code-languages-object'
         default: {javascript: ''}
       }
-      {title: 'Description', type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
     ]
   args: c.array {title: 'Arguments', description: 'If this property has type "function", then provide documentation for any function arguments.'}, c.FunctionArgumentSchema
   owner: {title: 'Owner', type: 'string', description: 'Owner of the property, like "this" or "Math".'}

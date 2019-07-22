@@ -101,7 +101,7 @@ module.exports = class DocFormatter
 
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
-    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]
+    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}, {obj: @doc, prop: 'shortDescription'}]
     for arg in (@doc.args ? [])
       toTranslate.push {obj: arg, prop: 'example'}, {obj: arg, prop: 'description'}
     if @doc.returns
