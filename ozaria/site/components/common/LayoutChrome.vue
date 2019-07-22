@@ -60,6 +60,8 @@
     <div
       :class="[ 'chrome-border', chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
     >
+      <div :class="[ chromeOn ? 'side-center-on' : 'side-center-off']" />
+
       <div id="chrome-menu">
         <div
           class="button-flex-item options-btn"
@@ -107,8 +109,6 @@
 
           @click="toggleSoundAction" />
       </div>
-
-      <div :class="[ chromeOn ? 'side-center-on' : 'side-center-off']" />
 
       <div v-if="title">
         <div id="text-tab">
