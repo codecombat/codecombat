@@ -89,7 +89,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
     play_now: "Играть сейчас"
-      im_an_educator: "Я преподаватель"
+    im_an_educator: "Я преподаватель"
     im_a_teacher: "Я учитель"
     im_a_student: "Я ученик"
     learn_more: "Узнать больше"
