@@ -1,7 +1,7 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
 
-  export default {
+  export default Vue.extend({
     props: {
       title: {
         type: String,
@@ -52,7 +52,7 @@
         }
       }
     }
-  }
+  })
 </script>
 
 <template>

@@ -1,18 +1,12 @@
 /* eslint-env jasmine */
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ozariaUnitMap from 'ozaria/site/components/play/PageUnitMap'
 import factories from 'test/app/factories'
 import Levels from 'collections/Levels'
 import CourseInstance from 'collections/CourseInstances'
 import Course from 'collections/Courses'
 import api from 'core/api'
-import VTooltip from 'v-tooltip'
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(VTooltip)
-
-const store = require('core/store')
+import store from 'core/store'
 
 const levels = new Levels(_.times(4, () => factories.makeLevel()))
 // set position, nextLevels, and first property
@@ -44,8 +38,7 @@ let unitMapClassroomWrapper = {}
 const createComponent = (values = {}) => {
   return mount(ozariaUnitMap, {
     propsData: values,
-    store,
-    localVue
+    store
   })
 }
 
@@ -104,12 +97,12 @@ describe('Ozaria Unit Map Page for Home users', () => {
   })
 
   it('shows the level dots for the campaign levels', () => {
-    expect(unitMapClassroomWrapper.find('.level-dot').exists()).toBe(true)
-    expect(unitMapClassroomWrapper.findAll('.level-dot').length).toBe(Object.keys(campaign.levels).length)
+    expect(unitMapHomeWrapper.find('.level-dot').exists()).toBe(true)
+    expect(unitMapHomeWrapper.findAll('.level-dot').length).toBe(Object.keys(campaign.levels).length)
   })
 
   it('shows first level as unlocked and others as locked', () => {
-    const levelDots = unitMapClassroomWrapper.findAll('.level-dot-image')
+    const levelDots = unitMapHomeWrapper.findAll('.level-dot-image')
     for (let i = 0; i < levelDots.length; i++) {
       if (i === 0) {
         expect(levelDots.at(i).classes()).toContain('next')
