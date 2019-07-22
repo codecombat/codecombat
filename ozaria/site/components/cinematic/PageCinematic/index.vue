@@ -1,4 +1,7 @@
 <script>
+import { Howler } from 'howler'
+import { mapGetters } from 'vuex'
+
 import { getCinematic } from '../../../api/cinematic'
 import CinematicCanvas from '../common/CinematicCanvas'
 import LayoutChrome from '../../common/LayoutChrome'
@@ -18,11 +21,13 @@ module.exports = Vue.extend({
   data: () => ({
     cinematicData: null
   }),
+
   components: {
     'cinematic-canvas': CinematicCanvas,
     'layout-chrome': LayoutChrome,
     'layout-center-content': LayoutCenterContent
   },
+
   async created () {
     if (!me.hasCinematicAccess())  {
       alert('You must be logged in as an admin to use this page.')
@@ -30,6 +35,13 @@ module.exports = Vue.extend({
     }
     await this.getCinematicData()
   },
+
+  computed: {
+    ...mapGetters({
+      isSoundOn: 'layoutChrome/isSoundOn'
+    }),
+  },
+
   methods: {
     completedHandler () {
       this.$emit('completed')
@@ -47,6 +59,16 @@ module.exports = Vue.extend({
       }
     }
   },
+
+  watch: {
+    isSoundOn(handleSoundOn) {
+      if (handleSoundOn) {
+        Howler.volume(1)
+      } else {
+        Howler.volume(0)
+      }
+    }
+  }
 })
 </script>
 
