@@ -2388,6 +2388,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
 
+  ozaria_chrome:
+    sound_off: 'Sound Off',
+    sound_on: 'Sound On',
+    back_to_map: 'Back to Map',
+    level_options: 'Level Options',
+    restart_level: 'Restart Level'
+
   loading_error:
     could_not_load: "Error loading from server. Try refreshing the page."
     connection_failure: "Connection Failed"
