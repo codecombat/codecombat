@@ -48,7 +48,7 @@
       goalStatus: ->
         goalStatus = 'success' if @overallStatus is 'success'
         goalStatus = 'incomplete' if @overallStatus is 'failure'
-        goalStatus ?= 'timed-out' if @timedOut
+        goalStatus ?= 'timed_out' if @timedOut
         goalStatus ?= 'incomplete'
         goalStatus = 'running' if @casting
         return goalStatus
@@ -71,15 +71,16 @@
 </script>
 
 <style lang="sass" scoped>
+  @import "ozaria/site/styles/common/variables"
   .goals-status
-    position: fixed
+    position: absolute
     display: flex
     align-items: center
     width: 100%
     background: black
-    height: 39px
+    height: 30%
     color: #FFFFFF
-    font-family: Arvo
+    font-family: $title-font-style
     font-size: 20px
     letter-spacing: 0.69px
     line-height: 25px
@@ -87,12 +88,13 @@
     padding-left: 13px
 
   .level-goals
+    position: absolute
+    top: 30%
     display: inline-block
-    margin: 5px 0 0 0
     width: 100%
     background: rgb(60, 60, 60)
     white-space: nowrap
-    padding-top: 39px
+    padding: 2%
 
   ul
     list-style-type: none

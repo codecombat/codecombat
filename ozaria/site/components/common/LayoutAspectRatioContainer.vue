@@ -25,8 +25,10 @@
     },
 
     mounted () {
-      window.addEventListener('resize', this.onResize)
-      this.onResize()
+      this.$nextTick(() => {
+        window.addEventListener('resize', this.onResize)
+        this.onResize()
+      })
     },
 
     beforeDestroy () {
@@ -57,7 +59,7 @@
         const paddingBottom = parseInt(computedStyle.getPropertyValue('padding-bottom') || 0, 10)
 
         this.parentWidth = this.parentWidth - paddingLeft - paddingRight
-        this.parentHeight = this.parentWidth - paddingTop - paddingBottom
+        this.parentHeight = this.parentHeight - paddingTop - paddingBottom
 
         this.$emit('resize')
       }
@@ -69,7 +71,13 @@
   <div
     ref="el"
     :style="{ width: finalWidth + 'px', height: finalHeight + 'px' }"
+    class="aspect-ratio-container"
   >
     <slot />
   </div>
 </template>
+
+<style lang="sass" scoped>
+  .aspect-ratio-container
+    position: relative
+</style>
