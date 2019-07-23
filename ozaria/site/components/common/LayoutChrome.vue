@@ -122,7 +122,7 @@
   </div>
 </template>
 
-<style lang="sass">
+<style lang="sass" scoped>
   @import "ozaria/site/styles/common/variables.sass"
 
   .chrome-container
@@ -265,6 +265,10 @@
       right: 0
       top: 50%
       transform: translate(0, -50%) translate(-4px, 60px) scale(0.5)
+
+</style>
+
+<style lang='sass'>
 
   .tooltip.layoutChromeTooltip
     $chromeTooltipBackground: #74E8CA
