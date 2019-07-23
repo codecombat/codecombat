@@ -17,16 +17,19 @@
       'unit-map-title': UnitMapTitle,
       'unit-map-background': UnitMapBackground
     },
+
     props: {
       campaign: { // campaign slug / campaign id
         type: String,
         required: true
       },
+
       courseInstanceId: {
         type: String,
         default: undefined
       }
     },
+
     data: () => ({
       campaignData: {},
       courseId: '',
@@ -39,19 +42,23 @@
       nextLevelOriginal: '',
       ambientSound: undefined
     }),
+
     computed: {
       ...mapGetters({
         campaignDataByIdOrSlug: 'campaigns/getCampaignData'
       }),
+
       codeLanguage: function () {
         return (this.classroom.aceConfig || {}).language || (me.get('aceConfig') || {}).language || 'python'
       }
     },
+
     watch: {
       campaign: async function () {
         await this.loadUnitMapData()
       }
     },
+
     async mounted () {
       if (!me.showOzariaCampaign()) {
         // TODO: Remove when ready for production use
@@ -67,17 +74,20 @@
       this.onWindowResize()
       this.playAmbientSound()
     },
+
     beforeDestroy () {
       if (this.ambientSound) {
         createjs.Tween.get(this.ambientSound).to({ volume: 0.0 }, 1500).call(this.ambientSound.stop)
       }
       window.removeEventListener('resize', this.onWindowResize)
     },
+
     methods: {
       ...mapActions({
         fetchCampaign: 'campaigns/fetch',
         setCourseInstanceId: 'layoutChrome/setCurrentCourseInstanceId'
       }),
+
       playAmbientSound () {
         const file = ((this.campaignData || {}).ambientSound || {})[AudioPlayer.ext.substr(1)]
         if (!file || !me.get('volume') || this.ambientSound) {
@@ -92,6 +102,7 @@
         this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
         return createjs.Tween.get(this.ambientSound).to({ volume: 1.0 }, 1000)
       },
+
       async loadUnitMapData () {
         try {
           this.dataLoaded = false
@@ -115,6 +126,7 @@
           noty({ text: 'Error in creating unit map data', layout: 'topCenter', type: 'error' })
         }
       },
+
       /**
       We have a campaign.levels list and a classroom.courses.levels list, and they are not always in sync.
       Hence to get the levels data for a course instance for the unit map, we get the data as follows:
@@ -168,6 +180,7 @@
           return Promise.reject(err)
         }
       },
+
       createLevelStatusMap () {
         // Remove the level sessions for the levels played in another language - for the classroom version of unit map
         if (this.classroomLevelMap && this.classroom) {
@@ -182,6 +195,7 @@
         }
         this.levelStatusMap = getLevelStatusMap(this.levelSessions)
       },
+
       determineNextLevel () { // set .next and .locked for this.levels
         if (this.courseInstanceId || this.campaignData.type === 'course') {
           this.nextLevelOriginal = findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
@@ -189,6 +203,7 @@
           this.setNextLevels()
         }
       },
+
       setUnlockedLevels () {
         for (let level in this.levels) {
           if (this.levelStatusMap[level] || this.levels[level].first || this.nextLevelOriginal === level) {
@@ -198,11 +213,13 @@
           }
         }
       },
+
       setNextLevels () {
         if (this.nextLevelOriginal) {
           this.levels[this.nextLevelOriginal].next = true
         }
       },
+
       onWindowResize () {
         const mapHeight = 768
         const mapWidth = 1366
