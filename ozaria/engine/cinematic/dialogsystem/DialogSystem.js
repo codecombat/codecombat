@@ -147,6 +147,8 @@ class SpeechBubble {
     if (textDuration === undefined) {
       textDuration = letters * LETTER_ANIMATE_TIME
     }
+
+    speechBubbleDiv.style.display = 'none'
     // We set up the animation but don't play it yet.
     // On completion we attach html node to the `shownDialogBubbles`
     // array for future cleanup.
@@ -160,7 +162,10 @@ class SpeechBubble {
           targets: `#${this.id}`,
           opacity: 1,
           duration: 100,
-          easing: 'easeInOutQuart'
+          easing: 'easeInOutQuart',
+          begin: () => {
+            speechBubbleDiv.style.display = 'inline-block'
+          }
         })
         .add({
           targets: `#${this.id} .letter`,
@@ -172,7 +177,7 @@ class SpeechBubble {
         .add({
           targets: `#${this.id} .cinematic-speech-bubble-click-continue`,
           opacity: 1,
-          duration: 700
+          duration: 100
         })
     }
   }
