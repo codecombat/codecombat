@@ -28,7 +28,7 @@ export default {
   },
 
   getters: {
-    isSoundOn (state) {
+    soundOn (state) {
       return state.soundOn
     },
 

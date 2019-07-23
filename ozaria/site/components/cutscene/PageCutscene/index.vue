@@ -31,7 +31,7 @@ module.exports = Vue.extend({
 
   computed: {
     ...mapGetters({
-      isSoundOn: 'layoutChrome/isSoundOn'
+      soundOn: 'layoutChrome/soundOn'
     }),
   },
 
@@ -56,7 +56,7 @@ module.exports = Vue.extend({
 
       id="cutscene-player"
       :vimeoId="vimeoId"
-      :isSoundOn="isSoundOn"
+      :soundOn="soundOn"
 
       v-on:completed="onCompleted"
     />

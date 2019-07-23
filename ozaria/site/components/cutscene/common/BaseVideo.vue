@@ -15,7 +15,7 @@ export default {
       required: false
     },
 
-    isSoundOn: {
+    soundOn: {
       type: Boolean,
       default: true
     },
@@ -40,7 +40,7 @@ export default {
       const player = this.vimeoPlayer = new VimeoPlayer(this.$refs['vimeo-player'])
       await player.ready()
       try {
-        await player.setVolume(this.isSoundOn ? 1 : 0)
+        await player.setVolume(this.soundOn ? 1 : 0)
         await player.play()
       } catch (e) {
         console.warn(`Wasn't able to auto play video.`)
@@ -53,15 +53,20 @@ export default {
     }
   },
 
+  methods: {
+    updateVideoSound () {
+      // TODO: This can sometimes pause the video when turning on the volume.
+      this.vimeoPlayer.setVolume(this.soundOn ? 1 : 0)
+        .catch((e) => console.warn(`Couldn't set volume of cutscene`))
+    }
+  },
+
   watch: {
-    isSoundOn(handleSoundOn) {
+    soundOn() {
       if (!this.vimeoPlayer) {
         return
       }
-
-      // TODO: This can sometimes pause the video when turning on the volume.
-      this.vimeoPlayer.setVolume(handleSoundOn ? 1 : 0)
-        .catch((e) => console.warn(`Couldn't set volume of cutscene`))
+      this.updateVideoSound()
     }
   }
 }

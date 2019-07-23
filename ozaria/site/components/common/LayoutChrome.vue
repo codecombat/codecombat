@@ -24,7 +24,7 @@
 
     computed: {
       ...mapGetters({
-        isSoundOn: 'layoutChrome/isSoundOn',
+        soundOn: 'layoutChrome/soundOn',
         getMapUrl: 'layoutChrome/getMapUrl',
       }),
 
@@ -98,10 +98,10 @@
         </a>
         <div
           class="button-flex-item sound-btn"
-          :class="{ menuVolumeOff: isSoundOn }"
+          :class="{ menuVolumeOff: soundOn }"
 
           v-tooltip="{
-            content: isSoundOn
+            content: soundOn
               ? $t('ozaria_chrome.sound_off')
               : $t('ozaria_chrome.sound_on'),
             placement: 'right',

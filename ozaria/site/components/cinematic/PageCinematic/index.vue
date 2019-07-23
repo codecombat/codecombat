@@ -40,7 +40,7 @@ module.exports = Vue.extend({
 
   computed: {
     ...mapGetters({
-      isSoundOn: 'layoutChrome/isSoundOn'
+      soundOn: 'layoutChrome/soundOn'
     }),
   },
 
@@ -62,7 +62,7 @@ module.exports = Vue.extend({
     },
 
     handleSoundVolume () {
-      if (this.isSoundOn) {
+      if (this.soundOn) {
         Howler.volume(1)
       } else {
         Howler.volume(0)
@@ -71,7 +71,7 @@ module.exports = Vue.extend({
   },
 
   watch: {
-    isSoundOn() {
+    soundOn() {
       this.handleSoundVolume()
     }
   }
