@@ -13,12 +13,14 @@
         default: false
       },
 
-      optionsClickHandler: {
-        type: Function
+      displayOptionsMenuItem: {
+        type: Boolean,
+        default: false
       },
 
-      restartClickHandler: {
-        type: Function
+      displayRestartMenuItem: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -40,15 +42,11 @@
       ...mapActions('layoutChrome', ['toggleSoundAction']),
 
       clickOptions () {
-        if (this.optionsClickHandler) {
-          this.optionsClickHandler()
-        }
+        this.$emit('clickOptions')
       },
 
       clickRestart () {
-        if (this.restartClickHandler) {
-          this.restartClickHandler()
-        }
+        this.$emit('clickRestart')
       }
     }
   })
@@ -64,7 +62,7 @@
       <div id="chrome-menu">
         <div
           class="button-flex-item options-btn"
-          :class="{ hideBtn: !optionsClickHandler }"
+          :class="{ hideBtn: !displayOptionsMenuItem }"
 
           v-tooltip="{
             content: $t('ozaria_chrome.level_options'),
@@ -76,7 +74,7 @@
         />
         <div
           class="button-flex-item restart-btn"
-          :class="{ hideBtn: !restartClickHandler }"
+          :class="{ hideBtn: !displayRestartMenuItem }"
 
           v-tooltip="{
             content: $t('ozaria_chrome.restart_level'),
