@@ -2,6 +2,7 @@
  * This is an internal script that can be used in the thangEditor to normalize
  * all the Adobe Animate colors in the shapes to hex values that can be customized.
  */
+import _ from 'lodash'
 
 const colorBuckets = {
   hairLight: '#752744',
@@ -25,7 +26,7 @@ const isSimilar = (a, b) => Math.abs(a - b) <= 3
 
 /**
  * Replaces rgba values with the bucketed hex value.
- * Tries to detect if the value is similar to one of the bucket values.
+* Tries to detect if the value is similar to one of the bucket values.
  * If so, will round into a bucket value.
  * @param s text contents of the file
  */
@@ -34,7 +35,6 @@ function replaceRgbaWithHex (s) {
     const r1 = parseInt(r, 10)
     const g1 = parseInt(g, 10)
     const b1 = parseInt(b, 10)
-    // const a1: number = parseFloat(a)
     for (const hexColor of Object.values(colorBuckets)) {
       const [r2, g2, b2] = hexToRgb(hexColor)
       if ([[r1, r2], [g1, g2], [b1, b2]].every(([v1, v2]) => isSimilar(v1, v2))) {
@@ -46,13 +46,17 @@ function replaceRgbaWithHex (s) {
   })
 }
 
-// Mutates the raw shapes object.
+// Returns a new shapesObject with colors replaced.
 export default function replaceRgbaWithCustomizableHex (shapesObject) {
   console.group('Logs for replaceRgbaWithCustomizableHex execution')
-  for (const shape of Object.values(shapesObject)) {
+  const result = {}
+  for (const shapeKey of Object.keys(shapesObject)) {
+    const shape = _.cloneDeep(shapesObject[shapeKey])
     if (shape.fc) {
       shape.fc = replaceRgbaWithHex(shape.fc)
     }
+    result[shapeKey] = shape
   }
   console.groupEnd()
+  return result
 }

@@ -721,10 +721,10 @@ module.exports = class ThangTypeEditView extends RootView
   # ```
   # currentView.normalizeColorsForCustomization()
   # ```
-  # into the console. Used to normalize the shape colors for Ozaria Hero A and B
-  # to support customization.
+  # into the console. Used to normalize the shape colors for Ozaria Heroes to
+  # support character customization.
   normalizeColorsForCustomization: ->
-    replaceRgbaWithCustomizableHex(@thangType.attributes.raw.shapes)
+    @thangType.attributes.raw.shapes = replaceRgbaWithCustomizableHex(@thangType.attributes.raw.shapes)
     @treema.set('raw', @thangType.get('raw'))
 
   destroy: ->
