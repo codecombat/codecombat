@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   modal:
     close: "Đóng"
     okay: "OK"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Không tìm thấy trang"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     reload_title: "Tải lại tất cả code?"
     reload_really: "Bạn có chắc bạn muốn tải lại màn này về trạng thái ban đầu?"
     reload_confirm: "Tải lại tất cả"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
     victory: "Thắng"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tome_cast_button_run: "Chạy"
     tome_cast_button_running: "Đang chạy"
     tome_cast_button_ran: "Đã chạy xong"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Gửi"
     tome_reload_method: "Load lại đoạn code gốc cho method này" # {change}
     tome_available_spells: "Pháp thuật hiện có"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -2901,3 +2909,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

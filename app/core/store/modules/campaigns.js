@@ -4,20 +4,23 @@ export default {
   namespaced: true,
   state: {
     byId: {},
-    bySlug: {}
+    bySlug: {},
+    currentCampaignId: null
   },
 
   mutations: {
     setCampaignData: (state, campaignData) => {
       Vue.set(state.byId, campaignData._id, campaignData)
       Vue.set(state.bySlug, campaignData.slug, campaignData)
+      state.currentCampaignId = campaignData._id
     }
   },
 
   getters: {
     getCampaignData: (state) => (idOrSlug) => {
       return state.byId[idOrSlug] || state.bySlug[idOrSlug]
-    }
+    },
+    getCurrentCampaignId: (state) => state.currentCampaignId
   },
 
   actions: {

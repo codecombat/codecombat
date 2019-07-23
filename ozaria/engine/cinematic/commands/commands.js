@@ -47,11 +47,11 @@ export class Sleep extends AbstractCommand {
  */
 export class AnimeCommand extends AbstractCommand {
   /**
-   * @param {anime} animation The animation that will be run.
+   * @param {() => anime} animation A function that returns an animation
    */
   constructor (animation) {
     super()
-    this.animation = animation
+    this.animationFn = animation
   }
 
   /**
@@ -60,6 +60,7 @@ export class AnimeCommand extends AbstractCommand {
    */
   run () {
     return new Promise((resolve, reject) => {
+      this.animation = this.animationFn()
       this.animation.play()
       this.animation.complete = resolve
     })

@@ -1,4 +1,6 @@
 <script>
+import { mapGetters } from 'vuex'
+
 import LayoutChrome from '../../common/LayoutChrome'
 import BaseVideo from '../common/BaseVideo'
 import { getCutscene } from '../../../api/cutscene'
@@ -27,6 +29,12 @@ module.exports = Vue.extend({
     this.loadCutscene()
   },
 
+  computed: {
+    ...mapGetters({
+      soundOn: 'layoutChrome/soundOn'
+    }),
+  },
+
   methods: {
     async loadCutscene() {
       // TODO handle_error_ozaria - What if unable to fetch cutscene?
@@ -44,8 +52,11 @@ module.exports = Vue.extend({
 <template>
   <layout-chrome>
     <base-video
-      :vimeoId="vimeoId"
+      v-if="vimeoId"
+
       id="cutscene-player"
+      :vimeoId="vimeoId"
+      :soundOn="soundOn"
 
       v-on:completed="onCompleted"
     />

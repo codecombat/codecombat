@@ -79,7 +79,7 @@ export default class DialogSystem {
    */
   clearShownDialogBubbles () {
     return new SyncFunction(() => {
-      this.shownDialogBubbles.forEach(el => el.remove())
+      this.shownDialogBubbles.forEach(el => { el.style.display = 'none' })
     })
   }
 }
@@ -119,8 +119,7 @@ class SpeechBubble {
 
     const clickToContinue = document.createElement('div')
     clickToContinue.className = `cinematic-speech-bubble-click-continue`
-    // TODO punted i18n for Click to Continue.
-    clickToContinue.innerHTML = '<span>Click To Continue</span>'
+    clickToContinue.innerHTML = `<span>${window.i18n.t('cinematic.click_anywhere_continue')}</span>`
     clickToContinue.style.opacity = 0
 
     speechBubbleDiv.appendChild(clickToContinue)
@@ -148,37 +147,37 @@ class SpeechBubble {
     // We set up the animation but don't play it yet.
     // On completion we attach html node to the `shownDialogBubbles`
     // array for future cleanup.
-    this.animation = anime
-      .timeline({
-        autoplay: false
-      })
-      .add({
-        targets: `#${this.id}`,
-        opacity: 1,
-        duration: 100,
-        easing: 'easeInOutQuart'
-      })
-      .add({
-        targets: `#${this.id} .letter`,
-        opacity: 1,
-        duration: 20,
-        delay: anime.stagger(textDuration / letters, { easing: 'linear' }),
-        easing: 'easeOutQuad'
-      })
-      .add({
-        targets: `#${this.id} .cinematic-speech-bubble-click-continue`,
-        opacity: 1,
-        duration: 700,
-        complete: () => {
-          shownDialogBubbles.push(speechBubbleDiv)
-        }
-      })
+    this.animationFn = () => {
+      shownDialogBubbles.push(speechBubbleDiv)
+      return anime
+        .timeline({
+          autoplay: false
+        })
+        .add({
+          targets: `#${this.id}`,
+          opacity: 1,
+          duration: 100,
+          easing: 'easeInOutQuart'
+        })
+        .add({
+          targets: `#${this.id} .letter`,
+          opacity: 1,
+          duration: 20,
+          delay: anime.stagger(textDuration / letters, { easing: 'linear' }),
+          easing: 'easeOutQuad'
+        })
+        .add({
+          targets: `#${this.id} .cinematic-speech-bubble-click-continue`,
+          opacity: 1,
+          duration: 700
+        })
+    }
   }
 
   /**
    * @returns {AbstractCommand} command to play the animation revealing the speech bubble.
    */
   createBubbleCommand () {
-    return new AnimeCommand(this.animation)
+    return new AnimeCommand(this.animationFn)
   }
 }

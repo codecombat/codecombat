@@ -198,6 +198,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   modal:
     close: "Закрыть"
     okay: "OK"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Страница не найдена"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Проверить уровень"
     victory: "Победа"
     victory_title_prefix: "Уровень "
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код, чтобы начать уровень заново"
     tome_available_spells: "Доступные заклинания"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Методы"
@@ -2901,3 +2909,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

@@ -1344,6 +1344,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Maximize/minimize code editor."
 
+  cinematic:
+    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Community"
     introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
@@ -2384,6 +2387,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can1: "You can"
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
+
+  ozaria_chrome:
+    sound_off: 'Sound Off',
+    sound_on: 'Sound On',
+    back_to_map: 'Back to Map',
+    level_options: 'Level Options',
+    restart_level: 'Restart Level'
 
   loading_error:
     could_not_load: "Error loading from server. Try refreshing the page."

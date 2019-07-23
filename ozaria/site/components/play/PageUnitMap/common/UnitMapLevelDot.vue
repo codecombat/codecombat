@@ -76,7 +76,7 @@
       this.setLevelConcepts()
     },
     mounted () {
-      $('.has-tooltip').tooltip({ html: true })
+      $('.level-dot-image.has-tooltip').tooltip({ html: true })
     },
     methods: {
       setLevelTypeAndIcon () {
