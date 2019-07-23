@@ -33,7 +33,7 @@ export default {
     },
 
     getMapUrl (state, _getters, _rootState, rootGetters) {
-      const campaignId = rootGetters['campaigns/getLatestCampaignId']
+      const campaignId = rootGetters['campaigns/getCurrentCampaignId']
       const courseInstanceId = state.currentCourseInstanceId
 
       if (!(campaignId && courseInstanceId)) {

@@ -5,14 +5,14 @@ export default {
   state: {
     byId: {},
     bySlug: {},
-    latestCampaignId: null
+    currentCampaignId: null
   },
 
   mutations: {
     setCampaignData: (state, campaignData) => {
       Vue.set(state.byId, campaignData._id, campaignData)
       Vue.set(state.bySlug, campaignData.slug, campaignData)
-      state.latestCampaignId = campaignData._id
+      state.currentCampaignId = campaignData._id
     }
   },
 
@@ -20,7 +20,7 @@ export default {
     getCampaignData: (state) => (idOrSlug) => {
       return state.byId[idOrSlug] || state.bySlug[idOrSlug]
     },
-    getLatestCampaignId: (state) => state.latestCampaignId
+    getCurrentCampaignId: (state) => state.currentCampaignId
   },
 
   actions: {
