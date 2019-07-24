@@ -8,7 +8,7 @@
   import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
   import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
 
-  import BaseButton from '../common/BaseButton'
+  import BaseButton from '../../../common/BaseButton'
   import ModalInteractive from '../common/ModalInteractive.vue'
 
   export default {

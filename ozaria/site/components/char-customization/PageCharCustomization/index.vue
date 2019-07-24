@@ -227,7 +227,7 @@
         <surface
           v-if="loaded && selectedHero"
           :loadedThangTypes="loadedThangTypes"
-          :selectedHero="selectedHero"
+          :selectedThang="selectedHero"
           :thang="selectedThang"
           :key="selectedHero + `${tintIndexSelection.skin}` + `${tintIndexSelection.hair}`"
         />
