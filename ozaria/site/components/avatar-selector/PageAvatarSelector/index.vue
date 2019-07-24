@@ -79,7 +79,7 @@ export default Vue.extend({
       <div class="avatar-selector container-fluid">
         <div id="row">
           <div class="col-xs-12 header">
-            <h1>Pick an avatar that will represent you as a player:</h1>
+            <h1>{{ this.$t('avatar_selection.pick_an_avatar') }}:</h1>
           </div>
         </div>
         <div class="row">
@@ -139,7 +139,7 @@ export default Vue.extend({
               :enabled="selected !== -1"
               @click="handleNext"
             >
-              Next
+              {{ this.$t('common.next') }}
             </base-button>
           </div>
         </div>
