@@ -25,10 +25,9 @@
     },
 
     mounted () {
-      this.$nextTick(() => {
-        window.addEventListener('resize', this.onResize)
-        this.onResize()
-      })
+      window.addEventListener('resize', this.onResize)
+      this.onResize()
+      this.$nextTick(() => this.onResize())
     },
 
     beforeDestroy () {
