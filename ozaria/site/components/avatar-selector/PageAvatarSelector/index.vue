@@ -117,8 +117,9 @@ export default Vue.extend({
             </section>
 
           </div>
-          <div class="col-xs-4 surface" v-if="loaded">
+          <div class="col-xs-4 surface" v-if="loaded && selected !== -1">
             <Surface
+              :key="selected"
               :width="200"
               :height="360"
               :loadedThangTypes="loadedThangTypes"
