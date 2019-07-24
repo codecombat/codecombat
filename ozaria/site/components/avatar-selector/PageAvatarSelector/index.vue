@@ -6,6 +6,15 @@ import LayoutChrome from '../../common/LayoutChrome.vue'
 import Surface from '../../char-customization/common/Surface.vue';
 import BaseButton from '../../common/BaseButton.vue';
 
+// TODO migrate api calls to the Vuex store.
+import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
+const ThangType = require('models/ThangType')
+
+// TODO replace placeholders with the various options.
+const avatarCinematicOriginalId = {
+  star: '5c373c9f9034ac0034b43b22'
+}
+
 export default Vue.extend({
   components: {
     LayoutChrome,
@@ -16,8 +25,33 @@ export default Vue.extend({
   },
   
   data: () => ({
-    selected: -1
+    selected: -1,
+    loadedThangTypes: {},
+    loaded: false
   }),
+
+  async created () {
+    if (!me.hasAvatarSelectorAccess())  {
+      return application.router.navigate('/', { trigger: true })
+    }
+    const loader = []
+
+    for (const avatarKey of Object.keys(avatarCinematicOriginalId)) {
+      const thangLoading = getThangTypeOriginal(avatarCinematicOriginalId[avatarKey])
+        .then(attr => new ThangType(attr))
+        .then(thangType => this.loadedThangTypes[avatarKey] = thangType)
+      loader.push(thangLoading)
+    }
+
+    try {
+      await Promise.all(loader)
+    } catch (e) {
+      // TODO handle_error_ozaria - what if an avatar fails to load?
+      console.error(e)
+    }
+
+    this.loaded = true
+  },
 
   methods: {
     handleClick (e) {
@@ -84,8 +118,18 @@ export default Vue.extend({
             </section>
 
           </div>
-          <div class="col-xs-4 surface">
-            <Surface :width="200" :height="360" />
+          <div class="col-xs-4 surface" v-if="loaded">
+            <Surface
+              :width="200"
+              :height="360"
+              :loadedThangTypes="loadedThangTypes"
+              :selectedThang="'star'"
+              :thang="{
+                scaleFactorX: 3,
+                scaleFactorY: 3,
+                pos: { y: 1, x: 1 }
+              }"
+            />
           </div>
         </div>
 
