@@ -60,9 +60,8 @@ export default Vue.extend({
     },
 
     async handleNext () {
-      await Promise.resolve() // TODO: Handle saving avatar selection state.
-
-      // Notify intro to move along.
+      // TODO: Handle saving avatar selection state.
+      // Then once we've saved the state we'll emit it.
       this.$emit('completed')
     }
   }
