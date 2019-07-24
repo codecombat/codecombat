@@ -1,17 +1,19 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/common/variables"
 
 @mixin editor-height($extraHeight)
   width: 98%
-  height: 83%
-  height: unquote("-webkit-calc(100% - 100px -")$extraHeight unquote(")")
-  height: unquote("calc(100% - 100px -")$extraHeight unquote(")")
+  height: 88%
+  height: unquote("-webkit-calc(88% - 50px -")$extraHeight unquote(")")
+  height: unquote("calc(88% - 50px -")$extraHeight unquote(")")
 
 #spell-view
   height: 100%
   display: none
   position: relative
   z-index: 1
+  overflow: hidden
 
   &.shown
     display: block
@@ -34,7 +36,7 @@
   .save-status
     display: none
     position: absolute
-    top: 10px
+    top: 5px
     left: 20px
     z-index: 4
 
@@ -68,19 +70,19 @@
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
     @include editor-height(0px)
-    margin-top: 10px
-    width: 94%
+    margin: 25px 0px 10px 0px
+    width: 99%
     position: relative
     background-color: transparent
     line-height: 19px
     overflow: visible
     // https://github.com/codecombat/codecombat/issues/1411#issuecomment-60492750 -- trying to make sure system defaults don't mess up our monospace font.
-    font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+    font-family: $code-font-style !important
     font-size: 16px
     @include transition(height 0.25s ease-in-out)
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
-      font-family: "Cousine", "Courier", "Courier New", monospace !important
+      font-family: $code-font-style !important
 
     &.disabled
       @include opacity(0.8)
@@ -93,10 +95,7 @@
       //background-color: rgba(255, 255, 255, 0.25)
       width: 47px
       margin-left: 4px
-      
-    // override ace visible to get the experimental large current line executing arrow visible
-    .ace_gutter
-      overflow: visible
+      padding-top: 3px
       
     .ace_layer
       overflow: visible
@@ -105,6 +104,7 @@
     .ace_scroller
       background-color: transparent
       padding-left: 10px
+      padding-top: 3px
 
     .ace_active-line, .ace_gutter-active-line
       background-color: rgba(255, 255, 255, 0.4)
