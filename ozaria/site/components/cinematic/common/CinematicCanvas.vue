@@ -151,12 +151,14 @@ export default {
 
 .cinematic-speech-bubble-right
   border-image: url('/images/ozaria/cinematic/bubble_right_slice.png')
+  background-color: white
   border-image-slice: 50 100 50 50 fill
   border-image-width: 40px 80px 40px 40px
   border-image-outset: 10px 58px 15px 15px
 
 .cinematic-speech-bubble-left
   border-image: url('/images/ozaria/cinematic/bubble_left_slice.png')
+  background-color: white
   border-image-slice: 50 50 50 100 fill
   border-image-width: 40px 40px 40px 80px
   border-image-outset: 10px 15px 15px 58px

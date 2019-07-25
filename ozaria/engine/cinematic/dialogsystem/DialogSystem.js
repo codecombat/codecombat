@@ -12,6 +12,7 @@ import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
 
 const BUBBLE_PADDING = 10
 const SPEECH_BUBBLE_MAX_WIDTH = `300px` // Removed 20 px to account for padding.
+const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `400px`
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
@@ -68,7 +69,8 @@ export default class DialogSystem {
         y,
         shownDialogBubbles: this.shownDialogBubbles,
         side,
-        textDuration: getTextAnimationLength(dialogNode)
+        textDuration: getTextAnimationLength(dialogNode),
+        zoom
       })).createBubbleCommand())
     }
     return commands
@@ -99,7 +101,8 @@ class SpeechBubble {
     y,
     shownDialogBubbles,
     side,
-    textDuration
+    textDuration,
+    zoom
   }) {
     this.id = `speech-${_id++}`
     const parser = new DOMParser()
@@ -110,7 +113,7 @@ class SpeechBubble {
 
     speechBubbleDiv.style.display = 'inline-block'
     speechBubbleDiv.style.position = 'absolute'
-    speechBubbleDiv.style.maxWidth = SPEECH_BUBBLE_MAX_WIDTH
+    speechBubbleDiv.style.maxWidth = zoom === 2 ? SPEECH_BUBBLE_ZOOMED_MAX_WIDTH : SPEECH_BUBBLE_MAX_WIDTH
     speechBubbleDiv.id = this.id
     speechBubbleDiv.className = `cinematic-speech-bubble-${side}`
     speechBubbleDiv.style.opacity = 0
@@ -144,6 +147,8 @@ class SpeechBubble {
     if (textDuration === undefined) {
       textDuration = letters * LETTER_ANIMATE_TIME
     }
+
+    speechBubbleDiv.style.display = 'none'
     // We set up the animation but don't play it yet.
     // On completion we attach html node to the `shownDialogBubbles`
     // array for future cleanup.
@@ -157,7 +162,10 @@ class SpeechBubble {
           targets: `#${this.id}`,
           opacity: 1,
           duration: 100,
-          easing: 'easeInOutQuart'
+          easing: 'easeInOutQuart',
+          begin: () => {
+            speechBubbleDiv.style.display = 'inline-block'
+          }
         })
         .add({
           targets: `#${this.id} .letter`,
@@ -169,7 +177,7 @@ class SpeechBubble {
         .add({
           targets: `#${this.id} .cinematic-speech-bubble-click-continue`,
           opacity: 1,
-          duration: 700
+          duration: 100
         })
     }
   }
