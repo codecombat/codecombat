@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     beautify: "Forskøn din kode ved at standardisere dens formattering."
     maximize_editor: "Maksimer/Minimer kodeeditor."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Fællesskab"
     introduction: "Tjek nedenfor hvordan du kan blive involveret, og beslut dig for hvad der lyder sjovest. Vi ser frem til at arbejde sammen med dig!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     you_can1: "Du kan"
     you_can2: "købe en forudbetalt kode"
     you_can3: "der kan anvendes på din egen konto eller gives til andre."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Fejl ved indlæsning fra server" # {change}

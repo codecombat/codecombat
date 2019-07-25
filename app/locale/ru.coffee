@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     beautify: "Приукрасьте свой код стандартизацией его форматирования."
     maximize_editor: "Развернуть/свернуть редактор кода."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Сообщество CodeCombat"
     introduction: "Просмотрите ниже способы втянуться и решите, что для вас звучит наиболее весело и интересно. Мы с нетерпением ожидаем совместной работы с вами!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     you_can1: "Вы можете"
     you_can2: "купить предоплаченный код"
     you_can3: "который можно применить к вашему аккаунту или передать другому."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера" # {change}

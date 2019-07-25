@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     beautify: "Embelleix el teu codi estandarditzant el format."
     maximize_editor: "Maximitza/minimitza l'editor de codi."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Comunitat CodeCombat"
     introduction: "Consulta les maneres en que et pots implicar i decideix quina et sembla més divertida. Esperem treballar amb tu!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     you_can1: "Pots"
     you_can2: "comprar un codi Prepagat"
     you_can3: "per aplicar al teu compte o donar a d'altres."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Error de carrega del servidor"

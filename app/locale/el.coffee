@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     beautify: "Κάνε τον κώδικά σου να φαίνεται πιο ωραίος μορφοποιόντας τον."
     maximize_editor: "Μεγιστοποίηση/ελαχιστοποίηση διορθωτή κώδικα."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Κοινότητα του CodeCombat"
     introduction: "Δες τι τρόποι υπάρχουν για να συνεισφέρεις και αποφάσισε ποιος ακούγεται πιο διασκεδαστικός. Ανυπομονούμε να δουλέψουμε μαζί σου!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     you_can1: "Μπορείτε"
     you_can2: "να αγοράσετε ένα προπληρωμένο κωδικό"
     you_can3: "που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Σφάλμα φόρτωσης από τον εξυπηρετητή" # {change}

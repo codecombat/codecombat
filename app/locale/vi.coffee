@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Phong to/thu nhỏ trình soạn thảo code."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Cộng đồng CodeCombat"
     introduction: "Bạn có thể đóng góp vào bất cứ mảng nào mà bạn cảm thấy thích thú. Chúng tôi rất muốn được làm việc chung với bạn!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     you_can1: "Bạn có thể"
     you_can2: "mua một mã trả trước"
     you_can3: "mà có thể áp dụng cho tài khoản của bạn hoặc gửi cho người khác."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Không kết nối được với server" # {change}

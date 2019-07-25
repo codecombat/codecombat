@@ -197,7 +197,7 @@ module.exports = Vue.extend({
           </select>
           <div id="treema-editor" ref="treemaEditor" v-once></div>
         </div>
-        <div class="col-md-6" v-if="rawData">
+        <div class="col-md-6" v-if="rawData" style="width:1366px; height:768px;">
           <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" :userOptions="{ programmingLanguage }" />
         </div>
       </div>
