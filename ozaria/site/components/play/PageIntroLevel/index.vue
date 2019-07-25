@@ -1,5 +1,6 @@
 <script>
   import api from 'core/api'
+  import avatarSelectionScreen from '../../avatar-selector/PageAvatarSelector'
   import interactivesComponent from '../../interactive/PageInteractive'
   import cinematicsComponent from '../../cinematic/PageCinematic'
   import cutsceneVideoComponent from '../../cutscene/PageCutscene'
@@ -11,9 +12,8 @@
     components: {
       'interactives-component': interactivesComponent,
       'cinematics-component': cinematicsComponent,
-      'cutscene-video-component': cutsceneVideoComponent
-      // TODO add when ready
-      // 'avatar-selection-screen': avatarSelectionScreen
+      'cutscene-video-component': cutsceneVideoComponent,
+      'avatar-selection-screen': avatarSelectionScreen
     },
     props: {
       introLevelIdOrSlug: {
@@ -219,11 +219,10 @@
       :cutscene-id="currentContentId"
       @completed="onContentCompleted"
     />
-    <!-- TODO add when ready -->
-    <!-- <avatar-selection-screen
+    <avatar-selection-screen
       v-else-if="currentContent.type == 'avatarSelectionScreen'"
       v-on:completed="onContentCompleted">
-    </avatar-selection-screen> -->
+    </avatar-selection-screen>
   </div>
 </template>
 

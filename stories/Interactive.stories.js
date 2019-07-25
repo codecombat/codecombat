@@ -2,13 +2,7 @@ import { storiesOf } from '@storybook/vue'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 
-import ModalInteractive from '../ozaria/site/components/interactive/PageInteractive/common/ModalInteractive.vue'
-import BaseButton from '../ozaria/site/components/interactive/PageInteractive/common/BaseButton.vue'
-
-storiesOf('ModalInteractive', module).add('pure vue modal', () => ({
-  components: { ModalInteractive },
-  template: '<modal-interactive />'
-}))
+import BaseButton from '../ozaria/site/components/common/BaseButton.vue'
 
 storiesOf('BaseButton', module).add('pure vue button', () => ({
   components: { BaseButton },

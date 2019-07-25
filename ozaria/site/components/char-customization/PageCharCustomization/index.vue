@@ -203,12 +203,12 @@
 <template>
   <div class="container">
     <div class="row" style="text-align: center;">
-      <h1>Customize Your Hero</h1>
+      <h1>{{ this.$t('char_customization_modal.heading') }}</h1>
     </div>
     <div class="row">
       <div class="col-xs-4">
         <div class='body-label'>
-          <label>Body</label>
+          <label>{{ this.$t('char_customization_modal.body') }}</label>
         </div>
           <div
             v-for="(body) in bodyTypes"
@@ -227,14 +227,14 @@
         <surface
           v-if="loaded && selectedHero"
           :loadedThangTypes="loadedThangTypes"
-          :selectedHero="selectedHero"
+          :selectedThang="selectedHero"
           :thang="selectedThang"
           :key="selectedHero + `${tintIndexSelection.skin}` + `${tintIndexSelection.hair}`"
         />
       </div>
       <div class="col-xs-4">
         <form ref="name-form">
-          <label for="heroNameInput">Hero's Name</label>
+          <label for="heroNameInput">{{ this.$t('char_customization_modal.name_label') }}</label>
           <input
             v-model="characterName"
             maxlength="25"
@@ -244,7 +244,7 @@
           />
         </form>
         <div>
-          <label>Skin Color</label>
+          <label>{{ this.$t('char_customization_modal.hair_label') }}</label>
           <div>
             <template v-for="(tint, i) in hairSwatches">
               <div
@@ -257,7 +257,7 @@
           </div>
         </div>
         <div>
-          <label>Hair Color</label>
+          <label>{{ this.$t('char_customization_modal.skin_label') }}</label>
           <div>
             <template v-for="(tint, i) in skinSwatches">
               <div
@@ -278,7 +278,7 @@
           @click="handleSubmit"
           id="next-button"
         >
-          Next
+          {{ this.$t('common.next') }}
         </button>
       </div>
     </div>
