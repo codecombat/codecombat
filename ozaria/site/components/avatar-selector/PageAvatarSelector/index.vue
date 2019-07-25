@@ -81,7 +81,7 @@ export default Vue.extend({
             <h1>{{ this.$t('avatar_selection.pick_an_avatar') }}:</h1>
           </div>
         </div>
-        <div class="row">
+        <div class="row body">
           <div class="col-xs-8 avatar-grid">
 
             <section class="row">
@@ -118,18 +118,20 @@ export default Vue.extend({
 
           </div>
           <div class="col-xs-4 surface" v-if="loaded && selected !== -1">
-            <Surface
-              :key="selected"
-              :width="200"
-              :height="360"
-              :loadedThangTypes="loadedThangTypes"
-              :selectedThang="'star'"
-              :thang="{
-                scaleFactorX: 3,
-                scaleFactorY: 3,
-                pos: { y: 1, x: 1 }
-              }"
-            />
+            <div>
+              <Surface
+                :key="selected"
+                :width="200"
+                :height="360"
+                :loadedThangTypes="loadedThangTypes"
+                :selectedThang="'star'"
+                :thang="{
+                  scaleFactorX: 3,
+                  scaleFactorY: 3,
+                  pos: { y: 1, x: 1 }
+                }"
+              />
+            </div>
           </div>
         </div>
 
@@ -170,10 +172,10 @@ export default Vue.extend({
 }
 
 .avatar-item {
-  div {
-    min-height: 120px;
+  height: 100%;
 
-    margin: 0 7px;
+  div {
+    height: 100%;
     border-radius: 10px;
     border: 1px solid #ccc;
     box-shadow: inset 0px 0px 5px #ddd;
@@ -201,12 +203,33 @@ export default Vue.extend({
   }
 }
 
+.body {
+  height: 100%;
+}
+
+.avatar-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
 .avatar-grid .row {
-  margin: 40px 0;
+  margin: 15px 0;
+  height: 100%;
+  max-height: 200px;
 }
 
 .surface {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
+
+  & > div {
+    text-align: center;
+  }
 }
 
 .footer {
