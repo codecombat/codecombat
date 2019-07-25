@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat社区"
     introduction: "看看下面这些您可以参与的项目，如果有您喜欢的就加入进来吧。 我们期待着与您一起工作。"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can1: "您可以"
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "载入失败" # {change}

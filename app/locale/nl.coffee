@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     beautify: "Maak je code netter door de opmaak overal gelijk te maken."
     maximize_editor: "Maximaliseer/minimaliseer code editor."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Gemeenschap"
     introduction: "`Kijk hieronder hoe je mee kunt doen en kies wat jou leuk lijkt. Wij kijken ernaar uit om samen te werken!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can1: "Je kunt"
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Fout bij het laden van de server" # {change}

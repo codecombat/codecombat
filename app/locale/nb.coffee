@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     beautify: "Gjør koden penere med standard formattering."
     maximize_editor: "Maksimer/minimer kode editor."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Fellesskapet"
     introduction: "Sjekk ut de forskjellige måtene du kan involvere deg på og velg det du synes er gøy. Vi ser frem til å jobbe sammen med deg!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     you_can1: "Du kan"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Feil ved lasting fra server" # {change}

@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     beautify: "Upiększ kod standaryzując jego formatowanie."
     maximize_editor: "Maksymalizuj/minimalizuj edytor kodu."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Społeczność CodeCombat"
     introduction: "Sprawdź poniżej jak możesz nam pomóc i co sprawia ci najwięcej radości. Nie możemy się doczekać pracy z Tobą!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     you_can1: "Możesz"
     you_can2: "kupić kod przedpłacony,"
     you_can3: "następnie wykorzystać go u siebie, albo dać komuś."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Błąd podczas ładowania danych z serwera" # {change}
