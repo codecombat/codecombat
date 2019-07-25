@@ -18,7 +18,7 @@ store = new Vuex.Store({
   }
 
   modules: {
-    me: require('./modules/me'),
+    me: require('./modules/me').default,
     courses: require('./modules/courses'),
     game: require('./modules/game'),
     schoolAdministrator: require('./modules/schoolAdministrator').default

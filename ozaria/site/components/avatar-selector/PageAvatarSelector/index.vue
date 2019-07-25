@@ -5,15 +5,45 @@ import LayoutAspectRatioContainer from '../../common/LayoutAspectRatioContainer.
 import LayoutChrome from '../../common/LayoutChrome.vue'
 import Surface from '../../char-customization/common/Surface.vue';
 import BaseButton from '../../common/BaseButton.vue';
+import { mapActions } from 'vuex';
 
 // TODO migrate api calls to the Vuex store.
 import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
 const ThangType = require('models/ThangType')
 
 // TODO replace placeholders with the various options.
-const avatarCinematicOriginalId = {
-  star: '5c373c9f9034ac0034b43b22'
-}
+const avatars = [
+  {
+    selectionImg: '/images/ozaria/avatar-selector/circle.png',
+    levelThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+  },
+  {
+    selectionImg: '/images/ozaria/avatar-selector/hex.png',
+    levelThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+  },
+  {
+    selectionImg: '/images/ozaria/avatar-selector/square.png',
+    levelThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+  },
+  {
+    selectionImg: '/images/ozaria/avatar-selector/circle.png',
+    levelThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+  },
+  {
+    selectionImg: '/images/ozaria/avatar-selector/square.png',
+    levelThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+  },
+  {
+    selectionImg: '/images/ozaria/avatar-selector/hex.png',
+    levelThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+  },
+]
 
 export default Vue.extend({
   components: {
@@ -27,7 +57,8 @@ export default Vue.extend({
   data: () => ({
     selected: -1,
     loadedThangTypes: {},
-    loaded: false
+    loaded: false,
+    avatars
   }),
 
   async created () {
@@ -36,10 +67,10 @@ export default Vue.extend({
     }
     const loader = []
 
-    for (const avatarKey of Object.keys(avatarCinematicOriginalId)) {
-      const thangLoading = getThangTypeOriginal(avatarCinematicOriginalId[avatarKey])
+    for (const avatar of avatars) {
+      const thangLoading = getThangTypeOriginal(avatar.cinematicThangTypeId)
         .then(attr => new ThangType(attr))
-        .then(thangType => this.loadedThangTypes[avatarKey] = thangType)
+        .then(thangType => this.loadedThangTypes[avatar.cinematicThangTypeId] = thangType)
       loader.push(thangLoading)
     }
 
@@ -53,13 +84,31 @@ export default Vue.extend({
     this.loaded = true
   },
 
+  computed: {
+    topRowAvatars () {
+      return this.avatars.slice(0, 3)
+    },
+
+    bottomRowAvatars () {
+      return this.avatars.slice(3)
+    },
+
+    selectedAvatar () {
+      return this.avatars[this.selected]
+    }
+  },
+
   methods: {
+    ...mapActions('me', ['setAvatar']),
+
     handleClick (e) {
       const selectedAvatar = parseInt(e.target.dataset.avatar, 10)
       this.selected = selectedAvatar
     },
 
     async handleNext () {
+      this.setAvatar(this.selectedAvatar)
+
       // TODO: Handle saving avatar selection state.
       // Then once we've saved the state we'll emit it.
       this.$emit('completed')
@@ -85,35 +134,29 @@ export default Vue.extend({
           <div class="col-xs-8 avatar-grid">
 
             <section class="row">
-
-              <div class="col-xs-4 avatar-item">
-                <div class="avatar2" :class="{selected: selected === 1}" data-avatar="1" @click="handleClick" />
+              <!-- TODO: COMPUTED FIRST ROW OF AVATAR. COMPUTED SECOND ROW OF AVATAR. -->
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg }, index) in topRowAvatars" :key="index">
+                <div
+                  class="avatar2"
+                  :class="{selected: selected === index}"
+                  :data-avatar="index"
+                  @click="handleClick"
+                  :style="{ backgroundImage: `url(${selectionImg})` }"
+                />
               </div>
-
-              <div class="col-xs-4 avatar-item">
-                <div class="avatar1" :class="{selected: selected === 2}" data-avatar="2" @click="handleClick" />
-              </div>
-
-              <div class="col-xs-4 avatar-item">
-                <div class="avatar3" :class="{selected: selected === 3}" data-avatar="3" @click="handleClick" />
-              </div>
-
             </section>
 
             <section class="row">
-
-              <div class="col-xs-4 avatar-item">
-                <div class="avatar3" :class="{selected: selected === 4}" data-avatar="4" @click="handleClick" />
+              <!-- TODO: COMPUTED FIRST ROW OF AVATAR. COMPUTED SECOND ROW OF AVATAR. -->
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg }, index) in bottomRowAvatars" :key="index">
+                <div
+                  class="avatar2"
+                  :class="{selected: selected === index + 3}"
+                  :data-avatar="index+3"
+                  @click="handleClick"
+                  :style="{ backgroundImage: `url(${selectionImg})` }"
+                />
               </div>
-
-              <div class="col-xs-4 avatar-item">
-                <div class="avatar2" :class="{selected: selected === 5}" data-avatar="5" @click="handleClick" />
-              </div>
-
-              <div class="col-xs-4 avatar-item">
-                <div class="avatar1" :class="{selected: selected === 6}" data-avatar="6" @click="handleClick" />
-              </div>
-
             </section>
 
           </div>
@@ -124,7 +167,7 @@ export default Vue.extend({
                 :width="200"
                 :height="360"
                 :loadedThangTypes="loadedThangTypes"
-                :selectedThang="'star'"
+                :selectedThang="selectedAvatar.cinematicThangTypeId"
                 :thang="{
                   scaleFactorX: 3,
                   scaleFactorY: 3,
