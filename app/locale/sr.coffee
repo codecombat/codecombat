@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     beautify: "Улепшај свој код тако што ћеш стандардизовати форматирање."
     maximize_editor: "Увеличај/смањи уређење кода."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat заједница"
     introduction: "Погледај испод како можеш да се укључиш и одлучи шта звучи најзанимљивије. Радујемо се прилици да радимо са тобом!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     you_can1: "Можеш  "
     you_can2: "да купиш припрејд код"
     you_can3: "који може да се примени на твој налог или да се поклони другоме."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Грешка учитавања са сервера" # {change}

@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     beautify: "A kód kicsinosítása és szabványos formátumra hozása."
     maximize_editor: "Maximális/Minimális kód szerkesztő."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Közösség"
     introduction: "Nézd meg, milyen módokon járulhatsz hozzá a játék fejlesztéséhez, és válaszd ki a számodra legjobban tetsző lehetőséget. Alig várjuk, hogy veled dolgozhassunk!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     you_can1: "Vásárolhatsz"
     you_can2: "egy fizetős kódot,"
     you_can3: "amelyet a saját fiókodban is beválthatsz vagy átadhatsz másoknak."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "A betöltés a szerverről sikertelen" # {change}

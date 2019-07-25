@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Maximera/minimera kodredigeraren."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Community"
     introduction: "Kolla in på vilka sätt du kan vara delaktig och välj det som låter mest kul. Vi ser fram emot att jobba med dig!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Fel vid laddning från servern"

@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     beautify: "서식을 표준화하여 코드를 아름답게합니다."
     maximize_editor: "코드 에디터 최대/최소."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "코드 컴뱃 커뮤니티"
     introduction: "아래에서 당신이 참여할 수있는 방법을 확인하고 가장 재미있어보이는것을 결정합니다. 우리는 당신과 함께 협력하는것을 기대합니다!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다." # {change}

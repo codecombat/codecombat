@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     beautify: "Viimeistele ohjelmakoodisi, muotoilemalla se yhdenmukaisesti."
     maximize_editor: "Laajenna/pienennä koodieditori."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Yhteisö"
     introduction: "Katso miten voit auttaa ja mieti mikä kuulostaa hauskimmalta. Kuulemme mielellään sinusta!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Virhe ladattaessa tietoja palvelimelta" # {change}

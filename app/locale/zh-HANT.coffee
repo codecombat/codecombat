@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     beautify: "利用標準格式來美化您的程式碼"
     maximize_editor: "最大化/最小化程式碼編輯器"
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat社群"
     introduction: "查看您可能可以參與的項目以及選擇最吸引您的項目。我們期待與您一起工作！"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "從伺服器載入失敗" # {change}

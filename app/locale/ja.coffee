@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     beautify: "フォーマットを標準化してコードを美しくする。"
     maximize_editor: "コードエディターの最大化/最小化。"
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombatコミュニティー"
     introduction: "あなたが最も楽しいと思う方法で私たちを手伝ってください。私たちはあなたと働くことを楽しみにしています！"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
 #  loading_error:
 #    could_not_load: "Error loading from server. Try refreshing the page."

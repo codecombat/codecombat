@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     beautify: "Зроби код красивішим, стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Спільноти CodeCombat"
     introduction: "Ознайомтеся нижче зі способами, у які Ви можете долучитися, й оберіть те, що виглядає найбільш весело. Ми з нетерпінням чекаємо роботи з Вами!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can1: "Ви можете"
     you_can2: "купити передплачений код"
     you_can3: "який може бути застосовано до вашої обліківки або переданий іншим."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Помилка завантаження з сервера" # {change}
