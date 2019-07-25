@@ -14,9 +14,7 @@ module.exports = class CastButtonView extends CocoView
   events:
     'click #run': 'onCastButtonClick'
     'click #update-game': 'onCastRealTimeButtonClick'
-    'click .done-button': 'onDoneButtonClick'
-    #'click #update-game': 'onClickGameDevPlayButton'
-    'click #reload-code': 'onCodeReload'
+    'click #next': 'onClickGameDevPlayButton'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -78,18 +76,10 @@ module.exports = class CastButtonView extends CocoView
   onCastButtonClick: (e) ->
     Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
 
-  onCastRealTimeButtonClick: (e) ->
-    if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0
-      Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
-    else
-      Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
-    @updateReplayability()
-
   onClickGameDevPlayButton: ->
     Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
   onDoneButtonClick: (e) ->
-    return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @options.session.recordScores @world?.scores, @options.level
     Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
@@ -143,9 +133,6 @@ module.exports = class CastButtonView extends CocoView
   onPlaybackEndedChanged: (e) ->
     return unless e.ended and @winnable
     @$el.toggleClass 'has-seen-winning-replay', true
-
-  onCodeReload: (e) ->
-    @openModalView new ReloadLevelModal()
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
