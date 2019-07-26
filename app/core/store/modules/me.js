@@ -63,7 +63,7 @@ export default {
         })
     },
 
-    setAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId }) {
+    set1fhAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId }) {
       if (!(levelThangTypeId && cinematicThangTypeId)) {
         throw new Error('Require both a levelThangTypeId and cinematicThangTypeId')
       }

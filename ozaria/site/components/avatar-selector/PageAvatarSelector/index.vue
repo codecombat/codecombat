@@ -99,7 +99,7 @@ export default Vue.extend({
   },
 
   methods: {
-    ...mapActions('me', ['setAvatar']),
+    ...mapActions('me', ['set1fhAvatar']),
 
     handleClick (e) {
       const selectedAvatar = parseInt(e.target.dataset.avatar, 10)
@@ -107,10 +107,11 @@ export default Vue.extend({
     },
 
     async handleNext () {
-      this.setAvatar(this.selectedAvatar)
+      // TODO: uncomment this once slugs are finalized.
+      //       We do not want to save these placeholder ids.
+      // this.set1fhAvatar(this.selectedAvatar)
 
       // TODO: Handle saving avatar selection state.
-      // Then once we've saved the state we'll emit it.
       this.$emit('completed')
     }
   }
@@ -135,9 +136,8 @@ export default Vue.extend({
 
             <section class="row">
               <!-- TODO: COMPUTED FIRST ROW OF AVATAR. COMPUTED SECOND ROW OF AVATAR. -->
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg }, index) in topRowAvatars" :key="index">
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, levelThangTypeId }, index) in topRowAvatars" :key="levelThangTypeId">
                 <div
-                  class="avatar2"
                   :class="{selected: selected === index}"
                   :data-avatar="index"
                   @click="handleClick"
@@ -147,10 +147,8 @@ export default Vue.extend({
             </section>
 
             <section class="row">
-              <!-- TODO: COMPUTED FIRST ROW OF AVATAR. COMPUTED SECOND ROW OF AVATAR. -->
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg }, index) in bottomRowAvatars" :key="index">
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, levelThangTypeId }, index) in bottomRowAvatars" :key="levelThangTypeId">
                 <div
-                  class="avatar2"
                   :class="{selected: selected === index + 3}"
                   :data-avatar="index+3"
                   @click="handleClick"
@@ -227,16 +225,6 @@ export default Vue.extend({
       border: 1px solid #4A90E2;
       box-shadow: inset 0px 0px 6px rgb(71, 136, 211);
     }
-  }
-
-  .avatar1 {
-    background-image: url(/images/ozaria/avatar-selector/circle.png)
-  }
-  .avatar2 {
-    background-image: url(/images/ozaria/avatar-selector/hex.png)
-  }
-  .avatar3 {
-    background-image: url(/images/ozaria/avatar-selector/square.png)
   }
 
   & > div {
