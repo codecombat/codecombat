@@ -13,7 +13,7 @@ module.exports = class CastButtonView extends CocoView
 
   events:
     'click #run': 'onCastButtonClick'
-    'click #update-game': 'onCastRealTimeButtonClick'
+    'click #update-game': 'onUpdateButtonClick'
     'click #next': 'onClickGameDevPlayButton'
 
   subscriptions:
@@ -73,7 +73,7 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + @castShortcutVerbose()
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
-  onCastButtonClick: (e) ->
+  onUpdateButtonClick: (e) ->
     Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
 
   onClickGameDevPlayButton: ->

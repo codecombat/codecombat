@@ -733,13 +733,14 @@ module.exports = class SpellView extends CocoView
     @aceDoc.removeListener 'change', @onCodeChangeMetaHandler if @onCodeChangeMetaHandler
     onSignificantChange = []
     onAnyChange = [
-      _.debounce @updateAether, if @options.level.isType('game-dev') then 10 else 500
       _.debounce @notifyEditingEnded, 1000
       _.throttle @notifyEditingBegan, 250
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
       _.throttle @hideProblemAlert, 500
     ]
+    unless @options.level.isType('game-dev')
+      onAnyChange.push(_.debounce(@updateAether, 500))
     onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
     onAnyChange.push _.throttle @updateHTML, 10 if @options.level.isType('web-dev')
@@ -960,11 +961,7 @@ module.exports = class SpellView extends CocoView
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     incompleteThis = /^(s|se|sel|self|t|th|thi|this|g|ga|gam|game|h|he|her|hero)$/.test currentLine.trim()
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
-    if not incompleteThis and @options.level.isType('game-dev')
-      # TODO: Improve gamedev autocast speed
-      @spell.transpile @getSource()
-      @cast(false, false, true)
-    else if (endOfLine or beginningOfLine) and not incompleteThis
+    if (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
   singleLineCommentRegex: ->
