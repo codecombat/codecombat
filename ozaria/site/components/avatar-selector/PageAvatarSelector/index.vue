@@ -135,7 +135,6 @@ export default Vue.extend({
           <div class="col-xs-8 avatar-grid">
 
             <section class="row">
-              <!-- TODO: COMPUTED FIRST ROW OF AVATAR. COMPUTED SECOND ROW OF AVATAR. -->
               <div class="col-xs-4 avatar-item" v-for="({ selectionImg, levelThangTypeId }, index) in topRowAvatars" :key="levelThangTypeId">
                 <div
                   :class="{selected: selected === index}"
