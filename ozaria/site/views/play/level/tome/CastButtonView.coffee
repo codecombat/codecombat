@@ -14,7 +14,7 @@ module.exports = class CastButtonView extends CocoView
   events:
     'click #run': 'onCastButtonClick'
     'click #update-game': 'onUpdateButtonClick'
-    'click #next': 'onClickGameDevPlayButton'
+    'click #next': 'onNextButtonClick'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -74,12 +74,9 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
   onUpdateButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
+    Backbone.Mediator.publish 'tome:recompile'
 
-  onClickGameDevPlayButton: ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
-
-  onDoneButtonClick: (e) ->
+  onNextButtonClick: (e) ->
     @options.session.recordScores @world?.scores, @options.level
     Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 

@@ -59,6 +59,7 @@ module.exports = class SpellView extends CocoView
     'level:contact-button-pressed': 'onContactButtonPressed'
     'level:show-victory': 'onShowVictory'
     'web-dev:error': 'onWebDevError'
+    'tome:recompile': 'onRecompile'
 
   events:
     'mouseout': 'onMouseOut'
@@ -563,6 +564,10 @@ module.exports = class SpellView extends CocoView
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
     @createToolbarView()
     @updateHTML create: true if @options.level.isType('web-dev')
+
+  onRecompile: ->
+    @recompile
+    Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
 
   createDebugView: ->
     return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
