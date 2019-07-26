@@ -1,41 +1,41 @@
 module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese (Traditional)", translation:
 
   new_home:
-title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript"
-meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
-built_for_teachers_title: "一個由教師建構的編碼遊戲"
-built_for_teachers_blurb: "教孩子們編寫代碼往往會令人感到招架不住。 透過 CodeCombat 可以幫助所有教育工作者教授學生如何使用 JavaScript 或 Python（兩種最流行的編程語言）進行編碼。 透過包含六個計算機科學的綜合課程，以及遊戲開發和 Web 開發專題來進行加強學習，孩子們將在從基本語法往遞迴程式設計中前進！"
-built_for_teachers_subtitle1: "電腦科學"
-built_for_teachers_subblurb1: "從免費的電腦科學入門課程開始，學生將掌握核心編碼概念，例如 while / for 循環，函式和算法。"
-built_for_teachers_subtitle2: "遊戲開發"
-built_for_teachers_subblurb2: "學習者構建迷宮並使用基本函式來編碼他們自己的遊戲，這些遊戲可以與朋友和家人共享。"
-built_for_teachers_subtitle3: "Web 開發"
-built_for_teachers_subblurb3: "通過使用 HTML、CSS 和 jQuery，學生可以利用自定義 URL 對自己的網頁進行編程，以便與同學共享。"
-century_skills_title: "21 世紀必備技能"
-century_skills_blurb1: "學生不只是要升級他們的英雄，也要提升自己“"
-century_skills_quote1: "你陷入了困惑......所以你必須重新想想所有可能的解決方法，然後再試一次。 如果不努力，我就無法到達這裡"
-century_skills_subtitle1: "批判性思考“
-century_skills_subblurb1: "CodeCombat 的編碼遊戲可以建構越來越具有挑戰性的關卡，它可以確保孩子們一直在練習批判性思考。"
-century_skills_quote2: “其他人都在製造迷宮，所以我想做點別的，「奪旗」這就是我想做的。”
-century_skills_subtitle2: "創造力"
-century_skills_subblurb2: “CodeCombat 鼓勵學生通過構建與分享自己的遊戲和網頁，來展現他們的創造力。”
-century_skills_quote3: “如果我陷入了困惑。我會和周圍的人一起合作，直到我們都能搞清楚。”
-century_skills_subtitle3: "合作"
-century_skills_subblurb3: “在整個遊戲過程中，學生有機會在遇到困難時進行合作，並可以參考我們的編程指南一起解決問題。”
-century_skills_quote4: “我一直有設計電玩遊戲和學習如何編碼的願望......這給了我一個很好的起點。”
-century_skills_subtitle4: "溝通"
-century_skills_subblurb4: “編碼要求孩子們練習新的溝通方式，包括與電腦本身的溝通，並使用最有效的代碼傳達他們的想法。”
-classroom_in_box_title: "我們努力："
-classroom_in_box_blurb1：“讓每個學生都參與進來，讓他們相信編碼是為了他們自己。”
-classroom_in_box_blurb2：“讓每位老師在授課時更有自信。”
-classroom_in_box_blurb3：“激勵更多的學校來創造出世界一流的電腦科學課程。”
-creativity_rigor_title: "創造力與邏輯相遇的地方"
-creative_rigor_subtitle1：“讓編碼變得有趣並學習到現實世界共通的技能”
-creativity_rigor_blurb1: “學生在玩遊戲時學會輸入真正的 Python 和 JavaScript 代碼，鼓勵反複試驗、批判性思考和創造力。然後讓學生通過在專題課程中開發自己的遊戲和網站，應用他們學到的編碼技能。“
-creative_rigor_subtitle2：“達到他們水平的學生”
-creativity_rigor_blurb2：“每個 CodeCombat 的關卡都是基於數百萬個教學數據所構建的，並且經過優化以適應每個學習者。練習關卡和提示可以幫助學生在遇到困難時幫助他們，挑戰關卡則可以評估學生在整個遊戲過程中的學習情況。”
-creativity_rigor_subtitle3: "為所有老師而建，無論有沒有經驗"
-creativity_rigor_blurb3: “CodeCombat 可以自我掌控學習步調，共通標準的課程使得教授電腦科學成為可能。CodeCombat 可以為教師提供培訓，教學資源和專門支持，讓他們在課堂上感到自信和成功。”
+    title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript"
+    meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
+    built_for_teachers_title: "一個由教師建構的編碼遊戲"
+    built_for_teachers_blurb: "教孩子們編寫代碼往往會令人感到招架不住。 透過 CodeCombat 可以幫助所有教育工作者教授學生如何使用 JavaScript 或 Python（兩種最流行的編程語言）進行編碼。 透過包含六個計算機科學的綜合課程，以及遊戲開發和 Web 開發專題來進行加強學習，孩子們將在從基本語法往遞迴程式設計中前進！"
+    built_for_teachers_subtitle1: "電腦科學"
+    built_for_teachers_subblurb1: "從免費的電腦科學入門課程開始，學生將掌握核心編碼概念，例如 while / for 循環，函式和算法。"
+    built_for_teachers_subtitle2: "遊戲開發"
+    built_for_teachers_subblurb2: "學習者構建迷宮並使用基本函式來編碼他們自己的遊戲，這些遊戲可以與朋友和家人共享。"
+    built_for_teachers_subtitle3: "Web 開發"
+    built_for_teachers_subblurb3: "通過使用 HTML、CSS 和 jQuery，學生可以利用自定義 URL 對自己的網頁進行編程，以便與同學共享。"
+    century_skills_title: "21 世紀必備技能"
+    century_skills_blurb1: "學生不只是要升級他們的英雄，也要提升自己"
+    century_skills_quote1: "你陷入了困惑......所以你必須重新想想所有可能的解決方法，然後再試一次。 如果不努力，我就無法到達這裡"
+    century_skills_subtitle1: "批判性思考“
+    century_skills_subblurb1: "CodeCombat 的編碼遊戲可以建構越來越具有挑戰性的關卡，它可以確保孩子們一直在練習批判性思考。"
+    century_skills_quote2: "其他人都在製造迷宮，所以我想做點別的，「奪旗」這就是我想做的。"
+    century_skills_subtitle2: "創造力"
+    century_skills_subblurb2: "CodeCombat 鼓勵學生通過構建與分享自己的遊戲和網頁，來展現他們的創造力。"
+    century_skills_quote3: "如果我陷入了困惑。我會和周圍的人一起合作，直到我們都能搞清楚。"
+    century_skills_subtitle3: "合作"
+    century_skills_subblurb3: "在整個遊戲過程中，學生有機會在遇到困難時進行合作，並可以參考我們的編程指南一起解決問題。"
+    century_skills_quote4: "我一直有設計電玩遊戲和學習如何編碼的願望......這給了我一個很好的起點。"
+    century_skills_subtitle4: "溝通"
+    century_skills_subblurb4: "編碼要求孩子們練習新的溝通方式，包括與電腦本身的溝通，並使用最有效的代碼傳達他們的想法。"
+    classroom_in_box_title: "我們努力："
+    classroom_in_box_blurb1："讓每個學生都參與進來，讓他們相信編碼是為了他們自己。"
+    classroom_in_box_blurb2："讓每位老師在授課時更有自信。"
+    classroom_in_box_blurb3："激勵更多的學校來創造出世界一流的電腦科學課程。"
+    creativity_rigor_title: "創造力與邏輯相遇的地方"
+    creative_rigor_subtitle1："讓編碼變得有趣並學習到現實世界共通的技能"
+    creativity_rigor_blurb1: "學生在玩遊戲時學會輸入真正的 Python 和 JavaScript 代碼，鼓勵反複試驗、批判性思考和創造力。然後讓學生通過在專題課程中開發自己的遊戲和網站，應用他們學到的編碼技能。"
+    creative_rigor_subtitle2："達到他們水平的學生"
+    creativity_rigor_blurb2："每個 CodeCombat 的關卡都是基於數百萬個教學數據所構建的，並且經過優化以適應每個學習者。練習關卡和提示可以幫助學生在遇到困難時幫助他們，挑戰關卡則可以評估學生在整個遊戲過程中的學習情況。"
+    creativity_rigor_subtitle3: "為所有老師而建，無論有沒有經驗"
+    creativity_rigor_blurb3: "CodeCombat 可以自我掌控學習步調，共通標準的課程使得教授電腦科學成為可能。CodeCombat 可以為教師提供培訓，教學資源和專門支持，讓他們在課堂上感到自信和成功。"
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
 #    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
