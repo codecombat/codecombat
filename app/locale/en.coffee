@@ -465,6 +465,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     save_changes: "Save Changes"
     required_field: "required"
     submit: "Submit"
+    replay: "Replay"
+    complete: "Complete"
 
   general:
     and: "and"

@@ -1,10 +1,10 @@
 <script>
-  import BaseModal from '../../../common/BaseModal'
+  import BaseModalContainer from '../../../common/BaseModalContainer'
   import BaseSpeechBubble from '../../../common/BaseSpeechBubble'
 
   export default {
     components: {
-      BaseModal,
+      BaseModalContainer,
       BaseSpeechBubble
     },
 
@@ -47,7 +47,7 @@
 </script>
 
 <template>
-  <base-modal class="modal">
+  <base-modal-container class="modal">
     <div
       class="interactive-modal-content"
       @click="$emit('close')"
@@ -64,10 +64,10 @@
         <slot />
       </base-speech-bubble>
     </div>
-  </base-modal>
+  </base-modal-container>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .modal {
     /deep/ .modal-container {
       width: 528px;

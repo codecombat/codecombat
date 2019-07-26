@@ -26,6 +26,7 @@ module.exports = class CastButtonView extends CocoView
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:goals-calculated': 'onGoalsCalculated'
     'playback:ended-changed': 'onPlaybackEndedChanged'
+    'playback:playback-ended': 'onPlaybackEnded'
 
   constructor: (options) ->
     super options
@@ -120,6 +121,10 @@ module.exports = class CastButtonView extends CocoView
     @hasCastOnce = true
     @updateCastButton()
     @world = e.world
+
+  onPlaybackEnded: (e) ->
+    if @winnable
+      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onNewGoalStates: (e) ->
     winnable = e.overallStatus is 'success'

@@ -8,10 +8,8 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-
-import CapstoneProgressModal from './modal/CapstoneProgressModal'
-import CapstoneVictoryModal from './modal/CapstoneVictoryModal'
 import LevelIntroModal from './modal/LevelIntroModal'
+import OzariaVictoryModal from '../modal/OzariaVictoryModal'
 
 require('ozaria/site/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
@@ -1064,7 +1062,7 @@ class PlayLevelView extends RootView {
       $('#level-done-button').show()
     }
     if (e.showModal) {
-      this.showVictory(_.pick(e, 'manual'))
+      this.showVictory(_.pick(e, 'manual', 'capstoneInProgress'))
     }
     if (this.victorySeen) {
       return
@@ -1115,64 +1113,30 @@ class PlayLevelView extends RootView {
     }
     this.showVictoryHandlingInProgress = true
     this.endHighlight()
+    const goToNextDirectly = options.capstoneInProgress
     options = {
       level: this.level,
-      supermodel: this.supermodel,
-      session: this.session,
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
-      world: this.world,
-      parent: this
+      goToNextDirectly: goToNextDirectly
     }
-    let ModalClass = this.level.isType(
-      'hero',
-      'hero-ladder',
-      'hero-coop',
-      'course',
-      'course-ladder',
-      'game-dev',
-      'web-dev'
-    )
-      ? HeroVictoryModal
-      : VictoryModal
-    if (this.isCourseMode() || me.isSessionless()) {
-      ModalClass = CourseVictoryModal
-      options.capstoneStage = Number(utils.getQueryVariable('capstoneStage'))
+
+    if (me.isSessionless()) { // for teachers
+      options.capstoneStage = this.capstoneStage
+    } else if (additionalGoals) { // for students
+      const capstoneStageQueryParam = this.capstoneStage
+      const sessionCapstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
+      if (capstoneStageQueryParam && capstoneStageQueryParam <= sessionCapstoneStage) {
+        options.capstoneStage = capstoneStageQueryParam.toString()
+      } else {
+        options.capstoneStage = sessionCapstoneStage.toString()
+      }
     }
+    let ModalClass = OzariaVictoryModal
     if (this.level.isType('course-ladder')) {
-      ModalClass = CourseVictoryModal
       options.courseInstanceID =
         utils.getQueryVariable('course-instance') ||
         utils.getQueryVariable('league')
-    }
-    if (
-      this.level.get('slug') === 'code-play-share' &&
-      this.level.get('shareable')
-    ) {
-      const hocModal = new HoC2018VictoryModal({
-        shareURL: `${window.location.origin}/play/${this.level.get(
-          'type'
-        )}-level/${this.session.id}`,
-        campaign: this.level.get('campaign')
-      })
-      this.openModalView(hocModal)
-      hocModal.once('hidden', () => {
-        this.showVictoryHandlingInProgress = false
-      })
-      return
-    }
-
-    if (additionalGoals) {
-      const state = this.session.get('state')
-      options.capstoneStage = (state || {}).capstoneStage
-      options.remainingGoals = this.goalManager.getRemainingGoals()
-      options.levelSlug = this.level.get('slug')
-
-      if (options.remainingGoals.length > 0) {
-        ModalClass = CapstoneProgressModal
-      } else {
-        ModalClass = CapstoneVictoryModal
-      }
     }
 
     const victoryModal = new ModalClass(options)
@@ -1447,10 +1411,12 @@ class PlayLevelView extends RootView {
       const showModalFn = () =>
         Backbone.Mediator.publish('level:show-victory', options)
       this.session.recordScores(this.world.scores, this.level)
-      if (this.level.get('replayable')) {
-        return this.session.increaseDifficulty(showModalFn)
-      } else {
-        return showModalFn()
+      if (this.level.get('ozariaType') !== 'capstone') {
+        if (this.level.get('replayable')) {
+          return this.session.increaseDifficulty(showModalFn)
+        } else {
+          return showModalFn()
+        }
       }
     }
   }

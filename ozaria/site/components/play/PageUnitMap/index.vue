@@ -45,7 +45,8 @@
 
     computed: {
       ...mapGetters({
-        campaignDataByIdOrSlug: 'campaigns/getCampaignData'
+        campaignDataByIdOrSlug: 'campaigns/getCampaignData',
+        currentLevelsList: 'unitMap/getCurrentLevelsList'
       }),
 
       codeLanguage: function () {
@@ -85,6 +86,7 @@
     methods: {
       ...mapActions({
         fetchCampaign: 'campaigns/fetch',
+        buildLevelsData: 'unitMap/buildLevelsData',
         setCourseInstanceId: 'layoutChrome/setCurrentCourseInstanceId'
       }),
 
@@ -112,11 +114,10 @@
           if (this.courseInstanceId) {
             // TODO: There might be a better place to initialize this.
             this.setCourseInstanceId(this.courseInstanceId)
-            this.levels = await this.buildLevelsDataForCourse()
-          } else {
-            // for anonymous/home users
-            this.levels = this.campaignData.levels
+            await this.buildClassroomLevelMap()
           }
+          await this.buildLevelsData(this.campaign, this.courseInstanceId)
+          this.levels = this.currentLevelsList
           this.createLevelStatusMap()
           this.determineNextLevel()
           this.dataLoaded = true
@@ -127,57 +128,16 @@
         }
       },
 
-      /**
-      We have a campaign.levels list and a classroom.courses.levels list, and they are not always in sync.
-      Hence to get the levels data for a course instance for the unit map, we get the data as follows:
-      1. levels list from the classroom snapshot
-      2. position, nextLevels, first from the classroom snapshot, if does not exist then from campaign snapshot
-      4. any other data from the campaign snapshot, but if doesnt exist in campaign any more then use the data in classroom snapshot
-      */
-      async buildLevelsDataForCourse () {
-        try {
-          const courseInstance = await api.courseInstances.get({ courseInstanceID: this.courseInstanceId })
-          const courseId = this.courseId = courseInstance.courseID
-          const classroomId = courseInstance.classroomID
+      async buildClassroomLevelMap () {
+        const courseInstance = await api.courseInstances.get({ courseInstanceID: this.courseInstanceId })
+        const courseId = this.courseId = courseInstance.courseID
+        const classroomId = courseInstance.classroomID
 
-          // campaign snapshot of the levels
-          const existingCampaignLevels = _.cloneDeep(this.campaignData.levels)
+        const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
+        const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
-          // classroom snapshot of the levels for the course
-          const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
-          const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
-
-          // get levels data for the levels in the classroom snapshot
-          const classroomCourseLevelsData = await api.classrooms.getCourseLevels({ classroomID: classroomId, courseID: courseId })
-
-          for (let level of classroomCourseLevels) {
-            this.classroomLevelMap[level.original] = level
-          }
-
-          let courseLevelsData = {}
-          for (let level of classroomCourseLevelsData) {
-            let original = level.original
-            if (existingCampaignLevels[original]) {
-              courseLevelsData[original] = existingCampaignLevels[original]
-            } else {
-              // a level which has been removed from the campaign but is saved in the course
-              courseLevelsData[original] = level
-            }
-            // carry over position, nextLevels, first property stored in classroom course, if there are any
-            if (this.classroomLevelMap[original].position) {
-              courseLevelsData[original].position = this.classroomLevelMap[original].position
-            }
-            if (this.classroomLevelMap[original].nextLevels) {
-              courseLevelsData[original].nextLevels = this.classroomLevelMap[original].nextLevels
-            }
-            if (this.classroomLevelMap[original].first) {
-              courseLevelsData[original].first = this.classroomLevelMap[original].first
-            }
-          }
-
-          return courseLevelsData
-        } catch (err) {
-          return Promise.reject(err)
+        for (let level of classroomCourseLevels) {
+          this.classroomLevelMap[level.original] = level
         }
       },
 
