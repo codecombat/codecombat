@@ -62,6 +62,9 @@
           if (this.currentContent.contentType === 'cutscene-video') {
             return 'cutscene'
           }
+          if (this.currentContent.contentType === 'avatarSelectionScreen') {
+            return 'avatar selection'
+          }
           return this.currentContent.contentType
         }
       },
@@ -134,7 +137,10 @@
     <template #header>
       <div class="victory-header">
         <span class="text-capitalize status-text"> {{ contentType }} {{ $t("common.complete") }} </span>
-        <span class="text-capitalize"> {{ contentName }} </span>
+        <span
+          v-if="contentName"
+          class="text-capitalize"
+        > {{ contentName }} </span>
       </div>
     </template>
 
