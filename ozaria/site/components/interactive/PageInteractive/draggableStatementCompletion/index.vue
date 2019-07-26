@@ -97,7 +97,7 @@
         }
 
         return this.answerSlots
-          .map((s) => s.id)
+          .map((s) => s.elementId)
       },
 
       solutionCorrect () {

@@ -30,6 +30,7 @@ store = new Vuex.Store({
     campaigns: require('./modules/campaigns').default
     tints: require('./modules/tints').default
     layoutChrome: require('./modules/layoutChrome').default
+    unitMap: require('./modules/unitMap').default
   }
 })
 

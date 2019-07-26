@@ -46,7 +46,7 @@ module.exports = Vue.extend({
 
   methods: {
     completedHandler () {
-      this.$emit('completed')
+      this.$emit('completed', this.cinematicData)
     },
     async getCinematicData() {
       try {

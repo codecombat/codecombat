@@ -14,7 +14,8 @@ module.exports = Vue.extend({
   },
 
   data: () => ({
-    vimeoId: null
+    vimeoId: null,
+    cutscene: {}
   }),
 
   components: {
@@ -38,12 +39,12 @@ module.exports = Vue.extend({
   methods: {
     async loadCutscene() {
       // TODO handle_error_ozaria - What if unable to fetch cutscene?
-      const cutscene = await getCutscene(this.cutsceneId)
-      this.vimeoId = cutscene.vimeoId
+      this.cutscene = await getCutscene(this.cutsceneId)
+      this.vimeoId = this.cutscene.vimeoId
     },
 
     onCompleted() {
-      this.$emit('completed')
+      this.$emit('completed', this.cutscene)
     }
   }
 })

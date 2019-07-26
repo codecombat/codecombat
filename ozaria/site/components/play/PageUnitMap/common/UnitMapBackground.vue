@@ -58,7 +58,6 @@
       :level-data="level"
       :course-id="courseId"
       :course-instance-id="courseInstanceId"
-      :campaign-id="campaignData._id"
       :code-language="codeLanguage"
     />
   </div>
