@@ -79,6 +79,11 @@
       }
     },
     async mounted () {
+      if (!this.campaignHandle || !this.currentLevel) {
+        // TODO handle_error_ozaria
+        console.error('Campaign handle and level data are required for victory modal')
+        return noty({ text: 'Error in victory screen', layout: 'topCenter', type: 'error', timeout: 2000 })
+      }
       // TODO Use new audio system post-august launch
       Backbone.Mediator.publish('audio-player:play-sound', { trigger: 'victory' })
       try {

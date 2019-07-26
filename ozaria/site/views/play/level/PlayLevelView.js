@@ -1411,6 +1411,8 @@ class PlayLevelView extends RootView {
       const showModalFn = () =>
         Backbone.Mediator.publish('level:show-victory', options)
       this.session.recordScores(this.world.scores, this.level)
+
+      // Skip triggering the victory modal automatically for ozaria capstone levels.
       if (this.level.get('ozariaType') !== 'capstone') {
         if (this.level.get('replayable')) {
           return this.session.increaseDifficulty(showModalFn)

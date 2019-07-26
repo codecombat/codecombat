@@ -1,5 +1,6 @@
 <script>
 
+  import _ from 'lodash'
   import api from 'core/api'
   import { getLevelStatusMap, findNextLevelsBySession } from 'ozaria/site/common/ozariaUtils'
   import { mapActions, mapGetters } from 'vuex'
@@ -136,7 +137,7 @@
         const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
         const classroomCourseLevels = _.find(classroom.courses, { _id: courseId }).levels
 
-        for (let level of classroomCourseLevels) {
+        for (const level of classroomCourseLevels) {
           this.classroomLevelMap[level.original] = level
         }
       },

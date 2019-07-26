@@ -68,7 +68,7 @@
         // Reading query params because this is rendered via backbone router and cannot be directly passed in as props
         // They need to be in a specific order in the url to read and send them as props directy from backbone router, hence using query params here.
         this.courseInstanceId = this.courseInstanceId || utils.getQueryVariable('course-instance')
-        this.codeLanguage = this.codeLanguage || utils.getQueryVariable('code-language')
+        this.codeLanguage = this.codeLanguage || utils.getQueryVariable('codeLanguage')
         this.courseId = this.courseId || utils.getQueryVariable('course')
         try {
           this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)

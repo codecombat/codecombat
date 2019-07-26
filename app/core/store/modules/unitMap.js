@@ -1,4 +1,5 @@
 import api from 'core/api'
+import _ from 'lodash'
 
 export default {
   namespaced: true,
@@ -32,6 +33,7 @@ export default {
         levels = campaignData.levels
       } else {
         try {
+          // TODO get courseInstance/classroom data from vuex store
           const courseInstance = await api.courseInstances.get({ courseInstanceID: courseInstanceId })
           const courseId = courseInstance.courseID
           const classroomId = courseInstance.classroomID
