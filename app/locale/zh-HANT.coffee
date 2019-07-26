@@ -14,7 +14,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     century_skills_title: "21 世紀必備技能"
     century_skills_blurb1: "學生不只是要升級他們的英雄，也要提升自己"
     century_skills_quote1: "你陷入了困惑......所以你必須重新想想所有可能的解決方法，然後再試一次。 如果不努力，我就無法到達這裡"
-    century_skills_subtitle1: "批判性思考“
+    century_skills_subtitle1: "批判性思考"
     century_skills_subblurb1: "CodeCombat 的編碼遊戲可以建構越來越具有挑戰性的關卡，它可以確保孩子們一直在練習批判性思考。"
     century_skills_quote2: "其他人都在製造迷宮，所以我想做點別的，「奪旗」這就是我想做的。"
     century_skills_subtitle2: "創造力"
