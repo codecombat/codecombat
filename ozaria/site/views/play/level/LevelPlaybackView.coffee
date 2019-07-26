@@ -303,6 +303,9 @@ module.exports = class LevelPlaybackView extends CocoView
   onTogglePlay: (e) ->
     e?.preventDefault?()
     return if @shouldIgnore()
+    playing = store.state.game.playing
+    if not playing
+      Backbone.Mediator.publish('tome:manual-cast', {realTime: true})
     button = $('#play-button')
     willPlay = button.hasClass('paused') or button.hasClass('ended')
     Backbone.Mediator.publish 'level:set-playing', playing: willPlay
