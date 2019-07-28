@@ -566,7 +566,8 @@ module.exports = class SpellView extends CocoView
     @updateHTML create: true if @options.level.isType('web-dev')
 
   onRecompile: ->
-    @recompile
+    @spell.transpile()
+    @updateAether false, false
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
 
   createDebugView: ->
