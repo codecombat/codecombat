@@ -466,6 +466,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     save_changes: "שמור שינויים"
     required_field: "חובה"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "וכן"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     wallOfDarkness_name: "קיר חושך"
     wallOfDarkness_description: "הסתתרו מאחורי קיר צללים, כדי לחמוק מעיניים סקרניות."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "מנוי<br>CodeCombat<br>פרימיום" # Fit into the banner on the /features page
     master_coder: "הירשמו עוד היום כדי להפוך לאשפי תכנות!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     available_for_purchase: "זמין לרכישה" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "שלב לפתיחה:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "רק גיבורים מסוימים יכולים לשחק בשלב זה."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "פונקציה" # skill types

@@ -466,6 +466,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     save_changes: "Tallenna muutokset"
     required_field: "Vaadittu kenttä"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "ja"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     available_for_purchase: "Hankittavissa" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Taso, joka avaa:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Voit pelata tason vain tietyillä sankareilla."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "funktio" # skill types
