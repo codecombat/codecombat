@@ -13,10 +13,8 @@ module.exports = class CastButtonView extends CocoView
 
   events:
     'click #run': 'onCastButtonClick'
-    'click #update-game': 'onCastRealTimeButtonClick'
-    'click .done-button': 'onDoneButtonClick'
-    #'click #update-game': 'onClickGameDevPlayButton'
-    'click #reload-code': 'onCodeReload'
+    'click #update-game': 'onUpdateButtonClick'
+    'click #next': 'onNextButtonClick'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -26,6 +24,7 @@ module.exports = class CastButtonView extends CocoView
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:goals-calculated': 'onGoalsCalculated'
     'playback:ended-changed': 'onPlaybackEndedChanged'
+    'playback:playback-ended': 'onPlaybackEnded'
 
   constructor: (options) ->
     super options
@@ -75,23 +74,21 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + @castShortcutVerbose()
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
-  onCastButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
+  onUpdateButtonClick: (e) ->
+    Backbone.Mediator.publish 'tome:updateAether'
 
-  onCastRealTimeButtonClick: (e) ->
-    if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0
-      Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
-    else
-      Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
-    @updateReplayability()
-
-  onClickGameDevPlayButton: ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
-
-  onDoneButtonClick: (e) ->
-    return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
+  onNextButtonClick: (e) ->
     @options.session.recordScores @world?.scores, @options.level
-    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+    args = { showModal: true, manual: true, capstoneInProgress: false }
+    if @options.level.get('ozariaType') == 'capstone'
+      additionalGoals = @options.level.get('additionalGoals')
+      state = @options.session.get('state')
+      capstoneStage = state.capstoneStage
+      finalStage = _.max(additionalGoals, (goals) -> goals.stage)
+      if capstoneStage <= finalStage
+        args['capstoneInProgress'] = true
+
+    Backbone.Mediator.publish 'level:show-victory', args
 
   onSpellChanged: (e) ->
     @updateCastButton()
@@ -121,6 +118,10 @@ module.exports = class CastButtonView extends CocoView
     @updateCastButton()
     @world = e.world
 
+  onPlaybackEnded: (e) ->
+    if @winnable
+      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+
   onNewGoalStates: (e) ->
     winnable = e.overallStatus is 'success'
     return if @winnable is winnable
@@ -143,9 +144,6 @@ module.exports = class CastButtonView extends CocoView
   onPlaybackEndedChanged: (e) ->
     return unless e.ended and @winnable
     @$el.toggleClass 'has-seen-winning-replay', true
-
-  onCodeReload: (e) ->
-    @openModalView new ReloadLevelModal()
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded

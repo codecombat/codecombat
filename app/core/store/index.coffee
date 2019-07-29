@@ -18,7 +18,7 @@ store = new Vuex.Store({
   }
 
   modules: {
-    me: require('./modules/me'),
+    me: require('./modules/me').default,
     courses: require('./modules/courses'),
     game: require('./modules/game'),
     schoolAdministrator: require('./modules/schoolAdministrator').default
@@ -30,6 +30,7 @@ store = new Vuex.Store({
     campaigns: require('./modules/campaigns').default
     tints: require('./modules/tints').default
     layoutChrome: require('./modules/layoutChrome').default
+    unitMap: require('./modules/unitMap').default
   }
 })
 

@@ -224,6 +224,7 @@ module.exports = class LevelPlaybackView extends CocoView
       Backbone.Mediator.publish 'level:set-letterbox', on: false if @realTime or @cinematic
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
       Backbone.Mediator.publish 'playback:cinematic-playback-ended', {} if @cinematic
+      Backbone.Mediator.publish 'playback:playback-ended', {}
     if progress < 0.99 and @lastProgress >= 0.99
       playing = store.state.game.playing
       playButton.removeClass('ended')
@@ -303,6 +304,11 @@ module.exports = class LevelPlaybackView extends CocoView
   onTogglePlay: (e) ->
     e?.preventDefault?()
     return if @shouldIgnore()
+    # TODO: Fix game state after playing, and restrict to only capstone levels
+    # playing = store.state.game.playing
+    # if not playing and @options.level.get('ozariaType') == 'capstone'
+    if @options.level.isType('game-dev')
+      Backbone.Mediator.publish('tome:manual-cast', {realTime: true})
     button = $('#play-button')
     willPlay = button.hasClass('paused') or button.hasClass('ended')
     Backbone.Mediator.publish 'level:set-playing', playing: willPlay
