@@ -305,7 +305,7 @@ module.exports = class LevelPlaybackView extends CocoView
     return if @shouldIgnore()
     playing = store.state.game.playing
     # TODO: Fix game state after playing, and restrict to only capstone levels
-    if not playing and @options.level.isType('game-dev')
+    if @options.level.isType('game-dev')
       Backbone.Mediator.publish('tome:manual-cast', {realTime: true})
     button = $('#play-button')
     willPlay = button.hasClass('paused') or button.hasClass('ended')

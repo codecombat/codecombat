@@ -79,7 +79,7 @@ module.exports = class CastButtonView extends CocoView
   onNextButtonClick: (e) ->
     @options.session.recordScores @world?.scores, @options.level
     args = { showModal: true, manual: true, capstoneInProgress: false }
-    if this.level.get('ozariaType') == 'capstone'
+    if @options.level.get('ozariaType') == 'capstone'
       additionalGoals = @options.level.get('additionalGoals')
       currentStage = @options.session.get('capstoneStage')
       finalStage = _.max(additionalGoals, (goals) -> goals.stage)
