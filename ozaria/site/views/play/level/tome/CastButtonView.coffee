@@ -75,7 +75,7 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
   onUpdateButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:recompile'
+    Backbone.Mediator.publish 'tome:updateAether'
 
   onNextButtonClick: (e) ->
     @options.session.recordScores @world?.scores, @options.level
