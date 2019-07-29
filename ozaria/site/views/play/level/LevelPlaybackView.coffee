@@ -304,8 +304,9 @@ module.exports = class LevelPlaybackView extends CocoView
   onTogglePlay: (e) ->
     e?.preventDefault?()
     return if @shouldIgnore()
-    playing = store.state.game.playing
     # TODO: Fix game state after playing, and restrict to only capstone levels
+    # playing = store.state.game.playing
+    # if not playing and @options.level.get('ozariaType') == 'capstone'
     if @options.level.isType('game-dev')
       Backbone.Mediator.publish('tome:manual-cast', {realTime: true})
     button = $('#play-button')
