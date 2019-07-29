@@ -465,6 +465,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     save_changes: "Fnir Punatrf"
     required_field: "erdhverq"
     submit: "Fhozvg"
+    replay: "Ercynl"
+    complete: "Pbzcyrgr"
 
   general:
     and: "naq"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     wallOfDarkness_name: "Jnyy bs Qnexarff"
     wallOfDarkness_description: "Uvqr oruvaq n jnyy bs funqbjf gb cerirag gur tnmr bs celvat rlrf."
 
+  avatar_selection:
+    pick_an_avatar: "Cvpx na ningne gung jvyy ercerfrag lbh nf n cynlre"
+
   premium_features:
     get_premium: "Trg<oe>PbqrPbzong<oe>Cerzvhz" # Svg vagb gur onaare ba gur /srngherf cntr
     master_coder: "Orpbzr n Znfgre Pbqre ol fhofpevovat gbqnl!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     available_for_purchase: "Ninvynoyr sbe Chepunfr"  # Fubjf hc jura lbh unir haybpxrq, ohg abg chepunfrq, n ureb va gur ureb fgber
     level_to_unlock: "Yriry gb haybpx:"  # Ynory sbe juvpu yriry lbh unir gb orng gb haybpx n cnegvphyne ureb (pyvpx n ybpxrq ureb va gur fgber gb frr)
     restricted_to_certain_heroes: "Bayl pregnva urebrf pna cynl guvf yriry."
+
+  char_customization_modal:
+    heading: "Phfgbzvmr Lbhe Ureb"
+    body: "Obql"
+    name_label: "Ureb'f Anzr"
+    hair_label: "Unve Pbybe"
+    skin_label: "Fxva Pbybe"
 
   skill_docs:
     function: "shapgvba" # fxvyy glcrf

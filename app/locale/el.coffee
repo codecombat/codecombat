@@ -466,6 +466,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     save_changes: "Αποθήκευση Αλλαγών"
     required_field: "απαιτείται"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "και"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     wallOfDarkness_name: "Σκοτεινό Τοίχος"
     wallOfDarkness_description: "Κρύψου πίσω από έναν τοίχο σκιών για να αποφύγεις το βλέμμα των αδιάκριτων ματιών."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Πάρε <br>CodeCombat<br> Προνομιακό" # Fit into the banner on the /features page
     master_coder: "Γίνε μία Αυθεντία του Κώδικα κάνοντας συνδρομή σήμερα!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     available_for_purchase: "Διαθέσιμο για Αγορά" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Επίπεδο για ξεκλείδωμα:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "συνάρτηση" # skill types

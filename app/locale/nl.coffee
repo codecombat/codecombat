@@ -466,6 +466,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "en"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     wallOfDarkness_name: "Duistere Muur"
     wallOfDarkness_description: "Verberg je achter een muur van schaduwen om nieuwsgierige blikken te vermijden."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Word een Meesterprogrammeur door je vandaag te abonneren!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     available_for_purchase: "Beschikbaar om te kopen" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Beschikbaar na level:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Alleen bepaalde helden kunnen dit level spelen."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "functie" # skill types

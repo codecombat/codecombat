@@ -466,6 +466,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     save_changes: "변경사항 저장"
     required_field: "필수"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "그리고"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     wallOfDarkness_name: "암흑의 벽"
     wallOfDarkness_description: "눈길을 피하기 위해 그림자 벽 뒤에 숨어 있습니다."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "코드 컴뱃 프리미엄을 받으세요" # Fit into the banner on the /features page
     master_coder: "오늘 구독하여 마스터 코더가 되세요!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     available_for_purchase: "구매 가능" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "레벨 해금:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "특정 영웅만이 이 레벨을 플레이할 수 있습니다."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
 #    function: "function" # skill types
