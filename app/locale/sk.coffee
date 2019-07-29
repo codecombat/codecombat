@@ -198,6 +198,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   modal:
     close: "Zatvor"
     okay: "Súhlasím"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Stránka nenájdená"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     reload_title: "Načítať celý kód odznova?"
     reload_really: "Naozaj chcete reštartovať túto úroveň od začiatkúu"
     reload_confirm: "Obnoviť všetko"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "OTESTUJ LEVEL"
     victory: "Víťazstvo"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tome_cast_button_run: "Spustiť"
     tome_cast_button_running: "Prebieha"
     tome_cast_button_ran: "Spustené"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Odoslať"
     tome_reload_method: "Znovu načítať pôvodný kód pre túto metódu" # {change}
     tome_available_spells: "Dostupné kúzla"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -1334,6 +1342,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     toggle_pathfinding: "Prepni zobrazenie hľadania cesty."
     beautify: "Skrášli kód pomocou štandardizácie formátovania."
     maximize_editor: "Zväčši maximálne/minimálne editor."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat Komunita"
@@ -2376,6 +2387,13 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
 #  loading_error:
 #    could_not_load: "Error loading from server. Try refreshing the page."
 #    connection_failure: "Connection Failed"
@@ -2901,3 +2919,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

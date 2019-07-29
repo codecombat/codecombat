@@ -206,7 +206,7 @@ module.exports = class SpellPaletteView extends CocoView
     @$el.toggleClass 'controls-disabled', not enabled
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang.id
+    return unless e.selectedThang?.id is @thang?.id
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
 
   onTomeChangedLanguage: (e) ->

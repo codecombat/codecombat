@@ -465,6 +465,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     save_changes: "Save Changes"
     required_field: "required"
     submit: "Submit"
+    replay: "Replay"
+    complete: "Complete"
 
   general:
     and: "and"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+  avatar_selection:
+    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Become a Master Coder by subscribing today!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     available_for_purchase: "Available for Purchase"  # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Level to unlock:"  # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Only certain heroes can play this level."
+
+  char_customization_modal:
+    heading: "Customize Your Hero"
+    body: "Body"
+    name_label: "Hero's Name"
+    hair_label: "Hair Color"
+    skin_label: "Skin Color"
 
   skill_docs:
     function: "function" # skill types
@@ -1343,6 +1355,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Maximize/minimize code editor."
+
+  cinematic:
+    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat Community"
@@ -2384,6 +2399,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can1: "You can"
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
+
+  ozaria_chrome:
+    sound_off: 'Sound Off',
+    sound_on: 'Sound On',
+    back_to_map: 'Back to Map',
+    level_options: 'Level Options',
+    restart_level: 'Restart Level'
 
   loading_error:
     could_not_load: "Error loading from server. Try refreshing the page."

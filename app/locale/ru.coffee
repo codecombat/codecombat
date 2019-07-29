@@ -11,7 +11,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
 #    built_for_teachers_subtitle3: "Web Development"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
-#    century_skills_title: "21st Century Skills"
+    century_skills_title: "Навыки 21 Века"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
 #    century_skills_subtitle1: "Critical Thinking"
@@ -36,11 +36,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    creativity_rigor_blurb2: "Every CodeCombat level is scaffolded based on millions of data points and optimized to adapt to each learner. Practice levels and hints help students when they get stuck, and challenge levels assess students' learning throughout the game."
 #    creativity_rigor_subtitle3: "Built for all teachers, regardless of experience"
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
-#    featured_partners_title1: "Featured In"
+    featured_partners_title1: "Зарекомендован в"
     featured_partners_title2: "Награды и Партнеры"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
-#    featured_partners_blurb2: "Best Creativity Tool for Students"
-#    featured_partners_blurb3: "Top Pick for Learning"
+    featured_partners_blurb1: "Совет колледжа одобрил провайдера"
+    featured_partners_blurb2: "Лучшая креативная вещь для студентов"
+    featured_partners_blurb3: "Лучший выбор для обучения"
+
 #    featured_partners_blurb4: "Code.org Official Partner"
 #    featured_partners_blurb5: "CSforAll Official Member"
 #    featured_partners_blurb6: "Hour of Code Activity Partner"
@@ -55,7 +56,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "Для учителей"
-    for_teachers_blurb: "Инструменты для проявления потенциала студентов"
+    for_teachers_blurb: "Инструменты для раскрытия потенциала ученика"
 #    for_teachers_subtitle1: "Project-Based Learning"
 #    for_teachers_subblurb1: "Promote creativity, problem-solving, and confidence in project-based courses where students develop their own games and webpages."
     for_teachers_subtitle2: "Рабочая панель учителя"
@@ -73,13 +74,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    global_subtitle4: "Countries"
 #    go_to_my_classes: "Go to my classes"
 #    go_to_my_courses: "Go to my courses"
-#    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat. Any teacher who wants their students to learn how to code... start here!"
+    quotes_quote1: "Назовите любую онлайн программу, я попробовал её. Ни один из них не соответствует CodeCombat. Любой учитель, который хочет, чтобы их ученики научились кодировать ... начните здесь!"
 #    quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
-#    see_example: "See example"
+    see_example: "Посмотреть пример"
     slogan: "Самый захватывающий способ обучения реальному программированию." # {change}
-#    teach_cs1_free: "Teach CS1 Free"
+    teach_cs1_free: "Обучать CS1 Бесплатно"
 #    teachers_love_codecombat_title: "Teachers Love CodeCombat"
 #    teachers_love_codecombat_blurb1: "Report that their students enjoy using CodeCombat to learn how to code"
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
@@ -198,6 +199,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   modal:
     close: "Закрыть"
     okay: "OK"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Страница не найдена"
@@ -597,6 +599,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Проверить уровень"
     victory: "Победа"
     victory_title_prefix: "Уровень "
@@ -621,6 +625,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код, чтобы начать уровень заново"
     tome_available_spells: "Доступные заклинания"
@@ -725,6 +730,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Методы"
@@ -1334,6 +1343,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     toggle_pathfinding: "Включить наложение пути."
     beautify: "Приукрасьте свой код стандартизацией его форматирования."
     maximize_editor: "Развернуть/свернуть редактор кода."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Сообщество CodeCombat"
@@ -2376,6 +2388,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     you_can2: "купить предоплаченный код"
     you_can3: "который можно применить к вашему аккаунту или передать другому."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Ошибка загрузки с сервера" # {change}
     connection_failure: "Соединение прервано."
@@ -2901,3 +2920,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   modal:
     close: "Sluiten"
     okay: "Oké"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Pagina niet gevonden"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Test Level"
     victory: "Gewonnen"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_cast_button_run: "Uitvoeren"
     tome_cast_button_running: "Afspelen"
     tome_cast_button_ran: "Uitgevoerd"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
     tome_available_spells: "Beschikbare spreuken"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Methodes"
@@ -1334,6 +1342,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     toggle_pathfinding: "Toggle padvind weergave."
     beautify: "Maak je code netter door de opmaak overal gelijk te maken."
     maximize_editor: "Maximaliseer/minimaliseer code editor."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat Gemeenschap"
@@ -2376,6 +2387,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Fout bij het laden van de server" # {change}
     connection_failure: "Verbinding mislukt." # {change}
@@ -2901,3 +2919,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

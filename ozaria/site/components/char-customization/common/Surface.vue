@@ -12,7 +12,7 @@
         required: true
       },
 
-      selectedHero: {
+      selectedThang: {
         type: String,
         required: true
       },
@@ -24,6 +24,16 @@
           scaleFactorY: 1,
           pos: { y: -37 }
         })
+      },
+
+      width: {
+        type: Number,
+        default: 230
+      },
+
+      height: {
+        type: Number,
+        default: 700
       }
     },
     data: () => ({
@@ -67,7 +77,7 @@
       createjs.Ticker.addEventListener('tick', this.onTickHandler)
 
       const thang = createThang(this.thang)
-      const lank = new Lank(this.loadedThangTypes[this.selectedHero], {
+      const lank = new Lank(this.loadedThangTypes[this.selectedThang], {
         perloadSounds: false,
         thang,
         camera: camera,
@@ -87,7 +97,7 @@
 </script>
 
 <template>
-  <canvas  ref="canvas" width="230px" height="700px"></canvas>
+  <canvas  ref="canvas" :width="`${width}px`" :height="`${height}px`"></canvas>
 </template>
 
 <style>

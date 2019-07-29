@@ -176,7 +176,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-    'ozaria/play/level/:levelID': go('views/ozaria/site/play/level/PlayLevelView')
+    'ozaria/play/level/:levelID': (levelID) ->
+      props = {
+        levelID: levelID
+      }
+      @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
     # TODO move to vue router after support for empty template is added there
     'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
       props = {
@@ -193,6 +197,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'ozaria/character-customization': () ->
       @routeDirectly('ozaria/site/characterCustomization', [], { vueRoute: true, baseTemplate: 'base-empty' })
+
+    'ozaria/avatar-selector': () ->
+      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'parents': go('ParentsView')
 

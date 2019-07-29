@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   modal:
     close: "Fechar"
     okay: "Ok"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Página não encontrada"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     reload_title: "Recarregar o Código Todo?"
     reload_really: "Tens a certeza que queres recarregar este nível de volta ao início?"
     reload_confirm: "Recarregar Tudo"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Testar Nível"
     victory: "Vitória"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "A Executar"
     tome_cast_button_ran: "Executado"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Submeter"
     tome_reload_method: "Recarregar o código original para recomeçar o nível"
     tome_available_spells: "Feitiços Disponíveis"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Métodos"
@@ -1334,6 +1342,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     toggle_pathfinding: "Ativar/desativar a sobreposição do encontrador de caminho."
     beautify: "Embelezar o código ao estandardizar a formatação."
     maximize_editor: "Maximizar/minimizar o editor de código."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Comunidade do CodeCombat"
@@ -2376,6 +2387,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     you_can2: "adquirir um código pré-pago"
     you_can3: "que pode ser aplicado à tua conta ou dado a outros."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Erro a carregar do servidor. Experimenta atualizar a página."
     connection_failure: "A Ligação Falhou"
@@ -2901,3 +2919,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

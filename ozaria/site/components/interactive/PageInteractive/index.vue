@@ -94,7 +94,7 @@
       ]),
 
       onCompleted () {
-        this.$emit('completed')
+        this.$emit('completed', this.currentInteractive)
       },
 
       async getInteractiveData () {

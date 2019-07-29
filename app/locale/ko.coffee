@@ -198,6 +198,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   modal:
     close: "닫기"
     okay: "확인"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "페이지를 찾을 수 없습니다"
@@ -597,6 +598,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     reload_title: "코드를 초기화할까요?"
     reload_really: "정말로 이 레벨의 코드를 처음 상태로 되돌리겠습니까?"
     reload_confirm: "코드 초기화"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
     victory: "승리"
     victory_title_prefix: ""
@@ -621,6 +624,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_cast_button_run: "실행"
     tome_cast_button_running: "실행중"
     tome_cast_button_ran: "실행됨"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "적용"
     tome_reload_method: "원본 코드를 불러와 레벨 다시 시작하기" # {change}
     tome_available_spells: "사용 가능한 마법"
@@ -725,6 +729,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Methods"
@@ -1334,6 +1342,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     toggle_pathfinding: "길 찾아주는 오버레이 전환."
     beautify: "서식을 표준화하여 코드를 아름답게합니다."
     maximize_editor: "코드 에디터 최대/최소."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "코드 컴뱃 커뮤니티"
@@ -2376,6 +2387,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다." # {change}
     connection_failure: "연결 실패"
@@ -2901,3 +2919,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
