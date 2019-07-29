@@ -17,7 +17,7 @@ import {
   getSpeaker,
   getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
-import { LETTER_ANIMATE_TIME, HERO_THANG_ID } from './constants'
+import { LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID } from './constants'
 
 const OFF_CAMERA_OFFSET = 20
 
@@ -118,15 +118,17 @@ export default class CinematicLankBoss {
     const lHero = getLeftHero(shot)
 
     const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
+    const avatar = ((me.get('ozariaHeroConfig') || {}).avatar || {}).cinematicThangId || AVATAR_THANG_ID
+
     if (lHero) {
-      const { enterOnStart, thang } = lHero
-      addMoveCharacterCommand(LEFT_LANK_KEY, original, enterOnStart, thang)
+      const { enterOnStart, thang, type } = lHero
+      addMoveCharacterCommand(LEFT_LANK_KEY, type === 'hero' ? original : avatar, enterOnStart, thang)
     }
 
     const rHero = getRightHero(shot)
     if (rHero) {
-      const { enterOnStart, thang } = rHero
-      addMoveCharacterCommand(RIGHT_LANK_KEY, original, enterOnStart, thang)
+      const { enterOnStart, thang, type } = rHero
+      addMoveCharacterCommand(RIGHT_LANK_KEY, type === 'hero' ? original : avatar, enterOnStart, thang)
     }
 
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)

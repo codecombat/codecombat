@@ -64,7 +64,7 @@ describe('Cinematic', () => {
 
     it('getLeftHero', () => {
       const result = getLeftHero(shotFixture1)
-      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } } })
+      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } }, type: 'hero' })
 
       const result2 = getLeftHero(shotFixture2)
       expect(result2).toBeUndefined()
@@ -72,7 +72,7 @@ describe('Cinematic', () => {
 
     it('getRightHero', () => {
       const result = getRightHero(shotFixture2)
-      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } } })
+      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } }, type: 'hero' })
 
       const result2 = getRightHero(shotFixture1)
       expect(result2).toBeUndefined()
