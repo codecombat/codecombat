@@ -78,7 +78,15 @@ module.exports = class CastButtonView extends CocoView
 
   onNextButtonClick: (e) ->
     @options.session.recordScores @world?.scores, @options.level
-    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+    args = { showModal: true, manual: true, capstoneInProgress: false }
+    if this.level.get('ozariaType') == 'capstone'
+      additionalGoals = @options.level.get('additionalGoals')
+      currentStage = @options.session.get('capstoneStage')
+      finalStage = _.max(additionalGoals, (goals) -> goals.stage)
+      if currentStage <= finalStage
+        args['capstoneInProgress'] = true
+
+    Backbone.Mediator.publish 'level:show-victory', args
 
   onSpellChanged: (e) ->
     @updateCastButton()
