@@ -18,3 +18,4 @@ export const RIGHT_SPEAKER_CAMERA_POS = { x: 165, y: -65 }
 // Useful if an admin is testing without selecting a hero in advance.
 export const HERO_THANG_ID = '5d03e18887ed53004682e340'
 export const AVATAR_THANG_ID = '5c373c9f9034ac0034b43b22'
+export const PET_AVATAR_THANG_ID = '5c373c9f9034ac0034b43b22'

@@ -17,7 +17,7 @@ import {
   getSpeaker,
   getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
-import { LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID } from './constants'
+import { LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID, PET_AVATAR_THANG_ID } from './constants'
 
 const OFF_CAMERA_OFFSET = 20
 
@@ -101,6 +101,13 @@ export default class CinematicLankBoss {
       commands.push(this.setBackgroundCommand(background))
     }
 
+    const lHero = getLeftHero(shot)
+    const rHero = getRightHero(shot)
+
+    const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
+    const avatar = ((me.get('ozariaHeroConfig') || {}).avatar || {}).cinematicThangId || AVATAR_THANG_ID
+    const avatarPet = ((me.get('ozariaHeroConfig') || {}).avatar || {}).cinematicPetThangId || PET_AVATAR_THANG_ID
+
     const heroPet = getHeroPet(shot)
     if (heroPet) {
       const { slug, thang } = heroPet
@@ -108,24 +115,18 @@ export default class CinematicLankBoss {
       this.heroPetOffset = thang.pos
       const placePet = this.moveLankCommand({
         key: HERO_PET,
-        resource: slug,
+        resource: (rHero || {}).type !== 'avatar' ? slug : avatarPet,
         thang,
         ms: 0
       })
       commands.push(placePet)
     }
 
-    const lHero = getLeftHero(shot)
-
-    const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
-    const avatar = ((me.get('ozariaHeroConfig') || {}).avatar || {}).cinematicThangId || AVATAR_THANG_ID
-
     if (lHero) {
       const { enterOnStart, thang, type } = lHero
       addMoveCharacterCommand(LEFT_LANK_KEY, type === 'hero' ? original : avatar, enterOnStart, thang)
     }
 
-    const rHero = getRightHero(shot)
     if (rHero) {
       const { enterOnStart, thang, type } = rHero
       addMoveCharacterCommand(RIGHT_LANK_KEY, type === 'hero' ? original : avatar, enterOnStart, thang)

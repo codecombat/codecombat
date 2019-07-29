@@ -63,14 +63,14 @@ export default {
         })
     },
 
-    set1fhAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId }) {
-      if (!(levelThangTypeId && cinematicThangTypeId)) {
-        throw new Error('Require both a levelThangTypeId and cinematicThangTypeId')
+    set1fhAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId, cinematicPetThangId, avatarCodeString }) {
+      if (!(levelThangTypeId && cinematicThangTypeId && cinematicPetThangId)) {
+        throw new Error('Require a levelThangTypeId, cinematicThangTypeId, cinematicPetThangId, and avatarCodeString')
       }
 
       const ozariaConfig = state.ozariaHeroConfig || {}
       commit('updateUser', { ozariaHeroConfig:
-        { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId } }
+        { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
       })
     }
   }

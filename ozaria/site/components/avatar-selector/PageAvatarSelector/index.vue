@@ -16,32 +16,44 @@ const avatars = [
   {
     selectionImg: '/images/ozaria/avatar-selector/circle.png',
     levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'placeholder'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/hex.png',
     levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'placeholder'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/square.png',
     levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'placeholder'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/circle.png',
     levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'placeholder'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/square.png',
     levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'placeholder'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/hex.png',
     levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'placeholder'
   },
 ]
 

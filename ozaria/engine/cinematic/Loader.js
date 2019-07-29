@@ -49,6 +49,7 @@ export default class Loader {
   loadPlayerThangTypes () {
     const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
     const avatar = ((me.get('ozariaHeroConfig') || {}).avatar || {}).cinematicThangId || AVATAR_THANG_ID
+    const avatarPet = ((me.get('ozariaHeroConfig') || {}).avatar || {}).cinematicPetThangId || AVATAR_THANG_ID
 
     this.loadingThangTypes.set(
       original,
@@ -57,12 +58,21 @@ export default class Loader {
         this.loadedThangTypes.set(original, new ThangType(attr))
       })()
     )
+
     // TODO: We don't always need to load this. Currently a convenient solution.
     this.loadingThangTypes.set(
       avatar,
       (async () => {
         const attr = await getThangTypeOriginal(avatar)
         this.loadedThangTypes.set(avatar, new ThangType(attr))
+      })()
+    )
+
+    this.loadingThangTypes.set(
+      avatarPet,
+      (async () => {
+        const attr = await getThangTypeOriginal(avatarPet)
+        this.loadedThangTypes.set(avatarPet, new ThangType(attr))
       })()
     )
   }
