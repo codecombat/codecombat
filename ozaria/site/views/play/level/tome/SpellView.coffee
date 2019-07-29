@@ -59,7 +59,7 @@ module.exports = class SpellView extends CocoView
     'level:contact-button-pressed': 'onContactButtonPressed'
     'level:show-victory': 'onShowVictory'
     'web-dev:error': 'onWebDevError'
-    'tome:recompile': 'onRecompile'
+    'tome:updateAether': 'onUpdateAether'
 
   events:
     'mouseout': 'onMouseOut'
@@ -565,7 +565,7 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
     @updateHTML create: true if @options.level.isType('web-dev')
 
-  onRecompile: ->
+  onUpdateAether: ->
     @spell.transpile()
     @updateAether false, false
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
