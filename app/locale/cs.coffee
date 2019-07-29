@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     beautify: "Udělejte váš kod hezčí standardizováním jeho formátu."
     maximize_editor: "Maximalizovat/minimalizovat editor kódu."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Komunita"
     introduction: "Koukněte se na způsoby, jak se můžete zapojit níže a rozhodněte se co vám nejvíce vyhovuje. Těšíme se na pracování s vámi!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Chyba při načítání ze serveru" # {change}

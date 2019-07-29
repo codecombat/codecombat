@@ -153,47 +153,47 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    student: "Student"
 
   nav:
-#    educators: "Educators"
-#    follow_us: "Follow Us"
-#    general: "General"
-#    map: "Map"
+    educators: "Едукатори"
+    follow_us: "Следи нè"
+    general: "Општо"
+    map: "Мапа"
     play: "Нивоа" # The top nav bar entry where players choose which levels to play
     community: "Заедница"
-#    courses: "Courses"
+    courses: "Курсеви"
     blog: "Блог"
     forum: "Форум"
     account: "Сметка"
-#    my_account: "My Account"
+    my_account: "Мој Профил"
     profile: "Профил"
     home: "Дома"
     contribute: "Допринеси"
     legal: "Законски"
-#    privacy: "Privacy Notice"
+    privacy: "Приватност"
     about: "За CodeCombat"
     contact: "Контакт"
     twitter_follow: "Следи"
-#    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
-#    my_teachers: "My Teachers"
-#    careers: "Careers"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
-#    toggle_nav: "Toggle navigation"
-#    schools: "Schools"
-#    get_involved: "Get Involved"
-#    open_source: "Open source (GitHub)"
-#    support: "Support"
-#    faqs: "FAQs"
-#    copyright_prefix: "Copyright"
-#    copyright_suffix: "All Rights Reserved."
-#    help_pref: "Need help? Email"
-#    help_suff: "and we'll get in touch!"
-#    resource_hub: "Resource Hub"
-#    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    my_classrooms: "Мои училници"
+    my_courses: "Мои курсеви"
+    my_teachers: "Мои наставници"
+    careers: "Кариера"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Креирај училница"
+    other: "Друго"
+    learn_to_code: "Научи да кодираш!"
+    toggle_nav: "Промени го менито"
+    schools: "Школи"
+    get_involved: "Придружи се"
+    open_source: "Open source (GitHub)"
+    support: "Поддршка"
+    faqs: "Неодамна поставени прашања"
+    copyright_prefix: "Авторски права"
+    copyright_suffix: "Сите права задржани."
+    help_pref: "Треба помош? Прати и-мејл!"
+    help_suff: "и ќе бидеме во контакт!"
+    resource_hub: "Извор"
+    apcsp: "AP CS Принципи"
+    parent: "Родители"
 
   modal:
     close: "Затвори"
@@ -212,26 +212,26 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     subscribe_as_diplomat: "Зачлени се како Дипломат"
 
   play:
-#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
-#    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
-#    anon_signup_title_1: "CodeCombat has a"
-#    anon_signup_title_2: "Classroom Version!"
-#    anon_signup_enter_code: "Enter Class Code:"
-#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
-#    anon_signup_create_class: "Want to create a class?"
-#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
-#    anon_signup_create_teacher: "Create free teacher account"
+    title: "Играј CodeCombat Нивоа - Научи Python, JavaScript и HTML"
+    meta_description: "Научи програмирање преку игра за кодирање наменета за почетници. Научи Python или JavaScript преку решавање загатки, креирање свои игри и појачување на херојот. Предизвикај ги своите пријатели во арена нивоата за повеќе играчи!"
+    level_title: "__level__ - Научи да кодираш во Python, JavaScript и HTML"
+    video_title: "__video__ | Video Level"
+    game_development_title: "__level__ | Развивање на игри"
+    web_development_title: "__level__ | Развивање на вебсајти"
+    anon_signup_title_1: "CodeCombat има"
+    anon_signup_title_2: "Верзија за училници!"
+    anon_signup_enter_code: "Внеси код на училница:"
+    anon_signup_ask_teacher: "Немаш код? Прашај го својот наставник!"
+    anon_signup_create_class: "Сакаш да креираш училница?"
+    anon_signup_setup_class: "Намести училница,додај ги своите ученици, и следи го напредокот!"
+    anon_signup_create_teacher: "Креирај бесплатен наставнички профил!"
     play_as: "Играј како" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
-#    compete: "Compete!" # Course details page
+    get_course_for_class: "Додели развивање игри и повеќе во твојата училница!"
+    request_licenses: "Контактирајте ги нашите школски специјалисти за помош."
+    compete: "Натпреварувај се!" # Course details page
     spectate: "Набљудувај" # Ladder page
-    players: "играчи" # Hover over a level on /play
-    hours_played: "изиграни часови" # Hover over a level on /play
+    players: "Играчи" # Hover over a level on /play
+    hours_played: "Изиграни часови" # Hover over a level on /play
     items: "Опрема" # Tooltip on item shop button from /play
     unlock: "Отклучи" # For purchasing items and heroes
     confirm: "Потврди"
@@ -242,29 +242,29 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     heroes: "Херои" # Tooltip on hero shop button from /play
     achievements: "Постигнувања" # Tooltip on achievement list button from /play
     settings: "Подесувања" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Гласање" # Tooltip on poll button from /play
     next: "Следно" # Go from choose hero to choose inventory before playing a level
     change_hero: "Смени херој" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Смени херој или јазик"
     buy_gems: "Купи скапоцени камења"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscribers_only: "Само за претплатници!"
+    subscribe_unlock: "Претплати се за да отклучиш!"
+    subscriber_heroes: "Претплати се денес за веднаш да ги отклучиш Амара, Хушбаум и Хатори!"
+    subscriber_gems: "Претплати се денес за да го купиш овој херој со скапоцени камења!"
     anonymous: "Анонимен играч"
-    level_difficulty: "Тешкотија: "
+    level_difficulty: "Ниво на тешкотија: "
     awaiting_levels_adventurer_prefix: "Пуштаме пет нивоа неделно." # {change}
     awaiting_levels_adventurer: "Зачлени се како Авантурист"
-    awaiting_levels_adventurer_suffix: "за да бидеш првиот кој ќе ги игра новите нивоа."
-#    adjust_volume: "Adjust volume"
+    awaiting_levels_adventurer_suffix: "За да бидеш првиот кој ќе ги игра новите нивоа."
+    adjust_volume: "Подеси звук"
     campaign_multiplayer: "Арени за повеќе играчи"
     campaign_multiplayer_description: "... во кои кодираш лице-во-лице против други играчи."
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    brain_pop_done: "Ги порази огрите со код! Победи!"
+    brain_pop_challenge: "Предизвикај се себеси да играш пак со различен програмски јазик!"
+    replay: "Играј повторно"
+    back_to_classroom: "Назад во училницата"
+    teacher_button: "За наставници"
+    get_more_codecombat: "Повеќе CodeCombat"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
 #  community:
 #    main_title: "CodeCombat Community"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
 #  loading_error:
 #    could_not_load: "Error loading from server. Try refreshing the page."

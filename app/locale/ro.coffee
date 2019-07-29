@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     beautify: "Înfrumusețează codul standardizând formatarea lui."
     maximize_editor: "Mărește/Micește editorul."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Comunitatea CodeCombat"
     introduction: "Vezi metode prin care poți să te implici și tu mai jos și decide să alegi ce ți se pare cel mai distractiv. Deabia așteptăm să lucrăm împreună!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Eroare la încărcarea pe server" # {change}

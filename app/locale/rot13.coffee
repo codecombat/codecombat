@@ -1344,6 +1344,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     beautify: "Ornhgvsl lbhe pbqr ol fgnaqneqvmvat vgf sbeznggvat."
     maximize_editor: "Znkvzvmr/zvavzvmr pbqr rqvgbe."
 
+  cinematic:
+    click_anywhere_continue: "pyvpx naljurer gb pbagvahr"
+
   community:
     main_title: "PbqrPbzong Pbzzhavgl"
     introduction: "Purpx bhg gur jnlf lbh pna trg vaibyirq orybj naq qrpvqr jung fbhaqf gur zbfg sha. Jr ybbx sbejneq gb jbexvat jvgu lbh!"
@@ -2384,6 +2387,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     you_can1: "Lbh pna"
     you_can2: "chepunfr n cercnvq pbqr"
     you_can3: "gung pna or nccyvrq gb lbhe bja nppbhag be tvira gb bguref."
+
+  ozaria_chrome:
+    sound_off: 'Fbhaq Bss',
+    sound_on: 'Fbhaq Ba',
+    back_to_map: 'Onpx gb Znc',
+    level_options: 'Yriry Bcgvbaf',
+    restart_level: 'Erfgneg Yriry'
 
   loading_error:
     could_not_load: "Reebe ybnqvat sebz freire. Gel erserfuvat gur cntr."

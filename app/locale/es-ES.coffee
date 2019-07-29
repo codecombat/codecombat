@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     beautify: "Embellece tu código estandarizando el formato."
     maximize_editor: "Maximizar/minimizar editor de código."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "Comunidad de CodeCombat"
     introduction: "Descubre las formas en las que te puedes involucrar abajo y decide cual te suena más divertida. ¡Esperamos trabajar contigo!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Error al cargar desde el servidor." # {change}

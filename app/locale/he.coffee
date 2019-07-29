@@ -1343,6 +1343,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     beautify: "כתבו קוד אלגנטי יותר באמצעות עיצוב מתוקנן."
     maximize_editor: "הגדלה/כיווץ של עורך הקוד."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "קהילת CodeCombat"
     introduction: "בואו ללמוד להלן כיצד תוכלו לקחת חלק וכדי להחליט מה נשמע הכי כיף לכם. אנו מצפים לעבוד אתכם!"
@@ -2383,6 +2386,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     you_can1: "באפשרותך"
     you_can2: "לרכוש קוד בתשלום מראש"
     you_can3: "אשר ניתן להחיל על חשבונך או לתת למשתמשים אחרים."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "אירעה שגיאה בטעינה מהשרת" # {change}

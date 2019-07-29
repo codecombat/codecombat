@@ -53,6 +53,7 @@ _.extend CampaignSchema.properties, {
         ]
     }
   }}
+  isOzaria: {type: 'boolean', description: 'Is this an ozaria campaign', default: true }
   levelsUpdated: c.date()
 
   levels: { type: 'object', format: 'levels', additionalProperties: {
