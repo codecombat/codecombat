@@ -47,6 +47,33 @@
 
       clickRestart () {
         this.$emit('clickRestart')
+      },
+      
+      // Inspired from CocoView toggleFullscreen method.
+      toggleFullScreen () {
+        const full = document.fullscreenElement ||
+           document.mozFullScreenElement ||
+           document.msFullscreenElement ||
+           document.webkitFullscreenElement
+
+        if (!full) {
+          const d = document.documentElement
+
+          const req = d.requestFullscreen ||
+                d.mozRequestFullScreen ||
+                d.msRequestFullscreen
+
+          if (req) {
+            req.call(d)
+          }
+        } else {
+          const exitFullScreen = document.exitFullscreen ||
+                document.mozCancelFullScreen ||
+                document.msExitFullscreen
+          if (exitFullScreen) {
+            exitFullScreen.call(document)
+          }
+        }
       }
     }
   })
@@ -94,6 +121,14 @@
             }"
           />
         </a>
+        <div class="button-flex-item fullscreen-btn"
+            v-tooltip="{
+              content: $t('ozaria_chrome.max_browser'),
+              placement: 'right',
+              classes: 'layoutChromeTooltip',
+            }"
+
+            @click="toggleFullScreen" />
         <div
           class="button-flex-item sound-btn"
           :class="{ menuVolumeOff: soundOn }"
@@ -118,7 +153,9 @@
       </div>
     </div>
 
-    <slot />
+    <div class="background-img">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -135,6 +172,15 @@
 
     padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
 
+    .background-img
+      // TODO: Swap out with higher resolution image.
+      background-image: url(/images/ozaria/layout/chrome/AC_backer.png)
+      background-position: center center
+      background-size: cover
+      background-repeat: no-repeat
+      width: 100%
+      height: 100%
+
   .chrome-border
     $topOffset: 25px
     position: absolute
@@ -148,10 +194,10 @@
     z-index: 10
 
     &.chrome-on-slice
-      border-image: url('/images/ozaria/layout/chrome/Layout-Chrome-on.png')
+      border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-on.png)
 
     &.chrome-off-slice
-      border-image: url('/images/ozaria/layout/chrome/Layout-Chrome-off.png')
+      border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-off.png)
 
     &.chrome-off-slice, &.chrome-on-slice
       border-image-slice: 182 194 130 118 fill
@@ -188,10 +234,11 @@
       .button-flex-item
         width: 58px
         height: 58px
-        margin: 10px 0
+        margin: 3px 0
 
       .spacer
         flex-grow: 1
+        min-height: 224px
 
       .hideBtn
         visibility: hidden
@@ -212,6 +259,13 @@
 
         &:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_Map.png)
+
+      .fullscreen-btn
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_MaxBrowser.png)
+
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_MaxBrowser.png)
+
       .sound-btn
         background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOn.png)
 
@@ -224,7 +278,7 @@
         &.menuVolumeOff:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
 
-      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff
+      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
         &, &:hover
           background-size: 45px
           background-position: center
@@ -278,6 +332,8 @@
     font-family: 'Open Sans', serif
     font-size: 16px
 
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.3)
+
     &[aria-hidden='true'] 
       visibility: hidden
       opacity: 0
@@ -291,8 +347,8 @@
     .tooltip-inner
       background: $chromeTooltipBackground
       color: black
-      border-radius: 8px
-      padding: 5px 10px 4px
+      border-radius: 5px
+      padding: 7px 12px 6px
 
     .tooltip-arrow
       width: 0

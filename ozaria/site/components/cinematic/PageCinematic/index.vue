@@ -35,7 +35,7 @@ module.exports = Vue.extend({
       return application.router.navigate('/', { trigger: true })
     }
     await this.getCinematicData()
-    this.handleSoundVolume()
+    this.handleSoundMuted()
   },
 
   computed: {
@@ -61,18 +61,18 @@ module.exports = Vue.extend({
       }
     },
 
-    handleSoundVolume () {
+    handleSoundMuted () {
       if (this.soundOn) {
-        Howler.volume(1)
+        Howler.mute(false)
       } else {
-        Howler.volume(0)
+        Howler.mute(true)
       }
     }
   },
 
   watch: {
     soundOn() {
-      this.handleSoundVolume()
+      this.handleSoundMuted()
     }
   }
 })

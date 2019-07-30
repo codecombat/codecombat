@@ -2409,7 +2409,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sound_on: 'Sound On',
     back_to_map: 'Back to Map',
     level_options: 'Level Options',
-    restart_level: 'Restart Level'
+    restart_level: 'Restart Level',
+    max_browser: 'Maximize Browser'
 
   loading_error:
     could_not_load: "Error loading from server. Try refreshing the page."
