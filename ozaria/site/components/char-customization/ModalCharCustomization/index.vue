@@ -1,4 +1,5 @@
 <script>
+  import BaseModalContainer from '../../common/BaseModalContainer'
   import Surface from '../common/Surface'
   // TODO migrate api calls to the Vuex store.
   import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
@@ -33,7 +34,8 @@
 
   module.exports = Vue.extend({
     components: {
-      'surface': Surface
+      'surface': Surface,
+      BaseModalContainer
     },
 
     data: () => ({
@@ -190,10 +192,9 @@
         // TODO handle_error_ozaria - What happens on failure?
         me.save(null, {
           success: () => {
-            // TODO add next button behavior
             // TODO button should become disabled while saving.
-            alert('saved')
-          },
+            this.$emit('saved')
+          }
         })
       }
     }
@@ -201,15 +202,16 @@
 </script>
 
 <template>
-  <div class="container">
-    <div class="row" style="text-align: center;">
-      <h1>{{ this.$t('char_customization_modal.heading') }}</h1>
-    </div>
-    <div class="row">
-      <div class="col-xs-4">
-        <div class='body-label'>
-          <label>{{ this.$t('char_customization_modal.body') }}</label>
-        </div>
+  <base-modal-container>
+    <div class="container">
+      <div class="row" style="text-align: center;">
+        <h1>{{ this.$t('char_customization_modal.heading') }}</h1>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <div class='body-label'>
+            <label>{{ this.$t('char_customization_modal.body') }}</label>
+          </div>
           <div
             v-for="(body) in bodyTypes"
             v-bind:key="body.slug"
@@ -219,75 +221,76 @@
               @click="body.onClick"
               :class="['swatch', body.slug === selectedHero ? 'selected' : '']"
               style="background-color: #ccc;"
+            />
+          </div>
+        </div>
+        <div class="col-xs-4 webgl-area">
+          <surface
+            v-if="loaded && selectedHero"
+            :loadedThangTypes="loadedThangTypes"
+            :selectedThang="selectedHero"
+            :thang="selectedThang"
+            :key="selectedHero + `${tintIndexSelection.skin}` + `${tintIndexSelection.hair}`"
+          />
+        </div>
+        <div class="col-xs-4">
+          <form ref="name-form">
+            <label for="heroNameInput">{{ this.$t('char_customization_modal.name_label') }}</label>
+            <input
+              v-model="characterName"
+              maxlength="25"
+              id="heroNameInput"
+              class="form-control"
+              required
             >
+          </form>
+          <div>
+            <label>{{ this.$t('char_customization_modal.hair_label') }}</label>
+            <div>
+              <template v-for="(tint, i) in hairSwatches">
+                <div
+                  :key="i"
+                  :class="['swatch', tintIndexSelection.hair === i ? 'selected' : '']"
+                  :style="{ backgroundColor: tint }"
+                  @click="() => onClickSwatch('hair', i)"
+                />
+              </template>
             </div>
           </div>
-      </div>
-      <div class="col-xs-4 webgl-area">
-        <surface
-          v-if="loaded && selectedHero"
-          :loadedThangTypes="loadedThangTypes"
-          :selectedThang="selectedHero"
-          :thang="selectedThang"
-          :key="selectedHero + `${tintIndexSelection.skin}` + `${tintIndexSelection.hair}`"
-        />
-      </div>
-      <div class="col-xs-4">
-        <form ref="name-form">
-          <label for="heroNameInput">{{ this.$t('char_customization_modal.name_label') }}</label>
-          <input
-            v-model="characterName"
-            maxlength="25"
-            id="heroNameInput"
-            class="form-control"
-            required
-          />
-        </form>
-        <div>
-          <label>{{ this.$t('char_customization_modal.hair_label') }}</label>
           <div>
-            <template v-for="(tint, i) in hairSwatches">
-              <div
-                :key="i"
-                :class="['swatch', tintIndexSelection.hair === i ? 'selected' : '']"
-                :style="{ backgroundColor: tint }"
-                @click="() => onClickSwatch('hair', i)"
-              ></div>
-            </template>
-          </div>
-        </div>
-        <div>
-          <label>{{ this.$t('char_customization_modal.skin_label') }}</label>
-          <div>
-            <template v-for="(tint, i) in skinSwatches">
-              <div
-                :key="i"
-                :class="['swatch', tintIndexSelection.skin === i ? 'selected' : '']"
-                :style="{ backgroundColor: tint }"
-                @click="() => onClickSwatch('skin', i)"
-              ></div>
-            </template>
+            <label>{{ this.$t('char_customization_modal.skin_label') }}</label>
+            <div>
+              <template v-for="(tint, i) in skinSwatches">
+                <div
+                  :key="i"
+                  :class="['swatch', tintIndexSelection.skin === i ? 'selected' : '']"
+                  :style="{ backgroundColor: tint }"
+                  @click="() => onClickSwatch('skin', i)"
+                />
+              </template>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3 col-xs-push-9">
-        <button
-          v-if="loaded"
-          @click="handleSubmit"
-          id="next-button"
-        >
-          {{ this.$t('common.next') }}
-        </button>
+      <div class="row">
+        <div class="col-xs-3 col-xs-push-9">
+          <button
+            v-if="loaded"
+            @click="handleSubmit"
+            id="next-button"
+          >
+            {{ this.$t('common.next') }}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </base-modal-container>
 </template>
 
 <style scoped lang="sass">
 .container
   background-color: white
+  position: relative
 
 .webgl-area
   text-align: center

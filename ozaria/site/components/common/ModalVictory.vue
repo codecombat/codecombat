@@ -5,10 +5,12 @@
   import utils from 'core/utils'
   import urls from 'core/urls'
   import api from 'core/api'
+  import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
 
   export default Vue.extend({
     components: {
-      BaseModal
+      BaseModal,
+      ModalCharCustomization
     },
     props: {
       campaignHandle: {
@@ -51,7 +53,9 @@
     data: () => ({
       nextLevelLink: '',
       editCapstoneLevelData: undefined,
-      capstoneLevelSession: {}
+      capstoneLevelSession: {},
+      isFirstLevel: undefined,
+      showCharCx: false
     }),
     computed: {
       ...mapGetters({
@@ -103,6 +107,9 @@
           return urls.playDevLevel(shareUrlOptions)
         }
         return ''
+      },
+      charCxModal: function () {
+        return this.isFirstLevel && !(me.get('ozariaHeroConfig') || {}).tints
       }
     },
     async mounted () {
@@ -132,6 +139,7 @@
       async getNextLevelLink () {
         await this.buildLevelsData(this.campaignHandle, this.courseInstanceId)
         const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
+        this.isFirstLevel = currentLevelData.first
         let currentLevelStage
         if (currentLevelData.isPlayedInStages && this.capstoneStage) {
           currentLevelStage = parseInt(this.capstoneStage)
@@ -167,6 +175,8 @@
       nextButtonClick () {
         if (this.currentIntroContent && !this.introLevelComplete) {
           this.$emit('next-content') // handled by vue IntroLevelPage
+        } else if (this.charCxModal && this.nextLevelLink) {
+          this.showCharCx = true
         } else if (this.nextLevelLink) {
           return application.router.navigate(this.nextLevelLink, { trigger: true })
         }
@@ -193,6 +203,9 @@
       copyUrl () {
         this.$refs['share-text-box'].select()
         tryCopy()
+      },
+      onCharCxSaved () {
+        return application.router.navigate(this.nextLevelLink, { trigger: true })
       }
     }
   })
@@ -200,7 +213,7 @@
 
 <template>
   <base-modal
-    v-if="!goToNextDirectly"
+    v-if="!goToNextDirectly && !showCharCx"
     class="victory-modal"
   >
     <template #header>
@@ -270,6 +283,11 @@
       </div>
     </template>
   </base-modal>
+  <modal-char-customization
+    v-else-if="showCharCx"
+    class="char-cx-modal"
+    @saved="onCharCxSaved"
+  />
 </template>
 
 <style lang="sass" scoped>

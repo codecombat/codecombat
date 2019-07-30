@@ -195,9 +195,6 @@ module.exports = class CocoRouter extends Backbone.Router
       }
       @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
-    'ozaria/character-customization': () ->
-      @routeDirectly('ozaria/site/characterCustomization', [], { vueRoute: true, baseTemplate: 'base-empty' })
-
     'ozaria/avatar-selector': () ->
       @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
