@@ -193,5 +193,5 @@
   position: relative
   width: 60%
   margin: auto
-  margin-top: 20%
+  margin-top: 15%
 </style>

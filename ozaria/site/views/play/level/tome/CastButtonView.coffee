@@ -84,7 +84,7 @@ module.exports = class CastButtonView extends CocoView
       additionalGoals = @options.level.get('additionalGoals')
       state = @options.session.get('state')
       capstoneStage = state.capstoneStage
-      finalStage = _.max(additionalGoals, (goals) -> goals.stage)
+      finalStage = _.max(additionalGoals, (goals) -> goals.stage).stage
       if capstoneStage <= finalStage
         args['capstoneInProgress'] = true
 

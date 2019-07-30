@@ -1,8 +1,10 @@
 <script>
   import BaseModal from './BaseModal'
   import { mapActions, mapGetters } from 'vuex'
-  import { internationalizeConfig, getNextLevelForLevel, getNextLevelLink } from 'ozaria/site/common/ozariaUtils'
+  import { internationalizeConfig, getNextLevelForLevel, getNextLevelLink, tryCopy } from 'ozaria/site/common/ozariaUtils'
   import utils from 'core/utils'
+  import urls from 'core/urls'
+  import api from 'core/api'
 
   export default Vue.extend({
     components: {
@@ -40,17 +42,29 @@
       goToNextDirectly: {
         type: Boolean,
         default: false
+      },
+      showShareModal: {
+        type: Boolean,
+        default: false
       }
     },
     data: () => ({
-      nextLevelLink: ''
+      nextLevelLink: '',
+      editCapstoneLevelData: undefined,
+      capstoneLevelSession: {}
     }),
     computed: {
       ...mapGetters({
         levelsList: 'unitMap/getCurrentLevelsList'
       }),
+      shareModal: function () {
+        return this.showShareModal || this.editCapstoneLevelData
+      },
       currentContent: function () {
-        return this.currentIntroContent || this.currentLevel.attributes || this.currentLevel
+        if (this.shareModal) {
+          return this.editCapstoneLevelData || {}
+        }
+        return this.currentIntroContent || this.currentLevel.attributes || this.currentLevel || {}
       },
       contentName: function () {
         return this.currentContent.name
@@ -76,6 +90,19 @@
           learningGoalsText = internationalizeConfig(learningGoals).body
         }
         return learningGoalsText
+      },
+      shareURL: function () {
+        if (this.editCapstoneLevelData && this.capstoneLevelSession) {
+          const shareUrlOptions = {
+            level: this.editCapstoneLevelData,
+            session: { _id: this.capstoneLevelSession._id }
+          }
+          if (this.courseId) {
+            shareUrlOptions.course = { _id: this.courseId }
+          }
+          return urls.playDevLevel(shareUrlOptions)
+        }
+        return ''
       }
     },
     async mounted () {
@@ -107,16 +134,35 @@
         const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
         let currentLevelStage
         if (currentLevelData.isPlayedInStages && this.capstoneStage) {
-          currentLevelStage = this.capstoneStage
+          currentLevelStage = parseInt(this.capstoneStage)
         }
         const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
-        const nextLevelLinkOptions = {
-          courseId: this.courseId,
-          courseInstanceId: this.courseInstanceId,
-          codeLanguage: utils.getQueryVariable('codeLanguage', 'python'),
-          nextLevelStage: nextLevel.nextLevelStage
+        if (nextLevel.slug && !this.showShareModal) {
+          const nextLevelLinkOptions = {
+            courseId: this.courseId,
+            courseInstanceId: this.courseInstanceId,
+            codeLanguage: utils.getQueryVariable('codeLanguage'),
+            nextLevelStage: nextLevel.nextLevelStage
+          }
+          this.nextLevelLink = getNextLevelLink(nextLevel, nextLevelLinkOptions)
+        } else { // last level of the campaign or this.showShareModal=true
+          this.nextLevelLink = `/ozaria/play/${this.campaignHandle}`
+          if (this.courseInstanceId) {
+            this.nextLevelLink += `?course-instance=${this.courseInstanceId}`
+          }
+          this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
+          if (this.editCapstoneLevelData) {
+            this.capstoneLevelSession = await this.getLevelSession(this.editCapstoneLevelData.slug)
+          }
         }
-        this.nextLevelLink = getNextLevelLink(nextLevel, nextLevelLinkOptions)
+      },
+      async getLevelSession (levelIdOrSlug) {
+        try {
+          // TODO: drive level session from Vuex store
+          return await api.levels.upsertSession(levelIdOrSlug, { courseInstanceId: this.courseInstanceId })
+        } catch (err) {
+          console.error('Error in finding level session', err)
+        }
       },
       nextButtonClick () {
         if (this.currentIntroContent && !this.introLevelComplete) {
@@ -129,6 +175,24 @@
       // IntroLevelPage is vue component and handles the event `replay`
       replayButtonClick () {
         this.$emit('replay', this.currentIntroContent)
+      },
+      continueEditingButtonClick () {
+        const capstoneLevelLinkOptions = {
+          courseId: this.courseId,
+          courseInstanceId: this.courseInstanceId,
+          codeLanguage: utils.getQueryVariable('codeLanguage')
+        }
+        let capstoneLink = getNextLevelLink(this.editCapstoneLevelData, capstoneLevelLinkOptions) // if next level stage is not set, capstone is loaded from the last completed stage
+        let capstoneLinkAppend = `?continueEditing=true`
+        if (capstoneLink.split('?').length > 1) {
+          capstoneLinkAppend = `&continueEditing=true`
+        }
+        capstoneLink += capstoneLinkAppend
+        return application.router.navigate(capstoneLink, { trigger: true })
+      },
+      copyUrl () {
+        this.$refs['share-text-box'].select()
+        tryCopy()
       }
     }
   })
@@ -149,17 +213,48 @@
       </div>
     </template>
 
-    <template
-      v-if="learningGoals"
-      #body
-    >
-      <span class="learning-goals"> {{ $t("play_level.learning_goals") }}:&nbsp; </span>
-      <span>  {{ learningGoals }} </span>
+    <template #body>
+      <div v-if="learningGoals && !shareModal">
+        <span class="learning-goals"> {{ $t("play_level.learning_goals") }}:&nbsp; </span>
+        <span>  {{ learningGoals }} </span>
+      </div>
+
+      <div
+        v-else-if="shareModal"
+        class="share-modal-body"
+      >
+        <span> {{ $t("play_level.share_your_project") }} </span>
+        <span class="keep-editing-text"> {{ $t("play_level.keep_editing_your_project") }} </span>
+        <input
+          ref="share-text-box"
+          readonly="true"
+          type="text"
+          class="ozaria-secondary-button share-text-box"
+          :value="shareURL"
+        >
+        <div class="share-buttons">
+          <button
+            class="copy-url-button ozaria-button ozaria-primary-button"
+            @click="copyUrl"
+          >
+            {{ $t("play_level.copy_url") }}
+          </button>
+        </div>
+      </div>
     </template>
 
     <template #footer>
       <div class="victory-footer">
         <button
+          v-if="shareModal"
+          class="continue-editing-button ozaria-button ozaria-secondary-button"
+          data-dismiss="modal"
+          @click="continueEditingButtonClick"
+        >
+          {{ $t("common.continue_editing") }}
+        </button>
+        <button
+          v-else
           class="replay-button ozaria-button ozaria-secondary-button"
           data-dismiss="modal"
           @click="replayButtonClick"
@@ -192,7 +287,28 @@
 .learning-goals
   color: #1fbab4
 
+.share-modal-body
+  display: flex
+  flex-direction: column
+  width: 100%
+  .keep-editing-text
+    font-size: 14px
+    color: #a4a4a4
+  .share-text-box
+    height: 45px
+    width: 100%
+    margin-top: 5px
+  .share-buttons
+    width: 100%
+    .copy-url-button
+      margin-top: 10px
+      width: auto
+      float: right
+
 .victory-footer
   all: inherit
   justify-content: space-between
+  padding: 0
+  .continue-editing-button
+    width: auto
 </style>

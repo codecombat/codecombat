@@ -99,6 +99,7 @@ class PlayLevelView extends RootView {
       utils.getQueryVariable('capstoneStage') ||
       utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
       this.options.capstoneStage, 10)
+    this.continueEditing = utils.getQueryVariable('continueEditing') || false
 
     this.gameUIState = new GameUIState()
 
@@ -1118,7 +1119,7 @@ class PlayLevelView extends RootView {
       level: this.level,
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
-      goToNextDirectly: goToNextDirectly
+      goToNextDirectly: goToNextDirectly && !this.continueEditing
     }
 
     if (me.isSessionless()) { // for teachers
@@ -1137,6 +1138,9 @@ class PlayLevelView extends RootView {
       options.courseInstanceID =
         utils.getQueryVariable('course-instance') ||
         utils.getQueryVariable('league')
+    }
+    if (this.continueEditing) {
+      options.showShareModal = true
     }
 
     const victoryModal = new ModalClass(options)

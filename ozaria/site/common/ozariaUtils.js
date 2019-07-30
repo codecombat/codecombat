@@ -214,3 +214,12 @@ export function internationalizeConfig (levelConfig, userLocale) {
     userLocaleObject
   )
 }
+
+export function tryCopy () {
+  try {
+    document.execCommand('copy')
+  } catch (err) {
+    const message = 'Oops, unable to copy'
+    noty({ text: message, layout: 'topCenter', type: 'error', killer: false })
+  }
+}

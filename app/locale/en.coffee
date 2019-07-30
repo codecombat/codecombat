@@ -467,6 +467,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit: "Submit"
     replay: "Replay"
     complete: "Complete"
+    continue_editing: "Continue Editing"
 
   general:
     and: "and"
@@ -735,6 +736,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start: "Start"
     vega_character: "Vega Character"
     click_to_continue: "Click to Continue"
+    share_your_project: "Share Your Project"
+    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+    copy_url: "Copy URL"
 
   apis:
     methods: "Methods"

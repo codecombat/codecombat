@@ -10,7 +10,8 @@ class OzariaVictoryModal extends ModalComponent {
       capstoneStage: null,
       courseId: null,
       courseInstanceId: null,
-      goToNextDirectly: null
+      goToNextDirectly: null,
+      showShareModal: null
     }
   }
 
@@ -22,6 +23,7 @@ class OzariaVictoryModal extends ModalComponent {
     this.propsData.courseId = options.courseID
     this.propsData.courseInstanceId = options.courseInstanceId
     this.propsData.goToNextDirectly = options.goToNextDirectly
+    this.propsData.showShareModal = options.showShareModal
   }
 
   destroy () {
