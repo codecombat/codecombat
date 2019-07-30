@@ -1,6 +1,8 @@
 require('app/styles/about.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/about'
+State = require 'models/State'
+{ COCO_CHINA_CONST } = require 'core/constants'
 
 module.exports = class AboutView extends RootView
   id: 'about-view'
@@ -18,6 +20,14 @@ module.exports = class AboutView extends RootView
     'right': 'onRightPressed'
     'left': 'onLeftPressed'
     'esc': 'onEscapePressed'
+
+
+  getRenderData: ->
+    context = super()
+    context.china_email = COCO_CHINA_CONST.CONTACT_EMAIL
+    context.china_phone = COCO_CHINA_CONST.CONTACT_PHONE
+    context
+
 
   getMeta: ->
     title: $.i18n.t 'about.title'

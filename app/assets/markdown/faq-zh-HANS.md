@@ -62,7 +62,7 @@ JavaScript 是网页开发语言，几乎所有的网站都使用到 JavaScript 
 
 ### 获得所有这些课程和课程配套的教学资料需要花费多少？
 我们会为根据贵校以及地区的需求，教学环境和预算规模来提供定制化的解决方案。请您发邮件至
-[bill@codecombat.com](mailto:bill@codecombat.com?subject=) 详细咨询！
+[china@codecombat.com](mailto:china@codecombat.com?subject=) 详细咨询！
 
 ### 学生许可证提供哪些内容？
 每一个学生许可证可以为一位学生开启打开所有课程内容的权限。没有学生许可证的用户只可以进入试用课程《计算机科学入门》（CS1）。

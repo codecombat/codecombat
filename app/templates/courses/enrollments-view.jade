@@ -144,10 +144,9 @@ mixin addCredits
     else
       p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
       if me.showChinaResourceInfo()
+        - var {COCO_CHINA_CONST} = require('core/constants')
         p 联系我们
-        p 邮件：
-          span(data-i18n='new_home.china_contact_email')
-        p 电话：
-          span(data-i18n='new_home.china_contact_phone')
+        p= "邮件："+COCO_CHINA_CONST.CONTACT_EMAIL
+        p= "电话："+COCO_CHINA_CONST.CONTACT_PHONE
       else
         button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")

@@ -437,9 +437,8 @@ block content
           h4(data-i18n="about.contact_subtitle")
           if me.showChinaResourceInfo()
             p.
-              商务合作：#[span(data-i18n='new_home.china_contact_email')] #[br]
-              业务咨询：#[span(data-i18n='new_home.china_contact_phone')]
-
+              商务合作：#{china_email} #[br]
+              业务咨询：#{china_phone}
           else
             a(href="mailto:team@codecombat.com") team@codecombat.com
 
