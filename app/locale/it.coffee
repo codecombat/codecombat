@@ -466,6 +466,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     save_changes: "Salva modifiche"
     required_field: "richiesto"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "e"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     available_for_purchase: "In vendita" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Livello da sbloccare:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Solo alcuni eroi possono giocare questo livello."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "funzione" # skill types

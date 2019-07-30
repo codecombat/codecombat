@@ -466,6 +466,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     save_changes: "Ulož zmeny"
     required_field: "vyžadované"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "a"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Staň sa preplatiteľom hry <br>CodeCombat<br>" # Fit into the banner on the /features page
     master_coder: "Preplať si hru ešte dnes a staň sa majstrom kódu!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     available_for_purchase: "Dostupné na zakúpenie" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Úroveň, v ktorej môžeš hrdinu odomknúť:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Iba niektorí hrdinovia môžu hrať túto úroveň."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "funkcia" # skill types

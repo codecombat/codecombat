@@ -466,6 +466,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     save_changes: "Сохранить изменения"
     required_field: "обязательное поле"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "и"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wallOfDarkness_name: "Стена Тьмы"
     wallOfDarkness_description: "Скройтесь от любопытных взглядов за стеной из теней."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Получи<br>CodeCombat<br>Премиум" # Fit into the banner on the /features page
     master_coder: "Стань мастером програмирования, подписавшись сегодня!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     available_for_purchase: "Доступно для покупки" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Разблокируется на уровне:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Только определённые герои могут играть на этом уровне."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "функция" # skill types

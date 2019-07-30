@@ -466,6 +466,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     save_changes: "Guardar cambios"
     required_field: "Requisito necesario" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "y"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     wallOfDarkness_name: "Pared de la Oscuridad"
     wallOfDarkness_description: "Se oculta detrás de un muro de sombras para evitar las miradas indiscretas."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Obtén<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "¡Conviértete en un programador experto suscribiéndote hoy!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     available_for_purchase: "Disponible para Comprar" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Nivel para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Sólo ciertos héroes pueden jugar este nivel."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "función" # skill types

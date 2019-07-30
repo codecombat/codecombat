@@ -466,6 +466,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     save_changes: "Guarda canvis"
     required_field: "obligatori"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "i"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     wallOfDarkness_name: "Paret de Foscor"
     wallOfDarkness_description: "Amaga't darrere una paret d'ombres per evitar la mirada d'ulls curiosos."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Aconsegueix<br>CodeCombat<br>Prèmium" # Fit into the banner on the /features page
     master_coder: "Converteix-te en un Maestre Codificador subscrivint-te avui mateix!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     available_for_purchase: "Disponible per a la compra" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Nivell per desbloquejar:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Només certs herois poden jugar aquest nivell."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "funció" # skill types

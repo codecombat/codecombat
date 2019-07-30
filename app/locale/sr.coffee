@@ -466,6 +466,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     save_changes: "Сачувај измене"
     required_field: "Обавезно поље" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "и"
@@ -941,6 +943,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     wallOfDarkness_name: "Зид таме"
     wallOfDarkness_description: "Сакриј се иза зида сенки да би спречио да те гледају радознале очи."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Прими<br>CodeCombat<br>премијум" # Fit into the banner on the /features page
     master_coder: "Постани члан Главног кодирања тако што ћеш се данас претплатити!"
@@ -999,6 +1004,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     available_for_purchase: "Доступно за куповину" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Ниво који треба откључати:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Само одређени хероји могу да играју овај ниво."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "функција" # skill types
