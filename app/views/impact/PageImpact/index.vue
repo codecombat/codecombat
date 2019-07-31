@@ -48,7 +48,7 @@
       h1.text-gold {{ $t('impact.more_stories') }}
     //- TODO: Make this duplication a component
     #partner-story-tiles.row.width-container
-      .col-md-4.partner-story-tile
+      .col-md-4.partner-story-tile.col-xs-12
         .row
           .row
             img.img-responsive.tile-header-img(src="/images/pages/impact/PrestonHSPhoto.png")
@@ -59,7 +59,7 @@
               h4.text-teal {{ $t('impact.partners_heading_1') }}
               p {{ $t('impact.partners_school_1') }}
         button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
-      .col-md-4.partner-story-tile
+      .col-md-4.partner-story-tile.col-xs-12
         .row
           .row
             img.img-responsive.tile-header-img(src="/images/pages/impact/RiverRidgePhoto.png")
@@ -70,7 +70,7 @@
               h4.text-teal {{ $t('impact.partners_heading_2') }}
               p {{ $t('impact.partners_school_2') }}
         button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
-      .col-md-4.partner-story-tile
+      .col-md-4.partner-story-tile.col-xs-12
         .row
           .row
             img.img-responsive.tile-header-img(src="/images/pages/impact/RiverdalePhoto.png")
@@ -82,28 +82,28 @@
               p {{ $t('impact.partners_school_3') }}
         button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
 
-  //- html structure copied directly from home page
-  .row.row-dark.text-center#teachers-love-codecombat
-      .col-md-12
-        h1.text-white(data-i18n="new_home.teachers_love_codecombat_title")
-        .row
-          .col-xs-4
-            .width-320
-              h1.text-gold 99%
-              img(src="/images/pages/home/pink_rectangle.png")
-              h4.text-blue(data-i18n="new_home.teachers_love_codecombat_blurb1")
-          .col-xs-4
-            .width-320
-              h1.text-gold 95%
-              img(src="/images/pages/home/pink_rectangle.png")
-              h4.text-blue(data-i18n="new_home.teachers_love_codecombat_blurb2")
-          .col-xs-4
-            .width-320
-              h1.text-gold 94%
-              img(src="/images/pages/home/pink_rectangle.png")
-              h4.text-blue(data-i18n="new_home.teachers_love_codecombat_blurb3")
-        p.mcrel-blurb(data-i18n="new_home.teachers_love_codecombat_subblurb")
-        button {{ $t('impact.download_study') }}
+  //- html structure copied and modified from home page
+  #teachers-love-codecombat.width-container.row.text-center
+    .col-md-12
+      h1.text-teal(data-i18n="new_home.teachers_love_codecombat_title")
+      .row
+        .col-xs-4
+          .width-320
+            h1.text-forest 99%
+            img(src="/images/pages/home/pink_rectangle.png")
+            h4.text-navy(data-i18n="new_home.teachers_love_codecombat_blurb1")
+        .col-xs-4
+          .width-320
+            h1.text-forest 95%
+            img(src="/images/pages/home/pink_rectangle.png")
+            h4.text-navy(data-i18n="new_home.teachers_love_codecombat_blurb2")
+        .col-xs-4
+          .width-320
+            h1.text-forest 94%
+            img(src="/images/pages/home/pink_rectangle.png")
+            h4.text-navy(data-i18n="new_home.teachers_love_codecombat_blurb3")
+      p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
+      button.btn.btn-primary.btn-lg {{ $t('impact.download_study') }}
 
   .row
     .col-md-12
@@ -425,6 +425,9 @@ p, .text-p {
   #partner-story-tiles {
     padding-bottom: 62px;
     display: flex;
+    @media (max-width: $screen-md-min) {
+      flex-direction: column;
+    }
     .partner-story-tile {
       background-color: white;
 
@@ -463,6 +466,38 @@ p, .text-p {
       letter-spacing: 0.75px;
     }
   }
+}
+
+#teachers-love-codecombat {
+  padding-bottom: 62px;
+
+  h1.text-teal {
+    margin-bottom: 45px;
+  }
+
+  h4 {
+    line-height: 30px;
+    letter-spacing: 0.48px;
+    margin-bottom: 14px;
+    max-width: 320px;
+  }
+
+  img {
+    margin-bottom: 20px;
+  }
+
+  .mcrel-blurb {
+    font-size: 18px;
+    letter-spacing: 0.75px;
+    line-height: 26px;
+    font-style: italic;
+    margin-bottom: 29px;
+  }
+
+  .btn.btn-primary.btn-lg {
+    width: unset;
+  }
+
 }
 
 </style>
