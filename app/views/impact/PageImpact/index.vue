@@ -1,8 +1,10 @@
 <template lang="pug">
 .container-fluid#impact-page
+
   .row#jumbotron-container-fluid
     h1.text-white {{ $t('impact.hero_heading')}}
     h5.text-white {{ $t('impact.hero_subheading') }}
+
   .row#featured-partner-story
     h2.text-gold {{ $t('impact.featured_partner_story') }}
 
@@ -13,63 +15,72 @@
   #bobby-duke.row.width-container
     .col-md-2.col-md-offset-1
       img.img-responsive(src="/images/pages/impact/bobby-duke logo 2.png")
+
     .col-md-8
       h1.text-navy {{ $t('impact.partner_heading') }}
       h2.text-teal {{ $t('impact.partner_school') }}
+
   .row.width-container
     base-school-facts.col-md-3.col-md-offset-1
     .col-md-7#body-text-content
       p.text-navy {{ $t('impact.paragraph1') }}
       p.text-navy {{ $t('impact.paragraph2') }}
       p.text-navy {{ $t('impact.paragraph3') }}
+
   .row.width-container.quote-flex-container
     .col-md-4.col-md-offset-1
       .row.teacher-quote
         img(src="/images/pages/home/teal_quote.png")
+
       .row.teacher-quote
         h3.text-navy {{ $t('impact.teacher_quote') }}
         p.text-navy {{ $t('impact.quote_attribution') }}
 
     .col-md-6
       img.img-responsive(src="/images/pages/impact/image5.png" alt="Students using CodeCombat in a classroom")
+
   .row
     .col-md-12.read-full-story
       button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
-  .row
-    h1.text-gold {{ $t('impact.more_stories') }}
 
-  .row
+  #more-partner-stories.row
+    .row.width-container
+      h1.text-gold {{ $t('impact.more_stories') }}
     //- TODO: Make this duplication a component
-    .col-md-4
-      img.img-responsive(src="/images/pages/impact/PrestonHSPhoto.png")
-      .row
-        .col-xs-3
-          img.img-responsive(src="/images/pages/impact/Preston High School logo.png")
-        .col-xs-9
-          h4.text-teal {{ $t('impact.partners_heading_1') }}
-          p {{ $t('impact.partners_school_1') }}
-      .row.read-full-story
-        button {{ $t('impact.read_full_story') }}
-    .col-md-4
-      img.img-responsive(src="/images/pages/impact/RiverRidgePhoto.png")
-      .row
-        .col-xs-3
-          img.img-responsive(src="/images/pages/impact/rrhs-logo-1-1.png")
-        .col-xs-9
-          h4.text-teal {{ $t('impact.partners_heading_2') }}
-          p {{ $t('impact.partners_school_2') }}
-      .row
-        button {{ $t('impact.read_full_story') }}
-    .col-md-4
-      img.img-responsive(src="/images/pages/impact/RiverdalePhoto.png")
-      .row
-        .col-xs-3
-          img.img-responsive(src="/images/pages/impact/Riverdale High School.fw.png")
-        .col-xs-9
-          h4.text-teal {{ $t('impact.partners_heading_3') }}
-          p {{ $t('impact.partners_school_3') }}
-      .row
-        button {{ $t('impact.read_full_story') }}
+    #partner-story-tiles.row.width-container
+      .col-md-4.partner-story-tile
+        .row
+          .row
+            img.img-responsive.tile-header-img(src="/images/pages/impact/PrestonHSPhoto.png")
+          .row.inner-tile-school
+            .col-xs-3
+              img.img-responsive(src="/images/pages/impact/Preston High School logo.png")
+            .col-xs-9
+              h4.text-teal {{ $t('impact.partners_heading_1') }}
+              p {{ $t('impact.partners_school_1') }}
+        button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
+      .col-md-4.partner-story-tile
+        .row
+          .row
+            img.img-responsive.tile-header-img(src="/images/pages/impact/RiverRidgePhoto.png")
+          .row.inner-tile-school
+            .col-xs-3
+              img.img-responsive(src="/images/pages/impact/rrhs-logo-1-1.png")
+            .col-xs-9
+              h4.text-teal {{ $t('impact.partners_heading_2') }}
+              p {{ $t('impact.partners_school_2') }}
+        button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
+      .col-md-4.partner-story-tile
+        .row
+          .row
+            img.img-responsive.tile-header-img(src="/images/pages/impact/RiverdalePhoto.png")
+          .row.inner-tile-school
+            .col-xs-3
+              img.img-responsive(src="/images/pages/impact/Riverdale High School.fw.png")
+            .col-xs-9
+              h4.text-teal {{ $t('impact.partners_heading_3') }}
+              p {{ $t('impact.partners_school_3') }}
+        button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
 
   //- html structure copied directly from home page
   .row.row-dark.text-center#teachers-love-codecombat
@@ -390,10 +401,66 @@ p, .text-p {
 
 .read-full-story {
   text-align: center;
+
   & > button.btn-primary {
     background-color: $gold;
+    color: $gray;
+    font-size: 18px;
+    letter-spacing: 0.71px;
+
     &:hover {
       background-color: #FDD147;
+    }
+  }
+}
+
+#more-partner-stories {
+  margin-top: 62px;
+  background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%);
+  h1 {
+    text-align: center;
+    padding-bottom: 45px;
+  }
+
+  #partner-story-tiles {
+    padding-bottom: 62px;
+    display: flex;
+    .partner-story-tile {
+      background-color: white;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      margin: 0 14px;
+      padding: 30px;
+      border-radius: 6px;
+
+      img.tile-header-img {
+        margin-bottom: 22px;
+        padding: 0 14px;
+      }
+
+      .inner-tile-school {
+        &>div:first-child {
+          padding-right: 0;
+        }
+
+        p {
+          font-size: 14px;
+          letter-spacing: 0.58px;
+          line-height: 19px;
+          color: $gray;
+          margin-bottom: 26px;
+        }
+      }
+    }
+
+    h4 {
+      font-size: 18px;
+      line-height: 22px;
+      letter-spacing: 0.75px;
     }
   }
 }
