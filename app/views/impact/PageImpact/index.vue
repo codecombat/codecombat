@@ -1,13 +1,15 @@
 <template lang="pug">
 .container-fluid#impact-page
   .row#jumbotron-container-fluid
-    .col-lg-12
-      h1.text-white {{ $t('impact.hero_heading')}}
-      h2.text-white {{ $t('impact.hero_subheading') }}
+    h1.text-white {{ $t('impact.hero_heading')}}
+    h5.text-white {{ $t('impact.hero_subheading') }}
   .row#featured-partner-story
-    .col-lg-12
-      h1.text-gold {{ $t('impact.featured_partner_story') }}
-    //- Figure out the arrow.
+    h2.text-gold {{ $t('impact.featured_partner_story') }}
+
+    .scroll-arrow
+      .left-arrow
+      .right-arrow
+
   .row#bobby-duke
     .col-lg-12
       h1 {{ $t('impact.partner_heading') }}
@@ -187,15 +189,116 @@ export default Vue.extend({})
 </script>
 
 <style lang='scss' scoped>
+@import "app/styles/bootstrap/variables";
+@import "app/styles/mixins";
+@import "app/styles/style-flat-variables";
+
+// style-flat overwrites
+h1, .text-h1 {
+  font-family: $headline-font;
+  font-weight: bold;
+  font-size: 46px;
+  line-height: 62px;
+  letter-spacing: 2px;
+  margin-bottom: -6px;
+}
+
+h2, .text-h2 {
+  font-family: $headline-font;
+  font-weight: bold;
+  font-size: 33px;
+  line-height: 62px;
+  letter-spacing: 2.58px;
+}
+
+h3, .text-h3 {
+  font-family: $headline-font;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.52px;
+}
+
+h4, .text-h4 {
+  font-family: $body-font;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 40px;
+  letter-spacing: 0.56px;
+}
+
+h5, .text-h5 {
+  font-family: $body-font;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 0.48px;
+  font-weight: normal;
+}
+
+p, .text-p {
+  font-family: $body-font;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.75px;
+  line-height: 26px;
+}
+
+.btn-primary, .btn-navy, .btn-teal {
+  background-color: $teal;
+  border-radius: 4px;
+  color: $gray;
+  text-shadow: unset;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.71px;
+  line-height: 24px;
+  width: 247px;
+  &:hover {
+    background-color: #2DCEC8;
+    transition: background-color .35s;
+  }
+}
+
+.btn-primary-alt, .btn-navy-alt, .btn-teal-alt {
+  background-color: transparent;
+  border: 2px solid $teal;
+  color: $teal;
+  border-radius: 4px;
+  text-shadow: unset;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.71px;
+  line-height: 24px;
+  width: 247px;
+  &:hover {
+    background-color: $teal;
+    box-shadow: unset;
+    color: $gray;
+    transition: color .35s, background-color .35s, box-shadow .35s;
+  }
+}
 
 #jumbotron-container-fluid {
   background-image: url(/images/pages/impact/BannerImage.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  height: 627px;
+  height: 580px;
   width: 100%;
   margin: auto;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
+  & > h1 {
+    font-size: 45px;
+    letter-spacing: 1.96px;
+    line-height: 62px;
+    max-width: 801px;
+    margin: 100px auto 0;
+  }
 }
 
 #impact-page {
@@ -208,7 +311,42 @@ export default Vue.extend({})
   & > .row {
     padding-top: 62px;
   }
+
+  overflow: hidden;
 }
 
+#featured-partner-story {
+  text-align: center;
+  min-height: 193px;
+  background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%);
+  &.row {
+    padding-top: 52px;
+  }
+
+  display: flex;
+  flex-direction: column;
+
+  & > h2 {
+    flex-grow: 1;
+  }
+
+  .scroll-arrow {
+    height: 32px;
+    width: 100%;
+    display: flex;
+    .left-arrow {
+      border-bottom: 32px solid white;
+      border-right: 50px solid transparent;
+      height: 0;
+      width: 50%;
+    }
+    .right-arrow {
+      border-bottom: 32px solid white;
+      border-left: 50px solid transparent;
+      height: 0;
+      width: 50%;
+    }
+  }
+}
 
 </style>
