@@ -10,42 +10,37 @@
       .left-arrow
       .right-arrow
 
-  .row#bobby-duke
-    .col-md-1
-    .col-md-2
+  #bobby-duke.row.width-container
+    .col-md-2.col-md-offset-1
       img.img-responsive(src="/images/pages/impact/bobby-duke logo 2.png")
     .col-md-8
       h1.text-navy {{ $t('impact.partner_heading') }}
       h2.text-teal {{ $t('impact.partner_school') }}
-  .row
-    .col-md-1
-      //- empty
-    base-school-facts.col-md-3
-    .col-md-7
-      p {{ $t('impact.paragraph1') }}
-      p {{ $t('impact.paragraph2') }}
-      p {{ $t('impact.paragraph3') }}
-  .row
-    .col-lg-1
-      //- Space
-    .col-lg-4
-      .row
-        span "
-      .row
-        h2 {{ $t('impact.teacher_quote') }}
-        h3 {{ $t('impact.quote_attribution') }}
+  .row.width-container
+    base-school-facts.col-md-3.col-md-offset-1
+    .col-md-7#body-text-content
+      p.text-navy {{ $t('impact.paragraph1') }}
+      p.text-navy {{ $t('impact.paragraph2') }}
+      p.text-navy {{ $t('impact.paragraph3') }}
+  .row.width-container.quote-flex-container
+    .col-md-4.col-md-offset-1
+      .row.teacher-quote
+        img(src="/images/pages/home/teal_quote.png")
+      .row.teacher-quote
+        h3.text-navy {{ $t('impact.teacher_quote') }}
+        p.text-navy {{ $t('impact.quote_attribution') }}
 
-    .col-lg-6
+    .col-md-6
       img.img-responsive(src="/images/pages/impact/image5.png" alt="Students using CodeCombat in a classroom")
   .row
-    .col-lg-12
-      button {{ $t('impact.read_full_story') }}
+    .col-md-12.read-full-story
+      button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
   .row
     h1.text-gold {{ $t('impact.more_stories') }}
 
   .row
     //- TODO: Make this duplication a component
-    .col-lg-4
+    .col-md-4
       img.img-responsive(src="/images/pages/impact/PrestonHSPhoto.png")
       .row
         .col-xs-3
@@ -53,9 +48,9 @@
         .col-xs-9
           h4.text-teal {{ $t('impact.partners_heading_1') }}
           p {{ $t('impact.partners_school_1') }}
-      .row
+      .row.read-full-story
         button {{ $t('impact.read_full_story') }}
-    .col-lg-4
+    .col-md-4
       img.img-responsive(src="/images/pages/impact/RiverRidgePhoto.png")
       .row
         .col-xs-3
@@ -65,7 +60,7 @@
           p {{ $t('impact.partners_school_2') }}
       .row
         button {{ $t('impact.read_full_story') }}
-    .col-lg-4
+    .col-md-4
       img.img-responsive(src="/images/pages/impact/RiverdalePhoto.png")
       .row
         .col-xs-3
@@ -78,7 +73,7 @@
 
   //- html structure copied directly from home page
   .row.row-dark.text-center#teachers-love-codecombat
-      .col-lg-12
+      .col-md-12
         h1.text-white(data-i18n="new_home.teachers_love_codecombat_title")
         .row
           .col-xs-4
@@ -100,10 +95,10 @@
         button {{ $t('impact.download_study') }}
 
   .row
-    .col-lg-12
+    .col-md-12
       h1.text-gold {{ $t('impact.teacher_spotlight') }}
     //- TODO: Componentize
-    .col-lg-4
+    .col-md-4
       .row
         .col-xs-3
           img.img-responsive(src="/images/pages/impact/teacher_thumbnail_1.png")
@@ -116,7 +111,7 @@
       .row
         p {{ $t('impact.continue_reading_blog') }}
 
-    .col-lg-4
+    .col-md-4
       .row
         .col-xs-3
           img.img-responsive(src="/images/pages/impact/teacher_thumbnail_2.png")
@@ -129,7 +124,7 @@
       .row
         p {{ $t('impact.continue_reading_blog') }}
 
-    .col-lg-4
+    .col-md-4
       .row
         .col-xs-3
           img.img-responsive(src="/images/pages/impact/teacher_thumbnail_3.png")
@@ -348,8 +343,58 @@ p, .text-p {
     line-height: 30px;
     font-family: $body-font;
   }
+
   img {
     max-width: 165px;
+  }
+}
+
+#body-text-content > p {
+  margin-bottom: 24px;
+  margin-left: 12px;
+}
+
+.row.teacher-quote {
+  text-align: center;
+
+  img {
+    height: 33px;
+    width: 35px;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    letter-spacing: 0.48px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 30px;
+    letter-spacing: 0.32px;
+    font-weight: 600;
+  }
+}
+
+.quote-flex-container {
+  display: flex;
+  & > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > div:first-child {
+    margin-right: 15px;
+  }
+}
+
+.read-full-story {
+  text-align: center;
+  & > button.btn-primary {
+    background-color: $gold;
+    &:hover {
+      background-color: #FDD147;
+    }
   }
 }
 
