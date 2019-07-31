@@ -46,7 +46,7 @@
       },
 
       clickRestart () {
-        this.$emit('clickRestart')
+        this.$emit('click-restart')
       }
     }
   })

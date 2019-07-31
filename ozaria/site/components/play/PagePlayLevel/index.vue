@@ -1,5 +1,8 @@
 <template>
-  <LayoutChrome>
+  <LayoutChrome
+    :displayRestartMenuItem="true"
+    @click-restart="clickRestart"
+  >
     <LayoutCenterContent>
       <LayoutAspectRatioContainer
         :aspect-ratio="1266 / 668"
@@ -37,6 +40,11 @@
     data: function () {
       return {
         backboneView: PlayLevelView
+      }
+    },
+    methods: {
+      clickRestart: function () {
+        Backbone.Mediator.publish('level:open-restart-modal', {})
       }
     }
   })

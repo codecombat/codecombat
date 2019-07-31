@@ -10,6 +10,7 @@
  */
 import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaVictoryModal from '../modal/OzariaVictoryModal'
+import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
 
 require('ozaria/site/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
@@ -1018,6 +1019,10 @@ class PlayLevelView extends RootView {
     return Backbone.Mediator.publish('tome:cast-spell', {})
   }
 
+  onOpenRestartModal (e) {
+    this.openModalView(new RestartLevelModal())
+  }
+
   onWindowResize (e) {
     return this.endHighlight()
   }
@@ -1516,6 +1521,7 @@ PlayLevelView.prototype.subscriptions = {
   'god:infinite-loop': 'onInfiniteLoop',
   'level:reload-from-data': 'onLevelReloadFromData',
   'level:reload-thang-type': 'onLevelReloadThangType',
+  'level:open-restart-modal': 'onOpenRestartModal',
   'level:started': 'onLevelStarted',
   'level:loading-view-unveiling': 'onLoadingViewUnveiling',
   'level:loading-view-unveiled': 'onLoadingViewUnveiled',
