@@ -11,32 +11,17 @@
       .right-arrow
 
   .row#bobby-duke
-    .col-lg-12
-      h1 {{ $t('impact.partner_heading') }}
-      h2 {{ $t('impact.partner_school') }}
+    .col-md-1
+    .col-md-2
+      img.img-responsive(src="/images/pages/impact/bobby-duke logo 2.png")
+    .col-md-8
+      h1.text-navy {{ $t('impact.partner_heading') }}
+      h2.text-teal {{ $t('impact.partner_school') }}
   .row
-    .col-lg-1
+    .col-md-1
       //- empty
-    .col-lg-3
-      h3 {{ $t('impact.featured_teacher') }}
-      h4 {{ $t('impact.teacher_title') }}
-      h3 {{ $t('impact.implementation') }}
-      p {{ $t('impact.grades_taught') }} 7-8
-      p {{ $t('impact.length_use') }} {{ $t('impact.length_use_time') }}
-      p {{ $t('impact.students_enrolled') }} {{ $t('impact.students_enrolled_number') }}
-      .row
-        h3 {{ $t('impact.courses_covered') }}
-        ul
-          li {{ $t('impact.course1') }}
-          li {{ $t('impact.course2') }}
-          li {{ $t('impact.course3') }}
-          li {{ $t('impact.course4') }}
-          li {{ $t('impact.course5') }}
-      h3 {{ $t('impact.fav_features') }}
-      ul
-        li {{ $t('impact.responsive_support') }}
-        li {{ $t('impact.immediate_engagement') }}
-    .col-lg-7
+    base-school-facts.col-md-3
+    .col-md-7
       p {{ $t('impact.paragraph1') }}
       p {{ $t('impact.paragraph2') }}
       p {{ $t('impact.paragraph3') }}
@@ -185,7 +170,12 @@
 </template>
 
 <script>
-export default Vue.extend({})
+import BaseSchoolFacts from './BaseSchoolFacts'
+export default Vue.extend({
+  components: {
+    'base-school-facts': BaseSchoolFacts
+  }
+})
 </script>
 
 <style lang='scss' scoped>
@@ -346,6 +336,20 @@ p, .text-p {
       height: 0;
       width: 50%;
     }
+  }
+}
+
+#bobby-duke {
+  h1 {
+    margin-bottom: 12px;
+  }
+  h2 {
+    letter-spacing: 0.66px;
+    line-height: 30px;
+    font-family: $body-font;
+  }
+  img {
+    max-width: 165px;
   }
 }
 
