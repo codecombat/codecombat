@@ -5,7 +5,7 @@
     h1.text-white {{ $t('impact.hero_heading')}}
     h5.text-white {{ $t('impact.hero_subheading') }}
 
-  .row#featured-partner-story
+  #featured-partner-story.row.row-dark
     h2.text-gold {{ $t('impact.featured_partner_story') }}
 
     .scroll-arrow
@@ -43,7 +43,7 @@
     .col-md-12.read-full-story
       button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
 
-  #more-partner-stories.row
+  #more-partner-stories.row.row-dark
     .row.width-container
       h1.text-gold {{ $t('impact.more_stories') }}
     //- TODO: Make this duplication a component
@@ -105,51 +105,55 @@
       p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
       button.btn.btn-primary.btn-lg {{ $t('impact.download_study') }}
 
-  .row
-    .col-md-12
-      h1.text-gold {{ $t('impact.teacher_spotlight') }}
-    //- TODO: Componentize
-    .col-md-4
-      .row
-        .col-xs-3
-          img.img-responsive(src="/images/pages/impact/teacher_thumbnail_1.png")
-        .col-xs-9
-          h2 {{ $t('impact.teacher_name_1') }}
-          h4 {{ $t('impact.teacher_title_1') }}
-          h4 {{ $t('impact.teacher_location_1') }}
-      .row
-        p {{ $t('impact.spotlight_1') }}
-      .row
-        p {{ $t('impact.continue_reading_blog') }}
+  #teacher-student-spotlight.row.row-dark
+    .row.width-container
+      .col-md-12
+        h2.text-gold.text-center {{ $t('impact.teacher_spotlight') }}
+      #teacher-student-tiles.row
+        .col-md-4.teacher-student-tile
+          div
+            .row.teacher-description
+              .col-xs-3.teacher-thumbnail
+                img.img-responsive(src="/images/pages/impact/teacher_thumbnail_1.png")
+              .col-xs-9.teacher-bio
+                h3.text-navy {{ $t('impact.teacher_name_1') }}
+                h5.text-navy {{ $t('impact.teacher_title_1') }}
+                h5.text-navy {{ $t('impact.teacher_location_1') }}
+            .row
+              p.text-navy {{ $t('impact.spotlight_1') }}
+          .row
+            p.text-teal.text-right.continue-reading-link {{ $t('impact.continue_reading_blog') }}
 
-    .col-md-4
-      .row
-        .col-xs-3
-          img.img-responsive(src="/images/pages/impact/teacher_thumbnail_2.png")
-        .col-xs-9
-          h2 {{ $t('impact.teacher_name_2') }}
-          h4 {{ $t('impact.teacher_title_2') }}
-          h4 {{ $t('impact.teacher_location_2') }}
-      .row
-        p {{ $t('impact.spotlight_2') }}
-      .row
-        p {{ $t('impact.continue_reading_blog') }}
+        .col-md-4.teacher-student-tile
+          div
+            .row.teacher-description
+              .col-xs-3.teacher-thumbnail
+                img.img-responsive(src="/images/pages/impact/teacher_thumbnail_2.png")
+              .col-xs-9.teacher-bio
+                h3.text-navy {{ $t('impact.teacher_name_2') }}
+                h5.text-navy {{ $t('impact.teacher_title_2') }}
+                h5.text-navy {{ $t('impact.teacher_location_2') }}
+            .row
+              p.text-navy {{ $t('impact.spotlight_2') }}
+          .row
+            p.text-teal.text-right.continue-reading-link {{ $t('impact.continue_reading_blog') }}
 
-    .col-md-4
-      .row
-        .col-xs-3
-          img.img-responsive(src="/images/pages/impact/teacher_thumbnail_3.png")
-        .col-xs-9
-          h2 {{ $t('impact.teacher_name_3') }}
-          h4 {{ $t('impact.teacher_title_3') }}
-          h4 {{ $t('impact.teacher_school_3') }}
-          h4 {{ $t('impact.teacher_location_3') }}
-      .row
-        p {{ $t('impact.spotlight_3') }}
-      .row
-        p {{ $t('impact.continue_reading_blog') }}
+        .col-md-4.teacher-student-tile
+          div
+            .row.teacher-description
+              .col-xs-3.teacher-thumbnail
+                img.img-responsive(src="/images/pages/impact/teacher_thumbnail_3.png")
+              .col-xs-9.teacher-bio
+                h3.text-navy {{ $t('impact.teacher_name_3') }}
+                h5.text-navy {{ $t('impact.teacher_title_3') }}
+                h5.text-navy {{ $t('impact.teacher_school_3') }}
+                h5.text-navy {{ $t('impact.teacher_location_3') }}
+            .row
+              p.text-navy {{ $t('impact.spotlight_3') }}
+          .row
+            p.text-teal.text-right.continue-reading-link {{ $t('impact.continue_reading_blog') }}
 
-  .row.row-dark.text-center#global
+  .row.text-center#global
     .col-lg-12
       h2.text-white(data-i18n="new_home.global_title")
       .container
@@ -188,6 +192,10 @@ export default Vue.extend({
 @import "app/styles/bootstrap/variables";
 @import "app/styles/mixins";
 @import "app/styles/style-flat-variables";
+
+.row-dark {
+    background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%);
+}
 
 // style-flat overwrites
 h1, .text-h1 {
@@ -314,7 +322,6 @@ p, .text-p {
 #featured-partner-story {
   text-align: center;
   min-height: 193px;
-  background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%);
   &.row {
     padding-top: 52px;
   }
@@ -416,7 +423,6 @@ p, .text-p {
 
 #more-partner-stories {
   margin-top: 62px;
-  background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%);
   h1 {
     text-align: center;
     padding-bottom: 45px;
@@ -478,7 +484,7 @@ p, .text-p {
   h4 {
     line-height: 30px;
     letter-spacing: 0.48px;
-    margin-bottom: 14px;
+    margin: 0 auto 14px;
     max-width: 320px;
   }
 
@@ -498,6 +504,74 @@ p, .text-p {
     width: unset;
   }
 
+}
+
+#teacher-student-spotlight {
+  & > div:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  padding-bottom: 62px;
+
+  h2 {
+    margin-bottom: 45px;
+  }
+  #teacher-student-tiles {
+    display: flex;
+
+    @media (max-width: $screen-md-min) {
+      flex-direction: column;
+    }
+
+    .teacher-student-tile {
+      margin: 15px;
+      background-color: white;
+      border-radius: 6px;
+      padding: 35px 45px 0;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+    }
+  }
+
+  .teacher-description {
+    display: flex;
+    align-items: center;
+
+    min-height: 133px;
+    margin-bottom: 20px;
+    border-bottom: 2.59px $teal solid;
+    
+  }
+
+  h3 {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0.4px;
+  }
+
+  h5 {
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0.36px;
+  }
+
+  .teacher-thumbnail {
+    padding: 0;
+  }
+
+  .teacher-bio {
+    padding: 0 0 0 10px;
+  }
+
+  .continue-reading-link {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: 0.58px;
+  }
 }
 
 </style>
