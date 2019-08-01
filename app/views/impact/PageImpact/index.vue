@@ -58,7 +58,7 @@
             .col-xs-9
               h4.text-teal {{ $t('impact.partners_heading_1') }}
               p {{ $t('impact.partners_school_1') }}
-        button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
+        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_BobbyDukeMS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
       .col-md-4.partner-story-tile.col-xs-12
         .row
           .row
@@ -69,7 +69,7 @@
             .col-xs-9
               h4.text-teal {{ $t('impact.partners_heading_2') }}
               p {{ $t('impact.partners_school_2') }}
-        button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
+        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_BobbyDukeMS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
       .col-md-4.partner-story-tile.col-xs-12
         .row
           .row
@@ -80,7 +80,7 @@
             .col-xs-9
               h4.text-teal {{ $t('impact.partners_heading_3') }}
               p {{ $t('impact.partners_school_3') }}
-        button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
+        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_BobbyDukeMS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
 
   //- html structure copied and modified from home page
   #teachers-love-codecombat.width-container.row.text-center
@@ -411,7 +411,7 @@ p, .text-p {
 .read-full-story {
   text-align: center;
 
-  & > button.btn-primary {
+  & > a.btn-primary {
     background-color: $gold;
     color: $gray;
     font-size: 18px;

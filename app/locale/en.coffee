@@ -169,6 +169,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     legal: "Legal"
     privacy: "Privacy Notice"
     about: "About"
+    impact: "Impact"
     contact: "Contact"
     twitter_follow: "Follow"
     my_classrooms: "My Classes"
