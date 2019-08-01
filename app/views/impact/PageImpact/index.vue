@@ -28,7 +28,7 @@
       p.text-navy {{ $t('impact.paragraph3') }}
 
   .row.width-container.quote-flex-container
-    .col-md-4.col-md-offset-1
+    .col-md-4.col-md-offset-1.col-xs-6
       .row.teacher-quote
         img(src="/images/pages/home/teal_quote.png")
 
@@ -36,12 +36,12 @@
         h3.text-navy {{ $t('impact.teacher_quote') }}
         p.text-navy {{ $t('impact.quote_attribution') }}
 
-    .col-md-6
+    .col-xs-6
       img.img-responsive(src="/images/pages/impact/image5.png" alt="Students using CodeCombat in a classroom")
 
   .row
     .col-md-12.read-full-story
-      button.btn.btn-lg.btn-primary {{ $t('impact.read_full_story') }}
+      a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_BobbyDukeMS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
 
   #more-partner-stories.row.row-dark
     .row.width-container
@@ -103,7 +103,7 @@
             img(src="/images/pages/home/pink_rectangle.png")
             h4.text-navy(data-i18n="new_home.teachers_love_codecombat_blurb3")
       p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
-      button.btn.btn-primary.btn-lg {{ $t('impact.download_study') }}
+      a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/CodeCombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
 
   #teacher-student-spotlight.row.row-dark
     .row.width-container
@@ -121,8 +121,8 @@
                 h5.text-navy {{ $t('impact.teacher_location_1') }}
             .row
               p.text-navy {{ $t('impact.spotlight_1') }}
-          .row
-            p.text-teal.text-right.continue-reading-link {{ $t('impact.continue_reading_blog') }}
+          .row.text-right
+            a.text-teal.continue-reading-link(href="https://blog.codecombat.com/codecombat-teacher-spotlight-amanda-henry/" target="_blank") {{ $t('impact.continue_reading_blog') }}
 
         .col-md-4.teacher-student-tile
           div
@@ -135,8 +135,8 @@
                 h5.text-navy {{ $t('impact.teacher_location_2') }}
             .row
               p.text-navy {{ $t('impact.spotlight_2') }}
-          .row
-            p.text-teal.text-right.continue-reading-link {{ $t('impact.continue_reading_blog') }}
+          .row.text-right
+            a.text-teal.continue-reading-link(href="https://blog.codecombat.com/codecombat-student-spotlight-kaila/" target="_blank") {{ $t('impact.continue_reading_blog') }}
 
         .col-md-4.teacher-student-tile
           div
@@ -150,8 +150,8 @@
                 h5.text-navy {{ $t('impact.teacher_location_3') }}
             .row
               p.text-navy {{ $t('impact.spotlight_3') }}
-          .row
-            p.text-teal.text-right.continue-reading-link {{ $t('impact.continue_reading_blog') }}
+          .row.text-right
+            a.text-teal.continue-reading-link(href="https://blog.codecombat.com/codecombat-teacher-spotlight-susan-jones-szabo/" target="_blank") {{ $t('impact.continue_reading_blog') }}
 
   .row.text-center#global
     .row
@@ -177,7 +177,7 @@
             h5.text-navy(data-i18n="new_home.global_subtitle4")
     .row
       .col-lg-12
-        button.btn.btn-primary.btn-lg {{ $t('general.contact_us') }}
+        a.btn.btn-primary.btn-lg(href="/teachers/quote") {{ $t('general.contact_us') }}
 
 </template>
 
@@ -530,7 +530,7 @@ p, .text-p {
       margin: 15px;
       background-color: white;
       border-radius: 6px;
-      padding: 35px 45px 0;
+      padding: 35px 45px 10px;
 
       display: flex;
       flex-direction: column;
