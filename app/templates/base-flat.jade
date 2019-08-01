@@ -194,8 +194,9 @@ mixin accountLinks
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         .float-right
           if me.showChinaResourceInfo()
-            a.small 商务合作：bill@codecombat.com
-            a.small 业务咨询：13810906731 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            - var {COCO_CHINA_CONST} = require('core/constants')
+            span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
+            span.contact= "业务咨询："+COCO_CHINA_CONST.CONTACT_PHONE
           span(data-i18n="nav.copyright_prefix")
           span= ' ©2019 CodeCombat Inc. '
           span.spl(data-i18n="nav.copyright_suffix")
