@@ -9,7 +9,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import LevelIntroModal from './modal/LevelIntroModal'
-import OzariaVictoryModal from '../modal/OzariaVictoryModal'
+import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 
 require('ozaria/site/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
@@ -1133,7 +1133,7 @@ class PlayLevelView extends RootView {
         options.capstoneStage = sessionCapstoneStage.toString()
       }
     }
-    let ModalClass = OzariaVictoryModal
+    let ModalClass = OzariaTransitionModal
     if (this.level.isType('course-ladder')) {
       options.courseInstanceID =
         utils.getQueryVariable('course-instance') ||

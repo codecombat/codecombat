@@ -1,7 +1,7 @@
 import ModalComponent from 'app/views/core/ModalComponent'
-import ModalVictory from 'ozaria/site/components/common/ModalVictory'
+import ModalTransition from 'ozaria/site/components/common/ModalTransition'
 
-class OzariaVictoryModal extends ModalComponent {
+class OzariaTransitionModal extends ModalComponent {
   // Runs before the constructor is called.
   initialize () {
     this.propsData = {
@@ -33,11 +33,11 @@ class OzariaVictoryModal extends ModalComponent {
   }
 }
 
-OzariaVictoryModal.prototype.id = 'ozaria-victory-modal'
-OzariaVictoryModal.prototype.template = require('ozaria/site/templates/core/modal-base-flat')
-OzariaVictoryModal.prototype.VueComponent = ModalVictory
-OzariaVictoryModal.prototype.propsData = null
-OzariaVictoryModal.prototype.closesOnClickOutside = false
-OzariaVictoryModal.prototype.closesOnEscape = false
+OzariaTransitionModal.prototype.id = 'ozaria-transition-modal'
+OzariaTransitionModal.prototype.template = require('ozaria/site/templates/core/modal-base-flat')
+OzariaTransitionModal.prototype.VueComponent = ModalTransition
+OzariaTransitionModal.prototype.propsData = null
+OzariaTransitionModal.prototype.closesOnClickOutside = false
+OzariaTransitionModal.prototype.closesOnEscape = false
 
-export default OzariaVictoryModal
+export default OzariaTransitionModal
