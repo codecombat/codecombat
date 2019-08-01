@@ -154,28 +154,30 @@
             p.text-teal.text-right.continue-reading-link {{ $t('impact.continue_reading_blog') }}
 
   .row.text-center#global
-    .col-lg-12
-      h2.text-white(data-i18n="new_home.global_title")
+    .row
+      .col-lg-12
+        h2.text-teal(data-i18n="new_home.global_title")
       .container
         .row
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_learners.png")
-            h2.text-gold 12 Million
-            h5.text-white(data-i18n="new_home.global_subtitle1")
+            h2.text-navy 12 Million
+            h5.text-navy(data-i18n="new_home.global_subtitle1")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_code.png")
-            h2.text-gold 1 Billion
-            h5.text-white(data-i18n="new_home.global_subtitle2")
+            h2.text-navy 1 Billion
+            h5.text-navy(data-i18n="new_home.global_subtitle2")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_teachers.png")
-            h2.text-gold 82,000
-            h5.text-white(data-i18n="new_home.global_subtitle3")
+            h2.text-navy 82,000
+            h5.text-navy(data-i18n="new_home.global_subtitle3")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_countries.png")
-            h2.text-gold 190
-            h5.text-white(data-i18n="new_home.global_subtitle4")
-    .col-lg-12
-      button {{ $t('general.contact_us') }}
+            h2.text-navy 190
+            h5.text-navy(data-i18n="new_home.global_subtitle4")
+    .row
+      .col-lg-12
+        button.btn.btn-primary.btn-lg {{ $t('general.contact_us') }}
 
 </template>
 
@@ -571,6 +573,32 @@ p, .text-p {
     font-size: 14px;
     line-height: 19px;
     letter-spacing: 0.58px;
+  }
+}
+
+#global {
+  &.row {
+    padding-top: 0;
+    padding-bottom: 12px;
+  }
+  .row {
+    padding: 62px 15px 0;
+  }
+  img {
+    height: 82px;
+    }
+  h2.text-teal {
+    margin-bottom: 30px;
+  }
+  h2.text-navy {
+    margin-top: 14px;
+    margin-bottom: -14px;
+  }
+  h5 {
+    font-weight: normal;
+  }
+  .col-xs-6 {
+    padding: 10px 15px;
   }
 }
 
