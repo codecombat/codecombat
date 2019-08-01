@@ -6,7 +6,7 @@
   import cutsceneVideoComponent from '../../cutscene/PageCutscene'
   import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
   import utils from 'core/utils'
-  import modalVictory from 'ozaria/site/components/common/ModalVictory'
+  import modalTransition from 'ozaria/site/components/common/ModalTransition'
 
   export default Vue.extend({
     components: {
@@ -14,7 +14,7 @@
       'cinematics-component': cinematicsComponent,
       'cutscene-video-component': cutsceneVideoComponent,
       'avatar-selection-screen': avatarSelectionScreen,
-      'modal-victory': modalVictory
+      'modal-transition': modalTransition
     },
     props: {
       introLevelIdOrSlug: {
@@ -174,7 +174,7 @@
       v-else-if="currentContent.type == 'avatarSelectionScreen'"
       @completed="onContentCompleted"
     />
-    <modal-victory
+    <modal-transition
       v-if="showVictoryModal"
       :campaign-handle="introLevelData.campaign"
       :current-level="introLevelData"
