@@ -20,7 +20,7 @@
         .col-xs-5.right-text-stat
           p.text-white {{ $t('impact.length_use_time') }}
       .row.single-stat
-        .col-xs-5.col-xs-offset-2.left-text-header
+        .col-xs-7.left-text-header
           p.text-teal {{ $t('impact.students_enrolled') }}
         .col-xs-5.right-text-stat
           p.text-white {{ $t('impact.students_enrolled_number') }}
