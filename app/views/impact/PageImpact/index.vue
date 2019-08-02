@@ -303,7 +303,7 @@ p, .text-p {
     letter-spacing: 1.96px;
     line-height: 62px;
     max-width: 801px;
-    margin: 100px auto 0;
+    margin: 100px auto 25px;
   }
 }
 

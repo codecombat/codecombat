@@ -11,17 +11,17 @@
       h3.text-gold.text-center {{ $t('impact.implementation') }}
       .row.single-stat
         .col-xs-7.left-text-header
-          h5.text-teal {{ $t('impact.grades_taught') }}
+          p.text-teal {{ $t('impact.grades_taught') }}
         .col-xs-5.right-text-stat
           p.text-white 7-8
       .row.single-stat
         .col-xs-7.left-text-header
-          h5.text-teal {{ $t('impact.length_use') }}
+          p.text-teal {{ $t('impact.length_use') }}
         .col-xs-5.right-text-stat
           p.text-white {{ $t('impact.length_use_time') }}
       .row.single-stat
         .col-xs-5.col-xs-offset-2.left-text-header
-          h5.text-teal {{ $t('impact.students_enrolled') }}
+          p.text-teal {{ $t('impact.students_enrolled') }}
         .col-xs-5.right-text-stat
           p.text-white {{ $t('impact.students_enrolled_number') }}
     .row.extra-bottom-margin
@@ -88,8 +88,11 @@
     margin: 0;
   }
 
-  h5 {
-    line-height: 15px;
+  p.text-teal {
+    font-family: $body-font;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
   }
 }
 
@@ -107,12 +110,6 @@ h4 {
   font-size: 14px;
   line-height: 19px;
   letter-spacing: 0.58px;
-}
-
-h5 {
-  font-family: $body-font;
-  font-size: 14px;
-  text-align: right;
 }
 
 .teacher-img {
@@ -151,7 +148,7 @@ ul {
 }
 
 .extra-bottom-margin{
-  margin-bottom: 7px;
+  margin-bottom: 15px;
 }
 
 
