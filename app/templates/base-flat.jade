@@ -189,6 +189,11 @@ mixin accountLinks
                           img(src="/images/pages/base/twitter_logo_btn.png", width="40")
                         a(href="https://www.facebook.com/codecombat", target="_blank")
                           img(src="/images/pages/base/facebook_logo_btn.png", width="40")
+                    if me.showChinaResourceInfo()
+                      h3 友情链接
+                      ul.list-unstyled
+                        li
+                          a(href="https://codecombat.163.com") 网易极客战记
 
       #final-footer(dir="ltr")
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
