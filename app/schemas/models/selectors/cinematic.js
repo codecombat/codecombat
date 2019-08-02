@@ -245,22 +245,24 @@ const characterFromThangTypeSchema = thangType => {
 /**
  * Check if this is the hero type.
  * If so returns the properties associated.
- * The caller must get the thangType original using:
- * `me.get('heroConfig').thangType`
+ * Does not return the thangType originalId.
+ * Used for hero or avatar.
  * @param {Object|undefined} thangType
  * @returns {Object|undefined} thang data
  */
-const getHeroFromThangTypeSchema = thangType => {
+const getHeroTypeFromThangTypeSchema = thangType => {
   if (!(thangType || {}).type) {
     return
   }
-  if (typeof thangType.type !== 'string' || thangType.type !== 'hero') {
+
+  if (typeof thangType.type !== 'string' || (thangType.type !== 'hero' && thangType.type !== 'avatar')) {
     return
   }
 
   const { scaleX, scaleY, pos } = thangType
   return {
-    thang: { scaleX, scaleY, pos }
+    thang: { scaleX, scaleY, pos },
+    type: thangType.type
   }
 }
 
@@ -293,24 +295,24 @@ const characterThangTypeSlug = character => {
  * Get it with:
  * `me.get('heroConfig').thangType`
  * @param {CharacterSchema} character - the left or right hero
- * @returns {Object|undefined} The thangType original and position data.
+ * @returns {Object|undefined} The position data and hero type
  */
 const heroThangTypeOriginal = character => {
   if (!character) {
     return
   }
-  const thangType = getHeroFromThangTypeSchema((character || {}).thangType)
+  const thangType = getHeroTypeFromThangTypeSchema((character || {}).thangType)
   if (!thangType) {
     return
   }
-  const { thang } = thangType
+  const { thang, type } = thangType
 
   if (typeof character.enterOnStart !== 'boolean') {
     character.enterOnStart = false
   }
   const enterOnStart = character.enterOnStart
 
-  return { enterOnStart, thang }
+  return { enterOnStart, thang, type }
 }
 
 // A camera default setting.
@@ -455,14 +457,14 @@ const soundEffects = triggers => {
 /**
  * Returns if left hero character
  * @param {Shot} shot
- * @returns {bool}
+ * @returns {Object|undefined}
  */
 export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal, setLeftCharacterDefaults)
 
 /**
  * Returns the right hero character
  * @param {Shot} shot
- * @returns {bool}
+ * @returns {Object|undefined}
  */
 export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal, setRightCharacterDefaults)
 

@@ -4,6 +4,7 @@ LevelSystem = require './LevelSystem'
 LevelConstants = require 'lib/LevelConstants'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 utils = require 'core/utils'
+store = require 'core/store'
 
 # Pure functions for use in Vue
 # First argument is always a raw Level.attributes
@@ -296,8 +297,9 @@ module.exports = class Level extends CocoModel
     return [] unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
+      context = _.merge({ external_1fh_avatar: store.getters['me/get1fhAvatar']?.avatarCodeString || 'crown' }, utils.i18n(plan, 'context') )
       try
-        solution.source = _.template(solution?.source)(utils.i18n(plan, 'context'))
+        solution.source = _.template(solution?.source)(context)
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
@@ -309,8 +311,9 @@ module.exports = class Level extends CocoModel
     sampleCode = _.cloneDeep plan.languages ? {}
     sampleCode.javascript = plan.source
     for language, code of sampleCode
+      context = _.merge({ external_1fh_avatar: store.getters['me/get1fhAvatar']?.avatarCodeString || 'crown' }, plan.context )
       try
-        sampleCode[language] = _.template(code)(plan.context)
+        sampleCode[language] = _.template(code)(context)
       catch e
         console.error "Problem with template and solution comments for", @get('slug'), e
     sampleCode

@@ -15,33 +15,39 @@ const ThangType = require('models/ThangType')
 const avatars = [
   {
     selectionImg: '/images/ozaria/avatar-selector/circle.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'bug'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/hex.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'crown'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/square.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'ghost'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/circle.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'leaf'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/square.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'rose'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/hex.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
+    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    avatarCodeString: 'snake'
   },
 ]
 
@@ -99,7 +105,7 @@ export default Vue.extend({
   },
 
   methods: {
-    ...mapActions('me', ['set1fhAvatar']),
+    ...mapActions('me', ['set1fhAvatar', 'save']),
 
     handleClick (e) {
       const selectedAvatar = parseInt(e.target.dataset.avatar, 10)
@@ -107,11 +113,17 @@ export default Vue.extend({
     },
 
     async handleNext () {
-      // TODO: uncomment this once slugs are finalized.
-      //       We do not want to save these placeholder ids.
-      // this.set1fhAvatar(this.selectedAvatar)
+      this.set1fhAvatar(this.selectedAvatar)
 
-      // TODO: Handle saving avatar selection state.
+      try {
+        // TODO handle_error_ozaria - What happens on failure?
+        await this.save()
+        // TODO button should become disabled while saving.
+      } catch (e) {
+        console.error('Failed to save avatar')
+        console.error(JSON.stringify(e))
+      }
+
       this.$emit('completed')
     }
   }
@@ -135,7 +147,7 @@ export default Vue.extend({
           <div class="col-xs-8 avatar-grid">
 
             <section class="row">
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, levelThangTypeId }, index) in topRowAvatars" :key="levelThangTypeId">
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, avatarCodeString }, index) in topRowAvatars" :key="avatarCodeString">
                 <div
                   :class="{selected: selected === index}"
                   :data-avatar="index"
@@ -146,7 +158,7 @@ export default Vue.extend({
             </section>
 
             <section class="row">
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, levelThangTypeId }, index) in bottomRowAvatars" :key="levelThangTypeId">
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, avatarCodeString }, index) in bottomRowAvatars" :key="avatarCodeString">
                 <div
                   :class="{selected: selected === index + 3}"
                   :data-avatar="index+3"

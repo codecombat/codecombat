@@ -6,13 +6,14 @@ import {
   getLeftCharacterThangTypeSlug,
   getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
-import { HERO_THANG_ID } from './constants'
+import { HERO_THANG_ID, AVATAR_THANG_ID } from './constants'
 
 /**
  * @typedef {import('../../../app/schemas/models/selectors/cinematic')} Cinematic
  */
 
 const ThangType = require('models/ThangType')
+const store = require('core/store')
 
 /**
  * Loader loads resources and stores them in a Map.
@@ -34,7 +35,7 @@ export default class Loader {
    */
   async loadAssets () {
     this.loadThangTypes(this.data.shots)
-    this.loadPlayerThangType()
+    this.loadPlayerThangTypes()
     this.loadBackgroundObjects(this.data.shots)
     await this.load()
     return this.data
@@ -46,14 +47,34 @@ export default class Loader {
    *
    * If an admin or player doesn't have a hero, falls back to a default.
    */
-  loadPlayerThangType () {
+  loadPlayerThangTypes () {
     const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
+    const avatar = (store.getters['me/get1fhAvatar'] || {}).cinematicThangTypeId || AVATAR_THANG_ID
+    const avatarPet = (store.getters['me/get1fhAvatar'] || {}).cinematicPetThangId || AVATAR_THANG_ID
 
     this.loadingThangTypes.set(
       original,
       (async () => {
         const attr = await getThangTypeOriginal(original)
         this.loadedThangTypes.set(original, new ThangType(attr))
+      })()
+    )
+
+    // TODO: We don't always need to load this. Currently a convenient solution.
+    //       This will not scale as we add more runtime dependent thangTypes.
+    this.loadingThangTypes.set(
+      avatar,
+      (async () => {
+        const attr = await getThangTypeOriginal(avatar)
+        this.loadedThangTypes.set(avatar, new ThangType(attr))
+      })()
+    )
+
+    this.loadingThangTypes.set(
+      avatarPet,
+      (async () => {
+        const attr = await getThangTypeOriginal(avatarPet)
+        this.loadedThangTypes.set(avatarPet, new ThangType(attr))
       })()
     )
   }

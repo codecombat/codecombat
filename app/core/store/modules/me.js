@@ -42,6 +42,13 @@ export default {
 
     preferredLocale (state) {
       return state.preferredLanguage
+    },
+
+    /**
+     * @returns {object|undefined} avatar schema object or undefined if not defined.
+     */
+    get1fhAvatar (state) {
+      return (state.ozariaHeroConfig || {}).avatar
     }
   },
 
@@ -63,14 +70,14 @@ export default {
         })
     },
 
-    set1fhAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId }) {
-      if (!(levelThangTypeId && cinematicThangTypeId)) {
-        throw new Error('Require both a levelThangTypeId and cinematicThangTypeId')
+    set1fhAvatar ({ state, commit }, { cinematicThangTypeId, cinematicPetThangId, avatarCodeString }) {
+      if (!(cinematicThangTypeId && cinematicPetThangId && avatarCodeString)) {
+        throw new Error('Require a cinematicThangTypeId, cinematicPetThangId, and avatarCodeString')
       }
 
       const ozariaConfig = state.ozariaHeroConfig || {}
       commit('updateUser', { ozariaHeroConfig:
-        { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId } }
+        { ...ozariaConfig, avatar: { cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
       })
     }
   }

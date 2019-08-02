@@ -48,6 +48,7 @@ module.exports = Vue.extend({
     completedHandler () {
       this.$emit('completed', this.cinematicData)
     },
+
     async getCinematicData() {
       try {
         this.cinematicData = await getCinematic(this.cinematicIdOrSlug)

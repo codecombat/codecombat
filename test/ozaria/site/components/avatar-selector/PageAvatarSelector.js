@@ -11,4 +11,8 @@
  *
  * If the avatars are being created from data, test that the data creates
  * appropriate components.
+ *
+ * Check that the correct avatar pet thangId is set.
+ *
+ * Check that the correct avatar string is set.
  */
