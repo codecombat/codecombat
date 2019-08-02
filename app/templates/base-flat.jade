@@ -56,6 +56,11 @@ mixin accountLinks
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else
                         a.text-p(href="/about", data-i18n="nav.about")
+                    li
+                      if document.location.href.search('/impact') >= 0
+                        a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
+                      else
+                        a.text-p(href="/impact", data-i18n="nav.impact")
                     if me.isStudent()
                       li
                         if document.location.href.search('/students') >= 0
