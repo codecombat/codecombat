@@ -102,8 +102,8 @@
             h1.text-forest 94%
             img(src="/images/pages/home/pink_rectangle.png")
             h4.text-navy(data-i18n="new_home.teachers_love_codecombat_blurb3")
-      p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
       a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/CodeCombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
+      p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
 
   #teacher-student-spotlight.row.row-dark
     .row.width-container
@@ -486,7 +486,7 @@ p, .text-p {
   h4 {
     line-height: 30px;
     letter-spacing: 0.48px;
-    margin: 0 auto 14px;
+    margin: 0 auto 45px;
     max-width: 320px;
   }
 
@@ -499,11 +499,12 @@ p, .text-p {
     letter-spacing: 0.75px;
     line-height: 26px;
     font-style: italic;
-    margin-bottom: 29px;
+    margin-bottom: 0;
   }
 
   .btn.btn-primary.btn-lg {
     width: unset;
+    margin-bottom: 45px
   }
 
 }
@@ -530,7 +531,7 @@ p, .text-p {
       margin: 15px;
       background-color: white;
       border-radius: 6px;
-      padding: 35px 45px 10px;
+      padding: 9px 45px 10px;
 
       display: flex;
       flex-direction: column;
