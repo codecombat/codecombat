@@ -177,6 +177,14 @@ export const getNextLevelLink = (levelData, options) => {
     if (options.nextLevelStage) {
       link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
     }
+  } else if (options.courseInstanceId) {
+    link += `?course-instance=${encodeURIComponent(options.courseInstanceId)}`
+    if (options.codeLanguage) {
+      link += `&codeLanguage=${encodeURIComponent(options.codeLanguage)}`
+    }
+    if (options.nextLevelStage) {
+      link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
+    }
   } else if (options.courseId) {
     link += `?course=${encodeURIComponent(options.courseId)}`
     if (options.codeLanguage) {

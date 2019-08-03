@@ -182,10 +182,9 @@ module.exports = class CocoRouter extends Backbone.Router
       }
       @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
     # TODO move to vue router after support for empty template is added there
-    'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
+    'ozaria/play/:campaign': (campaign) ->
       props = {
-        campaign: campaign,
-        courseInstanceId: courseInstanceId
+        campaign: campaign
       }
       @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
