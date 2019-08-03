@@ -20,7 +20,7 @@ class OzariaTransitionModal extends ModalComponent {
     this.propsData.campaignHandle = options.level.get('campaign')
     this.propsData.currentLevel = options.level
     this.propsData.capstoneStage = options.capstoneStage
-    this.propsData.courseId = options.courseID
+    this.propsData.courseId = options.courseId
     this.propsData.courseInstanceId = options.courseInstanceId
     this.propsData.goToNextDirectly = options.goToNextDirectly
     this.propsData.showShareModal = options.showShareModal

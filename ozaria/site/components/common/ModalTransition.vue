@@ -154,9 +154,14 @@
           }
           this.nextLevelLink = getNextLevelLink(nextLevel, nextLevelLinkOptions)
         } else { // last level of the campaign or this.showShareModal=true
-          this.nextLevelLink = `/ozaria/play/${this.campaignHandle}`
+          this.nextLevelLink = `/ozaria/play/${encodeURIComponent(this.campaignHandle)}`
           if (this.courseInstanceId) {
-            this.nextLevelLink += `?course-instance=${this.courseInstanceId}`
+            this.nextLevelLink += `?course-instance=${encodeURIComponent(this.courseInstanceId)}`
+            if (this.courseId) {
+              this.nextLevelLink += `&course=${encodeURIComponent(this.courseId)}`
+            }
+          } else if (this.courseId) {
+            this.nextLevelLink += `?course=${encodeURIComponent(this.courseId)}`
           }
           this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
           if (this.editCapstoneLevelData) {
@@ -327,6 +332,8 @@
   all: inherit
   justify-content: space-between
   padding: 0
-  .continue-editing-button
-    width: auto
+  .replay-button
+    width: 182px
+  .next-button
+    width: 182px
 </style>

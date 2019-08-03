@@ -2,11 +2,12 @@
 
   import _ from 'lodash'
   import api from 'core/api'
-  import { getLevelStatusMap, findNextLevelsBySession } from 'ozaria/site/common/ozariaUtils'
+  import utils from 'core/utils'
+  import { getLevelStatusMap, findNextLevelsBySession, defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
   import { mapActions, mapGetters } from 'vuex'
   import LayoutChrome from '../../common/LayoutChrome'
   import LayoutCenterContent from '../../common/LayoutCenterContent'
-  import UnitMapTitle from './common/UnitMapTitle'
+  import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
   import UnitMapBackground from './common/UnitMapBackground'
   import AudioPlayer from 'app/lib/AudioPlayer'
   import createjs from 'app/lib/createjs-parts'
@@ -15,7 +16,7 @@
     components: {
       'layout-chrome': LayoutChrome,
       'layout-center-content': LayoutCenterContent,
-      'unit-map-title': UnitMapTitle,
+      'layout-aspect-ratio-container': LayoutAspectRatioContainer,
       'unit-map-background': UnitMapBackground
     },
 
@@ -28,12 +29,21 @@
       courseInstanceId: {
         type: String,
         default: undefined
+      },
+
+      courseId: {
+        type: String,
+        default: undefined
+      },
+
+      codeLanguage: { // only used for teachers
+        type: String,
+        default: undefined
       }
     },
 
     data: () => ({
       campaignData: {},
-      courseId: '',
       levels: {},
       classroomLevelMap: {},
       classroom: {},
@@ -50,8 +60,19 @@
         currentLevelsList: 'unitMap/getCurrentLevelsList'
       }),
 
-      codeLanguage: function () {
-        return (this.classroom.aceConfig || {}).language || (me.get('aceConfig') || {}).language || 'python'
+      computedCodeLanguage: function () {
+        if (me.isTeacher()) {
+          return this.codeLanguage || utils.getQueryVariable('codeLanguage') || defaultCodeLanguage
+        }
+        return (this.classroom.aceConfig || {}).language || defaultCodeLanguage // default language for anonymous users
+      },
+
+      computedCourseInstanceId: function () {
+        return this.courseInstanceId || utils.getQueryVariable('course-instance')
+      },
+
+      computedCourseId: function () {
+        return this.courseId || utils.getQueryVariable('course')
       }
     },
 
@@ -66,14 +87,12 @@
         // TODO: Remove when ready for production use
         return application.router.navigate('/', { trigger: true })
       }
-      if ((me.isStudent() && !this.courseInstanceId)) {
+      if ((me.isStudent() && !this.computedCourseInstanceId)) {
         return application.router.navigate('/students', { trigger: true })
-      } else if (me.isTeacher()) {
+      } else if (me.isTeacher() && !this.computedCourseId) {
         return application.router.navigate('/teachers', { trigger: true })
       }
       await this.loadUnitMapData()
-      window.addEventListener('resize', this.onWindowResize)
-      this.onWindowResize()
       this.playAmbientSound()
     },
 
@@ -81,7 +100,6 @@
       if (this.ambientSound) {
         createjs.Tween.get(this.ambientSound).to({ volume: 0.0 }, 1500).call(this.ambientSound.stop)
       }
-      window.removeEventListener('resize', this.onWindowResize)
     },
 
     methods: {
@@ -109,18 +127,20 @@
       async loadUnitMapData () {
         try {
           this.dataLoaded = false
-          this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })
           await this.fetchCampaign(this.campaign)
           this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
-          if (this.courseInstanceId) {
+          if (this.computedCourseInstanceId) {
             // TODO: There might be a better place to initialize this.
-            this.setCourseInstanceId(this.courseInstanceId)
+            this.setCourseInstanceId(this.computedCourseInstanceId)
             await this.buildClassroomLevelMap()
           }
-          await this.buildLevelsData(this.campaign, this.courseInstanceId)
+          await this.buildLevelsData(this.campaign, this.computedCourseInstanceId)
           this.levels = this.currentLevelsList
-          this.createLevelStatusMap()
-          this.determineNextLevel()
+          if (!me.isSessionless()) {
+            this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })
+            this.createLevelStatusMap()
+            this.determineNextLevel()
+          }
           this.dataLoaded = true
         } catch (err) {
           console.error('ERROR:', err)
@@ -130,8 +150,13 @@
       },
 
       async buildClassroomLevelMap () {
-        const courseInstance = await api.courseInstances.get({ courseInstanceID: this.courseInstanceId })
-        const courseId = this.courseId = courseInstance.courseID
+        const courseInstance = await api.courseInstances.get({ courseInstanceID: this.computedCourseInstanceId })
+        const courseId = courseInstance.courseID
+        if (this.computedCourseId && this.computedCourseId !== courseId) {
+          // TODO handle_error_ozaria
+          noty({ text: 'Invalid data', layout: 'topCenter', type: 'error' })
+          console.error('Course instance does not contain course id ', this.computedCourseId)
+        }
         const classroomId = courseInstance.classroomID
 
         const classroom = this.classroom = await api.classrooms.get({ classroomID: classroomId })
@@ -158,7 +183,7 @@
       },
 
       determineNextLevel () { // set .next and .locked for this.levels
-        if (this.courseInstanceId || this.campaignData.type === 'course') {
+        if (this.computedCourseInstanceId || this.campaignData.type === 'course') {
           this.nextLevelOriginal = findNextLevelsBySession(this.levelSessions, this.levels, this.levelStatusMap)
           this.setUnlockedLevels()
           this.setNextLevels()
@@ -179,64 +204,39 @@
         if (this.nextLevelOriginal) {
           this.levels[this.nextLevelOriginal].next = true
         }
-      },
-
-      onWindowResize () {
-        const mapHeight = 768
-        const mapWidth = 1366
-        const aspectRatio = mapWidth / mapHeight
-        const pageWidth = window.innerWidth
-        const pageHeight = window.innerHeight
-        const widthRatio = pageWidth / mapWidth
-        const heightRatio = pageHeight / mapHeight
-        let resultingHeight
-        let resultingWidth
-        if (heightRatio <= widthRatio) {
-          // Left and right margin
-          resultingHeight = pageHeight
-          resultingWidth = resultingHeight * aspectRatio
-        } else {
-          // Top and bottom margin
-          resultingWidth = pageWidth
-          resultingHeight = resultingWidth / aspectRatio
-        }
-        $('#unit-map-container').css({
-          width: resultingWidth,
-          height: resultingHeight
-        })
       }
     }
   })
 </script>
 
 <template>
-  <layout-chrome>
+  <layout-chrome
+    :title="campaignData.name"
+  >
     <layout-center-content>
-      <div
+      <layout-aspect-ratio-container
         v-if="dataLoaded"
         id="unit-map-container"
+        :aspect-ratio="1266 / 668"
       >
-        <unit-map-title
-          :title="campaignData.name"
-        />
         <unit-map-background
           :campaign-data="campaignData"
           :levels="levels"
-          :course-id="courseId"
-          :course-instance-id="courseInstanceId"
-          :code-language="codeLanguage"
+          :course-id="computedCourseId"
+          :course-instance-id="computedCourseInstanceId"
+          :code-language="computedCodeLanguage"
         />
-      </div>
+      </layout-aspect-ratio-container>
     </layout-center-content>
   </layout-chrome>
 </template>
 
 <style scoped>
 #unit-map-container{
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  width: 1366px;
-  height: 768px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-width: 1266px;
+  max-height: 668px;
 }
 </style>

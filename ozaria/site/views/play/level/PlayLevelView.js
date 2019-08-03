@@ -1117,8 +1117,8 @@ class PlayLevelView extends RootView {
     const goToNextDirectly = options.capstoneInProgress
     options = {
       level: this.level,
-      courseID: this.courseID,
-      courseInstanceID: this.courseInstanceID,
+      courseId: this.courseID,
+      courseInstanceId: this.courseInstanceID,
       goToNextDirectly: goToNextDirectly && !this.continueEditing
     }
 

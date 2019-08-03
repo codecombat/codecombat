@@ -1,5 +1,7 @@
 <script>
   import { getNextLevelLink } from 'ozaria/site/common/ozariaUtils'
+  import { mapGetters } from 'vuex'
+
   export default Vue.extend({
     props: {
       levelData: {
@@ -26,6 +28,9 @@
       concepts: ''
     }),
     computed: {
+      ...mapGetters({
+        isTeacher: 'me/isTeacher'
+      }),
       isCutsceneLevel: function () {
         if (this.levelData.type !== 'intro') {
           return false
@@ -54,6 +59,11 @@
           courseId: this.courseId,
           courseInstanceId: this.courseInstanceId
         }
+
+        if (this.isTeacher) {
+          nextLevelOptions.codeLanguage = this.codeLanguage
+        }
+
         const link = getNextLevelLink(this.levelData, nextLevelOptions)
         return link || '#'
       },
