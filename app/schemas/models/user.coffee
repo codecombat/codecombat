@@ -174,8 +174,9 @@ _.extend UserSchema.properties,
         title: '1FH Avatar Choice',
         description: 'The 1FH avatar that was chosen by the user'
       }, {
-        thangId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Avatar ThangType', description: 'The in-level avatar thangType', format: 'thang-type'),
-        cinematicThangId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic ThangType', description: 'The cinematic avatar thangType', format: 'thang-type'),
+        cinematicThangTypeId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic ThangType', description: 'The cinematic avatar thangType original Id', format: 'thang-type'),
+        cinematicPetThangId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic Pet ThangType', description: 'The cinematic avatar pet thangType original Id', format: 'thang-type'),
+        avatarCodeString: c.shortString({ title: 'Avatar Capstone String', description: 'The string representation of the avatar for the capstone.' })
       })
     })
 
