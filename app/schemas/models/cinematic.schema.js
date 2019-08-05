@@ -9,8 +9,8 @@ const ThangTypeSchema = (title, description) => c.object({
     oneOf: [
       c.shortString({
         title: 'Hero',
-        description: 'Marker to inform us that this will be the players hero.',
-        enum: ['hero']
+        description: 'Hero ThangType Id computed at runtime',
+        enum: ['hero', 'avatar']
       }),
       c.object({
         title: 'Character Slug',

@@ -171,6 +171,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
 
+    'impact': () ->
+      @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
+
     'legal': go('LegalView')
 
     'logout': 'logout'
