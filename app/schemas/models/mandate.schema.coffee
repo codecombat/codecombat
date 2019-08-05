@@ -38,6 +38,10 @@ module.exports = MandateSchema = {
           properties:
             min: {type: 'number', minimum: 1, exclusiveMinimum: true, format: 'seconds'}
             max: {type: 'number', minimum: 5, exclusiveMinimum: true, format: 'seconds'}
+    currentTournament:
+      name: 'Current Tournament'
+      description: 'The identifier of the current active tournament, if any.'
+      type: 'string'
 }
 
 c.extendBasicProperties MandateSchema, 'Mandate'

@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   modal:
     close: "Đóng"
     okay: "OK"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Không tìm thấy trang"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     submit_changes: "Submit thay đổi"
     save_changes: "Lưu thay dổi"
     required_field: "Thông tin bắt buộc" # {change}
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "và"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     reload_title: "Tải lại tất cả code?"
     reload_really: "Bạn có chắc bạn muốn tải lại màn này về trạng thái ban đầu?"
     reload_confirm: "Tải lại tất cả"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
     victory: "Thắng"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tome_cast_button_run: "Chạy"
     tome_cast_button_running: "Đang chạy"
     tome_cast_button_ran: "Đã chạy xong"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Gửi"
     tome_reload_method: "Load lại đoạn code gốc cho method này" # {change}
     tome_available_spells: "Pháp thuật hiện có"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     level_to_unlock: "Yêu cầu cấp độ:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Chỉ một số tướng chơi được màn chơi này."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
 #    function: "function" # skill types
 #    method: "method"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    optional_parameters: "Optional Parameters"
 #    returns: "Returns"
 #    granted_by: "Granted by"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Đã lưu"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    david_title: "Marketing Lead"
     titles_csm: "Quản lý thành công khách hàng"
     titles_territory_manager: "Giám Đốc Khu Vực"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...và cộng đồng mã nguồn mở của chúng tôi"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "Soạn giáo án chỉ trong vòng một tiếng đồng hồ. Bạn sẽ có thể <strong>tạo lớp học, thêm học viên, và theo dõi quá trình học tập của họ</strong> trong khi tham gia lớp học công nghệ thông tin."
+    subtitle: "Soạn giáo án chỉ trong vòng một tiếng đồng hồ. Bạn sẽ có thể <strong>tạo lớp học, thêm học viên, và theo dõi quá trình học tập của họ</strong> trong khi tham gia lớp học công nghệ thông tin." # {change}
     email_exists: "Email đã được sử dụng."
     phone_number: "Số Điện Thoại"
     phone_number_help: "Chúng tôi có thể liên hệ với bạn ở đâu vào những ngày trong tuần?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     organization_label: "Tên Trường/Quận" # {change}
 #    school_name: "School Name"
     city: "Thành Phố"
-    state: "Tiểu Bang"
+    state: "Tiểu Bang" # {change}
     country: "Quốc Gia"
     num_students_help: "Số lượng học viên dự kiến tham gia CodeCombat?" # {change}
     num_students_default: "Lựa chọn khoảng"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    referrer: "How did you hear about us?"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
     convert_account_title: "Năng cấp lên tài khoản Giáo Viên"
     not: "Không phải"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Lưu phiên bản mới"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Phong to/thu nhỏ trình soạn thảo code."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Cộng đồng CodeCombat"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
 #    challenge: "Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
+#    capstone_solution: "Capstone Solution"
 #    removing_course: "Removing course"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     wins: "Những chiến thắng" # At end of multiplayer match playback
     humans: "Đỏ" # Ladder page display team name
     ogres: "Xanh"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     you_can1: "Bạn có thể"
     you_can2: "mua một mã trả trước"
     you_can3: "mà có thể áp dụng cho tài khoản của bạn hoặc gửi cho người khác."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Không kết nối được với server" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

@@ -1,0 +1,250 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/common/variables"
+
+@mixin editor-height($extraHeight)
+  width: 98%
+  height: 88%
+  height: unquote("-webkit-calc(88% - 50px -")$extraHeight unquote(")")
+  height: unquote("calc(88% - 50px -")$extraHeight unquote(")")
+
+#spell-view
+  height: 100%
+  display: none
+  position: relative
+  z-index: 1
+  overflow: hidden
+
+  &.shown
+    display: block
+
+  .code-background
+    position: absolute
+    top: -68px
+    left: 0px
+    height: 100%
+    right: -10px
+    border: 1px solid transparent
+
+  span.code-background
+    background-color: #ffffff
+
+  img.code-background
+    display: none
+    width: 100%
+
+  .save-status
+    display: none
+    position: absolute
+    top: 5px
+    left: 20px
+    z-index: 4
+
+  .programming-language-container
+    position: absolute
+    top: 10px
+    right: 26px
+    z-index: 4
+    font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-size: 14px
+    padding: 0px 10px
+    .programming-language-label
+      color: #6E654B
+      font-weight: bold
+      text-transform: uppercase
+    .programming-language
+      color: darkred
+
+  .firepad
+    // When Firepad is active, it wraps .ace_editor in .firepad.
+    @include editor-height(0px)
+    width: 94%
+
+    .ace_editor
+      width: 100%
+      height: 100%
+
+    .powered-by-firepad
+      display: none
+
+  .ace_editor
+    // When Firepad isn't active, .ace_editor needs the width/height set itself.
+    @include editor-height(0px)
+    margin: 25px 0px 10px 0px
+    width: 99%
+    position: relative
+    background-color: transparent
+    line-height: 19px
+    overflow: visible
+    // https://github.com/codecombat/codecombat/issues/1411#issuecomment-60492750 -- trying to make sure system defaults don't mess up our monospace font.
+    font-family: $code-font-style !important
+    font-size: 16px
+    @include transition(height 0.25s ease-in-out)
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: $code-font-style !important
+
+    &.disabled
+      @include opacity(0.8)
+      .ace_cursor, .executing, .ace_active-line, .ace_gutter-active-line
+        @include opacity(0.1)
+
+    .ace_gutter
+      background-color: transparent
+      border-right: 1px solid rgb(195, 178, 156)
+      //background-color: rgba(255, 255, 255, 0.25)
+      width: 47px
+      margin-left: 4px
+      padding-top: 3px
+      
+    .ace_layer
+      overflow: visible
+    // End experiment....
+
+    .ace_scroller
+      background-color: transparent
+      padding-left: 10px
+      padding-top: 3px
+
+    .ace_active-line, .ace_gutter-active-line
+      background-color: rgba(255, 255, 255, 0.4)
+
+    .ace_gutter-cell.ace_error
+      background-image: url(/images/ozaria/level/error_icon.png) !important
+      background-size: 40%
+
+    .ace_content
+      .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error, .problem-line
+        position: absolute
+    .executing
+      // https://github.com/codecombat/codecombat/issues/6
+      background-color: rgba(255, 255, 255, 0.75)
+      @include gradient-striped()
+      outline: 2px outset #0099ff
+      @include box-shadow(1px 1px 4px black)
+    &.playback-ended .executing, &.user-code-problem .executing
+      background-color: rgba(50, 255, 80, 0.65)
+      outline: 0
+      @include box-shadow(0 0 0px black)
+    .executed
+      background-color: rgba(110, 110, 110, 0.12)
+
+    +keyframes(pulseRedBackground)
+      from
+        background-color: rgba(255, 45, 27, 0.4)
+      50%
+        background-color: rgba(255, 45, 27, 0.2)
+      to
+        background-color: rgba(255, 45, 27, 0.4)
+
+    // problem-marker-#{@aetherProblem.level} set in Problem.coffee
+    .problem-marker-info
+      background-color: rgba(196, 163, 184, 0.25)
+    .problem-marker-warning
+      background-color: rgba(100, 65, 20, 0.25)
+    .problem-marker-error
+      background-color: rgba(255, 45, 27, 0.5)
+    .problem-line
+      // TODO: Pulses too quickly during playback
+      @include animation(pulseRedBackground 1s infinite)
+
+    &:not(.playback-ended):not(.user-code-problem)
+      .executing:not(.ace_gutter-cell)
+        background-size: 40px 40px
+        @include animation(progress-bar-stripes 0.5s linear infinite)
+
+    &:not(.user-code-problem)
+      .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
+        margin-left: 1px
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExOEE2REU4Q0M1MTM1MkIxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjVEQUNDMzQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjVEQUNDMjQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTU1MjE3RDIzMTIwNjgxMThEQkI4NTlBMjQ1QTEwOTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMThBNkRFOENDNTEzNTJCMUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SazaGAAAAiElEQVR42mL8//8/AzUBEwOVweA3kAWboI2jCyhgDwBx4ZH9ey5Qy4UOQHweaHg/EAtQ08sFUIMDqBmGCkC8HmgoCCtQM1ICoK5toGYsg8KzHmjo+UGbDj8AcSMwORkSnQ7xgA3QtPmApISNBTyAGrSBGl6eAMSGxBhGyIVkZT3G0fKQYgAQYACL+C2ZM6PC7AAAAABJRU5ErkJggg==)
+        background-position: 0px center
+
+    .ace_gutter-cell.executed:not(.ace_error):not(.ace_warning):not(.ace_info)
+      margin-left: 1px
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANhJREFUeNpi/P//PwM1ARMDlcHgMrA428MAiANQBEFhSA4uynIXAOJ+dHFKXDgfiDdSxctAbzYAqQ+9U3ccQJdjIcMwByCVD8SGFEcK0DAFILUeiCcCXfeAIgOBhglADfsAxBNwqSPFy/1AbADEiUDXfSApHQJdcx+I9yPxE4AUCB8AGrYAn62M6HkZ6rX3UG4jEG8A4vNQviO2mMXrQqh3GqHcemi4gcACQobhixRQoMNiUQEaEY1k52WoKwuRhHAmE6KTDdCADdDwu4AvmRCMlOFfwAIEGAD4On+N4aXlhgAAAABJRU5ErkJggg==)
+      background-position: 0px center
+
+    .ace_gutter-cell.entry-point:after
+      content: " "
+      display: block
+      position: relative
+      width: 49px
+      top: -30px
+      height: 38px
+      overflow: visible
+
+      background-image: url(data:image/png;base64,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)
+
+    .ace_gutter-cell.entry-point:not(.next-entry-point):after
+      opacity: 0.5
+
+    .ace_gutter-cell.entry-point.entry-point-indent-0:after
+      left: -25px
+    .ace_gutter-cell.entry-point.entry-point-indent-4:after
+      left: 5px
+    .ace_gutter-cell.entry-point.entry-point-indent-8:after
+      left: 33px
+    .ace_gutter-cell.entry-point.entry-point-indent-12:after
+      left: 61px
+    .ace_gutter-cell.entry-point.entry-point-indent-16:after
+      left: 89px
+
+    .ace_gutter-cell.ace_error
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTM5jWRgMAAAAVdEVYdENyZWF0aW9uIFRpbWUAMi8xNy8wOCCcqlgAAAQRdEVYdFhNTDpjb20uYWRvYmUueG1wADw/eHBhY2tldCBiZWdpbj0iICAgIiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDQuMS1jMDM0IDQ2LjI3Mjk3NiwgU2F0IEphbiAyNyAyMDA3IDIyOjExOjQxICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4YXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iPgogICAgICAgICA8eGFwOkNyZWF0b3JUb29sPkFkb2JlIEZpcmV3b3JrcyBDUzM8L3hhcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhhcDpDcmVhdGVEYXRlPjIwMDgtMDItMTdUMDI6MzY6NDVaPC94YXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhhcDpNb2RpZnlEYXRlPjIwMDgtMDMtMjRUMTk6MDA6NDJaPC94YXA6TW9kaWZ5RGF0ZT4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyI+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDUdUmQAAAD5SURBVDiNpZMxagMxEEWfgiCXcB3IbXwD7zbaM0nNyjdIl1O4Dk7pbsslEFbEZFKsJsiJrGDy4YM0M//zRyAoINAJyB8cS43RwwIdMFrvaeE8DADxXqQ3Jstn6GaQ5L3M0GQxsyaZoJtA3r2XCS6o+FkvZkdOIG/eywl+UVHrqcYm4BNIjb1rPdXYBTivj3gVtZ5q/p8gAfPhcLOBamzKcW41UI1dgA/qez4bU6muUE0zwVYEgKeKkWruEnTHENg4R8pFZblCyY1zHEMgQTQAe9gB8cE5XkO4GhugmIk76L+z+Wzy6FzT4CWLXf5MF8upSdMB4gC9Xr4AiezTJHGxdq0AAAAASUVORK5CYII=)
+
+    .ace_marker-layer
+      .ace_bracket
+        // Override faint gray
+        border-color: #BFF
+
+      .locked-code
+        border: 1px dashed rgba(53, 45, 34, 0.5)
+        background-color: transparent
+        @include transition(background-color 0.25s ease-in-out)
+
+        &:after
+          content: "Locked"
+          opacity: 0
+          display: block
+          text-align: right
+          @include transition(opacity 4s ease-in-out)
+          font-size: 24px
+
+        &.pulsating
+          background-color: rgba(53, 45, 34, 0.5)
+
+          &:after
+            opacity: 1
+
+    // Decided it wasn't useful to show what can be hovered, since almost anything can, so we have to make it too faint to be useful if we don't want it to be really distracting.
+    //.ace_identifier
+    //  border-bottom: 1px dotted rgba(0, 51, 255, 0.25)
+
+    .ace_text-layer .ace_comment
+      color: #1900AD
+
+    .ace_text-layer .ace_variable
+      // https://github.com/codecombat/codecombat/issues/6
+      color: rgb(145, 48, 50)
+
+    .ace_text-layer .ace_invisible_space
+      visibility: hidden
+
+    .ace_search
+      background-color: rgba(216, 187, 165, 1)
+      border: 0
+      @include box-shadow(1px 2px 1px #444)
+      
+      .ace_search_field
+        width: 190px
+
+      .ace_searchbtn, .ace_replacebtn
+        padding: 0px 4px
+
+
+html.no-borderimage
+  #spell-view
+    span.code-background
+      display: none
+    img.code-background
+      display: block

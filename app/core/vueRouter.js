@@ -8,6 +8,11 @@ import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
 import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
 
 import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
+import PageCutsceneEditorList from '../../ozaria/site/components/cutscene/PageCutsceneEditorList'
+import PageCutsceneEditor from '../../ozaria/site/components/cutscene/PageCutsceneEditor'
+import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
+
+import CinematicPlaceholder from '../../ozaria/site/components/cinematic/CinematicPlaceholder'
 
 let vueRouter
 
@@ -26,6 +31,20 @@ export default function getVueRouter () {
           props: true
         },
         {
+          path: '/editor/cutscene',
+          component: PageCutsceneEditorList
+        },
+        {
+          path: '/editor/cutscene/:slugOrId',
+          component: PageCutsceneEditor,
+          props: true
+        },
+        {
+          path: '/editor/interactive/:slug?',
+          component: PageInteractiveEditor,
+          props: true
+        },
+        {
           path: '/school-administrator',
           component: SchoolAdminDashboard,
           children: [
@@ -34,6 +53,15 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: TeacherStudentView }
           ]
+        },
+        {
+          path: '/cinematicplaceholder/:levelSlug?',
+          component: CinematicPlaceholder,
+          props: (route) => {
+            return {
+              levelSlug: route.params.levelSlug
+            }
+          }
         }
       ]
     })

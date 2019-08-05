@@ -1,0 +1,29 @@
+.modal-dialog.game
+  .background-wrapper
+    .modal-content
+      if view.options.headerContent
+        block modal-header
+          .modal-header
+            if view.closeButton
+              .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+            block modal-header-content
+              h3!= view.options.headerContent
+
+      block modal-body
+        .modal-body
+          block modal-body-content
+            if view.options.bodyContent
+              div!= view.options.bodyContent
+            else
+              p There should be some content here! We need to take one of our own lessons! ;)
+
+        .modal-body.wait.secret
+          block modal-body-wait-content
+            h3 Reticulating Splines...
+          .progress.progress-striped.active
+            .progress-bar
+
+      block modal-footer
+        .modal-footer
+          block modal-footer-content
+            button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true", data-i18n="modal.okay") Okay

@@ -143,4 +143,10 @@ mixin addCredits
       button#request-sent-btn.btn-lg.btn.btn-forest(disabled=true, data-i18n="teacher.request_sent")
     else
       p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
-      button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
+      if me.showChinaResourceInfo()
+        - var {COCO_CHINA_CONST} = require('core/constants')
+        p 联系我们
+        p= "邮件："+COCO_CHINA_CONST.CONTACT_EMAIL
+        p= "电话："+COCO_CHINA_CONST.CONTACT_PHONE
+      else
+        button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")

@@ -198,6 +198,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   modal:
     close: "Bezár"
     okay: "Oké"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Az oldal nem található"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     submit_changes: "Változások véglegesítése"
     save_changes: "Változások mentése"
     required_field: "kötelező"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "és"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     reload_title: "Újra kezded mindet?"
     reload_really: "Biztos vagy benne, hogy előlről szeretnéd kezdeni az egész pályát?"
     reload_confirm: "Előlről az egészet"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Teszt pálya"
     victory: "Győzelem"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tome_cast_button_run: "Futtatás"
     tome_cast_button_running: "Futás..."
     tome_cast_button_ran: "Lefutott"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Beküldés"
     tome_reload_method: "Eredeti Eljárás újratöltése" # {change}
     tome_available_spells: "Elérhető varázslatok"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     level_to_unlock: "Szükséges pályák:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Csak bizonyos hős játszhatja ezt a pályát."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "függvény (function)" # skill types
     method: "metódus"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     optional_parameters: "Nem kötelező paraméterek"
     returns: "Visszatérés"
     granted_by: "Megkapva"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Mentve"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    david_title: "Marketing Lead"
     titles_csm: "Ügyfél sikermenedzser"
 #    titles_territory_manager: "Territory Manager"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...és a nyílt támogatói közösségünk"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "A diákok akár egy órán belül elkezdhetik a játékot. A bemutatóval <strong>osztályokat állíthatsz össze, hozzájuk rendelheted a diákokat, és nyomon követheted tanítványaid fejlődését,</strong> miközben ők elmélyednek az informatikában."
+    subtitle: "A diákok akár egy órán belül elkezdhetik a játékot. A bemutatóval <strong>osztályokat állíthatsz össze, hozzájuk rendelheted a diákokat, és nyomon követheted tanítványaid fejlődését,</strong> miközben ők elmélyednek az informatikában." # {change}
     email_exists: "Ehhez az e-mail címhez már tartozik egy felhasználói fiók."
     phone_number: "Telefonszám"
     phone_number_help: "Milyen számon érhetünk el munkaidőben?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     organization_label: "Iskola"
 #    school_name: "School Name"
     city: "Város"
-    state: "Megye"
+    state: "Megye" # {change}
     country: "Ország"
     num_students_help: "Hány tanulóval szeretnéd megismertetni a CodeCombatet?" # {change}
     num_students_default: "Válassz egy tartományt"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    referrer: "How did you hear about us?"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     create_account_subtitle: "Férj hozzá az oktatói funkciókhoz, amelyekkel a CodeCombat tanterved szerves részévé válhat.  <strong>Állíts össze osztályokat</strong>, rendeld hozzájuk a diákokat, és <strong>kövesd nyomon a fejlődésüket</strong>!"
     convert_account_title: "Frissítés oktatói fiókra"
     not: "Nem"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Új verzió mentése"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     toggle_pathfinding: "Útkeresési átfedő panel be-/kikapcsolása."
     beautify: "A kód kicsinosítása és szabványos formátumra hozása."
     maximize_editor: "Maximális/Minimális kód szerkesztő."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat Közösség"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
 #    challenge: "Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
+#    capstone_solution: "Capstone Solution"
 #    removing_course: "Removing course"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     wins: "Győzelmek" # At end of multiplayer match playback
     humans: "Vörös" # Ladder page display team name
     ogres: "Kék"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     you_can1: "Vásárolhatsz"
     you_can2: "egy fizetős kódot,"
     you_can3: "amelyet a saját fiókodban is beválthatsz vagy átadhatsz másoknak."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "A betöltés a szerverről sikertelen" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

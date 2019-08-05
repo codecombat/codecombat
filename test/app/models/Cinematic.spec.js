@@ -6,6 +6,7 @@ import {
   getRightHero,
   getClearBackgroundObject,
   getBackgroundObject,
+  getBackgroundObjectDelay,
   getBackground,
   getClearText,
   getSpeaker,
@@ -17,7 +18,10 @@ import {
   getTextAnimationLength,
   getSpeakingAnimationAction,
   getSetupMusic,
-  getSoundEffects
+  getSoundEffects,
+  getWaitUserInput,
+  getLanguageFilter,
+  getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
 
 /**
@@ -47,7 +51,7 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getLeftCharacterThangTypeSlug(shotFixture2)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1, scaleY: 1, pos: { x: 0, y: 0 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: -30, y: -72 } } })
     })
 
     it('getRightCharacterThangTypeSlug', () => {
@@ -55,7 +59,7 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getRightCharacterThangTypeSlug(shotFixture1)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1, scaleY: 1, pos: { x: 0, y: 0 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: 30, y: -72 } } })
     })
 
     it('getLeftHero', () => {
@@ -87,6 +91,14 @@ describe('Cinematic', () => {
       expect(result).toEqual({ scaleX: 1, scaleY: 1, pos: { x: 0, y: 0 }, type: { slug: 'background-obj-fixture' } })
 
       const result2 = getBackgroundObject(shotFixture2.dialogNodes[0])
+      expect(result2).toBeUndefined()
+    })
+
+    it('getBackgroundObjectDelay', () => {
+      const result = getBackgroundObjectDelay(shotFixture1.dialogNodes[0])
+      expect(result).toEqual(1337)
+
+      const result2 = getBackgroundObjectDelay(shotFixture2.dialogNodes[0])
       expect(result2).toBeUndefined()
     })
 
@@ -164,7 +176,7 @@ describe('Cinematic', () => {
       expect(result).toEqual(42)
 
       const result2 = getTextAnimationLength(shotFixture2.dialogNodes[0])
-      expect(result2).toEqual(1000)
+      expect(result2).toBeUndefined()
     })
 
     it('getSpeakingAnimationAction', () => {
@@ -188,6 +200,28 @@ describe('Cinematic', () => {
       expect(result).toEqual({ ogg: 'path/music', mp3: 'path/music/mp3' })
 
       const result2 = getSetupMusic(shotFixture2)
+      expect(result2).toBeUndefined()
+    })
+
+    it('getWaitUserInput', () => {
+      expect(getWaitUserInput({ waitUserInput: false })).toEqual(false)
+      expect(getWaitUserInput({})).toEqual(true)
+      expect(getWaitUserInput()).toEqual(true)
+      expect(getWaitUserInput({ waitUserInput: true })).toEqual(true)
+    })
+
+    it('getLanguageFilter', () => {
+      expect(getLanguageFilter({})).toBeUndefined()
+      expect(getLanguageFilter()).toBeUndefined()
+      expect(getLanguageFilter({ programmingLanguageFilter: 'python' })).toEqual('python')
+      expect(getLanguageFilter({ programmingLanguageFilter: 'javascript' })).toEqual('javascript')
+    })
+
+    it('getHeroPet', () => {
+      const result = getHeroPet(shotFixture1)
+      expect(result).toEqual({ slug: 'hero-dog-slug', thang: { scaleX: 1, scaleY: 2, pos: { x: 2, y: 0 } } })
+
+      const result2 = getHeroPet(shotFixture2)
       expect(result2).toBeUndefined()
     })
   })
@@ -229,6 +263,15 @@ var shotFixture1 = {
           slug: 'fake-slug-thangtype'
         }
       }
+    },
+    heroPetThangType: {
+      type: {
+        slug: 'hero-dog-slug'
+      },
+      pos: {
+        x: 2
+      },
+      scaleY: 2
     },
     backgroundArt: {
       type: {

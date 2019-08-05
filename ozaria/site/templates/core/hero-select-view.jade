@@ -1,0 +1,20 @@
+mixin heroOption(hero)
+  - var heroOriginal = hero.original
+  - var selectedState
+  if state.get('selectedHeroOriginal') === heroOriginal
+    - selectedState = 'selected'
+  else if view.options.showCurrentHero && state.get('currentHeroOriginal') === heroOriginal
+    - selectedState = 'current'
+  else
+    - selectedState = ''
+  .hero-option(data-hero-original=heroOriginal, class=selectedState)
+    .hero-avatar
+      img(src=view.getPortraitURL(hero))
+    .text-h5.hero-name
+      span= view.getHeroShortName(hero)
+
+.hero-list
+  if view.heroes
+    each hero in view.heroes
+      if hero.heroClass === 'Warrior'
+        +heroOption(hero)

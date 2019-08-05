@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   modal:
     close: "Sluiten"
     okay: "Oké"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Pagina niet gevonden"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     submit_changes: "Veranderingen indienen"
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "en"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Test Level"
     victory: "Gewonnen"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_cast_button_run: "Uitvoeren"
     tome_cast_button_running: "Afspelen"
     tome_cast_button_ran: "Uitgevoerd"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
     tome_available_spells: "Beschikbare spreuken"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Methodes"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     wallOfDarkness_name: "Duistere Muur"
     wallOfDarkness_description: "Verberg je achter een muur van schaduwen om nieuwsgierige blikken te vermijden."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Word een Meesterprogrammeur door je vandaag te abonneren!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_to_unlock: "Beschikbaar na level:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Alleen bepaalde helden kunnen dit level spelen."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "functie" # skill types
     method: "methode"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     optional_parameters: "Optionele Parameters"
     returns: "Geeft terug"
     granted_by: "Verleend door"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Opgeslagen"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     david_title: "Manager Marketing"
 #    titles_csm: "Customer Success Manager"
     titles_territory_manager: "Regiomanager"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+    bryukh_title: "Speldesigner" # {change}
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Gebruik CodeCombat voor jouw klas of programmeerclub!"
+    subtitle: "Gebruik CodeCombat voor jouw klas of programmeerclub!" # {change}
     email_exists: "Er bestaat al een gebruiker met dit emailadres."
     phone_number: "Telefoonnummer"
     phone_number_help: "Waarop kunnen we je bereiken tijdens kantooruren?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     organization_label: "Schoolnaam" # {change}
     school_name: "Naam van de school"
     city: "Stad"
-    state: "Provincie"
+    state: "Provincie" # {change}
     country: "Land"
     num_students_help: "Voor hoeveel leerlingen zou je CodeCombat willen gebruiken?" # {change}
     num_students_default: "Selecteer bereik"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     referrer: "Hoe heb je over ons gehoord?"
     referrer_help: "Bijvoorbeeld: van een andere leraar, een conferentie, je leerlingen, Code.org, etc."
     referrer_default: "Kies er één"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Een leraar"
     referrer_admin: "Een administratief medewerker"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create_account_subtitle: "Krijg toegang tot exclusieve hulpmiddelen voor docenten door CodeCombat in de klas te gebruiken. <strong>Maak een klas aan</strong>, voeg leerlingen toe, en <strong>bekijk hun vooruitgang</strong>!"
     convert_account_title: "Verander in een docenten-account"
     not: "niet"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Nieuwe versie opslaan"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     toggle_pathfinding: "Toggle padvind weergave."
     beautify: "Maak je code netter door de opmaak overal gelijk te maken."
     maximize_editor: "Maximaliseer/minimaliseer code editor."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat Gemeenschap"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     update_old_classroom_detail_2: "en door de leerlingen de nieuwe klassencode te geven die verschijnt."
     view_assessments: "Bekijk Evaluaties"
     view_challenges: "Bekijk Challenge Levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Uitdaging/Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     no_code_yet: "Leerling heeft nog geen code voor dit level geschreven"
     open_ended_level: "Open-einde-level"
     partial_solution: "Gedeeltelijke oplossing"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Cursus wordt verwijderd"
     solution_arena_blurb: "Studenten worden aangemoedigd om arena-levels creatief op te lossen. De onderstaande oplossing voldoet aan de vereisten van het arena-level."
     solution_challenge_blurb: "Studenten worden aangemoedigd om open-ended (met een open einde) challenge levels op een creatieve manier op te lossen. Een mogelijke oplossing wordt hieronder weergegeven."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     wins: "Wint" # At end of multiplayer match playback
     humans: "Rood" # Ladder page display team name
     ogres: "Blauw"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can1: "Je kunt"
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Fout bij het laden van de server" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

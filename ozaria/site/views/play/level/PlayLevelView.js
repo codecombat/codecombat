@@ -8,11 +8,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-require('app/styles/play/level/level-loading-view.sass')
-require('app/styles/play/level/tome/spell_palette_entry.sass')
-require('app/styles/play/play-level-view.sass')
+import LevelIntroModal from './modal/LevelIntroModal'
+import OzariaVictoryModal from '../modal/OzariaVictoryModal'
+
+require('ozaria/site/styles/play/level/level-loading-view.sass')
+require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
+require('ozaria/site/styles/play/play-level-view.sass')
 const RootView = require('views/core/RootView')
-const template = require('../../../templates/play/play-level-view.pug')
+const template = require('ozaria/site/templates/play/play-level-view.pug')
 const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
 const utils = require('core/utils')
@@ -30,30 +33,30 @@ const GameUIState = require('models/GameUIState')
 const createjs = require('lib/createjs-parts')
 
 // subviews
-const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
-const ProblemAlertView = require('app/views/play/level/tome/ProblemAlertView')
-const TomeView = require('app/views/play/level/tome/TomeView')
-const HUDView = require('app/views/play/level/LevelHUDView')
-const LevelDialogueView = require('app/views/play/level/LevelDialogueView')
-const ControlBarView = require('app/views/play/level/ControlBarView')
-const LevelPlaybackView = require('app/views/play/level/LevelPlaybackView')
-const GoalsView = require('app/views/play/level/LevelGoalsView')
-const LevelFlagsView = require('app/views/play/level/LevelFlagsView')
-const GoldView = require('app/views/play/level/LevelGoldView')
-const GameDevTrackView = require('app/views/play/level/GameDevTrackView')
-const DuelStatsView = require('app/views/play/level/DuelStatsView')
-const VictoryModal = require('app/views/play/level/modal/VictoryModal')
-const HeroVictoryModal = require('app/views/play/level/modal/HeroVictoryModal')
-const CourseVictoryModal = require('app/views/play/level/modal/CourseVictoryModal')
-const HoC2018VictoryModal = require('views/special_event/HoC2018VictoryModal')
-const InfiniteLoopModal = require('app/views/play/level/modal/InfiniteLoopModal')
+const LevelLoadingView = require('./LevelLoadingView')
+const ProblemAlertView = require('./tome/ProblemAlertView')
+const TomeView = require('./tome/TomeView')
+const HUDView = require('./LevelHUDView')
+const LevelDialogueView = require('./LevelDialogueView')
+const ControlBarView = require('./ControlBarView')
+const LevelPlaybackView = require('./LevelPlaybackView')
+const GoalsView = require('./LevelGoalsView')
+const LevelFlagsView = require('./LevelFlagsView')
+const GoldView = require('./LevelGoldView')
+const GameDevTrackView = require('./GameDevTrackView')
+const DuelStatsView = require('./DuelStatsView')
+const VictoryModal = require('./modal/VictoryModal')
+const HeroVictoryModal = require('./modal/HeroVictoryModal')
+const CourseVictoryModal = require('./modal/CourseVictoryModal')
+const HoC2018VictoryModal = require('../../special_event/HoC2018VictoryModal')
+const InfiniteLoopModal = require('./modal/InfiniteLoopModal')
 const LevelSetupManager = require('lib/LevelSetupManager')
-const ContactModal = require('views/core/ContactModal')
-const HintsView = require('app/views/play/level/HintsView')
-const SurfaceContextMenuView = require('app/views/play/level/SurfaceContextMenuView')
-const HintsState = require('app/views/play/level/HintsState')
-const WebSurfaceView = require('app/views/play/level/WebSurfaceView')
-const SpellPaletteView = require('app/views/play/level/tome/SpellPaletteView')
+const ContactModal = require('../../core/ContactModal')
+const HintsView = require('./HintsView')
+const SurfaceContextMenuView = require('./SurfaceContextMenuView')
+const HintsState = require('./HintsState')
+const WebSurfaceView = require('./WebSurfaceView')
+const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
 
 require('lib/game-libraries')
@@ -87,15 +90,16 @@ class PlayLevelView extends RootView {
     this.levelID = levelID
 
     this.courseID = options.courseID || utils.getQueryVariable('course')
-    this.courseInstanceID =
-      options.courseInstanceID || utils.getQueryVariable('course-instance')
-
+    this.courseInstanceID = options.courseInstanceID || utils.getQueryVariable('course-instance')
     this.isEditorPreview = utils.getQueryVariable('dev')
-    this.sessionID =
-      utils.getQueryVariable('session') || this.options.sessionID
+    this.sessionID = utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
-
     this.opponentSessionID = utils.getQueryVariable('opponent') || this.options.opponent
+    this.capstoneStage = parseInt(
+      utils.getQueryVariable('capstoneStage') ||
+      utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
+      this.options.capstoneStage, 10)
+
     this.gameUIState = new GameUIState()
 
     $('flying-focus').remove() // Causes problems, so yank it out for play view.
@@ -331,6 +335,14 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
+    // TODO: After Ozaria launch, comment this out to give proper access
+    // if (this.capstoneStage && me.isSessionless() && (me.isAdmin() || me.isTeacher())) {
+    if (this.capstoneStage && me.isAdmin()) {
+      const state = this.session.get('state') || {}
+      state.capstoneStage = this.capstoneStage
+      this.session.set('state', state)
+    }
+
     this.level = this.levelLoader.level
     store.commit('game/setLevel', this.level.attributes)
     if (this.level.isType('web-dev')) {
@@ -494,7 +506,10 @@ class PlayLevelView extends RootView {
   }
 
   initGoalManager () {
-    const options = {}
+    const options = {
+      additionalGoals: this.level.get('additionalGoals'),
+      session: this.session
+    }
     if (this.level.get('assessment') === 'cumulative') {
       options.minGoalsToComplete = 1
     }
@@ -867,17 +882,9 @@ class PlayLevelView extends RootView {
       this.surface.showLevel()
     }
     Backbone.Mediator.publish('level:set-time', { time: 0 })
-    if (
-      (this.isEditorPreview || this.observing) &&
-      !utils.getQueryVariable('intro')
-    ) {
-      this.loadingView.startUnveiling()
-      return this.loadingView.unveil(true)
-    } else {
-      return this.scriptManager != null
-        ? this.scriptManager.initializeCamera()
-        : undefined
-    }
+    return this.scriptManager != null
+      ? this.scriptManager.initializeCamera()
+      : undefined
   }
 
   onLoadingViewUnveiling (e) {
@@ -885,24 +892,32 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
-      // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
-      Backbone.Mediator.publish('level:set-playing', { playing: true })
-    }
-    this.loadingView.$el.remove()
-    this.removeSubView(this.loadingView)
-    this.loadingView = null
-    this.playAmbientSound()
-    // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-    if (!this.observing) {
-      trackEvent('Started Level', {
-        category: 'Play Level',
-        label: this.levelID,
-        levelID: this.levelID,
-        ls: this.session != null ? this.session.get('_id') : undefined
-      })
-    }
-    $(window).trigger('resize')
+    this.openModalView(new LevelIntroModal({
+      level: this.level,
+      onStart: () => {
+        Backbone.Mediator.publish('level:loading-view-unveiling', {})
+        if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
+          // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+          Backbone.Mediator.publish('level:set-playing', { playing: true })
+        }
+        if (this.loadingView) {
+          this.loadingView.$el.remove()
+          this.removeSubView(this.loadingView)
+          this.loadingView = null
+        }
+        this.playAmbientSound()
+        // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
+        if (!this.observing) {
+          trackEvent('Started Level', {
+            category: 'Play Level',
+            label: this.levelID,
+            levelID: this.levelID,
+            ls: this.session != null ? this.session.get('_id') : undefined
+          })
+        }
+        $(window).trigger('resize')
+      }
+    }))
   }
 
   onSetVolume (e) {
@@ -1047,7 +1062,7 @@ class PlayLevelView extends RootView {
       $('#level-done-button').show()
     }
     if (e.showModal) {
-      this.showVictory(_.pick(e, 'manual'))
+      this.showVictory(_.pick(e, 'manual', 'capstoneInProgress'))
     }
     if (this.victorySeen) {
       return
@@ -1083,10 +1098,13 @@ class PlayLevelView extends RootView {
     if (this.level.hasLocalChanges()) {
       return
     } // Don't award achievements when beating level changed in level editor
+
+    const additionalGoals = this.level.get('additionalGoals')
     if (
       this.level.isType('game-dev') &&
       this.level.get('shareable') &&
-      !options.manual
+      !options.manual &&
+      !additionalGoals
     ) {
       return
     }
@@ -1095,51 +1113,32 @@ class PlayLevelView extends RootView {
     }
     this.showVictoryHandlingInProgress = true
     this.endHighlight()
+    const goToNextDirectly = options.capstoneInProgress
     options = {
       level: this.level,
-      supermodel: this.supermodel,
-      session: this.session,
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
-      world: this.world,
-      parent: this
+      goToNextDirectly: goToNextDirectly
     }
-    let ModalClass = this.level.isType(
-      'hero',
-      'hero-ladder',
-      'hero-coop',
-      'course',
-      'course-ladder',
-      'game-dev',
-      'web-dev'
-    )
-      ? HeroVictoryModal
-      : VictoryModal
-    if (this.isCourseMode() || me.isSessionless()) {
-      ModalClass = CourseVictoryModal
+
+    if (me.isSessionless()) { // for teachers
+      options.capstoneStage = this.capstoneStage
+    } else if (additionalGoals) { // for students
+      const capstoneStageQueryParam = this.capstoneStage
+      const sessionCapstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
+      if (capstoneStageQueryParam && capstoneStageQueryParam <= sessionCapstoneStage) {
+        options.capstoneStage = capstoneStageQueryParam.toString()
+      } else {
+        options.capstoneStage = sessionCapstoneStage.toString()
+      }
     }
+    let ModalClass = OzariaVictoryModal
     if (this.level.isType('course-ladder')) {
-      ModalClass = CourseVictoryModal
       options.courseInstanceID =
         utils.getQueryVariable('course-instance') ||
         utils.getQueryVariable('league')
     }
-    if (
-      this.level.get('slug') === 'code-play-share' &&
-      this.level.get('shareable')
-    ) {
-      const hocModal = new HoC2018VictoryModal({
-        shareURL: `${window.location.origin}/play/${this.level.get(
-          'type'
-        )}-level/${this.session.id}`,
-        campaign: this.level.get('campaign')
-      })
-      this.openModalView(hocModal)
-      hocModal.once('hidden', () => {
-        this.showVictoryHandlingInProgress = false
-      })
-      return
-    }
+
     const victoryModal = new ModalClass(options)
     this.openModalView(victoryModal)
     victoryModal.once('hidden', () => {
@@ -1394,18 +1393,32 @@ class PlayLevelView extends RootView {
     if (this.destroyed) {
       return
     }
+
     Backbone.Mediator.publish('level:set-time', { ratio: 1 })
+
+    // Don't award achievements when beating level changed in level editor
     if (this.level.hasLocalChanges()) {
       return
-    } // Don't award achievements when beating level changed in level editor
-    if (this.goalManager.checkOverallStatus() === 'success') {
+    }
+
+    if (this.goalManager.finishLevel()) {
+      const options = { showModal: true }
+      const state = this.session.get('state')
+      if (state && state.capstoneStage && this.goalManager.getRemainingGoals().length > 0) {
+        options.capstoneInProgress = true
+      }
+
       const showModalFn = () =>
-        Backbone.Mediator.publish('level:show-victory', { showModal: true })
+        Backbone.Mediator.publish('level:show-victory', options)
       this.session.recordScores(this.world.scores, this.level)
-      if (this.level.get('replayable')) {
-        return this.session.increaseDifficulty(showModalFn)
-      } else {
-        return showModalFn()
+
+      // Skip triggering the victory modal automatically for ozaria capstone levels.
+      if (this.level.get('ozariaType') !== 'capstone') {
+        if (this.level.get('replayable')) {
+          return this.session.increaseDifficulty(showModalFn)
+        } else {
+          return showModalFn()
+        }
       }
     }
   }

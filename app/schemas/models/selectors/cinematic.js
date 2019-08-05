@@ -87,6 +87,46 @@ const DEFAULT_THANGTYPE = () => ({
 })
 
 /**
+ * @param {Object} thangDefaults
+ * @returns {Function} sets thangDefaults on the thang property for a character.
+ */
+const setCharacterDefaults = ({ pos: { x, y }, scaleX, scaleY }) =>
+  character => {
+    if (!character) {
+      return
+    }
+
+    const thang = character.thang || {}
+    thang.pos = { ...{ x, y }, ...(thang.pos || {}) }
+    thang.scaleX = thang.scaleX || scaleX
+    thang.scaleY = thang.scaleY || scaleY
+    character.thang = thang
+    return character
+  }
+
+/**
+ * @param {Object|undefined} leftCharacter The left character object
+ * @param {Object} leftCharacter.thang The thang options for the left character.
+ * @returns {Object|undefined} leftCharacter with default values set on thang.
+ */
+const setLeftCharacterDefaults = setCharacterDefaults({
+  pos: { x: -30, y: -72 },
+  scaleX: 1.2,
+  scaleY: 1.2
+})
+
+/**
+ * @param {Object|undefined} rightCharacter The left character object
+ * @param {Object} rightCharacter.thang The thang options for the left character.
+ * @returns {Object|undefined} rightCharacter with default values set on thang.
+ */
+const setRightCharacterDefaults = setCharacterDefaults({
+  pos: { x: 30, y: -72 },
+  scaleX: 1.2,
+  scaleY: 1.2
+})
+
+/**
  * Takes the cinematic data that adheres to cinematic schema and returns
  * just the array of shots.
  * @param {Cinematic} cinematicData
@@ -118,10 +158,34 @@ const rightCharacter = shotSetup => (shotSetup || {}).rightThangType
 const backgroundArt = shotSetup => (shotSetup || {}).backgroundArt
 
 /**
+ * @param {ShotSetup} shotSetup
+ * @returns {Object|undefined} heroPetThangType
+ */
+const heroPetThangType = shotSetup => (shotSetup || {}).heroPetThangType
+
+/**
  * @param {Object} o Object that may have slug property
  * @returns {string|undefined}
  */
 const slug = o => (o || {}).slug
+
+/**
+ * Returns a thang from a thangType if properties exist.
+ * @param {Object} thangType that matches the ThangTypeSchema with a Character Slug
+ * @returns {Object|undefined} returns thang if required properties exist.
+ */
+const extractThangTypeSchemaSlug = thangType => {
+  if (!(thangType || {}).type) {
+    return
+  }
+  if (!(thangType.type || {}).slug) {
+    return
+  }
+  const { pos, scaleX, scaleY } = thangType
+  const thang = { pos, scaleX, scaleY }
+  const slug = thangType.type.slug
+  return { thang, slug }
+}
 
 /**
  * Returns properties required to place a background Lank.
@@ -129,17 +193,33 @@ const slug = o => (o || {}).slug
  * @returns {Object|undefined} a background object
  */
 const background = backgroundArt => {
-  if (!(backgroundArt || {}).type) {
+  const thangData = extractThangTypeSchemaSlug(backgroundArt)
+  if (!thangData) {
     return
   }
-  if (!(backgroundArt.type || {}).slug) {
-    return
-  }
-  const { pos, scaleX, scaleY } = backgroundArt
+  const { slug, thang } = thangData
 
   return {
-    slug: backgroundArt.type.slug,
-    thang: _.merge(DEFAULT_THANGTYPE(), { pos, scaleX, scaleY })
+    slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), thang)
+  }
+}
+
+/**
+ * Returns properties required to place a hero pet Lank.
+ * @param {Object} heroPetSchema
+ * @returns {Object|undefined} a pet object with slug and thang
+ */
+const heroPet = heroPet => {
+  const thangData = extractThangTypeSchemaSlug(heroPet)
+  if (!thangData) {
+    return
+  }
+  const { slug, thang } = thangData
+
+  return {
+    slug,
+    thang: _.merge(DEFAULT_THANGTYPE(), thang)
   }
 }
 
@@ -158,7 +238,7 @@ const characterFromThangTypeSchema = thangType => {
   const { scaleX, scaleY, pos } = thangType
   return {
     slug,
-    thang: _.merge(DEFAULT_THANGTYPE(), { scaleX, scaleY, pos })
+    thang: { scaleX, scaleY, pos }
   }
 }
 
@@ -180,7 +260,7 @@ const getHeroFromThangTypeSchema = thangType => {
 
   const { scaleX, scaleY, pos } = thangType
   return {
-    thang: _.merge(DEFAULT_THANGTYPE(), { scaleX, scaleY, pos })
+    thang: { scaleX, scaleY, pos }
   }
 }
 
@@ -234,13 +314,13 @@ const heroThangTypeOriginal = character => {
 }
 
 // A camera default setting.
-export const CAMERA_DEFAULT = {
+export const CAMERA_DEFAULT = () => ({
   pos: {
     x: 0,
     y: 0
   },
-  zoom: 6
-}
+  zoom: 1
+})
 
 /**
  * @param {ShotStup} shotSetup
@@ -250,7 +330,7 @@ const camera = shotSetup => {
   if (!(shotSetup || {}).camera) {
     return
   }
-  return _.merge(CAMERA_DEFAULT, shotSetup.camera)
+  return _.merge(CAMERA_DEFAULT(), shotSetup.camera)
 }
 
 /**
@@ -258,14 +338,14 @@ const camera = shotSetup => {
  * @param {Shot} shot
  * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
-export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, characterThangTypeSlug)
+export const getLeftCharacterThangTypeSlug = compose(shotSetup, leftCharacter, characterThangTypeSlug, setLeftCharacterDefaults)
 
 /**
  * Returns the right character if it's a thangType slug.
  * @param {Shot} shot
  * @returns {Object|undefined} thangType slug, position data and whether to animate in the thang.
  */
-export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug)
+export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter, characterThangTypeSlug, setRightCharacterDefaults)
 
 /**
  * @param {DialogNode} dialogNode
@@ -299,7 +379,7 @@ export const triggers = dialogNode => (dialogNode || {}).triggers
 
 const backgroundObject = triggers => {
   const bgObject = (triggers || {}).backgroundObject
-  if (!bgObject) {
+  if (!(bgObject || {}).thangType) {
     return
   }
 
@@ -307,10 +387,22 @@ const backgroundObject = triggers => {
 }
 
 /**
- * @param {DialogNode} dialogNode
- * @returns {number}
+ * @param {Object} triggers
+ * @returns {number|undefined} number of ms before background object appears
  */
-const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength || 1000
+const backgroundObjectDelay = triggers => {
+  const bgObject = (triggers || {}).backgroundObject
+  if (!bgObject) {
+    return
+  }
+  return bgObject.triggerStart || 0
+}
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number|undefined}
+ */
+const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength
 
 /**
  * @param {ShotSetup} shotSetup
@@ -365,14 +457,14 @@ const soundEffects = triggers => {
  * @param {Shot} shot
  * @returns {bool}
  */
-export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal)
+export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal, setLeftCharacterDefaults)
 
 /**
  * Returns the right hero character
  * @param {Shot} shot
  * @returns {bool}
  */
-export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal)
+export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal, setRightCharacterDefaults)
 
 /**
  * Returns the background
@@ -389,10 +481,23 @@ export const getBackground = compose(shotSetup, backgroundArt, background)
 export const getBackgroundSlug = compose(shotSetup, backgroundArt, background, slug)
 
 /**
+ * Get hero pet thang
+ * @param {Shot} shot
+ * @returns {Object|undefined}
+ */
+export const getHeroPet = compose(shotSetup, heroPetThangType, heroPet)
+
+/**
  * @param {DialogNode} dialogNode
  * @returns {Object|undefined} backgroundObject
  */
 export const getBackgroundObject = compose(triggers, backgroundObject)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number|undefined} delay
+ */
+export const getBackgroundObjectDelay = compose(triggers, backgroundObjectDelay)
 
 /**
  * @param {DialogNode} dialogNode
@@ -402,7 +507,7 @@ export const getClearBackgroundObject = compose(triggers, clearBackgroundObject)
 
 /**
  * @param {Shot} shot
- * @returns {Object|undefined}
+ * @returns {Object} Always returns a camera
  */
 export const getCamera = compose(shotSetup, camera)
 
@@ -428,3 +533,21 @@ export const getSetupMusic = compose(shotSetup, setupMusic)
  * @returns {SoundEffect[] | undefined}
  */
 export const getSoundEffects = compose(triggers, soundEffects)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {bool}
+ */
+export const getWaitUserInput = dialogNode => {
+  const waitUserInput = (dialogNode || {}).waitUserInput
+  if (typeof waitUserInput === 'boolean') {
+    return waitUserInput
+  }
+  return true
+}
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {string|undefined}
+ */
+export const getLanguageFilter = dialogNode => (dialogNode || {}).programmingLanguageFilter

@@ -1,4 +1,5 @@
 import { ConcurrentCommands } from './commands'
+import { getLanguageFilter } from '../../../../app/schemas/models/selectors/cinematic'
 
 /**
  * @typedef {import('../../../../app/schemas/models/selectors/cinematic').Cinematic} Cinematic
@@ -62,15 +63,17 @@ const parseSetup = (shot, systems) =>
 /**
  * Returns an array of commands.
  * This is required as we update this list to add commands to the start and end.
- * @param {DialogNode} dialogNode
- * @param {Object} systems
+ * @param {Object} arg
+ * @param {DialogNode} arg.dialogNode
+ * @param {Object} arg.systems
+ * @param {Object} arg.shot the current shot
  * @returns {AbstractCommand[]}
  */
-const parseDialogNode = (dialogNode, systems) => {
+const parseDialogNode = ({ dialogNode, systems, shot }) => {
   const dialogCommands = Object.values(systems)
     .filter(sys => sys !== undefined && typeof sys.parseDialogNode === 'function')
     .reduce((commands, sys) => {
-      const dialogCommands = sys.parseDialogNode(dialogNode)
+      const dialogCommands = sys.parseDialogNode(dialogNode, shot)
       if (!Array.isArray(dialogCommands)) {
         throw new Error('Your system should always return an array of commands for a dialogNode')
       }
@@ -90,10 +93,11 @@ const parseDialogNode = (dialogNode, systems) => {
  * @param {Object} systems The systems.
  * @returns {AbstractCommand[][]} A 2d array of commands.
  */
-export const parseShot = (shot, systems = {}) => {
+export const parseShot = (shot, systems, { programmingLanguage }) => {
   const setupCommands = parseSetup(shot, systems) || []
   const dialogNodes = (shot.dialogNodes || [])
-    .map(node => parseDialogNode(node, systems))
+    .filter(node => getLanguageFilter(node) === undefined || getLanguageFilter(node) === programmingLanguage)
+    .map(node => parseDialogNode({ dialogNode: node, systems, shot }))
     .filter(dialogCommands => dialogCommands.length > 0)
 
   // If we have both dialogNodes and some setupCommands we want to

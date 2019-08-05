@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   modal:
     close: "Κλείσιμο"
     okay: "Εντάξει"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Η σελίδα δεν βρέθηκε"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     submit_changes: "Υποβολή αλλαγών"
     save_changes: "Αποθήκευση Αλλαγών"
     required_field: "απαιτείται"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "και"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     reload_title: "Ανανέωση όλου του κώδικα;"
     reload_really: "Είσαι σίγουρος ότι θέλεις να φορτώσεις αυτό το επίπεδο από την αρχή;"
     reload_confirm: "Ανανέωση όλων"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Δοκιμή Επιπέδου"
     victory: "Νίκη"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tome_cast_button_run: "Εκτέλεση"
     tome_cast_button_running: "Εκτελείται"
     tome_cast_button_ran: "Εκτελέστηκε"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Υποβολή"
     tome_reload_method: "Φόρτωσε ξανά τον αρχικό κώδικα για να επανεκκινήσεις το επίπεδο"
     tome_available_spells: "Διαθέσιμα ξόρκια"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Μέθοδοι"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     wallOfDarkness_name: "Σκοτεινό Τοίχος"
     wallOfDarkness_description: "Κρύψου πίσω από έναν τοίχο σκιών για να αποφύγεις το βλέμμα των αδιάκριτων ματιών."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Πάρε <br>CodeCombat<br> Προνομιακό" # Fit into the banner on the /features page
     master_coder: "Γίνε μία Αυθεντία του Κώδικα κάνοντας συνδρομή σήμερα!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     level_to_unlock: "Επίπεδο για ξεκλείδωμα:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "συνάρτηση" # skill types
     method: "μέθοδος"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     optional_parameters: "Προαιρετικές Παράμετροι"
     returns: "Επιστρέφει"
     granted_by: "Παραχωρήθηκε από "
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Αποθηκεύτηκε"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     david_title: "Υπεύθυνος Προώθησης Προϊόντων"
     titles_csm: "Διαχειριστής επιτυχίας πελατών"
     titles_territory_manager: "Διευθυντής Περιοχής"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
-    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     bryukh_blurb: "Δημιουργός Γρίφων"
     community_title: "...και η κοινότητά μας του ανοικτού κώδικα"
     community_subtitle: "Περισσότεροι από 500 συνεισφέροντες βοήθησαν στην οικοδόμηση του CodeCombat, με περισσότερες συμμετοχές κάθε εβδομάδα!"
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ξεκινήστε με τους μαθητές σας σε λιγότερο από μία ώρα. Θα μπορείτε να <strong>δημιουργήσετε μια τάξη, να προσθέσετε μαθητές και να παρακολουθήσετε την πρόοδό τους</strong> καθώς μαθαίνουν την επιστήμη των υπολογιστών."
+    subtitle: "Ξεκινήστε με τους μαθητές σας σε λιγότερο από μία ώρα. Θα μπορείτε να <strong>δημιουργήσετε μια τάξη, να προσθέσετε μαθητές και να παρακολουθήσετε την πρόοδό τους</strong> καθώς μαθαίνουν την επιστήμη των υπολογιστών." # {change}
     email_exists: "Ο χρήστης με αυτό το email υπάρχει."
     phone_number: "Αριθμός τηλεφώνου"
     phone_number_help: "Πού μπορούμε να επικοινωνήσουμε μαζί σας κατά τη διάρκεια μιας εργάσιμης ημέρας;"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     organization_label: "Σχολείο"
     school_name: "Όνομα Σχολείου"
     city: "Πόλη"
-    state: "Πολιτεία"
+    state: "Πολιτεία" # {change}
     country: "Χώρα"
     num_students_help: "Για πόσους μαθητές προορίζετε το CodeCombat;"
     num_students_default: "Επιλογή Εύρους"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     referrer: "Πως άκουσες για εμάς;"
     referrer_help: "Για παράδειγμα: από άλλον δάσκαλο, σε κάποιο συνέδριο, από τους μαθητές σας, από κάποιο οργανισμό Προγραμματισμού, κλπ."
     referrer_default: "Επιλέξτε Ένα"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Ώρα του Κωδικά"
     referrer_teacher: "Δάσκαλο"
     referrer_admin: "Διαχειριστή πληροφορικής"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     create_account_subtitle: "Αποκτήστε πρόσβαση σε εργαλεία μόνο για εκπαιδευτικούς για τη χρήση του CodeCombat στην τάξη. <strong>Δημιουργήστε μια τάξη</strong>, προσθέστε τους μαθητές σας και <strong>παρακολουθήστε την πρόοδό τους</strong>!"
     convert_account_title: "Αναβάθμιση σε Λογαριασμό Εκπαιδευτικού"
     not: "Όχι"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Αποθήκευση Νέας Έκδοσης"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     toggle_pathfinding: "Εναλλαγή στρώσης εύρεσης μονοπατιού."
     beautify: "Κάνε τον κώδικά σου να φαίνεται πιο ωραίος μορφοποιόντας τον."
     maximize_editor: "Μεγιστοποίηση/ελαχιστοποίηση διορθωτή κώδικα."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Κοινότητα του CodeCombat"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     update_old_classroom_detail_2: "και δίνοντας στους μαθητές σας τον νέο Κώδικα Τάξης που εμφανίζεται."
     view_assessments: "Προβολή Αξιολογήσεων"
     view_challenges: "προβολή επιπέδων πρόκλησης"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Πρόκληση:"
     challenge_level: "Επίπεδο Πρόκλησης:"
     status: "Κατάσταση:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     no_code_yet: "Ο μαθητής δεν έχει γράψει καθόλου κώδικα γι' αυτό το επίπεδο ακόμα."
     open_ended_level: "Ανοικτό Επίπεδο"
     partial_solution: "Μερική Λύση"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Αφαίρεση μαθήματος"
     solution_arena_blurb: "Οι μαθητές ενθαρρύνονται να επιλύσουν δημιουργικά τα επίπεδα της αρένας. Η παρακάτω λύση πληροί τις απαιτήσεις του επιπέδου της αρένας."
     solution_challenge_blurb: "Οι μαθητές ενθαρρύνονται να επιλύουν δημιουργικά τα ανοικτά επίπεδα πρόκλησης. Μια πιθανή λύση εμφανίζεται παρακάτω."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     wins: "κέρδισε" # At end of multiplayer match playback
     humans: "Κόκκινοι" # Ladder page display team name
     ogres: "Μπλε"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     you_can1: "Μπορείτε"
     you_can2: "να αγοράσετε ένα προπληρωμένο κωδικό"
     you_can3: "που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Σφάλμα φόρτωσης από τον εξυπηρετητή" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

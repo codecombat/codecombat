@@ -198,6 +198,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   modal:
     close: "닫기"
     okay: "확인"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "페이지를 찾을 수 없습니다"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     submit_changes: "변경사항 제출"
     save_changes: "변경사항 저장"
     required_field: "필수"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "그리고"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     reload_title: "코드를 초기화할까요?"
     reload_really: "정말로 이 레벨의 코드를 처음 상태로 되돌리겠습니까?"
     reload_confirm: "코드 초기화"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
     victory: "승리"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_cast_button_run: "실행"
     tome_cast_button_running: "실행중"
     tome_cast_button_ran: "실행됨"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "적용"
     tome_reload_method: "원본 코드를 불러와 레벨 다시 시작하기" # {change}
     tome_available_spells: "사용 가능한 마법"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Methods"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     wallOfDarkness_name: "암흑의 벽"
     wallOfDarkness_description: "눈길을 피하기 위해 그림자 벽 뒤에 숨어 있습니다."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "코드 컴뱃 프리미엄을 받으세요" # Fit into the banner on the /features page
     master_coder: "오늘 구독하여 마스터 코더가 되세요!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     level_to_unlock: "레벨 해금:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "특정 영웅만이 이 레벨을 플레이할 수 있습니다."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
 #    function: "function" # skill types
     method: "메소드"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    optional_parameters: "Optional Parameters"
     returns: "뒤로가기"
     granted_by: "부여"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "저장됨"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    david_title: "Marketing Lead"
     titles_csm: "고객 성공 관리자"
 #    titles_territory_manager: "Territory Manager"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
-#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    course_suffix: ""
 
 #  teachers_quote:
-#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+#    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "What's the best number to reach you?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    organization_label: "School"
 #    school_name: "School Name"
 #    city: "City"
-#    state: "State"
+#    state: "State / Region"
 #    country: "Country"
 #    num_students_help: "How many students will use CodeCombat?"
 #    num_students_default: "Select Range"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    referrer: "How did you hear about us?"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "새로운 버전을 저장합니다"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     toggle_pathfinding: "길 찾아주는 오버레이 전환."
     beautify: "서식을 표준화하여 코드를 아름답게합니다."
     maximize_editor: "코드 에디터 최대/최소."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "코드 컴뱃 커뮤니티"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     update_old_classroom_detail_2: "새로운 반 생성을 클릭하고 학생에게 새로운 반 코드를 보내주세요."
     view_assessments: "평가 보기"
     view_challenges: "도전 레벨 보기"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "도전: "
     challenge_level: "도전 레벨: "
     status: "상태:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
+#    capstone_solution: "Capstone Solution"
 #    removing_course: "Removing course"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    wins: "Wins" # At end of multiplayer match playback
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
 #  user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다." # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

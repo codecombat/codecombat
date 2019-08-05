@@ -1,0 +1,58 @@
+.modal-dialog.game {
+	height: none;
+	width: none;
+	color: #0E4C60;
+	font-family: Arvo;
+	font-size: 24px;
+	letter-spacing: 0.48px;
+	line-height: 32px;
+  text-align: center;
+
+  .background-wrapper {
+    background: #D4D5D5;
+  }
+}
+
+.modal-body {
+  padding: 67px 95px 41px 95px;
+}
+
+.modal-footer {
+  padding-bottom: 61px;
+  display: flex;
+  justify-content: center;
+
+  .button-confirm {
+    margin-right: 12px;
+    height: 45px;
+    width: 182px;
+    color: #1FBAB4;
+    background: transparent !important;
+    font-family: "Open Sans";
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    text-align: center;
+    text-shadow: none;
+    border: 4px solid #1FBAB4;
+    border-radius: unset;
+  }
+
+  .button-cancel {
+    margin-left: 12px;
+    height: 45px;
+    width: 182px;
+    color: #F7F9F9;
+    background: #1FBAB4 !important;
+    font-family: "Open Sans" !important;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: unset;
+    box-shadow: none;
+  }
+
+}

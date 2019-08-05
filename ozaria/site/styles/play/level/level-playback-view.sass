@@ -1,0 +1,156 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/variables"
+
+#playback-view
+  $playback-button-color: #ffffff
+  // When 75% alpha, it will look like the rgb(194, 154, 114) from Heald's design
+  width: $game-view-width
+  #level-view.no-api &
+    width: $game-view-width
+  padding-top: 1.5%
+  position: absolute
+  bottom: 0px
+  background-color: #000000
+  z-index: 3
+
+  &.controls-disabled
+    pointer-events: none
+    @include filter(brightness(50%))
+
+  button
+    font-size: 26px
+    margin-left: 10px
+    background: transparent
+    @include opacity(0.75)
+    color: $playback-button-color
+    text-shadow: 1px 1px 0px black
+
+    .glyphicon
+      position: relative
+
+  button:hover
+    @include opacity(1)
+
+  #play-button, #volume-button, #music-button
+    float: left
+    position: absolute
+    top: 15%
+    
+  #music-button
+    @include opacity(0.5)
+    span
+      position: relative
+      left: -3px
+      top: -2px
+    &:hover
+      @include opacity(0.75)
+    &.music-on
+      @include opacity(0.75)
+      &:hover
+        @include opacity(1)
+    
+  #play-button, #volume-button
+    .glyphicon
+      display: none
+ 
+  #settings-button
+    padding-left: 4px
+    padding-right: 4px
+
+  #playback-settings
+    float: right
+    position: relative
+    margin-right: 10px
+    top: -10px
+    ul button
+      margin: 0 10px
+    li:hover
+      background: #add8e6
+
+  #play-button.disabled .glyphicon
+    @include opacity(0.75)
+  #play-button.playing .glyphicon-pause
+    display: inline-block
+  #play-button.paused .glyphicon-play
+    display: inline-block
+  #play-button.ended .glyphicon-play
+    display: inline-block
+
+  #volume-button.vol-up .glyphicon.glyphicon-volume-up
+    display: inline-block
+  #volume-button.vol-off .glyphicon.glyphicon-volume-off
+    display: inline-block
+    @include opacity(0.75)
+    &:hover
+      @include opacity(1)
+  #volume-button.vol-down .glyphicon.glyphicon-volume-down
+    display: inline-block
+
+  .scrubber
+    position: absolute
+    left: 60px
+    top: 25%
+    bottom: 0px
+    right: 155px
+    background: rgb(3, 3, 3)
+    height: 28px
+
+    .scrubber-inner
+      width: 100%
+      height: 100%
+      padding: 6px 8px
+
+    .progress
+      float: left
+      width: 100%
+      height: 14px
+      cursor: pointer
+      overflow: visible
+      background: #d8d8d8
+      border-radius: 7px
+      border: 0
+      // Can't do this transition because handle then jitters, but would be good for streaming.
+      //@include transition(width .2s linear)
+
+      &.disabled, &.ui-slider-disabled
+        cursor: default
+
+        .progress-bar .scrubber-handle
+          cursor: default
+
+      .progress-bar
+        @include transition(width .0s linear)
+        position: relative
+        // Remove gradient background in favor of solid fill
+        background: #9b9b9b
+        border-radius: 7px
+
+        .scrubber-handle
+          cursor: pointer
+          position: absolute
+          right: -18px
+          top: -11px
+          background: transparent url(/images/ozaria/level/scrubber_knob.png)
+          background-size: contain
+          width: 36px
+          height: 36px
+
+      .ui-slider-handle
+        height: 100%
+        visibility: hidden
+        border: 0
+        top: 0
+        margin-left: -11px
+        margin-right: -11px
+        // Don't load jQuery UI background image here
+        background: transparent none
+
+body.ipad #playback-view
+  // Counteract 50px height of absolutely positioned control bar, but overlap by 20px of jagged transparent top.
+  margin-top: 50px - 30px
+
+  #playback-settings
+    display: none
+  .scrubber
+    right: 25px

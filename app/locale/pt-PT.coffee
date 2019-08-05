@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   modal:
     close: "Fechar"
     okay: "Ok"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Página não encontrada"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     submit_changes: "Submeter Alterações"
     save_changes: "Guardar Alterações"
     required_field: "necessário"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "e"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     reload_title: "Recarregar o Código Todo?"
     reload_really: "Tens a certeza que queres recarregar este nível de volta ao início?"
     reload_confirm: "Recarregar Tudo"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Testar Nível"
     victory: "Vitória"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "A Executar"
     tome_cast_button_ran: "Executado"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Submeter"
     tome_reload_method: "Recarregar o código original para recomeçar o nível"
     tome_available_spells: "Feitiços Disponíveis"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Métodos"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     level_to_unlock: "Nível para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Apenas certos heróis podem jogar este nível."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "função" # skill types
     method: "método"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     optional_parameters: "Parâmetros Opcionais"
     returns: "Devolve"
     granted_by: "Garantido por"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Guardados"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     david_title: "Líder de Marketing"
     titles_csm: "Gerente de Sucesso do Cliente"
     titles_territory_manager: "Gestora de Território"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "'RetroStyle Games'"
-#    bryukh_title: "Gameplay Developer"
     bryukh_blurb: "Constrói puzzles"
     community_title: "...e a nossa comunidade open source"
     community_subtitle: "Mais de 500 contribuidores ajudaram a construir o CodeCombat, com mais a se juntarem todas as semanas!"
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    course_suffix: ""
 
   teachers_quote:
-#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+#    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
 #    email_exists: "User exists with this email."
     phone_number: "Número de telemóvel"
     phone_number_help: "Qual é o melhor número para entrarmos em contacto contigo?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     organization_label: "Escola"
     school_name: "Nome da Escola"
     city: "Cidade"
-    state: "Estado"
+    state: "Estado" # {change}
     country: "País"
     num_students_help: "Quantos estudantes vão usar o CodeCombat?"
     num_students_default: "Selecionar Intervalo"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     referrer: "Como ouviste falar de nós?"
     referrer_help: "Por exemplo: através de outro professor, de uma conferência, dos teus estudantes, do Code.org, etc."
     referrer_default: "Seleciona Um"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hora do Código"
     referrer_teacher: "Um professor"
     referrer_admin: "Um administrador"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     create_account_subtitle: "Obtém acesso a ferramentas reservadas a professores para usares o CodeCombat na sala de aula. <strong>Cria uma turma</strong>, adiciona os teus estudantes e <strong>monitoriza o progresso deles</strong>!"
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Guardar Nova Versão"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     toggle_pathfinding: "Ativar/desativar a sobreposição do encontrador de caminho."
     beautify: "Embelezar o código ao estandardizar a formatação."
     maximize_editor: "Maximizar/minimizar o editor de código."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Comunidade do CodeCombat"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
 #    challenge: "Challenge:"
 #    challenge_level: "Challenge Level:"
     status: "Estado:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Sê o primeiro a publicar um projeto neste curso!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
     partial_solution: "Solução Parcial"
+#    capstone_solution: "Capstone Solution"
     removing_course: "A remover o curso"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     wins: "Vence" # At end of multiplayer match playback
     humans: "Vermelho" # Ladder page display team name
     ogres: "Azul"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     you_can1: "Podes"
     you_can2: "adquirir um código pré-pago"
     you_can3: "que pode ser aplicado à tua conta ou dado a outros."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Erro a carregar do servidor. Experimenta atualizar a página."
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

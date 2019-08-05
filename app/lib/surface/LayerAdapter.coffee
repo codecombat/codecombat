@@ -375,6 +375,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
+
   #- Rendering sprite sheets for singular thang types
 
   renderSingularThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->

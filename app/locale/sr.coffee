@@ -198,6 +198,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   modal:
     close: "Затвори"
     okay: "У реду"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Страница није нађена"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     submit_changes: "Потврди измене"
     save_changes: "Сачувај измене"
     required_field: "Обавезно поље" # {change}
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "и"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     reload_title: "Поновно учитавање целог кода?"
     reload_really: "Да ли си сигуран да желиш да започнеш ниво испочетка?"
     reload_confirm: "Поновно учитавање свега"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Тест ниво"
     victory: "Победа"
     victory_title_prefix: "Урааа победааа!"
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_cast_button_run: "Покрени"
     tome_cast_button_running: "Покреће се"
     tome_cast_button_ran: "Покренуто"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Потврди"
     tome_reload_method: "Поново учитај оригинални код за овај метод" # {change}
     tome_available_spells: "Доступне чини"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Методе"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     wallOfDarkness_name: "Зид таме"
     wallOfDarkness_description: "Сакриј се иза зида сенки да би спречио да те гледају радознале очи."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Прими<br>CodeCombat<br>премијум" # Fit into the banner on the /features page
     master_coder: "Постани члан Главног кодирања тако што ћеш се данас претплатити!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     level_to_unlock: "Ниво који треба откључати:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Само одређени хероји могу да играју овај ниво."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "функција" # skill types
     method: "метод"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     optional_parameters: "Опциони параметри"
     returns: "Враћа"
     granted_by: "Додељено од"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Сачувано"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     david_title: "Вођа маркетинга"
     titles_csm: "Цустомер Суццесс Манагер"
     titles_territory_manager: "Територијални менаџер"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+    bryukh_title: "Дизајнер игрице"
     retrostyle_title: "Илустрација"
     retrostyle_blurb: "RetroStyle игрице"
-    bryukh_title: "Дизајнер игрице"
     bryukh_blurb: "Креира пузле"
     community_title: "...и наша заједница отвореног кода"
     community_subtitle: "Преко 450 сарадника је помогло да се изгради CodeCombat и још њих се придружује сваке недеље!" # {change}
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Нека твоји ученици почну за мање од једног сата. Моћи ћеш да <strong>направиш разред, додаш ученике и пратиш њихов напредак</strong> док уче компјутерске науке."
+    subtitle: "Нека твоји ученици почну за мање од једног сата. Моћи ћеш да <strong>направиш разред, додаш ученике и пратиш њихов напредак</strong> док уче компјутерске науке." # {change}
     email_exists: "Корисник постоји са овим и-мејлом."
     phone_number: "Број телефона"
     phone_number_help: "Где можемо да те добијемо током радног дана?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     organization_label: "Име школе/округа" # {change}
     school_name: "Име школе "
     city: "Град"
-    state: "Савезна држава"
+    state: "Савезна држава" # {change}
     country: "Држава"
     num_students_help: "Колико ученика очекујеш да се упишу на CodeCombat?" # {change}
     num_students_default: "Изабери опсег"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     referrer: "Од кога си чуо за нас?"
     referrer_help: "На пример: од другог наставника, конференција, твојих ученика, Code.org, итд."
     referrer_default: "Изабери једно"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Сат кода"
     referrer_teacher: "Наставник"
     referrer_admin: "Администратор"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     create_account_subtitle: "Добиј приступ алатима само за наставнике за коришћење CodeCombat-а у учионици.  <strong>Подеси разред</strong>, додај своје ученике и <strong>посматрај њихов напредак</strong>!"
     convert_account_title: "Ажурирај у Наставнички налог"
     not: "Није"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Сачувај нову верзију"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     toggle_pathfinding: "Превуци приказ руте."
     beautify: "Улепшај свој код тако што ћеш стандардизовати форматирање."
     maximize_editor: "Увеличај/смањи уређење кода."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat заједница"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     update_old_classroom_detail_2: "и да ћеш дати ученицима нови код за час који се буде појавио."
     view_assessments: "Прегледај процене"
     view_challenges: "прегледај изазовне нивое"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Изазов:"
     challenge_level: "Ниво изазова:"
     status: "Статус:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     no_code_yet: "Ученик још није написао код за овај ниво."
     open_ended_level: "Отворени ниво"
     partial_solution: "Парцијално решење"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Уклањање курса"
     solution_arena_blurb: "Ученици се подстичу да креативно реше нивое арене. Понуђено решење испод испуњава захтеве нивоа арене."
     solution_challenge_blurb: "Ученици се подстичу да креативно реше отворене нивое изазова. Једно могуће решење је приказано испод. "
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     wins: "Победе " # At end of multiplayer match playback
     humans: "Црвено" # Ladder page display team name
     ogres: "Плато"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     you_can1: "Можеш  "
     you_can2: "да купиш припрејд код"
     you_can3: "који може да се примени на твој налог или да се поклони другоме."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Грешка учитавања са сервера" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

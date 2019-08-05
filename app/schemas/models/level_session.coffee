@@ -140,6 +140,10 @@ _.extend LevelSessionSchema.properties,
         date: c.date
           description: 'When the submission achieving this score happened.'
         score: {type: 'number'}  # Store 'time', 'damage-taken', etc. as negative numbers so the index works.
+    capstoneStage:
+      type: 'number'
+      title: 'Capstone Stage'
+      description: 'Current capstone stage of the level. If, say, stage 7 is yet incomplete, capstoneStage will be 7. If stage 7 is complete, capstoneStage will be 8. When a capstone level is complete, capstoneStage will be 1 higher than the final stage number.'
 
   code:
     type: 'object'

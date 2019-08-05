@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   modal:
     close: "Tancar"
     okay: "D'acord"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Pàgina no trobada"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     submit_changes: "Puja canvis"
     save_changes: "Guarda canvis"
     required_field: "obligatori"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "i"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     reload_title: "Recarregar tot el codi?"
     reload_really: "Estàs segur que vols recarregar aquest nivell des del principi?"
     reload_confirm: "Recarregar tot"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Test de Nivell"
     victory: "Victòria"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "Executant"
     tome_cast_button_ran: "Executat"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Envia"
     tome_reload_method: "Recarrega el codi original per reiniciar el nivell"
     tome_available_spells: "Encanteris disponibles"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Mètodes"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     wallOfDarkness_name: "Paret de Foscor"
     wallOfDarkness_description: "Amaga't darrere una paret d'ombres per evitar la mirada d'ulls curiosos."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Aconsegueix<br>CodeCombat<br>Prèmium" # Fit into the banner on the /features page
     master_coder: "Converteix-te en un Maestre Codificador subscrivint-te avui mateix!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     level_to_unlock: "Nivell per desbloquejar:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Només certs herois poden jugar aquest nivell."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "funció" # skill types
     method: "mètode"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     optional_parameters: "Paràmetres opcionals"
     returns: "Retorna"
     granted_by: "Atorgat per"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Desats"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     david_title: "Direcció de Comercialització"
     titles_csm: "Gerent d'èxit del client"
     titles_territory_manager: "Administrador de territori"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+    bryukh_title: "Dissenyador de jocs"
     retrostyle_title: "Il·lustració"
     retrostyle_blurb: "Jocs estil retro"
-    bryukh_title: "Dissenyador de jocs"
     bryukh_blurb: "Constructor de trencaclosques"
     community_title: "...i la nostra comunitat de codi obert"
     community_subtitle: "Més de 500 contribuents han ajudat a construir CodeCombat, amb més unió cada setmana."
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Feu que els vostres estudiants comencin en menys d'una hora. Podràs <strong>crear una classe, afegir alumnes, i monitoritzar el seu progrés</strong> mentre aprenen informàtica."
+    subtitle: "Feu que els vostres estudiants comencin en menys d'una hora. Podràs <strong>crear una classe, afegir alumnes, i monitoritzar el seu progrés</strong> mentre aprenen informàtica." # {change}
     email_exists: "L'usuari existeix amb aquest correu electrònic."
     phone_number: "Número de telèfon"
     phone_number_help: "On podem trobar-te durant la jornada laboral?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     organization_label: "Centre"
     school_name: "Nom de l'escola/institut"
     city: "Ciutat"
-    state: "Província"
+    state: "Província" # {change}
     country: "País"
     num_students_help: "Quants alumnes usaran CodeCombat?"
     num_students_default: "Selecciona Rang"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     referrer: "Com ens va conèixer?"
     referrer_help: "Per exemple: d'un altre professor, una conferència, els vostres estudiants, Code.org, etc."
     referrer_default: "Selecciona una"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Un professor"
     referrer_admin: "Un administrador"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     create_account_subtitle: "Obteniu accés a les eines exclusives de professors per utilitzar CodeCombat a l'aula. <strong>Configura una classe</strong>, afegeix els teus alumnes, i <strong>supervisa el seu progrés</strong>!"
     convert_account_title: "Actualitza a compte del professor"
     not: "No"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Guarda una nova versió"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     toggle_pathfinding: "Canvia la superposició d'enfocament de camí."
     beautify: "Embelleix el teu codi estandarditzant el format."
     maximize_editor: "Maximitza/minimitza l'editor de codi."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Comunitat CodeCombat"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     update_old_classroom_detail_2: "i donant a l'alumnat el nou Codi de Classe que apareixerà."
     view_assessments: "Veure Avaluacions"
     view_challenges: "veure els nivells de desafiament"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Desafiament:"
     challenge_level: "Nivell de Desafiament:"
     status: "Estat:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     no_code_yet: "L'alumnat encara no ha escrit cap codi en aquest nivell."
     open_ended_level: "Nivell obert"
     partial_solution: "Solució Parcial"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Esborrant curs"
     solution_arena_blurb: "Es recomana a l'alumnat que resolgui els nivells del camp de joc amb creativitat. La solució que es proporciona a continuació compleix els requisits del nivell del camp de joc."
     solution_challenge_blurb: "Es recomana a l'alumnat que resolgui els nivells de desafiament obert amb creativitat. Una possible solució es mostra a continuació."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     wins: "Guanya" # At end of multiplayer match playback
     humans: "Vermell" # Ladder page display team name
     ogres: "Blau"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     you_can1: "Pots"
     you_can2: "comprar un codi Prepagat"
     you_can3: "per aplicar al teu compte o donar a d'altres."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Error de carrega del servidor"
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

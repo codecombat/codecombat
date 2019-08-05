@@ -19,6 +19,7 @@ Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
+Mandate = require 'models/Mandate'
 utils = require 'core/utils'
 store = require 'core/store'
 
@@ -37,6 +38,7 @@ module.exports = class CoursesView extends RootView
     'click .play-btn': 'onClickPlay'
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
+    'click .view-ranking-link': 'onClickViewRanking'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
@@ -117,6 +119,25 @@ module.exports = class CoursesView extends RootView
         @originalLevelMap[level.get('original')] = level for level in levels.models
         @render()
       @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
+
+    if features.china and @classrooms.find {id: '5d0082964ebb960059fc40b2'}
+      if new Date() >= new Date(2019, 5, 19, 12) && new Date() <= new Date(2019, 5, 25, 0)
+        if window.serverConfig?.currentTournament
+          @showTournament = true
+        else
+          @awaitingTournament = true
+          @checkForTournamentStart()
+
+  checkForTournamentStart: =>
+    return if @destroyed
+    $.get '/db/mandate', (data) =>
+      return if @destroyed
+      if data?[0]?.currentTournament
+        @showTournament = true
+        @awaitingTournament = false
+        @render()
+      else
+        setTimeout @checkForTournamentStart, 60 * 1000
 
   courseInstanceHasProject: (courseInstance) ->
     classroom = @classrooms.get(courseInstance.get('classroomID'))
@@ -242,6 +263,15 @@ module.exports = class CoursesView extends RootView
     levelsUrl = @urls.courseWorldMap({course, courseInstance})
     application.router.navigate(levelsUrl, { trigger: true })
 
+  onClickViewRanking: (e) ->
+    courseID = $(e.target).data('course-id')
+    courseInstanceID = $(e.target).data('courseinstance-id')
+    #window.tracker?.trackEvent 'Students View Ranking', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
+    course = store.state.courses.byId[courseID]
+    courseInstance = @courseInstances.get(courseInstanceID)
+    rankingUrl = @urls.courseRanking({course, courseInstance})
+    application.router.navigate(rankingUrl, { trigger: true })
+
   onClickViewProjectGalleryLink: (e) ->
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
@@ -260,3 +290,29 @@ module.exports = class CoursesView extends RootView
     courseName = $(e.target).data('course-name')
     window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
+
+  afterRender: ->
+    super()
+    rulesContent = @$el.find('#tournament-rules-content').html()
+    @$el.find('#tournament-rules').popover(placement: 'bottom', trigger: 'hover', container: '#site-content-area', content: rulesContent, html: true)
+
+  tournamentArenas: ->
+    if @showTournament
+      if /^zh/.test me.get('preferredLanguage', true)
+        [
+          {
+            name: '魔力冲刺'
+            id: 'magic-rush'
+            image: '/file/db/level/5b3c9e7259cae7002f0a3980/magic-rush-zh-HANS.jpg'
+          }
+        ]
+      else
+        [
+          {
+            name: 'Magic Rush'
+            id: 'magic-rush'
+            image: '/file/db/level/5b3c9e7259cae7002f0a3980/magic-rush.jpg'
+          }
+        ]
+    else
+      []

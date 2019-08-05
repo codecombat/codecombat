@@ -1,0 +1,212 @@
+extends /templates/core/modal-base
+block modal-header-content
+  #victory-header.out
+    #victory-title
+      if !me.get('preferredLanguage') || me.get('preferredLanguage').split('-')[0] == 'en'
+        img(src="/images/pages/play/level/modal/victory_word.png", draggable="false")
+      else
+        h1(data-i18n="play_level.victory") Victory
+
+block modal-body-content
+  if victoryText
+    #victory-text(dir="auto")= victoryText
+
+  if isCourseLevel
+    .course-name-container
+      if currentCourseName
+        p
+          span.spr.level-title(data-i18n="play_level.course")
+          span.level-name(dir="auto")= currentCourseName
+    .container-fluid
+      .row
+        .col-md-6
+          if currentLevelName
+            .level-title(data-i18n="play_level.completed_level")
+            .level-name(dir="auto")= currentLevelName.replace('Course: ', '')
+        .col-md-6
+          if nextLevelName
+            .level-title(data-i18n="play_level.next_level")
+            .level-name(dir="auto")= nextLevelName.replace('Course: ', '')
+          else
+            .level-title(data-i18n="play_level.course")
+            .level-name(data-i18n="play_level.victory_title_suffix")
+
+    br
+
+  #level-feedback
+    div.rating.secret.rtl-allowed
+      div.rating-label(data-i18n="play_level.victory_rate_the_level") Rate the level:
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+    if !me.get('anonymous')
+      span.review-label.secret(data-i18n="play_level.victory_review") Tell us more!
+      .review.secret
+        br
+        textarea(data-i18n="[placeholder]play_level.victory_review_placeholder")
+    .clearfix
+
+  if level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
+    for achievement in achievements
+      if achievement.get('hidden')
+        - continue;
+      - var animate = achievement.completed && !achievement.completedAWhileAgo
+      .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
+        - var rewards = achievement.get('rewards') || {};
+
+        div.achievement-description(dir="auto")= achievement.description
+
+        div.achievement-rewards
+          - var worth = achievement.worth;
+          - var previousWorth = achievement.previousWorth;
+          - var gems = achievement.gems;
+          - var previousGems = achievement.previousGems;
+          if worth
+            .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp', data-previous-number=previousWorth || 0)
+              .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                img(src="/images/pages/play/level/modal/reward_icon_xp.png")
+              .reward-text= animate ? '+0' : '+'+worth
+
+          if gems
+            .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem', data-previous-number=previousGems || 0)
+              .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                img(src="/images/pages/play/level/modal/reward_icon_gems.png")
+              .reward-text= animate ? '+0' : '+'+gems
+
+          if rewards.heroes
+            for hero in rewards.heroes
+              - var hero = thangTypes[hero];
+              .reward-panel.hero(data-hero-thang-type=hero.get('original'))
+                .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                  img(src=hero.getPortraitURL())
+                if animate
+                  .reward-text(data-i18n="play_level.victory_new_hero") New Hero
+                else
+                  .reward-text(dir="auto")= i18n(hero.attributes, 'name')
+
+          if rewards.items
+            for item in rewards.items
+              - var item = thangTypes[item];
+              unless item.get('subscriber') && me.freeOnly()
+                .reward-panel.item(data-item-thang-type=item.get('original'), class=item.get('subscriber') ? 'premium' : '')
+                  if item.get('subscriber')
+                    .reward-border
+                  .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                    img(src=item.getPortraitURL())
+                  if animate
+                    .reward-text(data-i18n="play_level.victory_new_item") New Item
+                  else
+                    .reward-text(dir="auto")= i18n(item.attributes, 'name')
+
+
+block modal-footer-content
+  #totals(class=view.showShareGameWithTeacher ? "hide" : "")
+    .total-wrapper#xp-wrapper
+      .total-count#xp-total 0
+      .total-label.rtl-allowed
+        span.spr(data-i18n="play_level.victory_experience_gained") XP Gained
+        | -
+        span.spl.spr(data-i18n="general.player_level") Level
+        span.level= me.level()
+      .xp-bar-outer
+        .xp-bar-already-achieved
+        .xp-bar-total
+    .total-wrapper#gem-wrapper
+      .total-count#gem-total 0
+      .total-label(data-i18n="play_level.victory_gems_gained") Gems Gained
+
+  if view.shareURL
+    #share-level-container(class=view.showShareGameWithTeacher ? "with-email" : "")
+      span.share-level-label
+        if view.showShareGameWithTeacher
+          span(data-i18n='sharing.victory_share_prefix_short') Invite people to
+        else
+          span(data-i18n='sharing.victory_share_prefix') Share this link to invite your friends & family to
+        span= ' '
+        a(href=view.shareURL, target='_blank')
+          if view.level.isType('game-dev')
+            span(data-i18n='sharing.victory_share_game') play your game level
+          else
+            span(data-i18n='sharing.victory_share_web') view your webpage
+        span(data-i18n='sharing.victory_share_suffix') .
+      if view.showShareGameWithTeacher
+        .row
+          .col-sm-4
+            .share-level-label(data-i18n="sharing.share_with_teacher_email") Send to your teacher
+          .col-sm-5
+            input.text-h4.semibold.form-control.input-md#share-game-with-teacher-input(data-i18n="[placeholder]anonymous_teacher.teacher_email_placeholder")
+          .col-sm-3
+            button.btn.btn-illustrated.btn-success.btn-md#share-game-with-teacher-btn(disabled=true, data-i18n="common.send") Send
+      .row
+        if view.showShareGameWithTeacher
+          .col-sm-4
+            .share-level-label(data-i18n="sharing.share_this_link") Share this link
+          .col-sm-5
+            input.text-h4.semibold.form-control.input-md#share-level-input(value=view.shareURL)
+        else
+          .col-sm-9
+            input.text-h4.semibold.form-control.input-md#share-level-input(value=view.shareURL)
+        .col-sm-3
+          button#share-level-btn.btn.btn-md.btn-success.btn-illustrated
+            span(data-i18n='sharing.copy_url') Copy URL
+
+  if features.codePlay && !me.get('anonymous')
+    img#sweepstakes-entry(src="/images/common/codeplay/SweepstakesEntry.png")
+  if me.get('anonymous') && !features.noAuth && !showHourOfCodeDoneButton
+    if features.codePlay
+      .sign-up-poke.hide.code-play
+        .sign-up-blurb.code-play(data-i18n="code_play_create_account_modal.victory_sign_up_poke")
+        button.btn.btn-illustrated.btn-success.sign-up-button.btn-lg.code-play(data-dismiss="modal", data-i18n="[html]code_play_create_account_modal.victory_sign_up")
+    else
+      .sign-up-poke.hide
+        .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke")
+        button.btn.btn-illustrated.btn-warning.sign-up-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_sign_up")
+  else if !me.isPremium() && !me.freeOnly() && !showHourOfCodeDoneButton && !application.getHocCampaign() && !(me.isStudent() || me.isTeacher())
+    button.btn.subscribe-button(data-dismiss="modal", data-i18n="subscribe.subscribe_title")
+
+  button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
+
+  .next-level-buttons
+    if view.showAmazonHocButton
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#amazon-hoc-button(data-i18n="play_level.keep_learning")
+    else if view.showHoc2016ExploreButton
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
+    else if readyToRank
+      .ladder-submission-view
+    else if level.isType('hero-ladder')
+      button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
+    else if features.codePlay && me.get('anonymous')
+      button.btn.btn-illustrated.btn-warning.btn-lg.world-map-button.next-level-button.hide.code-play#continue-button(data-i18n="common.continue") Continue
+    else
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
+
+  if !me.get('anonymous') && !showHourOfCodeDoneButton && !features.codePlay && showLeaderboard
+    button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions")
+  else if showReturnToCourse
+    button.btn.btn-illustrated.btn-warning.return-to-course-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
+
+  if showHourOfCodeDoneButton
+    .hour-of-code-done
+      .hoc-label(data-i18n="play_level.get_certificate")
+      a.btn.btn-md.btn-illustrated(href="https://code.org/api/hour/finish", data-i18n="play_level.finished_hoc")
+
+  if view.level.get('slug') == 'lost-viking'
+    .offer.lost-viking
+      p
+        img.pull-left(src="/file/db/level/55144b509f0c4854051769c1/viking1.png")
+        img.pull-right(src="/file/db/level/55144b509f0c4854051769c1/viking_2.png")
+        span(data-i18n="play_level.victory_viking_code_school")
+      button.btn.btn-illustrated.btn-primary.btn-lg.world-map-button.continue-from-offer-button(data-i18n="play_level.victory_become_a_viking") Become a Viking
+
+  if features.codePlay
+    a(href=document.location.protocol + "//lenovogamestate.com/pages/products/")
+      - var url = "/images/common/codeplay/NA_VictoryPage_Y710_735x100_VictoryPage.png"
+      if me.isFromUk()
+        - url = "/images/common/codeplay/UK_VictoryPage_Miix510_735x100_VictoryPage.png"
+      if me.setToGerman()
+        - url = "/images/common/codeplay/DE_VictoryPage_Y910_735x100_DE.png"
+      if me.setToSpanish()
+        - url = "/images/common/codeplay/MX_VictoryPage_YogaBook_735x100_MX.png"
+      img#lenovo-link(src=url)

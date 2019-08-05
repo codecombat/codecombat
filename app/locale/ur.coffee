@@ -198,6 +198,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #  modal:
 #    close: "Close"
 #    okay: "Okay"
+#    cancel: "Cancel"
 
 #  not_found:
 #    page_not_found: "Page not found"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    submit_changes: "Submit Changes"
 #    save_changes: "Save Changes"
 #    required_field: "required"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
 #  general:
 #    and: "and"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
 #    victory: "Victory"
 #    victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
+#    tome_cast_button_update: "Update"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code to restart the level"
 #    tome_available_spells: "Available Spells"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
 #  skill_docs:
 #    function: "function" # skill types
 #    method: "method"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    optional_parameters: "Optional Parameters"
 #    returns: "Returns"
 #    granted_by: "Granted by"
+#    still_undocumented: "Still undocumented, sorry."
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    david_title: "Marketing Lead"
 #    titles_csm: "Customer Success Manager"
 #    titles_territory_manager: "Territory Manager"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    course_suffix: ""
 
 #  teachers_quote:
-#    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
+#    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "What's the best number to reach you?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    organization_label: "School"
 #    school_name: "School Name"
 #    city: "City"
-#    state: "State"
+#    state: "State / Region"
 #    country: "Country"
 #    num_students_help: "How many students will use CodeCombat?"
 #    num_students_default: "Select Range"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    referrer: "How did you hear about us?"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
+#    full_name_required: "First and last name required"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
 #    challenge: "Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
+#    capstone_solution: "Capstone Solution"
 #    removing_course: "Removing course"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    wins: "Wins" # At end of multiplayer match playback
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
 #  user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
 #  loading_error:
 #    could_not_load: "Error loading from server. Try refreshing the page."
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "اُردُو", englishDescription: "Urdu", 
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

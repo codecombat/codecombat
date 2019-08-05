@@ -15,9 +15,10 @@ block modal-body-content
       .form-group.commit-message
         input.form-control#level-commit-message(name="commit-message", type="text", value=commitMessage)
       if level.isPublished()
-        .checkbox
+        // We don't use the major version feature, and it might be buggy, so hide for now.
+        .checkbox.hide
           label
-            input#level-version-is-major(name="version-is-major", type="checkbox")
+            input#level-version-is-major(name="version-is-major", type="checkbox", disabled=true)
             span(data-i18n="versions.new_major_version") New Major Version
       if !level.isPublished()
         .checkbox
@@ -40,9 +41,10 @@ block modal-body-content
       .form-group.commit-message
         input.form-control(id=id + "-commit-message", name="commit-message", type="text")
       if component.isPublished()
-        .checkbox
+        // We don't use the major version feature, and it might be buggy, so hide for now.
+        .checkbox.hide
           label
-            input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
+            input(id=id + "-version-is-major", name="version-is-major", type="checkbox", disabled=true)
             span(data-i18n="versions.new_major_version") New Major Version
 
   if modifiedSystems.length
@@ -60,9 +62,10 @@ block modal-body-content
       .form-group.commit-message
         input.form-control(id=id + "-commit-message", name="commit-message", type="text", placeholder="Commit Message")
       if system.isPublished()
-        .checkbox
+        // We don't use the major version feature, and it might be buggy, so hide for now.
+        .checkbox.hide
           label
-            input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
+            input(id=id + "-version-is-major", name="version-is-major", type="checkbox", disabled=true)
             span(data-i18n="versions.new_major_version") New Major Version
 
   if me.isAdmin()

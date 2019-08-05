@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   modal:
     close: "Tutup"
     okay: "Baik"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Laman tidak ditemukan"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     submit_changes: "Kirim Perubahan"
     save_changes: "Simpan Perubahan"
     required_field: "wajib"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "dan"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     reload_title: "Muat Ulang Semua Kode?"
     reload_really: "Apakah kamu yakin ingin memuat ulang semua level kembali ke awal mula?"
     reload_confirm: "Muat Ulang Semua"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Tes Level"
     victory: "Menang"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     tome_cast_button_run: "Jalankan"
     tome_cast_button_running: "Berjalan"
     tome_cast_button_ran: "Telah berjalan"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Submit"
     tome_reload_method: "Memuat ulang kode asli untuk mengulang level"
     tome_available_spells: "Mantera yang Tersedia"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Dapatkan<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Menjadi seorang Master Kode dengan berlangganan sekarang!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     level_to_unlock: "Level untuk dibuka:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Hanya beberapa jagoan yang bisa memainkan level ini."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
 #  skill_docs:
 #    function: "function" # skill types
 #    method: "method"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    optional_parameters: "Optional Parameters"
 #    returns: "Returns"
 #    granted_by: "Granted by"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Tersimpan"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     david_title: "Pemimpin Pemasaran"
     titles_csm: "Manajer Sukses Pelanggan"
     titles_territory_manager: "Manajer Wilayah"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+    bryukh_title: "Perancang Permainan" # {change}
     retrostyle_title: "Ilustrasi"
     retrostyle_blurb: "Permainan RetroStyle"
-    bryukh_title: "Perancang Permainan" # {change}
     bryukh_blurb: "Merancang teka-teki"
     community_title: "...dan komunitas sumber terbuka kami"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ajak siswa-siswamu mulai dalam kurang dari satu jam. Kamu dapat <strong>membuat kelas, menambahkan siswa, dan mengawasi perkembangan mereka</strong> selagi mereka belajar ilmu komputer."
+    subtitle: "Ajak siswa-siswamu mulai dalam kurang dari satu jam. Kamu dapat <strong>membuat kelas, menambahkan siswa, dan mengawasi perkembangan mereka</strong> selagi mereka belajar ilmu komputer." # {change}
     email_exists: "User telah ada dengan email ini."
     phone_number: "Nomor telepon"
     phone_number_help: "Dimanakah kami dapat menjangkau kamu ketika hari bekerja?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     organization_label: "Sekolah"
     school_name: "Nama Sekolah"
     city: "Kota"
-    state: "Provinsi"
+    state: "Provinsi" # {change}
     country: "Negara"
     num_students_help: "Berapa banyak siswa yang akan menggunakan CodeCombat"
     num_students_default: "Pilih Jumlah"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     referrer: "Bagaimana kamu mengetahui mengenai kami?"
     referrer_help: "Sebagai contoh: dari guru lain, dari konferensi, dari siswa anda, Code.org, dsb."
     referrer_default: "Pilih Salah Satu"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Guru"
     referrer_admin: "Adminstrator"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     create_account_subtitle: "Dapatkan akses peralatan hanya untuk guru jika menggunakan CodeCombat di ruang kelas. <strong>Mempersiapkan kelas</strong>, menambah siswamu, dan <strong>mengawasi perkembangan mereka</strong>!"
     convert_account_title: "Ubah ke Akun Guru"
     not: "Tidak"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Simpan Versi Baru"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     toggle_pathfinding: "Beralih lembaran mencari jalan."
     beautify: "Percantik kodemu dengan menstandarisasi formatnya."
     maximize_editor: "Memaksimalkan/meminimalisasi editor kode."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Komunitas CodeCombat"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     update_old_classroom_detail_2: "dan berikan siswa-siswa Kelas Kode yang baru muncul"
     view_assessments: "Lihat Penilaian"
     view_challenges: "lihat level tantangan"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Tantangan:"
     challenge_level: "Level Tantangan:"
     status: "Status:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     no_code_yet: "Siswa belum menulis kode apapun di level ini."
     open_ended_level: "Level Akhir-Terbuka"
     partial_solution: "Solusi Sebagian"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Menghapus kursus"
     solution_arena_blurb: "Para siswa didorong untuk memecahkan level arena secara kreatif. Solusi yang tersedia di bawah memenuhi persyaratan level arena."
     solution_challenge_blurb: "Para siswa didorong untuk memecahkan tantangan level akhir-terbuka secara kreatif. Salah satu solusi kemungkinan ditampilkan di bawah."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    wins: "Wins" # At end of multiplayer match playback
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Kesalahan memuat dari server" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

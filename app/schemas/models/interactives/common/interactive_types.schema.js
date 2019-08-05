@@ -6,8 +6,18 @@ const schema = require('../../../schemas')
 const interactiveDraggableOrderingSchema = {
   type: 'object',
   additionalProperties: false,
+  title: 'Draggable Ordering interactive data',
   properties: {
-    labels: { type: 'array', items: { type: 'string' } },
+    labels: { type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          text: { type: 'string' },
+          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true }
+        }
+      }
+    },
     elements: {
       type: 'array',
       items: {
@@ -15,19 +25,22 @@ const interactiveDraggableOrderingSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          elementId: schema.objectId({ hidden: true })
+          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true },
+          elementId: schema.stringID({ readOnly: true })
         }
       }
     },
-    solution: solutionSchema.elementOrderingSolutionSchema
+    solution: solutionSchema.elementOrderingSolutionSchema,
+    i18n: { type: 'object', format: 'i18n', props: ['labels', 'elements'], description: 'Help translate this interactive.' }
   }
 }
 
 const interactiveInsertCodeSchema = {
   type: 'object',
   additionalProperties: false,
+  title: 'Insert Code interactive data',
   properties: {
-    starterCode: { type: 'string' }, // codeLanguage will be determined by unitCodeLanguage in interactives schema
+    starterCode: { type: 'string', format: 'ace' }, // codeLanguage will be determined by unitCodeLanguage in interactives schema
     choices: {
       type: 'array',
       items: {
@@ -35,11 +48,12 @@ const interactiveInsertCodeSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          choiceId: schema.objectId({ hidden: true }),
-          triggerArt: { type: 'string' }
+          choiceId: schema.stringID({ readOnly: true }),
+          triggerArt: { type: 'string', format: 'image-file' }
         }
       }
     },
+    lineToReplace: { type: 'number', title: 'Line number to replace' },
     solution: solutionSchema.singleSolutionSchema
   }
 }
@@ -47,6 +61,7 @@ const interactiveInsertCodeSchema = {
 const interactiveDraggableClassificationSchema = {
   type: 'object',
   additionalProperties: false,
+  title: 'Draggable Classification interactive data',
   properties: {
     categories: {
       type: 'array',
@@ -54,7 +69,7 @@ const interactiveDraggableClassificationSchema = {
         type: 'object',
         additionalProperties: false,
         properties: {
-          categoryId: schema.objectId({ hidden: true }),
+          categoryId: schema.stringID({ readOnly: true }),
           text: { type: 'string' }
         }
       }
@@ -66,17 +81,19 @@ const interactiveDraggableClassificationSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          elementId: schema.objectId({ hidden: true })
+          elementId: schema.stringID({ readOnly: true })
         }
       }
     },
-    solution: solutionSchema.classificationSolutionSchema
+    solution: solutionSchema.classificationSolutionSchema,
+    i18n: { type: 'object', format: 'i18n', props: ['categories', 'elements'], description: 'Help translate this interactive.' }
   }
 }
 
 const interactiveMultipleChoiceSchema = {
   type: 'object',
   additionalProperties: false,
+  title: 'Multiple Choice interactive data',
   properties: {
     choices: {
       type: 'array',
@@ -85,19 +102,21 @@ const interactiveMultipleChoiceSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          choiceId: schema.objectId({ hidden: true })
+          choiceId: schema.stringID({ readOnly: true })
         }
       }
     },
-    solution: solutionSchema.singleSolutionSchema
+    solution: solutionSchema.singleSolutionSchema,
+    i18n: { type: 'object', format: 'i18n', props: ['choices'], description: 'Help translate this interactive.' }
   }
 }
 
 const interactiveFillInCodeSchema = {
   type: 'object',
   additionalProperties: false,
+  title: 'Fill-in Code interactive data',
   properties: {
-    starterCode: { type: 'string' }, // codeLanguage will be determined by unitCodeLanguage in interactives schema
+    starterCode: { type: 'string', format: 'ace' }, // codeLanguage will be determined by unitCodeLanguage in interactives schema
     commonResponses: {
       type: 'array',
       items: {
@@ -105,8 +124,8 @@ const interactiveFillInCodeSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          responseId: schema.objectId({ hidden: true }),
-          triggerArt: { type: 'string' }
+          responseId: schema.stringID({ readOnly: true }),
+          triggerArt: { type: 'string', format: 'image-file' }
         }
       }
     },
@@ -117,6 +136,7 @@ const interactiveFillInCodeSchema = {
 const interactiveDraggableStatementCompletionSchema = {
   type: 'object',
   additionalProperties: false,
+  title: 'Draggable Statement Completion interactive data',
   properties: _.extend({}, interactiveDraggableOrderingSchema.properties)
 }
 

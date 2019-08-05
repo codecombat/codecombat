@@ -30,7 +30,7 @@ module.exports = (env) => {
         './vendor/scripts/coffeescript.js'
       ]),
       lodash: 'lodash', // For worker_world
-      aether: './bower_components/aether/build/aether.js' // For worker_world
+      aether: './app/lib/aether/aether.coffee' // For worker_world
       // esper: './bower_components/esper.js/esper.js',
       // vendor: './app/vendor.js'
     },
@@ -135,6 +135,9 @@ module.exports = (env) => {
       child_process: 'empty',
       request: 'empty'
     },
+    externals: {
+      'esper.js': 'esper'
+    },
     plugins: [
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new ExtractTextPlugin({ // Move CSS into external file
@@ -176,6 +179,9 @@ module.exports = (env) => {
         }, {
           from: 'bower_components/esper.js/esper-modern.js',
           to: 'javascripts/esper.modern.js'
+        }, {
+          from: 'vendor/esper-plugin-lang-java-modern.js',
+          to: 'javascripts/app/vendor/aether-java.modern.js'
         }
       ]),
       new CompileStaticTemplatesPlugin({

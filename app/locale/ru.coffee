@@ -11,7 +11,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
 #    built_for_teachers_subtitle3: "Web Development"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
-#    century_skills_title: "21st Century Skills"
+    century_skills_title: "Навыки 21 Века"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
 #    century_skills_subtitle1: "Critical Thinking"
@@ -23,7 +23,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    century_skills_subtitle3: "Collaboration"
 #    century_skills_subblurb3: "Throughout the game, there are opportunities for students to collaborate when they get stuck and to work together using our pair programming guide."
 #    century_skills_quote4: "I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point."
-#    century_skills_subtitle4: "Communication"
+    century_skills_subtitle4: "Коммуникация"
 #    century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
 #    classroom_in_box_title: "We Strive To:"
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
@@ -36,15 +36,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    creativity_rigor_blurb2: "Every CodeCombat level is scaffolded based on millions of data points and optimized to adapt to each learner. Practice levels and hints help students when they get stuck, and challenge levels assess students' learning throughout the game."
 #    creativity_rigor_subtitle3: "Built for all teachers, regardless of experience"
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
-#    featured_partners_title1: "Featured In"
-#    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
-#    featured_partners_blurb2: "Best Creativity Tool for Students"
-#    featured_partners_blurb3: "Top Pick for Learning"
+    featured_partners_title1: "Зарекомендован в"
+    featured_partners_title2: "Награды и Партнеры"
+    featured_partners_blurb1: "Совет колледжа одобрил провайдера"
+    featured_partners_blurb2: "Лучшая креативная вещь для студентов"
+    featured_partners_blurb3: "Лучший выбор для обучения"
+
 #    featured_partners_blurb4: "Code.org Official Partner"
 #    featured_partners_blurb5: "CSforAll Official Member"
 #    featured_partners_blurb6: "Hour of Code Activity Partner"
-#    for_leaders_title: "For School Leaders"
+    for_leaders_title: "Для лидеров школы"
 #    for_leaders_blurb: "A Comprehensive, Standards-Aligned Computer Science Program"
 #    for_leaders_subtitle1: "Easy Implementation"
 #    for_leaders_subblurb1: "A web-based program that requires no IT support. Get started in under 5 minutes using Google or Clever Single Sign-On (SSO)."
@@ -54,42 +55,42 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
-#    for_teachers_title: "For Teachers"
-#    for_teachers_blurb: "Tools to Unlock Student Potential"
+    for_teachers_title: "Для учителей"
+    for_teachers_blurb: "Инструменты для раскрытия потенциала ученика"
 #    for_teachers_subtitle1: "Project-Based Learning"
 #    for_teachers_subblurb1: "Promote creativity, problem-solving, and confidence in project-based courses where students develop their own games and webpages."
-#    for_teachers_subtitle2: "Teacher Dashboard"
+    for_teachers_subtitle2: "Рабочая панель учителя"
 #    for_teachers_subblurb2: "View data on student progress, discover curriculum resources, and access real-time support to empower student learning."
 #    for_teachers_subtitle3: "Built-in Assessments"
 #    for_teachers_subblurb3: "Personalize instruction and ensure students understand core concepts with formative and summative assessments."
 #    for_teachers_subtitle4: "Automatic Differentiation"
 #    for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
 #    game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
-#    get_started: "Get started"
+    get_started: "Начать"
 #    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
+    global_subtitle1: "Учащиеся"
+    global_subtitle2: "Строки с кодом"
 #    global_subtitle3: "Teachers"
 #    global_subtitle4: "Countries"
 #    go_to_my_classes: "Go to my classes"
 #    go_to_my_courses: "Go to my courses"
-#    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat. Any teacher who wants their students to learn how to code... start here!"
+    quotes_quote1: "Назовите любую онлайн программу, я попробовал её. Ни один из них не соответствует CodeCombat. Любой учитель, который хочет, чтобы их ученики научились кодировать ... начните здесь!"
 #    quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
-#    see_example: "See example"
+    see_example: "Посмотреть пример"
     slogan: "Самый захватывающий способ обучения реальному программированию." # {change}
-#    teach_cs1_free: "Teach CS1 Free"
+    teach_cs1_free: "Обучать CS1 Бесплатно"
 #    teachers_love_codecombat_title: "Teachers Love CodeCombat"
 #    teachers_love_codecombat_blurb1: "Report that their students enjoy using CodeCombat to learn how to code"
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    try_the_game: "Try the game"
+    try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
     play_now: "Играть сейчас"
-#    im_an_educator: "I'm an Educator"
+    im_an_educator: "Я преподаватель"
     im_a_teacher: "Я учитель"
     im_a_student: "Я ученик"
     learn_more: "Узнать больше"
@@ -198,6 +199,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   modal:
     close: "Закрыть"
     okay: "OK"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Страница не найдена"
@@ -464,6 +466,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submit_changes: "Отослать изменения"
     save_changes: "Сохранить изменения"
     required_field: "обязательное поле"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "и"
@@ -596,6 +601,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Проверить уровень"
     victory: "Победа"
     victory_title_prefix: "Уровень "
@@ -620,6 +627,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код, чтобы начать уровень заново"
     tome_available_spells: "Доступные заклинания"
@@ -723,6 +731,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Методы"
@@ -931,6 +944,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wallOfDarkness_name: "Стена Тьмы"
     wallOfDarkness_description: "Скройтесь от любопытных взглядов за стеной из теней."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Получи<br>CodeCombat<br>Премиум" # Fit into the banner on the /features page
     master_coder: "Стань мастером програмирования, подписавшись сегодня!"
@@ -990,6 +1006,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_to_unlock: "Разблокируется на уровне:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Только определённые герои могут играть на этом уровне."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "функция" # skill types
     method: "метод"
@@ -1018,6 +1041,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     optional_parameters: "Необязательные параметры"
     returns: "Возвращает"
     granted_by: "Предоставлено"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Сохранено"
@@ -1063,9 +1087,30 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     david_title: "Менеджер по работе с клиентами"
     titles_csm: "Менеджер по работе с клиентами"
     titles_territory_manager: "Региональный менеджер"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+    bryukh_title: "Дизайнер игры"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
-    bryukh_title: "Дизайнер игры"
     bryukh_blurb: "Создатель головоломок"
     community_title: "...и наше open-source сообщество"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
@@ -1160,7 +1205,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ваши студенты смогут приступить менее чем через час. Вы сможете <strong>создать класс, добавить студентов и следить за их прогрессом</strong> в изучении информатики."
+    subtitle: "Ваши студенты смогут приступить менее чем через час. Вы сможете <strong>создать класс, добавить студентов и следить за их прогрессом</strong> в изучении информатики." # {change}
     email_exists: "Пользователь с этим email уже существует."
     phone_number: "Телефонный номер"
     phone_number_help: "Как можно с вами связаться в течении рабочего дня?"
@@ -1184,7 +1229,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     organization_label: "Школа"
     school_name: "Название школы"
     city: "Город"
-    state: "Область"
+    state: "Область" # {change}
     country: "Страна"
     num_students_help: "Сколько учеников вы ожидаете привлечь в CodeCombat?" # {change}
     num_students_default: "Выберите диапазон"
@@ -1198,6 +1243,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     referrer: "Как вы о нас узнали?"
     referrer_help: "Например: от другого учителя, ваших учеников, на конференции, Code.org и т.д."
     referrer_default: "Выбери Один"
+#    referrer_conference: "Conference (e.g. ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Учитель"
     referrer_admin: "Администратор"
@@ -1220,6 +1266,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_account_subtitle: "Получите доступ к инструментам, доступным только учителям, для использования CodeCombat в класной комнате. <strong>Подготовьте класс</strong>, добавьте ваших учеников и <strong>наблюдайте за их прогрессом</strong>!"
     convert_account_title: "Улучшить до аккаунта учителя"
     not: "Нет"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Сохранить новую версию"
@@ -1308,6 +1355,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     toggle_pathfinding: "Включить наложение пути."
     beautify: "Приукрасьте свой код стандартизацией его форматирования."
     maximize_editor: "Развернуть/свернуть редактор кода."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Сообщество CodeCombat"
@@ -1556,6 +1606,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
     challenge: "Испытание:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1638,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1609,6 +1665,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_code_yet: "Студент еще не писал код для этого уровня."
     open_ended_level: "Открытый Уровень"
     partial_solution: "Частичное решение"
+#    capstone_solution: "Capstone Solution"
     removing_course: "Удаление курса"
     solution_arena_blurb: "Студенты поощряются за креативное решение уровней арены. Решение, представленное ниже, отвечает требованиям уровня арены."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2282,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wins: "Побеждает" # At end of multiplayer match playback
     humans: "Красных" # Ladder page display team name
     ogres: "Синих"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2399,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     you_can1: "Вы можете"
     you_can2: "купить предоплаченный код"
     you_can3: "который можно применить к вашему аккаунту или передать другому."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера" # {change}
@@ -2864,3 +2932,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

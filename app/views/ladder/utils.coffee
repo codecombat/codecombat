@@ -26,3 +26,6 @@ module.exports.teamDataFromLevel = (level) ->
     })
 
   teams
+
+module.exports.scoreForDisplay = (score) ->
+  return score * 100

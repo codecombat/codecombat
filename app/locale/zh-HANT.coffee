@@ -1,41 +1,41 @@
 module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese (Traditional)", translation:
 
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
-#    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
-#    built_for_teachers_subtitle1: "Computer Science"
-#    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
-#    built_for_teachers_subtitle2: "Game Development"
-#    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
-#    built_for_teachers_subtitle3: "Web Development"
-#    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
-#    century_skills_title: "21st Century Skills"
-#    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
-#    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
-#    century_skills_subtitle1: "Critical Thinking"
-#    century_skills_subblurb1: "With coding puzzles that are naturally scaffolded into increasingly challenging levels, CodeCombat's programming game ensures kids are always practicing critical thinking."
-#    century_skills_quote2: "Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did."
-#    century_skills_subtitle2: "Creativity"
-#    century_skills_subblurb2: "CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages."
-#    century_skills_quote3: "If I got stuck on a level. I would work with people around me until we were all able to figure it out."
-#    century_skills_subtitle3: "Collaboration"
-#    century_skills_subblurb3: "Throughout the game, there are opportunities for students to collaborate when they get stuck and to work together using our pair programming guide."
-#    century_skills_quote4: "I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point."
-#    century_skills_subtitle4: "Communication"
-#    century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
-#    classroom_in_box_title: "We Strive To:"
-#    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
-#    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
-#    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-#    creativity_rigor_title: "Where Creativity Meets Rigor"
-#    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
-#    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
-#    creativity_rigor_subtitle2: "Reach students at their level"
-#    creativity_rigor_blurb2: "Every CodeCombat level is scaffolded based on millions of data points and optimized to adapt to each learner. Practice levels and hints help students when they get stuck, and challenge levels assess students' learning throughout the game."
-#    creativity_rigor_subtitle3: "Built for all teachers, regardless of experience"
-#    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
+    title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript"
+    meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
+    built_for_teachers_title: "一個由教師建構的編碼遊戲"
+    built_for_teachers_blurb: "教孩子們編寫代碼往往會令人感到招架不住。 透過 CodeCombat 可以幫助所有教育工作者教授學生如何使用 JavaScript 或 Python（兩種最流行的編程語言）進行編碼。 透過包含六個計算機科學的綜合課程，以及遊戲開發和 Web 開發專題來進行加強學習，孩子們將在從基本語法往遞迴程式設計中前進！"
+    built_for_teachers_subtitle1: "電腦科學"
+    built_for_teachers_subblurb1: "從免費的電腦科學入門課程開始，學生將掌握核心編碼概念，例如 while / for 循環，函式和算法。"
+    built_for_teachers_subtitle2: "遊戲開發"
+    built_for_teachers_subblurb2: "學習者構建迷宮並使用基本函式來編碼他們自己的遊戲，這些遊戲可以與朋友和家人共享。"
+    built_for_teachers_subtitle3: "Web 開發"
+    built_for_teachers_subblurb3: "通過使用 HTML、CSS 和 jQuery，學生可以利用自定義 URL 對自己的網頁進行編程，以便與同學共享。"
+    century_skills_title: "21 世紀必備技能"
+    century_skills_blurb1: "學生不只是要升級他們的英雄，也要提升自己"
+    century_skills_quote1: "你陷入了困惑......所以你必須重新想想所有可能的解決方法，然後再試一次。 如果不努力，我就無法到達這裡"
+    century_skills_subtitle1: "批判性思考"
+    century_skills_subblurb1: "CodeCombat 的編碼遊戲可以建構越來越具有挑戰性的關卡，它可以確保孩子們一直在練習批判性思考。"
+    century_skills_quote2: "其他人都在製造迷宮，所以我想做點別的，「奪旗」這就是我想做的。"
+    century_skills_subtitle2: "創造力"
+    century_skills_subblurb2: "CodeCombat 鼓勵學生通過構建與分享自己的遊戲和網頁，來展現他們的創造力。"
+    century_skills_quote3: "如果我陷入了困惑。我會和周圍的人一起合作，直到我們都能搞清楚。"
+    century_skills_subtitle3: "合作"
+    century_skills_subblurb3: "在整個遊戲過程中，學生有機會在遇到困難時進行合作，並可以參考我們的編程指南一起解決問題。"
+    century_skills_quote4: "我一直有設計電玩遊戲和學習如何編碼的願望......這給了我一個很好的起點。"
+    century_skills_subtitle4: "溝通"
+    century_skills_subblurb4: "編碼要求孩子們練習新的溝通方式，包括與電腦本身的溝通，並使用最有效的代碼傳達他們的想法。"
+    classroom_in_box_title: "我們努力："
+    classroom_in_box_blurb1: "讓每個學生都參與進來，讓他們相信編碼是為了他們自己。"
+    classroom_in_box_blurb2: "讓每位老師在授課時更有自信。"
+    classroom_in_box_blurb3: "激勵更多的學校來創造出世界一流的電腦科學課程。"
+    creativity_rigor_title: "創造力與邏輯相遇的地方"
+    creativity_rigor_subtitle1: "讓編碼變得有趣並學習到現實世界共通的技能"
+    creativity_rigor_blurb1: "學生在玩遊戲時學會輸入真正的 Python 和 JavaScript 代碼，鼓勵反複試驗、批判性思考和創造力。然後讓學生通過在專題課程中開發自己的遊戲和網站，應用他們學到的編碼技能。"
+    creativity_rigor_subtitle2: "達到他們水平的學生"
+    creativity_rigor_blurb2: "每個 CodeCombat 的關卡都是基於數百萬個教學數據所構建的，並且經過優化以適應每個學習者。練習關卡和提示可以幫助學生在遇到困難時幫助他們，挑戰關卡則可以評估學生在整個遊戲過程中的學習情況。"
+    creativity_rigor_subtitle3: "為所有老師而建，無論有沒有經驗"
+    creativity_rigor_blurb3: "CodeCombat 可以自我掌控學習步調，共通標準的課程使得教授電腦科學成為可能。CodeCombat 可以為教師提供培訓，教學資源和專門支持，讓他們在課堂上感到自信和成功。"
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
 #    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
@@ -88,15 +88,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    try_the_game: "Try the game"
     classroom_edition: "教室版本"
     learn_to_code: "學習寫程式碼"
-    play_now: "馬上遊玩"
-#    im_an_educator: "I'm an Educator"
+    play_now: "馬上玩"
+    im_an_educator: "我是教學人員"
     im_a_teacher: "我是老師"
     im_a_student: "我是學生"
     learn_more: "了解更多"
     classroom_in_a_box: "教授電腦科學的迷你教室。"
     codecombat_is: "CodeCombat是一個讓<strong>學生</strong>透過進行遊戲來學習計算機科學的平台。"
     our_courses: "我們的課程經過特別的遊戲測試來<strong>超越教室教學</strong>，甚至是超越一些先前沒有編程經驗的老師。"
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "來看看CodeCombat將如何改變人們學習電腦科學的方式"
     top_screenshots_hint: "學生們寫程式碼並且隨時觀看他們的更新。"
     designed_with: "在心中與老師們一起設計"
     real_code: "真實的、鍵入的程式碼"
@@ -110,7 +110,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     democratizing: "使學習寫程式碼的過程普及化是我們的核心理念，每個人都應該有機會學習寫程式。"
     forgot_learning: "我認為他們甚至忘記了他們正在學東西。" # {change}
     wanted_to_do: "寫程式一直是我想要做的事情，而我從不認為我會在學校裡學到它們。"
-#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
+    builds_concepts_up: "我喜愛CodeCombat建立程式概念的方式。簡單易懂且好玩"
     why_games: "為何從遊戲中學習是很重要的呢?"
     games_reward: "遊戲鼓勵我們良性競爭。"
     encourage: "遊戲是一個促進互動、發現及嘗試錯誤的媒介，一款好的遊戲可以試煉玩家並隨著時間精進技巧，這個過程與學生在學校學習中所經歷到的一樣重要。"
@@ -149,8 +149,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     view_progress: "瀏覽進度"
     go_to_courses: "進入課程"
     want_coco: "想要在您的學校進行CodeCombat嗎？"
-#    educator: "Educator"
-#    student: "Student"
+    educator: "教學人員"
+    student: "學生"
 
   nav:
 #    educators: "Educators"
@@ -174,7 +174,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     twitter_follow: "在 Twitter 關注"
     my_classrooms: "我的班級"
     my_courses: "我的課程"
-#    my_teachers: "My Teachers"
+    my_teachers: "我的導師"
     careers: "招聘"
     facebook: "Facebook臉書"
     twitter: "Twitter推特"
@@ -193,11 +193,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     help_suff: "然後我們會與您接觸!"
     resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    parent: "雙親"
 
   modal:
     close: "關閉"
     okay: "好"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "找不到網頁"
@@ -244,7 +245,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     poll: "投票" # Tooltip on poll button from /play
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "更換英雄" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "更換英雄 或 變更語言"
     buy_gems: "購買寶石"
     subscribers_only: "訂閱者限定!"
     subscribe_unlock: "訂閱我們來解鎖吧!"
@@ -259,10 +260,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     campaign_multiplayer: "多人競技場"
     campaign_multiplayer_description: "…在這裡您可以和其他玩家進行對戰。"
     brain_pop_done: "你剛剛用編程戰勝了巨魔! 你贏了!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
+    brain_pop_challenge: "自我挑戰！用另一種程式語言再玩一次。"
+    replay: "重播"
     back_to_classroom: "回到教室"
-#    teacher_button: "For Teachers"
+    teacher_button: "老師專用功能"
 #    get_more_codecombat: "Get More CodeCombat"
 
   code:
@@ -336,17 +337,17 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     signup_switch: "建立一個帳號"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "完成訂閱"
     create_student_header: "建立學生帳號"
     create_teacher_header: "建立教師帳號"
     create_individual_header: "建立私人帳號"
     email_announcements: "接收通知以了解CodeCombat中的新關卡和新功能!"
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "登入或建立一個新帳號以繼續"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "帳號建立中…"
     sign_up: "註冊"
     log_in: "登入"
-#    login: "Login"
+    login: "登入"
     required: "在這麼做之前必須先登入。"
     login_switch: "已經有申請帳號了嗎？"
     optional: "選填"
@@ -399,8 +400,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sso_connected: "成功連接："
     select_your_starting_hero: "選擇您最初的英雄"
     you_can_always_change_your_hero_later: "您隨時可以切換您的英雄。"
-#    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
+    finish: "完成"
+    teacher_ready_to_create_class: "你已經可以開胎建立你的第一個課程!"
 #    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     submit_changes: "送出修改"
     save_changes: "保存更改"
     required_field: "需求"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "和"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     reload_title: "重新載入程式碼？"
     reload_really: "確定重設所有的程式碼？"
     reload_confirm: "重設所有程式碼"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "測試關卡"
     victory: "勝利"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tome_cast_button_run: "運行"
     tome_cast_button_running: "運行中"
     tome_cast_button_ran: "已運行"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "送出"
     tome_reload_method: "重新載入原始程式碼來重啟關卡"
     tome_available_spells: "可用的法術"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     level_to_unlock: "解鎖關卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "特定英雄才可遊玩此關卡。"
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "功能" # skill types
     method: "方法"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     optional_parameters: "選擇性參數"
     returns: "回傳"
     granted_by: "賦予"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "已儲存"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    david_title: "Marketing Lead"
     titles_csm: "客户成功经理"
     titles_territory_manager: "區域經理"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "插畫師"
     retrostyle_blurb: "復古風格的遊戲"
-#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...以及我們的開放原始碼社群"
     community_subtitle: "超過 500 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！"
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "讓您的學生在一個小時內上手。在他們學習計算機科學時您將會<strong>創建一個班級，加入您的學生，並且掌握他們的學習過程。</strong>"
+    subtitle: "讓您的學生在一個小時內上手。在他們學習計算機科學時您將會<strong>創建一個班級，加入您的學生，並且掌握他們的學習過程。</strong>" # {change}
     email_exists: "已經存在使用這個email的使用者。"
     phone_number: "電話號碼"
     phone_number_help: "在工作天中我們能在哪裡找到您?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     organization_label: "學校"
 #    school_name: "School Name"
     city: "城市"
-    state: "州"
+    state: "州" # {change}
     country: "國家"
     num_students_help: "您預估將有多少人加入CodeCombat?" # {change}
     num_students_default: "選擇範圍"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    referrer: "How did you hear about us?"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     create_account_subtitle: "取得教師專用工具來在教室中使用CodeCombat<strong>建立一個班級</strong>加入您的學生，並且<strong>掌握他們的學習過程</strong>!"
     convert_account_title: "升級成教師帳號"
     not: "取消"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "保存新版本"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     toggle_pathfinding: "顯示/關閉路徑尋找提示"
     beautify: "利用標準格式來美化您的程式碼"
     maximize_editor: "最大化/最小化程式碼編輯器"
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat社群"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
 #    challenge: "Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
+#    capstone_solution: "Capstone Solution"
 #    removing_course: "Removing course"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     wins: "勝利" # At end of multiplayer match playback
     humans: "紅隊" # Ladder page display team name
     ogres: "藍隊"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "從伺服器載入失敗" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

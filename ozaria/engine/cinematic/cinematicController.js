@@ -5,6 +5,7 @@ import CommandRunner from './commands/CommandRunner'
 import DialogSystem from './dialogsystem/DialogSystem'
 import { CameraSystem } from './CameraSystem'
 import { SoundSystem } from './SoundSystem'
+import Autoplay from './systems/autoplay'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -24,12 +25,21 @@ export class CinematicController {
     handlers: {
       onPlay,
       onPause,
-      onCompletion
-    }
+      onCompletion,
+      onLoaded
+    },
+    userOptions: {
+      programmingLanguage
+    } = {}
   }) {
     this.onPlay = onPlay || (() => {})
     this.onPause = onPause || (() => {})
     this.onCompletion = onCompletion || (() => {})
+    this.onLoaded = onLoaded || (() => {})
+
+    this.userOptions = {
+      programmingLanguage: programmingLanguage || 'python'
+    }
 
     this.systems = {}
 
@@ -46,6 +56,7 @@ export class CinematicController {
     this.systems.cameraSystem = new CameraSystem(camera)
     this.systems.loader = new Loader({ data: cinematicData })
     this.systems.sound = new SoundSystem()
+    this.systems.autoplay = new Autoplay()
 
     this.systems.dialogSystem = new DialogSystem({
       canvasDiv,
@@ -53,7 +64,7 @@ export class CinematicController {
     })
 
     this.systems.dialogSystem.templateContext = {
-      name: me.get('name') || 'hero'
+      name: (me.get('ozariaHeroConfig') || {}).playerHeroName || me.get('name') || 'hero'
     }
 
     this.systems.cinematicLankBoss = new CinematicLankBoss({
@@ -79,13 +90,14 @@ export class CinematicController {
     const data = await this.systems.loader.loadAssets()
 
     const commands = data.shots
-      .map(shot => parseShot(shot, this.systems))
+      .map(shot => parseShot(shot, this.systems, this.userOptions))
       .filter(commands => commands.length > 0)
       .reduce((acc, commands) => [...acc, ...commands], [])
 
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
     this.commands = commands
+    this.onLoaded()
   }
 
   /**
@@ -139,15 +151,30 @@ export class CinematicController {
   cleanupRunShot () {
     if (!this.runner) return
     this.runner = null
-    this.onPause()
+
     if (Array.isArray(this.commands) && this.commands.length === 0) {
       this.onCompletion()
     }
+
+    if (this.systems.autoplay.autoplay) {
+      this.systems.autoplay.autoplay = false
+      return this.runShot()
+    }
+
+    this.onPause()
+  }
+
+  onResize ({ width, height }) {
+    this.stage.updateViewport(width, height)
+    this.systems.cameraSystem.camera.onResize(width, height)
   }
 
   destroy () {
-    this.systems.sound.stopAllSounds()
+    createjs.Ticker.removeAllEventListeners()
+    this.systems.cameraSystem.destroy()
     this.systems.cinematicLankBoss.cleanup()
+    this.stage.removeAllEventListeners()
+    this.systems.sound.stopAllSounds()
   }
 }
 

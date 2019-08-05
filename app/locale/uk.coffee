@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   modal:
     close: "Закрити"
     okay: "Добре"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Сторінку не знайдено"
@@ -464,6 +465,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     submit_changes: "Надіслати зміни"
     save_changes: "Зберегти зміни"
     required_field: "обов'язкове поле"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "та"
@@ -596,6 +600,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     reload_title: "Перезавантажити весь код?"
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Протестувати рівень"
     victory: "Перемога"
     victory_title_prefix: ""
@@ -620,6 +626,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tome_cast_button_run: "Виконати"
     tome_cast_button_running: "Виконання"
     tome_cast_button_ran: "Виконати"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Підтвердити"
     tome_reload_method: "Відновити оригінальний код щоб перезапустити рівень"
     tome_available_spells: "Доступні заклинання"
@@ -723,6 +730,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Методи"
@@ -931,6 +943,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Отримайте<br>CodeCombat<br>Преміум" # Fit into the banner on the /features page
     master_coder: "Станьте майстром програмування придбавши підписку вже сьогодні!"
@@ -990,6 +1005,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     level_to_unlock: "Розблокується на рівні:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Тільки певні герої можуть грати в цьому рівні."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "функція" # skill types
     method: "метод"
@@ -1018,6 +1040,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     optional_parameters: "Необов'якові параметри"
     returns: "Повертає"
     granted_by: "Забезпечує"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Збережено"
@@ -1063,9 +1086,30 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    david_title: "Marketing Lead"
     titles_csm: "Менеджер успіху клієнтів"
     titles_territory_manager: "Менеджер територій"
+#    lawrence_title: "Customer Success Manager"
+#    sean_title: "Senior Account Executive"
+#    liz_title: "Senior Account Executive"
+#    jane_title: "Account Executive"
+#    shan_title: "Partnership Development Lead, China"
+#    run_title: "Head of Operations, China"
+#    lance_title: "Software Engineer Intern, China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    chelsea_title: "Operations Manager"
+#    claire_title: "Executive Assistant"
+#    bobby_title: "Senior Game Designer"
+#    brian_title: "Lead Game Designer"
+#    andrew_title: "Software Engineer"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Ілюстрація"
     retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...і наша open-source спільнота"
     community_subtitle: "Більше 500 помічників допомогли створити CodeCombat, і кожного тижня приєднуються нові!"
@@ -1160,7 +1204,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ваші учні можуть розпочати менш ніж за годину. Ви зможете <strong>створити клас, додати учнів та спостерігати за їхнім прогресом</strong> у вивченні комп'ютерних наук."
+    subtitle: "Ваші учні можуть розпочати менш ніж за годину. Ви зможете <strong>створити клас, додати учнів та спостерігати за їхнім прогресом</strong> у вивченні комп'ютерних наук." # {change}
     email_exists: "Користувач з цим email вже існує."
     phone_number: "Номер телефону"
     phone_number_help: "Як можна з вами зв'язатись під час робочого дня?"
@@ -1184,7 +1228,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     organization_label: "Школа"
 #    school_name: "School Name"
     city: "Місто"
-    state: "Штат"
+    state: "Штат" # {change}
     country: "Країна"
     num_students_help: "Скільки учнів ви очікуєте залучити до CodeCombat?" # {change}
     num_students_default: "Оберіть діапазон"
@@ -1198,6 +1242,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     referrer: "Як ви про нас почули?"
     referrer_help: "Наприклад: від іншого вчителя, ваших учнів, на конференції, Code.org тощо."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
@@ -1220,6 +1265,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     create_account_subtitle: "Отримайте доступ до інструментів, доступних лише вчителям, для використання CodeCombat в класі. <strong>Налаштуйте клас</strong>, додайте учнів та <strong>слідкуйте за їхнім прогресом</strong>!"
     convert_account_title: "Оновити до обліківки вчителя"
     not: "Ні"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Зберегти нову версію"
@@ -1308,6 +1354,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     toggle_pathfinding: "Перемикач накладання шляху."
     beautify: "Зроби код красивішим, стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Спільноти CodeCombat"
@@ -1556,6 +1605,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
 #    challenge: "Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1584,6 +1637,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
 #    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1609,6 +1664,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
+#    capstone_solution: "Capstone Solution"
 #    removing_course: "Removing course"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -2225,6 +2281,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     wins: "переміг" # At end of multiplayer match playback
     humans: "Червоний" # Ladder page display team name
     ogres: "Синій"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2338,6 +2398,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can1: "Ви можете"
     you_can2: "купити передплачений код"
     you_can3: "який може бути застосовано до вашої обліківки або переданий іншим."
+
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
 
   loading_error:
     could_not_load: "Помилка завантаження з сервера" # {change}
@@ -2864,3 +2931,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
