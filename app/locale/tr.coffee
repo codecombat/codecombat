@@ -724,7 +724,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 
-#  apis:
+  apis:
 #    methods: "Methods"
 #    events: "Events"
 #    handlers: "Handlers"
@@ -990,7 +990,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
+  skill_docs:
     function: "fonksiyon" # skill types
     method: "metot"
 #    snippet: "snippet"
