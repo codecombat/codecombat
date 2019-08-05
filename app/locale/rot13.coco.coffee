@@ -169,6 +169,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     legal: "Yrtny"
     privacy: "Cevinpl Abgvpr"
     about: "Nobhg"
+    impact: "Vzcnpg"
     contact: "Pbagnpg"
     twitter_follow: "Sbyybj"
     my_classrooms: "Zl Pynffrf"
@@ -2406,6 +2407,59 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     back_to_map: 'Onpx gb Znc',
     level_options: 'Yriry Bcgvbaf',
     restart_level: 'Erfgneg Yriry'
+  
+  impact:
+    hero_heading: 'Ohvyqvat N Jbeyq-Pynff Pbzchgre Fpvrapr Cebtenz'
+    hero_subheading: 'Jr Uryc Rzcbjre Rqhpngbef naq Vafcver Fghqragf Npebff gur Pbhagel'
+    featured_partner_story: 'Srngherq Cnegare Fgbel'
+    partner_heading: 'Fhpprffshyyl Grnpuvat Pbqvat ng n Gvgyr V Fpubby'
+    partner_school: 'Obool Qhxr Zvqqyr Fpubby'
+    featured_teacher: 'Fpbgg Onvyl'
+    teacher_title: 'Grpuabybtl Grnpure Pbnpuryyn, PN'
+    implementation: 'Vzcyrzragngvba'
+    grades_taught: 'Tenqrf Gnhtug'
+    length_use: 'Yratgu bs Hfr'
+    length_use_time: '3 lrnef'
+    students_enrolled: 'Fghqragf Raebyyrq guvf Lrne'
+    students_enrolled_number: '130'
+    courses_covered: 'Pbhefrf Pbirerq'
+    course1: 'PbzcFpv 1'
+    course2: 'PbzcFpv 2'
+    course3: 'PbzcFpv 3'
+    course4: 'PbzcFpv 4'
+    course5: 'TnzrQri 1'
+    fav_features: 'Snibevgr Srngherf'
+    responsive_support: 'Erfcbafvir Fhccbeg'
+    immediate_engagement: 'Vzzrqvngr Ratntrzrag'
+    paragraph1: 'Obool Qhxr Zvqqyr Fpubby fvgf arfgyrq orgjrra gur 	    Fbhgurea Pnyvsbeavn zbhagnvaf bs Pbnpuryyn Inyyrl gb gur jrfg naq rnfg naq gur Fnygba Frn 33 zvyrf fbhgu, naq obnfgf n fghqrag cbchyngvba bs 697 fghqragf jvguva Pbnpuryyn Inyyrl Havsvrq’f qvfgevpg-jvqr cbchyngvba bs 18,861 fghqragf.'
+    paragraph2: 'Gur fghqragf bs Obool Qhxr Zvqqyr Fpubby ersyrpg gur fbpvbrpbabzvp punyyratrf snpvat Pbnpuryyn Inyyrl’f erfvqragf naq fghqragf jvguva gur qvfgevpg. Jvgu bire 95% bs gur Obool Qhxr Zvqqyr Fpubby fghqrag cbchyngvba dhnyvslvat sbe serr naq erqhprq-cevpr zrnyf naq bire 40% pynffvsvrq nf Ratyvfu ynathntr yrnearef , gur vzcbegnapr bs grnpuvat 21fg praghel fxvyyf jnf gur gbc cevbevgl bs Obool Qhxr Zvqqyr Fpubby Grpuabybtl grnpure, Fpbgg Onvyl.'
+    paragraph3: 'Onvyl xarj gung grnpuvat uvf fghqragf pbqvat jnf n xrl cngujnl gb bccbeghavgl va n wbo ynaqfpncr gung vapernfvatyl cevbevgvmrf naq arprffvgngrf pbzchgvat fxvyyf. Fb, ur qrpvqrq gb gnxr ba gur rkpvgvat punyyratr bs perngvat naq grnpuvat gur bayl pbqvat pynff va gur fpubby naq svaqvat n fbyhgvba gung jnf nssbeqnoyr, erfcbafvir gb srrqonpx, naq ratntvat gb fghqragf bs nyy yrneavat novyvgvrf naq onpxtebhaqf.'
+    teacher_quote: 'Jura V tbg zl unaqf ba PbqrPbzong [naq] fgnegrq univat zl fghqragf hfr vg, gur yvtug ohyo jrag ba. Vg jnf whfg avtug naq qnl sebz rirel bgure cebtenz gung jr unq hfrq. Gurl’er abg rira pybfr.'
+    quote_attribution: 'Fpbgg Onvyl, Grpuabybtl Grnpure'
+    read_full_story: 'Ernq Shyy Fgbel'
+    more_stories: 'Zber Cnegare Fgbevrf'
+    partners_heading_1: 'Fhccbegvat Zhygvcyr PF Cngujnlf va Bar Pynff'
+    partners_school_1: 'Cerfgba Uvtu Fpubby'
+    partners_heading_2: 'Rkpryyvat ba gur NC Rknz'
+    partners_school_2: 'Evire Evqtr Uvtu Fpubby'
+    partners_heading_3: 'Grnpuvat Pbzchgre Fpvrapr Jvgubhg Cevbe Rkcrevrapr'
+    partners_school_3: 'Evireqnyr Uvtu Fpubby'
+    download_study: 'Qbjaybnq Erfrnepu Fghql'
+    teacher_spotlight: 'Grnpure & Fghqrag Fcbgyvtugf'
+    teacher_name_1: 'Nznaqn Urael'
+    teacher_title_1: 'Erunovyvgngvba Vafgehpgbe'
+    teacher_location_1: 'Zberurnq, Xraghpxl'
+    spotlight_1: 'Guebhtu ure pbzcnffvba naq qevir gb uryc gubfr jub arrq frpbaq punaprf, Nznaqn Urael urycrq punatr gur yvirf bs fghqragf jub arrq cbfvgvir ebyr zbqryf. Jvgu ab cerivbhf pbzchgre fpvrapr rkcrevrapr, Urael yrq ure fghqragf gb pbqvat fhpprff va n ertvbany pbqvat pbzcrgvgvba.'
+    teacher_name_2: 'Xnvyn, Fghqrag'
+    teacher_title_2: 'Znlfivyyr Pbzzhavgl & Grpuavpny Pbyyrtr'
+    teacher_location_2: 'Yrkvatgba, Xraghpxl'
+    spotlight_2: 'Xnvyn jnf n fghqrag jub arire gubhtug fur jbhyq or jevgvat yvarf bs pbqr, yrg nybar raebyyrq va pbyyrtr jvgu n cngujnl gb n oevtug shgher.'
+    teacher_name_3: 'Fhfna Wbarf-Fmnob'
+    teacher_title_3: 'Grnpure Yvoenevna'
+    teacher_school_3: 'Ehol Oevqtrf Ryrzragnel'
+    teacher_location_3: 'Nynzrqn, PN'
+    spotlight_3: 'Fhfna Wbarf-Fmnob cebzbgrf na rdhvgnoyr ngzbfcurer va ure pynff jurer rirelbar pna svaq fhpprff va gurve bja jnl. Zvfgnxrf naq fgehttyrf ner jrypbzrq orpnhfr rirelbar yrneaf sebz n punyyratr, rira gur grnpure.'
+    continue_reading_blog: 'Pbagvahr Ernqvat ba Oybt...'
 
   loading_error:
     could_not_load: "Reebe ybnqvat sebz freire. Gel erserfuvat gur cntr."
