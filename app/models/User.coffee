@@ -602,6 +602,7 @@ module.exports = class User extends CocoModel
   showOzariaCampaign: -> @isAdmin()
   hasCinematicAccess: -> @isAdmin()
   hasCharCustomizationAccess: -> @isAdmin()
+  hasAvatarSelectorAccess: -> @isAdmin()
   hasCutsceneAccess: -> @isAdmin()
   hasInteractiveAccess: -> @isAdmin()
   hasIntroLevelAccess: -> @isAdmin()

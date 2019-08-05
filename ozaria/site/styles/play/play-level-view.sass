@@ -1,6 +1,7 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/play/variables"
+@import "ozaria/site/styles/common/variables.sass"
 
 body
   height: 100vh
@@ -11,19 +12,12 @@ body.is-playing
 $level-resize-transition-time: 0.5s
 // TODO: use this for real-time playback but not cinematic playback
 
-#canvas-wrapper
-  top: 0 !important
-  width: 58% !important
 
 #level-view
-  height: 100%
-  margin: 0 auto
   position: absolute
   overflow: hidden
-  left: 0
-  right: 0
-  bottom: 10px
-  top: 0
+  width: 100%
+  height: 100%
   @include user-select(none)
 
   &.real-time, &.cinematic
@@ -73,8 +67,6 @@ $level-resize-transition-time: 0.5s
 
   .level-content
     position: relative
-    min-height: 555px
-    //background-color: black
 
   &.real-time
     &:not(.flags)
@@ -114,8 +106,8 @@ $level-resize-transition-time: 0.5s
       top: 0
 
   #canvas-wrapper
-    top: 50px
-    width: calc(#{$game-view-width} - #{$api-bar-width})
+    top: $goals-vega-height
+    width: $game-view-width
     position: relative
     overflow: hidden
     background-color: black
@@ -167,11 +159,9 @@ $level-resize-transition-time: 0.5s
     transform-origin: 0 0 0
     line-height: 15px
 
-  min-width: 1024px
 
   #code-area
     @include box-sizing(border-box)
-    padding: 0px 0.9% 10px 0
     width: $code-area-width
     background-size: 100% 100%
     position: absolute
@@ -184,6 +174,7 @@ $level-resize-transition-time: 0.5s
   #game-area
     position: relative
     overflow: hidden
+    height: 100%
     
   // Level Docs
   .ui-effects-transfer

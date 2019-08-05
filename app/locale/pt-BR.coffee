@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
   modal:
     close: "Fechar"
     okay: "Ok"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Página não encontrada"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     save_changes: "Salvar Mudanças"
     required_field: "obrigatório"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "e"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     reload_title: "Recarregar Todo o Código?"
     reload_really: "Você tem certeza que quer reiniciar o nível?"
     reload_confirm: "Recarregar Tudo"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Testar Nível"
     victory: "Vitória"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     tome_cast_button_run: "Rodar"
     tome_cast_button_running: "Rodando"
     tome_cast_button_ran: "Encerrado"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Enviar"
     tome_reload_method: "Recarregar o código original para este método" # {change}
     tome_available_spells: "Feitiços Disponíveis"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     concept_unlocked: "Conceito Desbloqueado"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Métodos"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     wallOfDarkness_name: "Muro das Trevas"
     wallOfDarkness_description: "Esconda-se por trás de uma parede de sombras para evitar o olhares curiosos."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Assine<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Torne-se um programador assinando hoje!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     available_for_purchase: "Disponível para a Compra" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Nível para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Apenas alguns heróis podem jogar esse nível."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "função" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     toggle_pathfinding: "Ligar/desligar exibição do pathfinding (caminho)."
     beautify: "Embeleze seu código a partir da padronização de formatação."
     maximize_editor: "Maximizar/minimizar editor de código."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Comunidade CodeCombat"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     you_can2: "compre um código pré-pago"
     you_can3: "que pode ser aplicado à sua conta ou dado a outras pessoas."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Erro ao carregar do servidor" # {change}
     connection_failure: "Conexão falhou."
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

@@ -198,6 +198,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   modal:
     close: "关闭"
     okay: "是"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "找不到网页"
@@ -409,7 +410,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_list_resource_hub_3: "关卡解决方案，和"
     teacher_list_resource_hub_4: "资源汇总"
     teacher_list_resource_hub_5: "课程指导，课程活动和更多信息！"
-    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 bill@codecombat.com。"
+    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 china@codecombat.com。"
     dont_use_our_email_silly: "请填写家长的邮箱地址。"
     want_codecombat_in_school: "想接着玩CodeCombat?"
     eu_confirmation: "我同意 CodeCombat 在美国的服务器上存储我的数据"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     save_changes: "保存更新"
     required_field: "必填" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "与"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
     reload_confirm: "重载所有"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "测试关卡"
     victory: "胜利"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_cast_button_run: "运行"
     tome_cast_button_running: "正在运行"
     tome_cast_button_ran: "运行过"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "提交"
     tome_reload_method: "恢复关卡初始代码"
     tome_available_spells: "可用的法术"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concept_unlocked: "已解锁的概念"
     use_at_least_one_concept: "请使用以下至少一个概念： "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "函数"
@@ -889,7 +899,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     year_subscription: "年度订阅"
     year_price: "$__price__/年"
     support_part1: "付款时需要帮助? Email" # {change}
-    support_part2: "bill@codecombat.com"
+    support_part2: "china@codecombat.com"
 
   announcement:
     now_available: "现在订阅者可以获得更多内容"
@@ -932,6 +942,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    tornado_description: "It is good to have a reset button when one's cover is blown."
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
+
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
 
   premium_features:
     get_premium: "获取<br>CodeCombat<br>高级订阅" # Fit into the banner on the /features page
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     available_for_purchase: "可以购买" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "未解锁关卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "函数" # skill types
@@ -1056,16 +1076,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     mission_description_2: "同时，他们也能迅速学习，因为学习的方式变快了。学习就像是对话而不是阅读枯燥的手册。我们想将这种对话带给每所学校和<strong>每个学生</strong>，因为每个人都应有机会学习编程的魔法。"
     team_title: "与CodeCombat团队见面"
     team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲历亲为，因为在团队中我们收获了成长与经验。"
-#    nick_title: "共同创始人，CEO"
-#    matt_title: "共同创始人，CTO"
-#    cat_title: "关卡设计师"
-#    scott_title: "共同创始人，软件工程师"
-#    maka_title: "客户代言人"
-#    robin_title: "产品经理" # {change}
-#    nolan_title: "区域经理" # {change}
-#    david_title: "客户成功经理" # {change}
-#    titles_csm: "客户成功经理"
-#    titles_territory_manager: "区域经理"
+#    nick_title: "Cofounder, CEO"
+#    matt_title: "Cofounder, CTO"
+#    cat_title: "Game Designer"
+#    scott_title: "Cofounder, Software Engineer"
+#    maka_title: "Customer Advocate"
+#    robin_title: "Senior Product Manager"
+#    nolan_title: "Sales Manager"
+#    david_title: "Marketing Lead"
+#    titles_csm: "Customer Success Manager"
+#    titles_territory_manager: "Territory Manager"
 #    lawrence_title: "Customer Success Manager"
 #    sean_title: "Senior Account Executive"
 #    liz_title: "Senior Account Executive"
@@ -1086,10 +1106,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Software Engineer"
-#    bryukh_title: "游戏设计师"
-#    retrostyle_title: "插画师"
-#    retrostyle_blurb: "复古风格的游戏"
+#    shubhangi_title: "Senior Software Engineer"
+#    bryukh_title: "Gameplay Developer"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
     bryukh_blurb: "构建拼图"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
@@ -1151,7 +1171,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     low_price_title: "每个学生仅仅只要 __starterLicensePrice__ 元 "
     low_price_description: "学生入门许可证在购买后的 __starterLicenseLengthMonths__ 个月内有效."
     three_great_courses: "学生入门许可证中包含三个伟大的课程:"
-    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 bill@codecombat.com. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
+    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 china@codecombat.com. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
     student_starter_license: "学生入门许可"
     purchase_starter_licenses: "购买入门许可证"
     purchase_starter_licenses_to_grant: "购买入门许可证可被授权访问 __starterLicenseCourseList__"
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     toggle_pathfinding: "显示/关闭路径寻找提示"
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat社区"
@@ -1729,7 +1752,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
     not_assigned_modal_full_body_1: "本课程需要许可证才能使用。您没有足够的许可证, 因此无法将此课程分配给已选定的 __selected__ 名学生。"
     not_assigned_modal_full_body_2: "您当前仅有__numFullLicensesAvailable__个许可证可供使用 (__numStudentsWithoutFullLicenses__名学生目前没有许可证) 。"
-    not_assigned_modal_full_body_3: "请适量减少选定的学生数量, 或联系bill@codecombat.com寻求帮助。"
+    not_assigned_modal_full_body_3: "请适量减少选定的学生数量, 或联系china@codecombat.com寻求帮助。"
     assigned: "已添加"
     enroll_selected_students: "注册选中的学生"
     no_students_selected: "没有学生被选中。"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "载入失败" # {change}
     connection_failure: "连接失败"
@@ -2895,9 +2925,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     projects_created: "学生作品数"
     other: "其他"
     notice: "以下学校管理员对您的课堂数据有查看权限："
-    add_additional_teacher: "需要添加其他的教师吗？请联系您的CodeCombat客户经理或发送电子邮件至bill@codecombat.com。 "
+    add_additional_teacher: "需要添加其他的教师吗？请联系您的CodeCombat客户经理或发送电子邮件至china@codecombat.com。 "
     license_stat_description: "可用许可证是教师可用的许可证总数，包括共享的许可证。"
     students_stat_description: "学生总数是所有教室的所有学生数，不管他们是否使用了许可证，都会被计算在内。"
     active_students_stat_description: "活跃学生数是在过去60天登录CodeCombat的学生人数。"
     project_stat_description: "学生作品数是学生已经创建的游戏开发和网页开发作品的总数。"
     no_teachers: "你目前没有管理其他老师。"
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

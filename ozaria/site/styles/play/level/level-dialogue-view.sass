@@ -1,60 +1,53 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/play/variables"
+@import "ozaria/site/styles/common/variables"
 
 #level-dialogue-view
   display: none
   position: absolute
   left: 0
   top: 0
-  width: 56.5%
-  height: 145px
-  background: transparentize(black, 0.6)
-  z-index: 22
+  width: $game-view-width
+  height: $goals-vega-height
+  background: #000000
+  z-index: 2
+  justify-content: center
+  align-items: center
 
   .dialogue-area
     display: flex
     position: relative
     justify-content: center
     align-items: center
-    height: 106px
-    width: 100%
+    height: 82%
+    width: 92%
     border: 4px solid #1FBAB4
     background-color: #FFFFFF
     box-shadow: 2px 2px 8px 0 #ACB9FC
-    margin-top: 20px
-    margin-bottom: 20px
-    margin-left: 30px
-    margin-right: 30px
 
     .vega-narrator
       position: absolute
-      width: 14.5%
-      width: 134px
+      width: 20%
       left: 0
-      top: -1px
-      height: 100px
+      height: 100%
 
     .vega-dialogue
       color: #232323
-      font-family: "Open Sans"
+      font-family: $body-font-style
       font-size: 18px
       letter-spacing: 0.71px
       line-height: 24px
-      margin-top: 9px
-      margin-bottom: 23px
-      margin-left: 151px
-      margin-right: 20px
+      margin: 0 20px 0 22%
 
     .continue
       position: absolute
       height: 17px
       width: 140px
-      top: 80px
-      bottom: 9px
+      bottom: 1%
       right: 20px
       color: #1FBAB4
-      font-family: "Open Sans"
+      font-family: $body-font-style
       font-size: 12px
       letter-spacing: 0.51px
       line-height: 17px

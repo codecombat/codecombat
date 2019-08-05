@@ -198,6 +198,7 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #  modal:
 #    close: "Close"
 #    okay: "Okay"
+#    cancel: "Cancel"
 
 #  not_found:
 #    page_not_found: "Page not found"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    save_changes: "Save Changes"
 #    required_field: "required"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
 #  general:
 #    and: "and"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
 #    victory: "Victory"
 #    victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
+#    tome_cast_button_update: "Update"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code to restart the level"
 #    tome_available_spells: "Available Spells"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
 #  skill_docs:
 #    function: "function" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
 #  loading_error:
 #    could_not_load: "Error loading from server. Try refreshing the page."
 #    connection_failure: "Connection Failed"
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

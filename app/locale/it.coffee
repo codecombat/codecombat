@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
   modal:
     close: "Chiudi"
     okay: "Ok"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Pagina non trovata"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     save_changes: "Salva modifiche"
     required_field: "richiesto"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "e"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     reload_title: "Ricaricare tutto il codice?"
     reload_really: "Sei sicuro di voler ricominciare il livello?"
     reload_confirm: "Ricarica tutto"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Livello Test"
     victory: "Vittoria"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tome_cast_button_run: "Vai"
     tome_cast_button_running: "In esecuzione"
     tome_cast_button_ran: "Esegui"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Invia codice"
     tome_reload_method: "Ricarica codice originale per questo metodo" # {change}
     tome_available_spells: "Incantesimi disponibili"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     available_for_purchase: "In vendita" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Livello da sbloccare:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Solo alcuni eroi possono giocare questo livello."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "funzione" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     toggle_pathfinding: "Attiva/disattiva sovrimpressione percorso."
     beautify: "Rendi ordinato il codice sistemando la formattazione."
     maximize_editor: "Ingrandisci/rimpicciolisci l'editor di programmazione."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Comunità CodeCombat"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     you_can2: "acquistare un codice prepagato"
     you_can3: "che può essere applciato al tuo account o dato ad un tuo amico."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Errore nel caricamento dal server" # {change}
     connection_failure: "Connessione fallita."
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

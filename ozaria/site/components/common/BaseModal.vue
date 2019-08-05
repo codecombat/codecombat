@@ -1,61 +1,66 @@
+<script>
+  import BaseModalContainer from './BaseModalContainer'
+
+  export default {
+    components: {
+      BaseModalContainer
+    }
+  }
+</script>
+
 <template>
-  <!-- Modified from https://vuejs.org/v2/examples/modal.html -->
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-container">
-        <slot />
+  <base-modal-container class="ozaria-modal">
+    <div class="ozaria-modal-content">
+      <div class="ozaria-modal-header">
+        <slot name="header" />
+      </div>
+      <div class="ozaria-modal-body">
+        <slot name="body" />
+      </div>
+      <div class="ozaria-modal-footer">
+        <slot name="footer" />
       </div>
     </div>
-  </transition>
+  </base-modal-container>
 </template>
 
-<style scoped>
-    .modal-mask {
-        position: fixed;
+<style lang="sass">
+@import "ozaria/site/styles/common/variables.sass"
 
-        top: 0;
-        left: 0;
+.ozaria-modal
+  /deep/ .modal-container
+    width: 100%
+    height: 100%
 
-        z-index: 9998;
+    padding: 25px
+    border-radius: 10px
 
-        width: 100%;
-        height: 100%;
+    // transition: all .3s ease;
 
-        background-color: rgba(0, 0, 0, .5);
+.ozaria-modal-content
+  width: 100%
+  height: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
 
-        display: flex;
+  .ozaria-modal-header, .ozaria-modal-body, .ozaria-modal-footer
+    display: flex
+    justify-content: center
+    align-items: center
+    width: inherit
+    padding: 10px
 
-        align-items: center;
-        justify-content: center;
+  .ozaria-modal-header
+    font-weight: bold
+    font-size: 30px
+    font-family: $title-font-style
 
-        transition: opacity .3s ease;
-    }
+  .ozaria-modal-body
+    font-size: 20px
+    font-family: $body-font-style
 
-    .modal-container {
-        background: #FFF;
-
-        transition: all .3s ease;
-    }
-
-    /*
-     * The following styles are auto-applied to elements with
-     * transition="modal" when their visibility is toggled
-     * by Vue.js.
-     *
-     * You can easily play with the modal transition by editing
-     * these styles.
-     */
-
-    .modal-enter {
-        opacity: 0;
-    }
-
-    .modal-leave-active {
-        opacity: 0;
-    }
-
-    .modal-enter .modal-container,
-    .modal-leave-active .modal-container {
-        transform: scale(1.1);
-    }
+  .ozaria-modal-footer
+    font-family: $body-font-style
 </style>

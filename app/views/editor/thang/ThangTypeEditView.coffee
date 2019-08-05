@@ -10,6 +10,7 @@ require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
+replaceRgbaWithCustomizableHex = require('./replaceRgbaWithCustomizableHex.js').default
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -715,6 +716,16 @@ module.exports = class ThangTypeEditView extends RootView
   onClickExportSpriteSheetButton: ->
     modal = new ExportThangTypeModal({}, @thangType)
     @openModalView(modal)
+
+  # Run it in the editor/thang/<thang-type> view by inputting the following:
+  # ```
+  # currentView.normalizeColorsForCustomization()
+  # ```
+  # into the console. Used to normalize the shape colors for Ozaria Heroes to
+  # support character customization.
+  normalizeColorsForCustomization: ->
+    @thangType.attributes.raw.shapes = replaceRgbaWithCustomizableHex(@thangType.attributes.raw.shapes)
+    @treema.set('raw', @thangType.get('raw'))
 
   destroy: ->
     @camera?.destroy()

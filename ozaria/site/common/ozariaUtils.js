@@ -174,8 +174,8 @@ export const getNextLevelLink = (levelData, options) => {
     if (levelData.primerLanguage) {
       link += `&codeLanguage=${encodeURIComponent(levelData.primerLanguage)}`
     }
-    if (options.campaignId) {
-      link += `&campaignId=${encodeURIComponent(options.campaignId)}`
+    if (options.nextLevelStage) {
+      link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
     }
   } else if (options.courseId) {
     link += `?course=${encodeURIComponent(options.courseId)}`
@@ -185,8 +185,13 @@ export const getNextLevelLink = (levelData, options) => {
     if (options.nextLevelStage) {
       link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
     }
-  } else if (options.campaignId) {
-    link += `?campaignId=${encodeURIComponent(options.campaignId)}`
+  } else if (options.codeLanguage) {
+    link += `?codeLanguage=${encodeURIComponent(options.codeLanguage)}`
+    if (options.nextLevelStage) {
+      link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
+    }
+  } else if (options.nextLevelStage) {
+    link += `?capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
   }
   return link
 }

@@ -198,6 +198,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   modal:
     close: "Затвори"
     okay: "У реду"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Страница није нађена"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     save_changes: "Сачувај измене"
     required_field: "Обавезно поље" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "и"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     reload_title: "Поновно учитавање целог кода?"
     reload_really: "Да ли си сигуран да желиш да започнеш ниво испочетка?"
     reload_confirm: "Поновно учитавање свега"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Тест ниво"
     victory: "Победа"
     victory_title_prefix: "Урааа победааа!"
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_cast_button_run: "Покрени"
     tome_cast_button_running: "Покреће се"
     tome_cast_button_ran: "Покренуто"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Потврди"
     tome_reload_method: "Поново учитај оригинални код за овај метод" # {change}
     tome_available_spells: "Доступне чини"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Методе"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     wallOfDarkness_name: "Зид таме"
     wallOfDarkness_description: "Сакриј се иза зида сенки да би спречио да те гледају радознале очи."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Прими<br>CodeCombat<br>премијум" # Fit into the banner on the /features page
     master_coder: "Постани члан Главног кодирања тако што ћеш се данас претплатити!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     available_for_purchase: "Доступно за куповину" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Ниво који треба откључати:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Само одређени хероји могу да играју овај ниво."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "функција" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     toggle_pathfinding: "Превуци приказ руте."
     beautify: "Улепшај свој код тако што ћеш стандардизовати форматирање."
     maximize_editor: "Увеличај/смањи уређење кода."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat заједница"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     you_can2: "да купиш припрејд код"
     you_can3: "који може да се примени на твој налог или да се поклони другоме."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Грешка учитавања са сервера" # {change}
     connection_failure: "Веза није успела"
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

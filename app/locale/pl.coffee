@@ -198,6 +198,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   modal:
     close: "Zamknij"
     okay: "OK"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Strona nie istnieje"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     save_changes: "Zapisz zmiany"
     required_field: "wymagane"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "i"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     reload_title: "Przywrócić cały kod?"
     reload_really: "Czy jesteś pewien, że chcesz przywrócić kod startowy tego poziomu?"
     reload_confirm: "Przywróć cały kod"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Poziom testowy"
     victory: "Zwycięstwo"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tome_cast_button_run: "Uruchom"
     tome_cast_button_running: "Wykonuję kod..."
     tome_cast_button_ran: "Zakończono"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Prześlij"
     tome_reload_method: "Wczytaj oryginalny kod i uruchom ponownie poziom"
     tome_available_spells: "Dostępne czary"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Kup<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Zapisz się już dziś i zostań mistrzem kodu!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     available_for_purchase: "Można wynająć" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Musisz odblokować poziom:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Tylko nieliczni bohaterowie mogą brać udział w tym poziomie."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "funkcja" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     toggle_pathfinding: "Pokaż/ukryj ścieżkę bohatera."
     beautify: "Upiększ kod standaryzując jego formatowanie."
     maximize_editor: "Maksymalizuj/minimalizuj edytor kodu."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Społeczność CodeCombat"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     you_can2: "kupić kod przedpłacony,"
     you_can3: "następnie wykorzystać go u siebie, albo dać komuś."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Błąd podczas ładowania danych z serwera" # {change}
     connection_failure: "Błąd połączenia."
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   modal:
     close: "Tancar"
     okay: "D'acord"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Pàgina no trobada"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     save_changes: "Guarda canvis"
     required_field: "obligatori"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "i"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     reload_title: "Recarregar tot el codi?"
     reload_really: "Estàs segur que vols recarregar aquest nivell des del principi?"
     reload_confirm: "Recarregar tot"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Test de Nivell"
     victory: "Victòria"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "Executant"
     tome_cast_button_ran: "Executat"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Envia"
     tome_reload_method: "Recarrega el codi original per reiniciar el nivell"
     tome_available_spells: "Encanteris disponibles"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Mètodes"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     wallOfDarkness_name: "Paret de Foscor"
     wallOfDarkness_description: "Amaga't darrere una paret d'ombres per evitar la mirada d'ulls curiosos."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Aconsegueix<br>CodeCombat<br>Prèmium" # Fit into the banner on the /features page
     master_coder: "Converteix-te en un Maestre Codificador subscrivint-te avui mateix!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     available_for_purchase: "Disponible per a la compra" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Nivell per desbloquejar:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Només certs herois poden jugar aquest nivell."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "funció" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     toggle_pathfinding: "Canvia la superposició d'enfocament de camí."
     beautify: "Embelleix el teu codi estandarditzant el format."
     maximize_editor: "Maximitza/minimitza l'editor de codi."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Comunitat CodeCombat"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     you_can2: "comprar un codi Prepagat"
     you_can3: "per aplicar al teu compte o donar a d'altres."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Error de carrega del servidor"
     connection_failure: "Connexió fallida."
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

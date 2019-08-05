@@ -436,10 +436,10 @@ block content
           h3(data-i18n="about.contact_title")
           h4(data-i18n="about.contact_subtitle")
           if me.showChinaResourceInfo()
-            p
-            | 商务合作：bill@codecombat.com <br/>
-            | 业务咨询：13810906731
-
+            - var {COCO_CHINA_CONST} = require('core/constants')
+            p.
+              商务合作：#{COCO_CHINA_CONST.CONTACT_EMAIL} #[br]
+              业务咨询：#{COCO_CHINA_CONST.CONTACT_PHONE}
           else
             a(href="mailto:team@codecombat.com") team@codecombat.com
 

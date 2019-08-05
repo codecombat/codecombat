@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   modal:
     close: "Sluiten"
     okay: "Oké"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Pagina niet gevonden"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "en"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Test Level"
     victory: "Gewonnen"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tome_cast_button_run: "Uitvoeren"
     tome_cast_button_running: "Afspelen"
     tome_cast_button_ran: "Uitgevoerd"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
     tome_available_spells: "Beschikbare spreuken"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Methodes"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     wallOfDarkness_name: "Duistere Muur"
     wallOfDarkness_description: "Verberg je achter een muur van schaduwen om nieuwsgierige blikken te vermijden."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Word een Meesterprogrammeur door je vandaag te abonneren!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     available_for_purchase: "Beschikbaar om te kopen" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Beschikbaar na level:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Alleen bepaalde helden kunnen dit level spelen."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "functie" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     toggle_pathfinding: "Toggle padvind weergave."
     beautify: "Maak je code netter door de opmaak overal gelijk te maken."
     maximize_editor: "Maximaliseer/minimaliseer code editor."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "CodeCombat Community"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Fout bij het laden van de server" # {change}
     connection_failure: "Verbinding mislukt." # {change}
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

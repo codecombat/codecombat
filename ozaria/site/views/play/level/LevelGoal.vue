@@ -44,31 +44,29 @@
   })
 </script>
 
-<style scoped>
-  .goal {
-    display: flex;
-    font-family: Open Sans;
-    height: 23px;
-    color: #FFFFFF;
-    font-size: 16px;
-    letter-spacing: 0.55px;
-    line-height: 22px;
-    font-weight: lighter;
-    margin-bottom: 7px;
-  }
+<style lang="sass" scoped>
+  @import "ozaria/site/styles/common/variables"
 
-  .rectangle {
-    height: 19px;
-    width: 18px;
-    border-radius: 4px;
-    margin-right: 10px;
-    background-color: #FFFFFF;
-    box-shadow: inset 1px 1px 3px 0 #5D73E1;
-  }
+  .goal
+    display: flex
+    font-family: $body-font-style
+    height: 23px
+    color: #FFFFFF
+    font-size: 16px
+    letter-spacing: 0.55px
+    line-height: 22px
+    font-weight: lighter
 
-  .check-mark {
-    position: absolute;
-    left: 1.2%;
-    width: 21px;
-  }
+  .rectangle
+    height: 19px
+    width: 18px
+    border-radius: 4px
+    margin-right: 10px
+    background-color: #FFFFFF
+    box-shadow: inset 1px 1px 3px 0 #5D73E1
+
+  .check-mark
+    position: absolute
+    left: 2.7%
+    width: 20px
 </style>

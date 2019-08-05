@@ -14,10 +14,6 @@
         type: String,
         default: undefined
       },
-      campaignId: {
-        type: String,
-        default: undefined
-      },
       codeLanguage: {
         type: String,
         default: undefined
@@ -56,8 +52,7 @@
 
         const nextLevelOptions = {
           courseId: this.courseId,
-          courseInstanceId: this.courseInstanceId,
-          campaignId: this.campaignId
+          courseInstanceId: this.courseInstanceId
         }
         const link = getNextLevelLink(this.levelData, nextLevelOptions)
         return link || '#'
@@ -76,7 +71,7 @@
       this.setLevelConcepts()
     },
     mounted () {
-      $('.has-tooltip').tooltip({ html: true })
+      $('.level-dot-image.has-tooltip').tooltip({ html: true })
     },
     methods: {
       setLevelTypeAndIcon () {

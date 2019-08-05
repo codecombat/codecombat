@@ -81,6 +81,10 @@ describe('Ozaria Unit Map Page for Classroom users', () => {
       }
     }
   })
+
+  it('Chrome Layout has correct link in the store', () => {
+    expect(unitMapClassroomWrapper.vm.$store.getters['layoutChrome/getMapUrl']).toEqual(`/ozaria/play/${campaign._id}?course-instance=${courseInstance._id}`)
+  })
 })
 
 describe('Ozaria Unit Map Page for Home users', () => {
@@ -97,12 +101,12 @@ describe('Ozaria Unit Map Page for Home users', () => {
   })
 
   it('shows the level dots for the campaign levels', () => {
-    expect(unitMapClassroomWrapper.find('.level-dot').exists()).toBe(true)
-    expect(unitMapClassroomWrapper.findAll('.level-dot').length).toBe(Object.keys(campaign.levels).length)
+    expect(unitMapHomeWrapper.find('.level-dot').exists()).toBe(true)
+    expect(unitMapHomeWrapper.findAll('.level-dot').length).toBe(Object.keys(campaign.levels).length)
   })
 
   it('shows first level as unlocked and others as locked', () => {
-    const levelDots = unitMapClassroomWrapper.findAll('.level-dot-image')
+    const levelDots = unitMapHomeWrapper.findAll('.level-dot-image')
     for (let i = 0; i < levelDots.length; i++) {
       if (i === 0) {
         expect(levelDots.at(i).classes()).toContain('next')

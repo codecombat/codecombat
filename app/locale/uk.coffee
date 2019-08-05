@@ -198,6 +198,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   modal:
     close: "Закрити"
     okay: "Добре"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Сторінку не знайдено"
@@ -465,6 +466,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     save_changes: "Зберегти зміни"
     required_field: "обов'язкове поле"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "та"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     reload_title: "Перезавантажити весь код?"
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
     test_level: "Протестувати рівень"
     victory: "Перемога"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tome_cast_button_run: "Виконати"
     tome_cast_button_running: "Виконання"
     tome_cast_button_ran: "Виконати"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Підтвердити"
     tome_reload_method: "Відновити оригінальний код щоб перезапустити рівень"
     tome_available_spells: "Доступні заклинання"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
   apis:
     methods: "Методи"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
   premium_features:
     get_premium: "Отримайте<br>CodeCombat<br>Преміум" # Fit into the banner on the /features page
     master_coder: "Станьте майстром програмування придбавши підписку вже сьогодні!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     available_for_purchase: "Можна придбати" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Розблокується на рівні:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Тільки певні герої можуть грати в цьому рівні."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
     function: "функція" # skill types
@@ -1334,6 +1354,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     toggle_pathfinding: "Перемикач накладання шляху."
     beautify: "Зроби код красивішим, стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
+
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
 
   community:
     main_title: "Спільноти CodeCombat"
@@ -2376,6 +2399,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can2: "купити передплачений код"
     you_can3: "який може бути застосовано до вашої обліківки або переданий іншим."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
   loading_error:
     could_not_load: "Помилка завантаження з сервера" # {change}
     connection_failure: "Помилка з'єднання."
@@ -2901,3 +2931,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

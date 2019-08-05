@@ -197,6 +197,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   modal:
     close: "Pybfr"
     okay: "Bxnl"
+    cancel: "Pnapry"
 
   not_found:
     page_not_found: "Cntr abg sbhaq"
@@ -464,6 +465,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     save_changes: "Fnir Punatrf"
     required_field: "erdhverq"
     submit: "Fhozvg"
+    replay: "Ercynl"
+    complete: "Pbzcyrgr"
 
   general:
     and: "naq"
@@ -597,6 +600,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     reload_title: "Erybnq Nyy Pbqr?"
     reload_really: "Ner lbh fher lbh jnag gb erybnq guvf yriry onpx gb gur ortvaavat?"
     reload_confirm: "Erybnq Nyy"
+    restart_really: "Ner lbh fher lbh jnag gb erfgneg gur yriry? Lbh'yy ybbfr nyy gur pbqr lbh'ir jevggra."
+    restart_confirm: "Lrf, Erfgneg"
     test_level: "Grfg Yriry"
     victory: "Ivpgbel"
     victory_title_prefix: ""
@@ -621,6 +626,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     tome_cast_button_run: "Eha"
     tome_cast_button_running: "Ehaavat"
     tome_cast_button_ran: "Ena"
+    tome_cast_button_update: "Hcqngr"
     tome_submit_button: "Fhozvg"
     tome_reload_method: "Erybnq bevtvany pbqr gb erfgneg gur yriry"
     tome_available_spells: "Ninvynoyr Fcryyf"
@@ -725,6 +731,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     concept_unlocked: "Pbaprcg Haybpxrq"
     use_at_least_one_concept: "Hfr ng yrnfg bar pbaprcg: "
     command_bank: "Pbzznaq Onax"
+    learning_goals: "Yrneavat Tbnyf"
+    start: "Fgneg"
+    vega_character: "Irtn Punenpgre"
+    click_to_continue: "Pyvpx gb Pbagvahr"
 
   apis:
     methods: "Zrgubqf"
@@ -933,6 +943,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     wallOfDarkness_name: "Jnyy bs Qnexarff"
     wallOfDarkness_description: "Uvqr oruvaq n jnyy bs funqbjf gb cerirag gur tnmr bs celvat rlrf."
 
+  avatar_selection:
+    pick_an_avatar: "Cvpx na ningne gung jvyy ercerfrag lbh nf n cynlre"
+
   premium_features:
     get_premium: "Trg<oe>PbqrPbzong<oe>Cerzvhz" # Svg vagb gur onaare ba gur /srngherf cntr
     master_coder: "Orpbzr n Znfgre Pbqre ol fhofpevovat gbqnl!"
@@ -991,6 +1004,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     available_for_purchase: "Ninvynoyr sbe Chepunfr"  # Fubjf hc jura lbh unir haybpxrq, ohg abg chepunfrq, n ureb va gur ureb fgber
     level_to_unlock: "Yriry gb haybpx:"  # Ynory sbe juvpu yriry lbh unir gb orng gb haybpx n cnegvphyne ureb (pyvpx n ybpxrq ureb va gur fgber gb frr)
     restricted_to_certain_heroes: "Bayl pregnva urebrf pna cynl guvf yriry."
+
+  char_customization_modal:
+    heading: "Phfgbzvmr Lbhe Ureb"
+    body: "Obql"
+    name_label: "Ureb'f Anzr"
+    hair_label: "Unve Pbybe"
+    skin_label: "Fxva Pbybe"
 
   skill_docs:
     function: "shapgvba" # fxvyy glcrf
@@ -1335,6 +1355,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     toggle_pathfinding: "Gbttyr cngusvaqvat bireynl."
     beautify: "Ornhgvsl lbhe pbqr ol fgnaqneqvmvat vgf sbeznggvat."
     maximize_editor: "Znkvzvmr/zvavzvmr pbqr rqvgbe."
+
+  cinematic:
+    click_anywhere_continue: "pyvpx naljurer gb pbagvahr"
 
   community:
     main_title: "PbqrPbzong Pbzzhavgl"
@@ -2377,6 +2400,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     you_can2: "chepunfr n cercnvq pbqr"
     you_can3: "gung pna or nccyvrq gb lbhe bja nppbhag be tvira gb bguref."
 
+  ozaria_chrome:
+    sound_off: 'Fbhaq Bss',
+    sound_on: 'Fbhaq Ba',
+    back_to_map: 'Onpx gb Znc',
+    level_options: 'Yriry Bcgvbaf',
+    restart_level: 'Erfgneg Yriry'
+
   loading_error:
     could_not_load: "Reebe ybnqvat sebz freire. Gel erserfuvat gur cntr."
     connection_failure: "Pbaarpgvba Snvyrq"
@@ -2902,3 +2932,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     active_students_stat_description: 'Npgvir fghqragf pbhagf gur ahzore bs fghqragf gung unir ybttrq vagb PbqrPbzong va gur ynfg 60 qnlf.'
     project_stat_description: 'Cebwrpgf perngrq pbhagf gur gbgny ahzore bs Tnzr naq Jro qrirybczrag cebwrpgf gung unir orra perngrq.'
     no_teachers: 'Lbh ner abg nqzvavfgengvat nal grnpuref.'
+
+  interactives:
+    phenomenal_job: 'Curabzrany Wbo!'
+    try_again: 'Jubbcf, gel ntnva!'
+    select_statement_left: 'Jubbcf, fryrpg n fgngrzrag sebz gur yrsg orsber uvggvat "Fhozvg."'
+    fill_boxes: 'Jubbcf, znxr fher gb svyy nyy obkrf orsber uvggvat "Fhozvg."'
