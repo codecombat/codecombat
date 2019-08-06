@@ -2,6 +2,7 @@ SpellView = require './SpellView'
 {me} = require 'core/auth'
 {createAetherOptions} = require 'lib/aether_utils'
 utils = require 'core/utils'
+store = require 'core/store'
 
 module.exports = class Spell
   loaded: false
@@ -70,8 +71,10 @@ module.exports = class Spell
       @originalSource = playerCode
 
     # Translate comments chosen spoken language.
-    return unless @commentContext
+    # TODO: is there a better way than hardcoding this template string.
+    return unless @commentContext or @originalSource.includes('<%= external_1fh_avatar %>')
     context = $.extend true, {}, @commentContext
+    context = _.merge(context, external_1fh_avatar: store.getters['me/get1fhAvatar']?.avatarCodeString || 'crown' )
 
     if @language is 'lua'
       for k,v of context
