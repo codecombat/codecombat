@@ -1772,7 +1772,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     all_students: "All Students"
     apply_licenses: "Apply Licenses"
     not_enough_enrollments: "Not enough licenses available."
-    enrollments_blurb: "Students are required to have a license to access any content after the first course."
+    enrollments_blurb: "Students are required to have a license to access any content after the first unit." # {change}
     how_to_apply_licenses: "How to Apply Licenses"
     export_student_progress: "Export Student Progress (CSV)"
     send_email_to: "Send Recover Password Email to:"
