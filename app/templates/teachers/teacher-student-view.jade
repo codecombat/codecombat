@@ -154,43 +154,7 @@ mixin breadcrumbs
         strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
 
   .playtime-charts
-    h4(data-i18n="teacher.playtime_detail")
-
-    .graphsSelector
-      span(data-i18n="teacher.select_course")
-      span :
-      span.spr
-      select#course-dropdown.text-navy
-        each versionedCourse in (view.classroom.getSortedCourses() || [])
-          - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
-          if !course
-            // TODO: make sure this doesn't happen when data is loaded.
-            - continue;
-          - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
-          - if (instance && instance.hasMember(view.user))
-            option(value= course.id)= course.getTranslatedName()
-
-      div.legend
-        svg(width=15, height=15, style="margin: 0 5px 0 0")
-          rect(width=15, height=15, fill="rgb(32, 87, 43)")
-        span(data-i18n="teacher.student_completed")
-
-        svg(width=15, height=15, style="margin: 0 5px 0 15px")
-          rect(width=15, height=15, fill="rgb(242, 190, 25)")
-        span(data-i18n="teacher.student_in_progress")
-
-        svg(width=15, height=15, style="margin: 0 5px 0 15px")
-          rect(width=15, height=15, fill="rgb(92, 180, 208)")
-        span(data-i18n="teacher.class_average")
-
-    .graphs
-      each versionedCourse in (view.classroom.getSortedCourses() || [])
-        - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
-        if !course
-          - continue;
-        - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
-        - if ((instance && instance.hasMember(view.user)))
-          svg(id="visualisation-"+versionedCourse._id, width="1142", height="600", class="visualisation")
+    | Updated Student Profiles coming soon!
 
   .student-progress-section
     h4(data-i18n="teacher.course_progress")
