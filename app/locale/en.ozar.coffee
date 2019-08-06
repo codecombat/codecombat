@@ -1722,6 +1722,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     revoke_license: "Revoke License"
     revoke_licenses: "Revoke All Licenses"
     course_progress: "Course Progress"
+    unit_progress: "Unit Progress"
     not_applicable: "N/A"
     edit: "edit"
     edit_2: "Edit"
