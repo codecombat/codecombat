@@ -116,6 +116,8 @@ mixin courseProgressTab
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
                 = " " + translate('teacher.paren_new')
+          option(disabled value="Coming Soon: Chapter One" selected=false)
+            | Coming Soon: Chapter One
 
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
@@ -340,11 +342,6 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
-    if !state.get('readOnly')
-      button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
-        span(data-i18n='teacher.assign_course')
-      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
-        span(data-i18n='teacher.remove_course')
 
 mixin assessmentsTab
   #assessments-tab
@@ -531,10 +528,6 @@ if classroom.loaded
           span.spr :
           span= moment(classroom.created()).format('l')
 
-        if view.students && view.students.models.length > 0
-          button.export-student-progress-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
-            span(data-i18n='teacher.export_student_progress')
-
         //- .concepts.small-details
         //-   if state.get('progressData')
         //-     div
@@ -589,7 +582,7 @@ if classroom.loaded
         .tab-spacer
         li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
           a.course-progress-tab-btn(href='#course-progress-tab')
-            .small-details.text-center(data-i18n='teacher.course_progress')
+            .small-details.text-center(data-i18n='teacher.unit_progress')
         .tab-spacer
         if view.classroom.hasAssessments()
           li(class=(activeTab === "#assessments-tab" ? 'active' : ''))
