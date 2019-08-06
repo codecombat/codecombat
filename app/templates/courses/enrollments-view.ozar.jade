@@ -39,21 +39,6 @@ block content
             | Please convert your account to ensure you retain access to your classrooms.
           a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
 
-    if view.state.get('shouldUpsell')
-      .bg-forest
-        .container(dir="auto")
-          .row
-            .col-xs-9.m-t-1
-              b
-                span.text-uppercase(data-i18n="special_offer.special_offer")
-                =': '
-                span(data-i18n="special_offer.student_starter_license")
-              .small-details
-                i(data-i18n="special_offer.purchase_starter_licenses_to_grant", data-i18n-options=JSON.stringify(view.i18nData()))
-            .col-xs-3
-              a.btn.btn-lg.btn-forest-alt.m-t-2.m-b-2(href="/teachers/starter-licenses")
-                b(data-i18n="general.learn_more")
-
     .container.m-t-5(dir="auto")
       h3(data-i18n='teacher.enrollments')
       h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")  
