@@ -11,42 +11,41 @@ import { mapActions } from 'vuex';
 import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
 const ThangType = require('models/ThangType')
 
-// TODO replace placeholders with the various options.
 const avatars = [
   {
     selectionImg: '/images/ozaria/avatar-selector/circle.png',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5d48b61ae92cc00030a9b2db',
+    cinematicPetThangId: '5d48bd7677c98f0029118e11',
     avatarCodeString: 'bug'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/hex.png',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5d48b85f703ac600249a5d69',
+    cinematicPetThangId: '5d48c12b8ccd96003576806a',
     avatarCodeString: 'crown'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/square.png',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5d48b98e703ac600249a5df6',
+    cinematicPetThangId: '5d48c17a77c98f0029118fff',
     avatarCodeString: 'ghost'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/circle.png',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5d48ba358ccd960035767d81',
+    cinematicPetThangId: '5d48c1c48ccd9600357680be',
     avatarCodeString: 'leaf'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/square.png',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5d48babc77c98f0029118cd7',
+    cinematicPetThangId: '5d48c202e92cc00030a9b8bf',
     avatarCodeString: 'rose'
   },
   {
     selectionImg: '/images/ozaria/avatar-selector/hex.png',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicPetThangId: '5c373c9f9034ac0034b43b22',
+    cinematicThangTypeId: '5d48bb5277c98f0029118d0d',
+    cinematicPetThangId: '5d48c24a8ccd9600357680fd',
     avatarCodeString: 'snake'
   },
 ]
@@ -174,13 +173,13 @@ export default Vue.extend({
               <Surface
                 :key="selected"
                 :width="200"
-                :height="360"
+                :height="200"
                 :loadedThangTypes="loadedThangTypes"
                 :selectedThang="selectedAvatar.cinematicThangTypeId"
                 :thang="{
-                  scaleFactorX: 3,
-                  scaleFactorY: 3,
-                  pos: { y: 1, x: 1 }
+                  scaleFactorX: 0.5,
+                  scaleFactorY: 0.5,
+                  pos: { y: -21.5, x: 3.5 }
                 }"
               />
             </div>
