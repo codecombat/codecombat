@@ -1686,7 +1686,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     student_code: "__name__'s Student Code"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
-    courses: "Course Guides"
+    courses: "Unit Guides" # {change}
     enrollments: "Student Licenses"
     resources: "Resources"
     help: "Help"
