@@ -211,15 +211,6 @@ mixin studentLevelsRow(student)
             - if (!level.get('practice'))
               - courseFinished = progress.completed;
             +studentLevelProgressDot(progress, level, levelNumber, student)
-      div
-        if courseFinished
-          a.certificate-link(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id)
-            img(src='/images/pages/user/certificates/certificate-icon.png')
-            div(data-i18n='user.certificate_view')
-        else
-          .certificate-link(disabled=true)
-            img(src='/images/pages/user/certificates/certificate-icon.png')
-            div(data-i18n='user.certificate_course_incomplete')
 
 mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, courseInstance)
   //- TODO: Refactor with TeacherClassesView jade
