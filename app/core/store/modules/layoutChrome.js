@@ -39,7 +39,7 @@ export default {
       if (!(campaignId && courseInstanceId)) {
         return undefined
       }
-      return `/ozaria/play/${campaignId}?course-instance=${courseInstanceId}`
+      return `/play/${campaignId}?course-instance=${courseInstanceId}`
     },
 
     getCurrentCourseInstanceId (state) {

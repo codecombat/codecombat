@@ -119,6 +119,8 @@ module.exports = class CampaignView extends RootView
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
     @requiresSubscription = not me.isPremium()
+    # TODO: Should this be cut as we remove the admin requirement for Ozaria? 
+
     # Allow only admins to view the ozaria campaign and only in editor mode
     # New page for non-editor mode `/play-ozaria`
     # Assuming, the ozaria placeholder campaigns will start with 'ozaria'

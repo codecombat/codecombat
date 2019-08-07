@@ -9,7 +9,7 @@
     },
     computed: {
       playLink: function () {
-        return `/ozaria/play/level/${this.levelSlug}`
+        return `/play/level/${this.levelSlug}`
       }
     },
     async created () {

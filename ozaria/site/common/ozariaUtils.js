@@ -164,9 +164,9 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
 export const getNextLevelLink = (levelData, options) => {
   let link = ''
   if (levelData.type === 'intro') {
-    link = '/ozaria/play/intro/' + levelData.slug
+    link = '/play/intro/' + levelData.slug
   } else {
-    link = '/ozaria/play/level/' + levelData.slug
+    link = '/play/level/' + levelData.slug
   }
 
   if (options.courseId && options.courseInstanceId) {

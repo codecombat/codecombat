@@ -176,23 +176,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-    'ozaria/play/level/:levelID': (levelID) ->
-      props = {
-        levelID: levelID
-      }
-      @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-    # TODO move to vue router after support for empty template is added there
-    'ozaria/play/:campaign': (campaign) ->
-      props = {
-        campaign: campaign
-      }
-      @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'ozaria/play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
-      props = {
-        introLevelIdOrSlug: introLevelIdOrSlug
-      }
-      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
     'ozaria/avatar-selector': () ->
       @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
@@ -202,20 +185,38 @@ module.exports = class CocoRouter extends Backbone.Router
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
 
-    'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
-    'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
-    'play/ladder/:levelID': go('ladder/LadderView')
-    'play/ladder': go('ladder/MainLadderView')
-    'play/level/:levelID': go('play/level/PlayLevelView')
-    'play/video/level/:levelID': go('play/level/PlayLevelVideoView')
-    'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
-    'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
-    'play/game-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
-      @navigate("play/game-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
-    'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
-      @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
-    'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/CampaignView')
+    'play/level/:levelID': (levelID) ->
+      props = {
+        levelID: levelID
+      }
+      @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    # TODO move to vue router after support for empty template is added there
+    'play/:campaign': (campaign) ->
+      props = {
+        campaign: campaign
+      }
+      @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+
+    'play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
+      props = {
+        introLevelIdOrSlug: introLevelIdOrSlug
+      }
+      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+
+    # 'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
+    # 'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
+    # 'play/ladder/:levelID': go('ladder/LadderView')
+    # 'play/ladder': go('ladder/MainLadderView')
+    # 'play/level/:levelID': go('play/level/PlayLevelView')
+    # 'play/video/level/:levelID': go('play/level/PlayLevelVideoView')
+    # 'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
+    # 'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
+    # 'play/game-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
+    #   @navigate("play/game-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
+    # 'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
+    #   @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
+    # 'play/spectate/:levelID': go('play/SpectateView')
+    # 'play/:map': go('play/CampaignView')
     
     # Adding this route to test interactives until we have the intro levels implemented
     # TODO: remove this route when intro level is ready to test the interactives.

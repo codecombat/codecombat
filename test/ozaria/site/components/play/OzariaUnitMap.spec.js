@@ -83,7 +83,7 @@ describe('Ozaria Unit Map Page for Classroom users', () => {
   })
 
   it('Chrome Layout has correct link in the store', () => {
-    expect(unitMapClassroomWrapper.vm.$store.getters['layoutChrome/getMapUrl']).toEqual(`/ozaria/play/${campaign._id}?course-instance=${courseInstance._id}`)
+    expect(unitMapClassroomWrapper.vm.$store.getters['layoutChrome/getMapUrl']).toEqual(`/play/${campaign._id}?course-instance=${courseInstance._id}`)
   })
 })
 
