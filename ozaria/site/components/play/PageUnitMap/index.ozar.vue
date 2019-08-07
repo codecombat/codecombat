@@ -83,10 +83,6 @@
     },
 
     async mounted () {
-      if (!me.showOzariaCampaign()) {
-        // TODO: Remove when ready for production use
-        return application.router.navigate('/', { trigger: true })
-      }
       if ((me.isStudent() && !this.computedCourseInstanceId)) {
         return application.router.navigate('/students', { trigger: true })
       } else if (me.isTeacher() && !this.computedCourseId) {
