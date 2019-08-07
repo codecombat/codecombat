@@ -154,7 +154,7 @@
           }
           this.nextLevelLink = getNextLevelLink(nextLevel, nextLevelLinkOptions)
         } else { // last level of the campaign or this.showShareModal=true
-          this.nextLevelLink = `/ozaria/play/${encodeURIComponent(this.campaignHandle)}`
+          this.nextLevelLink = `/play/${encodeURIComponent(this.campaignHandle)}`
           if (this.courseInstanceId) {
             this.nextLevelLink += `?course-instance=${encodeURIComponent(this.courseInstanceId)}`
             if (this.courseId) {

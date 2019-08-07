@@ -99,6 +99,12 @@
           this.introLevelComplete = true
           await this.setIntroLevelComplete()
         }
+
+        if (this.currentContent.type === 'avatarSelectionScreen') {
+          // Skip the modal for avatar selector
+          return this.goToNextContent()
+        }
+
         this.showVictoryModal = true
       },
       onReplayVictoryModal: function (data) {
