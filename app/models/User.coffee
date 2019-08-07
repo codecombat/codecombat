@@ -599,7 +599,6 @@ module.exports = class User extends CocoModel
   showChinaRemindToast: -> features?.china ? false
 
   # Ozaria flags
-  showOzariaCampaign: -> @isAdmin()
   hasCinematicAccess: -> @isAdmin()
   hasCharCustomizationAccess: -> @isAdmin()
   hasAvatarSelectorAccess: -> @isAdmin()
