@@ -58,6 +58,8 @@ module.exports = class RootView extends CocoView
     #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
     return if window.serverConfig.picoCTF
     return if achievement.get('hidden')
+
+    return # Hiding legacy achievement popups in Ozaria
     new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (e) ->
