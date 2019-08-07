@@ -22,9 +22,9 @@ block content
             li
               a(href="#team")#team-link
                 small.label(data-i18n="about.team_link")
-            li
-              a(href="#community")#community-link
-                small.label(data-i18n="nav.community")
+            //- li
+            //-   a(href="#community")#community-link
+            //-     small.label(data-i18n="nav.community")
             li
               a(href="#story")#story-link
                 small.label(data-i18n="about.story_link")
@@ -43,8 +43,13 @@ block content
           #mission-graphic-filler
         .col-sm-5.col-sm-offset-1
           #mission-text.responsive-side-margins
-            p(data-i18n="[html]about.mission_description_1")
-            p(data-i18n="[html]about.mission_description_2")
+            p
+              strong(data-i18n="about.mission_teach")
+            p(data-i18n="about.mission_desc_1")
+        .col-sm-12
+          .responsive-side-margins
+            p(data-i18n="about.mission_desc_2")
+            p(data-i18n="about.mission_desc_3")
 
       #team.anchor
         .text-center
@@ -323,30 +328,6 @@ block content
               small(data-i18n="about.retrostyle_title")
               small(data-i18n="about.retrostyle_blurb")
 
-      #community.anchor
-        #community-row-1.row.text-center
-          .col-sm-12
-          .text-center
-            h3(data-i18n="about.community_title")
-            h4(data-i18n="about.community_subtitle")
-            img(src="/images/pages/about/github_avatars.png")#community-avatars
-
-        #community-row-2.row
-          .col-sm-5
-            p.responsive-side-margins
-              span.spr(data-i18n="about.community_description_3")
-              a(href="/community")
-                span(data-i18n="about.community_description_link_2")
-              span ,
-              span.spr(data-i18n="about.community_description_1")
-              a(href="/contribute")
-                span(data-i18n="about.community_description_link")
-              span.spl(data-i18n="about.community_description_2")
-          .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
-            h2(data-i18n="about.number_contributors")
-            img(src="/images/pages/about/github.png")
-            #community-graphic-filler
-
       #story.anchor
         .text-center
           h3(data-i18n="about.story_title")
@@ -443,79 +424,79 @@ block content
           else
             a(href="mailto:team@codecombat.com") team@codecombat.com
 
-      #files
-        .row
-          .col-md-6.col-lg-8
-            #screenshots
-              span.label(data-i18n="about.screenshots_title")
-              .hidden-sm.hidden-md.hidden-lg
-                small(data-i18n="about.screenshots_hint")
-              #screenshot-grid
-                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
-                  img(src="/images/pages/about/screenshot_desert.png")
-                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
-                  img(src="/images/pages/about/screenshot_forest.png")
-                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
-                  img(src="/images/pages/about/screenshot_dungeon.png")
-                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
-                  img(src="/images/pages/about/screenshot_glacier.png")
-              .clearfix.hidden-xs
-                small(data-i18n="about.screenshots_hint")
-          .col-md-6.col-lg-4
-            #downloads-container
-              #downloads
-                .label(data-i18n="about.downloads_title")
-                ul
-                  li
-                    a.small(href="http://files.codecombat.com/presspack/AboutCodeCombat.pdf")
-                      span(data-i18n="about.about_codecombat")
-                      | (.pdf)
-                  li
-                    a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.ai")
-                      span(data-i18n="about.logo")
-                      | (.ai)
-                  li
-                    a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.png")
-                      span(data-i18n="about.logo")
-                      | (.png)
-                  li
-                    a.small(href="http://files.codecombat.com/presspack/GameImages.zip")
-                      span(data-i18n="about.screenshots")
-                      | (.zip)
-                  li
-                    a.small(href="http://files.codecombat.com/presspack/gameimages/CodeCombat_Splash.png")
-                      span(data-i18n="about.character_art")
-                      | (.png)
-                .text-center
-                  a.btn.btn-lg.btn-primary-alt#download-button(href="http://files.codecombat.com/presspack/CodeCombat_PressPack.zip")
-                    span.glyphicon.glyphicon-download-alt
-                    span(data-i18n="about.download_all")
-
-      #screenshot-lightbox.modal.fade(data-show="false")
-        .modal-dialog
-          .modal-content
-            #screenshot-carousel.carousel
-              ol.carousel-indicators
-                li(data-target=".screenshot-display", data-slide-to="0").active
-                li(data-target=".screenshot-display", data-slide-to="1")
-                li(data-target=".screenshot-display", data-slide-to="2")
-                li(data-target=".screenshot-display", data-slide-to="3")
-
-              .carousel-inner
-                .item.active
-                  img#screenshot-desert(src="/images/pages/about/desert.png")
-                .item
-                  img#screenshot-forest(src="/images/pages/about/forest.png")
-                .item
-                  img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
-                .item
-                  img#screenshot-glacier(src="/images/pages/about/glacier.png")
-              a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
-                span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
-                span.sr-only(data-i18n="about.previous")
-              a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
-                span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
-                span.sr-only(data-i18n="play.next")
+      //- #files
+      //-   .row
+      //-     .col-md-6.col-lg-8
+      //-       #screenshots
+      //-         span.label(data-i18n="about.screenshots_title")
+      //-         .hidden-sm.hidden-md.hidden-lg
+      //-           small(data-i18n="about.screenshots_hint")
+      //-         #screenshot-grid
+      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
+      //-             img(src="/images/pages/about/screenshot_desert.png")
+      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
+      //-             img(src="/images/pages/about/screenshot_forest.png")
+      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
+      //-             img(src="/images/pages/about/screenshot_dungeon.png")
+      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
+      //-             img(src="/images/pages/about/screenshot_glacier.png")
+      //-         .clearfix.hidden-xs
+      //-           small(data-i18n="about.screenshots_hint")
+      //-     .col-md-6.col-lg-4
+      //-       #downloads-container
+      //-         #downloads
+      //-           .label(data-i18n="about.downloads_title")
+      //-           ul
+      //-             li
+      //-               a.small(href="http://files.codecombat.com/presspack/AboutCodeCombat.pdf")
+      //-                 span(data-i18n="about.about_codecombat")
+      //-                 | (.pdf)
+      //-             li
+      //-               a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.ai")
+      //-                 span(data-i18n="about.logo")
+      //-                 | (.ai)
+      //-             li
+      //-               a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.png")
+      //-                 span(data-i18n="about.logo")
+      //-                 | (.png)
+      //-             li
+      //-               a.small(href="http://files.codecombat.com/presspack/GameImages.zip")
+      //-                 span(data-i18n="about.screenshots")
+      //-                 | (.zip)
+      //-             li
+      //-               a.small(href="http://files.codecombat.com/presspack/gameimages/CodeCombat_Splash.png")
+      //-                 span(data-i18n="about.character_art")
+      //-                 | (.png)
+      //-           .text-center
+      //-             a.btn.btn-lg.btn-primary-alt#download-button(href="http://files.codecombat.com/presspack/CodeCombat_PressPack.zip")
+      //-               span.glyphicon.glyphicon-download-alt
+      //-               span(data-i18n="about.download_all")
+      //- 
+      //- #screenshot-lightbox.modal.fade(data-show="false")
+      //-   .modal-dialog
+      //-     .modal-content
+      //-       #screenshot-carousel.carousel
+      //-         ol.carousel-indicators
+      //-           li(data-target=".screenshot-display", data-slide-to="0").active
+      //-           li(data-target=".screenshot-display", data-slide-to="1")
+      //-           li(data-target=".screenshot-display", data-slide-to="2")
+      //-           li(data-target=".screenshot-display", data-slide-to="3")
+      //- 
+      //-         .carousel-inner
+      //-           .item.active
+      //-             img#screenshot-desert(src="/images/pages/about/desert.png")
+      //-           .item
+      //-             img#screenshot-forest(src="/images/pages/about/forest.png")
+      //-           .item
+      //-             img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
+      //-           .item
+      //-             img#screenshot-glacier(src="/images/pages/about/glacier.png")
+      //-         a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
+      //-           span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
+      //-           span.sr-only(data-i18n="about.previous")
+      //-         a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
+      //-           span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
+      //-           span.sr-only(data-i18n="play.next")
 
       #location
         .row
