@@ -55,7 +55,9 @@ module.exports = Vue.extend({
 </script>
 
 <template>
-  <layout-chrome>
+  <layout-chrome
+    :title="cutscene.name"
+  >
     <base-video
       v-if="vimeoId"
 

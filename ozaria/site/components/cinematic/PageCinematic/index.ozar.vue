@@ -42,6 +42,9 @@ module.exports = Vue.extend({
     ...mapGetters({
       soundOn: 'layoutChrome/soundOn'
     }),
+    title () {
+      return (this.cinematicData || {}).name
+    }
   },
 
   methods: {
@@ -80,7 +83,9 @@ module.exports = Vue.extend({
 </script>
 
 <template>
-  <layout-chrome>
+  <layout-chrome
+    :title="title"
+  >
     <layout-center-content>
       <cinematic-canvas
         v-if="cinematicData"
