@@ -29,7 +29,7 @@ describe('GoalManager', ->
   session = null
 
   beforeEach ->
-    session = factories.makeLevelSession({ state: { complete: false }})
+    session = factories.makeLevelSession({ state: { complete: false, stage: 1 }})
 
   it('handles kill goal', ->
     gm = new GoalManager()
@@ -85,18 +85,48 @@ describe('GoalManager', ->
 
     expect(gm.getRemainingGoals().length).toBe(0)
 
-    # Add additional goals, expecting them to be incomplete while original goals are still complete
-    gm.addAdditionalGoals(session, additionalGoals)
+    # Progress to the next capstoneStage without affecting goals
+    gm.progressCapstoneStage(session, additionalGoals)
     goalStates = gm.getGoalStates()
+    expect(goalStates.killguy.status).toBe('success')
+    expect(goalStates.killguy.killed.Guy1).toBe(true)
+    expect(goalStates.killguy.killed.Guy2).toBe(true)
+    expect(goalStates.killguy.keyFrame).toBe(20)
+    expect(session.get('state').capstoneStage).toBe(2)
 
+    # Add additional goals, expecting them to be incomplete while original goals are still complete
+    newGm = new GoalManager(undefined, [killGoal], undefined, { session, additionalGoals })
+    newGm.worldGenerationWillBegin()
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
+    newGm.worldGenerationEnded()
+
+    goalStates = newGm.getGoalStates()
     expect(goalStates.killguy.status).toBe('success')
     expect(goalStates.killguy.killed.Guy1).toBe(true)
     expect(goalStates.killguy.killed.Guy2).toBe(true)
     expect(goalStates.killguy.keyFrame).toBe(20)
     expect(goalStates.additionalkillguy.status).toBe('incomplete')
-    expect(goalStates.additionalkillguy.killed).toBeUndefined()
+    expect(goalStates.additionalkillguy.killed.Guy1).toBe(undefined)
+    expect(goalStates.additionalkillguy.killed.Guy2).toBe(undefined)
     expect(goalStates.additionalkillguy.keyFrame).toBe(0)
-    expect(gm.getRemainingGoals().length).toBe(2)
+    expect(newGm.getRemainingGoals().length).toBe(1)
+
+  it 'does not progress past the same stage twice in one goal manager', ->
+    gm = new GoalManager(null, [saveGoal], {}, {
+      session
+      additionalGoals
+    })
+    gm.worldGenerationWillBegin()
+    gm.worldGenerationEnded()
+
+    stageFinished = gm.finishLevel()
+    expect(stageFinished).toBe(true)
+    expect(session.get('state').capstoneStage).toBe(2)
+
+    stageFinished = gm.finishLevel()
+    expect(session.get('state').capstoneStage).toBe(2)
+
 
   it 'adds all additionalGoals for the next stage', ->
     gm = new GoalManager()
@@ -113,21 +143,33 @@ describe('GoalManager', ->
     expect(goalStates.killguy.keyFrame).toBe(20)
     expect(gm.getRemainingGoals().length).toBe(0)
 
-    gm.addAdditionalGoals(session, additionalGoals)
-    goalStates = gm.getGoalStates()
+    gm.progressCapstoneStage(session, additionalGoals)
 
+    expect(session.get('state').capstoneStage).toBe(2)
+    newGm = new GoalManager(null, [killGoal], {}, {
+      session
+      additionalGoals
+    })
+
+    newGm.worldGenerationWillBegin()
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
+    newGm.worldGenerationEnded()
+
+    goalStates = newGm.getGoalStates()
     expect(goalStates.additionalkillguy.status).toBe('incomplete')
-    expect(goalStates.additionalkillguy.killed).toBeUndefined()
+    expect(goalStates.additionalkillguy.killed.AdditionalKillGuy1).toBe(false)
+    expect(goalStates.additionalkillguy.killed.AdditionalKillGuy1).toBe(false)
     expect(goalStates.additionalkillguy.keyFrame).toBe(0)
 
     # Complete all goals for the world, as world generation resets goals
-    gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
-    gm.worldGenerationEnded()
-    goalStates = gm.getGoalStates()
+    newGm.worldGenerationWillBegin()
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
+    newGm.worldGenerationEnded()
+    goalStates = newGm.getGoalStates()
 
     # Expect all additional goals to be completed
     expect(goalStates.additionalkillguy.status).toBe('success')
@@ -138,7 +180,7 @@ describe('GoalManager', ->
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy1).toBe(false)
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy2).toBe(false)
     expect(goalStates.additionalsaveguy.keyFrame).toBe('end')
-    expect(gm.getRemainingGoals().length).toBe(0)
+    expect(newGm.getRemainingGoals().length).toBe(0)
 
   it 'does not add additionalGoals when they don\'t match the stage', ->
     gm = new GoalManager()
@@ -148,23 +190,35 @@ describe('GoalManager', ->
     gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
     gm.worldGenerationEnded()
 
+    gm.progressCapstoneStage(session, additionalGoals)
+    expect(session.get('state').capstoneStage).toBe(2)
+
+    newGm = new GoalManager(null, [killGoal], {}, {
+      session
+      additionalGoals
+    })
+    newGm.worldGenerationWillBegin()
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
+    newGm.worldGenerationEnded()
+
     # Add additional goals and expect them to be incomplete
-    gm.addAdditionalGoals(session, additionalGoals)
-    goalStates = gm.getGoalStates()
+    goalStates = newGm.getGoalStates()
     expect(goalStates.additionalkillguy.status).toBe('incomplete')
-    expect(goalStates.additionalkillguy.killed).toBeUndefined()
+    expect(goalStates.additionalkillguy.killed.AdditionalKillGuy1).toBe(false)
+    expect(goalStates.additionalkillguy.killed.AdditionalKillGuy1).toBe(false)
     expect(goalStates.additionalkillguy.keyFrame).toBe(0)
-    expect(goalStates.additionalsaveguy.status).toBe('incomplete')
-    expect(goalStates.additionalsaveguy.keyFrame).toBe(0)
+    expect(goalStates.additionalsaveguy.status).toBe('success')
+    expect(goalStates.additionalsaveguy.keyFrame).toBe('end')
 
-    gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
-    gm.worldGenerationEnded()
+    newGm.worldGenerationWillBegin()
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
+    newGm.worldGenerationEnded()
 
-    goalStates = gm.getGoalStates()
+    goalStates = newGm.getGoalStates()
     expect(goalStates.additionalkillguy2).toBeUndefined() # The goals for the next stage should not be defined yet
     expect(goalStates.additionalkillguy.killed.AdditionalKillGuy1).toBe(true)
     expect(goalStates.additionalkillguy.killed.AdditionalKillGuy2).toBe(true)
@@ -173,7 +227,7 @@ describe('GoalManager', ->
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy1).toBe(false)
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy2).toBe(false)
     expect(goalStates.additionalsaveguy.keyFrame).toBe('end')
-    expect(gm.getRemainingGoals().length).toBe(0)
+    expect(newGm.getRemainingGoals().length).toBe(0)
 
   it 'reports that all goals are complete when additionalGoals have been completed', ->
     gm = new GoalManager()
@@ -187,15 +241,21 @@ describe('GoalManager', ->
     expect(goalStates.saveguy.killed.Guy2).toBe(false)
     expect(goalStates.saveguy.keyFrame).toBe('end')
 
-    gm.addAdditionalGoals(session, additionalGoals)
+    gm.progressCapstoneStage(session, additionalGoals)
 
-    gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
-    gm.worldGenerationEnded()
+    expect(session.get('state').capstoneStage).toBe(2)
+    newGm = new GoalManager(null, [saveGoal], {}, {
+      session
+      additionalGoals
+    })
+
+    newGm.worldGenerationWillBegin()
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
+    newGm.worldGenerationEnded()
 
     # Both original goals (saving saveguy) and additional goals are complete, so the whole world is complete
-    goalStates = gm.getGoalStates()
+    goalStates = newGm.getGoalStates()
     expect(goalStates.saveguy.status).toBe('success')
     expect(goalStates.saveguy.killed.Guy1).toBe(false)
     expect(goalStates.saveguy.killed.Guy2).toBe(false)
@@ -208,9 +268,8 @@ describe('GoalManager', ->
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy1).toBe(false)
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy2).toBe(false)
     expect(goalStates.additionalsaveguy.keyFrame).toBe('end')
-    expect(gm.getRemainingGoals().length).toBe(0)
-    expect(gm.checkOverallStatus()).toBe('success')
-
+    expect(newGm.getRemainingGoals().length).toBe(0)
+    expect(newGm.checkOverallStatus()).toBe('success')
 
   it 'reports that not all goals are complete when not all additionalGoals have been completed', ->
     gm = new GoalManager()
@@ -225,14 +284,19 @@ describe('GoalManager', ->
     expect(goalStates.saveguy.keyFrame).toBe('end')
     expect(gm.getRemainingGoals().length).toBe(0)
 
-    gm.addAdditionalGoals(session, additionalGoals)
+    gm.progressCapstoneStage(session, additionalGoals)
+    expect(session.get('state').capstoneStage).toBe(2)
 
+    newGm = new GoalManager(null, [saveGoal], {}, {
+      session
+      additionalGoals
+    })
     # No events mean that the save goal is completed
-    gm.worldGenerationWillBegin()
-    gm.worldGenerationEnded()
+    newGm.worldGenerationWillBegin()
+    newGm.worldGenerationEnded()
 
     # Only the save goal should be complete
-    goalStates = gm.getGoalStates()
+    goalStates = newGm.getGoalStates()
     expect(goalStates.saveguy.status).toBe('success')
     expect(goalStates.saveguy.killed.Guy1).toBe(false)
     expect(goalStates.saveguy.killed.Guy2).toBe(false)
@@ -242,11 +306,10 @@ describe('GoalManager', ->
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy1).toBe(false)
     expect(goalStates.additionalsaveguy.killed.AdditionalSaveGuy2).toBe(false)
     expect(goalStates.additionalsaveguy.keyFrame).toBe('end')
-    expect(gm.getRemainingGoals().length).toBe(1)
+    expect(newGm.getRemainingGoals().length).toBe(1)
+    expect(newGm.checkOverallStatus()).not.toBe('success')
 
-    expect(gm.checkOverallStatus()).not.toBe('success')
-
-  it 'progresses to the next additional goal when completing them all', ->
+  it 'progresses to the next capstoneStage when completing all goals', ->
     # Create the goal manager in the more traditional way with a mocked session
     gm = new GoalManager(null, [saveGoal], {}, {
       session
@@ -255,35 +318,43 @@ describe('GoalManager', ->
     gm.worldGenerationWillBegin()
     gm.worldGenerationEnded()
 
-    # Use goalManager.finishLevel() to automatically progress through additionalGoals
+    # Use goalManager.finishLevel() to progress through capstoneStages
     stageFinished = gm.finishLevel()
     expect(stageFinished).toBe(true)
+    expect(session.get('state').capstoneStage).toBe(2)
 
-    # The new goal should not be done yet
+    # The new goal should not exist yet
     goalStates = gm.getGoalStates()
-    expect(goalStates.additionalkillguy.status).toBe('incomplete')
+    expect(goalStates.additionalkillguy).toBeUndefined()
 
-    gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
-    gm.worldGenerationEnded()
+    newGm = new GoalManager(null, [saveGoal], {}, {
+      session
+      additionalGoals
+    })
 
-    stageFinished = gm.finishLevel()
+    newGm.worldGenerationWillBegin()
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
+    newGm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
+    newGm.worldGenerationEnded()
+
+    stageFinished = newGm.finishLevel()
     expect(stageFinished).toBe(true)
+    expect(session.get('state').capstoneStage).toBe(3)
 
-    # The new goal should not be done yet
-    goalStates = gm.getGoalStates()
-    expect(goalStates.additionalkillguy2.status).toBe('incomplete')
+    newGm2 = new GoalManager(null, [saveGoal], {}, {
+      session
+      additionalGoals
+    })
 
     # We have to complete all goals as the world resets when worldGenerationWillBegin() runs
-    gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy3'}}, 30)
-    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy4'}}, 40)
-    gm.worldGenerationEnded()
+    newGm2.worldGenerationWillBegin()
+    newGm2.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy1'}}, 30)
+    newGm2.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy2'}}, 40)
+    newGm2.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy3'}}, 30)
+    newGm2.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'AdditionalKillGuy4'}}, 40)
+    newGm2.worldGenerationEnded()
 
-    goalStates = gm.getGoalStates()
+    goalStates = newGm2.getGoalStates()
 
     expect(goalStates.additionalkillguy2.status).toBe('success')
     expect(goalStates.additionalkillguy2.killed.AdditionalKillGuy3).toBe(true)
@@ -291,26 +362,11 @@ describe('GoalManager', ->
     expect(goalStates.additionalkillguy2.keyFrame).toBe(40)
 
     # The level should now stay complete, with no new goals being added
-    stageFinished = gm.finishLevel()
+    stageFinished = newGm2.finishLevel()
+    expect(session.get('state').capstoneStage).toBe(4)
     expect(stageFinished).toBe(true)
-    expect(gm.getRemainingGoals().length).toBe(0)
-    expect(gm.checkOverallStatus()).toBe('success')
-
-  it 'does not add goals twice for the same stage', ->
-    gm = new GoalManager(null, [saveGoal], {}, {
-      session
-      additionalGoals
-    })
-    gm.worldGenerationWillBegin()
-    gm.worldGenerationEnded()
-
-    stageFinished = gm.finishLevel()
-    expect(stageFinished).toBe(true)
-    expect(session.get('state').capstoneStage).toBe(2)
-
-    stageFinished = gm.finishLevel()
-    expect(stageFinished).toBe(false)
-    expect(session.get('state').capstoneStage).toBe(2)
+    expect(newGm2.getRemainingGoals().length).toBe(0)
+    expect(newGm2.checkOverallStatus()).toBe('success')
 
   xit 'handles getToLocation', ->
     gm = new GoalManager()

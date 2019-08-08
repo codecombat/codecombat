@@ -336,14 +336,6 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
-    // TODO: After Ozaria launch, comment this out to give proper access
-    // if (this.capstoneStage && me.isSessionless() && (me.isAdmin() || me.isTeacher())) {
-    if (this.capstoneStage && me.isAdmin()) {
-      const state = this.session.get('state') || {}
-      state.capstoneStage = this.capstoneStage
-      this.session.set('state', state)
-    }
-
     this.level = this.levelLoader.level
     store.commit('game/setLevel', this.level.attributes)
     if (this.level.isType('web-dev')) {
@@ -1123,15 +1115,11 @@ class PlayLevelView extends RootView {
     }
 
     if (me.isSessionless()) { // for teachers
-      options.capstoneStage = this.capstoneStage
+      options.capstoneStage = this.capstoneStage.toString()
     } else if (additionalGoals) { // for students
-      const capstoneStageQueryParam = this.capstoneStage
+      this.onSubmissionComplete()
       const sessionCapstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
-      if (capstoneStageQueryParam && capstoneStageQueryParam <= sessionCapstoneStage) {
-        options.capstoneStage = capstoneStageQueryParam.toString()
-      } else {
-        options.capstoneStage = sessionCapstoneStage.toString()
-      }
+      options.capstoneStage = sessionCapstoneStage.toString()
     }
     let ModalClass = OzariaTransitionModal
     if (this.level.isType('course-ladder')) {
@@ -1281,7 +1269,10 @@ class PlayLevelView extends RootView {
     if (finishedLoading) {
       this.lastWorldFramesLoaded = 0
       if (this.waitingForSubmissionComplete) {
-        _.defer(this.onSubmissionComplete) // Give it a frame to make sure we have the latest goals
+        if (this.level.get('ozariaType') !== 'capstone') {
+          _.defer(this.onSubmissionComplete) // Give it a frame to make sure we have the latest goals
+        }
+
         this.waitingForSubmissionComplete = false
       }
     } else {
@@ -1371,7 +1362,8 @@ class PlayLevelView extends RootView {
       !(this.surface.countdownScreen != null
         ? this.surface.countdownScreen.showing
         : undefined) &&
-      !this.realTimePlaybackWaitingForFrames
+      !this.realTimePlaybackWaitingForFrames &&
+      this.level.get('ozariaType') !== 'capstone'
     ) {
       return _.delay(this.onSubmissionComplete, 750) // Wait for transition to end.
     } else {
@@ -1406,14 +1398,8 @@ class PlayLevelView extends RootView {
     }
 
     if (this.goalManager.finishLevel()) {
-      const options = { showModal: true }
-      const state = this.session.get('state')
-      if (state && state.capstoneStage && this.goalManager.getRemainingGoals().length > 0) {
-        options.capstoneInProgress = true
-      }
-
       const showModalFn = () =>
-        Backbone.Mediator.publish('level:show-victory', options)
+        Backbone.Mediator.publish('level:show-victory', { showModal: true })
       this.session.recordScores(this.world.scores, this.level)
 
       // Skip triggering the victory modal automatically for ozaria capstone levels.

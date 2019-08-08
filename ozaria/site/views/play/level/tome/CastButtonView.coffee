@@ -6,13 +6,14 @@ LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 ReloadLevelModal = require 'ozaria/site/views/play/level/modal/RestartLevelModal'
 LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
+GoalManager = require('lib/world/GoalManager')
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
   template: template
 
   events:
-    'click #run': 'onCastButtonClick'
+    'click #run': 'onRunButtonClick'
     'click #update-game': 'onUpdateButtonClick'
     'click #next': 'onNextButtonClick'
 
@@ -74,21 +75,23 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + @castShortcutVerbose()
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
+  onRunButtonClick: (e) ->
+    Backbone.Mediator.publish 'tome:manual-cast', { realTime: false }
+
   onUpdateButtonClick: (e) ->
     Backbone.Mediator.publish 'tome:updateAether'
 
   onNextButtonClick: (e) ->
-    @options.session.recordScores @world?.scores, @options.level
-    args = { showModal: true, manual: true, capstoneInProgress: false }
-    if @options.level.get('ozariaType') == 'capstone'
-      additionalGoals = @options.level.get('additionalGoals')
-      state = @options.session.get('state')
-      capstoneStage = state.capstoneStage
-      finalStage = _.max(additionalGoals, (goals) -> goals.stage).stage
-      if capstoneStage <= finalStage
-        args['capstoneInProgress'] = true
-
-    Backbone.Mediator.publish 'level:show-victory', args
+    if @winnable and @options.level.get('ozariaType') == 'capstone'
+      @options.session.recordScores @world?.scores, @options.level
+      capstoneStage = (@options.session.get('state') || {}).capstoneStage
+      finalStage = GoalManager.maxCapstoneStage(@options.level.get('additionalGoals'))
+      args = {
+        showModal: true
+        manual: true
+        capstoneInProgress: capstoneStage <= finalStage
+      }
+      Backbone.Mediator.publish 'level:show-victory', args
 
   onSpellChanged: (e) ->
     @updateCastButton()
@@ -119,19 +122,13 @@ module.exports = class CastButtonView extends CocoView
     @world = e.world
 
   onPlaybackEnded: (e) ->
-    if @winnable
+    if @winnable and @options.level.get('ozariaType') != 'capstone'
       Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onNewGoalStates: (e) ->
-    winnable = e.overallStatus is 'success'
-    return if @winnable is winnable
-    @winnable = winnable
-    @$el.toggleClass 'winnable', @winnable
-    Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable, level: @options.level
-    if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev', 'game-dev')
-      @$el.find('.done-button').toggle @winnable
-    else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
-      @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
+    @winnable = e.overallStatus is 'success'
+    # Changing an img's src in CSS is poorly supported in browsers so we're doing it manually here:
+    @$el.find('#next > .active-button').attr('src', '/images/ozaria/level/Button_' + (if @winnable then 'Active.png' else 'Inactive.png'))
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.

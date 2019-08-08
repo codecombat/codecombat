@@ -26,12 +26,12 @@ module.exports = class GoalManager extends CocoClass
     @goalStates = {} # goalID -> object (complete, frameCompleted)
     @userCodeMap = {} # @userCodeMap.thangID.methodName.aether.raw = codeString
     @thangTeams = {}
+    @hasProgressed = false # capstoneStage progression
     @initThangTeams()
     @addGoal goal for goal in @initialGoals if @initialGoals
     if @options?.session and @options?.additionalGoals
-      state = @options.session.get('state')
-      capstoneStage = state.capstoneStage
-      stages = _.filter(@options.additionalGoals, (ag) -> ag.stage <= capstoneStage)
+      capstoneStage = (@options.session.get('state') || {}).capstoneStage
+      stages = _.filter(@options.additionalGoals, (ag) -> ag.stage <= capstoneStage and ag.stage > 0)
       goals = _.map(stages, (stage) -> stage.goals)
       unwrappedGoals = _.flatten(goals)
       @addGoal goal for goal in unwrappedGoals
@@ -105,41 +105,37 @@ module.exports = class GoalManager extends CocoClass
       @goalStates[goalID] = goalState
     @notifyGoalChanges()
 
-  # Adds any goals for the current capstoneStage
+  @maxCapstoneStage: (additionalGoals) ->
+    if !additionalGoals
+      return 0
+
+    return _.max(additionalGoals, (goals) -> goals.stage).stage
+
+  # Progresses the capstone stage if more goals are available
   # Returns the current capstoneStage
-  addAdditionalGoals: (session, additionalGoals) ->
-    capstoneStage = (session.get('state') or {}).capstoneStage
-    if not capstoneStage
-      # In daily speak, we think of initial goals as stage 1 and additional goals
-      # as stage 2 and above. That is why we are starting from 2.
-      capstoneStage = 2
-    else
-      # The capstoneStage will eventually end up being 1 above the final
-      # additionalStage, when the entire level has been completed.
-      capstoneStage += 1
-    goalsAdded = false
-    _.forEach(additionalGoals, (stageGoals) =>
-      if stageGoals.stage == capstoneStage
-        _.forEach(stageGoals.goals, (goal) =>
-          if not _.find(@goals, (existingGoal) -> goal.id == existingGoal.id)
-            @addGoal(goal)
-            goalsAdded = true
-        )
-    )
-    if goalsAdded
-      state = session.get('state') ? {}
-      state.capstoneStage = capstoneStage
+  progressCapstoneStage: (session, additionalGoals) ->
+    if @hasProgressed # Only ever progress a capstone stage once per GoalManager
+      return
+
+    # In daily speak, we think of initial goals as stage 1 and additional goals
+    # as stage 2 and above. That is why we are starting from 1.
+    capstoneStage = (session.get('state') || {}).capstoneStage || 1
+
+    # The capstoneStage will eventually end up being 1 above the final additionalStage,
+    # when every stage been completed. That means the whole level is complete.
+    if capstoneStage <= GoalManager.maxCapstoneStage(additionalGoals)
+      @hasProgressed = true
+      state = session.get('state') || {}
+      state.capstoneStage = capstoneStage + 1
       session.set('state', state)
       session.save(null, { success: -> }) # Save and move on, we don't have time to wait here
-
-    return capstoneStage
 
   # Checks if the overall goal status is 'success', then progresses
   # capstone goals to the next stage if there are more goals
   finishLevel: ->
     stageFinished = @checkOverallStatus() is 'success'
     if @options.additionalGoals and stageFinished
-      @addAdditionalGoals(@options.session, @options.additionalGoals)
+      @progressCapstoneStage(@options.session, @options.additionalGoals)
 
     return stageFinished
 
