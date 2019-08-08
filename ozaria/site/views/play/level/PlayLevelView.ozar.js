@@ -10,6 +10,7 @@
  */
 import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
+import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
 
 require('ozaria/site/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
@@ -1012,6 +1013,10 @@ class PlayLevelView extends RootView {
     return Backbone.Mediator.publish('tome:cast-spell', {})
   }
 
+  onOpenRestartModal (e) {
+    this.openModalView(new RestartLevelModal(this.session))
+  }
+
   onWindowResize (e) {
     return this.endHighlight()
   }
@@ -1145,6 +1150,16 @@ class PlayLevelView extends RootView {
 
   onRestartLevel () {
     this.tome.reloadAllCode()
+
+    if (me.isAdmin() && this.level.get('ozariaType') === 'capstone') {
+      const state = this.session.get('state')
+      if (state) {
+        state.capstoneStage = 1
+        this.session.set('state', state)
+        this.session.save(null, { success: () => { console.log('Reset capstoneStage to 1 for admin user') } })
+      }
+    }
+
     Backbone.Mediator.publish('level:restarted', {})
     $('#level-done-button', this.$el).hide()
     if (!this.observing) {
@@ -1153,6 +1168,10 @@ class PlayLevelView extends RootView {
         level: this.level.get('name'),
         label: this.level.get('name')
       })
+    }
+
+    if (me.isAdmin() && this.level.get('ozariaType') === 'capstone') {
+      application.router.reload()
     }
   }
 
@@ -1514,6 +1533,7 @@ PlayLevelView.prototype.subscriptions = {
   'god:infinite-loop': 'onInfiniteLoop',
   'level:reload-from-data': 'onLevelReloadFromData',
   'level:reload-thang-type': 'onLevelReloadThangType',
+  'level:open-restart-modal': 'onOpenRestartModal',
   'level:started': 'onLevelStarted',
   'level:loading-view-unveiling': 'onLoadingViewUnveiling',
   'level:loading-view-unveiled': 'onLoadingViewUnveiled',
