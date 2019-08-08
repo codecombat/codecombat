@@ -330,6 +330,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             self.debugWorld.flagHistory = args.flagHistory;
             self.debugWorld.realTimeInputEvents = args.realTimeInputEvents;
             self.debugWorld.difficulty = args.difficulty;
+            self.world.capstoneStage = args.capstoneStage || 1;
             self.debugWorld.language = args.language || 'en-US';
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
@@ -394,6 +395,7 @@ self.runWorld = function runWorld(args) {
     self.world.flagHistory = args.flagHistory || [];
     self.world.realTimeInputEvents = args.realTimeInputEvents || [];
     self.world.difficulty = args.difficulty || 0;
+    self.world.capstoneStage = args.capstoneStage || 1;
     self.world.language = args.language || 'en-US';
     if(args.level)
       self.world.loadFromLevel(args.level, true);
