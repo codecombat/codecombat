@@ -1,0 +1,380 @@
+@import "app/styles/bootstrap/variables";
+@import "app/styles/mixins";
+@import "app/styles/style-flat-variables";
+@import "app/styles/ozaria/style-ozaria.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+
+#home-page {
+  .btn-primary.btn-moon {
+    background-color: $moon;
+    border-radius: 1px;
+    color: $gray;
+    text-shadow: unset;
+    font-weight: bold;
+    @include font-button-text-black;
+    min-width: 260px;
+    padding: 15px 0;
+    
+    &:hover {
+      @include font-button-text-white;
+      background-color: $goldenlight;
+      transition: background-color .35s;
+    }
+  }
+  
+  .btn-primary-alt, .btn-navy-alt, .btn-teal-alt {
+    background-color: transparent;
+    border: 2px solid $teal;
+    color: $teal;
+    border-radius: 4px;
+    text-shadow: unset;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    width: 247px;
+    &:hover {
+      background-color: $teal;
+      box-shadow: unset;
+      color: $gray;
+      transition: color .35s, background-color .35s, box-shadow .35s;
+    }
+  }
+  
+  .ozaria-secondary-btn {
+    background-color: $dusk;
+    color: $pitch;
+    border-radius: 1px;
+    text-transform: unset;
+    min-width: 260px;
+    padding: 15px;
+    line-height: 30px;
+    font-size: 20px;
+    letter-spacing: 0.4px;
+    text-shadow: none;
+    
+    &:hover {
+      background-color: $dusk-dark;
+      color: $white;
+    }
+  }
+  
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .arrow {
+    z-index: 2;
+    @supports not ((clip-path: polygon(50% 100%, 0 0, 100% 0) or (-webkit-clip-path: polygon(50% 100%, 0 0, 100% 0)))) {
+      /* We don't want to show an arrow if clip path is not supported */
+      /* Without a clip path a rectangle displays. */
+      display: none;
+    }
+    position: absolute;
+    height: 32px;
+    width: 100%;
+    display: flex;
+    
+    /* Slightly bump up the arrow due to a join artifact */
+    margin-top: -1px;
+    .left-arrow-side, .right-arrow-side {
+      flex-grow: 1;
+    }
+    
+    .arrow-down {
+      width: 60px;
+      height: 26px;
+      -webkit-clip-path: polygon(50% 100%, 0 0, 100% 0);
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
+      background-image: linear-gradient(45.31deg, #476FB1 0%, #476FB1 20%, #5DB9AC 80%, #5DB9AC 100%);
+      background-attachment: fixed;
+    }
+  }
+}
+  
+  
+  #home-page {
+    background-color: $mist;
+    
+    .width-container {
+      max-width: 1170px;
+      float: unset;
+      margin: 0 auto;
+    }
+    
+    & > .row {
+      padding-top: 62px;
+    }
+
+  .row-dark {
+      background-image: linear-gradient(45.31deg, #476FB1 0%, #476FB1 20%, #5DB9AC 80%, #5DB9AC 100%);
+      background-attachment: fixed;
+      padding-bottom: 62px;
+
+      .framed {
+        background-image: url(/images/ozaria/home/window-and-frame.png);
+        background-size: 100% 100%;
+        text-align: center;
+
+        h1 {
+          margin-bottom: 3px;
+        }
+
+        p {
+          margin-bottom: 0;
+        }
+
+        & > div {
+          padding: 60px;
+        }
+
+        .yellow-underline {
+          margin: 22px auto;
+
+        }
+      }
+  }
+
+  overflow: hidden;
+}
+
+
+#jumbotron-container-fluid {
+  &.row {
+    padding-top: 0;
+  }
+
+  width: 100%;
+  margin: auto;
+
+  position: relative;
+
+  .header-contents {
+    position: absolute;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding-bottom: 62px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;    
+  }
+
+  img.top-arrow {
+    height: 21px;
+    width: 52px;
+  }
+
+  .header-flexbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    a.btn {
+      margin-left: 0;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+  }
+
+  img.ozaria-logo {
+    max-width: 420px;
+    margin: 0 auto;
+
+    &:first-child {
+      margin-bottom: 20px;
+    }
+
+    &:last-child {
+      margin-top: 42px;
+    }
+  }
+
+}
+
+.yellow-underline {
+  margin: 0 auto;
+  height: 4px;
+  width: 150px;
+  border-radius: 1px;
+  background: linear-gradient(59.61deg, #D1B147 0%, #D1B147 20%, #F7D047 90.4%, #F7D047 100%);
+}
+
+#ozaria-summary {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  @media (max-width: $screen-sm-min) {
+    flex-direction: column;
+  }
+
+  padding-bottom: 98px;
+
+  .ozaria-logo {
+    max-width: 130px;
+    margin: 0 auto;
+  }
+
+  .yellow-underline {
+    margin: 14px auto;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  .acodus-img {
+    @media (max-width: $screen-sm-min) {
+      padding-top: 62px;
+    }
+  }
+}
+
+#trailer-jumbotron {
+  &.row {
+    padding-top: 0;
+  }
+
+  .videoWrapper {
+    position: relative;
+    /* This should be 56.25% which is 9/16 * 100. But this */
+    padding-bottom: 52.25%; /* 16:9 */
+    @media (min-width: $screen-sm-min) {
+      padding-bottom: 54.25%;
+    }
+
+    padding-top: 25px;
+    height: 0;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+#cinematic-jumbotron {
+  &.row {
+    padding-top: 0;
+    position: relative;
+  }
+}
+
+#start-journey.row {
+  .framed .row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    @media (max-width: $screen-sm-min) {
+      flex-direction: column;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+  }
+}
+
+#projects-inspire {
+  padding-bottom: 62px;
+
+  h1.text-pitch {
+    margin-bottom: 42px;
+  }
+
+  .inspire-tiles {
+    display: flex;
+    flex-direction: row;
+
+    @media (max-width: $screen-md-min) {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tile {
+      background-color: #FCFEFF;
+      box-shadow: 2px 2px 10px 0 #BEBBBE;
+      padding: 0;
+      margin: 0 15px;
+
+      @media (max-width: $screen-md-min) {
+        &:first-child {
+          margin-bottom: 42px;
+        }
+      }
+
+      .tile-content {
+        padding: 30px 22px;
+
+        .yellow-underline {
+          margin: 11px auto 12px;
+        }
+      }
+    }
+  }
+}
+
+#global {
+
+  &.row {
+    padding-top: 0;
+  }
+
+  .row {
+    padding: 62px 15px 0;
+
+    &.global-stats {
+      padding-top: 45px;
+    }
+
+  }
+
+  h1 {
+    padding-bottom: 45px;
+  }
+
+  .row.quote-call-to-action {
+      padding-top: 45px;
+      padding-bottom: 62px;
+
+      a {
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+  }
+
+  img {
+    height: 82px;
+    }
+
+  h2.text-twilight {
+    margin-top: 14px;
+  }
+
+  p.large-gray {
+    margin-bottom: 0;
+  }
+
+  .col-xs-6 {
+    padding: 10px 15px;
+  }
+}
+
+/* Global style to override style-flat footer gap */
+.style-flat #footer {
+  margin-top: 0;
+}
