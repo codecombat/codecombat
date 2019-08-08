@@ -1,5 +1,7 @@
 <template>
-  <LayoutChrome>
+  <LayoutChrome
+    :title="title"
+  >
     <LayoutCenterContent>
       <LayoutAspectRatioContainer
         :aspect-ratio="1266 / 668"
@@ -20,6 +22,7 @@
   import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
   import LayoutChrome from 'ozaria/site/components/common/LayoutChrome'
   import LayoutCenterContent from '../../common/LayoutCenterContent'
+  import store from 'core/store'
 
   module.exports = Vue.extend({
     components: {
@@ -32,6 +35,11 @@
       levelID: {
         type: String,
         required: true
+      }
+    },
+    computed: {
+      title() {
+        return (store.state.game.level || {}).name
       }
     },
     data: function () {
