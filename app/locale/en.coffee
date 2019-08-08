@@ -1,4 +1,22 @@
 module.exports = nativeDescription: "English", englishDescription: "English", translation:
+  ozaria_home:
+    subtitle: "Computer Science that Captivates"
+    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+    value_prop1_h1: "Epic Story. Immersive Gameplay."
+    value_prop1_h2: "Inspire a deeper connection to learning"
+    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+    value_prop2_h1: "Discover the Hero within Every Student"
+    value_prop2_h2: "Build real skills through play"
+    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+    value_prop3_h1: "Start Your Journey For Free"
+    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+    student_creativity: "Unleash Student Creativity"
+    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+    teach_with_support: "Teach with Support"
+    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+    request_demo: "Request a Demo"
+
   new_home:
     title: "CodeCombat - Coding games to learn Python and JavaScript"
     meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."

@@ -1,0 +1,111 @@
+extends /templates/base-flat.jade
+
+block content
+  .container-fluid#home-page.style-ozaria
+    .row#jumbotron-container-fluid
+      img.img-responsive(src="/images/ozaria/home/jumbotron.png")
+      .header-contents
+        div
+        .header-flexbox
+          img.img-responsive.ozaria-logo(src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria brand logo")
+          h1(data-i18n="ozaria_home.subtitle")
+          a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="new_home.im_an_educator" href="#" )
+          a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="new_home.im_a_student" href="#" )
+        img.top-arrow(src="/images/ozaria/home/yellow-arrow-down.png")
+
+    .row.width-container#ozaria-summary
+      .col-sm-5
+        img.img-responsive.ozaria-logo(src="/images/ozaria/home/ozaria-logo.png")
+        .yellow-underline
+        h2(data-i18n="ozaria_home.summary")
+      .col-sm-7
+        img.img-responsive.acodus-img(src="/images/ozaria/home/Acodus.png")
+
+    .row.row-dark
+      .row.width-container
+        .col-xs-12.framed
+          div
+            h1.text-twilight(data-i18n="ozaria_home.value_prop1_h1")
+            h3(data-i18n="ozaria_home.value_prop1_h2")
+            .yellow-underline
+            p.large-twilight(data-i18n="ozaria_home.value_prop1_p")
+
+    .row#trailer-jumbotron
+      .arrow
+        .left-arrow-side
+        .arrow-down
+        .right-arrow-side
+      .videoWrapper
+        iframe.vimeo-player(src="https://player.vimeo.com/video/229304323" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+
+    .row.row-dark
+      .row.width-container
+        .col-xs-12.framed
+          div
+            h1.text-twilight(data-i18n="ozaria_home.value_prop2_h1")
+            h3(data-i18n="ozaria_home.value_prop2_h2")
+            .yellow-underline
+            p.large-twilight(data-i18n="ozaria_home.value_prop2_p")
+
+    .row#cinematic-jumbotron
+      .arrow
+        .left-arrow-side
+        .arrow-down
+        .right-arrow-side
+      img.img-responsive(src="/images/ozaria/home/cinematic_section.png")
+
+    .row#projects-inspire
+      .row.width-container
+        .row
+          .col-xs-12
+            h1.text-pitch(data-i18n="ozaria_home.projects_inspire_heading")
+        .row.inspire-tiles
+          .col-sm-12.col-md-6.tile
+            img.img-responsive(src="/images/ozaria/home/Photo-1.png")
+            .tile-content
+              h3.text-pitch(data-i18n="ozaria_home.student_creativity")
+              .yellow-underline
+              p.medium-gray(data-i18n="ozaria_home.student_creativity_paragraph")
+          .col-sm-12.col-md-6.tile
+            img.img-responsive(src="/images/ozaria/home/Photo-2.png")
+            .tile-content
+              h3.text-pitch(data-i18n="ozaria_home.teach_with_support")
+              .yellow-underline
+              p.medium-gray(data-i18n="ozaria_home.teach_with_support_paragraph")
+
+    .row.row-dark#start-journey
+      .row.width-container
+        .col-xs-12.framed
+          .row
+            .col-xs-offset-1.col-xs-7
+              h1.text-twilight(data-i18n="ozaria_home.value_prop3_h1")
+              p.large-twilight(data-i18n="ozaria_home.value_prop3_p")
+            .col-xs-3
+              a.btn.btn-primary.btn-large.btn-moon(data-i18n="signup.sign_up" href="#" )
+
+
+    .row.text-center#global
+      .row
+        .col-lg-12
+          h1.text-pitch(data-i18n="new_home.global_title")
+        .row.global-stats
+          .col-md-3.col-xs-6
+            img(src="/images/pages/home/global_learners.png")
+            h2.text-twilight 12 Million
+            p.large-gray(data-i18n="new_home.global_subtitle1")
+          .col-md-3.col-xs-6
+            img(src="/images/pages/home/global_code.png")
+            h2.text-twilight 1 Billion
+            p.large-gray(data-i18n="new_home.global_subtitle2")
+          .col-md-3.col-xs-6
+            img(src="/images/pages/home/global_teachers.png")
+            h2.text-twilight 82,000
+            p.large-gray(data-i18n="new_home.global_subtitle3")
+          .col-md-3.col-xs-6
+            img(src="/images/pages/home/global_countries.png")
+            h2.text-twilight 190
+            p.large-gray(data-i18n="new_home.global_subtitle4")
+      .row.quote-call-to-action
+        .col-lg-12
+          a.btn.btn-primary.btn-lg.ozaria-secondary-btn(data-i18n="ozaria_home.request_demo" href="/teachers/quote")
+

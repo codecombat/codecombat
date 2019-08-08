@@ -1,4 +1,4 @@
-require('app/styles/home-view.sass')
+require('app/styles/home-view.scss')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
@@ -16,8 +16,6 @@ module.exports = class HomeView extends RootView
 
   events:
     'click .continue-playing-btn': 'onClickTrackEvent'
-    'click .example-gd-btn': 'onClickTrackEvent'
-    'click .example-wd-btn': 'onClickTrackEvent'
     'click .play-btn': 'onClickTrackEvent'
     'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
