@@ -225,7 +225,8 @@ class PlayLevelView extends RootView {
     if (!e.level.isType('web-dev')) {
       this.god = new God({
         gameUIState: this.gameUIState,
-        indefiniteLength: e.level.isType('game-dev')
+        indefiniteLength: e.level.isType('game-dev'),
+        capstoneStage: this.capstoneStage
       })
     }
     if (this.waitingToSetUpGod) {

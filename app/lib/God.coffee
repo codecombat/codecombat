@@ -21,6 +21,7 @@ module.exports = class God extends CocoClass
     options ?= {}
     @retrieveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
     @gameUIState ?= options.gameUIState or new GameUIState()
+    @capstoneStage = options.capstoneStage or 1
     @indefiniteLength = options.indefiniteLength or false
     super()
 
@@ -67,6 +68,10 @@ module.exports = class God extends CocoClass
   setGoalManager: (goalManager) ->
     @angelsShare.goalManager?.destroy() unless @angelsShare.goalManager is goalManager
     @angelsShare.goalManager = goalManager
+    state = goalManager?.options?.session?.get("state")
+    if state?.capstoneStage
+      @capstoneStage = state.capstoneStage
+
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
@@ -106,6 +111,7 @@ module.exports = class God extends CocoClass
       fixedSeed: @lastFixedSeed
       flagHistory: @lastFlagHistory
       difficulty: @lastDifficulty
+      capstoneStage: @capstoneStage
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload
@@ -144,6 +150,7 @@ module.exports = class God extends CocoClass
         fixedSeed: @fixedSeed
         flagHistory: @lastFlagHistory
         difficulty: @lastDifficulty
+        capstoneStage: @capstoneStage
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID
