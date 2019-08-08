@@ -100,6 +100,10 @@ export default Vue.extend({
 
     selectedAvatar () {
       return this.avatars[this.selected]
+    },
+
+    title () {
+      return $.i18n.t('avatar_selection.select_avatar_title')
     }
   },
 
@@ -131,7 +135,9 @@ export default Vue.extend({
 
 <template>
 
-  <layout-chrome>
+  <layout-chrome
+    :title="title"
+  >
     <layout-center-content>
       <layout-aspect-ratio-container
         :aspectRatio="1266 / 668"
