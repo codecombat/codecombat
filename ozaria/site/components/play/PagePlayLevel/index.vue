@@ -1,6 +1,8 @@
 <template>
   <LayoutChrome
     :title="title"
+    :displayRestartMenuItem="canRestart()"
+    @click-restart="clickRestart"
   >
     <LayoutCenterContent>
       <LayoutAspectRatioContainer
@@ -17,6 +19,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import PlayLevelView from 'ozaria/site/views/play/level/PlayLevelView'
   import BackboneViewHarness from 'app/views/common/BackboneViewHarness'
   import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
@@ -46,6 +49,19 @@
       return {
         backboneView: PlayLevelView
       }
-    }
+    },
+    methods: {
+      clickRestart: function () {
+        if (this.canRestart()) {
+          Backbone.Mediator.publish('level:open-restart-modal', {})
+        }
+      },
+      canRestart: function () {
+        const level = Object.values(this.levelsList).find((l) => l.levelID === this.levelID)
+        const isCapstone = level ? level.ozariaType === 'capstone' : false
+        return me.isAdmin() || !isCapstone
+      }
+    },
+    computed: mapGetters({ levelsList: 'unitMap/getCurrentLevelsList' })
   })
 </script>
