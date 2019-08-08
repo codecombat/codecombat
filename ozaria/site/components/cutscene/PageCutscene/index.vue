@@ -28,6 +28,10 @@ module.exports = Vue.extend({
       return application.router.navigate('/', { trigger: true })
     }
     this.loadCutscene()
+
+    // TODO: Do we still need this localhost workaround for private videos?
+    // Provides a way to skip cutscenes via the terminal.
+    window.forceCutsceneCompleted = this.onCompleted
   },
 
   computed: {
