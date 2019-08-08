@@ -1067,7 +1067,11 @@ module.exports = class CampaignView extends RootView
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
     mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421}[@terrain] or 2350
-    aspectRatio = mapWidth / mapHeight
+
+    # Updated aspect ratio to mirror LayoutAspectRatioContainer
+    # TODO: switch ozaria compaign editor to use same view components as game views
+    aspectRatio = 1266 / 668
+
     pageWidth = @$el.width()
     pageHeight = @$el.height()
     pageHeight -= adContainerHeight if adContainerHeight = $('.ad-container').outerHeight()
