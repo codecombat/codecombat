@@ -1346,6 +1346,13 @@ class PlayLevelView extends RootView {
   }
 
   onRealTimePlaybackEnded (e) {
+    // TODO Improve later with GoalManger reworking
+    // Mark the goal completed and prevent the goalmanager destroying
+    // The game goal should have the certain name
+    if (this.goalManager.goalStates["has-stopped-playing-game"]) {
+      this.goalManager.setGoalState("has-stopped-playing-game", "success")
+    }
+
     if (!this.$el.hasClass('real-time')) {
       return
     }

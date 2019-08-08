@@ -292,6 +292,13 @@ module.exports = class Angel extends CocoClass
       @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
 
   onStopRealTimePlayback: (e) ->
+    # TODO Improve later with GoalManger reworking
+    # Mark the goal completed and prevent the goalmanager being destroying
+    # The game goal should have the certain name
+    if @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+      @work.world.goalManager.setGoalState("has-stopped-playing-game", "success")
+      @work.world.endWorld(true, 0)
+      return
     return unless @running and @work.realTime
     if @work.synchronous
       return @abort()
