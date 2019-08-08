@@ -953,6 +953,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   avatar_selection:
     pick_an_avatar: "Pick an avatar that will represent you as a player"
+    select_avatar_title: "Choose Player Avatar"
 
   premium_features:
     get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
