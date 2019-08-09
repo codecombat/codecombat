@@ -7,137 +7,94 @@ block content
   .container
 
     .content.rtl-allowed
-      if me.attributes.hourOfCode && me.isAnonymous()
-        #hour-of-code
-          h3
-            span(data-i18n="teacher.hoc_welcome")
-            | !
-          p
-            span(data-i18n="teacher.hoc_intro")
-            | :
-          ol.small
-            li
-              strong.spr(data-i18n="teacher.hoc_self_led")
-              | -
-              span.spl.spr(data-i18n="teacher.hoc_self_led_desc")
-              | -
-              a(href="/play/game-dev-hoc?hour_of_code=true")
-                span(data-i18n="teacher.hoc_game_dev")
-              span.spl.spr(data-i18n="teacher.hoc_and")
-              a(href="/play?hour_of_code=true")
-                span(data-i18n="teacher.hoc_programming")
-              | .
-            li
-              strong.spr(data-i18n="teacher.hoc_teacher_led")
-              | -
-              span.spr(data-i18n="teacher.hoc_teacher_led_desc1")
-              a(href="/teachers/resources/cs1")
-                span(data-i18n="teacher.hoc_teacher_led_link")
-              span.spl(data-i18n="teacher.hoc_teacher_led_desc2")
-              | .
-            li
-              strong.spr(data-i18n="teacher.hoc_group")
-              | -
-              span.spr(data-i18n="teacher.hoc_group_desc_1")
-              a(href="/teachers/resources/getting-started")
-                span(data-i18n="teacher.hoc_group_link")
-              span.spl(data-i18n="teacher.hoc_group_desc_2")
-              | .
-          p.small
-            span.spr(data-i18n="teacher.hoc_additional_desc1")
-            a(href="/teachers/resources/")
-              span(data-i18n="teacher.resource_hub")
-            span .
-            span(data-i18n="teacher.hoc_additional_desc2")
-            span.spr ?
-            a(href="mailto:schools@codecombat.com")
-              span(data-i18n="teacher.hoc_additional_contact")
-            | .
+      //- if me.attributes.hourOfCode && me.isAnonymous()
+      //-   #hour-of-code
+      //-     h3
+      //-       span(data-i18n="teacher.hoc_welcome")
+      //-       | !
+      //-     p
+      //-       span(data-i18n="teacher.hoc_intro")
+      //-       | :
+      //-     ol.small
+      //-       li
+      //-         strong.spr(data-i18n="teacher.hoc_self_led")
+      //-         | -
+      //-         span.spl.spr(data-i18n="teacher.hoc_self_led_desc")
+      //-         | -
+      //-         a(href="/play/game-dev-hoc?hour_of_code=true")
+      //-           span(data-i18n="teacher.hoc_game_dev")
+      //-         span.spl.spr(data-i18n="teacher.hoc_and")
+      //-         a(href="/play?hour_of_code=true")
+      //-           span(data-i18n="teacher.hoc_programming")
+      //-         | .
+      //-       li
+      //-         strong.spr(data-i18n="teacher.hoc_teacher_led")
+      //-         | -
+      //-         span.spr(data-i18n="teacher.hoc_teacher_led_desc1")
+      //-         a(href="/teachers/resources/cs1")
+      //-           span(data-i18n="teacher.hoc_teacher_led_link")
+      //-         span.spl(data-i18n="teacher.hoc_teacher_led_desc2")
+      //-         | .
+      //-       li
+      //-         strong.spr(data-i18n="teacher.hoc_group")
+      //-         | -
+      //-         span.spr(data-i18n="teacher.hoc_group_desc_1")
+      //-         a(href="/teachers/resources/getting-started")
+      //-           span(data-i18n="teacher.hoc_group_link")
+      //-         span.spl(data-i18n="teacher.hoc_group_desc_2")
+      //-         | .
+      //-     p.small
+      //-       span.spr(data-i18n="teacher.hoc_additional_desc1")
+      //-       a(href="/teachers/resources/")
+      //-         span(data-i18n="teacher.resource_hub")
+      //-       span .
+      //-       span(data-i18n="teacher.hoc_additional_desc2")
+      //-       span.spr ?
+      //-       a(href="mailto:schools@codecombat.com")
+      //-         span(data-i18n="teacher.hoc_additional_contact")
+      //-       | .
 
       h1(data-i18n="teacher.resource_hub")
-
-      h4(data-i18n="teacher.getting_started")
+      h4(data-i18n="teacher.getting_started") 
       ul(dir="auto")
         li
-          strong(data-i18n="teacher.pacing_guides")
+          strong 
+            a(href="/teachers/resources/faq")
+              span(data-i18n="teacher.educator_faq")
           p 
-            span(data-i18n="teacher.pacing_guides_desc")
-            br
-            - var elementarySchoolPacingURL = "http://files.codecombat.com/docs/resources/ElementaryPacing.pdf";
-            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-            -     elementarySchoolPacingURL = elementarySchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
-            a(href=elementarySchoolPacingURL)
-              span(data-i18n="teacher.pacing_guides_elem")
-            span.spl.spr | 
-            - var middleSchoolPacingURL = "http://files.codecombat.com/docs/resources/MiddleSchoolPacing.pdf";
-            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-            -     middleSchoolPacingURL = middleSchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
-            a(href=middleSchoolPacingURL)
-              span(data-i18n="teacher.pacing_guides_middle")
-            span.spl.spr | 
-            - var highSchoolPacingURL = "http://files.codecombat.com/docs/resources/HighSchoolPacing.pdf";
-            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-            -     highSchoolPacingURL = highSchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
-            a(href=highSchoolPacingURL)
-              span(data-i18n="teacher.pacing_guides_high")
-        li
-          - var faqURL = "/teachers/resources/faq";
-          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-          -     faqURL += "-nl-NL";
-          - if (me.get('preferredLanguage') == 'he')
-          -     faqURL += "-he";
-          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-          -     faqURL += "-pt-BR";
-          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     faqURL += "-zh-HANS";
-          a(href=faqURL)
-            span(data-i18n="teacher.educator_faq")
-          p(data-i18n="teacher.educator_faq_desc")
-        li
-          - var gettingStartedURL = "/teachers/resources/getting-started";
-          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-          -     gettingStartedURL += "-pt-BR";
-          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     gettingStartedURL += "-zh-HANS";
-          a(href=gettingStartedURL)
-            span(data-i18n="teacher.teacher_getting_started")
-          p(data-i18n="teacher.teacher_getting_started_desc")
-        li
-          - var quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
-          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     quickStartURL = quickStartURL.replace(/\.pdf/, '-zh-HANS.pdf');
-          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-          -     quickStartURL = quickStartURL.replace(/\.pdf/, '-pt-BR.pdf');
-          a(href=quickStartURL)
-            span(data-i18n="teacher.student_getting_started")
-            span.spl [PDF]
-          p(data-i18n="teacher.student_getting_started_desc")
-        li
-          - var progressJournalURL = "http://files.codecombat.com/docs/resources/ProgressJournal.pdf";
-          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     progressJournalURL = progressJournalURL.replace(/\.pdf/, '-zh-HANS.pdf');
-          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-          -     progressJournalURL = progressJournalURL.replace(/\.pdf/, '-pt-BR.pdf');
-          a(href=progressJournalURL)
-            span(data-i18n="teacher.progress_journal")
-            span.spl [PDF]
-          p(data-i18n="teacher.progress_journal_desc")
-        li
-          a(href="/apcsp")
-            span(data-i18n="teacher.ap_cs_principles")
-          p(data-i18n="teacher.ap_cs_principles_desc")
+            span(data-i18n="teacher.educator_faq_desc") 
 
-      h4
-      | Header example
-      ul
+
+      h4 Prologue: The Sky Mountain
+      ul(dir="auto")
         li
-          a(href="/teachers/resources/cs1")
-            span
-            | Span example
+          strong 
+            a(href="/teachers/resources/1fhUnitOverview") Unit Overview -- Prologue: The Sky Mountain
+          p 
+            span Overview of all Cutscenes, Pracice Levels, Intros, and Projects in the Prologue unit. 
+        li
+          strong 
+            a(href="/teachers/resources/1fhLessonPlan") Lesson Plan -- Prologue: The Sky Mountain
+          p 
+            span Detailed classroom guide including Learning Objectives, CSTA Standards, Reflection Activities and more.  
+        li
+          strong
+            a(href="/teachers/resources/1fh_Rubric/") Capstone Rubric -- Prologue: The Sky Mountain
           p
-          | Paragraph example
+            span Rubric for assessing students' final projects at the end of this unit. 
+            
 
-
-      h4.coming-soon
-        i
-        | Coming soon example
+      //- h4
+      //- | Header example
+      //- ul
+      //-   li
+      //-     a(href="/teachers/resources/cs1")
+      //-       span
+      //-       | Span example
+      //-     p
+      //-     | Paragraph example
+      //- 
+      //- 
+      //- h4.coming-soon
+      //-   i
+      //-   | Coming soon example
