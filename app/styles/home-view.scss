@@ -14,7 +14,7 @@
     @include font-button-text-black;
     min-width: 260px;
     padding: 15px 0;
-    
+
     &:hover {
       @include font-button-text-white;
       background-color: $goldenlight;
@@ -26,7 +26,7 @@
     min-width: unset;
     width: 100%;
   }
-  
+
   .btn-primary-alt, .btn-navy-alt, .btn-teal-alt {
     background-color: transparent;
     border: 2px solid $teal;
@@ -45,7 +45,7 @@
       transition: color .35s, background-color .35s, box-shadow .35s;
     }
   }
-  
+
   .ozaria-secondary-btn {
     background-color: $dusk;
     color: $pitch;
@@ -55,20 +55,21 @@
     padding: 15px;
     line-height: 30px;
     font-size: 20px;
+    font-weight: bold;
     letter-spacing: 0.4px;
     text-shadow: none;
-    
+
     &:hover {
       background-color: $dusk-dark;
       color: $white;
     }
   }
-  
+
   .row {
     margin-left: 0;
     margin-right: 0;
   }
-  
+
   .arrow {
     z-index: 2;
     @supports not ((clip-path: polygon(50% 100%, 0 0, 100% 0) or (-webkit-clip-path: polygon(50% 100%, 0 0, 100% 0)))) {
@@ -80,13 +81,13 @@
     height: 32px;
     width: 100%;
     display: flex;
-    
+
     /* Slightly bump up the arrow due to a join artifact */
     margin-top: -1px;
     .left-arrow-side, .right-arrow-side {
       flex-grow: 1;
     }
-    
+
     .arrow-down {
       width: 60px;
       height: 26px;
@@ -97,17 +98,17 @@
     }
   }
 }
-  
-  
+
+
   #home-page {
     background-color: $mist;
-    
+
     .width-container {
       max-width: 1170px;
       float: unset;
       margin: 0 auto;
     }
-    
+
     & > .row {
       padding-top: 62px;
     }
@@ -180,7 +181,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;    
+    justify-content: space-between;
   }
 
   img.top-arrow {
