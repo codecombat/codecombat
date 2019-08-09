@@ -15,6 +15,7 @@
     'hero-b': {
       buttonIcon: 'Replace HeroB icon',
       original: '5d03e60dab809900234a0037',
+      silhouetteImagePath: '/images/ozaria/char-customization/hero-b-idle.png',
       thang: {
         scaleFactorX: 1,
         scaleFactorY: 1,
@@ -24,6 +25,7 @@
     'hero-a': {
       buttonIcon: 'Replace HeroA icon',
       original: '5d03e18887ed53004682e340',
+      silhouetteImagePath: '/images/ozaria/char-customization/hero-a-idle.png',
       thang: {
         scaleFactorX: 1,
         scaleFactorY: 1,
@@ -83,7 +85,8 @@
         for (const k in ozariaHeroes) {
           const hero = {
             slug: k,
-            onClick: () => this.selectBodyType(k)
+            onClick: () => this.selectBodyType(k),
+            silhouetteImagePath: ozariaHeroes[k].silhouetteImagePath
           }
 
           bodyTypes.push(hero)
@@ -116,6 +119,11 @@
 
     methods: {
       ...mapActions('tints', ['fetchTints']),
+
+      getSilhouettePath (body) {
+        // TODO: seems like we should be able to bind directly to the v-for object below instead of calling this method
+        return body.silhouetteImagePath
+      },
 
       setInitialData () {
         const ozariaHeroConfig = me.get('ozariaHeroConfig') || {}
@@ -213,15 +221,24 @@
             <label>{{ this.$t('char_customization_modal.body') }}</label>
           </div>
           <div
-            v-for="(body) in bodyTypes"
-            v-bind:key="body.slug"
-            class='row body-row'
+            class="row body-row"
           >
+            <div class="col-xs-6" />
             <div
-              @click="body.onClick"
-              :class="['swatch', body.slug === selectedHero ? 'selected' : '']"
-              style="background-color: #ccc;"
-            />
+              v-for="(body) in bodyTypes"
+              v-bind:key="body.slug"
+              class="col-xs-3"
+            >
+              <div
+                @click="body.onClick"
+                :class="[body.slug === selectedHero ? 'selected' : 'unselected']"
+              >
+                <img
+                  class="silhouette"
+                  :src="getSilhouettePath(body)"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-xs-4 webgl-area">
@@ -295,14 +312,21 @@
 .webgl-area
   text-align: center
 
+.silhouette
+  padding: 5px
+  height: 150px
+
 .swatch
   display: inline-block
   width: 50px
   height: 50px
   margin: 5px
 
-  &.selected
-    border: 4px solid #4298f5
+.selected
+  border: 4px solid #4298f5
+.unselected
+  margin: 4px
+  opacity: 0.5
 
 #heroNameInput
   max-width: 240px
@@ -312,7 +336,7 @@
 
 .body-label
   text-align: right
-  margin-right: 7px
+  margin-right: 114px
 
 #next-button
   background-color: #4B90E2
