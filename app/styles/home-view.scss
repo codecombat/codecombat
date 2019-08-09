@@ -62,6 +62,7 @@
     &:hover {
       background-color: $dusk-dark;
       color: $white;
+      transition: color .35s, background-color .35s, box-shadow .35s;
     }
   }
 
