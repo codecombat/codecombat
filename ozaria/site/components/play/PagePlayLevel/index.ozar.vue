@@ -40,11 +40,6 @@
         required: true
       }
     },
-    computed: {
-      title() {
-        return (store.state.game.level || {}).name
-      }
-    },
     data: function () {
       return {
         backboneView: PlayLevelView
@@ -62,6 +57,11 @@
         return me.isAdmin() || !isCapstone
       }
     },
-    computed: mapGetters({ levelsList: 'unitMap/getCurrentLevelsList' })
+    computed: {
+      ...mapGetters({ levelsList: 'unitMap/getCurrentLevelsList' }),
+      title () {
+        return (store.state.game.level || {}).name
+      }
+    }
   })
 </script>
