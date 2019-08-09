@@ -145,14 +145,16 @@
           currentLevelStage = parseInt(this.capstoneStage)
         }
         const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
-        if (nextLevel.slug && !this.showShareModal) {
+        if (nextLevel.original && !this.showShareModal) {
           const nextLevelLinkOptions = {
             courseId: this.courseId,
             courseInstanceId: this.courseInstanceId,
             codeLanguage: utils.getQueryVariable('codeLanguage'),
-            nextLevelStage: nextLevel.nextLevelStage
+            nextLevelStage: nextLevel.nextLevelStage,
           }
-          this.nextLevelLink = getNextLevelLink(nextLevel, nextLevelLinkOptions)
+          // The next level reference may be outdated. We want to use the originalId
+          // and find the newest slug. This step is required due to renaming of slugs.
+          this.nextLevelLink = getNextLevelLink(this.levelsList[nextLevel.original], nextLevelLinkOptions)
         } else { // last level of the campaign or this.showShareModal=true
           this.nextLevelLink = `/play/${encodeURIComponent(this.campaignHandle)}`
           if (this.courseInstanceId) {
