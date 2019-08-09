@@ -1100,7 +1100,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   about:
     title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
-    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
+    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination." # {change}
     learn_more: "Learn More"
     main_title:"If you want to learn to program, you need to write (a lot of) code."
     main_description: "Our job is to make sure you're doing that with a smile on your face."
@@ -1108,13 +1108,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     team_link: "Team"
     story_link: "Story"
     press_link: "Press"
-    mission_title: "Our mission: make computer science accessible to every student on Earth."
+    mission_title: "Our mission: make computer science accessible to every student on Earth." # {change}
     mission_teach: "Teach through Adventure"
     mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
     mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
     mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Meet the CodeCombat team"
-    team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
+    team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team." # {change}
     nick_title: "Cofounder, CEO"
     matt_title: "Cofounder, CTO"
     cat_title: "Game Designer"
@@ -1161,9 +1161,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     number_contributors: "Over 450 contributors have lent their support and time to this project."
     story_title: "Our story so far"
     story_subtitle: "Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game."
-    story_statistic_1a: "12,000,000+"
+    story_statistic_1a: "12,000,000+" # {change}
     story_statistic_1b: "total players"
-    story_statistic_1c: "have started their programming journey through CodeCombat and Ozaria"
+    story_statistic_1c: "have started their programming journey through CodeCombat and Ozaria" # {change}
     story_statistic_2a: "We’ve been translated into over 50 languages — our players hail from"
     story_statistic_2b: "190+ countries"
     story_statistic_3a: "Together, they have written"
@@ -1172,7 +1172,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     story_long_way_1: "Though we've come a long way..."
     story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
     story_long_way_2: "we still have much to do before we complete our quest, so..."
-    jobs_title: "Come join us and bring computer science to the world!"
+    jobs_title: "Come join us and bring computer science to the world!" # {change}
     jobs_subtitle: """Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing."""
     jobs_benefits: "Employee Benefits"
     jobs_benefit_4: "Unlimited vacation"
@@ -1846,7 +1846,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pacing_guides_high: "High School Pacing Guide"
     getting_started: "Getting Started"
     educator_faq: "Educator FAQ"
-    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
+    educator_faq_desc: "Frequently asked questions about using Ozaria in your classroom or school." # {change}
     teacher_getting_started: "Teacher Getting Started Guide"
     teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
     student_getting_started: "Student Quick Start Guide"
