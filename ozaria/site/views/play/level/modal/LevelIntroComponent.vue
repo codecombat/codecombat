@@ -15,7 +15,7 @@
         <div class="vega-face">
           <img
             class="vega-face-image"
-            src="/images/ozaria/level/vega_face.png"
+            src="/images/ozaria/level/vega_headshot_transparent.png"
           >
         </div>
         <div class="narrative-div">
