@@ -139,8 +139,14 @@
 
     methods: {
       async submitSolution () {
-        this.showModal = true
-        this.submitEnabled = false
+        if (this.solutionCorrect) {
+          // Straight to standard victory modal rather than interactive modal
+          this.$emit('completed')
+          this.submitEnabled = true
+        } else {
+          this.showModal = true
+          this.submitEnabled = false
+        }
 
         if (!this.questionAnswered) {
           return
@@ -159,12 +165,7 @@
       },
 
       closeModal () {
-        if (this.solutionCorrect) {
-          this.$emit('completed')
-        } else {
-          this.resetAnswer()
-        }
-
+        this.resetAnswer()
         this.showModal = false
         this.submitEnabled = true
       },

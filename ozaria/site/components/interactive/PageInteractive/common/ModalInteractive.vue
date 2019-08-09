@@ -40,7 +40,7 @@
           return '/images/ozaria/interactives/alejandro_modal.png'
         }
 
-        return '/images/ozaria/interactives/anya_modal.png'
+        return '/images/ozaria/level/vega_headshot_transparent.png'
       }
     }
   }
