@@ -27,6 +27,7 @@ module.exports = class HomeView extends RootView
     'click .my-classes-btn': 'onClickTrackEvent'
     'click .my-courses-btn': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
+    'click #jumbotron-down-arrow': 'onClickJumbotronDownArrow'
 
   initialize: (options) ->
     super(options)
@@ -48,10 +49,17 @@ module.exports = class HomeView extends RootView
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
 
     ]
+  
+  onClickJumbotronDownArrow: ->
+    @scrollToLink('#ozaria-summary', 200)
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
+
+    # Ozaria local setting to force English.
+    $.i18n.setLng('en-US', {})
+
     super()
 
   onClickRequestQuote: (e) ->

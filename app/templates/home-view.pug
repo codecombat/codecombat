@@ -9,9 +9,10 @@ block content
         .header-flexbox
           img.img-responsive.ozaria-logo(src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria brand logo")
           h1(data-i18n="ozaria_home.subtitle")
-          a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="new_home.im_an_educator" href="#" )
-          a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="new_home.im_a_student" href="#" )
-        img.top-arrow(src="/images/ozaria/home/yellow-arrow-down.png")
+          a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" )
+          a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="ozaria_home.im_a_student" )
+        a#jumbotron-down-arrow
+          img.top-arrow(src="/images/ozaria/home/yellow-arrow-down.png")
 
     .row.width-container#ozaria-summary
       .col-sm-5
@@ -77,35 +78,34 @@ block content
       .row.width-container
         .col-xs-12.framed
           .row
-            .col-xs-offset-1.col-xs-7
+            .col-md-offset-1.col-md-7.col-xs-6
               h1.text-twilight(data-i18n="ozaria_home.value_prop3_h1")
               p.large-twilight(data-i18n="ozaria_home.value_prop3_p")
-            .col-xs-3
-              a.btn.btn-primary.btn-large.btn-moon(data-i18n="signup.sign_up" href="#" )
+            .col-md-3.col-xs-6
+              a.btn.btn-primary.btn-large.btn-moon.signup-button.signup-home-btn(data-event-action="Ozaria Homepage Sign Up #2 CTA" data-i18n="ozaria_home.sign_up" )
 
 
     .row.text-center#global
       .row
         .col-lg-12
-          h1.text-pitch(data-i18n="new_home.global_title")
-        .row.global-stats
+          h1.text-pitch(data-i18n="ozaria_home.global_title")
+        .row.global-stats.width-container
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_learners.png")
             h2.text-twilight 12 Million
-            p.large-gray(data-i18n="new_home.global_subtitle1")
+            p.large-gray(data-i18n="ozaria_home.global_subtitle1")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_code.png")
             h2.text-twilight 1 Billion
-            p.large-gray(data-i18n="new_home.global_subtitle2")
+            p.large-gray(data-i18n="ozaria_home.global_subtitle2")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_teachers.png")
             h2.text-twilight 82,000
-            p.large-gray(data-i18n="new_home.global_subtitle3")
+            p.large-gray(data-i18n="ozaria_home.global_subtitle3")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_countries.png")
             h2.text-twilight 190
-            p.large-gray(data-i18n="new_home.global_subtitle4")
+            p.large-gray(data-i18n="ozaria_home.global_subtitle4")
       .row.quote-call-to-action
         .col-lg-12
           a.btn.btn-primary.btn-lg.ozaria-secondary-btn(data-i18n="ozaria_home.request_demo" href="/teachers/quote")
-

@@ -1,6 +1,7 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
+@import "app/styles/ozaria/_ozaria-style-params.scss"
 
 // TODO: Move flat style into probably several files and Bootstrap variables
 
@@ -14,7 +15,7 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
 .style-flat
   background: white
   color: black
-  padding-top: 70px
+  padding-top: 61px
 
   // Fonts
   h1, h2, h3, h4, h5, h6, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6
@@ -98,105 +99,46 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   // Navbar
 
   #main-nav.navbar
-    background: white
+    background: $pitch
     margin-bottom: 0
-    white-space: nowrap // prevent home icon from going under brand
     box-shadow: unset
-    font-weight: 400
+    height: 61px
+
+    @media (min-width: $screen-md-min)
+      display: flex
+      flex-direction: column
+      justify-content: center
+
+      padding-left: 50px
+      padding-right: 50px
+
+    #home-link
+      max-width: 200px
 
     p, .text-p
-      font-family: $body-font
-      font-size: 18px
-      font-weight: 400
-      letter-spacing: 0.75px
-      line-height: 26px
-
-    #create-account-link
-      background-color: $teal
-      color: white
-      border: 1px solid $teal
-      border-radius: 4px 0 0 4px
-      width: 131px
-      &:hover
-        background-color: #2DCEC8
-        border: 1px solid #2DCEC8
-        transition: background-color .35s, border .35s
-
-    #login-link
-      width: 94px
-      border: 1px solid $teal
-      border-radius: 0 4px 4px 0
-      color: $teal
-      &:hover
-        background-color: #1FBAB4
-        color: white
-        transition: color .35s, background-color .35s
-
-    .nav-spacer
-      height: 12px
-
-    .login-buttons
-      margin: 2px 70px 0px 10px
-      @media (max-width: $screen-md-min)
-        display: inline-block
-        margin: 2px 10px 29.5px
-      & li
-        display: inline-block
-
-    a.navbar-brand
-      padding: 14px 0 16px 70px
-      margin: 0px
-
-      #logo-img
-        height: 40px
-
-        &.powered-by
-          height: 30px
-          width: auto
-          margin-top: -5px
-
-      .code-ninjas-logo, #tarena-logo
-        height: 40px
-        width: auto
-        margin-right: 10px
+      @include font-h-4-navbar-uppercase-white
 
     .navbar-toggle
       color: black
-      margin: 30px 70px 0
-      border-color: $navy
-
-      .icon-bar
-        background-color: $navy
-
-    @media (min-width: $grid-float-breakpoint)
-      #navbar-collapse
-        float: right
-
-      .dropdown-menu
-        max-width: 330px
-        overflow-x: auto
-
-    .language-dropdown
-      max-height: 60vh
-      overflow-y: auto
+      border-color: $teal
 
     #navbar-collapse
       max-height: 100vh
-
-      .text-teal
-        color: $teal
-
+      background-color: $pitch
 
     .nav > li > a
       // TODO: Move this to bootstrap variables for navbars
 
       // TODO: getting overridden by .navbar .nav > li > a for some reason
-      font-family: $body-font
       text-shadow: unset
       padding: 10px 15px
-      color: $navy
+
+      &.text-moon
+        color: $moon
+
       &:hover
-        color: $teal
+        color: $moon
+        text-decoration: underline
 
     // TODO: what is this for?
     .nav > li.disabled > a
@@ -532,79 +474,43 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   // base-flat.jade
 
   #footer
-    background-color: $navy
+    background-color: $pitch
     color: white
-    padding-top: 20px
+    padding-top: 45px
     margin-top: 50px
 
-    .small
-      font-family: $body-font
-      font-weight: normal
-      font-size: 14px
-      line-height: 19px
-      letter-spacing: 0.58px
+    img
+      &.ozaria-watermark
+        width: 245px
+        padding-bottom: 13px
+        margin: 0 auto
+    h2
+      padding-bottom: 8px
 
-    h3
-      color: $teal
-      font-family: Arvo
-      font-size: 24px
-      font-weight: bold
-      letter-spacing: 0.48px
-      line-height: 30px
-      margin: 20px auto
+    li > a
+      @include font-p-2-paragraph-medium-white
 
-    li
-      font-family: "Open Sans"
-      font-size: 18px
-      letter-spacing: 0.75px
-      line-height: 26px
-      font-weight: 200
-
-    .col-lg-3
-      padding-bottom: 15px
-      @media (max-width: $screen-md-min)
-        padding-left: 27px
-
-    @media (max-width: $screen-sm-min)
-      background-color: #201a15
-      background-image: none
-      height: auto
-
-    a
-      color: white
+      &:hover
+        color: $goldenlight
 
     .social-buttons > a
       margin-right: 20px
 
-    .small
-      color: rgba(255,255,255,0.8)
-
   #final-footer
-    padding: 20px 70px 14px
+    display: flex
+    align-items: center
+    justify-content: center
+
+    background-color: $pitch
+    padding: 45px 70px
     color: rgba(255,255,255,0.8)
-    background-color: $navy
     font-size: 14px
-
-    .float-right
-      padding-top: 15px
-      float: right
-
-    @media (max-width: $screen-md-min)
-      position: inherit
-      height: auto
-      .float-right
-        float: none
-
-    @media (max-width: $screen-sm-min)
-      background-color: #201a15
-
     a
       color: rgba(255,255,255,0.8)
       margin-left: 20px
 
-    img
-      height: 40px
-      margin-right: 20px
+    .spl
+      margin-left: 6px
 
     .small
       color: rgba(255,255,255,0.8)

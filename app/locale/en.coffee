@@ -16,6 +16,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teach_with_support: "Teach with Support"
     teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
     request_demo: "Request a Demo"
+    im_an_educator: "I'm an Educator"
+    im_a_student: "I'm a Student"
+    global_title: "Join Our Global Community of Learners and Educators"
+    global_subtitle1: "Learners"
+    global_subtitle2: "Lines of Code"
+    global_subtitle3: "Teachers"
+    global_subtitle4: "Countries"
+    sign_up: "Sign Up"
 
   new_home:
     title: "CodeCombat - Coding games to learn Python and JavaScript"
@@ -211,6 +219,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "Parents"
+    faq: "FAQ"
+    return_coco: "Return to CodeCombat"
 
   modal:
     close: "Close"
