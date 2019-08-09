@@ -49,8 +49,11 @@ mixin accountLinks
                     else
                       a.text-p(href="/about", data-i18n="nav.about")
                   li
-                    //- TODO: ADD FAQ LINK
-                    a.text-p(href="#" data-i18n="nav.faq")
+                    if document.location.href.search('/faq') >= 0
+                      a.text-p.text-moon(href="/teachers/resources/faq" data-i18n="nav.faq")
+                    else
+                      a.text-p(href="/teachers/resources/faq" data-i18n="nav.faq")
+
                 ul.nav.navbar-nav.navbar-right
                   if me.isAnonymous()
                     if document.location.href.search('/quote') >= 0
@@ -118,8 +121,7 @@ mixin accountLinks
                       li
                         a(href="/about", data-i18n="nav.about")
                       li
-                        //- TODO add FAQ link
-                        a(href="#" data-i18n="nav.faq")
+                        a(href="/teachers/resources/faq" data-i18n="nav.faq")
                       if !me.isStudent()
                         li
                           a.contact-modal(tabindex=-1, data-i18n="nav.contact")
