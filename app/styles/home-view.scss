@@ -21,6 +21,11 @@
       transition: background-color .35s;
     }
   }
+
+  .signup-home-btn {
+    min-width: unset;
+    width: 100%;
+  }
   
   .btn-primary-alt, .btn-navy-alt, .btn-teal-alt {
     background-color: transparent;
@@ -149,6 +154,19 @@
   margin: auto;
 
   position: relative;
+
+  @media (max-width: $screen-md-min) {
+    background-image: url(/images/ozaria/home/jumbotron.png);
+    background-position: center;
+    background-size: cover;
+    min-height: 550px;
+  }
+
+  & > img {
+    @media (max-width: $screen-md-min) {
+      display: none;
+    }
+  }
 
   .header-contents {
     position: absolute;
@@ -340,11 +358,6 @@
     &.global-stats {
       padding-top: 45px;
     }
-
-  }
-
-  h1 {
-    padding-bottom: 45px;
   }
 
   .row.quote-call-to-action {
