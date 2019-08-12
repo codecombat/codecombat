@@ -117,7 +117,7 @@ export default class CinematicLankBoss {
 
     const lHero = getLeftHero(shot)
 
-    const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
+    const original = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
     if (lHero) {
       const { enterOnStart, thang } = lHero
       addMoveCharacterCommand(LEFT_LANK_KEY, original, enterOnStart, thang)
@@ -483,7 +483,7 @@ export const createThang = thang => {
     getLankOptions: function () {
       // TODO: Make this only applied to hero character instead of anything customizable.
       const options = { colorConfig: {} }
-      const playerTints = (me.get('ozariaHeroConfig') || {}).tints || []
+      const playerTints = (me.get('ozariaUserOptions') || {}).tints || []
       playerTints.forEach(tint => {
         const colorGroups = (tint.colorGroups || {})
         options.colorConfig = _.merge(options.colorConfig, colorGroups)

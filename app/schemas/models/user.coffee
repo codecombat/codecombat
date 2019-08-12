@@ -148,7 +148,7 @@ _.extend UserSchema.properties,
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  ozariaHeroConfig: c.object(
+  ozariaUserOptions: c.object(
     {
       title: 'Player Ozaria Customization',
       description: 'Player customization options, including hero name, objectId and applied color tints.'

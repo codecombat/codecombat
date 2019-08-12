@@ -116,12 +116,12 @@
       ...mapActions('tints', ['fetchTints']),
 
       setInitialData () {
-        const ozariaHeroConfig = me.get('ozariaHeroConfig') || {}
-        this.characterName = ozariaHeroConfig.playerHeroName || ''
+        const ozariaUserOptions = me.get('ozariaUserOptions') || {}
+        this.characterName = ozariaUserOptions.playerHeroName || ''
 
-        if (ozariaHeroConfig.thangType) {
+        if (ozariaUserOptions.thangType) {
           for (const key of Object.keys(ozariaHeroes)) {
-            if (ozariaHeroConfig.thangType === ozariaHeroes[key].original) {
+            if (ozariaUserOptions.thangType === ozariaHeroes[key].original) {
               this.selectedHero = key
             }
           }
@@ -129,7 +129,7 @@
           this.selectedHero = Object.keys(ozariaHeroes)[Math.floor(Math.random() * Object.keys(ozariaHeroes).length)]
         }
 
-        for (const { slug, colorGroups } of (ozariaHeroConfig.tints || [])) {
+        for (const { slug, colorGroups } of (ozariaUserOptions.tints || [])) {
           const allowedTints = this.tintBySlug(slug)
           for (let i = 0; i < allowedTints.length; i++) {
             if (_.isEqual(allowedTints[i], colorGroups)) {
@@ -169,7 +169,7 @@
           return noty({ text:"Invalid Name", layout: 'topCenter', type: 'error' })
         }
 
-        const ozariaConfig = me.get('ozariaHeroConfig') || {}
+        const ozariaConfig = me.get('ozariaUserOptions') || {}
         ozariaConfig.playerHeroName = name
 
         ozariaConfig.tints = [
@@ -185,7 +185,7 @@
 
         ozariaConfig.cinematicThangTypeOriginal = this.ozariaHeroes[this.selectedHero].original
 
-        me.set('ozariaHeroConfig', ozariaConfig)
+        me.set('ozariaUserOptions', ozariaConfig)
 
         // TODO handle_error_ozaria - What happens on failure?
         me.save(null, {
