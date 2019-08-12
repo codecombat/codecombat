@@ -1,6 +1,6 @@
-require('app/styles/play/level/level-loading-view.sass')
+require('ozaria/site/styles/play/level/level-loading-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/level-loading-view'
+template = require 'ozaria/site/templates/play/level/level-loading-view'
 ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
@@ -13,8 +13,6 @@ module.exports = class LevelLoadingView extends CocoView
   template: template
 
   events:
-    'mousedown .start-level-button': 'startUnveiling'  # Split into two for animation smoothness.
-    'click .start-level-button': 'onClickStartLevel'
     'click .start-subscription-button': 'onClickStartSubscription'
 
   subscriptions:
@@ -24,9 +22,6 @@ module.exports = class LevelLoadingView extends CocoView
     'level:course-membership-required': 'onCourseMembershipRequired'  # If they need to be added to a course.
     'level:license-required': 'onLicenseRequired' # If they need a license.
     'subscribe-modal:subscribed': 'onSubscribed'
-
-  shortcuts:
-    'enter': 'onEnterPressed'
 
   afterRender: ->
     super()
@@ -56,7 +51,6 @@ module.exports = class LevelLoadingView extends CocoView
     @level = e.level
     @prepareGoals e
     @prepareTip()
-    @prepareIntro()
 
   onSessionLoaded: (e) ->
     return if @session
@@ -109,13 +103,6 @@ module.exports = class LevelLoadingView extends CocoView
       tip.html(loadingTip).removeAttr('data-i18n')
     tip.removeClass('secret')
 
-  prepareIntro: ->
-    @docs = @level.get('documentation') ? {}
-    specific = @docs.specificArticles or []
-    @intro = _.find specific, name: 'Intro'
-    if window.serverConfig.picoCTF
-      @intro ?= body: ''
-
   showReady: ->
     return if @shownReady
     @shownReady = true
@@ -123,54 +110,21 @@ module.exports = class LevelLoadingView extends CocoView
 
   finishShowingReady: =>
     return if @destroyed
-    showIntro = utils.getQueryVariable('intro')
-    if showIntro?
-      autoUnveil = not showIntro
-    else
-      autoUnveil = @options.autoUnveil or @session?.get('state').complete
-    if autoUnveil
-      @startUnveiling()
-      @unveil true
-    else
-      @playSound 'level_loaded', 0.75  # old: loading_ready
-      @$el.find('.progress').hide()
-      @$el.find('.start-level-button').show()
-      @unveil false
+    @playSound 'level_loaded', 0.75  # old: loading_ready
+    @unveil()
 
-  startUnveiling: (e) ->
-    @playSound 'menu-button-click'
-    @unveiling = true
-    Backbone.Mediator.publish 'level:loading-view-unveiling', {}
-    _.delay @onClickStartLevel, 1000  # If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
-
-  onClickStartLevel: (e) =>
+  unveil: () ->
     return if @destroyed
-    @unveil true
-
-  onEnterPressed: (e) ->
-    return unless @shownReady and not @unveiled
-    @startUnveiling()
-    @onClickStartLevel()
-
-  unveil: (full) ->
-    return if @destroyed or @unveiled
-    @unveiled = full
     @$loadingDetails = @$el.find('#loading-details')
     duration = parseFloat(@$loadingDetails.css 'transition-duration') * 1000
     unless @$el.hasClass 'unveiled'
       @$el.addClass 'unveiled'
       @unveilWings duration
-    if full
-      @unveilLoadingFull()
-      _.delay @onUnveilEnded, duration
-    else
-      @unveilLoadingPreview duration
+    @unveilLoadingFull()
+    _.delay @onUnveilEnded, duration
 
   unveilLoadingFull: ->
     # Get rid of the loading details screen entirely--the level is totally ready.
-    unless @unveiling
-      Backbone.Mediator.publish 'level:loading-view-unveiling', {}
-      @unveiling = true
     if @$el.hasClass 'preview-screen'
       @$loadingDetails.css 'right', -@$loadingDetails.outerWidth(true)
     else
@@ -188,21 +142,6 @@ module.exports = class LevelLoadingView extends CocoView
         timespent
       }
 
-  unveilLoadingPreview: (duration) ->
-    # Move the loading details screen over the code editor to preview the level.
-    return if @$el.hasClass 'preview-screen'
-    $('#canvas-wrapper').addClass 'preview-overlay'
-    @$el.addClass('preview-screen')
-    @$loadingDetails.addClass('preview')
-    @resize()
-    @onWindowResize = _.debounce @onWindowResize, 700  # Wait a bit for other views to resize before we resize
-    $(window).on 'resize', @onWindowResize
-    if @intro
-      @$el.find('.progress-or-start-container').addClass('intro-footer')
-      @$el.find('#tip-wrapper').remove()
-      _.delay @unveilIntro, duration
-    @unveilPreviewTime = new Date().getTime()
-
   resize: ->
     maxHeight = $('#page-container').outerHeight(true)
     minHeight = $('#code-area').outerHeight(true)
@@ -219,25 +158,6 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.left-wing').css left: '-100%', backgroundPosition: 'right -400px top 0'
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
     $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration) unless @level?.isType('web-dev')
-
-  unveilIntro: =>
-    return if @destroyed or not @intro or @unveiled
-    if window.serverConfig.picoCTF and problem = @level.picoCTFProblem
-      html = marked """
-        ### #{problem.name}
-
-        #{@intro.body}
-
-        #{problem.description}
-
-        #{problem.category} - #{problem.score} points
-      """, sanitize: false
-    else
-      language = @session?.get('codeLanguage')
-      html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
-    @$el.find('.intro-doc').removeClass('hidden').find('.intro-doc-content').html html
-    @resize()
-    @configureACEEditors()
 
   onUnveilEnded: =>
     return if @destroyed
