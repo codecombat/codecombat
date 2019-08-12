@@ -151,7 +151,9 @@ _.extend UserSchema.properties,
   ozariaUserOptions: c.object(
     {
       title: 'Player Ozaria Customization',
-      description: 'Player customization options, including hero name, objectId and applied color tints.'
+      description: 'Player customization options, including hero name, objectId and applied color tints.',
+      # Ensure we can add new properties on the Ozaria server without breaking CodeCombat users.
+      additionalProperties: true
     }, {
       cinematicThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type'),
       playerHeroName: c.shortString({ title: 'Ozaria Hero Name', description: 'The user set name for the ozaria hero. Used in cinematics.' }),
