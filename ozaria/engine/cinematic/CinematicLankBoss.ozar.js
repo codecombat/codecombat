@@ -106,7 +106,7 @@ export default class CinematicLankBoss {
     const lHero = getLeftHero(shot)
     const rHero = getRightHero(shot)
 
-    const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
+    const original = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
     const avatar = (store.getters['me/get1fhAvatar'] || {}).cinematicThangTypeId || AVATAR_THANG_ID
     const avatarPet = (store.getters['me/get1fhAvatar'] || {}).cinematicPetThangId || PET_AVATAR_THANG_ID
 
@@ -488,7 +488,7 @@ export const createThang = thang => {
     getLankOptions: function () {
       // TODO: Make this only applied to hero character instead of anything customizable.
       const options = { colorConfig: {} }
-      const playerTints = (me.get('ozariaHeroConfig') || {}).tints || []
+      const playerTints = (me.get('ozariaUserOptions') || {}).tints || []
       playerTints.forEach(tint => {
         const colorGroups = (tint.colorGroups || {})
         options.colorConfig = _.merge(options.colorConfig, colorGroups)

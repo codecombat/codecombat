@@ -66,7 +66,7 @@
       window.currentView.logoutRedirectURL = null // this is needed so that user stays on the unit map after logout.
       // heroName is not working as computed property for some reason
       // TODO move heroName to Vuex store `me` and use its getter as computed property.
-      this.heroName = (me.get('ozariaHeroConfig') || {}).playerHeroName
+      this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
     },
     methods: {
       backButtonClick () {
@@ -80,7 +80,7 @@
       },
       onCharCxSaved () {
         this.showCharCx = false
-        this.heroName = (me.get('ozariaHeroConfig') || {}).playerHeroName
+        this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
       }
     }
   })
