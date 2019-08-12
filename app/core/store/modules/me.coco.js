@@ -68,8 +68,8 @@ export default {
         throw new Error('Require both a levelThangTypeId and cinematicThangTypeId')
       }
 
-      const ozariaConfig = state.ozariaHeroConfig || {}
-      commit('updateUser', { ozariaHeroConfig:
+      const ozariaConfig = state.ozariaUserOptions || {}
+      commit('updateUser', { ozariaUserOptions:
         { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId } }
       })
     }
