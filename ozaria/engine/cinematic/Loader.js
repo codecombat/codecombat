@@ -48,7 +48,7 @@ export default class Loader {
    * If an admin or player doesn't have a hero, falls back to a default.
    */
   loadPlayerThangTypes () {
-    const original = (me.get('ozariaHeroConfig') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
+    const original = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
     const avatar = (store.getters['me/get1fhAvatar'] || {}).cinematicThangTypeId || AVATAR_THANG_ID
     const avatarPet = (store.getters['me/get1fhAvatar'] || {}).cinematicPetThangId || AVATAR_THANG_ID
 

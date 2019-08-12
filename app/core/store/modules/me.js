@@ -48,7 +48,7 @@ export default {
      * @returns {object|undefined} avatar schema object or undefined if not defined.
      */
     get1fhAvatar (state) {
-      return (state.ozariaHeroConfig || {}).avatar
+      return (state.ozariaUserOptions || {}).avatar
     }
   },
 
@@ -75,8 +75,8 @@ export default {
         throw new Error('Require a cinematicThangTypeId, cinematicPetThangId, and avatarCodeString')
       }
 
-      const ozariaConfig = state.ozariaHeroConfig || {}
-      commit('updateUser', { ozariaHeroConfig:
+      const ozariaConfig = state.ozariaUserOptions || {}
+      commit('updateUser', { ozariaUserOptions:
         { ...ozariaConfig, avatar: { cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
       })
     }

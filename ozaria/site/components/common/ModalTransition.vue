@@ -109,7 +109,7 @@
         return ''
       },
       charCxModal: function () {
-        return this.isFirstLevel && !(me.get('ozariaHeroConfig') || {}).tints
+        return this.isFirstLevel && !(me.get('ozariaUserOptions') || {}).tints
       }
     },
     async mounted () {
