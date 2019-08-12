@@ -240,7 +240,7 @@ module.exports = class PlayLevelView extends RootView
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil or @observing, level: @levelLoader?.level ? @level, session: @levelLoader?.session ? @session  # May not have @level loaded yet
+    @insertSubView @loadingView = new LevelLoadingView level: @levelLoader?.level ? @level, session: @levelLoader?.session ? @session  # May not have @level loaded yet
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
     $('body').bind('touchmove', false) if @isIPadApp()
@@ -490,7 +490,6 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'level:set-time', time: 0
     if (@isEditorPreview or @observing) and not utils.getQueryVariable('intro')
       @loadingView.startUnveiling()
-      @loadingView.unveil true
     else
       @scriptManager?.initializeCamera()
 

@@ -12,7 +12,7 @@ import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
 
-require('ozaria/site/styles/play/level/level-loading-view.sass')
+require('app/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
 require('ozaria/site/styles/play/play-level-view.sass')
 const RootView = require('views/core/RootView')
@@ -34,7 +34,7 @@ const GameUIState = require('models/GameUIState')
 const createjs = require('lib/createjs-parts')
 
 // subviews
-const LevelLoadingView = require('./LevelLoadingView')
+const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
 const ProblemAlertView = require('./tome/ProblemAlertView')
 const TomeView = require('./tome/TomeView')
 const HUDView = require('./LevelHUDView')
@@ -288,7 +288,6 @@ class PlayLevelView extends RootView {
     } // still a hack
     this.insertSubView(
       (this.loadingView = new LevelLoadingView({
-        autoUnveil: this.options.autoUnveil || this.observing,
         level:
           (this.levelLoader != null ? this.levelLoader.level : undefined) !=
           null
