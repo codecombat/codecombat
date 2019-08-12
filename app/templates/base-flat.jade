@@ -48,7 +48,10 @@ mixin accountLinks
                 .nav-spacer
                 if !me.hideTopRightNav()
                   ul.nav.navbar-nav
-                    if me.isAnonymous() && require('app/core/experiments').getRequestAQuoteGroup(me) === 'request-a-quote-header'
+                    if me.showChinaResourceInfo()
+                      li
+                        a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
+                    else if me.isAnonymous() && require('app/core/experiments').getRequestAQuoteGroup(me) === 'request-a-quote-header'
                       li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
                     li
