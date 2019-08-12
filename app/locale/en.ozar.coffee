@@ -470,7 +470,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     next: "Next"
     default_code: "Default Code"
     loading: "Loading..."
-    LOADING: "LOADING"
     overview: "Overview"
     processing: "Processing..."
     solution: "Solution"
