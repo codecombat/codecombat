@@ -1,7 +1,7 @@
-extends /templates/base-flat.jade
+extends /templates/base-flat.pug
 
 block page_nav
-  include ./teacher-dashboard-nav.jade
+  include ./teacher-dashboard-nav.pug
 
 block content
   if !me.isTeacher() && view.ownedClassrooms.size() && !me.isAdmin()

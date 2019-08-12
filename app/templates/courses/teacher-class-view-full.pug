@@ -1,4 +1,4 @@
-extends /templates/base-flat.jade
+extends /templates/base-flat.pug
 
 mixin breadcrumbs
     .breadcrumbs.rtl-allowed
@@ -9,7 +9,7 @@ mixin breadcrumbs
             = view.classroom.get('name')
 
 block page_nav
-    include ./teacher-dashboard-nav.jade
+    include ./teacher-dashboard-nav.pug
 
 block content
     .container(dir="auto")
