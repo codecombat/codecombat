@@ -13,7 +13,7 @@ buildQueue = []
 module.exports = class ThangType extends CocoModel
   @className: 'ThangType'
   @schema: require 'schemas/models/thang_type'
-  @heroes: ThangTypeConstants.heroes
+  @heroes: ThangTypeConstants.ozariaHeroes
   @heroClasses: ThangTypeConstants.heroClasses
   @items: ThangTypeConstants.items
   urlRoot: '/db/thang.type'
@@ -564,7 +564,7 @@ module.exports = class ThangType extends CocoModel
     # Load enough information from the ThangTypes involved in a hero configuration to show various stats the hero will have.
     # We don't rely on any supermodel caches, because this ThangType projection is useless anywhere else.
     thisHeroConfigStats = {}
-    heroOriginal = heroConfig.thangType ? ThangType.heroes.captain
+    heroOriginal = ThangType.heroes['hero-b']
     for original in _.values(heroConfig.inventory).concat [heroOriginal]
       thisHeroConfigStats[original] = ThangType.heroConfigStats[original] or 'loading'
     for original, stats of thisHeroConfigStats when stats is 'loading'
