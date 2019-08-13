@@ -15,6 +15,7 @@
     'hero-b': {
       buttonIcon: 'Replace HeroB icon',
       original: '5d03e60dab809900234a0037',
+      isometricOriginal: ThangType.heroes['hero-b'],
       silhouetteImagePath: '/images/ozaria/char-customization/hero-b-idle.png',
       thang: {
         scaleFactorX: 1,
@@ -25,6 +26,7 @@
     'hero-a': {
       buttonIcon: 'Replace HeroA icon',
       original: '5d03e18887ed53004682e340',
+      isometricOriginal: ThangType.heroes['hero-a'],
       silhouetteImagePath: '/images/ozaria/char-customization/hero-a-idle.png',
       thang: {
         scaleFactorX: 1,
@@ -194,6 +196,8 @@
         ]
 
         ozariaConfig.cinematicThangTypeOriginal = this.ozariaHeroes[this.selectedHero].original
+
+        ozariaConfig.isometricThangTypeOriginal = this.ozariaHeroes[this.selectedHero].isometricOriginal
 
         me.set('ozariaUserOptions', ozariaConfig)
 

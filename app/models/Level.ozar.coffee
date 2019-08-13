@@ -171,7 +171,7 @@ module.exports = class Level extends CocoModel
       heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
       # use default hero in class if classroomItems is on
       if @isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        heroThangType = ThangTypeConstants.heroes.captain
+        heroThangType = ThangTypeConstants.ozariaHeroes['hero-b']
       levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
