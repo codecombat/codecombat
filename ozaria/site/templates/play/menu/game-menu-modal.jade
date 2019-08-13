@@ -1,0 +1,29 @@
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/play/modal/game-menu-background.png", draggable="false")#game-menu-background
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    ul#game-menu-nav.nav.nav-pills.nav-stacked(dir="ltr")
+      if view.showsChooseHero()
+        li
+          a#change-hero-tab
+            span.glyphicon.glyphicon-user
+            span(data-i18n='[title]game_menu.choose_hero_caption;play.change_hero')
+
+      for submenu, index in submenus
+        li(class=submenu === showTab ? "active" : "")
+          a(href='#' + submenu + '-view', data-toggle='tab')
+            span.glyphicon(class="glyphicon-"+iconMap[submenu])
+            - var i18nKey = 'game_menu.' + submenu.replace('-', '_');
+            span(data-i18n='[title]' + i18nKey + '_caption;' + i18nKey + '_tab')
+      if me.get('anonymous') && !features.noAuth
+        li.auth-tab(data-toggle='coco-modal', data-target="core/CreateAccountModal")
+          a(data-toggle='coco-modal', data-target="core/CreateAccountModal")
+            span.glyphicon.glyphicon-pencil
+            span(data-i18n='[title]game_menu.auth_caption;game_menu.auth_tab')
+
+    .tab-content.game-menu-tab-content
+      for submenu, index in submenus
+        .tab-pane(id=submenu + '-view')

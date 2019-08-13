@@ -1,0 +1,36 @@
+.form
+
+  h3(data-i18n="options.general_options") General Options
+
+  .form-group.slider-group#volume-group
+    span.glyphicon.glyphicon-volume-down
+    #option-volume.slider.spr.spl
+    span.glyphicon.glyphicon-volume-up
+
+  .form-group.checkbox
+    label(for="option-music").control-label
+      input#option-music(name="option-music", type="checkbox", checked=music)
+      span.custom-checkbox
+        .glyphicon.glyphicon-ok
+      span(data-i18n="options.music_label") Music
+    span.help-block(data-i18n="options.music_description") Turn background music on/off.
+
+  img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
+
+  h3(data-i18n="options.editor_config_title") Editor Configuration
+
+  .form-group.checkbox
+    label(for="option-live-completion")
+      input#option-live-completion(name="liveCompletion", type="checkbox", checked=aceConfig.liveCompletion)
+      span.custom-checkbox
+        .glyphicon.glyphicon-ok
+      span(data-i18n="options.editor_config_livecompletion_label") Live Autocompletion
+    span.help-block(data-i18n="options.editor_config_livecompletion_description") Displays autocomplete suggestions while typing.
+
+  .form-group.checkbox
+    label(for="option-behaviors")
+      input#option-behaviors(name="behaviors", type="checkbox", checked=aceConfig.behaviors)
+      span.custom-checkbox
+        .glyphicon.glyphicon-ok
+      span(data-i18n="options.editor_config_behaviors_label") Smart Behaviors
+    span.help-block(data-i18n="options.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.

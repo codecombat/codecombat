@@ -1,0 +1,97 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+#game-menu-modal
+
+  //- Clear modal defaults
+  
+  .modal-dialog
+    width: 820px
+    height: 570px
+    padding: 0
+    background: none
+    position: relative
+    top: 40px
+
+    
+  //- Background
+  
+  #game-menu-background
+    position: absolute
+    top: -146px
+    left: -3px
+
+    
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 769px
+    top: -5px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 17px
+    cursor: pointer
+    z-index: 2
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+    
+  //- Nav bar
+
+  #game-menu-nav
+    position: absolute
+    top: 53px
+    left: 42px
+    width: 178px
+
+    li
+      background: url(/images/pages/play/modal/menu-tab.png)
+      padding: 5px
+      margin: -5px 0
+      height: 80px
+      padding: 0
+      
+      &.active
+        background: url(/images/pages/play/modal/menu-tab-selected.png)
+        width: 197px
+
+      &[dir="rtl"]
+        text-align: right
+
+      a
+        font-size: 18px
+        line-height: 50px
+        background: none
+        color: rgb(195,153,124)
+        font-weight: bold
+        padding: 14px 20px
+        font-family: $headings-font-family
+        text-transform: uppercase
+    
+        .glyphicon
+          margin-right: 6px
+
+
+  //- Tab panels
+  
+  .game-menu-tab-content
+    position: absolute
+    left: 219px
+    top: 21px
+    width: 571px
+    height: 495px
+    margin-top: 15px
+    padding: 50px
+    overflow-y: scroll
+
+  ::-webkit-scrollbar
+    // So that the scrollbar doesn't go on top of the close button.
+    // Wish we could easily do this for Firefox.
+    display: none
+
