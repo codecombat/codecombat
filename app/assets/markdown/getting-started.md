@@ -162,6 +162,6 @@ You’ll initially see the first unit to assign (Prologue: The Sky Mountain) and
 
 ##### STEP 8
 ## Start Teaching!
-There are great supplemental materials for teachers available on our [Course Guides](/teachers/courses/) and [Resource Hub](/teachers/resources). If you're new to teaching computer science, we highly recommend checking these out -- we've built these with first-time teachers in mind. You can also browse our [Teacher Forums](https://discourse.codecombat.com/c/teachers), where you can discuss curriculum planning with other educators, share ideas, or ask questions.
+There are great supplemental materials for teachers available on our [Unit Guides](/teachers/units/) and [Resource Hub](/teachers/resources). If you're new to teaching computer science, we highly recommend checking these out -- we've built these with first-time teachers in mind. You can also browse our [Teacher Forums](https://discourse.codecombat.com/c/teachers), where you can discuss curriculum planning with other educators, share ideas, or ask questions.
 
-You can also email us at [schools@codecombat.com](mailto:schools@codecombat.com) with any support questions or concerns!
+You can also email us at [schools@ozaria.com](mailto:schools@ozaria.com) with any support questions or concerns!
