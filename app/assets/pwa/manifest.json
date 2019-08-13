@@ -1,0 +1,20 @@
+{
+  "short_name": "CodeCombat",
+  "name": "CodeCombat",
+  "icons": [
+    {
+      "src": "/images/pages/base/logo_square_120.png",
+      "type": "image/png",
+      "sizes": "120x120"
+    },
+    {
+      "src": "/images/pages/base/logo_square_250.png",
+      "type": "image/png",
+      "sizes": "250x250"
+    }
+  ],
+  "start_url": "/play",
+  "display": "standalone",
+  "orientation": "landscape",
+  "scope": "/play/"
+}
