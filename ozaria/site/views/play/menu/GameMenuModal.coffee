@@ -1,10 +1,10 @@
-require('app/styles/play/menu/game-menu-modal.sass')
+require('ozaria/site/styles/play/menu/game-menu-modal.sass')
 ModalView = require 'views/core/ModalView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
-template = require 'templates/play/menu/game-menu-modal'
+template = require 'ozaria/site/templates/play/menu/game-menu-modal'
 submenuViews = [
   require 'views/play/menu/SaveLoadView'
-  require 'views/play/menu/OptionsView'
+  require 'ozaria/site/views/play/menu/OptionsView'
 ]
 
 module.exports = class GameMenuModal extends ModalView

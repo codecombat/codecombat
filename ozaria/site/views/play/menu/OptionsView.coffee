@@ -1,6 +1,6 @@
-require('app/styles/play/menu/options-view.sass')
+require('ozaria/site/styles/play/menu/options-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/menu/options-view'
+template = require 'ozaria/site/templates/play/menu/options-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
