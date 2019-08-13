@@ -73,19 +73,6 @@ setupExpressMiddleware = (app) ->
 
   app.use(express.static(public_path, maxAge: 0))
 
-  if config.proxy
-    # Don't proxy static files with sha prefixes, redirect them
-    regex = /\/[0-9a-f]{40}\/.*/
-    regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
-    app.use (req, res, next) ->
-      if regex.test(req.path)
-        newPath = req.path.slice(41)
-        return res.redirect(newPath)
-      if regex2.test(req.path)
-        newPath = req.path.slice(82)
-        return res.redirect(newPath)
-      next()
-
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
   app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon.ico')
@@ -328,14 +315,23 @@ exports.setExpressConfigurationOptions = (app) ->
 setupProxyMiddleware = (app) ->
   return if config.isProduction
   return unless config.proxy
+
+  # Don't proxy static files with sha prefixes, redirect them
+  regex = /\/[0-9a-f]{40}\/.*/
+  regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
+  app.use (req, res, next) ->
+    if regex.test(req.path)
+      newPath = req.path.slice(41)
+      return res.redirect(newPath)
+    if regex2.test(req.path)
+      newPath = req.path.slice(82)
+      return res.redirect(newPath)
+    next()
+
   httpProxy = require 'http-proxy'
 
-  target = 'https://very.direct.codecombat.com'
+  target = process.env.COCO_PROXY_TARGET or 'https://direct.production.ozaria.com'
   headers = {}
-
-  if (process.env.COCO_PROXY_NEXT)
-    target = 'https://next.codecombat.com'
-    headers['Host'] = 'next.codecombat.com'
 
   proxy = httpProxy.createProxyServer({
     target: target
