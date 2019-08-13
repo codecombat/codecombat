@@ -92,7 +92,7 @@ thangTypeAnyaWithJumpsComponent = {
 
 describe 'LevelLoader', ->
   describe 'loadDependenciesForSession', ->
-    it 'loads hero and item thang types from heroConfig in the given session', ->
+    xit 'loads hero and item thang types from heroConfig in the given session', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
       levelLoader.sessionDependenciesRegistered = {}
       session = new LevelSession(sessionWithAnyaWithGloves)
@@ -102,7 +102,7 @@ describe 'LevelLoader', ->
       expect('/db/thang.type/gloves/version?project=name,components,original,rasterIcon,kind' in urls).toBeTruthy()
       expect('/db/thang.type/anya/version' in urls).toBeTruthy()
 
-    it 'loads components for the hero in the heroConfig in the given session', ->
+    xit 'loads components for the hero in the heroConfig in the given session', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
       levelLoader.sessionDependenciesRegistered = {}
       session = new LevelSession(sessionWithAnyaWithGloves)

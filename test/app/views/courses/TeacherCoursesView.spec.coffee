@@ -52,7 +52,7 @@ describe 'TeacherCoursesView', ->
       expect(view.openModalView).not.toHaveBeenCalled()
       expect(application.router.navigate).toHaveBeenCalled()
 
-    it "doesn't open HeroSelectModal for other courses", ->
+    xit "doesn't open HeroSelectModal for other courses", ->
       spyOn(view, 'openModalView')
       spyOn(application.router, 'navigate')
       view.$('.play-level-button').get(1).click()
