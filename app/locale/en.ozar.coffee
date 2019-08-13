@@ -1849,7 +1849,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     educator_faq: "Educator FAQ"
     educator_faq_desc: "Frequently asked questions about using Ozaria in your classroom or school." # {change}
     teacher_getting_started: "Teacher Getting Started Guide"
-    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
+    teacher_getting_started_desc: "New to Ozaria? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first unit." # {change}
     student_getting_started: "Student Quick Start Guide"
     student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
     ap_cs_principles: "AP Computer Science Principles"
@@ -2021,6 +2021,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Concept"
     sync_google_classroom: "Sync Google Classroom"
+    prologue: "Prologue: The Sky Mountain"
+    prologue_unit_overview: "Unit Overview -- Prologue: The Sky Mountain"
+    prologue_unit_overview_desc: "Overview of all Cutscenes, Pracice Levels, Intros, and Projects in the Prologue unit."
+    prologue_lesson_plan: "Lesson Plan -- Prologue: The Sky Mountain"
+    prologue_lesson_plan_desc: "Detailed classroom guide including Learning Objectives, CSTA Standards, Reflection Activities and more."
+    prologue_capstone_rubric: "Capstone Rubric -- Prologue: The Sky Mountain"
+    prologue_capstone_rubric_desc: "Rubric for assessing students' final projects at the end of this unit."
 
   share_licenses:
     share_licenses: "Share Licenses"
