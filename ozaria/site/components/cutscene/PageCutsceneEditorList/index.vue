@@ -9,7 +9,7 @@ module.exports = Vue.extend({
     'editor-list': ListItem
   },
   mounted: function() {
-    if (!me.hasCutsceneAccess()) {
+    if (!me.hasCutsceneEditorAccess()) {
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/editor', { trigger: true })
     }

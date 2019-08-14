@@ -52,9 +52,6 @@ export default {
   }),
 
   mounted () {
-    if (!me.hasCinematicAccess()) {
-      return application.router.navigate('/', { trigger: true })
-    }
 
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']

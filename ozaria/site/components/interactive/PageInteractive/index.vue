@@ -79,11 +79,6 @@
     },
 
     async created () {
-      if (!me.hasInteractiveAccess()) {
-        alert('You must be logged in as an admin to use this page.')
-        return application.router.navigate('/', { trigger: true })
-      }
-
       await this.getInteractiveData()
     },
 

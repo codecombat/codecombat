@@ -11,12 +11,6 @@
       playLink: function () {
         return `/play/level/${this.levelSlug}`
       }
-    },
-    async created () {
-      if (!me.hasCinematicAccess()) {
-        alert('You must be logged in as an admin to use this page.')
-        return application.router.navigate('/', { trigger: true })
-      }
     }
   })
 </script>

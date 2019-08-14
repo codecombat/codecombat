@@ -67,9 +67,6 @@ export default Vue.extend({
   }),
 
   async created () {
-    if (!me.hasAvatarSelectorAccess())  {
-      return application.router.navigate('/', { trigger: true })
-    }
     const loader = []
 
     for (const avatar of avatars) {

@@ -55,10 +55,6 @@
       }
     },
     async created () {
-      if (!me.hasIntroLevelAccess()) {
-        alert('You must be logged in as an admin to use this page.')
-        return application.router.navigate('/', { trigger: true })
-      }
       await this.loadIntroLevel()
     },
     methods: {

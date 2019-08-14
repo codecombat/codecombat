@@ -36,7 +36,7 @@
       }
     },
     async created () {
-      if (!me.hasInteractiveAccess()) {
+      if (!me.hasInteractiveEditorAccess()) {
         alert('You must be logged in as an admin to use this page.')
         return application.router.navigate('/editor', { trigger: true })
       }
