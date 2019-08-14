@@ -55,9 +55,6 @@
     }),
 
     async created () {
-      if (!me.hasCharCustomizationAccess())  {
-        return application.router.navigate('/', { trigger: true })
-      }
       // TODO handle_error_ozaria - Retry logic is recommended.
       const loader = []
 

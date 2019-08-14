@@ -24,9 +24,6 @@ module.exports = Vue.extend({
   },
 
   mounted: function() {
-    if (!me.hasCutsceneAccess()) {
-      return application.router.navigate('/', { trigger: true })
-    }
     this.loadCutscene()
 
     // TODO: Do we still need this localhost workaround for private videos?
