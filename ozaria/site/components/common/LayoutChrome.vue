@@ -42,7 +42,7 @@
       ...mapActions('layoutChrome', ['toggleSoundAction']),
 
       clickOptions () {
-        this.$emit('clickOptions')
+        this.$emit('click-options')
       },
 
       clickRestart () {
@@ -235,6 +235,7 @@
         width: 58px
         height: 58px
         margin: 3px 0
+        cursor: pointer
 
       .spacer
         flex-grow: 1

@@ -57,6 +57,7 @@ const SurfaceContextMenuView = require('./SurfaceContextMenuView')
 const WebSurfaceView = require('./WebSurfaceView')
 const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
+const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
 
 require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -994,6 +995,10 @@ class PlayLevelView extends RootView {
     this.openModalView(new RestartLevelModal(this.session))
   }
 
+  onOpenOptionsModal (e) {
+    this.openModalView(new GameMenuModal({ level: this.level, session: this.session, supermodel: this.supermodel }))
+  }
+
   onWindowResize (e) {
     return this.endHighlight()
   }
@@ -1511,6 +1516,7 @@ PlayLevelView.prototype.subscriptions = {
   'level:reload-from-data': 'onLevelReloadFromData',
   'level:reload-thang-type': 'onLevelReloadThangType',
   'level:open-restart-modal': 'onOpenRestartModal',
+  'level:open-options-modal': 'onOpenOptionsModal',
   'level:started': 'onLevelStarted',
   'level:loading-view-unveiling': 'onLoadingViewUnveiling',
   'level:loading-view-unveiled': 'onLoadingViewUnveiled',
