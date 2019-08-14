@@ -1089,14 +1089,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     volume_label: "Volume"
     music_label: "Music"
     music_description: "Turn background music on/off."
-    editor_config_title: "Editor Configuration"
-    editor_config_livecompletion_label: "Live Autocompletion"
+    editor_config_title: "Level Options:" # {change}
+    editor_config_livecompletion_label: "Enable Autocomplete" # {change}
     editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
     editor_config_invisibles_label: "Show Invisibles"
     editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
     editor_config_indentguides_label: "Show Indent Guides"
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
-    editor_config_behaviors_label: "Smart Behaviors"
+    editor_config_behaviors_label: "Enable Smart Behaviors" # {change}
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   about:

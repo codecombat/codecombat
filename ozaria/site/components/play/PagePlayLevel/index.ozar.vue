@@ -2,7 +2,9 @@
   <LayoutChrome
     :title="title"
     :displayRestartMenuItem="canRestart()"
+    :displayOptionsMenuItem=true
     @click-restart="clickRestart"
+    @click-options="clickOptions"
   >
     <LayoutCenterContent>
       <LayoutAspectRatioContainer
@@ -55,6 +57,9 @@
         const level = Object.values(this.levelsList).find((l) => l.levelID === this.levelID)
         const isCapstone = level ? level.ozariaType === 'capstone' : false
         return me.isAdmin() || !isCapstone
+      },
+      clickOptions: function () {
+        Backbone.Mediator.publish('level:open-options-modal', {})
       }
     },
     computed: {
