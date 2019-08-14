@@ -15,16 +15,18 @@
       color: white
 
   width: 417px
+  max-width: calc(57% - 200px)
   height: 296px
   background: transparent url(/images/level/code_palette_wood_background.png)
   background-size: 100% auto
   position: absolute
   bottom: -296px + 40px
-  left: 300px
-  left: calc(55% - 417px - #{$api-bar-width})
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
   z-index: 1
+  @media screen and (min-width: $screen-lg-min)
+    left: 300px
+    left: calc(55% - 417px - #{$api-bar-width})
 
   &.active
     display: block
