@@ -53,9 +53,7 @@ const HoC2018VictoryModal = require('../../special_event/HoC2018VictoryModal')
 const InfiniteLoopModal = require('./modal/InfiniteLoopModal')
 const LevelSetupManager = require('lib/LevelSetupManager')
 const ContactModal = require('../../core/ContactModal')
-const HintsView = require('./HintsView')
 const SurfaceContextMenuView = require('./SurfaceContextMenuView')
-const HintsState = require('./HintsState')
 const WebSurfaceView = require('./WebSurfaceView')
 const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
@@ -562,14 +560,6 @@ class PlayLevelView extends RootView {
 
   insertSubviews () {
     let needle
-    this.hintsState = new HintsState(
-      { hidden: true },
-      { session: this.session, level: this.level, supermodel: this.supermodel }
-    )
-    store.commit('game/setHintsVisible', false)
-    this.hintsState.on('change:hidden', (hintsState, newHiddenValue) =>
-      store.commit('game/setHintsVisible', !newHiddenValue)
-    )
     this.tome = new TomeView({
       levelID: this.levelID,
       session: this.session,
@@ -586,8 +576,7 @@ class PlayLevelView extends RootView {
       observing: this.observing,
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
-      god: this.god,
-      hintsState: this.hintsState
+      god: this.god
     })
     this.insertSubView(this.tome)
     if (!this.level.isType('web-dev')) {
@@ -648,15 +637,6 @@ class PlayLevelView extends RootView {
       courseInstanceID: this.courseInstanceID
     })
     this.insertSubView(this.controlBar)
-    this.hintsView = new HintsView({
-      session: this.session,
-      level: this.level,
-      hintsState: this.hintsState
-    })
-    this.insertSubView(
-      this.hintsView,
-      this.$('.hints-view')
-    )
     if (this.level.isType('web-dev')) {
       this.webSurface = new WebSurfaceView({
         level: this.level,
@@ -844,7 +824,7 @@ class PlayLevelView extends RootView {
     for (let session of [this.session, this.otherSession]) {
       if (session != null ? session.get('team') : undefined) {
         playerNames[session.get('team')] =
-          session.get('creatorName') || 'Anonymous';
+          session.get('creatorName') || 'Anonymous'
       }
     }
     return playerNames
@@ -933,9 +913,7 @@ class PlayLevelView extends RootView {
       return
     }
     if (
-      !(file = { Dungeon: 'ambient-dungeon', Grass: 'ambient-grass' }[
-        this.level.get('terrain')
-      ])
+      !(file = { Dungeon: 'ambient-dungeon', Grass: 'ambient-grass' }[this.level.get('terrain')])
     ) {
       return
     }
@@ -947,7 +925,7 @@ class PlayLevelView extends RootView {
         this.playAmbientSound,
         this
       )
-      return;
+      return
     }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     return createjs.Tween.get(this.ambientSound).to({ volume: 1.0 }, 10000)
@@ -1368,8 +1346,8 @@ class PlayLevelView extends RootView {
     // TODO Improve later with GoalManger reworking
     // Mark the goal completed and prevent the goalmanager destroying
     // The game goal should have the certain name
-    if (this.goalManager.goalStates["has-stopped-playing-game"]) {
-      this.goalManager.setGoalState("has-stopped-playing-game", "success")
+    if (this.goalManager.goalStates['has-stopped-playing-game']) {
+      this.goalManager.setGoalState('has-stopped-playing-game', 'success')
     }
 
     if (!this.$el.hasClass('real-time')) {
@@ -1511,7 +1489,7 @@ class PlayLevelView extends RootView {
   }
 }
 
-PlayLevelView.prototype.id = 'level-view';
+PlayLevelView.prototype.id = 'level-view'
 PlayLevelView.prototype.template = template
 PlayLevelView.prototype.cache = false
 PlayLevelView.prototype.shortcutsEnabled = true

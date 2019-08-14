@@ -98,8 +98,11 @@ module.exports = class CastButtonView extends CocoView
   onCastSpells: (e) ->
     return if e.preload
     @casting = true
-    if @hasStartedCastingOnce  # Don't play this sound the first time
-      @playSound 'cast', 0.5 unless @options.level.isType('game-dev')
+
+    # TODO: replace with Ozaria sound
+    # if @hasStartedCastingOnce  # Don't play this sound the first time
+    #   @playSound 'cast', 0.5 unless @options.level.isType('game-dev')
+
     @hasStartedCastingOnce = true
     @updateCastButton()
 
@@ -111,7 +114,10 @@ module.exports = class CastButtonView extends CocoView
   onNewWorld: (e) ->
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
-      @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
+
+      # TODO: replace with Ozaria sound
+      # @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
+
       # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
       myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
       if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')

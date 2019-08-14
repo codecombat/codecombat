@@ -557,20 +557,26 @@ module.exports = class LevelLoader extends CocoClass
   # Initial Sound Loading
 
   playJingle: ->
-    return if @headless or not me.get('volume')
-    volume = 0.5
-    if me.level() < 3
-      volume = 0.25  # Start softly, since they may not be expecting it
-    # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
-    # Add the timeout to fix this weird behavior.
-    f = ->
-      jingles = ['ident_1', 'ident_2']
-      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length], volume
-    setTimeout f, 500
+    # TODO: replace with Ozaria level loading jingles
+    return
+
+    # return if @headless or not me.get('volume')
+    # volume = 0.5
+    # if me.level() < 3
+    #   volume = 0.25  # Start softly, since they may not be expecting it
+    # # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
+    # # Add the timeout to fix this weird behavior.
+    # f = ->
+    #   jingles = ['ident_1', 'ident_2']
+    #   AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length], volume
+    # setTimeout f, 500
 
   loadAudio: ->
-    return if @headless or not me.get('volume')
-    AudioPlayer.preloadInterfaceSounds ['victory']
+    # TODO: replace with Ozaria sound
+    return
+
+    # return if @headless or not me.get('volume')
+    # AudioPlayer.preloadInterfaceSounds ['victory']
 
   loadLevelSounds: ->
     return if @headless or not me.get('volume')
