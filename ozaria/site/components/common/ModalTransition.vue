@@ -118,8 +118,11 @@
         console.error('Campaign handle and level data are required for victory modal')
         return noty({ text: 'Error in victory screen', layout: 'topCenter', type: 'error', timeout: 2000 })
       }
+
+      // TODO: replace with Ozaria sound
       // TODO Use new audio system post-august launch
-      Backbone.Mediator.publish('audio-player:play-sound', { trigger: 'victory' })
+      // Backbone.Mediator.publish('audio-player:play-sound', { trigger: 'victory' })
+
       try {
         if (!this.currentIntroContent || this.introLevelComplete) { // Fetch next level only if its not an intro level, or all content in intro level is complete
           await this.getNextLevelLink()
