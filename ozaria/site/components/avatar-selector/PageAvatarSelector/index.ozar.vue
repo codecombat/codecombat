@@ -11,44 +11,44 @@ import { mapActions } from 'vuex';
 import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
 const ThangType = require('models/ThangType')
 
-const avatars = [
+const avatars = _.shuffle([
   {
-    selectionImg: '/images/ozaria/avatar-selector/circle.png',
+    selectionImg: '/images/ozaria/avatar-selector/avatar_bug.png',
     cinematicThangTypeId: '5d48b61ae92cc00030a9b2db',
     cinematicPetThangId: '5d48bd7677c98f0029118e11',
     avatarCodeString: 'bug'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/hex.png',
+    selectionImg: '/images/ozaria/avatar-selector/avatar_crown.png',
     cinematicThangTypeId: '5d48b85f703ac600249a5d69',
     cinematicPetThangId: '5d48c12b8ccd96003576806a',
     avatarCodeString: 'crown'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/square.png',
+    selectionImg: '/images/ozaria/avatar-selector/avatar_ghost.png',
     cinematicThangTypeId: '5d48b98e703ac600249a5df6',
     cinematicPetThangId: '5d48c17a77c98f0029118fff',
     avatarCodeString: 'ghost'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/circle.png',
+    selectionImg: '/images/ozaria/avatar-selector/avatar_leaf.png',
     cinematicThangTypeId: '5d48ba358ccd960035767d81',
     cinematicPetThangId: '5d48c1c48ccd9600357680be',
     avatarCodeString: 'leaf'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/square.png',
+    selectionImg: '/images/ozaria/avatar-selector/avatar_rose.png',
     cinematicThangTypeId: '5d48babc77c98f0029118cd7',
     cinematicPetThangId: '5d48c202e92cc00030a9b8bf',
     avatarCodeString: 'rose'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/hex.png',
+    selectionImg: '/images/ozaria/avatar-selector/avatar_snake.png',
     cinematicThangTypeId: '5d48bb5277c98f0029118d0d',
     cinematicPetThangId: '5d48c24a8ccd9600357680fd',
     avatarCodeString: 'snake'
   },
-]
+])
 
 export default Vue.extend({
   components: {
