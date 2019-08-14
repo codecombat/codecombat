@@ -9,8 +9,14 @@ block content
         .header-flexbox
           img.img-responsive.ozaria-logo(src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria brand logo")
           h1(data-i18n="ozaria_home.subtitle")
-          a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" )
-          a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="ozaria_home.im_a_student" )
+          if me.isTeacher()
+            a.btn.btn-primary.btn-large.btn-moon(href="/teachers/classes") Go to My Classes
+          else if me.isStudent()
+            a.btn.btn-primary.btn-large.btn-moon(href="/students") Go to My Dashboard
+          else
+            a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" )
+            a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="ozaria_home.im_a_student" )
+
         a#jumbotron-down-arrow
           img.top-arrow(src="/images/ozaria/home/yellow-arrow-down.png")
 
