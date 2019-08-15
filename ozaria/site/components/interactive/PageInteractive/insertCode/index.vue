@@ -387,7 +387,7 @@
         background-color: #FFF;
 
         font-family: 'Roboto Mono', monospace;
-        font-size: 16px;
+        font-size: 0.75vw;
         line-height: 19px;
         color: #232323;
 

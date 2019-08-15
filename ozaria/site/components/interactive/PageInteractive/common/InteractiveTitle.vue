@@ -45,8 +45,7 @@
 
     color: #1FBAB4;
     font-family: 'Works Sans', 'Open Sans', sans-serif;
-    font-size: 24px;
+    font-size: 1.4vw;
     letter-spacing: 0.48px;
-    line-height: 30px;
   }
 </style>

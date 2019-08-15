@@ -325,7 +325,7 @@
     font-family: 'Roboto Mono', monospace;
 
     .slot {
-      font-size: 16px;
+      font-size: 1.3vw;
       color: #232323;
 
       width: 25%;
@@ -362,9 +362,10 @@
 
           text-align: left;
           justify-content: left;
+          align-items: start;
 
           color: #232323;
-          font-size: 16px;
+          font-size: 14px;
 
           padding: 5px;
         }
