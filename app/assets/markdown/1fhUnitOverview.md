@@ -16,7 +16,7 @@ _Prologue: The Sky Mountain_ content is designed to get students excited about t
 
 # Summaries
 
-## Cutscene 1: Intro
+## Cutscene: Sky Mountain
 
 We are introduced to the Hero, a teenager from a small village at the foot of the Great Mountain. Their mother is missing, and after finding a message from their mother, they set off into the cold, dark winter day to a tower on the mountain. A mountain they are warned never to enter. With trepidation, the Hero opens the front door to the tower and steps inside...
 
@@ -24,142 +24,118 @@ We are introduced to the Hero, a teenager from a small village at the foot of th
 
 Gives students a chance to change their character’s skin tone and hair color.
 
-## Practice Levels 1-4
+## Practice Levels: Searching For Mom - The Acodus
 
 Students are introduced to the code editor and typing code to complete simple goals.
 
-## Cutscene 2: The Spirit Lands
+## Cutscene: The Spirit Lands
 
 When the Hero uses the artifact, they are sucked into the Spirit Land! In the Spirit Land the Hero finds a guide named Vega. Vega was your mother’s apprentice, and she is stuck in the Spirit Lands. The Hero asks about their mother, and Vega tells you all about the Darkness, a force that is slowly freezing the world, and that the Hero’s mother tried to stop it, but she disappeared. What the Hero doesn’t know is that their mother was the last in a long line of special magi, those who understand the fundamental code of the universe. This code is a long lost branch of magic, and now the Hero is the last person who can wield this mighty power. The Hero is the only one who can stop the Darkness before it plunges the world into a new ice age.
 
-## Intro 1
+## Intro: Of Objects and Avatars
 
-**Cinematic 1** - Vega explains game objects and avatars.
+**Cinematic: To Save the World** - Vega explains game objects and avatars.
 
 **Select Avatar** - Students choose an avatar for their games from a menu.
 
-**Cinematic 2** - Vega explains objects, methods, and arguments.
+**Cinematic: Objects and Avatars** - Vega explains objects, methods, and arguments.
 
-**Interactive 1** - Students drag and drop parts of a code statement into the correct 	placement.
+**Interactive: Setting Art** - Students drag and drop parts of a code statement into the correct placement.
 
-**Cinematic 3** - Vega explains the setArt method.
+**Cinematic: Properties of Life** - Vega explains the setArt method.
 
 ## Capstone Stage 1
 
 Students set the art of their avatars.
 
-## Intro 2
+## Intro: Speed Up
 
-**Cinematic 4** - Vega explains setSpeed method.
+**Cinematic: Speed Up** - Vega explains setSpeed method.
 
 ## Capstone Stage 2
 
 Students set the initial speed of avatars in their game.
 
-## Intro 3
+## Intro: Properties for All
 
-**Cinematic 5**
-
-Vega explains why properties apply to all the avatars.
+**Cinematic: Properties for All** - Vega explains why properties apply to all the avatars.
 
 ## Capstone Stage 3
 
 Students set the minimum speed, initial size, consume multiplier, and consume threshold.
 
-## Intro 4
+## Intro: Something Wicked
 
-**Cinematic 6**
+**Cinematic: Something Wicked** - Vega starts to explain resources and power-ups but is interrupted by the Darkness warning.
 
-Vega starts to explain resources and power-ups but is interrupted by the Darkness warning.
-
-## Cutscene 3: Darkness is Coming
+## Cutscene: Darkness is Coming
 
 The hero and her dog are suddenly interrupted by the tower shaking in the real world. Looking out the window, the Hero sees darkness coming.
 
-## Intro 5
+## Intro: Powering Up
 
-**Cinematic 7**
+**Cinematic: Powering Up -** Vega explains the difference between resources and power ups.
 
-Vega explains the difference between resources and power ups.
+**Interactive: Game Tool Definitions** - Students match new vocabulary with definitions.
 
-**Interactive 2**
-
-Students match new vocabulary with definitions.
-
-**Cinematic 8**
-
-Vega explains how to update resources and power ups.
+**Cinematic: What&#39;s for Dinner** - Vega explains how to update resources and power ups.
 
 ## Capstone Stage 4
 
 Students will set art, maximum number, and spawn interval of resources and power ups.
 
-## Intro 6
+## Intro: Sizing the World
 
-**Cinematic 9**
-
-Vega explains how to define game rules and settings.
+**Cinematic: Sizing the World** - Vega explains how to define game rules and settings.
 
 ## Capstone Stage 5
 
 Students will set the map size and environment.
 
-## Intro 7
+## Intro: Moving Pains
 
-**Cinematic 10**
-
-Vega explains setting input to mouse or keyboard.
+**Cinematic: Moving Pains** - Vega explains setting input to mouse or keyboard.
 
 ## Capstone Stage 6
 
 Students set the input to control gameplay.
 
-## **Intro 8**
+## **Intro: Enemy Mine**
 
-**Cinematic 10.5**
-
-After the Darkness warning goes off again, Vega explains how to set the AI to be easy, medium, or hard.
+**Cinematic: Enemy Mine** - After the Darkness warning goes off again, Vega explains how to set the AI to be easy, medium, or hard.
 
 ## Capstone Stage 7
 
 Students set the game AI for other avatars.
 
-## Intro 9
+## Intro: Scoring it All
 
-**Cinematic 11**
-
-Vega explains how to set different scores.
+**Cinematic: Scoring it All** - Vega explains how to set different scores.
 
 ## Capstone Stage 8
 
 Students set resource, power up, avatar, and win scores.
 
-## Intro 10
+## Intro: UI Love
 
-**Cinematic 12**
-
-Vega explains setting text and sharing the game with friends.
+**Cinematic: UI Love** - Vega explains setting text and sharing the game with friends.
 
 ## Capstone Stage 9
 
 Students define the victory and directions text.
 
-## Intro 11
+## Intro: Through the Dark
 
-**Cinematic 14**
-
-The Darkness returns and Vega explains that students can continue to edit their projects.
+**Cinematic: Through the Dark** - The Darkness returns and Vega explains that students can continue to edit their projects.
 
 ## Capstone Stage 10
 
 Students can edit their game more or submit it.
 
-## Cutscene 4: Trapping the Dark
+## Cutscene: Trapping the Dark
 
 The game is done, and we cut to the tower. The Darkness is being sucked into the Acodus, but at the last moment, the storm rips away with a scream that sound like the world itself is tearing apart. The cloud, now diminished, speeds off into the distance.
 
-## Intro 12
+## Intro: The Final Code
 
-**Cinematic 15**
-
-The hero returns to the real world, and Vega explains the hero’s quest to defeat the Darkness.
+**Cinematic: The Beginning** - The hero returns to the real world, and Vega explains the hero’s quest to defeat the Darkness.
