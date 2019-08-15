@@ -176,12 +176,12 @@
     left: 15px
 
     .hero-name
-      color: #000000
+      color: $white
       font-family: $body-font-style
       font-size: 20px
 
     .customize-link
-      color: #000000
+      color: $white
       text-decoration: underline
       font-family: $body-font-style
 
