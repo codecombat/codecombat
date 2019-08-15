@@ -95,23 +95,28 @@
   .title-bar {
     flex-grow: 0;
     flex-shrink: 0;
+
+    height: 14.1%;
   }
 
   .interactive-row {
-    flex-grow: 1;
-
     display: flex;
     flex-direction: row;
 
     align-items: stretch;
     justify-content: center;
 
+    height: 85.9%;
+
     .interactive-content {
-      flex-grow: 7;
+      flex-grow: 1;
     }
 
     .interactive-art {
-      flex-grow: 5;
+      flex-grow: 0;
+      flex-shrink: 0;
+
+      width: 41.6%;
 
       display: flex;
 

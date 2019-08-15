@@ -299,9 +299,8 @@
     position: relative;
 
     .draggable-ordering-lists {
-      flex-grow: 1;
-
       width: 100%;
+      height: 100%;
 
       display: flex;
       flex-direction: row;
@@ -413,6 +412,9 @@
         background-size: 7px 11px;
 
         border: 2px solid #acb9fa;
+
+        font-size: 0.85vw;
+        line-height: 1.2vw;
       }
 
       &.sortable-ghost {
@@ -446,6 +448,9 @@
       div {
         background-color: #acb9fa;
         border: 2px solid #acb9fa;
+
+        font-size: 0.85vw;
+        line-height: 1.2vw;
       }
     }
 
