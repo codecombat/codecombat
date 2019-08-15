@@ -168,10 +168,14 @@
 </style>
 
 <style scoped lang="sass">
+
+  // TODO calculate level-dot css based on unit map dimensions similar to campaign-view.sass
   .level-dot
     position: absolute
-    width: 1.5%
-    height: 2%
+    width: 2%
+    height: 3.0599%
+    margin-left: -1%
+    margin-bottom: -0.45499%
 
   .level-dot-link
     width: 100%
