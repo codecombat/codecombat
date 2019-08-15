@@ -168,7 +168,7 @@ module.exports = class Level extends CocoModel
 
     # Load the user's chosen hero AFTER getting stats from default char
     if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and @get('assessment') isnt 'open-ended' and (not me.showHeroAndInventoryModalsToStudents() or @isAssessment())
-      heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
+      heroThangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangTypeConstants.ozariaHeroes['hero-b']
       # use default hero in class if classroomItems is on
       if @isAssessment() and me.showHeroAndInventoryModalsToStudents()
         heroThangType = ThangTypeConstants.ozariaHeroes['hero-b']
