@@ -38,6 +38,10 @@ module.exports = class SegmentCheckView extends CocoView
     @signupState.set { classCode }, { silent: true }
     @checkClassCodeDebounced()
 
+  afterRender: () ->
+    super()
+    @onInputClassCode()
+
   checkClassCode: ->
     return if @destroyed
     classCode = @getClassCode()

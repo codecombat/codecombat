@@ -8,5 +8,20 @@ module.exports = class ChooseAccountTypeView extends CocoView
 
   events:
     'click .teacher-path-button': -> @trigger 'choose-path', 'teacher'
-    'click .student-path-button': -> @trigger 'choose-path', 'student'
-    'click .individual-path-button': -> @trigger 'choose-path', 'individual'
+    'input .class-code-input': 'onInputClassCode'
+    'submit form.choose-account-type': 'onSubmitStudent'
+
+  initialize: ({ @signupState }) ->
+
+  getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
+
+  onInputClassCode: ->
+    classCode = @getClassCode()
+    @signupState.set { classCode }, { silent: true }
+
+  onSubmitStudent: (e) ->
+    e.preventDefault()
+
+    @onInputClassCode()
+    @trigger 'choose-path', 'student'
+    return false

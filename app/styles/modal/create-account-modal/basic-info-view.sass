@@ -1,10 +1,17 @@
+@import "app/styles/style-flat-variables"
 #basic-info-view
 
+  .auth-network-logins
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: row
+
   .gplus-login
-    margin-bottom: 20px
 
     .gplus-logo
-      width: 254px
+      height: 46px
+      margin-right: 7px
 
   .facebook-login
 
@@ -29,7 +36,9 @@
         text-align: right
 
       input
-        max-height: 5vh
+        max-height: 6vh
+        border: 1px solid $teal
+        color: $teal
 
       .help-block
         float: right
@@ -68,7 +77,7 @@
     padding-right: 12px
 
   .optional-text
-    font-size: 12px;
+    font-size: 12px
 
   #want-in-school
     position: absolute
@@ -76,3 +85,6 @@
 
     #want-in-school-checkbox
       margin-top: 7px
+
+  .row.or-row
+    margin-top: 20px

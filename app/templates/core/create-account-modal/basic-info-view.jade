@@ -1,10 +1,26 @@
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
-    if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
-      .alert.alert-info.text-center(dir="rtl")
-        span תלמיד מערכת החינוך?
-        a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
+    if me.useSocialSignOn()
+      .auth-network-logins
+        .gplus-login
+          a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
+        .facebook-login
+          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+
+      // TODO: turn on once we can ask about school inside ConfirmationView
+      //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
+        .checkbox#want-in-school
+          label.control-label(for="want-in-school-checkbox")
+            input#want-in-school-checkbox(type="checkbox" value="")
+            span(data-i18n="signup.want_codecombat_in_school")
+      .row.or-row
+        .line
+        p.or(data-i18n="login.or")
+        .line
+
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
@@ -87,37 +103,19 @@ form#basic-info-form.modal-body.basic-info
             .col-xs-7.col-xs-offset-3
           .alert.alert-danger= error
 
-    if me.useSocialSignOn()
-      .hr-text
-        hr
-        span(data-i18n="general.or")
-
-      .auth-network-logins.text-center
-        .gplus-login
-          a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
-        .facebook-login
-          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
-
-    // TODO: turn on once we can ask about school inside ConfirmationView
-    //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
-      .checkbox#want-in-school
-        label.control-label(for="want-in-school-checkbox")
-          input#want-in-school-checkbox(type="checkbox" value="")
-          span(data-i18n="signup.want_codecombat_in_school")
+    
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
     if view.signupState.get('path') === 'teacher'
-      button.next-button.btn.btn-lg.btn-navy(type='submit')
+      button.next-button.btn.btn-lg.ozaria-primary-button(type='submit')
         span(data-i18n="common.next")
     else if view.signupState.get('subModalContinue')
-      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+      button#create-account-btn.next-button.btn.btn-lg.ozaria-primary-button(type='submit')
         span(data-i18n="common.continue")
     else
-      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
-        span(data-i18n="login.sign_up")
+      button#create-account-btn.next-button.btn.btn-lg.ozaria-primary-button(type='submit')
+        span(data-i18n="common.next")
 
-    button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+    button.back-button.btn.btn-lg.ozaria-secondary-button(type='button')
       span(data-i18n="common.back")

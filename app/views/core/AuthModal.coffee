@@ -1,4 +1,4 @@
-require('app/styles/modal/auth-modal.sass')
+require('app/styles/modal/auth-modal.scss')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/core/auth-modal'
 forms = require 'core/forms'

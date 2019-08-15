@@ -1,4 +1,4 @@
-extends /templates/core/modal-base-flat.jade
+extends /templates/core/modal-base-ozaria.jade
 
 block modal-header
   //-
@@ -9,7 +9,7 @@ block modal-header
     +modal-header-content
 
 mixin modal-header-content
-  h3
+  h2
     case view.signupState.get('path')
       when 'student'
         span(data-i18n="signup.create_student_header")
@@ -57,9 +57,8 @@ block modal-footer
     +modal-footer-content
 
 mixin modal-footer-content
-  if view.signupState.get('screen') !== 'confirmation'
+  if view.signupState.get('screen') !== 'confirmation' && view.signupState.get('screen') !== 'teacher-signup-component'
     .modal-footer-content
       .small-details.rtl-allowed
-        span.spr(data-i18n="signup.login_switch")
-        a.login-link
-          span(data-i18n="signup.sign_in")
+        span.spr(data-i18n="login.already_have_account1")
+        a.login-link(data-i18n="signup.sign_in")

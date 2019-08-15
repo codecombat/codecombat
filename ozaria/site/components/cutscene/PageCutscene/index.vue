@@ -68,7 +68,7 @@ module.exports = Vue.extend({
 </template>
 
 <style lang="sass">
-  @import "ozaria/site/styles/common/variables.sass"
+  @import "ozaria/site/styles/common/variables.scss"
 
   #cutscene-player
     width: calc(100vw - #{$chromeRightPadding + $chromeLeftPadding})

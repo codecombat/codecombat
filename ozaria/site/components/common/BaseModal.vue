@@ -25,7 +25,7 @@
 </template>
 
 <style lang="sass">
-@import "ozaria/site/styles/common/variables.sass"
+@import "ozaria/site/styles/common/variables.scss"
 
 .ozaria-modal
   /deep/ .modal-container

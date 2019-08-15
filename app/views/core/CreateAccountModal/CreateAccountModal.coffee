@@ -102,7 +102,7 @@ module.exports = class CreateAccountModal extends ModalView
 
     @listenTo @signupState, 'all', _.debounce @render
 
-    @listenTo @insertSubView(new ChooseAccountTypeView()),
+    @listenTo @insertSubView(new ChooseAccountTypeView({ @signupState })),
       'choose-path': (path) ->
         if path is 'teacher'
           startSignupTracking()
@@ -143,10 +143,7 @@ module.exports = class CreateAccountModal extends ModalView
           @signupState.set { screen: 'segment-check' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          if me.skipHeroSelectOnStudentSignUp()
-            @signupState.set { screen: 'confirmation', accountCreated: true }
-          else
-            @signupState.set { screen: 'extras', accountCreated: true }
+          @signupState.set { screen: 'confirmation', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))

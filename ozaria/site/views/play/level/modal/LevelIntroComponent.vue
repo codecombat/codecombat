@@ -75,7 +75,7 @@
 </script>
 
 <style lang="sass" scoped>
-@import "ozaria/site/styles/common/variables.sass"
+@import "ozaria/site/styles/common/variables.scss"
 
 .modal-content
   width: 661px

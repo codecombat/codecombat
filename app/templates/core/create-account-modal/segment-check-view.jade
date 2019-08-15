@@ -12,26 +12,20 @@ form.modal-body.segment-check
               else
                 span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
         
-        p.render
+        .render
           if _.isEmpty(view.signupState.get('classCode'))
-            span(data-i18n="signup.ask_teacher_1")
+            p.medium-gray
+              span(data-i18n="signup.ask_teacher_1")
           else if state.get('classCodeValid')
-            span.small(data-i18n="signup.about_to_join")
-            br
-            span.classroom-name= view.classroom.get('name')
-            br
-            if view.classroom.owner.get('firstName')
-              span.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
-            else if view.classroom.owner.get('name')
-              span.teacher-name= view.classroom.owner.get('name')
+            p.medium-gray
+              p.large-gray.classroom-name= view.classroom.get('name')
+              br
+              if view.classroom.owner.get('firstName')
+                p.medium-gray.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+              else if view.classroom.owner.get('name')
+                p.medium-gray.teacher-name= view.classroom.owner.get('name')
           else
-            span(data-i18n="signup.classroom_not_found")
-          if me.showIndividualRegister() && (_.isEmpty(view.signupState.get('classCode')) || !state.get('classCodeValid'))
-            br
-            span.spr(data-i18n="signup.ask_teacher_2")
-            a.individual-path-button
-              span(data-i18n="signup.ask_teacher_3")
-            span.spl(data-i18n="signup.ask_teacher_4")
+            p.medium-gray(data-i18n="signup.classroom_not_found")
           
       when 'teacher'
         // TODO
@@ -59,7 +53,7 @@ form.modal-body.segment-check
         .parent_birthdate(data-i18n="signup.parent_use_birthdate")
 
       default
-        p
+        p.medium-gray
           span Sign-up error, please contact 
           =" "
           a(href="mailto:support@codecombat.com") support@codecombat.com
@@ -68,9 +62,9 @@ form.modal-body.segment-check
   // In reverse order for tabbing purposes
   .history-nav-buttons
     //- disabled=!view.signupState.get('segmentCheckValid')
-    button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="common.continue")
+    button.next-button.btn.btn-lg.ozaria-primary-button(type='submit')
+      span(data-i18n="common.next")
 
     if !view.signupState.get('subModalContinue')
-      button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
+      button.back-to-account-type.btn.btn-lg.ozaria-secondary-button(type='button')
         span(data-i18n="common.back")
