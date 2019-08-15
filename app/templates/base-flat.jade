@@ -54,35 +54,6 @@ mixin accountLinks
                     else
                       a.text-p(href="/teachers/resources/faq" data-i18n="nav.faq")
 
-                ul.nav.navbar-nav.navbar-right
-                  if me.isAnonymous()
-                    if document.location.href.search('/quote') >= 0
-                      li 
-                        a.text-p.text-moon(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
-                    else
-                      li
-                        a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
-                  if me.isStudent()
-                    li
-                      if document.location.href.search('/students') >= 0
-                        a.text-p.text-moon(href="/students", data-i18n="nav.my_courses")
-                      else
-                        a.text-p(href="/students", data-i18n="nav.my_courses")
-                  if me.isSchoolAdmin()
-                      li
-                        a.text-p(href="/school-administrator", data-i18n="nav.my_teachers")
-                  if !me.isAnonymous() && me.isTeacher()
-                    li
-                      if document.location.href.search('/teachers/classes') >= 0
-                        a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                      else
-                        a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                  if me.isAnonymous()
-                      li
-                        a#create-account-link.signup-button.text-p(data-event-action="Header Sign Up CTA", data-i18n="signup.sign_up")
-                      li
-                        a#login-link.login-button.text-p(data-event-action="Header Login CTA", data-i18n="signup.login")
-
                 if !me.isAnonymous()
                   ul.nav.navbar-nav.navbar-right
                     li.dropdown
@@ -95,6 +66,35 @@ mixin accountLinks
                             h5=me.broadName()
                             //- span.text-p= me.broadName()
                         +accountLinks
+
+                ul.nav.navbar-nav.navbar-right
+                  if me.isAnonymous()
+                    if document.location.href.search('/quote') >= 0
+                      li
+                        a.text-p.text-moon(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
+                    else
+                      li
+                        a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
+                  if me.isStudent()
+                    li
+                      if document.location.href.search('/students') >= 0
+                        a.text-p.text-moon(href="/students", data-i18n="nav.classes")
+                      else
+                        a.text-p(href="/students", data-i18n="nav.classes")
+                  if me.isSchoolAdmin()
+                    li
+                      a.text-p(href="/school-administrator", data-i18n="nav.my_teachers")
+                  if !me.isAnonymous() && me.isTeacher()
+                    li
+                      if document.location.href.search('/teachers/classes') >= 0
+                        a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                      else
+                        a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                  if me.isAnonymous()
+                    li
+                      a#create-account-link.signup-button.text-p(data-event-action="Header Sign Up CTA", data-i18n="signup.sign_up")
+                    li
+                      a#login-link.login-button.text-p(data-event-action="Header Login CTA", data-i18n="signup.login")
 
 
 

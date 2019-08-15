@@ -4,7 +4,6 @@ template = require 'templates/courses/courses-view'
 AuthModal = require 'views/core/AuthModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
-HeroSelectModal = require 'views/courses/HeroSelectModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
@@ -32,7 +31,6 @@ module.exports = class CoursesView extends RootView
   events:
     'click #log-in-btn': 'onClickLogInButton'
     'click #start-new-game-btn': 'openSignUpModal'
-    'click .change-hero-btn': 'onClickChangeHeroButton'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click .play-btn': 'onClickPlay'
@@ -69,15 +67,6 @@ module.exports = class CoursesView extends RootView
     @store = store
     @originalLevelMap = {}
     @urls = require('core/urls')
-
-    # TODO: Trim this section for only what's necessary
-    @hero = new ThangType
-    defaultHeroOriginal = ThangType.heroes.captain
-    heroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
-    @hero.url = "/db/thang.type/#{heroOriginal}/version"
-    # @hero.setProjection ['name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','shortName','unlockLevelName','i18n']
-    @supermodel.loadModel(@hero, 'hero')
-    @listenTo @hero, 'change', -> @render() if @supermodel.finished()
 
   afterInsert: ->
     super()
@@ -157,17 +146,6 @@ module.exports = class CoursesView extends RootView
     window.tracker?.trackEvent 'Students Signup Started', category: 'Students', ['Mixpanel']
     modal = new CreateAccountModal({ initialValues: { classCode: utils.getQueryVariable('_cc', "") } })
     @openModalView(modal)
-
-  onClickChangeHeroButton: ->
-    window.tracker?.trackEvent 'Students Change Hero Started', category: 'Students', ['Mixpanel']
-    modal = new HeroSelectModal({ currentHeroID: @hero.id })
-    @openModalView(modal)
-    @listenTo modal, 'hero-select:success', (newHero) =>
-      # @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"
-      # @hero.fetch()
-      @hero.set(newHero.attributes)
-    @listenTo modal, 'hide', ->
-      @stopListening modal
 
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()

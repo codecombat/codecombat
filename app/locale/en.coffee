@@ -221,6 +221,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     parent: "Parents"
     faq: "FAQ"
     return_coco: "Return to CodeCombat"
+    classes: "Classes"
 
   modal:
     close: "Close"
@@ -1512,8 +1513,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     switch_to: "Switch To"
     greetings: "Greetings!"
     back_classrooms: "Back to my classrooms"
-    back_classroom: "Back to classroom"
-    back_courses: "Back to my courses"
+    back_classroom: "Back to classroom" # {change}
+    back_courses: "Back to Classes" # {change}
     edit_details: "Edit class details"
     purchase_enrollments: "Purchase Student Licenses"
     remove_student: "remove student"
@@ -1535,19 +1536,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_now_learn_2: "while loops to solve pesky puzzles"
     play_now_learn_3: "strings & variables to customize actions"
     play_now_learn_4: "how to defeat an ogre (important life skills!)"
-    welcome_to_page: "My Student Dashboard"
+    welcome_to_page: "Student Dashboard" # {change}
     my_classes: "Current Classes"
     class_added: "Class successfully added!"
     view_map: "view map"
     view_videos: "view videos"
     view_project_gallery: "view my classmates' projects"
-    join_class: "Join A Class"
+    join_class: "Join a Class" # {change}
     join_class_2: "Join class"
-    ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
-    enter_c_code: "<Enter Class Code>"
+    ask_teacher_for_code: "Ask your teacher if you have a Ozaria class code! If so, enter it below:" # {change}
+    enter_c_code: "Enter Class Code" #{change}
     join: "Join"
     joining: "Joining class"
-    course_complete: "Course Complete"
+    unit_complete: "Unit Complete"
     play_arena: "Play Arena"
     view_project: "View Project"
     start: "Start"
