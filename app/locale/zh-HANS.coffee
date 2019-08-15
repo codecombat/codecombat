@@ -551,7 +551,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_level:
     back_to_map: "返回地图"
-    directions: "方向"
+    directions: "游戏指引"
     edit_level: "编辑关卡"
     keep_learning: "不断学习"
     explore_codecombat: "探索CodeCombat"
