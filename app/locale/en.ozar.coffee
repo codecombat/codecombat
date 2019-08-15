@@ -356,16 +356,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     title: "Excellent Work, Apprentice"
 
   login:
+    auth_sign_up: "New to Ozaria? Create an Account" 
     sign_up: "Create Account"
-    email_or_username: "Email or username"
+    email_or_username: "Email or Username" # {change}
+    or: 'or'
     log_in: "Log In"
+    sign_in: "Sign In"
     logging_in: "Logging In"
     log_out: "Log Out"
     forgot_password: "Forgot your password?"
     finishing: "Finishing"
-    sign_in_with_facebook: "Sign in with Facebook"
-    sign_in_with_gplus: "Sign in with Google"
+    sign_in_with_facebook: "Facebook" # {change}
+    sign_in_with_gplus: "Google" # {change}
     signup_switch: "Want to create an account?"
+    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+    already_have_account2: "You can sign into Ozaria.com using that account."
+    sign_into_ozaria: "Sign Into Ozaria.com"
+
 
   signup:
     complete_subscription: "Complete Subscription"
@@ -402,13 +409,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_type_2: "Set up your class"
     teacher_type_3: "Access Course Guides"
     teacher_type_4: "View student progress"
-    signup_as_teacher: "Sign up as a Teacher"
+    signup_as_teacher: "Create Teacher Account" # {change}
     student_type_1: "Learn to program while playing an engaging game!"
     student_type_2: "Play with your class"
     student_type_3: "Compete in arenas"
     student_type_4: "Choose your hero!"
     student_type_5: "Have your Class Code ready!"
-    signup_as_student: "Sign up as a Student"
+    signup_as_student: "Create Student Account" # {change}
     individuals_or_parents: "Individuals & Parents"
     individual_type: "For players learning to code outside of a class. Parents should sign up for an account here."
     signup_as_individual: "Sign up as an Individual"
@@ -426,18 +433,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     account_created: "Account Created!"
     confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
     confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
-    write_this_down: "Write this down:"
+    write_this_down: "Write down your username:" # {change}
     start_playing: "Start Playing!"
     sso_connected: "Successfully connected with:"
     select_your_starting_hero: "Select Your Starting Hero:"
     you_can_always_change_your_hero_later: "You can always change your hero later."
     finish: "Finish"
     teacher_ready_to_create_class: "You're ready to create your first class!"
-    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
+    teacher_students_can_start_now: "Your students will be able to start playing the first unit, Prologue: The Sky Mountain, immediately." # {change}
     teacher_list_create_class: "On the next screen you will be able to create a new class."
     teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
     teacher_list_resource_hub_1: "Check out the"
-    teacher_list_resource_hub_2: "Course Guides"
+    teacher_list_resource_hub_2: "Unit Guides" # {change}
     teacher_list_resource_hub_3: "for solutions to every level, and the"
     teacher_list_resource_hub_4: "Resource Hub"
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
@@ -448,6 +455,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     eu_confirmation_place_of_processing: "Learn more about the possible risks"
     eu_confirmation_student: "If you are not sure, ask your teacher."
     eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
 
   recover:
     recover_account_title: "Recover Account"
@@ -1272,7 +1281,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     city: "City"
     state: "State / Region"
     country: "Country"
-    num_students_help: "How many students will use CodeCombat?"
+    num_students_help: "How many students will use Ozaria?" # {change}
     num_students_default: "Select Range"
     education_level_label: "Education Level of Students"
     education_level_help: "Choose as many as apply."
@@ -1292,7 +1301,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     referrer_pd: "Professional trainings/workshops"
     referrer_web: "Google"
     referrer_other: "Other"
-    anything_else: "What kind of class do you anticipate using CodeCombat for?"
+    anything_else: "What kind of class do you anticipate using Ozaria for?" # {change}
     thanks_header: "Request Received!"
     thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
@@ -1727,7 +1736,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     edit_class_settings: "edit class settings"
     access_restricted: "Account Update Required"
     teacher_account_required: "A teacher account is required to access this content."
-    create_teacher_account: "Create Teacher Account"
+    create_teacher_account: "Create a Teacher Account" # {change}
     what_is_a_teacher_account: "What's a Teacher Account?"
     teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Current Classes"

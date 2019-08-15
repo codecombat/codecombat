@@ -1,0 +1,28 @@
+.modal-dialog
+  #modal-base-flat.modal-content.style-flat.style-ozaria
+    block modal-header
+      .modal-header
+        if view.closeButton
+          .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+        block modal-header-content
+          if view.options.headerContent
+            h3!= view.options.headerContent
+
+    block modal-body
+      .modal-body
+        block modal-body-content
+          if view.options.bodyContent
+            div!= view.options.bodyContent
+          else
+            p Loading
+
+      .modal-body.wait.secret
+        block modal-body-wait-content
+          h3 Loading...
+        .progress.progress-striped.active
+          .progress-bar
+
+    block modal-footer
+      .modal-footer
+        block modal-footer-content
+          button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true", data-i18n="modal.okay") Okay

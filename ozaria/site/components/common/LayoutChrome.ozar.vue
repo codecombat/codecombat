@@ -160,7 +160,7 @@
 </template>
 
 <style lang="sass" scoped>
-  @import "ozaria/site/styles/common/variables.sass"
+  @import "ozaria/site/styles/common/variables.scss"
 
   .chrome-container
     position: fixed
