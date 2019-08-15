@@ -78,20 +78,6 @@ block content
             .text-center
               h1(data-i18n="courses.welcome_to_page")
 
-            if me.showAvatarOnStudentDashboard()
-              .current-hero-container.text-center.row
-                .hero-avatar
-                  img(src=view.hero.getPortraitURL())
-                .current-hero-right-col.rtl-allowed
-                  .semibold.current-hero-text
-                    if view.hero.getGender() == 'female'
-                      span.spr(data-i18n="courses.current_hero_female")
-                    else
-                      span.spr(data-i18n="courses.current_hero")
-                    span.current-hero-name= view.hero.getHeroShortName()
-                  button.change-hero-btn.btn.btn-lg.btn-forest
-                    span(data-i18n="play.change_hero")
-
             if view.classrooms.size()
               br
               h3(data-i18n="courses.my_classes")
@@ -125,19 +111,18 @@ block content
                           a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
                           if view.courseInstanceHasProject(courseInstance)
                             a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
-                          if classroom.hasAssessments({courseId: course._id})
-                            =" "
-                            a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
-                          if view.showVideosLinkForCourse(course._id)
-                            = " "
-                            a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-                          // the ranking will only be visible in this class
-                          if (courseInstance.id=="5cd4352deed476002dd14019" || courseInstance.id=="5cd57c5216f64600245afedd" || courseInstance.id=='5ce01f45da3b2900357d7ed7')
-                            a.view-ranking-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_ranking")
+                          // Disable for Ozaria launch
+                          //
+                          //if classroom.hasAssessments({courseId: course._id})
+                          //  =" "
+                          //  a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
+                          //if view.showVideosLinkForCourse(course._id)
+                          //  = " "
+                          //  a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 
-            h3.text-uppercase(data-i18n="courses.join_class")
+            h3(data-i18n="courses.join_class")
             hr
 
             form#join-class-form.form-inline
@@ -163,7 +148,7 @@ mixin course-instance-body(courseInstance, classroom)
   if stats.courseComplete
     .text-success
       span.glyphicon.glyphicon-ok
-      span.spl(data-i18n="courses.course_complete")
+      span.spl(data-i18n="courses.unit_complete")
       span !
   .pull-right
     if stats.courseComplete
@@ -178,7 +163,7 @@ mixin course-instance-body(courseInstance, classroom)
         a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
           span(data-i18n="courses.view_project")
       else
-        a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
+        a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
     else if nextLevel
       - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
       if nextLevel != stats.levels.first
