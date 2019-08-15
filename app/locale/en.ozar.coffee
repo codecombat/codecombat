@@ -184,7 +184,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     map: "Map"
     play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
-    courses: "Courses"
+    units: "Units"
     blog: "Blog"
     forum: "Forum"
     account: "Account"
@@ -198,7 +198,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     contact: "Contact"
     twitter_follow: "Follow"
     my_classrooms: "My Classes"
-    my_courses: "My Courses"
+    my_units: "My Units"
     my_teachers: "My Teachers"
     careers: "Careers"
     facebook: "Facebook"
@@ -1572,7 +1572,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Keep Student"
     removing_user: "Removing user"
-    subtitle: "Review course overviews and levels" # Flat style redesign
+    subtitle: "Review unit overviews and levels" # {change}
     changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
