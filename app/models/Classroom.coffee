@@ -169,9 +169,9 @@ module.exports = class Classroom extends CocoModel
       currentLevel = courseLevels.models[currentIndex]
       currentPlaytime = levelSessionMap[currentLevel.get('original')]?.get('playtime') ? 0
       needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) and not currentLevel.get('assessment')
-      unless utils.ozariaCourseIDs.includes(courseID)
+      unless utils.orderedCourseIDs.includes(courseID)
         nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
-    if utils.ozariaCourseIDs.includes(courseID)
+    if utils.orderedCourseIDs.includes(courseID)
       nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)
       nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
     else

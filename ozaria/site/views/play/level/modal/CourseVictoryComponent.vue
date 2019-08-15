@@ -122,7 +122,7 @@
     }
     computed: {
       ozariaCourse: ->
-        return utils.ozariaCourseIDs.includes(@course._id)
+        return utils.orderedCourseIDs.includes(@course._id)
       challengeLink: ->
         if me.isSessionless()
           link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"

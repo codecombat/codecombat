@@ -23,7 +23,7 @@ module.exports =
   courseWorldMap: ({course, courseInstance}) ->
     course = course.attributes || course
     courseInstance = courseInstance.attributes || courseInstance
-    "/play/#{course.campaignID}?course-instance=#{courseInstance._id}"
+    "/play/#{course.campaignID}?course-instance=#{courseInstance._id}&course=#{course._id}"
 
   courseRanking: ({course, courseInstance}) ->
     course = course.attributes || course

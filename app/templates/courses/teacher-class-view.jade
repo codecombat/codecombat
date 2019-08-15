@@ -85,14 +85,17 @@ mixin studentRow(student)
     td
       if state.get('progressData')
         - var courses = view.sortedCourses.map(function(c) { return view.courses.get(c._id); });
-        - var courseLabelsArray = view.helper.courseLabelsArray(courses);
+        //- TODO: Properly use acronyms for future Ozaria classes
+        //- - var courseLabelsArray = view.helper.courseLabelsArray(courses);
         each trimCourse, index in view.sortedCourses
           - var course = view.courses.get(trimCourse._id);
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
           if instance && instance.hasMember(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
             - var levelsTotal = _.reject(_.reject(trimCourse.levels, 'practice'), 'assessment').length
-            - var label = courseLabelsArray[index];
+            //- TODO: Properly use acronyms for future Ozaria classes
+            //- - var label = courseLabelsArray[index];
+            - var label = "P" // "P" for Prologue: Sky Mountain
             +studentCourseProgressDot(progress, levelsTotal, label, student, course, instance)
     if !state.get('readOnly')
       td
@@ -111,7 +114,7 @@ mixin courseProgressTab
         span(data-i18n='teacher.select_course')
         span.spr :
         select.course-select
-          each course in view.latestReleasedCourses
+          each course in view.courses.where({isOzaria: true})
             option(value=course.id selected=(course===state.get('selectedCourse')))
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
@@ -328,11 +331,13 @@ mixin bulkAssignControls
       span(data-i18n='teacher.bulk_assign')
       span :
     select.bulk-course-select.form-control
-      each course in _.rest(view.latestReleasedCourses)
+      each course in view.courses.where({isOzaria: true})
         option(value=course.id selected=(course===state.get('selectedCourse')))
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
+        option(disabled value="Coming Soon: Chapter One" selected=false)
+          | Coming Soon: Chapter One
 
 mixin assessmentsTab
   #assessments-tab
@@ -340,6 +345,7 @@ mixin assessmentsTab
       br
       i
         | Assessments will be featured in future chapters of Ozaria.
+      br
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs
@@ -531,8 +537,6 @@ if classroom.loaded
           span(data-i18n='courses.add_students')
           span :
         +copyCodes
-        if !state.get('readOnly')
-          +addStudentsButton
 
     if view.students.length > 0
       ul.nav.nav-tabs.m-t-5(role='tablist')
@@ -545,14 +549,13 @@ if classroom.loaded
           a.course-progress-tab-btn(href='#course-progress-tab')
             .small-details.text-center(data-i18n='teacher.unit_progress')
         .tab-spacer
-        if view.classroom.hasAssessments()
-          li(class=(activeTab === "#assessments-tab" ? 'active' : ''))
-            a.assessments-tab-btn(href='#assessments-tab')
-              .small-details.text-center(data-i18n='teacher.assessments')
-          .tab-spacer
-        li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
-          a.course-progress-tab-btn(href='#license-status-tab')
-            .small-details.text-center(data-i18n='teacher.license_status')
+        li(class=(activeTab === "#assessments-tab" ? 'active' : ''))
+          a.assessments-tab-btn(href='#assessments-tab')
+            .small-details.text-center(data-i18n='teacher.assessments')
+        .tab-spacer
+        //- li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
+        //-   a.course-progress-tab-btn(href='#license-status-tab')
+        //-     .small-details.text-center(data-i18n='teacher.license_status')
         .tab-filler
 
       .tab-content
