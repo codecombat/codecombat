@@ -43,6 +43,8 @@
     },
 
     data () {
+      // FIXME: Currently doesn't work. The swap library must be kept manually in sync
+      // using the handleSwap method.
       const shuffle = deterministicShuffleForUserAndDay(
         me,
         [ ...Array(this.localizedInteractiveConfig.elements.length).keys() ]
@@ -138,6 +140,13 @@
         })
       },
 
+      handleSwap (e) {
+        // Manual hack to ensure that UI and data stays in sync.
+        const temp = this.promptSlots[e.oldDraggableIndex]
+        this.promptSlots[e.oldDraggableIndex] = this.promptSlots[e.newDraggableIndex]
+        this.promptSlots[e.newDraggableIndex] = temp
+      },
+
       closeModal () {
         this.resetAnswer()
         this.showModal = false
@@ -220,6 +229,7 @@
           class="slots-container prompt-slots"
           tag="ul"
           :options="{ draggable: '.prompt' }"
+          @change="handleSwap"
         >
           <template
             v-for="prompt in promptSlots"
