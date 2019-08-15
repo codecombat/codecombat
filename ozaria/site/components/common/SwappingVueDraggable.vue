@@ -26,7 +26,10 @@
         this.rootContainer,
         {
           ...this.options,
-          swap: true
+          swap: true,
+          // This is required because VueDraggable doesn't mutate the model.
+          // Currently the parent must manage their own state.
+          onUpdate: (e) => this.$emit('change', e)
         }
       )
 
