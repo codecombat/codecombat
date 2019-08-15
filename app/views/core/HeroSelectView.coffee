@@ -15,8 +15,8 @@ module.exports = class HeroSelectView extends CocoView
     'click .hero-option': 'onClickHeroOption'
 
   initialize: (@options = {}) ->
-    defaultHeroOriginal = ThangTypeConstants.heroes.captain
-    currentHeroOriginal = me.get('heroConfig')?.thangType or defaultHeroOriginal
+    defaultHeroOriginal = ThangTypeConstants.ozariaHeroes['hero-b']
+    currentHeroOriginal = me.get('ozariaUserOptions')?.isometricThangTypeOriginal or defaultHeroOriginal
 
     @debouncedRender = _.debounce @render, 0
 

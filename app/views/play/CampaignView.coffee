@@ -279,7 +279,7 @@ module.exports = class CampaignView extends RootView
     musicDelay = if @probablyCachedMusic then 1000 else 10000
     delayMusicStart = => _.delay (=> @playMusic() unless @destroyed), musicDelay
     @playMusicTimeout = delayMusicStart()
-    @hadEverChosenHero = me.get('heroConfig')?.thangType
+    @hadEverChosenHero = me.get('ozariaUserOptions')?.isometricThangTypeOriginal
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
@@ -404,7 +404,7 @@ module.exports = class CampaignView extends RootView
     @fullyRendered = true
     @render()
     @checkForUnearnedAchievements()
-    @preloadTopHeroes() unless me.get('heroConfig')?.thangType
+    @preloadTopHeroes() unless me.get('ozariaUserOptions')?.isometricThangTypeOriginal
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) if @terrain in ['forest', 'desert']
     if @campaign and @isRTL utils.i18n(@campaign.attributes, 'fullName')
       @$('.campaign-name').attr('dir', 'rtl')
@@ -1129,13 +1129,14 @@ module.exports = class CampaignView extends RootView
         showButton courseInstance
 
   preloadTopHeroes: ->
-    return if window.serverConfig.picoCTF
-    for heroID in ['captain', 'knight']
-      url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
-      continue if @supermodel.getModel url
-      fullHero = new ThangType()
-      fullHero.setURL url
-      @supermodel.loadModel fullHero
+    return
+    # return if window.serverConfig.picoCTF
+    # for heroID in ['captain', 'knight']
+    #   url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
+    #   continue if @supermodel.getModel url
+    #   fullHero = new ThangType()
+    #   fullHero.setURL url
+    #   @supermodel.loadModel fullHero
 
   updateVolume: (volume) ->
     volume ?= me.get('volume') ? 1.0
@@ -1178,7 +1179,7 @@ module.exports = class CampaignView extends RootView
     }
 
   updateHero: ->
-    return unless hero = me.get('heroConfig')?.thangType
+    return unless hero = me.get('ozariaUserOptions')?.isometricThangTypeOriginal
     for slug, original of ThangType.heroes when original is hero
       @$el.find('.player-hero-icon').removeClass().addClass('player-hero-icon ' + slug)
       return

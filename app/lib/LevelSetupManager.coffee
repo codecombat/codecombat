@@ -103,7 +103,7 @@ module.exports = class LevelSetupManager extends CocoClass
       console.log 'Showing hero picker because heroes earned/purchased has changed.'
       firstModal = @heroesModal
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
-      unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
+      unless _.contains allowedHeroOriginals, me.get('ozariaUserOptions')?.isometricThangTypeOriginal
         firstModal = @heroesModal
 
 
