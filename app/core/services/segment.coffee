@@ -42,5 +42,5 @@ module.exports = loadSegmentio = if not me.useSocialSignOn() then -> Promise.res
       return
 
     analytics.SNIPPET_VERSION = '3.1.0'
-    analytics.load 'yJpJZWBw68fEj0aPSv8ffMMgof5kFnU9'
+    analytics.load 'tobiP0Eg5TwjPf2cnTKpAYvslAIE0RLV'
     #analytics.page()  # Don't track the page view on initial inclusion
