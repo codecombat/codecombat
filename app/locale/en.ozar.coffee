@@ -196,6 +196,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     privacy: "Privacy Notice"
     about: "About"
     contact: "Contact"
+    press: "Press"
     twitter_follow: "Follow"
     my_classrooms: "My Classes"
     my_units: "My Units"
@@ -356,7 +357,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     title: "Excellent Work, Apprentice"
 
   login:
-    auth_sign_up: "New to Ozaria? Create an Account" 
+    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Create Account"
     email_or_username: "Email or Username" # {change}
     or: 'or'
@@ -1199,6 +1200,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     jobs_custom_contact_2: "introducing yourself and we might get in touch in the future!"
     contact_title: "Press & Contact"
     contact_subtitle: "Need more information? Get in touch with us at"
+    press_subtitle: "or visit our press site at"
     screenshots_title: "Game Screenshots"
     screenshots_hint: "(click to view full size)"
     downloads_title: "Download Assets & Information"
