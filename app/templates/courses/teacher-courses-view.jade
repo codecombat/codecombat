@@ -54,32 +54,28 @@ block content
                       if campaign && view.campaignLevelNumberMap[campaign.id]
                         each level, levelIndex in campaign.getLevels().models
                           option(value=level.get('slug'))
-                            if level.get('assessment')
-                              if level.get('assessment') === 'cumulative'
-                                =$.t('play_level.combo_challenge')
-                              else
-                                span #{view.campaignLevelNumberMap[campaign.id][level.get('original')]}.
-                              = " "
-                              span
-                                = i18n(level.attributes, 'name').replace('Course: ', '')
+                            = view.displayName(level)
+                            = " "
+                            span
+                              = i18n(level.attributes, 'name').replace('Course: ', '')
                 - var disablePlayButtons = !view.paidTeacher && features.china && !(me.canAccessCampaignFreelyFromChina(course.get('campaignID')))
                 a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
                   span(data-i18n="courses.play_level")
               .clearfix
   
 mixin course-info(course)
-  - var campaign = view.campaigns.get(course.get('campaignID'));
+  //- TODO: Restructure this section after Ozaria launches, because we don't want the list to be programatically generated like it was here.
+  //- For now, it's hard coded to only show Ozaria 1FH content here
   .course-info
     .text-h4.semibold
-      = i18n(course.attributes, 'name')
-    p= i18n(course.attributes, 'description')
+      | Prologue: Sky Mountain
+    p
+      | In this unit, students will be introduced to basic syntax in either Python or JavaScript. They will get an introduction to objects and methods with arguments, used to change object properties. Finally, they will learn some basic game development skills in order to complete their arcade game.
     p.concepts.semibold
       span(data-i18n="courses.concepts_covered")
       = ": "
-      each concept in course.get('concepts')
-        span(data-i18n="concepts." + concept)
-        if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
-          span.spr ,
+    p
+      | Basic syntax, arguments, strings, while loops, variables, if statements, functions, parameters, advanced strings
 
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
       - var disableButtons = !view.paidTeacher && (features.china ? !me.canAccessCampaignFreelyFromChina(course.get('campaignID')) : !course.get('free'))

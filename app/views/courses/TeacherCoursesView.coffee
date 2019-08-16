@@ -99,3 +99,16 @@ module.exports = class TeacherCoursesView extends RootView
     else
       changeLogText.addClass('hidden')
       showChangeLog.text($.i18n.t('courses.show_change_log'))
+
+  displayName: (level) ->
+    introContent = level.attributes.introContent && level.attributes.introContent[0]
+    # TODO: In the future we can be even more specific here, but to ship Ozaria quickly we are only
+    # making a difference between these 3, and letting "Intro" be very unspecific
+    if (introContent && introContent.type == 'cutscene-video')
+      return 'Cutscene: '
+    else if (level.attributes.type == 'game-dev')
+      return 'Capstone: '
+    else if (introContent)
+      return 'Intro: '
+    else
+      return 'Practice: '
