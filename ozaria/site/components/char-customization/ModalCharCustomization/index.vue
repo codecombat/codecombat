@@ -249,6 +249,7 @@
             :selectedThang="selectedHero"
             :thang="selectedThang"
             :key="selectedHero + `${tintIndexSelection.skin}` + `${tintIndexSelection.hair}`"
+            class="character-display-area"
           />
         </div>
         <div class="col-xs-4">
@@ -338,6 +339,9 @@
 .body-label
   text-align: right
   margin-right: 114px
+
+.character-display-area
+  height: 50vh
 
 #next-button
   background-color: #4B90E2
