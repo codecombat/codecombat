@@ -17,8 +17,9 @@ mixin inlineUserList(users)
 
 mixin addStudentsButton
   .add-students
-    a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
-      span(data-i18n='teacher.add_students_manually')
+    //- Removing Invite students by Email button until we have certainty around ozaria emails
+    //- a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
+    //-   span(data-i18n='teacher.add_students_manually')
     if view.shouldShowGoogleClassroomButton()
       a.sync-google-classroom-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
         span(data-i18n='teacher.sync_google_classroom')
@@ -537,6 +538,8 @@ if classroom.loaded
           span(data-i18n='courses.add_students')
           span :
         +copyCodes
+        if !state.get('readOnly')
+          +addStudentsButton
 
     if view.students.length > 0
       ul.nav.nav-tabs.m-t-5(role='tablist')
