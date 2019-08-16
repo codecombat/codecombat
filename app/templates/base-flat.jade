@@ -122,9 +122,11 @@ mixin accountLinks
                         a(href="/about", data-i18n="nav.about")
                       li
                         a(href="/teachers/resources/faq" data-i18n="nav.faq")
-                      if !me.isStudent()
-                        li
-                          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                      li
+                        a(href="http://press.ozaria.com" data-i18n="nav.press")
+                      //- if !me.isStudent()
+                      //-   li
+                      //-     a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                       li
                         a(href="https://codecombat.com" data-i18n="nav.return_coco")
                       if me.showChinaICPinfo()
