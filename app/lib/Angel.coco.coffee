@@ -317,13 +317,14 @@ module.exports = class Angel extends CocoClass
     work.world.flagHistory = work.flagHistory ? []
     work.world.realTimeInputEvents = work.realTimeInputEvents ? []
     work.world.difficulty = work.difficulty ? 0
+    work.world.language = me.get('preferredLanguage', true)
     work.world.loadFromLevel work.level, true
     work.world.preloading = work.preload
     work.world.headless = work.headless
     work.world.realTime = work.realTime
-    work.world.indefiniteLength = work.indefiniteLength;
-    work.world.justBegin = work.justBegin;
-    work.world.keyValueDb = work.keyValueDb;
+    work.world.indefiniteLength = work.indefiniteLength
+    work.world.justBegin = work.justBegin
+    work.world.keyValueDb = work.keyValueDb
     if @shared.goalManager
       goalManager = new GoalManager(work.world)
       goalManager.setGoals work.goals
