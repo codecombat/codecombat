@@ -102,7 +102,8 @@
       ...mapActions({
         fetchCampaign: 'campaigns/fetch',
         buildLevelsData: 'unitMap/buildLevelsData',
-        setCourseInstanceId: 'layoutChrome/setCurrentCourseInstanceId'
+        setCourseInstanceId: 'layoutChrome/setCurrentCourseInstanceId',
+        setCourseId: 'layoutChrome/setCurrentCourseId'
       }),
 
       playAmbientSound () {
@@ -125,6 +126,10 @@
           this.dataLoaded = false
           await this.fetchCampaign(this.campaign)
           this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
+          if (this.computedCourseId) {
+            // TODO: There might be a better place to initialize this.
+            this.setCourseId(this.computedCourseId)
+          }
           if (this.computedCourseInstanceId) {
             // TODO: There might be a better place to initialize this.
             this.setCourseInstanceId(this.computedCourseInstanceId)

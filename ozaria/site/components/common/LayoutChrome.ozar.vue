@@ -28,11 +28,19 @@
       ...mapGetters({
         soundOn: 'layoutChrome/soundOn',
         getMapUrl: 'layoutChrome/getMapUrl',
+        isTeacher: 'me/isTeacher',
+        isStudent: 'me/isStudent'
       }),
 
       mapLink () {
-        if (me.isSessionless() || !this.getMapUrl) {
-          return '/teachers/courses'
+        if (!this.getMapUrl) {
+          if (this.isTeacher) {
+            return '/teachers/courses'
+          } else if (this.isStudent) {
+            return '/students'
+          } else {
+            return '/'
+          }
         }
         return this.getMapUrl
       }
