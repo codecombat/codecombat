@@ -99,6 +99,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .see-all-office-hours': 'onClickSeeAllOfficeHours'
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
+    'click .prologue-banner': 'onClickPrologueBanner'
 
   getMeta: ->
     {
@@ -366,3 +367,6 @@ module.exports = class TeacherClassesView extends RootView
     @howManyOfficeHours = 'none'
     @renderSelectors '#office-hours'
     storage.save 'hide-office-hours', true
+
+  onClickPrologueBanner: (e) ->
+    application.router.navigate("/play/prologue-sky-mountain?course=#{utils.courseIDs.ONE_FREE_HOUR}", { trigger: true })
