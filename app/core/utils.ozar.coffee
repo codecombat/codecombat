@@ -1,4 +1,4 @@
-slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
+slugify = require('underscore.string').slugify # TODO: why _.string on client and _.str on server?
 
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
