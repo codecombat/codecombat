@@ -80,14 +80,13 @@ module.exports = class TeacherCoursesView extends RootView
     courseID = form.data('course-id')
     language = form.find('.language-select').val() or 'javascript'
     window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
-    url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
-    firstLevelSlug = @campaigns.get(@courses.at(0).get('campaignID')).getLevels().at(0).get('slug')
-    if levelSlug is firstLevelSlug
-      @listenToOnce @openModalView(new HeroSelectModal()),
-        'hidden': ->
-          application.router.navigate(url, { trigger: true })
+
+    campaignLevels = @campaigns.get(@courses.at(0).get('campaignID')).getLevels() || []
+    if campaignLevels.find((l) => l.get('slug') == levelSlug)?.get('type') == 'intro'
+      url = "/play/intro/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
     else
-      application.router.navigate(url, { trigger: true })
+      url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
+    application.router.navigate(url, { trigger: true })
 
   onClickShowChange: (e) ->
     showChangeLog = $(e.currentTarget)
