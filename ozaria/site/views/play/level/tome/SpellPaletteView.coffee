@@ -83,10 +83,10 @@ module.exports = class SpellPaletteView extends CocoView
         if doc.codeLanguages and not (@options.language in doc.codeLanguages)
           excludedDocs['__' + doc.name] = doc
           continue
-        allDocs['__' + doc.name] ?= []
-        allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
-        doc.componentName = lc.get('name')
+        docCopy = Object.assign({ componentName: lc.get('name') }, doc)
+        allDocs['__' + doc.name] ?= []
+        allDocs['__' + doc.name].push docCopy
 
     methodsBankList = @options.level.get('methodsBankList') || []
     
