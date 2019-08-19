@@ -19,7 +19,7 @@
 
   input.form-control {
     border: 1px solid $teal;
-    color: $teal;
+    color: $color-tertiary-brand;
   }
 
   #login-btn, .btn.btn-primary.btn-lg {
@@ -102,6 +102,10 @@
       color: $authGray;
       text-decoration: underline;
     }
+  }
+
+  #gplus-login-btn > img {
+    height: 46px;
   }
 }
 
