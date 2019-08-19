@@ -11,8 +11,9 @@ export default {
 
     return {
       soundOn: cachedSound !== 'false',
-      // TODO: Move this into a dedicated courseInstance module
-      currentCourseInstanceId: null
+      // TODO: Move this into a dedicated courseInstance, and course module
+      currentCourseInstanceId: null,
+      currentCourseId: null
     }
   },
 
@@ -25,6 +26,8 @@ export default {
     },
 
     setCourseInstanceId (state, courseInstanceId) { Vue.set(state, 'currentCourseInstanceId', courseInstanceId) },
+
+    setCourseId (state, courseId) { Vue.set(state, 'currentCourseId', courseId) }
   },
 
   getters: {
@@ -35,15 +38,29 @@ export default {
     getMapUrl (state, _getters, _rootState, rootGetters) {
       const campaignId = rootGetters['campaigns/getCurrentCampaignId']
       const courseInstanceId = state.currentCourseInstanceId
-
-      if (!(campaignId && courseInstanceId)) {
+      const courseId = state.currentCourseId
+      if (!campaignId) {
         return undefined
       }
-      return `/play/${campaignId}?course-instance=${courseInstanceId}`
+      let url = `/play/${campaignId}`
+
+      if (courseId) {
+        url += `?course=${courseId}`
+        if (courseInstanceId) {
+          url += `&course-instance=${courseInstanceId}`
+        }
+      } else if (courseInstanceId) {
+        url += `?course-instance=${courseInstanceId}`
+      }
+      return url
     },
 
     getCurrentCourseInstanceId (state) {
       return state.currentCourseInstanceId
+    },
+
+    getCurrentCourseId (state) {
+      return state.currentCourseId
     }
   },
 
@@ -54,6 +71,10 @@ export default {
 
     setCurrentCourseInstanceId ({ commit }, courseInstanceId) {
       commit('setCourseInstanceId', courseInstanceId)
+    },
+
+    setCurrentCourseId ({ commit }, courseId) {
+      commit('setCourseId', courseId)
     }
   }
 }
