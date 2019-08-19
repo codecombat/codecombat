@@ -27,7 +27,7 @@
       buttonIcon: 'Replace HeroA icon',
       original: '5d03e18887ed53004682e340',
       isometricOriginal: ThangType.heroes['hero-a'],
-      silhouetteImagePath: '/images/ozaria/char-customization/hero-a-idle.png',
+      silhouetteImagePath: '/images/ozaria/char-customization/hero-a-idle2.png',
       thang: {
         scaleFactorX: 1,
         scaleFactorY: 1,
@@ -118,11 +118,6 @@
 
     methods: {
       ...mapActions('tints', ['fetchTints']),
-
-      getSilhouettePath (body) {
-        // TODO: seems like we should be able to bind directly to the v-for object below instead of calling this method
-        return body.silhouetteImagePath
-      },
 
       setInitialData () {
         const ozariaUserOptions = me.get('ozariaUserOptions') || {}
@@ -226,17 +221,17 @@
           >
             <div class="col-xs-6" />
             <div
-              v-for="(body) in bodyTypes"
-              v-bind:key="body.slug"
+              v-for="({ slug, silhouetteImagePath, onClick }) in bodyTypes"
+              v-bind:key="slug"
               class="col-xs-3"
             >
               <div
-                @click="body.onClick"
-                :class="[body.slug === selectedHero ? 'selected' : 'unselected']"
+                @click="onClick"
+                :class="[slug === selectedHero ? 'selected' : 'unselected']"
               >
                 <img
                   class="silhouette"
-                  :src="getSilhouettePath(body)"
+                  :src="silhouetteImagePath"
                 />
               </div>
             </div>
