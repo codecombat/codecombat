@@ -145,7 +145,7 @@ export default Vue.extend({
             <h1>{{ this.$t('avatar_selection.pick_an_avatar') }}:</h1>
           </div>
         </div>
-        <div class="row body">
+        <div class="row">
           <div class="col-xs-8 avatar-grid">
 
             <section class="row">
@@ -247,10 +247,6 @@ export default Vue.extend({
   }
 }
 
-.body {
-  height: 100%;
-}
-
 .avatar-grid {
   display: flex;
   flex-direction: column;
@@ -260,8 +256,8 @@ export default Vue.extend({
 
 .avatar-grid .row {
   margin: 15px 0;
-  height: 100%;
-  max-height: 200px;
+  /* Locking height resolves responsive issues seen on chromebook */
+  height: 170px;
 }
 
 .surface {
