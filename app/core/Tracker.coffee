@@ -18,7 +18,7 @@ module.exports = class Tracker extends CocoClass
       console.error 'Overwrote our Tracker!', window.tracker
     window.tracker = @
     @supermodel = new SuperModel()
-    @isProduction = document.location.href.search('codecombat.com') isnt -1
+    @isProduction = document.location.href.search('ozaria.com') isnt -1
     @promptForCookieConsent()  # Will call finishInitialization
 
   promptForCookieConsent: ->
@@ -60,10 +60,11 @@ module.exports = class Tracker extends CocoClass
     return if @initialized
     @initialized = true
     @trackReferrers()
+    if me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
+      @initializeIntercom()
+      @updateIntercomRegularly()
     @identify() # Needs supermodel to exist first
     @updateRole() if me.get('role')
-    if me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
-      @updateIntercomRegularly()
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -103,6 +104,7 @@ module.exports = class Tracker extends CocoClass
     if me.isTeacher(true) and @segmentLoaded and not me.get('unsubscribedFromMarketingEmails')
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
       analytics.identify me.id, traits
+      window.Intercom?('update', traits)
 
   trackPageView: (includeIntegrations=[]) ->
     name = Backbone.history.getFragment()
@@ -234,6 +236,12 @@ module.exports = class Tracker extends CocoClass
     console.log 'Would track timing event:', arguments if debugAnalytics
     if @shouldTrackExternalEvents()
       ga? 'send', 'timing', category, variable, duration, label
+
+  initializeIntercom: ->
+    # TODO: save Intercom app id somewhere?
+    intercomSettings = app_id: "zzeo1k6k"
+    intercomSettings['user_id'] = me.id
+    window.Intercom?('boot', intercomSettings)
 
   updateIntercomRegularly: ->
     return if @shouldBlockAllTracking() or application.testing or not @isProduction
