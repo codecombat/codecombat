@@ -125,6 +125,13 @@ me.extendSearchableProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, searchableProps())
 
+algoliaSearchableProps = ->
+  _algoliaObjectID: { type: 'string' }
+
+me.extendAlgoliaProperties = (schema) ->
+  schema.properties = {} unless schema.properties?
+  _.extend(schema.properties, algoliaSearchableProps())
+
 # PERMISSIONED
 
 permissionsProps = ->

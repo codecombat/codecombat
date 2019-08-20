@@ -418,6 +418,7 @@ c.extendVersionedProperties LevelSchema, 'level'
 c.extendPermissionsProperties LevelSchema, 'level'
 c.extendPatchableProperties LevelSchema
 c.extendTranslationCoverageProperties LevelSchema
+c.extendAlgoliaProperties LevelSchema
 
 module.exports = LevelSchema
 
