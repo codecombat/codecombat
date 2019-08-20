@@ -5,8 +5,11 @@ forms = require 'core/forms'
 User = require 'models/User'
 ConfirmModal = require 'views/core/ConfirmModal'
 {logoutUser, me} = require('core/auth')
+RootView = require 'views/core/RootView'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
-module.exports = class AccountSettingsView extends CocoView
+
+module.exports = class AccountSettingsView extends RootView
   id: 'account-settings-view'
   template: template
   className: 'countainer-fluid'
@@ -18,6 +21,49 @@ module.exports = class AccountSettingsView extends CocoView
     'click #delete-account-btn': 'onClickDeleteAccountButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
     'click .resend-verification-email': 'onClickResendVerificationEmail'
+    'click #save-button': 'save'
+
+  getMeta: ->
+    title: $.i18n.t 'account.settings_title'
+
+  # TODO: After Ozaria launch, when redoing this page - do we still need this weird shortcut?
+  shortcuts:
+    'enter': -> @
+
+  afterRender: ->
+    super()
+    @listenTo @, 'input-changed', @onInputChanged
+    @listenTo @, 'save-user-began', @onUserSaveBegan
+    @listenTo @, 'save-user-success', @onUserSaveSuccess
+    @listenTo @, 'save-user-error', @onUserSaveError
+
+  afterInsert: ->
+    @openModalView new CreateAccountModal() if me.get('anonymous')
+
+  onInputChanged: ->
+    @$el.find('#save-button')
+      .text($.i18n.t('common.save', defaultValue: 'Save'))
+      .addClass 'btn-info'
+      .removeClass 'disabled btn-danger'
+      .removeAttr 'disabled'
+
+  onUserSaveBegan: ->
+    @$el.find('#save-button')
+      .text($.i18n.t('common.saving', defaultValue: 'Saving...'))
+      .removeClass('btn-danger')
+      .addClass('btn-success').show()
+
+  onUserSaveSuccess: ->
+    @$el.find('#save-button')
+      .text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved'))
+      .removeClass('btn-success btn-info', 1000)
+      .attr('disabled', 'true')
+
+  onUserSaveError: ->
+    @$el.find('#save-button')
+      .text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving'))
+      .removeClass('btn-success')
+      .addClass('btn-danger', 500)
 
   initialize: ->
     @uploadFilePath = "db/user/#{me.id}"

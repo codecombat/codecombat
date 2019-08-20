@@ -44,7 +44,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'about': go('AboutView')
 
     'account': go('account/MainAccountView')
-    'account/settings': go('account/AccountSettingsRootView')
+    'account/settings': go('account/AccountSettingsView')
     'account/unsubscribe': go('account/UnsubscribeView')
     'account/payments': go('account/PaymentsView')
     'account/subscription': go('account/SubscriptionView', { redirectStudents: true, redirectTeachers: true })

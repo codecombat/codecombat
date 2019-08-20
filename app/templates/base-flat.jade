@@ -1,14 +1,16 @@
 mixin accountLinks
-  li
-    a.account-dropdown-item(href=`/user/${me.getSlugOrID()}`, data-i18n="nav.profile")
+  //- TODO: Make these links available to non-admins after Ozaria launches and we actually need them again
+  if me.isAdmin()
+    li
+      a.account-dropdown-item(href=`/user/${me.getSlugOrID()}`) ADMIN ONLY Profile
   li
     a.account-dropdown-item(href="/account/settings", data-i18n="play.settings")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
+  if me.isAdmin()
     li
-      a.account-dropdown-item(href="/account/payments", data-i18n="account.payments")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
+      a.account-dropdown-item(href="/account/payments") ADMIN ONLY Payments
+  if me.isAdmin()
     li
-      a.account-dropdown-item(href="/account/subscription", data-i18n="account.subscription")
+      a.account-dropdown-item(href="/account/subscription") ADMIN ONLY Subscription
   if me.isAdmin()
     li
       a.account-dropdown-item(href="/admin", data-i18n="account_settings.admin")
@@ -62,8 +64,10 @@ mixin accountLinks
                         span.caret
                       ul.dropdown-menu
                         li.user-dropdown-header.text-center.hidden-xs.hidden-sm
-                          a(href=`/user/${me.getSlugOrID()}`)
-                            h5=me.broadName()
+                          //- TODO: Make this link available to non-admins after Ozaria launches and we actually need them again
+                          //- a(href=`/user/${me.getSlugOrID()}`)
+                          //-   h5=me.broadName()
+                          h5(style="white-space: nowrap; padding: 3px 20px;")=me.broadName()
                             //- span.text-p= me.broadName()
                         +accountLinks
 
