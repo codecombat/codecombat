@@ -57,7 +57,7 @@ module.exports = class TomeView extends CocoView
       if @fakeProgrammableThang = @createFakeProgrammableThang()
         programmableThangs = [@fakeProgrammableThang]
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before castButton
-    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session, god: @options.god
+    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session, god: @options.god, capstoneStage: @options.capstoneStage
     @teamSpellMap = @generateTeamSpellMap(@spells)
     unless programmableThangs.length
       @cast()

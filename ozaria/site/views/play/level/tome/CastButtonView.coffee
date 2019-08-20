@@ -83,7 +83,7 @@ module.exports = class CastButtonView extends CocoView
   onNextButtonClick: (e) ->
     if @winnable and @options.level.get('ozariaType') == 'capstone'
       @options.session.recordScores @world?.scores, @options.level
-      capstoneStage = (@options.session.get('state') || {}).capstoneStage
+      capstoneStage = @options.capstoneStage # passed in from PlayLevelView->TomeView
       finalStage = GoalManager.maxCapstoneStage(@options.level.get('additionalGoals'))
       args = {
         showModal: true
