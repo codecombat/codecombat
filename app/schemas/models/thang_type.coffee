@@ -230,5 +230,6 @@ c.extendSearchableProperties ThangTypeSchema
 c.extendVersionedProperties ThangTypeSchema, 'thang.type'
 c.extendPatchableProperties ThangTypeSchema
 c.extendTranslationCoverageProperties ThangTypeSchema
+c.extendAlgoliaProperties ThangTypeSchema
 
 module.exports = ThangTypeSchema
