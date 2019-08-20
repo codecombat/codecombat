@@ -88,7 +88,7 @@ class PlayLevelView extends RootView {
     this.capstoneStage = parseInt(
       utils.getQueryVariable('capstoneStage') ||
       utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
-      this.options.capstoneStage, 10)
+      this.options.capstoneStage, 10) || 1
     this.continueEditing = utils.getQueryVariable('continueEditing') || false
 
     this.gameUIState = new GameUIState()
@@ -213,6 +213,8 @@ class PlayLevelView extends RootView {
     }
 
     if (!e.level.isType('web-dev')) {
+      // This is triggered before this.capstoneStage is updated based on sessions.
+      // But God updates it by itself for session users
       this.god = new God({
         gameUIState: this.gameUIState,
         indefiniteLength: e.level.isType('game-dev'),
@@ -326,6 +328,7 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
+    this.updateCapstoneStage() // update this.capstoneStage based on session's state
     this.level = this.levelLoader.level
     store.commit('game/setLevel', this.level.attributes)
     if (this.level.isType('web-dev')) {
@@ -383,6 +386,12 @@ class PlayLevelView extends RootView {
       }
     }
     return this.renderSelectors('#stop-real-time-playback-button')
+  }
+
+  updateCapstoneStage () {
+    if (!me.isSessionless() && this.session) {
+      this.capstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
+    }
   }
 
   onWorldLoadProgressChanged (e) {
@@ -491,7 +500,8 @@ class PlayLevelView extends RootView {
   initGoalManager () {
     const options = {
       additionalGoals: this.level.get('additionalGoals'),
-      session: this.session
+      session: this.session,
+      capstoneStage: this.capstoneStage
     }
     if (this.level.get('assessment') === 'cumulative') {
       options.minGoalsToComplete = 1
@@ -567,7 +577,8 @@ class PlayLevelView extends RootView {
       observing: this.observing,
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
-      god: this.god
+      god: this.god,
+      capstoneStage: this.capstoneStage
     })
     this.insertSubView(this.tome)
     if (!this.level.isType('web-dev')) {
@@ -857,32 +868,38 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    this.openModalView(new LevelIntroModal({
-      level: this.level,
-      onStart: () => {
-        Backbone.Mediator.publish('level:loading-view-unveiling', {})
-        if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
-          // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
-          Backbone.Mediator.publish('level:set-playing', { playing: true })
-        }
-        if (this.loadingView) {
-          this.loadingView.$el.remove()
-          this.removeSubView(this.loadingView)
-          this.loadingView = null
-        }
-        this.playAmbientSound()
-        // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-        if (!this.observing) {
-          trackEvent('Started Level', {
-            category: 'Play Level',
-            label: this.levelID,
-            levelID: this.levelID,
-            ls: this.session != null ? this.session.get('_id') : undefined
-          })
-        }
-        $(window).trigger('resize')
-      }
-    }))
+    if (!this.capstoneStage || this.capstoneStage === 1) {
+      this.openModalView(new LevelIntroModal({
+        level: this.level,
+        onStart: () => this.startLevel()
+      }))
+    } else {
+      this.startLevel()
+    }
+  }
+
+  startLevel () {
+    Backbone.Mediator.publish('level:loading-view-unveiling', {})
+    if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
+      // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+      Backbone.Mediator.publish('level:set-playing', { playing: true })
+    }
+    if (this.loadingView) {
+      this.loadingView.$el.remove()
+      this.removeSubView(this.loadingView)
+      this.loadingView = null
+    }
+    this.playAmbientSound()
+    // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
+    if (!this.observing) {
+      trackEvent('Started Level', {
+        category: 'Play Level',
+        label: this.levelID,
+        levelID: this.levelID,
+        ls: this.session != null ? this.session.get('_id') : undefined
+      })
+    }
+    $(window).trigger('resize')
   }
 
   onSetVolume (e) {
@@ -1092,12 +1109,11 @@ class PlayLevelView extends RootView {
       goToNextDirectly: goToNextDirectly && !this.continueEditing
     }
 
-    if (me.isSessionless()) { // for teachers
+    if (this.level.isCapstone()) {
       options.capstoneStage = this.capstoneStage.toString()
-    } else if (additionalGoals) { // for students
+    }
+    if (!me.isSessionless()) {
       this.onSubmissionComplete()
-      const sessionCapstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
-      options.capstoneStage = sessionCapstoneStage.toString()
     }
     let ModalClass = OzariaTransitionModal
     if (this.level.isType('course-ladder')) {

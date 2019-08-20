@@ -30,7 +30,7 @@ module.exports = class GoalManager extends CocoClass
     @initThangTeams()
     @addGoal goal for goal in @initialGoals if @initialGoals
     if @options?.session and @options?.additionalGoals
-      capstoneStage = (@options.session.get('state') || {}).capstoneStage
+      capstoneStage = @options.capstoneStage || 1 # passed in from PlayLevelView
       stages = _.filter(@options.additionalGoals, (ag) -> ag.stage <= capstoneStage and ag.stage > 0)
       goals = _.map(stages, (stage) -> stage.goals)
       unwrappedGoals = _.flatten(goals)

@@ -341,4 +341,6 @@ module.exports = class Level extends CocoModel
 
   isAssessment: -> @get('assessment')?
 
+  isCapstone: -> @get('ozariaType') == 'capstone'
+
 _.assign(Level, LevelLib)

@@ -152,8 +152,10 @@
           const nextLevelLinkOptions = {
             courseId: this.courseId,
             courseInstanceId: this.courseInstanceId,
-            codeLanguage: utils.getQueryVariable('codeLanguage'),
-            nextLevelStage: nextLevel.nextLevelStage,
+            codeLanguage: utils.getQueryVariable('codeLanguage')
+          }
+          if (me.isSessionless()) {
+            nextLevelLinkOptions.nextLevelStage = nextLevel.nextLevelStage
           }
           // The next level reference may be outdated. We want to use the originalId
           // and find the newest slug. This step is required due to renaming of slugs.
@@ -169,7 +171,7 @@
             this.nextLevelLink += `?course=${encodeURIComponent(this.courseId)}`
           }
           this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
-          if (this.editCapstoneLevelData) {
+          if (this.editCapstoneLevelData && !me.isSessionless()) {
             this.capstoneLevelSession = await this.getLevelSession(this.editCapstoneLevelData.slug)
           }
         }
