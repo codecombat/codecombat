@@ -116,6 +116,13 @@ me.extendVersionedProperties = (schema, linkFragment) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, versionedProps(linkFragment))
 
+algoliaSearchableProps = ->
+  _algoliaObjectID: { type: 'string' }
+
+me.extendAlgoliaProperties = (schema) ->
+  schema.properties = {} unless schema.properties?
+  _.extend(schema.properties, algoliaSearchableProps())
+
 # SEARCHABLE
 
 searchableProps = ->
