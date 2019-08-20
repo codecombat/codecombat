@@ -2,7 +2,7 @@ module.exports = {
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },
   'views/account/MainAccountView': function () { return import(/* webpackChunkName: "account" */ 'views/account/MainAccountView') },
-  'views/account/AccountSettingsRootView': function () { return import(/* webpackChunkName: "account" */ 'views/account/AccountSettingsRootView') },
+  'views/account/AccountSettingsView': function () { return import(/* webpackChunkName: "account" */ 'views/account/AccountSettingsView') },
   'views/account/UnsubscribeView': function () { return import(/* webpackChunkName: "account" */ 'views/account/UnsubscribeView') },
   'views/account/PaymentsView': function () { return import(/* webpackChunkName: "account" */ 'views/account/PaymentsView') },
   'views/account/SubscriptionView': function () { return import(/* webpackChunkName: "account" */ 'views/account/SubscriptionView') },
