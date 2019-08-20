@@ -163,7 +163,10 @@ extractTranspileErrorDetails = (options) ->
                        ranges.offsetToPos(error.range[1], code, codePrefix)]
       options.hint = error.message
     when 'jaba'
-      options.range = [error.location.start.offset, error.location.end.offset]
+      if error.location
+        options.range = [error.location.start.offset, error.location.end.offset]
+      else
+        console.error "Jaba error with no location information:", error
       options.hint = error.message
     else
       console.warn "Unhandled UserCodeProblem reporter", options.reporter
