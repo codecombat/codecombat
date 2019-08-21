@@ -26,8 +26,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sign_up: "Sign Up"
 
   new_home:
-    title: "CodeCombat - Coding games to learn Python and JavaScript"
-    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    title: "Ozaria - Computer science that captivates" # {change}
+    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world." # {change}
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Computer Science"
@@ -473,8 +473,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     books: "Books"
 
   common:
-    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    default_title: "Ozaria - Computer science that captivates" # {change}
+    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world." # {change}
     back: "Back" # When used as an action verb, like "Navigate backward"
     coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"
