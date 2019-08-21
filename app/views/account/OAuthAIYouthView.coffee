@@ -15,18 +15,23 @@ module.exports = class OAuthAIYouthView extends RootView
 
   initialize: ->
     @logoutRedirectURL = false
-    @user = new User({_id: me.id})
-    @supermodel.trackRequest(@user.fetch()) # use separate, fresh User object instead of `me`
+    @supermodel.trackRequest(me.fetchIsAIYouthBinded())
     @username = if me.get('firstName') then me.get('firstName') else me.get('name')
-    window.nextURL = window.location.href
+    window.nextURL = window.location.href  #for login redirect
 
-    @redirectURL = utils.getQueryVariable('redirect_url')
-    #check user already binded
+    @token = utils.getQueryVariable('token')
+    @provider = utils.getQueryVariable('provider')
+
 
   onClickConfirmAuth: ->
-    redirect_url = @redirectURL + '?handle=' + me.id
-    console.log("redirect to", redirect_url)
-#    window.location.href = redirect_url
+    options =
+      success: =>
+        @succeed = true
+        @render()
+      error: =>
+        noty { text: '绑定失败，请稍后重试或联系大赛技术支持', type: 'error' }
+
+    me.confirmBindAIYouth(@provider, @token, options)
 
   onClickChangeAccount: ->
     me.logout()
