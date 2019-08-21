@@ -202,5 +202,6 @@ c.extendVersionedProperties LevelComponentSchema, 'level.component'
 c.extendPermissionsProperties LevelComponentSchema, 'level.component'
 c.extendPatchableProperties LevelComponentSchema
 c.extendTranslationCoverageProperties LevelComponentSchema
+c.extendAlgoliaProperties LevelComponentSchema
 
 module.exports = LevelComponentSchema

@@ -20,5 +20,6 @@ c.extendBasicProperties PollSchema, 'poll'
 c.extendSearchableProperties PollSchema
 c.extendTranslationCoverageProperties PollSchema
 c.extendPatchableProperties PollSchema
+c.extendAlgoliaProperties PollSchema
 
 module.exports = PollSchema

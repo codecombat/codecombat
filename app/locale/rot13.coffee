@@ -1102,7 +1102,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     daniela_title: "Znexrgvat Znantre"
     chelsea_title: "Bcrengvbaf Znantre"
     claire_title: "Rkrphgvir Nffvfgnag"
-    bobby_title: "Tnzr Qrfvtare" # {punatr}
+    bobby_title: "Tnzr Qrfvtare"
     brian_title: "Yrnq Tnzr Qrfvtare"
     andrew_title: "Fbsgjner Ratvarre"
     stephanie_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
