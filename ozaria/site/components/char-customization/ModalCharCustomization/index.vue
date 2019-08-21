@@ -227,7 +227,7 @@
             >
               <div
                 @click="onClick"
-                :class="[slug === selectedHero ? 'selected' : 'unselected']"
+                :class="[slug === selectedHero ? 'selectedHero' : 'unselectedHero']"
               >
                 <img
                   class="silhouette"
@@ -309,10 +309,6 @@
 .webgl-area
   text-align: center
 
-.silhouette
-  padding: 5px
-  height: 150px
-
 .swatch
   display: inline-block
   width: 50px
@@ -323,6 +319,16 @@
   border: 4px solid #4298f5
 .unselected
   margin: 4px
+  opacity: 0.5
+
+.silhouette
+  height: 150px
+
+.selectedHero > img
+  border: 4px solid #4298f5
+  padding: 4px
+.unselectedHero > img
+  padding: 8px
   opacity: 0.5
 
 #heroNameInput
