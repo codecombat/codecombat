@@ -62,7 +62,7 @@
         levelsList: 'unitMap/getCurrentLevelsList'
       }),
       shareModal: function () {
-        return this.showShareModal || this.editCapstoneLevelData
+        return !me.isSessionless() && ( this.showShareModal || this.editCapstoneLevelData )
       },
       currentContent: function () {
         if (this.shareModal) {
