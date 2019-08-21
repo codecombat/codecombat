@@ -645,7 +645,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
     reload_confirm: "Reload All"
-    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written." # {change}
     restart_confirm: "Yes, Restart"
     test_level: "Test Level"
     victory: "Victory"
