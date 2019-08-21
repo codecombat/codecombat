@@ -51,7 +51,7 @@ To prepare to support students as they work through _Prologue: The Sky Mountain_
             - These will pop up automatically when students have errors, either in syntax or logic. 
             - Ensure students read these to understand where in their code something has gone wrong.
         - Autocomplete
-            - Autocomplete will allow students to see options for methods when they type key characters and character sequences. Autocomplete will be turned off for Capstone levels.
+            - Autocomplete will allow students to see options for methods when they type key characters and character sequences. Autocomplete will be turned off for Capstone levels to encourage students to read and apply Code Bank documentation.
 2. Save the URL to your game to share as an example for students during class.
 
 # In Classroom
