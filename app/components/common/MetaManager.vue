@@ -28,7 +28,6 @@
 
       return {
         title: this.$t('common.default_title'),
-        titleTemplate: '%s | CodeCombat',
 
         meta: [
           { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description') }
