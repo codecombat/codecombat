@@ -205,6 +205,10 @@ module.exports = class LevelBus extends Bus
     state.complete = true
     @session.set('state', state)
     @changedSessionProperties.state = true
+    # publish the capstone level if it is completed
+    if (e.isCapstone)
+      @session.set('published', true)
+    @changedSessionProperties.published = true
     @reallySaveSession()  # Make sure it saves right away; don't debounce it.
 
   onNewGoalStates: (e) ->

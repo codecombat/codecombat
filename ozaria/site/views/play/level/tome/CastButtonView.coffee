@@ -38,9 +38,6 @@ module.exports = class CastButtonView extends CocoView
     @loadMirrorSession() if @options.level.get('mirrorMatch') or @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games', 'king-of-the-hill']  # TODO: remove slug list once these levels are configured as mirror matches
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.isType('course-ladder')
-    # Show publish CourseVictoryModal if they've already published
-    if options.session.get('published')
-      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
@@ -89,6 +86,7 @@ module.exports = class CastButtonView extends CocoView
         showModal: true
         manual: true
         capstoneInProgress: capstoneStage <= finalStage
+        isCapstone: true
       }
       Backbone.Mediator.publish 'level:show-victory', args
 

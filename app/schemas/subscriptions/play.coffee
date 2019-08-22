@@ -125,6 +125,7 @@ module.exports =
     showModal: {type: 'boolean'}
     manual: { type: 'boolean' }
     capstoneInProgress: { type: 'boolean' }
+    isCapstone: { type: 'boolean' }
 
   'level:highlight-dom': c.object {required: ['selector']},
     selector: {type: 'string'}
