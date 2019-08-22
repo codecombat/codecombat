@@ -88,10 +88,11 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       _.defer done # Let SuperModel finish
 
     # TODO: re-enable when student and teacher areas are enforced
-    xit 'redirects to /teachers/courses', ->
+    # NOTE: This is twice outdated now that we are launching Ozaria - consider rewriting tests here
+    xit 'redirects to /teachers/units', ->
       expect(application.router.navigate).toHaveBeenCalled()
       args = application.router.navigate.calls.argsFor(0)
-      expect(args[0]).toBe('/teachers/courses')
+      expect(args[0]).toBe('/teachers/units')
 
 
   describe 'when the user has role "student"', ->

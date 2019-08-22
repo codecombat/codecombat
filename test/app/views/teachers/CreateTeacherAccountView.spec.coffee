@@ -287,7 +287,7 @@ describe 'CreateTeacherAccountView', ->
             request.respondWith({ status: 201, responseText: '{}' })
             view.once 'on-trial-request-submit-complete', done
 
-        it 'redirects to "/teachers/courses"', ->
+        it 'redirects to "/teachers/units"', ->
           expect(application.router.navigate).toHaveBeenCalled()
           expect(application.router.reload).toHaveBeenCalled()
 

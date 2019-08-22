@@ -118,7 +118,7 @@ All students are automatically granted access to the first unit for free in Ozar
 <img src="/images/pages/teachers/resources/markdown/getting-started/course-guides.png" title="Course Guides" alt="course-guides" width="400px"/>
 _Course Guides allow you to preview course levels and view solutions._
 
-As a teacher, you can access solutions for each course by going to [Course Guides](/teachers/courses/) (located on the teacher dashboard). You can also preview every level using the dropdown selectors.
+As a teacher, you can access solutions for each course by going to [Course Guides](/teachers/units/) (located on the teacher dashboard). You can also preview every level using the dropdown selectors.
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/resource-hub.png" title="Resource Hub" alt="resource-hub" width="400px"/>
 _Course Guides allow you to preview course levels and view solutions._

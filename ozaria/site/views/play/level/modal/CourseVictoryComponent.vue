@@ -132,7 +132,7 @@
         return link
       mapLink: ->
         if me.isSessionless()
-          link = "/teachers/courses"
+          link = "/teachers/units"
         else if this.ozariaCourse
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         else

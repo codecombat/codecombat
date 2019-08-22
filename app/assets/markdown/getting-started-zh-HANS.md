@@ -87,7 +87,7 @@ _学生输入班级代码后，就会在页面中看到该班级名称和教师�
 <img src="/images/pages/teachers/resources/markdown/getting-started-zh-HANS/course-guides.png" title="课程指导" alt="课程指导" width="400px"/>
 _课程指南会为您提供课程关卡预览和关卡解决方案。_
 
-作为教师，您可以在[课程指导](/teachers/courses/)（在蓝色的教师面板导航栏中）页面中，查看课程的解决方案。您还可以使用下拉菜单选择并预览关卡。
+作为教师，您可以在[课程指导](/teachers/units/)（在蓝色的教师面板导航栏中）页面中，查看课程的解决方案。您还可以使用下拉菜单选择并预览关卡。
 
 <img src="/images/pages/teachers/resources/markdown/getting-started-zh-HANS/resource-hub.png" title="资源中心" alt="资源中心" width="400px"/>
 
@@ -128,5 +128,5 @@ _在“课程进度”选项卡中，可以查看到学生在每一门课程中�
 
 ## 开始教学！
 
-我们在[课程指导](/teachers/courses/)和[资源中心](/teachers/resources)页面中为教师们提供了很棒的补充材料。如果您是计算机科学课程的新手教师，我们强烈推荐您去这两个页面中查阅资料——这些资料都是专为新手教师编写的。
+我们在[课程指导](/teachers/units/)和[资源中心](/teachers/resources)页面中为教师们提供了很棒的补充材料。如果您是计算机科学课程的新手教师，我们强烈推荐您去这两个页面中查阅资料——这些资料都是专为新手教师编写的。
 如果有课程支持方面的问题或关心事项，您还可以给我们发送email： [bill@codecombat.com](mailto:bill@codecombat.com)。

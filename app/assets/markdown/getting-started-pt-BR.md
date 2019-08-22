@@ -115,7 +115,7 @@ Todos os alunos recebem automaticamente acesso ao primeiro curso do CodeCombat, 
 
 _Os Guias do curso permitem que você visualize os níveis do curso e visualize as soluções._
 
-Como professor, você pode acessar soluções para cada curso, indo para [Guias dos Cursos](/teachers/courses/) (localizado na barra de navegação azul do professor). Você também pode visualizar todos os níveis usando os seletores suspensos.
+Como professor, você pode acessar soluções para cada curso, indo para [Guias dos Cursos](/teachers/units/) (localizado na barra de navegação azul do professor). Você também pode visualizar todos os níveis usando os seletores suspensos.
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/resource-hub.png" title="Resource Hub" alt="resource-hub" width="400px"/>
 
@@ -158,6 +158,6 @@ Depois que um aluno for inscrito, você poderá atribuir cursos adicionais a ele
 
 ##### PASSO 8
 ## Comece a ensinar!
-Existem excelentes materiais suplementares para professores disponíveis em nosso [Guias dos Cursos](/teachers/courses/) e [Recursos dos Professores](/teachers/resources). Se você é novo no ensino de ciências da computação, é altamente recomendável verificar isso - criamos esses conceitos com professores iniciantes em mente. Você também pode navegar em nosso [Fórum para Professores](https://discourse.codecombat.com/c/teachers), onde você pode discutir o planejamento do currículo com outros educadores, compartilhar ideias ou fazer perguntas.
+Existem excelentes materiais suplementares para professores disponíveis em nosso [Guias dos Cursos](/teachers/units/) e [Recursos dos Professores](/teachers/resources). Se você é novo no ensino de ciências da computação, é altamente recomendável verificar isso - criamos esses conceitos com professores iniciantes em mente. Você também pode navegar em nosso [Fórum para Professores](https://discourse.codecombat.com/c/teachers), onde você pode discutir o planejamento do currículo com outros educadores, compartilhar ideias ou fazer perguntas.
 
 Você também pode nos mandar um e-mail [suporte@enlixeducacional.com.br](mailto:suporte@enlixeducacional.com.br) com quaisquer perguntas ou preocupações de suporte!

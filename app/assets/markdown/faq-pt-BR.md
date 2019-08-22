@@ -113,7 +113,7 @@ Em nossos cursos de Desenvolvimento Web, os alunos aprendem os fundamentos da co
 **Desenvolvimento de Jogos**
 O que é ainda mais divertido do que jogar um jogo? Fazendo o seu próprio! Em nossos cursos de Desenvolvimento de Jogos, os alunos aprendem como construir seus próprios níveis de jogo no estilo CodeCombat e e jogá-los com amigos e familiares usando um mouse e teclado. Com o tempo, eles desbloquearão as ferramentas necessárias para criar quebra-cabeças desafiadores e praticar suas habilidades de design de jogos para se tornar a próxima estrela de designer de jogos  . Os projetos finais para cada curso podem ser compartilhados e publicados em um URL personalizado para que os alunos possam compartilhar facilmente seus jogos com amigos e familiares.
 
-Os professores podem visualizar todos os níveis de desenvolvimento da Web e de jogos indo até o [Guias de Cursos](/teachers/courses)  e selecionar um nível nos menus .
+Os professores podem visualizar todos os níveis de desenvolvimento da Web e de jogos indo até o [Guias de Cursos](/teachers/units)  e selecionar um nível nos menus .
 
 ### Os alunos podem pular níveis anteriores se já entenderem os conceitos?
 Encorajamos fortemente que todos os alunos façam todos os níveis, mesmo que já conheçam os conceitos, para que possam reforçar seus conhecimentos. Os níveis são cuidadosamente planejados para criar confiança e progresso de uma maneira lógica, e é uma chance para os alunos se familiarizarem com a plataforma, a experiência do usuário e a lógica básica por trás de nosso jogo, para que eles saibam como lidar cursos mais difíceis e mais avançados.
@@ -121,7 +121,7 @@ Encorajamos fortemente que todos os alunos façam todos os níveis, mesmo que j�
 Os professores podem atribuir cursos a seu critério, mas recomendamos que os alunos trabalhem por meio de cursos na ordem sugerida.
 
 ### O professor precisa comprar uma licença se quiser trabalhar nos níveis como seus alunos?
-Não. Os professores podem pré-visualizar e jogar todos os níveis de jogo indo até o [Guias de Cursos](/teachers/courses)  selecionando um nível nos menus . O progresso do nível não é salvo.
+Não. Os professores podem pré-visualizar e jogar todos os níveis de jogo indo até o [Guias de Cursos](/teachers/units)  selecionando um nível nos menus . O progresso do nível não é salvo.
 
 ### Como eu começo com o CodeCombat?
 
@@ -171,7 +171,7 @@ Os professores podem comparar o código de nível de cada aluno ao código da so
 
 ### Onde posso encontrar as soluções para todos os níveis?
 
-Soluções para cada nível (incluindo níveis de desafio) podem ser encontradas em [Guias de Cursos](/teachers/courses)   -- para visualizar as soluções, navegue a um curso e, em seguida, clique no guia de Soluções de Nível para JavaScript ou Python (ou HTML no caso de Desenvolvimento da Web).
+Soluções para cada nível (incluindo níveis de desafio) podem ser encontradas em [Guias de Cursos](/teachers/units)   -- para visualizar as soluções, navegue a um curso e, em seguida, clique no guia de Soluções de Nível para JavaScript ou Python (ou HTML no caso de Desenvolvimento da Web).
 
 Todos os professores têm acesso a soluções para Introdução à Ciência da Computação. Os professores que pagaram licenças para estudantes têm acesso a soluções para todos os cursos.
 
