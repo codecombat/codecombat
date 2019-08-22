@@ -54,8 +54,7 @@
         }
       },
       canRestart: function () {
-        const level = Object.values(this.levelsList).find((l) => l.levelID === this.levelID)
-        const isCapstone = level ? level.ozariaType === 'capstone' : false
+        const isCapstone = (store.state.game.level || {}).ozariaType === 'capstone'
         return me.isAdmin() || !isCapstone
       },
       clickOptions: function () {
@@ -63,7 +62,6 @@
       }
     },
     computed: {
-      ...mapGetters({ levelsList: 'unitMap/getCurrentLevelsList' }),
       title () {
         return (store.state.game.level || {}).name
       }
