@@ -7,6 +7,7 @@
   import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
   import utils from 'core/utils'
   import modalTransition from 'ozaria/site/components/common/ModalTransition'
+  import { mapMutations } from 'vuex'
 
   export default Vue.extend({
     components: {
@@ -58,6 +59,10 @@
       await this.loadIntroLevel()
     },
     methods: {
+      ...mapMutations({
+        setUnitMapUrlDetails: 'layoutChrome/setUnitMapUrlDetails',
+        setCurrentCampaignId: 'campaigns/setCurrentCampaignId'
+      }),
       loadIntroLevel: async function () {
         this.dataLoaded = false
 
@@ -76,6 +81,9 @@
           }
 
           this.introContent = this.introLevelData.introContent
+          // Set current campaign id and unit map URL details for acodus chrome
+          this.setCurrentCampaignId(this.introLevelData.campaign)
+          this.setUnitMapUrlDetails({ courseId: this.courseId, courseInstanceId: this.courseInstanceId })
         } catch (err) {
           console.error('Error in creating data for intro level', err)
           // TODO handle_error_ozaria

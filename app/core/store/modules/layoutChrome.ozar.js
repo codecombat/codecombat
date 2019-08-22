@@ -11,7 +11,7 @@ export default {
 
     return {
       soundOn: cachedSound !== 'false',
-      // TODO: Move this into a dedicated courseInstance, and course module
+      // TODO: Move this into a dedicated courseInstance, and course module like the currentCampaignId in campaigns module
       currentCourseInstanceId: null,
       currentCourseId: null
     }
@@ -25,9 +25,10 @@ export default {
       }
     },
 
-    setCourseInstanceId (state, courseInstanceId) { Vue.set(state, 'currentCourseInstanceId', courseInstanceId) },
-
-    setCourseId (state, courseId) { Vue.set(state, 'currentCourseId', courseId) }
+    setUnitMapUrlDetails (state, payload) {
+      Vue.set(state, 'currentCourseId', payload.courseId)
+      Vue.set(state, 'currentCourseInstanceId', payload.courseInstanceId)
+    }
   },
 
   getters: {
@@ -53,28 +54,12 @@ export default {
         url += `?course-instance=${courseInstanceId}`
       }
       return url
-    },
-
-    getCurrentCourseInstanceId (state) {
-      return state.currentCourseInstanceId
-    },
-
-    getCurrentCourseId (state) {
-      return state.currentCourseId
     }
   },
 
   actions: {
     toggleSoundAction ({ commit }) {
       commit('toggleSound')
-    },
-
-    setCurrentCourseInstanceId ({ commit }, courseInstanceId) {
-      commit('setCourseInstanceId', courseInstanceId)
-    },
-
-    setCurrentCourseId ({ commit }, courseId) {
-      commit('setCourseId', courseId)
     }
   }
 }
