@@ -55,8 +55,8 @@ _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   emailVerified: { type: 'boolean' }
   iosIdentifierForVendor: c.shortString({format: 'hidden'})
-  firstName: c.shortString({title: 'First Name'})
-  lastName: c.shortString({title: 'Last Name'})
+  firstName: c.shortString({title: 'First Name', not: {pattern: 'Q204384420'}})
+  lastName: c.shortString({title: 'Last Name', not: {pattern: 'Q204384420'}})
   gender: {type: 'string'} # , 'enum': ['male', 'female', 'secret', 'trans', 'other']
   # NOTE: ageRange enum changed on 4/27/16 from ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   ageRange: {type: 'string'}  # 'enum': ['13-15', '16-17', '18-24', '25-34', '35-44', '45-100']
