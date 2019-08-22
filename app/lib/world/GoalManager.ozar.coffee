@@ -109,7 +109,7 @@ module.exports = class GoalManager extends CocoClass
     if !additionalGoals
       return 0
 
-    return _.max(additionalGoals, (goals) -> goals.stage).stage
+    return _.max(additionalGoals, (goals) -> goals.stage).stage # assuming that additionalGoals will have the goals for the last stage.
 
   # Progresses the capstone stage if more goals are available
   # Returns the current capstoneStage
