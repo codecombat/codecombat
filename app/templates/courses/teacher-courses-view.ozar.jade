@@ -83,9 +83,12 @@ mixin course-info(course)
         p
           i(data-i18n="courses.solutions_require_licenses")
       //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
-      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+      //- TODO: Re-enable these when the system has content. For now, we are only showing a markdown file.
+      //- a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+      //-   span(data-i18n="courses.view_guide_online")
+      //-   |  &mdash; JavaScript
+      //- a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+      //-   span(data-i18n="courses.view_guide_online")
+      //-   |  &mdash; Python
+      a.guide-btn.btn.btn-primary(href=("/teachers/resources/prologue-teacher-solutions") class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
         span(data-i18n="courses.view_guide_online")
-        |  &mdash; JavaScript
-      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-        span(data-i18n="courses.view_guide_online")
-        |  &mdash; Python
