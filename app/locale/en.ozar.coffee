@@ -1992,7 +1992,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__." # {change}
     teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
     teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
     teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."

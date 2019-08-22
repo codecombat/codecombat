@@ -35,7 +35,7 @@
       mapLink () {
         if (!this.getMapUrl) {
           if (this.isTeacher) {
-            return '/teachers/courses'
+            return '/teachers/units'
           } else if (this.isStudent) {
             return '/students'
           } else {

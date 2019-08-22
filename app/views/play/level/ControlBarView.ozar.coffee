@@ -110,7 +110,7 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = 'views/play/CampaignView'
       @homeViewArgs.push gameDevCampaign
     else if me.isSessionless()
-      @homeLink = "/teachers/courses"
+      @homeLink = "/teachers/units"
       @homeViewClass = "views/courses/TeacherCoursesView"
     else if @level.isType('ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder')
       levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
