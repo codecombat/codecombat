@@ -55,7 +55,8 @@
       editCapstoneLevelData: undefined,
       capstoneLevelSession: {},
       isFirstLevel: undefined,
-      showCharCx: false
+      showCharCx: false,
+      doReload: true // Reload browser while loading the next URL. This is to fix the memory leak in cinematics.
     }),
     computed: {
       ...mapGetters({
@@ -128,7 +129,7 @@
           await this.getNextLevelLink()
         }
         if (this.goToNextDirectly) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true })
+          return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
         }
       } catch (e) {
         // TODO handle_error_ozaria
@@ -190,7 +191,7 @@
         } else if (this.charCxModal && this.nextLevelLink) {
           this.showCharCx = true
         } else if (this.nextLevelLink) {
-          return application.router.navigate(this.nextLevelLink, { trigger: true })
+          return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
         }
       },
       // PlayLevelView is a backbone view, so replay button dismisses modal for that
@@ -210,14 +211,14 @@
           capstoneLinkAppend = `&continueEditing=true`
         }
         capstoneLink += capstoneLinkAppend
-        return application.router.navigate(capstoneLink, { trigger: true })
+        return application.router.navigate(capstoneLink, { trigger: true }, this.doReload)
       },
       copyUrl () {
         this.$refs['share-text-box'].select()
         tryCopy()
       },
       onCharCxSaved () {
-        return application.router.navigate(this.nextLevelLink, { trigger: true })
+        return application.router.navigate(this.nextLevelLink, { trigger: true }, this.doReload)
       }
     }
   })
