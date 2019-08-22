@@ -12,7 +12,10 @@ export default {
     setCampaignData: (state, campaignData) => {
       Vue.set(state.byId, campaignData._id, campaignData)
       Vue.set(state.bySlug, campaignData.slug, campaignData)
-      state.currentCampaignId = campaignData._id
+    },
+
+    setCurrentCampaignId: (state, campaignId) => {
+      state.currentCampaignId = campaignId
     }
   },
 

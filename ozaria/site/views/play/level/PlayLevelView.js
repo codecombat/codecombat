@@ -331,6 +331,9 @@ class PlayLevelView extends RootView {
     this.updateCapstoneStage() // update this.capstoneStage based on session's state
     this.level = this.levelLoader.level
     store.commit('game/setLevel', this.level.attributes)
+    // Set current campaign id and unit map URL details for acodus chrome
+    store.commit('campaigns/setCurrentCampaignId', this.level.get('campaign'))
+    store.commit('layoutChrome/setUnitMapUrlDetails', { courseId: this.courseID, courseInstanceId: this.courseInstanceID })
     if (this.level.isType('web-dev')) {
       this.$el.addClass('web-dev') // Hide some of the elements we won't be using
       return

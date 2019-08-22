@@ -4,7 +4,7 @@
   import api from 'core/api'
   import utils from 'core/utils'
   import { getLevelStatusMap, findNextLevelsBySession, defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters, mapMutations } from 'vuex'
   import LayoutChrome from '../../common/LayoutChrome'
   import LayoutCenterContent from '../../common/LayoutCenterContent'
   import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
@@ -101,9 +101,11 @@
     methods: {
       ...mapActions({
         fetchCampaign: 'campaigns/fetch',
-        buildLevelsData: 'unitMap/buildLevelsData',
-        setCourseInstanceId: 'layoutChrome/setCurrentCourseInstanceId',
-        setCourseId: 'layoutChrome/setCurrentCourseId'
+        buildLevelsData: 'unitMap/buildLevelsData'
+      }),
+      ...mapMutations({
+        setUnitMapUrlDetails: 'layoutChrome/setUnitMapUrlDetails',
+        setCurrentCampaignId: 'campaigns/setCurrentCampaignId'
       }),
 
       playAmbientSound () {
@@ -126,13 +128,12 @@
           this.dataLoaded = false
           await this.fetchCampaign(this.campaign)
           this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
-          if (this.computedCourseId) {
-            // TODO: There might be a better place to initialize this.
-            this.setCourseId(this.computedCourseId)
-          }
+          
+          // Set current campaign id and unit map URL details for acodus chrome
+          this.setCurrentCampaignId(this.campaign)
+          this.setUnitMapUrlDetails({ courseId: this.computedCourseId, courseInstanceId: this.computedCourseInstanceId })
+          
           if (this.computedCourseInstanceId) {
-            // TODO: There might be a better place to initialize this.
-            this.setCourseInstanceId(this.computedCourseInstanceId)
             await this.buildClassroomLevelMap()
           }
           await this.buildLevelsData(this.campaign, this.computedCourseInstanceId)
