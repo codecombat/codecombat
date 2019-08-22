@@ -452,9 +452,11 @@ module.exports = class CocoRouter extends Backbone.Router
       @viewLoad.setView(e.view)
     @viewLoad.record()
 
-  navigate: (fragment, options) ->
+  navigate: (fragment, options, doReload) ->
     super fragment, options
     Backbone.Mediator.publish 'router:navigated', route: fragment
+    if doReload
+      @reload()
 
   reload: ->
     document.location.reload()
