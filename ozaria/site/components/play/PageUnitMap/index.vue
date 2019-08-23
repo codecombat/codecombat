@@ -172,7 +172,7 @@
       createLevelStatusMap () {
         // Remove the level sessions for the levels played in another language - for the classroom version of unit map
         if (this.classroomLevelMap && this.classroom) {
-          for (let session of this.levelSessions) {
+          for (let session of this.levelSessions.slice()) {
             const classroomLevel = this.classroomLevelMap[session.level.original]
             if (!classroomLevel) { continue }
             const expectedLanguage = classroomLevel.primerLanguage || this.classroom.aceConfig.language
