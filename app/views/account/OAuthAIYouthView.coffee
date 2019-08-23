@@ -15,12 +15,12 @@ module.exports = class OAuthAIYouthView extends RootView
 
   initialize: ->
     @logoutRedirectURL = false
-    @supermodel.trackRequest(me.fetchIsAIYouthBinded())
-    @username = if me.get('firstName') then me.get('firstName') else me.get('name')
     window.nextURL = window.location.href  #for login redirect
-
     @token = utils.getQueryVariable('token')
     @provider = utils.getQueryVariable('provider')
+
+    @providerIsBound = _.any me.get('oAuthIdentities') ? [], (oAuthIdentity) =>
+      String(oAuthIdentity.provider) is String(@provider)
 
 
   onClickConfirmAuth: ->

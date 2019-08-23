@@ -10,8 +10,8 @@ block content
     h3.text-center 恭喜绑定成功，请关闭当前页面
 
   else if me.isStudent()
-    if !me.get('bindedAIYouth')
-      h3.text-center #{view.username}，确认授权AI世青赛绑定你的CodeCombat账户信息？
+    if !view.providerIsBound
+      h3.text-center #{me.broadName()}，确认授权AI世青赛绑定你的CodeCombat账户信息？
       .text-center
         .btn.btn-lg.btn-primary.confirm-btn 确认
       .text-center
