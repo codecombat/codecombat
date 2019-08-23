@@ -80,12 +80,12 @@ module.exports = class CastButtonView extends CocoView
   onNextButtonClick: (e) ->
     if @winnable and @options.level.get('ozariaType') == 'capstone'
       @options.session.recordScores @world?.scores, @options.level
-      capstoneStage = @options.capstoneStage # passed in from PlayLevelView->TomeView
+      capstoneStage = @options.capstoneStage # passed in from PlayLevelView->TomeView, it is the Capstone Stage that has been just completed
       finalStage = GoalManager.maxCapstoneStage(@options.level.get('additionalGoals'))
       args = {
         showModal: true
         manual: true
-        capstoneInProgress: capstoneStage <= finalStage
+        capstoneInProgress: capstoneStage < finalStage
         isCapstone: true
       }
       Backbone.Mediator.publish 'level:show-victory', args
