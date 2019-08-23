@@ -770,7 +770,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     created_during_hoc: "Perngrq qhevat Ubhe bs Pbqr"
     restart: "Erfgneg Yriry"
     play: "Cynl Yriry"
-    play_more_codecombat: "Cynl Zber PbqrPbzong"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Pyvpx gb pbageby lbhe ureb naq jva lbhe tnzr!"
     goal_survive: "Fheivir."
     goal_survive_time: "Fheivir sbe __frpbaqf__ frpbaqf."
