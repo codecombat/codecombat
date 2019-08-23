@@ -775,7 +775,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     watch_a_video: "Watch a video on __concept_name__"
     concept_unlocked: "Concept Unlocked"
     use_at_least_one_concept: "Use at least one concept: "
-    command_bank: "Command Bank"
+    command_bank: "Code Bank" # {change}
     learning_goals: "Learning Goals"
     start: "Start"
     vega_character: "Vega Character"
