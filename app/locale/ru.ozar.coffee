@@ -770,7 +770,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     created_during_hoc: "Созданный в течении Часа Кода"
     restart: "Переиграть уровень"
     play: "Начать уровень"
-    play_more_codecombat: "Играй больше CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Кликните, чтобы управлять вашим героем и одержать победу!"
     goal_survive: "Выжить."
     goal_survive_time: "Выжить __seconds__ секунд(у)."

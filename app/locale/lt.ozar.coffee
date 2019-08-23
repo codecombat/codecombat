@@ -770,7 +770,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    created_during_hoc: "Created during Hour of Code"
     restart: "Paleisti lygį iš naujo"
     play: "Žaisti lygį"
-    play_more_codecombat: "Žaisk daugiau CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Paspausk pele herojaus valdymui ir laimėk žaidimą!"
 #    goal_survive: "Survive."
 #    goal_survive_time: "Survive for __seconds__ seconds."

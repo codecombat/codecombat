@@ -770,7 +770,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     created_during_hoc: "Δημιουργήθηκε κατά την Ώρα του Κώδικα"
     restart: "Επανεκκίνηση Επιπέδου"
     play: "Παίξε το Επίπεδο"
-    play_more_codecombat: "Παίξτε περισσότερο CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Κάνε κλικ για να ελέγξεις τον ήρωά σου και να νικήσεις το παιχνίδι!"
     goal_survive: "Επιβίωση."
     goal_survive_time: "Επιβίωσε για __seconds__ δευτερόλεπτα."

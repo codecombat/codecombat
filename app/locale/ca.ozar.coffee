@@ -770,7 +770,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     created_during_hoc: "Creat durant l'Hora del Codi"
     restart: "Reinicia el nivell"
     play: "Juga el nivell"
-    play_more_codecombat: "Juga més CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Fes clic per controlar el teu heroi i guanyar el joc!"
     goal_survive: "Sobreviu."
     goal_survive_time: "Sobreviu __seconds__ segons."

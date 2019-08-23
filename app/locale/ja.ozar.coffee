@@ -770,7 +770,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    created_during_hoc: "Created during Hour of Code"
     restart: "レベルをリセット"
     play: "プレイレベル"
-    play_more_codecombat: "もっとCodeCombatで遊ぶ"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "ヒーローをクリックしてゲームに勝とう！"
     goal_survive: "生き残る"
     goal_survive_time: "__seconds__ 秒生き残る"

@@ -770,7 +770,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     created_during_hoc: "Skapad under Hour of Code"
     restart: "Starta om nivå"
     play: "Spela nivå"
-    play_more_codecombat: "Spela mer CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Klicka för att kontrollera din hjälte och vinn ditt spel!"
     goal_survive: "Överlev."
     goal_survive_time: "Överlev i __seconds__ sekunder."

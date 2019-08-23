@@ -770,7 +770,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     created_during_hoc: "Gemaakt tijdens Hour of Code"
     restart: "Herstart Level"
     play: "Speel Level"
-    play_more_codecombat: "Speel Meer CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Klik om je held te besturen en het spel te winnen!"
     goal_survive: "Overleef."
     goal_survive_time: "Overleef voor __seconden__ seconden."

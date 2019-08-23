@@ -770,7 +770,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    created_during_hoc: "Created during Hour of Code"
     restart: "התחל שלב מחדש"
     play: "שחקו בשלב"
-    play_more_codecombat: "שחקו עוד CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "לחצו כדי לשלוט בגיבור שלכם ולנצח במשחק!"
 #    goal_survive: "Survive."
 #    goal_survive_time: "Survive for __seconds__ seconds."

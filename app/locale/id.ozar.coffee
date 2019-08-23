@@ -770,7 +770,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     created_during_hoc: "Dibuat ketika Hour of Code"
     restart: "Mengulang Level"
     play: "Mainkan Level"
-    play_more_codecombat: "Mainkan Lebih CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Klik untuk mengontrol jagoan kamu dan menangkan game kamu!"
     goal_survive: "Bertahan hidup."
     goal_survive_time: "Bertahan hidup selama __seconds__ detik."

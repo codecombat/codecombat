@@ -770,7 +770,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     created_during_hoc: "在“编程一小时”中创建。"
     restart: "重新开始关卡"
     play: "开始关卡"
-    play_more_codecombat: "玩更多的 CodeCombat 关卡"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "单击控制英雄，并取得胜利！"
     goal_survive: "生存。"
     goal_survive_time: "生存 __seconds__ 秒。"

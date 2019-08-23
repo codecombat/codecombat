@@ -770,7 +770,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     created_during_hoc: "Készült a Kódolás Órája során"
     restart: "Pálya újrakezdése"
     play: "Pálya indítása"
-    play_more_codecombat: "További játék a CodeCombattel"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Hősödet kattintásokkal irányíthatod – vezesd hát végig a győzelem felé vezető úton!"
     goal_survive: "Éld túl!"
     goal_survive_time: "Éld túl __seconds__ másodpercig!"

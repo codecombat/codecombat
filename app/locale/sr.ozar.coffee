@@ -770,7 +770,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     created_during_hoc: "Креирано у току Сата кодирања"
     restart: "Рестартуј ниво"
     play: "Играј ниво"
-    play_more_codecombat: "Играј више CodeCombat"
+    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Кликни да управљаш својим херојем и победиш у игри!"
     goal_survive: "Преживи."
     goal_survive_time: "Преживи __seconds__ секунди."
