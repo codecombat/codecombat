@@ -1,4 +1,9 @@
 .dialogue-area
-  img.vega-narrator(src="/images/ozaria/level/vega_headshot_gray.png", alt=$.i18n.t('play_level.vega_character'))
-  p.vega-dialogue(dir="auto")
+  //- Hide Vega until introduced in cutscene
+  if ['5d1a998157b3ed00300e64b0', '5cd0cc1c4bc4450030336cee', '5cd0cc4d4bc4450030336d00', '5cd0cc66f4227b002facba95', '5cd0cc804bc4450030336d23'].indexOf(view.level.get('original')) != -1
+    p.vega-dialogue.wide(dir="auto")
+  else
+    img.vega-narrator(src="/images/ozaria/level/vega_headshot_gray.png", alt=$.i18n.t('play_level.vega_character'))
+    p.vega-dialogue(dir="auto")
   p.continue(data-i18n="play_level.click_to_continue")
+
