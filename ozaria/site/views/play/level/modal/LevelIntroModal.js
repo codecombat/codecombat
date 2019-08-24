@@ -7,6 +7,7 @@ class LevelIntroModal extends ModalComponent {
   initialize () {
     this.propsData = {
       levelName: null,
+      levelOriginal: null,
       levelType: null,
       narrative: null,
       learningGoals: null,
@@ -30,6 +31,7 @@ class LevelIntroModal extends ModalComponent {
       }
       this.propsData = {
         levelName: options.level.get('name'),
+        levelOriginal: options.level.get('original'),
         levelType: options.level.get('ozariaType') || 'Practice',
         narrative: narrativeText,
         learningGoals: learningGoalsText
