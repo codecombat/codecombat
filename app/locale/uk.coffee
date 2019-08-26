@@ -2915,7 +2915,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
 
-#  school_administrator:
+  school_administrator:
 #    title: "School Administrator Dashboard"
     my_teachers: "Мої вчителі"
     last_login: "Останній вхід"
