@@ -150,7 +150,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     go_to_courses: "Перейти до моїх курсів"
     want_coco: "Хочете CodeCombat у вашій школі?"
 #    educator: "Educator"
-#    student: "Student"
+    student: "Учень"
 
   nav:
 #    educators: "Educators"
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     twitter_follow: "Стежити"
     my_classrooms: "Мої класи"
     my_courses: "Мої курси"
-#    my_teachers: "My Teachers"
+    my_teachers: "Мої вчителі"
     careers: "Робота"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -194,12 +194,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     help_suff: "і ми будемо на зв'язку!"
     resource_hub: "Ресурси"
 #    apcsp: "AP CS Principles"
-#    parent: "Parents"
+    parent: "Батьки"
 
   modal:
     close: "Закрити"
     okay: "Добре"
-#    cancel: "Cancel"
+    cancel: "Скасувати"
 
   not_found:
     page_not_found: "Сторінку не знайдено"
@@ -348,7 +348,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     creating: "Створення обліківки..."
     sign_up: "Реєстрація"
     log_in: "вхід з паролем"
-#    login: "Login"
+    login: "Вхід"
     required: "Ця дія потребує входу."
     login_switch: "Вже маєте обліківку?"
     optional: "необов’язково"
@@ -481,7 +481,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     rejected: "Відхилено"
     withdrawn: "Відкликано"
     accept: "Прийняти"
-#    accept_and_save: "Accept&Save"
+    accept_and_save: "Прийняти і зберегти"
     reject: "Відхилити"
     withdraw: "Відкликати"
     submitter: "Відправник"
@@ -602,7 +602,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
 #    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
-#    restart_confirm: "Yes, Restart"
+    restart_confirm: "Так, перезавантажити"
     test_level: "Протестувати рівень"
     victory: "Перемога"
     victory_title_prefix: ""
@@ -735,7 +735,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    click_to_continue: "Клацніть, щоб продовжити"
 
   apis:
     methods: "Методи"
@@ -848,8 +848,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     purchase: "Купити"
     purchased: "Куплено"
 
-#  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
+  subscribe_for_gems:
+    prompt_title: "Недостатньо самоцвітів!"
 #    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
@@ -1006,12 +1006,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     level_to_unlock: "Розблокується на рівні:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Тільки певні герої можуть грати в цьому рівні."
 
-#  char_customization_modal:
+  char_customization_modal:
 #    heading: "Customize Your Hero"
-#    body: "Body"
-#    name_label: "Hero's Name"
-#    hair_label: "Hair Color"
-#    skin_label: "Skin Color"
+    body: "Тіло"
+    name_label: "Ім'я героя"
+    hair_label: "Колір волосся"
+    skin_label: "Колір шкіри"
 
   skill_docs:
     function: "функція" # skill types
@@ -2743,9 +2743,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
+  server_error:
+    email_taken: "E-mail вже зайнято"
+    username_taken: "Ім'я користувача вже зайнято"
 
 #  esper:
 #    line_no: "Line $1: "
