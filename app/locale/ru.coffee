@@ -199,7 +199,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   modal:
     close: "Закрыть"
     okay: "OK"
-#    cancel: "Cancel"
+    cancel: "Отменить"
 
   not_found:
     page_not_found: "Страница не найдена"
@@ -1006,12 +1006,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_to_unlock: "Разблокируется на уровне:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Только определённые герои могут играть на этом уровне."
 
-#  char_customization_modal:
-#    heading: "Customize Your Hero"
-#    body: "Body"
-#    name_label: "Hero's Name"
-#    hair_label: "Hair Color"
-#    skin_label: "Skin Color"
+  char_customization_modal:
+    heading: "Настроить Вашего Героя"
+    body: "Туловище"
+    name_label: "Имя Героя"
+    hair_label: "Цвет волос"
+    skin_label: "Цвет кожи"
 
   skill_docs:
     function: "функция" # skill types
@@ -1858,10 +1858,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    gd3_curriculum: "Game Development 3 - Curriculum Guide"
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Веб-разработка 1"
-#    wd1_curriculum: "Web Development 1 - Curriculum Guide"
+    wd1_curriculum: "Веб-разработка 1 - руководство"
 #    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
 #    wd1_headlines: "Headlines & Headers Activity"
-#    wd1_headlines_example: "View sample solution"
+    wd1_headlines_example: "Посмотреть пример решения"
 #    wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"
     wd1_html_syntax: "Руководство по синтаксису HTML"
 #    wd1_html_syntax_desc: "One-page reference for the HTML style students will learn in Web Development 1."
@@ -1871,7 +1871,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wd2_jquery_syntax: "Руководство по синтаксису функций jQuery"
 #    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in Web Development 2."
 #    wd2_quizlet_worksheet: "Quizlet Planning Worksheet"
-#    wd2_quizlet_worksheet_instructions: "View instructions & examples"
+    wd2_quizlet_worksheet_instructions: "Посмотреть инструкцию и примеры"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."
     student_overview: "Обзор"
     student_details: "Сведения о ученике"
@@ -2532,7 +2532,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     continue_statements: "Оператор \"continue\""
     dom_events: "События DOM"
     dynamic_styling: "Динамические стили"
-#    events: "Events"
+    events: "События"
     event_concurrency: "Параллелизм событий"
     event_data: "Данные событий"
     event_handlers: "Обработчики событий"
@@ -2574,8 +2574,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     math_trigonometry: "Тригонометрия"
     object_literals: "Литералы объектов"
     parameters: "Параметры"
-#    programs: "Programs"
-#    properties: "Properties"
+    programs: "Программы"
+    properties: "Свойства"
     property_access: "Доступ к свойствам"
     property_assignment: "Назначение свойств"
     property_coordinate: "Свойства координат"
