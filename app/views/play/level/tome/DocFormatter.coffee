@@ -88,7 +88,7 @@ module.exports = class DocFormatter
       if @doc.owner is 'ui'
         @doc.shortName = @doc.shortName.replace /^game./, ''
         @doc.shorterName = @doc.shortName
-      if @options.language is 'javascript'
+      if @options.language in ['javascript', 'java']
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify or ownerName is 'game'
           @doc.shorterName = @doc.shorterName.replace /^(this|hero)\./, ''
@@ -108,6 +108,9 @@ module.exports = class DocFormatter
       toTranslate.push {obj: @doc.returns, prop: 'example'}, {obj: @doc.returns, prop: 'description'}
     for {obj, prop} in toTranslate
       # Translate into chosen code language.
+      if @options.language is 'java' and not obj[prop]?[@options.language] and obj[prop]?.javascript
+        # These are mostly the same, so use the JavaScript ones if language-specific ones aren't available
+        obj[prop].java = obj[prop].javascript
       if val = obj[prop]?[@options.language]
         obj[prop] = val
       else unless _.isString obj[prop]
@@ -143,6 +146,7 @@ module.exports = class DocFormatter
       thisToken =
         'python': /self/g,
         'javascript': /this/g,
+        'java': /this/g,
         'lua': /self/g
 
       if thisToken[@options.language]
@@ -193,6 +197,7 @@ module.exports = class DocFormatter
     content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
     content = content.replace /{([a-z]+)}([^]*?){\/\1}/g, (s, language, text) =>
       if language is @options.language then return text
+      if language is 'javascript' and @options.language is 'java' then return text
       return ''
 
   replaceSpriteName: (s) ->

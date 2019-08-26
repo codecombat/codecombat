@@ -178,6 +178,8 @@ module.exports = class BasicInfoView extends CocoView
       email: User.schema.properties.email
       name: User.schema.properties.name
       password: User.schema.properties.password
+      firstName: User.schema.properties.firstName
+      lastName: User.schema.properties.lastName
     required: switch @signupState.get('path')
       when 'student' then ['name', 'password', 'firstName', 'lastName']
       when 'teacher' then ['password', 'email', 'firstName', 'lastName']

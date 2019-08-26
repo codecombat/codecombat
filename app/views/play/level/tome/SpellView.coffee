@@ -504,6 +504,7 @@ module.exports = class SpellView extends CocoView
         snippets: @autocompleteOn
       autoLineEndings:
         javascript: ';'
+        java: ';'
       popupFontSizePx: popupFontSizePx
       popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
@@ -1003,7 +1004,7 @@ module.exports = class SpellView extends CocoView
     @_singleLineCommentOnlyRegex
 
   commentOutMyCode: ->
-    prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
+    prefix = if @spell.language in ['javascript', 'java'] then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
 
   preload: ->
