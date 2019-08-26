@@ -1356,8 +1356,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     beautify: "Зроби код красивішим, стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "клікніть будь-де, щоб продовжити"
 
   community:
     main_title: "Спільноти CodeCombat"
