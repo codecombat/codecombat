@@ -2743,9 +2743,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
+  server_error:
+    email_taken: "E-mail вже зайнято"
+    username_taken: "Ім'я користувача вже зайнято"
 
 #  esper:
 #    line_no: "Line $1: "
