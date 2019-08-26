@@ -64,6 +64,17 @@
           this.answers[0]
         )
       }
+    },
+
+    watch: {
+      value () {
+        // Update internal answers state when external value changes.
+        //
+        // TODO this answers state can likely be removed and replaced with a simple
+        //      v-model API.  When vue-draggable integrates the swapping API this
+        //      component can also be removed in favor of that API.
+        this.answers = (this.value) ? [ this.value ] : []
+      }
     }
   }
 </script>
