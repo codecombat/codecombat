@@ -1356,7 +1356,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
 
-#  cinematic:
+  cinematic:
     click_anywhere_continue: "点击任意区域继续"
 
   community:
