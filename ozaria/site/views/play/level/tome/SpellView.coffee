@@ -988,9 +988,13 @@ module.exports = class SpellView extends CocoView
     @_singleLineCommentOnlyRegex = new RegExp( '^' + @singleLineCommentRegex().source)
     @_singleLineCommentOnlyRegex
 
+  # Returns string that will stop code from running.
   commentOutMyCode: ->
     prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
+
+  getLanguageComment: ->
+    commentStarts[@spell.language]
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.

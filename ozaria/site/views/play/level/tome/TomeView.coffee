@@ -40,12 +40,14 @@ module.exports = class TomeView extends CocoView
     'god:new-world-created': 'onNewWorld'
     'tome:comment-my-code': 'onCommentMyCode'
     'tome:select-primary-sprite': 'onSelectPrimarySprite'
+    'level:session-will-save': 'onSessionWillSave'
 
   events:
     'click': 'onClick'
 
   constructor: (options) ->
     super options
+    @commentedOutCode = false
     unless options.god or options.level.get('type') is 'web-dev'
       console.error "TomeView created with no God!"
 
@@ -70,10 +72,25 @@ module.exports = class TomeView extends CocoView
     programmableThangs = _.filter e.thangs, (t) -> t.isProgrammable and t.programmableMethods and t.inThangList
     @createSpells programmableThangs, e.world
 
+  onSessionWillSave: ->
+    return unless @commentedOutCode
+    # TODO: Make the following more robust.
+    # Put reloading the browser to the end of the async task queue, ensuring save has triggered.
+    setTimeout(() =>
+      Backbone.history.loadUrl()
+    , 1000)
+
   onCommentMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
+      if (spell?.level?.get('ozariaType') is 'capstone')
+        comment = spell.view.getLanguageComment()
+        commentedSource = spell.getSource().split('\n').map((line) => comment + ' ' + line).join('\n')
+        # We want to refresh the page after the session saves.
+        @commentedOutCode = true
+      else
+        commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
+
       console.log 'Commenting out', spellKey
-      commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()

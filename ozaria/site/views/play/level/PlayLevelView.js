@@ -1171,7 +1171,7 @@ class PlayLevelView extends RootView {
       return
     }
     this.openModalView(
-      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem })
+      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem, isCapstone: this.level.isCapstone() || false })
     )
     if (!this.observing) {
       trackEvent('Saw Initial Infinite Loop', {
