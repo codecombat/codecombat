@@ -4,8 +4,9 @@ utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 loadSegmentIo = require('core/services/segment')
 api = require('core/api')
-
 experiments = require('core/experiments')
+
+# TODO: Intercom weirdly intertwined with @segmentLoaded, should refactor this
 
 debugAnalytics = false
 
@@ -60,7 +61,7 @@ module.exports = class Tracker extends CocoClass
     return if @initialized
     @initialized = true
     @trackReferrers()
-    if me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
+    if @isProduction and me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
       @initializeIntercom()
       @updateIntercomRegularly()
     @identify() # Needs supermodel to exist first
@@ -238,10 +239,31 @@ module.exports = class Tracker extends CocoClass
       ga? 'send', 'timing', category, variable, duration, label
 
   initializeIntercom: ->
-    # TODO: save Intercom app id somewhere?
-    intercomSettings = app_id: "zzeo1k6k"
+    return unless @isProduction and me.isTeacher(true)
+    # Boot Intercom with minimal isOzaria properties based on existence of Ozaria owned trial requests or classrooms
+    intercomSettings = app_id: "zzeo1k6k" # TODO: save Intercom app id somewhere?
     intercomSettings['user_id'] = me.id
-    window.Intercom?('boot', intercomSettings)
+    TrialRequests = require 'collections/TrialRequests'
+    trialRequests = new TrialRequests()
+    trialRequests.fetchOwn({data: {project: '_id'}}).then (data) ->
+      if data.length > 0
+        # Ozaria trial request means isOzariaNew = true
+        intercomSettings['isOzariaNew'] = true
+        intercomSettings['isOzaria'] = true
+        window.Intercom?('boot', intercomSettings)
+      else
+        # No Ozaria trial request and Ozaria classroom means isOzariaCC = true
+        Classrooms = require 'collections/Classrooms'
+        classrooms = new Classrooms()
+        classrooms.fetchMine({data: {project: '_id'}}).then (data) ->
+          if data.length > 0
+            intercomSettings['isOzariaCC'] = true
+            intercomSettings['isOzaria'] = true
+            window.Intercom?('boot', intercomSettings)
+        , (error) ->
+          console.error 'Tracker failed to fetch classrooms', error
+    , (error) ->
+      console.error 'Tracker failed to fetch trial requests', error
 
   updateIntercomRegularly: ->
     return if @shouldBlockAllTracking() or application.testing or not @isProduction
