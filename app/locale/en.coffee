@@ -1794,7 +1794,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     copy_class_url: "Copy Class URL"
     class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
     add_students_manually: "Invite Students by Email"
-    bulk_assign: "Select course"
+    bulk_assign: "Select unit" #{change}
     assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licenses were applied."
     assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
