@@ -486,6 +486,14 @@ module.exports = class User extends CocoModel
     _.extend(options.data, { username: usernameOrEmail, password })
     @fetch(options)
 
+  confirmBindAIYouth: (provider, token, options={}) ->
+    options.url = '/auth/bind-aiyouth'
+    options.type = 'POST'
+    options.data ?= {}
+    options.data.token = token
+    options.data.provider = provider
+    @fetch(options)
+
   makeCoursePrepaid: ->
     coursePrepaid = @get('coursePrepaid')
     return null unless coursePrepaid

@@ -1,0 +1,27 @@
+extends /templates/base.jade
+
+block content
+
+
+  if me.isAnonymous()
+    h4.text-center 尚未登录，请点击上方按钮注册或登录
+
+  else if view.succeed
+    h3.text-center 恭喜绑定成功，请关闭当前页面
+
+  else if me.isStudent()
+    if !view.providerIsBound
+      h3.text-center #{me.broadName()}，确认授权AI世青赛绑定你的CodeCombat账户信息？
+      .text-center
+        .btn.btn-lg.btn-primary.confirm-btn 确认
+      .text-center
+        .btn.btn-lg.btn-default.change-btn 不是我？点击退出重新登录
+    else
+      h3.text-center 当前账户已绑定，请勿重复绑定
+      .text-center
+        .btn.btn-lg.btn-default.change-btn 退出登录
+
+  else
+    h4.text-center 只能绑定学生账户，请点击下方按钮退出当前账户再重新登录
+    .text-center
+      .btn.btn-lg.btn-default.change-btn 退出登录
