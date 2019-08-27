@@ -21,7 +21,7 @@ This unit aligns to the following K-12 CSTA standards:
 
 # Recommended Prep
 
-For technical prep and classroom setup, see the [Ozaria Getting Started Guide](https://production.ozaria.com/teachers/resources/getting-started).
+For technical prep and classroom setup, see the [Ozaria Getting Started Guide](/teachers/resources/getting-started).
 
 _Prologue: The Sky Mountain_ will introduce the following:
 
@@ -60,7 +60,7 @@ To prepare to support students as they work through _Prologue: The Sky Mountain_
 
 Since this is the first unit of Ozaria content, explain to students that they will be trying out a brand-new game designed to help them learn computer science.
 
-Once they have started in _Prologue: The Sky Mountain_, students will be able to move through at their own pace. If you would like to stop students at key checkpoints (refer to the [Prologue Unit Overview](https://production.ozaria.com/teachers/resources/1fhUnitOverview) as a roadmap) to make sure the class is on the same page, you could do so in the following ways:
+Once they have started in _Prologue: The Sky Mountain_, students will be able to move through at their own pace. If you would like to stop students at key checkpoints (refer to the [Prologue Unit Overview](/teachers/resources/1fhUnitOverview) as a roadmap) to make sure the class is on the same page, you could do so in the following ways:
 
 1. Have students pause once they reach a new Cutscene, and watch Cutscenes together as a class.
     - When to use this method: When you have students who usually work at roughly the same pace and you want students to be roughly at the same place in the narrative to foster a sense of class community.
