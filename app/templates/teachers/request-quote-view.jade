@@ -174,7 +174,7 @@ block content
       h4(data-i18n="teachers_quote.thanks_sub_header")
       p
         span.spr(data-i18n="teachers_quote.thanks_p")
-        a.spl(href="mailto:team@codecombat.com") team@codecombat.com
+        a.spl(href="mailto:team@ozaria.com") team@ozaria.com
 
       unless me.isAnonymous()
         a.btn.btn-lg.btn-navy(href="/teachers/classes")
@@ -186,14 +186,13 @@ block content
 
         if me.useSocialSignOn()
           #social-network-signups
-            button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
-              span.spr(data-i18n="teachers_quote.signup_with")
-              | Facebook
-              img.m-l-1(src='/images/pages/community/logo_facebook.png')
-            button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
-              span.spr(data-i18n="teachers_quote.signup_with")
-              | Google
-              img.m-l-1(src='/images/pages/community/logo_g+.png')
+            //- TODO: Disabled until facebook login works on ozaria.
+            //- button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
+            //-   span.spr(data-i18n="teachers_quote.signup_with")
+            //-   | Facebook
+            //-   img.m-l-1(src='/images/pages/community/logo_facebook.png')
+            a#gplus-signup-btn
+              img.gplus-signup-img(src="/images/ozaria/common/log-in-google-sso.png" draggable="false")
 
           .text-h1.text-uppercase(data-i18n="general.or")
 
