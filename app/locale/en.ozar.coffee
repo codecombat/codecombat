@@ -1257,7 +1257,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
+    subtitle: "Learn more about Ozaria with an interactive walk through of the product, pricing, and implementation!" # {change}
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "What's the best number to reach you?"
@@ -1305,7 +1305,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     referrer_other: "Other"
     anything_else: "What kind of class do you anticipate using Ozaria for?" # {change}
     thanks_header: "Request Received!"
-    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
+    thanks_sub_header: "Thanks for expressing interest in Ozaria for your school." # {change}
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
     back_to_classes: "Back to Classes"
     finish_signup: "Finish creating your teacher account:"
