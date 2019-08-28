@@ -11,7 +11,7 @@ form.modal-body.segment-check
                 span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
               else
                 span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
-        
+
         .render
           if _.isEmpty(view.signupState.get('classCode'))
             p.medium-gray
@@ -20,13 +20,14 @@ form.modal-body.segment-check
             p.medium-gray
               p.large-gray.classroom-name= view.classroom.get('name')
               br
-              if view.classroom.owner.get('firstName')
-                p.medium-gray.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
-              else if view.classroom.owner.get('name')
-                p.medium-gray.teacher-name= view.classroom.owner.get('name')
+              if view.classroom.owner
+                if view.classroom.owner.get('firstName')
+                  p.medium-gray.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+                else if view.classroom.owner.get('name')
+                  p.medium-gray.teacher-name= view.classroom.owner.get('name')
           else
             p.medium-gray(data-i18n="signup.classroom_not_found")
-          
+
       when 'teacher'
         // TODO
       when 'individual'
@@ -54,7 +55,7 @@ form.modal-body.segment-check
 
       default
         p.medium-gray
-          span Sign-up error, please contact 
+          span Sign-up error, please contact
           =" "
           a(href="mailto:support@codecombat.com") support@codecombat.com
           | .
