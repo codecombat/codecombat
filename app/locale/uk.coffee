@@ -69,7 +69,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    global_title: "Join Our Global Community of Learners and Educators"
 #    global_subtitle1: "Learners"
 #    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
+    global_subtitle3: "Вчителі"
 #    global_subtitle4: "Countries"
 #    go_to_my_classes: "Go to my classes"
 #    go_to_my_courses: "Go to my courses"
@@ -1227,7 +1227,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    district_name: "District Name"
     district_na: "Введіть N/A якщо не застосовується"
     organization_label: "Школа"
-#    school_name: "School Name"
+    school_name: "Назва школи"
     city: "Місто"
     state: "Штат" # {change}
     country: "Країна"
@@ -1356,8 +1356,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     beautify: "Зроби код красивішим, стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "клікніть будь-де, щоб продовжити"
 
   community:
     main_title: "Спільноти CodeCombat"
