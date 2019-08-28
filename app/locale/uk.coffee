@@ -2969,25 +2969,25 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
 
-#  school_administrator:
+  school_administrator:
 #    title: "School Administrator Dashboard"
-#    my_teachers: "My Teachers"
-#    last_login: "Last Login"
-#    licenses_used: "licenses used"
-#    total_students: "total students"
-#    active_students: "active students"
-#    projects_created: "projects created"
-#    other: "Other"
+    my_teachers: "Мої вчителі"
+    last_login: "Останній вхід"
+    licenses_used: "використані ліцензії"
+    total_students: "всього учнів"
+    active_students: "активні учні"
+    projects_created: "створені проекти"
+    other: "Інше"
 #    notice: "The following school administrators have view-only access to your classroom data:"
 #    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
 #    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
 #    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
-#    no_teachers: "You are not administrating any teachers."
+    no_teachers: "Ви не адміністрували жодних вчителів."
 
-#  interactives:
-#    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
+  interactives:
+    phenomenal_job: "Феноменальна робота!"
+    try_again: "Упс, спробуй знову!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
