@@ -2400,12 +2400,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can2: "купити передплачений код"
     you_can3: "який може бути застосовано до вашої обліківки або переданий іншим."
 
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
+  ozaria_chrome:
+    sound_off: "Вимкнути звук"
+    sound_on: "Увімкнути звук"
+    back_to_map: "Повернутись до мапи"
+    level_options: "Налаштування рівня"
+    restart_level: "Перезавантажити рівень"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2532,7 +2532,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     continue_statements: "Оператори продовження"
     dom_events: "Події DOM"
     dynamic_styling: "Динамічні стилі"
-#    events: "Events"
+    events: "Події"
     event_concurrency: "Конкурентність подій"
     event_data: "Дані подій"
     event_handlers: "Обробники подій"
