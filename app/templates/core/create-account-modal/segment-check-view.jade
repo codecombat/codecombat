@@ -6,7 +6,7 @@ form.modal-body.segment-check
         .class-code-input-group.form-group
           input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
           .render
-            unless _.isEmpty(view.signupState.get('classCode'))
+            if state.get('doneFetching')
               if state.get('classCodeValid')
                 span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
               else
@@ -16,14 +16,13 @@ form.modal-body.segment-check
           if _.isEmpty(view.signupState.get('classCode'))
             p.medium-gray
               span(data-i18n="signup.ask_teacher_1")
+          else if !state.get('doneFetching')
+            p.large-gray.classroom-name(data-i18n="signup.looking_for_classroom")
           else if state.get('classCodeValid')
             p.medium-gray
-              p.large-gray.classroom-name= view.classroom.get('name')
+              p.large-gray.classroom-name= state.get('classroomName')
               br
-              if view.classroom.owner.get('firstName')
-                p.medium-gray.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
-              else if view.classroom.owner.get('name')
-                p.medium-gray.teacher-name= view.classroom.owner.get('name')
+              p.medium-gray.teacher-name= state.get('ownerName')
           else
             p.medium-gray(data-i18n="signup.classroom_not_found")
           

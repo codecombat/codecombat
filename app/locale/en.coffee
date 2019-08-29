@@ -458,6 +458,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
     request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
     educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Recover Account"

@@ -11,19 +11,18 @@ module.exports = class SegmentCheckView extends CocoView
   template: template
 
   events:
-    'click .back-to-account-type': -> @trigger 'nav-back'
+    'click .back-to-account-type': 'onBackToAccountType'
     'input .class-code-input': 'onInputClassCode'
     'change .birthday-form-group': 'onInputBirthday'
     'submit form.segment-check': 'onSubmitSegmentCheck'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 
   initialize: ({ @signupState } = {}) ->
-    @checkClassCodeDebounced = _.debounce @checkClassCode, 1000
+    @fetchAndApplyClassCodeDebounced = _.debounce @fetchAndApplyClassCode, 1000
     @fetchClassByCode = _.memoize(@fetchClassByCode)
-    @classroom = new Classroom()
     @state = new State()
     if @signupState.get('classCode')
-      @checkClassCode(@signupState.get('classCode'))
+      @fetchAndApplyClassCode()
     @listenTo @state, 'all', _.debounce(->
       @renderSelectors('.render')
       @trigger 'special-render'
@@ -31,30 +30,46 @@ module.exports = class SegmentCheckView extends CocoView
 
   getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
 
+  onBackToAccountType: ->
+    @state.set { doneFetching: false }
+    @trigger 'nav-back'
+
   onInputClassCode: ->
-    @classroom = new Classroom()
+    # TODO: This may do nothing, because the glyph icons we use are not alerts
     forms.clearFormAlerts(@$el)
-    classCode = @getClassCode()
-    @signupState.set { classCode }, { silent: true }
-    @checkClassCodeDebounced()
+    # TODO: Ideally, when this is in Vue, we can run the check on each key press
+    # and let them know we are searching for the class code, without having to 
+    # reset focus and mess with the input
+    @signupState.set { classCode: @getClassCode() }, { silent: true }
+    @fetchAndApplyClassCodeDebounced()
 
   afterRender: () ->
     super()
     @onInputClassCode()
 
-  checkClassCode: ->
+  fetchAndApplyClassCode: ->
     return if @destroyed
     classCode = @getClassCode()
+
+    if not classCode
+      return
 
     @fetchClassByCode(classCode)
     .then (classroom) =>
       return if @destroyed or @getClassCode() isnt classCode
       if classroom
-        @classroom = classroom
-        @state.set { classCodeValid: true, segmentCheckValid: true }
+        firstName = classroom.owner.get('firstName')
+        lastName = classroom.owner.get('lastName')
+        ownerName = (firstName || lastName) ? "#{firstName} #{lastName}" : classroom.owner.get('name')
+        @state.set {
+          ownerName
+          classroomName: classroom.get('name')
+          doneFetching: true
+          classCodeValid: true
+          segmentCheckValid: true
+        }
       else
-        @classroom = new Classroom()
-        @state.set { classCodeValid: false, segmentCheckValid: false }
+        @state.set { doneFetching: true, classCodeValid: false, segmentCheckValid: false }
     .catch (error) ->
       throw error
 
