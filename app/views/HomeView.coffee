@@ -49,7 +49,7 @@ module.exports = class HomeView extends RootView
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
 
     ]
-  
+
   onClickJumbotronDownArrow: ->
     @scrollToLink('#ozaria-summary', 200)
 
@@ -129,6 +129,7 @@ module.exports = class HomeView extends RootView
     if !me.showChinaVideo()
       require.ensure(['@vimeo/player'], (require) =>
         Player = require('@vimeo/player').default
+        # TODO: clean up variable names 
         @vimeoPlayer = new Player(@$('.vimeo-player')[0])
       , (e) =>
         console.error e
