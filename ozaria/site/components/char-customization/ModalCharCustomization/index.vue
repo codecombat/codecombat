@@ -248,7 +248,7 @@
           />
         </div>
         <div class="col-xs-4">
-          <form ref="name-form">
+          <form ref="name-form" v-on:submit.prevent="handleSubmit">
             <label for="heroNameInput">{{ this.$t('char_customization_modal.name_label') }}</label>
             <input
               v-model="characterName"
