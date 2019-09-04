@@ -16,7 +16,7 @@ _Prologue: The Sky Mountain_ content is designed to get students excited about t
 
 # Summaries
 
-## Cutscene: Sky Mountain
+## Cutscene: Up the Mountain
 
 We are introduced to the Hero, a teenager from a small village at the foot of the Great Mountain. Their mother is missing, and after finding a message from their mother, they set off into the cold, dark winter day to a tower on the mountain. A mountain they are warned never to enter. With trepidation, the Hero opens the front door to the tower and steps inside...
 
@@ -36,7 +36,7 @@ When the Hero uses the artifact, they are sucked into the Spirit Land! In the Sp
 
 **Cinematic: To Save the World** - Vega explains game objects and avatars.
 
-**Select Avatar** - Students choose an avatar for their games from a menu.
+**Choose Player Avatar** - Students choose an avatar for their games from a menu.
 
 **Cinematic: Objects and Avatars** - Vega explains objects, methods, and arguments.
 
@@ -44,7 +44,7 @@ When the Hero uses the artifact, they are sucked into the Spirit Land! In the Sp
 
 **Cinematic: Properties of Life** - Vega explains the setArt method.
 
-## Capstone Stage 1
+## Capstone Stage 1 (Of Objects and Avatars)
 
 Students set the art of their avatars.
 
@@ -52,7 +52,7 @@ Students set the art of their avatars.
 
 **Cinematic: Speed Up** - Vega explains setSpeed method.
 
-## Capstone Stage 2
+## Capstone Stage 2 (Speed Up)
 
 Students set the initial speed of avatars in their game.
 
@@ -60,7 +60,7 @@ Students set the initial speed of avatars in their game.
 
 **Cinematic: Properties for All** - Vega explains why properties apply to all the avatars.
 
-## Capstone Stage 3
+## Capstone Stage 3 (Properties for All)
 
 Students set the minimum speed, initial size, consume multiplier, and consume threshold.
 
@@ -78,9 +78,9 @@ The hero and her dog are suddenly interrupted by the tower shaking in the real w
 
 **Interactive: Game Tool Definitions** - Students match new vocabulary with definitions.
 
-**Cinematic: What&#39;s for Dinner** - Vega explains how to update resources and power ups.
+**Cinematic: What's for Dinner** - Vega explains how to update resources and power ups.
 
-## Capstone Stage 4
+## Capstone Stage 4 (Powering Up)
 
 Students will set art, maximum number, and spawn interval of resources and power ups.
 
@@ -88,7 +88,7 @@ Students will set art, maximum number, and spawn interval of resources and power
 
 **Cinematic: Sizing the World** - Vega explains how to define game rules and settings.
 
-## Capstone Stage 5
+## Capstone Stage 5 (Sizing the World)
 
 Students will set the map size and environment.
 
@@ -96,7 +96,7 @@ Students will set the map size and environment.
 
 **Cinematic: Moving Pains** - Vega explains setting input to mouse or keyboard.
 
-## Capstone Stage 6
+## Capstone Stage 6 (Moving Pains)
 
 Students set the input to control gameplay.
 
@@ -104,7 +104,7 @@ Students set the input to control gameplay.
 
 **Cinematic: Enemy Mine** - After the Darkness warning goes off again, Vega explains how to set the AI to be easy, medium, or hard.
 
-## Capstone Stage 7
+## Capstone Stage 7 (Enemy Mine)
 
 Students set the game AI for other avatars.
 
@@ -112,7 +112,7 @@ Students set the game AI for other avatars.
 
 **Cinematic: Scoring it All** - Vega explains how to set different scores.
 
-## Capstone Stage 8
+## Capstone Stage 8 (Scoring it All)
 
 Students set resource, power up, avatar, and win scores.
 
@@ -120,7 +120,7 @@ Students set resource, power up, avatar, and win scores.
 
 **Cinematic: UI Love** - Vega explains setting text and sharing the game with friends.
 
-## Capstone Stage 9
+## Capstone Stage 9 (UI Love)
 
 Students define the victory and directions text.
 
@@ -128,7 +128,7 @@ Students define the victory and directions text.
 
 **Cinematic: Through the Dark** - The Darkness returns and Vega explains that students can continue to edit their projects.
 
-## Capstone Stage 10
+## Capstone Stage 10 (Through the Dark)
 
 Students can edit their game more or submit it.
 
