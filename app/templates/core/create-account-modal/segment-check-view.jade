@@ -11,7 +11,7 @@ form.modal-body.segment-check
                 span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
               else
                 span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
-        
+
         .render
           if _.isEmpty(view.signupState.get('classCode'))
             p.medium-gray
@@ -25,7 +25,7 @@ form.modal-body.segment-check
               p.medium-gray.teacher-name= state.get('ownerName')
           else
             p.medium-gray(data-i18n="signup.classroom_not_found")
-          
+
       when 'teacher'
         // TODO
       when 'individual'
@@ -53,7 +53,7 @@ form.modal-body.segment-check
 
       default
         p.medium-gray
-          span Sign-up error, please contact 
+          span Sign-up error, please contact
           =" "
           a(href="mailto:support@codecombat.com") support@codecombat.com
           | .
