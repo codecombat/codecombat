@@ -1407,7 +1407,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    delete_clan: "Delete Clan"
 #    leave_clan: "Leave Clan"
 #    join_clan: "Join Clan"
-#    invite_1: "Invite:"
+#    invite_1: "Iilade:"
 #    invite_2: "*Invite players to this Clan by sending them this link."
 #    members: "Members"
 #    progress: "Progress"
