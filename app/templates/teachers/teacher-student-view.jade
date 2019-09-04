@@ -199,7 +199,8 @@ mixin breadcrumbs
         - var courseStarted = false;
         table.table.table-condensed
           each level, index in levels
-            if view.levelProgressMap[level.get('original')] === 'not started'
+            - var solutions = view.levelSolutionsMap[level.get('original')] || [];
+            if view.levelProgressMap[level.get('original')] === 'not started' || solutions.length == 0
               - continue;
             - courseStarted = true;
             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
@@ -269,7 +270,6 @@ mixin breadcrumbs
                     =" "
                     span(data-i18n="play_level.level")
                     span )
-            - var solutions = view.levelSolutionsMap[level.get('original')] || [];
             if solutions.length > 1
               tr
                 td

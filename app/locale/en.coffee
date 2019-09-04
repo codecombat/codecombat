@@ -458,6 +458,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
     request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
     educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Recover Account"
@@ -3001,3 +3002,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_again: 'Whoops, try again!'
     select_statement_left: 'Whoops, select a statement from the left before hitting "Submit."'
     fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
+    cannot_play_video: 'Sadly, this video cannot be played in your area.'
+    console_instructions: 'See why by opening your browser console: 1) Right click 2) Choose "Inspect" 3) Click the console tab.'
+    skip_video: 'Skip video'
+    unavailable: 'Unavailable'
