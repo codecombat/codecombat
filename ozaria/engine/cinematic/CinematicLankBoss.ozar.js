@@ -251,7 +251,11 @@ export default class CinematicLankBoss {
       console.warn(`Tried to play action '${action}' on non existant lank '${key}'`)
       return
     }
+
+    // Without these locks the actions are changed due to sprite sheet rendering.
+    lank.lockAction(false)
     lank.queueAction(action)
+    lank.lockAction(true)
   }
 
   /**
