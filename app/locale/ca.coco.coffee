@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     social_discource: "Uneix-te a les discussions al nostre fòrum de comentaris"
     social_facebook: "Fes Like a CodeCombat en Facebook"
     social_twitter: "Segueix CodeCombat al Twitter"
-    social_gplus: "Uneix-te a CodeCombat en Google+"
     social_slack: "Xateja amb nosaltres al canal públic CodeCombat Slack"
     contribute_to_the_project: "Contribueix al projecte"
 

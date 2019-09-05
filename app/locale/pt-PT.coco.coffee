@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     social_discource: "Junta-te à discussão no nosso fórum Discourse"
     social_facebook: "Gosta do CodeCombat no Facebook"
     social_twitter: "Segue o CodeCombat no Twitter"
-    social_gplus: "Junta-te ao CodeCombat no Google+"
     social_slack: "Fala connosco no canal público do CodeCombat no Slack"
     contribute_to_the_project: "Contribui para o projeto"
 
