@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     social_discource: "Придружи се дискусији на нашем Discourse форуму"
     social_facebook: "Лајкуј CodeCombat на Фејсбуку"
     social_twitter: "Запрати CodeCombat на Твитеру"
-    social_gplus: "Придружи се CodeCombat-у на Гугл+"
     social_slack: "Ћаскај са нама на јавном CodeCombat Slack каналу"
     contribute_to_the_project: "Допринеси пројекту"
 

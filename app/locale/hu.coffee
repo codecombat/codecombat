@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     social_discource: "Csatlakozz a beszélgetéshez a Discourse forumon"
     social_facebook: "Like-old a CodeCombat-et a Facebookon"
     social_twitter: "Kövesd a CodeCombat-et a Twitteren"
-    social_gplus: "Csatlakozz a CodeCombat-hez a Google+ -on"
     social_slack: "Csatlakozz a nyilvános CodeCombat Slack csatornához"
     contribute_to_the_project: "Vegyél részt a projektben"
 
