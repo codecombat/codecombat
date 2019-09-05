@@ -13,11 +13,14 @@ By the end of this Ozaria unit, students will be able to:
 
 ## CSTA Standards
 
-This unit aligns to the following K-12 CSTA standards:
+This was designed to align to the following K-12 CSTA standards:
 
-- 1A-AP-10: Develop programs with sequences or simple loops, to express an idea or address a problem.
-- 3A-AP-17: Decompose problems into smaller components through systematic analysis, using constructs such as procedures, modules, and/or objects.
-- 2-AP-14: Create procedures with parameters to organize code and make it easier to reuse.
+- 1A-AP-10: Develop programs with sequences and simple loops, to express ideas or address a problem.
+- 1A-AP-11: Decompose (break down) the steps needed to solve a problem into a precise sequence of instructions.
+- 1A-AP-14: Debug (identify and fix) errors in an algorithm or program that includes sequences and simple loops.
+- 1B-AP-12: Modify, remix, or incorporate portions of an existing program into one’s own work, to develop something new or add more advanced features.
+- 1B-AP-15: Test and debug (identify and fix errors) in a program or algorithm to ensure it runs as intended.
+
 
 # Recommended Prep
 
