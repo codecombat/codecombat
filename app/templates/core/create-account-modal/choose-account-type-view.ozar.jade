@@ -15,6 +15,6 @@ form.modal-body.choose-account-type
     label.control-label(for="classCode")
       span(data-i18n="play.anon_signup_enter_code")
     .class-code-input-group.form-group
-      input.class-code-input(name="classCode" value=view.signupState.get('classCode') required)
+      input.class-code-input(name="classCode" value=view.signupState.get('classCode') spellcheck="false" required)
 
     button.btn.btn-lg.student-path-button.ozaria-primary-button(type="submit" data-i18n="signup.signup_as_student")
