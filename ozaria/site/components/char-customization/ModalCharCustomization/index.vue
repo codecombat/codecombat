@@ -251,10 +251,12 @@
           <form ref="name-form" v-on:submit.prevent="handleSubmit">
             <label for="heroNameInput">{{ this.$t('char_customization_modal.name_label') }}</label>
             <input
-              v-model="characterName"
-              maxlength="25"
               id="heroNameInput"
+              v-model="characterName"
+
               class="form-control"
+              maxlength="25"
+              spellcheck="false"
               required
             >
           </form>

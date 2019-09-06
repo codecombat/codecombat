@@ -4,7 +4,7 @@ form.modal-body.segment-check
       when 'student'
         span(data-i18n="signup.enter_class_code")
         .class-code-input-group.form-group
-          input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
+          input.class-code-input(name="classCode" value=view.signupState.get('classCode') spellcheck="false")
           .render
             if state.get('doneFetching')
               if state.get('classCodeValid')
