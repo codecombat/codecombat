@@ -55,6 +55,7 @@ module.exports = Vue.extend({
   <layout-chrome
     :title="cutscene.name"
   >
+    <button id="skip-btn" @click="onCompleted">Skip Video</button>
     <base-video
       v-if="vimeoId"
 
@@ -69,6 +70,19 @@ module.exports = Vue.extend({
 
 <style lang="sass">
   @import "ozaria/site/styles/common/variables.scss"
+
+  button#skip-btn
+    position: fixed
+    top: 100px
+    right: 100px
+    height: 35px
+    font-size: 18px
+    font-family: Work Sans
+    color: $acodus-glow
+    background-color: rgba(0, 0, 0, 0.7)
+    border: unset
+    min-width: 150px
+    height: 39px
 
   #cutscene-player
     width: calc(100vw - #{$chromeRightPadding + $chromeLeftPadding})
