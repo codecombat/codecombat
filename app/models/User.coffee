@@ -600,6 +600,7 @@ module.exports = class User extends CocoModel
   showGithubLink: -> not (features?.china ? false)
   showChinaICPinfo: -> features?.china ? false
   showChinaResourceInfo: -> features?.china ? false
+  useChinaHomeView: -> features?.china ? false
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
   showIndividualRegister: -> not (features?.china ? false)

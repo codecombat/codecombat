@@ -158,7 +158,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'github/*path': 'routeToServer'
 
     'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
-    'home': go('HomeView')
+    'home': () ->
+      if me.useChinaHomeView()
+        go('HomeCNView')
+      else
+        go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
