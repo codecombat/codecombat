@@ -10,8 +10,8 @@ storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
-module.exports = class HomeView extends RootView
-  id: 'home-view'
+module.exports = class HomeCNView extends RootView
+  id: 'home-cn-view'
   template: template
 
   events:

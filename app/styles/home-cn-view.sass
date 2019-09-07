@@ -2,7 +2,7 @@
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
 
-#home-view
+#home-cn-view
 
   // style-flat overwrites
   h1, .text-h1
@@ -94,7 +94,7 @@
       margin: 0 auto
 
     #jumbotron-container-fluid
-      background-image: url("/images/pages/home/jumbotron.png")
+      background-image: url("https://assets.koudashijie.com/images/aiyouthbg.jpg")
       background-size: cover
       background-repeat: no-repeat
       background-position: center center
@@ -118,46 +118,24 @@
             background-color: $gold
             color: $gray
 
-    #ai-youth-banner
-      background-image: url("https://assets.koudashijie.com/images/aiyouthbg.jpg")
-      background-size: cover
-      background-repeat: no-repeat
-      background-position: center center
-      height: 627px
-      width: 100%
-      margin: auto
-      padding-top: 300px
-      h1
-        margin: 54px 64px 30px
-      .gradient-title
-        margin: 54px 64px 0px
-        font-size: 4.27vw
-        letter-spacing: .208vw
-        font-family: SourceHanSansCN-Bold
-        font-weight: 700
-        background: linear-gradient(90deg,#39a0ff,#00dfd5)
-        -webkit-background-clip: text
-        -webkit-text-fill-color: transparent
-      .subtitle
-        color: white
-        font-size: 1.46vw
-        letter-spacing: .3vw
-        font-family: SourceHanSansCN-Medium
-        margin-right: 122px
-      .button-section
-        margin-left: 64px
-        width: 250px
-        text-transform: uppercase
-        .btn-primary
+      .aiyouth
+        text-align: right
+        .gradient-title
+          font-family: SourceHanSansCN-Bold
+          font-weight: 700
+          background: linear-gradient(90deg,#39a0ff,#00dfd5)
+          -webkit-background-clip: text
+          -webkit-text-fill-color: transparent
+          margin-bottom: 14px
+        .subtitle
+          color: white
+          font-family: SourceHanSansCN-Medium
+          margin-right: 70px
+        .aiyouth-btn
+          margin-right: 70px
           background-color: $gold
-          &:hover
-            background-color: #FDD147
-        .btn-primary-alt
-          border-color: $gold
-          color: $gold
-          &:hover
-            background-color: $gold
-            color: $gray
+          margin-top: 42px
+
 
     #game-based
       padding: 62px 75px

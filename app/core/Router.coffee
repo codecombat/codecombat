@@ -39,7 +39,8 @@ module.exports = class CocoRouter extends Backbone.Router
       unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
-      return @routeDirectly('HomeView', [])
+      homeView = if features?.china then 'HomeCNView' else 'HomeView'
+      return @routeDirectly(homeView, [])
 
     'about': go('AboutView')
     'contact-cn': go('ContactCNView')
@@ -158,12 +159,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'github/*path': 'routeToServer'
 
     'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
-    'home': () ->
-      if me.useChinaHomeView()
-        go('HomeCNView')
-      else
-        go('HomeView')
-
+    'home': go('HomeView')
+    'home-cn': go('HomeCNView')
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
     'i18n/component/:handle': go('i18n/I18NEditComponentView')
