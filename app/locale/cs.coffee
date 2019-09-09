@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     social_discource: "Vstupte do diskuze na našem Discourse fóru"
     social_facebook: "Dejte Like CodeCombat na Facebooku"
     social_twitter: "Sledujte CodeCombat na Twitteru"
-    social_gplus: "Připojte se k CodeCombat na Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Přispějte tomuto projektu"
 

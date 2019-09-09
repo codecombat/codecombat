@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     social_discource: "Gå med i diskussionerna i vårt forum"
     social_facebook: "Gilla CodeCombat på Facebook"
     social_twitter: "Följ CodeCombat på Twitter"
-    social_gplus: "Följ CodeCombat på Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Bidra till projektet"
 
