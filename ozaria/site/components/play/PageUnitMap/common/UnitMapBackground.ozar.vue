@@ -150,9 +150,6 @@
 @import "ozaria/site/styles/common/variables"
 
 .unit-map-background
-  display: flex
-  flex-wrap: nowrap
-  overflow-x: auto
   position: absolute
   width: 100%
   height: 100%
