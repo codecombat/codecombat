@@ -81,7 +81,8 @@ module.exports = {
       })
 
       // classrooms that were imported to coco/ozaria but no more exist in importedClassroomNames, i.e. have been removed from google classroom
-      const extraClassroomsImported = classrooms.filter((c) => (c.importedToCoco || c.importedToOzaria) && !(mergedClassrooms.map((m) => m.id).includes(c.id)))
+      const mergedClassroomIds = mergedClassrooms.map((m) => m.id)
+      const extraClassroomsImported = classrooms.filter((c) => (c.importedToCoco || c.importedToOzaria) && !(mergedClassroomIds.includes(c.id)))
       // set deletedFromGC, so that it gets filtered from the dropdown on the create classroom modal
       // for example, a class that is importedToOzaria but deleted from GC should not be available in the dropdown on coco
       extraClassroomsImported.forEach((e) => e.deletedFromGC = true)
