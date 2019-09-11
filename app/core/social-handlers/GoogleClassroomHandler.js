@@ -51,7 +51,7 @@ module.exports = {
     try {
       let gClass = me.get('googleClassrooms').find((c)=>c.id==gcId)
       if (gClass) {
-        gClass.importedToCoco = true
+        gClass.importedToOzaria = true
         await new Promise(me.save().then)
       }
       else {
@@ -64,6 +64,8 @@ module.exports = {
     }
   },
 
+  // import classrooms from GC and merge them into me.googleClassrooms
+  // this also sets `deletedFromGC` for classrooms that are removed from GC but had already been imported to coco/ozaria
   importClassrooms: async function() {
     try {
       const importedClassrooms = await this.gcApiHandler.loadClassroomsFromAPI()
@@ -71,13 +73,21 @@ module.exports = {
         return { id: c.id, name: c.name }
       })
      
-      const classrooms = (me.get('googleClassrooms') || []).filter((c) => c.importedToCoco == true)
+      const classrooms = me.get('googleClassrooms') || []
+      let mergedClassrooms = []
       importedClassroomsNames.forEach((imported) => {
-        if (!classrooms.find((c) => c.id == imported.id)) {
-          classrooms.push(imported)
-        }
+        const cl = classrooms.find((c) => c.id == imported.id)
+        mergedClassrooms.push({...cl, ...imported})
       })
-      me.set('googleClassrooms', classrooms)
+
+      // classrooms that were imported to coco/ozaria but no more exist in importedClassroomNames, i.e. have been removed from google classroom
+      const mergedClassroomIds = mergedClassrooms.map((m) => m.id)
+      const extraClassroomsImported = classrooms.filter((c) => (c.importedToCoco || c.importedToOzaria) && !(mergedClassroomIds.includes(c.id)))
+      // set deletedFromGC, so that it gets filtered from the dropdown on the create classroom modal
+      // for example, a class that is importedToCoco but deleted from GC should not be available in the dropdown on ozaria
+      extraClassroomsImported.forEach((e) => e.deletedFromGC = true)
+      mergedClassrooms = mergedClassrooms.concat(extraClassroomsImported)
+      me.set('googleClassrooms', mergedClassrooms)
       await new Promise(me.save().then)
     }
     catch (err) {

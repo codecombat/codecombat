@@ -102,7 +102,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @isGoogleClassroom = true
     GoogleClassroomHandler.importClassrooms()
     .then(() =>
-      @googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToCoco)
+      @googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
       @render()
       $('.google-class-name').show()
       $('.class-name').hide()
