@@ -64,6 +64,21 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @transformStyle = options.transform ? LayerAdapter.TRANSFORM_SURFACE
     @camera = options.camera
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
+    @totalTimeSpentRendering = 0
+
+    @reportRenderTime = _.debounce(
+      () =>
+        if not application?.isProduction()
+          return
+        if @totalTimeSpentRendering != 0 and window.DD_LOGS and Math.random() < 0.1
+          window.DD_LOGS.logger.log(
+            'LayerAdapter Render Time', {
+              totalTimeSpentRendering: @totalTimeSpentRendering
+              name: @name
+            }
+          )
+      500
+    )
 
     @webGL = !!options.webGL
     if @webGL
@@ -231,6 +246,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @_renderNewSpriteSheet()
 
   _renderNewSpriteSheet: (async) ->
+    @renderNewSpriteSheetStartedTime = performance?.now()
     @asyncBuilder.stopAsync() if @asyncBuilder
     @asyncBuilder = null
 
@@ -289,6 +305,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   onBuildSpriteSheetComplete: (e, builder) ->
     return if @initializing or @destroyed
+    if performance
+      @totalTimeSpentRendering += performance?.now() - @renderNewSpriteSheetStartedTime
+      @reportRenderTime()
     @asyncBuilder = null
 
     @spriteSheet = builder.spriteSheet
