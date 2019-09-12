@@ -419,6 +419,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     _.extend(options.data, {name, email, password})
     options.contentType = 'application/json'
+    options.xhrFields = { withCredentials: true }
     options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
@@ -431,6 +432,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     _.extend(options.data, {name, email, facebookID, facebookAccessToken: application.facebookHandler.token()})
     options.contentType = 'application/json'
+    options.xhrFields = { withCredentials: true }
     options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
@@ -444,6 +446,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     _.extend(options.data, {name, email, gplusID, gplusAccessToken: application.gplusHandler.token()})
     options.contentType = 'application/json'
+    options.xhrFields = { withCredentials: true }
     options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
@@ -460,6 +463,7 @@ module.exports = class User extends CocoModel
   loginGPlusUser: (gplusID, options={}) ->
     options.url = '/auth/login-gplus'
     options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
     options.data ?= {}
     options.data.gplusID = gplusID
     options.data.gplusAccessToken = application.gplusHandler.token()
@@ -474,12 +478,14 @@ module.exports = class User extends CocoModel
   loginFacebookUser: (facebookID, options={}) ->
     options.url = '/auth/login-facebook'
     options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
     options.data ?= {}
     options.data.facebookID = facebookID
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
 
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
+    options.xhrFields = { withCredentials: true }
     options.url = '/auth/login'
     options.type = 'POST'
     options.data ?= {}
