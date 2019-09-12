@@ -39,6 +39,9 @@ module.exports = class CocoRouter extends Backbone.Router
       unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
+      if me.useChinaHomeView()
+        delete window.alreadyLoadedView
+        return @routeDirectly('HomeCNView', [])
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
@@ -158,7 +161,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'github/*path': 'routeToServer'
 
     'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
-    'home': go('HomeView')
+    'home': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
@@ -251,13 +254,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
-    'preview': go('HomeView')
+    'preview': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'privacy': go('PrivacyView')
 
-    'schools': go('HomeView')
-    'seen': go('HomeView')
-    'SEEN': go('HomeView')
+    'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
+    'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
+    'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'students/ranking/:courseID?:courseInstanceID': go('courses/StudentRankingView')
 

@@ -21,6 +21,10 @@ block content
                 a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
               else
                 a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+      .col-lg-6.aiyouth
+        h1.gradient-title 赛迪人工智能大赛
+        .subtitle AI世青赛 - 首届青少年编程组挑战活动正式启动
+        a.btn.btn-lg.btn-primary.aiyouth-btn(href="http://aiyouth.ccidtraining.org.cn") 进入大赛官网
 
     .row#game-based.vertical-align
         .col-md-5
@@ -42,7 +46,10 @@ block content
             .row
               .col-lg-7.col-md-12
                 .video-iframe
-                  iframe.vimeo-player(src="https://player.vimeo.com/video/229304323", frameborder="0", webkitallowfullscreen, mozallowfullscreen, allowfullscreen, width="640" height="350")
+                  video(controls width="640" height="350" poster="/images/pages/home/video_thumb.png" preload="metadata")
+                    source(src="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4" type="video/mp4")
+                    a(href="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4")
+                      img(src="/images/pages/home/video_thumb.png" style="width: 640px; height:350px")
               .col-lg-5.col-md-12
                 h2(data-i18n="new_home.classroom_in_box_title")
                 img(src="/images/pages/home/pink_rectangle.png"
