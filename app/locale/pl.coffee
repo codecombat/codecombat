@@ -77,7 +77,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
-#    see_example: "See example"
+    see_example: "Zobacz przykład"
     slogan: "Najlepsza gra do nauki programowania!" # {change}
 #    teach_cs1_free: "Teach CS1 Free"
 #    teachers_love_codecombat_title: "Teachers Love CodeCombat"
@@ -150,11 +150,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     go_to_courses: "Przejdź do klas"
     want_coco: "Chcesz używać CodeCombat w swojej szkole?"
 #    educator: "Educator"
-#    student: "Student"
+    student: "Uczeń"
 
   nav:
 #    educators: "Educators"
-#    follow_us: "Follow Us"
+    follow_us: "Śledź nas"
 #    general: "General"
     map: "Mapa"
     play: "Poziomy" # The top nav bar entry where players choose which levels to play
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     twitter_follow: "Subskrybuj"
     my_classrooms: "Moje klasy"
     my_courses: "Moje kursy"
-#    my_teachers: "My Teachers"
+    my_teachers: "Moi nauczyciele"
     careers: "Kariera"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -194,12 +194,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     help_suff: "a my się odezwiemy!"
     resource_hub: "Baza Wiedzy"
     apcsp: "Zasady AP CS"
-#    parent: "Parents"
+    parent: "Rodzice"
 
   modal:
     close: "Zamknij"
     okay: "OK"
-#    cancel: "Cancel"
+    cancel: "Anuluj"
 
   not_found:
     page_not_found: "Strona nie istnieje"
@@ -220,11 +220,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    game_development_title: "__level__ | Game Development"
 #    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
-#    anon_signup_title_2: "Classroom Version!"
-#    anon_signup_enter_code: "Enter Class Code:"
-#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
-#    anon_signup_create_class: "Want to create a class?"
-#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+    anon_signup_title_2: "Wersja dla klas!"
+    anon_signup_enter_code: "Wpisz kod klasy:"
+    anon_signup_ask_teacher: "Nie posiadasz go? Zapytaj swojego nauczyciela!"
+    anon_signup_create_class: "Chciałbyś/Chciałabyś stworzyć klasę?"
+    anon_signup_setup_class: "Ustaw klasę, dodaj swoich uczniów i obserwuj progres!"
 #    anon_signup_create_teacher: "Create free teacher account"
     play_as: "Graj jako " # Ladder page
 #    get_course_for_class: "Assign Game Development and more to your classes!"
