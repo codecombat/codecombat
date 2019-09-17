@@ -8,7 +8,6 @@ EUConfirmationView = require './EUConfirmationView'
 BasicInfoView = require './BasicInfoView'
 SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
 SingleSignOnConfirmView = require './SingleSignOnConfirmView'
-ExtrasView = require './ExtrasView'
 ConfirmationView = require './ConfirmationView'
 TeacherSignupComponent = require './teacher/TeacherSignupComponent'
 TeacherSignupStoreModule = require './teacher/TeacherSignupStoreModule'
@@ -40,7 +39,6 @@ They `screen`s are:
               A user may create their account here, or connect with facebook/g+
     sso-confirm: Alternate version of basic-info for new facebook/g+ users
   sso-already-exists: When facebook/g+ user already exists, this prompts them to sign in.
-  extras: Not yet implemented
   confirmation: When an account has been successfully created, this view shows them their info and
     links them to a landing page based on their account type.
 
@@ -160,10 +158,7 @@ module.exports = class CreateAccountModal extends ModalView
       'nav-back': -> @signupState.set { screen: 'basic-info' }
       'signup': ->
         if @signupState.get('path') is 'student'
-          if me.skipHeroSelectOnStudentSignUp()
-            @signupState.set { screen: 'confirmation', accountCreated: true }
-          else
-            @signupState.set { screen: 'extras', accountCreated: true }
+          @signupState.set { screen: 'confirmation', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
@@ -173,9 +168,6 @@ module.exports = class CreateAccountModal extends ModalView
           window.location.reload()
         else
           @signupState.set { screen: 'confirmation', accountCreated: true }
-
-    @listenTo @insertSubView(new ExtrasView({ @signupState })),
-      'nav-forward': -> @signupState.set { screen: 'confirmation' }
 
     @insertSubView(new ConfirmationView({ @signupState }))
 
