@@ -18,6 +18,7 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
+TryOzariaModal = require('app/views/teachers/TryOzariaModal').default
 
 helper = require 'lib/coursesHelper'
 
@@ -219,8 +220,10 @@ module.exports = class TeacherClassesView extends RootView
     @calculateQuestCompletion()
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
+    # TODO insert ozaria upsell here
     if me.isTeacher() and not @classrooms.length
-      @openNewClassroomModal()
+      @openTryOzariaModal()
+#      @openNewClassroomModal()
     super()
 
   onClickEditClassroom: (e) ->
@@ -259,6 +262,14 @@ module.exports = class TeacherClassesView extends RootView
       .then () =>
         @calculateQuestCompletion()
         @render()
+
+  openTryOzariaModal: () ->
+    # TODO clean this up when modal is closed or page is unloaded
+    # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
+    modalHolder = document.createElement('div')
+    document.body.appendChild(modalHolder)
+
+    tryOzariaModal = new TryOzariaModal({ el: modalHolder })
 
   importStudents: (classroom) ->
     GoogleClassroomHandler.importStudentsToClassroom(classroom)
