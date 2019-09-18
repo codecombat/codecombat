@@ -1,6 +1,7 @@
 require('ozaria/site/styles/play/level/level-dialogue-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'ozaria/site/templates/play/level/level-dialogue-view'
+marked = require 'marked'
 
 module.exports = class LevelDialogueView extends CocoView
   id: 'level-dialogue-view'
@@ -23,7 +24,7 @@ module.exports = class LevelDialogueView extends CocoView
   onSpriteDialogue: (e) ->
     if e.message
       currentMessage = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
-      $('.vega-dialogue').text(currentMessage)
+      $('.vega-dialogue').html(marked(currentMessage))
       # The entire view is invisible until we have a message
       $('#level-dialogue-view')[0].style.display = 'flex'
 
