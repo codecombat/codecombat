@@ -18,7 +18,8 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
-TryOzariaModal = require('app/views/teachers/TryOzariaModal').default
+OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
+experiments = require('core/experiments')
 
 helper = require 'lib/coursesHelper'
 
@@ -177,6 +178,16 @@ module.exports = class TeacherClassesView extends RootView
         container: dot
       })
 
+  destroy: ->
+    @cleanupEncouragementModal()
+
+    super()
+
+  cleanupEncouragementModal: ->
+    if @ozariaEncouragementModal
+      @ozariaEncouragementModal.$destroy()
+      @ozariaEncouragementModalContainer.remove()
+
   calculateQuestCompletion: ->
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
     for classroom in @classrooms.models
@@ -220,10 +231,15 @@ module.exports = class TeacherClassesView extends RootView
     @calculateQuestCompletion()
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
-    # TODO insert ozaria upsell here
-    if me.isTeacher() and not @classrooms.length
-      @openTryOzariaModal()
-#      @openNewClassroomModal()
+    showOzariaEncouragementModal = window.localStorage.getItem('showOzariaEncouragementModal')
+    if showOzariaEncouragementModal
+      window.localStorage.removeItem('showOzariaEncouragementModal')
+
+    if showOzariaEncouragementModal and experiments.getOzariaEncouragementModalGroup(window.me) == 'ozaria-encouragement-modal-show'
+      @openOzariaEncouragementModal()
+    else if me.isTeacher() and not @classrooms.length
+      @openNewClassroomModal()
+
     super()
 
   onClickEditClassroom: (e) ->
@@ -263,13 +279,13 @@ module.exports = class TeacherClassesView extends RootView
         @calculateQuestCompletion()
         @render()
 
-  openTryOzariaModal: () ->
+  openOzariaEncouragementModal: () ->
     # TODO clean this up when modal is closed or page is unloaded
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
-    modalHolder = document.createElement('div')
-    document.body.appendChild(modalHolder)
+    @ozariaEncouragementModalContainer = document.createElement('div')
+    document.body.appendChild(@ozariaEncouragementModalContainer)
 
-    tryOzariaModal = new TryOzariaModal({ el: modalHolder })
+    @ozariaEncouragementModal = new OzariaEncouragementModal({ el: @ozariaEncouragementModalContainer })
 
   importStudents: (classroom) ->
     GoogleClassroomHandler.importStudentsToClassroom(classroom)

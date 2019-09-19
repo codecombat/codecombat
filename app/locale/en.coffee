@@ -1984,7 +1984,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"
     sub_title: "You are invited to try the new adventure game from CodeCombat"
-    cancel: 'No Thanks'
+    cancel: 'Back to CodeCombat'
     accept: 'Try First Unit Free'
     bullet1: 'Deepen student connection to learning through an epic story and immersive gameplay'
     bullet2: 'Teach CS fundamentals, Python or JavaScript and 21st century skills'
