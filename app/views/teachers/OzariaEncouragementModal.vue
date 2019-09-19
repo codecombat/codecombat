@@ -31,8 +31,12 @@
         },
 
         tryOzariaEvent () {
-
+          window.tracker.trackEvent('Ozaria Encouragement Modal CTA Click')
         }
+      },
+
+      mounted () {
+        window.tracker.trackEvent('Ozaria Encouragement Modal Displayed')
       }
     })
 </script>
