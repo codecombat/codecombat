@@ -180,7 +180,6 @@ module.exports = class TeacherClassesView extends RootView
 
   destroy: ->
     @cleanupEncouragementModal()
-
     super()
 
   cleanupEncouragementModal: ->
