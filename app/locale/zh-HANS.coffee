@@ -1207,8 +1207,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   teachers_quote:
     subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
     email_exists: "使用该账号的电子邮箱"
-    phone_number: "电话号码"
-    phone_number_help: "工作日时我们在哪可以找到您？"
+    phone_number: "手机号码"
+    phone_number_help: "工作日我们如何找到您？"
     primary_role_label: "您的主要职业"
     role_default: "选择职业"
     primary_role_default: "（请选择）"
@@ -1227,8 +1227,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     district_name: "区"
     district_na: "不可用时请输入 N/A"
     organization_label: "学校："
-    school_name: "学校名称"
-    city: "城市"
+    school_name: "学校或机构名称"
+    city: "市"
     state: "省" # {change}
     country: "国家"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
@@ -1252,6 +1252,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     referrer_web: "Google"
     referrer_other: "其他"
     anything_else: "您还有什么建议？" # {change}
+    anything_else_helper: "也可留下您的微信号，我们会为您提供更多帮助"
     thanks_header: "申请已发送！"
     thanks_sub_header: "感谢您为您的学校表达对 CodeCombat 的兴趣。"
     thanks_p: "我们不久会和你联系！如果想和我们取得联系，可以通过以下方式："
