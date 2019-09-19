@@ -111,11 +111,11 @@
 
 <style scoped lang="scss">
     .encouragement-modal {
-        /deep/ .modal-container {
+        ::v-deep .modal-container {
             width: 70%;
         }
 
-        /deep/ .modal-content {
+        ::v-deep .modal-content {
             padding: 30px;
         }
     }
@@ -187,7 +187,7 @@
                     left: 0;
                     right: 0;
 
-                    /deep/ .player {
+                    ::v-deep .player {
                         width: 100%;
                         height: 100%;
                     }

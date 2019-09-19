@@ -280,7 +280,6 @@ module.exports = class TeacherClassesView extends RootView
         @render()
 
   openOzariaEncouragementModal: () ->
-    # TODO clean this up when modal is closed or page is unloaded
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
     @ozariaEncouragementModalContainer = document.createElement('div')
     document.body.appendChild(@ozariaEncouragementModalContainer)
