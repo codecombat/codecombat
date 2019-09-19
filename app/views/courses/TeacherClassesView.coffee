@@ -101,7 +101,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .see-all-office-hours': 'onClickSeeAllOfficeHours'
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
-    'click .try-ozaria a': 'openOzariaEncouragementModal'
+    'click .try-ozaria a': 'tryOzariaLinkClicked'
 
   getMeta: ->
     {
@@ -282,6 +282,10 @@ module.exports = class TeacherClassesView extends RootView
       .then () =>
         @calculateQuestCompletion()
         @render()
+
+  tryOzariaLinkClicked: ->
+    window.tracker.trackEvent('Teachers', 'Teacher Dashboard Try Ozaria Link Clicked')
+    @openOzariaEncouragementModal()
 
   openOzariaEncouragementModal: () ->
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
