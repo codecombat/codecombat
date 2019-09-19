@@ -84,21 +84,26 @@
 
         <template slot="footer">
             <div class="footer">
-                <a
-                  href="#"
-                  class="no-thanks"
-                  @click="close"
-                >
-                    {{ $t('teacher_ozaria_encouragement_modal.cancel') }}
-                </a>
+                <div class="top-row">
+                    <a
+                            href="#"
+                            class="no-thanks"
+                            @click="close"
+                    >
+                        {{ $t('teacher_ozaria_encouragement_modal.cancel') }}
+                    </a>
 
-                <a
-                  href="https://www.ozaria.com/teacher/classes"
-                  class="try-ozaria"
-                  @click="tryOzariaEvent"
-                >
-                    {{ $t('teacher_ozaria_encouragement_modal.accept') }}
-                </a>
+                    <a
+                            href="https://www.ozaria.com/teacher/classes"
+                            class="try-ozaria"
+                            @click="tryOzariaEvent"
+                    >
+                        {{ $t('teacher_ozaria_encouragement_modal.accept') }}
+                    </a>
+                </div>
+                <div class="bottom-row">
+                    <span>{{ $t('teacher_ozaria_encouragement_modal.you_can_return') }}</span>
+                </div>
             </div>
         </template>
     </base-modal>
@@ -230,6 +235,10 @@
 
     .footer {
         width: 100%;
+    }
+
+    .footer .top-row {
+        width: 100%;
 
         display: flex;
         flex-direction: row;
@@ -263,6 +272,16 @@
             background-color: #F7D047;
             border-radius: 1px;
             height: 100%;
+
         }
+    }
+
+    .footer .bottom-row {
+        height: 20px;
+        text-align: right;
+        width: 100%;
+        font-size: 13px;
+        margin-top: 2px;
+        margin-bottom: -20px;
     }
 </style>

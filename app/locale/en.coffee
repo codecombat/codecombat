@@ -1990,6 +1990,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bullet2: 'Teach CS fundamentals, Python or JavaScript and 21st century skills'
     bullet3: 'Unlock creativity through capstone projects'
     bullet4: 'Support instructions through dedicated curriculum resources'
+    you_can_return: 'You can always return to CodeCombat'
 
   share_licenses:
     share_licenses: "Share Licenses"
