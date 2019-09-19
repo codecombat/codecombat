@@ -1,9 +1,13 @@
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 
 import LayoutChrome from '../../common/LayoutChrome'
 import BaseVideo from '../common/BaseVideo'
 import { getCutscene } from '../../../api/cutscene'
+import { cutsceneEvent } from '../common/cutsceneUtil'
+
+const throttledCutsceneEvent = _.once(cutsceneEvent)
 
 module.exports = Vue.extend({
   props: {
@@ -46,6 +50,11 @@ module.exports = Vue.extend({
 
     onCompleted() {
       this.$emit('completed', this.cutscene)
+    },
+
+    handleSkip() {
+      this.onCompleted()
+      throttledCutsceneEvent('Skipped Cutscene')
     }
   }
 })
@@ -55,7 +64,7 @@ module.exports = Vue.extend({
   <layout-chrome
     :title="cutscene.name"
   >
-    <button id="skip-btn" @click="onCompleted">Skip Video</button>
+    <button id="skip-btn" @click="handleSkip">Skip Video</button>
     <base-video
       v-if="vimeoId"
 
