@@ -3,6 +3,7 @@ const Plyr = require('plyr')
 const VimeoPlayer = require('@vimeo/player').default
 import 'plyr/dist/plyr.css'
 import BaseModal from 'ozaria/site/components/common/BaseModal'
+import { cutsceneEvent } from './cutsceneUtil'
 
 export default {
   props: {
@@ -55,6 +56,7 @@ export default {
       // is really able to handle the 403.
       player.ready().then(async () => {
         try {
+          cutsceneEvent('Video Loaded')
           await player.setVolume(this.soundOn ? 1 : 0)
           await player.play()
         } catch (e) {
