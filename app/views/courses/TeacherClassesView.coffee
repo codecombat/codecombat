@@ -101,6 +101,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .see-all-office-hours': 'onClickSeeAllOfficeHours'
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
+    'click .try-ozaria a': 'openOzariaEncouragementModal'
 
   getMeta: ->
     {
@@ -234,7 +235,11 @@ module.exports = class TeacherClassesView extends RootView
     if showOzariaEncouragementModal
       window.localStorage.removeItem('showOzariaEncouragementModal')
 
-    if showOzariaEncouragementModal and experiments.getOzariaEncouragementModalGroup(window.me) == 'ozaria-encouragement-modal-show'
+    ozariaEncouragementModalGroup = experiments.getOzariaEncouragementModalGroup(window.me)
+    if ozariaEncouragementModalGroup == 'ozaria-encouragement-modal-show'
+      @showOzariaLink = true
+
+    if showOzariaEncouragementModal and ozariaEncouragementModalGroup == 'ozaria-encouragement-modal-show'
       @openOzariaEncouragementModal()
     else if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
@@ -280,6 +285,9 @@ module.exports = class TeacherClassesView extends RootView
 
   openOzariaEncouragementModal: () ->
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
+    if @ozariaEncouragementModalContainer
+      @ozariaEncouragementModalContainer.remove()
+
     @ozariaEncouragementModalContainer = document.createElement('div')
     document.body.appendChild(@ozariaEncouragementModalContainer)
 

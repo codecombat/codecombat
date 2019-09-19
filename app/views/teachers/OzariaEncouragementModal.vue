@@ -30,13 +30,18 @@
           this.show = false
         },
 
+        noThanksClicked () {
+          window.tracker.trackEvent('Teachers', 'Ozaria Encouragement Modal Declined')
+          this.close()
+        },
+
         tryOzariaEvent () {
-          window.tracker.trackEvent('Ozaria Encouragement Modal CTA Click')
+          window.tracker.trackEvent('Teachers', 'Ozaria Encouragement Modal CTA Click')
         }
       },
 
       mounted () {
-        window.tracker.trackEvent('Ozaria Encouragement Modal Displayed')
+        window.tracker.trackEvent('Teachers', 'Ozaria Encouragement Modal Displayed')
       }
     })
 </script>
@@ -88,7 +93,7 @@
                     <a
                             href="#"
                             class="no-thanks"
-                            @click="close"
+                            @click="noThanksClicked"
                     >
                         {{ $t('teacher_ozaria_encouragement_modal.cancel') }}
                     </a>
