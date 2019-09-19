@@ -94,7 +94,7 @@
                     </a>
 
                     <a
-                            href="https://www.ozaria.com/teacher/classes"
+                            href="https://www.ozaria.com/teacher/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
                             class="try-ozaria"
                             @click="tryOzariaEvent"
                     >
