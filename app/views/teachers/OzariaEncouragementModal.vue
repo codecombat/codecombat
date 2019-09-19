@@ -274,6 +274,10 @@
             height: 100%;
 
         }
+
+        a:hover {
+            text-decoration: none;
+        }
     }
 
     .footer .bottom-row {
