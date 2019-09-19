@@ -26,14 +26,12 @@
 
 <style lang="sass">
   .modal
-    /deep/ .container
+    ::v-deep .container
       width: 100%
       height: 100%
 
       padding: 25px
       border-radius: 10px
-
-      // transition: all .3s ease;
 
   .modal-content
     width: 100%
