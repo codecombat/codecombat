@@ -154,7 +154,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
+    'hoc': redirect('/play/prologue-sky-mountain')
     'home': go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
@@ -269,7 +269,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
-    'teachers/hour-of-code': go('special_event/HoC2018View')
+    'teachers/hour-of-code': redirect('/teachers/resources/1fhLessonPlan')
     'teachers/licenses': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
