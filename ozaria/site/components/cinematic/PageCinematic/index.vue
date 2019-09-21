@@ -39,7 +39,7 @@ module.exports = Vue.extend({
       soundOn: 'layoutChrome/soundOn'
     }),
     title () {
-      return (this.cinematicData || {}).name
+      return (this.cinematicData || {}).displayName || (this.cinematicData || {}).name
     }
   },
 

@@ -37,6 +37,7 @@ _.extend ClassroomSchema.properties,
       type: c.shortString()
       original: c.objectId()
       name: {type: 'string'}
+      displayName: c.shortString()
       slug: {type: 'string'}
       position: c.point2d()
 

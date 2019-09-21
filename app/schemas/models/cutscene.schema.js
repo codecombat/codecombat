@@ -7,7 +7,8 @@ const CutsceneSchema = schema.object({
   vimeoId: schema.shortString({
     title: 'VimeoID',
     description: 'The id of the vimeo video we want to play.'
-  })
+  }),
+  displayName: schema.shortString({title: 'Display Name'})
 })
 
 schema.extendBasicProperties(CutsceneSchema, 'cutscene')

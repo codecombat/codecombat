@@ -243,7 +243,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @victoryMessage = @world.uiText?.victoryMessage
 
   getLevelName: () ->
-    @levelName ? @level.get('name')
+    @levelName || @level.get('displayName') || @level.get('name')
 
   updateDb: ->
     return unless @state?.get('playing')

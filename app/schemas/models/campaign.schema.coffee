@@ -149,6 +149,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'isPlayedInStages'
   'ozariaType'
   'introContent'
+  'displayName'
 ]
 hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for prop in CampaignSchema.denormalizedLevelProperties

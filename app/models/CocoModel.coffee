@@ -78,7 +78,7 @@ class CocoModel extends Backbone.Model
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   getTranslatedName: ->
-    utils.i18n(@attributes, 'name')
+    utils.i18n(@attributes, 'displayName') || utils.i18n(@attributes, 'name')
 
   attributesWithDefaults: undefined
 

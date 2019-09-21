@@ -146,7 +146,8 @@ const CinematicSchema = c.object({
   shots: c.array({
     title: 'Shots',
     description: 'Ordered list of shots that make up a cinematic'
-  }, Shot)
+  }, Shot),
+  displayName: c.shortString({title: 'Display Name'})
 })
 
 c.extendBasicProperties(CinematicSchema, 'cinematic')

@@ -62,7 +62,7 @@ module.exports = Vue.extend({
 
 <template>
   <layout-chrome
-    :title="cutscene.name"
+    :title="cutscene.displayName || cutscene.name"
   >
     <button id="skip-btn" @click="handleSkip">Skip Video</button>
     <base-video

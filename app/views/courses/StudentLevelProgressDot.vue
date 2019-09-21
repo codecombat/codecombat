@@ -68,7 +68,7 @@
           classes['practice'] = true
         return classes
       levelName: ->
-        utils.i18n(@level, 'name')
+        utils.i18n(@level, 'displayName') || utils.i18n(@level, 'name')
       link: ->
         if @progress.started
           if @readOnly

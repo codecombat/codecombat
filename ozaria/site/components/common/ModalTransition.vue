@@ -72,7 +72,7 @@
         return this.currentIntroContent || this.currentLevel.attributes || this.currentLevel || {}
       },
       contentName: function () {
-        return this.currentContent.name
+        return this.currentContent.displayName || this.currentContent.name
       },
       contentType: function () {
         if (this.currentContent.ozariaType) {

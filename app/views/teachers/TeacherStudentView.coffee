@@ -60,7 +60,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,displayName,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
     @urls = require('core/urls')
 
     # wrap templates so they translate when called

@@ -163,6 +163,13 @@ module.exports = class CampaignEditorView extends RootView
         model.set key, level[key] if model.get(key) isnt level[key]
       @toSave.add model if model.hasLocalChanges()
 
+    # Update name/slug/type properties in the `nextLevels` property of campaign levels
+    for level in _.values campaignLevels
+      for nextLevel in _.values level.nextLevels
+        model = @levels.findWhere {original: nextLevel.original}
+        if model
+          $.extend nextLevel, _.pick(model.attributes, Campaign.nextLevelProperties)
+
   formatRewards: (level) ->
     achievements = @achievements.where related: level.get('original')
     rewards = []
@@ -404,7 +411,7 @@ class LevelNode extends TreemaObjectNode
 class NextLevelNode extends LevelNode
   populateData: ->
     return if @data.name?
-    data = _.pick LevelsNode.levels[@keyForParent].attributes, ['original', 'name', 'slug', 'type']
+    data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.nextLevelProperties
     _.extend @data, data
 
 class CampaignsNode extends TreemaObjectNode

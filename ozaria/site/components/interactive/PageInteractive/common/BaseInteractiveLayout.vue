@@ -26,7 +26,7 @@
 
 <template>
   <LayoutChrome
-    :title="interactive.name"
+    :title="interactive.displayName || interactive.name"
   >
     <div class="interactive-page">
       <LayoutAspectRatioContainer

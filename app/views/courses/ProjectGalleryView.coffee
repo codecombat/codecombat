@@ -26,7 +26,7 @@ ProjectGalleryComponent = Vue.extend
     amSchoolAdministratorOfGallery: null
     amTeacherOfGallery: null
   computed:
-    levelName: -> @level and utils.i18n(@level, 'name')
+    levelName: -> @level and (utils.i18n(@level, 'displayName') or utils.i18n(@level, 'name'))
     courseName: -> @course and utils.i18n(@course, 'name')
     teacherBackUrl: -> @classroom and "/teachers/classes/#{@classroom?._id}"
     schoolAdministratorBackUrl: -> @classroom and "/school-administrator/teacher/#{@classroom?.ownerID}/classroom/#{@classroom?._id}"

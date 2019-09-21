@@ -11,6 +11,7 @@ module.exports = class Campaign extends CocoModel
   urlRoot: '/db/campaign'
   @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
+  @nextLevelProperties: ['original', 'name', 'slug', 'type']
 
   initialize: (options = {}) ->
     @forceCourseNumbering = options.forceCourseNumbering

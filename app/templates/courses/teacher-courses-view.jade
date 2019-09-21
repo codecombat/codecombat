@@ -55,9 +55,6 @@ block content
                         each level, levelIndex in campaign.getLevels().models
                           option(value=level.get('slug'))
                             = view.displayName(level)
-                            = " "
-                            span
-                              = i18n(level.attributes, 'name').replace('Course: ', '')
                 - var disablePlayButtons = !view.paidTeacher && features.china && !(me.canAccessCampaignFreelyFromChina(course.get('campaignID')))
                 a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
                   span(data-i18n="courses.play_level")
