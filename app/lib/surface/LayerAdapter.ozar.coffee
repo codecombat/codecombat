@@ -25,6 +25,7 @@ SingularSprite = require './SingularSprite'
 ThangType = require 'models/ThangType'
 createjs = require 'lib/createjs-parts'
 utils = require 'core/utils'
+{ log, startTimer } = require 'ozaria/site/common/logger'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
@@ -68,10 +69,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     @reportRenderTime = _.debounce(
       () =>
-        if not application?.isProduction()
-          return
-        if @totalTimeSpentRendering != 0 and window.DD_LOGS and Math.random() < 0.1
-          window.DD_LOGS.logger.log(
+        if @totalTimeSpentRendering != 0 and Math.random() < 0.1
+          log(
             'LayerAdapter Render Time', {
               totalTimeSpentRendering: @totalTimeSpentRendering
               name: @name
@@ -191,10 +190,22 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.fetch() unless thangType.loading
       @numThingsLoading++
       @listenToOnce(thangType, 'sync', @somethingLoaded)
+      if Math.random() < 0.1
+        @listenToOnce(thangType, 'sync', ((loadingTimer) -> -> log('ThangType Loaded', {
+          loadTimeMS: loadingTimer()
+          original: thangType.get('original')
+          name: thangType.get('name')
+        }))(startTimer()))
     else if thangType.get('raster') and not thangType.loadedRaster
       thangType.loadRasterImage()
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
       @numThingsLoading++
+      if Math.random() < 0.1
+        @listenToOnce(thangType, 'raster-image-loaded', ((loadingTimer) -> -> log('ThangType Loaded', {
+          loadTimeMS: loadingTimer()
+          original: thangType.get('original')
+          name: thangType.get('name')
+        }))(startTimer()))
     else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
       startedLoading = prerenderedSpriteSheet.loadImage()
       return if not startedLoading
