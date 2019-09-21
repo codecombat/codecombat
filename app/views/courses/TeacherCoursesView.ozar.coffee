@@ -104,10 +104,10 @@ module.exports = class TeacherCoursesView extends RootView
     # TODO: In the future we can be even more specific here, but to ship Ozaria quickly we are only
     # making a difference between these 3, and letting "Intro" be very unspecific
     if (introContent && introContent.type == 'cutscene-video')
-      return 'Cutscene: '
+      return 'Cutscene: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))
     else if (level.attributes.type == 'game-dev')
-      return 'Capstone: '
+      return 'Capstone: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))
     else if (introContent)
-      return 'Intro: '
+      return 'Intro: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))
     else
-      return 'Practice: '
+      return 'Practice: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))

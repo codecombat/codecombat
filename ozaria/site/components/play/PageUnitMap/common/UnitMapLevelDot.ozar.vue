@@ -67,11 +67,14 @@
         const link = getNextLevelLink(this.levelData, nextLevelOptions)
         return link || '#'
       },
+      displayName: function () {
+        return this.levelData.displayName || this.levelData.name
+      },
       tooltipText: function () {
         if ((this.concepts || []).length > 0) {
-          return `<p>${this.levelData.name}</p><p>${this.levelType}: ${this.concepts}</p><p>Status: ${this.levelStatus}</p>`
+          return `<p>${this.displayName}</p><p>${this.levelType}: ${this.concepts}</p><p>Status: ${this.levelStatus}</p>`
         } else {
-          return `<p>${this.levelData.name}</p><p>${this.levelType}</p><p>Status: ${this.levelStatus}</p>`
+          return `<p>${this.displayName}</p><p>${this.levelType}</p><p>Status: ${this.levelStatus}</p>`
         }
       }
     },

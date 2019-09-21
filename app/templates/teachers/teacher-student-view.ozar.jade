@@ -1,7 +1,7 @@
 mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
-  - levelName = level.get('name')
+  - levelName = level.get('displayName') || level.get('name')
   - var context = { assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
   - var link = null;
   - var levelSlugNav = null;
@@ -218,11 +218,13 @@ mixin breadcrumbs
                   span=levelNumber
                   =" "
                   span(data-i18n="play_level.level")
-                  span : #{level.get('name')}
+                  span : 
+                  = level.get('displayName') || level.get('name')
                 else
                   span(data-i18n="play_level.level")
                   =" "
-                  span #{levelNumber}: #{level.get('name')}
+                  span #{levelNumber}: 
+                  = level.get('displayName') || level.get('name')
                 if level.get('practice')
                   =" ("
                   span(data-i18n="teacher.practice")
@@ -243,7 +245,7 @@ mixin breadcrumbs
                     span )
               td
                 .small
-                  span= level.get('name')
+                  span= level.get('displayName') || level.get('name')
                   =" "
                   span(data-i18n="common.solution")
                   if level.isLadder()

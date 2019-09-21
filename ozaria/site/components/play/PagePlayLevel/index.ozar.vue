@@ -63,7 +63,7 @@
     },
     computed: {
       title () {
-        return (store.state.game.level || {}).name
+        return (store.state.game.level || {}).displayName || (store.state.game.level || {}).name
       }
     }
   })
