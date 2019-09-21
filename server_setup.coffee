@@ -290,7 +290,7 @@ setupQuickBailToMainHTML = (app) ->
 
       if req.headers.host is 'cp.codecombat.com'
         features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
-      if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie\.com/.test(req.get('host')) or /localhost/.test(req.get('host'))
+      if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie\.com/.test(req.get('host'))
         features.china = true
         if template is 'home.html'
           template = 'home-cn.html'
@@ -332,11 +332,8 @@ setupProxyMiddleware = (app) ->
   return unless config.proxy
   httpProxy = require 'http-proxy'
 
-  target = 'http://staging.koudashijie.com'
+  target = 'https://very.direct.codecombat.com'
   headers = {}
-
-  target = 'http://staging.koudashijie.com'
-  headers['Host'] = 'staging.koudashijie.com'
 
   if (process.env.COCO_PROXY_NEXT)
     target = 'https://next.codecombat.com'

@@ -13,6 +13,8 @@ UserLib = {
   broadName: (user) ->
     return '(deleted)' if user.deleted
     name = _.filter([user.firstName, user.lastName]).join(' ')
+    if features?.china
+      name = user.firstName
     return name if name
     name = user.name
     return name if name
