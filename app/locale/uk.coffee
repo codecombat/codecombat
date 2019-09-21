@@ -2399,10 +2399,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can2: "купити передплачений код"
     you_can3: "який може бути застосовано до вашої обліківки або переданий іншим."
 
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
+  ozaria_chrome:
+    sound_off: "Вимкнути звук"
+    sound_on: "Увімкнути звук"
+    back_to_map: "Повернутись до карти"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
 
