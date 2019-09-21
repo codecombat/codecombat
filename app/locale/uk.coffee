@@ -2531,7 +2531,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     continue_statements: "Оператори продовження"
     dom_events: "Події DOM"
     dynamic_styling: "Динамічні стилі"
-#    events: "Events"
+    events: "Події"
     event_concurrency: "Конкурентність подій"
     event_data: "Дані подій"
     event_handlers: "Обробники подій"
