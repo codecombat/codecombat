@@ -62,7 +62,7 @@ module.exports = class AuthModal extends ModalView
       if jqxhr.status is 401
         errorID = jqxhr.responseJSON.errorID
         if errorID is 'not-found'
-          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.not_found'))
+          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.user_not_found'))
           showingError = true
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))

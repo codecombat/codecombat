@@ -2469,6 +2469,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unauthorized: "You need to be signed in. Do you have cookies disabled?"
     forbidden: "Forbidden"
     forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
+    user_not_found: "User Not Found"
     not_found: "Not Found"
     not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Method not allowed."

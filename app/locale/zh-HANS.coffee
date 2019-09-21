@@ -2468,6 +2468,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unauthorized: "您需要登录才行。您是不是禁用了cookie？"
     forbidden: "权限不足"
     forbidden_desc: "啊，这里没什么可看的。确保你登录了正确的账户，或者点击下面的链接继续编程！"
+    user_not_found: "用户不存在"
     not_found: "页面不存在"
     not_found_desc: "嗯，这里什么都没有。点击下面的链接继续编程！"
     not_allowed: "方法不允许。"
