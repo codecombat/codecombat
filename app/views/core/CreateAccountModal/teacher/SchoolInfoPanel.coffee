@@ -89,7 +89,7 @@ SchoolInfoPanel =
       @country = '中国'
       @district = ' '
     else
-      if me.get('country') and !!_.find(countries, (c) => c.country is slugify(me.get('country')))
+      if me.get('country') and !!_.find(countries, (c) => c.country is _.string.slugify(me.get('country')))
         @country = _.string.titleize(_.string.humanize(me.get('country')))
       else
         @country = 'United States'
