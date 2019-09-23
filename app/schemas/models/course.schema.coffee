@@ -13,7 +13,7 @@ _.extend CourseSchema.properties,
   free: { type: 'boolean' }
   screenshot: c.path { title: 'URL', description: 'Link to course screenshot.'}
   adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' }
-  releasePhase: { enum: ['beta', 'released'], description: "How far along the course's development is, determining who sees it." }
+  releasePhase: { enum: ['beta', 'internalRelease', 'released'], description: "How far along the course's development is, determining who sees it." }
   isOzaria: { type: 'boolean', description: 'Is this an ozaria course' }
 
 c.extendBasicProperties CourseSchema, 'Course'
