@@ -53,7 +53,6 @@ module.exports = class CoursesView extends RootView
     super()
 
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)
-    # TODO: Update to only get Ozaria courses (units)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded

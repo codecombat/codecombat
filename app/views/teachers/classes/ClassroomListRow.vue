@@ -140,7 +140,6 @@
         orderedCourses: function () {
           const courses = this.$props.classroom.courses
 
-          // TODO: Use Ozaria courses (units)
           let orderedCourses = orderedCourseIDs
             .map(courseId => courses.find(course => course._id === courseId))
             .filter(c => typeof c !== 'undefined')

@@ -118,11 +118,11 @@ export const getLevelStatusMap = (sessions) => {
     const isLevelAreadyComplete = levelOriginal && (levelStatusMap[levelOriginal] === 'complete' || (capstoneStage && levelStatusMap[levelOriginal] === capstoneStage - 1))
     if (!isLevelAreadyComplete) { // Don't overwrite a complete session with an incomplete one
       if (capstoneStage && capstoneStage > 1) {
-        levelStatusMap[levelOriginal] = capstoneStage - 1 // for levels played in stages(1fh capstone), levelStatusMap = last completed stage
+        levelStatusMap[levelOriginal] = capstoneStage - 1 // for levels played in stages (capstone levels), levelStatusMap = last completed stage
       } else if (sessionState.complete) {
         levelStatusMap[levelOriginal] = 'complete'
       } else {
-        levelStatusMap[levelOriginal] = 'started' // for levels played in stages(1fh capstone) as well as normal levels
+        levelStatusMap[levelOriginal] = 'started' // for levels played in stages (capstone levels) as well as normal levels
       }
     }
   }
@@ -134,7 +134,7 @@ export const getLevelStatusMap = (sessions) => {
  * @param {Object} level - The level object.
  * @param {Object} level.nextLevels - The array of nextLevels for the given level.
  * @param {boolean|undefined} level.isPlayedInStages - True/false/undefined
- * @param {number} capstoneStage - Stage of 1FH capstone level for which we need the next level
+ * @param {number} capstoneStage - Stage of capstone level for which we need the next level
  * @returns {Object} - Next level object containing 'Original' id and next level's stage.
  */
 export const getNextLevelForLevel = (level, capstoneStage = 1) => {
