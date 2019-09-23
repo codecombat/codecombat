@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     unauthorized: "Musisz być zalogowany. Nie masz czasem wyłączonych ciasteczek?"
     forbidden: "Brak autoryzacji."
     forbidden_desc: "O nie, nie możemy ci nic pokazać! Upewnij się, że zalogowałeś się na dobre konto, albo odwiedź któryś z linków, aby wrócić do programowania!"
+#    user_not_found: "User Not Found"
     not_found: "Nie znaleziono."
     not_found_desc: "Hmmm... Nie udało się nam nic znaleźć. Odwiedź któryś z linków, aby wrócić do programowania!"
     not_allowed: "Metoda nie dozwolona."

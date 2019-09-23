@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     combo_explanation: "Les élèves réussissent les niveaux de défi Combo en utilisant au moins un des concepts énumérés. Passez en revue le code étudiant en cliquant sur le point de progression."
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Licences d'actions"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     unauthorized: "Vous devez être identifié pour faire cela. Avez-vous désactivé les cookies ?"
     forbidden: "Vous n'avez pas la permission."
     forbidden_desc: "Oh non, il n'y a rien qu'on puisse vous montrer ici ! Assurez-vous d'être connecté au bon compte, ou visitez l'un des liens ci-dessous pour revenir à la programmation !"
+#    user_not_found: "User Not Found"
     not_found: "Introuvable."
     not_found_desc: "Hm, il n'y a rien ici. Visitez l'un des liens suivants pour revenir à la programmation !"
     not_allowed: "Méthode non autorisée."
