@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     combo_explanation: "Siswa melewati tantangan level Combo dengan menggunakan salah satu konsep yang terdaftar. Tinjau kode siswa dengan mengklik titik perkembangan."
     concept: "Konsep"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Bagikan Lisensi"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     unauthorized: "Anda harus masuk. Apakah anda menonaktifkan cookies?"
     forbidden: "Terlarang"
     forbidden_desc: "Oh tidak, tidak ada yang kami bisa tunjukkan kepadamu di sini! Pastikan kamu masuk menggunakan akun yang benar, atau kunjungi salah satu tautan dibawah untuk kembali ke pemrograman!"
+#    user_not_found: "User Not Found"
     not_found: "Tidak Ditemukan"
     not_found_desc: "Hm, tidak ada apa-apa di sini. Kunjungi salah satu tautan berikut untuk kembali ke pemrograman!"
     not_allowed: "Metode tidak diijinkan."
