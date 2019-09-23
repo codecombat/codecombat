@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unauthorized: "您需要先登入。您把cookies禁用了嗎？"
     forbidden: "您沒有權限。"
     forbidden_desc: "喔不，這裡沒有東西可以顯示給您看! 請確認您登入的是正確的帳號，或是進入下方的其中一個連結以回到編程頁面!"
+#    user_not_found: "User Not Found"
     not_found: "沒找到。"
     not_found_desc: "嗯，這裡沒有任何東西。 請進入下方的其中一個連結以回到編程頁面!"
     not_allowed: "方法不被允許。"
