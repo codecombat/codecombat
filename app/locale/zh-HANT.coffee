@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese (Traditional)", translation:
+module.exports = nativeDescription: "臺灣", englishDescription: "Chinese (Traditional)", translation: "繁體中文"
 
   new_home:
     title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript"
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     educator: "教學人員"
     student: "學生"
 
-  nav:
+  nav: “導覽”
 #    educators: "Educators"
 #    follow_us: "Follow Us"
 #    general: "General"
@@ -196,15 +196,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    apcsp: "AP CS Principles"
     parent: "雙親"
 
-  modal:
+  modal: “模式”
     close: "關閉"
     okay: "好"
 #    cancel: "Cancel"
 
-  not_found:
+  not_found: "找不到"
     page_not_found: "找不到網頁"
 
-  diplomat_suggestion:
+  diplomat_suggestion: “給外交官的建議”
     title: "幫助我們翻譯CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我們需要您的語言技能"
     pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文版的，卻不會說英文，所以如果您中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁體）。"
@@ -212,7 +212,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     learn_more: "關於成為外交官"
     subscribe_as_diplomat: "註冊成為外交官"
 
-  play:
+  play: “開始遊戲”
 #    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
 #    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
 #    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
@@ -267,7 +267,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     teacher_button: "老師專用功能"
 #    get_more_codecombat: "Get More CodeCombat"
 
-  code:
+  code: “程式碼”
     if: "若是" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "否則"
     elif: "否則若是"
@@ -317,7 +317,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     nil: "零值"
     None: "無值"
 
-  share_progress_modal:
+  share_progress_modal: “分享進度模式”
     blurb: "您正在快速的進步當中！告訴您的家長，您從CodeCombat學到了什麼！"
     email_invalid: "Email地址無效"
     form_blurb: "在底下輸入家長的Email，讓我們秀給他們看！"
@@ -325,7 +325,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     placeholder: "Email地址"
     title: "做得不錯，同學"
 
-  login:
+  login: “登入”
     sign_up: "註冊"
     email_or_username: "輸入Email帳號 或是 使用者名稱"
     log_in: "登入"
@@ -337,7 +337,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sign_in_with_gplus: "使用 Google+ 登入"
     signup_switch: "建立一個帳號"
 
-  signup:
+  signup: “註冊”
     complete_subscription: "完成訂閱"
     create_student_header: "建立學生帳號"
     create_teacher_header: "建立教師帳號"
@@ -419,12 +419,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
-  recover:
+  recover: “復原”
     recover_account_title: "復原帳號"
     send_password: "送出新密碼"
     recovery_sent: "密碼重置的信件已寄出"
 
-  items:
+  items: “項目”
     primary: "主手裝備"
     secondary: "副手裝備"
     armor: "裝甲"
@@ -432,7 +432,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     misc: "輔助"
     books: "書籍"
 
-  common:
+  common: “常見”
 #    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "上一步" # When used as an action verb, like "Navigate backward"
@@ -470,7 +470,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    replay: "Replay"
 #    complete: "Complete"
 
-  general:
+  general: “一般”
     and: "和"
     name: "名字"
     date: "日期"
@@ -532,7 +532,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    fewer: "Fewer"
 #    with: "with"
 
-  units:
+  units: “單位”
     second: "秒"
     seconds: "秒"
 #    sec: "sec"
@@ -549,7 +549,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     year: "年"
     years: "年"
 
-  play_level:
+  play_level: “遊戲等級”
 #    back_to_map: "Back to Map"
     directions: "目標方向"
     edit_level: "編輯關卡"
@@ -768,7 +768,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
-  play_game_dev_level:
+  play_game_dev_level: “遊戲開發等級”
     created_by: "由{{name}}創建"
 #    created_during_hoc: "Created during Hour of Code"
     restart: "重置關卡"
@@ -783,7 +783,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    goal_collect: "Collect all the items."
 #    goal_collect_amount: "Collect __amount__ items."
 
-  game_menu:
+  game_menu: “遊戲選單”
     inventory_tab: "道具欄"
     save_load_tab: "儲存/載入"
     options_tab: "選項"
@@ -799,7 +799,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     multiplayer_caption: "跟朋友一起玩！"
     auth_caption: "儲存進度"
 
-  leaderboard:
+  leaderboard: “排行榜”
     view_other_solutions: "查看其他解法"
     scores: "分數"
     top_players: "最高玩家在"
@@ -817,7 +817,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    code_length: "Lines of Code"
 #    score_display: "__scoreType__: __score__"
 
-  inventory:
+  inventory: “庫存”
     equipped_item: "已裝備"
     required_purchase_title: "必要的"
     available_item: "可使用的裝備"
@@ -832,7 +832,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    ranger_only: "Ranger Only"
 #    wizard_only: "Wizard Only"
 
-  buy_gems:
+  buy_gems: “買寶石”
     few_gems: "一些寶石"
     pile_gems: "一堆寶石"
     chest_gems: "一箱寶石"
@@ -856,7 +856,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Keep playing to earn more!"
 
-  subscribe:
+  subscribe: “訂閱”
 #    best_deal: "Best Deal!"
 #    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
@@ -970,7 +970,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    list_support: "Get Premium support to help you debug tricky code"
 #    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
-  choose_hero:
+  choose_hero: “選擇英雄”
     choose_hero: "選擇您的英雄"
     programming_language: "程式語言"
     programming_language_description: "您要使用哪個程式語言？"
@@ -1013,7 +1013,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    hair_label: "Hair Color"
 #    skin_label: "Skin Color"
 
-  skill_docs:
+  skill_docs: “技能說明書”
     function: "功能" # skill types
     method: "方法"
     snippet: "片段"
@@ -1043,11 +1043,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     granted_by: "賦予"
 #    still_undocumented: "Still undocumented, sorry."
 
-  save_load:
+  save_load: “儲存讀取”
     granularity_saved_games: "已儲存"
     granularity_change_history: "歷史紀錄"
 
-  options:
+  options: "選項"
     general_options: "一般設定" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "音量"
     music_label: "音樂"
@@ -1062,7 +1062,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     editor_config_behaviors_label: "智慧校正"
     editor_config_behaviors_description: "自動填入小括號、大括號以及引號。"
 
-  about:
+  about: “關於”
 #    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
 #    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
 #    learn_more: "Learn More"
@@ -1160,7 +1160,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     previous: "上一個"
     location_title: "我們位於城鎮 SF："
 
-  teachers:
+  teachers: “師資群”
     licenses_needed: "授權許可"
 
 #  special_offer:
@@ -1204,7 +1204,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    course_prefix: "Course"
 #    course_suffix: ""
 
-  teachers_quote:
+  teachers_quote: “教學額度”
     subtitle: "讓您的學生在一個小時內上手。在他們學習計算機科學時您將會<strong>創建一個班級，加入您的學生，並且掌握他們的學習過程。</strong>" # {change}
     email_exists: "已經存在使用這個email的使用者。"
     phone_number: "電話號碼"
@@ -1268,7 +1268,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     not: "取消"
 #    full_name_required: "First and last name required"
 
-  versions:
+  versions: “版本”
     save_version_title: "保存新版本"
     new_major_version: "新的重要版本"
     submitting_patch: "正在提交修補…"
@@ -1278,7 +1278,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     cla_agree: "我同意"
     owner_approve: "您所做出的修改必須經擁有者確認才能生效。"
 
-  contact:
+  contact: “聯繫”
     contact_us: "聯繫我們"
     welcome: "很高興收到您的信！用這個表格給我們發電郵。"
     forum_prefix: "如果有任何問題，請至"
@@ -1294,7 +1294,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     where_reply: "我們應該回覆到哪裡呢？"
     send: "意見反饋"
 
-  account_settings:
+  account_settings: “帳號設定”
     title: "帳號設定"
     not_logged_in: "登錄或建立一個帳號來修改設置。"
     me_tab: "我"
@@ -1359,7 +1359,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #  cinematic:
 #    click_anywhere_continue: "click anywhere to continue"
 
-  community:
+  community: “社群”
     main_title: "CodeCombat社群"
     introduction: "查看您可能可以參與的項目以及選擇最吸引您的項目。我們期待與您一起工作！"
     level_editor_prefix: "使用CodeCombat"
@@ -2008,7 +2008,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    licenses_used: "(__licensesUsed__ licenses used)"
 #    more_info: "More info"
 
-  sharing:
+  sharing: “分享”
     game: "遊戲"
     webpage: "網頁"
     your_students_preview: "您的學生將會點擊此處以觀看他們完成的專案! 但無法在老師預覽中觀看。"
@@ -2027,10 +2027,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     copy_url: "複製網址"
 #    share_with_teacher_email: "Send to your teacher"
 
-  game_dev:
+  game_dev: “遊戲開發”
     creator: "創造者"
 
-  web_dev:
+  web_dev: “網頁開發”
     image_gallery_title: "圖片集"
     select_an_image: "選擇一個您想使用的圖片"
     scroll_down_for_more_images: "(向下捲動觀看更多圖片)"
