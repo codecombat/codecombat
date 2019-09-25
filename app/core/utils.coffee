@@ -108,17 +108,17 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
 
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
-  # TODO: Add 1UP here
+  CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
 
 
 orderedCourseIDs = [
   courseIDs.ONE_FREE_HOUR
-  # TODO: Add 1UP here
+  courseIDs.CHAPTER_ONE
 ]
 
 courseAcronyms = {}
-courseAcronyms[courseIDs.ONE_FREE_HOUR] = '1FH'
-# TODO: Add 1UP here
+courseAcronyms[courseIDs.ONE_FREE_HOUR] = 'P'
+courseAcronyms[courseIDs.CHAPTER_ONE] = 'C1'
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup

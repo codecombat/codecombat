@@ -42,6 +42,11 @@ module.exports = class User extends CocoModel
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
+  
+  isInternal: ->
+    email = @get('email')
+    return false unless email
+    return email.endsWith('@codecombat.com') or email.endsWith('@ozaria.com')
 
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)

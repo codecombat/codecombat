@@ -85,17 +85,14 @@ mixin studentRow(student)
     td
       if state.get('progressData')
         - var courses = view.sortedCourses.map(function(c) { return view.courses.get(c._id); });
-        //- TODO: Properly use acronyms for future Ozaria classes
-        //- - var courseLabelsArray = view.helper.courseLabelsArray(courses);
+        - var courseLabelsArray = view.helper.courseLabelsArray(courses);
         each trimCourse, index in view.sortedCourses
           - var course = view.courses.get(trimCourse._id);
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
           if instance && instance.hasMember(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
             - var levelsTotal = _.reject(_.reject(trimCourse.levels, 'practice'), 'assessment').length
-            //- TODO: Properly use acronyms for future Ozaria classes
-            //- - var label = courseLabelsArray[index];
-            - var label = "P" // "P" for Prologue: Sky Mountain
+            - var label = courseLabelsArray[index];
             +studentCourseProgressDot(progress, levelsTotal, label, student, course, instance)
     if !state.get('readOnly')
       td
@@ -119,8 +116,6 @@ mixin courseProgressTab
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
                 = " " + translate('teacher.paren_new')
-          option(disabled value="Coming Soon: Chapter One" selected=false)
-            | Coming Soon: Chapter One
 
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
@@ -336,6 +331,11 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
+    if !state.get('readOnly')
+      button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+        span(data-i18n='teacher.assign_course')
+      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+        span(data-i18n='teacher.remove_course')
 
 mixin assessmentsTab
   #assessments-tab
@@ -553,9 +553,9 @@ if classroom.loaded
           a.assessments-tab-btn(href='#assessments-tab')
             .small-details.text-center(data-i18n='teacher.assessments')
         .tab-spacer
-        //- li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
-        //-   a.course-progress-tab-btn(href='#license-status-tab')
-        //-     .small-details.text-center(data-i18n='teacher.license_status')
+        li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
+          a.course-progress-tab-btn(href='#license-status-tab')
+            .small-details.text-center(data-i18n='teacher.license_status')
         .tab-filler
 
       .tab-content
