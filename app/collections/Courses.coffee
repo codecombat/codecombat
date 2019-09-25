@@ -8,5 +8,4 @@ module.exports = class Courses extends CocoCollection
   fetchReleased: (options = {}) ->
     options.data ?= {}
     options.data.releasePhase = 'released'
-    options.data.isOzaria = true
     @fetch(options)

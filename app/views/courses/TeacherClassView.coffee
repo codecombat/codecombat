@@ -150,7 +150,7 @@ module.exports = class TeacherClassView extends RootView
         return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
 
     @courses = new Courses()
-    @supermodel.trackRequest @courses.fetch({isOzaria: true})
+    @supermodel.trackRequest @courses.fetch()
 
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
@@ -228,7 +228,6 @@ module.exports = class TeacherClassView extends RootView
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
-    # TODO: Loosen this restriction when accounting for beta testers
     @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
