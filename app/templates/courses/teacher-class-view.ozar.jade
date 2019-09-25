@@ -114,7 +114,7 @@ mixin courseProgressTab
         span(data-i18n='teacher.select_course')
         span.spr :
         select.course-select
-          each course in view.courses.where({isOzaria: true})
+          each course in view.latestReleasedCourses
             option(value=course.id selected=(course===state.get('selectedCourse')))
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
@@ -331,13 +331,11 @@ mixin bulkAssignControls
       span(data-i18n='teacher.bulk_assign')
       span :
     select.bulk-course-select.form-control
-      each course in view.courses.where({isOzaria: true})
+      each course in _.rest(view.latestReleasedCourses)
         option(value=course.id selected=(course===state.get('selectedCourse')))
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
-        option(disabled value="Coming Soon: Chapter One" selected=false)
-          | Coming Soon: Chapter One
 
 mixin assessmentsTab
   #assessments-tab
