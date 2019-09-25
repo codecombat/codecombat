@@ -150,7 +150,7 @@ module.exports = class TeacherClassView extends RootView
         return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
 
     @courses = new Courses()
-    @supermodel.trackRequest @courses.fetch({isOzaria: true})
+    @supermodel.trackRequest @courses.fetch()
 
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
@@ -192,7 +192,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       unless @state.get 'selectedCourse'
-        @state.set 'selectedCourse', @courses.where({isOzaria: true})[0]
+        @state.set 'selectedCourse', @courses.first()
       @setSelectedCourseInstance()
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
@@ -214,13 +214,13 @@ module.exports = class TeacherClassView extends RootView
       @setSelectedCourseInstance()
 
   setCourseMembers: =>
-    for course in @courses.where({isOzaria: true})
+    for course in @courses.models
       course.instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
       course.members = course.instance?.get('members') or []
     null
 
   setSelectedCourseInstance: ->
-    selectedCourse = @state.get('selectedCourse') or @courses.where({isOzaria: true})[0]
+    selectedCourse = @state.get('selectedCourse') or @courses.first()
     if selectedCourse
       @state.set 'selectedCourseInstance', @courseInstances.findWhere courseID: selectedCourse.id, classroomID: @classroom.id
     else if @state.get 'selectedCourseInstance'
@@ -228,7 +228,7 @@ module.exports = class TeacherClassView extends RootView
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
-    @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({isOzaria: true})
+    @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
@@ -324,7 +324,7 @@ module.exports = class TeacherClassView extends RootView
 
   getCourseAssessmentPairs: () ->
     @courseAssessmentPairs = []
-    for course in @courses.where({isOzaria: true})
+    for course in @courses.models
       assessmentLevels = @classroom.getLevels({courseID: course.id, assessmentLevels: true}).models
       fullLevels = _.filter(@levels.models, (l) => l.get('original') in _.map(assessmentLevels, (l2)=>l2.get('original')))
       @courseAssessmentPairs.push([course, fullLevels])
@@ -828,7 +828,7 @@ module.exports = class TeacherClassView extends RootView
         if @students.length == 0
           @students = new Users(importedMembers)
           @state.set('students', @students)
-        for course in @courses.where({isOzaria: true})[0]
+        for course in @courses.models
           continue if not course.get('free')
           courseInstance = @courseInstances.findWhere({classroomID: @classroom.get("_id"), courseID: course.id})
           if courseInstance

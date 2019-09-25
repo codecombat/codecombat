@@ -21,14 +21,7 @@ block content
     //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
 
   .courses.container(dir="auto")
-    - var course = view.courses.where({isOzaria: true})[0]
-    if !course
-      .course.row
-        .col-sm-9
-          .course-info
-            .text-h4.semibold
-              | Additional chapters coming soon
-    else
+    each course in view.courses.models
       .course.row
         .col-sm-9
           +course-info(course)
@@ -59,7 +52,7 @@ block content
                 a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
                   span(data-i18n="courses.play_level")
               .clearfix
-  
+
 mixin course-info(course)
   //- TODO: Restructure this section after Ozaria launches, because we don't want the list to be programatically generated like it was here.
   //- For now, it's hard coded to only show Ozaria 1FH content here

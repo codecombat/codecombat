@@ -108,14 +108,17 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
 
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
+  # TODO: Add 1UP here
 
 
 orderedCourseIDs = [
   courseIDs.ONE_FREE_HOUR
+  # TODO: Add 1UP here
 ]
 
 courseAcronyms = {}
 courseAcronyms[courseIDs.ONE_FREE_HOUR] = '1FH'
+# TODO: Add 1UP here
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
@@ -681,7 +684,7 @@ videoLevels = {
     original: "54173c90844506ae0195a0b4",
     thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
     thumbnail_unlocked: "/images/level/videos/basic_syntax_unlocked.png"
-  }, 
+  },
   # fire dancing
   "55ca293b9bc1892c835b0136": {
     i18name: 'while_loops',
@@ -691,7 +694,7 @@ videoLevels = {
     original: "55ca293b9bc1892c835b0136"
     thumbnail_locked: "/images/level/videos/while_loops_locked.png",
     thumbnail_unlocked: "/images/level/videos/while_loops_unlocked.png"
-  } 
+  }
   # known enemy
   "5452adea57e83800009730ee": {
     i18name: 'variables',
