@@ -228,7 +228,12 @@ module.exports = class TeacherClassView extends RootView
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
-    @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
+    if me.isAdmin()
+      @latestReleasedCourses = @courses.models
+    else if me.isInternal()
+      @latestReleasedCourses = @courses.filter (c) -> c.get('releasePhase') == 'internalRelease' || c.get('releasePhase') == 'released'
+    else
+      @latestReleasedCourses = @courses.where({releasePhase: 'released'})
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 

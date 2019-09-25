@@ -54,18 +54,18 @@ block content
               .clearfix
 
 mixin course-info(course)
-  //- TODO: Restructure this section after Ozaria launches, because we don't want the list to be programatically generated like it was here.
-  //- For now, it's hard coded to only show Ozaria 1FH content here
   .course-info
     .text-h4.semibold
-      | Prologue: Sky Mountain
-    p
-      | In this unit, students will be introduced to basic syntax in either Python or JavaScript. They will get an introduction to objects and methods with arguments, used to change object properties. Finally, they will learn some basic game development skills in order to complete their arcade game.
+      = i18n(course.attributes, 'name')
+    p= i18n(course.attributes, 'description')
     p.concepts.semibold
       span(data-i18n="courses.concepts_covered")
       = ": "
-    p
-      | Basic syntax, arguments, strings, while loops, variables, if statements, functions, parameters, advanced strings
+      p
+        each concept in course.get('concepts')
+          span(data-i18n="concepts." + concept)
+          if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
+            span.spr ,
 
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
       - var disableButtons = !view.paidTeacher && (features.china ? !me.canAccessCampaignFreelyFromChina(course.get('campaignID')) : !course.get('free'))
