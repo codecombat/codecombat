@@ -2,7 +2,7 @@
 
 # Overview
 
-Module 1 consists of all the content from 1UP.M2.L1.C1 to 1UP.M2.L2.C2.
+Module 1 consists of all the content from Bugs, Bugs, Bugs to A Hero's Work.
 
 This Lesson Plan will help you to facilitate Module 2 of Chapter 1: The Moon Dancers in your classroom. Students will be introduced to debugging techniques and how to address errors in their code.
 
