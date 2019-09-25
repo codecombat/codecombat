@@ -2,7 +2,7 @@
 
 # Overview
 
-Module 1 consists of all the content from the beginning of Chapter 1: The Moon Dancers until 1UP.M1.L1.C5.
+Module 1 consists of all the content from the beginning of Chapter 1: The Moon Dancers until The Debugger.
 
 This Lesson Plan will help you to facilitate Module 1 of Chapter 1: The Moon Dancers in your classroom. Students will get an introductory overview of algorithms and common syntax rules in either JavaScript or Python.
 
