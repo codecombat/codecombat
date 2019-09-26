@@ -1,8 +1,11 @@
-# Overview
+##### Unit Lesson Plan
+# Prologue: The Sky Mountain
+
+## Overview
 
 Welcome to Ozaria! This Lesson Plan will help you ensure smooth implementation of this immersive game-based learning experience for your computer science students. _Prologue: The Sky Mountain_ will help your students get familiar with the code editor and build confidence applying coding skills to larger projects.
 
-## Learning Objectives
+### Learning Objectives
 
 By the end of this Ozaria unit, students will be able to:
 
@@ -11,7 +14,7 @@ By the end of this Ozaria unit, students will be able to:
 - Use arguments in methods to update object properties.
 - Set properties of game objects to influence game experience for players. 
 
-## CSTA Standards
+### CSTA Standards
 
 This was designed to align to the following K-12 CSTA standards:
 
@@ -22,7 +25,7 @@ This was designed to align to the following K-12 CSTA standards:
 - 1B-AP-15: Test and debug (identify and fix errors) in a program or algorithm to ensure it runs as intended.
 
 
-# Recommended Prep
+## Recommended Prep
 
 For technical prep and classroom setup, see the [Ozaria Getting Started Guide](/teachers/resources/getting-started).
 
@@ -57,9 +60,9 @@ To prepare to support students as they work through _Prologue: The Sky Mountain_
             - Autocomplete will allow students to see options for methods when they type key characters and character sequences. Autocomplete will be turned off for Capstone levels to encourage students to read and apply Code Bank documentation.
 2. Save the URL to your game to share as an example for students during class.
 
-# In Classroom
+## In Classroom
 
-## Lesson Facilitation
+### Lesson Facilitation
 
 Since this is the first unit of Ozaria content, explain to students that they will be trying out a brand-new game designed to help them learn computer science.
 
@@ -72,14 +75,14 @@ Once they have started in _Prologue: The Sky Mountain_, students will be able to
 
 You can also use multiple of these methods mixed together if you believe it would benefit students to be paced similarly.
 
-## Common Student Misconceptions
+### Common Student Misconceptions
 
 1. Students, especially those coming from drag-and-drop programming language backgrounds, may struggle with the transition to typed code. If you find that a large number of students are having trouble adjusting to typing in code, you can do a demo where you work step-by-step through a level and explain your steps along the way.
 2. Syntax is not explicitly explained in these levels, but students may encounter syntax errors. Help them fix these by referring to examples in the Code Bank and the starter code in levels.
 3. The beginning four levels have a different structure from the Capstone levels. In the beginning four levels, students are running their code in sequence to complete a goal. In the Capstone, students are using methods to set properties and update their game. Make sure to clarify this distinction with students if they are thrown off by the different behavior.
     - In the Capstone levels, students must press the Update button to make the settings update to reflect their code, and then they have to press the Play button in the lefthand corner of the animation screen. 
 
-## Reflection Activity
+### Reflection Activity
 
 **Summary**
 
@@ -119,15 +122,15 @@ This reflection activity will help students connect the decisions they made whil
     - Did you find your game or your partners more difficult to win? Why (what properties &amp; their settings made it harder or easier)?
         _Example student response: My partner’s game was more difficult to win because they had more obstacles made the avatars shrink to become very small, and then I would have to eat a lot of other avatars to get bigger again._
 
-## Extensions and Differentiation
+### Extensions and Differentiation
+**Extensions for advanced students**
+- Challenge students to create two versions of their game, one that is &quot;easy&quot; and one that is more difficult.
+- Have students look at a game that they play regularly, and answer the following questions:
+    - What is an object in this game?
+    - What are some properties of this object?
+    - What is the input method from the player?
+    - What are the directions for the player?
+    - Are there any things that you would design differently? Why or why not?
 
-1. Extensions for advanced students
-    - Challenge students to create two versions of their game, one that is &quot;easy&quot; and one that is more difficult.
-    - Have students look at a game that they play regularly, and answer the following questions:
-        - What is an object in this game?
-        - What are some properties of this object?
-        - What is the input method from the player?
-        - What are the directions for the player?
-        - Are there any things that you would design differently? Why or why not?
-2. Differentiation for students who are struggling
-    - Direct students to go back to the map and re-watch Cinematics that will help them in Capstone stages.
+**Differentiation for students who are struggling**
+- Direct students to go back to the map and re-watch Cinematics that will help them in Capstone stages.

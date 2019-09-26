@@ -1,6 +1,7 @@
-# Chapter 1: Module 2 Overview
+##### Chapter 1: Module 2 Overview
+# Module 2: Debugging
 
-# **Terminology**
+#### **Terminology**
 
 - _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
 - _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
@@ -9,9 +10,9 @@
 - _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
 - _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
 
-# Summaries
+## Summaries
 
-## Intro: A Bug&#39;s Life
+### Intro: A Bug&#39;s Life
 
 **Cinematic: Bugs, Bugs, Bugs**
 
@@ -41,24 +42,24 @@ Students modify a code sequence to fix syntax errors.
 
 Vega reviews the difference between logic and syntax errors.
 
-## Practice Levels: Chasing Dinner - Dragon Traps
+### Practice Levels: Chasing Dinner - Dragon Traps
 
 Students fix errors in old code snippets.
 
-## Intro: Dark Waters
+### Intro: Dark Waters
 
 **Cinematic: Dark Waters**
 
 A virus invades the library, and the Hero has to debug helpers to fix it.
 
-## Practice Levels: Lights On - Trio
+### Practice Levels: Lights On - Trio
 
 Students debug the code in helpers to defeat the virus of Darkness.
 
-## Challenge Level: Fading Shadow
+### Challenge Level: Fading Shadow
 
 Students find and fix syntax and logic errors to defeat the virus.
 
-## Ending: A Hero&#39;s Work
+### Ending: A Hero&#39;s Work
 
 The Hero gets rid of the virus, and heads off with Vega to find the Spirit Well in Xing&#39;chen.

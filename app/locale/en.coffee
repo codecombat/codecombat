@@ -2043,6 +2043,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
     capstone_rubric: "Capstone Rubric"
     prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+    chapter1: "Chapter 1: The Moon Dancers"
+    module1: "Module 1"
+    module2: "Module 2"
+    module3: "Module 3"
+    module4: "Module 4"
+    module5_6: "Module 5 & 6"
+    algorithms_and_syntax: "Algorithms and Syntax"
+    debugging: "Debugging"
+    variables: "Variables"
+    conditionals: "Conditionals"
+    capstone_project: "Capstone Project"
+
 
   share_licenses:
     share_licenses: "Share Licenses"

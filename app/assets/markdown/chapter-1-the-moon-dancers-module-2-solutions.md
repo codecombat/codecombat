@@ -1,8 +1,9 @@
-# Levels Module 2 Solutions (Enemy Mine - Fading Shadows)
+##### Chapter 1: Module 2 Level Solutions
+# Levels: Enemy Mine - Fading Shadows
 
-## Chasing Dinner
+### Practice Level: Chasing Dinner
 
-Python
+**Python**
 
 ```
 rabbit.moveRight()
@@ -15,7 +16,7 @@ rabbit.moveDown()
 rabbit.moveLeft()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 rabbit.moveRight();
@@ -28,38 +29,25 @@ rabbit.moveDown();
 rabbit.moveLeft();
 ```
 
-## Fox the Friend
+### Practice Level: Fox the Friend
 
-Python
+**Python**
 
 ```
 rabbit.moveUp()
 rabbit.use("weight")
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 rabbit.moveUp();
 rabbit.use("weight");
 ```
 
-## Dragon Traps
+### Practice Level: Dragon Traps
 
-Python
-
-```
-fox.moveUp()
-fox.moveRight()
-fox.moveLeft()
-fox.moveDown()
-fox.moveDown()
-rabbit.moveDown()
-rabbit.moveUp()
-rabbit.use("lever")
-```
-
-JavaScript
+**Python**
 
 ```
 fox.moveUp()
@@ -72,9 +60,22 @@ rabbit.moveUp()
 rabbit.use("lever")
 ```
 
-## Lights On
+**JavaScript**
 
-Python
+```
+fox.moveUp()
+fox.moveRight()
+fox.moveLeft()
+fox.moveDown()
+fox.moveDown()
+rabbit.moveDown()
+rabbit.moveUp()
+rabbit.use("lever")
+```
+
+### Practice Level: Lights On
+
+**Python**
 
 ```
 helperA.moveRight(2)
@@ -86,7 +87,7 @@ helperA.moveRight()
 
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 helperA.moveRight(2);
@@ -97,9 +98,9 @@ helperA.moveDown();
 helperA.moveRight();
 ```
 
-## Double Lockdown
+### Practice Level: Double Lockdown
 
-Python
+**Python**
 
 ```
 helperA.moveLeft()
@@ -115,7 +116,7 @@ helperB.moveDown()
 helperB.use("switch")
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 helperA.moveLeft();
@@ -131,9 +132,9 @@ helperB.moveDown();
 helperB.use("switch");
 ```
 
-## Trio
+### Practice Level: Trio
 
-Python
+**Python**
 
 ```
 helperA.moveRight()
@@ -152,7 +153,7 @@ helperC.moveRight()
 helperC.use("switch")
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 helperA.moveRight();
@@ -171,9 +172,9 @@ helperC.moveRight();
 helperC.use("switch");
 ```
 
-## Fading Shadows
+### Challenge Level: Fading Shadows
 
-Python
+**Python**
 
 ```
 defenderA.moveRight(2)
@@ -192,7 +193,7 @@ defenderC.moveDown()
 defenderC.moveLeft()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 defenderA.moveRight(2);
