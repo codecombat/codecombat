@@ -53,14 +53,22 @@ Python
 ```
 #first correct solution
 hero.moveLeft()
+hero.moveLeft()
+hero.moveDown()
 hero.moveDown()
 hero.moveRight()
+hero.moveRight()
+hero.moveUp()
 hero.moveUp()
 
 #second correct solution
 hero.moveDown()
+hero.moveDown()
+hero.moveLeft()
 hero.moveLeft()
 hero.moveUp()
+hero.moveUp()
+hero.moveRight()
 hero.moveRight()
 ```
 
@@ -69,14 +77,22 @@ JavaScript
 ```
 //first correct solution
 hero.moveLeft();
+hero.moveLeft();
+hero.moveDown();
 hero.moveDown();
 hero.moveRight();
+hero.moveRight();
+hero.moveUp();
 hero.moveUp();
 
 //second correct solution
 hero.moveDown();
+hero.moveDown();
+hero.moveLeft();
 hero.moveLeft();
 hero.moveUp();
+hero.moveUp();
+hero.moveRight();
 hero.moveRight();
 ```
 
