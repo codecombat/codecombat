@@ -17,7 +17,7 @@ TeacherRolePanel = Vue.extend
 
   computed: {
     validPhoneNumber: ->
-      return forms.validatePhoneNumber(@phoneNumber)
+      return !me.showChinaRegistration() or forms.validatePhoneNumber(@phoneNumber)
   }
 
   methods:
@@ -25,7 +25,7 @@ TeacherRolePanel = Vue.extend
       # Make sure to add conditions if we change this to be used on non-teacher path
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Clicked', category: 'Teachers'
       requiredAttrs = _.pick(@, ['role','numStudents'].concat(if me.showChinaRegistration() then ['phoneNumber'] else []))
-      unless _.all(requiredAttrs)
+      unless _.all(requiredAttrs) and @validPhoneNumber
         @showRequired = true
         return
       @commitValues()

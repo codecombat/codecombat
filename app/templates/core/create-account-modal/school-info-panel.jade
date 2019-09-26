@@ -11,7 +11,7 @@ div.school-info-panel
           v-on:updateValue="updateValue"
         )
 
-    if me.showChinaRegistration()
+    if me.get('country') && me.get('country') !== 'united-states'
       .row.m-y-2
         .col-xs-offset-2.col-xs-4
           .form-group(v-bind:class="{ 'has-error': showRequired && !state }")
@@ -28,6 +28,16 @@ div.school-info-panel
               =" "
               strong(v-if="showRequired && !city") {{ $t("common.required_field") }}
             input.form-control(name="city", v-model="city")
+
+      if !me.showChinaRegistration()
+        .row.m-y-2
+          .col-xs-offset-2.col-xs-4
+            .form-group(v-bind:class="{ 'has-error': showRequired && !country }")
+              span.control-label
+                | {{ $t("teachers_quote.country") }}
+                =" "
+                strong(v-if="showRequired && !country") {{ $t("common.required_field") }}
+              input.form-control(name="country", v-model="country")
 
     else
       .row.m-y-2
