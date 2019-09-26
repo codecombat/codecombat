@@ -198,6 +198,8 @@ _.extend UserSchema.properties,
       id: { type: 'string' }
       name: { type: 'string' }
       importedToCoco: { type: 'boolean', default: false }
+      importedToOzaria: { type: 'boolean', default: false }
+      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' }
 
   importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
 

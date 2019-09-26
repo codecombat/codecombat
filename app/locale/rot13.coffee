@@ -1375,7 +1375,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     social_discource: "Wbva gur qvfphffvba ba bhe Qvfpbhefr sbehz"
     social_facebook: "Yvxr PbqrPbzong ba Snprobbx"
     social_twitter: "Sbyybj PbqrPbzong ba Gjvggre"
-    social_gplus: "Wbva PbqrPbzong ba Tbbtyr+"
     social_slack: "Pung jvgu hf va gur choyvp PbqrPbzong Fynpx punaary"
     contribute_to_the_project: "Pbagevohgr gb gur cebwrpg"
 
@@ -1981,6 +1980,18 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     combo_explanation: "Fghqragf cnff Pbzob punyyratr yriryf ol hfvat ng yrnfg bar yvfgrq pbaprcg. Erivrj fghqrag pbqr ol pyvpxvat gur cebterff qbg."
     concept: "Pbaprcg"
     sync_google_classroom: "Flap Tbbtyr Pynffebbz"
+    try_ozaria_footer: "Gel bhe arj nqiragehr tnzr, Bmnevn!"
+
+  teacher_ozaria_encouragement_modal:
+    title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
+    sub_title: "Lbh ner vaivgrq gb gel gur arj nqiragher tnzr sebz PbqrPbzong"
+    cancel: 'Onpx gb PbqrPbzong'
+    accept: 'Gel Svefg Havg Serr'
+    bullet1: 'Qrrcra fghqrag pbaarpgvba gb yrneavat guebhtu na rcvp fgbel naq vzzrefvir tnzrcynl'
+    bullet2: 'Grnpu PF shaqnzragnyf, Clguba be WninFpevcg naq 21fg praghel fxvyyf'
+    bullet3: 'Haybpx perngvivgl guebhtu pncfgbar cebwrpgf'
+    bullet4: 'Fhccbeg vafgehpgvbaf guebhtu qrqvpngrq pheevphyhz erfbheprf'
+    you_can_return: 'Lbh pna nyjnlf erghea gb PbqrPbzong'
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"
@@ -2470,6 +2481,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unauthorized: "Lbh arrq gb or fvtarq va. Qb lbh unir pbbxvrf qvfnoyrq?"
     forbidden: "Sbeovqqra"
     forbidden_desc: "Bu ab, gurer’f abguvat jr pna fubj lbh urer! Znxr fher lbh’er ybttrq vagb gur pbeerpg nppbhag, be ivfvg bar bs gur yvaxf orybj gb trg onpx gb cebtenzzvat!"
+    user_not_found: "Hfre Abg Sbhaq"
     not_found: "Abg Sbhaq"
     not_found_desc: "Uz, gurer’f abguvat urer. Ivfvg bar bs gur sbyybjvat yvaxf gb trg onpx gb cebtenzzvat!"
     not_allowed: "Zrgubq abg nyybjrq."

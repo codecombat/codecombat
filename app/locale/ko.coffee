@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     social_discource: "토론 포럼에서 토론에 참여하기"
     social_facebook: "Facebook에서 코드컴뱃 좋아요하기"
     social_twitter: "Twitter에서 코드컴뱃 팔로우하기"
-    social_gplus: "Google+로 코드컴뱃 참여하기"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "프로젝트에 기여하기"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     unauthorized: "로그인한 상태가 아닙니다. 혹시 쿠키를 사용하지 못하게 설정해놓으셨나요?"
     forbidden: "권한이 필요합니다."
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
+#    user_not_found: "User Not Found"
     not_found: "찾을 수 없습니다."
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "잘못된 접근입니다."
