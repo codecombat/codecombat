@@ -22,6 +22,17 @@ export const log = (action, options) => {
 }
 
 /**
+ * Adds a global key value pair to include in all logs.
+ * @param {string} key
+ * @param {string} value
+ */
+export const addLoggerGlobalContext = (key, value) => {
+  if (!key || !value) { return }
+
+  window.DD_LOGS && DD_LOGS.addLoggerGlobalContext(key, value)
+}
+
+/**
  * Returns a function that can be called again to find the time since the
  * function was instantiated.
  *

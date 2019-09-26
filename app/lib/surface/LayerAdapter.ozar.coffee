@@ -69,7 +69,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     @reportRenderTime = _.debounce(
       () =>
-        if @totalTimeSpentRendering != 0 and Math.random() < 0.1
+        if @totalTimeSpentRendering != 0 and Math.random() < 0.01
           log(
             'LayerAdapter Render Time', {
               totalTimeSpentRendering: @totalTimeSpentRendering
@@ -190,7 +190,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.fetch() unless thangType.loading
       @numThingsLoading++
       @listenToOnce(thangType, 'sync', @somethingLoaded)
-      if Math.random() < 0.1
+      if Math.random() < 0.01
         @listenToOnce(thangType, 'sync', ((loadingTimer) -> -> log('ThangType Loaded', {
           loadTimeMS: loadingTimer()
           original: thangType.get('original')
@@ -200,7 +200,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.loadRasterImage()
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
       @numThingsLoading++
-      if Math.random() < 0.1
+      if Math.random() < 0.01
         @listenToOnce(thangType, 'raster-image-loaded', ((loadingTimer) -> -> log('ThangType Loaded', {
           loadTimeMS: loadingTimer()
           original: thangType.get('original')
