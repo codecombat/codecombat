@@ -40,6 +40,9 @@ exports.me =
   showChinaResourceInfo: -> false
   hideDiplomatModal: -> false
 
+  # for china production only
+  chinaInfra: -> true
+
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
   isMobile: () -> false
