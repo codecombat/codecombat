@@ -1,6 +1,7 @@
-# Chapter 1: Module 1 Overview
+##### Chapter 1: Module 1 Overview
+# Module 1: Algorithms and Syntax
 
-# **Terminology**
+#### **Terminology**
 
 - _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
 - _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
@@ -9,17 +10,17 @@
 - _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
 - _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
 
-# Summaries
+## Summaries
 
-## Cutscene: Searching for Star Wells
+### Cutscene: Searching for Star Wells
 
 The Darkness is destroying the sun, and the Hero has been tasked to stop it and find their missing mother. The Hero met Vega, their mother&#39;s assistant, and they created a game to trap a piece of the Darkness. The evil was weakened, but not destroyed. They need to head
 
-## Practice Levels: Down Twice - The Forest of the Fox
+### Practice Levels: Down Twice - The Forest of the Fox
 
 Students are introduced to the code editor and typing code to complete simple goals.
 
-## Intro: Syntax
+### Intro: Syntax
 
 **Cinematic: Algorithms and Bears**
 
@@ -49,14 +50,14 @@ Students apply their knowledge of syntax and sequences to complete a simple goal
 
 Vega explains that they are on a quest to find a tool that can upgrade the Acodus.
 
-## Practice Levels: Hidden Path - Unexpected Guest
+### Practice Levels: Hidden Path - Unexpected Guest
 
 Students plan and write programs using a given set of commands.
 
-## Challenge Level: Ninjutsu
+### Challenge Level: Ninjutsu
 
 Assesses students on their ability to write sequential programs.
 
-## Ending: The Debugger
+### Ending: The Debugger
 
 The Hero picks up a pendant and encounters a dark figure in the room. The Hero runs for it, and plugs the pendant into their computer, gaining the ability to debug.

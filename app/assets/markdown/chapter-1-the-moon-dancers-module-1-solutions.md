@@ -1,24 +1,25 @@
-# Levels Module 1 Solutions (Down Twice - Ninjutsu)
+##### Chapter 1: Module 1 Level Solutions
+# Levels: Down Twice - Ninjutsu
 
-## Down Twice
+### Practice Level: Down Twice
 
-Python
+**Python**
 
 ```
 hero.moveDown()
 hero.moveDown()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.moveDown();
 hero.moveDown();
 ```
 
-## A Fork in the Path
+### Practice Level: A Fork in the Path
 
-Python
+**Python**
 
 ```
 #first correct solution
@@ -32,7 +33,7 @@ hero.moveLeft()
 hero.moveDown()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 //first correct solution
@@ -46,9 +47,9 @@ hero.moveLeft();
 hero.moveDown();
 ```
 
-## Fruit Loop
+### Practice Level: Fruit Loop
 
-Python
+**Python**
 
 ```
 #first correct solution
@@ -72,7 +73,7 @@ hero.moveRight()
 hero.moveRight()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 //first correct solution
@@ -96,9 +97,9 @@ hero.moveRight();
 hero.moveRight();
 ```
 
-## The Forest of the Fox
+### Practice Level: The Forest of the Fox
 
-Python
+**Python**
 
 ```
 hero.moveRight()
@@ -111,7 +112,7 @@ hero.moveDown()
 hero.use("sign")
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.moveRight();
@@ -124,9 +125,9 @@ hero.moveDown();
 hero.use("sign");
 ```
 
-## Hidden Path
+### Practice Level: Hidden Path
 
-Python
+**Python**
 
 ```
 hero.sneakLeft()
@@ -134,7 +135,7 @@ hero.sneakUp()
 hero.sneakRight()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.sneakLeft();
@@ -142,9 +143,9 @@ hero.sneakUp();
 hero.sneakRight();
 ```
 
-## Silent Forest
+### Practice Level: Silent Forest
 
-Python
+**Python**
 
 ```
 hero.moveRight()
@@ -154,7 +155,7 @@ hero.sneakUp()
 hero.moveRight()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.moveRight();
@@ -164,9 +165,9 @@ hero.sneakUp();
 hero.moveRight();
 ```
 
-## Over the River
+### Practice Level: Over the River
 
-Python
+**Python**
 
 ```
 hero.moveDown()
@@ -177,7 +178,7 @@ hero.jumpRight()
 hero.moveRight()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.moveDown();
@@ -188,9 +189,9 @@ hero.jumpRight();
 hero.moveRight();
 ```
 
-## Broken Lands
+### Practice Level: Broken Lands
 
-Python
+**Python**
 
 ```
 #first correct solution
@@ -206,7 +207,7 @@ hero.moveRight()
 hero.moveUp()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 //first correct solution
@@ -222,9 +223,9 @@ hero.moveRight();
 hero.moveUp();
 ```
 
-## Unexpected Guest
+### Practice Level: Unexpected Guest
 
-Python
+**Python**
 
 ```
 hero.moveUp()
@@ -236,7 +237,7 @@ hero.sneakRight()
 hero.sneakUp()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.moveUp();
@@ -248,9 +249,9 @@ hero.sneakRight();
 hero.sneakUp();
 ```
 
-## Ninjutsu
+### Challenge Level: Ninjutsu
 
-Python
+**Python**
 
 ```
 hero.sneakRight()
@@ -265,7 +266,7 @@ hero.use("lever")
 hero.moveRight()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.sneakRight();
@@ -279,5 +280,3 @@ hero.jumpUp();
 hero.use("lever");
 hero.moveRight();
 ```
-
-#

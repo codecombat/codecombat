@@ -1,24 +1,25 @@
-# Practice Levels (Searching for Mom - The Acodus)
+##### Prologue Level Solutions
+# Levels: Searching for Mom - The Acodus
 
-## Searching for Mom
+### Practice Level: Searching for Mom
 
-Python
+**Python**
 
 ```
 hero.moveUp()
 hero.moveUp()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.moveUp();
 hero.moveUp();
 ```
 
-## Around the Pond
+### Practice Level: Around the Pond
 
-Python
+**Python**
 
 ```
 #first correct solution
@@ -34,7 +35,7 @@ hero.moveRight()
 hero.moveUp()
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 //first correct solution
@@ -51,9 +52,9 @@ hero.moveRight();
 hero.moveUp()
 ```
 
-## The Lonely Tower
+### Practice Level: The Lonely Tower
 
-Python
+**Python**
 
 ```
 hero.moveLeft()
@@ -62,7 +63,7 @@ hero.moveRight()
 hero.use("door")
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 hero.moveLeft();
@@ -71,9 +72,9 @@ hero.moveRight();
 hero.use("door");
 ```
 
-## The Acodus
+### Practice Level: The Acodus
 
-Python
+**Python**
 
 ```
 #first correct solution
@@ -91,7 +92,7 @@ hero.moveRight()
 hero.use("artifact")
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 //first correct solution
@@ -110,9 +111,10 @@ hero.moveRight();
 hero.use("artifact");
 ```
 
-# Example Final Code for Capstone
+### Capstone Level: Hungry Hungry Avatars 
+_Your students will have written different code depending on design choices they made for their project, the example below demonstrates the syntax required for each stage._
 
-Python
+**Python**
 
 ```
 #Stage One - set the art for avatars
@@ -166,7 +168,7 @@ ui.setTextDirections("This is how you play the game.")
 ui.setTextVictory("You won! Congratulations!")
 ```
 
-JavaScript
+**JavaScript**
 
 ```
 //Stage One - set the art for avatars
