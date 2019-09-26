@@ -1989,7 +1989,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     bullet1: "Verdiep de verbinding van de student met leren, door middel van een episch verhaal en meeslepende gameplay"
     bullet2: "Geef les in CS fundamentals, Python of JavaScript en 21ste eeuwse vaardigheden"
     bullet3: "Ontgrendel creativiteit via capstone projecten"
-    bullet4: "Ondersteun instructies via speciale leerplannen
+    bullet4: "Ondersteun instructies via speciale leerplannen"
     you_can_return: "Je kunt altijd teruggaan naar CodeCombat"
 
   share_licenses:
