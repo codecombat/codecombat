@@ -149,13 +149,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     view_progress: "Посмотреть Прогресс"
     go_to_courses: "Перейти в Мои курсы"
     want_coco: "Хотите CodeCombat в вашей школе?"
-#    educator: "Educator"
-#    student: "Student"
+    educator: "Учитель"
+    student: "Ученик"
 
   nav:
-#    educators: "Educators"
-#    follow_us: "Follow Us"
-#    general: "General"
+    educators: "Учителям"
+    follow_us: "Подпишись на нас"
+    general: "Главное"
     map: "Карта"
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
@@ -348,7 +348,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     creating: "Создаём учётную запись..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
-#    login: "Login"
+    login: "Войти"
     required: "Войдите для того, чтобы продолжить."
     login_switch: "Уже есть учётная запись?"
     optional: "необязательно"
@@ -466,9 +466,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submit_changes: "Отослать изменения"
     save_changes: "Сохранить изменения"
     required_field: "обязательное поле"
-#    submit: "Submit"
-#    replay: "Replay"
-#    complete: "Complete"
+    submit: "Принять"
+    replay: "Заново"
+    complete: "Выполнено"
 
   general:
     and: "и"
@@ -601,8 +601,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
-#    restart_confirm: "Yes, Restart"
+    restart_really: "Вы уверены, что хотите перезапустить уровень? Код, который вы написали, будет удалён."
+    restart_confirm: "Да, перезапустить"
     test_level: "Проверить уровень"
     victory: "Победа"
     victory_title_prefix: "Уровень "
@@ -627,13 +627,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
-#    tome_cast_button_update: "Update"
+    tome_cast_button_update: "Обновление"
     tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код, чтобы начать уровень заново"
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     hints: "Советы"
-#    videos: "Videos"
+    videos: "Видео"
     hints_title: "Совет {{number}}"
     code_saved: "Код сохранён"
     skip_tutorial: "Пропуск (Esc)"
@@ -944,8 +944,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wallOfDarkness_name: "Стена Тьмы"
     wallOfDarkness_description: "Скройтесь от любопытных взглядов за стеной из теней."
 
-#  avatar_selection:
-#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+  avatar_selection:
+    pick_an_avatar: "Выберите аватар, который будет у вашего игрового персонажа"
 
   premium_features:
     get_premium: "Получи<br>CodeCombat<br>Премиум" # Fit into the banner on the /features page
@@ -1041,7 +1041,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     optional_parameters: "Необязательные параметры"
     returns: "Возвращает"
     granted_by: "Предоставлено"
-#    still_undocumented: "Still undocumented, sorry."
+    still_undocumented: "Пока не задокументировано, приносим извинения."
 
   save_load:
     granularity_saved_games: "Сохранено"
@@ -1266,7 +1266,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_account_subtitle: "Получите доступ к инструментам, доступным только учителям, для использования CodeCombat в класной комнате. <strong>Подготовьте класс</strong>, добавьте ваших учеников и <strong>наблюдайте за их прогрессом</strong>!"
     convert_account_title: "Улучшить до аккаунта учителя"
     not: "Нет"
-#    full_name_required: "First and last name required"
+    full_name_required: "Имя и фамилия обязательны"
 
   versions:
     save_version_title: "Сохранить новую версию"
@@ -1356,8 +1356,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     beautify: "Приукрасьте свой код стандартизацией его форматирования."
     maximize_editor: "Развернуть/свернуть редактор кода."
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "кликните где-нибудь для продолженния"
 
   community:
     main_title: "Сообщество CodeCombat"
@@ -1378,9 +1378,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     contribute_to_the_project: "Сотрудничайте с проектом"
 
   clans:
-#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
-#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
-#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
+    title: "Присоединяйтесь к кланам CodeCombat-научитесь программировать на Python, JavaScript и HTML"
+    clan_title: "__clan__ - Присоединяйтесь к кланам CodeCombat и научитесь программировать"
+    meta_description: "Присоединяйтесь к клану или создайте свое собственное сообщество программистов. Играйте на многопользовательских уровнях арены и повышайте уровень своего героя, а также свои навыки программирования."
     clan: "Клан"
     clans: "Кланы"
     new_name: "Имя нового клана"
@@ -1441,9 +1441,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   courses:
     create_new_class: "Создать новый класс"
-#    hoc_blurb1: "Try the"
-#    hoc_blurb2: "Code, Play, Share"
-#    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
+    hoc_blurb1: "Попробуйте"
+    hoc_blurb2: "Программируй, Играй, Делись"
+    hoc_blurb3: "данные вещи! Сделайте четыре различных мини-игр, чтобы узнать основы разработки игр, а затем создайте собственную игру!"
     solutions_require_licenses: "Решения уровней доступны для учителей, имеющих лицензии."
     unnamed_class: "Безымянный класс"
     edit_settings1: "Изменить настройки класса"
@@ -1727,7 +1727,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     started: "Начато"
     no_progress: "Нет прогресса"
     not_required: "Не требуется"
-#    view_student_code: "Click to view student code"
+    view_student_code: "Кликните для просмотра кода ученика"
     select_course: "Выберите курс для просмотра"
     progress_color_key: "Цветовой ключ прогресса:"
     level_in_progress: "Уровень в процессе"
@@ -2283,7 +2283,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tournament_blurb: "Пишите код, собирайте золото, стройте армию, крушите противников, получайте призы и улучшайте вашу карьеру в нашем \"$40,000 турнире жадности\"! Узнайте больше"
     tournament_blurb_criss_cross: "Выигрывайте ставки, создавайте пути, перехитрите оппонентов, собирайте самоцветы и улучшайте вашу карьеру в нашем турнире Criss-Cross! Узнайте больше"
     tournament_blurb_zero_sum: "Дайте волю своей программистской фантазии в собирании золота и боевой тактике в этом высокогорном зеркальном матче между красным волшебником и синим волшебником. Турнир начался в пятницу, 27 марта, и продолжится до 17.00 PDT понедельника, 6 апреля. Участвуйте для веселья и славы! Посмотрите детали"
-#    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
+    tournament_blurb_ace_of_coders: "Сражайтесь в замороженном леднике в этом зеркальном матче, доминируйте над соперниками! Турнир начался в среду, 16 сентября и продлится до четверга, 15 октября до 3 утра МСК. Узнайте подробности"
     tournament_blurb_blog: "в нашем блоге"
     rules: "Правила"
     winners: "Победители"
@@ -2293,13 +2293,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wins: "Побеждает" # At end of multiplayer match playback
     humans: "Красных" # Ladder page display team name
     ogres: "Синих"
-#    live_tournament: "Live Tournament"
-#    awaiting_tournament_title: "Tournament Inactive"
-#    awaiting_tournament_blurb: "The tournament arena is not currently active."
-#    tournament_end_desc: "The tournament is over, thanks for playing"
+    live_tournament: "Турниры сейчас"
+    awaiting_tournament_title: "Турнир Неактивен"
+    awaiting_tournament_blurb: "Турнирная арена пока не активна."
+    tournament_end_desc: "Турнир окончен, спасибо за участие"
 
   user:
-#    user_title: "__name__ - Learn to Code with CodeCombat"
+    user_title: "__name__ - Изучи программирование с CodeCombat"
     stats: "Характеристики"
     singleplayer_title: "Уровни одиночной игры"
     multiplayer_title: "Уровни многопользовательской игры"
@@ -2323,7 +2323,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     certificate_lines_of: "строк кода на"
     certificate_levels_completed: "уровней завершено"
     certificate_for: "Для"
-#    certificate_number: "No."
+    certificate_number: "Нет."
 
   achievements:
     last_earned: "Последнее"
@@ -2411,12 +2411,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     you_can2: "купить предоплаченный код"
     you_can3: "который можно применить к вашему аккаунту или передать другому."
 
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
+  ozaria_chrome:
+    sound_off: "Звук ВЫКЛ"
+    sound_on: "Звук ВКЛ"
+    back_to_map: "Назад к карте"
+    level_options: "Параметры уровня"
+    restart_level: "Перезапуск уровня"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
