@@ -72,13 +72,15 @@ mixin course-info(course)
       if disableButtons
         p
           i(data-i18n="courses.solutions_require_licenses")
-      //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
-      //- TODO: Re-enable these when the system has content. For now, we are only showing a markdown file.
-      //- a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-      //-   span(data-i18n="courses.view_guide_online")
-      //-   |  &mdash; JavaScript
-      //- a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-      //-   span(data-i18n="courses.view_guide_online")
-      //-   |  &mdash; Python
-      a.guide-btn.btn.btn-primary(href=("/teachers/resources/prologue-teacher-solutions") class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-        span(data-i18n="courses.view_guide_online")
+      //- assuming that the first course is free and does not have modules
+      if course.get('free')
+        a.guide-btn.btn.btn-primary(href=("/teachers/resources/" + course.get('slug') + "-solutions") disabled=disableButtons)
+          span(data-i18n="courses.view_guide_online")
+      else
+        //- TODO hard-coding 2 modules for now. Later, we should add a property in course like `modulesReleased`, and loop over that number.
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/resources/" + course.get('slug') + "-module-1" + "-solutions"))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; Module 1
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/resources/" + course.get('slug') + "-module-2" + "-solutions"))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; Module 2
