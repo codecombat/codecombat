@@ -284,7 +284,7 @@ module.exports = class TeacherClassesView extends RootView
         @render()
 
   tryOzariaLinkClicked: ->
-    window.tracker.trackEvent('Teachers', 'Teacher Dashboard Try Ozaria Link Clicked')
+    window.tracker.trackEvent('Teacher Dashboard Try Ozaria Link Clicked', category: 'Teachers')
     @openOzariaEncouragementModal()
 
   openOzariaEncouragementModal: () ->

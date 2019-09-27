@@ -31,17 +31,17 @@
         },
 
         noThanksClicked () {
-          window.tracker.trackEvent('Teachers', 'Ozaria Encouragement Modal Declined')
+          window.tracker.trackEvent('Ozaria Encouragement Modal Declined', { category: 'Teachers' })
           this.close()
         },
 
         tryOzariaEvent () {
-          window.tracker.trackEvent('Teachers', 'Ozaria Encouragement Modal CTA Click')
+          window.tracker.trackEvent('Ozaria Encouragement Modal CTA Click', { category: 'Teachers' })
         }
       },
 
       mounted () {
-        window.tracker.trackEvent('Teachers', 'Ozaria Encouragement Modal Displayed')
+        window.tracker.trackEvent('Ozaria Encouragement Modal Displayed', { category: 'Teachers' })
       }
     })
 </script>
