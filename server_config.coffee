@@ -5,6 +5,10 @@ cluster = require 'cluster'
 
 config = {}
 
+if process.env.COCO_SECRETS_JSON_BUNDLE
+  for k, v of JSON.parse(process.env.COCO_SECRETS_JSON_BUNDLE)
+    process.env[k] = v
+
 config.clusterID = "#{os.hostname()}"
 if cluster.worker?
  config.clusterID += "/#{cluster.worker.id}"
