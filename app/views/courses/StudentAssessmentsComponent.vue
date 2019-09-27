@@ -93,7 +93,7 @@ module.exports = Vue.extend
         @courses = @classroom.courses
         return Promise.all(_.map(@levels, (level) =>
           api.levels.getByOriginal(level.original, {
-            data: { project: 'slug,name,original,primaryConcepts,i18n,goals' }
+            data: { project: 'slug,name,original,primaryConcepts,i18n,goals,displayName' }
           }).then (data) =>
             levelToUpdate = _.find(@levels, {original: data.original})
             Vue.set(levelToUpdate, 'primaryConcept', _.first(data.primaryConcepts))
