@@ -261,7 +261,7 @@ hero.moveRight()
 hero.jumpDown()
 hero.moveRight()
 hero.jumpUp()
-hero.use("pedestal")
+hero.use("lever")
 hero.moveRight()
 ```
 
@@ -276,7 +276,7 @@ hero.moveRight();
 hero.jumpDown();
 hero.moveRight();
 hero.jumpUp();
-hero.use("pedestal");
+hero.use("lever");
 hero.moveRight();
 ```
 
