@@ -609,6 +609,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     next_level: "Next Level"
     combo_challenge: "Combo Challenge"
     concept_challenge: "Concept Challenge"
+    challenge: "Challenge"
     challenge_unlocked: "Challenge Unlocked"
     combo_challenge_unlocked: "Combo Challenge Unlocked"
     concept_challenge_unlocked: "Concept Challenge Unlocked"
