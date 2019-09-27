@@ -344,11 +344,10 @@ mixin assessmentsTab
       span.spr :
       select.course-select
         each course in view.latestReleasedCourses
-          if view.classroom.hasAssessments({courseId: course.id})
-            option(value=course.id selected=(course === state.get('selectedCourse')))
-              = i18n(course.attributes, 'name')
-              if !view.availableCourseMap[course.id]
-                = " " + translate('teacher.paren_new')
+          option(value=course.id selected=(course === state.get('selectedCourse')))
+            = i18n(course.attributes, 'name')
+            if !view.availableCourseMap[course.id]
+              = " " + translate('teacher.paren_new')
 
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
@@ -366,11 +365,6 @@ mixin assessmentsTab
         .progress-dot
         .key-text
           span.small(data-i18n='teacher.not_started')
-        .clearfix
-      .col.col-md-2.col-xs-3
-        .progress-dot.pie
-        .key-text
-          span.small(data-i18n='TODO') Partially Complete
         .clearfix
     .assessments-table
 
