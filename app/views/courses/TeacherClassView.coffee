@@ -257,8 +257,6 @@ module.exports = class TeacherClassView extends RootView
     if @classroom.hasAssessments()
       levels = []
       course = @state.get('selectedCourse')
-      if course and not @classroom.hasAssessments({courseId: course.id})
-        course = @courses.find((c) => @classroom.hasAssessments({courseId: c.id}))
       if course
         levels = _.find(@courseAssessmentPairs, (pair) -> pair[0] is course)?[1] || []
         levels = levels.map((l) => l.toJSON())
@@ -276,6 +274,7 @@ module.exports = class TeacherClassView extends RootView
         classroom: @classroom.toJSON(),
         readOnly: @state.get('readOnly')
       }
+
       new TeacherClassAssessmentsTable({
         el: @$el.find('.assessments-table')[0]
         propsData

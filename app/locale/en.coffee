@@ -1784,7 +1784,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_progress: "No progress"
     not_required: "Not required"
     view_student_code: "Click to view student code"
-    select_course: "Select course to view"
+    select_course: "Select unit to view" # {change}
     progress_color_key: "Progress color key:"
     level_in_progress: "Level in Progress"
     level_not_started: "Level Not Started"

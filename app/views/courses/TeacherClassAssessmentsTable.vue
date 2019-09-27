@@ -1,6 +1,8 @@
 <template lang="pug">
   #teacher-class-assessments-table(v-if="courseInstance && courseInstance.members.length > 0")
-    div.table-row(v-if="levels.length === 0")
+    div.table-row(v-if="course._id === '5d41d731a8d1836b5aa3cba1'", :style="{ width: '100%' }")
+      div.table-cell(:style="{ width: '100%' }") Assessments are featured in later chapters of Ozaria.
+    div.table-row(v-else-if="levels.length === 0")
       div.table-cell No assessment levels available for this course yet.
     div.freeze-column(v-if="levels.length > 0")
       div(v-for="(student, index) in students")
