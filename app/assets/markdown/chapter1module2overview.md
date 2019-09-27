@@ -41,7 +41,7 @@ Students modify a code sequence to fix syntax errors.
 
 Vega reviews the difference between logic and syntax errors.
 
-## Practice Levels: Enemy Mine - Dragon Traps
+## Practice Levels: Chasing Dinner - Dragon Traps
 
 Students fix errors in old code snippets.
 
