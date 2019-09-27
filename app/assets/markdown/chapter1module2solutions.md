@@ -1,6 +1,6 @@
 # Levels Module 2 Solutions (Enemy Mine - Fading Shadows)
 
-## Enemy Mine
+## Chasing Dinner
 
 Python
 
