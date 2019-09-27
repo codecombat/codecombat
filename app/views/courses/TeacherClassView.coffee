@@ -331,7 +331,6 @@ module.exports = class TeacherClassView extends RootView
     @courseAssessmentPairs = []
     for course in @courses.models
       assessmentLevels = @classroom.getLevels({courseID: course.id, assessmentLevels: true}).models
-      assessmentLevels = _.filter(assessmentLevels, (l) => l.get('assessment') == true)
       fullLevels = _.filter(@levels.models, (l) => l.get('original') in _.map(assessmentLevels, (l2)=>l2.get('original')))
       @courseAssessmentPairs.push([course, fullLevels])
     return @courseAssessmentPairs
