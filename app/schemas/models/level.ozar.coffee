@@ -147,7 +147,23 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
     suppressSelectionSounds: {type: 'boolean', title: 'Suppress Selection Sounds', description: 'Whether to suppress selection sounds made from clicking on Thangs.'}
     music: c.object {title: 'Music', description: 'Control music playing'},
       play: {title: 'Play', type: 'boolean'}
-      file: c.shortString(title: 'File', enum: ['/music/music_level_1', '/music/music_level_2', '/music/music_level_3', '/music/music_level_4', '/music/music_level_5', '/music/OzariaLoopMusic1', '/music/OzariaLoopMusic2', '/music/OzariaLoopMusic3', '/music/OzariaLoopMusic5', '/music/SpiritLandsAmbient01'])
+      file: c.shortString(title: 'File', enum: [
+        '/music/OzariaCarnivalMusicLoop1',
+        '/music/OzariaCarnivalMusicLoop2',
+        '/music/OzariaCarnivalMusicLoop3',
+        '/music/OzariaCityMusicLoop1',
+        '/music/OzariaCityMusicLoop2',
+        '/music/OzariaLoopMusic1',
+        '/music/OzariaLoopMusic2',
+        '/music/OzariaLoopMusic3',
+        '/music/OzariaLoopMusic5',
+        '/music/OzariaMusicLoop4',
+        '/music/SpiritLandsAmbient01',
+        '/music/music_level_1',
+        '/music/music_level_2',
+        '/music/music_level_3',
+        '/music/music_level_4',
+        '/music/music_level_5'])
 
 ScriptSchema = c.object {
   title: 'Script'
