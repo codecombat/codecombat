@@ -1799,13 +1799,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licenses were applied."
     assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
-    assign_course: "Assign Course"
+    assign_course: "Assign Unit" # {change}
     removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
-    remove_course: "Remove Course"
-    not_assigned_modal_title: "Courses were not assigned"
+    remove_course: "Remove Unit" # {change}
+    not_assigned_modal_title: "Units were not assigned" # {change}
     not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
-    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
+    not_assigned_modal_full_body_1: "This unit requires a Full License. You do not have enough Full Licenses available to assign this unit to all __selected__ selected students." # {change}
     not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
     not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
     assigned: "Assigned"
@@ -1837,8 +1837,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start_date: "start date:"
     end_date: "end date:"
     get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
-    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
-    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
+    how_to_apply_licenses_blurb_1: "When a teacher assigns a unit to a student for the first time, we’ll automatically apply a license. Use the Select Unit dropdown in your classroom to assign a unit to selected students:" # {change}
+    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a unit?" # {change}
     how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
     request_sent: "Request Sent!"
     assessments: "Assessments"
