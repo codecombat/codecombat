@@ -3016,7 +3016,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   interactives:
     phenomenal_job: 'Phenomenal Job!'
     try_again: 'Whoops, try again!'
-    select_statement_left: 'Whoops, select a statement from the left before hitting "Submit."'
+    select_statement_left: 'Whoops! Select a code statement before pressing Submit.' # {change}
     fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
     cannot_play_video: 'Sadly, this video cannot be played in your area.'
     console_instructions: 'See why by opening your browser console: 1) Right click 2) Choose "Inspect" 3) Click the console tab.'
