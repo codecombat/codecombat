@@ -15,7 +15,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     century_skills_blurb1: "Studenten laten niet alleen hun helden een level omhoog gaan, maar zichzelf ook."
     century_skills_quote1: "Je maakt fouten…dus dan denk je aan alle mogelijke manieren om het op te lossen, en dan probeer je het opnieuw. Ik zou er niet kunnen komen zonder het te blijven proberen"
     century_skills_subtitle1: "Kritisch Nadenken"
-    century_skills_subblurb1: Met codeerpuzzels die op een natuurlijke manier in steeds uitdagendere levels worden gezet, zorgt het programmeerspel van CodeCombat ervoor dat kinderen altijd kritisch blijven nadenken."
+    century_skills_subblurb1: "Met codeerpuzzels die op een natuurlijke manier in steeds uitdagendere levels worden gezet, zorgt het programmeerspel van CodeCombat ervoor dat kinderen altijd kritisch blijven nadenken."
     century_skills_quote2: "De rest was doolhoven aan het maken, dus ik dacht: ‘pak die vlag’ en deed het ook. "
     century_skills_subtitle2: "Creativiteit"
     century_skills_subblurb2: "CodeCombat moedigt studenten aan om hun creativiteit te laten zien door het bouwen en delen van hun eigen games en webpagina’s. "
@@ -76,7 +76,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     quotes_quote1: "Noem elk programma online, ik heb het geprobeerd. Geen van hen komt overeen met CodeCombat. Elke leraar die wil dat zijn studenten leren programmeren raad ik aan... begin hier!"
     quotes_quote2: "Ik was verrast hoe gemakkelijk en intuïtief CodeCombat het leren van informatica maakt. De scores op het AP-examen waren veel hoger dan ik had verwacht en ik geloof dat CodeCombat de reden is."
     quotes_quote3: "CodeCombat is ontzettend nuttig geweest om mijn studenten echte programmeervaardigheden bij te brengen. Mijn man is een software-ingenieur en hij heeft al mijn programma's getest. Hij beschouwde dit als zijn topkeuze. "
-    quotes_quote4: "De feedback… is zo positief geweest dat we een Computerwetenschapsklas gaan maken rond CodeCombat. Het programma betrekt de studenten er echt bij met een gaming-style platform dat tegelijikertijd vermakelijk en  leerzaam is. Ga zo door, CodeCombat!
+    quotes_quote4: "De feedback… is zo positief geweest dat we een Computerwetenschapsklas gaan maken rond CodeCombat. Het programma betrekt de studenten er echt bij met een gaming-style platform dat tegelijikertijd vermakelijk en  leerzaam is. Ga zo door, CodeCombat!"
     see_example: "Zie voorbeeld"
     slogan: "Het meest uitdagende spel om mee te leren programmeren." # {change}
     teach_cs1_free: "Leer CS1 gratis"
@@ -150,7 +150,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     go_to_courses: "Ga naar mijn cursussen"
     want_coco: "Wil je CodeCombat op jouw school?"
     educator: "Onderwijzer"
-    student: "Student
+    student: "Student"
 
   nav:
     educators: "Onderwijzers"
