@@ -172,6 +172,9 @@
       },
 
       solutionCorrect () {
+        if (!this.questionAnswered) {
+          return false
+        }
         return this.localizedInteractiveConfig.solution === this.selectedAnswer.choiceId
       },
 
@@ -183,7 +186,7 @@
             return 'interactives.try_again'
           }
         } else {
-          return 'interactives.fill_boxes'
+          return 'interactives.select_statement_left'
         }
       }
     },
