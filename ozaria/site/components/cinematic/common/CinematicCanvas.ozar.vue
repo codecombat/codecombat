@@ -48,7 +48,8 @@ export default {
     controller: null,
     cinematicPlaying: false,
     width: WIDTH,
-    height: HEIGHT
+    height: HEIGHT,
+    loaded: false
   }),
 
   mounted () {
@@ -65,7 +66,7 @@ export default {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
         onCompletion: () => this.$emit('completed'),
-        onLoaded: this.userInterruptionEvent
+        onLoaded: this.handleCinematicLoad
       }})
 
     window.addEventListener('keypress', this.handleKeyboardCancellation)
@@ -87,11 +88,18 @@ export default {
     },
 
     userInterruptionEvent: function() {
+      if (!this.loaded) { return }
+
       if (this.cinematicPlaying) {
         this.controller.cancelShot()
       } else {
         this.playNextShot()
       }
+    },
+
+    handleCinematicLoad () {
+      this.loaded = true;
+      this.userInterruptionEvent();
     },
 
     handleKeyboardCancellation: function(e) {
