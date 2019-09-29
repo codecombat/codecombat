@@ -944,7 +944,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     wallOfDarkness_name: "Duistere Muur"
     wallOfDarkness_description: "Verberg je achter een muur van schaduwen om nieuwsgierige blikken te vermijden."
 
-#  avatar_selection:
+  avatar_selection:
     pick_an_avatar: "Kies een avatar die jou moet voorstellen als speler"
 
   premium_features:
@@ -1006,7 +1006,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_to_unlock: "Beschikbaar na level:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Alleen bepaalde helden kunnen dit level spelen."
 
-#  char_customization_modal:
+  char_customization_modal:
     heading: "Personaliseer je Held"
     body: "Lichaam"
     name_label: "Naam van de Held"
@@ -1356,7 +1356,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     beautify: "Maak je code netter door de opmaak overal gelijk te maken."
     maximize_editor: "Maximaliseer/minimaliseer code editor."
 
-#  cinematic:
+  cinematic:
     click_anywhere_continue: "klik ergens om door te gaan"
 
   community:
