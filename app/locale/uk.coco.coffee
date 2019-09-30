@@ -1442,7 +1442,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   courses:
     create_new_class: "Створити новий клас"
 #    hoc_blurb1: "Try the"
-#    hoc_blurb2: "Code, Play, Share"
+    hoc_blurb2: "Програмуй, грай, ділись"
 #    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
     unnamed_class: "Безіменний клас"
@@ -2322,7 +2322,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    certificate_stats: "Course Stats"
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
-#    certificate_for: "For"
+    certificate_for: "Для"
 #    certificate_number: "No."
 
   achievements:
@@ -2411,12 +2411,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can2: "купити передплачений код"
     you_can3: "який може бути застосовано до вашої обліківки або переданий іншим."
 
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
+  ozaria_chrome:
+    sound_off: "Вимкнути звук"
+    sound_on: "Увімкнути звук"
+    back_to_map: "Повернутись до карти"
+    level_options: "Налаштування рівня"
+    restart_level: "Перезавантажити рівень"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
