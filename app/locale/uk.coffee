@@ -1357,7 +1357,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     maximize_editor: "Згортання/розширення редактора коду."
 
   cinematic:
-    click_anywhere_continue: "Клацніть будь-куди, щоб продовжити"
+    click_anywhere_continue: "клікніть будь-де, щоб продовжити"
 
   community:
     main_title: "Спільноти CodeCombat"
