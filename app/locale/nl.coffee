@@ -1898,7 +1898,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     starter_license: "Starter Licentie"
     trial: "Uitproberen"
     hoc_welcome: "Fijne Computer Wetenschap Educatie Week!"
-    hoc_title: "Hour of Code Games - Gratis Activiteiten Om Echte Programmeertalen te Leren"
+    hoc_n "Hour of Code Games - Gratis Activiteiten Om Echte Programmeertalen te Leren"
     hoc_meta_description: "Maak je eigen game of codeer je een weg uit de kelder! CodeCombat heeft 4 verschillende Hour of Code activiteiten en meer dan 60 levels om te leren coderen, te spelen, en te creëren."
     hoc_intro: "Er zijn drie manieren waarop uw klas kan meedoen aan het Code Uur met CodeCombat"
     hoc_self_led: "Zelfstandig Gamen"
@@ -1981,7 +1981,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    sync_google_classroom: "Sync Google Classroom"
     try_ozaria_footer: "Probeer ons nieuwe avonturenspel, Ozaria!"
 
-#  teacher_ozaria_encouragement_modal:
+  teacher_ozaria_encouragement_modal:
     title: "Werk aan je Computervaardigheden om Ozaria te redden"
     sub_title: "Je bent uitgenodigd om het nieuwe avonturenspel van CodeCombat uit te proberen"
     cancel: "Terug naar CodeCombat"
@@ -2411,14 +2411,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
 
-#  ozaria_chrome:
+  ozaria_chrome:
     sound_off: "Geluid Uit"
     sound_on: "Geluid Aan"
     back_to_map: "Terug naar de Kaart"
     level_options: "Levelopties"
     restart_level: "Herstart Level"
 
-#  impact:
+  impact:
     hero_heading: "Werken aan een computerwetenschappelijk programma van wereldklasse"
     hero_subheading: "We geven onderwijzers zelfvertrouwen en inspireren studenten in het hele land"
     featured_partner_story: "Uitgelicht verhaal van Partner"
@@ -2981,7 +2981,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     last_initial: "Laatste Initiaal (voorletter)"
     teacher_email: "Email-adres van leraar"
 
-#  school_administrator:
+  school_administrator:
     title: "Schoolbeheerders Dashboard"
     my_teachers: "Mijn leraren"
     last_login: "Laatste login"
@@ -2998,7 +2998,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     project_stat_description: "Aangemaakte projecten telt het totale aantal gecreëerde projecten voor Game en Web. "
     no_teachers: "U beheert geen leraren."
 
-#  interactives:
+  interactives:
     phenomenal_job: "Geweldig gedaan!"
     try_again: "Oeps, probeer het opnieuw!"
     select_statement_left: "Oeps, selecteer iets van links voordat je op \"Submit.\" klikt."
