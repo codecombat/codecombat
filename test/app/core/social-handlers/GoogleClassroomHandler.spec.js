@@ -81,7 +81,7 @@ describe('importClassrooms()', () => {
     }
   });
 
-  it('updates the classrooms in me.googleClassrooms except the already imported classrooms', async function(done) {
+  it('updates the linked classrooms in me.googleClassrooms while keeping the importedToCoco value', async function(done) {
     
     me.set('googleClassrooms', gClassrooms)
 
@@ -110,10 +110,10 @@ describe('importClassrooms()', () => {
 
     try {
       await GoogleClassroomHandler.importClassrooms()
-      // name of id2 classroom should be updated, and everything else should remain same
+      // names of linked classroom should be updated, and importedToCoco field should remain same
       expect(me.get('googleClassrooms').length).toBe(2)
       expect(me.get('googleClassrooms').find((gc) => gc.id == importedClassroom.id)).toBeDefined()
-      expect(me.get('googleClassrooms').find((gc) => gc.id == importedClassroom.id).name).toBe(importedClassroom.name)
+      expect(me.get('googleClassrooms').find((gc) => gc.id == importedClassroom.id).name).toBe(newGClassrooms.find((gc) => gc.id==importedClassroom.id).name)
       expect(me.get('googleClassrooms').find((gc) => gc.id == importedClassroom.id).importedToCoco).toBe(true)
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id)).toBeDefined()
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).name).toBe(newGClassrooms.find((gc) => gc.id!=importedClassroom.id).name)
@@ -125,7 +125,7 @@ describe('importClassrooms()', () => {
     }
   })
 
-  it('does not remove an already imported classroom from me.googleClassrooms if deleted from google classroom', async function(done) {
+  it('does not remove an already imported classroom from me.googleClassrooms if deleted from google classroom, and sets deletedFromGC flag', async function(done) {
     // mark gClassrooms[0] as imported
     me.set('googleClassrooms', [gClassrooms[0]])
     let importedClassroom = me.get('googleClassrooms').find((c) => c.id == gClassrooms[0].id)
@@ -146,9 +146,11 @@ describe('importClassrooms()', () => {
       expect(me.get('googleClassrooms').length).toBe(2)
       expect(me.get('googleClassrooms').find((gc) => gc.id == importedClassroom.id)).toBeDefined()
       expect(me.get('googleClassrooms').find((gc) => gc.id == importedClassroom.id).importedToCoco).toBe(true)
+      expect(me.get('googleClassrooms').find((gc) => gc.id == importedClassroom.id).deletedFromGC).toBe(true)
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id)).toBeDefined()
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).name).toBe(newGClassrooms[0].name)
       expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).importedToCoco).toBeUndefined()
+      expect(me.get('googleClassrooms').find((gc) => gc.id != importedClassroom.id).deletedFromGC).toBeUndefined()
       done()
     }
     catch (err) {

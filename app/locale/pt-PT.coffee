@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     social_discource: "Junta-te à discussão no nosso fórum Discourse"
     social_facebook: "Gosta do CodeCombat no Facebook"
     social_twitter: "Segue o CodeCombat no Twitter"
-    social_gplus: "Junta-te ao CodeCombat no Google+"
     social_slack: "Fala connosco no canal público do CodeCombat no Slack"
     contribute_to_the_project: "Contribui para o projeto"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Conceito"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Partilhar Licenças"
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unauthorized: "Precisas de ter sessão iniciada. Tens os cookies desativados?"
     forbidden: "Proibido"
     forbidden_desc: "Oh não, não há nada aqui que te possamos mostrar! Certifica-te de que tens sessão iniciada na conta correta ou visita uma das ligações abaixo para voltares para a programação!"
+#    user_not_found: "User Not Found"
     not_found: "Não Encontrado"
     not_found_desc: "Hm, não há nada aqui. Visita uma das ligações seguintes para voltares para a programação!"
     not_allowed: "Método não permitido."

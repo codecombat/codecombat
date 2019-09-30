@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"
 #    social_twitter: "Follow CodeCombat on Twitter"
-#    social_gplus: "Join CodeCombat on Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
 #    contribute_to_the_project: "Contribute to the project"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
 #    forbidden: "Forbidden"
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
+#    user_not_found: "User Not Found"
 #    not_found: "Not Found"
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
 #    not_allowed: "Method not allowed."

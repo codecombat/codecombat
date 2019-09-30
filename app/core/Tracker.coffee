@@ -146,6 +146,7 @@ module.exports = class Tracker extends CocoClass
       # NOTE these custom dimensions need to be configured in GA prior to being reported
       try
         gaFieldObject.dimension1 = experiments.getRequestAQuoteGroup(me)
+        gaFieldObject.dimension2 = experiments.getOzariaEncouragementModalGroup(me)
       catch e
         # TODO handle_error_ozaria
         console.error(e)

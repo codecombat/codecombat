@@ -1227,7 +1227,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    district_name: "District Name"
     district_na: "Введіть N/A якщо не застосовується"
     organization_label: "Школа"
-#    school_name: "School Name"
+    school_name: "Назва школи"
     city: "Місто"
     state: "Штат" # {change}
     country: "Країна"
@@ -1356,8 +1356,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     beautify: "Зроби код красивішим, стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "клікніть будь-де, щоб продовжити"
 
   community:
     main_title: "Спільноти CodeCombat"
@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     social_discource: "Приєднайтеся до обговорення на форумі"
     social_facebook: "Вподобайте CodeCombat на Facebook"
     social_twitter: "Слідкуйте за CodeCombat у Twitter"
-    social_gplus: "Приєднайтесь до CodeCombat у Google+"
     social_slack: "Переписуйтесь з нами в публічному каналі CodeCombat Slack"
     contribute_to_the_project: "Взяти участь у розробці"
 
@@ -1443,7 +1442,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   courses:
     create_new_class: "Створити новий клас"
 #    hoc_blurb1: "Try the"
-#    hoc_blurb2: "Code, Play, Share"
+    hoc_blurb2: "Програмуй, грай, ділись"
 #    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
     unnamed_class: "Безіменний клас"
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2311,7 +2322,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    certificate_stats: "Course Stats"
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
-#    certificate_for: "For"
+    certificate_for: "Для"
 #    certificate_number: "No."
 
   achievements:
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unauthorized: "Вам потрібно увійти. Ви вимкнули куки?"
     forbidden: "Недостатньо прав."
     forbidden_desc: "О ні, тут немає нічого що б ми могли вам показати! Перевірте, що ви зайшли під правильною обліківкою, або відвідайте одне з наступних посилань щоб повернутись до програмування!"
+#    user_not_found: "User Not Found"
     not_found: "Не знайдено."
     not_found_desc: "Хм, тут нічого немає. Відвідайте одне з наступних посилань щоб повернутись до програмування!"
     not_allowed: "Недозволений метод."
@@ -2914,14 +2926,14 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
 #    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
 
-#  parent_modal:
+  parent_modal:
 #    refer_teacher: "Refer Teacher"
-#    name: "Your Name"
-#    parent_email: "Your Email"
+    name: "Ваше ім'я"
+    parent_email: "Ваш E-mail"
 #    teacher_email: "Teacher's Email"
-#    message: "Message"
+    message: "Повідомлення"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
-#    send: "Send Email"
+    send: "Надіслати E-mail"
 
 #  hoc_2018:
 #    banner: "Happy Computer Science Education Week 2018!"
@@ -2969,15 +2981,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
 
-#  school_administrator:
+  school_administrator:
 #    title: "School Administrator Dashboard"
-#    my_teachers: "My Teachers"
-#    last_login: "Last Login"
+    my_teachers: "Мої вчителі"
+    last_login: "Останній вхід"
 #    licenses_used: "licenses used"
 #    total_students: "total students"
-#    active_students: "active students"
+    active_students: "активні учні"
 #    projects_created: "projects created"
-#    other: "Other"
+    other: "Інше"
 #    notice: "The following school administrators have view-only access to your classroom data:"
 #    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
 #    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
@@ -2986,8 +2998,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
 
-#  interactives:
-#    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
+  interactives:
+    phenomenal_job: "Феноменальна робота!"
+    try_again: "Упс, спробуйте знову!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
