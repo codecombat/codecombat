@@ -1,5 +1,5 @@
 ##### Chapter 1: Module 2 Level Solutions
-# Levels: Enemy Mine - Fading Shadows
+# Levels: Chasing Dinner - Fading Shadows
 
 ### Practice Level: Chasing Dinner
 
