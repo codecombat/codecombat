@@ -2631,15 +2631,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     basic_event_handling: "Основи обробки подій"
     create_sharable_interactive_web_page: "Створи інтерактивну веб-сторінку, якою можна ділитися"
 
-#  anonymous_teacher:
-#    notify_teacher: "Notify Teacher"
-#    create_teacher_account: "Create free teacher account"
-#    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:"
+  anonymous_teacher:
+    notify_teacher: "Повідомити вчителя"
+    create_teacher_account: "Створити безкоштовний акаунт вчителя"
+    enter_student_name: "Твоє ім'я:"
+    enter_teacher_email: "Електронна пошта твого вчителя:"
 #    teacher_email_placeholder: "teacher.email@example.com"
-#    student_name_placeholder: "type your name here"
-#    teachers_section: "Teachers:"
-#    students_section: "Students:"
+    student_name_placeholder: "напишіть своє ім'я тут"
+    teachers_section: "Вчителі:"
+    students_section: "Учні:"
 #    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
@@ -2704,7 +2704,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     rights_clarification: "Для уточнення, будь-що що є доступним у редакторі рівнів, для створення нових рівнів, належить CC, тоді як зміст, створений редактором рівнів або завантажений у ході створення рівнів, не належить."
     nutshell_title: "Коротко"
     nutshell_description: "Будь-які ресурси, котрі ми надаємо в редакторі рівнів, є безкоштовними для використання за Вашим бажанням для створення рівнів. Але ми залишаємо за собою право обмежувати розповсюдження самих рівнів (котрі були створені на codecombat.com), тому в майбутньому за них може стягуватися плата, якщо в кінцевому результаті таке станеться."
-#    nutshell_see_also: "See also:"
+    nutshell_see_also: "Дивіться також:"
     canonical: "Англомовна версія цього документа є остаточною та канонічною версією. Якщо є будь-які невідповідності в перекладі, англійська версія документа є пріоритетною."
     third_party_title: "Сервіси сторонніх розробників"
     third_party_description: "CodeCombat використовує наступні сервіси сторонніх розробників (серед інших):"
