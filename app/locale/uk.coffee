@@ -69,7 +69,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    global_title: "Join Our Global Community of Learners and Educators"
 #    global_subtitle1: "Learners"
 #    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
+    global_subtitle3: "Вчителі"
 #    global_subtitle4: "Countries"
 #    go_to_my_classes: "Go to my classes"
 #    go_to_my_courses: "Go to my courses"
