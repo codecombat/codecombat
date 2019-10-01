@@ -199,7 +199,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   modal:
     close: "Tutup"
     okay: "Ok"
-#    cancel: "Cancel"
+    cancel: "Batal"
 
   not_found:
     page_not_found: "Halaman tidak ditemui"
@@ -879,7 +879,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
 #    loading_info: "Loading subscription information..."
 #    managed_by: "Managed by"
-#    will_be_cancelled: "Will be cancelled on"
+    will_be_cancelled: "Akan dibatalkan pada"
 #    currently_free: "You currently have a free subscription"
 #    currently_free_until: "You currently have a subscription until"
 #    free_subscription: "Free subscription"
@@ -1984,7 +1984,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
 #    sub_title: "You are invited to try the new adventure game from CodeCombat"
-#    cancel: "Back to CodeCombat"
+    cancel: "Kembali ke CodeCombat"
 #    accept: "Try First Unit Free"
 #    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
 #    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
