@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 module.exports = class CoordinateDisplay extends createjs.Container
   layerPriority: -10
   subscriptions:

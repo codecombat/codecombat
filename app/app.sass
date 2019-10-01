@@ -1,0 +1,48 @@
+@import './styles/bootstrap/variables'
+// Try switching to bootstrap 4 later
+@import './styles/bootstrap/bootstrap.scss'
+@import '../bower_components/nanoscroller/bin/css/nanoscroller.css'
+
+@import './styles/common/common.sass'
+@import './styles/application'
+@import './styles/achievements'
+
+// TODO: Figure out how to have the static pages have their own little separate CSS bundles (without duping it)
+// (there is no CSS file for PrivacyView or LegalView)
+@import 'app/styles/home-view.sass'
+@import 'app/styles/about.sass'
+@import 'app/styles/premium-features-view.sass'
+@import 'app/styles/play/campaign-view.sass'
+
+// TODO: Put this in the teacher dashboard views
+@import 'app/styles/courses/teacher-dashboard-nav.sass'
+
+// These ones weren't moved into separate files
+// TODO: Move some of these into individual files where possible (eg style-flat)
+@import './styles/common/site-chrome.sass'
+@import './styles/contribute/contribute_classes.sass'
+@import './styles/editor/component/thang-component-config-view.sass'
+@import './styles/editor/delta.sass'
+@import './styles/editor/editor.sass'
+@import './styles/editor/patches.sass'
+@import './styles/forms.sass'
+@import './styles/i18n/i18n-edit-model-view.sass'
+@import './styles/kinds/search.sass'
+@import './styles/mixins.sass'
+@import './styles/modal/create-account-modal/school-info-panel.sass'
+@import './styles/play/common/ladder_submission.sass'
+@import './styles/play/level/hints-view.sass'
+@import './styles/play/level/thang_avatar.sass'
+@import './styles/play/level/tome/spell_debug.sass'
+@import './styles/play/level/tome/spell_toolbar.sass'
+@import './styles/play/level/tome/spell_translation.sass'
+@import './styles/play/menu/item-view.sass'
+@import './styles/play/modal/leaderboard-tab-view.sass'
+@import './styles/play/variables.sass'
+@import './styles/style-flat-variables.sass'
+@import './styles/style-flat.sass'
+@import './styles/treema-ext.sass'
+
+// Ozaria common styles
+// TODO move these imports to some file in ozaria folder?
+@import 'ozaria/site/styles/common/common.sass'

@@ -1,18 +1,18 @@
 extends /templates/core/modal-base
 block modal-header-content
-  h1
+  h1(dir="auto")
     span= i18n(poll.attributes, "name")
 
 block modal-body-content
-  .description
+  .description.rtl-allowed
     if poll.get("description")
-      div!= marked(i18n(poll.attributes, "description"))
+      div(dir="auto")!= marked(i18n(poll.attributes, "description"))
     else
       div &nbsp;
 
   .answers-container-wrapper
     .answers-container
-      table.table.table-hover
+      table.table.table-hover.rtl-allowed(dir="auto")
         for answer in poll.get("answers") || []
           tr(class="answer", data-answer=answer.key)
             td!= marked(i18n(answer, "text"))

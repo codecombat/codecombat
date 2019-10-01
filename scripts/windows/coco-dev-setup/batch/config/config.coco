@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<variables>
-    <version>3.7.1</version>
-    <author>GlenDC</author>
-    <copyright>CodeCombat.com © 2013-2014</copyright>
-    <github_url>https://github.com/codecombat/codecombat.git</github_url>
-    <github_ssh>git@github.com:codecombat/codecombat.git</github_ssh>
-    <database_backup>http://analytics.codecombat.com:8080/dump.tar.gz</database_backup>
-</variables>

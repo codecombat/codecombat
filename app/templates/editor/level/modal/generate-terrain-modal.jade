@@ -5,8 +5,8 @@ block modal-header-content
 
 block modal-body-content
   div#normal-view
-    each sizeObject, size in presetSizes
-      each preset in presets
+    each sizeObject, size in view.presetSizes
+      each preset in view.presets
         a(href="#")
           div.choose-option(data-preset-type=preset.type, data-preset-size=size, style="background:url(/images/pages/editor/level/preset_"+preset.type+"_"+size+".jpg) no-repeat center; background-size: cover")
             div.preset-size.name-label.capitalize

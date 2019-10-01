@@ -1,0 +1,95 @@
+#loading-error.text-center
+  div(v-if="error.stack")
+    h1 {{ $t("loading_error.unknown") }}
+
+  div(v-else-if="error.code === 401")
+    h1
+      span.spr 401:
+      span {{ $t("loading_error.login_required") }}
+    p {{ $t("loading_error.login_required_desc") }}
+    button.login-btn.btn.btn-primary {{ $t("login.log_in") }}
+    button#create-account-btn.btn.btn-primary {{ $t("login.sign_up") }}
+
+  // 402 currently not in use. TODO: Set it up
+  div(v-else-if="error.code === 402")
+    h2 402: Payment Required
+
+  div(v-else-if="error.code === 403")
+    h1
+      span.spr 403:
+      span {{ $t("loading_error.forbidden") }}
+    p {{ $t("loading_error.forbidden_desc") }}
+
+    // this should make no diff... but sometimes the server returns 403 when it should return 401
+    button#logout-btn.btn.btn-primary(v-if="isAnonymous") {{ $t("login.log_out") }}
+
+  div(v-else-if="error.code === 404")
+    h1
+      span.spr 404:
+      span {{ $t('loading_error.not_found') }}
+    - var num = Math.floor(Math.random() * 3) + 1;
+    img#not-found-img(src="/images/pages/not_found/404_#{num}.png")
+    p {{ $t("loading_error.not_found_desc") }}
+
+  div(v-else-if="!error.code")
+    h1 {{ $t("loading_error.connection_failure") }}
+    p {{ $t("loading_error.connection_failure_desc") }}
+
+  div(v-else-if="error.code === 408")
+    h1
+      span.spr 408:
+      span {{ $t("loading_error.timeout") }}
+
+  div(v-else-if="error.code >= 500 && error.code <= 599")
+    h1
+      span.spr {{error.code}}
+      span {{ $t("loading_error.server_error") }}
+
+  div(v-else)
+    h1 {{ $t("loading_error.unknown") }}
+
+    p {{ $t("loading_error.general_desc") }}
+
+  #links-row.row
+    .col-sm-3
+      ul.list-unstyled
+        li
+          strong {{ $t("common.help") }}
+        li
+          a(href="/") {{ $t("nav.home") }}
+        li
+          a(v-bind:href="forumLink") {{ $t("nav.forum") }}
+        li(v-if="isAnonymous")
+          a.contact-modal(tabindex=-1) {{ $t("nav.contact") }}
+        li
+          a(href='/community') {{ $t("nav.community") }}
+
+    .col-sm-3
+      ul.list-unstyled
+        li
+          strong {{ $t("courses.students") }}
+        li
+          a(href="/students") {{ $t("nav.learn_to_code") }}
+        li(v-if="isAnonymous")
+          a.login-btn {{ $t("login.log_in") }}
+        li
+          a(href="/students") {{ $t("courses.join_class") }}
+
+    .col-sm-3
+      ul.list-unstyled
+        li(v-if="isAnonymous")
+          a.login-btn {{ $t("login.log_in") }}
+        li
+          a(href="/teachers/classes") {{ $t("nav.create_a_class") }}
+
+    .col-sm-3
+      ul.list-unstyled
+        li
+          strong {{ $t("nav.other") }}
+        li
+          a(href="http://blog.codecombat.com/") {{ $t("nav.blog") }}
+        li
+          a(href="https://www.facebook.com/codecombat") {{ $t("nav.facebook") }}
+        li
+          a(href="https://twitter.com/codecombat") {{ $t("nav.twitter") }}
+

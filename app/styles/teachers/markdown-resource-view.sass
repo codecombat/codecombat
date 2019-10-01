@@ -1,0 +1,189 @@
+#markdown-resource-view, #dynamic-apcsp-view
+  .backlink
+    @media print
+      display: none
+
+    &[dir="rtl"]
+      float: right
+
+  .print, .print p
+    text-align: center
+    font-size: .75em
+    @media print
+      display: none
+
+  .print a
+    color: #fff
+    text-decoration: none
+
+  .back-to-top
+    text-transform: none
+    @media print
+      display: none
+
+  #footer, #final-footer
+    @media print
+      display: none
+
+  #hour-of-code
+    background-color: #cff2fc
+    border-radius: 10px
+    // font-size: .8em
+    padding: 20px 60px
+    margin: 0 0 30px 0
+    text-align: center
+    max-width: 900px
+    margin-right: auto
+    margin-left: auto
+
+    p.small
+      font-style: italic
+
+    ol
+      text-align: left
+      margin: 0 15px
+      li
+        padding: 0 0 10px 0
+
+    h3
+      text-align: center
+      font-size: 1.5em
+
+
+  .lesson-plans
+        max-width: 900px
+        background-color: #f8f8f8
+        border-radius: 10px
+        border: 1px solid #ddd
+        padding: 40px 100px
+        font-size: 0.85em
+        margin: 20px auto
+        @media print
+          max-width: none
+          border: none
+          margin: none
+          padding: none
+          font-size: 80%
+
+        & > ul
+          margin: 0 0 30px 0
+
+        // page header //
+        h1
+          font-size: 2.5em
+          margin: 0
+          padding: 0
+          font-family: Open Sans
+          font-weight: 200
+          @media print
+            font-size: 2em
+
+        // module header //
+        h2
+          margin: 10px 0 0px 0
+
+        // section header //
+        h3
+          font-size: 1.4em
+          margin: 30px 0 0 0
+
+        // section breakout //
+        h4
+          font-size: 1.2em
+          font-weight: 400
+          color: #444
+          margin: 25px 0 5px 0
+
+        // lesson plans/module header //
+        h5
+          color: #999
+          text-transform: uppercase
+          font-family: Open Sans
+          font-size: 1em
+          padding: 0
+          margin: 0
+
+        // make it so the page breaks before each module
+        h5[id^="module"], h5[id^="step"]
+          border-top: 1px solid #666
+          margin: 30px 0 0 0
+          padding: 20px 0 0 0
+          @media print
+            page-break-before: always
+
+        h5[id="step-1"]
+          border-top: none !important
+          @media print
+            page-break-before: avoid
+          .back-to-top
+            display: none
+
+        h6
+          font-style: italic
+          font-weight: 200
+          text-align: right
+
+        table, tr, td, th
+          border: 2px solid #f8f8f8
+          border-radius: 5px
+          background-color: #fff
+
+        td, th
+          padding: 0 10px
+
+        blockquote
+          padding: 5px
+          margin: 15px 0 30px 0
+
+        blockquote::before
+          content: none
+
+        blockquote p
+          font-size: 1.0em
+          line-height: 1.7em
+          // font-style: italic
+          margin: 0 0 0 0px
+          padding: 0 60px 0 50px
+          border-left: 5px solid #eee
+
+
+
+        // Styles for Getting Started page.
+  [id^=getting-started], #clever-faq
+      img
+        max-width: 400px
+        border: 1px solid #666
+        box-shadow: 2px 2px #ddd
+        margin: 15px auto 15px auto
+        display: block
+        @media print
+          max-width: 400px !important
+  .ace_content
+    .ace_marker-layer
+      .ace_bracket
+        display: none
+    .ace_cursor-layer
+      .ace_cursor
+        display: none
+        
+        
+  // compression page
+  .res-image
+    width: 100%
+    
+  .wood
+    width: 22px
+    
+  .grass
+    width: 22px
+    
+  table.woodchuck, table.peter-piper
+    td
+      width: 50%
+      text-align: center
+      padding: 20px
+
+  // cybersecurity
+
+  #phishing-scam
+    width: 100%

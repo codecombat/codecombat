@@ -3,7 +3,7 @@ extends /templates/core/modal-base
 block modal-header
 
 block modal-body-content
-  for model in models
+  for model in view.models
     .model-container(data-model-id=model.id)
       h3= model.type() + ': ' + model.id
       .model-treema(data-model-id=model.id)

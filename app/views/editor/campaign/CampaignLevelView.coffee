@@ -1,3 +1,4 @@
+require('app/styles/editor/campaign/campaign-level-view.sass')
 CocoView = require 'views/core/CocoView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
@@ -17,6 +18,9 @@ module.exports = class CampaignLevelView extends CocoView
     'mouseenter .graph-point': 'onMouseEnterPoint'
     'mouseleave .graph-point': 'onMouseLeavePoint'
     'click .replay-button': 'onClickReplay'
+    'click #recent-button': 'onClickRecentButton'
+
+  limit: 100
 
   constructor: (options, @level) ->
     super(options)
@@ -80,8 +84,25 @@ module.exports = class CampaignLevelView extends CocoView
 
   onClickReplay: (e) ->
     sessionID = $(e.target).closest('tr').data 'session-id'
+    session = _.find @analytics.recentSessions.data, _id: sessionID
     url = "/play/level/#{@level.get('slug')}?session=#{sessionID}&observing=true"
+    if session.isForClassroom
+      url += '&course=560f1a9f22961295f9427742'
     window.open url, '_blank'
+
+  onClickRecentButton: (event) ->
+    event.preventDefault()
+    @limit = @$('#input-session-num').val()
+    @analytics.recentSessions = {data: [], loading: true}
+    @render() # Hide old session data while we fetch new sessions
+    @getRecentSessions @makeFinishDataFetch(@analytics.recentSessions)
+
+  makeFinishDataFetch: (data) =>
+    return =>
+      return if @destroyed
+      @updateAnalyticsGraphData()
+      data.loading = false
+      @render()
 
   updateAnalyticsGraphData: ->
     # console.log 'updateAnalyticsGraphData'
@@ -384,17 +405,11 @@ module.exports = class CampaignLevelView extends CocoView
       graphs: []
     @render() # Hide old analytics data while we fetch new data
 
-    makeFinishDataFetch = (data) =>
-      return =>
-        return if @destroyed
-        @updateAnalyticsGraphData()
-        data.loading = false
-        @render()
-    @getCommonLevelProblems startDayDashed, endDayDashed, makeFinishDataFetch(@analytics.commonProblems)
-    @getLevelCompletions startDay, endDay, makeFinishDataFetch(@analytics.levelCompletions)
-    @getLevelHelps startDay, endDay, makeFinishDataFetch(@analytics.levelHelps)
-    @getLevelPlaytimes startDayDashed, endDayDashed, makeFinishDataFetch(@analytics.levelPlaytimes)
-    @getRecentSessions makeFinishDataFetch(@analytics.recentSessions)
+    @getCommonLevelProblems startDayDashed, endDayDashed, @makeFinishDataFetch(@analytics.commonProblems)
+    @getLevelCompletions startDay, endDay, @makeFinishDataFetch(@analytics.levelCompletions)
+    @getLevelHelps startDay, endDay, @makeFinishDataFetch(@analytics.levelHelps)
+    @getLevelPlaytimes startDayDashed, endDayDashed, @makeFinishDataFetch(@analytics.levelPlaytimes)
+    @getRecentSessions @makeFinishDataFetch(@analytics.recentSessions)
 
   getCommonLevelProblems: (startDay, endDay, doneCallback) ->
     success = (data) =>
@@ -403,7 +418,7 @@ module.exports = class CampaignLevelView extends CocoView
       @analytics.commonProblems.data = data
       doneCallback()
     request = @supermodel.addRequestResource 'common_problems', {
-      url: '/db/user_code_problem/-/common_problems'
+      url: '/db/user.code.problem/-/common_problems'
       data: {startDay: startDay, endDay: endDay, slug: @levelSlug}
       method: 'POST'
       success: success
@@ -457,15 +472,15 @@ module.exports = class CampaignLevelView extends CocoView
     request.load()
 
   getRecentSessions: (doneCallback) ->
-    limit = 100
+    # limit = 100
     success = (data) =>
       return doneCallback() if @destroyed
       # console.log 'getRecentSessions', data
       @analytics.recentSessions.data = data
       doneCallback()
     request = @supermodel.addRequestResource 'level_sessions_recent', {
-      url: "/db/level_session/-/recent"
-      data: {slug: @levelSlug, limit: limit}
+      url: "/db/level.session/-/recent"
+      data: {slug: @levelSlug, limit: @limit}
       method: 'POST'
       success: success
     }, 0

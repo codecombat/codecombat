@@ -1,7 +1,7 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
-#ladder-home-view
+#main-ladder-view
   .level
     width: 100%
     position: relative
@@ -60,10 +60,8 @@
   a[disabled] .level
     opacity: 0.7
 
-  a.complete .level-difficulty:after
-    content: " - Complete!"
+  a .level-difficulty .level-status-complete
     color: $yellow
 
-  a.started .level-difficulty:after
-    content: " - Started"
+  a .level-difficulty .level-status-started
     color: desaturate($yellow, 50%)

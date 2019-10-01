@@ -1,0 +1,45 @@
+flat-layout
+  .container
+    div
+      label
+        input(type="checkbox" v-model="showArchived")
+        | Show archived contacts
+        | ({{ numArchivedUsers }} / {{ skippedContacts.length }})
+    div
+      label
+        input(type="checkbox" v-model="showTrialRequestContacts")
+        | Show contacts with trial requests
+    div
+      label
+        input(type="checkbox" v-model="showZenProspectContacts")
+        | Show contacts from ZenProspect
+    div.pull-right(v-if="skippedContacts.length === 0")
+      | Loading trial requests...
+    div.pull-right(v-if="Object.keys(users).length < skippedContacts.length")
+      | Loading user information... ({{Object.keys(users).length}}/{{skippedContacts.length}})
+  
+  
+    div
+      | Sort by:
+      select(v-model="sortOrder")
+        option(value="date (ascending)")
+          | date (ascending)
+        option(value="date (descending)")
+          | date (descending)
+        option(value="email")
+          | email address
+        option(value="archived")
+          | archived
+        option(value="unarchived")
+          | unarchived
+    div
+      | Search by email address (including archived):
+      input(v-model.trim="searchInput" placeholder="user@example.com")
+  
+    ol.skipped-contacts
+      li( is="skipped-contact-info",
+          v-for="skippedContact in sortedContacts",
+          v-if="isContactShown(skippedContact)",
+          :key="skippedContact._id",
+          :skippedContact="skippedContact",
+          :user="users[skippedContact._id]")

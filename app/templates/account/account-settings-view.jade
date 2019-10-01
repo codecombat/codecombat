@@ -10,58 +10,93 @@ else
         .panel-body
           .form
             - var name = me.get('name') || '';
-            - var email = me.get('email');
+            - var firstName = me.get('firstName') || '';
+            - var lastName = me.get('lastName') || '';
+            - var email = me.get('email') || '';
             - var admin = me.get('permissions', true).indexOf('admin') != -1;
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
-              label.control-label(for="name", data-i18n="general.name") Name
-              input#name.form-control(name="name", type="text", value="#{name}")
+              label.control-label(for="name", data-i18n="general.username")
+              input#name-input.form-control(name="name", type="text", value="#{name}")
             .form-group
-              label.control-label(for="email", data-i18n="general.email") Email
+              label.control-label(for="email")
+                span(data-i18n="general.email")
+              unless me.get('emailVerified')
+                span.spl (
+                span.spr(data-i18n="account.not_yet_verified")
+                a.resend-verification-email
+                  span.resend-text(data-i18n="account.resend_email")
+                  span.sent-text.hide(data-i18n="account.email_sent")
+                span )
               input#email.form-control(name="email", type="text", value="#{email}")
+            .row
+              .form-group.col-sm-6
+                label.control-label(for="firstName", data-i18n="general.first_name")
+                input#first-name-input.form-control(name="firstName", type="text", value="#{firstName}")
+              .form-group.col-sm-6
+                if me.isStudent()
+                  label.control-label(for="lastName", data-i18n="general.last_initial")
+                  input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}", maxlength="1")
+                else
+                  label.control-label(for="lastName", data-i18n="general.last_name")
+                  input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}")
             if !isProduction
               .form-group.checkbox
-                label(for="admin", data-i18n="account_settings.admin") Admin
+                label(for="admin", data-i18n="account_settings.admin")
                 input#admin(name="admin", type="checkbox", checked=admin)
               .form-group.checkbox
-                label(for="godmode", data-i18n="account_settings.god_mode") God Mode
+                label(for="godmode", data-i18n="account_settings.god_mode")
                 input#godmode(name="godmode", type="checkbox", checked=godmode)
-                
-    
-      .panel.panel-default
-        .panel-heading
-          .panel-title(data-i18n="account_settings.picture_tab")
-        .panel-body
-          img.profile-photo(src=me.getPhotoURL(230), draggable="false")
-          input#photoURL(type="hidden", value=me.get('photoURL')||'')
-          button#upload-photo-button.btn.form-control.btn-primary(data-i18n="account_settings.upload_picture")
-    
-      .panel.panel-default
-        .panel-heading
-          .panel-title(data-i18n="account_settings.password_tab")
-        .panel-body
-          .form
-            .form-group
-              label.control-label(for="password", data-i18n="account_settings.new_password") New Password
-              input#password.form-control(name="password", type="password")
-            .form-group
-              label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
-              input#password2.form-control(name="password2", type="password")
+            if me.hasSubscription()
+              .form-group
+                label(data-i18n="account.subscription")
+                br
+                span.spr ✓
+                span(data-i18n="account.active")
+                span.spr= '.'
+                // TODO: show better summary states, like active, subscribed, free, and active until.
+                a(href="/account/subscription", data-i18n="account_settings.manage_subscription")
+
+      // TODO: allow users to pick their avatars from our preset list now that we killed Gravatar and file uploads
+      //.panel.panel-default
+      //  .panel-heading
+      //    .panel-title(data-i18n="account_settings.picture_tab")
+      //  #profile-photo-panel-body.panel-body
+      //    img.profile-photo(src=me.getPhotoURL(230), draggable="false")
+      //    .text-center
+      //      a(href="https://gravatar.com/", data-i18n="account_settings.use_gravatar")
+
+
+      //hide password setting for Tarena users
+      if !me.isCreatedByTarena()
+        .panel.panel-default
+          .panel-heading
+            .panel-title(data-i18n="general.password")
+          .panel-body
+            .form
+              .form-group
+                label.control-label(for="password", data-i18n="account_settings.new_password") New Password
+                input#password.form-control(name="password", type="password")
+              .form-group
+                label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
+                input#password2.form-control(name="password2", type="password")
 
       .panel.panel-default
         .panel-heading
           .panel-title#delete-account-panel-title(data-i18n="account_settings.delete_account_tab")
         .panel-body
-          .form
+          .form#delete-account-form
             .form-group
-              label.control-label(for="email1", data-i18n="account_settings.type_in_email")
-              input#email1.form-control(name="email1", type="text")
-            .form-group  
-              label.control-label(for="password1", data-i18n="account_settings.type_in_password")
-              input#password1.form-control(name="password1", type="password")  
-          button#delete-account-button.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
+              label.control-label(for="delete-account-email-or-username", data-i18n="account_settings.type_in_email")
+              input#delete-account-email-or-username.form-control(name="emailOrUsername")
+            .form-group
+              label.control-label(for="delete-account-password", data-i18n="account_settings.type_in_password")
+              input#delete-account-password.form-control(name="password", type="password")
+          button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
+
+      - var subs = view.getEmailSubsDict();
           
       #email-panel.panel.panel-default
         .panel-heading
@@ -94,7 +129,7 @@ else
           hr
       
           h4(data-i18n="account_settings.contributor_emails") Contributor Class Emails
-          span(data-i18n="account_settings.contribute_prefix") We're looking for people to join our party! Check out the 
+          span(data-i18n="account_settings.contribute_prefix") We\'re looking for people to join our party! Check out the 
           a(href="/contribute", data-i18n="account_settings.contribute_page") contribute page
           span(data-i18n="account_settings.contribute_suffix")  to find out more.
       
@@ -148,7 +183,7 @@ else
                   | (Translator)
               input#email_diplomatNews(name="email_diplomatNews", type="checkbox", checked=subs.diplomatNews)
               span(data-i18n="contribute.diplomat_subscribe_desc").help-block Get emails about i18n developments and, eventually, levels to translate.
-      
+
             .form-group.checkbox
               label.control-label(for="email_ambassadorNews")
                 span(data-i18n="classes.ambassador_title")
@@ -158,7 +193,28 @@ else
                   | (Support)
               input#email_ambassadorNews(name="email_ambassadorNews", type="checkbox", checked=subs.ambassadorNews)
               span(data-i18n="contribute.ambassador_subscribe_desc").help-block Get emails on support updates and multiplayer developments.
-                  
-            button#toggle-all-button.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
+
+            .form-group.checkbox
+              label.control-label(for="email_teacherNews")
+                span(data-i18n="classes.teacher_title")
+              input#email_teacherNews(name="email_teacherNews", type="checkbox", checked=subs.teacherNews)
+              span(data-i18n="contribute.teacher_subscribe_desc").help-block
+
+            button#toggle-all-btn.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
+
+      .panel.panel-default
+        .panel-heading
+          .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
+        .panel-body
+          .form#reset-progress-form
+            .form-group
+              label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
+              input#email-reset-progress.form-control(name="emailOrUsername")
+            .form-group
+              label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
+              input#password-reset-progress.form-control(name="password", type="password")
+          button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
+
+
 
 .clearfix

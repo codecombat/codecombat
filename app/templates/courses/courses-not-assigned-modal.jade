@@ -1,0 +1,23 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  h2(data-i18n="teacher.not_assigned_modal_title")
+
+block modal-body-content
+  if view.state.get('promoteStarterLicenses')
+    p.small(data-i18n="teacher.not_assigned_modal_starter_body_1", data-i18n-options=JSON.stringify(view.i18nData))
+    p.small(data-i18n="teacher.not_assigned_modal_starter_body_2", data-i18n-options=JSON.stringify(view.i18nData))
+  else
+    p.small(data-i18n="teacher.not_assigned_modal_full_body_1", data-i18n-options=JSON.stringify(view.i18nData))
+    p.small(data-i18n="teacher.not_assigned_modal_full_body_2", data-i18n-options=JSON.stringify(view.i18nData))
+    p.small(data-i18n="[html]teacher.not_assigned_modal_full_body_3", data-i18n-options=JSON.stringify({ supportEmail: "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>" }))
+
+block modal-footer-content
+  if view.state.get('promoteStarterLicenses')
+    .text-center
+      a.btn.btn-navy.btn-lg(data-i18n="general.learn_more" href="/teachers/starter-licenses")
+  else
+    button.btn.btn-forest.btn-lg.pull-left
+      span(data-i18n="general.contact_us")
+    button.btn.btn-navy.btn-lg.pull-right(data-dismiss="modal")
+      span(data-i18n="general.close_window")

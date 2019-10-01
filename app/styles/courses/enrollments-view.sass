@@ -1,0 +1,71 @@
+@import "app/styles/bootstrap/variables"
+
+#enrollments-view
+
+  @media (min-width: $screen-md-min)
+    #prepaids-col
+      padding-right: 40px
+    
+    #actions-col
+      border-left: 1px solid gray // Will tend to be the longer one
+      padding-left: 40px
+
+  .prepaid-card
+    border-radius: 10px
+    
+    p
+      color: white
+    
+    h1
+      font-size: 68px
+      
+    &.pending-prepaid-card
+      background: #6e939f
+
+    &.empty-prepaid-card
+      background: #bbbbbb
+
+  .share-details .share-licenses-link
+    color: black
+    text-decoration: underline
+
+  [dir="rtl"] .prepaid-card-container
+    float: right
+
+  .prepaid-card-container
+    min-height: 309px
+    &[dir="rtl"] .pull-left
+      float: right !important
+
+    &[dir="rtl"] .pull-right
+      float: left !important
+
+  .share-details
+    text-align: right
+  
+  .how-to-enroll
+    padding: 10px
+    ol
+      padding-left: 20px
+      line-height: 18px
+    border: thin gray solid
+    border-radius: 5px
+
+  #students-input
+    width: 220px
+    height: 80px
+    font-size: 50px
+    
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button
+      -webkit-appearance: none
+      margin: 0
+
+  #enrollment-stats-table
+    td, th
+      border: none
+    
+    .classroom-name-td
+      padding-left: 20px
+
+    th
+      padding-bottom: 10px

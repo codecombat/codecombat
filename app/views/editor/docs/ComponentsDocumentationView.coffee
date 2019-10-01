@@ -1,3 +1,4 @@
+require('app/styles/docs/components-documentation-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/docs/components-documentation-view'
 CocoCollection = require 'collections/CocoCollection'

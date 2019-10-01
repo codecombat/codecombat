@@ -28,7 +28,11 @@ $itemSlotGridHeight: 51px
 
   +user-select(none)
 
-  
+  @media only screen and (max-height: 728px)
+    .modal-content
+      top: -55px
+
+
   //- Background
 
   #play-items-modal-narrow-bg
@@ -346,14 +350,11 @@ $itemSlotGridHeight: 51px
         cursor: pointer
 
         &:hover
-          padding: 0
-          img
-            margin: 1px
           button
             //margin-top: -2px
             //height: 19px
-            font-size: 12px
-            margin: -1px 1px 1px 1px
+            position: relative
+            top: -1px
 
             &:active, &.active
               background-position: -57px * 2 0
@@ -447,6 +448,9 @@ $itemSlotGridHeight: 51px
     
   #choose-hero-button
     left: 20px
+    width: 254px
+    background-size: 254px 55px
+    padding-left: 14px
     
   #play-level-button
     right: 414px
@@ -493,6 +497,27 @@ $itemSlotGridHeight: 51px
     #equip-item-viewed
       background: rgb(84,128,44)
       color: white
+
+    #subscriber-item-viewed
+      flex-grow: 1
+      height: 55px
+      line-height: 10px
+      border-style: solid
+      border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+      border-width: 14px 20px 20px 20px
+      color: darken(white, 5%)
+      background-color: black
+
+      span
+        pointer-events: none
+
+      &:hover
+        border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+      &:active
+        border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+        padding: 2px 0 0 2px
+        color: white
 
   //- Paper doll positioning
 
@@ -603,12 +628,15 @@ $itemSlotGridHeight: 51px
     &.head
       z-index: 17
 
-    &.Ranger:not(.feet)
+    &.Ranger:not(.feet):not(.pet)
       &.female
         left: -7px
 
       &.male
         left: -16px
+
+    &.pet
+      z-index: 20
 
 body[lang='ja'], body[lang^='zh'], body[lang='ca'], body[lang^='es'], body[lang^='pt'], body[lang='ro'], body[lang='fi'], body[lang='sv'], body[lang='uk'], body[lang='vi'], body[lang='cz']
   #inventory-modal #unequipped .item button

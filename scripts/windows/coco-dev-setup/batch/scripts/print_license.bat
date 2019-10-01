@@ -1,1 +1,0 @@
-call print_localized_file ..\\config\\localized\\license

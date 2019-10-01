@@ -1,0 +1,55 @@
+div.school-info-panel.text-left
+  .row
+    .col-xs-offset-3.col-xs-6
+
+      .form-group(v-bind:class="{ 'has-error': showRequired && !role }")
+        span.control-label
+          | {{ $t("teachers_quote.primary_role_label") }}
+          =" "
+          strong(v-if="showRequired && !role") {{ $t("common.required_field") }}
+        select.form-control(v-model="role", name="role", ref='focus')
+          option(value='') {{ $t("teachers_quote.primary_role_default") }}
+          option(value="Teacher") {{ $t("courses.teacher") }}
+          option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
+          option(value="Advisor") {{ $t("teachers_quote.advisor") }}
+          option(value="Principal") {{ $t("teachers_quote.principal") }}
+          option(value="Superintendent") {{ $t("teachers_quote.superintendent") }}
+          option(value="Parent") {{ $t("teachers_quote.parent") }}
+
+      .form-group(v-bind:class="{ 'has-error': showRequired && !numStudents }")
+        span.control-label {{ $t("teachers_quote.num_students_help") }}
+        select.form-control(v-model="numStudents" name="numStudents")
+          option(value='') {{ $t("teachers_quote.num_students_default") }}
+          option 1-10
+          option 11-50
+          option 51-100
+          option 101-200
+          option 201-500
+          option 501-1000
+          option 1000+
+        strong.help-block(v-if="showRequired && !numStudents") {{ $t("common.required_field") }}
+
+      .form-group
+        span.control-label
+          span {{ $t("teachers_quote.referrer") }}
+          span.spl.text-muted.optional-text {{ $t("signup.optional") }}
+        select.form-control(v-model="referrer" name="referrer")
+          option(value='') {{ $t("teachers_quote.referrer_default") }}
+          option(value='Conference (e.g. ISTE)') {{ $t("teachers_quote.referrer_conference") }}
+          option(value='Code.org/Hour of Code') {{ $t("teachers_quote.referrer_hoc") }}
+          option(value='A teacher') {{ $t("teachers_quote.referrer_teacher") }}
+          option(value='An administrator') {{ $t("teachers_quote.referrer_admin") }}
+          option(value='A student') {{ $t("teachers_quote.referrer_student") }}
+          option(value='Professional trainings/workshops') {{ $t("teachers_quote.referrer_pd") }}
+          option(value='Google') {{ $t("teachers_quote.referrer_web") }}
+          option(value='Other') {{ $t("teachers_quote.referrer_other") }}
+
+      span.control-label
+        span {{ $t("teachers_quote.anything_else") }}
+        span.spl.text-muted.optional-text {{ $t("signup.optional") }}
+      textarea.form-control.m-b-2(rows=2, v-model="notes", name="notes")
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("login.sign_up") }}
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack") {{ $t("common.back") }}

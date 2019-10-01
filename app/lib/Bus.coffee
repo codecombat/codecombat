@@ -22,6 +22,7 @@ module.exports = Bus = class Bus extends CocoClass
     'auth:me-synced': 'onMeSynced'
 
   connect: ->
+    # Put Firebase back in bower if you want to use this
     Backbone.Mediator.publish 'bus:connecting', {bus: @}
     Firebase.goOnline()
     @fireRef = new Firebase(Bus.fireHost + '/' + @docName)

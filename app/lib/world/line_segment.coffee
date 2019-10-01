@@ -19,8 +19,12 @@ class LineSegment
     if lineSegment.slope is @slope
       if lineSegment.y0 is @y0
         if lineSegment.left.x is @left.x or lineSegment.left.x is @right.x or lineSegment.right.x is @right.x or lineSegment.right.x is @left.x
-          # segments are of the same line with shared start and/or end points
-          return true
+          # Special case then segments are vertical both and have the same 'x'
+          if Math.abs(@slope) is Infinity
+            return (@bottom.y <= lineSegment.top.y <= @top.y) or (lineSegment.bottom.y <= @top.y <= lineSegment.top.y)
+          else
+            # segments are of the same line with shared start and/or end points
+            return true
         else
           [left, right] = if lineSegment.left.x < @left.x then [lineSegment, @] else [@, lineSegment]
           if left.right.x > right.left.x

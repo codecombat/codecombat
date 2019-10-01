@@ -72,10 +72,10 @@ $heroCanvasHeight: 275px
 
   #hero-carousel
     width: 750px
-    height: 386px
+    height: 436px
     position: absolute
     left: 34px
-    top: 117px
+    top: 67px
 
     .carousel-indicator-container
       position: relative
@@ -83,17 +83,25 @@ $heroCanvasHeight: 275px
 
       .carousel-indicators
         position: static
-        width: 100%
-        margin-left: 0
+        width: 825px
+        margin-left: -37px
         white-space: nowrap
 
         .hero-indicator
           width: 97px
           height: 98px
-          margin: 0 -11px
+          margin: 0 -11px -20px -11px
           position: relative
           background: url(/images/pages/play/modal/hero-portrait.png)
           border: none
+          float: left
+
+          &:nth-child(15), &:nth-child(16)
+            float: right
+
+            body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+              float: left
+
           &.active
             background: url(/images/pages/play/modal/hero-portrait-selected.png)
             z-index: 5
@@ -106,10 +114,39 @@ $heroCanvasHeight: 275px
             left: 21px
             top: 18px
 
-          &.locked:not(.purchasable)
+          &.subscribe-unlock
+            background: url(/images/pages/play/modal/hero-portrait-silver.png)
+            background-size: 100% 100%
+            z-index: 5
+
+            &.active
+              background: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
+              z-index: 6
+
             .hero-avatar
               background-color: goldenrod
-              @include filter(contrast(50%) brightness(65%))
+              background-size: 100% 100%
+              width: 54px
+              height: 54px
+              left: 25px
+              top: 25px
+
+          &.premium
+            background: url(/images/pages/play/modal/hero-portrait-gem.png)
+            background-size: 100% 100%
+            z-index: 5
+
+            &.active
+              background: url(/images/pages/play/modal/hero-portrait-gem-selected.png)
+              z-index: 6
+
+            .hero-avatar
+              background-color: rgb(0,119,168)
+              background-size: 100% 100%
+              width: 56px
+              height: 58px
+              left: 23px
+              top: 20px
 
               &.ie
                 @include opacity(0.35)
@@ -129,6 +166,10 @@ $heroCanvasHeight: 275px
             @include opacity(0.25)
             .hero-avatar
               background-color: black
+      
+    .carousel-inner
+      position: absolute
+      top: 166px
 
 
   //- Small transformations to jumble the hero icons a little
@@ -170,10 +211,7 @@ $heroCanvasHeight: 275px
   #hero-carousel
     .hero-item
 
-      &.locked:not(.purchasable), &.restricted
-        @include opacity(0.6)
-
-      canvas, .hero-feature-image
+      canvas, .hero-pose-image
         width: 334px
         height: $heroCanvasHeight
         float: left
@@ -183,7 +221,7 @@ $heroCanvasHeight: 275px
         height: $heroCanvasHeight
         float: left
 
-      .hero-feature-image
+      .hero-pose-image
         display: none
         text-align: center
 
@@ -209,10 +247,16 @@ $heroCanvasHeight: 275px
             width: 100px
             color: rgb(203,170,148)
 
+            &[dir="rtl"]
+              float: right
+
           .stat-value
             display: inline-block
             width: 280px
             color: rgb(244,189,68)
+
+            &[dir="rtl"]
+              float: right
 
           .stat-progress
             background: rgb(32,27,22)
@@ -244,7 +288,7 @@ $heroCanvasHeight: 275px
     a.left, a.right
       color: rgb(74,61,51)
       position: absolute
-      top: 195px
+      top: 245px
       width: 40px
       height: 84px
       font-size: 24px
@@ -270,19 +314,30 @@ $heroCanvasHeight: 275px
   #hero-footer
     @include user-select(text)
 
-  #purchasable-hero-explanation, #loading-hero-explanation
+  #hero-footer-text-background
+    position: absolute
+    left: 25px
+    top: 522px
+
+  #purchasable-hero-explanation, #loading-hero-explanation, #locked-hero-explanation
     position: absolute
     left: 32px
     top: 532px
     width: 541px
     height: 97px
-    padding: 10px 40px
+    padding: 20px 40px  
 
     h2
       color: #333
       text-align: center
+      margin: 0 auto
 
-  #locked-hero-explanation, #restricted-hero-explanation
+    span.subscribers
+      text-align: center
+      display: table
+      margin: 0 auto
+
+  #restricted-hero-explanation
     position: absolute
     left: 32px
     top: 527px
@@ -308,6 +363,36 @@ $heroCanvasHeight: 275px
     font-size: 24.5px
     font-family: $headings-font-family
     color: white
+
+  #subscribe-hero-button
+    width: 209px
+    height: 110px
+    position: absolute
+    left: 588px
+    top: 522px
+    flex-grow: 1
+    font-size: 24px
+    line-height: 30px
+    text-align: center
+    text-transform: uppercase    
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    font-family: $headings-font-family
+    color: darken(white, 5%)
+    background-color: black
+
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
 
   #purchase-hero-button
     border: 3px solid rgb(7,65,83)
@@ -344,6 +429,18 @@ $heroCanvasHeight: 275px
 
     select
       font-size: 18px
+
+    &[dir="rtl"] .fancy-select
+      .trigger
+        padding-right: 30px
+
+      .options
+        padding-right: 0
+
+        li
+          background-position-x: right
+          padding-left: 0
+          padding-right: 40px
 
     .fancy-select
       display: inline-block
@@ -396,6 +493,8 @@ $heroCanvasHeight: 275px
             background-image: url(/images/common/code_languages/clojure_small.png)
           &[data-value="lua"]
             background-image: url(/images/common/code_languages/lua_small.png)
+          &[data-value="java"]
+            background-image: url(/images/common/code_languages/java_small.png)
           &[data-value="io"]
             background-image: url(/images/common/code_languages/io_small.png)
 
@@ -413,6 +512,10 @@ $heroCanvasHeight: 275px
     font-family: $headings-font-family
     color: white
 
+  #codeplay-choose-hero-ad
+    width: 100%
+    position: absolute
+    top: 670px
 
 body.ipad #play-heroes-modal
   // iPad is Python-only for now, and has its own reset button.

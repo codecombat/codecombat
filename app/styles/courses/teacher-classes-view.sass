@@ -1,0 +1,197 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#teacher-classes-view
+
+  #site-content-area
+    margin-bottom: 65px
+
+  .access-restricted
+    margin-top: 100px
+
+  .teacher-account-blurb
+    margin-top: 100px
+    margin-bottom: 700px
+
+  h1
+    margin-top: 50px
+
+  #announcement
+    background-color: #cff2fc
+    border-radius: 10px
+    padding: 20px
+    margin: 20px 80px 40px 80px
+    text-align: center
+    p
+      margin-bottom: 7px
+
+  .language
+    display: inline-block
+    margin-right: 10px
+
+  .student-count
+    display: inline-block
+
+  .class-links
+    a
+      font-weight: bold
+      color: black
+      margin-right: 1rem
+      text-decoration: underline
+
+  .classes
+    margin-top: 20px
+
+    .class
+      padding: 20px
+      display: flex
+
+      .flex-right
+        display: flex
+        flex-grow: 1
+        justify-content: flex-end
+
+      .progress-col
+        display: flex
+        align-self: center
+        align-items: center
+        flex-wrap: wrap
+        justify-content: flex-end
+
+  .class:nth-child(2n+1)
+    background-color: #ebebeb
+
+  .class:nth-child(2n)
+    background-color: $gray-lighter
+
+  .view-class-arrow
+    color: $gray-darker
+    font-size: 35px
+    line-height: 35px
+    margin-left: 15px
+    align-self: center
+    .view-class-arrow-inner
+      color: $gray-light
+      &:hover
+        text-decoration: none
+
+  [dir="rtl"] .view-class-arrow .view-class-arrow-inner
+    transform: rotate(180deg)
+
+  .progress-dot
+    display: inline-block
+    margin: 10px
+    width: 62px
+    height: 62px
+    border-radius: 50%
+    background: $gray-light
+    display: flex
+    justify-content: center
+    align-items: center
+    .dot-label
+      color: white
+
+  .progress-dot.forest
+    background: $forest
+    .tooltip-inner
+      color: $forest
+      border: 1px solid $forest
+    .tooltip-arrow
+      border-top-color: $forest
+
+  .progress-dot.gold
+    background: $gold
+    .tooltip-inner
+      color: $navy
+      border: 1px solid $navy
+    .tooltip-arrow
+      border-top-color: $navy
+
+  .add-students
+    margin-left: auto
+    margin-right: auto
+
+  .create-class
+    margin-top: 65px
+    margin-bottom: 65px
+
+  .center
+    text-align: center
+
+  .teacher-quests
+    border: 1px solid gray
+    margin: 20px 80px 40px 80px
+    padding: 10px
+    border-radius: 15px
+    .refresh-help
+      color: grey
+      font-size: 12px
+    .completion-label
+      font-size: 14px
+      font-weight: bold
+    .glyphicon
+      margin-right: 7px
+    .quest-progress
+      font-weight: 600
+      font-size: 50px
+      margin: 20px 0px
+    .quests-summary-col
+    .quests-list-col
+      ul
+        list-style: none
+      > ul
+        padding-left: 0
+        margin-left: 0
+      li.quest-complete
+        padding-left: 20px
+        font-size: 12px
+        opacity: 0.5
+        line-height: 14px
+        > div > p
+          margin-bottom: 7px
+      li.quest-incomplete
+        li
+          font-size: 15px
+
+
+    .el
+      svg
+        transform: rotate(-90deg)
+        circle.top
+          fill: rgb(242, 190, 24)
+          stroke-width: 50
+          stroke: rgb(14,75,96)
+        circle.bottom
+          fill: rgb(242, 190, 24)
+
+  .school-admin-notification
+    margin-top: 20px
+
+    text-align: center
+    color: #BBB
+    font-size: 14px
+
+    ul
+      margin: 0
+      padding: 0
+
+      display: inline-block
+      list-style: none
+
+      li
+        display: inline-block
+        padding-right: 5px
+        border-right: 1px solid black
+
+      li:last-of-type
+        border-right: 0
+
+  .try-ozaria
+    text-align: right
+
+    margin-top: -40px
+    margin-bottom: 10px
+
+    a
+      font-size: 14px

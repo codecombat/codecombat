@@ -1,8 +1,8 @@
 I18NEditModelView = require './I18NEditModelView'
 ThangType = require 'models/ThangType'
 
-module.exports = class ThangTypeI18NView extends I18NEditModelView
-  id: 'thang-type-i18n-view'
+module.exports = class I18NEditThangTypeView extends I18NEditModelView
+  id: 'i18n-thang-type-view'
   modelClass: ThangType
 
   buildTranslationList: ->
@@ -15,5 +15,7 @@ module.exports = class ThangTypeI18NView extends I18NEditModelView
       @wrapRow('Description', ['description'], @model.get('description'), i18n[lang]?.description, [], 'markdown')
       if extendedName = @model.get('extendedName')
         @wrapRow('Extended Hero Name', ['extendedName'], extendedName, i18n[lang]?.extendedName, [])
+      if shortName = @model.get('shortName')
+        @wrapRow('Short Hero Name', ['shortName'], shortName, i18n[lang]?.shortName, [])
       if unlockLevelName = @model.get('unlockLevelName')
         @wrapRow('Unlock Level Name', ['unlockLevelName'], unlockLevelName, i18n[lang]?.unlockLevelName, [])

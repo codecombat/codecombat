@@ -4,7 +4,7 @@ template = require 'templates/editor/component/thang-component-config-view'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 nodes = require '../level/treema_nodes'
-require 'vendor/treema'
+require 'lib/setupTreema'
 
 module.exports = class ThangComponentConfigView extends CocoView
   className: 'thang-component-config-view'
@@ -20,13 +20,6 @@ module.exports = class ThangComponentConfigView extends CocoView
     @world = options.world
     @level = options.level
     @callback = options.callback
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.component = @component.attributes
-    context.configProperties = []
-    context.isDefaultComponent = @isDefaultComponent
-    context
 
   afterRender: ->
     super()
@@ -53,7 +46,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     schema.default ?= {}
     _.merge schema.default, @additionalDefaults if @additionalDefaults
 
-    if @level?.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if @level?.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
       schema.required = []
     treemaOptions =
       supermodel: @supermodel
@@ -80,6 +73,7 @@ module.exports = class ThangComponentConfigView extends CocoView
         'acceleration': nodes.AccelerationNode
         'thang-type': nodes.ThangTypeNode
         'item-thang-type': nodes.ItemThangTypeNode
+        'solutions': SolutionsNode
 
     @editThangTreema = @$el.find('.treema').treema treemaOptions
     @editThangTreema.build()
@@ -101,3 +95,28 @@ module.exports = class ThangComponentConfigView extends CocoView
 
 class ComponentConfigNode extends TreemaObjectNode
   nodeDescription: 'Component Property'
+
+class SolutionsNode extends TreemaArrayNode
+  buildValueForDisplay: (valEl, data) ->
+    btn = $('<button class="btn btn-default btn-xs">Fill defaults</button>')
+    btn.on('click', @onClickFillDefaults)
+    valEl.append(btn)
+
+  onClickFillDefaults: (e) =>
+    e.preventDefault()
+
+    sources = { javascript: @parent.data.source }
+    _.extend sources, @parent.data.languages or {}
+    solutions = _.clone(@data)
+    solutions = _.filter(solutions, (solution) -> not _.isEmpty(solution) )
+    for language in _.keys(sources)
+      source = sources[language]
+      solution = _.findWhere(solutions, {language: language})
+      continue if solution
+      solutions.push({
+        source: source
+        language: language
+        succeeds: true
+      })
+
+    @set('/', solutions)

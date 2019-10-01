@@ -1,0 +1,224 @@
+#admin-outcomes-report-result-view
+  .style-flat
+    padding-top: 0
+
+  font-family: 'Open Sans', sans-serif
+  margin-left: auto
+  margin-right: auto
+  width: 8.5in
+  background-color: white
+  .clear-both
+    clear: both
+    
+  .menu
+    position: fixed
+    left: 5px
+    top: 5px
+
+    @media print
+      display: none
+
+  .header-art
+    float: right
+    width: 2in
+    margin-top: 0.35in
+    margin-right: 0.4in
+    transform: scaleX(-1)
+
+  .header
+    height: 2.15in
+    padding-top: 0.1in
+    padding-left: 0.25in
+    padding-right: 0.25in
+    background-color: rgb(14, 76, 96)
+    -webkit-print-color-adjust: exact !important
+    background: linear-gradient(rgb(14, 76, 96), rgb(14, 76, 96)) !important
+
+    h4,h5
+      padding-left: 0.25in
+      bottom: 0px
+      color: white !important
+
+    h4
+      font-size: 24pt
+      font-family: 'Arvo', serif
+      
+    h5
+      font-family: 'Open Sans', sans-serif
+      font-size: 15pt
+      font-weight: 600
+      
+
+    .print-logo
+      margin: 0 0 0 0
+      width: 3.75in
+
+  .address
+    margin-top: 0.25in
+    padding-left: 0.5in
+    padding-right: 0.5in
+    text-align: left
+    p
+      line-height: 18pt
+      font-size: 15pt
+      margin-bottom: 0.1in
+
+
+  .course
+    margin-bottom: 0.25in
+    .bar
+      margin-bottom: 0.0in
+      page-break-inside: avoid
+      //border: 1px solid orange
+      .concepts-list
+        max-width: 30%
+      .el
+        margin-right: 0.25in
+        svg
+          transform: rotate(-90deg)
+          circle.top
+            fill: rgb(242, 190, 24)
+            stroke-width: 50
+            stroke: rgb(14,75,96)
+          circle.bottom
+            fill: rgb(242, 190, 24)
+
+        
+        .big
+          display: block
+          font-size: 41pt
+          line-height: 41pt
+          font-family: 'Open Sans', sans-serif
+          font-weight: 600
+          text-align: center
+          width: 1.5in
+        .under
+          display: block
+          text-align: center
+          width: 1.5in
+        li
+          line-height: 14pt
+          font-size: 12pt
+
+        height: 1in
+        float: left
+    .bar::after
+       clear: both
+       display: table
+       content: " "
+    h3
+      font-family: 'Open Sans', sans-serif
+      font-weight: 600
+      font-size: 18pt
+
+  .block
+    margin-top: 0
+    margin-left: 0.5in
+    margin-right: 0.5in
+
+    h1, h2
+      font-family: 'Open Sans', sans-serif
+      font-size: 22pt
+      font-weight: 100
+      margin-top: 0.5in
+      border-bottom: 1px solid #ccc
+      border-radius: 0px
+      margin-bottom: 0.1in
+
+    h3, h4
+      font-family: 'Open Sans', sans-serif
+      font-weight: 600
+
+    h1
+      font-size: 18pt
+      line-height: 18pt
+
+    h2
+      font-size: 14pt
+      line-height: 15pt
+
+    h4
+      font-size: 18pt
+      line-height: 18pt
+      font-weight: 600
+
+    div.fakebar
+
+      margin-top: 0.1in
+      margin-bottom: 0.25in
+
+      background-color: rgb(31, 87, 43)
+      -webkit-print-color-adjust: exact !important
+      background: linear-gradient(rgb(31, 87, 43), rgb(31, 87, 43)) !important
+
+      height: 0.4in
+      line-height: 0.4in
+      >div
+        background-color: white
+        -webkit-print-color-adjust: exact !important
+        background: linear-gradient(white, white) !important
+        height: 100%
+        padding-left: 0.1in
+        float: right
+        font-size: 32pt
+        font-weight: 600
+        small
+          font-size: 18pt
+          font-weight: 600
+      >div::after
+        clear: both
+        content: ' '
+        display: table
+
+    p
+      font-size: 14pt
+      line-height: 18pt
+
+
+    .left-col
+      page-break-inside: avoid
+      float: left
+      width: 4in
+      margin-right: 1in
+
+    .right-col
+      page-break-inside: avoid
+      float: left
+      width: 2.5in
+      font-size: 14pt
+      line-height: 18pt
+      ul
+        padding-left: 2ex
+
+    .row-row
+      page-break-inside: avoid
+
+    .rob-row::after
+      page-break-inside: avoid
+      content: " "
+      display: table
+      clear: both
+
+  div.dont-break
+    page-break-inside: avoid
+
+  img.anya
+    margin-left: 0.5in
+    margin-top: 0.5in
+    float: left
+    width: 1.75in
+  
+  .room-for-anya
+    margin-left: 2.5in
+
+  .bottom
+    border-top: 2px solid black
+    padding-top: 0.1in
+    margin-top: 0.25in
+    padding-bottom: 0.25in
+    margin-left: 0.25in
+    margin-right: 0.25in
+    p
+      text-align: center
+      line-height: 15pt
+      font-weight: 600

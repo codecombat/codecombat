@@ -3,6 +3,12 @@ c = require 'schemas/schemas'
 module.exports =
   'application:idle-changed': c.object {},
     idle: {type: 'boolean'}
+    type: {enum: ['activity', 'visibility']}
+
+  'view-visibility:away': c.object {}
+  'view-visibility:away-back': c.object {}
+  'view-visibility:hidden': c.object {}
+  'view-visibility:visible': c.object {}
 
   'application:error': c.object {},
     message: {type: 'string'}
@@ -29,9 +35,6 @@ module.exports =
 
   'modal:closed': c.object {}
 
-  'modal:open-modal-view': c.object {required: ['modalPath']},
-    modalPath: {type: 'string'}
-
   'router:navigate': c.object {required: ['route']},
     route: {type: 'string'}
     view: {type: 'object'}
@@ -47,9 +50,6 @@ module.exports =
   'ladder:game-submitted': c.object {required: ['session', 'level']},
     session: {type: 'object'}
     level: {type: 'object'}
-
-  'supermodel:load-progress-changed': c.object {required: ['progress']},
-    progress: {type: 'number', minimum: 0, maximum: 1}
 
   'buy-gems-modal:update-products': { }
 
@@ -70,3 +70,9 @@ module.exports =
   'store:hero-purchased': c.object {required: ['hero', 'heroSlug']},
     hero: {type: 'object'}
     heroSlug: {type: 'string'}
+
+  'application:service-loaded': c.object {required: ['service']},
+    service: {type: 'string'}  # 'segment'
+
+  'test:update': c.object {},
+     state: {type: 'string'}

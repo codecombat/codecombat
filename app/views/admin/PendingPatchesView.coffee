@@ -7,7 +7,7 @@ class PendingPatchesCollection extends CocoCollection
   url: '/db/patch?view=pending'
   model: Patch
 
-module.exports = class PatchesView extends RootView
+module.exports = class PendingPatchesView extends RootView
   id: 'pending-patches-view'
   template: template
 
@@ -40,6 +40,8 @@ module.exports = class PatchesView extends RootView
               "thang/#{patch.slug}"
             when 'level_system', 'level_component'
               "level/items?#{patch.target.collection}=#{patch.slug}"
+            when 'course'
+              "course/#{patch.slug}"
             else
               console.log "Where do we review a #{patch.target.collection} patch?"
               ''
@@ -91,7 +93,10 @@ module.exports = class PatchesView extends RootView
     success = (nameMapArray) =>
       return if @destroyed
       nameMap = {}
-      for model in nameMapArray
+      for model, modelIndex in nameMapArray
+        unless model
+          console.warn "No model found for id #{ids[modelIndex]}"
+          continue
         nameMap[model.original or model._id] = model.name
       for patch in patches
         original = patch.target.original
@@ -102,7 +107,7 @@ module.exports = class PatchesView extends RootView
       @render()
 
     modelNamesRequest = @supermodel.addRequestResource 'patches', {
-      url: "/db/#{collection}/names"
+      url: "/db/#{collection.replace('_', '.')}/names"
       data: {ids: ids}
       method: 'POST'
       success: success

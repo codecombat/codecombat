@@ -1,3 +1,4 @@
+require('app/styles/play/menu/save-load-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/save-load-view'
 {me} = require 'core/auth'
@@ -10,10 +11,6 @@ module.exports = class SaveLoadView extends CocoView
 
   events:
     'change #save-granularity-toggle input': 'onSaveGranularityChanged'
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context
 
   afterRender: ->
     super()

@@ -1,8 +1,8 @@
-# Box2D is defined in global namespace
+# Box2D is defined in global namespace by box2d_content
 
 # Used to have Box2DJS, but got rid of it.
 if Box2D?  # box2dweb, compiled from Flash port: https://code.google.com/p/box2dweb/
-  module.exports = box2d =
+  module.exports = window.box2d =
     b2Vec2: Box2D.Common.Math.b2Vec2
     b2BodyDef: Box2D.Dynamics.b2BodyDef
     b2Body: Box2D.Dynamics.b2Body

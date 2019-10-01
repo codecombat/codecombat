@@ -1,6 +1,17 @@
 c = require './../schemas'
 
-patchables = ['level', 'thang_type', 'level_system', 'level_component', 'article', 'achievement', 'campaign', 'poll']
+patchables = [
+  'achievement'
+  'article'
+  'campaign'
+  'course'
+  'level'
+  'level_component'
+  'level_system' 
+  'poll'
+  'product'
+  'thang_type'
+]
 
 PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMessage']}, {
   delta: {title: 'Delta', type: ['array', 'object']}
@@ -24,6 +35,7 @@ PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMes
 
   wasPending: type: 'boolean'
   newlyAccepted: type: 'boolean'
+  reasonNotAutoAccepted: { type: 'string' }
 })
 
 c.extendBasicProperties(PatchSchema, 'patch')

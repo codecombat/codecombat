@@ -1,6 +1,10 @@
 CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 LevelComponent = require './LevelComponent'
+CocoCollection = require 'collections/CocoCollection'
+createjs = require 'lib/createjs-parts'
+ThangTypeConstants = require 'lib/ThangTypeConstants'
+ThangTypeLib = require 'lib/ThangTypeLib'
 
 utils = require 'core/utils'
 
@@ -9,32 +13,14 @@ buildQueue = []
 module.exports = class ThangType extends CocoModel
   @className: 'ThangType'
   @schema: require 'schemas/models/thang_type'
-  @heroes:
-    captain: '529ec584c423d4e83b000014'
-    knight: '529ffbf1cf1818f2be000001'
-    samurai: '53e12be0d042f23505c3023b'
-    raider: '55527eb0b8abf4ba1fe9a107'
-    goliath: '55e1a6e876cb0948c96af9f8'
-    guardian: ''
-    ninja: '52fc0ed77e01835453bd8f6c'
-    'forest-archer': '5466d4f2417c8b48a9811e87'
-    trapper: '5466d449417c8b48a9811e83'
-    pixie: ''
-    assassin: ''
-    librarian: '52fbf74b7e01835453bd8d8e'
-    'potion-master': '52e9adf7427172ae56002172'
-    sorcerer: '52fd1524c7e6cf99160e7bc9'
-    necromancer: '55652fb3b9effa46a1f775fd'
-    'dark-wizard': ''
-  @heroClasses:
-    Warrior: ['captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
-    Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
-    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'dark-wizard']
-  @items:
-    'simple-boots': '53e237bf53457600003e3f05'
+  @heroes: ThangTypeConstants.heroes
+  @heroClasses: ThangTypeConstants.heroClasses
+  @items: ThangTypeConstants.items
   urlRoot: '/db/thang.type'
   building: {}
   editableByArtisans: true
+  @defaultActions: ['idle', 'die', 'move', 'attack', 'trick', 'cast']
+  @heroConfigStats: {}  # Build a cache of these for quickly determining hero/item loadout aggregate stats
 
   initialize: ->
     super()
@@ -63,7 +49,10 @@ module.exports = class ThangType extends CocoModel
   loadRasterImage: ->
     return if @loadingRaster or @loadedRaster
     return unless raster = @get('raster')
-    @rasterImage = $("<img src='/file/#{raster}' />")
+    # IE11 does not support CORS for images in the canvas element
+    # https://caniuse.com/#feat=cors
+    @rasterImage = if utils.isIE() then $("<img src='/file/#{raster}' />")
+    else $("<img crossOrigin='Anonymous', src='/file/#{raster}' />")
     @loadingRaster = true
     @rasterImage.one('load', =>
       @loadingRaster = false
@@ -77,6 +66,14 @@ module.exports = class ThangType extends CocoModel
   getActions: ->
     return {} unless @isFullyLoaded()
     return @actions or @buildActions()
+
+  getDefaultActions: ->
+    actions = []
+    for action in _.values(@getActions())
+      continue unless _.any ThangType.defaultActions, (prefix) ->
+        _.string.startsWith(action.name, prefix)
+      actions.push(action)
+    return actions
 
   buildActions: ->
     return null unless @isFullyLoaded()
@@ -229,6 +226,10 @@ module.exports = class ThangType extends CocoModel
     portraitOnly = !!options.portraitOnly
     "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
+  getHeroShortName: -> ThangTypeLib.getHeroShortName(@attributes)
+
+  getGender: -> ThangTypeLib.getGender(@attributes)
+
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
     return null unless src
@@ -325,12 +326,7 @@ module.exports = class ThangType extends CocoModel
     @wizardType.fetch()
     @wizardType
 
-  getPortraitURL: ->
-    if iconURL = @get('rasterIcon')
-      return "/file/#{iconURL}"
-    if rasterURL = @get('raster')
-      return "/file/#{rasterURL}"
-    "/file/db/thang.type/#{@get('original')}/portrait.png"
+  getPortraitURL: -> ThangTypeLib.getPortraitURL(@attributes)
 
   # Item functions
 
@@ -463,7 +459,7 @@ module.exports = class ThangType extends CocoModel
     name: name, display: display, matchedShortName: matchedShortName
 
   isSilhouettedItem: ->
-    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems') or @get('tier')
+    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems')? or @get('tier')?
     console.info "Add (or make sure you have fetched) a tier for #{@get('name')} to more accurately determine whether it is silhouetted." unless @get('tier')?
     tier = @get 'tier'
     if tier?
@@ -479,3 +475,156 @@ module.exports = class ThangType extends CocoModel
     playerLevel = me.constructor.levelForTier playerTier
     #console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
     playerLevel
+
+  getContainersForAnimation: (animation, action) ->
+    rawAnimation = @get('raw').animations[animation]
+    if not rawAnimation
+      console.error 'thang type', @get('name'), 'is missing animation', animation, 'from action', action
+    containers = rawAnimation.containers
+    for animation in @get('raw').animations[animation].animations
+      containers = containers.concat(@getContainersForAnimation(animation.gn, action))
+    return containers
+
+  getContainersForActions: (actionNames) ->
+    containersToRender = {}
+    actions = @getActions()
+    for actionName in actionNames
+      action = _.find(actions, {name: actionName})
+      if action.container
+        containersToRender[action.container] = true
+      else if action.animation
+        animationContainers = @getContainersForAnimation(action.animation, action)
+        containersToRender[container.gn] = true for container in animationContainers
+    return _.keys(containersToRender)
+
+  nextForAction: (action) ->
+    next = true
+    next = action.goesTo if action.goesTo
+    next = false if action.loops is false
+    return next
+
+  noRawData: -> not @get('raw')
+
+  initPrerenderedSpriteSheets: ->
+    return if @prerenderedSpriteSheets or not data = @get('prerenderedSpriteSheetData')
+    # creates a collection of prerendered sprite sheets
+    @prerenderedSpriteSheets = new PrerenderedSpriteSheets(data)
+
+  getPrerenderedSpriteSheet: (colorConfig, defaultSpriteType) ->
+    return unless @prerenderedSpriteSheets
+    spriteType = @get('spriteType') or defaultSpriteType
+    result = @prerenderedSpriteSheets.find (pss) ->
+      return false if pss.get('spriteType') isnt spriteType
+      otherColorConfig = pss.get('colorConfig')
+      return true if _.isEmpty(colorConfig) and _.isEmpty(otherColorConfig)
+      getHue = (config) -> _.result(_.result(config, 'team'), 'hue')
+      return getHue(colorConfig) is getHue(otherColorConfig)
+    if (not result) and @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
+    return result
+
+  getPrerenderedSpriteSheetToLoad: ->
+    return unless @prerenderedSpriteSheets
+    if @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
+    @prerenderedSpriteSheets.find (pss) -> pss.needToLoad and not pss.loadedImage
+
+  onLoaded: ->
+    super()
+    return if ThangType.heroConfigStats[@get('original')]
+    # Cache certain component properties for quickly determining hero/item loadout aggregate stats
+    components = @get('components') or []
+    return unless components.length
+    return if not @get('gems')? and (
+      (@project and not /gems/.test(@project)) or
+      (/project/.test(@getURL()) and not /gems/.test(@getURL())) or
+      (@collection?.project and not /gems/.test(@collection?.project)) or
+      (/project/.test(@collection?.getURL()) and not /gems/.test(@collection?.getURL()))
+    )
+    stats = gems: @get('gems') or 0
+    if itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
+      stats.kind = 'item'
+      stats.speed = speed if speed = itemConfig.stats?.maxSpeed?.addend
+      stats.health = health if health = itemConfig.stats?.maxHealth?.addend
+      if attacksConfig = _.find(components, original: LevelComponent.AttacksID)?.config
+        stats.attack = (attacksConfig.attackDamage ? 3) / (attacksConfig.cooldown ? 1)
+      ThangType.heroConfigStats[@get('original')] = stats
+    else if equipsConfig = _.find(components, original: LevelComponent.EquipsID)?.config
+      stats.kind = 'hero'
+      stats.attackMultiplier = equipsConfig.attackDamageFactor ? 1
+      stats.healthMultiplier = equipsConfig.maxHealthFactor ? 1
+      if movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
+        stats.speed = movesConfig.maxSpeed ? 3.6
+      if attackableConfig = _.find(components, original: LevelComponent.AttackableID)?.config
+        stats.baseHealth = attackableConfig.maxHealth ? 11
+      ThangType.heroConfigStats[@get('original')] = stats
+    null
+
+  @calculateStatsForHeroConfig: (heroConfig, callback) ->
+    # Load enough information from the ThangTypes involved in a hero configuration to show various stats the hero will have.
+    # We don't rely on any supermodel caches, because this ThangType projection is useless anywhere else.
+    thisHeroConfigStats = {}
+    heroOriginal = heroConfig.thangType ? ThangType.heroes.captain
+    for original in _.values(heroConfig.inventory).concat [heroOriginal]
+      thisHeroConfigStats[original] = ThangType.heroConfigStats[original] or 'loading'
+    for original, stats of thisHeroConfigStats when stats is 'loading'
+      url = "/db/thang.type/#{original}/version?project=original,components,gems"
+      tt = new ThangType().setURL url
+      do (tt) =>
+        tt.on 'sync', =>
+          thisHeroConfigStats[tt.get('original')] = ThangType.heroConfigStats[tt.get('original')]
+          tt.off 'sync'
+          tt.destroy()
+          @formatStatsForHeroConfig thisHeroConfigStats, callback
+      tt.fetch()
+    @formatStatsForHeroConfig thisHeroConfigStats, callback
+
+  @formatStatsForHeroConfig: (heroConfigStats, callback) ->
+    heroConfigStatValues = _.values heroConfigStats
+    return if 'loading' in heroConfigStatValues
+    heroStats = _.find heroConfigStatValues, kind: 'hero'
+    totals = {health: heroStats.baseHealth ? 11, speed: 0, gems: 0}
+    for stats in heroConfigStatValues
+      totals.gems += stats.gems if stats.gems
+      totals.health += stats.health * (heroStats.healthMultiplier or 1) if stats.health
+      totals.attack = stats.attack * (heroStats.attackMultiplier or 1) if stats.attack
+      totals.speed += stats.speed if stats.speed
+    callback totals
+
+
+class PrerenderedSpriteSheet extends CocoModel
+  @className: 'PrerenderedSpriteSheet'
+
+  loadImage: ->
+    return true if @loadingImage
+    return false if @loadedImage
+    return false unless imageURL = @get('image')
+    @image = $("<img crossOrigin='Anonymous', src='/file/#{imageURL}' />")
+    @loadingImage = true
+    @image.one('load', =>
+      @loadingImage = false
+      @loadedImage = true
+      @buildSpriteSheet()
+      @trigger('image-loaded', @))
+    @image.one('error', =>
+      @loadingImage = false
+      @trigger('image-load-error', @)
+    )
+    return true
+
+  buildSpriteSheet: ->
+    @spriteSheet = new createjs.SpriteSheet({
+      images: [@image[0]],
+      frames: @get('frames')
+      animations: @get('animations')
+    })
+
+  markToLoad: -> @needToLoad = true
+
+  needToLoad: false
+  loadedImage: false
+  loadingImage: false
+
+
+class PrerenderedSpriteSheets extends CocoCollection
+  model: PrerenderedSpriteSheet

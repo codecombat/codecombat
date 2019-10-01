@@ -1,10 +1,12 @@
 CocoClass = require 'core/CocoClass'
 utils = require 'core/utils'
+THREE = require('three')
+window.SPE = require('exports-loader?SPE!imports-loader?THREE=three!vendor/scripts/ShaderParticles')
 
 module.exports = ParticleMan = class ParticleMan extends CocoClass
 
   constructor: ->
-    return @unsupported = true unless Modernizr.webgl
+    return @unsupported = true unless Modernizr?.webgl # TODO: Fix with Webpack
     try
       @renderer = new THREE.WebGLRenderer alpha: true
     catch err
@@ -84,7 +86,6 @@ module.exports = ParticleMan = class ParticleMan extends CocoClass
 
   addEmitter: (x, y, kind="level-dungeon-premium") ->
     return if @unsupported
-    kind = kind.replace 'intro', 'dungeon'
     options = $.extend true, {}, particleKinds[kind]
     return console.error "Couldn't find particle configuration for", kind unless options.group
     options.group.texture = THREE.ImageUtils.loadTexture "/images/common/particles/#{options.group.texture}.png"
@@ -239,6 +240,18 @@ particleKinds['level-dungeon-replayable'] = particleKinds['level-dungeon-replaya
     colorMiddle: hsl 0.17, 0.75, 0.5
     colorEnd: hsl 0.17, 0.75, 0.3
 
+particleKinds['level-dungeon-game-dev'] = particleKinds['level-dungeon-game-dev-premium'] = ext particleKinds['level-dungeon-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.75, 0.7
+    colorMiddle: hsl 0.7, 0.75, 0.5
+    colorEnd: hsl 0.7, 0.75, 0.3
+
+particleKinds['level-dungeon-web-dev'] = particleKinds['level-dungeon-web-dev-premium'] = ext particleKinds['level-dungeon-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.25, 0.7
+    colorMiddle: hsl 0.7, 0.25, 0.5
+    colorEnd: hsl 0.7, 0.25, 0.3
+
 particleKinds['level-dungeon-premium-item'] = ext particleKinds['level-dungeon-gate'],
   emitter:
     particleCount: 2000
@@ -287,6 +300,18 @@ particleKinds['level-forest-replayable'] = particleKinds['level-forest-replayabl
     colorStart: hsl 0.17, 0.75, 0.7
     colorMiddle: hsl 0.17, 0.75, 0.5
     colorEnd: hsl 0.17, 0.75, 0.3
+
+particleKinds['level-forest-game-dev'] = particleKinds['level-forest-game-dev-premium'] = ext particleKinds['level-forest-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.75, 0.7
+    colorMiddle: hsl 0.7, 0.75, 0.5
+    colorEnd: hsl 0.7, 0.75, 0.3
+
+particleKinds['level-forest-web-dev'] = particleKinds['level-forest-web-dev-premium'] = ext particleKinds['level-forest-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.25, 0.7
+    colorMiddle: hsl 0.7, 0.25, 0.5
+    colorEnd: hsl 0.7, 0.25, 0.3
 
 particleKinds['level-forest-premium-item'] = ext particleKinds['level-forest-gate'],
   emitter:
@@ -337,6 +362,18 @@ particleKinds['level-desert-replayable'] = particleKinds['level-desert-replayabl
     colorMiddle: hsl 0.17, 0.75, 0.5
     colorEnd: hsl 0.17, 0.75, 0.3
 
+particleKinds['level-desert-game-dev'] = particleKinds['level-desert-game-dev-premium'] = ext particleKinds['level-desert-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.75, 0.7
+    colorMiddle: hsl 0.7, 0.75, 0.5
+    colorEnd: hsl 0.7, 0.75, 0.3
+
+particleKinds['level-desert-web-dev'] = particleKinds['level-desert-web-dev-premium'] = ext particleKinds['level-desert-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.25, 0.7
+    colorMiddle: hsl 0.7, 0.25, 0.5
+    colorEnd: hsl 0.7, 0.25, 0.3
+
 particleKinds['level-mountain-premium-hero'] = ext particleKinds['level-mountain-premium'],
   emitter:
     particleCount: 200
@@ -370,6 +407,18 @@ particleKinds['level-mountain-replayable'] = particleKinds['level-mountain-repla
     colorStart: hsl 0.17, 0.75, 0.7
     colorMiddle: hsl 0.17, 0.75, 0.5
     colorEnd: hsl 0.17, 0.75, 0.3
+
+particleKinds['level-mountain-game-dev'] = particleKinds['level-mountain-game-dev-premium'] = ext particleKinds['level-mountain-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.75, 0.7
+    colorMiddle: hsl 0.7, 0.75, 0.5
+    colorEnd: hsl 0.7, 0.75, 0.3
+
+particleKinds['level-mountain-web-dev'] = particleKinds['level-mountain-web-dev-premium'] = ext particleKinds['level-mountain-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.25, 0.7
+    colorMiddle: hsl 0.7, 0.25, 0.5
+    colorEnd: hsl 0.7, 0.25, 0.3
 
 particleKinds['level-glacier-premium-hero'] = ext particleKinds['level-glacier-premium'],
   emitter:
@@ -405,6 +454,18 @@ particleKinds['level-glacier-replayable'] = particleKinds['level-glacier-replaya
     colorMiddle: hsl 0.17, 0.75, 0.5
     colorEnd: hsl 0.17, 0.75, 0.3
 
+particleKinds['level-glacier-game-dev'] = particleKinds['level-glacier-game-dev-premium'] = ext particleKinds['level-glacier-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.75, 0.7
+    colorMiddle: hsl 0.7, 0.75, 0.5
+    colorEnd: hsl 0.7, 0.75, 0.3
+
+particleKinds['level-glacier-web-dev'] = particleKinds['level-glacier-web-dev-premium'] = ext particleKinds['level-glacier-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.25, 0.7
+    colorMiddle: hsl 0.7, 0.25, 0.5
+    colorEnd: hsl 0.7, 0.25, 0.3
+
 particleKinds['level-volcano-premium-hero'] = ext particleKinds['level-volcano-premium'],
   emitter:
     particleCount: 200
@@ -438,3 +499,15 @@ particleKinds['level-volcano-replayable'] = particleKinds['level-volcano-replaya
     colorStart: hsl 0.17, 0.75, 0.7
     colorMiddle: hsl 0.17, 0.75, 0.5
     colorEnd: hsl 0.17, 0.75, 0.3
+
+particleKinds['level-volcano-game-dev'] = particleKinds['level-volcano-game-dev-premium'] = ext particleKinds['level-volcano-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.75, 0.7
+    colorMiddle: hsl 0.7, 0.75, 0.5
+    colorEnd: hsl 0.7, 0.75, 0.3
+
+particleKinds['level-volcano-web-dev'] = particleKinds['level-volcano-web-dev-premium'] = ext particleKinds['level-volcano-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.7, 0.25, 0.7
+    colorMiddle: hsl 0.7, 0.25, 0.5
+    colorEnd: hsl 0.7, 0.25, 0.3

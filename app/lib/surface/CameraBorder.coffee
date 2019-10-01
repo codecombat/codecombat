@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 module.exports = class CameraBorder extends createjs.Container
   layerPriority: 100
 

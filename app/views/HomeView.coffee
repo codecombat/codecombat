@@ -1,55 +1,157 @@
+require('app/styles/home-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
+CocoCollection = require 'collections/CocoCollection'
+TrialRequest = require 'models/TrialRequest'
+TrialRequests = require 'collections/TrialRequests'
+Courses = require 'collections/Courses'
+utils = require 'core/utils'
+storage = require 'core/storage'
+{logoutUser, me} = require('core/auth')
+CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
   template: template
 
   events:
-    'click #play-button': 'onClickBeginnerCampaign'
+    'click .continue-playing-btn': 'onClickTrackEvent'
+    'click .example-gd-btn': 'onClickTrackEvent'
+    'click .example-wd-btn': 'onClickTrackEvent'
+    'click .play-btn': 'onClickTrackEvent'
+    'click .signup-home-btn': 'onClickTrackEvent'
+    'click .student-btn': 'onClickStudentButton'
+    'click .teacher-btn': 'onClickTeacherButton'
+    'click .request-quote': 'onClickRequestQuote'
+    'click .logout-btn': 'logoutAccount'
+    'click .profile-btn': 'onClickTrackEvent'
+    'click .setup-class-btn': 'onClickSetupClass'
+    'click .my-classes-btn': 'onClickTrackEvent'
+    'click .my-courses-btn': 'onClickTrackEvent'
+    'click a': 'onClickAnchor'
 
-  constructor: ->
+  initialize: (options) ->
+    super(options)
+
+    @courses = new Courses()
+    @supermodel.trackRequest @courses.fetchReleased()
+
+    if me.isTeacher()
+      @trialRequests = new TrialRequests()
+      @trialRequests.fetchOwn()
+      @supermodel.loadCollection(@trialRequests)
+
+  getMeta: ->
+    title: $.i18n.t 'new_home.title'
+    meta: [
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
+    ],
+    link: [
+      { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
+
+    ]
+
+  onLoaded: ->
+    @trialRequest = @trialRequests.first() if @trialRequests?.size()
+    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
     super()
-    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
-    if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
-      @setUpHourOfCode()
-    elapsed = (new Date() - new Date(me.get('dateCreated')))
-    if me.get('hourOfCode') and elapsed < 86400 * 1000 and me.get('preferredLanguage', true) is 'en-US'
-      # Show the Hour of Code footer explanation in English until it's been more than a day
-      @explainsHourOfCode = true
 
-  getRenderData: ->
-    c = super()
-    if $.browser
-      majorVersion = $.browser.versionNumber
-      c.isOldBrowser = true if $.browser.mozilla && majorVersion < 25
-      c.isOldBrowser = true if $.browser.chrome && majorVersion < 31  # Noticed Gems in the Deep not loading with 30
-      c.isOldBrowser = true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
-    else
-      console.warn 'no more jquery browser version...'
-    c.isEnglish = _.string.startsWith (me.get('preferredLanguage') or 'en'), 'en'
-    c.languageName = me.get('preferredLanguage')
-    c.explainsHourOfCode = @explainsHourOfCode
-    c.isMobile = @isMobile()
-    c.isIPadBrowser = @isIPadBrowser()
-    c
-
-  onClickBeginnerCampaign: (e) ->
+  onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    window.tracker?.trackEvent 'Click Play', category: 'Homepage'
-    window.open '/play', '_blank'
+    @homePageEvent($(e.target).data('event-action'))
+    if me.isTeacher()
+      application.router.navigate '/teachers/update-account', trigger: true
+    else
+      application.router.navigate '/teachers/quote', trigger: true
+
+  onClickSetupClass: (e) ->
+    @homePageEvent($(e.target).data('event-action'))
+    application.router.navigate("/teachers/classes", { trigger: true })
+
+  onClickStudentButton: (e) ->
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
+    @openModalView(new CreateAccountModal({startOnPath: 'student'}))
+
+  onClickTeacherButton: (e) ->
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
+    @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
+  onClickTrackEvent: (e) ->
+    if $(e.target)?.hasClass('track-ab-result')
+      properties = {trackABResult: true}
+    @homePageEvent($(e.target).data('event-action'), properties || {})
+
+  # Provides a uniform interface for collecting information from the homepage.
+  # Always provides the category Homepage and includes the user role.
+  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+    defaults =
+      category: 'Homepage'
+      user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+    properties = _.merge(defaults, extraproperties)
+
+    window.tracker?.trackEvent(
+        action,
+        properties,
+        includeIntegrations )
+
+  onClickAnchor: (e) ->
+    return unless anchor = e?.currentTarget
+    # Track an event with action of the English version of the link text
+    translationKey = $(anchor).attr('data-i18n')
+    translationKey ?= $(anchor).children('[data-i18n]').attr('data-i18n')
+    if translationKey
+      anchorText = $.i18n.t(translationKey, {lng: 'en-US'})
+    else
+      anchorText = anchor.text
+
+    if $(e.target)?.hasClass('track-ab-result')
+      properties = {trackABResult: true}
+
+    if anchorText
+      @homePageEvent("Link: #{anchorText}", properties || {}, ['Google Analytics'])
+    else
+      _.extend(properties || {}, {
+        clicked: e?.currentTarget?.host or "unknown"
+      })
+      @homePageEvent("Link:", properties, ['Google Analytics'])
+
+  afterRender: ->
+    if !me.showChinaVideo()
+      require.ensure(['@vimeo/player'], (require) =>
+        Player = require('@vimeo/player').default
+        @vimeoPlayer = new Player(@$('.vimeo-player')[0])
+      , (e) =>
+        console.error e
+      , 'vimeo')
+
+    if me.isAnonymous()
+      if document.location.hash is '#create-account'
+        @openModalView(new CreateAccountModal())
+      if document.location.hash is '#create-account-individual'
+        @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
+      if document.location.hash is '#create-account-student'
+        @openModalView(new CreateAccountModal({startOnPath: 'student'}))
+      if document.location.hash is '#create-account-teacher'
+        @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+    super()
 
   afterInsert: ->
-    super(arguments...)
-    @$el.addClass 'hour-of-code' if @explainsHourOfCode
+    super()
+    # scroll to the current hash, once everything in the browser is set up
+    f = =>
+      return if @destroyed
+      link = $(document.location.hash)
+      if link.length
+        @scrollToLink(document.location.hash, 0)
+    _.delay(f, 100)
 
-  setUpHourOfCode: ->
-    elapsed = (new Date() - new Date(me.get('dateCreated')))
-    if elapsed < 5 * 60 * 1000
-      me.set 'hourOfCode', true
-      me.patch()
-    # We may also insert the tracking pixel for everyone on the CampaignView so as to count directly-linked visitors.
-    $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
-    application.tracker?.trackEvent 'Hour of Code Begin'
+  logoutAccount: ->
+    Backbone.Mediator.publish("auth:logging-out", {})
+    logoutUser()
+
+  mergeWithPrerendered: (el) ->
+    true

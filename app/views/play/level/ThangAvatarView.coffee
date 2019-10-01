@@ -37,7 +37,7 @@ module.exports = class ThangAvatarView extends CocoView
     context = super context
     context.thang = @thang
     options = @thang?.getLankOptions() or {}
-    options.async = true
+    #options.async = true  # sync builds fail during async builds, and we build HUD version sync
     context.avatarURL = @thangType.getPortraitSource(options) unless @thangType.loading
     context.includeName = @includeName
     context
@@ -57,12 +57,9 @@ module.exports = class ThangAvatarView extends CocoView
     @$el.toggleClass 'selected', Boolean(selected)
 
   onProblemsUpdated: (e) ->
-    return unless @thang?.id of e.spell.thangs
-    myProblems = []
-    for thangID, spellThang of e.spell.thangs when thangID is @thang.id
-      #aether = if e.isCast and spellThang.castAether then spellThang.castAether else spellThang.aether
-      aether = spellThang.castAether  # try only paying attention to the actually cast ones
-      myProblems = myProblems.concat aether.getAllProblems() if aether
+    return unless @thang?.id is e.spell.thang?.thang.id
+    aether = e.spell.thang.castAether
+    myProblems = aether?.getAllProblems() ? []
     worstLevel = null
     for level in ['error', 'warning', 'info'] when _.some myProblems, {level: level}
       worstLevel = level

@@ -1,3 +1,4 @@
+require('app/styles/cla.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/cla'
 {me} = require 'core/auth'
@@ -8,11 +9,6 @@ module.exports = class CLAView extends RootView
 
   events:
     'click #agreement-button': 'onAgree'
-
-  getRenderData: ->
-    c = super()
-    c.signedOn = moment(me.get('signedCLA')).format('LLLL') if me.get('signedCLA')
-    c
 
   onAgree: ->
     @$el.find('#agreement-button').prop('disabled', true).text('Saving')

@@ -1,3 +1,4 @@
+require('app/styles/modal/recover-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/core/recover-modal'
 forms = require 'core/forms'

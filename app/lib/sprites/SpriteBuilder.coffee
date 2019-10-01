@@ -1,9 +1,10 @@
 {hexToHSL, hslToHex} = require 'core/utils'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class SpriteBuilder
   constructor: (@thangType, @options) ->
     @options ?= {}
-    raw = @thangType.get('raw')
+    raw = @thangType.get('raw') or {}
     @shapeStore = raw.shapes
     @containerStore = raw.containers
     @animationStore = raw.animations
@@ -28,11 +29,17 @@ module.exports = class SpriteBuilder
     anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true, labels)
     for tweenData in animData.tweens
       tween = createjs.Tween
+      stopped = false
       for func in tweenData
         args = _.cloneDeep(func.a)
         @dereferenceArgs(args, locals)
-        tween = tween[func.n](args...)
-      anim.timeline.addTween(tween)
+        if tween[func.n]
+          tween = tween[func.n](args...)
+        else
+          # If we, say, skipped a shadow get(), then the wait() may not be present
+          stopped = true
+          break
+      anim.timeline.addTween(tween) unless stopped
 
     anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
     if animData.frameBounds
@@ -79,6 +86,7 @@ module.exports = class SpriteBuilder
     for localAnimation in localAnimations
       animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
       animation.setTransform(localAnimation.t...)
+      animation._off = true if localAnimation.off
       map[localAnimation.bn] = animation
     map
 
@@ -128,13 +136,27 @@ module.exports = class SpriteBuilder
     @colorMap = {}
     colorGroups = @thangType.get('colorGroups')
     return if _.isEmpty colorGroups
+    return unless _.size @shapeStore  # We don't have the shapes loaded because we are doing a prerendered spritesheet approach
     colorConfig = @options.colorConfig
 #    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
     return if not colorConfig
 
     for group, config of colorConfig
       continue unless colorGroups[group] # color group not found...
-      @buildColorMapForGroup(colorGroups[group], config)
+      if @thangType.get('ozaria')
+        @buildOzariaColorMapForGroup(colorGroups[group], config)
+      else
+        @buildColorMapForGroup(colorGroups[group], config)
+
+  # Simpler Ozaria color mapper.
+  # Instead of color shifting we apply the color directly.
+  buildOzariaColorMapForGroup: (shapes, config) ->
+    return unless shapes.length
+    for shapeKey in shapes
+      shape = @shapeStore[shapeKey]
+      continue if not shape.fc?
+      # Store the color we'd like the shape to be rendered with.
+      @colorMap[shapeKey] = hslToHex([config.hue, config.saturation, config.lightness])
 
   buildColorMapForGroup: (shapes, config) ->
     return unless shapes.length

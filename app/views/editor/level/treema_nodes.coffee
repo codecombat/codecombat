@@ -1,8 +1,10 @@
 WorldSelectModal = require './modals/WorldSelectModal'
-ThangType = require '/models/ThangType'
+ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 CocoCollection = require 'collections/CocoCollection'
-require 'vendor/treema'
+require 'lib/setupTreema'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
 makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))
@@ -236,7 +238,10 @@ module.exports.ThangTypeNode = ThangTypeNode = class ThangTypeNode extends Treem
     super(arguments...)
     @getThangTypes()
     unless ThangTypeNode.thangTypesCollection.loaded
-      ThangTypeNode.thangTypesCollection.once('sync', @refreshDisplay, @)
+      f = -> 
+        @refreshDisplay() unless @isEditing()
+        @getThangTypes()
+      ThangTypeNode.thangTypesCollection.once('sync', f, @)
 
   buildValueForDisplay: (valEl, data) ->
     @buildValueForDisplaySimply(valEl, @getCurrentThangType() or '')
@@ -245,9 +250,12 @@ module.exports.ThangTypeNode = ThangTypeNode = class ThangTypeNode extends Treem
   buildValueForEditing: (valEl, data) ->
     super(valEl, data)
     input = valEl.find 'input'
-    if @constructor.thangTypes
-      source = (thangType.name for thangType in @constructor.thangTypes when @filterThangType thangType)
-      input.autocomplete(source: source, minLength: 0, delay: 0, autoFocus: true)
+    source = (req, res) =>
+      { term } = req
+      term = term.toLowerCase()
+      return res([]) unless @constructor.thangTypes
+      return res(thangType.name for thangType in @constructor.thangTypes when _.string.contains(thangType.name.toLowerCase(), term))
+    input.autocomplete(source: source, minLength: 0, delay: 0, autoFocus: true)
     input.val(@getCurrentThangType() or '')
     valEl
 
@@ -260,7 +268,10 @@ module.exports.ThangTypeNode = ThangTypeNode = class ThangTypeNode extends Treem
     thangType?.name or '...'
 
   getThangTypes: ->
-    return if ThangTypeNode.thangTypesCollection
+    if ThangTypeNode.thangTypesCollection
+      if not @constructor.thangTypes
+        @processThangTypes(ThangTypeNode.thangTypesCollection)
+      return
     ThangTypeNode.thangTypesCollection = new CocoCollection([], {
       url: '/db/thang.type'
       project:['name', 'components', 'original']

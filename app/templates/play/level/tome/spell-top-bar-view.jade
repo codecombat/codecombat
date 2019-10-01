@@ -1,0 +1,57 @@
+if features.codePlay
+  img#codeplay-powered-by-banner(src="/images/common/codeplay/CodePlay.png")
+  
+if showAmazonLogo
+  img#amazon-level-logo(src="/images/pages/play/amazon_horz_lockup.png")
+
+.hinge.hinge-0
+.hinge.hinge-1
+.hinge.hinge-2
+.hinge.hinge-3
+
+.spell-tool-buttons
+  .btn.btn-small.btn-illustrated.btn-warning.reload-code(data-i18n="[title]play_level.tome_reload_method")
+    .glyphicon.glyphicon-repeat
+    if !features.codePlay
+      span.spl(data-i18n="play_level.restart")
+
+  if me.level() >= 15
+   .btn.btn-small.btn-illustrated.fullscreen-code(title=maximizeShortcutVerbose)
+     .glyphicon.glyphicon-fullscreen
+     .glyphicon.glyphicon-resize-small
+
+  if codeLanguage === 'javascript' && me.level() >= 15
+    .btn.btn-small.btn-illustrated.beautify-code(title=beautifyShortcutVerbose)
+      .glyphicon.glyphicon-magnet
+
+  if view.hintsState && view.hintsState.get('total') > 0
+    .btn.btn-small.btn-illustrated.hints-button
+      span(data-i18n="play_level.hints")
+
+  if view.showVideosButton()
+    .btn.btn-small.btn-illustrated.btn-success.videos-button
+      span(data-i18n="play_level.videos")
+
+  if view.options.level.isType('web-dev')
+    .btn.btn-small.btn-illustrated.image-gallery-button
+      span(data-i18n='web_dev.image_gallery_title')
+
+  if view.options.level.get('shareable')
+    - i18nName = view.options.level.isType('game-dev') ? 'sharing.game' : 'sharing.webpage'
+    if view.options.session.isFake()
+      button.btn.btn-small.btn-illustrated(
+        data-i18n=i18nName
+        data-toggle="popover"
+        data-placement="bottom"
+        data-content=translate('sharing.your_students_preview')
+        data-trigger="hover"
+      )
+    else
+      - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id;
+      if view.options.courseID
+        - url += '?course=' + view.options.courseID;
+        if view.options.courseInstanceID
+          - url += '&course-instance=' + view.options.courseInstanceID;
+      a.btn.btn-small.btn-illustrated(href=url, data-i18n=i18nName)
+
+  .clearfix

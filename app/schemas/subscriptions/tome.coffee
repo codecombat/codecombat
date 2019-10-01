@@ -6,14 +6,22 @@ module.exports =
     thang: {type: 'object'}
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
+    justBegin: {type: 'boolean'}
+    cinematic: {type: 'boolean'}
 
-  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty']},
-    spells: [type: 'object']
-    preload: [type: 'boolean']
-    realTime: [type: 'boolean']
-    submissionCount: [type: 'integer']
-    flagHistory: [type: 'array']
-    difficulty: [type: 'integer']
+  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty', 'god']},
+    spells: {type: 'object'}
+    preload: {type: 'boolean'}
+    realTime: {type: 'boolean'}
+    synchronous: {type: 'boolean'}
+    submissionCount: {type: 'integer'}
+    fixedSeed: {type: ['integer', 'undefined']}
+    flagHistory: {type: 'array'}
+    difficulty: {type: 'integer'}
+    god: {type: 'object'}
+    justBegin: {type: 'boolean'}
+    cinematic: {type: 'boolean'}
+    keyValueDb: {type: 'object'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
@@ -36,11 +44,6 @@ module.exports =
     spellID: {type: 'string'}
     variableChain: c.array {}, {type: 'string'}
     frame: {type: 'integer', minimum: 0}
-
-  'tome:toggle-spell-list': c.object {title: 'Toggle Spell List', description: 'Published when you toggle the dropdown for a thang\'s spells'}
-
-  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
-    spell: {type: 'object'}
 
   'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
     thangID: {type: 'string'}
@@ -87,11 +90,7 @@ module.exports =
   'tome:problems-updated': c.object {title: 'Problems Updated', description: 'Published when problems have been updated', required: ['spell', 'problems', 'isCast']},
     spell: {type: 'object'}
     problems: {type: 'array'}
-    isCast: {type: 'boolean'}
-
-  'tome:spell-shown': c.object {title: 'Spell Shown', description: 'Published when we show a spell', required: ['thang', 'spell']},
-    thang: {type: 'object'}
-    spell: {type: 'object'}
+    isCast: {type: 'boolean', description: 'Whether the code has been Run yet. Sometimes determines if error displays as just annotation or as full banner.'}
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}
@@ -105,12 +104,12 @@ module.exports =
 
   'tome:change-config': c.object {title: 'Change Config', description: 'Published when you change your tome settings'}
 
-  'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add Zatanna snippets', required: ['propGroups', 'allDocs']},
+  'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add autocomplete snippets', required: ['propGroups', 'allDocs']},
     propGroups: {type: 'object'}
     allDocs: {type: 'object'}
     language: {type: 'string'}
 
-  'tome:insert-snippet': c.object {title: 'Insert Snippet', description: 'Published when we need to insert a Zatanna snippet', required: ['doc', 'language', 'formatted']},
+  'tome:insert-snippet': c.object {title: 'Insert Snippet', description: 'Published when we need to insert a autocomplete snippet', required: ['doc', 'language', 'formatted']},
     doc: {type: 'object'}
     language: {type: 'string'}
     formatted: {type: 'object'}
@@ -136,6 +135,7 @@ module.exports =
 
   'tome:winnability-updated': c.object {title: 'Winnability Updated', description: 'When we think we can now win (or can no longer win), we may want to emphasize the submit button versus the run button (or vice versa), so this fires when we get new goal states (even preloaded goal states) suggesting success or failure change.', required: ['winnable']},
     winnable: {type: 'boolean'}
+    level: {type: 'object'}
 
   # Problem Alert
   'tome:show-problem-alert': c.object {title: 'Show Problem Alert', description: 'A problem alert needs to be shown.', required: ['problem']},
@@ -143,3 +143,7 @@ module.exports =
     lineOffsetPx: {type: ['number', 'undefined']}
   'tome:hide-problem-alert': c.object {title: 'Hide Problem Alert'}
   'tome:jiggle-problem-alert': c.object {title: 'Jiggle Problem Alert'}
+
+  'tome:html-updated': c.object {title: 'HTML Updated', required: ['html', 'create']},
+    html: {type: 'string', description: 'The full HTML to display'}
+    create: {type: 'boolean', description: 'Whether we should (re)create the DOM (as opposed to updating it)'}

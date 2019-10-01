@@ -1,0 +1,16 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/variables"
+
+#goals-view
+  height: $goals-vega-height
+  width: 100%
+  position: relative
+  overflow-x: scroll
+  z-index: 2
+  color: white
+  background-color: black
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    padding-right: 0
+  &[dir="rtl"]
+    right: 0

@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 module.exports = class Letterbox extends createjs.Container
   subscriptions:
     'level:set-letterbox': 'onSetLetterbox'

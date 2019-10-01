@@ -1,0 +1,172 @@
+extends /templates/base
+
+block header
+  if level.loading
+    nav.navbar.navbar-default(role='navigation')#level-editor-top-nav
+      .container-fluid
+        ul.nav.navbar-nav
+          li
+            a(href="/editor/level")
+              span.glyphicon-home.glyphicon
+
+  else
+    nav.navbar.navbar-default(role='navigation')#level-editor-top-nav
+      ul.nav.navbar-nav
+        li
+          a(href="/editor/level")
+            span.glyphicon-home.glyphicon
+
+      ul.nav.navbar-nav.nav-tabs
+        li.active
+          a(href="#thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
+        li
+          a(href="#editor-level-scripts-tab-view", data-toggle="tab", data-i18n="editor.level_tab_scripts") Scripts
+        li
+          a(href="#editor-level-settings-tab-view", data-toggle="tab", data-i18n="play.settings") Settings
+        li
+          a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components")#components-tab Components
+        li
+          a(href="#systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
+        li
+          a(href="#editor-level-tasks-tab-view", data-toggle="tab", data-i18n="editor.level_tab_tasks")#tasks-tab= "Tasks" + " " + view.getTaskCompletionRatio()
+        li
+          a(href="#editor-level-patches", data-toggle="tab")#patches-tab
+            span(data-i18n="resources.patches").spr Patches
+            - var patches = level.get('patches')
+            if patches && patches.length
+              span.badge= patches.length
+        li
+          a(href="#related-achievements-view", data-toggle="tab", data-i18n="user.achievements_title") Achievements
+        li
+          a(href="#editor-level-documentation", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
+        li
+          a(href="#level-feedback-view", data-toggle="tab")
+            .glyphicon.glyphicon-star
+      .navbar-header
+        span.navbar-brand
+          | #{level.attributes.name}
+          span#completion-rate.spl
+
+      ul.nav.navbar-nav.navbar-right
+        li#undo-button
+          a
+            span.glyphicon-arrow-left.glyphicon
+        li#redo-button
+            a
+              span.glyphicon-arrow-right.glyphicon
+        li#artisan-guide-button
+          a
+            span.glyphicon-book.glyphicon
+        if authorized
+          li#commit-level-start-button
+            a
+              span.glyphicon-floppy-disk.glyphicon
+        else
+          li#level-patch-button
+            a
+              span.glyphicon-floppy-disk.glyphicon
+
+        if level.isType('ladder')
+          li.dropdown
+            a(data-toggle='dropdown').play-with-team-parent
+              span.glyphicon-play.glyphicon
+            ul.dropdown-menu
+              li.dropdown-header Play As Which Team?
+              li
+                for team in ['humans', 'ogres']
+                  a.play-with-team-button(data-team=team)= team + ' vs. AI'
+                for match in recentlyPlayedOpponents
+                  a.play-with-team-button(data-team=match.yourTeam, data-opponent=match.opponentSessionID)= match.yourTeam + ' vs. ' + match.opponentName
+
+        else
+          li(data-i18n="[title]general.play_preview", title="Play preview of current level")#play-button
+            a
+              span.glyphicon-play.glyphicon
+        li.dropdown
+          a(data-toggle='dropdown')
+            span.glyphicon-chevron-down.glyphicon
+          ul.dropdown-menu
+            li.dropdown-header(data-i18n="common.actions") Actions
+            li
+              a#level-watch-button
+                span.watch
+                  span.glyphicon.glyphicon-eye-open
+                  span.spl(data-i18n="common.watch") Watch
+                span.unwatch.secret
+                  span.glyphicon.glyphicon-eye-close
+                  span.spl(data-i18n="common.unwatch") Unwatch
+
+            li(class=anonymous ? "disabled": "")
+              a(data-i18n="common.fork")#fork-start-button Fork
+            if me.isAdmin() || me.isArtisan()
+              //- DNT
+              li
+                a#save-branch Save/Stash Branch
+              li
+                a#load-branch Load/Unstash Branch
+            li(class=anonymous ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=anonymous)#revert-button Revert
+            li(class=anonymous ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain", disabled=anonymous).generate-terrain-button Generate Terrain
+            li(class=anonymous ? "disabled": "")
+              a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
+            if view.courseID
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom='classroom', data-code-language="javascript") Play Classroom JavaScript
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom='classroom', data-code-language="python") Play Classroom Python
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom='home', data-code-language="") Play Home
+            if me.isAdmin()
+              li
+                a(href="/editor/verifier/#{level.get('slug')}?dev=true") Verifier
+            li.divider
+            li.dropdown-header(data-i18n="common.info") Info
+            li#level-history-button
+              a(href='#', data-i18n="general.version_history") Version History
+            li.divider
+            li.dropdown-header(data-i18n="common.help") Help
+            li
+              a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki", target="_blank") Wiki
+            li
+              a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
+            li
+              a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum", target="_blank") Forum
+            if !me.isStudent()
+              li
+                a.contact-modal(data-i18n="nav.contact")
+
+block outer_content
+  .outer-content
+    div.tab-content#level-editor-tabs
+      div.tab-pane.active#thangs-tab-view
+
+      div.tab-pane#editor-level-scripts-tab-view
+
+      div.tab-pane#editor-level-settings-tab-view
+
+      div.tab-pane#editor-level-components-tab-view
+
+      div.tab-pane#systems-tab-view
+
+      div.tab-pane#editor-level-tasks-tab-view
+
+      div.tab-pane#editor-level-patches.nano
+        .nano-content
+          .patches-view
+
+      div.tab-pane#related-achievements-view
+
+      div.tab-pane#editor-level-documentation
+        div.tab-content
+          ul.nav.nav-pills.nav-justified
+            li
+              a(href="#components-documentation-view", data-toggle="pill", data-i18n="resources.components") Components
+            li
+              a(href="#systems-documentation-view", data-toggle="pill", data-i18n="resources.systems") Systems
+          div.tab-pane#components-documentation-view
+          div.tab-pane#systems-documentation-view
+
+      div.tab-pane#level-feedback-view
+
+block footer

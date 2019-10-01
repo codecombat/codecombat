@@ -10,7 +10,7 @@ class AttacksSelf extends Component
 systems = [
   'action', 'ai', 'alliance', 'collision', 'combat', 'display', 'event', 'existence', 'hearing',
   'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect',
-  'magic'
+  'magic', 'game'
 ]
 
 PropertyDocumentationSchema = c.object {
@@ -23,7 +23,7 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
-  i18n: { type: 'object', format: 'i18n', props: ['description', 'context'], description: 'Help translate this property'}
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'context'], description: 'Help translate this property'}
   context: {
     type: 'object'
     title: 'Example template context'
@@ -32,8 +32,21 @@ PropertyDocumentationSchema = c.object {
   codeLanguages: c.array {title: 'Specific Code Languages', description: 'If present, then only the languages specified will show this documentation. Leave unset for language-independent documentation.', format: 'code-languages-array'}, c.shortString(title: 'Code Language', description: 'A specific code language to show this documentation for.', format: 'code-language')
   # not actual JS types, just whatever they describe...
   type: c.shortString(title: 'Type', description: 'Intended type of the property.')
+  shortDescription:
+    oneOf: [
+      {title: 'Short Description', type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
+      {
+        type: 'object',
+        title: 'Language Descriptions (short)',
+        description: 'Property short-descriptions by code language.',
+        additionalProperties: {type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown'}
+        format: 'code-languages-object'
+        default: {javascript: ''}
+      }
+    ]
   description:
     oneOf: [
+      {title: 'Description', type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
       {
         type: 'object',
         title: 'Language Descriptions',
@@ -42,7 +55,6 @@ PropertyDocumentationSchema = c.object {
         format: 'code-languages-object'
         default: {javascript: ''}
       }
-      {title: 'Description', type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
     ]
   args: c.array {title: 'Arguments', description: 'If this property has type "function", then provide documentation for any function arguments.'}, c.FunctionArgumentSchema
   owner: {title: 'Owner', type: 'string', description: 'Owner of the property, like "this" or "Math".'}
@@ -91,6 +103,21 @@ PropertyDocumentationSchema = c.object {
         {title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000}
       ]
     i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this return value'}
+  autoCompletePriority:
+    type: 'number'
+    title: 'Autocomplete Priority'
+    description: 'How important this property is to autocomplete.'
+    minimum: 0
+    default: 1.0
+  userShouldCaptureReturn:
+    type: 'object'
+    title: 'User Should Capture Return'
+    properties:
+      variableName:
+        type: 'string'
+        title: 'Variable Name'
+        description: 'Variable name this property is autocompleted into.'
+        default: 'result'
 
 DependencySchema = c.object {
   title: 'Component Dependency'
@@ -119,6 +146,7 @@ LevelComponentSchema = c.object {
     dependencies: []  # TODO: should depend on something by default
     propertyDocumentation: []
     configSchema: {}
+    context: {}
 }
 c.extendNamedProperties LevelComponentSchema  # let's have the name be the first property
 LevelComponentSchema.properties.name.pattern = c.classNamePattern
@@ -156,6 +184,17 @@ _.extend LevelComponentSchema.properties,
     title: 'Official'
     description: 'Whether this is an official CodeCombat Component.'
   searchStrings: {type: 'string'}
+  context: {
+    type: 'object'
+    title: 'Code context'
+    additionalProperties: { type: 'string' }
+    default: {}
+  }
+  i18n: {
+    type: 'object',
+    format: 'i18n',
+    props: ['context'], description: 'Help translate the code context'
+  }
 
 c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema
@@ -163,5 +202,6 @@ c.extendVersionedProperties LevelComponentSchema, 'level.component'
 c.extendPermissionsProperties LevelComponentSchema, 'level.component'
 c.extendPatchableProperties LevelComponentSchema
 c.extendTranslationCoverageProperties LevelComponentSchema
+c.extendAlgoliaProperties LevelComponentSchema
 
 module.exports = LevelComponentSchema

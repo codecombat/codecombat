@@ -1,49 +1,6 @@
 c = require './../schemas'
 ThangComponentSchema = require './thang_component'
 
-defaultTasks = [
-  'Name the level.'
-  'Create a Referee stub, if needed.'
-  'Build the level.'
-  'Set up goals.'
-  'Choose the Existence System lifespan and frame rate.'
-  'Choose the UI System paths and coordinate hover if needed.'
-  'Choose the AI System pathfinding and Vision System line of sight.'
-  'Write the sample code.'
-
-  'Do basic set decoration.'
-  'Adjust script camera bounds.'
-  'Choose music file in Introduction script.'
-
-  'Add to a campaign.'
-  'Publish.'
-  'Choose level options like required/restricted gear.'
-  'Create achievements, including unlocking next level.'
-  'Choose leaderboard score types.'
-
-  'Playtest with a slow/tough hero.'
-  'Playtest with a fast/weak hero.'
-  'Playtest with a couple random seeds.'
-  'Make sure the level ends promptly on success and failure.'
-  'Remove/simplify unnecessary doodad collision.'
-  'Release to adventurers via MailChimp.'
-
-  'Write the description.'
-  'Add i18n field for the sample code comments.'
-  'Add Clojure/Lua/CoffeeScript.'
-  'Write the guide.'
-  'Write a loading tip, if needed.'
-  'Click the Populate i18n button.'
-  'Add programming concepts covered.'
-
-  'Mark whether it requires a subscription.'
-  'Release to everyone via MailChimp.'
-
-  'Check completion/engagement/problem analytics.'
-  'Do thorough set decoration.'
-  'Add a walkthrough video.'
-]
-
 SpecificArticleSchema = c.object()
 c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
@@ -51,7 +8,7 @@ SpecificArticleSchema.properties.i18n = {type: 'object', format: 'i18n', props: 
 SpecificArticleSchema.displayProperty = 'name'
 
 side = {title: 'Side', description: 'A side.', type: 'string', 'enum': ['left', 'right', 'top', 'bottom']}
-thang = {title: 'Thang', description: 'The name of a Thang.', type: 'string', maxLength: 30, format: 'thang'}
+thang = {title: 'Thang', description: 'The name of a Thang.', type: 'string', maxLength: 60, format: 'thang'}
 
 eventPrereqValueTypes = ['boolean', 'integer', 'number', 'null', 'string'] # not 'object' or 'array'
 EventPrereqSchema = c.object {title: 'Event Prerequisite', format: 'event-prereq', description: 'Script requires that the value of some property on the event triggering it to meet some prerequisite.', required: ['eventProps']},
@@ -108,7 +65,10 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
     targets: c.array {title: 'Targets', description: 'The target items which the Thangs must not collect.', minItems: 1}, thang
   codeProblems: c.array {title: 'Code Problems', description: 'A list of Thang IDs that should not have any code problems, or team names.', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
   linesOfCode: {title: 'Lines of Code', description: 'A mapping of Thang IDs or teams to how many many lines of code should be allowed (well, statements).', type: 'object', default: {humans: 10}, additionalProperties: {type: 'integer', description: 'How many lines to allow for this Thang.'}}
-
+  html: c.object {title: 'HTML', description: 'A jQuery selector and what its result should be'},
+    selector: {type: 'string', description: 'jQuery selector to run on the user HTML, like "h1:first-child"'}
+    valueChecks: c.array {title: 'Value checks', description: 'Logical checks on the resulting value for this goal to pass.', format: 'event-prereqs'}, EventPrereqSchema
+  concepts: c.array {title: 'Target Concepts', description: 'Which programming concepts this goal demonstrates.', uniqueItems: true, format: 'concepts-list'}, c.concept
 ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text']},
   text: {title: 'Title', description: 'The text that will be on the button', 'default': 'Okay', type: 'string', maxLength: 30}
   channel: c.shortString(title: 'Channel', format: 'event-channel', description: 'Channel that this event will be broadcast over, like "level:set-playing".')
@@ -246,6 +206,25 @@ GeneralArticleSchema = c.object {
   original: c.objectId(title: 'Original', description: 'A reference to the original Article.')#, format: 'hidden')  # hidden?
   majorVersion: {title: 'Major Version', description: 'Which major version of the Article is being used.', type: 'integer', minimum: 0} #, format: 'hidden'}  # hidden?
 
+IntroContentObject = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    type: { title: 'Content type', enum: ['cinematic', 'interactive', 'cutscene-video', 'avatarSelectionScreen'] }
+    contentId: {
+      oneOf: [
+        c.stringID(title: 'Content ID for all languages')
+        {
+          type: 'object',
+          title: 'Content ID specific to languages',
+          additionalProperties: c.stringID(),
+          format: 'code-languages-object'
+        }
+      ]
+    }
+  }
+}
+
 LevelSchema = c.object {
   title: 'Level'
   description: 'A spectacular level which will delight and educate its stalwart players with the sorcery of coding.'
@@ -260,7 +239,7 @@ LevelSchema = c.object {
     victory: {}
     type: 'hero'
     goals: [
-      {id: 'ogres-die', name: 'Ogres must die.', killThangs: ['ogres'], worldEndsAfter: 3}
+      {id: 'ogres-die', name: 'Defeat the ogres.', killThangs: ['ogres'], worldEndsAfter: 3}
       {id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
     ]
     concepts: ['basic_syntax']
@@ -268,11 +247,25 @@ LevelSchema = c.object {
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
   description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown'}
+  studentPlayInstructions: {title: 'Student Play Instructions', description: 'Instructions for game dev levels when students play them.', type: 'string', maxLength: 65536, format: 'markdown'}
   loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.' }
-  documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', required: ['specificArticles', 'generalArticles'], 'default': {specificArticles: [], generalArticles: []}},
+  documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}},
     specificArticles: c.array {title: 'Specific Articles', description: 'Specific documentation articles that live only in this level.', uniqueItems: true }, SpecificArticleSchema
     generalArticles: c.array {title: 'General Articles', description: 'General documentation articles that can be linked from multiple levels.', uniqueItems: true}, GeneralArticleSchema
-  background: c.objectId({format: 'hidden'})
+    hints: c.array {title: 'Hints', description: 'Tips and tricks to help unstick a player for the level.', uniqueItems: true }, {
+      type: 'object'
+      properties: {
+        body: {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
+        i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint'}
+      }
+    }
+    hintsB: c.array {title: 'HintsB', description: '2nd style of hints for a/b testing significant variations', uniqueItems: true }, {
+      type: 'object'
+      properties: {
+        body: {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
+        i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint'}
+      }
+    }
   nextLevel: {
     type: 'object',
     links: [{rel: 'extra', href: '/db/level/{($)}'}, {rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}],
@@ -280,7 +273,6 @@ _.extend LevelSchema.properties,
     title: 'Next Level',
     description: 'Reference to the next level players will play after beating this one.'
   }
-  employerDescription: { type:'string', format: 'markdown', title: 'Employer Description' }
   scripts: c.array {title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.'}, ScriptSchema
   thangs: c.array {title: 'Thangs', description: 'An array of Thangs that make up the level.' }, LevelThangSchema
   systems: c.array {title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true }, LevelSystemSchema  # TODO: uniqueness should be based on 'original', not whole thing
@@ -288,25 +280,31 @@ _.extend LevelSchema.properties,
     body: {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'},
     i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message'}
   }
-  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip'], description: 'Help translate this level'}
-  icon: {type: 'string', format: 'image-file', title: 'Icon'}
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip', 'studentPlayInstructions'], description: 'Help translate this level'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'])
+  type: c.shortString(title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'intro'])
+  kind: c.shortString(title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'])
+  ozariaType: c.shortString(title: 'Ozaria Level Type', description: 'Similar to type, specific to ozaria.', enum: ['practice', 'challenge', 'capstone'])
   terrain: c.terrainString
-  showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
-  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
   helpVideos: c.array {title: 'Help Videos'}, c.object {default: {style: 'eccentric', url: '', free: false}},
     style: c.shortString title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.'
     free: {type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.'}
     url: c.url {title: 'URL', description: 'Link to the video on Vimeo.'}
   replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
   buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
+  practice: { type: 'boolean' }
+  practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
+  assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.' }
+  assessmentPlacement: { type: 'string', enum: ['middle', 'end'] }
+
+  primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.' }
+  shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable (false), shareable (true), or a sharing-encouraged project level ("project"). Make sure to use "project" for project levels so they show up correctly in the Teacher Dashboard.' }
 
   # Admin flags
   adventurer: { type: 'boolean' }
-  practice: { type: 'boolean' }
   adminOnly: { type: 'boolean' }
   disableSpaces: { type: ['boolean','integer'] }
   hidesSubmitUntilRun: { type: 'boolean' }
@@ -331,22 +329,88 @@ _.extend LevelSchema.properties,
       pattern: { type: 'string' }
     }
   }
-  requiredGear: { type: 'object', additionalProperties: {
+  autocompleteReplacement: c.array {}, {
+    type: 'object'
+    properties: {
+      name: { type: 'string' }
+      snippets: {
+        type: 'object',
+        title: 'Snippets',
+        description: 'List of snippets for the respective programming languages',
+        additionalProperties: c.codeSnippet,
+        format: 'code-languages-object'
+      }
+    }
+  }
+  requiredGear: { type: 'object', title: 'Required Gear', description: 'Slots that should require one of a set array of items for that slot', additionalProperties: {
     type: 'array'
     items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
   }}
-  restrictedGear: { type: 'object', additionalProperties: {
+  restrictedGear: { type: 'object', title: 'Restricted Gear', description: 'Slots that should restrict all of a set array of items for that slot', additionalProperties: {
     type: 'array'
     items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
   }}
-  allowedHeroes: { type: 'array', items: {
+  requiredProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must have equipped to play.', format: 'solution-gear', title: 'Required Properties' }
+  restrictedProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must not have equipped to play.', title: 'Restricted Properties' }
+  recommendedHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will show the recommended health to be able to beat this level with the intended main solution to the player when choosing equipment.', format: 'solution-stats', title: 'Recommended Health' }
+  maximumHealth: { type: 'number', minimum: 0, exclusiveMinimum: true, description: 'If set, will enforce the maximum health of the hero.', title: 'Maximum Health'}
+  allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', items: {
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
   campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
-  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for.', uniqueItems: true},
-     c.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])  # TODO: good version of LoC; total gear value.
-  concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true}, c.concept
-
+  campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
+  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {
+      anyOf: [
+        c.scoreType,
+        {
+          type: 'object'
+          title: 'Score Type Object'
+          required: ['type']
+          additionalProperties: false
+          properties: {
+            type: c.scoreType
+            thresholds: {
+              type: 'object'
+              properties: {
+                bronze: { type: 'number' }
+                silver: { type: 'number' }
+                gold: { type: 'number' }
+              }
+            }
+          }
+        }
+      ]
+    }
+  concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true, format: 'concepts-list'}, c.concept
+  primaryConcepts: c.array {title: 'Primary Concepts', description: 'The main 1-3 concepts this level focuses on.', uniqueItems: true}, c.concept
+  picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
+  password: { type: 'string', description: 'The password required to create a session for this level' }
+  mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
+  introContent: { # valid for levels of type 'intro'
+    title: 'Intro content',
+    description: 'Intro content sequence',
+    type: 'array',
+    items: IntroContentObject
+  }
+  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
+    title: 'Goals',
+    description: 'Goals for this stage',
+    minItems: 1,
+    uniqueItems: true,
+    properties: {
+      stage: { type: 'integer', minimum: 2, title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
+      goals: c.array { title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema
+    }
+  }
+  isPlayedInStages: {type: 'boolean', title: 'Is Played in Stages', description: 'Is this level played in stages and other content(cinematics) is loaded in between stages'}
+  methodsBankList: c.array {title: 'Methods Bank List'}, c.object {
+    properties: {
+      name: c.shortString(title: 'Name'),
+      section: c.shortString(title: 'Methods Bank Section', pattern: '^[a-z]+$'),
+      subSection: c.shortString(title: 'Methods Bank Sub-Section', pattern: '^[a-z]+$'),
+      componentName: c.shortString(title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation'),
+    }
+  }
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
@@ -354,6 +418,7 @@ c.extendVersionedProperties LevelSchema, 'level'
 c.extendPermissionsProperties LevelSchema, 'level'
 c.extendPatchableProperties LevelSchema
 c.extendTranslationCoverageProperties LevelSchema
+c.extendAlgoliaProperties LevelSchema
 
 module.exports = LevelSchema
 

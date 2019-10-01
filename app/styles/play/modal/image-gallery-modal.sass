@@ -1,0 +1,121 @@
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#image-gallery-modal
+  h3
+    font-size: 20px
+    
+  .subtitle
+    font-size: 14px
+    line-height: 14px
+  
+  .modal-dialog
+    width: 850px
+    height: 550px
+    max-height: 100vh
+  
+  .modal-footer
+    display: none
+  
+  .modal-header
+    padding: 0
+    min-height: 0
+  
+  .modal-body-content
+    height: 485px
+
+  .no-select
+    @include user-select(none)
+
+  .image-list
+    overflow: -moz-scrollbars-vertical
+    overflow-y: scroll
+    margin: 0
+    
+    // Force scrollbar visible
+    &::-webkit-scrollbar
+      // -webkit-appearance: none
+      border: thin solid gray
+      width: 14px
+    &::-webkit-scrollbar-thumb
+      background-color: rgba(0,0,0,.5)
+
+  .flex-col
+    display: flex
+    flex-direction: column
+    height: 100%
+
+  .image-list
+    height: 440px
+    max-height: 100vh
+    padding: 0
+    display: flex
+    flex-wrap: wrap
+
+  .image-list-item
+    img
+      width: 72px
+      height: 72px
+    margin: 16px
+    list-style-type: none
+    background-color: #f8f8f8
+    box-shadow: 0 0 0 1px gray
+  
+    &.selected
+      box-shadow: 0 0 0 6px $gold
+
+  //
+
+  .copy-row
+    display: flex
+    align-items: center
+    
+    .copy-textarea-col
+      flex-grow: 1
+      
+      textarea
+        width: 100%
+        height: 55px
+    
+    .copy-button-col
+      padding-left: 10px
+
+  .copyable
+    font-size: 10px
+    line-height: 12px
+    
+  .how-to-copy-paste
+    font-size: 13px
+    line-height: 16px
+    font-style: italic
+    color: gray
+  
+  .close-button
+    flex-grow: 1
+    align-self: flex-end
+    display: flex
+    align-items: flex-end
+
+  // The one the modal puts in
+  .button.close
+    z-index: 1
+
+  // Fancy text inside horizontal rules
+  
+  .hr-text
+    position: relative
+    hr
+      width: 50%
+      padding: 0
+      border: none
+      border-top: thin solid #444
+      color: #444
+    span
+      position: absolute
+      left: 50%
+      top: 0.45em
+      transform: translateX(-50%)
+      padding: 0 0.75em
+      font-weight: bold
+      font-size: 10pt
+      background: white

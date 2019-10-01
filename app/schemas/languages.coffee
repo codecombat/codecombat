@@ -1,6 +1,6 @@
 locale = require '../locale/locale'  # requiring from app; will break if we stop serving from where app lives
 
-languages = []
+languages = [{code: 'rot13', nativeDescription: 'rot13', englishDescription: 'rot13'}]
 for code, localeInfo of locale
   languages.push code: code, nativeDescription: localeInfo.nativeDescription, englishDescription: localeInfo.englishDescription
 

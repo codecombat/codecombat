@@ -1,0 +1,23 @@
+if practice
+  span.text-uppercase.small-details(data-i18n='teacher.practice')
+
+if started
+  .small-details.nowrap
+    span= levelNumber
+    span.spr . 
+    span= levelName
+  .small-details.nowrap
+    .fraction-students.small-details
+      = numStarted
+      | /
+      = numStudents
+      if completed
+        span.spl(data-i18n='teacher.completed')
+      else  
+        span.spl(data-i18n='teacher.started')
+else
+  .small-details.nowrap
+    span= levelNumber
+    span.spr . 
+    span= levelName
+  span.small-details.nowrap(data-i18n='teacher.no_progress')

@@ -1,0 +1,31 @@
+li.skipped-contact-info(v-if="skippedContact")
+  h2
+    | {{ skippedContact.email }}
+  button.unarchive-contact(:data-contact-id="skippedContact._id", v-if="skippedContact.archived", @click.prevent="onClickUnarchiveContact")
+    | Unarchive
+  button.archive-contact(:data-contact-id="skippedContact._id", v-else, @click.prevent="onClickArchiveContact")
+    | Archive
+
+  div(v-if="!skippedContact.archived")
+    h2
+      | Reason skipped:
+      | {{ skippedContact.reasonSkipped }}
+    div(v-if="queryString")
+      | Search string we tried to use:
+      pre
+        a(:href="queryURL")
+          | {{ queryString }}
+    .row
+      .col-md-6(v-if="skippedContact.trialRequest")
+        h4 Trial request data:
+        pre
+          | {{ JSON.stringify(skippedContact.trialRequest.properties, null, 4) }}
+      .col-md-6(v-if="skippedContact.zpContact")
+        h4 ZenProspect contact data:
+        pre
+          | {{ JSON.stringify(skippedContact.zpContact, null, 4) }}
+      .col-md-6(v-if="noteData")
+        div
+          h4 Note info:
+          pre
+            | {{ noteData }}

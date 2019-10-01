@@ -1,6 +1,6 @@
 storage = require 'core/storage'
-deltasLib = require 'core/deltas'
 locale = require 'locale/locale'
+utils = require 'core/utils'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -21,6 +21,11 @@ class CocoModel extends Backbone.Model
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
     @usesVersions = @schema()?.properties?.version?
+    if window.application?.testing
+      @fakeRequests = []
+      @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
+
+  created: -> new Date(parseInt(@id.substring(0, 8), 16) * 1000)
 
   backupKey: ->
     if @usesVersions then @id else @id  # + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
@@ -44,14 +49,20 @@ class CocoModel extends Backbone.Model
   clone: (withChanges=true) ->
     # Backbone does not support nested documents
     clone = super()
-    clone.set($.extend(true, {}, if withChanges then @attributes else @_revertAttributes))
+    clone.set($.extend(true, {}, if withChanges or not @_revertAttributes then @attributes else @_revertAttributes))
+    if @_revertAttributes and not withChanges
+      # remove any keys that are in the current attributes not in the snapshot
+      for key in _.difference(_.keys(clone.attributes), _.keys(@_revertAttributes))
+        clone.unset(key)
     clone
 
   onError: (level, jqxhr) ->
     @loading = false
     @jqxhr = null
     if jqxhr.status is 402
-      if _.contains(jqxhr.responseText, 'be in a course')
+      if _.contains(jqxhr.responseText, 'must be enrolled')
+        Backbone.Mediator.publish 'level:license-required', {}
+      else if _.contains(jqxhr.responseText, 'be in a course')
         Backbone.Mediator.publish 'level:course-membership-required', {}
       else
         Backbone.Mediator.publish 'level:subscription-required', {}
@@ -65,6 +76,9 @@ class CocoModel extends Backbone.Model
   getCreationDate: -> new Date(parseInt(@id.slice(0,8), 16)*1000)
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
+
+  getTranslatedName: ->
+    utils.i18n(@attributes, 'name')
 
   attributesWithDefaults: undefined
 
@@ -119,10 +133,11 @@ class CocoModel extends Backbone.Model
   validate: ->
     errors = @getValidationErrors()
     if errors?.length
-      console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
-      for error in errors
-        console.debug "\t", error.dataPath, ':', error.message
-      console.trace?()
+      unless application?.testing
+        console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
+        for error in errors
+          console.debug "\t", error.dataPath, ':', error.message
+        console.trace?()
       return errors
 
   save: (attrs, options) ->
@@ -183,7 +198,6 @@ class CocoModel extends Backbone.Model
         keys.push key
 
     return unless keys.length
-    console.debug 'Patching', @get('name') or @, keys
     @save(attrs, options)
 
   fetch: (options) ->
@@ -263,35 +277,6 @@ class CocoModel extends Backbone.Model
     ownerPermission = _.find @get('permissions', true), access: 'owner'
     ownerPermission?.target
 
-  getDelta: ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff(_.omit(@_revertAttributes, deltasLib.DOC_SKIP_PATHS), _.omit(@attributes, deltasLib.DOC_SKIP_PATHS))
-
-  getDeltaWith: (otherModel) ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff @attributes, otherModel.attributes
-
-  applyDelta: (delta) ->
-    newAttributes = $.extend(true, {}, @attributes)
-    try
-      jsondiffpatch.patch newAttributes, delta
-    catch error
-      console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
-      return false
-    for key, value of newAttributes
-      delete newAttributes[key] if _.isEqual value, @attributes[key]
-
-    @set newAttributes
-    return true
-
-  getExpandedDelta: ->
-    delta = @getDelta()
-    deltasLib.expandDelta(delta, @_revertAttributes, @schema())
-
-  getExpandedDeltaWith: (otherModel) ->
-    delta = @getDeltaWith(otherModel)
-    deltasLib.expandDelta(delta, @attributes, @schema())
-
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type: 'PUT', data: {on: doWatch}})
     @watching = -> doWatch
@@ -304,6 +289,8 @@ class CocoModel extends Backbone.Model
     sum = 0
     data ?= $.extend true, {}, @attributes
     schema ?= @schema() or {}
+    if schema.oneOf # get populating the Programmable component config to work
+      schema = _.find(schema.oneOf, {type: 'object'}) or schema
     addedI18N = false
     if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
       data.i18n = {'-':{'-':'-'}} # mongoose doesn't work with empty objects
@@ -313,7 +300,11 @@ class CocoModel extends Backbone.Model
     if _.isPlainObject data
       for key, value of data
         numChanged = 0
-        numChanged = @populateI18N(value, childSchema, path+'/'+key) if childSchema = schema.properties?[key]
+        childSchema = schema.properties?[key]
+        if not childSchema and _.isObject(schema.additionalProperties)
+          childSchema = schema.additionalProperties
+        if childSchema
+          numChanged = @populateI18N(value, childSchema, path+'/'+key)
         if numChanged and not path # should only do this for the root object
           @set key, value
         sum += numChanged
@@ -322,37 +313,8 @@ class CocoModel extends Backbone.Model
       sum += @populateI18N(value, schema.items, path+'/'+index) for value, index in data
 
     @set('i18n', data.i18n) if addedI18N and not path # need special case for root i18n
-    @updateI18NCoverage()
+    @updateI18NCoverage() if not path  # only need to do this at the highest level
     sum
-
-  @getReferencedModel: (data, schema) ->
-    return null unless schema.links?
-    linkObject = _.find schema.links, rel: 'db'
-    return null unless linkObject
-    return null if linkObject.href.match('thang.type') and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
-
-    # not fully extensible, but we can worry about that later
-    link = linkObject.href
-    link = link.replace('{(original)}', data.original)
-    link = link.replace('{(majorVersion)}', '' + (data.majorVersion ? 0))
-    link = link.replace('{($)}', data)
-    @getOrMakeModelFromLink(link)
-
-  @getOrMakeModelFromLink: (link) ->
-    makeUrlFunc = (url) -> -> url
-    modelUrl = link.split('/')[2]
-    modelModule = _.string.classify(modelUrl)
-    modulePath = "models/#{modelModule}"
-
-    try
-      Model = require modulePath
-    catch e
-      console.error 'could not load model from link path', link, 'using path', modulePath
-      return
-
-    model = new Model()
-    model.url = makeUrlFunc(link)
-    return model
 
   setURL: (url) ->
     makeURLFunc = (u) -> -> u
@@ -363,6 +325,7 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
+    return if application?.testing
 
     CocoCollection = require 'collections/CocoCollection'
     EarnedAchievement = require 'models/EarnedAchievement'
@@ -385,11 +348,14 @@ class CocoModel extends Backbone.Model
 
   #- Internationalization
 
-  updateI18NCoverage: ->
+  updateI18NCoverage: (attributes) ->
     langCodeArrays = []
     pathToData = {}
+    attributes ?= @attributes
 
-    TreemaUtils.walk(@attributes, @schema(), null, (path, data, workingSchema) ->
+    # TODO: Share this code between server and client
+    # NOTE: If you edit this, edit the server side version as well!
+    TreemaUtils.walk(attributes, @schema(), null, (path, data, workingSchema) ->
       # Store parent data for the next block...
       if data?.i18n
         pathToData[path] = data
@@ -403,18 +369,14 @@ class CocoModel extends Backbone.Model
 
         # use it to determine what properties actually need to be translated
         props = workingSchema.props or []
-        props = (prop for prop in props when parentData[prop])
-        #unless props.length
-        #  console.log 'props is', props, 'path is', path, 'data is', data, 'parentData is', parentData, 'workingSchema is', workingSchema
-        #  langCodeArrays.push _.without _.keys(locale), 'update'  # Every language has covered a path with no properties to be translated.
-        #  return
-
+        props = (prop for prop in props when parentData[prop] and prop not in ['sound', 'soundTriggers'])
+        return unless props.length
         return if 'additionalProperties' of i18n  # Workaround for #2630: Programmable is weird
 
         # get a list of lang codes where its object has keys for every prop to be translated
         coverage = _.filter(_.keys(i18n), (langCode) ->
           translations = i18n[langCode]
-          _.all((translations[prop] for prop in props))
+          translations and _.all((translations[prop] for prop in props))
         )
         #console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
         langCodeArrays.push coverage
@@ -425,5 +387,38 @@ class CocoModel extends Backbone.Model
     overallCoverage = _.intersection(langCodeArrays...)
     @set('i18nCoverage', overallCoverage)
 
+  deleteI18NCoverage: (options={}) ->
+    options.url = @url() + '/i18n-coverage'
+    options.type = 'DELETE'
+    return $.ajax(options)
+
+  saveNewMinorVersion: (attrs, options={}) ->
+    options.url = @url() + '/new-version'
+    options.type = 'POST'
+    return @save(attrs, options)
+
+  saveNewMajorVersion: (attrs, options={}) ->
+    attrs = attrs or _.omit(@attributes, 'version')
+    options.url = @url() + '/new-version'
+    options.type = 'POST'
+    options.patch = true # do not let version get sent along
+    return @save(attrs, options)
+
+  fetchPatchesWithStatus: (status='pending', options={}) ->
+    Patches = require '../collections/Patches'
+    patches = new Patches()
+    options.data ?= {}
+    options.data.status = status
+    options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
+    patches.fetch(options)
+    return patches
+
+  stringify: -> return JSON.stringify(@toJSON())
+
+  wait: (event) -> new Promise((resolve) => @once(event, resolve))
+
+  fetchLatestVersion: (original, options={}) ->
+    options.url = _.result(@, 'urlRoot') + '/' + original + '/version'
+    @fetch(options)
 
 module.exports = CocoModel

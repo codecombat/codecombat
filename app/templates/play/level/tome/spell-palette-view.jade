@@ -1,0 +1,52 @@
+mixin header(label, name)
+  - var translatedName = translate('apis.' + _.string.slugify(name).replace('-', '_'));
+  a.section-header.btn.btn-small.btn-illustrated.btn-warning(role="button", id="#palette-header-" + _.string.slugify(label), data-panel="#palette-tab-" + _.string.slugify(label))
+    if name.toLocaleLowerCase() == translatedName.toLocaleLowerCase() || ['Methods', 'Events', 'Spawnable'].indexOf(name) != -1
+      span= translatedName
+    else
+      span= name + ' (' + translatedName + ')'
+    if label == 'api-area' || label == 'stuff-area'
+      div.glyphicon.glyphicon-chevron-down(style="float: right")
+    else
+      div.glyphicon.glyphicon-chevron-right(style="float: right")
+div.container
+  div.left.nano
+    div.nano-content.panel-group#spell-palette-api-bar
+      if view.level.get('type') == 'web-dev'
+        +header('api-area', 'HTML')
+      else
+        +header('api-area', 'Methods')
+      div.apis.panel-collapse.collapse.in#palette-tab-api-area
+        .properties.properties-this
+      if tabs
+        each entries, tab in tabs
+          +header(tab, tab)
+          div.panel-collapse.collapse(id="palette-tab-" + _.string.slugify(tab))
+            div(class="properties properties-" + _.string.slugify(tab))
+
+      +header('events', 'Events')
+      div.apis.panel-collapse.collapse#palette-tab-events
+
+      +header('handlers', 'Handlers')
+      div.apis.panel-collapse.collapse#palette-tab-handlers
+
+      +header('properties', 'Properties')
+      div.apis.panel-collapse.collapse#palette-tab-properties
+
+      +header('snippets', 'Snippets')
+      div.apis.panel-collapse.collapse#palette-tab-snippets
+
+      +header('stuff-area', 'Spawnable')
+      div.apis.panel-collapse.collapse.in#palette-tab-stuff-area
+
+  div.right
+    .closeBtn.btn.btn-illustrated.btn-danger
+      span.glyphicon.glyphicon-remove
+    if isIE
+      .scrollArea.always-scroll-y
+        .scrollableArea
+          .rightContentTarget.content
+    else
+      .scrollArea
+        .scrollableArea
+          .rightContentTarget.content

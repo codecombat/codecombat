@@ -5,7 +5,9 @@ template = require 'templates/contribute/artisan'
 module.exports = class ArtisanView extends ContributeClassView
   id: 'artisan-view'
   template: template
-  contributorClassName: 'artisan'
+
+  initialize: ->
+    @contributorClassName = 'artisan'
 
   contributors: [
     {id: '5276ad5dcf83207a2801d3b4', name: 'Zach Martin', github: 'zachster01'}

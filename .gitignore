@@ -77,7 +77,6 @@ coverage/
 FLOOBITS_README.md
 
 # mongodb
-db/
 bin/node/
 bin/mongo/
 
@@ -95,7 +94,27 @@ npm-debug.log*
 
 temp/
 Dockerfile
+.dockerignore
 ### If you add something here, copy it to the end of .npmignore, too. ###
 
 # Visual Studio Code
 .vscode/
+
+# editorconfig (might be standardized eventually)
+.editorconfig
+
+# coffeelint for editors (might be standardized eventually)
+coffeelint.json
+gitSpy/*
+
+# nightwatch reports
+spec/smoke/reports/
+
+scripts/analytics/mongodb/.analyticsAuth.json
+scripts/analytics/mongodb/.mainAuth.json
+
+# Created by git LFS
+.gitattributes
+
+# Build info file served by the production server
+.build_info.json

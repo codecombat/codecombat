@@ -1,3 +1,4 @@
+require('app/styles/editor/level/component/new.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/component/new'
 LevelComponent = require 'models/LevelComponent'
@@ -14,10 +15,9 @@ module.exports = class NewLevelComponentModal extends ModalView
     'click #new-level-component-submit': 'makeNewLevelComponent'
     'submit form': 'makeNewLevelComponent'
 
-  getRenderData: ->
-    c = super()
-    c.systems = LevelComponent.schema.properties.system.enum
-    c
+  constructor: (options) ->
+    super options
+    @systems = LevelComponent.schema.properties.system.enum
 
   makeNewLevelComponent: (e) ->
     e.preventDefault()

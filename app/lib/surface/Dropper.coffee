@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 Dropper = class Dropper
   lostFrames: 0.0
   dropCounter: 0
@@ -13,7 +15,7 @@ Dropper = class Dropper
     --@dropCounter if @dropCounter > 0
 
     # Track number of frames we've lost since the last tick.
-    fps = createjs.Ticker.getFPS()
+    fps = createjs.Ticker.framerate
     actual = createjs.Ticker.getMeasuredFPS(1)
     @lostFrames += (fps - actual) / fps
 

@@ -1,0 +1,480 @@
+.well.container-fluid
+  h1 Bootstrap CSS
+  
+  .row
+    .col-sm-6
+      .panel.panel-default
+        .panel-heading
+          a#tables.panel-title(href="#tables") Tables
+
+        .panel-body
+          mixin table-content
+            tr
+              th #
+              th First Name
+              th Last Name
+              th Username
+            tr
+              th 1
+              td Mark
+              td Otto
+              td @mdo
+            tr
+              th 2
+              td Jacob
+              td Thornton
+              td @fat
+            tr
+              th 3
+              td Larry
+              td the Bird
+              td @twitter
+
+          h3 Basic
+          table.table
+            +table-content
+
+          h3 Bordered
+          table.table.table-bordered
+            +table-content
+
+          h3 Striped
+          table.table.table-striped
+            +table-content
+            
+    .col-sm-6
+      .panel.panel-default
+        .panel-heading
+          a#tables.panel-title(href="#tables") Tables
+
+        .panel-body
+
+          h3 Hover
+          table.table.table-hover
+            +table-content
+
+          h3 Condensed
+          table.table.table-condensed
+            +table-content
+
+          h3 Context
+          table.table
+            tr.active
+              td Active
+            tr.success
+              td Success
+            tr.info
+              td Info
+            tr.warning
+              td Warning
+            tr.danger
+              td Danger
+              
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#headers.panel-title(href="#headers") Headers
+            
+        .panel-body
+          h1 Header 1
+            small.spl secondary text
+          h2 Header 2
+            small.spl secondary text
+          h3 Header 3
+            small.spl secondary text
+          h4 Header 4
+            small.spl secondary text
+          h5 Header 5
+            small.spl secondary text
+          h6 Header 6
+            small.spl secondary text
+            
+      .panel.panel-default
+        .panel-heading
+          a#user-input.panel-title(href="#user-input") User input
+
+        .panel-body
+          kbd ctrl + ,
+          
+      .panel.panel-default
+        .panel-heading
+          a#horizontal-rule.panel-title(href="#horizontal-rule") Horizontal Rule
+
+        .panel-body
+          div Text above
+          hr
+          div Text below
+          
+    .col-sm-3
+      
+      .panel.panel-default
+        .panel-heading
+          a#forms.panel-title(href="#forms") Forms
+          
+        .panel-body
+          h3 Default
+          .form
+            .form-group
+              label.control-label Input
+              input.form-control
+              
+            .form-group
+              label.control-label Textarea
+              textarea.form-control
+              .help-block Help block
+              
+            .form-group
+              label.control-label Select
+              select.form-control
+                option Option 1
+                option Option 2
+                
+            .form-group
+              label Disabled
+              input.form-control(disabled=true)
+              
+            .form-group.has-error
+              label.control-label Validation error
+              input.form-control
+              
+            .form-group
+              label Large input
+              input.form-control.input-lg
+              
+            .form-group
+              label Small input
+              input.form-control.input-sm
+      
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#buttons.panel-title(href="#buttons") Buttons
+          
+        .panel-body
+          div
+            button.btn.btn-default Default
+            span.spr
+            button.btn.btn-primary Primary
+            span.spr
+            button.btn.btn-success Success
+            span.spr
+            button.btn.btn-info Info
+            span.spr
+            button.btn.btn-warning Warning
+            span.spr
+            button.btn.btn-danger Danger
+            span.spr
+            button.btn.btn-default(disabled=true) Disabled
+            
+          
+          hr
+            
+          div
+            button.btn.btn-default.btn-lg Large
+            span.spr
+            button.btn.btn-default Default
+            span.spr
+            button.btn.btn-default.btn-sm Small
+            span.spr
+            button.btn.btn-default.btn-xs Extra small
+            
+          hr
+          
+          div
+            button.btn.btn-default.btn-illustrated Default illustrated
+            span.spr
+            button.btn.btn-primary.btn-illustrated Primary illustrated
+            span.spr
+            button.btn.btn-success.btn-illustrated Success illustrated
+            span.spr
+            button.btn.btn-info.btn-illustrated Info illustrated
+            span.spr
+            button.btn.btn-warning.btn-illustrated Warning illustrated
+            span.spr
+            button.btn.btn-danger.btn-illustrated Danger illustrated
+          
+      .panel.panel-default
+        .panel-heading
+          a#contextual-text.panel-title(href="#contextual-text") Contextual text
+    
+        .panel-body
+          p.text-muted Muted text
+          p.text-primary Primary text
+          p.text-success Success text
+          p.text-info Info text
+          p.text-warning Warning text
+          p.text-danger Danger text
+          
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#images.panel-title(href="#images") Images
+          
+        .panel-body
+          div Rounded
+          img.img-rounded(style="width: 140px" src="/images/pages/contribute/tile_adventurer.png")
+          div Circle
+          img.img-circle(style="width: 140px" src="/images/pages/contribute/tile_adventurer.png")
+          div Thumbnail
+          img.img-thumbnail(style="width: 140px" src="/images/pages/contribute/tile_adventurer.png")
+          div Prize
+          img.img-prize(style="width: 140px" src="/images/pages/contribute/adventurer.png")
+          
+      
+  h1 Bootstrap Components
+  
+  .row
+    .col-sm-3
+  
+      .panel.panel-default
+        .panel-heading
+          a#dropdowns.panel-title(href="#dropdowns") Dropdowns
+          
+        .panel-body
+          .btn-group
+            button.btn.btn-default.dropdown-toggle(data-toggle="dropdown") Dropdown Button
+            ul.dropdown-menu
+              li
+                a Action
+              li
+                a Another action
+                
+      .panel.panel-default
+        .panel-heading
+          a#navs.panel-title(href="#navs") Navs
+          
+        .panel-body
+          ul.nav.nav-tabs
+            li.active 
+              a Home
+            li 
+              a Profile
+            li 
+              a Message
+              
+          hr
+          
+          ul.nav.nav-pills
+            li.active
+              a Home
+            li
+              a Profile
+            li
+              a Message
+              
+      .panel.panel-default
+        .panel-heading
+          a#navbars.panel-title(href="#navbars") Navbars
+          
+        .panel-body
+          nav.navbar.navbar-default
+            .container-fluid
+              .navbar-header
+                button.navbar-toggle.collapsed(data-toggle="collapse", data-target="#main-nav")
+                  span.glyphicon.glyphicon-option-horizontal
+                a.navbar-brand Brand
+              
+              .collapse.navbar-collapse#main-nav
+                ul.nav.navbar-nav
+                  li.active
+                    a Link
+                  li
+                    a Link
+                  
+      .panel.panel-default
+        .panel-heading
+          a#breadcrumbs.panel-title(href="#breadcrumbs") Breadcrumbs
+
+        .panel-body
+          ol.breadcrumb
+            li Home
+            li Library
+            li.active Data
+                
+      .panel.panel-default
+        .panel-heading
+          a#labels.panel-title(href="#labels") Labels
+        .panel-body
+          span.label.label-default default
+          span.spr
+          span.label.label-primary primary
+          span.spr
+          span.label.label-success success
+          span.spr
+          span.label.label-info info
+          span.spr
+          span.label.label-warning warning
+          span.spr
+          span.label.label-danger danger
+          span.spr
+          span.label.label-banner banner
+          
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#alerts.panel-title(href="#alerts") Alerts
+          
+        .panel-body
+          .alert.alert-success Success
+          .alert.alert-info Info
+          .alert.alert-warning Warning
+          .alert.alert-danger Danger
+            
+      .panel.panel-default
+        .panel-heading
+          a#progress-bars.panel-title(href="#progress-bars") Progress Bars
+    
+        .panel-body
+          strong Default
+          .progress
+            .progress-bar(style="width: 50%")
+    
+          strong Striped Active
+          .progress.progress-striped.active
+            .progress-bar(style="width: 50%")
+    
+          strong Contextual
+          .progress
+            .progress-bar.progress-bar-success(style="width: 25%") Success
+            .progress-bar.progress-bar-info(style="width: 25%") Info
+            .progress-bar.progress-bar-warning(style="width: 25%") Warning
+            .progress-bar.progress-bar-danger(style="width: 25%") Danger
+              
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#list-groups.panel-title(href="#list-groups") List Groups
+
+        .panel-body
+          ul.list-group
+            li.list-group-item List group item 1
+            li.list-group-item List group item 2
+            li.list-group-item List group item 3
+            
+      .panel.panel-info
+        .panel-heading
+          .panel-title Info Panel w/Title
+        .panel-body And body
+        .panel-footer And footer
+          
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Primary Panel w/Title
+        .panel-body And body
+        .panel-footer And footer
+          
+      .panel.panel-default
+        .panel-heading
+          .panel-title Default Panel w/Title
+        .panel-body And body
+        .panel-footer And footer
+          
+    .col-sm-3
+      .panel.panel-success
+        .panel-heading
+          .panel-title Success Panel w/Title
+        .panel-body And body
+        .panel-footer And footer
+          
+      .panel.panel-warning
+        .panel-heading
+          .panel-title warning Panel w/Title
+        .panel-body And body
+        .panel-footer And footer
+          
+      .panel.panel-danger
+        .panel-heading
+          .panel-title Danger Panel w/Title
+        .panel-body And body
+        .panel-footer And footer
+          
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#wells.panel-title(href="#wells") Wells
+
+        .panel-body
+          .well Well!
+          .well.well-lg Large well!
+          .well.well-sm Small well!
+          .well.well-parchment Parchment well
+            
+  h1 Bootstrap JavaScript
+
+  .row
+    .col-sm-6
+      .panel.panel-default
+        .panel-heading
+          a#modals.panel-title(href="#modals") Default Modal
+          
+        .panel-body(style="background: lightgrey")#modal-1
+          include /templates/core/modal-base
+          
+    .col-sm-6
+      .panel.panel-default
+        .panel-heading
+          a.panel-title Plain Modal
+
+        .panel-body(style="background: lightgrey")#modal-2
+          include /templates/core/modal-base
+              
+  .row
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#tooltips.panel-title(href="#tooltips") Tooltips
+
+        .panel-body
+          button.btn.btn-default(data-placement="right" data-toggle='tooltip') Button w/Tooltip
+          
+        .panel-body.style-flat.text-right
+          button.tooltip-btn.btn.btn-navy(data-placement="right" data-toggle='tooltip') Flat Right Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="top" data-toggle='tooltip') Flat Top Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="bottom" data-toggle='tooltip') Flat Bottom Tooltip
+          br
+          button.tooltip-btn.btn.btn-navy(data-placement="left" data-toggle='tooltip') Flat Left Tooltip
+            
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#popovers.panel-title(href="#popovers") Popovers
+
+        .panel-body
+          button#popover.btn.btn-default(title="Popover title" data-content="Popover content" data-trigger="click") Button w/Popover
+          
+          
+  h1 jQuery UI
+  
+  .row
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#autocomplete.panel-title(href="#autocomplete") Autocomplete
+
+        .panel-body
+          input#tags
+
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#slider.panel-title(href="#slider") Slider
+          
+        .panel-body
+          #slider-example
+      
+  h1 Other
+      
+  .row
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          a#gems.panel-title(href="#gems") Gems
+        .panel-body
+          .gem.gem-20
+          .gem.gem-25
+          .gem.gem-30
+          .gem.gem-40
+          .gem.gem-60
+      

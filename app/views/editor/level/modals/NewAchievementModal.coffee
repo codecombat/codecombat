@@ -15,11 +15,6 @@ module.exports = class NewAchievementModal extends NewModelModal
     super options
     @level = options.level
 
-  getRenderData: ->
-    c = super()
-    c.level = @level
-    c
-
   onAchievementSubmitted: (e) ->
     slug = _.string.slugify @$el.find('#name').val()
     url = "/editor/achievement/#{slug}"

@@ -15,6 +15,7 @@ ShapeObjectSchema = c.object {title: 'Shape'},
   ss: {type: 'array', title: 'Stroke Style'}
   t: c.array {}, {type: 'number', title: 'Transform'}
   m: {type: 'string', title: 'Mask'}
+  bounds: c.array {title: 'Bounds'}, {type: 'number'}
 
 ContainerObjectSchema = c.object {format: 'container'},
   b: c.array {title: 'Bounds'}, {type: 'number'}
@@ -44,6 +45,7 @@ RawAnimationObjectSchema = c.object {},
     gn: {type: 'string', title: 'Global Name'}
     t: c.array {}, {type: 'number', title: 'Transform'}
     a: c.array {title: 'Arguments'}
+    off: {type: 'bolean', title: 'Starts Hidden (_off)'}
   tweens: c.array {},
     c.array {title: 'Function Chain'},
       c.object {title: 'Function Call'},
@@ -109,6 +111,7 @@ _.extend ThangTypeSchema.properties,
   kind: c.shortString {enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item', 'Hero', 'Missile'], default: 'Misc', title: 'Kind'}
   terrains: c.array {title: 'Terrains', description: 'If specified, limits this ThangType to levels with matching terrains.', uniqueItems: true}, c.terrainString
   gems: {type: 'integer', minimum: 0, title: 'Gem Cost', description: 'How many gems this item or hero costs.'}
+  subscriber: {type: 'boolean', title: 'Subscriber', description: 'This item is for subscribers only.'}
   heroClass: {type: 'string', enum: ['Warrior', 'Ranger', 'Wizard'], title: 'Hero Class', description: 'What class this is (if a hero) or is restricted to (if an item). Leave undefined for most items.'}
   tier: {type: 'number', minimum: 0, title: 'Tier', description: 'What tier (fractional) this item or hero is in.'}
   actions: c.object {title: 'Actions', additionalProperties: {$ref: '#/definitions/action'}}
@@ -132,6 +135,7 @@ _.extend ThangTypeSchema.properties,
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
   containerIcon: { type: 'string' }
+  poseImage: { type: 'string', format: 'image-file', title: 'Pose Image' }
   featureImages: c.object { title: 'Hero Doll Images' },
     body: { type: 'string', format: 'image-file', title: 'Body' }
     head: { type: 'string', format: 'image-file', title: 'Head' }
@@ -139,16 +143,17 @@ _.extend ThangTypeSchema.properties,
     thumb: { type: 'string', format: 'image-file', title: 'Thumb' }
     wizardHand: { type: 'string', format: 'image-file', title: 'Wizard Hand' }
   dollImages: c.object { title: 'Paper Doll Images' },
-    male: { type: 'string', format: 'image-file', title: ' Male' }
-    female: { type: 'string', format: 'image-file', title: ' Female' }
+    male: { type: 'string', format: 'image-file', title: 'Male' }
+    female: { type: 'string', format: 'image-file', title: 'Female' }
     maleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male)' }
     femaleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female)' }
     maleRanger: { type: 'string', format: 'image-file', title: 'Glove (Male Ranger)' }
     maleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male Ranger)' }
     femaleRanger: { type: 'string', format: 'image-file', title: 'Glove (Female Ranger)' }
     femaleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
-    maleBack: { type: 'string', format: 'image-file', title: ' Male Back' }
-    femaleBack: { type: 'string', format: 'image-file', title: ' Female Back' }
+    maleBack: { type: 'string', format: 'image-file', title: 'Male Back' }
+    femaleBack: { type: 'string', format: 'image-file', title: 'Female Back' }
+    pet: { type: 'string', format: 'image-file', title: 'Pet' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:
@@ -165,11 +170,51 @@ _.extend ThangTypeSchema.properties,
       type: 'number'
       description: 'Snap to this many meters in the y-direction.'
   components: c.array {title: 'Components', description: 'Thangs are configured by changing the Components attached to them.', uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on 'original', not whole thing
-  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'extendedName', 'unlockLevelName'], description: 'Help translate this ThangType\'s name and description.'}
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'extendedName', 'shortName', 'unlockLevelName', 'soundTriggers'], description: 'Help translate this ThangType\'s name and description.'}
   extendedName: {type: 'string', title: 'Extended Hero Name', description: 'The long form of the hero\'s name. Ex.: "Captain Anya Weston".'}
+  shortName: { type: 'string', title: 'Short Hero Name', description: 'The short form of the hero\'s name. Ex.: "Anya".' }
   unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
-
+  prerenderedSpriteSheetData: c.array {title: 'Prerendered SpriteSheet Data'},
+    c.object {title: 'SpriteSheet'},
+      actionNames: { type: 'array' }
+      animations:
+        type: 'object'
+        description: 'Third EaselJS SpriteSheet animations format'
+        additionalProperties: {
+          description: 'EaselJS animation'
+          type: 'object'
+          properties: {
+            frames: { type: 'array' }
+            next: { type: ['string', 'null'] }
+            speed: { type: 'number' }
+          }
+        }
+      colorConfig: c.object {additionalProperties: c.colorConfig()}
+      colorLabel: { enum: ['red', 'green', 'blue'] }
+      frames:
+        type: 'array'
+        description: 'Second EaselJS SpriteSheet frames format'
+        items:
+          type: 'array'
+          items: [
+            { type: 'number', title: 'x' }
+            { type: 'number', title: 'y' }
+            { type: 'number', title: 'width' }
+            { type: 'number', title: 'height' }
+            { type: 'number', title: 'imageIndex' }
+            { type: 'number', title: 'regX' }
+            { type: 'number', title: 'regY' }
+          ]
+      image: { type: 'string', format: 'image-file' }
+      resolutionFactor: {
+        type: 'number'
+      }
+      spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
+  restricted: {type: 'string', title: 'Restricted', description: 'If set, this ThangType will only be accessible by admins and whoever it is restricted to.'}
+  releasePhase: { enum: ['beta', 'released'], description: "How far along the ThangType's development is, determining who sees it." }
+  gender: { enum: ['female', 'male'], type: 'string', title: 'Hero Gender', description: 'Affects which paper doll image set and language pronouns to use.' }
+  ozaria: { type: 'boolean', description: 'Marks this thang as an Ozaria only type. Used to prevent Ozaria hero\'s from appearing in CodeCombat hero selector.'}
 
 ThangTypeSchema.required = []
 
@@ -185,5 +230,6 @@ c.extendSearchableProperties ThangTypeSchema
 c.extendVersionedProperties ThangTypeSchema, 'thang.type'
 c.extendPatchableProperties ThangTypeSchema
 c.extendTranslationCoverageProperties ThangTypeSchema
+c.extendAlgoliaProperties ThangTypeSchema
 
 module.exports = ThangTypeSchema

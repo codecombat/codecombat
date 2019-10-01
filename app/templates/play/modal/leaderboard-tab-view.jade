@@ -14,9 +14,11 @@ if topScores
         th
     tbody
       for row, rank in topScores
-        - var isMyRow = row.creator == me.id
+        - var isMyRow = row.creator == me.id;
         - var viewable = rank >= 5 || me.isAdmin();
-        tr(class=isMyRow ? "success" : "" + (viewable ? " viewable" : ""), data-player-id=row.creator, data-session-id=row.session, title=viewable ? "View solution" : "Can't view top 5 solutions")
+        - var title = me.isAdmin() ? '<pre>' + row.code + '</pre>' : viewable ? "View solution" : "Can't view top 5 solutions";
+        - var toggle = me.isAdmin() ? "tooltip" : "";
+        tr(class=isMyRow ? "success" : "" + (viewable ? " viewable" : ""), data-player-id=row.creator, data-session-id=row.session, title=title, data-toggle=toggle)
           td.rank-cell= rank + 1
           td.code-language-cell(style="background-image: url(/images/common/code_languages/#{row.codeLanguage}_small.png)" title=_.string.capitalize(row.codeLanguage))
           td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{row.hero}/portrait.png)")
@@ -25,12 +27,14 @@ if topScores
           td.ago-cell= row.ago
           td.viewable-cell
             if viewable
-              if (me.get('preferredLanguage', true) || 'en-US').substr(0, 2) == 'en'
+              if (me.get('preferredLanguage', true) || 'en-US').substr(0, 2) == 'en' && !me.isAdmin()
                 .btn.btn-xs.btn-info Watch
               else
                 .glyphicon.glyphicon-eye-open
             else
               .glyphicon.glyphicon-eye-close
+            if me.isAdmin()
+              .nuke-button.glyphicon.glyphicon-remove
 else if loading
   h3(data-i18n="common.loading")
 else

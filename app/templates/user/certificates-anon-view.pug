@@ -1,0 +1,87 @@
+style.
+  @page {
+    margin-top: 0.5in;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  @page:first {
+    margin-top: 0in;
+  }
+
+  body {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+  }
+
+  @media print {
+    a[href]:after {
+      content:none
+    }
+    a[href] {
+      color: #0b63bc !important;
+      text-decoration: underline;
+    }
+  }
+
+.style-flat
+  .menu
+    .print-btn.btn.btn-success Print
+
+  .certificate
+    if !view.loading
+      img.certificate-background(src=view.backgroundImage())
+    div(class="certificate-contents" + ((view.courseStats && !view.courseStats.courseComplete) ? " in-progress" : ""))
+      img.logo-img(src="/images/pages/base/logo.png")
+      .certificate-text-container
+        if view.loading || !view.courseStats
+          h1.loading-indicator(data-i18n="common.loading")
+        else
+          if !view.courseStats.courseComplete
+            h3.certificate-of-completion(data-i18n="teacher.in_progress")
+          else
+            h3.certificate-of-completion(data-i18n="user.certificate_of_completion")
+          h1.student-name=view.userName()
+          h4.course-name
+            span(data-i18n="user.certificate_for")
+            span= ' '
+            span(data-i18n="hoc_2018.title")
+          .code-results.outcome-section
+            h3.learned-title(data-i18n="user.certificate_stats")
+            ul.list-unstyled
+              li
+                span= view.courseStats.linesOfCode
+                span= ' '
+                span(data-i18n="user.certificate_lines_of")
+                span= ' '
+                span= view.getCodeLanguageName()
+              li
+                span= view.courseStats.levels.numDone
+                span= ' '
+                span(data-i18n="user.certificate_levels_completed")
+              if view.projectLink
+                li
+                  span(data-i18n="teacher.project")
+                  span= ': '
+                  a(href=view.projectLink)= (view.projectShortLink || view.projectLink).replace(/^https?:\/\//, '')
+          .concepts-learned.outcome-section
+            h3.learned-title(data-i18n="courses.concepts")
+            ul.list-unstyled
+              for concept in view.getConcepts().slice().reverse().slice(0, 7)
+                if concept == 'create_playable_game' || concept == 'create_sharable_web_page' || concept == 'create_sharable_interactive_web_page'
+                  // Too wide, weird "concepts", we'll just skip
+                  - continue;
+                li(data-i18n="concepts." + concept)
+          if view.teacherName
+            .teacher-info
+              span(data-i18n="courses.teacher")
+              span= ': '
+              span= view.teacherName
+          .course-ribbon
+            img(src=view.getMedallion())
+            //- Set the position of the text in the medallion.
+            h3(style="top: 0.5in;" data-i18n="hoc_2018.acronym")

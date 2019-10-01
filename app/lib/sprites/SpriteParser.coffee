@@ -1,3 +1,6 @@
+createjs = require 'lib/createjs-parts'
+esprima = require 'esprima'
+
 module.exports = class SpriteParser
   constructor: (@thangTypeModel) ->
     # Create a new ThangType, or work with one we've been building
@@ -31,6 +34,9 @@ module.exports = class SpriteParser
     properties = source.match(/.*lib\.properties = \{\n.*?width: (\d+),\n.*?height: (\d+)/im)
     @width = parseInt(properties?[1] ? '0', 10)
     @height = parseInt(properties?[2] ? '0', 10)
+
+    # Remove webfontAvailable line, not relevant
+    source = source.replace /lib\.webfontAvailable = (.|\n)+?};/, ''
 
     options = {loc: false, range: true}
     ast = esprima.parse source, options
@@ -180,6 +186,9 @@ module.exports = class SpriteParser
         name = node.parent?.left?.property?.name
         if name
           expression = node.parent.parent
+          unless expression.parent?.right?.right
+            if /frame_[\d]+/.test name  # Skip some useless KR function things
+              return
           kind = expression.parent.right.right.callee.property.name
           statement = node.parent.parent.parent.parent
           statementIndex = _.indexOf statement.parent.body, statement
@@ -318,6 +327,9 @@ module.exports = class SpriteParser
       if name.search('shape') isnt -1 and shape.fc is 'rgba(0,0,0,0.451)' and not shape.ss and not shape.sc
         console.log 'Skipping a shadow', name, shape, 'because we\'re doing shadows separately now.'
         return
+      #if name.search('shape') isnt -1 and shape.fc is 'rgba(0,0,0,0.498)' and not shape.ss and not shape.sc
+      #  console.log 'Skipping a KR shadow', name, shape, 'because we\'re doing shadows separately now.'
+      #  return
       shapeKeys.push shapeKey = @addShape shape
       localShape = {bn: name, gn: shapeKey}
       localShape.m = mask if mask
@@ -397,6 +409,7 @@ module.exports = class SpriteParser
         argsSource = argsSource.replace(/mask/g, 'this.mask') # so the mask thing will be handled correctly as a blockName in the next line
         argsSource = argsSource.replace(/this\.([a-z_0-9]+)/ig, '"$1"') # turns this.shape literal to 'shape' string
         argsSource = argsSource.replace(/cjs(.+)\)/, '"createjs$1)"') # turns cjs.Ease.get(0.5)
+        argsSource = '{}' if argsSource is 'this' # not sure what this should be but it looks like we don't need it for KR sprites
 
         args = eval "[#{argsSource}]"
         shadowTween = args[0]?.search?('shape') is 0 and not _.find(localShapes, bn: args[0])

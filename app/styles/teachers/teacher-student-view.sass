@@ -1,0 +1,258 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#teacher-student-view
+  .breadcrumbs
+    color: #065e73
+    a
+      color: #065e73
+
+  .student-details
+    margin-top: 20px
+
+  .performance
+    .recommendation
+      padding: 5px 0 0 0
+
+      .small-details
+        line-height: 20px
+        font-weight: 600
+        padding: 0 15px 0 50px
+        width: 94%
+      //
+      // .good
+      //   font-weight: 600
+      //   color: #000
+      //
+      // .warn
+      //   font-weight: 600
+      //   color: $navy
+      //
+      // .great
+      //   font-weight: 600
+      //   color: $forest
+
+      .glyphicon
+        padding: 5px 0 0 0
+        width: 5%
+        float: left
+
+      .glyphicon-exclamation-sign
+        color: #808080
+        font-size: 2em
+
+      .glyphicon-star
+        color: $gold
+        font-size: 2em
+
+      .glyphicon-thumbs-up
+        color: $navy
+        font-size: 2em
+
+      .status
+        padding: 2px 0 0 0
+        margin-bottom: 20px
+        font-weight: normal
+
+    .additional-progress
+      padding: 0 0 0 12px
+
+      .glyphicon
+        margin-top: 4px
+        vertical-align: top
+
+      .glyphicon-exclamation-sign
+        color: #808080
+
+      .glyphicon-star
+        color: $gold
+
+      .glyphicon-thumbs-up
+        color: $navy
+
+      .small-details
+        vertical-align: top
+        margin-left: 15px
+
+  .playtime-charts
+    margin-top: 30px
+
+    h4
+      margin-bottom: 15px
+      // font-weight: 600
+
+  svg.visualisation
+    // background-color: $navy
+    display: none
+
+    text.label
+        font-size: 11px
+        fill: #000000
+        font-weight: bold
+
+    .domain
+
+    g.tick
+      font-size: 13px
+
+    g.labels
+      font-size: 15px
+      font-weight: 600
+
+  .graphs :first-child
+    display: block
+
+  .graphsSelector
+    text-align: center
+    margin-bottom: 10px
+
+  div.legend
+    text-align: center
+    padding: 10px 0 0 0
+    font-size: 15px
+    font-style: italic
+
+  .student-progress-section
+    margin-top: 30px
+    margin-bottom: 30px
+
+    h4
+      margin-bottom: 10px
+
+  .course-row
+    padding-top: 15px
+    padding-bottom: 30px
+
+    .course-info
+      font-weight: 600
+
+  .progress-dot
+    margin: 5px
+
+  .progress-dot
+    display: inline-block
+    margin-right: 6px
+    min-width: 34px
+    height: 34px
+    border-radius: 16px
+    padding: 0 5px
+    background: $gray-light
+    position: relative
+    a
+      text-decoration: none
+
+    .dot-label
+      padding-top: 2px
+      .dot-label-inner
+        font-size: 11px
+        font-weight: bold
+        color: white
+
+  .progress-dot-lg .dot-label .dot-label-inner
+    font-size: 13px
+
+  .progress-dot.forest
+    background: $forest
+    .tooltip-inner
+      color: $forest
+      border-color: $forest
+    .tooltip-arrow
+      border-top-color: $forest
+
+  .progress-dot.gold
+    background: $gold
+    .tooltip-inner
+      color: $navy
+      border-color: $navy
+    .tooltip-arrow
+      border-top-color: $navy
+
+  .progress-dot.navy
+    background: $navy
+    .tooltip-inner
+      color: $navy
+      border-color: $navy
+    .tooltip-arrow
+      border-top-color: $navy
+
+  td
+    width: 50%
+    border-width: 0px
+
+  center
+    text-align: center
+
+  pre
+    margin-top: 10px
+
+  .progress-selector
+    text-align: center
+
+    .course-select
+      margin-top: 20px
+      text-align: center
+
+  .incomplete-code
+    border-color: red
+
+  .code-level-row
+    padding-top: 30px
+
+  .solution-blurb
+    font-size: 12px
+
+  .back-to-top
+    float: right
+
+  .glyphicon-question-sign
+    margin-left: 5px
+
+  .ace_content
+    .ace_marker-layer
+      .ace_bracket
+        display: none
+    .ace_cursor-layer
+      .ace_cursor
+        display: none
+    .ace_text-layer .ace_invisible_space
+      visibility: hidden
+
+  ul.nav-tabs
+    border: none
+    .tab-spacer
+      float: left
+      width: 15px
+      height: 21px
+      border-bottom: thin solid #979797
+
+    .tab-filler
+      // Triggers block formatting context
+      // http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width
+      overflow: hidden
+      height: 21px
+      border-bottom: thin solid #979797
+
+    li > a
+      margin: 0
+      padding: 0px 4px
+      border: thin solid #979797
+      border-bottom: none
+      background: white
+      border-radius: 5px 5px 0 0
+      color: black
+      font-size: 14px
+    li
+      border-bottom: thin solid #979797
+    li.active
+      border-bottom: none
+
+  .student-solution-spacer
+    height: 22px
+
+  table.side-by-side
+    width: 100%
+    td
+      vertical-align: top     
+    td.project-blurb
+      padding-left: 10px

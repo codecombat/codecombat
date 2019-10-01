@@ -1,3 +1,4 @@
+require('app/styles/community.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/community-view'
 
@@ -17,3 +18,5 @@ module.exports = class CommunityView extends RootView
 
     @$el.find('.logo-row img').each ->
       $(@).popover(placement: 'top', trigger: 'hover', container: 'body')
+
+  logoutRedirectURL: false

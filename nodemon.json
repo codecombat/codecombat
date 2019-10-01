@@ -1,0 +1,14 @@
+{
+    "verbose": "true",
+    "ignore": [],
+    "events": {
+    },
+    "watch": [
+        "server_config.js",
+        "server_setup.coffee",
+        "app/schemas",
+        "./server",
+        "app/assets/main.html"
+    ],
+    "ext":"js coffee"
+}

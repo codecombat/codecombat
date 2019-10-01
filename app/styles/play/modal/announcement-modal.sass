@@ -1,0 +1,279 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#announcement-modal
+  //- Clear modal defaults
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    width: 746px
+    height: 520px
+    background: none
+
+  .modal-content
+    box-shadow: none
+    height: 520px
+
+  //- Background
+  #subscribe-background
+    position: absolute
+    top: -61px
+    left: 0px
+
+
+  //- Header
+  h1
+    position: absolute
+    left: 170px
+    top: 25px
+    margin: 0
+    width: 410px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
+    font-variant: normal
+    text-transform: uppercase
+
+
+  //- Close modal button
+  #close-modal
+    position: absolute
+    left: 568px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  .subscribe-image
+    position: absolute
+    top: 114px
+    right: 65px
+    
+  //- Paper area
+  .sub
+    position: absolute
+    right: -20px
+    bottom: -32px
+    z-index: 1
+    width: 256px
+
+    button
+      width: 256px
+
+  .wiggle
+    animation: excited-wiggle 0.25s 2 alternate
+
+  @keyframes excited-wiggle
+    0%
+      transform: rotate(0deg)
+    25%
+      transform: rotate(-2deg)
+    50%
+      transform: rotate(0deg)
+    75%
+      transform: rotate(2deg)
+    100%
+      transform: rotate(0deg)
+
+  .excitable-hidden:hover
+    animation: excitable-anim-hidden 1s infinite alternate
+
+    @keyframes excitable-anim-hidden
+      from
+        transform: scale(1) rotate(-5deg)
+        filter: brightness(-75%) drop-shadow(0px 0px 0px black)
+        -webkit-filter: brightness(0.25) drop-shadow(0px 0px 0px rgba(0,0,0,0.65))
+      to
+        transform: scale(1.1) rotate(5deg) translateY(-16px)
+        filter: brightness(-75%) drop-shadow(4px 8px 0px rgba(0,0,0,0.65))
+        -webkit-filter: brightness(0.25) drop-shadow(4px 8px 0px rgba(0,0,0,0.65))
+
+  .no-show-pet
+    filter: brightness(-75%)
+    -webkit-filter: brightness(0.25)
+
+  .excitable:hover
+    animation: excitable-anim 1s infinite alternate
+
+    @keyframes excitable-anim
+      from
+        transform: scale(1) rotate(-5deg)
+        filter: drop-shadow(0px 0px 0px black)
+      to
+        transform: scale(1.1) rotate(5deg) translateY(-16px)
+        filter: drop-shadow(4px 8px 0px rgba(0,0,0,0.65))
+
+  #item-tooltip
+    border-style: solid
+    border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
+    border-width: 16px 12px
+    z-index: 2
+
+  .paper-area
+    position: absolute
+    top: 97px
+    left: 27px
+    height: 410px
+    width: 691px
+    -webkit-clip-path: url(#clipper)
+    clip-path: url(#clipper)
+
+    .full-width-image
+      width: 100%
+      height: 100%
+      top: 0%
+      left: 0%
+      pointer-events: none
+    img
+      position: absolute
+    .row
+      margin-bottom: 17px
+
+    .nfo
+      position: absolute
+      right: 10px
+      top: 10px
+      width: 350px
+      z-index: 1
+      background-color: rgba(0,0,0,0.75)
+      border: 1px solid black
+      border-radius: 8px
+      padding: 8px
+      color: white
+      font-size: large
+  li
+    a
+      color: rgb(127, 127, 255)
+
+  .ability-icon
+    cursor: pointer
+  .ability-icon > img
+    transition: transform 0.25s
+  .ability-icon > img:active
+    transform: scale(0.75)
+  .ability-icon > img:hover
+    transform: scale(1.25)
+  #ritic-image
+    cursor: pointer
+  .ritic-block
+    transition: filter 0s;
+  .ritic-block-1
+    filter: hue-rotate(160deg) brightness(0) blur(6px) opacity(0.5);
+    transition: filter 1s;
+  .ritic-block-2
+    filter: hue-rotate(160deg) brightness(0.5) blur(4px) opacity(0.575);
+    transition: filter 1s;
+  .ritic-block-3
+    filter: hue-rotate(160deg) brightness(1) blur(2px) opacity(0.66);
+    transition: filter 1s;
+  .shard
+    position: absolute
+    width: 32px
+    transition: transform 1s
+    pointer-events: none
+
+  .highlight
+    display: none
+    opacity: 0.5
+    // I like black better than cyan?
+    filter: brightness(0)
+
+  @keyframes highlight-anim
+    0%
+      transform: rotate(0deg)
+    100%
+      transform: rotate(360deg)
+
+  @keyframes highlight-reverse-anim
+    0%
+      transform: rotate(0deg)
+    100%
+      transform: rotate(-360deg)
+
+  .breathing
+    animation: breathing-anim 2s infinite alternate;
+
+  @keyframes breathing-anim
+    0%
+      transform: scaleX(0.98) scaleY(1.02);
+    100%
+      transform: scaleX(1) scaleY(1);
+
+  .twitching
+    animation: twitching-anim 1s infinite alternate;
+
+  @keyframes twitching-anim
+    0%
+      transform: rotate(0deg);
+    10%
+      transform: rotate(0deg);
+    20%
+      transform: rotate(-1deg);
+    30%
+      transform: rotate(1deg);
+    40%
+      transform: rotate(0deg);
+    100%
+      transform: rotate(0deg);
+
+
+  //- Action buttons
+
+  .subscribe-actions
+    position: absolute
+    top: 430px
+    left: 18px
+    right: 18px
+    display: flex
+
+    > button
+      height: 100px
+      margin: 0 5px
+
+  //- Purchase button
+
+  .purchase-button
+    flex-grow: 1
+    font-size: 24px
+    line-height: 30px
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
+
+  //- Sale button
+
+  .sale-button, .lifetime-button
+    font-size: 24px
+    line-height: 30px
+    border-style: solid
+    border-image: url(/images/common/button-background-success-active.png) 14 20 20 20 fill round
+    &:hover
+      border-image: url(/images/common/button-background-success-inactive.png) 14 20 20 20 fill round
+    &:active
+      border-image: url(/images/common/button-background-success-pressed.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none

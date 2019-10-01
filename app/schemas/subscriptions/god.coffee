@@ -25,15 +25,20 @@ worldUpdatedEventSchema = c.object {required: ['world', 'firstWorld', 'goalState
   team: {type: 'string'}
   firstChangedFrame: {type: 'integer', minimum: 0}
   finished: {type: 'boolean'}
+  god: {type: 'object'}
+  keyValueDb: {type: 'object'}
 
 module.exports =
-  'god:user-code-problem': c.object {required: ['problem']},
+  'god:user-code-problem': c.object {required: ['problem', 'god']},
+    god: {type: 'object'}
     problem: {type: 'object'}
 
-  'god:non-user-code-problem': c.object {required: ['problem']},
+  'god:non-user-code-problem': c.object {required: ['problem', 'god']},
+    god: {type: 'object'}
     problem: {type: 'object'}
 
-  'god:infinite-loop': c.object {required: ['firstWorld']},
+  'god:infinite-loop': c.object {required: ['firstWorld', 'god']},
+    god: {type: 'object'}
     firstWorld: {type: 'boolean'}
     nonUserCodeProblem: {type: 'boolean'}
 
@@ -41,17 +46,28 @@ module.exports =
 
   'god:streaming-world-updated': worldUpdatedEventSchema
 
-  'god:goals-calculated': c.object {required: ['goalStates']},
+  'god:new-html-goal-states': c.object {required: ['goalStates', 'overallStatus']},
+    goalStates: goalStatesSchema
+    overallStatus: {type: ['string', 'null'], enum: ['success', 'failure', 'incomplete', null]}
+
+  'god:goals-calculated': c.object {required: ['goalStates', 'god']},
+    god: {type: 'object'}
     goalStates: goalStatesSchema
     preload: {type: 'boolean'}
     overallStatus: {type: ['string', 'null'], enum: ['success', 'failure', 'incomplete', null]}
+    totalFrames: {type: ['integer', 'undefined']}
+    lastFrameHash: {type: ['number', 'undefined']}
+    simulationFrameRate: {type: ['number', 'undefined']}
 
-  'god:world-load-progress-changed': c.object {required: ['progress']},
+  'god:world-load-progress-changed': c.object {required: ['progress', 'god']},
+    god: {type: 'object'}
     progress: {type: 'number', minimum: 0, maximum: 1}
 
-  'god:debug-world-load-progress-changed': c.object {required: ['progress']},
+  'god:debug-world-load-progress-changed': c.object {required: ['progress', 'god']},
+    god: {type: 'object'}
     progress: {type: 'number', minimum: 0, maximum: 1}
 
-  'god:debug-value-return': c.object {required: ['key']},
+  'god:debug-value-return': c.object {required: ['key', 'god']},
+    god: {type: 'object'}
     key: {type: 'string'}
     value: {}

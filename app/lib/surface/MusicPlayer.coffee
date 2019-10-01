@@ -1,6 +1,7 @@
 CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
 {me} = require 'core/auth'
+createjs = require 'lib/createjs-parts'
 
 CROSSFADE_LENGTH = 1500
 MUSIC_VOLUME = 0.6
@@ -14,20 +15,26 @@ module.exports = class MusicPlayer extends CocoClass
     'audio-player:loaded': 'onAudioLoaded'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-started': 'onRealTimePlaybackStarted'  # Handle cinematic the same as real-time
+    'playback:cinematic-playback-ended': 'onRealTimePlaybackEnded'
     'music-player:enter-menu': 'onEnterMenu'
     'music-player:exit-menu': 'onExitMenu'
+    'level:set-volume': 'onSetVolume'
 
   constructor: ->
     super arguments...
     me.on 'change:music', @onMusicSettingChanged, @
 
-  onAudioLoaded: ->
+  onAudioLoaded: (e) ->
     @onPlayMusic(@standingBy) if @standingBy
 
   onPlayMusic: (e) ->
     return if application.isIPadApp  # Hard to measure, but just guessing this will save memory.
+    unless me.get 'volume'
+      @lastMusicEventIgnoredWhileMuted = e
+      return
     src = e.file
-    src = "/file#{src}#{AudioPlayer.ext}"
+    src = "/file#{src}#{AudioPlayer.ext}" unless /^http/.test(src)
     if (not e.file) or src is @currentMusic?.src
       if e.play then @restartCurrentMusic() else @fadeOutCurrentMusic()
       return
@@ -45,7 +52,7 @@ module.exports = class MusicPlayer extends CocoClass
 
   restartCurrentMusic: ->
     return unless @currentMusic
-    @currentMusic.play('none', 0, 0, -1, 0.3)
+    @currentMusic.play {interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3}
     @updateMusicVolume()
 
   fadeOutCurrentMusic: ->
@@ -55,7 +62,7 @@ module.exports = class MusicPlayer extends CocoClass
     createjs.Tween.get(@currentMusic).to({volume: 0.0}, CROSSFADE_LENGTH).call(f)
 
   startNewMusic: (src, delay) ->
-    @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src
+    @currentMusic = createjs.Sound.play(src, {interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3}) if src
     return unless @currentMusic
     @currentMusic.volume = 0.0
     if me.get('music', true)
@@ -96,6 +103,11 @@ module.exports = class MusicPlayer extends CocoClass
     if @previousMusic
       @currentMusic = @previousMusic
       @restartCurrentMusic()
+
+  onSetVolume: (e) ->
+    return unless e.volume and @lastMusicEventIgnoredWhileMuted
+    @onPlayMusic @lastMusicEventIgnoredWhileMuted
+    @lastMusicEventIgnoredWhileMuted = null
 
   destroy: ->
     me.off 'change:music', @onMusicSettingChanged, @

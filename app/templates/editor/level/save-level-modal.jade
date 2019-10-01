@@ -1,0 +1,82 @@
+extends /templates/editor/modal/save-version-modal
+
+block modal-body-content
+  h3
+    span(data-i18n="resources.level") Level
+    span=": " + level.get('name') + " - "
+    if levelNeedsSave
+        span(data-i18n="delta.modified") Modified
+    else
+        span(data-i18n="delta.not_modified") Not Modified
+
+  if levelNeedsSave
+    .changes-stub
+    form#save-level-form.form-inline
+      .form-group.commit-message
+        input.form-control#level-commit-message(name="commit-message", type="text", value=commitMessage)
+      if level.isPublished()
+        // We don't use the major version feature, and it might be buggy, so hide for now.
+        .checkbox.hide
+          label
+            input#level-version-is-major(name="version-is-major", type="checkbox", disabled=true)
+            span(data-i18n="versions.new_major_version") New Major Version
+      if !level.isPublished()
+        .checkbox
+          label
+            input#level-publish(name="publish", type="checkbox")
+            span(data-i18n="common.publish") Publish
+
+  if modifiedComponents.length
+    hr
+
+  each component in modifiedComponents
+    - var id = component.get('_id')
+    h4
+      span(data-i18n="resources.component") Component
+      span= ": " + component.get('system') + '.' + component.get('name')
+    .changes-stub
+    form.form-inline.component-form(id="save-component-" + id + "-form")
+      input(name="component-original", type="hidden", value=component.get('original'))
+      input(name="component-parent-major-version", type="hidden", value=component.get('version').major)
+      .form-group.commit-message
+        input.form-control(id=id + "-commit-message", name="commit-message", type="text")
+      if component.isPublished()
+        // We don't use the major version feature, and it might be buggy, so hide for now.
+        .checkbox.hide
+          label
+            input(id=id + "-version-is-major", name="version-is-major", type="checkbox", disabled=true)
+            span(data-i18n="versions.new_major_version") New Major Version
+
+  if modifiedSystems.length
+    hr
+
+  each system in modifiedSystems
+    - var id = system.get('_id')
+    h4
+      span(data-i18n="resources.system") System
+      span= ": " + system.get('name')
+    .changes-stub
+    form.form-inline.system-form(id="save-system-" + id + "-form")
+      input(name="system-original", type="hidden", value=system.get('original'))
+      input(name="system-parent-major-version", type="hidden", value=system.get('version').major)
+      .form-group.commit-message
+        input.form-control(id=id + "-commit-message", name="commit-message", type="text", placeholder="Commit Message")
+      if system.isPublished()
+        // We don't use the major version feature, and it might be buggy, so hide for now.
+        .checkbox.hide
+          label
+            input(id=id + "-version-is-major", name="version-is-major", type="checkbox", disabled=true)
+            span(data-i18n="versions.new_major_version") New Major Version
+
+  if me.isAdmin()
+    #verifier-stub
+      h3 Verifying...
+      #verifier-tests
+        for state in ['waiting', 'running', 'problems', 'failed', 'passedExceptFrames', 'passed']
+          span(style=view[state] ? "font-weight: bold" : "")  #{_.string.humanize(state)}: #{view[state]} |
+        span= ' '
+        a(href="/editor/verifier/#{level.get('slug')}?dev=true", target="_blank") Details
+
+  #errors-wrapper.alert.alert-danger.hide
+    strong Validation Error! Save failed.
+    p.errors

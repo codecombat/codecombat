@@ -1,0 +1,461 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
+
+body.is-playing
+  background-color: black
+
+$level-resize-transition-time: 0.5s
+// TODO: use this for real-time playback but not cinematic playback
+
+#level-view
+  margin: 0 auto
+  position: absolute
+  overflow: hidden
+  left: 0
+  right: 0
+  bottom: 10px
+  top: 0
+  @include user-select(none)
+
+  &.real-time, &.cinematic
+    // Hmm, somehow the #page-container is cutting us off by ~17px on the right, looks a bit off.
+    
+    &.real-time.game-dev
+      #canvas-wrapper
+        width: 80%
+
+    #canvas-wrapper
+      width: 100%
+      canvas
+        margin: 0 auto
+      #normal-surface
+        left: 0
+        right: 0
+        margin-left: auto
+        margin-right: auto
+    #control-bar-view
+      width: 100%
+      button, h4
+        display: none
+    #code-area, #thang-hud, #goals-view
+      display: none
+      visibility: hidden
+    #gold-view
+      right: 1%
+      @include box-shadow(-1px 1px 10px cyan)
+      .team-gold
+        font-size: 2vw
+        line-height: 2vw
+        img
+          width: 1.8vw
+          height: 1.8vw
+    #duel-stats-view
+      right: calc(50% - 250px)
+      bottom: 50px
+      .duel-stats-background
+        opacity: 0.8
+    #control-bar-view .title
+      left: 20%
+      width: 60%
+      text-align: center
+    #level-dialogue-view
+      display: none
+
+    .level-content
+      margin: 0px auto
+
+  .level-content
+    position: relative
+    min-height: 555px
+    //background-color: black
+
+  &.real-time
+    &:not(.flags)
+      #playback-view
+        width: 100%
+
+    &.flags
+      #playback-view
+        $flags-width: 200px
+        width: 90%
+        width: -webkit-calc(100% - 200px)
+        width: calc(100% - 200px)
+        left: $flags-width
+
+    #stop-real-time-playback-button
+      display: block
+      z-index: 20
+
+  &.cinematic
+    #playback-view
+      width: 100%
+      margin-top: -10px
+
+    #stop-cinematic-playback-button
+      display: block
+      z-index: 20
+
+    #cinematic-code-display
+      display: block
+      z-index: 20
+      visibility: visible
+
+    #control-bar-view
+      display: none
+
+    #canvas-wrapper
+      top: 0
+
+  #canvas-wrapper
+    top: 50px
+    width: calc(#{$game-view-width} - #{$api-bar-width})
+    position: relative
+    overflow: hidden
+    background-color: black
+    //@include transition(all $level-resize-transition-time ease-out, z-index 1.2s linear)
+    z-index: 0
+
+    &.preview-overlay
+      z-index: 20
+      #goals-view
+        visibility: hidden
+    
+  canvas#webgl-surface
+    background-color: #333
+    z-index: 1
+
+  canvas#normal-surface
+    z-index: 1
+    position: absolute
+    top: 0
+    left: 0
+    pointer-events: none
+
+  canvas#webgl-surface, canvas#normal-surface
+    display: block
+    z-index: 2
+    //@include transition($level-resize-transition-time ease-out)
+
+    &.grabbable:not(.flag-color-selected)
+      cursor: -moz-grab
+      cursor: -webkit-grab
+      cursor: grab
+
+      &:active
+        cursor: -moz-grabbing
+        cursor: -webkit-grabbing
+        cursor: grabbing
+
+    &.flag-color-selected
+      cursor: crosshair
+
+  #ascii-surface
+    position: absolute
+    z-index: 3
+    top: 0
+    left: 0
+    pointer-events: none
+    white-space: pre
+    font-family: Courier, monospace
+    color: white
+    background-color: rgba(14, 59, 130, 0.25)
+    transform-origin: 0 0 0
+    line-height: 15px
+
+  min-width: 1024px
+
+  #code-area
+    @include box-sizing(border-box)
+    padding: 0px 0.9% 10px 0
+    width: 43.5%
+    background: transparent url(/images/level/wood_texture.png)
+    background-size: 100% 100%
+    position: absolute
+    right: 0
+    top: 0px
+    bottom: 0
+    //@include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
+    z-index: 2
+
+  #game-area
+    position: relative
+    overflow: hidden
+    
+  // Level Docs
+  .ui-effects-transfer
+    border: 2px dotted gray
+  
+  .modal
+    img
+      float: right
+
+    img.diagram
+      float: none
+
+  #multiplayer-join-link
+    font-size: 12px
+      
+  // Custom Buttons
+  .btn.banner
+    @include banner-button(#FFF, #333)
+    @include box-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))
+    border: 1px solid black
+    text-shadow: none
+
+    $buttonConfig: 'primary' #6CA8EA, 'info' #71AACC, 'success' #90B236, 'warning' #CD6800, 'danger' #B43C20, 'inverse' #3A537F
+    @each $tuple in $buttonConfig
+      &.btn-#{nth($tuple, 1)}
+        @include banner-button(nth($tuple, 2), #FFF)
+
+  $GI: 0.5  // gradient intensity; can tweak this 0-1
+
+  .gradient
+    position: absolute
+    z-index: 5
+
+  #code-area-gradient
+    top: 0px
+    width: 3px
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    left: -3px
+    bottom: 0
+    
+  #canvas-left-gradient
+    left: 0px
+    width: 5px
+    background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    bottom: -30px
+    top: 0
+
+  #canvas-top-gradient
+    top: 0
+    height: 5px
+    left: 0
+    right: 0
+    background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+
+  #hud-left-gradient
+    background: linear-gradient(to right, rgba(0,0,0,$GI) 0%,rgba(0,0,0,0) 100%)
+    left: 0
+    top: 0
+    height: 100%
+    width: 2%
+
+  #hud-right-gradient
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    right: 0
+    position: absolute
+    top: 0
+    height: 100%
+    width: 2%
+
+  #play-footer
+    position: absolute
+    bottom: 0px
+    width: calc(#{$game-view-width} - #{$api-bar-width})
+    text-align: center
+    font-family: $headings-font-family
+    font-variant: small-caps
+    font-size: 25px
+    padding: 0 0
+    @include transition(opacity .10s linear)
+    @include opacity(0.6)
+
+    &:hover
+      @include opacity(1)
+
+    a
+      @include opacity(0.75)
+      @include transition(opacity .10s linear)
+      color: white
+  
+      &:hover, &:active
+        @include opacity(1)
+    
+    @media screen and (min-aspect-ratio: 17/10)
+      &:not(.premium)
+        display: none
+
+  #level-footer-shadow
+    position: absolute
+    width: 100%
+    height: 30px
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
+
+  #fullscreen-editor-background-screen
+    background-color: black
+    opacity: 0.5
+    cursor: pointer
+    display: none
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 0
+    top: 0
+    z-index: 19
+
+  #stop-real-time-playback-button, #stop-cinematic-playback-button
+    display: none
+    position: absolute
+    // bottom: 70px // Set via javascript because of gamedev level sizing
+    right: 15px
+    font-size: 30px
+
+  #stop-cinematic-playback-button
+    bottom: 70px
+
+  #cinematic-code-display
+    display: none
+    position: absolute
+    left: 0px
+    top: 0px
+    padding: 10px
+    font-size: 1.1vw
+    text-align: left
+    background-color: rgba(0, 0, 0, 0.7)
+    border-bottom-right-radius: 8px
+    visibility: hidden
+    max-width: 35%
+
+    .code-line
+      line-height: 1.2em
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+    code
+      background-color: transparent
+      padding: 0
+      color: rgb(120, 255, 245)
+      white-space: pre
+      line-height: 0px
+
+      &.line-number
+        width: 2vw
+        display: inline-block
+
+    .code-line-2, .code-line-4
+      opacity: 0.7
+
+    .code-line-1, .code-line-5
+      opacity: 0.6
+
+    .code-line-0, .code-line-6
+      opacity: 0.5
+
+  .ad-container
+    width: 100%
+    height: 90px
+    text-align: center
+    
+  .hints-view
+    position: absolute
+    top: 10px
+    height: 93%
+    right: 45%
+    z-index: 1000000
+
+  .game-container, .level-content
+    height: 100%
+
+
+  &.no-api
+    #spell-palette-view
+      display: none
+    #canvas-wrapper
+      width: 60%
+
+  &.web-dev
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+
+    #playback-view, #thang-hud, #level-dialogue-view, #play-footer, #level-footer-background, #level-footer-shadow
+      display: none
+
+    .game-container, .level-content, #game-area, #canvas-wrapper
+      height: 100%
+
+    #canvas-wrapper
+      height: calc(100% - 50px)
+
+    #canvas-wrapper canvas
+      display: none
+
+    #web-surface-view
+      position: absolute
+      top: 0
+      right: 0
+      left: 0
+      bottom: 0
+    
+  #how-to-play-game-dev-panel
+    position: absolute
+    right: 0
+    top: 52px
+    width: 20%
+    bottom: 38px
+    
+  #codeplay-product-banner
+    width: calc(58.5% - 250px)
+    max-width: 100vh
+    position: relative
+    left: 20px
+    top: -7px
+    z-index: 5
+
+html.fullscreen-editor
+  #level-view
+    #fullscreen-editor-background-screen
+      display: block
+
+    #code-area
+      position: fixed
+      width: 95%
+      height: 100%
+      right: 0
+
+body.ipad #level-view
+  // Full-width Surface, preserving aspect ratio, with space for control bar.
+  height: 1024px * (589 / 924) + 50px
+  overflow: hidden
+
+  #code-area, #play-footer, #thang-hud
+    display: none
+
+  #level-chat-view
+    bottom: 40px
+
+  #playback-view
+    background-color: transparent
+    z-index: 3
+    bottom: 30px
+
+    button
+      background-color: #333
+
+    .scrubber .progress
+      background-color: rgba(255, 255, 255, 0.4)
+
+  #canvas-wrapper, #control-bar-view, #playback-view, #thang-hud
+    width: 100%
+
+  #canvas-wrapper
+    height: 653px
+
+    canvas
+      margin: 0 auto
+      overflow: hidden
+
+#level-footer-background
+  display: none
+  position: absolute
+  background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url(/images/level/footer_background.jpg) no-repeat
+  bottom: 0
+  width: 100%
+  background-size: 100% 400px
+  height: 400px
+  z-index: -9001

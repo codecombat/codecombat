@@ -1,7 +1,10 @@
+require('app/styles/editor/level/add-thangs-view.sass')
 CocoView = require 'views/core/CocoView'
 add_thangs_template = require 'templates/editor/level/add-thangs-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
+
+PAGE_SIZE = 1000
 
 class ThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type?project=original,name,version,description,slug,kind,rasterIcon'
@@ -22,8 +25,23 @@ module.exports = class AddThangsView extends CocoView
     super options
     @world = options.world
 
+    @thangTypes = new Backbone.Collection()
+    thangTypeCollection = new ThangTypeSearchCollection([])
+    thangTypeCollection.fetch({data: {limit: PAGE_SIZE}})
+    thangTypeCollection.skip = 0
     # should load depended-on Components, too
-    @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
+    @supermodel.loadCollection(thangTypeCollection, 'thangs')
+    @listenTo thangTypeCollection, 'sync', @onThangCollectionSynced
+
+  onThangCollectionSynced: (collection) ->
+    getMore = collection.models.length is PAGE_SIZE
+    @thangTypes.add(collection.models)
+    @render()
+    if getMore
+      collection.skip += PAGE_SIZE
+      collection.fetch({data: {skip: collection.skip, limit: PAGE_SIZE}})
+      @supermodel.loadCollection(collection, 'thangs')
+
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -80,4 +98,4 @@ module.exports = class AddThangsView extends CocoView
 
   onEscapePressed: ->
     @$el.find('input#thang-search').val('')
-    @runSearch
+    @runSearch()

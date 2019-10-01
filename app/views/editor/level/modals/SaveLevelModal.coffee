@@ -1,11 +1,13 @@
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-template = require 'templates/editor/level/save'
+template = require 'templates/editor/level/save-level-modal'
 forms = require 'core/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 DeltaView = require 'views/editor/DeltaView'
 PatchModal = require 'views/editor/PatchModal'
 deltasLib = require 'core/deltas'
+VerifierTest = require 'views/editor/verifier/VerifierTest'
+SuperModel = require 'models/SuperModel'
 
 module.exports = class SaveLevelModal extends SaveVersionModal
   template: template
@@ -21,6 +23,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     super options
     @level = options.level
     @buildTime = options.buildTime
+    @commitMessage = options.commitMessage ? ""
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -28,7 +31,8 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
-    context.hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    context.commitMessage = @commitMessage
+    @hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
     @lastContext = context
     context
 
@@ -46,6 +50,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
         @insertSubView(deltaView, $(changeEl))
       catch e
         console.error 'Couldn\'t create delta view:', e
+    @verify() if me.isAdmin()
 
   shouldSaveEntity: (m) ->
     return false unless m.hasWriteAccess()
@@ -113,3 +118,35 @@ module.exports = class SaveLevelModal extends SaveVersionModal
             url = "/editor/level/#{@level.get('slug') or @level.id}"
             document.location.href = url
             @hide()  # This will destroy everything, so do it last
+
+  verify: ->
+    return @$('#verifier-stub').hide() unless (solutions = @level.getSolutions()) and solutions.length
+    @running = @problems = @failed = @passedExceptFrames = @passed = 0
+    @waiting = solutions.length
+    @renderSelectors '#verifier-tests'
+    for solution in solutions
+      childSupermodel = new SuperModel()
+      childSupermodel.models = _.clone @supermodel.models
+      childSupermodel.collections = _.clone @supermodel.collections
+      test = new VerifierTest @level.get('slug'), @onVerifierTestUpate, childSupermodel, solution.language, {devMode: true, solution}
+
+  onVerifierTestUpate: (e) =>
+    return if @destroyed
+    if e.state is 'running'
+      --@waiting
+      ++@running
+    else if e.state in ['complete', 'error', 'no-solution']
+      --@running
+      if e.state is 'complete'
+        if e.test.isSuccessful true
+          ++@passed
+        else if e.test.isSuccessful false
+          ++@passedExceptFrames
+        else
+          ++@failed
+      else if e.state is 'no-solution'
+        console.warn 'Solution problem for', e.test.language
+        ++@problems
+      else
+        ++@problems
+    @renderSelectors '#verifier-tests'

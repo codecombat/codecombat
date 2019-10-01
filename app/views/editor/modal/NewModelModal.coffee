@@ -17,18 +17,13 @@ module.exports = class NewModelModal extends ModalView
     @modelLabel = options.modelLabel
     @newModelTitle = "editor.new_#{_.string.slugify @modelLabel}_title"
     @properties = options.properties
-    $('#name').ready @focusOnName
-
-  getRenderData: ->
-    c = super()
-    c.modelLabel = @modelLabel
-    c.newModelTitle = @newModelTitle
-    c
 
   makeNewModel: ->
     model = new @modelClass
     name = @$el.find('#name').val()
     model.set('name', name)
+    if @modelClass.name is 'Level'
+      model.set('tasks', @modelClass.schema.default.tasks)
     if model.schema().properties.permissions
       model.set 'permissions', [{access: 'owner', target: me.id}]
     model.set(key, prop) for key, prop of @properties if @properties?
@@ -51,5 +46,6 @@ module.exports = class NewModelModal extends ModalView
       @trigger 'model-created', model
       #Backbone.Mediator.publish 'model-save-success', model
 
-  focusOnName: (e) ->
-    $('#name').focus() # TODO Why isn't this working anymore.. It does get called
+  afterInsert: ->
+    super()
+    _.delay (=> @$el?.find('#name').focus()), 500

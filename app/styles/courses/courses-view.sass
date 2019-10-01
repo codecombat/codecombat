@@ -1,0 +1,168 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#courses-view
+  h1
+    margin-bottom: 30px
+
+  #announcement
+    background-color: #cff2fc
+    border-radius: 10px
+    padding: 20px
+    margin: 20px 80px 40px 80px
+    p
+      margin-bottom: 7px
+
+  #main-content
+    max-width: 720px
+    margin: 0 auto
+
+  #play-now-to-learn-header
+    margin-top: 60px
+
+  #benefits-ul
+    margin: 0 auto 40px
+    width: 360px
+
+  hr
+    border-top: 1px solid grey
+    margin: 5px 0
+    padding-bottom: 20px
+    opacity: 0.5
+
+  .view-levels-btn, .view-challenges-link, .view-videos-link, .view-ranking-link
+    font-size: 13px
+    padding-left: 10px
+
+  .view-project-gallery-link
+    font-size: 13px
+    padding-left: 10px
+    float: right
+
+  .text-uppercase
+    margin-top: 40px
+
+  #just-added-text
+    color: #009999
+
+  .just-added
+    border: 1px solid #009999
+    margin: 0 -20px
+    padding: 0 20px
+
+  .course-instance-entry
+    padding-bottom: 10px
+
+    .progress-bar
+      min-width: 15%
+
+    .btn
+      margin-left: 20px
+      min-width: 180px
+
+  #join-class-form
+    .alert, .progress
+      margin-top: 20px
+
+  // Hero display
+  .current-hero-container
+    display: flex
+    justify-content: center
+
+    .current-hero-text
+      font-size: 16pt
+
+    .hero-avatar
+      background-color: #f8f8f8
+      box-shadow: 0 0 0 1px gray
+      margin-right: 25px
+
+    .current-hero-right-col
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+      align-items: flex-start
+
+  .certificate-link
+    text-align: left
+    text-decoration: underline
+    font-style: italic
+    font-weight: bold
+    font-size: 16px
+    color: black
+    img
+      margin-right: 15px
+    div
+      display: inline
+
+  .tournament-logo
+    text-align: center
+    img
+      width: 100%
+    margin-bottom: 25px
+
+  #tournament-rules
+   display: block
+   font-size: 30px
+   margin-top: -20px
+   margin-bottom: 20px
+
+  .popover
+    max-width: 700px
+    font-size: 16px
+    line-height: 22px
+
+    p[dir="rtl"]
+      text-align: right
+
+  .level
+    width: 100%
+    position: relative
+    margin-bottom: 20px
+    text-shadow: 1px 0px 0px black, -1px 0px 0 black, 0px 1px 0px black, 0px -1px 0px black
+
+    &:hover div, &:hover .dynamic-level-name
+      color: lighten($yellow, 20%)
+
+    &:hover img
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
+
+    .level-image
+      width: 100%
+
+    .dynamic-level-name
+      position: absolute
+      z-index: 1
+      top: 40px
+      width: 100%
+      text-align: center
+
+      text-shadow: 0px 5px 5px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
+      font-size: 72px
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
+    .overlay-text
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
+    .play-text-container
+      position: absolute
+      right: 0px
+      bottom: 0px
+      background-color: rgba(255, 255, 255, 0.75)
+      border-radius: 6px
+
+      .play-text
+        text-align: right
+        font-size: 50px
+        line-height: 50px
+
+  a[disabled] .level
+    opacity: 0.7

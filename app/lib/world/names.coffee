@@ -3,12 +3,15 @@ module.exports.thangNames = thangNames =
     # Female
     'Alali'
     'Anabel'
+    'Babaga'
+    'Delma'
     'Dosha'
     'Gurzunn'
     'Hoot'
     'Inski'
     'Iyert'
     'Lacos'
+    'Merna'
     'Palt'
     'Paulark'
     'Pripp'
@@ -21,6 +24,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Blob'
     'Brack'
+    'Cragg'
     'Dobo'
     'Draff'
     'Eugen'
@@ -71,6 +75,7 @@ module.exports.thangNames = thangNames =
     'Pinakin'
     'Rakash'
     'Rasha'
+    'Savatha'
     'Vujii'
     'Wuda'
     'Yetu'
@@ -98,6 +103,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Vyrryx'
     'Yzzrith'
+    'Xith'
   ]
   'Ogre Chieftain': [
     # Female
@@ -106,6 +112,8 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Warlock': [
     # Male
+    'Gronak'
+    'Sorgoth'
     'Vax'
     'Vyrryx'
     'Vyjj'
@@ -142,48 +150,29 @@ module.exports.thangNames = thangNames =
     'Ofgar'
     'Randall'
   ]
-  'Raven': [
-    # Animal
-    'Nevermore'
-    'Baltimore'
-  ]
-  'Cougar': [
-    # Animal
-    'Guenhwyvar'
-    'Kitty'
-    'Shasta'
-    'Simbia'
-  ]
-  'Frog': [
-    # Animal
-    'Bighead'
-    'Hypnotoad'
-    'Freddy'
-    'Frogger'
-    'Froggy'
-    'Slippy'
-    'Wart'
-    'Bufo'
-    'Bunda'
-    'Dan\'l Webster'
-    'Mr. Toad'
-    'Trevor'
-    'Wei Qi'
-    'Toada'
-  ]
+  # Pets only have one name
+  'Raven Pet': ['Nevermore']
+  'Cougar Pet': ['Kitty']
+  'Frog Pet': ['Hypnotoad']
+  'Griffin Pet': ['']
+  'Pugicorn Pet': ['']
+  'Polar Bear Pet': ['Klondike']
+  'Wolf Pet': ['']
   'Horse': [
     # Animal
     'Abby'
-    'Wildsilver'
-    'Fleetfire'
-    'Ed'
-    'Silver'
-    'Hurricane'
     'Beauty'
-    'Lovelace'
-    'Mirial'
-    'Miracle'
+    'Cinnamon'
     'Codasus'
+    'Ed'
+    'Fleetfire'
+    'Hurricane'
+    'Lovelace'
+    'Miracle'
+    'Mirial'
+    'Powder'
+    'Silver'
+    'Wildsilver'
   ]
   'Ogre M': [
     # Male
@@ -242,12 +231,16 @@ module.exports.thangNames = thangNames =
     'Haggar'
     'Heizenburg'
     'Ironjaw'
+    'Mokuhr'
     'Muul'
     'Ork\'han'
     'Roast Beefy'
+    'Toharg'
     'Trod'
     'Tuguro'
+    'Turrok'
     'York'
+    'Zabarek'
     'Zagurk'
     'Zeredd'
   ]
@@ -277,6 +270,7 @@ module.exports.thangNames = thangNames =
     'Gom'
     'Grek'
     'Gror'
+    'Grue'
     'Il\'Du\'duka'
     'Makas'
     'Mogadishu'
@@ -303,6 +297,7 @@ module.exports.thangNames = thangNames =
     'Bonejangles'
     'Bonesworth'
     'Bonette'
+    'Boneus'
     'Doornail'
     'Drybones'
     'Grim'
@@ -317,8 +312,8 @@ module.exports.thangNames = thangNames =
     'Scraps'
     'Shelly'
     'Shishka-Bob'
-    'Shishka-Larry'
     'Shishka-Joe'
+    'Shishka-Larry'
     'Skeletor'
     'Skellington'
     'Skulldugger'
@@ -330,7 +325,6 @@ module.exports.thangNames = thangNames =
     'Tatava'
     'Ulna'
     'Yorick'
-    'Boneus'
   ]
   'Ogre Headhunter': [
     # Male
@@ -368,6 +362,7 @@ module.exports.thangNames = thangNames =
   'Goliath': [
     # Male
     'Okar'
+    'Ivan'
   ]
   'Guardian': [
     # Female
@@ -398,12 +393,14 @@ module.exports.thangNames = thangNames =
     'Nalfar'
     'Drezhul'
   ]
-  'Dark Wizard': [
+  'Master Wizard': [
     # Female
     'Lilith'
+    'Kuhafas'
     'Usara'
     'Veigar'
     'Voldemort'
+    'Vallyria'
   ]
   'Archer F': [
     # Female
@@ -479,6 +476,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Azgot'
     'Brom'
+    'Blemmin'
     'Carlton'
     'Charles'
     'Durfkor'
@@ -598,6 +596,7 @@ module.exports.thangNames = thangNames =
     'Hugo'
     'Ieyasu'
     'Jack'
+    'Jackson'
     'James'
     'Jason'
     'Jax'
@@ -874,6 +873,7 @@ module.exports.thangNames = thangNames =
     'Hushbaum'
     'Mariam'
     'Matilda'
+    'Merilda'
     'Nordex'
     'Satish'
     'Vera'
@@ -973,4 +973,17 @@ module.exports.thangNames = thangNames =
     'Nobunaga'
     'Yasuo'
     'Yi'
+  ]
+  'Champion': [
+    # Female
+    'Ida'
+    'Jasmine'
+  ]
+  'Duelist': [
+    # Male
+    'Alejandro'
+  ]
+  'Stalwart': [
+    # Male
+    'Gordon'
   ]

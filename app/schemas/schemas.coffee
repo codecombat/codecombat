@@ -1,5 +1,6 @@
-#language imports
 Language = require './languages'
+concepts = require './concepts'
+
 # schema helper methods
 
 me = module.exports
@@ -9,20 +10,23 @@ combine = (base, ext) ->
   return _.extend(base, ext)
 
 urlPattern = '^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_=]*)?$'
+pathPattern = '^\/([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_=]*)?$'
 
 # Common schema properties
 me.object = (ext, props) -> combine({type: 'object', additionalProperties: false, properties: props or {}}, ext)
 me.array = (ext, items) -> combine({type: 'array', items: items or {}}, ext)
 me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
+me.passwordString = {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
 
 # Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
 me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)  # old
 me.stringDate = (ext) -> combine({type: ['string'], format: 'date-time'}, ext)  # new
-me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)  # old
-me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
+me.objectId = (ext) -> combine({type: ['object', 'string']}, ext)  # old
+me.stringID = (ext) -> combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
 
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
+me.path = (ext) -> combine({type: 'string', pattern: pathPattern}, ext)
 me.int = (ext) -> combine {type: 'integer'}, ext
 me.float = (ext) -> combine {type: 'number'}, ext
 
@@ -121,6 +125,13 @@ me.extendSearchableProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, searchableProps())
 
+algoliaSearchableProps = ->
+  _algoliaObjectID: { type: 'string' }
+
+me.extendAlgoliaProperties = (schema) ->
+  schema.properties = {} unless schema.properties?
+  _.extend(schema.properties, algoliaSearchableProps())
+
 # PERMISSIONED
 
 permissionsProps = ->
@@ -164,6 +175,7 @@ me.FunctionArgumentSchema = me.object {
   'default':
     name: 'target'
     type: 'object'
+    optional: false
     example: 'this.getNearestEnemy()'
     description: 'The target of this function.'
   required: ['name', 'type', 'example', 'description']
@@ -172,6 +184,7 @@ me.FunctionArgumentSchema = me.object {
   i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this argument'}
   # not actual JS types, just whatever they describe...
   type: me.shortString(title: 'Type', description: 'Intended type of the argument.')
+  optional: {title: 'Optional', description: 'Whether an argument may be omitted when calling the function', type: 'boolean'}
   example:
     oneOf: [
       {
@@ -236,28 +249,6 @@ me.task = me.object {title: 'Task', description: 'A task to be completed', forma
   name: {title: 'Name', description: 'What must be done?', type: 'string'}
   complete: {title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox'}
 
-me.concept = me.shortString enum: [
-    'advanced_strings'
-    'algorithms'
-    'arguments'
-    'arithmetic'
-    'arrays'
-    'basic_syntax'
-    'boolean_logic'
-    'break_statements'
-    'classes'
-    'continue_statements'
-    'for_loops'
-    'functions'
-    'graphics'
-    'if_statements'
-    'input_handling'
-    'math_operations'
-    'object_literals'
-    'parameters'
-    'strings'
-    'variables'
-    'vectors'
-    'while_loops'
-    'recursion'
-  ]
+me.concept = {type: 'string', enum: (concept.concept for concept in concepts), format: 'concept'}
+
+me.scoreType = me.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'code-length', 'survival-time', 'defeated'])  # TODO: total gear value.

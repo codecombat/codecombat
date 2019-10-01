@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 componentKeywords = ['attach', 'constructor', 'validateArguments', 'toString', 'isComponent']  # Array is faster than object
 
 module.exports = class Component
@@ -18,6 +20,19 @@ module.exports = class Component
 
   validateArguments:
     additionalProperties: false
+
+  getCodeContext: (className) ->
+    className ?= @constructor.className
+    return unless @world?.levelComponents?.length
+    levelComponent = _.find @world.levelComponents, name: className
+    return unless levelComponent
+    context = levelComponent?.context or {}
+    language = @world.language or 'en-US'
+
+    localizedContext = utils.i18n(levelComponent, 'context', language)
+    if localizedContext
+      context = _.merge context, localizedContext
+    context
 
   toString: ->
     "<Component: #{@constructor.className}"

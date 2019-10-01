@@ -2,61 +2,42 @@
 User = require 'models/User'
 storage = require 'core/storage'
 BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
+{ getQueryVariable } = require('core/utils')
+api = require('core/api')
 
 init = ->
   module.exports.me = window.me = new User(window.userObject) # inserted into main.html
   module.exports.me.onLoaded()
   trackFirstArrival()
+  # set country and geo fields for returning users if not set during account creation (/server/models/User - makeNew)
+  if not me.get('country')
+    api.users.setCountryGeo()
+    .then (res) ->
+      me.set(res)
+      setTestGroupNumberUS()
+    .catch((e) => console.error("Error in setting country and geo:", e))
   if me and not me.get('testGroupNumber')?
     # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
     me.patch()
+  setTestGroupNumberUS()
+  preferredLanguage = getQueryVariable('preferredLanguage')
+  if me and features.codePlay and preferredLanguage
+    me.set('preferredLanguage', preferredLanguage)
+    me.save()
 
   Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 
-module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
-  user = new User(userObject)
-  user.notyErrors = false
-  user.save({}, {
-    error: (model, jqxhr, options) ->
-      error = parseServerError(jqxhr.responseText)
-      property = error.property if error.property
-      if jqxhr.status is 409 and property is 'name'
-        anonUserObject = _.omit(userObject, 'name')
-        module.exports.createUser anonUserObject, failure, nextURL
-      else
-        genericFailure(jqxhr)
-    success: -> if nextURL then window.location.href = nextURL else window.location.reload()
-  })
+module.exports.logoutUser = (options={}) ->
+  return if features.codePlay
+  options.error ?= genericFailure
+  me.logout(options)
 
-module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) ->
-  user = new User(userObject)
-  user.save({}, {
-    error: failure
-    success: ->
-      Backbone.Mediator.publish('created-user-without-reload')
-  })
-
-module.exports.loginUser = (userObject, failure=genericFailure, nextURL=null) ->
-  console.log 'logging in as', userObject.email
-  jqxhr = $.post('/auth/login',
-    {
-      username: userObject.email,
-      password: userObject.password
-    },
-    (model) -> if nextURL then window.location.href = nextURL else window.location.reload()
+module.exports.sendRecoveryEmail = (email, options={}) ->
+  options = _.merge(options,
+    {method: 'POST', url: '/auth/reset', data: { email }}
   )
-  jqxhr.fail(failure)
-
-module.exports.logoutUser = ->
-  FB?.logout?()
-  callback = ->
-    if (window.location.href.indexOf("/account/settings") > -1)
-      window.location = '/'
-    else
-      window.location.reload()
-  res = $.post('/auth/logout', {}, callback)
-  res.fail(genericFailure)
+  $.ajax(options)
 
 onSetVolume = (e) ->
   return if e.volume is me.get('volume')
@@ -72,5 +53,11 @@ trackFirstArrival = ->
   return if beenHereBefore
   window.tracker?.trackEvent 'First Arrived'
   storage.save(BEEN_HERE_BEFORE_KEY, true)
+
+setTestGroupNumberUS = ->
+  if me and me.get("country") == 'united-states' and not me.get('testGroupNumberUS')?
+    # Assign testGroupNumberUS to returning visitors; new ones in server/models/User
+    me.set 'testGroupNumberUS', Math.floor(Math.random() * 256)
+    me.patch()
 
 init()

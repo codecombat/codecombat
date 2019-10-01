@@ -1,12 +1,16 @@
 c = require './../schemas'
+LevelSchema = require './level'
 
-CampaignSchema = c.object()
+CampaignSchema = c.object
+  default:
+    type: 'hero'
 c.extendNamedProperties CampaignSchema  # name first
 
 _.extend CampaignSchema.properties, {
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName', 'description']}
   fullName: { type: 'string', title: 'Full Name', description: 'Ex.: "Kithgard Dungeon"' }
   description: { type: 'string', format: 'string', description: 'How long it takes and what players learn.' }
+  type: c.shortString(title: 'Type', description: 'What kind of campaign this is.', 'enum': ['hero', 'course','hidden', 'hoc'])
 
   ambientSound: c.object {},
     mp3: { type: 'string', format: 'sound-file' }
@@ -39,9 +43,18 @@ _.extend CampaignSchema.properties, {
       position: c.point2d()
       rotation: { type: 'number', format: 'degrees' }
       color: { type: 'string' }
-      showIfUnlocked: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+      showIfUnlocked:
+        oneOf: [
+          { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+          {
+            type: 'array',
+            items: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+          }
+        ]
     }
   }}
+  isOzaria: {type: 'boolean', description: 'Is this an ozaria campaign', default: true }
+  levelsUpdated: c.date()
 
   levels: { type: 'object', format: 'levels', additionalProperties: {
     title: 'Level'
@@ -51,57 +64,8 @@ _.extend CampaignSchema.properties, {
 
     # key is the original property
     properties: {
-      #- denormalized from Level
-      name: { type: 'string', format: 'hidden' }
-      description: { type: 'string', format: 'hidden' }
-      i18n: { type: 'object', format: 'hidden' }
-      requiresSubscription: { type: 'boolean' }
-      replayable: { type: 'boolean' }
-      type: {'enum': ['ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']}
-      slug: { type: 'string', format: 'hidden' }
-      original: { type: 'string', format: 'hidden' }
-      adventurer: { type: 'boolean' }
-      practice: { type: 'boolean' }
-      adminOnly: { type: 'boolean' }
-      disableSpaces: { type: ['boolean','number'] }
-      hidesSubmitUntilRun: { type: 'boolean' }
-      hidesPlayButton: { type: 'boolean' }
-      hidesRunShortcut: { type: 'boolean' }
-      hidesHUD: { type: 'boolean' }
-      hidesSay: { type: 'boolean' }
-      hidesCodeToolbar: { type: 'boolean' }
-      hidesRealTimePlayback: { type: 'boolean' }
-      backspaceThrottle: { type: 'boolean' }
-      lockDefaultCode: { type: ['boolean','number'] }
-      moveRightLoopSnippet: { type: 'boolean' }
-      realTimeSpeedFactor: { type: 'number' }
-      autocompleteFontSizePx: { type: 'number' }
-
-      requiredCode: c.array {}, {
-        type: 'string'
-      }
-      suspectCode: c.array {}, {
-        type: 'object'
-        properties: {
-          name: { type: 'string' }
-          pattern: { type: 'string' }
-        }
-      }
-
-      requiredGear: { type: 'object', additionalProperties: {
-        type: 'array'
-        items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
-      }}
-      restrictedGear: { type: 'object', additionalProperties: {
-        type: 'array'
-        items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
-      }}
-      allowedHeroes: { type: 'array', items: {
-        type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
-      }}
-
       #- denormalized from Achievements
-      rewards: { type: 'array', items: {
+      rewards: { format: 'rewards', type: 'array', items: {
         type: 'object'
         additionalProperties: false
         properties:
@@ -112,18 +76,85 @@ _.extend CampaignSchema.properties, {
           type: { enum: ['heroes', 'items', 'levels'] }
       }}
 
-      campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
-
-      tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
-      concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.'}, c.concept
-
       #- normal properties
       position: c.point2d()
+
+      # properties relevant for ozaria campaigns
+      nextLevels: {
+        type: 'object'
+        description: 'object containing next levels original id and their details'
+        format: 'levels' # key is level original id
+        additionalProperties: {
+          type: 'object'
+          format: 'nextLevel'
+          properties: {
+            nextLevelStage: {type: 'number', title: 'Next Level Stage', description: 'Which capstone stage is unlocked'}
+            conditions: c.object({}, {
+              afterCapstoneStage: {type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level'}
+            })
+          }
+        }
+      }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign', default: true }
+
+      #- denormalized properties from Levels are cloned below
     }
 
   }}
 }
 
+CampaignSchema.denormalizedLevelProperties = [
+  'name'
+  'description'
+  'i18n'
+  'requiresSubscription'
+  'replayable'
+  'type'
+  'kind'
+  'slug'
+  'original'
+  'adventurer'
+  'assessment'
+  'assessmentPlacement'
+  'practice'
+  'practiceThresholdMinutes'
+  'primerLanguage'
+  'shareable'
+  'adminOnly'
+  'disableSpaces'
+  'hidesSubmitUntilRun'
+  'hidesPlayButton'
+  'hidesRunShortcut'
+  'hidesHUD'
+  'hidesSay'
+  'hidesCodeToolbar'
+  'hidesRealTimePlayback'
+  'backspaceThrottle'
+  'lockDefaultCode'
+  'moveRightLoopSnippet'
+  'realTimeSpeedFactor'
+  'autocompleteFontSizePx'
+  'requiredGear'
+  'restrictedGear'
+  'requiredProperties'
+  'restrictedProperties'
+  'recommendedHealth'
+  'maximumHealth'
+  'concepts'
+  'primaryConcepts'
+  'picoCTFProblem'
+  'campaign'
+  'campaignIndex'
+  'scoreTypes'
+  'isPlayedInStages'
+  'ozariaType'
+  'introContent'
+]
+hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
+for prop in CampaignSchema.denormalizedLevelProperties
+  CampaignSchema.properties.levels.additionalProperties.properties[prop] = _.cloneDeep(LevelSchema.properties[prop])
+for hiddenProp in hiddenLevelProperties
+  CampaignSchema.properties.levels.additionalProperties.properties[hiddenProp].format = 'hidden'
 
 c.extendBasicProperties CampaignSchema, 'campaign'
 c.extendTranslationCoverageProperties CampaignSchema

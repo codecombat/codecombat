@@ -1,0 +1,36 @@
+//- DNT
+extends /templates/base
+
+block content
+  #level-tasks-view
+    div
+      a(href='/artisans')
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    br
+    input.searchInput#name-search(placeholder='Filter: Level Name')
+    br
+    input.searchInput#desc-search(placeholder='Filter: Task Description')
+    hr
+    div#level-table
+      if view.processedLevels
+        table.table.table-striped
+          tr
+            th Level Name
+            th Task List
+          for level, slug in view.processedLevels
+            if view.hasIncompleteTasks(level)
+              +levelRow(level, slug)
+      else
+        div No view.processedLevels
+
+mixin levelRow(level, slug)
+  tr
+    td.taskOwner
+      a(href= '/editor/level/' + slug)= level.name
+    td.tasks
+      table.table-striped.table-hover.tasksTable
+        for task in (level.tasks || [])
+          if !task.complete
+            tr
+              td= task.name

@@ -1,0 +1,123 @@
+form#basic-info-form.modal-body.basic-info
+  - var path = view.signupState.get('path')
+  .modal-body-content
+    if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
+      .alert.alert-info.text-center(dir="rtl")
+        span תלמיד מערכת החינוך?
+        a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
+    div.form-container
+      if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
+        .row.full-name
+          .col-xs-offset-3(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-5'))
+            .form-group
+              label.control-label(for="first-name-input")
+                span(data-i18n="general.first_name")
+              input#first-name-input.form-control.input-lg(name="firstName" value=view.signupState.get('signupForm').firstName dir="auto")
+          div(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-4'))
+            if view.signupState.get('path') === 'teacher'
+              .last-name.form-group
+                label.control-label(for="last-name-input")
+                  span(data-i18n="general.last_name")
+                input#last-name-input.form-control.input-lg(name="lastName" value=view.signupState.get('signupForm').lastName dir="auto")
+            else
+              .last-initial.form-group
+                label.control-label(for="last-name-input")
+                  span(data-i18n="general.last_initial")
+                input#last-name-input.form-control.input-lg(name="lastName" maxlength="1" value=view.signupState.get('signupForm').lastName dir="auto")
+      .form-group
+        .row.rtl-allowed
+          .col-xs-5.col-xs-offset-3.rtl-allowed
+            label.control-label(for="email-input")
+              span(data-i18n="share_progress_modal.form_label")
+            if view.signupState.get('path') === 'student'
+              .help-block.optional-help-block.pull-right
+                span.optional-text(data-i18n="signup.optional")
+            input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email dir="auto")
+          .col-xs-4.email-check.fancy-error.rtl-allowed
+            - var checkEmailState = view.state.get('checkEmailState');
+            if checkEmailState === 'checking'
+              span.small(data-i18n="signup.checking")
+            if checkEmailState === 'exists'
+              span.small
+                span.text-burgundy.glyphicon.glyphicon-remove-circle
+                =" "
+                span(data-i18n="signup.account_exists")
+                =" "
+                a.login-link(data-i18n="signup.sign_in")
+
+            if checkEmailState === 'available'
+              span.small
+                span.text-forest.glyphicon.glyphicon-ok-circle
+                =" "
+                span(data-i18n="signup.email_good")
+
+      if view.signupState.get('path') !== 'teacher'
+        .form-group
+          .row.rtl-allowed
+            .col-xs-5.col-xs-offset-3.rtl-allowed
+              label.control-label(for="username-input")
+                span(data-i18n="general.username")
+              input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name dir="auto")
+            .col-xs-4.name-check.fancy-error.rtl-allowed
+              - var checkNameState = view.state.get('checkNameState');
+              if checkNameState === 'checking'
+                span.small(data-i18n="signup.checking")
+              if checkNameState === 'exists'
+                span.small
+                  span.text-burgundy.glyphicon.glyphicon-remove-circle
+                  =" "
+                  span= view.state.get('suggestedNameText')
+              if checkNameState === 'available'
+                span.small
+                  span.text-forest.glyphicon.glyphicon-ok-circle
+                  =" "
+                  span(data-i18n="signup.name_available")
+
+      .form-group
+        .row.rtl-allowed
+          .col-xs-5.col-xs-offset-3.rtl-allowed
+            label.control-label(for="password-input")
+              span(data-i18n="general.password")
+            input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password dir="auto")
+
+      .error-area
+        - var error = view.state.get('error');
+        if error
+          .row
+            .col-xs-7.col-xs-offset-3
+          .alert.alert-danger= error
+
+    if me.useSocialSignOn()
+      .hr-text
+        hr
+        span(data-i18n="general.or")
+
+      .auth-network-logins.text-center
+        .gplus-login
+          a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
+        .facebook-login
+          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+
+    // TODO: turn on once we can ask about school inside ConfirmationView
+    //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')
+      .checkbox#want-in-school
+        label.control-label(for="want-in-school-checkbox")
+          input#want-in-school-checkbox(type="checkbox" value="")
+          span(data-i18n="signup.want_codecombat_in_school")
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    if view.signupState.get('path') === 'teacher'
+      button.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="common.next")
+    else if view.signupState.get('subModalContinue')
+      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="common.continue")
+    else
+      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="login.sign_up")
+
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="common.back")

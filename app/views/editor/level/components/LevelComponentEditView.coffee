@@ -1,15 +1,18 @@
+require('app/styles/editor/level/component/level-component-edit-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/component/level-component-edit-view'
 LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-require 'vendor/treema'
+ace = require('lib/aceContainer')
+
+require 'lib/setupTreema'
 
 module.exports = class LevelComponentEditView extends CocoView
   id: 'level-component-edit-view'
   template: template
-  editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
+  editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n', 'context']
 
   events:
     'click #done-editing-component-button': 'endEditing'
@@ -21,7 +24,7 @@ module.exports = class LevelComponentEditView extends CocoView
     'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
-    'click #pop-component-i18n-button': 'onPopulateI18N' 
+    'click #pop-component-i18n-button': 'onPopulateI18N'
 
   constructor: (options) ->
     super options

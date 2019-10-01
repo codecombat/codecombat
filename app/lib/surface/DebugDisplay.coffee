@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 module.exports = class DebugDisplay extends createjs.Container
   layerPriority: 20
   subscriptions:

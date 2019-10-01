@@ -1,5 +1,6 @@
 cluster = require 'cluster'
 numCPUs = require('os').cpus().length
+numCPUs = parseInt(process.env.COCO_CORES) if process.env.COCO_CORES
 
 deaths = [
   'Killed by a soldier ant.'
@@ -69,20 +70,28 @@ deaths = [
   'Turned to slime by a cockatrice egg.'
 ]
 
+
+if process.env.COCO_DEBUG_PORT?
+  require('./debugger').init()
+
 if cluster.isMaster
   for i in [0...numCPUs]
     cluster.fork()
   cluster.on 'exit', (worker, code, signal) ->
-    message = "Worker #{worker.id} died! #{deaths[Math.floor Math.random() * deaths.length]}"
+    message = "Worker #{worker.id} died!"
     console.log message
     try
-      hipchat = require './server/hipchat'
-      hipchat.sendHipChatMessage(message, ['tower'], {papertrail: true})
+      slack = require './server/slack'
+      slack.sendSlackMessage(message, ['eng'], {papertrail: true})
     catch error
-      console.log "Couldn't send HipChat message on server death:", error
+      console.log "Couldn't send Slack message on server death:", error
     cluster.fork()
+
 else
   require('coffee-script')
   require('coffee-script/register')
   server = require('./server')
-  server.startServer()
+  {app, httpServer} = server.startServer()
+  cluster.worker.app = app
+  cluster.worker.httpServer = httpServer
+

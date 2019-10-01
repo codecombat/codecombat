@@ -2,13 +2,33 @@ var window = self;
 var Global = self;
 
 importScripts("/javascripts/lodash.js", "/javascripts/aether.js");
+
+try {
+  //Detect very modern javascript support.
+  (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
+  console.log("Modern javascript detected, aw yeah!");
+  self.importScripts('/javascripts/esper.modern.js');  
+} catch (e) {
+  console.log("Legacy javascript detected, falling back...", e.message);
+  self.importScripts('/javascripts/esper.js');  
+}
+
 //console.log("Aether Tome worker has finished importing scripts.");
 var aethers = {};
 var languagesImported = {};
 
 var ensureLanguageImported = function(language) {
   if (languagesImported[language]) return;
-  importScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  if (language === 'html' || language === 'javascript') return;
+  //Detect very modern javascript support.
+  try {
+    (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
+    console.log(`Using modern language plugin: ${language}`);
+    importScripts("/javascripts/app/vendor/aether-" + language + ".modern.js");
+  } catch (e) {
+    console.log("Legacy javascript detected, using legacy plugin for", language, e.message);
+    importScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  }
   languagesImported[language] = true;
 };
 

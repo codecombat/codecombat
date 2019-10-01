@@ -1,0 +1,85 @@
+#create-teacher-account-view, #convert-to-teacher-account-view, #request-quote-view
+  .algolia-autocomplete 
+    width: 100%;
+
+    .aa-input
+      width: 100%
+
+    .aa-hint
+      color: #999
+      width: 100%
+
+    .aa-dropdown-menu 
+      background-color: #fff
+      border: 1px solid #999
+      border-top: none
+      width: 100%
+
+      .aa-suggestion 
+        cursor: pointer
+        padding: 5px 4px
+        border-top: 1px solid #ccc
+
+        .school
+          font-family: Open Sans
+          font-size: 14px
+          line-height: 20px
+          font-weight: bold
+
+        .district
+          font-family: Open Sans
+          font-size: 14px
+          line-height: 20px
+
+          span
+            white-space: nowrap
+
+
+      .aa-suggestion.aa-cursor 
+        background-color: #B2D7FF
+
+      em
+        font-weight: bold
+        font-style: normal
+
+  // TODO: update form validation instead of overwriting these styles
+
+  .control-label
+    font-weight: bold
+    width: 100%
+
+  .error-help-block
+    margin-top: inherit
+    margin-bottom: 0px
+    float: right
+    font-size: 13px
+    font-style: italic
+    font-weight: normal
+
+  .text-muted
+    float: right
+    font-size: 13px
+    font-style: italic
+    font-weight: normal
+
+  .nullify-form-control
+    display: inherit
+    width: inherit
+    height: inherit
+    padding: inherit
+    font-size: inherit
+    line-height: inherit
+    color: inherit
+    vertical-align: inherit
+    background-color: inherit
+    background-image: inherit
+    border: inherit
+    border-radius: inherit
+    -webkit-box-shadow: inherit
+    box-shadow: inherit
+    -webkit-transition: inherit
+    transition: inherit
+
+  // Replacing the static form validator with a nicer one
+  input[name='email'] ~ .help-block
+    display: none

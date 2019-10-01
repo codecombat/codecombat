@@ -20,45 +20,6 @@
     font-size: 1.4vw
     border-width: 0.91vw 1.22vw 3.10vw 0.91vw
     min-width: 23vw
-
-  .goals-status
-    margin: 5px 0 0 0
-    position: absolute
-    color: white
-    text-transform: uppercase
-
-    .success
-      color: lightgreen
-      text-shadow: 1px 1px 0px black
-    .timed-out
-      color: rgb(230, 230, 230)
-    .failure
-      color: rgb(239, 61, 71)
-      text-shadow: 1px 1px 0px black
-    .incomplete
-      color: rgb(245, 170, 49)
-    .running
-      color: rgb(200, 200, 200)
-    
-  ul
-    padding-left: 0
-    margin-bottom: 0
-    color: black
-    
-  li
-    list-style: none
-    margin-right: 5px
-    i
-      margin-right: 5px
-      
-  li.status-incomplete
-    color: #333
-    
-  li.status-failure
-    color: darkred
-    
-  li.status-success
-    color: darkgreen
     
 #goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
   display: none
@@ -78,3 +39,11 @@ html.no-borderimage
     .goals-status
       position: static
       margin-top: 10px
+
+body[lang^='pt'], body[lang^='es'], body[lang='fr'], body[lang='hu'], body[lang='it'], body[lang='sr']
+  #goals-view
+    font-size: 12px
+
+    &.brighter
+      font-size: 16px
+      font-size: 1.2vw

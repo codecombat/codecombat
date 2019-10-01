@@ -1,6 +1,8 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/i18n/i18n-home-view'
 CocoCollection = require 'collections/CocoCollection'
+Courses = require 'collections/Courses'
+Article = require 'models/Article'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
@@ -38,9 +40,11 @@ module.exports = class I18NHomeView extends RootView
     @achievements = new CocoCollection([], { url: '/db/achievement?view=i18n-coverage', project: project, model: Achievement })
     @campaigns = new CocoCollection([], { url: '/db/campaign?view=i18n-coverage', project: project, model: Campaign })
     @polls = new CocoCollection([], { url: '/db/poll?view=i18n-coverage', project: project, model: Poll })
-
-    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls]
+    @courses = new Courses()
+    @articles = new CocoCollection([], { url: '/db/article?view=i18n-coverage', project: project, model: Article })
+    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles]
       c.skip = 0
+      
       c.fetch({data: {skip: 0, limit: PAGE_SIZE}, cache:false})
       @supermodel.loadCollection(c, 'documents')
       @listenTo c, 'sync', @onCollectionSynced
@@ -55,6 +59,9 @@ module.exports = class I18NHomeView extends RootView
         when 'Level' then '/i18n/level/'
         when 'Campaign' then '/i18n/campaign/'
         when 'Poll' then '/i18n/poll/'
+        when 'Course' then '/i18n/course/'
+        when 'Product' then '/i18n/product/'
+        when 'Article' then '/i18n/article/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
     @render()
@@ -88,9 +95,9 @@ module.exports = class I18NHomeView extends RootView
   updateCoverageForModel: (model, relatedLanguages) ->
     model.specificallyCovered = true
     model.generallyCovered = true
-    coverage = model.get('i18nCoverage')
+    coverage = model.get('i18nCoverage') ? []
 
-    if @selectedLanguage not in coverage
+    unless @selectedLanguage in coverage
       model.specificallyCovered = false
       if not _.any((l in coverage for l in relatedLanguages))
         model.generallyCovered = false

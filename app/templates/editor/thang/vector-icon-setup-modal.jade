@@ -4,15 +4,15 @@ block modal-header-content
   h3 Choose Container for Vector Icon
 
 block modal-body-content
-  if chosenContainer
+  if view.container
     form.form
       .form-group
         select#container-select.form-control
-          for container in containers
-            option(value=container, selected=container === chosenContainer)= container
-      
-    canvas(width=demoSize height=demoSize)#resulting-icon
-  
+          for container in view.containers
+            option(value=container, selected=container === view.container)= container
+
+    canvas(width=view.demoSize height=view.demoSize)#resulting-icon
+
     .alert.alert-info Arrow keys to move, Shift-Plus/Minus to scale.
   else
     div forgetting something?

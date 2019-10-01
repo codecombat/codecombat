@@ -1,0 +1,245 @@
+.style-flat
+  padding-top: 0
+
+#certificates-view
+  background-color: white
+  text-align: center
+  font-family: 'Open Sans', sans-serif
+  margin-left: auto
+  margin-right: auto
+  width: 11in
+  height: 8.5in
+  // 792 x 612 pt
+  @import url('https://fonts.googleapis.com/css?family=Shadows+Into+Light')
+  @import url('https://fonts.googleapis.com/css?family=Spectral')
+
+  @media print
+    -webkit-print-color-adjust: exact
+    html, body
+      height: 100%
+      overflow: hidden
+
+  .menu
+    position: fixed
+    left: 3pt
+    top: 2pt
+
+    .btn
+      margin-left: 0
+      margin-bottom: 10px
+      display: block
+
+    @media print
+      display: none
+
+  .certificate
+    color: black
+    position: relative
+
+    .certificate-background
+      width: 100%
+
+    h1
+      font-family: 'Shadows Into Light', 'Open Sans', sans-serif
+
+    h3, h4
+      font-family: 'Open Sans', sans-serif
+      text-transform: uppercase
+
+    h3
+      font-weight: bold
+      font-size: 14pt
+      line-height: 40pt
+
+    h4
+      font-size: 12pt
+      line-height: 30pt
+
+    .certificate-contents
+      width: 100%
+      height: 100%
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      z-index: 1
+      letter-spacing: 1pt
+
+    .certificate-text-container
+      width: 7in
+      height: 4.5in
+      position: absolute
+      left: 2in
+      top: 2in
+      right: 2in
+      bottom: 2in
+      z-index: 1
+      background-color: rgba(255, 255, 255, 0.8) !important
+
+    .logo-img
+      margin-top: 1.3in
+      z-index: 2
+      position: relative
+      height: 1.1in
+
+    .certificate-of-completion
+      margin-top: 20pt
+      word-spacing: 10pt
+      
+    .course-name
+      letter-spacing: 2pt
+
+    .loading-indicator, .student-name
+      color: rgb(77, 61, 37)
+      text-align: center
+      width: 5.3in
+      margin-left: 0.85in
+      $student-name-size: 48pt
+      font-size: $student-name-size
+      line-height: $student-name-size
+      border-bottom: 2pt solid white
+      height: $student-name-size + 2pt
+
+    .loading-indicator
+      margin-top: 2in
+
+    .outcome-section
+      position: absolute
+      text-align: center
+      width: 3in
+
+      h3
+        line-height: 30pt
+
+      &.code-results
+        left: 0.1in
+
+      &.concepts-learned
+        left: 4in
+
+      li
+        text-transform: uppercase
+        font-size: 9pt
+        line-height: 18pt
+
+    .hero-pose
+      position: absolute
+      bottom: 0.75in
+      z-index: 2
+      width: 1.7in
+      left: 0.8in
+
+      &.captain
+        transform: scaleX(-1)
+
+      &.knight
+        width: 2.5in
+        left: 0.3in
+
+      &.samurai
+        width: 1.7in
+        left: 0.8in
+
+      &.raider
+        width: 2in
+        left: 0.6in
+
+      &.goliath
+        width: 2.8in
+        left: 0in
+
+      &.guardian
+        width: 2.2in
+        left: 0.55in
+
+      &.duelist
+        width: 2.1in
+        left: 0.6in
+
+      &.champion
+        width: 1.7in
+        left: 0.8in
+
+      &.stalwart
+        width: 2.3in
+        left: 0.5in
+
+    .hero-signature, .teacher-info
+      position: absolute
+      bottom: 0.1in
+      left: 0.6in
+      width: 3in
+      border-top: 2pt solid white
+
+      img
+        height: 0.75in
+        position: absolute
+        bottom: 0
+        left: -0.2in
+
+      .hero-signature-label
+        text-transform: uppercase
+        font-size: 9pt
+        line-height: 18pt
+        text-align: left
+
+    .teacher-info
+      border: 0
+      left: auto
+      right: 0.6in
+      text-transform: uppercase
+      font-size: 9pt
+      line-height: 18pt
+      text-align: right
+
+    .certificate-number-info
+      right: 10pt
+      position: absolute
+      top: 30pt
+      font-size: x-small
+
+    .course-ribbon
+      position: absolute
+      left: 2.7in
+      width: 1.6in
+
+      img
+        position: relative
+        max-width: 100%
+        max-height: 100%
+
+      h3
+        font-size: 16pt
+        position: absolute
+        bottom: 0.52in
+        right: 0in
+        text-align: center
+        width: 100%
+        color: rgb(207, 137, 40)
+        font-family: 'Spectral', serif
+
+      &.cs h3
+        font-size: 24pt
+        bottom: 0.42in
+
+      &.cs2 h3, &.cs6 h3
+        bottom: 0.45in
+
+      &.cs4 h3, &.cs5 h3
+        bottom: 0.48in
+
+      &.gd
+        width: auto
+        height: 2in
+        left: 2.85in
+
+      &.gd h3
+        font-size: 22pt
+        top: 0.35in
+
+      &.gd1 h3
+        font-size: 22pt
+        top: 0.3in
+
+      &.gd3 h3
+        top: 0.4in

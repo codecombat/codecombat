@@ -1,0 +1,386 @@
+mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
+  //- TODO: Refactor with TeacherClassesView jade
+  - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
+  - levelName = level.get('name')
+  - var context = { assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
+  - var link = null;
+  - var levelSlugNav = null;
+  if view.levelSessionMap && view.levelSessionMap[level.get('original')]
+    - context.session = view.levelSessionMap[level.get('original')].toJSON();
+    if dotClass
+      - levelSlugNav = level.get('slug')
+      - link = "#" + levelSlugNav;
+  - var labelText = levelNumber;
+  if level.isLadder()
+    - labelText = translate('courses.arena');
+    - dotClass += ' progress-dot-lg';
+  else if level.isProject()
+    - labelText = translate('teacher.project');
+    - dotClass += ' progress-dot-lg';
+  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context), data-level-slug=level.get('slug'), data-level-progress=(levelProgress || 'not started'))
+    if link
+      a(href=link, data-level-slug=levelSlugNav)
+        +progressDotLabel(labelText)
+    else
+      +progressDotLabel(labelText)
+
+mixin progressDotLabel(label)
+  .dot-label.text-center
+    .dot-label-inner
+      = label
+
+mixin breadcrumbs
+  .breadcrumbs
+    a(data-i18n='teacher.my_classes' href='/teachers/classes')
+    span.spl.spr >
+    //- TODO: Use .glyphicon-menu-right when we update bootstrap
+    a(href='/teachers/classes/'+view.classroom.id)
+      span= view.classroom.get('name')
+    span.spl.spr >
+    span
+      = view.user.broadName()
+
+.container
+  if !state.get('renderOnlyContent') && me.isTeacherOf({ classroom: view.classroom })
+      +breadcrumbs
+  h3.m-t-2
+    span(data-i18n="teacher.student_profile")
+    span.spr :
+    span= view.user.broadName()
+
+  .performance.col-md-7
+    h4.student-details
+      span.spr(data-i18n="teacher.student_state")
+      span.spr= view.user.broadName()
+      span(data-i18n="teacher.student_state_2")
+      // TODO: if no other students, this area is blank. Display something better.
+    .recommendation(style="width:100%")
+      if view.courseComparisonMap && view.lastPlayedCourse
+        - var lastCoursePerf = _.find(view.courseComparisonMap, { courseID: view.lastPlayedCourse.id })
+        if (Math.abs(lastCoursePerf.performance)) <= 1
+          .glyphicon.glyphicon-thumbs-up
+          .small-details
+            .good= view.user.broadName()
+              span.spr
+              span.spr(data-i18n="teacher.student_good")
+              span= lastCoursePerf.courseModel.getTranslatedName()
+              .status(data-i18n="teacher.student_good_detail")
+        else if (lastCoursePerf.performance) >= 2
+          .glyphicon.glyphicon-star
+          .small-details
+            .great= view.user.broadName()
+              span.spr
+              span.spr(data-i18n="teacher.student_great")
+              span= lastCoursePerf.courseModel.getTranslatedName()
+              .status(data-i18n="teacher.student_great_detail")
+        else if (lastCoursePerf.performance) <= -2
+          .glyphicon.glyphicon-exclamation-sign
+          .small-details
+            .warn= view.user.broadName()
+              span.spr
+              span.spr(data-i18n="teacher.student_warn")
+              span= lastCoursePerf.courseModel.getTranslatedName()
+              .status(data-i18n="teacher.student_warn_detail")
+
+    .additional-progress
+      - var warn = []
+      - var great = []
+      - var good = []
+      each course in view.courseComparisonMap || []
+        if !view.lastPlayedCourse || course.courseID != view.lastPlayedCourse
+          if Math.abs(course.performance) <= 1
+            - good.push(course.courseModel.getTranslatedName())
+          else if course.performance >= 2
+            - great.push(course.courseModel.getTranslatedName())
+          else if course.performance <= -2
+            - warn.push(course.courseModel.getTranslatedName())
+
+      if warn.length > 0
+        .warn
+          span.glyphicon.glyphicon-exclamation-sign
+          span.spr
+          span.small-details= warn.join(', ')
+
+      if great.length > 0
+        .great
+          span.glyphicon.glyphicon-star
+          span.spr
+          span.small-details= great.join(', ')
+
+      if good.length > 0
+        .good
+          span.glyphicon.glyphicon-thumbs-up
+          span.spr
+          span.small-details= good.join(', ')
+
+
+  .classroom-info-row.container-fluid.row
+    .overview.col-md-5
+      h4.student-details(data-i18n="teacher.student_overview")
+      .small-details
+        span(data-i18n="teacher.student_name")
+        span.spr :
+        if (view.user.get('firstName') && view.user.get('lastName'))
+          span= view.user.get('firstName')
+          span.spl= view.user.get('lastName')
+        else
+          i(data-i18n="teacher.no_name")
+      .small-details
+        span(data-i18n="general.username")
+        span.spr :
+        if (view.user.get('name'))
+          span= view.user.get('name')
+        else
+          i(data-i18n="teacher.no_username")
+      .small-details
+        span(data-i18n="general.email")
+        span.spr :
+        if (view.user.get('email'))
+          a(href= "mailto:"+view.user.get('email'))
+            span= view.user.get('email')
+        else
+          i(data-i18n="teacher.no_email")
+      .small-details
+        span(data-i18n="user.last_played")
+        span.spr :
+        span= view.lastPlayedString()
+
+      .small-details
+        - var status = view.user.prepaidStatus()
+        span(data-i18n='view.user.status')
+        span.spr
+        span(data-i18n="teacher.license_status")
+        span.spr :
+        strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
+
+  .playtime-charts
+    h4(data-i18n="teacher.playtime_detail")
+
+    .graphsSelector
+      span(data-i18n="teacher.select_course")
+      span :
+      span.spr
+      select#course-dropdown.text-navy
+        each versionedCourse in (view.classroom.getSortedCourses() || [])
+          - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+          if !course
+            // TODO: make sure this doesn't happen when data is loaded.
+            - continue;
+          - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+          - if (instance && instance.hasMember(view.user))
+            option(value= course.id)= course.getTranslatedName()
+
+      div.legend
+        svg(width=15, height=15, style="margin: 0 5px 0 0")
+          rect(width=15, height=15, fill="rgb(32, 87, 43)")
+        span(data-i18n="teacher.student_completed")
+
+        svg(width=15, height=15, style="margin: 0 5px 0 15px")
+          rect(width=15, height=15, fill="rgb(242, 190, 25)")
+        span(data-i18n="teacher.student_in_progress")
+
+        svg(width=15, height=15, style="margin: 0 5px 0 15px")
+          rect(width=15, height=15, fill="rgb(92, 180, 208)")
+        span(data-i18n="teacher.class_average")
+
+    .graphs
+      each versionedCourse in (view.classroom.getSortedCourses() || [])
+        - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+        if !course
+          - continue;
+        - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+        - if ((instance && instance.hasMember(view.user)))
+          svg(id="visualisation-"+versionedCourse._id, width="1142", height="600", class="visualisation")
+
+  .student-progress-section
+    h4(data-i18n="teacher.course_progress")
+    .small(data-i18n="teacher.click_student_code")
+    .student-progress-section-progress
+      each versionedCourse in (view.classroom.getSortedCourses()|| [])
+        - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+        if !course
+          - continue;
+        - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+        - if (instance && instance.hasMember(view.user))
+          .course-row.alternating-background
+            .course-info= course.getTranslatedName()
+            - var levels = view.classroom.getLevels({courseID: course.id}).models
+            each level, index in levels
+              - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
+              - var levelProgress = view.levelProgressMap[level.get('original')];
+              +studentLevelProgressDot(levelProgress, level, levelNumber, course)
+
+  .student-progress-section
+    a(name="backtotop")
+    h4
+      span(data-i18n="teacher.student_code", data-i18n-options={name:view.user.broadName()})
+      span :
+    .small(data-i18n="teacher.students_code_blurb")
+    .progress-selector
+      span(data-i18n="teacher.select_course")
+      span :
+      span.spr
+      select.course-select
+        each versionedCourse in (view.classroom.getSortedCourses()|| [])
+          - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+          - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+          - if (instance && instance.hasMember(view.user))
+            option(value=course.id selected=(course.id===view.selectedCourseId))
+              = i18n(course.attributes, 'name')
+    - var course = _.find(view.courses.models, function(c) {return c.id === view.selectedCourseId;});
+    if course
+      - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+      if instance && instance.hasMember(view.user)
+        - var levels = view.classroom.getLevels({courseID: course.id}).models
+        - var courseStarted = false;
+        table.table.table-condensed
+          each level, index in levels
+            if view.levelProgressMap[level.get('original')] === 'not started'
+              - continue;
+            - courseStarted = true;
+            - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
+            - var langClass = 'lang-python';
+            if level.get('primerLanguage')
+              - langClass = 'lang-' + level.get('primerLanguage');
+            else if level.get('type') === 'web-dev'
+              - langClass = 'lang-html';
+            else if view.classroom.get('aceConfig')
+              - langClass = 'lang-' + view.classroom.get('aceConfig').language;
+            tr.code-level-row
+              td(colspan=2)
+                a(name=level.get('slug'))
+                if level.get('assessment')
+                  span=levelNumber
+                  =" "
+                  span(data-i18n="play_level.level")
+                  span : #{level.get('name')}
+                else
+                  span(data-i18n="play_level.level")
+                  =" "
+                  span #{levelNumber}: #{level.get('name')}
+                if level.get('practice')
+                  =" ("
+                  span(data-i18n="teacher.practice")
+                  span )
+                a.small.back-to-top(href='#backtotop', data-i18n="teacher.back_to_top")
+            tr
+              td
+                .small
+                  span(data-i18n="teacher.code", data-i18n-options={name: view.user.broadName()})
+                  =" "
+                  if view.levelProgressMap[level.get('original')] === 'complete'
+                    span (
+                    span(data-i18n="play_level.level_complete")
+                    span )
+                  else
+                    span (
+                    span(data-i18n="teacher.level_in_progress")
+                    span )
+              td
+                .small
+                  span= level.get('name')
+                  =" "
+                  span(data-i18n="common.solution")
+                  if level.isLadder()
+                    =" "
+                    span (
+                    span(data-i18n="courses.arena")
+                    =" "
+                    span(data-i18n="play_level.level")
+                    span )
+                    =" "
+                    span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_arena_blurb"))
+                  if level.get('assessment')
+                    =" "
+                    span (
+                    if level.get('assessment') === 'cumulative'
+                      span(data-i18n="play_level.combo_challenge")
+                    else
+                      span(data-i18n="play_level.concept_challenge")
+                    span )
+                  if level.isProject()
+                    =" "
+                    span (
+                    span(data-i18n="teacher.project")
+                    =" "
+                    span(data-i18n="play_level.level")
+                    span )
+            - var solutions = view.levelSolutionsMap[level.get('original')] || [];
+            if solutions.length > 1
+              tr
+                td
+                td
+                  div(role='tabpanel')
+                    ul.nav.nav-tabs(role='tablist')
+                      each solution, index in solutions
+                        li.nav-item(class=(index === 0 ? 'active' : ''))
+                          - var target = level.get('original') + index;
+                          a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
+                            if solution.capstoneStage
+                              .text-center
+                                span(data-i18n="teacher.capstone_solution")
+                                =" "
+                                span= solution.capstoneStage
+                            else if index === 0
+                              strong.text-center(data-i18n="teacher.complete_solution")
+                            else
+                              .text-center
+                                span(data-i18n="teacher.partial_solution")
+                                =" "
+                                span= index
+                        if index < solutions.length - 1
+                          .tab-spacer
+                        else
+                          .tab-filler
+            tr
+              td(colspan=2)
+                div(role='tabpanel')
+                  .tab-content
+                    //- For project level, there is no correct solution, just show the student's code
+                    if level.isProject() && solutions.length === 0
+                      - var target = level.get('original');
+                      div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby="#{target}-tab")
+                        table.side-by-side
+                          tr
+                            td
+                              if view.levelStudentCodeMap[level.get('original')]
+                                if view.levelProgressMap[level.get('original')] === 'complete'
+                                  pre
+                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                else
+                                  pre.incomplete-code
+                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                              else
+                                i.small(data-i18n="teacher.no_code_yet")
+                            td.project-blurb
+                              i.small(data-i18n="teacher.solution_project_blurb")
+                    each solution, index in solutions
+                      - var target = level.get('original') + index;
+                      div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
+                        table.side-by-side
+                          tr
+                            td
+                            td
+                              .small!= marked(solution.description || '')
+                          tr
+                            td
+                              if view.levelStudentCodeMap[level.get('original')]
+                                if view.levelProgressMap[level.get('original')] === 'complete'
+                                  pre
+                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                else
+                                  pre.incomplete-code
+                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                              else
+                                i.small(data-i18n="teacher.no_code_yet")
+                            td
+                              if solutions.length === 1
+                                pre
+                                  code(class=langClass)= solution.source
+                              else if solutions.length > 0
+                                  pre
+                                    code(class=langClass)= solution.source
+                              else
+                                i.small(data-i18n="common.coming_soon")
+        if !courseStarted
+          p(data-i18n="teacher.course_not_started")

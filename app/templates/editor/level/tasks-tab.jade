@@ -1,0 +1,44 @@
+.nano.editor-nano-container
+  .nano-content
+    mixin task-row(cid)
+      - var task = view.getTaskByCID(cid)
+      - var taskName = task.get('name');
+      - var isComplete = task.get('complete')
+      tr.task-row(data-task-cid=cid)
+        td.task-check
+          div.checkbox
+            input(type='checkbox', checked=(isComplete || false)).task-input
+        if task.get('curEdit') == true
+          td.edit-cell
+          td.task-name
+            input(type="input", value=taskName)#cur-edit
+        else
+          td.edit-cell
+            span.glyphicon.glyphicon-edit.start-edit
+          td.task-name
+            - var result = view.getTaskURL(taskName)
+            if result !== null
+              // https://github.com/codecombat/codecombat/wiki/Tasks-Tab#<slug goes here>
+              a(href='https://github.com/codecombat/codecombat/wiki/Tasks-Tab#' + result, target='blank')= taskName
+            else
+              span= taskName
+
+    table.table.table-striped.table-hover
+      tr
+        th.task-check Complete
+        th.edit-cell Edit
+        th Incomplete Tasks
+      for task in (view.taskArray() || [])
+        if task.get('revert').complete !== true
+          +task-row(task.cid)
+      tr
+        th.task-check
+        th.edit-cell
+        th Completed Tasks
+      for task in (view.taskArray() || [])
+        if task.get('revert').complete === true
+          +task-row(task.cid)
+    button#create-task.btn.btn-primary Add Task
+    //- // TODO: Webpack - figure out if this should be working
+    //- if view.missingDefaults().length !== 0
+    //-   button#add-default-tasks.btn.btn-default Add Default Tasks

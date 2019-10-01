@@ -1,0 +1,15 @@
+{
+	"$schema": "http://iglucentral.com/schemas/com.snowplowanalytics.self-desc/schema/jsonschema/1-0-0#",
+	"self": {
+		"vendor": "com.codecombat",
+		"name": "subscription_payment_methods_hover",
+		"format": "jsonschema",
+		"version": "1-0-0"
+	},
+	"type": "object",
+	"properties": {
+		"user": {"type": "string", "pattern": "^[a-z0-9]{24}$", "maxLength": 24, "minLength": 24}
+	},
+	"required": ["user"],
+	"additionalProperties": false
+}

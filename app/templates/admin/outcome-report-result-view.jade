@@ -1,0 +1,153 @@
+style.
+  @page {
+    margin-top: 0.5in;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  @page:first {
+    margin-top: 0in;
+  }
+
+  body {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+  }
+
+  @media print {
+    a[href]:after {
+      content:none
+    }
+    a[href] {
+      color: #0b63bc !important;
+      text-decoration: underline;
+    }
+  }
+
+div.style-flat
+  div.menu
+    div.back-btn.btn.btn-primary Back
+    div.print-btn.btn.btn-primary Print
+  img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
+
+  div.header
+    div
+      img.print-logo(src="/images/pages/base/logo.png")
+    div
+      h4 Outcomes Report
+      h5
+        | #{view.options.startDate}
+        = " "
+        if view.options.endDate
+          | &ndash;
+          | #{view.options.endDate}
+
+  div.address
+    p
+      b= view.options.schoolName
+      if view.options.schoolAddress
+        span
+          |, #{view.options.schoolAddress}
+          
+      br
+      b Teacher:
+      =" "
+      if view.options.teacher.fullName
+        | #{view.options.teacher.fullName} (#{view.options.teacher.email})
+      else
+        | #{view.options.teacher.email}
+    p.clear-both
+      b Account Manager:
+      =" "
+      | #{view.options.accountManager.fullName} (#{view.options.accountManager.email})
+
+  div.block
+    h1 Course Progress
+    for course in view.courses
+      div.course.dont-break
+        h3= course.name
+        div.bar
+          div.el
+            svg(width=100, height=100)
+              - var radius = 50
+              - var fullCircleStroke = 2*Math.PI*radius / 2
+              circle.bottom(r=radius,cx=50,cy=50)
+              circle.top(r=radius / 2,cx=50,cy=50,style="stroke-dasharray: #{fullCircleStroke/100*course.completion} #{fullCircleStroke}")
+              
+          div.el
+            div.big #{course.completion}%
+            div.under complete
+          div.el
+            div.big #{view.options.courseStudentCounts[course._id].count}
+            div.under students
+          div.el.concepts-list
+            b Key Concepts:
+            ul
+              for concept in course.newConcepts
+                li(data-i18n="concepts.#{concept}")
+
+  div.dont-break.block
+    h1 Summary
+    h4 Using CodeCombat's personalized learning engine, your students wrote
+    div.fakebar
+      div
+        | #{view.format(view.options.numProgramsWritten)}
+        = " "
+        small computer programs
+    h4 across an estimated...
+    div.fakebar
+      div
+        | #{view.format(view.options.linesOfCode)}
+        = " "
+        small lines of code
+    if view.options.numShareableProjects > 9
+      h4 and expressed creativity by building
+      div.fakebar
+        div
+          | #{view.format(view.options.numShareableProjects)}
+          = " "
+          small standalone game and web projects
+
+
+  div.dont-break.block
+    div.rob-row
+      div.left-col
+        h1 Classes
+        for clazz in view.options.classrooms
+          b= clazz.name
+          ul
+            li Language: #{clazz.aceConfig.language}
+            li #{clazz.members.length} students
+      if view.options.insightsHtml
+        div.right-col
+          h1 Insights
+          != view.options.insightsHtml
+
+  div.dont-break
+    img.anya(src="/images/pages/admin/outcomes-report/anya.png")
+    div.block.room-for-anya
+      h1 Standards Coverage
+      p.
+        The full CodeCombat curriculum covers major programming standards in
+        several widely-adopted frameworks, including those of the International
+        Society for Technology in Education (ISTE), the Computer Science Teacher
+        Association (CSTA), and the K-12 Computer Science Framework.
+
+      p.
+        At CodeCombat, we believe that students will be most prepared for both
+        real-world computing jobs and further study of computer science by using
+        real, typed code in full programming languages, so instead of using block-based
+        visual programming languages for beginners, we teach Python and
+        JavaScript – the same languages used widely today by companies ranging
+        from Google to the New York Times.
+
+    div.bottom
+      p Have question or want more information? We'd be happy to help.
+      p
+        | Reach out to your Account Manager at
+        =" "
+        a(href="mailto:" + view.options.accountManager.email)= view.options.accountManager.email

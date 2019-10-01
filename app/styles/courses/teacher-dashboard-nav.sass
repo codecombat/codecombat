@@ -1,0 +1,44 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#teacher-dashboard-nav
+  vertical-align: middle
+  text-transform: uppercase
+  
+  .navbar
+    border-radius: 0
+    background: $navy
+    
+    .navbar-toggle
+      border-color: white
+      
+    .icon-bar
+      background-color: white
+      
+    .navbar-brand
+      color: white
+      padding-top: 11px
+      padding-bottom: 11px
+    
+    li > a
+      font-family: $body-font
+      // font-size: 16px
+      padding: 13px 12px 21px 12px
+      // color: $burgundy
+      // text-shadow: 0 0 0
+      
+    li > a:hover
+      background-color: white
+      small
+        color: $navy
+    
+    li.active
+      .label
+        padding-left: 0
+        padding-right: 0
+        padding-bottom: 0
+        margin-left: 0.6em
+        margin-right: 0.6em
+        border-bottom: 4px solid white
+        border-radius: 0

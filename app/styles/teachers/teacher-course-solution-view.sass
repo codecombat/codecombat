@@ -1,0 +1,99 @@
+#teacher-course-solution-view
+  .print
+    text-align: center
+    .btn a
+      color: white
+
+  .style-flat
+    // Required as we disable main-nav for printing.
+    @media print
+      padding-top: 0
+
+  #site-content-area
+    background-color: white
+    color: black
+    font-family: sans-serif
+    margin: 0px
+    padding: 24px
+
+    hr
+      display: block
+      border-style: inset
+      border-width: 1px
+
+    h1, h2, h3, h4, h5
+      color: black
+      font-family: sans-serif
+      font-variant: normal
+      margin: 20px 0px
+
+    h4
+      color: gray
+
+    img
+      display: block
+      margin: auto
+
+    p
+      margin: 16px 0px
+
+    .page-break-before
+      page-break-before: always
+
+    @media screen
+      max-width: 900px
+      background-color: #f8f8f8
+      border-radius: 10px
+      border: 1px solid #ddd
+      padding: 40px 100px
+      font-size: 0.85em
+      margin: 20px auto
+
+  @media print
+    #main-nav, #teacher-dashboard-nav, #footer, #final-footer, .do-not-print
+      display: none
+
+  .ace_content
+    .ace_marker-layer
+      .ace_bracket
+        display: none
+    .ace_cursor-layer
+      .ace_cursor
+        display: none
+    .ace_text-layer .ace_invisible_space
+      visibility: hidden
+
+  ul.nav-tabs
+    border: none
+    .tab-spacer
+      float: left
+      width: 15px
+      height: 21px
+      border-bottom: thin solid #979797
+
+    .tab-filler
+      // Triggers block formatting context
+      // http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width
+      overflow: hidden
+      height: 21px
+      border-bottom: thin solid #979797
+
+    li > a
+      margin: 0
+      padding: 0px 4px
+      border: thin solid #979797
+      border-bottom: none
+      background: white
+      border-radius: 5px 5px 0 0
+      color: black
+      font-size: 14px
+    li
+      border-bottom: thin solid #979797
+    li.active
+      border-bottom: none
+
+  .student-solution-spacer
+    height: 22px
+
+  .tab-content
+    background-color: white

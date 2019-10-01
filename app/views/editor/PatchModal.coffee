@@ -1,8 +1,10 @@
+require('app/styles/editor/patch.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/patch_modal'
 DeltaView = require 'views/editor/DeltaView'
 auth = require 'core/auth'
 deltasLib = require 'core/deltas'
+modelDeltas = require 'lib/modelDeltas'
 
 module.exports = class PatchModal extends ModalView
   id: 'patch-modal'
@@ -14,10 +16,11 @@ module.exports = class PatchModal extends ModalView
   events:
     'click #withdraw-button': 'withdrawPatch'
     'click #reject-button': 'rejectPatch'
-    'click #accept-button': 'acceptPatch'
+    'click #accept-button': 'onAcceptPatch'
+    'click #accept-save-button': 'onAcceptAndSavePatch'
 
   shortcuts:
-    'a': 'acceptPatch'
+    'a, shift+a': 'acceptPatch'
     'r': 'rejectPatch'
 
   constructor: (@patch, @targetModel, options) ->
@@ -27,7 +30,7 @@ module.exports = class PatchModal extends ModalView
       @originalSource = @targetModel.clone(false)
     else
       @originalSource = new @targetModel.constructor({_id:targetID})
-      @supermodel.loadModel @originalSource, 'source_document'
+      @supermodel.loadModel @originalSource
 
   applyDelta: ->
     @headModel = null
@@ -39,7 +42,7 @@ module.exports = class PatchModal extends ModalView
 
     @pendingModel = @originalSource.clone(false)
     @pendingModel.markToRevert true
-    @deltaWorked = @pendingModel.applyDelta(@patch.get('delta'))
+    @deltaWorked = modelDeltas.applyDelta(@pendingModel, @patch.get('delta'))
     @pendingModel.loaded = true
 
   render: ->
@@ -50,6 +53,7 @@ module.exports = class PatchModal extends ModalView
     c = super()
     c.isPatchCreator = @patch.get('creator') is auth.me.id
     c.isPatchRecipient = @targetModel.hasWriteAccess()
+    c.isLevel = @patch.get("target")?.collection is "level"
     c.status = @patch.get 'status'
     c.patch = @patch
     c.deltaWorked = @deltaWorked
@@ -62,12 +66,19 @@ module.exports = class PatchModal extends ModalView
     @insertSubView(@deltaView, changeEl)
     super()
 
-  acceptPatch: ->
+  onAcceptPatch: ->
+    @acceptPatch false
+
+  onAcceptAndSavePatch: ->
+    commitMessage = @patch.get("commitMessage") or ""
+    @acceptPatch true, commitMessage
+
+  acceptPatch: (save=false, commitMessage) ->
     delta = @deltaView.getApplicableDelta()
-    @targetModel.applyDelta(delta)
+    modelDeltas.applyDelta(@targetModel, delta)
     @targetModel.saveBackupNow()
     @patch.setStatus('accepted')
-    @trigger 'accepted-patch'
+    @trigger 'accepted-patch', {save, commitMessage}
     @hide()
 
   rejectPatch: ->

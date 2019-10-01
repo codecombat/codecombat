@@ -41,7 +41,6 @@ describe 'CocoModel', ->
       expect(b.getURL()).toBe unprojectedURL + '&project=object,number'
 
   describe 'save', ->
-
     it 'saves to db/<urlRoot>', ->
       b = new BlandClass({})
       res = b.save()
@@ -110,9 +109,6 @@ describe 'CocoModel', ->
       expect(request).toBeUndefined()
 
   xdescribe 'Achievement polling', ->
-    NewAchievementCollection = require 'collections/NewAchievementCollection'
-    EarnedAchievement = require 'models/EarnedAchievement'
-
     # TODO: Figure out how to do debounce in tests so that this test doesn't need to use keepDoingUntil
 
     it 'achievements are polled upon saving a model', (done) ->
@@ -154,23 +150,47 @@ describe 'CocoModel', ->
   describe 'updateI18NCoverage', ->
     class FlexibleClass extends CocoModel
       @className: 'Flexible'
-      @schema: {}
+      @schema: {
+        type: 'object'
+        properties: {
+          name: { type: 'string' }
+          description: { type: 'string' }
+          innerObject: {
+            type: 'object'
+            properties: {
+              name: { type: 'string' }
+              i18n: { type: 'object', format: 'i18n', props: ['name']}
+            }
+          }
+          i18n: { type: 'object', format: 'i18n', props: ['description', 'name', 'prop1']}
+        }
+      }
 
     it 'only includes languages for which all objects include a translation', ->
       m = new FlexibleClass({
-        i18n: { es: {}, fr: {} }
-        prop1: 1
-        prop2: 'string'
-        prop3: true
+        i18n: { es: { name: '+', description: '+' }, fr: { name: '+', description: '+' } }
+        name: 'Name'
+        description: 'Description'
         innerObject: {
-          i18n: { es: {}, de: {}, fr: {} }
-          prop4: [
-            {
-              i18n: { es: {} }
-            }
-          ]
+          i18n: { es: { name: '+' }, de: { name: '+' }, fr: {} }
+          name: 'Name'
         }
       })
 
       m.updateI18NCoverage()
-      expect(JSON.stringify(m.get('i18nCoverage'))).toBe('["es"]')
+      expect(_.isEqual(m.get('i18nCoverage'), ['es'])).toBe(true)
+
+    it 'ignores objects for which there is nothing to translate', ->
+      m = new FlexibleClass()
+      m.set({
+        name: 'Name'
+        i18n: {
+          '-': {'-':'-'}
+          'es': {name: 'Name in Spanish'}
+        }
+        innerObject: {
+          i18n: { '-': {'-':'-'} }
+        }
+      })
+      m.updateI18NCoverage()
+      expect(_.isEqual(m.get('i18nCoverage'), ['es'])).toBe(true)

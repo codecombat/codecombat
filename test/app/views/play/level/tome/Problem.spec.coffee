@@ -1,4 +1,6 @@
-﻿Problem = require 'views/play/level/tome/Problem'
+Problem = require 'views/play/level/tome/Problem'
+locale = require 'locale/locale'
+locale.storeLoadedLanguage('rot13', require('locale/rot13')) # Normally locale.load does this for us
 
 describe 'Problem', ->
   # boilerplate problem params
@@ -26,10 +28,33 @@ describe 'Problem', ->
     type: 'runtime'
   }
   levelID = 'awesome'
+  
+  describe '.translate()', ->
+    beforeEach ->
+      @oldLang = $.i18n.lng()
+      $.i18n.setLng('rot13')
+    afterEach ->
+      $.i18n.setLng(@oldLang)
+    it 'translates messages with line numbers, error types, and placeholders', ->
+      english = 'Line 12: ReferenceError: somethin is not defined'
+      rot13 = 'Yvar 12: ErsreraprReebe: somethin vf abg qrsvarq'
+      expect(Problem.prototype.translate(english)).toEqual(rot13)
+      english = "`foo`'s argument `bar` has a problem. Is there an enemy within your line-of-sight yet?"
+      rot13 = "`foo`'f nethzrag `bar` unf n ceboyrz. Vf gurer na rarzl jvguva lbhe yvar-bs-fvtug lrg?"
+      expect(Problem.prototype.translate(english)).toEqual(rot13)
+      english="""
+        `attack`'s argument `target` should have type `unit`, but got `function`.
+        Target a unit.
+      """
+      rot13="""
+        `attack`'f nethzrag `target` fubhyq unir glcr `unit`, ohg tbg `function`.
+        Gnetrg n havg.
+      """
+      expect(Problem.prototype.translate(english)).toEqual(rot13)
 
   # TODO: Problems are no longer saved when creating Problems; instead it's in SpellView. Update tests?
   xit 'save user code problem', ->
-    new Problem aether, aetherProblem, ace, false, true, levelID
+    new Problem {aether, aetherProblem, ace, isCast: false, levelID}
     expect(jasmine.Ajax.requests.count()).toBe(1)
 
     request = jasmine.Ajax.requests.mostRecent()
@@ -49,7 +74,7 @@ describe 'Problem', ->
 
   xit 'save user code problem no range', ->
     aetherProblem.range = null
-    new Problem aether, aetherProblem, ace, false, true, levelID
+    new Problem {aether, aetherProblem, ace, isCast: false, levelID}
     expect(jasmine.Ajax.requests.count()).toBe(1)
 
     request = jasmine.Ajax.requests.mostRecent()
@@ -73,7 +98,7 @@ describe 'Problem', ->
     aether.raw = "this.say('hi');\nthis.sad\n('bye');"
     aetherProblem.range = [ { row: 1 }, { row: 2 } ]
 
-    new Problem aether, aetherProblem, ace, false, true, levelID
+    new Problem {aether, aetherProblem, ace, isCast: false, levelID}
     expect(jasmine.Ajax.requests.count()).toBe(1)
 
     request = jasmine.Ajax.requests.mostRecent()

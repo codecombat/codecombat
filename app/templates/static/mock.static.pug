@@ -1,0 +1,23 @@
+extends layout.static.pug
+
+block setup
+    
+
+block script-start
+    script window.alreadyLoadedView = "#{viewName}";
+    script.
+      function onLoad() {
+        try {
+            // IE10 warning
+            var htmlElement = document.querySelector("html");
+            if (htmlElement) {
+                if ($.browser.msie && $.browser.edge != true) {
+                    if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
+                        alert("CodeCombat does not support Internet Explorer, but runs on all other major browsers.");
+                    }
+                }
+            }
+            // IE8 can't handle this
+            FastClick.attach(document.body);
+        } catch (error) { }
+      }

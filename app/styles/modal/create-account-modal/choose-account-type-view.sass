@@ -1,0 +1,93 @@
+@import "app/styles/style-flat-variables"
+
+#choose-account-type-view
+  .choose-type-title
+    display: flex
+    flex-direction: column
+
+  h4
+    padding-bottom: 20px
+
+  .path-cards
+    display: flex
+
+  .path-card ~ .path-card
+    margin-left: 6.5px
+
+  .path-card
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    width: 235px
+    border-style: solid
+    border-width: thin
+    border-radius: 5px
+
+    body[lang^="en"] &
+      height: 340px
+      max-height: 42vh
+
+    &.navy
+      border-color: $navy
+      .card-title
+        background-color: $navy
+
+    &.forest
+      border-color: $forest
+      .card-title
+        background-color: $forest
+
+
+    .card-title
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      height: 50px
+      max-height: 5vh
+      color: white
+      font-weight: bold
+      text-align: center
+
+    .card-content
+      flex-grow: 1
+      display: flex
+      flex-direction: column
+      justify-content: center
+      margin: 0 20px
+
+      ul
+        align-self: center
+        text-align: left
+        padding-left: 20px
+        &[dir="rtl"]
+          text-align: right
+        li
+          span
+            position: relative
+            left: -5px
+
+    .card-footer
+      margin: 0 20px 20px
+      min-height: 62px
+      display: flex
+      flex-direction: column
+      justify-content: flex-end
+
+  .individual-section
+    display: flex
+    flex-grow: 1
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    max-width: 425px
+
+  .individual-title
+    font-weight: bold
+
+  .individual-description
+    margin: 0px 0px 20px 0px
+    width: 100%
+
+  .text-h6
+    color: white

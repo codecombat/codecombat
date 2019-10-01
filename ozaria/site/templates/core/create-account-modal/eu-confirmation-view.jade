@@ -1,0 +1,26 @@
+form.modal-body.eu-confirmation
+  .modal-body-content
+
+    .checkbox
+      label.control-label(for="eu-confirmation-checkbox")
+        input#eu-confirmation-checkbox(type="checkbox" value="" checked=view.state.get('euConfirmationGranted'))
+        span(data-i18n="signup.eu_confirmation")
+
+    p
+      em
+        a(href="/privacy#place-of-processing", target="_blank", data-i18n="signup.eu_confirmation_place_of_processing")
+
+    br
+    br
+    case view.signupState.get('path')
+      when 'student'
+        p.small(data-i18n="signup.eu_confirmation_student")
+      when 'individual'
+        p.small(data-i18n="signup.eu_confirmation_individual")    
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button.forward-button.btn.btn-lg.btn-navy(type='button', disabled=!view.state.get('euConfirmationGranted'))
+      span(data-i18n="common.continue")
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="common.back")

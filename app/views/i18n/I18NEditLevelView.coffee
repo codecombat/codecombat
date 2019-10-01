@@ -17,6 +17,8 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
         @wrapRow 'Level description', ['description'], description, i18n[lang]?.description, []
       if loadingTip = @model.get('loadingTip')
         @wrapRow 'Loading tip', ['loadingTip'], loadingTip, i18n[lang]?.loadingTip, []
+      if studentPlayInstructions = @model.get('studentPlayInstructions')
+        @wrapRow 'Student Play Instructions', ['studentPlayInstructions'], studentPlayInstructions, i18n[lang]?.studentPlayInstructions, []
 
     # goals
     for goal, index in @model.get('goals') ? []
@@ -29,9 +31,20 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
         @wrapRow 'Guide article name', ['name'], doc.name, i18n[lang]?.name, ['documentation', 'specificArticles', index]
         @wrapRow "'#{doc.name}' body", ['body'], doc.body, i18n[lang]?.body, ['documentation', 'specificArticles', index], 'markdown'
 
+    # hints
+    for hint, index in @model.get('documentation')?.hints ? []
+      if i18n = hint.i18n
+        name = "Hint #{index+1}"
+        @wrapRow "'#{name}' body", ['body'], hint.body, i18n[lang]?.body, ['documentation', 'hints', index], 'markdown'
+    for hint, index in @model.get('documentation')?.hintsB ? []
+      if i18n = hint.i18n
+        name = "Hint #{index+1}"
+        @wrapRow "'#{name}' body", ['body'], hint.body, i18n[lang]?.body, ['documentation', 'hints', index], 'markdown'
+
     # sprite dialogues
     for script, scriptIndex in @model.get('scripts') ? []
       for noteGroup, noteGroupIndex in script.noteChain ? []
+        continue unless noteGroup
         for spriteCommand, spriteCommandIndex in noteGroup.sprites ? []
           pathPrefix = ['scripts', scriptIndex, 'noteChain', noteGroupIndex, 'sprites', spriteCommandIndex, 'say']
 
@@ -58,3 +71,12 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
             for key, value of context
               path = ['thangs', thangIndex, 'components', componentIndex, 'config', 'programmableMethods', methodName]
               @wrapRow 'Code comment', ['context', key], value, i18n[lang]?.context?[key], path
+
+    # code comments
+    for thang, thangIndex in @model.get('thangs') ? []
+      for component, componentIndex in thang.components ? []
+        continue unless component.original is LevelComponent.RefereeID
+        if (i18n = component.config?.i18n) and (context = component.config.context)
+          for key, value of context
+            path = ['thangs', thangIndex, 'components', componentIndex, 'config']
+            @wrapRow 'Referee context string', ['context', key], value, i18n[lang]?.context?[key], path

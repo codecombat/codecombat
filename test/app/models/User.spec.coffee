@@ -9,6 +9,7 @@ describe 'UserModel', ->
     expect(User.expForLevel 2).toBeGreaterThan User.expForLevel 1
 
   it 'level is calculated correctly', ->
+    me.clear()
     me.set 'points', 0
     expect(me.level()).toBe 1
 
@@ -23,7 +24,7 @@ describe 'UserModel', ->
       expect(defaultEmails.anyNotes.enabled).toBe(true)
       expect(defaultEmails.generalNews.enabled).toBe(true)
       expect(defaultEmails.recruitNotes.enabled).toBe(true)
-    
+
     it 'maintains defaults of other emails when one is explicitly set', ->
       u = new User()
       u.setEmailSubscription('recruitNotes', false)
@@ -31,7 +32,7 @@ describe 'UserModel', ->
       expect(defaultEmails.anyNotes?.enabled).toBe(true)
       expect(defaultEmails.generalNews?.enabled).toBe(true)
       expect(defaultEmails.recruitNotes.enabled).toBe(false)
-      
+
     it 'does not populate raw data for other emails when one is explicitly set', ->
       u = new User()
       u.setEmailSubscription('recruitNotes', false)
@@ -39,3 +40,31 @@ describe 'UserModel', ->
       emails = u.get('emails')
       expect(emails.anyNotes).toBeUndefined()
       expect(emails.generalNews).toBeUndefined()
+
+  describe 'validate', ->
+    it 'returns undefined if the user is valid', ->
+      expect(new User().validate()).toBeUndefined()
+
+    it 'returns an array of errors if the user is invalid', ->
+      res = new User({invalidProp:'...'}).validate()
+      expect(_.isArray(res)).toBe(true)
+
+    it 'returns undefined if the user is invalid but has no new validation errors since when last marked to revert', ->
+      user = new User({invalidProp:'...'})
+      user.markToRevert()
+      user.set('name', 'this is fine')
+      expect(user.validate()).toBeUndefined()
+      user.set('newInvalidProp', '...')
+      expect(_.isArray(user.validate())).toBe(true)
+
+  describe 'inEU', ->
+    it 'true if in EU country', ->
+      u = new User({country: 'germany'})
+      expect(u.inEU()).toEqual(true)
+    it 'false if not in EU country', ->
+      u = new User({country: 'mexico'})
+      expect(u.inEU()).toEqual(false)
+    it 'true if not defined', ->
+      u = new User()
+      expect(u.get('country')).toBeUndefined()
+      expect(u.inEU()).toEqual(true)

@@ -1,0 +1,67 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+
+#amazon-hoc-modal
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    width: 746px
+    height: 520px
+    background: none
+    
+  #amazon-hoc-background
+    position: absolute
+    top: -61px
+    left: 0px
+    
+  h1
+    position: absolute
+    left: 170px
+    top: 25px
+    margin: 0
+    width: 410px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 30px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
+    font-variant: normal
+    text-transform: uppercase
+    margin-left: -30px
+
+  #close-modal
+    position: absolute
+    left: 568px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  .paper-area
+    position: absolute
+    top: 114px
+    left: 31px
+    min-height: 370px
+    width: 684px
+    background: #d4c9b1
+    border: 3px solid black
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding: 20px
+    
+    h3
+      margin-top: 0
+      color: black
+
+    img
+      width: 185px
+      margin: 0 auto

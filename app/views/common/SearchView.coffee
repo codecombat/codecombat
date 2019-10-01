@@ -1,7 +1,7 @@
 RootView = require 'views/core/RootView'
 NewModelModal = require 'views/editor/modal/NewModelModal'
 template = require 'templates/common/search-view'
-app = require 'core/application'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term, @projection) ->
@@ -30,12 +30,14 @@ module.exports = class SearchView extends RootView
   modelURL: null # '/db/article'
   tableTemplate: null # require 'templates/editor/article/table'
   projected: null # ['name', 'description', 'version'] or null for default
+  canMakeNew: true
 
   events:
     'change input#search': 'runSearch'
     'keydown input#search': 'runSearch'
     'click #new-model-button': 'newModel'
     'hidden.bs.modal #new-model-modal': 'onModalHidden'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
     @runSearch = _.debounce(@runSearch, 500)
@@ -67,7 +69,7 @@ module.exports = class SearchView extends RootView
   updateHash: (term) ->
     newPath = document.location.pathname + (if term then '#' + term else '')
     currentPath = document.location.pathname + document.location.hash
-    app.router.navigate(newPath) if newPath isnt currentPath
+    application.router.navigate(newPath) if newPath isnt currentPath
 
   sameSearch: (term) ->
     return false unless @collection
@@ -80,6 +82,7 @@ module.exports = class SearchView extends RootView
     table = $(@tableTemplate(documents: documents, me: me, page: @page, moment: moment))
     @$el.find('table').replaceWith(table)
     @$el.find('table').i18n()
+    @applyRTLIfNeeded()
 
   removeOldSearch: ->
     return unless @collection?
@@ -88,9 +91,13 @@ module.exports = class SearchView extends RootView
 
   onNewModelSaved: (@model) ->
     base = document.location.pathname[1..] + '/'
-    app.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
+    application.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
 
   newModel: (e) ->
     modal = new NewModelModal model: @model, modelLabel: @modelLabel
     modal.once 'model-created', @onNewModelSaved
     @openModalView modal
+
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()

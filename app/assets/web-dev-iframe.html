@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>My CodeCombat Website</title>
+
+    <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js" integrity="sha256-8SeyqJ7ZAZx8WnIgP/bgK6LGIjKjhojNPHSMV/fo29Y=" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+    <script src="/javascripts/web-dev-listener.js"></script>
+    
+    <script src="/javascripts/app/vendor/aether-html.js"></script>
+    <script>
+      /* Import that font for demoing web-dev levels until @import ordering bug is fixed */
+      const head = document.head;
+      const styleEl = document.createElement('style')
+      styleEl.type = "text/css"
+      let styleText = '';
+      if (parent.features && parent.features.chinaUx) {
+        styleText = `@import 'https://fonts.loli.net/css?family=Holtwood+One+SC';`
+      } else {
+        styleText = `@import 'https://fonts.googleapis.com/css?family=Holtwood+One+SC';`
+      }
+      head.appendChild(styleEl)
+    </script>
+    <style>
+      * {
+      transition: all 1s ease-in-out, box-shadow 1ms;
+      }
+    </style>
+    <script>
+      $.fn.isTransparent = function(attr){
+        return this.css(attr) === 'rgba(0, 0, 0, 0)' || this.css(attr) === 'transparent' || this.css(attr) === '';
+      }
+    </script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    
+    <!-- Extracted player/level styles and scripts -->
+    <style for="level-styles">
+    </style>
+    <script for="level-scripts">
+    </script>
+    <style for="player-styles">
+    </style>
+    <script for="player-scripts">
+    </script>
+  </head>
+  <body>
+    <h1>
+      <span class="loading-message">Loading...</span>
+      <span class="loading-error hidden">Error displaying your code.</span>
+    </h1>
+  </body>
+</html>

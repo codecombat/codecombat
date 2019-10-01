@@ -1,0 +1,41 @@
+@import "app/styles/style-flat-variables"
+
+#starter-license-upsell-view
+  .tall-margin, .tall-margin-top
+    margin-top: 70px
+
+  .tall-margin, .tall-margin-bottom
+    margin-bottom: 50px
+      
+  .checkmark-blurb
+    .fa-check
+      color: $forest
+      font-size: 50px
+
+  .feature-comparison-table
+    margin: auto
+    tr:nth-child(2n+3)
+      background: #F8F8F8
+      &:first-child, &:last-child
+        background: white
+    th, td
+      text-align: center
+      font-size: 15px
+      padding: 0 10px
+    tr:first-child
+      th.special-offer-col
+        border: thin solid $navy
+        background: $navy
+        color: white
+    tr:last-child
+      th.special-offer-col
+        border-left: thin solid $navy
+        border-right: thin solid $navy
+        border-bottom: thin solid $navy
+      .btn
+        margin: 10px 0 15px
+        padding: 10px 30px
+    td, th
+      &.special-offer-col
+        border-left: thin solid $navy
+        border-right: thin solid $navy

@@ -96,11 +96,15 @@ module.exports =
 
   'playback:stop-real-time-playback': c.object {}
 
-  'playback:real-time-playback-waiting': c.object {}
+  'playback:stop-cinematic-playback': c.object {}
 
   'playback:real-time-playback-started': c.object {}
 
   'playback:real-time-playback-ended': c.object {}
+
+  'playback:cinematic-playback-started': c.object {}
+
+  'playback:cinematic-playback-ended': c.object {}
 
   'playback:ended-changed': c.object {required: ['ended']},
     ended: {type: 'boolean'}
@@ -119,6 +123,8 @@ module.exports =
 
   'level:show-victory': c.object {required: ['showModal']},
     showModal: {type: 'boolean'}
+    manual: { type: 'boolean' }
+    capstoneInProgress: { type: 'boolean' }
 
   'level:highlight-dom': c.object {required: ['selector']},
     selector: {type: 'string'}
@@ -173,3 +179,30 @@ module.exports =
   'level:subscription-required': c.object {}
 
   'level:course-membership-required': c.object {}
+
+  'level:contact-button-pressed': c.object {title: 'Contact Pressed', description: 'Dispatched when the contact button is pressed in a level.'}
+
+  'level:surface-context-menu-pressed': c.object {required: ['posX', 'posY', 'wopX', 'wopY']},
+    posX: {type: 'number'}
+    posY: {type: 'number'}
+    wopX: {type: 'number'}
+    wopY: {type: 'number'}
+
+  'level:surface-context-menu-hide': c.object {}
+
+  'level:license-required': c.object {}
+
+  'level:open-items-modal': c.object {}
+
+  'level:scores-updated': c.object {},
+    scores: c.array {},
+      c.object {required: ['type', 'score']},
+        type: c.shortString()
+        score: {type: 'number'}
+
+  'level:top-scores-updated': c.object {},
+    scores: c.array {},
+      c.object {required: ['type', 'score']},
+        type: c.shortString()
+        score: {type: 'number'}
+        date: c.date()

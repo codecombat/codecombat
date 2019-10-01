@@ -1,3 +1,4 @@
+require('app/styles/not_found.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/core/not-found'
 

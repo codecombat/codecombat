@@ -1,14 +1,23 @@
+require('app/styles/play/level/tome/spell.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
+ace = require('lib/aceContainer')
 Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
 SpellDebugView = require './SpellDebugView'
+SpellTranslationView = require './SpellTranslationView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
+aceUtils = require 'core/aceUtils'
+CodeLog = require 'models/CodeLog'
+Autocomplete = require './editor/autocomplete'
+TokenIterator = ace.require('ace/token_iterator').TokenIterator
+LZString = require 'lz-string'
+utils = require 'core/utils'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -17,14 +26,7 @@ module.exports = class SpellView extends CocoView
   controlsEnabled: true
   eventsSuppressed: true
   writable: true
-
-  @editModes:
-    'javascript': 'ace/mode/javascript'
-    'coffeescript': 'ace/mode/coffee'
-    'python': 'ace/mode/python'
-    'clojure': 'ace/mode/clojure'
-    'lua': 'ace/mode/lua'
-    'io': 'ace/mode/text'
+  languagesThatUseWorkers: ['html']
 
   keyBindings:
     'default': null
@@ -40,7 +42,6 @@ module.exports = class SpellView extends CocoView
     'god:user-code-problem': 'onUserCodeProblem'
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
-    'tome:reload-code': 'onCodeReload'
     'tome:spell-changed': 'onSpellChanged'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
@@ -48,21 +49,25 @@ module.exports = class SpellView extends CocoView
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
-    'tome:update-snippets': 'addZatannaSnippets'
+    'tome:update-snippets': 'addAutocompleteSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'tome:spell-beautify': 'onSpellBeautify'
     'tome:maximize-toggled': 'onMaximizeToggled'
+    'tome:problems-updated': 'onProblemsUpdated'
     'script:state-changed': 'onScriptStateChange'
     'playback:ended-changed': 'onPlaybackEndedChanged'
+    'level:contact-button-pressed': 'onContactButtonPressed'
+    'level:show-victory': 'onShowVictory'
+    'web-dev:error': 'onWebDevError'
 
   events:
     'mouseout': 'onMouseOut'
 
   constructor: (options) ->
+    @supermodel = options.supermodel
     super options
     @worker = options.worker
     @session = options.session
-    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
     @problems = []
     @savedProblems = {} # Cache saved user code problems to prevent duplicates
@@ -75,58 +80,77 @@ module.exports = class SpellView extends CocoView
     super()
     @createACE()
     @createACEShortcuts()
+    @hookACECustomBehavior()
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
-    if @session.get('multiplayer')
-      @createFirepad()
-    else
-      # needs to happen after the code generating this view is complete
-      _.defer @onAllLoaded
+    _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
 
+  # This ACE is used for the code editor, and is only instantiated once per level.
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
     aceConfig = me.get('aceConfig') ? {}
     @destroyAceEditor(@ace)
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
+    # Override setAnnotations so the Ace html worker doesn't clobber our annotations
+    @reallySetAnnotations = @aceSession.setAnnotations.bind(@aceSession)
+    @aceSession.setAnnotations = (annotations) =>
+      previousAnnotations = @aceSession.getAnnotations()
+      newAnnotations = _.filter previousAnnotations, (annotation) -> annotation.createdBy? # Keep the ones we generated
+        .concat _.reject annotations, (annotation) -> # Ignore this particular info-annotation the html worker generates
+          annotation.text is 'Start tag seen without seeing a doctype first. Expected e.g. <!DOCTYPE html>.'
+      @reallySetAnnotations newAnnotations
     @aceDoc = @aceSession.getDocument()
-    @aceSession.setUseWorker false
-    @aceSession.setMode SpellView.editModes[@spell.language]
+    @aceSession.setUseWorker @spell.language in @languagesThatUseWorkers
+    @aceSession.setMode aceUtils.aceEditModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode 'unix'
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides aceConfig.indentGuides
+    @ace.setDisplayIndentGuides false
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles aceConfig.invisibles
+    @ace.setShowInvisibles false
     @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
     @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @ace.$blockScrolling = Infinity
+    @ace.on 'mousemove', @onAceMouseMove
+    @ace.on 'mouseout', @onAceMouseOut
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
     @initAutocomplete aceConfig.liveCompletion ? true
 
+    return if @session.get('creator') isnt me.id or @session.fake
+    # Create a Spade to 'dig' into Ace.
+    @spade = new Spade()
+    @spade.track(@ace)
+    # If a user is taking longer than 10 minutes, let's log it.
+    saveSpadeDelay = 10 * 60 * 1000
+    @saveSpadeTimeout = setTimeout @saveSpade, saveSpadeDelay
+
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
-    ace = @ace
-    addCommand = (c) ->
-      ace.commands.addCommand c
+    addCommand = (c) =>
+      @ace.commands.addCommand c
       aceCommands.push c.name
     addCommand
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
-      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
+      exec: => Backbone.Mediator.publish 'tome:manual-cast', {realTime: @options.level.isType('game-dev')}
     unless @observing
       addCommand
         name: 'run-code-real-time'
         bindKey: {win: 'Ctrl-Shift-Enter', mac: 'Command-Shift-Enter|Ctrl-Shift-Enter'}
         exec: =>
-          if @options.level.get('replayable') and (timeUntilResubmit = @session.timeUntilResubmit()) > 0
+          doneButton = @$('.done-button:visible')
+          if doneButton.length
+            doneButton.trigger 'click'
+          else if @options.level.get('replayable') and (timeUntilResubmit = @session.timeUntilResubmit()) > 0
             Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
           else
             Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
@@ -210,7 +234,7 @@ module.exports = class SpellView extends CocoView
         if @aceSession.selection.isEmpty()
           cursor = @ace.getCursorPosition()
           line = @aceDoc.getLine(cursor.row)
-          if delimMatch = line.substring(cursor.column).match /^(["|']?\)+;?)/  # Yay for editors misreading regexes: "
+          if delimMatch = line.substring(cursor.column).match /^(["|']?\)+;?)/
             newRange = @ace.getSelectionRange()
             newRange.setStart newRange.start.row, newRange.start.column + delimMatch[1].length
             newRange.setEnd newRange.end.row, newRange.end.column + delimMatch[1].length
@@ -223,7 +247,7 @@ module.exports = class SpellView extends CocoView
         disableSpaces = @options.level.get('disableSpaces') or false
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
-        disableSpaces = false if @spell.language in ['clojure', 'lua', 'coffeescript', 'io']  # Don't disable for more advanced/experimental languages
+        disableSpaces = false if @spell.language in ['lua', 'java', 'coffeescript', 'html']  # Don't disable for more advanced/experimental languages
         if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
@@ -256,6 +280,88 @@ module.exports = class SpellView extends CocoView
           @lastBackspace = nowDate
           @ace.remove "left"
 
+
+  hookACECustomBehavior: ->
+    aceConfig = me.get('aceConfig') ? {}
+    @ace.commands.on 'exec', (e) =>
+      # When pressing enter with an active selection, just make a new line under it.
+      if e.command.name is 'enter-skip-delimiters'
+        selection = @ace.selection.getRange()
+        unless selection.start.column is selection.end.column and selection.start.row is selection.end.row
+          e.editor.execCommand 'gotolineend'
+          return true
+
+    # Add visual indent guides
+    language = @spell.language
+    ensureLineStartsBlock = (line) ->
+      return false unless language is "python"
+      match = /^\s*([^#]+)/.exec(line)
+      return false if not match?
+      return /:\s*$/.test(match[1])
+
+    @aceSession.addDynamicMarker
+      update: (html, markerLayer, session, config) =>
+        Range = ace.require('ace/range').Range
+
+        foldWidgets = @aceSession.foldWidgets
+        return if not foldWidgets?
+
+        lines = @aceDoc.getAllLines()
+        startOfRow = (r) ->
+          str = lines[r]
+          ar = str.match(/^\s*/)
+          ar.pop().length
+
+        colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+
+        for row in [0..@aceSession.getLength()]
+          foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
+          continue unless foldWidgets? and foldWidgets[row] is "start"
+          try
+            docRange = @aceSession.getFoldWidgetRange(row)
+          catch error
+            console.warn "Couldn't find fold widget docRange for row #{row}:", error
+          if not docRange?
+            guess = startOfRow(row)
+            docRange = new Range(row,guess,row,guess+4)
+
+          continue unless ensureLineStartsBlock(lines[row])
+
+          if /^\s+$/.test lines[docRange.end.row+1]
+            docRange.end.row += 1
+
+          xstart = startOfRow(row)
+          if language is 'python'
+            requiredIndent = new RegExp '^' + new Array(Math.floor(xstart / 4 + 1)).join('(    |\t)') + '(    |\t)+(\\S|\\s*$)'
+            for crow in [docRange.start.row+1..docRange.end.row]
+              unless requiredIndent.test lines[crow]
+                docRange.end.row = crow - 1
+                break
+
+          rstart = @aceSession.documentToScreenPosition docRange.start.row, docRange.start.column
+          rend = @aceSession.documentToScreenPosition docRange.end.row, docRange.end.column
+          range = new Range rstart.row, rstart.column, rend.row, rend.column
+          level = Math.floor(xstart / 4)
+          color = colors[level % colors.length]
+          bw = 3
+          to = markerLayer.$getTop(range.start.row, config)
+          t = markerLayer.$getTop(range.start.row + 1, config)
+          h = config.lineHeight * (range.end.row - range.start.row)
+          l = markerLayer.$padding + xstart * config.characterWidth
+          # w = (data.i - data.b) * config.characterWidth
+          w = 4 * config.characterWidth
+          fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
+
+          html.push """
+            <div style=
+              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+               border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
+            ></div>
+            <div style=
+              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+               border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
+            ></div>
+          """
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -296,9 +402,11 @@ module.exports = class SpellView extends CocoView
       return true for range in @readOnlyRanges when rightRange.intersects(range)
       false
 
+    # TODO: Performance: Consider removing, may be dead code.
     pulseLockedCode = ->
       $('.locked-code').finish().addClass('pulsating').effect('shake', times: 1, distance: 2, direction: 'down').removeClass('pulsating')
 
+    # TODO: Performance: Consider removing, may be dead code.
     preventReadonly = (next) ->
       if intersects()
         pulseLockedCode()
@@ -311,7 +419,6 @@ module.exports = class SpellView extends CocoView
         args = Array.prototype.slice.call arguments
         wrapper => orig.apply obj, args
       obj[method]
-
 
     finishRange = (row, startRow, startColumn) =>
       range = new Range startRow, startColumn, row, @aceSession.getLine(row).length - 1
@@ -368,8 +475,8 @@ module.exports = class SpellView extends CocoView
       if (e.command.name is 'insertstring' and intersects()) or
          (e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()) or
          (e.command.name is 'del' and intersectsRight())
-        @zatanna?.off?()
-        pulseLockedCode()
+        @autocomplete?.off?()
+        pulseLockedCode() # TODO: Performance: Consider removing, may be dead code.
         return false
       else if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
         if intersects()
@@ -377,116 +484,56 @@ module.exports = class SpellView extends CocoView
           e.editor.navigateLineStart()
           return false
         else if e.command.name in ['Enter', 'Return'] and not e.editor?.completer?.popup?.isOpen
-          @zatanna?.on?()
+          @autocomplete?.on?()
           return e.editor.execCommand 'enter-skip-delimiters'
-      @zatanna?.on?()
+      @autocomplete?.on?()
       e.command.exec e.editor, e.args or {}
 
-  initAutocomplete: (@autocomplete) ->
+  initAutocomplete: (@autocompleteOn) ->
     # TODO: Turn on more autocompletion based on level sophistication
     # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
     # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
+    return if @spell.language is 'html'
     popupFontSizePx = @options.level.get('autocompleteFontSizePx') ? 16
-    @zatanna = new Zatanna @ace,
+    @autocomplete = new Autocomplete @ace,
       basic: false
       liveCompletion: false
       snippetsLangDefaults: false
       completers:
         keywords: false
-        snippets: @autocomplete
-        text: @autocomplete
+        snippets: @autocompleteOn
       autoLineEndings:
         javascript: ';'
+        java: ';'
       popupFontSizePx: popupFontSizePx
+      popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
 
-  updateAutocomplete: (@autocomplete) ->
-    @zatanna?.set 'snippets', @autocomplete
+  updateAutocomplete: (@autocompleteOn) ->
+    @autocomplete?.set 'snippets', @autocompleteOn
 
-  addZatannaSnippets: (e) ->
+  addAutocompleteSnippets: (e) ->
     # Snippet entry format:
     # content: code inserted into document
     # meta: displayed right-justfied in popup
     # name: displayed left-justified in popup, and what's being matched
     # tabTrigger: fallback for name field
-    return unless @zatanna and @autocomplete
-    snippetEntries = []
-    haveFindNearestEnemy = false
-    haveFindNearest = false
-    for group, props of e.propGroups
-      for prop in props
-        if _.isString prop  # organizePalette
-          owner = group
-        else                # organizePaletteHero
-          owner = prop.owner
-          prop = prop.prop
-        doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
-          return true if doc.owner is owner
-          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        if doc?.snippets?[e.language]
-          content = doc.snippets[e.language].code
-          if /loop/.test(content) and @options.level.get 'moveRightLoopSnippet'
-            # Replace default loop snippet with an embedded moveRight()
-            content = switch e.language
-              when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
-              when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
-              else content
-          entry =
-            content: content
-            meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
-            name: doc.name
-            tabTrigger: doc.snippets[e.language].tab
-          haveFindNearestEnemy ||= doc.name is 'findNearestEnemy'
-          haveFindNearest ||= doc.name is 'findNearest'
-          if doc.name is 'attack'
-            # Postpone this until we know if findNearestEnemy is available
-            attackEntry = entry
-          else
-            snippetEntries.push entry
-
-    # TODO: Generalize this snippet replacement
-    # TODO: Where should this logic live, and what format should it be in?
-    if attackEntry?
-      unless haveFindNearestEnemy or haveFindNearest or @options.level.get('slug') is 'known-enemy'
-        # No findNearestEnemy, so update attack snippet to string-based target
-        # (On Known Enemy, we are introducing enemy2 = "Gert", so we want them to do attack(enemy2).)
-        attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'
-      snippetEntries.push attackEntry
-
-    if haveFindNearest and not haveFindNearestEnemy
-      @translateFindNearest()
-
-    # window.zatannaInstance = @zatanna  # For debugging. Make sure to not leave active when committing.
-    # window.snippetEntries = snippetEntries
-    lang = SpellView.editModes[e.language].substr 'ace/mode/'.length
-    @zatanna.addSnippets snippetEntries, lang
-    @editorLang = lang
+    return unless @autocomplete and @autocompleteOn
+    @autocomplete.addCodeCombatSnippets @options.level, @, e
 
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
     oldSource = @getSource()
-    if @spell.language is 'clojure'
-      newSource = oldSource.replace /\(.findNearestEnemy this\)/g, "(.findNearest this (.findEnemies this))"
-      newSource = newSource.replace /\(.findNearestItem this\)/g, "(.findNearest this (.findItems this))"
-    else if @spell.language is 'io'
-      newSource = oldSource.replace /findNearestEnemy/g, "findNearest(findEnemies)"
-      newSource = newSource.replace /findNearestItem/g, "findNearest(findItems)"
-    else
-      newSource = oldSource.replace /(self:|self.|this.|@)findNearestEnemy\(\)/g, "$1findNearest($1findEnemies())"
-      newSource = newSource.replace /(self:|self.|this.|@)findNearestItem\(\)/g, "$1findNearest($1findItems())"
+    newSource = oldSource.replace /(self:|self.|this.|@)findNearestEnemy\(\)/g, "$1findNearest($1findEnemies())"
+    newSource = newSource.replace /(self:|self.|this.|@)findNearestItem\(\)/g, "$1findNearest($1findItems())"
     return if oldSource is newSource
     @spell.originalSource = newSource
     @updateACEText newSource
     _.delay (=> @recompile?()), 1000
 
-  onMultiplayerChanged: ->
-    if @session.get('multiplayer')
-      @createFirepad()
-    else
-      @firepad?.dispose()
-
   createFirepad: ->
-    # load from firebase or the original source if there's nothing there
+    # Currently not called; could be brought back for future multiplayer modes.
+    # Load from firebase or the original source if there's nothing there.
     return if @firepadLoading
     @eventsSuppressed = true
     @loaded = false
@@ -497,31 +544,36 @@ module.exports = class SpellView extends CocoView
     @fireRef = new Firebase fireURL
     firepadOptions = userId: me.id
     @firepad = Firepad.fromACE @fireRef, @ace, firepadOptions
-    @firepad.on 'ready', @onFirepadLoaded
     @firepadLoading = true
-
-  onFirepadLoaded: =>
-    @firepadLoading = false
-    firepadSource = @ace.getValue()
-    if firepadSource
-      @spell.source = firepadSource
-    else
-      @ace.setValue @previousSource
-      @aceSession.setUndoManager(new UndoManager())
-      @ace.clearSelection()
-    @onAllLoaded()
+    @firepad.on 'ready', =>
+      return if @destroyed
+      @firepadLoading = false
+      firepadSource = @ace.getValue()
+      if firepadSource
+        @spell.source = firepadSource
+      else
+        @ace.setValue @previousSource
+        @aceSession.setUndoManager(new UndoManager())
+        @ace.clearSelection()
+      @onAllLoaded()
 
   onAllLoaded: =>
-    @spell.transpile @spell.source
-    @spell.loaded = true
-    Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
-    @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
-    @createToolbarView()
+    @fetchToken(@spell.source, @spell.language).then (token) =>
+      @spell.transpile token
+      @spell.loaded = true
+      Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
+      @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
+      @createToolbarView()
+      @updateHTML create: true if @options.level.isType('web-dev')
 
   createDebugView: ->
-    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
+
+  createTranslationView: ->
+    @translationView = new SpellTranslationView { @ace, @supermodel }
+    @$el.append @translationView.render().$el.hide()
 
   createToolbarView: ->
     @toolbarView = new SpellToolbarView ace: @ace
@@ -530,8 +582,11 @@ module.exports = class SpellView extends CocoView
   onMouseOut: (e) ->
     @debugView?.onMouseOut e
 
+  onContactButtonPressed: (e) ->
+    @saveSpade()
+
   getSource: ->
-    @ace.getValue()  # could also do @firepad.getText()
+    @ace.getValue()
 
   setThang: (thang) ->
     @focus()
@@ -539,90 +594,130 @@ module.exports = class SpellView extends CocoView
     @updateLines()
     return if thang.id is @thang?.id
     @thang = thang
-    @spellThang = @spell.thangs[@thang.id]
+    @spellThang = @spell.thang
     @createDebugView() unless @debugView
     @debugView?.thang = @thang
+    @createTranslationView() unless @translationView
     @toolbarView?.toggleFlow false
     @updateAether false, false
-    # @addZatannaSnippets()
+    # @addAutocompleteSnippets()
     @highlightCurrentLine()
 
-  cast: (preload=false, realTime=false) ->
-    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload, realTime: realTime
+  cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin, cinematic }
 
   notifySpellChanged: =>
+    return if @destroyed
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
 
   notifyEditingEnded: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-ended', {}
 
   notifyEditingBegan: =>
-    return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-began', {}
 
   updateLines: =>
     # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
+    return if @destroyed
     lineCount = @aceDoc.getLength()
     lastLine = @aceDoc.$lines[lineCount - 1]
-    if lastLine isnt ''
+    if /\S/.test lastLine
       cursorPosition = @ace.getCursorPosition()
       wasAtEnd = cursorPosition.row is lineCount - 1 and cursorPosition.column is lastLine.length
       @aceDoc.insertNewLine row: lineCount, column: 0  #lastLine.length
       @ace.navigateLeft(1) if wasAtEnd
       ++lineCount
+      # Force the popup back
+      @ace?.completer?.showPopup(@ace)
     screenLineCount = @aceSession.getScreenLength()
     if screenLineCount isnt @lastScreenLineCount
       @lastScreenLineCount = screenLineCount
       lineHeight = @ace.renderer.lineHeight or 20
       tomeHeight = $('#tome-view').innerHeight()
-      spellPaletteView = $('#spell-palette-view')
-      spellListTabEntryHeight = $('#spell-list-tab-entry-view').outerHeight()
+      spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
       spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      @spellPaletteHeight ?= spellPaletteView.outerHeight()  # Remember this until resize, since we change it afterward
+      @spellPaletteHeight ?= 75
       spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-      maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteAllowedHeight
+      maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
+      minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
+      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight)
       # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
       # Move spell palette up, slightly overlapping us.
-      newTop = 175 + lineHeight * lines
-      spellPaletteView.css('top', newTop)
+      newTop = 185 + lineHeight * lines
+      #spellPaletteView.css('top', newTop)
       # Expand it to bottom of tome if too short.
-      newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
-      spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+      #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
+      #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+    if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
+      @ace.scrollToLine @firstEntryToScrollLine, true, true
+      @firstEntryToScrollLine = undefined
+
 
   hideProblemAlert: ->
+    return if @destroyed
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
+
+  saveSpade: =>
+    return if @destroyed or not @spade
+    spadeEvents = @spade.compile()
+    # Uncomment the below line for a debug panel to display inside the level
+    #@spade.debugPlay(spadeEvents)
+    condensedEvents = @spade.condense(spadeEvents)
+
+    return unless condensedEvents.length
+    compressedEvents = LZString.compressToUTF16(JSON.stringify(condensedEvents))
+
+    codeLog = new CodeLog({
+      sessionID: @options.session.id
+      level:
+        original: @options.level.get 'original'
+        majorVersion: (@options.level.get 'version').major
+      levelSlug: @options.level.get 'slug'
+      userID: @options.session.get 'creator'
+      log: compressedEvents
+    })
+
+    codeLog.save()
+
+  onShowVictory: (e) ->
+    if @saveSpadeTimeout?
+      window.clearTimeout @saveSpadeTimeout
+      @saveSpadeTimeout = null
 
   onManualCast: (e) ->
     cast = @$el.parent().length
-    @recompile cast, e.realTime
+    @recompile cast, e.realTime, false
     @focus() if cast
-
-  onCodeReload: (e) ->
-    return unless e.spell is @spell or not e.spell
-    @reloadCode true
-    @ace.clearSelection()
-    _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)
+    if @options.level.isType('web-dev')
+      @sourceAtLastCast = @getSource()
+      @ace.setStyle 'spell-cast'
+      @updateHTML create: true
 
   reloadCode: (cast=true) ->
+    @spell.reloadCode() if cast
+    @thang = @spell.thang.thang
     @updateACEText @spell.originalSource
     @lockDefaultCode true
     @recompile cast
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
+    @hasSetInitialCursor = false
+    @highlightCurrentLine()
     @updateLines()
 
-  recompile: (cast=true, realTime=false) ->
-    hasChanged = @spell.source isnt @getSource()
-    if hasChanged
-      @spell.transpile @getSource()
-      @updateAether true, false
-    if cast  #and (hasChanged or realTime)  # just always cast now
-      @cast(false, realTime)
-    if hasChanged
-      @notifySpellChanged()
+  recompile: (cast=true, realTime=false, cinematic=false) ->
+    @fetchTokenForSource().then (source) =>
+      hasChanged = @spell.source isnt source
+      if hasChanged
+        @spell.transpile source
+        @updateAether true, false
+      if cast  #and (hasChanged or realTime)  # just always cast now
+        @cast(false, realTime, false, cinematic)
+      if hasChanged
+        @notifySpellChanged()
 
   updateACEText: (source) ->
     @eventsSuppressed = true
@@ -641,7 +736,7 @@ module.exports = class SpellView extends CocoView
     @aceDoc.removeListener 'change', @onCodeChangeMetaHandler if @onCodeChangeMetaHandler
     onSignificantChange = []
     onAnyChange = [
-      _.debounce @updateAether, 500
+      _.debounce @updateAether, if @options.level.isType('game-dev') then 10 else 500
       _.debounce @notifyEditingEnded, 1000
       _.throttle @notifyEditingBegan, 250
       _.throttle @notifySpellChanged, 300
@@ -650,6 +745,8 @@ module.exports = class SpellView extends CocoView
     ]
     onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
+    onAnyChange.push _.throttle @updateHTML, 10 if @options.level.isType('web-dev')
+
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
       #@playSound 'code-change', volume: 0.5  # Currently not using this sound.
@@ -661,6 +758,14 @@ module.exports = class SpellView extends CocoView
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
+
+  updateHTML: (options={}) =>
+    # TODO: Merge with onSpellChanged
+    # NOTE: Consider what goes in onManualCast only
+    if @spell.hasChanged(@spell.getSource(), @sourceAtLastCast)
+      @ace.unsetStyle 'spell-cast' # NOTE: Doesn't do anything for web-dev as of this writing, including for consistency
+    @clearWebDevErrors()
+    Backbone.Mediator.publish 'tome:html-updated', html: @spell.constructHTML(@getSource()), create: Boolean(options.create)
 
   # Design for a simpler system?
   # * Keep Aether linting, debounced, on any significant change
@@ -677,91 +782,161 @@ module.exports = class SpellView extends CocoView
   # * The editor will reserve space for one annotation as a codeless area.
   # - Problem alerts and ranges will only show on fully cast worlds. Annotations will show continually.
 
+  fetchToken: (source, language) =>
+    if language not in ['java']
+      return Promise.resolve(source)
+
+    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+    .then (x) => x.json()
+    .then (x) => x.token
+
+  fetchTokenForSource: () =>
+    source = @ace.getValue()
+    @fetchToken(source, @spell.language)
+
   updateAether: (force=false, fromCodeChange=true) =>
     # Depending on whether we have any code changes, significant code changes, or have switched
     # to a new spellThang, we may want to refresh our Aether display.
     return unless aether = @spellThang?.aether
-    source = @getSource()
-    @spell.hasChangedSignificantly source, aether.raw, (hasChanged) =>
-      codeHasChangedSignificantly = force or hasChanged
-      needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
-      return if not needsUpdate and aether is @displayedAether
-      castAether = @spellThang.castAether
-      codeIsAsCast = castAether and source is castAether.raw
-      aether = castAether if codeIsAsCast
-      return if not needsUpdate and aether is @displayedAether
+    @fetchTokenForSource().then (source) =>
+      @spell.hasChangedSignificantly source, aether.raw, (hasChanged) =>
+        codeHasChangedSignificantly = force or hasChanged
+        needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+        return if not needsUpdate and aether is @displayedAether
+        castAether = @spellThang.castAether
+        codeIsAsCast = castAether and source is castAether.raw
+        aether = castAether if codeIsAsCast
+        return if not needsUpdate and aether is @displayedAether
 
-      # Now that that's figured out, perform the update.
-      # The web worker Aether won't track state, so don't have to worry about updating it
-      finishUpdatingAether = (aether) =>
-        @displayAether aether, codeIsAsCast
-        @lastUpdatedAetherSpellThang = @spellThang
-        @guessWhetherFinished aether if fromCodeChange
+        # Now that that's figured out, perform the update.
+        # The web worker Aether won't track state, so don't have to worry about updating it
+        finishUpdatingAether = (aether) =>
+          @clearAetherDisplay() # In case problems were added since last clearing
+          @displayAether aether, codeIsAsCast
+          @lastUpdatedAetherSpellThang = @spellThang
+          @guessWhetherFinished aether if fromCodeChange
 
-      @clearAetherDisplay()
-      if codeHasChangedSignificantly and not codeIsAsCast
-        if @worker
-          workerMessage =
-            function: 'transpile'
-            spellKey: @spell.spellKey
-            source: source
+        @clearAetherDisplay()
+        if codeHasChangedSignificantly and not codeIsAsCast
+          if @worker
+            workerMessage =
+              function: 'transpile'
+              spellKey: @spell.spellKey
+              source: source
 
-          @worker.addEventListener 'message', (e) =>
-            workerData = JSON.parse e.data
-            if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
-              @worker.removeEventListener 'message', arguments.callee, false
-              aether.problems = workerData.problems
-              aether.raw = source
-              finishUpdatingAether(aether)
-          @worker.postMessage JSON.stringify(workerMessage)
+            @worker.addEventListener 'message', (e) =>
+              workerData = JSON.parse e.data
+              if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
+                @worker.removeEventListener 'message', arguments.callee, false
+                aether.problems = workerData.problems
+                aether.raw = source
+                finishUpdatingAether(aether)
+            @worker.postMessage JSON.stringify(workerMessage)
+          else
+            aether.transpile source
+            finishUpdatingAether(aether)
         else
-          aether.transpile source
           finishUpdatingAether(aether)
-      else
-        finishUpdatingAether(aether)
 
+  # Each problem-generating piece (aether, web-dev, ace html worker) clears its own problems/annotations
   clearAetherDisplay: ->
-    problem.destroy() for problem in @problems
-    @problems = []
-    @aceSession.setAnnotations []
+    @clearProblemsCreatedBy 'aether'
     @highlightCurrentLine {}  # This'll remove all highlights
+
+  clearWebDevErrors: ->
+    @clearProblemsCreatedBy 'web-dev-iframe'
+
+  clearProblemsCreatedBy: (createdBy) ->
+    nonAetherAnnotations = _.reject @aceSession.getAnnotations(), (annotation) -> annotation.createdBy is createdBy
+    @reallySetAnnotations nonAetherAnnotations
+
+    problemsToClear = _.filter @problems, (p) -> p.createdBy is createdBy
+    problemsToClear.forEach (problem) -> problem.destroy()
+    @problems = _.difference @problems, problemsToClear
+    Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: false
+
+  convertAetherProblems: (aether, aetherProblems, isCast) ->
+    # TODO: Functional-ify
+    _.unique(aetherProblems, (p) -> p.userInfo?.key).map (aetherProblem) =>
+      new Problem { aether, aetherProblem, @ace, isCast, levelID: @options.levelID }
 
   displayAether: (aether, isCast=false) ->
     @displayedAether = aether
     isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
-    problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
-    @problems = []
-    annotations = []
-    seenProblemKeys = {}
-    for aetherProblem, problemIndex in aether.getAllProblems()
-      continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
-      seenProblemKeys[key] = true if key
-      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @spell.levelID
-      if isCast and problemIndex is 0
-        if problem.aetherProblem.range?
-          lineOffsetPx = 0
-          for i in [0...problem.aetherProblem.range[0].row]
-            lineOffsetPx += @aceSession.getRowLength(i) * @ace.renderer.lineHeight
-          lineOffsetPx -= @ace.session.getScrollTop()
-        Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: Math.max lineOffsetPx, 0
-      @saveUserCodeProblem(aether, aetherProblem) if isCast
-      annotations.push problem.annotation if problem.annotation
+    annotations = @aceSession.getAnnotations()
+
+    newProblems = @convertAetherProblems(aether, aether.getAllProblems(), isCast)
+    annotations.push problem.annotation for problem in newProblems when problem.annotation
+    if isCast
+      @displayProblemBanner(newProblems[0]) if newProblems[0]
+      @saveUserCodeProblem(aether, problem.aetherProblem) for problem in newProblems
+    @problems = @problems.concat(newProblems)
+
     @aceSession.setAnnotations annotations
     @highlightCurrentLine aether.flow unless _.isEmpty aether.flow
     #console.log '  and we could do the metrics', aether.metrics unless _.isEmpty aether.metrics
     #console.log '  and we could do the style', aether.style unless _.isEmpty aether.style
     #console.log '  and we could do the visualization', aether.visualization unless _.isEmpty aether.visualization
-    # Could use the user-code-problem style... or we could leave that to other places.
-    @ace[if @problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
-    @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast'
     Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: isCast
     @ace.resize()
+
+  # Tell ProblemAlertView to display this problem (only)
+  displayProblemBanner: (problem) ->
+    lineOffsetPx = 0
+    if problem.row?
+      for i in [0...problem.row]
+        lineOffsetPx += @aceSession.getRowLength(i) * @ace.renderer.lineHeight
+      lineOffsetPx -= @ace.session.getScrollTop()
+    if problem.level not in ['info', 'warning']
+      Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
+      # TODO: find a way to also show problem alert if it's compile-time, and/or not enter cinematic mode at all
+    Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: Math.max lineOffsetPx, 0
+
+  # Gets the number of lines before the start of <script> content in the usercode
+  # Because Errors report their line number relative to the <script> tag
+  linesBeforeScript: (html) ->
+    # TODO: refactor, make it work with multiple scripts. What to do when error is in level-creator's code?
+    _.size(html.split('<script>')[0].match(/\n/g))
+
+  addAnnotation: (annotation) ->
+    annotations = @aceSession.getAnnotations()
+    annotations.push annotation
+    @reallySetAnnotations annotations
+
+  # Handle errors from the web-dev iframe asynchronously
+  onWebDevError: (error) ->
+    # TODO: Refactor this and the Aether problem flow to share as much as possible.
+    # TODO: Handle when the error is in our code, not theirs
+    # Compensate for line number being relative to <script> tag
+    offsetError = _.merge {}, error, { line: error.line + @linesBeforeScript(@getSource()) }
+    userCodeHasChangedSinceLastCast = @spell.hasChanged(@spell.getSource(), @sourceAtLastCast)
+    problem = new Problem({ error: offsetError, @ace, levelID: @options.levelID, userCodeHasChangedSinceLastCast })
+    # Ignore the Problem if we already know about it
+    if _.any(@problems, (preexistingProblem) -> problem.isEqual(preexistingProblem))
+      problem.destroy()
+    else # Ok, the problem is worth keeping
+      @problems.push problem
+      @displayProblemBanner(problem)
+
+      # @saveUserCodeProblem(aether, aetherProblem) # TODO: Enable saving of web-dev user code problems
+      @addAnnotation(problem.annotation) if problem.annotation
+      Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: false
+
+  onProblemsUpdated: ({ spell, problems, isCast }) ->
+    # This just handles some ace styles for now; other things handle @problems changes elsewhere
+    @ace[if problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
+    @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast' # Does this still do anything?
 
   saveUserCodeProblem: (aether, aetherProblem) ->
     # Skip duplicate problems
     hashValue = aether.raw + aetherProblem.message
     return if hashValue of @savedProblems
     @savedProblems[hashValue] = true
+    sampleRate = Math.max(1, (me.level()-2) * 2) * 0.01 # Reduce number of errors reported on earlier levels
+    return unless Math.random() < sampleRate
 
     # Save new problem
     @userCodeProblem = new UserCodeProblem()
@@ -783,7 +958,7 @@ module.exports = class SpellView extends CocoView
     @userCodeProblem.set 'errRange', aetherProblem.range if aetherProblem.range
     @userCodeProblem.set 'errType', aetherProblem.type if aetherProblem.type
     @userCodeProblem.set 'language', aether.language.id if aether.language?.id
-    @userCodeProblem.set 'levelID', @spell.levelID if @spell.levelID
+    @userCodeProblem.set 'levelID', @options.levelID if @options.levelID
     @userCodeProblem.save()
     null
 
@@ -796,33 +971,40 @@ module.exports = class SpellView extends CocoView
   # - Go after specified delay if a) and not b) or c)
   guessWhetherFinished: (aether) ->
     valid = not aether.getAllProblems().length
+    return unless valid
     cursorPosition = @ace.getCursorPosition()
     currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(@singleLineCommentRegex(), ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
-    incompleteThis = /^(s|se|sel|self|t|th|thi|this)$/.test currentLine.trim()
+    incompleteThis = /^(s|se|sel|self|t|th|thi|this|g|ga|gam|game|h|he|her|hero)$/.test currentLine.trim()
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
-    if valid and (endOfLine or beginningOfLine) and not incompleteThis
+    if not incompleteThis and @options.level.isType('game-dev')
+      # TODO: Improve gamedev autocast speed
+      @spell.transpile @getSource()
+      @cast(false, false, true)
+    else if (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
   singleLineCommentRegex: ->
     if @_singleLineCommentRegex
       @_singleLineCommentRegex.lastIndex = 0
       return @_singleLineCommentRegex
-    commentStart = commentStarts[@spell.language] or '//'
-    @_singleLineCommentRegex = new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
+    if @spell.language is 'html'
+      commentStart = "#{commentStarts.html}|#{commentStarts.css}|#{commentStarts.javascript}"
+    else
+      commentStart = commentStarts[@spell.language] or '//'
+    @_singleLineCommentRegex = new RegExp "[ \t]*(#{commentStart})[^\"'\n]*"
     @_singleLineCommentRegex
 
-  lineWithCodeRegex: ->
-    if @_lineWithCodeRegex
-      @_lineWithCodeRegex.lastIndex = 0
-      return @_lineWithCodeRegex
-    commentStart = commentStarts[@spell.language] or '//'
-    @_lineWithCodeRegex = new RegExp "^[ \t]*(?!( |]t|#{commentStart}))+", 'g'
-    @_lineWithCodeRegex
+  singleLineCommentOnlyRegex: ->
+    if @_singleLineCommentOnlyRegex
+      @_singleLineCommentOnlyRegex.lastIndex = 0
+      return @_singleLineCommentOnlyRegex
+    @_singleLineCommentOnlyRegex = new RegExp( '^' + @singleLineCommentRegex().source)
+    @_singleLineCommentOnlyRegex
 
   commentOutMyCode: ->
-    prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
+    prefix = if @spell.language in ['javascript', 'java'] then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
 
   preload: ->
@@ -831,22 +1013,33 @@ module.exports = class SpellView extends CocoView
     return if @spell.source.indexOf('while') isnt -1  # If they're working with while-loops, it's more likely to be an incomplete infinite loop, so don't preload.
     return if @spell.source.length > 500  # Only preload on really short methods
     return if @spellThang?.castAether?.metrics?.statementsExecuted > 2000  # Don't preload if they are running significant amounts of user code
+    return if @options.level.isType('web-dev')
     oldSource = @spell.source
-    oldSpellThangAethers = {}
-    for thangID, spellThang of @spell.thangs
-      oldSpellThangAethers[thangID] = spellThang.aether.serialize()  # Get raw, pure, and problems
+    oldSpellThangAether = @spell.thang?.aether.serialize()
     @spell.transpile @getSource()
     @cast true
     @spell.source = oldSource
-    for thangID, spellThang of @spell.thangs
-      for key, value of oldSpellThangAethers[thangID]
-        spellThang.aether[key] = value
+    for key, value of oldSpellThangAether
+      @spell.thang.aether[key] = value
 
   onSpellChanged: (e) ->
+    # TODO: Merge with updateHTML
     @spellHasChanged = true
 
+  onAceMouseOut: (e) ->
+    Backbone.Mediator.publish("web-dev:stop-hovering-line")
+
+  onAceMouseMove: (e) =>
+    return if @destroyed
+    row = e.getDocumentPosition().row
+    return if row is @lastRowHovered # Don't spam repeated messages for the same line
+    @lastRowHovered = row
+    line = @aceSession.getLine(row)
+    Backbone.Mediator.publish("web-dev:hover-line", { row: row, line })
+    null
+
   onSessionWillSave: (e) ->
-    return unless @spellHasChanged
+    return unless @spellHasChanged and me.isAdmin()
     setTimeout(=>
       unless @destroyed or @spellHasChanged
         @$el.find('.save-status').finish().show().fadeOut(2000)
@@ -854,16 +1047,21 @@ module.exports = class SpellView extends CocoView
     @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
+    return unless e.god is @options.god
     return @onInfiniteLoop e if e.problem.id is 'runtime_InfiniteLoop'
     return unless e.problem.userInfo.methodName is @spell.name
-    return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
+    return unless @spell.thang?.thang.id is e.problem.userInfo.thangID
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       return if hasChanged
-      spellThang.aether.addProblem e.problem
+      if e.problem.type is 'runtime'
+        @spellThang.castAether?.addProblem e.problem
+      else
+        @spell.thang.aether.addProblem e.problem
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
       @updateAether false, false
 
   onNonUserCodeProblem: (e) ->
+    return unless e.god is @options.god
     return unless @spellThang
     problem = @spellThang.aether.createUserCodeProblem type: 'runtime', kind: 'Unhandled', message: "Unhandled error: #{e.problem.message}"
     @spellThang.aether.addProblem problem
@@ -879,15 +1077,18 @@ module.exports = class SpellView extends CocoView
     @updateAether false, false
 
   onNewWorld: (e) ->
-    @spell.removeThangID thangID for thangID of @spell.thangs when not e.world.getThangByID thangID
-    for thangID, spellThang of @spell.thangs
-      thang = e.world.getThangByID(thangID)
-      aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
-      spellThang.castAether = aether
-      spellThang.aether = @spell.createAether thang
-    #console.log thangID, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
-    @spell.transpile()  # TODO: is there any way we can avoid doing this if it hasn't changed? Causes a slight hang.
-    @updateAether false, false
+    @fetchTokenForSource().then (token) =>
+      if thang = e.world.getThangByID @spell.thang?.thang.id
+        aether = e.world.userCodeMap[thang.id]?[@spell.name]
+        @spell.thang.castAether = aether
+        @spell.thang.aether = @spell.createAether thang
+        #console.log thang.id, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
+      else
+        @spell.thang = null
+
+
+      @spell.transpile token
+      @updateAether false, false
 
   # --------------------------------------------------------------------------------------------------
 
@@ -908,16 +1109,10 @@ module.exports = class SpellView extends CocoView
     return unless @ace.isFocused() and e.x? and e.y?
     if @spell.language is 'python'
       @ace.insert "{\"x\": #{e.x}, \"y\": #{e.y}}"
-    else if @spell.language is 'clojure'
-      @ace.insert "{:x #{e.x} :y #{e.y}}"
     else if @spell.language is 'lua'
       @ace.insert "{x=#{e.x}, y=#{e.y}}"
-    else if @spell.language is 'io'
-      return
     else
       @ace.insert "{x: #{e.x}, y: #{e.y}}"
-
-
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
@@ -999,6 +1194,15 @@ module.exports = class SpellView extends CocoView
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
         Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
+        $cinematicParent = $('#cinematic-code-display')
+        highlightedIndex = 0
+        for sourceLineNumber in [end.row - 3 .. end.row + 3]
+          codeLine = _.string.rtrim @aceDoc.$lines[sourceLineNumber]
+          $codeLineEl = $cinematicParent.find(".code-line-#{highlightedIndex++}")
+          utils.replaceText $codeLineEl.find('.line-number'), if sourceLineNumber >= 0 then sourceLineNumber + 1 else ''
+          utils.replaceText $codeLineEl.find('.indentation'), codeLine.match(/\s*/)[0]
+          utils.replaceText $codeLineEl.find('.code-text'), _.string.trim(codeLine)
+
     @debugView?.setVariableStates {} unless gotVariableStates
     null
 
@@ -1020,9 +1224,10 @@ module.exports = class SpellView extends CocoView
     for line, index in lines
       session.removeGutterDecoration index, 'entry-point'
       session.removeGutterDecoration index, 'next-entry-point'
+      session.removeGutterDecoration index, "entry-point-indent-#{i}" for i in [0, 4, 8, 12, 16]
 
       lineHasComment = @singleLineCommentRegex().test line
-      lineHasCode = line.trim()[0] and not _.string.startsWith line.trim(), commentStart
+      lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
       lineIsBlank = /^[ \t]*$/.test line
       lineHasExplicitMarker = line.indexOf('∆') isnt -1
 
@@ -1052,6 +1257,17 @@ module.exports = class SpellView extends CocoView
         unless seenAnEntryPoint
           session.addGutterDecoration index, 'next-entry-point'
           seenAnEntryPoint = true
+          unless @hasSetInitialCursor
+            @hasSetInitialCursor = true
+            @ace.navigateTo index, line.match(/\S/)?.index ? line.length
+            @firstEntryToScrollLine = index
+
+        # Shift pointer right based on current indentation
+        # TODO: tabs probably need different horizontal offsets than spaces
+        indent = 0
+        indent++ while /\s/.test(line[indent])
+        indent = Math.min(16, Math.floor(indent / 4) * 4)
+        session.addGutterDecoration index, "entry-point-indent-#{indent}"
 
       previousLine = line
       previousLineHadComment = lineHasComment
@@ -1082,7 +1298,7 @@ module.exports = class SpellView extends CocoView
 
   toggleBackground: =>
     # TODO: make the background an actual background and do the CSS trick
-    # used in spell_list_entry.sass for disabling
+    # used in spell-top-bar-view.sass for disabling
     background = @$el.find('img.code-background')[0]
     if background.naturalWidth is 0  # not loaded yet
       return _.delay @toggleBackground, 100
@@ -1092,7 +1308,7 @@ module.exports = class SpellView extends CocoView
   onSpellBeautify: (e) ->
     return unless @spellThang and (@ace.isFocused() or e.spell is @spell)
     ugly = @getSource()
-    pretty = @spellThang.aether.beautify ugly
+    pretty = @spellThang.aether.beautify(ugly.replace /\bloop\b/g, 'while (__COCO_LOOP_CONSTRUCT__)').replace /while \(__COCO_LOOP_CONSTRUCT__\)/g, 'loop'
     @ace.setValue pretty
 
   onMaximizeToggled: (e) ->
@@ -1100,7 +1316,7 @@ module.exports = class SpellView extends CocoView
 
   onWindowResize: (e) =>
     @spellPaletteHeight = null
-    $('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
+    #$('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
     _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   resize: ->
@@ -1110,15 +1326,14 @@ module.exports = class SpellView extends CocoView
 
   onChangeEditorConfig: (e) ->
     aceConfig = me.get('aceConfig') ? {}
-    @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
-    @ace.setShowInvisibles aceConfig.invisibles # default false
+    @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @updateAutocomplete(aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
-    @aceSession.setMode SpellView.editModes[e.language]
-    @zatanna?.set 'language', SpellView.editModes[e.language].substr('ace/mode/')
+    @aceSession.setMode aceUtils.aceEditModes[e.language]
+    @autocomplete?.set 'language', aceUtils.aceEditModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
@@ -1184,15 +1399,20 @@ module.exports = class SpellView extends CocoView
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
     @debugView?.destroy()
+    @translationView?.destroy()
     @toolbarView?.destroy()
-    @zatanna.addSnippets [], @editorLang if @editorLang?
+    @autocomplete?.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
+    window.clearTimeout @saveSpadeTimeout
+    @saveSpadeTimeout = null
     super()
 
+# Note: These need to be double-escaped for insertion into regexes
 commentStarts =
   javascript: '//'
   python: '#'
   coffeescript: '#'
-  clojure: ';'
   lua: '--'
-  io: '//'
+  java: '//'
+  html: '<!--'
+  css: '/\\*'

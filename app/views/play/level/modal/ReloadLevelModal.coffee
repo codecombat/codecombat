@@ -10,7 +10,4 @@ module.exports = class ReloadLevelModal extends ModalView
 
   onClickRestart: (e) ->
     @playSound 'menu-button-click'
-    if key.shift
-      Backbone.Mediator.publish 'level:restart', {}
-    else
-      Backbone.Mediator.publish 'tome:reload-code', {}
+    Backbone.Mediator.publish 'level:restart', {}

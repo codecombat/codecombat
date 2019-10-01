@@ -143,7 +143,7 @@ describe 'LevelLoader', ->
     jasmine.Ajax.requests.sendResponses(responses)
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
-    expect('/db/thang.type/mace/version?project=name,components,original,rasterIcon,kind' in urls).toBeTruthy()
+    expect('/db/thang.type/mace/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData' in urls).toBeTruthy()
 
   it 'loads components which are inherited by level thangs from thang type default components', ->
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
@@ -167,7 +167,7 @@ describe 'LevelLoader', ->
     jasmine.Ajax.requests.sendResponses(responses)
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
-    expect('/db/thang.type/wand/version?project=name,components,original,rasterIcon,kind' in urls).toBeTruthy()
+    expect('/db/thang.type/wand/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData' in urls).toBeTruthy()
 
   it 'loads components for item thang types which are inherited by level thangs from thang type default equips component configs', ->
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})

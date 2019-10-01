@@ -1,0 +1,9 @@
+{
+    "presets": [
+        "env"
+    ],
+    "plugins": [
+        "syntax-dynamic-import",
+        "babel-plugin-transform-object-rest-spread"
+    ]
+}

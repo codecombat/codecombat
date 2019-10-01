@@ -1,6 +1,8 @@
+require('app/styles/play/level/level-dialogue-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-dialogue-view'
 DialogueAnimator = require './DialogueAnimator'
+PlayItemsModal = require 'views/play/modal/PlayItemsModal'
 
 module.exports = class LevelDialogueView extends CocoView
   id: 'level-dialogue-view'
@@ -12,6 +14,7 @@ module.exports = class LevelDialogueView extends CocoView
     'level:shift-space-pressed': 'onShiftSpacePressed'
     'level:escape-pressed': 'onEscapePressed'
     'sprite:dialogue-sound-completed': 'onDialogueSoundCompleted'
+    'level:open-items-modal': 'openItemsModal'
 
   events:
     'click': 'onClick'
@@ -28,17 +31,22 @@ module.exports = class LevelDialogueView extends CocoView
   onClickLink: (e) ->
     route = $(e.target).attr('href')
     if route and /item-store/.test route
-      PlayItemsModal = require 'views/play/modal/PlayItemsModal'
       @openModalView new PlayItemsModal supermodel: @supermodal
       e.stopPropagation()
+
+  openItemsModal: (e) ->
+    @openModalView new PlayItemsModal supermodel: @supermodal
 
   onSpriteDialogue: (e) ->
     return unless e.message
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
-
-    window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}
+    if e.mood is 'debrief'
+      if e.sprite.thangType.get('poseImage')?
+        @$el.find('.dialogue-area').append($('<img/>').addClass('embiggen').attr('src', '/file/' + e.sprite.thangType.get('poseImage')))
+      else
+        @$el.find('.dialogue-area').append($('<img/>').attr('src', e.sprite.thangType.getPortraitURL()))
 
   onDialogueSoundCompleted: ->
     @$el.removeClass 'speaking'
@@ -46,6 +54,8 @@ module.exports = class LevelDialogueView extends CocoView
   onSpriteClearDialogue: ->
     @$el.removeClass 'active speaking'
     $('body').removeClass('dialogue-view-active')
+    @$el.find('img').remove()
+    @$el.removeClass(@lastMood) if @lastMood
 
   setMessage: (message, mood, responses) ->
     message = marked message
@@ -53,10 +63,12 @@ module.exports = class LevelDialogueView extends CocoView
     message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
-    @bubble.removeClass(@lastMood) if @lastMood
+    @$el.removeClass(@lastMood) if @lastMood
+    @$el.find('img').remove()
+    @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')
-    group = $('<div class="enter secret"></div>')
+    group = $('<div class="enter secret" dir="ltr"></div>')
     @bubble.append(group)
     if responses
       @lastResponses = responses
@@ -66,14 +78,17 @@ module.exports = class LevelDialogueView extends CocoView
         group.append(button)
         response.button = $('button:last', group)
     else
-      s = $.i18n.t('play_level.hud_continue_short', defaultValue: 'Continue')
+      s = $.i18n.t('common.continue', defaultValue: 'Continue')
       sk = $.i18n.t('play_level.skip_tutorial', defaultValue: 'skip: esc')
-      if not @escapePressed
+      if not @escapePressed and not @isFullScreen()
         group.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     @animator = new DialogueAnimator(message, @bubble)
     @messageInterval = setInterval(@addMoreMessage, 1000 / 30)  # 30 FPS
+
+  isFullScreen: ->
+    document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
 
   addMoreMessage: =>
     if @animator.done()

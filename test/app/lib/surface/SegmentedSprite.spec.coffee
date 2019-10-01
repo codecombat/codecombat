@@ -7,22 +7,23 @@ ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m
 ogreFangriderThangType = new ThangType(require 'test/app/fixtures/ogre-fangrider.thang.type')
 treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
 scaleTestUtils = require './scale-testing-utils'
+createjs = require 'lib/createjs-parts'
 
 describe 'SegmentedSprite', ->
   segmentedSprite = null
   stage = null
-  
+
   showMe = ->
     canvas = $('<canvas width="600" height="400"></canvas>').css('position', 'absolute').css('index', 1000).css('background', 'white')
     $('body').append(canvas)
-    stage = new createjs.Stage(canvas[0]) # this is not a SpriteStage because some tests require adding MovieClips
+    stage = new createjs.Stage(canvas[0])
     stage.addChild(segmentedSprite)
     scale = 3
     stage.scaleX = stage.scaleY = scale
     stage.regX = -300 / scale
     stage.regY = -200 / scale
     window.stage = stage
-  
+
     ticks = 0
     listener = {
       handleEvent: ->
@@ -32,7 +33,7 @@ describe 'SegmentedSprite', ->
         stage.update()
     }
     createjs.Ticker.addEventListener "tick", listener
-    
+
   describe 'with Tree ThangType', ->
     beforeEach ->
       layer = new LayerAdapter({webGL:true, name:'Default'})
@@ -89,19 +90,19 @@ describe 'SegmentedSprite', ->
       ogreMunchkinThangType.markToRevert()
       ogreMunchkinThangType.set('spriteType', 'segmented')
       actions = ogreMunchkinThangType.getActions()
-      
+
       # couple extra actions for doing some tests
       actions.littledance = {animation:'enemy_small_move_side',framerate:1, frames:'0,6,2,6,2,8,0', name: 'littledance'}
       actions.onestep = {animation:'enemy_small_move_side', loops: false, name:'onestep'}
       actions.head = {container:'head', name:'head'}
-      
+
       colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
       sprite = new Lank(ogreMunchkinThangType, {colorConfig: colorConfig})
       layer.addLank(sprite)
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreMunchkinThangType, null, colorConfig) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, ogreMunchkinThangType, prefix)
-    
+
     afterEach ->
       ogreMunchkinThangType.revert()
 
@@ -112,12 +113,12 @@ describe 'SegmentedSprite', ->
       segmentedSprite.gotoAndStop('move_fore')
       expect(segmentedSprite.paused).toBe(true)
       expect(segmentedSprite.currentAnimation).toBe('move_fore')
-  
+
     it 'has a tick function which moves the animation forward', ->
       segmentedSprite.gotoAndPlay('attack')
       segmentedSprite.tick(100) # one hundred milliseconds
       expect(segmentedSprite.baseMovieClip.currentFrame).toBe(segmentedSprite.framerate*100/1000)
-      
+
     it 'will interpolate between frames of a custom frame set', ->
       segmentedSprite.gotoAndPlay('littledance')
       segmentedSprite.tick(1000)
@@ -151,7 +152,7 @@ describe 'SegmentedSprite', ->
       movieClip.stop()
       showMe()
       stage.addChild(movieClip)
-      
+
       stage.update()
       hitRate = scaleTestUtils.hitTest(stage, new createjs.Rectangle(-10, -30, 25, 35))
       expect(hitRate).toBeGreaterThan(0.91)
@@ -174,7 +175,7 @@ describe 'SegmentedSprite', ->
       hitRate = scaleTestUtils.hitTest(stage, new createjs.Rectangle(-10, -30, 25, 35))
       expect(hitRate).toBeGreaterThan(0.96)
       $('canvas').remove()
-      
+
   describe 'with Ogre Fangrider ThangType', ->
     beforeEach ->
       layer = new LayerAdapter({webGL:true})
@@ -188,10 +189,10 @@ describe 'SegmentedSprite', ->
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreFangriderThangType, null, colorConfig) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, ogreFangriderThangType, prefix)
-  
+
     afterEach ->
       ogreFangriderThangType.revert()
-  
+
     it 'synchronizes animations with child movie clips properly', ->
       segmentedSprite.gotoAndPlay('die')
       segmentedSprite.tick(100) # one hundred milliseconds

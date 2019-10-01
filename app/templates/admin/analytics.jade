@@ -1,0 +1,411 @@
+extends /templates/base-flat.jade
+
+block content
+
+  //- NOTE: do not localize / i18n
+
+  if me.isAdmin()
+    - var yesterday = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 1).toISOString().substring(0, 10);
+    if !view.dayMrrMap[yesterday]
+      //- No new data yet, use two days ago
+      - yesterday = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 2).toISOString().substring(0, 10);
+    table.table.kpi-table
+      tr
+        td.description.active-classes Monthly Active Classes
+        td.description.recurring-revenue Home Monthly Recurring Revenue (#{yesterday})
+        td.description.classroom-active-users Classroom Monthly Active Users
+        td.description.campaign-active-users Home Monthly Active Users
+      tr
+        td.active-classes
+          if view.activeClasses.length > 0
+            div.count= view.activeClasses[0].groups[view.activeClasses[0].groups.length - 1]
+        td.recurring-revenue
+          div.count $#{Math.round((view.dayMrrMap[yesterday] || 0) / 100)}
+        td.classroom-active-users
+          if view.activeUsers.length > 0
+            - var classroomBigMAU = 0;
+            each count, event in view.activeUsers[0].events
+              if event.indexOf('MAU classroom') >= 0
+                - classroomBigMAU += count;
+            div.count= classroomBigMAU
+        td.campaign-active-users
+          if view.activeUsers.length > 0
+            - var homeBigMAU = 0;
+            each count, event in view.activeUsers[0].events
+              if event.indexOf('MAU campaign') >= 0
+                - homeBigMAU += count;
+            div.count= homeBigMAU
+
+    ul.nav.nav-tabs#nav-bar
+      li.active
+        a(data-target="#tab_kpis", data-toggle="tab") KPIs
+      li
+        a(data-target="#tab_active_classes", data-toggle="tab") Active Classes
+      li
+        a(data-target="#tab_revenue", data-toggle="tab") Revenue
+      li
+        a(data-target="#tab_classroom", data-toggle="tab") Classroom
+      li
+        a(data-target="#tab_campaign", data-toggle="tab") Home
+      li
+        a(data-target="#tab_campaign_vs_classroom", data-toggle="tab") Home vs Classroom
+
+    .tab-content
+      .tab-pane.active#tab_kpis
+        h3 KPI 60 days
+        .kpi-recent-chart.line-chart-container
+
+        h3 KPI 365 days
+        .kpi-chart.line-chart-container
+
+        h3 KPI #{view.numAllDays} days
+        .kpi-all-time-chart.line-chart-container
+
+      .tab-pane#tab_active_classes
+        h3 Active Classes 90 days
+        .small Active class: 12+ students in a classroom, with 6+ who played in last 30 days. Played == 'Started Level' analytics event.
+        .small Paid student: user.coursePrepaid set and prepaid.properties.trialRequestID NOT set
+        .small Trial student: user.coursePrepaid set and prepaid.properties.trialRequestID set
+        .small Paid class: at least one paid student in the classroom
+        .small Trial class: not paid, at least one trial student in classroom
+        .small Free class: not paid, not trial
+        .active-classes-chart-90.line-chart-container
+
+        h3 Active Classes 365 days
+        .active-classes-chart-365.line-chart-container
+
+        h1 Active Classes
+        table.table.table-striped.table-condensed
+          tr
+            th Day
+            for group in view.activeClassGroups
+              th= group.replace('Active classes', '')
+          each activeClass in view.activeClasses
+            tr
+              td= activeClass.day
+              each val in activeClass.groups
+                td= val
+
+
+      .tab-pane#tab_revenue
+        br
+        ul
+          li
+            a(href="#revenueHomeDaily90") Home Daily Revenue 90 days
+          li
+            a(href="#revenueHomeMonthly90") Home Monthly Revenue 90 days
+          li
+            a(href="#revenueHomDaily365") Home Daily Revenue 365 days
+          li
+            a(href="#revenueHomeMonthly365") Home Monthly Revenue 365 days
+          li
+            a(href="#revenueSchoolSales") School Sales
+          li
+            a(href="#revenueHomeMrr") Home MRR
+          li
+            a(href="#revenueHomeRevenue") Home Revenue
+
+        a(name="revenueHomeDaily90")
+        h3 Home Daily Revenue 90 days
+        .recurring-daily-revenue-chart-90.line-chart-container
+
+        a(name="revenueHomeMonthly90")
+        h3 Home Monthly Revenue 90 days
+        .recurring-monthly-revenue-chart-90.line-chart-container
+
+        a(name="revenueHomDaily365")
+        h3 Home Daily Revenue 365 days
+        .recurring-daily-revenue-chart-365.line-chart-container
+
+        a(name="revenueHomeMonthly365")
+        h3 Home Monthly Revenue 365 days
+        .recurring-monthly-revenue-chart-365.line-chart-container
+
+        a(name="revenueSchoolSales")
+        .school-sales
+          h3 School Sales
+          if view.schoolSales
+            table.table.table-striped.table-condensed
+              tr
+                th Amount
+                th(style='min-width:85px;') Created
+                th PaymentID
+                th PrepaidID
+                th Description
+                th Email
+                th School
+              each val, i in view.schoolSales
+                tr
+                  td $#{val.amount / 100}
+                  td= new Date(val.created).toISOString().substring(0, 10)
+                  td= val._id
+                  td= val.prepaidID
+                  td= val.description
+                  if val.user
+                    td= val.user.emailLower
+                    td= val.user.schoolName
+                  else
+                    td
+                    td
+          else
+            div Loading ...
+
+        a(name="revenueHomeMrr")
+        h1 Home MRR
+        .small MRR = lifetime subs + monthly subs + terminal subs + gems
+        .small Lifetime sub purchase values not spread across timeframe.
+        .small Terminal sub purchase values not spread across timeframe.
+        table.table.table-striped.table-condensed
+          tr
+            th Month
+            th Gems
+            th Monthly subs
+            th Lifetime subs
+            th MRR
+          each revenue, month in view.monthMrrMap
+            tr
+              td= month
+              td= Math.round(revenue.gems / 100)
+              td= Math.round(revenue.monthly / 100)
+              td= Math.round(revenue.yearly / 100)
+              td= Math.round(revenue.total / 100)
+
+        a(name="revenueHomeRevenue")
+        h1 Home Revenue
+        table.table.table-striped.table-condensed
+          tr
+            th(style='min-width:85px;') Day
+            for group in view.revenueGroups
+              th= group.replace('DRR ', 'Daily ').replace('MRR ', 'Monthly ')
+          each entry in view.revenue
+            tr
+              td= entry.day
+              each val in entry.groups
+                td $#{(val / 100).toFixed(2)}
+
+      .tab-pane#tab_classroom
+        h3 Classroom Daily Active Users 90 days
+        .small Paid student: user.coursePrepaid set and prepaid.properties.trialRequestID NOT set
+        .small Trial student: user.coursePrepaid set and prepaid.properties.trialRequestID set
+        .small Free student: not paid, not trial
+        .classroom-daily-active-users-chart-90.line-chart-container
+
+        h3 Classroom Monthly Active Users 90 days
+        .classroom-monthly-active-users-chart-90.line-chart-container
+
+        h3 Classroom Daily Active Users 365 days
+        .classroom-daily-active-users-chart-365.line-chart-container
+
+        h3 Classroom Monthly Active Users 365 days
+        .classroom-monthly-active-users-chart-365.line-chart-container
+
+        h3 Licenses Issued and Redeemed 90 days
+        .paid-courses-chart.line-chart-container
+
+        #furthest-course
+          h3 Furthest Course in last #{view.furthestCourseDayRangeRecent} days
+          .small Restricted to courses instances from last #{view.furthestCourseDayRangeRecent} days
+          .small Teacher: owner of a course instance
+          .small Student: member of a course instance (assigned to course)
+          .small Only course.releasePhase == 'released'
+          .small For course instances != Single Player, hourOfCode != true
+          .small Counts are not summed.  I.e. a student or teacher only contributes to the count of one course
+          .small Paid student: user.coursePrepaid set and prepaid.properties.trialRequestID NOT set
+          .small Trial student: user.coursePrepaid set and prepaid.properties.trialRequestID set
+          .small Free student: not paid, not trial
+          .small Paid teacher: at least one paid student in course instance
+          .small Trial teacher: at least one trial student in course instance, and no paid students
+          .small Free teacher: no paid students, no trial students
+          .small Paid status takes precedent over furthest course, so teacher furthest course is furthest course of highest paid status student
+          if view.courseDistributionsRecent
+            table.table.table-striped.table-condensed
+              tr
+                th Course
+                th Paid Teachers
+                th Trial Teachers
+                th Free Teachers
+                th Total Teachers
+                th Paid Students
+                th Trial Students
+                th Free Students
+                th Total Students
+              each row in view.courseDistributionsRecent
+                tr
+                  td= row.courseName
+                  td= row.totals['Paid Teachers'] || 0
+                  td= row.totals['Trial Teachers'] || 0
+                  td= row.totals['Free Teachers'] || 0
+                  td= row.totals['Total Teachers'] || 0
+                  td= row.totals['Paid Students'] || 0
+                  td= row.totals['Trial Students'] || 0
+                  td= row.totals['Free Students'] || 0
+                  td= row.totals['Total Students'] || 0
+          else
+            br
+            p Loading ...
+
+          h3 Furthest Course in last #{view.furthestCourseDayRange} days
+          if view.courseDistributions
+            table.table.table-striped.table-condensed
+              tr
+                th Course
+                th Paid Teachers
+                th Trial Teachers
+                th Free Teachers
+                th Total Teachers
+                th Paid Students
+                th Trial Students
+                th Free Students
+                th Total Students
+              each row in view.courseDistributions
+                tr
+                  td= row.courseName
+                  td= row.totals['Paid Teachers'] || 0
+                  td= row.totals['Trial Teachers'] || 0
+                  td= row.totals['Free Teachers'] || 0
+                  td= row.totals['Total Teachers'] || 0
+                  td= row.totals['Paid Students'] || 0
+                  td= row.totals['Trial Students'] || 0
+                  td= row.totals['Free Students'] || 0
+                  td= row.totals['Total Students'] || 0
+          else
+            br
+            p Loading ...
+
+        .school-sales
+          h3 School Sales
+          if view.schoolSales
+            table.table.table-striped.table-condensed
+              tr
+                th Amount
+                th(style='min-width:85px;') Created
+                th PaymentID
+                th PrepaidID
+                th Description
+                th Email
+                th School
+              each val, i in view.schoolSales
+                tr
+                  td $#{val.amount / 100}
+                  td= new Date(val.created).toISOString().substring(0, 10)
+                  td= val._id
+                  td= val.prepaidID
+                  td= val.description
+                  if val.user
+                    td= val.user.emailLower
+                    td= val.user.schoolName
+                  else
+                    td
+                    td
+          else
+            p Loading ...
+
+        #school-counts
+          h3 School Counts
+          .small Only including schools with #{view.minSchoolCount}+ counts
+          if view.schoolCounts
+            table.table.table-striped.table-condensed
+              tr
+                th
+                th School Name
+                th User Count
+              each val, i in view.schoolCounts
+                tr
+                  td= i + 1
+                  td= val.schoolName
+                  td= val.count
+          else
+            p Loading ...
+
+        h1 Active Users
+        if view.activeUsers.length > 0
+          - var eventNames = [];
+            each event in view.activeUserEventNames
+              if event.indexOf('classroom') >= 0
+                - eventNames.push(event);
+          - eventNames.sort(function (a, b) {return a.localeCompare(b);});
+          table.table.table-striped.table-condensed
+            tr
+              th(style='min-width:85px;') Day
+              each eventName in eventNames
+                th= eventName
+            each activeUser in view.activeUsers
+              tr
+                td= activeUser.day
+                each eventName in eventNames
+                  td= activeUser.events[eventName] || 0
+
+        h1#enrollments-table Licenses
+        table.table.table-striped.table-condensed
+          tr
+            th Day
+            th Paid Licenses Issued
+            th Paid Licenses Redeemed
+            th Trial Licenses Issued
+            th Trial Licenses Redeemed
+          each day in view.enrollmentDays
+            tr
+              td= day
+              if view.dayEnrollmentsMap[day]
+                td= view.dayEnrollmentsMap[day].paidIssued || 0
+                td= view.dayEnrollmentsMap[day].paidRedeemed || 0
+                td= view.dayEnrollmentsMap[day].trialIssued || 0
+                td= view.dayEnrollmentsMap[day].trialRedeemed || 0
+              else
+                td 0
+                td 0
+                td 0
+                td 0
+
+      .tab-pane#tab_campaign
+        h3 Home Daily Active Users 90 days
+        .small Paid user: had monthly or lifetime sub on given day
+        .small Free user: not paid
+        .campaign-daily-active-users-chart-90.line-chart-container
+
+        h3 Home Monthly Active Users 90 days
+        .campaign-monthly-active-users-chart-90.line-chart-container
+
+        h3 Home Daily Active Users 365 days
+        .campaign-daily-active-users-chart-365.line-chart-container
+
+        h3 Home Monthly Active Users 365 days
+        .campaign-monthly-active-users-chart-365.line-chart-container
+
+        h1 Active Users
+        if view.activeUsers.length > 0
+          - var eventNames = [];
+            each event in view.activeUserEventNames
+              if event.indexOf('campaign') >= 0
+                - eventNames.push(event);
+          - eventNames.sort(function (a, b) {return a.localeCompare(b);});
+          table.table.table-striped.table-condensed
+            tr
+              th(style='min-width:85px;') Day
+              each eventName in eventNames
+                th= eventName.replace('campaign', 'home')
+            each activeUser in view.activeUsers
+              tr
+                td= activeUser.day
+                each eventName in eventNames
+                  td= activeUser.events[eventName] || 0
+
+      .tab-pane#tab_campaign_vs_classroom
+        h3 Home vs Classroom Paid Monthly Active Users 90 days
+        .campaign-vs-classroom-monthly-active-users-recent-chart.line-chart-container
+
+        h3 Home vs Classroom Paid Monthly Active Users 365 days
+        .campaign-vs-classroom-monthly-active-users-chart.line-chart-container
+
+        h1 Active Users
+        if view.activeUsers.length > 0
+          table.table.table-striped.table-condensed
+            tr
+              th(style='min-width:85px;') Day
+              each eventName in view.activeUserEventNames
+                th= eventName.replace('campaign', 'home')
+            each activeUser in view.activeUsers
+              tr
+                td= activeUser.day
+                each eventName in view.activeUserEventNames
+                  td= activeUser.events[eventName] || 0

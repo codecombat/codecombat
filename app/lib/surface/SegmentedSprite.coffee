@@ -1,4 +1,5 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
+createjs = require 'lib/createjs-parts'
 
 # Put this on MovieClips
 specialGoToAndStop = (frame) ->
@@ -8,7 +9,7 @@ specialGoToAndStop = (frame) ->
     @gotoAndStop(frame)
     @childrenCopy = @children.slice(0)
 
-module.exports = class SegmentedSprite extends createjs.SpriteContainer
+module.exports = class SegmentedSprite extends createjs.Container
   childMovieClips: null
 
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix, @resolutionFactor=SPRITE_RESOLUTION_FACTOR) ->
@@ -133,6 +134,17 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @lastAnimData = animData
 
     locals = {}
+
+    # TODO Add support for shapes to segmented sprites.
+    # TODO Ensure this change works on http://direct.codecombat.com/play/level/coinucopia
+    # try
+    #   # Protects us from legacy art regressions.
+    #   localShapes = @buildMovieClipShapes(animData.shapes)
+    #   _.extend locals, localShapes
+    # catch e
+    #   console.error("Couldn't create shapes for '#{@thangType.get('name')}':", e.message)
+    #   console.error(e.stack)
+
     _.extend locals, @buildMovieClipContainers(animData.containers)
     _.extend locals, @buildMovieClipAnimations(animData.animations)
 
@@ -153,7 +165,12 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
 #          console.debug 'Did not dereference args:', args
           stopped = true
           break
-        tween = tween[func.n](args...)
+        if tween[func.n]
+          tween = tween[func.n](args...)
+        else
+          # If we, say, skipped a shadow get(), then the wait() may not be present
+          stopped = true
+          break
       continue if stopped
       anim.timeline.addTween(tween)
 
@@ -166,10 +183,44 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @spriteSheet.mcPool[key].push(anim)
     return anim
 
+  buildMovieClipShapes: (localShapes) ->
+    map = {}
+    for localShape in localShapes
+      if localShape.im
+        shape = new createjs.Shape(@spriteSheet)
+        shape._off = true
+      else
+        shape = @buildShapeFromStore(localShape.gn)
+        if localShape.m
+          shape.mask = map[localShape.m]
+      map[localShape.bn] = shape
+    map
+
+  buildShapeFromStore: (shapeKey, debug=false) ->
+    shapeData = @thangType.get('raw').shapes[shapeKey]
+    shape = new createjs.Shape()
+    if shapeData.lf?
+      shape.graphics.lf shapeData.lf...
+    else if shapeData.fc?
+      # TODO: Add reference to colorMap to allow character customization
+      shape.graphics.f shapeData.fc # @colorMap[shapeKey] or shapeData.fc
+    else if shapeData.rf?
+      shape.graphics.rf shapeData.rf...
+    if shapeData.ls?
+      shape.graphics.ls shapeData.ls...
+    else if shapeData.sc?
+      shape.graphics.s shapeData.sc
+    shape.graphics.ss shapeData.ss... if shapeData.ss?
+    shape.graphics.de shapeData.de... if shapeData.de?
+    shape.graphics.p shapeData.p if shapeData.p?
+    shape.setTransform shapeData.t...
+    shape.nominalBounds = new createjs.Rectangle(shapeData.bounds...) if shapeData.bounds
+    shape
+
   buildMovieClipContainers: (localContainers) ->
     map = {}
     for localContainer in localContainers
-      outerContainer = new createjs.SpriteContainer(@spriteSheet)
+      outerContainer = new createjs.Container(@spriteSheet)
       innerContainer = new createjs.Sprite(@spriteSheet)
       innerContainer.gotoAndStop(@spriteSheetPrefix + localContainer.gn)
       if innerContainer.currentFrame is 0 or @usePlaceholders
@@ -263,7 +314,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
   takeChildrenFromMovieClip: (movieClip, recipientContainer) ->
     for child in movieClip.childrenCopy
       if child instanceof createjs.MovieClip
-        childRecipient = new createjs.SpriteContainer(@spriteSheet)
+        childRecipient = new createjs.Container(@spriteSheet)
         @takeChildrenFromMovieClip(child, childRecipient)
         for prop in ['regX', 'regY', 'rotation', 'scaleX', 'scaleY', 'skewX', 'skewY', 'x', 'y']
           childRecipient[prop] = child[prop]
@@ -272,5 +323,5 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         recipientContainer.addChild(child)
 
 
-#  _getBounds: createjs.SpriteContainer.prototype.getBounds
+#  _getBounds: createjs.Container.prototype.getBounds
 #  getBounds: -> @baseMovieClip?.getBounds() or @children[0]?.getBounds() or @_getBounds()

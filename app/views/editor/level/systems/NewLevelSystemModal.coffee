@@ -1,3 +1,4 @@
+require('app/styles/editor/level/system/new.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/system/new'
 LevelSystem = require 'models/LevelSystem'
@@ -20,7 +21,7 @@ module.exports = class NewLevelSystemModal extends ModalView
     name = @$el.find('#level-system-name').val()
     system = new LevelSystem()
     system.set 'name', name
-    system.set 'code', system.get('code').replace(/Jitter/g, name)
+    system.set 'code', system.get('code', true).replace(/Jitter/g, name)
     system.set 'permissions', [{access: 'owner', target: me.id}]  # Private until saved in a published Level
     res = system.save(null, {type: 'POST'})  # Override PUT so we can trigger postFirstVersion logic
     return unless res

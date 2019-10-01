@@ -84,3 +84,5 @@ module.exports = class CocoClass
 
   playSound: (trigger, volume=1) ->
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume
+
+  wait: (event) -> new Promise((resolve) => @once(event, resolve))

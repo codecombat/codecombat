@@ -1,0 +1,118 @@
+#admin-classrooms-progress-view
+
+  h1
+    margin-left: 10px
+  .small
+    margin-left: 10px
+    font-size: 12px
+
+  table
+    td, th
+      padding: 0px
+
+  .range-container
+    position: relative
+    width: 80%
+    .course-cell
+      border-right: solid 1px black
+      position: absolute
+      height: 100%
+      top: 0px
+      line-height: 20px
+      .course-cell-text
+        font-size: 8px
+        text-align: center
+    .missing-course-cell
+      border-right: solid 1px black
+      position: absolute
+      height: 100%
+      top: 0px
+      line-height: 20px
+      .course-cell-text
+        font-size: 8px
+        text-align: center
+    .student-furthest-cell
+      position: absolute
+      height: 100%
+      top: 0px
+      width: 1px
+      background-color: red
+      opacity: 0.4
+    .student-completed-cell
+      position: absolute
+      height: 100%
+      top: 0px
+      width: 1px
+      background-color: orange
+      opacity: 0.4
+    .level-cell
+      border-right: solid 1px black
+      position: absolute
+      height: 25%
+      top: 0px
+    .missing-level-cell
+      position: absolute
+      height: 100%
+      top: 0px
+      width: 1px
+      background-color: blue
+      opacity: 0.3
+    .completed-background
+      position: absolute
+      height: 100%
+      left: 0px
+      top: 0px
+      background-color: green
+      opacity: 0.1
+    .remaining-background
+      position: absolute
+      height: 100%
+      left: 0px
+      top: 0px
+      background-color: green
+      opacity: 0.1
+    .available-background
+      position: absolute
+      height: 100%
+      left: 0px
+      top: 0px
+      background-color: blue
+      opacity: 0.1
+    .range-dates
+      position: absolute
+      height: 100%
+      width: 100%
+      left: 0px
+      top: 0px
+
+  .timeline-courses-container
+    position: relative
+    height: 18px
+    border-top: 0px
+
+    .timeline-course-section
+      position: absolute
+      text-align: center
+      height: 18px
+      font-size: 10px
+      cursor: default
+
+    .timeline-course-target
+      position: absolute
+      text-align: center
+      height: 18px
+      font-size: 10px
+      cursor: default
+
+  .timeline-months-container
+    position: relative
+    background-color: antiquewhite
+    height: 14px
+    border-top: 0px
+    font-size: 10px
+    border-bottom: 1px solid black
+
+    .timeline-date-section
+      position: absolute
+      border-left: solid 1px black
+      text-align: center

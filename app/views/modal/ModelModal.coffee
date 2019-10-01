@@ -1,6 +1,7 @@
+require('app/styles/modal/model-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/model-modal'
-require 'vendor/treema'
+require 'lib/setupTreema'
 
 module.exports = class ModelModal extends ModalView
   id: 'model-modal'
@@ -13,13 +14,8 @@ module.exports = class ModelModal extends ModalView
     super options
     @models = options.models
     for model in @models when not model.loaded
-      @supermodel.loadModel model, 'source_document'
+      @supermodel.loadModel model
       model.fetch cache: false
-
-  getRenderData: ->
-    c = super()
-    c.models = @models
-    c
 
   afterRender: ->
     return unless @supermodel.finished()

@@ -1,0 +1,253 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
+
+#spell-palette-view
+  position: absolute
+  right: $spell-pallete-right
+  width: $api-bar-width
+  bottom: 0px
+  top: 0px
+  padding: 0 4px 0px 10px
+  background: transparent url(/images/level/wood_texture.png)
+  background-size: auto 100%
+  z-index: 7
+  @include transition(top 0.25s ease-in-out, width 0.25s ease-in-out)
+  box-shadow: 10px 4px 4px black
+  overflow: hidden
+  #spell-palette-api-bar[disabled=disabled]
+    pointer-events: none
+    #palette-tab-api-area
+      opacity: 0.6
+  #level-view.real-time &, #level-view.cinematic &
+    display: none
+    visibility: hidden
+  &.open
+    width: $api-bar-width + 360px
+  .container
+    width: $api-bar-width + 360px
+    height: 100%
+    position: relative
+    .left
+      position: absolute
+      left: 0
+      top: 80px
+      bottom: 0px
+      height: auto
+      width: $api-bar-width - 13
+      .section-header
+        display: block
+        color: white
+        margin-right: 10px
+
+      .spell-palette-thang-entry-view
+        display: inline-block
+        border: 5px solid black
+        border-image: url(/images/level/thang_avatar_frame.png) 20 20 20 20 fill round
+        margin: 1px
+
+        img
+          background-color: black
+          width: 72px
+          height: 72px
+          border: 1px solid transparent
+          cursor: pointer
+        &:hover img
+          border: 1px solid #f3cd90
+        &.selected img
+          border: 1px solid white
+          cursor: auto
+
+      .nano-slider
+        background-color: rgba(243, 169, 49, 0.5)
+    .right
+      position: absolute
+      right: 20px
+      min-width: 200px
+      left: $api-bar-width - 10px
+      top: 60px
+      bottom: 0px
+      //width: calc(100% - #{$api-bar-width + 50px})
+      @include box-shadow(0 0 0 #000)
+      .scrollArea
+        max-height: calc(100% - 20px)
+        width: 100%
+        border-style: solid
+        border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+        border-width: 16px 12px
+        margin-top: 20px
+        margin-bottom: 20px
+        position: relative
+        overflow-y: auto
+
+      .always-scroll-y
+        overflow-y: scroll
+        .description
+          img
+            float: left
+
+      .closeBtn
+        position: absolute;
+        right: -10px;
+        top: 15px;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        font-size: 20px
+        z-index: 2;
+
+      h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+        font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+        font-variant: normal
+        color: purple
+        text-transform: auto
+
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          font-family: "Cousine", "Courier", "Courier New", monospace !important
+
+      .popover-title
+        background-color: transparent
+        margin: 0 14px
+        padding: 8px 0
+        border-bottom-color: #ccc
+
+      .popover-content
+        max-height: 100%
+        overflow-y: auto
+        margin-right: 10px
+        img
+          float: right
+
+      &.top .arrow
+        bottom: -2%
+      &.bottom .arrow
+        top: -2%
+      &.left .arrow
+        right: 0%
+      &.right .arrow
+        left: -3%
+
+      .docs-ace-container
+        padding: 2px 4px
+        border-radius: 4px
+
+        &, .docs-ace
+          background-color: #f9f2f4
+          font-size: 12px
+          font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+
+          body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+            font-family: "Cousine", "Courier", "Courier New", monospace !important
+
+        .docs-ace
+          .ace_cursor, .ace_bracket
+            display: none
+
+      code
+        color: black
+        font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+        font-size: 12px
+
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          font-family: "Cousine", "Courier", "Courier New", monospace !important
+
+    h4.tab
+      color: white
+      font-size: 16px
+      line-height: 16px
+      margin: 25px 0 5px 2px
+      font-weight: normal
+      text-transform: uppercase
+
+    .nav > li > a
+      padding: 2px 20px 0px 20px
+      margin-bottom: 3px
+
+    ul.nav.nav-pills
+      margin-top: 3%
+
+      h4
+        margin-top: 2px
+      li.active a
+        background-color: transparent
+      &.multiple-tabs li.active a
+        background-color: darken(rgb(230, 212, 146), 30%)
+      &.multiple-tabs li:not(.active) a
+        cursor: pointer
+
+    &:not(.hero)
+      .tab-content
+        height: 80px
+        .nano-pane
+          width: 7px
+          right: 5px
+
+    //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
+    //  background-color: lighten(rgb(230, 212, 146), 10%)
+
+    .property-entry-column
+      display: inline-block
+      margin-right: 3px
+      vertical-align: top
+
+  #spell-palette-help-button
+    margin: 3% 0px 4px
+
+  &.hero .properties
+    @include flexbox()
+    @include flex-wrap()
+    @include flex-column()
+    @include flex-align-content-start()
+
+    .property-entry-item-group
+      display: inline-block
+      min-height: 38px
+      width: 212px
+      @include flexbox()
+      @include flex-wrap()
+      @include flex-center()
+      position: relative
+      background-color: rgb(20, 13, 8)
+      margin: 1px
+
+      img.item-image
+        width: 38px
+        height: 38px
+        position: absolute
+        top: 0px
+
+      &:not(:hover) img.item-image
+        -webkit-filter: contrast(50%) sepia(100%) saturate(500%) hue-rotate(7deg)
+        filter: contrast(50%) sepia(100%) saturate(1000%) hue-rotate(7deg)
+
+  &.shortenize.hero .properties
+    .property-entry-item-group
+      width: 175px
+
+      .spell-palette-entry-view
+        width: 137px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
+
+  &.web-dev.hero .properties
+    .property-entry-item-group
+      width: 100px
+
+      .spell-palette-entry-view
+        margin-left: 0
+        width: 100px
+
+  //Fixes punctuation but puts comment marker on right, which is apparently worse.
+  //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+  //  .ace_text-layer .ace_comment
+  //    direction: rtl
+  //    unicode-bidi: embed
+
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
+
+@media only screen and (max-width: 1100px)
+  #spell-palette-view
+    // Make sure we have enough room for at least two columns
+    padding-left: 12px

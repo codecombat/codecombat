@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# full script path
-_scriptDir="$(cd "$(dirname "$0")" && pwd -P)"
-
-cd $_scriptDir
-cd ../
-node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --autotest --captureExceptions

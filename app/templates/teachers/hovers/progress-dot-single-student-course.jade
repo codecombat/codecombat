@@ -1,0 +1,19 @@
+if completed
+  .certificate-link
+    img(src='/images/pages/user/certificates/certificate-icon.png')
+    span.small-details(data-i18n='user.certificate_click_to_view')
+else if started
+  .fraction-students.small-details
+    = levelsCompleted
+    | /
+    = levelsTotal
+    span.spl(data-i18n='nav.play')
+      | Levels
+  .percent-students.small-details
+    = Math.floor(levelsCompleted / levelsTotal * 100)
+    | %
+    span.spl(data-i18n='clans.complete_2')
+      | Complete
+else
+  span.small-details(data-i18n='teacher.assigned')
+    | Assigned

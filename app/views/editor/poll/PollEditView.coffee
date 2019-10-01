@@ -1,12 +1,14 @@
+require('app/styles/editor/poll/poll-edit-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/poll/poll-edit-view'
 Poll = require 'models/Poll'
 UserPollsRecord = require 'models/UserPollsRecord'
 PollModal = require 'views/play/modal/PollModal'
-ConfirmModal = require 'views/editor/modal/ConfirmModal'
+ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-app = require 'core/application'
+
+require 'lib/game-libraries'
 
 module.exports = class PollEditView extends RootView
   id: 'editor-poll-edit-view'
@@ -25,7 +27,7 @@ module.exports = class PollEditView extends RootView
   loadPoll: ->
     @poll = new Poll _id: @pollID
     @poll.saveBackups = true
-    @supermodel.loadModel @poll, 'poll'
+    @supermodel.loadModel @poll
 
   loadUserPollsRecord: ->
     url = "/db/user.polls.record/-/user/#{me.id}"
@@ -34,7 +36,7 @@ module.exports = class PollEditView extends RootView
       return if @destroyed
       @userPollsRecord.url = -> '/db/user.polls.record/' + @id
     @listenToOnce @userPollsRecord, 'sync', onRecordSync
-    @userPollsRecord = @supermodel.loadModel(@userPollsRecord, 'user_polls_record').model
+    @userPollsRecord = @supermodel.loadModel(@userPollsRecord).model
     onRecordSync.call @ if @userPollsRecord.loaded
 
   onLoaded: ->
@@ -45,7 +47,7 @@ module.exports = class PollEditView extends RootView
       @treema.set('/', @poll.attributes)
 
   buildTreema: ->
-    return if @treema? or (not @poll.loaded)
+    return if @treema? or (not @poll.loaded) or (not me.isAdmin())
     data = $.extend(true, {}, @poll.attributes)
     options =
       data: data
@@ -58,12 +60,6 @@ module.exports = class PollEditView extends RootView
     @treema.build()
     @treema.childrenTreemas.answers?.open 1
     @pushChangesToPreview()
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.poll = @poll
-    context.authorized = me.isAdmin()
-    context
 
   afterRender: ->
     super()
@@ -104,10 +100,10 @@ module.exports = class PollEditView extends RootView
 
   confirmDeletion: ->
     renderData =
-      'confirmTitle': 'Are you really sure?'
-      'confirmBody': 'This will completely delete the poll, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
-      'confirmDecline': 'Not really'
-      'confirmConfirm': 'Definitely'
+      title: 'Are you really sure?'
+      body: 'This will completely delete the poll, potentially breaking a lot of stuff you don\'t want breaking. Are you entirely sure?'
+      decline: 'Not really'
+      confirm: 'Definitely'
 
     confirmModal = new ConfirmModal renderData
     confirmModal.on 'confirm', @deletePoll
@@ -124,7 +120,7 @@ module.exports = class PollEditView extends RootView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          app.router.navigate '/editor/poll', trigger: true
+          application.router.navigate '/editor/poll', trigger: true
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR

@@ -1,4 +1,6 @@
 c = require './../schemas'
+{FeatureAuthoritySchema, FeatureRecipientSchema} = require './feature.schema'
+
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
 UserSchema = c.object
@@ -6,9 +8,10 @@ UserSchema = c.object
   default:
     visa: 'Authorized to work in the US'
     music: true
-    name: 'Anoner'
+    name: 'Anonymous'
     autocastDelay: 5000
     emails: {}
+    consentHistory: []
     permissions: []
     anonymous: true
     points: 0
@@ -50,18 +53,34 @@ visa = c.shortString
 
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
+  emailVerified: { type: 'boolean' }
   iosIdentifierForVendor: c.shortString({format: 'hidden'})
-  firstName: c.shortString({title: 'First Name'})
-  lastName: c.shortString({title: 'Last Name'})
-  gender: {type: 'string', 'enum': ['male', 'female', 'secret', 'trans']}
-  ageRange: {type: 'string'}  # 'enum': ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
-  password: {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
+  firstName: c.shortString({title: 'First Name', not: {pattern: 'Q204384420'}})
+  lastName: c.shortString({title: 'Last Name', not: {pattern: 'Q204384420'}})
+  gender: {type: 'string'} # , 'enum': ['male', 'female', 'secret', 'trans', 'other']
+  # NOTE: ageRange enum changed on 4/27/16 from ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
+  ageRange: {type: 'string'}  # 'enum': ['13-15', '16-17', '18-24', '25-34', '35-44', '45-100']
+  password: c.passwordString
   passwordReset: {type: 'string'}
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
   facebookID: c.shortString({title: 'Facebook ID'})
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
+  cleverID: c.shortString({title: 'Clever ID'})
+  oAuthIdentities: {
+    description: 'List of OAuth identities this user has.'
+    type: 'array'
+    items: {
+      description: 'A single OAuth identity'
+      type: 'object'
+      properties: {
+        provider: c.objectId()
+        id: { type: 'string', description: 'The service provider\'s id for the user' }
+      }
+    }
+  }
+  clientCreator: c.objectId({description: 'Client which created this user'})
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
@@ -70,7 +89,7 @@ _.extend UserSchema.properties,
   lastLevel: { type: 'string' }
   heroConfig: c.HeroConfigSchema
 
-  emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
+  emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}  # Deprecated
   emails: c.object {title: 'Email Settings', default: generalNews: {enabled: true}, anyNotes: {enabled: true}, recruitNotes: {enabled: true} },
     # newsletters
     generalNews: {$ref: '#/definitions/emailSubscription'}
@@ -79,6 +98,7 @@ _.extend UserSchema.properties,
     archmageNews: {$ref: '#/definitions/emailSubscription'}
     artisanNews: {$ref: '#/definitions/emailSubscription'}
     diplomatNews: {$ref: '#/definitions/emailSubscription'}
+    teacherNews: {$ref: '#/definitions/emailSubscription'}
     scribeNews: {$ref: '#/definitions/emailSubscription'}
 
     # notifications
@@ -88,19 +108,29 @@ _.extend UserSchema.properties,
 
     oneTimes: c.array {title: 'One-time emails'},
       c.object {title: 'One-time email', required: ['type', 'email']},
-        type: c.shortString() # E.g 'subscribe modal parent'
+        type: c.shortString() # E.g 'share progress modal parent'
         email: c.shortString()
         sent: c.date() # Set when sent
+  unsubscribedFromMarketingEmails: { type: 'boolean' }
+
+  consentHistory: c.array {title: 'History of consent actions'},
+    c.object {title: 'Consent action', required: ['action', 'date', 'type']},
+      action: {type: 'string', 'enum': ['allow', 'forbid']}
+      date: c.date()
+      type: c.shortString() # E.g 'email'
+      emailHash: {type: 'string', maxLength: 128, minLength: 128, title: 'Hash of lower-case email address at the time'}
+      description: c.shortString()
 
   # server controlled
   permissions: c.array {}, c.shortString()
   dateCreated: c.date({title: 'Date Joined'})
   anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
+  testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
-  lastIP: {type: 'string'}
+  createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
   nameLower: c.shortString()
@@ -113,12 +143,48 @@ _.extend UserSchema.properties,
   preferredLanguage: {'enum': [null].concat(c.getLanguageCodeArray())}
 
   signedCLA: c.date({title: 'Date Signed the CLA'})
+
+  # Legacy customizable wizard from a very early version of the game.
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
+  ozariaUserOptions: c.object( # 10/12/2019 Do not alter/remove or use this property on codecombat. Used on Ozaria.
+    {
+      title: 'Player Ozaria Customization',
+      description: 'Player customization options, including hero name, objectId and applied color tints.',
+      # Ensure we can add new properties on the Ozaria server without breaking CodeCombat users.
+      additionalProperties: true
+    }, {
+      cinematicThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type'),
+      playerHeroName: c.shortString({ title: 'Ozaria Hero Name', description: 'The user set name for the ozaria hero. Used in cinematics.' }),
+      tints: c.array(
+        {
+          title: 'Tints',
+          description: 'Array of possible tints'
+        },
+        c.object({
+          title: 'tintGroup',
+          description: 'Duplicate data that would be found in a tint',
+          required: ['slug', 'colorGroups']
+        }, {
+          slug: c.shortString({
+            title: 'Tint Slug',
+          }),
+          colorGroups: c.object({ additionalProperties: c.colorConfig() })
+        }))
+      avatar: c.object({
+        title: '1FH Avatar Choice',
+        description: 'The 1FH avatar that was chosen by the user'
+      }, {
+        cinematicThangTypeId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic ThangType', description: 'The cinematic avatar thangType original Id', format: 'thang-type'),
+        cinematicPetThangId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic Pet ThangType', description: 'The cinematic avatar pet thangType original Id', format: 'thang-type'),
+        avatarCodeString: c.shortString({ title: 'Avatar Capstone String', description: 'The string representation of the avatar for the capstone.' })
+      })
+    })
+
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'io']}
-    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
+    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}  # Deprecated 2016-05-30; now we just always give them 'default'.
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }
     behaviors: {type: 'boolean' }
@@ -127,124 +193,15 @@ _.extend UserSchema.properties,
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
 
-  jobProfile: c.object {title: 'Job Profile', default: { active: false, lookingFor: 'Full-time', jobTitle: 'Software Developer', city: 'Defaultsville, CA', country: 'USA', skills: ['javascript'], shortDescription: 'Programmer seeking to build great software.', longDescription: '* I write great code.\n* You need great code?\n* Great!' }},
-    lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], description: 'What kind of developer position do you want?'}
-    jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"' }
-    active: {title: 'Open to Offers', type: 'boolean', description: 'Want interview offers right now?'}
-    updated: c.date {title: 'Last Updated', description: 'How fresh your profile appears to employers. Profiles go inactive after 4 weeks.'}
-    name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
-    city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', format: 'city'}
-    country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', format: 'country'}
-    skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency', maxItems: 30, uniqueItems: true},
-      {type: 'string', minLength: 1, maxLength: 50, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
-    experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
-    shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.' }
-    longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown' }
-    visa: visa
-    work: c.array {title: 'Work Experience', description: 'List your relevant work experience, most recent first.'},
-      c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
-        employer: c.shortString {title: 'Employer', description: 'Name of your employer.'}
-        role: c.shortString {title: 'Job Title', description: 'What was your job title or role?'}
-        duration: c.shortString {title: 'Duration', description: 'When did you hold this gig? Ex.: "Feb 2013 - present".'}
-        description: {type: 'string', title: 'Description', description: 'What did you do there? (140 chars; optional)', maxLength: 140}
-    education: c.array {title: 'Education', description: 'List your academic ordeals.'},
-      c.object {title: 'Ordeal', description: 'Some education that befell you.', required: ['school', 'degree', 'duration']},
-        school: c.shortString {title: 'School', description: 'Name of your school.'}
-        degree: c.shortString {title: 'Degree', description: 'What was your degree and field of study? Ex. Ph.D. Human-Computer Interaction (incomplete)'}
-        duration: c.shortString {title: 'Dates', description: 'When? Ex.: "Aug 2004 - May 2008".'}
-        description: {type: 'string', title: 'Description', description: 'Highlight anything about this educational experience. (140 chars; optional)', maxLength: 140}
-    projects: c.array {title: 'Projects (Top 3)', description: 'Highlight your projects to amaze employers.', maxItems: 3},
-      c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture'], default: {name: 'My Project', description: 'A project I worked on.', link: 'http://example.com', picture: ''}},
-        name: c.shortString {title: 'Project Name', description: 'What was the project called?' }
-        description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, format: 'markdown'}
-        picture: {type: 'string', title: 'Picture', format: 'image-file', description: 'Upload a 230x115px or larger image showing off the project.'}
-        link: c.url {title: 'Link', description: 'Link to the project.'}
-    links: c.array {title: 'Personal and Social Links', description: 'Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.'},
-      c.object {title: 'Link', description: 'A link to another site you want to highlight, like your GitHub, your LinkedIn, or your blog.', required: ['name', 'link'], default: {link: 'http://example.com'}},
-        name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
-        link: c.url {title: 'Link', description: 'The URL.' }
-    photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
-    curated: c.object {title: 'Curated', required: ['shortDescription', 'mainTag', 'location', 'education', 'workHistory', 'phoneScreenFilter', 'schoolFilter', 'locationFilter', 'roleFilter', 'seniorityFilter']},
-      shortDescription:
-        title: 'Short description'
-        description: 'A sentence or two describing the candidate'
-        type: 'string'
-      mainTag:
-        title: 'Main tag'
-        description: 'A main tag to describe this candidate'
-        type: 'string'
-      location:
-        title: 'Location'
-        description: 'The CURRENT location of the candidate'
-        type: 'string'
-      education:
-        title: 'Education'
-        description: 'The main educational institution of the candidate'
-        type: 'string'
-      workHistory: c.array {title: 'Work history', description: 'One or two places the candidate has worked', type: 'array'},
-        title: 'Workplace'
-        type: 'string'
-      phoneScreenFilter: phoneScreenFilter
-      schoolFilter: schoolFilter
-      locationFilter: locationFilter
-      roleFilter: roleFilter
-      seniorityFilter: seniorityFilter
-      featured:
-        title: 'Featured'
-        type: 'boolean'
-        description: 'Should this candidate be prominently featured on the site?'
-  jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
-  jobProfileApprovedDate: c.date {title: 'Approved date', description: 'The date that the candidate was approved'}
-  jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: 'CodeCombat\'s notes on the candidate.', format: 'markdown' }
-  employerAt: c.shortString {description: 'If given employer permissions to view job candidates, for which employer?'}
-  signedEmployerAgreement: c.object {},
-    linkedinID: c.shortString {title: 'LinkedInID', description: 'The user\'s LinkedIn ID when they signed the contract.'}
-    date: c.date {title: 'Date signed employer agreement'}
-    data: c.object {description: 'Cached LinkedIn data slurped from profile.', additionalProperties: true}
-  savedEmployerFilterAlerts: c.array {
-    title: 'Saved Employer Filter Alerts'
-    description: 'Employers can get emailed alerts whenever there are new candidates matching their filters'
-  }, c.object({
-    title: 'Saved filter set'
-    description: 'A saved filter set'
-    required: ['phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter','visa']
-  }, {
-    phoneScreenFilter:
-      title: 'Phone screen filter values'
-      type: 'array'
-      items:
-        type: 'boolean'
-    schoolFilter:
-      title: 'School filter values'
-      type: 'array'
-      items:
-        type: schoolFilter.type
-        enum: schoolFilter.enum
-    locationFilter:
-      title: 'Location filter values'
-      type: 'array'
-      items:
-        type: locationFilter.type
-        enum: locationFilter.enum
-    roleFilter:
-      title: 'Role filter values'
-      type: 'array'
-      items:
-        type: roleFilter.type
-        enum: roleFilter.enum
-    seniorityFilter:
-      title: 'Seniority filter values'
-      type: 'array'
-      items:
-        type: roleFilter.type
-        enum: seniorityFilter.enum
-    visa:
-      title: 'Visa filter values'
-      type: 'array'
-      items:
-        type: visa.type
-        enum: visa.enum
-  })
+  googleClassrooms: c.array { title: 'Google classrooms for the teacher' },
+    c.object { required: ['name', 'id'] },
+      id: { type: 'string' }
+      name: { type: 'string' }
+      importedToCoco: { type: 'boolean', default: false }
+      importedToOzaria: { type: 'boolean', default: false }
+      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' }
+
+  importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
 
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
@@ -280,13 +237,27 @@ _.extend UserSchema.properties,
     pollMiscPatches: c.int()
     campaignTranslationPatches: c.int()
     campaignMiscPatches: c.int()
+    courseTranslationPatches: c.int()
+    courseMiscPatches: c.int()
+    courseEdits: c.int()
+    concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
+    licenses: c.object { additionalProperties: true }
+    students: c.object { additionalProperties: true }
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
   deleted: {type: 'boolean'}
   dateDeleted: c.date()
+  doNotDeleteEU: c.date()
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
+
+  payPal: c.object {}, {
+    payerID: { type: 'string' }
+    billingAgreementID: { type: 'string', description: 'Set if user has PayPal monthly subscription' }
+    subscribeDate: c.date()
+    cancelDate: c.date()
+  }
 
   stripe: c.object {}, {
     customerID: { type: 'string' }
@@ -294,6 +265,8 @@ _.extend UserSchema.properties,
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
+
+    # TODO: move `free` out of stripe, it's independent
     free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
     prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 
@@ -311,10 +284,89 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
-  chinaVersion: { type: 'boolean' }  # Old
-  country: { type: 'string', enum: ['brazil', 'china'] }  # New, supports multiple countries for different versions--only set for specific countries where we have premium servers right now
+  country: { type: 'string' }  # Set on new users for certain countries on the server - keeping this field although it is same as geo.countryName since user.country is already being used in other files, TODO: Refactor the code to remove this in future
+  geo: c.object {}, {
+    country: { description:'2 letter ISO-3166-1 country code' }
+    countryName: { description: 'Full country name'}
+    region: { description:'2 character region code' }
+    city: { description:'Full city name' }
+    ll: c.array {}, { description: 'Latitude and longitude of the city'}
+    metro: { description: 'Metro code'}
+    zip: { description: 'Postal code'}
+  }
 
   clans: c.array {}, c.objectId()
+  courseInstances: c.array {}, c.objectId()
+  currentCourse: c.object {}, {  # Old, can be removed after we deploy and delete it from all users
+    courseID: c.objectId({})
+    courseInstanceID: c.objectId({})
+  }
+  coursePrepaidID: c.objectId({
+    description: 'Prepaid which has paid for this user\'s course access'
+  })
+  coursePrepaid: {
+    type: 'object'
+    properties: {
+      _id: c.objectId()
+      startDate: c.stringDate()
+      endDate: c.stringDate()
+      type: { type: ['string', 'null'] }
+      includedCourseIDs: { type: ['array', 'null'], description: 'courseIDs that this prepaid includes access to', items: c.objectId() }
+    }
+  }
+  enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
+
+  schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
+  verifiedTeacher: { type: 'boolean' }
+  birthday: ({ type: 'string', title: "Birthday", description: "Just month and year, stored YYYY-MM"})
+  lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
+
+  israelId: {type: 'string', description: 'ID string used just for il.codecombat.com'}
+  school: {
+    type: 'object',
+    description: 'Generic property for storing school information. Currently
+                  only used by Israel; if/when we use it for other purposes,
+                  think about how to keep the data consistent.',
+    properties: {
+      name: { type: 'string' }
+      city: { type: 'string' }
+      district: { type: 'string' }
+      state: { type: 'string' }
+      country: { type: 'string' }
+    }
+  }
+  lastAnnouncementSeen:
+    type: 'number'
+    description: 'The highed announcement modal index displayed to the user.'
+  studentMilestones:
+    type: 'object'
+    description: "Flags for whether a teacher's students have reached a given level. Used for Intercom campaigns."
+    properties: {
+      studentStartedWakkaMaul: { type: 'boolean', description: "One of a teacher's students has reached Wakka Maul" }
+      studentStartedMayhemOfMunchkins: { type: 'boolean', description: "One of a teacher's students has started A Mayhem of Munchkins" }
+      # TODO: refactor above two properties to be integers
+      studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
+      studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
+    }
+
+  administratedTeachers: c.array {}, c.objectId()
+  administratingTeachers: c.array {}, c.objectId()
+
+  features:
+    type: 'object'
+    title: 'Feature Flags'
+    properties:
+      authority:
+        type: 'object'
+        description: 'Feature flags applied to associated users'
+        # key is the feature id
+        additionalProperties: FeatureAuthoritySchema
+      recipient:
+        type: 'object'
+        description: 'Features flags applied to this user'
+        # key is the feature id
+        additionalProperties: FeatureRecipientSchema
 
 c.extendBasicProperties UserSchema, 'user'
 

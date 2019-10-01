@@ -1,3 +1,4 @@
+require('app/styles/play/modal/leaderboard-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/leaderboard-modal'
 LeaderboardTabView = require 'views/play/modal/LeaderboardTabView'
@@ -8,7 +9,7 @@ module.exports = class LeaderboardModal extends ModalView
   id: 'leaderboard-modal'
   template: template
   instant: true
-  timespans: ['day', 'week', 'all']
+  timespans: ['latest', 'all']
 
   subscriptions: {}
 
@@ -21,12 +22,13 @@ module.exports = class LeaderboardModal extends ModalView
     @levelSlug = @options.levelSlug
     level = new Level({_id: @levelSlug})
     level.project = ['name', 'i18n', 'scoreType', 'original']
-    @level = @supermodel.loadModel(level, 'level').model
+    @level = @supermodel.loadModel(level).model
 
   getRenderData: (c) ->
     c = super c
     c.submenus = []
     for scoreType in @level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       for timespan in @timespans
         c.submenus.push scoreType: scoreType, timespan: timespan
     c.levelName = utils.i18n @level.attributes, 'name'
@@ -36,6 +38,7 @@ module.exports = class LeaderboardModal extends ModalView
     super()
     return unless @supermodel.finished()
     for scoreType, scoreTypeIndex in @level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       for timespan, timespanIndex in @timespans
         submenuView = new LeaderboardTabView scoreType: scoreType, timespan: timespan, level: @level
         @insertSubView submenuView, @$el.find "##{scoreType}-#{timespan}-view .leaderboard-tab-view"

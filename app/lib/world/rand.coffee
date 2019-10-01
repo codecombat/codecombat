@@ -43,11 +43,26 @@ class Rand
   shuffle: (arr) =>
     return arr unless arr.length > 2
     for i in [arr.length-1 .. 1]
-      j = Math.floor @randf() * (i - 1)
+      j = Math.floor @randf() * (i + 1)
       t = arr[j]
       arr[j] = arr[i]
       arr[i] = t
     arr
+
+  # shuffle in exactly the same way lo-dash did to migrate same random sequences
+  # returns a new array but does not modify existing array
+  shuffleCompat: (arr) =>
+    index = -1
+    length = arr.length or 0
+    result = new Array length
+    for item in arr
+      r = @rand ++index + 1
+      result[index] = result[r]
+      result[r] = item
+    result
+
+  choice: (arr) =>
+    return arr[@rand arr.length]
 
 
 module.exports = Rand

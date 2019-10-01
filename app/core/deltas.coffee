@@ -1,4 +1,11 @@
 SystemNameLoader = require './../core/SystemNameLoader'
+if typeof window is 'undefined'
+  # Just load the normal NPM library on the server side
+  jsondiffpatch = require('jsondiffpatch')
+else
+  # Client needs an extra formatting plugin and CSS
+  jsondiffpatch = require('lib/jsondiffpatch')
+
 ###
   Good-to-knows:
     dataPath: an array of keys that walks you up a JSON object that's being patched
@@ -8,9 +15,12 @@ SystemNameLoader = require './../core/SystemNameLoader'
 ###
 
 module.exports.expandDelta = (delta, left, schema) ->
-  flattenedDeltas = flattenDelta(delta)
-  (expandFlattenedDelta(fd, left, schema) for fd in flattenedDeltas)
+  if left?
+    right = jsondiffpatch.clone(left)
+    jsondiffpatch.patch right, delta
 
+  flattenedDeltas = flattenDelta(delta)
+  (expandFlattenedDelta(fd, left, right, schema) for fd in flattenedDeltas)
 
 module.exports.flattenDelta = flattenDelta = (delta, dataPath=null, deltaPath=null) ->
   # takes a single jsondiffpatch delta and returns an array of objects with
@@ -28,13 +38,34 @@ module.exports.flattenDelta = flattenDelta = (delta, dataPath=null, deltaPath=nu
       childDelta, dataPath.concat([dataIndex]), deltaPath.concat([deltaIndex]))
   results
 
-
-expandFlattenedDelta = (delta, left, schema) ->
+expandFlattenedDelta = (delta, left, right, schema) ->
   # takes a single flattened delta and converts into an object that can be
   # easily formatted into something human readable.
 
   delta.action = '???'
   o = delta.o # the raw jsondiffpatch delta
+
+  humanPath = []
+  parentLeft = left
+  parentRight = right
+  parentSchema = schema
+  for key, i in delta.dataPath
+    # TODO: Better schema/json walking
+    childSchema = parentSchema?.items or parentSchema?.properties?[key] or {}
+    childLeft = parentLeft?[key]
+    childRight = parentRight?[key]
+    humanKey = null
+    humanKey ?= childRight.name or childRight.id if childRight
+    humanKey ?= SystemNameLoader.getName(childRight?.original)
+    humanKey ?= "#{childSchema.title}" if childSchema.title
+    humanKey ?= _.string.titleize key
+    humanPath.push humanKey
+    parentLeft = childLeft
+    parentRight = childRight
+    parentSchema = childSchema
+
+  if not childLeft and childRight
+    childLeft = jsondiffpatch.patch(childRight, jsondiffpatch.reverse(o))
 
   if _.isArray(o) and o.length is 1
     delta.action = 'added'
@@ -59,38 +90,24 @@ expandFlattenedDelta = (delta, left, schema) ->
     delta.action = 'moved-index'
     delta.destinationIndex = o[1]
     delta.originalIndex = delta.dataPath[delta.dataPath.length-1]
+    delta.hash = objectHash childRight
 
   if _.isArray(o) and o.length is 3 and o[1] is 0 and o[2] is 2
     delta.action = 'text-diff'
     delta.unidiff = o[0]
 
-  humanPath = []
-  parentLeft = left
-  parentSchema = schema
-  for key, i in delta.dataPath
-    # TODO: Better schema/json walking
-    childSchema = parentSchema?.items or parentSchema?.properties?[key] or {}
-    childLeft = parentLeft?[key]
-    humanKey = null
-    childData = if i is delta.dataPath.length-1 and delta.action is 'added' then o[0] else childLeft
-    humanKey ?= childData.name or childData.id if childData
-    humanKey ?= SystemNameLoader.getName(childData?.original)
-    humanKey ?= "#{childSchema.title}" if childSchema.title
-    humanKey ?= _.string.titleize key
-    humanPath.push humanKey
-    parentLeft = childLeft
-    parentSchema = childSchema
-
   delta.humanPath = humanPath.join(' :: ')
   delta.schema = childSchema
   delta.left = childLeft
-  delta.right = jsondiffpatch.patch childLeft, delta.o unless delta.action is 'moved-index'
+  delta.right = childRight
 
   delta
 
+objectHash = (obj) -> if obj? then (obj.name or obj.id or obj._id or JSON.stringify(_.keys(obj).sort())) else 'null'
+
+
 module.exports.makeJSONDiffer = ->
-  hasher = (obj) -> if obj? then obj.name or obj.id or obj._id or JSON.stringify(_.keys(obj)) else 'null'
-  jsondiffpatch.create({objectHash: hasher})
+  jsondiffpatch.create({objectHash})
 
 module.exports.getConflicts = (headDeltas, pendingDeltas) ->
   # headDeltas and pendingDeltas should be lists of deltas returned by expandDelta
@@ -178,4 +195,5 @@ prunePath = (delta, path) ->
 
 module.exports.DOC_SKIP_PATHS = [
   '_id','version', 'commitMessage', 'parent', 'created',
-  'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers'] 
+  'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers', 'levelsUpdated'
+]

@@ -6,7 +6,7 @@ nav.navbar.navbar-default(role='navigation')
     li
       a(href="#system-config-schema" data-toggle="tab" data-i18n="editor.level_component_config_schema")#system-config-schema-tab Config Schema
     li
-      a(href="#system-settings" data-toggle="tab" data-i18n="editor.level_component_settings")#system-settings-tab Settings
+      a(href="#system-settings" data-toggle="tab" data-i18n="play.settings")#system-settings-tab Settings
     li
       a(href="#system-patches" data-toggle="tab" data-i18n="resources.patches")#system-patches-tab Patches
 
@@ -37,8 +37,8 @@ nav.navbar.navbar-default(role='navigation')
           a(data-i18n="general.version_history") Version History
 
   .navbar-header
-    span.navbar-brand= editTitle
-  
+    span.navbar-brand= view.levelSystem.get('name')
+
 .tab-content
   .tab-pane.active#system-code
     #system-code-editor

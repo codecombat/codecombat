@@ -1,3 +1,4 @@
+require('app/styles/editor/article/edit.sass')
 RootView = require 'views/core/RootView'
 VersionHistoryView = require './ArticleVersionsModal'
 template = require 'templates/editor/article/edit'
@@ -5,7 +6,10 @@ Article = require 'models/Article'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 require 'views/modal/RevertModal'
-require 'vendor/treema'
+require 'lib/setupTreema'
+RevertModal = require 'views/modal/RevertModal'
+
+require 'lib/game-libraries'
 
 module.exports = class ArticleEditView extends RootView
   id: 'editor-article-edit-view'
@@ -15,15 +19,13 @@ module.exports = class ArticleEditView extends RootView
     'click #preview-button': 'openPreview'
     'click #history-button': 'showVersionHistory'
     'click #save-button': 'openSaveModal'
-
-  subscriptions:
-    'editor:save-new-version': 'saveNewArticle'
+    'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
 
   constructor: (options, @articleID) ->
     super options
-    @article = new Article(_id: @articleID)
+    @article = new Article({_id: @articleID})
     @article.saveBackups = true
-    @supermodel.loadModel @article, 'article'
+    @supermodel.loadModel @article
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->
@@ -61,12 +63,6 @@ module.exports = class ArticleEditView extends RootView
         clearInterval(id)
     id = setInterval(onLoadHandler, 100)
 
-  getRenderData: (context={}) ->
-    context = super(context)
-    context.article = @article
-    context.authorized = not me.get('anonymous')
-    context
-
   afterRender: ->
     super()
     return unless @supermodel.finished()
@@ -82,16 +78,22 @@ module.exports = class ArticleEditView extends RootView
     return false
 
   openSaveModal: ->
-    @openModalView(new SaveVersionModal({model: @article}))
+    modal = new SaveVersionModal({model: @article, noNewMajorVersions: true})
+    @openModalView(modal)
+    @listenToOnce modal, 'save-new-version', @saveNewArticle
+    @listenToOnce modal, 'hidden', -> @stopListening(modal)
+    
+  openRevertModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RevertModal()
 
   saveNewArticle: (e) ->
     @treema.endExistingEdits()
     for key, value of @treema.data
       @article.set(key, value)
 
-    newArticle = if e.major then @article.cloneNewMajorVersion() else @article.cloneNewMinorVersion()
-    newArticle.set('commitMessage', e.commitMessage)
-    res = newArticle.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
+    @article.set('commitMessage', e.commitMessage)
+    res = @article.saveNewMinorVersion()
     return unless res
     modal = @$el.find('#save-version-modal')
     @enableModalInProgress(modal)
@@ -102,7 +104,7 @@ module.exports = class ArticleEditView extends RootView
     res.success =>
       @article.clearBackup()
       modal.modal('hide')
-      url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
+      url = "/editor/article/#{@article.get('slug') or @article.id}"
       document.location.href = url
 
   showVersionHistory: (e) ->

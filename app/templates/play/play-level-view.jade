@@ -1,0 +1,104 @@
+if view.showAds()
+  // TODO: loading this multiple times yields script error:
+  // Uncaught TagError: adsbygoogle.push() error: All ins elements in the DOM with class=adsbygoogle already have ads in them.
+  .ad-container
+    script(async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+    ins.adsbygoogle(style="display:inline-block;width:728px;height:90px", data-ad-client="ca-pub-6640930638193614", data-ad-slot="5527096883")
+    script.
+      (adsbygoogle = window.adsbygoogle || []).push({});
+
+include game-dev-goals.jade
+
+.game-container
+  #level-loading-view
+
+  .level-content
+    #control-bar-view
+
+    #fullscreen-editor-background-screen(title="Click to minimize the code editor")
+
+    #code-area
+      #code-area-gradient.gradient
+      #tome-view
+
+    #spell-palette-view
+
+    #problem-alert-view
+    #game-area
+
+      #canvas-wrapper
+        canvas(width=924, height=589)#webgl-surface
+        canvas(width=924, height=589)#normal-surface
+
+        #web-surface-view
+        #ascii-surface
+        #canvas-left-gradient.gradient
+        #canvas-top-gradient.gradient
+        #goals-view
+
+      #level-flags-view
+
+      #gold-view
+
+      #game-dev-track-view
+
+      #level-chat-view
+
+      #multiplayer-status-view
+
+      #duel-stats-view
+
+      #playback-view
+
+      #thang-hud
+
+      #level-dialogue-view
+
+      button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
+
+    #surface-context-menu-view
+
+    if features.codePlay
+      a(href=document.location.protocol+"//lenovogamestate.com/pages/products/")
+        - var url = "/images/common/codeplay/NA_InLevelPage_Y700_1132X283_ingameProduct.png"
+        if me.isFromUk()
+          - url = "/images/common/codeplay/UK_InLevelPage_Y700_1132X283_ingameProduct.png"
+        if me.setToGerman()
+          - url = "/images/common/codeplay/DE_InLevelPage_Y700_1132X283_DE.png"
+        if me.setToSpanish()
+          - url = "/images/common/codeplay/MX_InLevelPage_Y700_1132X283_MX.png"
+        img#codeplay-product-banner(src=url)
+
+    button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
+      if view.level && view.level.isType('game-dev')
+        span(data-i18n="play_level.edit_level")
+      else
+        span(data-i18n="play_level.skip")
+
+    #cinematic-code-display
+      for i in [0, 1, 2, 3, 4, 5, 6]
+        div(class="code-line code-line-" + i)
+          code.line-number
+          code.indentation
+          code.code-text
+
+    #how-to-play-game-dev-panel.panel.panel-default.hide.style-flat
+      .panel-heading
+        h3.panel-title
+          span(data-i18n="play_level.directions")
+          | :
+      if view.studentGoals && view.studentGoals.length
+        .panel-body
+          +game-dev-goals(view.studentGoals)
+      else
+        .panel-body!= view.howToPlayText
+
+    .hints-view.hide
+
+  #level-footer-shadow
+  #level-footer-background
+
+  if !me.get('anonymous') && !me.isStudent() && !features.codePlay
+    #play-footer(class=me.isPremium() ? "premium" : "")
+      p(class='footer-link-text').picoctf-hide
+        a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact")

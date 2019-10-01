@@ -1,3 +1,6 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
 #ladder-play-modal
   #noob-view p
     font-size: 30px
@@ -18,14 +21,12 @@
     background: white
     border-radius: 8px
     position: relative
-    -webkit-transition: opacity 0.3s ease-in-out
-    -moz-transition: opacity 0.3s ease-in-out
-    -ms-transition: opacity 0.3s ease-in-out
-    -o-transition: opacity 0.3s ease-in-out
-    transition: opacity 0.3s ease-in-out
+    @include transition(opacity 0.3s ease-in-out, margin 0.1s linear, box-shadow 0.1s linear)
     
     .only-one
       opacity: 0
+
+    box-shadow: 2px 2px 4px black
 
   #normal-view:hover
     .play-option
@@ -33,6 +34,10 @@
     
     .play-option:hover
       opacity: 1
+      box-shadow: 4px 4px 6px black
+      margin-left: -2px
+      margin-top: -2px
+      margin-bottom: 17px
       .only-one
         opacity: 1
     

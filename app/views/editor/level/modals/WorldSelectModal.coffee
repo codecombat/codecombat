@@ -1,3 +1,4 @@
+require('app/styles/editor/level/modal/world-select-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/world-select-modal'
 Surface = require 'lib/surface/Surface'

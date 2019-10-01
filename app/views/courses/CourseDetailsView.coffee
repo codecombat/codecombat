@@ -1,308 +1,156 @@
-Campaign = require 'models/Campaign'
-CocoCollection = require 'collections/CocoCollection'
+require('app/styles/courses/course-details.sass')
 Course = require 'models/Course'
+Courses = require 'collections/Courses'
+LevelSessions = require 'collections/LevelSessions'
 CourseInstance = require 'models/CourseInstance'
-LevelSession = require 'models/LevelSession'
+CourseInstances = require 'collections/CourseInstances'
+Classroom = require 'models/Classroom'
+Classrooms = require 'collections/Classrooms'
+Levels = require 'collections/Levels'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/course-details'
 User = require 'models/User'
-utils = require 'core/utils'
-Prepaid = require 'models/Prepaid'
+storage = require 'core/storage'
 
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
   template: template
+  memberSort: 'nameAsc'
 
   events:
-    'change .progress-expand-checkbox': 'onCheckExpandedProgress'
     'click .btn-play-level': 'onClickPlayLevel'
-    'click .btn-save-settings': 'onClickSaveSettings'
     'click .btn-select-instance': 'onClickSelectInstance'
-    'click .progress-member-header': 'onClickMemberHeader'
-    'click .progress-header': 'onClickProgressHeader'
-    'click .progress-level-cell': 'onClickProgressLevelCell'
-    'mouseenter .progress-level-cell': 'onMouseEnterPoint'
-    'mouseleave .progress-level-cell': 'onMouseLeavePoint'
-    'click #invite-btn': 'onClickInviteButton'
+    'submit #school-form': 'onSubmitSchoolForm'
 
   constructor: (options, @courseID, @courseInstanceID) ->
     super options
-    @courseID ?= options.courseID
-    @courseInstanceID ?= options.courseInstanceID
-    @adminMode = me.isAdmin()
-    @memberSort = 'nameAsc'
-    @course = @supermodel.getModel(Course, @courseID) or new Course _id: @courseID
-    @listenTo @course, 'sync', @onCourseSync
-    @prepaid = new Prepaid()
-    if @course.loaded
-      @onCourseSync()
-    else
-      @supermodel.loadModel @course, 'course'
+    @courses = new Courses()
+    @course = new Course()
+    @levelSessions = new LevelSessions()
+    @courseInstance = new CourseInstance({_id: @courseInstanceID})
+    @owner = new User()
+    @classroom = new Classroom()
+    @levels = new Levels()
+    @courseInstances = new CourseInstances()
 
-  getRenderData: ->
-    context = super()
-    context.adminMode = @adminMode ? false
-    context.campaign = @campaign
-    context.conceptsCompleted = @conceptsCompleted ? {}
-    context.course = @course if @course?.loaded
-    context.courseInstance = @courseInstance if @courseInstance?.loaded
-    context.courseInstances = @courseInstances?.models ? []
-    context.instanceStats = @instanceStats
-    context.levelConceptMap = @levelConceptMap ? {}
-    context.memberSort = @memberSort
-    context.memberStats = @memberStats
-    context.memberUserMap = @memberUserMap ? {}
-    context.noCourseInstance = @noCourseInstance
-    context.noCourseInstanceSelected = @noCourseInstanceSelected
-    context.pricePerSeat = @course.get('pricePerSeat')
-    context.showExpandedProgress = @showExpandedProgress
-    context.sortedMembers = @sortedMembers ? []
-    context.userConceptStateMap = @userConceptStateMap ? {}
-    context.userLevelStateMap = @userLevelStateMap ? {}
-    context.document = document
-    context
+    @supermodel.trackRequest(@courses.fetch().then(=>
+      @course = @courses.get(@courseID)
+    ))
+    sessionsLoaded = @supermodel.trackRequest(@levelSessions.fetchForCourseInstance(@courseInstanceID, {cache: false}))
 
-  onCourseSync: ->
-    # console.log 'onCourseSync'
-    if me.isAnonymous()
-      @noCourseInstance = true
-      @render?()
-      return
-    return if @campaign?
-    campaignID = @course.get('campaignID')
-    @campaign = @supermodel.getModel(Campaign, campaignID) or new Campaign _id: campaignID
-    @listenTo @campaign, 'sync', @onCampaignSync
-    if @campaign.loaded
-      @onCampaignSync()
-    else
-      @supermodel.loadModel @campaign, 'campaign'
-    @render?()
+    @supermodel.trackRequest(@courseInstance.fetch().then(=>
+      return if @destroyed
+      @owner = new User({_id: @courseInstance.get('ownerID')})
+      @supermodel.trackRequest(@owner.fetch())
 
-  onCampaignSync: ->
-    # console.log 'onCampaignSync'
-    if @courseInstanceID
-      @loadCourseInstance(@courseInstanceID)
-    else if !me.isAnonymous()
-      @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
-      @listenToOnce @courseInstances, 'sync', @onCourseInstancesSync
-      @supermodel.loadCollection(@courseInstances, 'course_instances')
+      classroomID = @courseInstance.get('classroomID')
+      @classroom = new Classroom({ _id: classroomID })
+      @supermodel.trackRequest(@classroom.fetch())
+
+      levelsLoaded = @supermodel.trackRequest(@levels.fetchForClassroomAndCourse(classroomID, @courseID, {
+        data: { project: 'concepts,practice,primerLanguage,type,slug,name,original,description,shareable,i18n' }
+      }))
+
+      @supermodel.trackRequest($.when(levelsLoaded, sessionsLoaded).then(=>
+        @buildSessionStats()
+        return if @destroyed
+        if @memberStats[me.id]?.totalLevelsCompleted >= @levels.size() - 1  # Don't need to complete arena
+          # need to figure out the next course instance
+          @courseComplete = true
+          @courseInstances.comparator = 'courseID'
+          # TODO: make this logic use locked course content to figure out the next course, then fetch the
+          # course instance for that
+          @supermodel.trackRequest(@courseInstances.fetchForClassroom(classroomID).then(=>
+            @nextCourseInstance = _.find @courseInstances.models, (ci) => ci.get('courseID') > @courseID
+            if @nextCourseInstance
+              nextCourseID = @nextCourseInstance.get('courseID')
+              @nextCourse = @courses.get(nextCourseID)
+        ))
+        @promptForSchool = @courseComplete and not me.isAnonymous() and not me.get('schoolName') and not storage.load('no-school')
+      ))
+    ))
+
+  initialize: (options) ->
+    window.tracker?.trackEvent 'Students Class Course Loaded', category: 'Students', ['Mixpanel']
+    super(options)
+
+  buildSessionStats: ->
+    return if @destroyed
+
     @levelConceptMap = {}
-    for levelID, level of @campaign.get('levels')
-      @levelConceptMap[levelID] ?= {}
-      for concept in level.concepts
-        @levelConceptMap[levelID][concept] = true
-    @render?()
+    for level in @levels.models
+      @levelConceptMap[level.get('original')] ?= {}
+      for concept in level.get('concepts') or []
+        @levelConceptMap[level.get('original')][concept] = true
+      if level.isType('course-ladder')
+        @arenaLevel = level
 
-  loadCourseInstance: (courseInstanceID) ->
-    # console.log 'loadCourseInstance'
-    return if @courseInstance?
-    @courseInstanceID = courseInstanceID
-    @courseInstance = @supermodel.getModel(CourseInstance, @courseInstanceID) or new CourseInstance _id: @courseInstanceID
-    @listenTo @courseInstance, 'sync', @onCourseInstanceSync
-    if @courseInstance.loaded
-      @onCourseInstanceSync()
-    else
-      @courseInstance = @supermodel.loadModel(@courseInstance, 'course_instance').model
-
-  onCourseInstancesSync: ->
-    # console.log 'onCourseInstancesSync'
-    if @courseInstances.models.length is 1
-      @loadCourseInstance(@courseInstances.models[0].id)
-    else
-      if @courseInstances.models.length is 0
-        @noCourseInstance = true
-      else
-        @noCourseInstanceSelected = true
-      @render?()
-
-  onCourseInstanceSync: ->
-    # console.log 'onCourseInstanceSync'
-    @adminMode = true if @courseInstance.get('ownerID') is me.id
-    @levelSessions = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/level_sessions", model: LevelSession, comparator:'_id' })
-    @listenToOnce @levelSessions, 'sync', @onLevelSessionsSync
-    @supermodel.loadCollection @levelSessions, 'level_sessions', cache: false
-    @members = new CocoCollection([], { url: "/db/course_instance/#{@courseInstance.id}/members", model: User, comparator: 'nameLower' })
-    @listenToOnce @members, 'sync', @onMembersSync
-    @supermodel.loadCollection @members, 'members', cache: false
-    if @adminMode and prepaidID = @courseInstance.get('prepaidID')
-      @prepaid = @supermodel.getModel(Prepaid, prepaidID) or new Prepaid _id: prepaidID
-      @listenTo @prepaid, 'sync', @onPrepaidSync
-      if @prepaid.loaded
-        @onPrepaidSync()
-      else
-        @supermodel.loadModel @prepaid, 'prepaid'
-    @render?()
-
-  onPrepaidSync: ->
-    @render?()
-
-  onLevelSessionsSync: ->
     # console.log 'onLevelSessionsSync'
-    @instanceStats = averageLevelsCompleted: 0, furthestLevelCompleted: '', totalLevelsCompleted: 0, totalPlayTime: 0
     @memberStats = {}
     @userConceptStateMap = {}
-    @userLevelSessionMap = {}
     @userLevelStateMap = {}
-    levelStateMap = {}
     for levelSession in @levelSessions.models
+      continue if levelSession.skipMe   # Don't track second arena session as another completed level
       userID = levelSession.get('creator')
       levelID = levelSession.get('level').original
       state = if levelSession.get('state')?.complete then 'complete' else 'started'
-      levelStateMap[levelID] = state
-
-      @instanceStats.totalLevelsCompleted++ if state is 'complete'
-      @instanceStats.totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
+      playtime = parseInt(levelSession.get('playtime') ? 0, 10)
+      do (userID, levelID) =>
+        secondSessionForLevel = _.find(@levelSessions.models, ((otherSession) ->
+          otherSession.get('creator') is userID and otherSession.get('level').original is levelID and otherSession.id isnt levelSession.id
+        ))
+        if secondSessionForLevel
+          state = 'complete' if secondSessionForLevel.get('state')?.complete
+          playtime = playtime + parseInt(secondSessionForLevel.get('playtime') ? 0, 10)
+          secondSessionForLevel.skipMe = true
 
       @memberStats[userID] ?= totalLevelsCompleted: 0, totalPlayTime: 0
       @memberStats[userID].totalLevelsCompleted++ if state is 'complete'
-      @memberStats[userID].totalPlayTime += parseInt(levelSession.get('playtime') ? 0)
+      @memberStats[userID].totalPlayTime += playtime
 
       @userConceptStateMap[userID] ?= {}
       for concept of @levelConceptMap[levelID]
         @userConceptStateMap[userID][concept] = state
 
-      @userLevelSessionMap[userID] ?= {}
-      @userLevelSessionMap[userID][levelID] = levelSession
-
       @userLevelStateMap[userID] ?= {}
       @userLevelStateMap[userID][levelID] = state
-
-    if @courseInstance.get('members').length > 0
-      @instanceStats.averageLevelsCompleted = @instanceStats.totalLevelsCompleted / @courseInstance.get('members').length
-      @instanceStats.averageLevelPlaytime = @instanceStats.totalPlayTime / @courseInstance.get('members').length
-    for levelID, level of @campaign.get('levels')
-      @instanceStats.furthestLevelCompleted = level.name if levelStateMap[levelID] is 'complete'
 
     @conceptsCompleted = {}
     for userID, conceptStateMap of @userConceptStateMap
       for concept, state of conceptStateMap
         @conceptsCompleted[concept] ?= 0
         @conceptsCompleted[concept]++
-    @render?()
-
-  onMembersSync: ->
-    # console.log 'onMembersSync'
-    @memberUserMap = {}
-    for user in @members.models
-      @memberUserMap[user.id] = user
-    @sortMembers()
-    @render?()
-
-  onCheckExpandedProgress: (e) ->
-    @showExpandedProgress = $('.progress-expand-checkbox').prop('checked')
-    # TODO: why does render reset the checkbox to be unchecked?
-    @render?()
-    $('.progress-expand-checkbox').attr('checked', @showExpandedProgress)
-
-  onClickMemberHeader: (e) ->
-    @memberSort = if @memberSort is 'nameAsc' then 'nameDesc' else 'nameAsc'
-    @sortMembers()
-    @render?()
-
-  onClickProgressHeader: (e) ->
-    @memberSort = if @memberSort is 'progressAsc' then 'progressDesc' else 'progressAsc'
-    @sortMembers()
-    @render?()
 
   onClickPlayLevel: (e) ->
-    levelSlug = $(e.target).data('level-slug')
-    Backbone.Mediator.publish 'router:navigate', {
-      route: "/play/level/#{levelSlug}"
-      viewClass: 'views/play/level/PlayLevelView'
-      viewArgs: [{courseID: @courseID, courseInstanceID: @courseInstanceID}, levelSlug]
-    }
+    levelSlug = $(e.target).closest('.btn-play-level').data('level-slug')
+    levelID = $(e.target).closest('.btn-play-level').data('level-id')
+    level = @levels.findWhere({original: levelID})
+    window.tracker?.trackEvent 'Students Class Course Play Level', category: 'Students', courseID: @courseID, courseInstanceID: @courseInstanceID, levelSlug: levelSlug, ['Mixpanel']
+    if level.isType('course-ladder')
+      viewClass = 'views/ladder/LadderView'
+      viewArgs = [{supermodel: @supermodel}, levelSlug]
+      route = '/play/ladder/' + levelSlug
+      route += '/course/' + @courseInstance.id
+      viewArgs = viewArgs.concat ['course', @courseInstance.id]
+    else
+      route = @getLevelURL levelSlug
+      route += "&codeLanguage=" + level.get('primerLanguage') if level.get('primerLanguage')
+      viewClass = 'views/play/level/PlayLevelView'
+      viewArgs = [{courseID: @courseID, courseInstanceID: @courseInstanceID, supermodel: @supermodel}, levelSlug]
+    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: viewClass, viewArgs: viewArgs
 
-  onClickSaveSettings:  (e) ->
-    return unless @courseInstance
-    if name = $('.settings-name-input').val()
-      @courseInstance.set('name', name)
-    description = $('.settings-description-input').val()
-    console.log 'onClickSaveSettings', description
-    @courseInstance.set('description', description)
-    @courseInstance.patch()
-    $('#settingsModal').modal('hide')
+  getLevelURL: (levelSlug) ->
+    "/play/level/#{levelSlug}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
 
-  onClickSelectInstance: (e) ->
-    courseInstanceID = $('.select-instance').val()
-    @noCourseInstanceSelected = false
-    @loadCourseInstance(courseInstanceID)
+  getOwnerName: ->
+    return if @owner.isNew()
+    if @owner.get('firstName') and @owner.get('lastName')
+      return "#{@owner.get('firstName')} #{@owner.get('lastName')}"
+    @owner.get('name') or @owner.get('email')
 
-  onClickProgressLevelCell: (e) ->
-    return unless @adminMode
-    levelID = $(e.currentTarget).data('level-id')
-    levelSlug = $(e.currentTarget).data('level-slug')
-    userID = $(e.currentTarget).data('user-id')
-    return unless levelID and levelSlug and userID
-    route = "/play/level/#{levelSlug}"
-    if @userLevelSessionMap[userID]?[levelID]
-      route += "?session=#{@userLevelSessionMap[userID][levelID].id}&observing=true"
-    Backbone.Mediator.publish 'router:navigate', {
-      route: route
-      viewClass: 'views/play/level/PlayLevelView'
-      viewArgs: [{}, levelSlug]
-    }
-
-  onClickInviteButton: (e) ->
-    emails = @$('#invite-emails-textarea').val()
-    emails = emails.split('\n')
-    emails = _.filter((_.string.trim(email) for email in emails))
-    if not emails.length
-      return
-    url = @courseInstance.url() + '/invite_students'
-    @$('#invite-btn, #invite-emails-textarea').addClass('hide')
-    @$('#invite-emails-sending-alert').removeClass('hide')
-
-    $.ajax({
-      url: url
-      data: {emails: emails}
-      method: 'POST'
-      context: @
-      success: ->
-        @$('#invite-emails-sending-alert').addClass('hide')
-        @$('#invite-emails-success-alert').removeClass('hide')
-    })
-
-  onMouseEnterPoint: (e) ->
-    $('.progress-popup-container').hide()
-    container = $(e.target).find('.progress-popup-container').show()
-    margin = 20
-    offset = $(e.target).offset()
-    scrollTop = $('#page-container').scrollTop()
-    height = container.outerHeight()
-    container.css('left', offset.left + e.offsetX)
-    container.css('top', offset.top + scrollTop - height - margin)
-
-  onMouseLeavePoint: (e) ->
-    $(e.target).find('.progress-popup-container').hide()
-
-  sortMembers: ->
-    # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
-    return unless @campaign and @courseInstance and @memberUserMap
-    @sortedMembers = @courseInstance.get('members')
-    switch @memberSort
-      when "nameDesc"
-        @sortedMembers.sort (a, b) =>
-          aName = @memberUserMap[a]?.get('name') ? 'Anoner'
-          bName = @memberUserMap[b]?.get('name') ? 'Anoner'
-          bName.localeCompare(aName)
-      when "progressAsc"
-        @sortedMembers.sort (a, b) =>
-          for levelID, level of @campaign.get('levels')
-            if @userLevelStateMap[a]?[levelID] isnt 'complete' and @userLevelStateMap[b]?[levelID] is 'complete'
-              return -1
-            else if @userLevelStateMap[a]?[levelID] is 'complete' and @userLevelStateMap[b]?[levelID] isnt 'complete'
-              return 1
-          0
-      when "progressDesc"
-        @sortedMembers.sort (a, b) =>
-          for levelID, level of @campaign.get('levels')
-            if @userLevelStateMap[a]?[levelID] isnt 'complete' and @userLevelStateMap[b]?[levelID] is 'complete'
-              return 1
-            else if @userLevelStateMap[a]?[levelID] is 'complete' and @userLevelStateMap[b]?[levelID] isnt 'complete'
-              return -1
-          0
-      else
-        @sortedMembers.sort (a, b) =>
-          aName = @memberUserMap[a]?.get('name') ? 'Anoner'
-          bName = @memberUserMap[b]?.get('name') ? 'Anoner'
-          aName.localeCompare(bName)
+  getLastLevelCompleted: ->
+    lastLevelCompleted = null
+    for levelID in @levels.pluck('original')
+      if @userLevelStateMap?[me.id]?[levelID] is 'complete'
+        lastLevelCompleted = levelID
+    return lastLevelCompleted

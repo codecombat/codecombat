@@ -5,6 +5,9 @@ Mark = require './Mark'
 Label = require './Label'
 AudioPlayer = require 'lib/AudioPlayer'
 {me} = require 'core/auth'
+ThangType = require 'models/ThangType'
+utils = require 'core/utils'
+createjs = require 'lib/createjs-parts'
 
 # We'll get rid of this once level's teams actually have colors
 healthColors =
@@ -58,15 +61,17 @@ module.exports = Lank = class Lank extends CocoClass
     'surface:ticked': 'onSurfaceTicked'
     'sprite:move': 'onMove'
 
-  constructor: (@thangType, options) ->
+  constructor: (@thangType, options={}) ->
     super()
     spriteName = @thangType.get('name')
     @isMissile = /(Missile|Arrow|Spear|Bolt)/.test(spriteName) and not /(Tower|Charge)/.test(spriteName)
     @options = _.extend($.extend(true, {}, @options), options)
+    @gameUIState = @options.gameUIState
+    @handleEvents = @options.handleEvents
+    @isCinematicLank = @options.isCinematic or false
     @setThang @options.thang
-    if @thang?
-      options = @thang?.getLankOptions?()
-      @options.colorConfig = options.colorConfig if options and options.colorConfig
+    @setColorConfig()
+
     console.error @toString(), 'has no ThangType!' unless @thangType
 
     # this is a stub, use @setSprite to swap it out for something else later
@@ -82,6 +87,18 @@ module.exports = Lank = class Lank extends CocoClass
     if @thangType.isFullyLoaded() then @onThangTypeLoaded() else @listenToOnce(@thangType, 'sync', @onThangTypeLoaded)
 
   toString: -> "<Lank: #{@thang?.id}>"
+
+  setColorConfig: ->
+    return unless colorConfig = @thang?.getLankOptions?().colorConfig
+    if @thangType.get('original') is ThangType.heroes['code-ninja']
+      unlockedLevels = me.levels()
+      if '5522b98685fca53105544b53' in unlockedLevels  # vital-powers, start of course 5
+        colorConfig.belt = {hue: 0.4, saturation: 0.75, lightness: 0.25}
+      else if '56fc56ac7cd2381f00d758b4' in unlockedLevels  # friend-and-foe, start of course 3
+        colorConfig.belt = {hue: 0.067, saturation: 0.75, lightness: 0.5}
+      else
+        colorConfig.belt = {hue: 0.167, saturation: 0.75, lightness: 0.4}
+    @options.colorConfig = colorConfig
 
   onThangTypeLoaded: ->
     @stillLoading = false
@@ -211,7 +228,7 @@ module.exports = Lank = class Lank extends CocoClass
         console.error "#{@thang.id} couldn't find layer #{layerName}Layer for AOE effect #{key}; using ground layer."
         layer = @options.groundLayer
 
-      unless key in layer.spriteSheet.getAnimations()
+      unless key in layer.spriteSheet.animations
         circle = new createjs.Shape()
         radius = args[2] * Camera.PPM
         if args.length is 4
@@ -336,7 +353,7 @@ module.exports = Lank = class Lank extends CocoClass
 
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-    if @layer?.name is 'Land' or @thang?.spriteName is 'Beam'
+    if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank
       @scaleFactorX = newScaleFactorX
       @scaleFactorY = newScaleFactorY
     else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
@@ -476,9 +493,8 @@ module.exports = Lank = class Lank extends CocoClass
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
-    # Let's try just using the DuelStatsView instead of this.
-    #else if @options.playerName
-    #  @setNameLabel @options.playerName
+    else if @options.playerName
+      @setNameLabel @options.playerName
 
   configureMouse: ->
     @sprite.cursor = 'pointer' if @thang?.isSelectable
@@ -497,13 +513,14 @@ module.exports = Lank = class Lank extends CocoClass
     newEvent = sprite: @, thang: @thang, originalEvent: e, canvas: p.canvas
     @trigger ourEventName, newEvent
     Backbone.Mediator.publish ourEventName, newEvent
+    @gameUIState.trigger(ourEventName, newEvent)
 
   addHealthBar: ->
     return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
     team = @thang?.team or 'neutral'
     key = "#{team}-health-bar"
 
-    unless key in @options.floatingLayer.spriteSheet.getAnimations()
+    unless key in @options.floatingLayer.spriteSheet.animations
       healthColor = healthColors[team]
       bar = createProgressBar(healthColor)
       @options.floatingLayer.addCustomGraphic(key, bar, bar.bounds)
@@ -590,6 +607,7 @@ module.exports = Lank = class Lank extends CocoClass
   updateEffectMarks: ->
     return if _.isEqual @thang.effectNames, @previousEffectNames
     return if @stopped
+    @thang.effectNames ?= []
     for effect in @thang.effectNames
       mark = @addMark effect, @options.floatingLayer, effect
       mark.statusEffect = true
@@ -639,13 +657,17 @@ module.exports = Lank = class Lank extends CocoClass
       d.toggle debug
       d.updatePosition()
 
-  addLabel: (name, style) ->
-    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style
+  addLabel: (name, style, labelOptions={}) ->
+    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style, labelOptions: labelOptions
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->
     @marks[name] ?= new Mark name: name, lank: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
     @marks[name]
+
+  removeMark: (name) ->
+    @marks[name].destroy()
+    delete @marks[name]
 
   notifySpeechUpdated: (e) ->
     e = _.clone(e)
@@ -683,12 +705,24 @@ module.exports = Lank = class Lank extends CocoClass
 
   updateLabels: ->
     return unless @thang
-    blurb = if @thang.health <= 0 then null else @thang.sayMessage  # Dead men tell no tales
+    blurb = if @thang.health? and @thang.health <= 0 then null else @thang.sayMessage  # Dead men tell no tales, however non-alive can
     blurb = null if blurb in ['For Thoktar!', 'Bones!', 'Behead!', 'Destroy!', 'Die, humans!']  # Let's just hear, not see, these ones.
-    labelStyle = if /Hero Placeholder/.test(@thang.id) then Label.STYLE_DIALOGUE else Label.STYLE_SAY
-    @addLabel 'say', labelStyle if blurb
+    if /Hero Placeholder/.test(@thang.id)
+      labelStyle = Label.STYLE_DIALOGUE
+    else
+      labelStyle = @thang.labelStyle ? Label.STYLE_SAY
+    if blurb
+      @addLabel 'say', labelStyle, @thang.sayLabelOptions
     if @labels.say?.setText blurb
       @notifySpeechUpdated blurb: blurb
+
+    if @thang?.variableNames?
+      ls = @addLabel 'variableNames', Label.STYLE_VAR
+      ls.setText @thang?.variableNames
+    else if @labels.variableNames
+      @labels.variableNames.destroy()
+      delete @labels.variableNames
+
     label.update() for name, label of @labels
 
   updateGold: ->
@@ -704,12 +738,6 @@ module.exports = Lank = class Lank extends CocoClass
     Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned ? 0)}
 
   shouldMuteMessage: (m) ->
-    if me.getAnnouncesActionAudioGroup() in ['no-audio', 'just-take-damage']
-      return true if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
-      return true if /^attack /.test m
-      return true if /^Repeating loop/.test m
-      return true if /^findNearestEnemy/.test m
-
     return false if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
     @previouslySaidMessages ?= {}
     t0 = @previouslySaidMessages[m] ? 0
@@ -720,10 +748,7 @@ module.exports = Lank = class Lank extends CocoClass
 
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []
-      if event is 'take-damage' and me.getAnnouncesActionAudioGroup() in ['no-audio', 'without-take-damage']
-        null  # Skip playing it
-      else
-        @playSound event, withDelay, volume
+      @playSound event, withDelay, volume
       if event is 'pay-bounty-gold' and @thang.bountyGold > 25 and @thang.team isnt me.team
         AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
@@ -736,11 +761,12 @@ module.exports = Lank = class Lank extends CocoClass
 
   playSound: (sound, withDelay=true, volume=1.0) ->
     if _.isString sound
-      sound = @thangType.get('soundTriggers')?[sound]
+      soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
+      sound = soundTriggers?[sound]
     if _.isArray sound
       sound = sound[Math.floor Math.random() * sound.length]
     return null unless sound
-    delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
+    delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
     name = AudioPlayer.nameForSoundReference sound
     AudioPlayer.preloadSoundReference sound
     instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
