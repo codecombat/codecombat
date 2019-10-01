@@ -2,6 +2,7 @@ Backbone.Mediator.setValidationEnabled false
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
+{ log } = require 'ozaria/site/common/logger'
 
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
@@ -59,6 +60,7 @@ init = ->
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
   installVueI18n()
+  checkAndLogBrowserCrash()
 
 module.exports.init = init
 
@@ -210,11 +212,25 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
   seen = null if root
   clone
 
+# Check if the crash happened, and log it on datadog. Note that the application should be initialized before this.
+checkAndLogBrowserCrash = ->
+  if window.sessionStorage?.getItem('oz_crashed')
+    log('Browser crashed', {}, 'error')
+    window.sessionStorage?.removeItem('oz_crashed')
+
 window.onbeforeunload = (e) ->
+  window.sessionStorage?.setItem('oz_exit', 'true')
   leavingMessage = _.result(window.currentView, 'onLeaveMessage')
   if leavingMessage
     return leavingMessage
   else
     return
+
+window.onload = () ->
+  if window.sessionStorage
+    # Check if the browser crashed before the current loading in order to log it on datadog
+    if window.sessionStorage.getItem('oz_exit') and window.sessionStorage.getItem('oz_exit') != 'true' and Math.random() < 0.1
+      window.sessionStorage.setItem('oz_crashed', 'true');
+    window.sessionStorage.setItem('oz_exit', 'pending');
 
 $ -> init()
