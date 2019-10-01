@@ -4,21 +4,27 @@ const getMsTime = () => ((window.performance || {}).now() || Date.now())
  * Tries to send a log to our DataDog log service.
  * @param {string} action - logging action
  * @param {object} options - object to include with the logging action
+ * @param {string} status - status of the log, values can be 'debug', 'info', 'warn', 'error'
  */
-export const log = (action, options) => {
+export const log = (action, options = {}, status = 'info') => {
   if (typeof ((window.DD_LOGS || {}).logger || {}).log !== 'function') {
     console.debug('DD_LOGS not available. Log: ', action)
     return
   }
 
-  if (window.application && !window.application.isProduction()) {
-    window.DD_LOGS.logger.setHandler('console')
+  try {
+    if (window.application && !window.application.isProduction()) {
+      window.DD_LOGS.logger.setHandler('console')
+    }
+  
+    window.DD_LOGS.logger.log(
+      action,
+      options,
+      status
+    )
+  } catch (e) {
+    console.warning('Error while sending datadog log', e)
   }
-
-  window.DD_LOGS.logger.log(
-    action,
-    options
-  )
 }
 
 /**
