@@ -550,7 +550,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "回到地圖"
     directions: "目標方向"
     edit_level: "編輯關卡"
 #    keep_learning: "Keep Learning"
@@ -1647,7 +1647,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   teacher:
     assigning_course: "派發課程中"
-#    back_to_top: "Back to Top"
+    back_to_top: "回到頂部"
 #    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
 #    code: "__name__'s Code"
 #    complete_solution: "Complete Solution"
@@ -1973,7 +1973,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
 #    back_to_resource_hub: "Back to Resource Hub"
-#    back_to_course_guides: "Back to Course Guides"
+    back_to_course_guides: "回到課程引導"
 #    print_guide: "Print this guide"
 #    combo: "Combo"
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
