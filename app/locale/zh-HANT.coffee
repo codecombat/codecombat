@@ -1859,7 +1859,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     wd1: "網頁開發 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
 #    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
-    wd1_headlines: "標題以及標題activity"
+    wd1_headlines: "標題以及標題活動"
     wd1_headlines_example: "觀看解答範本"
     wd1_headlines_desc: "為甚麼段落和標題很重要呢? 用這些activity來說明選擇好的標題可以讓網頁更容易閱讀。 這裡有許多正確的使用方式!"
     wd1_html_syntax: "HTML 語法引導"
