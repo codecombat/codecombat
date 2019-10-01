@@ -856,7 +856,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Keep playing to earn more!"
 
-#  subscribe:
+  subscribe:
 #    best_deal: "Best Deal!"
 #    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
@@ -1981,7 +1981,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
 
-#  teacher_ozaria_encouragement_modal:
+  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
 #    sub_title: "You are invited to try the new adventure game from CodeCombat"
     cancel: "Kembali ke CodeCombat"
