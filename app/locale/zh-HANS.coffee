@@ -1262,7 +1262,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   resources:
     sessions: "session"
-    your_sessions: "您的session"
+    your_sessions: "您的会话"
     level: "等级"
     social_network_apis: "社交网络 APIs"
     facebook_status: "Facebook 状态"
