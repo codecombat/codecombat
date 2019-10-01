@@ -1283,7 +1283,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     components: "组件"
     thang: "物品"
     thangs: "物品"
-    level_session: "您的session"
+    level_session: "您的会话"
     opponent_session: "对方session"
     article: "文章"
     user_names: "用户名"
