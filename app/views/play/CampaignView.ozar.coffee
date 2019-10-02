@@ -126,6 +126,8 @@ module.exports = class CampaignView extends RootView
     @levelDifficultyMap = {}
     @levelScoreMap = {}
 
+    @campaignPage = options.campaignPage || 1
+
     if @terrain is "hoc-2018"
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
 
@@ -860,14 +862,12 @@ module.exports = class CampaignView extends RootView
   applyCampaignStyles: ->
     return unless @campaign?.loaded
     if (backgrounds = @campaign.get 'backgroundImage') and backgrounds.length
-      backgrounds = _.sortBy backgrounds, 'width'
-      backgrounds.reverse()
-      rules = []
-      for background, i in backgrounds
-        rule = "#campaign-view .map-background { background-image: url(/file/#{background.image}); }"
-        rule = "@media screen and (max-width: #{background.width}px) { #{rule} }" if i
-        rules.push rule
-      utils.injectCSS rules.join('\n')
+      if backgrounds.filter((b) => b.pageNumber).length == 0
+        background = backgrounds[0]
+      else
+        background = backgrounds.find((b) => b.pageNumber == @campaignPage) || {}
+      rule = "#campaign-view .map-background { background-image: url(/file/#{background.image}); }"
+      utils.injectCSS rule
     if backgroundColor = @campaign.get 'backgroundColor'
       backgroundColorTransparent = @campaign.get 'backgroundColorTransparent'
       @$el.css 'background-color', backgroundColor
@@ -1347,7 +1347,12 @@ module.exports = class CampaignView extends RootView
 
   getLevels: () ->
     return @courseLevelsFake if @courseLevels?
-    @campaign?.get('levels')
+    currentLevels = @campaign?.get('levels')
+    if currentLevels
+      # Show levels without page number / having same page number as in url
+      currentLevelsKeys = Object.keys(currentLevels).filter((l) => !currentLevels[l].pageNumber || currentLevels[l].pageNumber == @campaignPage)
+      return _.pick(currentLevels, currentLevelsKeys)
+    return currentLevels
 
   applyCourseLogicToLevels: (orderedLevels) ->
     nextSlug = @courseStats.levels.next?.get('slug')

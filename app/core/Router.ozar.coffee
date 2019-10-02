@@ -138,7 +138,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
     'editor/thang/:thangID': go('editor/thang/ThangTypeEditView')
-    'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
+    'editor/campaign/:campaignID(/:campaignPage)': go('editor/campaign/CampaignEditorView')
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
     'editor/verifier(/:levelID)': go('editor/verifier/VerifierView')

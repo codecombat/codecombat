@@ -60,6 +60,7 @@ _.extend ClassroomSchema.properties,
         }
       }
       first: {type: 'boolean', description: 'Is it the first level in the campaign' }
+      pageNumber: {type: 'number', title: 'Campaign page number'}
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
