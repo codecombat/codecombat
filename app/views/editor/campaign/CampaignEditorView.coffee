@@ -38,8 +38,9 @@ module.exports = class CampaignEditorView extends RootView
   subscriptions:
     'editor:campaign-analytics-modal-closed' : 'onAnalyticsModalClosed'
 
-  constructor: (options, @campaignHandle) ->
+  constructor: (options, @campaignHandle, @campaignPage) ->
     super(options)
+    @campaignPage = parseInt(@campaignPage) || 1
     @campaign = new Campaign({_id:@campaignHandle})
     @supermodel.loadModel(@campaign)
     @listenToOnce @campaign, 'sync', (model, response, jqXHR) ->
@@ -145,7 +146,7 @@ module.exports = class CampaignEditorView extends RootView
       campaignLevel.rewards = @formatRewards level
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
-      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero' or @campaign.get('isOzaria')
+      campaignLevel.campaign = @campaign.get 'slug'
       # Save campaign index to level if it's a course campaign, since we show linear level order numbers for course levels.
       campaignLevel.campaignIndex = (@levels.models.length - levelIndex - 1) if @campaign.get('type', true) is 'course'
       campaignLevels[levelOriginal] = campaignLevel
@@ -264,7 +265,7 @@ module.exports = class CampaignEditorView extends RootView
     @treema.open()
     @treema.childrenTreemas.levels?.open()
 
-    @campaignView = new CampaignView({editorMode: true, supermodel: @supermodel}, @campaignHandle)
+    @campaignView = new CampaignView({editorMode: true, supermodel: @supermodel, campaignPage: @campaignPage}, @campaignHandle)
     @campaignView.highlightElement = _.noop # make it stop
     @listenTo @campaignView, 'level-moved', @onCampaignLevelMoved
     @listenTo @campaignView, 'adjacent-campaign-moved', @onAdjacentCampaignMoved

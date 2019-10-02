@@ -21,7 +21,8 @@ _.extend CampaignSchema.properties, {
     additionalProperties: false
     properties: {
       image: { type: 'string', format: 'image-file' }
-      width: { type: 'number' }
+      width: { type: 'number' } #- not required for ozaria campaigns
+      pageNumber: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}
     }
   }
   backgroundColor: { type: 'string' }
@@ -96,6 +97,8 @@ _.extend CampaignSchema.properties, {
         }
       }
       first: {type: 'boolean', description: 'Is it the first level in the campaign', default: true }
+
+      pageNumber: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}
 
       #- denormalized properties from Levels are cloned below
     }
