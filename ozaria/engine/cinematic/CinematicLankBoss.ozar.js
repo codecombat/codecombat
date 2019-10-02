@@ -15,7 +15,8 @@ import {
   getTextAnimationLength,
   getSpeakingAnimationAction,
   getSpeaker,
-  getHeroPet
+  getHeroPet,
+  getChangeDefaultIdles
 } from '../../../app/schemas/models/selectors/cinematic'
 import { LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID, PET_AVATAR_THANG_ID } from './constants'
 
@@ -74,6 +75,14 @@ export default class CinematicLankBoss {
     this.camera = camera
     this.loader = loader
     this.lanks = {}
+
+    // Data that should only be mutated by commands at runtime.
+    this.runTimeState = {
+      idleAnimation: {
+        [LEFT_LANK_KEY]: 'idle',
+        [RIGHT_LANK_KEY]: 'idle'
+      }
+    }
   }
 
   get stageBounds () {
@@ -231,10 +240,19 @@ export default class CinematicLankBoss {
       commands.push(new SequentialCommands([
         new Sleep(textLength),
         new SyncFunction(() => {
-          this.playActionOnLank(speaker, 'idle')
+          this.playActionOnLank(speaker, this.runTimeState.idleAnimation[speaker] || 'idle')
         })
       ]))
     }
+
+    getChangeDefaultIdles(dialogNode).forEach(({ character, newIdleAction }) => {
+      if (!character || !newIdleAction) {
+        console.warn(`Can't set new idle action for '${character}' to '${newIdleAction}'`)
+      }
+
+      commands.push(new SyncFunction(() => { this.runTimeState.idleAnimation[character] = newIdleAction }))
+    })
+
     return commands
   }
 
@@ -431,7 +449,8 @@ export default class CinematicLankBoss {
         },
         rotation: RIGHT,
         scaleFactorX: thang.scaleX || 1,
-        scaleFactorY: thang.scaleY || 1
+        scaleFactorY: thang.scaleY || 1,
+        action: this.runTimeState.idleAnimation[key] || 'idle'
       })
     } else if (key === LEFT_LANK_KEY) {
       thang = createThang({
@@ -440,7 +459,8 @@ export default class CinematicLankBoss {
           y: (thang.pos || {}).y || this.stageBounds.bottomRight.y
         },
         scaleFactorX: thang.scaleX || 1,
-        scaleFactorY: thang.scaleY || 1
+        scaleFactorY: thang.scaleY || 1,
+        action: this.runTimeState.idleAnimation[key] || 'idle'
       })
     } else if (key === HERO_PET) {
       // Hack to ensure pet renders off screen
