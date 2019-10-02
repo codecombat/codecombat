@@ -1694,6 +1694,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classes: "Classes"
     certificate_btn_print: "Print"
     certificate_btn_toggle: "Toggle"
+    module_3_6_coming_soon: "Modules 3-6 of Chapter 1 are coming soon!"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
