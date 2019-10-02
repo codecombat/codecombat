@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa Malaysia", translation:
 
-#  new_home:
+  new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
