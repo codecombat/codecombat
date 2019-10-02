@@ -89,6 +89,23 @@ const DialogNode = c.object({
     x: { title: 'x', description: 'The x coordinate.', type: 'number', 'default': 0 },
     y: { title: 'y', description: 'The y coordinate.', type: 'number', 'default': 0 } }),
   programmingLanguageFilter: c.shortString({ enum: ['python', 'javascript'], title: 'Programming Language Filter', description: 'If set, this node is only shown if the user is using the programming language selected.' }),
+  mutators: c.object({
+    title: 'Mutators',
+    description: 'Properties that change cinematic going forward'
+  }, {
+    changeDefaultIdles: c.array({
+      title: 'List of idles to change',
+      description: 'Changes the action that is run for the idle state for provided character'
+    },
+    c.object({
+      title: 'Change Idle Action',
+      description: 'Setting this will update the default idle action for the rest of the cinematic. The default value is \'idle\'.'
+    }, {
+      character: c.shortString({ title: 'Character', description: 'Which character has default idle action updated', enum: ['left', 'right'] }),
+      newIdleAction: c.shortString({ title: 'New Idle Action' })
+    })
+    )
+  }),
   triggers: c.object({
     title: 'Triggers',
     description: 'Events that can occur during the dialogue.'
@@ -147,7 +164,7 @@ const CinematicSchema = c.object({
     title: 'Shots',
     description: 'Ordered list of shots that make up a cinematic'
   }, Shot),
-  displayName: c.shortString({title: 'Display Name'})
+  displayName: c.shortString({ title: 'Display Name' })
 })
 
 c.extendBasicProperties(CinematicSchema, 'cinematic')

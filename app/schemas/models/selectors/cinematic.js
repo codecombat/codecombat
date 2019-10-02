@@ -553,3 +553,9 @@ export const getWaitUserInput = dialogNode => {
  * @returns {string|undefined}
  */
 export const getLanguageFilter = dialogNode => (dialogNode || {}).programmingLanguageFilter
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {Array<Object>} Returns list of default idle action change objects or an empty array.
+ */
+export const getChangeDefaultIdles = dialogNode => ((dialogNode || {}).mutators || {}).changeDefaultIdles || []
