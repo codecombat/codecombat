@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"

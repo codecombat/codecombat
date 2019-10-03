@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     combo_explanation: "Ученици прелазе Комбо нивое изазова користећи бар један наведен концепт. Прегледај код ученика тако што ћеш кликнути на тачку напретка."
     concept: "Концепт"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
