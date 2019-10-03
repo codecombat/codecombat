@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     combo_explanation: "Els estudiants passen els nivells de desafiament combinat utilitzant com a mínim un concepte enumerat. Reviseu el codi de l'alumne fent clic al punt de progrés."
     concept: "Concepte"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
