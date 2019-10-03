@@ -862,8 +862,8 @@ module.exports = class CampaignView extends RootView
   applyCampaignStyles: ->
     return unless @campaign?.loaded
     if (backgrounds = @campaign.get 'backgroundImage') and backgrounds.length
-      if backgrounds.filter((b) => b.pageNumber).length == 0
-        background = backgrounds[0]
+      if @campaignPage == 1
+        background = backgrounds.find((b) => !b.pageNumber || b.pageNumber == @campaignPage) || {}
       else
         background = backgrounds.find((b) => b.pageNumber == @campaignPage) || {}
       rule = "#campaign-view .map-background { background-image: url(/file/#{background.image}); }"
@@ -1349,8 +1349,10 @@ module.exports = class CampaignView extends RootView
     return @courseLevelsFake if @courseLevels?
     currentLevels = @campaign?.get('levels')
     if currentLevels
-      # Show levels without page number / having same page number as in url
-      currentLevelsKeys = Object.keys(currentLevels).filter((l) => !currentLevels[l].pageNumber || currentLevels[l].pageNumber == @campaignPage)
+      if @campaignPage == 1
+        currentLevelsKeys = Object.keys(currentLevels).filter((l) => !currentLevels[l].pageNumber || currentLevels[l].pageNumber == @campaignPage)
+      else
+        currentLevelsKeys = Object.keys(currentLevels).filter((l) => currentLevels[l].pageNumber == @campaignPage)
       return _.pick(currentLevels, currentLevelsKeys)
     return currentLevels
 
