@@ -40,7 +40,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     featured_partners_title2: "Prix et partenaires"
     featured_partners_blurb1: "Fournisseur approuvé par le CollegeBoard"
     featured_partners_blurb2: "Meilleur outil de créativité pour les étudiants"
-#    featured_partners_blurb3: "Le meilleur choix pour l'apprentissage"
+#    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
 #    featured_partners_blurb5: "CSforAll Official Member"
     featured_partners_blurb6: "Heure de l'activité du code Partenaire"
@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     combo_explanation: "Les élèves réussissent les niveaux de défi Combo en utilisant au moins un des concepts énumérés. Passez en revue le code étudiant en cliquant sur le point de progression."
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"

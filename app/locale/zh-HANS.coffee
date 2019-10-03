@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     combo_explanation: "学生至少使用一个列出的概念组合来挑战关卡，点击进度点查看学生代码。"
     concept: "概念"
     sync_google_classroom: "同步谷歌教室"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
