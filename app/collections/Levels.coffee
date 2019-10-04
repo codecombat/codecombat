@@ -34,7 +34,7 @@ module.exports = class LevelCollection extends CocoCollection
   fingerprint: (code, language) ->
     # Add a zero-width-space at the end of every comment line
     switch language
-      when 'javascript' then code.replace /^(\/\/.*)/gm, "$1​"
+      when ['javascript', 'java', 'cpp'] then code.replace /^(\/\/.*)/gm, "$1​"
       when 'lua' then code.replace /^(--.*)/gm, "$1​"
       when 'html' then code.replace /^(<!--.*)-->/gm, "$1​-->"
       else code.replace /^(#.*)/gm, "$1​"

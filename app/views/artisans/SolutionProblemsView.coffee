@@ -45,11 +45,11 @@ module.exports = class SolutionProblemsView extends RootView
     'goals'
   ]
   includedLanguages = [
-    'python', 'javascript', 'java', 'lua', 'coffeescript'
+    'python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'
   ]
   # TODO: Phase the following out:
   excludedLanguages = [
-    'java', 'lua', 'coffeescript'
+    'lua', 'coffeescript'
   ]
   excludedLevelSnippets = [
     'treasure', 'brawl', 'siege'

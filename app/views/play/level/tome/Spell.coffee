@@ -81,6 +81,9 @@ module.exports = class Spell
           }
         }
       """
+    if @language is 'cpp' and not @languages[@language]
+      # TODO: do some transforms here to handle most common sample code differences between JavaScript and C++
+      @languages.cpp = @languages.java
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
@@ -116,7 +119,7 @@ module.exports = class Spell
       # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
       @originalSource = switch @language
         when 'python' then @originalSource.replace /loop:/, 'while True:'
-        when 'javascript' then @originalSource.replace /loop {/, 'while (true) {'
+        when 'javascript', 'java', 'cpp' then @originalSource.replace /loop {/, 'while (true) {'
         when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
         when 'coffeescript' then @originalSource
         else @originalSource
