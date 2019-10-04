@@ -41,6 +41,7 @@ const HUDView = require('./LevelHUDView')
 const LevelDialogueView = require('./LevelDialogueView')
 const ControlBarView = require('./ControlBarView')
 const LevelPlaybackView = require('./LevelPlaybackView')
+const CapstonePlaybackView = require('./CapstonePlaybackView.vue').default
 const GoalsView = require('./LevelGoalsView')
 const LevelFlagsView = require('./LevelFlagsView')
 const GoldView = require('./LevelGoldView')
@@ -49,7 +50,6 @@ const DuelStatsView = require('./DuelStatsView')
 const VictoryModal = require('./modal/VictoryModal')
 const HeroVictoryModal = require('./modal/HeroVictoryModal')
 const CourseVictoryModal = require('./modal/CourseVictoryModal')
-const HoC2018VictoryModal = require('../../special_event/HoC2018VictoryModal')
 const InfiniteLoopModal = require('./modal/InfiniteLoopModal')
 const LevelSetupManager = require('lib/LevelSetupManager')
 const ContactModal = require('../../core/ContactModal')
@@ -584,7 +584,13 @@ class PlayLevelView extends RootView {
       capstoneStage: this.capstoneStage
     })
     this.insertSubView(this.tome)
-    if (!this.level.isType('web-dev')) {
+
+    if (this.level.get('ozariaType') === 'capstone') {
+      // TODO: Is this a memory leak?
+      new CapstonePlaybackView({
+        el: this.$el.find('#playback-view')[0]
+      })
+    } else if (!this.level.isType('web-dev')) {
       this.insertSubView(
         new LevelPlaybackView({ session: this.session, level: this.level })
       )

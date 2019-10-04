@@ -1,0 +1,119 @@
+<template>
+<div id="capstone-playback-view" v-bind:style="{ display: isPlaying ? 'none': ''}">
+  <button @click="clickedPlay">Play</button>
+</div>
+</template>
+
+<script>
+module.exports = Vue.extend({
+  mounted() {
+    Backbone.Mediator.subscribe('surface:frame-changed', this.onFrameChanged, this);
+    Backbone.Mediator.subscribe('tome:cast-spells', this.onTomeCast, this);
+    Backbone.Mediator.subscribe('playback:real-time-playback-ended', this.onRealTimePlaybackEnded, this);
+    Backbone.Mediator.subscribe('playback:stop-real-time-playback', this.onStopRealTimePlayback, this);
+  },
+  data: () => ({
+    worldCompletelyLoaded: false,
+    realTime: false,
+    lastProgress: 0,
+    wasEnded: false,
+    isPlaying: false,
+  }),
+  methods: {
+    clickedPlay() {
+      Backbone.Mediator.publish('tome:manual-cast', { realTime: true });
+      Backbone.Mediator.publish('level:set-playing', { playing: true });
+    },
+
+    onFrameChanged(e) {
+      const {progress, world} = e;
+      if (progress !== this.lastProgress) {
+        const wasLoaded = this.worldCompletelyLoaded
+        let ended = false;
+        this.worldCompletelyLoaded = world.frames.length === world.totalFrames
+        if (this.worldCompletelyLoaded && !wasLoaded) {
+          this.isPlaying = false;
+          Backbone.Mediator.publish('playback:real-time-playback-ended', {})
+          Backbone.Mediator.publish('level:set-letterbox', { on: false })
+        }
+
+        if (this.worldCompletelyLoaded && progress >= 0.99 && this.lastProgress < 0.99) {
+          ended = true;
+          this.isPlaying = false;
+          Backbone.Mediator.publish('level:set-letterbox', { on: false })
+          Backbone.Mediator.publish('playback:real-time-playback-ended', {})
+          Backbone.Mediator.publish('playback:playback-ended', {})
+        }
+
+        if (progress < 0.99 && this.lastProgress >= 0.99) {
+          ended = false;
+          this.isPlaying = true
+        }
+
+        if (this.wasEnded !== ended) {
+          this.wasEnded = ended;
+          Backbone.Mediator.publish('playback:ended-changed', { ended })
+        }
+      }
+    },
+
+    onStopRealTimePlayback(e) {
+      this.isPlaying = false;
+      Backbone.Mediator.publish('level:set-letterbox', {on: false})
+      Backbone.Mediator.publish('playback:real-time-playback-ended', {})
+    },
+
+    onRealTimePlaybackEnded(e) {
+      if (!this.realTime) {
+        return
+      }
+      this.realTime = false;
+      this.isPlaying = false;
+    },
+
+    onTomeCast(e) {
+      if (e.realTime !== true) {
+        return
+      }
+      this.realTime = true
+      this.isPlaying = true
+      Backbone.Mediator.publish('playback:real-time-playback-started', {})
+    }
+  }
+})
+</script>
+
+<style lang="scss" scoped>
+@import "app/styles/mixins";
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/play/variables";
+
+#capstone-playback-view {
+  width: $game-view-width;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  position: absolute;
+  bottom: 0px;
+  background-color: black;
+  z-index: 3;
+  text-align: center;
+
+  button {
+    background-image: url("/images/ozaria/level/Button_Active.png");
+    color: white;
+    text-align: center;
+    background-position: center;
+    margin: 1% 0;
+    padding: 9px 26px;
+    background-size: contain;
+    background-color: black;
+    background-repeat: no-repeat;
+    border: none;
+    font-family: "Roboto Mono";
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 21px;
+  }
+}
+</style>
