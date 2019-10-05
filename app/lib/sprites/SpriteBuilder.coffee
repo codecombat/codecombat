@@ -132,13 +132,31 @@ module.exports = class SpriteBuilder
     cont.bounds = new createjs.Rectangle(contData.b...)
     cont
 
+  # Builds the spritesheet using the texture atlas images for each animation/action and updates its reference in the movieClip file
+  buildSpriteSheetFromTextureAtlas: (actionNames) ->
+    for action in actionNames
+      spriteData = @thangType.getRasterAtlasSpriteData(action)
+
+      unless spriteData and spriteData.ssMetadata and spriteData.ss
+        console.warn "Sprite data for #{action} does not contain the required data to build a spritesheet! ", spriteData
+        continue
+
+      try
+        # spriteData holds a reference to the spritesheet in the adobe animate's movieClip file (ss)
+        for metaData in spriteData?.ssMetadata
+          # builds the spritesheets everytime an action is rendered
+          # TODO build new spritesheet only if there are changes in metaData.images / metaData.frames
+          spriteData.ss?[metaData.name] = new createjs.SpriteSheet( { 'images': metaData.images, 'frames': metaData.frames })
+      catch e
+        console.error 'Error in creating spritesheet', e
+
   buildColorMaps: ->
     @colorMap = {}
     colorGroups = @thangType.get('colorGroups')
     return if _.isEmpty colorGroups
     return unless _.size @shapeStore  # We don't have the shapes loaded because we are doing a prerendered spritesheet approach
     colorConfig = @options.colorConfig
-#    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
+    # colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
     return if not colorConfig
 
     for group, config of colorConfig

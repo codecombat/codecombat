@@ -210,9 +210,9 @@ function runCommands (commands) {
  */
 function attachListener ({ cinematicLankBoss, stage }) {
   createjs.Ticker.framerate = 30
-  const listener = () => {
+  const listener = (e) => {
     cinematicLankBoss.update(true)
-    stage.update()
+    stage.update(e)
   }
   createjs.Ticker.addEventListener('tick', listener)
   // Return listener for removing event.

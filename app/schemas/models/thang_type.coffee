@@ -103,6 +103,12 @@ ActionSchema = c.object {},
 
 SoundSchema = c.sound({delay: {type: 'number'}})
 
+RasterAtlasAnimationSchema = c.object {},
+  movieClipName: { type: 'string', title: 'MovieClip name in JavaScript file'}
+  textureAtlases: c.array { title: 'Texture Atlas Images' },
+    { type: 'string', format: 'image-file' }
+  movieClip: { type: 'string', title: 'MovieClip Javascript file', format: 'js-file' }
+
 _.extend ThangTypeSchema.properties,
   raw: c.object {title: 'Raw Vector Data', default: {shapes: {}, containers: {}, animations: {}}},
     shapes: c.object {title: 'Shapes', additionalProperties: ShapeObjectSchema}
@@ -130,7 +136,7 @@ _.extend ThangTypeSchema.properties,
   scale:
     title: 'Scale'
     type: 'number'
-  spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
+  spriteType: { enum: ['singular', 'segmented', 'rasterAtlas'], title: 'Sprite Type' }
   positions: PositionsSchema
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
@@ -211,6 +217,12 @@ _.extend ThangTypeSchema.properties,
         type: 'number'
       }
       spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
+  # rasterAtlasAnimations stores raster atlas data for different animation names as the key
+  rasterAtlasAnimations: {
+    title: 'Raster Atlas Animation Data',
+    type: 'object',
+    additionalProperties: {$ref: '#/definitions/rasterAtlasAnimationData'}
+  }
   restricted: {type: 'string', title: 'Restricted', description: 'If set, this ThangType will only be accessible by admins and whoever it is restricted to.'}
   releasePhase: { enum: ['beta', 'released'], description: "How far along the ThangType's development is, determining who sees it." }
   gender: { enum: ['female', 'male'], type: 'string', title: 'Hero Gender', description: 'Affects which paper doll image set and language pronouns to use.' }
@@ -224,6 +236,7 @@ ThangTypeSchema.default =
 ThangTypeSchema.definitions =
   action: ActionSchema
   sound: SoundSchema
+  rasterAtlasAnimationData: RasterAtlasAnimationSchema
 
 c.extendBasicProperties ThangTypeSchema, 'thang.type'
 c.extendSearchableProperties ThangTypeSchema

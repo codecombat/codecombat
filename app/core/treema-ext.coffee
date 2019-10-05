@@ -237,6 +237,21 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     @flushChanges()
     @refreshDisplay()
 
+# TODO: create a generic FileTreema class and extend it for ImageFileTreema/SoundFileTreema/JavaScriptFileTreema classes
+class JavaScriptFileTreema extends ImageFileTreema
+  valueClass: 'treema-js-file'
+  editable: false
+
+  buildValueForDisplay: (valEl, data) ->
+    mimetype = 'text/javascript'
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload js file</a>')
+      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
+
+    valEl.append(pickButton)
+    if data
+      path = data.split('/')
+      name = path[path.length-1]
+      valEl.append($('<span></span>').text(name))
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
@@ -562,4 +577,5 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('sound-file', SoundFileTreema)
   TreemaNode.setNodeSubclass 'slug-props', SlugPropsObject
   TreemaNode.setNodeSubclass 'task', TaskTreema
+  TreemaNode.setNodeSubclass('js-file', JavaScriptFileTreema)
   #TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema
