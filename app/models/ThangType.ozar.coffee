@@ -8,6 +8,35 @@ ThangTypeLib = require 'lib/ThangTypeLib'
 
 utils = require 'core/utils'
 
+# This method loads a createjs javascript file, and executes this file.
+# @param {string} movieClipUrl - The url of the javascript file.
+# @return {Promise<Object>} - The movieclips and metaData returned from the createjs javascript file.
+loadCreateJs = (movieClipUrl) ->
+  fetch(movieClipUrl, { method: "GET" })
+    .then((data) => data.text())
+    .then((movieClipDefinition) ->
+      # There is a method that is deprecated that we need to replace. The method and property are semantically identical
+      movieClipDefinition = movieClipDefinition.replace(/getNumChildren\(\)/g, 'numChildren')
+
+      AnimateComposition = {}
+      new Function('createjs', 'AdobeAn', movieClipDefinition)(window.createjs, AnimateComposition)
+
+      if Object.values(AnimateComposition.compositions).length isnt 1
+        throw new Error('There must be one composition per Adobe Animate export')
+
+      comp = Object.values(AnimateComposition.compositions)[0]
+      lib = comp.getLibrary()
+      ss = comp.getSpriteSheet()
+      ssMetadata = lib.ssMetadata
+
+      return {
+        lib,
+        ss,
+        ssMetadata
+      }
+    )
+
+
 buildQueue = []
 
 module.exports = class ThangType extends CocoModel
@@ -26,6 +55,7 @@ module.exports = class ThangType extends CocoModel
     super()
     @building = {}
     @spriteSheets = {}
+    @textureAtlases = new Map()
 
     ## Testing memory clearing
     #f = =>
@@ -528,6 +558,79 @@ module.exports = class ThangType extends CocoModel
     if @noRawData()
       return @prerenderedSpriteSheets.first() # there can only be one
     @prerenderedSpriteSheets.find (pss) -> pss.needToLoad and not pss.loadedImage
+
+  loadAllRasterTextureAtlases: ->
+    return if @loadingRasterAtlas or @loadedRasterAtlas
+    return unless @get('rasterAtlasAnimations')
+    @loadingRasterAtlas = true
+    keys = Object.keys(@get('rasterAtlasAnimations'))
+
+    loadingPromises = keys
+      .map((key) => _.merge({key}, @get('rasterAtlasAnimations')[key]))
+      .filter(({movieClip, textureAtlases}) => not (movieClip and textureAtlases > 0))
+      .map(({movieClip, textureAtlases, key}) =>
+        createJsFetch = loadCreateJs("/file/#{movieClip}")
+
+        textureAtlasImages = textureAtlases
+          .map((url) => $("<img crossOrigin='Anonymous', src='/file/#{url}' />"))
+          .map((tag) =>
+            new Promise((resolve, reject) => tag.one('load',->resolve(tag[0]))))
+
+        Promise.all([createJsFetch].concat(textureAtlasImages))
+          .then((result) =>
+            {lib, ss, ssMetadata} = result.slice(0, 1)[0]
+            images = result.slice(1)
+            @textureAtlases.set(key, {lib, ss, ssMetadata, images})
+          )
+          .catch((error) =>
+            console.error("There was an error loading ThangType: '#{@get('name')}':", error)
+          )
+      )
+
+    if (loadingPromises.length or []) >= 1
+      Promise.all(loadingPromises)
+        .then(() => 
+          @loadedRasterAtlas = true
+          @loadingRasterAtlas = false
+          @trigger('texture-atlas-loaded')
+        )
+        .catch((error) =>
+          console.error('Error loading all ThangType raster animations:', error)
+        )
+
+  # Returns the sprite data parsed from the adobe animate's texture-atlas export
+  getRasterAtlasSpriteData: (action) ->
+    # TODO: Doesn't construct new movieclip definitions and thus all returned `ss`
+    #       objects are the same references.
+    animation = @get('actions')[action]?.animation
+    split_index = action.indexOf('_')
+    if not animation and split_index != -1
+      [action, relatedAction] = [action.slice(0, split_index), action.slice(split_index + 1)]
+      animation = @get('actions')[action]?.relatedActions[relatedAction]?.animation
+    if not animation
+      console.warn("action '#{action}' doesn't have an animation defined...")
+      return {}
+    if not @textureAtlases.get(animation) or not (@textureAtlases.get(animation).length or []) > 1
+      console.warn("animation '#{animation}' not loaded or doesn't exist...")
+      return {}
+
+    {lib, ss, ssMetadata, images} = @textureAtlases.get(animation)
+
+    # Add images to ssMetadata
+    ssMetadata = ssMetadata.map((metadata) => 
+      img_index = images.map((img) => img.src)
+        .map((img_src) => img_src.split('/').pop())
+        .map((img_name) => img_name.slice(0,-4))
+        .indexOf(encodeURIComponent(metadata.name))
+      metadata.images = [images[img_index]]
+      metadata
+    )
+
+    movieClipInstanceName = @get('rasterAtlasAnimations')[animation].movieClipName
+    if not lib[movieClipInstanceName]
+      throw new Error("Can't find movieclip called '#{movieClipInstanceName}' in javascript file...")
+    { ssMetadata, ss, movieClip: lib[movieClipInstanceName] }
+
 
   onLoaded: ->
     super()

@@ -22,6 +22,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'core/CocoClass'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
+RasterAtlasSprite = require 'ozaria/engine/surface/RasterAtlasSprite'
 ThangType = require 'models/ThangType'
 createjs = require 'lib/createjs-parts'
 utils = require 'core/utils'
@@ -206,6 +207,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           original: thangType.get('original')
           name: thangType.get('name')
         }))(startTimer()))
+    else if thangType.get('spriteType') is 'rasterAtlas'
+      return if thangType.loadingRasterAtlas or thangType.loadedRasterAtlas
+      thangType.loadAllRasterTextureAtlases()
+      @listenToOnce(thangType, 'texture-atlas-loaded', -> @somethingLoaded(thangType))
+      @numThingsLoading++
     else if prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheetToLoad()
       startedLoading = prerenderedSpriteSheet.loadImage()
       return if not startedLoading
@@ -294,12 +300,14 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           @renderSegmentedThangType(args...)
         else
           @renderSingularThangType(args...)
+      else if thangType.get('spriteType') is 'rasterAtlas'
+        @buildRasterAtlasSpriteSheet(thangType, actionNames)
       else
         @renderRasterThangType(thangType, builder)
 
     if async
       try
-        builder.buildAsync()
+        builder.buildAsync() # will build empty spritesheet for rasterAtlas since not attaching anything to it, but its still required because of its coupling with the lank
       catch e
         @resolutionFactor *= 0.9
         return @_renderNewSpriteSheet(async)
@@ -508,6 +516,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         name = @renderGroupingKey(thangType, action.name, colorConfig)
         spriteSheetBuilder.addAnimation(name, [frame], false)
 
+  #- Build the spritesheet for rasterAtlas sprite type
+
+  buildRasterAtlasSpriteSheet: (thangType, actionNames) ->
+    spriteBuilder = new SpriteBuilder(thangType)
+    spriteBuilder.buildSpriteSheetFromTextureAtlas(actionNames) # builds and attaches the spritesheet to the movie clip file
+
   #- Rendering frames for raster thang types
 
   renderRasterThangType: (thangType, spriteSheetBuilder) ->
@@ -544,6 +558,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.regY = -reg.y * scale
       sprite.gotoAndStop(@renderGroupingKey(lank.thangType))
       sprite.baseScaleX = sprite.baseScaleY = 1
+
+    else if lank.thangType.get('spriteType') is 'rasterAtlas'
+      sprite = new RasterAtlasSprite(lank.thangType)
 
     else
       SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
