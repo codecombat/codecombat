@@ -2731,22 +2731,22 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    license: "license"
 #    oreilly: "ebook of your choice"
 
-#  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
-#    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+  calendar:
+    year: "ปี"
+    day: "วัน"
+    month: "เดือน"
+    january: "มกราคม"
+    february: "กุมภาพันธ์"
+    march: "มีนาคม"
+    april: "เมษายน"
+    may: "พฤษภาคม"
+    june: "มิถุนายน"
+    july: "กรกฎาคม"
+    august: "สิงหาคม"
+    september: "กันยายน"
+    october: "ตุลาคม"
+    november: "พฤศจิกายน"
+    december: "ธันวาคม"
 
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
