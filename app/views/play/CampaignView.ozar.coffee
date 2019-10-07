@@ -863,9 +863,9 @@ module.exports = class CampaignView extends RootView
     return unless @campaign?.loaded
     if (backgrounds = @campaign.get 'backgroundImage') and backgrounds.length
       if @campaignPage == 1
-        background = backgrounds.find((b) => !b.pageNumber || b.pageNumber == @campaignPage) || {}
+        background = backgrounds.find((b) => !b.campaignPage || b.campaignPage == @campaignPage) || {}
       else
-        background = backgrounds.find((b) => b.pageNumber == @campaignPage) || {}
+        background = backgrounds.find((b) => b.campaignPage == @campaignPage) || {}
       rule = "#campaign-view .map-background { background-image: url(/file/#{background.image}); }"
       utils.injectCSS rule
     if backgroundColor = @campaign.get 'backgroundColor'
@@ -1350,9 +1350,9 @@ module.exports = class CampaignView extends RootView
     currentLevels = @campaign?.get('levels')
     if currentLevels
       if @campaignPage == 1
-        currentLevelsKeys = Object.keys(currentLevels).filter((l) => !currentLevels[l].pageNumber || currentLevels[l].pageNumber == @campaignPage)
+        currentLevelsKeys = Object.keys(currentLevels).filter((l) => !currentLevels[l].campaignPage || currentLevels[l].campaignPage == @campaignPage)
       else
-        currentLevelsKeys = Object.keys(currentLevels).filter((l) => currentLevels[l].pageNumber == @campaignPage)
+        currentLevelsKeys = Object.keys(currentLevels).filter((l) => currentLevels[l].campaignPage == @campaignPage)
       return _.pick(currentLevels, currentLevelsKeys)
     return currentLevels
 
