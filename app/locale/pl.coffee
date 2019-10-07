@@ -737,7 +737,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    vega_character: "Vega Character"
     click_to_continue: "Kliknij, aby kontynuować"
 
-#  apis:
+  apis:
     methods: "Medoty"
     events: "Zdarzenia"
 #    handlers: "Handlers"
