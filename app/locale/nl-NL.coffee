@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     combo_explanation: "leerlingen komen doorCombo challenge levels door in ieder geval één van de genoemde concepten te gebruiken. Bekijk de code van de leerling door op 'vooruitgang'te klikken."
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     unauthorized: "Je moet ingelogd zijn. Heb je de cookies uitgeschakeld?"
     forbidden: "Je hebt hier geen toestemming voor." # {change}
     forbidden_desc: "Oh nee, er is niets dat we je hier kunnen laten zien. Zorg dat je bent ingelogd op de juiste account, of klik op een van de volgende links om verder te gaan met programmeren!"
+#    user_not_found: "User Not Found"
     not_found: "Niet gevonden." # {change}
     not_found_desc: "Hm, hier is niets. Klik op een van de volgende links om verder te gaan met programmeren!"
     not_allowed: "Methode niet toegestaan."

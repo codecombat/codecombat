@@ -69,7 +69,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    global_title: "Join Our Global Community of Learners and Educators"
 #    global_subtitle1: "Learners"
 #    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
+    global_subtitle3: "Вчителі"
 #    global_subtitle4: "Countries"
 #    go_to_my_classes: "Go to my classes"
 #    go_to_my_courses: "Go to my courses"
@@ -1227,7 +1227,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    district_name: "District Name"
     district_na: "Введіть N/A якщо не застосовується"
     organization_label: "Школа"
-#    school_name: "School Name"
+    school_name: "Назва школи"
     city: "Місто"
     state: "Штат" # {change}
     country: "Країна"
@@ -1356,8 +1356,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     beautify: "Зроби код красивішим, стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "клікніть будь-де, щоб продовжити"
 
   community:
     main_title: "Спільноти CodeCombat"
@@ -1442,7 +1442,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   courses:
     create_new_class: "Створити новий клас"
 #    hoc_blurb1: "Try the"
-#    hoc_blurb2: "Code, Play, Share"
+    hoc_blurb2: "Програмуй, грай, ділись"
 #    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
 #    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
     unnamed_class: "Безіменний клас"
@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2310,7 +2322,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    certificate_stats: "Course Stats"
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
-#    certificate_for: "For"
+    certificate_for: "Для"
 #    certificate_number: "No."
 
   achievements:
@@ -2399,12 +2411,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     you_can2: "купити передплачений код"
     you_can3: "який може бути застосовано до вашої обліківки або переданий іншим."
 
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
+  ozaria_chrome:
+    sound_off: "Вимкнути звук"
+    sound_on: "Увімкнути звук"
+    back_to_map: "Повернутись до карти"
+    level_options: "Налаштування рівня"
+    restart_level: "Перезапустити рівень"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unauthorized: "Вам потрібно увійти. Ви вимкнули куки?"
     forbidden: "Недостатньо прав."
     forbidden_desc: "О ні, тут немає нічого що б ми могли вам показати! Перевірте, що ви зайшли під правильною обліківкою, або відвідайте одне з наступних посилань щоб повернутись до програмування!"
+#    user_not_found: "User Not Found"
     not_found: "Не знайдено."
     not_found_desc: "Хм, тут нічого немає. Відвідайте одне з наступних посилань щоб повернутись до програмування!"
     not_allowed: "Недозволений метод."
@@ -2531,7 +2544,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     continue_statements: "Оператори продовження"
     dom_events: "Події DOM"
     dynamic_styling: "Динамічні стилі"
-#    events: "Events"
+    events: "Події"
     event_concurrency: "Конкурентність подій"
     event_data: "Дані подій"
     event_handlers: "Обробники подій"
@@ -2618,15 +2631,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     basic_event_handling: "Основи обробки подій"
     create_sharable_interactive_web_page: "Створи інтерактивну веб-сторінку, якою можна ділитися"
 
-#  anonymous_teacher:
-#    notify_teacher: "Notify Teacher"
-#    create_teacher_account: "Create free teacher account"
-#    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:"
+  anonymous_teacher:
+    notify_teacher: "Повідомити вчителя"
+    create_teacher_account: "Створити безкоштовний акаунт вчителя"
+    enter_student_name: "Твоє ім'я:"
+    enter_teacher_email: "Електронна пошта твого вчителя:"
 #    teacher_email_placeholder: "teacher.email@example.com"
-#    student_name_placeholder: "type your name here"
-#    teachers_section: "Teachers:"
-#    students_section: "Students:"
+    student_name_placeholder: "напишіть своє ім'я тут"
+    teachers_section: "Вчителі:"
+    students_section: "Учні:"
 #    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
@@ -2691,7 +2704,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     rights_clarification: "Для уточнення, будь-що що є доступним у редакторі рівнів, для створення нових рівнів, належить CC, тоді як зміст, створений редактором рівнів або завантажений у ході створення рівнів, не належить."
     nutshell_title: "Коротко"
     nutshell_description: "Будь-які ресурси, котрі ми надаємо в редакторі рівнів, є безкоштовними для використання за Вашим бажанням для створення рівнів. Але ми залишаємо за собою право обмежувати розповсюдження самих рівнів (котрі були створені на codecombat.com), тому в майбутньому за них може стягуватися плата, якщо в кінцевому результаті таке станеться."
-#    nutshell_see_also: "See also:"
+    nutshell_see_also: "Дивіться також:"
     canonical: "Англомовна версія цього документа є остаточною та канонічною версією. Якщо є будь-які невідповідності в перекладі, англійська версія документа є пріоритетною."
     third_party_title: "Сервіси сторонніх розробників"
     third_party_description: "CodeCombat використовує наступні сервіси сторонніх розробників (серед інших):"
@@ -2913,14 +2926,14 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
 #    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
 
-#  parent_modal:
+  parent_modal:
 #    refer_teacher: "Refer Teacher"
-#    name: "Your Name"
-#    parent_email: "Your Email"
+    name: "Ваше ім'я"
+    parent_email: "Ваш E-mail"
 #    teacher_email: "Teacher's Email"
-#    message: "Message"
+    message: "Повідомлення"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
-#    send: "Send Email"
+    send: "Надіслати E-mail"
 
 #  hoc_2018:
 #    banner: "Happy Computer Science Education Week 2018!"
@@ -2968,25 +2981,25 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
 
-#  school_administrator:
+  school_administrator:
 #    title: "School Administrator Dashboard"
-#    my_teachers: "My Teachers"
-#    last_login: "Last Login"
-#    licenses_used: "licenses used"
-#    total_students: "total students"
-#    active_students: "active students"
-#    projects_created: "projects created"
-#    other: "Other"
+    my_teachers: "Мої вчителі"
+    last_login: "Останній вхід"
+    licenses_used: "використані ліцензії"
+    total_students: "всього учнів"
+    active_students: "активні учні"
+    projects_created: "створені проекти"
+    other: "Інше"
 #    notice: "The following school administrators have view-only access to your classroom data:"
 #    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
 #    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
 #    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
-#    no_teachers: "You are not administrating any teachers."
+    no_teachers: "Ви не адміністрували жодних вчителів."
 
-#  interactives:
-#    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
+  interactives:
+    phenomenal_job: "Феноменальна робота!"
+    try_again: "Упс, спробуй знову!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""

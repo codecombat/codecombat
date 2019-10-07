@@ -18,6 +18,8 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
+OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
+experiments = require('core/experiments')
 
 helper = require 'lib/coursesHelper'
 
@@ -99,6 +101,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .see-all-office-hours': 'onClickSeeAllOfficeHours'
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
+    'click .try-ozaria a': 'tryOzariaLinkClicked'
 
   getMeta: ->
     {
@@ -176,6 +179,15 @@ module.exports = class TeacherClassesView extends RootView
         container: dot
       })
 
+  destroy: ->
+    @cleanupEncouragementModal()
+    super()
+
+  cleanupEncouragementModal: ->
+    if @ozariaEncouragementModal
+      @ozariaEncouragementModal.$destroy()
+      @ozariaEncouragementModalContainer.remove()
+
   calculateQuestCompletion: ->
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
     for classroom in @classrooms.models
@@ -219,8 +231,19 @@ module.exports = class TeacherClassesView extends RootView
     @calculateQuestCompletion()
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
-    if me.isTeacher() and not @classrooms.length
+    showOzariaEncouragementModal = window.localStorage.getItem('showOzariaEncouragementModal')
+    if showOzariaEncouragementModal
+      window.localStorage.removeItem('showOzariaEncouragementModal')
+
+    ozariaEncouragementModalGroup = experiments.getOzariaEncouragementModalGroup(window.me)
+    if ozariaEncouragementModalGroup == 'ozaria-encouragement-modal-show'
+      @showOzariaLink = true
+
+    if showOzariaEncouragementModal and ozariaEncouragementModalGroup == 'ozaria-encouragement-modal-show'
+      @openOzariaEncouragementModal()
+    else if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
+
     super()
 
   onClickEditClassroom: (e) ->
@@ -259,6 +282,20 @@ module.exports = class TeacherClassesView extends RootView
       .then () =>
         @calculateQuestCompletion()
         @render()
+
+  tryOzariaLinkClicked: ->
+    window.tracker.trackEvent('Teacher Dashboard Try Ozaria Link Clicked', category: 'Teachers')
+    @openOzariaEncouragementModal()
+
+  openOzariaEncouragementModal: () ->
+    # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
+    if @ozariaEncouragementModalContainer
+      @ozariaEncouragementModalContainer.remove()
+
+    @ozariaEncouragementModalContainer = document.createElement('div')
+    document.body.appendChild(@ozariaEncouragementModalContainer)
+
+    @ozariaEncouragementModal = new OzariaEncouragementModal({ el: @ozariaEncouragementModalContainer })
 
   importStudents: (classroom) ->
     GoogleClassroomHandler.importStudentsToClassroom(classroom)

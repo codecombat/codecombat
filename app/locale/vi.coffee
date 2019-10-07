@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     unauthorized: "Bạn cần đăng nhập. Bạn có vô hiệu hóa cookie không?"
     forbidden: "Cấm"
     forbidden_desc: "Ôi không, không có gì ở đây cả! Hãy đảm bảo rằng bạn đăng nhập đúng tài khoản, hoặc truy cập trong số những đường link phía dưới để quay lại tiếp tục lập trình!"
+#    user_not_found: "User Not Found"
     not_found: "Không tìm thấy"
     not_found_desc: "Hm, chả có gì ở đây cả. Truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!"
     not_allowed: "Phương thức không được phép."

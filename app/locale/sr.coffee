@@ -1979,6 +1979,18 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     combo_explanation: "Ученици прелазе Комбо нивое изазова користећи бар један наведен концепт. Прегледај код ученика тако што ћеш кликнути на тачку напретка."
     concept: "Концепт"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Подели лиценце"
@@ -2468,6 +2480,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     unauthorized: "Треба да се упишеш. Да ли имаш онемогућене колачиће?"
     forbidden: "Забрањено"
     forbidden_desc: "О, не, не можемо ништа да ти покажемо! Провери да ли си уписан у прави налог или посети један од линкова испод да се вратиш на програмирање!"
+#    user_not_found: "User Not Found"
     not_found: "Није пронађено"
     not_found_desc: "Хм, овде нема ничега. Посети један од следећих линкова да би се вратио на програмирање!"
     not_allowed: "Метод није допуштен."
