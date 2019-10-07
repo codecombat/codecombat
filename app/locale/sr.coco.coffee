@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Дизајнер игрице"
     retrostyle_title: "Илустрација"
     retrostyle_blurb: "RetroStyle игрице"
+    bryukh_title: "Дизајнер игрице"
     bryukh_blurb: "Креира пузле"
     community_title: "...и наша заједница отвореног кода"
     community_subtitle: "Преко 450 сарадника је помогло да се изгради CodeCombat и још њих се придружује сваке недеље!" # {change}

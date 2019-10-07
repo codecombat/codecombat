@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-#    bryukh_title: "Gameplay Developer"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    bryukh_title: "Gameplay Developer"
     bryukh_blurb: "构建拼图"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}

@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Desarrollador de Juego"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
+    bryukh_title: "Desarrollador de Juego"
     bryukh_blurb: "Construye Rompecabezas"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
