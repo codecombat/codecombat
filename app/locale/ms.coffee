@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa Malaysia", translation:
 
-#  new_home:
+  new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
@@ -85,7 +85,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    try_the_game: "Try the game"
+    try_the_game: "cuba main"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
 #    play_now: "Play Now"
@@ -106,7 +106,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    course_guides: "and course guides"
 #    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
 #    accessible_to: "Accessible to"
-#    everyone: "everyone"
+    everyone: "semua"
 #    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
 #    forgot_learning: "I think they actually forgot that they were learning something."
 #    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
@@ -199,7 +199,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   modal:
     close: "Tutup"
     okay: "Ok"
-#    cancel: "Cancel"
+    cancel: "Batal"
 
   not_found:
     page_not_found: "Halaman tidak ditemui"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:"
+#    account_exists: "Email sudah diguna:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -435,7 +435,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   common:
 #    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    back: "Back" # When used as an action verb, like "Navigate backward"
+    back: "Kembali" # When used as an action verb, like "Navigate backward"
 #    coming_soon: "Coming soon!"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -856,7 +856,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Keep playing to earn more!"
 
-#  subscribe:
+  subscribe:
 #    best_deal: "Best Deal!"
 #    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
@@ -879,7 +879,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    personal_sub: "Personal Subscription" # Accounts Subscription View below
 #    loading_info: "Loading subscription information..."
 #    managed_by: "Managed by"
-#    will_be_cancelled: "Will be cancelled on"
+    will_be_cancelled: "Akan dibatalkan pada"
 #    currently_free: "You currently have a free subscription"
 #    currently_free_until: "You currently have a subscription until"
 #    free_subscription: "Free subscription"
@@ -1979,12 +1979,12 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
-#  teacher_ozaria_encouragement_modal:
+  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
 #    sub_title: "You are invited to try the new adventure game from CodeCombat"
-#    cancel: "Back to CodeCombat"
+    cancel: "Kembali ke CodeCombat"
 #    accept: "Try First Unit Free"
 #    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
 #    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
@@ -2066,7 +2066,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
 #    teacher_title: "Teacher"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
 #    article_title: "Article Editor"
 #    thang_title: "Thang Editor"
@@ -2074,7 +2074,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    course_title: "Course Editor"
 #    achievement_title: "Achievement Editor"
 #    poll_title: "Poll Editor"
-#    back: "Back"
+    back: "Kembali"
 #    revert: "Revert"
 #    revert_models: "Revert Models"
 #    pick_a_terrain: "Pick A Terrain"
