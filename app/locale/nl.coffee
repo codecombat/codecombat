@@ -1898,7 +1898,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     starter_license: "Starter Licentie"
     trial: "Uitproberen"
     hoc_welcome: "Fijne Computer Wetenschap Educatie Week!"
-    hoc_n: "Hour of Code Games - Gratis Activiteiten Om Echte Programmeertalen te Leren"
+    hoc_title: "Hour of Code Games - Gratis Activiteiten Om Echte Programmeertalen te Leren"
     hoc_meta_description: "Maak je eigen game of codeer je een weg uit de kelder! CodeCombat heeft 4 verschillende Hour of Code activiteiten en meer dan 60 levels om te leren coderen, te spelen, en te creëren."
     hoc_intro: "Er zijn drie manieren waarop uw klas kan meedoen aan het Code Uur met CodeCombat"
     hoc_self_led: "Zelfstandig Gamen"
