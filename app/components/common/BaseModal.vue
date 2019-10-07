@@ -24,7 +24,7 @@
   </base-modal-container>
 </template>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .modal
     ::v-deep .container
       width: 100%
