@@ -435,7 +435,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   common:
 #    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    back: "Back" # When used as an action verb, like "Navigate backward"
+    back: "Kembali" # When used as an action verb, like "Navigate backward"
 #    coming_soon: "Coming soon!"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -2066,7 +2066,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
 #    teacher_title: "Teacher"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
 #    article_title: "Article Editor"
 #    thang_title: "Thang Editor"
@@ -2074,7 +2074,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    course_title: "Course Editor"
 #    achievement_title: "Achievement Editor"
 #    poll_title: "Poll Editor"
-#    back: "Back"
+    back: "Kembali"
 #    revert: "Revert"
 #    revert_models: "Revert Models"
 #    pick_a_terrain: "Pick A Terrain"
