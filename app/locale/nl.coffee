@@ -27,7 +27,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     century_skills_subblurb4: "Programmeren vereist dat kinderen nieuwe vormen van communicatie oefenen, waaronder communiceren met de computer zelf en hun ideeën overbrengen met behulp van de meest efficiënte code."
     classroom_in_box_title: "We Streven Ernaar om:"
     classroom_in_box_blurb1: "Elke student erbij te betrekken zodat ze geloven dat coderen voor hen is. "
-    classroom_in_box_blurb2: "Elke leraar in staat te stellen zich zeker van zichzelf te voelen wanneer ze lesgeven in programmeren."#    classroom_in_box_blurb3: "Alle schoolleiders te inspireren om programmeeronderwijs van wereldklasse te maken."
+    classroom_in_box_blurb2: "Elke leraar in staat te stellen zich zeker van zichzelf te voelen wanneer ze lesgeven in programmeren."
+#    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
     creativity_rigor_title: "Waar Creativiteit en Structuur Samenkomen"
     creativity_rigor_subtitle1: "Programmeren leuk te maken en real-world-skills te leren"
     creativity_rigor_blurb1: "Studenten typen echte Python en JavaScript terwijl ze games spelen die trial-en-error aanmoedigen, kritisch denken, en creativiteit. Studenten passen dan de programmeerskills toe die ze hebben geleerd, door hun eigen games en websites te ontwerpen in projectgebaseerde cursussen."
@@ -51,7 +52,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     for_leaders_subblurb2: "Een op standaarden gebaseerd curriculum met leermiddelen and professionele ontwikkelingen om elke leraar in staat te stellen informatica te onderwijzen."
     for_leaders_subtitle3: "Flexibele use cases"
     for_leaders_subblurb3: "Of u nu een keuzevak voor de middelbare school, een CTE-pad of een AP Computer Science Principles-klas wilt maken, CodeCombat is afgestemd op uw behoeften."
-
     for_leaders_subtitle4: "Realistische Vaardigheden"
     for_leaders_subblurb4: "Studenten krijgen vastberadenheid en ontwikkelen een groei-mindset door de programmeeruitdagingen heen die hen voorbereiden op de meer dan 500.000 open ICT-banen."
     for_teachers_title: "Voor Docenten"
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     quotes_quote3: "CodeCombat is ontzettend nuttig geweest om mijn studenten echte programmeervaardigheden bij te brengen. Mijn man is een software-ingenieur en hij heeft al mijn programma's getest. Hij beschouwde dit als zijn topkeuze. "
     quotes_quote4: "De feedback… is zo positief geweest dat we een Computerwetenschapsklas gaan maken rond CodeCombat. Het programma betrekt de studenten er echt bij met een gaming-style platform dat tegelijikertijd vermakelijk en  leerzaam is. Ga zo door, CodeCombat!"
     see_example: "Zie voorbeeld"
-    slogan: "Het meest uitdagende spel om mee te leren programmeren." # {change}
+    slogan: "Het meest uitdagende spel om mee te leren programmeren."
     teach_cs1_free: "Leer CS1 gratis"
     teachers_love_codecombat_title: "Leraren houden van CodeCombat"
     teachers_love_codecombat_blurb1: "Melden dat hun studenten CodeCombat graag gebruiken om te leren hoe ze moeten coderen"
@@ -94,8 +94,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     im_a_student: "Ik ben een leerling"
     learn_more: "Lees verder"
     classroom_in_a_box: "Kant-en-klare programmeerlessen."
-    codecombat_is: "CodeCombat is een platform waarmee leerlingen spelenderwijs leren programmeren." # {change}
-    our_courses: "Onze lessen zijn ontwikkeld voor een klasomgeving en kan meteen worden gebruikt, zelfs door leraren zonder programmeerervaring." # {change}
+    codecombat_is: "CodeCombat is een platform waarmee leerlingen spelenderwijs leren programmeren."
+    our_courses: "Onze lessen zijn ontwikkeld voor een klasomgeving en kan meteen worden gebruikt, zelfs door leraren zonder programmeerervaring."
     watch_how: "Kijk hoe wij programmeerles transformeren."
     top_screenshots_hint: "Leerlingen schrijven code en zien direct resultaat."
     designed_with: "Gemaakt voor leraren"
@@ -108,7 +108,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     accessible_to: "Toegankelijk voor"
     everyone: "iedereen"
     democratizing: "Programmeerles toegankelijk maken is onze filosofie. Iedereen moet de kans krijgen om te leren programmeren."
-    forgot_learning: "Volgens mij hadden ze niet meer door dat ze eigenlijk bezig waren met leren." # {change}
+    forgot_learning: "Volgens mij hadden ze niet meer door dat ze eigenlijk bezig waren met leren."
     wanted_to_do: " Ik wilde altijd al leren programmeren, maar op school was hier nooit aandacht voor."
     builds_concepts_up: "Ik vind het leuk hoe CodeCombat de concepten opbouwt. Het is heel gemakkelijk te begrijpen en leuk om erachter te komen."
     why_games: "Waarom is spelenderwijs leren belangrijk?"
@@ -135,12 +135,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     request_demo: "Gratis pilot"
     request_quote: "Vraag een Quote aan"
     setup_a_class: "Maak een klas aan"
-    have_an_account: "Heb je al een account?" # {change}
+    have_an_account: "Heb je al een account?"
     logged_in_as: "Je bent ingelogd als"
-    computer_science: "Programmeerles voor alle leeftijden" # {change}
+    computer_science: "Programmeerles voor alle leeftijden"
     ffa: "Gratis voor alle leerlingen"
     coming_soon: "Binnenkort beschikbaar!"
-    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)" # {change}
+    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)"
     boast: "Uitdagende raadsels die zowel gamers als fanatieke programmeurs weten te prikkelen."
     winning: "Een gouden combinatie van spel-elementen en programmeerhuiswerk, dat samen zorgt voor kindvriendelijk en oprecht aangenaam onderwijs."
     run_class: "Alles wat je nodig hebt om vandaag nog programmeerlessen in jouw klas te geven, geen voorkennis vereist."
