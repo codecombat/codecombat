@@ -1116,17 +1116,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
-    community_description_1: "，上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
+    community_description_1: "上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
     community_description_link: "贡献者页面"
     community_description_2: "了解更多信息。"
     number_contributors: "超过 450 个志愿者将他们的知识和时间投入到这个项目中。"
     story_title: "我们已走过的历程"
     story_subtitle: "从2013年至今，CodeCombat已经从一组小草图成长为一个生动的、蓬勃发展的游戏。"
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "12,000,000+"
     story_statistic_1b: "总玩家"
     story_statistic_1c: "已经通过CodeCombat开始了他们的编程之旅"
     story_statistic_2a: "我们将这个游戏翻译为超过 50 种语言 —— 得益于来自"
-    story_statistic_2b: "200+ 个国家" # {change}
+    story_statistic_2b: "190+ 个国家" # {change}
     story_statistic_3a: "的玩家，他们总共写下了"
     story_statistic_3b: "10亿行代码和说明"
     story_statistic_3c: "，涵盖了多种编程语言。"
@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     social_discource: "在我们的论坛参与讨论"
     social_facebook: "关注CodeCombat的Facebook主页"
     social_twitter: "关注CodeCombat的Twitter"
-    social_gplus: "关注CodeCombat的Google+主页"
     social_slack: "在公共 CodeCombat Slack 聊天频道与我们交谈"
     contribute_to_the_project: "为项目做贡献"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     combo_explanation: "学生至少使用一个列出的概念组合来挑战关卡，点击进度点查看学生代码。"
     concept: "概念"
     sync_google_classroom: "同步谷歌教室"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "分配许可"
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unauthorized: "您需要登录才行。您是不是禁用了cookie？"
     forbidden: "权限不足"
     forbidden_desc: "啊，这里没什么可看的。确保你登录了正确的账户，或者点击下面的链接继续编程！"
+    user_not_found: "用户不存在"
     not_found: "页面不存在"
     not_found_desc: "嗯，这里什么都没有。点击下面的链接继续编程！"
     not_allowed: "方法不允许。"

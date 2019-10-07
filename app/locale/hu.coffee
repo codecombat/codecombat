@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     social_discource: "Csatlakozz a beszélgetéshez a Discourse forumon"
     social_facebook: "Like-old a CodeCombat-et a Facebookon"
     social_twitter: "Kövesd a CodeCombat-et a Twitteren"
-    social_gplus: "Csatlakozz a CodeCombat-hez a Google+ -on"
     social_slack: "Csatlakozz a nyilvános CodeCombat Slack csatornához"
     contribute_to_the_project: "Vegyél részt a projektben"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     unauthorized: "Be kell jelentkezned. Engedélyezted a sütiket?"
     forbidden: "Tiltott"
     forbidden_desc: "Sajnos itt nem terem számodra babér! Ellenőrizd, hogy a megfelelő fiókba vagy-e bejelentkezve, vagy válassz az alábbi linkek közül, hogy visszatérj a programozáshoz."
+#    user_not_found: "User Not Found"
     not_found: "Nem található."
     not_found_desc: "Hát, itt sincs semmi. Válassz az alábbi linkek közül, hogy visszatérj a programozáshoz."
     not_allowed: "Nem engedélyezett metódus."

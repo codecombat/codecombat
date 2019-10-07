@@ -12,6 +12,7 @@ module.exports = {
   signupWithPassword: ({userID, name, email, password}, options={}) ->
     fetchJson(@url(userID, 'signup-with-password'), _.assign({}, options, {
       method: 'POST'
+      credentials: 'include'
       json: { name, email, password }
     }))
     .then ->
@@ -20,6 +21,7 @@ module.exports = {
   signupWithFacebook: ({userID, name, email, facebookID}, options={}) ->
     fetchJson(@url(userID, 'signup-with-facebook'), _.assign({}, options, {
       method: 'POST'
+      credentials: 'include'
       json: { name, email, facebookID, facebookAccessToken: application.facebookHandler.token() }
     }))
     .then ->
@@ -29,6 +31,7 @@ module.exports = {
   signupWithGPlus: ({userID, name, email, gplusID}, options={}) ->
     fetchJson(@url(userID, 'signup-with-gplus'), _.assign({}, options, {
       method: 'POST'
+      credentials: 'include'
       json: { name, email, gplusID, gplusAccessToken: application.gplusHandler.token() }
     }))
     .then ->

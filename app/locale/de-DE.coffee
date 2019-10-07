@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     social_discource: "Schließe dich den Diskussionen in unserem Discourse Forum an"
     social_facebook: "Like CodeCombat auf Facebook"
     social_twitter: "Folge CodeCombat auf Twitter"
-    social_gplus: "Schließe dich CodeCombat bei Google+ an"
     social_slack: "Im öffentlichen Slack-Channel von CodeCombat kannst du mit uns chatten"
     contribute_to_the_project: "Trage zu diesem Projekt bei"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Konzept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Gemeinsam genutzte Lizenzen"
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unauthorized: "Du musst angemeldet sein. Hast du möglicherweise Cookies ausgeschaltet?"
     forbidden: "Unzulässig"
     forbidden_desc: "Oh nein, hier ist nichts was wir dir zeigen können! Stelle sicher, dass du mit dem korrekten Account angemeldet bist oder besuche einen der folgenden Links um zurück zum Programmieren zu kommen!"
+#    user_not_found: "User Not Found"
     not_found: "Nicht gefunden"
     not_found_desc: "Hm, hier ist nichts. Schaue dir einige der folgenden Links an um zurück zum Programmieren zu kommen!"
     not_allowed: "Methode nicht erlaubt."

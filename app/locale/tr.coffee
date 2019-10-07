@@ -1077,12 +1077,12 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
-#    nick_title: "Cofounder, CEO" # {change}
-#    matt_title: "Cofounder, CTO" # {change}
+#    nick_title: "Cofounder, CEO"
+#    matt_title: "Cofounder, CTO"
 #    cat_title: "Game Designer"
-#    scott_title: "Cofounder, Software Engineer" # {change}
+#    scott_title: "Cofounder, Software Engineer"
 #    maka_title: "Customer Advocate"
-#    robin_title: "Senior Product Manager" # {change}
+#    robin_title: "Senior Product Manager"
 #    nolan_title: "Sales Manager"
 #    david_title: "Marketing Lead"
 #    titles_csm: "Customer Success Manager"
@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"
 #    social_twitter: "Follow CodeCombat on Twitter"
-#    social_gplus: "Join CodeCombat on Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
 #    contribute_to_the_project: "Contribute to the project"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2255,7 +2266,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tutorial_skip: "Skip Tutorial"
 #    tutorial_not_sure: "Not sure what's going on?"
 #    tutorial_play_first: "Play the Tutorial first."
-#    simple_ai: "Simple CPU" # {change}
+#    simple_ai: "Simple CPU"
 #    warmup: "Warmup"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
@@ -2461,7 +2472,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    continue_reading_blog: "Continue Reading on Blog..."
 
 #  loading_error:
-#    could_not_load: "Error loading from server. Try refreshing the page." # {change}
+#    could_not_load: "Error loading from server. Try refreshing the page."
 #    connection_failure: "Connection Failed"
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
@@ -2469,14 +2480,15 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
 #    forbidden: "Forbidden"
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
+#    user_not_found: "User Not Found"
 #    not_found: "Not Found"
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
 #    not_allowed: "Method not allowed."
-#    timeout: "Server Timeout" # {change}
+#    timeout: "Server Timeout"
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
 #    server_error: "Server error."
-#    unknown: "Unknown Error" # {change}
+#    unknown: "Unknown Error"
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 
@@ -2665,7 +2677,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
 #    cla_url: "CLA"
 #    contributor_description_suffix: "to which you should agree before contributing."
-#    code_title: "Client-Side Code - MIT" # {change}
+#    code_title: "Client-Side Code - MIT"
 #    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
 #    mit_license_url: "MIT license"
 #    code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."

@@ -1374,7 +1374,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     social_discource: "Únete a la discusión en nuestro foro"
     social_facebook: "Me Gusta CodeCombat en Facebook"
     social_twitter: "Sigue a CodeCombat en Twitter"
-    social_gplus: "Únete a CodeCombat con Google+"
     social_slack: "Conversa con nosotros en nuestro canal de Slack"
     contribute_to_the_project: "Contribuir al proyecto"
 
@@ -1980,6 +1979,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2469,6 +2480,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     unauthorized: "Necesitas acceder. ¿Tienes desabilitadas las cookies?"
     forbidden: "No tienes los permisos."
     forbidden_desc: "Oh no, no hay nada que podemos mostrarte aquí! Asegurate que has iniciado sesión en la cuenta correcta, o visita uno de los siguientes enlaces para regresar a programar!"
+#    user_not_found: "User Not Found"
     not_found: "No encontrado."
     not_found_desc: "Mmm, no hay nada aquí. Visita uno de los siguientes enlaces para regresar a programar!"
     not_allowed: "Método no permitido."
