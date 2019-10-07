@@ -338,7 +338,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     signup_switch: "Chcesz stworzyć konto?"
 
   signup:
-    complete_subscription: "Subskrypcja minęla!" #when someone's subscription gone
+    complete_subscription: "Subskrypcja minęla!"
     create_student_header: "Stwórz konto ucznia"
     create_teacher_header: "Stwórz konto nauczyciela"
     create_individual_header: "Stwórz konto prywatne"
@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Ilustracje"
     retrostyle_blurb: "RetroStyle Games"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...oraz nasza społeczność 'open-source'"
     community_subtitle: "Ponad 500 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
