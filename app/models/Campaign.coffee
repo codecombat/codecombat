@@ -9,7 +9,7 @@ module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
   @schema: schema
   urlRoot: '/db/campaign'
-  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels']))
+  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
   @nextLevelProperties: ['original', 'name', 'slug', 'type']
 

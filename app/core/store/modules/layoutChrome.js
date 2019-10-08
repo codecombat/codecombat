@@ -1,3 +1,5 @@
+import urls from 'app/core/urls'
+
 export default {
   namespaced: true,
 
@@ -43,16 +45,11 @@ export default {
       if (!campaignId) {
         return undefined
       }
-      let url = `/play/${campaignId}`
-
-      if (courseId) {
-        url += `?course=${courseId}`
-        if (courseInstanceId) {
-          url += `&course-instance=${courseInstanceId}`
-        }
-      } else if (courseInstanceId) {
-        url += `?course-instance=${courseInstanceId}`
-      }
+      const url = urls.courseWorldMap({
+        courseId: courseId,
+        courseInstanceId: courseInstanceId,
+        campaignId: campaignId
+      })
       return url
     }
   },

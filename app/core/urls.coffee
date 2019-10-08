@@ -20,10 +20,20 @@ module.exports =
     url += "&codeLanguage=#{level.get('primerLanguage')}" if level.get('primerLanguage')
     url
 
-  courseWorldMap: ({course, courseInstance}) ->
-    course = course.attributes || course
-    courseInstance = courseInstance.attributes || courseInstance
-    "/play/#{course.campaignID}?course-instance=#{courseInstance._id}&course=#{course._id}"
+  courseWorldMap: ({courseId, courseInstanceId, campaignPage, campaignId}) ->
+    unless campaignId
+      console.error('courseWorldMap: campaign id is not defined')
+      return ""
+    url = "/play/#{campaignId}"
+    queryParams = {}
+    queryParams['course'] = courseId if courseId
+    queryParams['course-instance'] = courseInstanceId if courseInstanceId
+    queryParams['campaign-page'] = campaignPage if campaignPage
+    
+    queryString = $.param(queryParams)
+    if queryString
+      url += "?#{queryString}" 
+    return url
 
   courseRanking: ({course, courseInstance}) ->
     course = course.attributes || course

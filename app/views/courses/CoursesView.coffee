@@ -236,10 +236,7 @@ module.exports = class CoursesView extends RootView
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
     window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
-    course = store.state.courses.byId[courseID]
-    courseInstance = @courseInstances.get(courseInstanceID)
-    levelsUrl = @urls.courseWorldMap({course, courseInstance})
-    application.router.navigate(levelsUrl, { trigger: true })
+    application.router.navigate($(e.currentTarget).data('href'), { trigger: true })
 
   onClickViewRanking: (e) ->
     courseID = $(e.target).data('course-id')
