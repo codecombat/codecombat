@@ -229,7 +229,7 @@ window.onbeforeunload = (e) ->
 window.onload = () ->
   if window.sessionStorage
     # Check if the browser crashed before the current loading in order to log it on datadog
-    if window.sessionStorage.getItem('oz_exit') and window.sessionStorage.getItem('oz_exit') != 'true' and Math.random() < 0.1
+    if window.sessionStorage.getItem('oz_exit') and window.sessionStorage.getItem('oz_exit') != 'true'
       window.sessionStorage.setItem('oz_crashed', 'true');
     window.sessionStorage.setItem('oz_exit', 'pending');
 
