@@ -2,7 +2,7 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
   - levelName = level.get('displayName') || level.get('name')
-  - var context = { assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
+  - var context = { type: level.get('ozariaType'), assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
   - var link = null;
   - var levelSlugNav = null;
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]
@@ -203,7 +203,6 @@ mixin breadcrumbs
             if view.levelProgressMap[level.get('original')] === 'not started' || solutions.length == 0
               - continue;
             - courseStarted = true;
-            - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
             - var langClass = 'lang-python';
             if level.get('primerLanguage')
               - langClass = 'lang-' + level.get('primerLanguage');
@@ -215,15 +214,8 @@ mixin breadcrumbs
               td(colspan=2)
                 a(name=level.get('slug'))
                 if level.get('assessment')
-                  span=levelNumber
-                  =" "
-                  span(data-i18n="play_level.level")
-                  span : 
                   = level.get('displayName') || level.get('name')
                 else
-                  span(data-i18n="play_level.level")
-                  =" "
-                  span #{levelNumber}: 
                   = level.get('displayName') || level.get('name')
                 if level.get('practice')
                   =" ("

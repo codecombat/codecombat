@@ -65,7 +65,7 @@ if completed
     +timePlayed
   if assessment
     +assessmentLines
-  if !isProject && !isLadder
+  if type !== 'intro'
     .small-details.nowrap.m-t-1
       .student-code(data-i18n="teacher.view_student_code")
 else if started
@@ -77,8 +77,8 @@ else if started
     +timePlayed
   if assessment
     +assessmentLines
-        
-  if !isProject && !isLadder
+
+  if type !== 'intro'
     .small-details.nowrap.m-t-1
       .student-code(data-i18n="teacher.view_student_code")
 else
