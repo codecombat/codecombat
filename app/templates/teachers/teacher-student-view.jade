@@ -200,7 +200,9 @@ mixin breadcrumbs
         table.table.table-condensed
           each level, index in levels
             - var solutions = view.levelSolutionsMap[level.get('original')] || [];
-            if view.levelProgressMap[level.get('original')] === 'not started' || solutions.length == 0
+            if view.levelProgressMap[level.get('original')] === 'not started'
+              - continue;
+            if level.get('ozariaType') === 'intro' || level.get('type') === 'intro'
               - continue;
             - courseStarted = true;
             - var langClass = 'lang-python';
@@ -295,7 +297,7 @@ mixin breadcrumbs
                 div(role='tabpanel')
                   .tab-content
                     //- For project level, there is no correct solution, just show the student's code
-                    if level.isProject() && solutions.length === 0
+                    if level.isProject()
                       - var target = level.get('original');
                       div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby="#{target}-tab")
                         table.side-by-side
