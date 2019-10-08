@@ -1108,7 +1108,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     stephanie_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
     rob_title: "Fnyrf Qrirybczrag Ercerfragngvir"
     shubhangi_title: "Fravbe Fbsgjner Ratvarre"
-    bryukh_title: "Tnzrcynl Qrirybcre"
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"
     bryukh_title: "Tnzrcynl Qrirybcre"

@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
+    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     bryukh_blurb: "Δημιουργός Γρίφων"
     community_title: "...και η κοινότητά μας του ανοικτού κώδικα"
     community_subtitle: "Περισσότεροι από 500 συνεισφέροντες βοήθησαν στην οικοδόμηση του CodeCombat, με περισσότερες συμμετοχές κάθε εβδομάδα!"
