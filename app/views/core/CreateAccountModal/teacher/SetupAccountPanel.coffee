@@ -2,7 +2,7 @@ SetupAccountPanel = Vue.extend
   name: 'setup-account-panel'
   template: require('templates/core/create-account-modal/setup-account-panel')()
   data: -> {
-    supportEmail: "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>"
+    supportEmail: "<a href='mailto:support@ozaria.com'>support@ozaria.com</a>"
     saving: true
     error: ''
   }
