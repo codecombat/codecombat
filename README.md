@@ -6,7 +6,7 @@ The name of this repo is `ozaria`, and it connects with the Ozaria back end at h
 
 Rough installation instructions are as follows:
 
-Install [MongoDB](https://www.mongodb.org/downloads#production), [Node 8](https://nodejs.org/en/download/), npm 6.4.1, and [Git](https://desktop.github.com/)
+Install [MongoDB](https://www.mongodb.org/downloads#production), Node 8.15.1, npm 6.4.1, and [Git](https://desktop.github.com/). It may be useful to install [NVM](https://github.com/nvm-sh/nvm) and install Node and NPM through that. Once it's installed, you simply run `nvm install v8.15.1`, and it will install and use the correct Node and NPM versions.
 
 1. Clone this repo locally with `git clone git@github.com:codecombat/ozaria.git`
 
