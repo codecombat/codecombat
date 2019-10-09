@@ -475,6 +475,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   common:
     default_title: "Ozaria - Computer science that captivates" # {change}
+    ozaria: "Ozaria"
     default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world." # {change}
     back: "Back" # When used as an action verb, like "Navigate backward"
     coming_soon: "Coming soon!"

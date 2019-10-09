@@ -83,7 +83,10 @@ module.exports = class TeacherClassView extends RootView
         enrolledUsers: ""
     }
 
-  getTitle: -> return @classroom?.get('name')
+  getMeta: ->
+    {
+      title: "#{$.i18n.t('teacher.my_classes')} | #{$.i18n.t('common.ozaria')}"
+    }
 
   initialize: (options, classroomID) ->
     super(options)
@@ -246,6 +249,7 @@ module.exports = class TeacherClassView extends RootView
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
     @getCourseAssessmentPairs()
+    @setMeta({ title: "#{$.i18n.t('teacher.my_classes')} | #{@classroom?.get('name')} | #{$.i18n.t('common.ozaria')}" })
     super()
 
   afterRender: ->

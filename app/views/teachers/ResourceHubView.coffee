@@ -5,7 +5,8 @@ module.exports = class ResourceHubView extends RootView
   id: 'resource-hub-view'
   template: require 'templates/teachers/resource-hub-view'
 
-  getTitle: -> return $.i18n.t('teacher.resource_hub')
+  getMeta: -> { title: "#{$.i18n.t('nav.resource_hub')} | #{$.i18n.t('common.ozaria')}" }
 
   initialize: ->
+    super()
     me.getClientCreatorPermissions()?.then(() => @render?())
