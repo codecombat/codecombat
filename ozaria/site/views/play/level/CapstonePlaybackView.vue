@@ -19,6 +19,16 @@ module.exports = Vue.extend({
     wasEnded: false,
     isPlaying: false,
   }),
+  watch: {
+    isPlaying (newPlay, oldPlay) {
+      // Toggle Vega message so it isn't visible while capstone is playing.
+      if (!oldPlay && newPlay) {
+        $('#level-dialogue-view').addClass("hidden")
+      } else if (oldPlay && !newPlay) {
+        $('#level-dialogue-view').removeClass("hidden")
+      }
+    }
+  },
   methods: {
     clickedPlay() {
       Backbone.Mediator.publish('tome:manual-cast', { realTime: true });
