@@ -122,7 +122,7 @@ avatars.setArt("rose")
 
 
 #Stage Two - set the default speed for avatars
-avatars.setDefaultSpeed(20)
+avatars.setSpeed(20)
 
 
 #Stage Three - set four more properties for avatars
@@ -153,7 +153,7 @@ game.setInputSpecialKey("space")
 
 
 #Stage Seven - set bot AI
-avatars.setBotAI("easy");
+game.setBotAI("easy");
 
 
 #Stage Eight - set score rules
@@ -175,7 +175,7 @@ ui.setTextVictory("You won! Congratulations!")
 avatars.setArt("rose");
 
 //Stage Two - set the default speed for avatars
-avatars.setDefaultSpeed(20);
+avatars.setSpeed(20);
 
 //Stage Three - set four more properties for avatars
 avatars.setMinSpeed(16);
@@ -201,7 +201,7 @@ game.setInputMouse("followMouse");
 game.setInputSpecialKey("space");
 
 //Stage Seven - set bot AI
-avatars.setBotAI("easy");
+game.setBotAI("easy");
 
 //Stage Eight - set score rules
 game.setScoreResources(10);
