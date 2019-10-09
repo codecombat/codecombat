@@ -1356,7 +1356,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
 
-  cinematic:
+#  cinematic:
     click_anywhere_continue: "点击任意区域继续"
 
   community:
@@ -2333,7 +2333,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     payments_title: "支付"
     subscription_title: "订阅"
     invoices_title: "发票"
-   # prepaids_title: "Prepaids"
+#    prepaids_title: "Prepaids"
     payments: "支付方式"
     prepaid_codes: "预付费码"
     purchased: "已购买"
@@ -2401,11 +2401,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can3: "使用在您的账户或者给其他人。"
 
 #  ozaria_chrome:
-   sound_off: "关闭声音"
-   sound_on: "开启声音"
-   back_to_map: "返回地图"
-   level_options: "关卡选项"
-   restart_level: "重新开始这个关卡"
+    sound_off: "关闭声音"
+    sound_on: "开启声音"
+    back_to_map: "返回地图"
+    level_options: "关卡选项"
+    restart_level: "重新开始这个关卡"
 
   impact:
     hero_heading: "创建世界一流的计算机科学课程"
