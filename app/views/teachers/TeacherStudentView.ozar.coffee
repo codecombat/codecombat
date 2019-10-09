@@ -26,7 +26,7 @@ module.exports = class TeacherStudentView extends RootView
     'click .level-progress-dot': 'onClickStudentProgressDot'
     'click .nav-link': 'onClickSolutionTab'
 
-  getTitle: -> return @user?.broadName()
+  getMeta: -> { title: "#{$.i18n.t('teacher.student_profile')} | #{me?.broadName()} | #{$.i18n.t('common.ozaria')}" }
   
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')

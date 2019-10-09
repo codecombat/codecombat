@@ -103,7 +103,7 @@ module.exports = class TeacherClassesView extends RootView
 
   getMeta: ->
     {
-      title: $.i18n.t 'teacher.my_classes'
+      title: "#{$.i18n.t('teacher.my_classes')} | #{$.i18n.t('common.ozaria')}"
     }
 
   initialize: (options) ->
