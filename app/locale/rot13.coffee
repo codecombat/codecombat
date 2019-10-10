@@ -981,6 +981,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     coffeescript_blurb: "Avpre WninFpevcg flagnk."
     lua_blurb: "Tnzr fpevcgvat ynathntr."
     java_blurb: "(Fhofpevore Bayl) Naqebvq naq ragrecevfr."
+    cpp_blurb: "(Fhofpevore Bayl) Tnzr qrirybczrag naq uvtu cresbeznapr pbzchgvat."
     status: "Fgnghf"
     weapons: "Jrncbaf"
     weapons_warrior: "Fjbeqf - Fubeg Enatr, Ab Zntvp"
@@ -2417,7 +2418,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     back_to_map: 'Onpx gb Znc',
     level_options: 'Yriry Bcgvbaf',
     restart_level: 'Erfgneg Yriry'
-  
+
   impact:
     hero_heading: 'Ohvyqvat N Jbeyq-Pynff Pbzchgre Fpvrapr Cebtenz'
     hero_subheading: 'Jr Uryc Rzcbjre Rqhpngbef naq Vafcver Fghqragf Npebff gur Pbhagel'
@@ -2441,8 +2442,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     fav_features: 'Snibevgr Srngherf'
     responsive_support: 'Erfcbafvir Fhccbeg'
     immediate_engagement: 'Vzzrqvngr Ratntrzrag'
-    paragraph1: 'Obool Qhxr Zvqqyr Fpubby fvgf arfgyrq orgjrra gur 	    Fbhgurea Pnyvsbeavn zbhagnvaf bs Pbnpuryyn Inyyrl gb gur jrfg naq rnfg naq gur Fnygba Frn 33 zvyrf fbhgu, naq obnfgf n fghqrag cbchyngvba bs 697 fghqragf jvguva Pbnpuryyn Inyyrl Havsvrq’f qvfgevpg-jvqr cbchyngvba bs 18,861 fghqragf.'
-    paragraph2: 'Gur fghqragf bs Obool Qhxr Zvqqyr Fpubby ersyrpg gur fbpvbrpbabzvp punyyratrf snpvat Pbnpuryyn Inyyrl’f erfvqragf naq fghqragf jvguva gur qvfgevpg. Jvgu bire 95% bs gur Obool Qhxr Zvqqyr Fpubby fghqrag cbchyngvba dhnyvslvat sbe serr naq erqhprq-cevpr zrnyf naq bire 40% pynffvsvrq nf Ratyvfu ynathntr yrnearef , gur vzcbegnapr bs grnpuvat 21fg praghel fxvyyf jnf gur gbc cevbevgl bs Obool Qhxr Zvqqyr Fpubby Grpuabybtl grnpure, Fpbgg Onvyl.'
+    paragraph1: 'Obool Qhxr Zvqqyr Fpubby fvgf arfgyrq orgjrra gur Fbhgurea Pnyvsbeavn zbhagnvaf bs Pbnpuryyn Inyyrl gb gur jrfg naq rnfg naq gur Fnygba Frn 33 zvyrf fbhgu, naq obnfgf n fghqrag cbchyngvba bs 697 fghqragf jvguva Pbnpuryyn Inyyrl Havsvrq’f qvfgevpg-jvqr cbchyngvba bs 18,861 fghqragf.'
+    paragraph2: 'Gur fghqragf bs Obool Qhxr Zvqqyr Fpubby ersyrpg gur fbpvbrpbabzvp punyyratrf snpvat Pbnpuryyn Inyyrl’f erfvqragf naq fghqragf jvguva gur qvfgevpg. Jvgu bire 95% bs gur Obool Qhxr Zvqqyr Fpubby fghqrag cbchyngvba dhnyvslvat sbe serr naq erqhprq-cevpr zrnyf naq bire 40% pynffvsvrq nf Ratyvfu ynathntr yrnearef, gur vzcbegnapr bs grnpuvat 21fg praghel fxvyyf jnf gur gbc cevbevgl bs Obool Qhxr Zvqqyr Fpubby Grpuabybtl grnpure, Fpbgg Onvyl.'
     paragraph3: 'Onvyl xarj gung grnpuvat uvf fghqragf pbqvat jnf n xrl cngujnl gb bccbeghavgl va n wbo ynaqfpncr gung vapernfvatyl cevbevgvmrf naq arprffvgngrf pbzchgvat fxvyyf. Fb, ur qrpvqrq gb gnxr ba gur rkpvgvat punyyratr bs perngvat naq grnpuvat gur bayl pbqvat pynff va gur fpubby naq svaqvat n fbyhgvba gung jnf nssbeqnoyr, erfcbafvir gb srrqonpx, naq ratntvat gb fghqragf bs nyy yrneavat novyvgvrf naq onpxtebhaqf.'
     teacher_quote: 'Jura V tbg zl unaqf ba PbqrPbzong [naq] fgnegrq univat zl fghqragf hfr vg, gur yvtug ohyo jrag ba. Vg jnf whfg avtug naq qnl sebz rirel bgure cebtenz gung jr unq hfrq. Gurl’er abg rira pybfr.'
     quote_attribution: 'Fpbgg Onvyl, Grpuabybtl Grnpure'

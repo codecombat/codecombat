@@ -981,6 +981,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     coffeescript_blurb: "一种更好的JavaScript语法。"
     lua_blurb: "一种游戏脚本语言。"
     java_blurb: "(仅订阅用户) Android 和企业的选择。"
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "状态"
     weapons: "武器"
     weapons_warrior: "刀剑 - 近程物理攻击"
