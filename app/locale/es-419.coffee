@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Desarrollador de Juego"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
+    bryukh_title: "Desarrollador de Juego"
     bryukh_blurb: "Construye Rompecabezas"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"

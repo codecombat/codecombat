@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Dissenyador de jocs"
     retrostyle_title: "Il·lustració"
     retrostyle_blurb: "Jocs estil retro"
+    bryukh_title: "Dissenyador de jocs"
     bryukh_blurb: "Constructor de trencaclosques"
     community_title: "...i la nostra comunitat de codi obert"
     community_subtitle: "Més de 500 contribuents han ajudat a construir CodeCombat, amb més unió cada setmana."
@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     combo_explanation: "Els estudiants passen els nivells de desafiament combinat utilitzant com a mínim un concepte enumerat. Reviseu el codi de l'alumne fent clic al punt de progrés."
     concept: "Concepte"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"

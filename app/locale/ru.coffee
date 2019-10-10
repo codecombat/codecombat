@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Дизайнер игры"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
+    bryukh_title: "Дизайнер игры"
     bryukh_blurb: "Создатель головоломок"
     community_title: "...и наше open-source сообщество"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"

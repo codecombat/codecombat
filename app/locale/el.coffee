@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
+    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     bryukh_blurb: "Δημιουργός Γρίφων"
     community_title: "...και η κοινότητά μας του ανοικτού κώδικα"
     community_subtitle: "Περισσότεροι από 500 συνεισφέροντες βοήθησαν στην οικοδόμηση του CodeCombat, με περισσότερες συμμετοχές κάθε εβδομάδα!"
@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     combo_explanation: "Οι μαθητές περνούν τα επίπεδα συνδυαστικής πρόκλησης χρησιμοποιώντας τουλάχιστον μία εισηγμένη έννοια. Ελέγξτε τον κώδικα των μαθητών κάνοντας κλικ στην κουκκίδα προόδου."
     concept: "Έννοια"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"

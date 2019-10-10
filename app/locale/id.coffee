@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Perancang Permainan" # {change}
     retrostyle_title: "Ilustrasi"
     retrostyle_blurb: "Permainan RetroStyle"
+    bryukh_title: "Perancang Permainan" # {change}
     bryukh_blurb: "Merancang teka-teki"
     community_title: "...dan komunitas sumber terbuka kami"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     combo_explanation: "Siswa melewati tantangan level Combo dengan menggunakan salah satu konsep yang terdaftar. Tinjau kode siswa dengan mengklik titik perkembangan."
     concept: "Konsep"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"

@@ -7,10 +7,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
-#    built_for_teachers_subtitle2: "Game Development"
+    built_for_teachers_subtitle2: "Tworzenie gier"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
-#    built_for_teachers_subtitle3: "Web Development"
-#    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
+    built_for_teachers_subtitle3: "Tworzenie stron internetowych"
+    built_for_teachers_subblurb3: "Używając HTML, CSS i jQuery, uczniowie wykazują się kreatywnością abt stworzyć ich własne strony internetowe z ustalonym adresem URL, który mogą udostępnić go swoim kolegom/koleżankom z klasy."
 #    century_skills_title: "21st Century Skills"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
@@ -77,7 +77,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
-#    see_example: "See example"
+    see_example: "Zobacz przykład"
     slogan: "Najlepsza gra do nauki programowania!" # {change}
 #    teach_cs1_free: "Teach CS1 Free"
 #    teachers_love_codecombat_title: "Teachers Love CodeCombat"
@@ -85,7 +85,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    try_the_game: "Try the game"
+    try_the_game: "Spróbuj gry"
     classroom_edition: "Wersja szkolna:"
     learn_to_code: "Naucz się programowania:"
     play_now: "Zagraj teraz!"
@@ -110,7 +110,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     democratizing: "Powszechny dostęp do nauki programowania jest podstawą naszej filozofii. Każdy powinien nauczyć się programować."
     forgot_learning: "Moi uczniowie tak bardzo wciągneli się w grę, aż zapomnieli że właśnie uczą się programowania." # {change}
     wanted_to_do: " Zawsze chciałem nauczyć się programowania, nie sądziłem że uda mi się to w szkole."
-#    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
+    builds_concepts_up: "Lubię, jak CodeCombat pokazuje koncepty. To jest naprawdę łatwe do zrozumienia i fajne do rozpracownaia."
     why_games: "Dlaczego nauka przez gry jest tak ważna?"
     games_reward: "Gry wynagradzają rozwiązywanie prawdziwych problemów."
     encourage: "Gry są medium, które zachęca do interakcji oraz odkrywania metodą prób i błędów. Dobra gra potrafi zachęcić gracza do rozwijania swoich umiejętności, co jest takim samym krytycznym procesem jak podczas nauki."
@@ -150,11 +150,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     go_to_courses: "Przejdź do klas"
     want_coco: "Chcesz używać CodeCombat w swojej szkole?"
 #    educator: "Educator"
-#    student: "Student"
+    student: "Uczeń"
 
   nav:
 #    educators: "Educators"
-#    follow_us: "Follow Us"
+    follow_us: "Śledź nas"
 #    general: "General"
     map: "Mapa"
     play: "Poziomy" # The top nav bar entry where players choose which levels to play
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     twitter_follow: "Subskrybuj"
     my_classrooms: "Moje klasy"
     my_courses: "Moje kursy"
-#    my_teachers: "My Teachers"
+    my_teachers: "Moi nauczyciele"
     careers: "Kariera"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -194,12 +194,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     help_suff: "a my się odezwiemy!"
     resource_hub: "Baza Wiedzy"
     apcsp: "Zasady AP CS"
-#    parent: "Parents"
+    parent: "Rodzice"
 
   modal:
     close: "Zamknij"
     okay: "OK"
-#    cancel: "Cancel"
+    cancel: "Anuluj"
 
   not_found:
     page_not_found: "Strona nie istnieje"
@@ -213,22 +213,22 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     subscribe_as_diplomat: "Dołącz do Dyplomatów"
 
   play:
-#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
-#    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
-#    anon_signup_title_1: "CodeCombat has a"
-#    anon_signup_title_2: "Classroom Version!"
-#    anon_signup_enter_code: "Enter Class Code:"
-#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
-#    anon_signup_create_class: "Want to create a class?"
-#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
-#    anon_signup_create_teacher: "Create free teacher account"
+    title: "Baw się w poziomach CodeCombata - Naucz się Pythona, JavaScriptu, and HTML-a"
+    meta_description: "Naucz się programowania z grą koderską dla początkujących. Naucz się Pythona lub JavaScriptu tak jak rozwiązujesz zagadki, twórz swoje własne gry i bądź coraz lepszy. Wyzwij swoich przyjaciół w multiplayerowych poziomach-arenach!"
+    level_title: "__poziom__ - Naucz się kodować w Python, JavaScript, HTML"
+    video_title: "__video__ | Poziom z filmikiem"
+    game_development_title: "__poziom__ | Tworzenie gier"
+    web_development_title: "__poziom__ | Tworzenie stron internetowych"
+    anon_signup_title_1: "CodeCombat ma teraz"
+    anon_signup_title_2: "Wersja dla klas!"
+    anon_signup_enter_code: "Wpisz kod klasy:"
+    anon_signup_ask_teacher: "Nie posiadasz go? Zapytaj swojego nauczyciela!"
+    anon_signup_create_class: "Chciałbyś/Chciałabyś stworzyć klasę?"
+    anon_signup_setup_class: "Ustaw klasę, dodaj swoich uczniów i obserwuj progres!"
+    anon_signup_create_teacher: "Stwórz darmowe konto nauczycielskie!"
     play_as: "Graj jako " # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Dodaj Tworzenie Gier i wiele więcej do twoich klas!"
+    request_licenses: "Skontaktuj się z naszymi specjalistami po szczegóły."
     compete: "Ukończono!" # Course details page
     spectate: "Oglądaj" # Ladder page
     players: "graczy" # Hover over a level on /play
@@ -246,7 +246,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     poll: "Ankieta" # Tooltip on poll button from /play
     next: "Dalej" # Go from choose hero to choose inventory before playing a level
     change_hero: "Wybierz bohatera" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Zmień Bohatera lub Język"
     buy_gems: "Kup klejnoty"
     subscribers_only: "Tylko subskrybenci!"
     subscribe_unlock: "Zasubskrybuj by odblokować!"
@@ -265,7 +265,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     replay: "Graj od nowa"
     back_to_classroom: "Wróć do klasy"
     teacher_button: "Dla nauczycieli"
-#    get_more_codecombat: "Get More CodeCombat"
+    get_more_codecombat: "Zdobądź więcej CodeCombata!"
 
   code:
     if: "jeżeli" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -338,17 +338,17 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     signup_switch: "Chcesz stworzyć konto?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Subskrypcja minęla!"
     create_student_header: "Stwórz konto ucznia"
     create_teacher_header: "Stwórz konto nauczyciela"
     create_individual_header: "Stwórz konto prywatne"
     email_announcements: "Otrzymuj powiadomienia na e-mail o nowych poziomach i funkcjach w CodeCombat"
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "zaloguj się  lub utwórz konto, aby kontynuować."
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Tworzenie konta..."
     sign_up: "Zarejestruj się"
     log_in: "Zaloguj się używając hasła"
-#    login: "Login"
+    login: "Login"
     required: "Musisz się zalogować zanim przejdziesz dalej."
     login_switch: "Masz już konto?"
     optional: "opcjonalnie"
@@ -1108,9 +1108,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Ilustracje"
     retrostyle_blurb: "RetroStyle Games"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...oraz nasza społeczność 'open-source'"
     community_subtitle: "Ponad 500 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
@@ -1979,7 +1979,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
