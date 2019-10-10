@@ -24,8 +24,10 @@ module.exports = Vue.extend({
       // Toggle Vega message so it isn't visible while capstone is playing.
       if (!oldPlay && newPlay) {
         $('#level-dialogue-view').addClass("hidden")
+        $('#level-view #canvas-wrapper').addClass("undo-vega-spacing")
       } else if (oldPlay && !newPlay) {
         $('#level-dialogue-view').removeClass("hidden")
+        $('#level-view #canvas-wrapper').removeClass("undo-vega-spacing")
       }
     }
   },

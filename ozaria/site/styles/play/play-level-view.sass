@@ -84,6 +84,20 @@ $level-resize-transition-time: 0.5s
     #stop-real-time-playback-button
       display: block
       z-index: 20
+      background-image: url(/images/ozaria/level/Button_Active.png)
+      color: white
+      text-align: center
+      background-position: center
+      padding: 10px 25px
+      background-size: contain
+      background-color: transparent
+      background-repeat: no-repeat
+      font-family: "Roboto Mono"
+      font-size: 18px
+      font-weight: bold
+      letter-spacing: 0.71px
+      line-height: 21px
+      border: none
 
   &.cinematic
     #playback-view
@@ -107,6 +121,8 @@ $level-resize-transition-time: 0.5s
 
   #canvas-wrapper
     top: $goals-vega-height
+    &.undo-vega-spacing
+      top: 7.3%
     width: $game-view-width
     position: relative
     overflow: hidden
@@ -391,7 +407,7 @@ $level-resize-transition-time: 0.5s
     right: 0
     top: 52px
     width: 20%
-    bottom: 38px
+    bottom: -22px
     
   #codeplay-product-banner
     width: calc(58.5% - 250px)

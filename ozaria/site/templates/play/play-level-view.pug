@@ -46,9 +46,9 @@ include game-dev-goals
           - url = "/images/common/codeplay/MX_InLevelPage_Y700_1132X283_MX.png"
         img#codeplay-product-banner(src=url)
 
-    button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
+    button#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')
-        span(data-i18n="play_level.edit_level")
+        span(data-i18n="editor.back")
       else
         span(data-i18n="play_level.skip")
 
