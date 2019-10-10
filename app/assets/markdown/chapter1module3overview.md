@@ -25,7 +25,7 @@ Students match definitions of key vocabulary.
 
 Students learn how to use variables to remember and update information.
 
-**Interactive: Count the Elves**
+**Interactive: Name Calling**
 
 Students apply knowledge of updating variables.
 
