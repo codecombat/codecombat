@@ -93,8 +93,8 @@ SchoolInfoPanel =
       else
         @country = 'United States'
 
-    if @country isnt 'United States'
-      @district = ' '
+    if !me.addressesIncludeAdministrativeRegion()
+      @state = ' '
 
 
 module.exports = SchoolInfoPanel
