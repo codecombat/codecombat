@@ -1,15 +1,27 @@
-include game-dev-goals
+if view.showAds()
+  // TODO: loading this multiple times yields script error:
+  // Uncaught TagError: adsbygoogle.push() error: All ins elements in the DOM with class=adsbygoogle already have ads in them.
+  .ad-container
+    script(async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+    ins.adsbygoogle(style="display:inline-block;width:728px;height:90px", data-ad-client="ca-pub-6640930638193614", data-ad-slot="5527096883")
+    script.
+      (adsbygoogle = window.adsbygoogle || []).push({});
+
+include game-dev-goals.jade
 
 .game-container
   #level-loading-view
 
   .level-content
+    #control-bar-view
 
     #fullscreen-editor-background-screen(title="Click to minimize the code editor")
 
     #code-area
-      #goals-view
+      #code-area-gradient.gradient
       #tome-view
+
+    #spell-palette-view
 
     #problem-alert-view
     #game-area
@@ -22,18 +34,29 @@ include game-dev-goals
         #ascii-surface
         #canvas-left-gradient.gradient
         #canvas-top-gradient.gradient
-
-      #spell-palette-view
+        #goals-view
 
       #level-flags-view
 
+      #gold-view
+
       #game-dev-track-view
 
+      #level-chat-view
+
+      #multiplayer-status-view
+
+      #duel-stats-view
+
       #playback-view
+
+      #thang-hud
 
       #level-dialogue-view
 
       button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
+
+    #surface-context-menu-view
 
     if features.codePlay
       a(href=document.location.protocol+"//lenovogamestate.com/pages/products/")
@@ -48,7 +71,7 @@ include game-dev-goals
 
     button#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')
-        span(data-i18n="editor.back")
+        span(data-i18n="play_level.edit_level")
       else
         span(data-i18n="play_level.skip")
 
@@ -70,4 +93,12 @@ include game-dev-goals
       else
         .panel-body!= view.howToPlayText
 
-  //- #level-footer-shadow
+    .hints-view.hide
+
+  #level-footer-shadow
+  #level-footer-background
+
+  if !me.get('anonymous') && !me.isStudent() && !features.codePlay
+    #play-footer(class=me.isPremium() ? "premium" : "")
+      p(class='footer-link-text').picoctf-hide
+        a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact")

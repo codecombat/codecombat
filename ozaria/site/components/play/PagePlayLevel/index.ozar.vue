@@ -3,6 +3,7 @@
     :title="title"
     :displayRestartMenuItem="canRestart()"
     :displayOptionsMenuItem=true
+    :chromeOn="isChromeOn"
     @click-restart="clickRestart"
     @click-options="clickOptions"
   >
@@ -42,29 +43,32 @@
         required: true
       }
     },
-    data: function () {
+    data () {
       return {
         backboneView: PlayLevelView
       }
     },
     methods: {
-      clickRestart: function () {
+      clickRestart () {
         if (this.canRestart()) {
           Backbone.Mediator.publish('level:open-restart-modal', {})
         }
       },
-      canRestart: function () {
+      canRestart () {
         const isCapstone = (store.state.game.level || {}).ozariaType === 'capstone'
         return me.isAdmin() || !isCapstone
       },
-      clickOptions: function () {
+      clickOptions () {
         Backbone.Mediator.publish('level:open-options-modal', {})
       }
     },
     computed: {
       title () {
         return (store.state.game.level || {}).displayName || (store.state.game.level || {}).name
-      }
+      },
+      isChromeOn () {
+        return (store.state.game.level || {}).ozariaType === 'capstone'
+      },
     }
   })
 </script>
