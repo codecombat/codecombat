@@ -1,0 +1,193 @@
+h4(dir="ltr")
+  span.prop-name= doc.shortName
+  |  - 
+  - var skillType = (doc.type == 'function' && doc.owner == 'this' ? 'method' : doc.type)
+  code.prop-type(data-i18n='skill_docs.' + skillType)
+    // In case there's no translation in en.coffee because we missed one
+    = skillType
+  // Redundant in case some tag docs are missing an owner
+  if !_.contains(['function', 'handler', 'basic tag', 'spawnable', 'event', 'snippet'], doc.type) && doc.owner != 'HTML'
+    |  (
+    if writable
+      span(data-i18n="skill_docs.writable") writable
+    else
+      span(data-i18n="skill_docs.read_only") read-only
+    | )
+
+if doc.translatedShortName
+  h5
+    span.translated-name= doc.translatedShortName
+
+.description.rtl-allowed.rtl-right-aligned(dir="auto")
+  p(dir="auto")!= marked(doc.description || 'Still undocumented, sorry.')
+  div.clear(style="clear: both")
+  if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
+    p
+      span
+        if cooldowns.type == 'spell'
+          span(data-i18n="skill_docs.spell") Spell
+        else
+          span(data-i18n="skill_docs.action") Action
+        span.spl(data-i18n="skill_docs.action_name") name
+        span.spr :
+        code "#{cooldowns.name}"
+        | .
+      span.spl
+        span(data-i18n="skill_docs.action_cooldown") Takes
+        span.spr :
+        code= cooldowns.cooldown
+        | s.
+        // TODO: localize seconds (ex. Hebrew should say שנ instead of s)
+      if cooldowns.specificCooldown
+        span.spl
+          span(data-i18n="skill_docs.action_specific_cooldown") Cooldown
+          span.spr :
+          code= cooldowns.specificCooldown
+          | s.
+      if cooldowns.damage
+        span.spl
+          span(data-i18n="skill_docs.action_damage") Damage
+          span.spr :
+          code= cooldowns.damage
+          | .
+      if cooldowns.range
+        span.spl
+          span(data-i18n="skill_docs.action_range") Range
+          span.spr :
+          code= cooldowns.range
+          | m.
+      if cooldowns.radius
+        span.spl
+          span(data-i18n="skill_docs.action_radius") Radius
+          span.spr :
+          code= cooldowns.radius
+          | m.
+      if cooldowns.duration
+        span.spl
+          span(data-i18n="skill_docs.action_duration") Duration
+          span.spr :
+          code= cooldowns.duration
+          | s.
+
+if !selectedMethod
+  if doc.example
+    p.example
+      strong
+        span(data-i18n="skill_docs.example") Example
+        | :
+      .docs-ace-container
+        .docs-ace= doc.example
+  else if doc.type == 'function' && argumentExamples.length
+    p.example
+      strong
+        span(data-i18n="skill_docs.example") Example
+        | :
+      div
+        .docs-ace-container
+          .docs-ace
+            if language == 'javascript'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+            else if language == 'coffeescript'
+              span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
+            else if language == 'python'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
+            else if language == 'java'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+            else if language == 'cpp'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+            else if language == 'lua'
+              span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
+
+if (doc.type != 'function' && doc.type != 'snippet' && doc.type != 'spawnable' && doc.type != 'event' && doc.type != 'handler' && doc.type != 'property' && !_.contains(['HTML', 'CSS', 'WebJavaScript', 'jQuery'], doc.owner)) || doc.name == 'now'
+  p.value
+    strong
+      span(data-i18n="skill_docs.current_value") Current Value
+      span.spr :
+    pre
+      code.current-value(data-prop=doc.name)= value
+
+mixin argumentEntry(arg)
+  if ['he', 'ar', 'fa', 'ur'].indexOf(me.get('preferredLanguage', true)) == -1
+    div
+      code= arg.name
+      span.spr :
+      code= arg.type
+      if arg.example
+        |  (
+        span(data-i18n="skill_docs.ex") ex
+        span.spr :
+        code= arg.example
+        | )
+      if arg.description
+        div!= marked(arg.description)
+      if arg.default
+        div
+          em
+            span(data-i18n="skill_docs.default_value") Default value
+            span.spr :
+          code= arg.default
+  else
+    div(dir="rtl")
+      code(dir="rtl")= arg.name
+      span(dir="rtl")= ": "
+      code(dir="rtl")= arg.type
+      if arg.example
+        br
+        span(data-i18n="skill_docs.ex", dir="rtl") ex
+        span(dir="rtl")= ": "
+        code(dir="ltr")= arg.example
+      if arg.description
+        div.rtl-right-aligned(dir="auto")!= marked(arg.description)
+      if arg.default
+        div.rtl-allowed
+          em
+            span(data-i18n="skill_docs.default_value") Default value
+            span(dir="rtl")= ": "
+          code(dir="ltr")= arg.default
+
+if doc.args && doc.args.length
+  - var hasOptionalArguments = _.any(doc.args, function(arg){ return arg.optional })
+  - var hasRequiredArguments = _.any(doc.args, function(arg){ return !arg.optional })
+  if hasRequiredArguments
+    p.args(dir="auto")
+      strong
+        span(data-i18n="skill_docs.required_parameters") Required Parameters
+        span.spr :
+    for arg in doc.args
+      unless arg.optional
+        +argumentEntry(arg)
+  if hasOptionalArguments
+    p.args(dir="auto")
+      strong
+        span(data-i18n="skill_docs.optional_parameters") Optional Parameters
+        span.spr :
+      for arg in doc.args
+        if arg.optional
+          +argumentEntry(arg)
+
+
+if doc.returns
+  p.returns(dir="auto")
+    strong
+      span(data-i18n="skill_docs.returns") Returns
+      span.spr :
+    div
+      code= doc.returns.type
+      if doc.returns.example
+        |  (
+        span(data-i18n="skill_docs.ex") ex
+        span.spr :
+        code= doc.returns.example
+        | )
+      if doc.returns.description
+        div!= marked(doc.returns.description)
+
+if item && (typeof item.get === 'function')
+  p
+    em
+      span.spr(data-i18n="skill_docs.granted_by") Granted by
+      | #{item.get('name')}.
+
+if selectedMethod
+  p
+    em Write the body of this method below.
