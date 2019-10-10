@@ -35,7 +35,7 @@ module.exports = class VerifierView extends RootView
 
     if @levelID
       @levelIDs = [@levelID]
-      @testLanguages = ['python', 'javascript', 'java', 'lua', 'coffeescript']
+      @testLanguages = ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript']
       @cores = 1
       @startTestingLevels()
     else
@@ -62,7 +62,7 @@ module.exports = class VerifierView extends RootView
 
   filterCodeLanguages: ->
     defaultLanguages = utils.getQueryVariable('languages', 'python,javascript').split(/, ?/)
-    @codeLanguages ?= ({id: c, checked: c in defaultLanguages} for c in ['python', 'javascript', 'java', 'lua', 'coffeescript'])
+    @codeLanguages ?= ({id: c, checked: c in defaultLanguages} for c in ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'])
 
   onClickGoButton: (e) ->
     @filterCampaigns()

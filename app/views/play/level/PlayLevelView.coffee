@@ -536,7 +536,7 @@ module.exports = class PlayLevelView extends RootView
 
   perhapsStartSimulating: ->
     return unless @shouldSimulate()
-    languagesToLoad = ['javascript', 'python', 'coffeescript', 'lua']  # java
+    languagesToLoad = ['javascript', 'python', 'coffeescript', 'lua']  # java, cpp
     for language in languagesToLoad
       do (language) =>
         loadAetherLanguage(language).then (aetherLang) =>

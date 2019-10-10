@@ -119,7 +119,7 @@ courseIDs =
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
   COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
-# TODO add when final courses content created for ozaria 
+# TODO add when final courses content created for ozaria
 ozariaCourseIDs = []
 
 orderedCourseIDs = [
@@ -457,8 +457,9 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io', 'html'], currentLanguage
-  # Exclude language-specific code blocks like ```python (... code ...)``` for each non-target language.
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], currentLanguage
+  # Exclude language-specific code blocks like ```python (... code ...)``
+  # ` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
   # Exclude language-specific images like ![python - image description](image url) for each non-target language.
   imageExclusionRegex = new RegExp "!\\[(#{excludedLanguages.join('|')}) - .+?\\]\\(.+?\\)\n?", 'gm'
@@ -492,6 +493,7 @@ capitalLanguages =
   'coffeescript': 'CoffeeScript'
   'python': 'Python'
   'java': 'Java'
+  'cpp': 'C++'
   'lua': 'Lua'
   'html': 'HTML'
 
@@ -713,7 +715,7 @@ videoLevels = {
     original: "54173c90844506ae0195a0b4",
     thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
     thumbnail_unlocked: "/images/level/videos/basic_syntax_unlocked.png"
-  }, 
+  },
   # fire dancing
   "55ca293b9bc1892c835b0136": {
     i18name: 'while_loops',
@@ -723,7 +725,7 @@ videoLevels = {
     original: "55ca293b9bc1892c835b0136"
     thumbnail_locked: "/images/level/videos/while_loops_locked.png",
     thumbnail_unlocked: "/images/level/videos/while_loops_unlocked.png"
-  } 
+  }
   # known enemy
   "5452adea57e83800009730ee": {
     i18name: 'variables',
