@@ -4,14 +4,14 @@
 
 **Learning Objectives**
 
-    - Explain what a variable is and why variables are useful in developing programs.
-    - Define and modify variables to help accomplish a goal.
+ - Explain what a variable is and why variables are useful in developing programs.
+ - Define and modify variables to help accomplish a goal.
 
 **Standards**
 
-    - CSTA Standards
-        - 1B-AP-09: Create programs that use variables to store and modify data.
-        - 2-AP-11: Create clearly named variables that represent different data types and perform operations on their values.
+  - CSTA Standards
+      - 1B-AP-09: Create programs that use variables to store and modify data.
+      - 2-AP-11: Create clearly named variables that represent different data types and perform operations on their values.
 
 # Materials
 
