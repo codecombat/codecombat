@@ -15,7 +15,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   events:
     'click .nav-link': 'onClickSolutionTab'
-  
+
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
@@ -46,6 +46,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
   camelCaseLanguage: (language) ->
     return language if _.isEmpty(language)
     return 'JavaScript' if language is 'javascript'
+    return 'C++' if language is 'cpp'
     language.charAt(0).toUpperCase() + language.slice(1)
 
   hideWrongLanguage: (s) ->

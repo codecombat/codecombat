@@ -150,6 +150,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
       if me.isAdmin() or not application.isProduction()
         @codeLanguageList.push {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}
+        @codeLanguageList.push {id: 'cpp', name: "C++ (#{$.i18n.t('choose_hero.experimental')})"}
         @codeLanguageList.push {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
 
   onHeroChanged: (e) ->
@@ -271,7 +272,7 @@ module.exports = class PlayHeroesModal extends ModalView
         popoverTemplate = subscribeForGemsPrompt {}
       else # user has subscription and yet not enough gems, just ask him to keep playing for more gems
         popoverTemplate = earnGemsPromptTemplate {}
-      
+
     unlockButton.popover(
       animation: true
       trigger: 'manual'
