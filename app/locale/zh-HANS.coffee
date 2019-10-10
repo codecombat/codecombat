@@ -1224,12 +1224,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     approve_funds: "批准资金"
     no_purchaser_role: "不参与购买决策"
     district_label: "地区"
-    district_name: "区"
+    district_name: "区/县"
     district_na: "不可用时请输入 N/A"
     organization_label: "学校："
     school_name: "学校或机构名称"
-    city: "市"
-    state: "省" # {change}
+    city: "市（直辖市可填无）"
+    state: "省/直辖市" # {change}
     country: "国家"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
