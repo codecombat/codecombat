@@ -32,7 +32,7 @@ div.school-info-panel
           input.form-control(name="city", v-model="city")
 
     .row.m-y-2
-      if !me.isNoStateCountry()
+      if me.addressesIncludeAdministrativeRegion()
         .col-xs-offset-2.col-xs-4
           .form-group(v-bind:class="{ 'has-error': showRequired && !state }")
             span.control-label
@@ -41,7 +41,7 @@ div.school-info-panel
               strong(v-if="showRequired && !state") {{ $t("common.required_field") }}
             input.form-control(name="state", v-model="state")
 
-      .col-xs-4(class=me.isNoStateCountry()?"col-xs-offset-2":"")
+      .col-xs-4(class=me.addressesIncludeAdministrativeRegion()?"":"col-xs-offset-2")
         .form-group(v-bind:class="{ 'has-error': showRequired && !country }")
           span.control-label
             | {{ $t("teachers_quote.country") }}

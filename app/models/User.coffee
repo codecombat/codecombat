@@ -49,6 +49,7 @@ module.exports = class User extends CocoModel
   broadName: -> User.broadName(@attributes)
 
   inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
+  addressesIncludeAdministrativeRegion: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.addressesIncludeAdministrativeRegion(@get('country'))
 
   getPhotoURL: (size=80) ->
     return '' if application.testing
@@ -549,10 +550,8 @@ module.exports = class User extends CocoModel
 
   finishedAnyLevels: -> Boolean((@get('stats') or {}).gamesCompleted)
 
-  isFromUS: -> !@get('country') or @get('country') is 'united-states'
   isFromUk: -> @get('country') is 'united-kingdom' or @get('preferredLanguage') is 'en-GB'
   isFromIndia: -> @get('country') is 'india'
-  isNoStateCountry: -> @get('country') and @get('country') not in ['united-states', "canada", "australia", "china", "india", "italy", "malaysia", "mexico"]
   setToGerman: -> _.string.startsWith((@get('preferredLanguage') or ''), 'de')
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
