@@ -981,6 +981,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     coffeescript_blurb: "JavaScript, met betere syntax."
     lua_blurb: "Game scripting taal."
     java_blurb: "(Alleen voor abonnees) Android en enterprise."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Wapens"
     weapons_warrior: "Zwaarden - Korte afstand, geen tovenarij"
