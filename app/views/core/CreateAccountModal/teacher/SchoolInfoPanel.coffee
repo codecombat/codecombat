@@ -4,6 +4,7 @@ algolia = require 'core/services/algolia'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
 # NOTE: Phone number in algolia search results is for a school, not a district
+{ countries } = require 'core/utils';
 
 SchoolInfoPanel =
   name: 'school-info-panel'
@@ -83,5 +84,17 @@ SchoolInfoPanel =
 
   mounted: ->
     $("input[name*='organization']").focus()
+
+    if me.showChinaRegistration()
+      @country = 'China'
+    else
+      if me.get('country') and !!_.find(countries, (c) => c.country is _.string.slugify(me.get('country')))
+        @country = _.string.titleize(_.string.humanize(me.get('country')))
+      else
+        @country = 'United States'
+
+    if !me.addressesIncludeAdministrativeRegion()
+      @state = ' '
+
 
 module.exports = SchoolInfoPanel
