@@ -13,6 +13,8 @@ UserLib = {
   broadName: (user) ->
     return '(deleted)' if user.deleted
     name = _.filter([user.firstName, user.lastName]).join(' ')
+    if features?.china
+      name = user.firstName
     return name if name
     name = user.name
     return name if name
@@ -47,6 +49,7 @@ module.exports = class User extends CocoModel
   broadName: -> User.broadName(@attributes)
 
   inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
+  addressesIncludeAdministrativeRegion: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.addressesIncludeAdministrativeRegion(@get('country'))
 
   getPhotoURL: (size=80) ->
     return '' if application.testing
@@ -607,6 +610,7 @@ module.exports = class User extends CocoModel
   showChinaICPinfo: -> features?.china ? false
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
+  showChinaRegistration: -> features?.china ? false
 
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
