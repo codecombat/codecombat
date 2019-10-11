@@ -109,16 +109,19 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
   CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
+  CHAPTER_ONE_INT: '5d9fb596e8919b2aad336f21' # TODO adding for module 3 testing, revert after testing completes
 
 
 orderedCourseIDs = [
   courseIDs.ONE_FREE_HOUR
   courseIDs.CHAPTER_ONE
+  courseIDs.CHAPTER_ONE_INT
 ]
 
 courseAcronyms = {}
 courseAcronyms[courseIDs.ONE_FREE_HOUR] = 'P'
 courseAcronyms[courseIDs.CHAPTER_ONE] = 'C1'
+courseAcronyms[courseIDs.CHAPTER_ONE_INT] = 'C1-int'
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
