@@ -153,7 +153,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     student: "นักเรียน"
 
   nav:
-    educators: ""นักการศึกษา""
+    educators: "นักการศึกษา"
     follow_us: "ติดตามเรา"
     general: "ทั่วไป"
     map: "แผนที่"
