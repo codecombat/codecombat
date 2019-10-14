@@ -981,6 +981,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     coffeescript_blurb: "一种更好的JavaScript语法。"
     lua_blurb: "一种游戏脚本语言。"
     java_blurb: "(仅订阅用户) Android 和企业的选择。"
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "状态"
     weapons: "武器"
     weapons_warrior: "刀剑 - 近程物理攻击"
@@ -1207,8 +1208,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   teachers_quote:
     subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
     email_exists: "使用该账号的电子邮箱"
-    phone_number: "电话号码"
-    phone_number_help: "工作日时我们在哪可以找到您？"
+    phone_number: "手机号码"
+    phone_number_help: "工作日我们如何找到您？"
     primary_role_label: "您的主要职业"
     role_default: "选择职业"
     primary_role_default: "（请选择）"
@@ -1224,12 +1225,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     approve_funds: "批准资金"
     no_purchaser_role: "不参与购买决策"
     district_label: "地区"
-    district_name: "区"
+    district_name: "区/县"
     district_na: "不可用时请输入 N/A"
     organization_label: "学校："
-    school_name: "学校名称"
-    city: "城市"
-    state: "省" # {change}
+    school_name: "学校或机构名称"
+    city: "市（直辖市可填无）"
+    state: "省/直辖市" # {change}
     country: "国家"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
@@ -1252,6 +1253,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     referrer_web: "Google"
     referrer_other: "其他"
     anything_else: "您还有什么建议？" # {change}
+    anything_else_helper: "也可留下您的微信号，我们会为您提供更多帮助"
     thanks_header: "申请已发送！"
     thanks_sub_header: "感谢您为您的学校表达对 CodeCombat 的兴趣。"
     thanks_p: "我们不久会和你联系！如果想和我们取得联系，可以通过以下方式："
