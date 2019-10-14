@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     referrer_web: "Google"
     referrer_other: "Anders"
     anything_else: "Is er verder nog iets dat we moeten weten?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Bedankt voor je demo-aanvraag!"
     thanks_sub_header: "Bedankt voor je interesse in CodeCombat."
     thanks_p: "Wij zullen spoedig contact met u opnemen. Vragen? Mail ons:" # {change}

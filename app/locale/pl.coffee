@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "Coś jeszcze powinniśmy wiedzieć?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Prośba otrzymana!"
     thanks_sub_header: "Dziękujemy za okazanie zainteresowania stroną CodeCombat."
     thanks_p: "Wkrótce się odezwiemy! Jeśli chcesz się z nami skontaktować napisz na:"
