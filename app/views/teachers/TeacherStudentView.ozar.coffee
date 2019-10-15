@@ -26,7 +26,7 @@ module.exports = class TeacherStudentView extends RootView
     'click .level-progress-dot': 'onClickStudentProgressDot'
     'click .nav-link': 'onClickSolutionTab'
 
-  getMeta: -> { title: "#{$.i18n.t('teacher.student_profile')} | #{me?.broadName()} | #{$.i18n.t('common.ozaria')}" }
+  getMeta: -> { title: "#{$.i18n.t('teacher.student_profile')} | #{$.i18n.t('common.ozaria')}" }
   
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
@@ -74,6 +74,7 @@ module.exports = class TeacherStudentView extends RootView
     @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
+      @setMeta({ title: "#{$.i18n.t('teacher.student_profile')} | #{@user.broadName()} | #{$.i18n.t('common.ozaria')}" })
       @updateLastPlayedInfo()
       @updateLevelProgressMap()
       @updateLevelDataMap()
