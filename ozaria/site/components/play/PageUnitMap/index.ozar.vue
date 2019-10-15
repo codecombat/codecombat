@@ -26,6 +26,11 @@
         required: true
       },
 
+      campaignPage: {
+        type: String,
+        default: undefined
+      },
+
       courseInstanceId: {
         type: String,
         default: undefined
@@ -73,6 +78,10 @@
 
       computedCourseId: function () {
         return this.courseId || utils.getQueryVariable('course')
+      },
+
+      computedCampaignPage: function () {
+        return parseInt(this.campaignPage || utils.getQueryVariable('campaign-page')) || (this.levels[this.nextLevelOriginal] || {}).campaignPage || 1
       }
     },
 
@@ -128,15 +137,15 @@
           this.dataLoaded = false
           await this.fetchCampaign(this.campaign)
           this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
-          
+
           // Set current campaign id and unit map URL details for acodus chrome
           this.setCurrentCampaignId(this.campaign)
           this.setUnitMapUrlDetails({ courseId: this.computedCourseId, courseInstanceId: this.computedCourseInstanceId })
-          
+
           if (this.computedCourseInstanceId) {
             await this.buildClassroomLevelMap()
           }
-          await this.buildLevelsData(this.campaign, this.computedCourseInstanceId)
+          await this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId })
           this.levels = this.currentLevelsList
           if (!me.isSessionless()) {
             this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })
@@ -224,6 +233,7 @@
         <unit-map-background
           :campaign-data="campaignData"
           :levels="levels"
+          :campaign-page="computedCampaignPage"
           :course-id="computedCourseId"
           :course-instance-id="computedCourseInstanceId"
           :code-language="computedCodeLanguage"

@@ -161,6 +161,7 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
  * @param {string} options.codeLanguage
  * @returns {string}
  */
+// TODO: move to app/core/urls and use `$.param(queryParams)` to build query string
 export const getNextLevelLink = (levelData, options) => {
   let link = ''
   if (levelData.type === 'intro') {
