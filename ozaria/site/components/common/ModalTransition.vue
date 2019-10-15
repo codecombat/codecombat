@@ -63,7 +63,7 @@
         levelsList: 'unitMap/getCurrentLevelsList'
       }),
       shareModal: function () {
-        return !me.isSessionless() && ( this.showShareModal || this.editCapstoneLevelData )
+        return !me.isSessionless() && (this.showShareModal || this.editCapstoneLevelData)
       },
       currentContent: function () {
         if (this.shareModal) {
@@ -141,7 +141,7 @@
         buildLevelsData: 'unitMap/buildLevelsData'
       }),
       async getNextLevelLink () {
-        await this.buildLevelsData(this.campaignHandle, this.courseInstanceId)
+        await this.buildLevelsData({ campaignHandle: this.campaignHandle, courseInstanceId: this.courseInstanceId })
         const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
         this.isFirstLevel = currentLevelData.first
         let currentLevelStage

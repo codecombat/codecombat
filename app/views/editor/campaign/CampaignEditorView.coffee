@@ -144,9 +144,9 @@ module.exports = class CampaignEditorView extends RootView
       delete campaignLevel.requiredGear if not level.attributes.requiredGear
       delete campaignLevel.restrictedGear if not level.attributes.restrictedGear
       campaignLevel.rewards = @formatRewards level
-      # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
+      # Save campaign to level if its of type 'course' so 'Back to unit map' knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
-      campaignLevel.campaign = @campaign.get 'slug'
+      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'course'
       # Save campaign index to level if it's a course campaign, since we show linear level order numbers for course levels.
       campaignLevel.campaignIndex = (@levels.models.length - levelIndex - 1) if @campaign.get('type', true) is 'course'
       campaignLevels[levelOriginal] = campaignLevel

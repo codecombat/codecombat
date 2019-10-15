@@ -22,10 +22,10 @@ export default {
       We have a campaign.levels list and a classroom.courses.levels list, and they are not always in sync.
       Hence to get the levels data for a course instance for the unit map, we get the data as follows:
       1. levels list from the classroom snapshot
-      2. position, nextLevels, first from the classroom snapshot, if does not exist then from campaign snapshot
+      2. position, nextLevels, first, campaignPage from the classroom snapshot, if does not exist then from campaign snapshot
       4. any other data from the campaign snapshot, but if doesnt exist in campaign any more then use the data in classroom snapshot
       */
-    buildLevelsData: async ({ commit, rootGetters, dispatch }, campaignHandle, courseInstanceId) => { // campaignHandle necessary
+    buildLevelsData: async ({ commit, rootGetters, dispatch }, { campaignHandle, courseInstanceId }) => { // campaignHandle necessary
       let levels = {}
       await dispatch('campaigns/fetch', campaignHandle, { root: true })
       const campaignData = rootGetters['campaigns/getCampaignData'](campaignHandle)
@@ -51,6 +51,10 @@ export default {
           const classroomLevelMap = {}
           for (let level of classroomCourseLevels) {
             classroomLevelMap[level.original] = level
+            // Default the campaignPage value as 1 in classroom levels for backward compatibility
+            if (!classroomLevelMap[level.original].campaignPage) {
+              classroomLevelMap[level.original].campaignPage = 1
+            }
           }
 
           let courseLevelsData = {}
@@ -62,7 +66,7 @@ export default {
               // a level which has been removed from the campaign but is saved in the course
               courseLevelsData[original] = level
             }
-            // carry over position, nextLevels, first property stored in classroom course, if there are any
+            // carry over position, nextLevels, first, campaignPage property stored in classroom course, if there are any
             if (classroomLevelMap[original].position) {
               courseLevelsData[original].position = classroomLevelMap[original].position
             }
@@ -71,6 +75,9 @@ export default {
             }
             if (classroomLevelMap[original].first) {
               courseLevelsData[original].first = classroomLevelMap[original].first
+            }
+            if (classroomLevelMap[original].campaignPage) {
+              courseLevelsData[original].campaignPage = classroomLevelMap[original].campaignPage
             }
           }
 

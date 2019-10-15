@@ -21,7 +21,7 @@ block content
               span.glyphicon.glyphicon-arrow-left
               span.spl(data-i18n="nav.play")
           else
-            a(href=view.urls.courseWorldMap({course: view.course, courseInstance: view.courseInstance}))
+            a(href=view.urls.courseWorldMap({courseId: view.course.get('_id'), courseInstanceId: view.courseInstance.get('_id'), campaignId: view.course.get('campaignID')}))
               span.glyphicon.glyphicon-arrow-left
               span.spl(data-i18n="nav.play")
 

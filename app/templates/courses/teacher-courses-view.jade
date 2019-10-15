@@ -55,7 +55,7 @@ block content
     // The color of this row is hard coded.
     .row.coming-soon-row
       .col-sm-12
-        h4(data-i18n="courses.module_3_6_coming_soon")
+        h4(data-i18n="courses.module_coming_soon")
 
 mixin course-info(course)
   .course-info
@@ -88,3 +88,6 @@ mixin course-info(course)
         a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/resources/" + course.get('slug') + "-module-2" + "-solutions"))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Module 2
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/resources/" + course.get('slug') + "-module-3" + "-solutions"))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; Module 3

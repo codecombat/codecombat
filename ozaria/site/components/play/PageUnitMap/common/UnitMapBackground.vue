@@ -3,6 +3,7 @@
   import levelDot from './UnitMapLevelDot'
   import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
   import { mapGetters } from 'vuex'
+  import urls from 'app/core/urls'
 
   export default Vue.extend({
     components: {
@@ -19,6 +20,10 @@
         type: Object,
         required: true,
         default: () => {}
+      },
+      campaignPage: {
+        type: Number,
+        default: 1
       },
       courseId: {
         type: String,
@@ -44,13 +49,26 @@
         isStudent: 'me/isStudent'
       }),
       backgroundImage: function () {
-        // using dungeon image for now, update later as per UI specs
         if (this.campaignData.backgroundImage) {
+          // Fetch the background relevant for current campaign page
+          const background = this.campaignData.backgroundImage.find((b) => b.campaignPage === this.campaignPage) || {}
           return {
-            'background-image': 'url(/file/' + this.campaignData.backgroundImage[0].image + ')'
+            'background-image': 'url(/file/' + background.image + ')'
           }
         }
         return undefined
+      },
+      currentPageLevels () {
+        // Fetch the levels relevant for current campaign page
+        const currentPageLevelIds = Object.keys(this.levels).filter((l) => this.levels[l].campaignPage === this.campaignPage)
+        return _.pick(this.levels, currentPageLevelIds)
+      },
+      totalPages: function () {
+        // get max value of campaignPage from the classroom levels
+        return Math.max(...Object.values(this.levels).map((l) => l.campaignPage || 1), 0) || 0
+      },
+      showNavDots: function () {
+        return this.totalPages > 1
       },
       backButtonLink: function () {
         if (this.isTeacher) {
@@ -80,6 +98,17 @@
       onCharCxSaved () {
         this.showCharCx = false
         this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
+      },
+      clickPageNav (page) {
+        if (page !== this.campaignPage) {
+          const url = urls.courseWorldMap({
+            courseId: this.courseId,
+            courseInstanceId: this.courseInstanceId,
+            campaignPage: page,
+            campaignId: this.campaignData._id
+          })
+          return application.router.navigate(url, { trigger: true })
+        }
       }
     }
   })
@@ -91,7 +120,7 @@
     :style="[backgroundImage]"
   >
     <level-dot
-      v-for="level in levels"
+      v-for="level in currentPageLevels"
       :key="level.original"
       :level-data="level"
       :course-id="courseId"
@@ -138,6 +167,20 @@
         </button>
       </div>
     </div>
+    <div
+      v-if="showNavDots"
+      id="dot-nav"
+    >
+      <ul>
+        <li
+          v-for="page in totalPages"
+          :key="page"
+          :class="{ active: page === campaignPage }"
+          :title="page"
+          @click="clickPageNav(page)"
+        />
+      </ul>
+    </div>
     <modal-char-customization
       v-if="showCharCx"
       class="char-cx-modal"
@@ -155,11 +198,14 @@
   height: 100%
   background-size: 100%
   background-repeat: no-repeat
+  display: flex
+  justify-content: center
 
   .back-button
     position: absolute
     margin: 15px
     z-index: 1
+    left: 0px
 
   .back-button, .settings-button, .logout-button, .signup-button
     background-color: #487ec6
@@ -193,5 +239,31 @@
     height: 100vh
     top: 0
     left: 0
+
+  #dot-nav
+    position: absolute
+    z-index: 999
+    bottom: 15px
+
+    ul
+      list-style: none
+      margin: 0
+      padding: 0
+
+    li
+      position: relative
+      float: left
+      background-color: #bdc3c7
+      border: 3px solid #bdc3c7
+      border-radius: 15px 15px 15px 15px
+      cursor: pointer
+      padding: 5px
+      height: 10px
+      margin: 10px 10px 0px 0px
+      width: 10px
+      vertical-align: bottom
+
+    li.active
+      background-color: #3c4f69
 
 </style>
