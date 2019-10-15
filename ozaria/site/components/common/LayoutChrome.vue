@@ -61,6 +61,7 @@
       toggleFullScreen () {
         const full = document.fullscreenElement ||
            document.mozFullScreenElement ||
+           document.mozFullscreenElement ||
            document.msFullscreenElement ||
            document.webkitFullscreenElement
 
@@ -69,7 +70,9 @@
 
           const req = d.requestFullscreen ||
                 d.mozRequestFullScreen ||
-                d.msRequestFullscreen
+                d.mozRequestFullscreen ||
+                d.msRequestFullscreen ||
+                d.webkitRequestFullscreen
 
           if (req) {
             req.call(d)
@@ -77,6 +80,8 @@
         } else {
           const exitFullScreen = document.exitFullscreen ||
                 document.mozCancelFullScreen ||
+                document.mozCancelFullscreen ||
+                document.webkitExitFullscreen ||
                 document.msExitFullscreen
           if (exitFullScreen) {
             exitFullScreen.call(document)
