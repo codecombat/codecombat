@@ -168,6 +168,12 @@ extractTranspileErrorDetails = (options) ->
       else
         console.error "Jaba error with no location information:", error
       options.hint = error.message
+    when 'cpp'
+      if error.location
+        options.range = [error.location.start.offset, error.location.end.offset]
+      else
+        console.error "C++ error with no location information:", error
+      #options.hint = error.message
     else
       console.warn "Unhandled UserCodeProblem reporter", options.reporter
 
@@ -363,7 +369,7 @@ class HintCreator
           if sm?
             newName = error.targetName.replace target, sm
             return "Look out for spelling issues: did you mean `#{newName}` instead of `#{error.targetName}`?"
-        
+
         return "`#{ast.object.srcName}` has no method `#{ast.property.name}`."
 
     if (missingMethodMatch = message.match(/has no method '(.*?)'/)) or message.match(/is not a function/) or message.match(/has no method/)
