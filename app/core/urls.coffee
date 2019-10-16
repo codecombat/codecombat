@@ -20,15 +20,16 @@ module.exports =
     url += "&codeLanguage=#{level.get('primerLanguage')}" if level.get('primerLanguage')
     url
 
-  courseWorldMap: ({courseId, courseInstanceId, campaignPage, campaignId}) ->
+  courseWorldMap: ({courseId, courseInstanceId, campaignPage, campaignId, codeLanguage}) ->
     unless campaignId
       console.error('courseWorldMap: campaign id is not defined')
       return ""
-    url = "/play/#{campaignId}"
+    url = "/play/#{encodeURIComponent(campaignId)}"
     queryParams = {}
-    queryParams['course'] = courseId if courseId
-    queryParams['course-instance'] = courseInstanceId if courseInstanceId
-    queryParams['campaign-page'] = campaignPage if campaignPage
+    queryParams['course'] = encodeURIComponent(courseId) if courseId
+    queryParams['course-instance'] = encodeURIComponent(courseInstanceId) if courseInstanceId
+    queryParams['campaign-page'] = encodeURIComponent(campaignPage) if campaignPage
+    queryParams['codeLanguage'] = encodeURIComponent(codeLanguage) if codeLanguage
     
     queryString = $.param(queryParams)
     if queryString
