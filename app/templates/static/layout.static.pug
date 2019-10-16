@@ -51,6 +51,17 @@ html(lang='en')
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'AW-811324643');
+    else
+      // Baidu Analytics
+      script.
+        console.log('use baidu analytics')
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?ffc38c02cf8f484ab8f785b58dfa8b6e";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
 
     script(type='text/javascript').
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
