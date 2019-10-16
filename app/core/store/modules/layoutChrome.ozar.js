@@ -1,4 +1,5 @@
 import urls from 'app/core/urls'
+import utils from 'app/core/utils'
 
 export default {
   namespaced: true,
@@ -48,7 +49,8 @@ export default {
       const url = urls.courseWorldMap({
         courseId: courseId,
         courseInstanceId: courseInstanceId,
-        campaignId: campaignId
+        campaignId: campaignId,
+        codeLanguage: utils.getQueryVariable('codeLanguage')
       })
       return url
     }

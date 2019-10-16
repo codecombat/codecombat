@@ -165,14 +165,12 @@ module.exports = class PlayGameDevLevelView extends RootView
     }
 
   onEditLevelButton: ->
-    viewClass = 'views/play/level/PlayLevelView'
     route = "/play/level/#{@level.get('slug')}"
     if @courseID and @courseInstanceID
       route += "?course=#{@courseID}&course-instance=#{@courseInstanceID}"
-    Backbone.Mediator.publish 'router:navigate', {
-      route, viewClass
-      viewArgs: [{}, @levelID]
-    }
+    else if codeLanguage = @session.get('codeLanguage') # for anon/indiv users
+      route += "?codeLanguage=#{codeLanguage}"
+    application.router.navigate(route, { trigger: true })
 
   onClickPlayButton: ->
     $('#play-btn').blur()   # Removes focus from the button after clicking on it.

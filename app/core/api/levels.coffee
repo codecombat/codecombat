@@ -26,6 +26,8 @@ module.exports = {
       data.courseInstance = options.courseInstanceId
     if options.course
       data.course = options.course
+    if options.codeLanguage
+      data.codeLanguage = options.codeLanguage
     url = "/db/level/#{levelId}/session"
     return fetchJson(url, {data})
 }

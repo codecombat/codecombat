@@ -76,7 +76,12 @@
           if (me.isSessionless()) { // not saving progress/session for teachers
             this.language = this.codeLanguage || defaultCodeLanguage
           } else {
-            this.introLevelSession = await api.levels.upsertSession(this.introLevelIdOrSlug, { courseInstanceId: this.courseInstanceId, course: this.courseId })
+            const sessionOptions = {
+              courseInstanceId: this.courseInstanceId,
+              course: this.courseId,
+              codeLanguage: this.codeLanguage || defaultCodeLanguage // used for non-classroom anonymous users
+            }
+            this.introLevelSession = await api.levels.upsertSession(this.introLevelIdOrSlug, sessionOptions)
             this.language = this.introLevelSession.codeLanguage
           }
 

@@ -62,19 +62,19 @@
       ...mapGetters({
         levelsList: 'unitMap/getCurrentLevelsList'
       }),
-      shareModal: function () {
+      shareModal () {
         return !me.isSessionless() && (this.showShareModal || this.editCapstoneLevelData)
       },
-      currentContent: function () {
+      currentContent () {
         if (this.shareModal) {
           return this.editCapstoneLevelData || {}
         }
         return this.currentIntroContent || this.currentLevel.attributes || this.currentLevel || {}
       },
-      contentName: function () {
+      contentName () {
         return this.currentContent.displayName || this.currentContent.name
       },
-      contentType: function () {
+      contentType () {
         if (this.currentContent.ozariaType) {
           return this.currentContent.ozariaType + ' level'
         } else {
@@ -87,7 +87,7 @@
           return this.currentContent.contentType
         }
       },
-      learningGoals: function () {
+      learningGoals () {
         const specificArticles = (this.currentContent.documentation || {}).specificArticles
         const learningGoals = _.find(specificArticles, { name: 'Learning Goals' })
         let learningGoalsText
@@ -96,7 +96,7 @@
         }
         return learningGoalsText
       },
-      shareURL: function () {
+      shareURL () {
         if (this.editCapstoneLevelData && this.capstoneLevelSession) {
           const shareUrlOptions = {
             level: this.editCapstoneLevelData,
@@ -109,8 +109,11 @@
         }
         return ''
       },
-      charCxModal: function () {
+      charCxModal () {
         return this.isFirstLevel && !(me.get('ozariaUserOptions') || {}).tints
+      },
+      codeLanguage () {
+        return utils.getQueryVariable('codeLanguage')
       }
     },
     async mounted () {
@@ -153,7 +156,7 @@
           const nextLevelLinkOptions = {
             courseId: this.courseId,
             courseInstanceId: this.courseInstanceId,
-            codeLanguage: utils.getQueryVariable('codeLanguage')
+            codeLanguage: this.codeLanguage
           }
           if (me.isSessionless()) {
             nextLevelLinkOptions.nextLevelStage = nextLevel.nextLevelStage
@@ -162,15 +165,13 @@
           // and find the newest slug. This step is required due to renaming of slugs.
           this.nextLevelLink = getNextLevelLink(this.levelsList[nextLevel.original], nextLevelLinkOptions)
         } else { // last level of the campaign or this.showShareModal=true
-          this.nextLevelLink = `/play/${encodeURIComponent(this.campaignHandle)}`
-          if (this.courseInstanceId) {
-            this.nextLevelLink += `?course-instance=${encodeURIComponent(this.courseInstanceId)}`
-            if (this.courseId) {
-              this.nextLevelLink += `&course=${encodeURIComponent(this.courseId)}`
-            }
-          } else if (this.courseId) {
-            this.nextLevelLink += `?course=${encodeURIComponent(this.courseId)}`
+          const urlOptions = {
+            courseId: this.courseId,
+            courseInstanceId: this.courseInstanceId,
+            campaignId: this.campaignHandle,
+            codeLanguage: this.codeLanguage
           }
+          this.nextLevelLink = urls.courseWorldMap(urlOptions)
           this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
           if (this.editCapstoneLevelData && !me.isSessionless()) {
             this.capstoneLevelSession = await this.getLevelSession(this.editCapstoneLevelData.slug)
@@ -180,7 +181,7 @@
       async getLevelSession (levelIdOrSlug) {
         try {
           // TODO: drive level session from Vuex store
-          return await api.levels.upsertSession(levelIdOrSlug, { courseInstanceId: this.courseInstanceId })
+          return await api.levels.upsertSession(levelIdOrSlug, { courseInstanceId: this.courseInstanceId, codeLanguage: this.codeLanguage })
         } catch (err) {
           console.error('Error in finding level session', err)
         }
@@ -203,7 +204,7 @@
         const capstoneLevelLinkOptions = {
           courseId: this.courseId,
           courseInstanceId: this.courseInstanceId,
-          codeLanguage: utils.getQueryVariable('codeLanguage')
+          codeLanguage: this.codeLanguage
         }
         let capstoneLink = getNextLevelLink(this.editCapstoneLevelData, capstoneLevelLinkOptions) // if next level stage is not set, capstone is loaded from the last completed stage
         let capstoneLinkAppend = `?continueEditing=true`

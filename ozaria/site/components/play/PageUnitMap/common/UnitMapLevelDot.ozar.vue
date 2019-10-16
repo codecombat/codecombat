@@ -57,11 +57,8 @@
 
         const nextLevelOptions = {
           courseId: this.courseId,
-          courseInstanceId: this.courseInstanceId
-        }
-
-        if (this.isTeacher) {
-          nextLevelOptions.codeLanguage = this.codeLanguage
+          courseInstanceId: this.courseInstanceId,
+          codeLanguage: this.codeLanguage
         }
 
         const link = getNextLevelLink(this.levelData, nextLevelOptions)

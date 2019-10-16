@@ -41,7 +41,7 @@
         default: undefined
       },
 
-      codeLanguage: { // only used for teachers
+      codeLanguage: { // used for non-classroom users
         type: String,
         default: undefined
       }
@@ -66,10 +66,10 @@
       }),
 
       computedCodeLanguage: function () {
-        if (me.isTeacher()) {
-          return this.codeLanguage || utils.getQueryVariable('codeLanguage') || defaultCodeLanguage
+        if (me.isStudent()) {
+          return (this.classroom.aceConfig || {}).language
         }
-        return (this.classroom.aceConfig || {}).language || defaultCodeLanguage // default language for anonymous users
+        return this.codeLanguage || utils.getQueryVariable('codeLanguage') || defaultCodeLanguage
       },
 
       computedCourseInstanceId: function () {
@@ -180,7 +180,7 @@
 
       createLevelStatusMap () {
         // Remove the level sessions for the levels played in another language - for the classroom version of unit map
-        if (this.classroomLevelMap && this.classroom) {
+        if (me.isStudent() && this.classroomLevelMap && this.classroom) {
           for (let session of this.levelSessions.slice()) {
             const classroomLevel = this.classroomLevelMap[session.level.original]
             if (!classroomLevel) { continue }
@@ -189,6 +189,8 @@
               this.levelSessions.splice(this.levelSessions.indexOf(session), 1)
             }
           }
+        } else { // for anon/individual users
+          this.levelSessions = this.levelSessions.filter((s) => s.codeLanguage === this.computedCodeLanguage)
         }
         this.levelStatusMap = getLevelStatusMap(this.levelSessions)
       },
