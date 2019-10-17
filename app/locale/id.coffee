@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     referrer_web: "Google"
     referrer_other: "Lainnya"
     anything_else: "Kelas yang seperti apa yang kamu perkirakan untuk menggunakan CodeCombat?"
+#    anything_else_helper: ""
     thanks_header: "Permintaan Diterima!"
     thanks_sub_header: "Terima kasih telah menyatakan ketertarikan dalam CodeCombat untuk sekolahmu."
     thanks_p: "Kamu akan menghubungi segera! Jika kamu membutuhkan kontak, kamu bisa menghubungi di:"

@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     referrer_web: "Google"
     referrer_other: "Άλλο"
     anything_else: "Τι είδους τάξη ενδιαφέρεστε να χρησιμοποιήσετε στο CodeCombat;"
+#    anything_else_helper: ""
     thanks_header: "Το Αίτημα Ελήφθη!"
     thanks_sub_header: "Ευχαριστώ που εκφράσατε ενδιαφέρον για το CodeCombat για το σχολείο σας."
     thanks_p: "Θα είμαστε σε επαφή σύντομα! Αν χρειαστεί να έρθετε σε επαφή, μπορείτε να επικοινωνήσετε μαζί μας στη διεύθυνση:"
