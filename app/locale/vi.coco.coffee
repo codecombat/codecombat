@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "Còn điều gì chúng tôi nên biết thêm nữa không?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Đã nhận yêu cầu!"
     thanks_sub_header: "Cảm ơn vì đã bày tỏ sự quan tâm của trường bạn với CodeCombat."
     thanks_p: "Chúng tôi sẽ sớm trả lời lại! Nếu bạn cần liên hệ, hãy liên lạc với chúng tôi tại:"

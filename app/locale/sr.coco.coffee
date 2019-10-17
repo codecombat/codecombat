@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     referrer_web: "Google"
     referrer_other: "Друго"
     anything_else: "Још нешто што треба да знамо?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Захтев је примљен!"
     thanks_sub_header: "Хвала на интересовању за CodeCombat за твоју школу."
     thanks_p: "Контактираћемо те ускоро! Ако желиш да ступиш у контакт, можеш нас добити на:"
