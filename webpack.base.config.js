@@ -182,6 +182,9 @@ module.exports = (env) => {
         }, {
           from: 'vendor/esper-plugin-lang-java-modern.js',
           to: 'javascripts/app/vendor/aether-java.modern.js'
+        }, {
+          from: 'vendor/esper-plugin-lang-cpp-modern.js',
+          to: 'javascripts/app/vendor/aether-cpp.modern.js'
         }
       ]),
       new CompileStaticTemplatesPlugin({
