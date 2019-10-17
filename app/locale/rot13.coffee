@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     referrer_web: "Tbbtyr"
     referrer_other: "Bgure"
     anything_else: "Jung xvaq bs pynff qb lbh nagvpvcngr hfvat PbqrPbzong sbe?"
+    anything_else_helper: ""
     thanks_header: "Erdhrfg Erprvirq!"
     thanks_sub_header: "Gunaxf sbe rkcerffvat vagrerfg va PbqrPbzong sbe lbhe fpubby."
     thanks_p: "Jr'yy or va gbhpu fbba! Vs lbh arrq gb trg va pbagnpg, lbh pna ernpu hf ng:"

@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "還有甚麼我們需要知道的嗎?" # {change}
+#    anything_else_helper: ""
     thanks_header: "已收到申請!"
     thanks_sub_header: "感謝您表達您的學校對於CodeCombat的興趣。"
     thanks_p: "我們不久將會與您接觸!如果需要與我們聯絡，您可以以下面方式找到我們:"
