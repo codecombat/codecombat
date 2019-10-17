@@ -177,9 +177,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
 
-    'ozaria/avatar-selector': () ->
-      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
-
     'parents': go('ParentsView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
@@ -218,26 +215,28 @@ module.exports = class CocoRouter extends Backbone.Router
     # 'play/spectate/:levelID': go('play/SpectateView')
     # 'play/:map': go('play/CampaignView')
     
-    # Adding this route to test interactives until we have the intro levels implemented
-    # TODO: remove this route when intro level is ready to test the interactives.
+    # These are admin-only routes since they are only used internally for testing -> interactive/, cinematic/, cutscene/, ozaria/avatar-selector
     'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->
       props = {
         interactiveIdOrSlug: interactiveIdOrSlug,
         codeLanguage: codeLanguage # This will also come from intro level page later
       }
-      @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+      @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props}) if me.isAdmin()
 
     'cinematic/:cinematicIdOrSlug': (cinematicIdOrSlug) ->
       props = {
         cinematicIdOrSlug: cinematicIdOrSlug,
       }
-      @routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+      @routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props}) if me.isAdmin()
 
     'cutscene/:cutsceneId': (cutsceneId) ->
       props = {
         cutsceneId: cutsceneId,
       }
-      @routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
+      @routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) if me.isAdmin()
+
+    'ozaria/avatar-selector': () ->
+      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' }) if me.isAdmin()
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
