@@ -1268,7 +1268,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_account_subtitle: "在 CodeCombat 班级中使用老师专用工具。 <strong>创建班级</strong>添加学生、<strong>观察学生进度</strong>！"
     convert_account_title: "升级为老师账号"
     not: "不是"
-#    full_name_required: "First and last name required"
+    full_name_required: "姓和名是必填项"
 
   versions:
     save_version_title: "保存新版本"
@@ -1359,7 +1359,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     maximize_editor: "最大化/最小化代码编辑器"
 
 #  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+    click_anywhere_continue: "点击任意区域继续"
 
   community:
     main_title: "CodeCombat社区"
@@ -2340,12 +2340,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     left_xp_postfix: ""
 
   account:
-#    title: "Account"
-#    settings_title: "Account Settings"
-#    unsubscribe_title: "Unsubscribe"
-#    payments_title: "Payments"
-#    subscription_title: "Subscription"
-#    invoices_title: "Invoices"
+    title: "账户"
+    settings_title: "账户设置"
+    unsubscribe_title: "取消订阅"
+    payments_title: "支付"
+    subscription_title: "订阅"
+    invoices_title: "发票"
 #    prepaids_title: "Prepaids"
     payments: "支付方式"
     prepaid_codes: "预付费码"
@@ -2414,11 +2414,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can3: "使用在您的账户或者给其他人。"
 
 #  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
+    sound_off: "关闭声音"
+    sound_on: "开启声音"
+    back_to_map: "返回地图"
+    level_options: "关卡选项"
+    restart_level: "重新开始这个关卡"
 
   impact:
     hero_heading: "创建世界一流的计算机科学课程"
@@ -2520,8 +2520,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     arithmetic: "四则运算"
     array_2d: "二维数组"
     array_index: "数组下标"
-#    array_iterating: "Iterating Over Arrays"
-#    array_literals: "Array Literals"
+    array_iterating: "数组迭代"
+    array_literals: "数组字面量"
     array_searching: "数组遍历"
     array_sorting: "数组排序"
     arrays: "数组"
@@ -2561,7 +2561,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     game_goals: "游戏目标"
 #    game_spawn: "Game Spawn"
     graphics: "图形"
-#    graphs: "Graphs"
+    graphs: "图"
     heaps: "堆"
     if_condition: "If条件语句"
     if_else_if: "If/Else If语句"
@@ -2582,7 +2582,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jquery_selectors: "jQuery选择器"
     length: "数组长度"
 #    math_coordinates: "Coordinate Math"
-#    math_geometry: "Geometry"
+    math_geometry: "几何"
     math_operations: "数学程序库操作"
 #    math_proportions: "Proportion Math"
 #    math_trigonometry: "Trigonometry"
@@ -2607,7 +2607,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     while_condition_loops: "使用条件语句的While循环"
     while_loops_simple: "While循环"
     while_loops_nested: "While嵌套循环"
-#    xy_coordinates: "Coordinate Pairs"
+    xy_coordinates: "坐标对"
     advanced_strings: "高级字符串" # Rest of concepts are deprecated
     algorithms: "算法"
     boolean_logic: "布尔逻辑"

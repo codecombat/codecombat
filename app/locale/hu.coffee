@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "Egyéb tudnivalók" # {change}
+#    anything_else_helper: ""
     thanks_header: "Kérésedet megkaptuk!"
     thanks_sub_header: "Köszönjük az érdeklődésedet, örülünk, hogy fel szeretnéd használni a CodeCombatet az iskoládban."
     thanks_p: "Hamarosan jelentkezünk. Addig is szükség esetén a következő e-mail címen érhetsz el minket:"

@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "יש עוד משהו שכדאי לנו לדעת?" # {change}
+#    anything_else_helper: ""
     thanks_header: "הבקשה התקבלה!"
     thanks_sub_header: "אנו מודים לכם על גילוי העניין ב-CodeCombat עבור מוסד הלימודים שלכם."
     thanks_p: "ניצור קשר בקרוב! ליצירת קשר, ניתן לפנות אלינו ב:"
