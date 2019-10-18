@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    referrer_web: "Google"
 #    referrer_other: "Other"
 #    anything_else: "What kind of class do you anticipate using CodeCombat for?"
+#    anything_else_helper: ""
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
 #    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
