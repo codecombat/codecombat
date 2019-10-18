@@ -424,7 +424,7 @@ _.extend LevelSchema.properties,
     properties: {
       name: c.shortString(title: 'Name'),
       section: c.shortString(title: 'Methods Bank Section', pattern: '^[a-z]+$'),
-      subSection: c.shortString(title: 'Methods Bank Sub-Section', pattern: '^[a-z]+$'),
+      subSection: c.shortString(title: 'Methods Bank Sub-Section', pattern: '^[a-zA-Z]+$'),
       componentName: c.shortString(title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation'),
     }
   }
