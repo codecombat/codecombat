@@ -114,17 +114,11 @@ block content
                     if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
                       span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
-                  - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
-                  - var classroomCompleted = true
-                  for courseInstance in courseInstances
-                    - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
-                    - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
-                    if !stats.courseComplete
-                      - classroomCompleted = false
-                  if !classroomCompleted
+                  if classroom.hasCompleted
                     p.alert.alert-success
                       span(data-i18n="courses.ask_next_course")
 
+                  - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
                   for courseInstance in courseInstances
 
                     .course-instance-entry.rtl-allowed
