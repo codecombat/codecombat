@@ -1641,6 +1641,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classes: "Classes"
     certificate_btn_print: "Print"
     certificate_btn_toggle: "Toggle"
+    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"

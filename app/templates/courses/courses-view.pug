@@ -115,6 +115,16 @@ block content
                       span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
                   - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+                  - var classroomCompleted = true
+                  for courseInstance in courseInstances
+                    - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
+                    - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+                    if !stats.courseComplete
+                      - classroomCompleted = false
+                  if !classroomCompleted
+                    p.alert.alert-success
+                      span(data-i18n="courses.ask_next_course")
+
                   for courseInstance in courseInstances
 
                     .course-instance-entry.rtl-allowed
