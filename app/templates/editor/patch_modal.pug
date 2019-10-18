@@ -1,0 +1,27 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .modal-header-content
+    h3(data-i18n="resources.patch")
+
+block modal-body-content
+  .modal-body
+    p= patch.get('commitMessage')
+    if deltaWorked
+      .changes-stub
+    else
+      .alert.alert-danger Could not apply this delta to the current version.
+
+block modal-footer
+  .modal-footer
+    button(data-dismiss="modal", data-i18n="common.cancel").btn
+    if isPatchCreator
+      if status != 'withdrawn'
+        button.btn.btn-danger#withdraw-button(data-i18n="general.withdraw")
+    if isPatchRecipient
+      if status != 'accepted'
+        button.btn.btn-primary#accept-button(data-i18n="general.accept")
+        if isLevel && me.isAdmin()
+          button.btn.btn-warning#accept-save-button(data-i18n="general.accept_and_save")
+      if status != 'rejected'
+        button.btn.btn-danger#reject-button(data-i18n="general.reject")

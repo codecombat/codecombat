@@ -1,0 +1,86 @@
+extends /templates/base
+
+block content
+
+  h2(data-i18n="contribute.page_title") Contributing
+  p(data-i18n="contribute.intro_blurb")
+    | CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game 
+    | into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the 
+    | world to code!
+
+  a(href="/contribute/archmage")
+    div.class_tile
+      img(src="/images/pages/contribute/tile_archmage.png", alt="")
+
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.archmage_title") Archmage
+          span(data-i18n="classes.archmage_title_description")
+
+        p(data-i18n="classes.archmage_summary")
+          | If you are a developer interested in coding educational games, become an archmage to help us build CodeCombat!
+
+  a(href="/contribute/artisan")
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_artisan.png", alt="")
+
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.artisan_title") Artisan
+          span(data-i18n="classes.artisan_title_description")
+
+        p(data-i18n="classes.artisan_summary")
+          | Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program.
+
+  if !me.isOnPremiumServer()
+    a(href="/contribute/adventurer")
+      div.class_tile
+        img.tile-img(src="/images/pages/contribute/tile_adventurer.png", alt="")
+  
+        div.class_text
+          h3
+            span.spr(data-i18n="classes.adventurer_title") Adventurer
+            span(data-i18n="classes.adventurer_title_description")
+  
+          p(data-i18n="classes.adventurer_summary")
+            | Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release.
+
+  a(href="/contribute/scribe")
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_scribe.png", alt="")
+
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.scribe_title") Scribe
+          span(data-i18n="classes.scribe_title_description")
+
+        p(data-i18n="classes.scribe_summary")
+          | Good code needs good documentation. Write, edit, and improve the docs read by millions of players across the globe.
+
+
+  a(href="/contribute/diplomat")
+
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_diplomat.png", alt="")
+
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.diplomat_title") Diplomat
+          span(data-i18n="classes.diplomat_title_description")
+
+        p(data-i18n="classes.diplomat_summary")
+          | CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.
+
+  a(href="/contribute/ambassador")
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_ambassador.png", alt="")
+
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.ambassador_title") Ambassador
+          span(data-i18n="classes.ambassador_title_description")
+
+        p(data-i18n="classes.ambassador_summary")
+          | Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.
+
+  div.clearfix

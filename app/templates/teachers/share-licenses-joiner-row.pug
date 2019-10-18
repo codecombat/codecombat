@@ -1,0 +1,16 @@
+div.row.p-t-1.p-b-1(v-if="joiner")
+  div.col-xs-8
+    div
+      b
+        | {{ broadName }}
+        span(v-if="joiner.email === me.get('email')")
+          = " "
+          | {{ $t("share_licenses.you") }}
+    div.small
+      | {{ joiner.email }}
+      
+  div.col-xs-4
+    b(v-if="joiner.licensesUsed === 1")
+      | {{ $t("share_licenses.one_license_used") }}
+    b(v-else)
+      | {{ $t("share_licenses.licenses_used", { licensesUsed: joiner.licensesUsed }) }}

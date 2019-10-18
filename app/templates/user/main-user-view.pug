@@ -1,0 +1,175 @@
+extends /templates/common/user
+
+block append content
+  ol.breadcrumb
+    li
+      a(href="/")
+        span.glyphicon.glyphicon-home
+    li
+      a(href="/account", data-i18n="nav.account")
+    li.active(data-i18n="nav.profile")
+
+  if view.user
+    - var playerLevel = view.user.level()
+    - var emails = view.user.getEnabledEmails()
+    .vertical-buffer
+    .row
+      .left-column
+        .profile-wrapper
+          img.picture(src="#{view.user.getPhotoURL(150)}" alt="")
+          div.profile-info
+            h3.name= view.user.get('name')
+            if view.favoriteLanguage
+              div.extra-info
+                span(data-i18n="user.favorite_prefix") Favorite language is
+                strong.favorite-language= view.favoriteLanguage
+                span(data-i18n="user.favorite_postfix") .            
+            if playerLevel
+              div.extra-info
+                span.spr(data-i18n="general.player_level") Level
+                strong= playerLevel        
+        // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
+        if emails
+          ul.contributor-categories
+            //li.contributor-category
+              img.contributor-image(src="/images/pages/user/general.png")
+              h4.contributor-title CodeCombateer
+            if emails.adventurerNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/adventurer.png")
+                h4.contributor-title
+                  a(href="/contribute#adventurer" data-i18n="classes.adventurer_title") Adventurer
+            if emails.ambassadorNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/ambassador.png")
+                h4.contributor-title
+                  a(href="/contribute#ambassador" data-i18n="classes.ambassador_title") Ambassador
+            if emails.archmageNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/archmage.png")
+                h4.contributor-title
+                  a(href="/contribute#archmage" data-i18n="classes.archmage_title") Archmage
+            if emails.artisanNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/artisan.png")
+                h4.contributor-title
+                  a(href="/contribute#artisan" data-i18n="classes.artisan_title") Artisan
+            if emails.scribeNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/scribe.png")
+                h4.contributor-title
+                  a(href="/contribute#scribe" data-i18n="classes.scribe_title") Scribe
+
+      .right-column
+
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title(data-i18n="clans.clans") Clans
+          if (!view.clanModels)
+            .panel-body
+              p(data-i18n="common.loading")
+          else if (view.clanModels.length)
+            table.table
+              tr
+                th.col-xs-4(data-i18n="clans.name") Name
+                th.col-xs-4(data-i18n="clans.chieftain") Chieftain
+                th.col-xs-4(data-i18n="play.heroes") Heroes
+              each clan in view.clanModels
+                tr
+                  td
+                    a(href="/clans/#{clan.id}")= clan.get('name')
+                  td
+                    if view.idNameMap && view.idNameMap[clan.get('ownerID')]
+                      a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
+                    else
+                      a(href="/user/#{clan.get('ownerID')}") Anonymous
+                  td= clan.get('members').length
+          else
+            .panel-body
+              p(data-i18n="user.not_member_of_clans") Not a member of any clans yet.
+
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title(data-i18n="user.singleplayer_title") Singleplayer Levels
+          if (!view.singlePlayerSessions)
+            .panel-body
+              p(data-i18n="common.loading") Loading...
+          else if (view.singlePlayerSessions.length)
+            table.table
+              tr
+                th.col-xs-4(data-i18n="resources.level") Level
+                th.col-xs-4(data-i18n="user.last_played") Last Played
+                th.col-xs-4(data-i18n="user.status") Status
+              - var count = 0
+              each session, index in view.singlePlayerSessions
+                if session.get('levelName')
+                  tr(class=count > 4 ? 'hide' : '')
+                    - count++;
+                    td
+                      a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
+                    td= moment(session.get('changed')).fromNow()
+                    if session.get('state') && session.get('state').complete === true
+                      td(data-i18n="user.status_completed") Completed
+                    else
+                      td(data-i18n="user.status_unfinished") Unfinished
+            if count > 4
+              .panel-footer
+                button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
+          else
+            .panel-body
+              p(data-i18n="user.no_singleplayer") No Singleplayer games played yet.
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title(data-i18n="user.multiplayer_title") Multiplayer Levels
+          if (!view.multiPlayerSessions)
+            .panel-body
+              p(data-i18n="common.loading") Loading...
+          else if (view.multiPlayerSessions.length)
+            table.table
+              tr
+                th.col-xs-4(data-i18n="resources.level") Level
+                th.col-xs-4(data-i18n="user.last_played") Last Played
+                th.col-xs-4(data-i18n="general.score") Score
+              each session, index in view.multiPlayerSessions
+                tr(class=index > 4 ? 'hide' : '')
+                  td
+                    - var posturl = ''
+                    - if (session.get('team')) posturl = '?team=' + session.get('team')
+                    a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
+                  td= moment(session.get('changed')).fromNow()
+                  if session.get('totalScore')
+                    td= parseInt(session.get('totalScore') * 100)
+                  else
+                    td(data-i18n="user.status_unfinished") Unfinished
+            if view.multiPlayerSessions.length > 4
+              .panel-footer
+                button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
+          else
+            .panel-body
+              p(data-i18n="user.no_multiplayer") No Multiplayer games played yet.
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title(data-i18n="user.achievements_title") Achievements
+          if ! view.earnedAchievements
+            .panel-body
+              p(data-i18n="common.loading") Loading...
+          else if ! view.earnedAchievements.length
+            .panel-body
+              p(data-i18n="user.no_achievements") No achievements earned so far.
+          else
+            table.table
+              tr
+                th.col-xs-4(data-i18n="achievements.achievement") Achievement
+                th.col-xs-4(data-i18n="achievements.last_earned") Last Earned
+                th.col-xs-4(data-i18n="achievements.amount_achieved") Amount
+              each achievement, index in view.earnedAchievements.models
+                tr(class=index > 4 ? 'hide' : '')
+                  td= achievement.get('achievementName')
+                  td= moment(achievement.get('changed')).format("MMMM Do YYYY")
+                  if achievement.get('achievedAmount')
+                    td= achievement.get('achievedAmount')
+                  else
+                    td
+            if view.earnedAchievements.length > 4
+              .panel-footer
+                button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")

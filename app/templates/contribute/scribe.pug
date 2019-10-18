@@ -1,0 +1,54 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_scribe.png", alt="")
+
+    div.class-main#scribe-main
+      
+      h2
+        span(data-i18n="classes.scribe_title") Scribe
+        span  
+        span(data-i18n="classes.scribe_title_description") (Article Editor)
+      p
+        span(data-i18n="contribute.scribe_introduction_pref")
+          | CodeCombat isn't just going to be a bunch of levels.
+          | It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into.
+          | That way rather than each Artisan having to describe in detail what a comparison operator is, they
+          | can simply link their level to the Article describing them that is already written for the player's edification.
+          | Something along the lines of what the 
+        a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", data-i18n="contribute.scribe_introduction_url_mozilla")
+          | Mozilla Developer Network 
+        span(data-i18n="contribute.scribe_introduction_suf")  
+          | has built. If your idea of fun is articulating the concepts of programming in Markdown form,
+          | then this class might be for you.
+  
+      h4(data-i18n="contribute.class_attributes")
+        | Class Attributes
+      ul
+        li(data-i18n="contribute.scribe_attribute_1")
+          | Skill in words is pretty much all you need.
+          | Not only grammar and spelling, but able to convey complicated ideas to others.
+      
+      h4(data-i18n="contribute.how_to_join") How To Join
+      p
+        a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="contribute.contact_us_url")
+          | Contact us
+        span , 
+        span(data-i18n="contribute.scribe_join_description")
+          | tell us a little about yourself, your experience with programming and
+          | what sort of things you'd like to write about. We'll go from there!
+
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="article_editor", data-contributor-class-name="scribe")
+
+      h3(data-i18n="contribute.diligent_scribes")
+        | Our Diligent Scribes:
+      
+      #contributor-list(data-contributor-class-name="scribe")
+
+    div.clearfix

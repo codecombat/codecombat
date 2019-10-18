@@ -1,0 +1,82 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3 Campaign Analytics
+  if campaignCompletions.startDay && campaignCompletions.endDay
+    .input-group.input-group-sm
+      input.form-control#input-startday(type='text', style='width:100px;', value=campaignCompletions.startDay)
+      input.form-control#input-endday(type='text', style='width:100px;', value=campaignCompletions.endDay)
+      button.btn.btn-default.btn-sm#reload-button(style='margin-left:10px;') Reload
+  label(style='font-size:10px;font-weight:normal;')
+    span Double-click row to open level details.
+    span &nbsp;&nbsp;
+    input#option-show-left-game(type='checkbox', checked=showLeftGame) 
+    span Show Left Game
+    span &nbsp;&nbsp;
+    input#option-show-subscriptions(type='checkbox', checked=showSubscriptions) 
+    span Show Subscriptions
+    
+block modal-body-content
+  if campaignCompletions && campaignCompletions.levels
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td.level Level
+          td Started
+          td Finished
+          td.completion-rate Completion %
+          td Playtime (s)
+          if showLeftGame
+            td Left Game
+            td LG %
+            td LG/s
+          if showSubscriptions
+            td Sub Shown
+            td Sub Purchased
+      tbody
+        - for (var i = 0; i < campaignCompletions.levels.length; i++)
+          tr.level(data-level-slug=campaignCompletions.levels[i].level)
+            td.level-name-container= campaignCompletions.levels[i].level
+              span.level-name-background(style="width:#{campaignCompletions.levels[i].usersRemaining || 0}%;")
+            td= campaignCompletions.levels[i].started
+            td= campaignCompletions.levels[i].finished
+            if campaignCompletions.levels[i].completionRate
+              if campaignCompletions.top3 && campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
+                td.level-completion-container(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate.toFixed(2)
+                  svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
+              else if campaignCompletions.bottom3 && campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
+                td.level-completion-container(style='background-color:pink;')= campaignCompletions.levels[i].completionRate.toFixed(2)
+                  svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
+              else
+                td.level-completion-container= campaignCompletions.levels[i].completionRate.toFixed(2)
+                  svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
+            else
+              td.completion-rate
+            if campaignCompletions.levels[i].averagePlaytime
+              td.level-playtime-container= campaignCompletions.levels[i].averagePlaytime.toFixed(2)
+                span.level-playtime-background(style="width:#{campaignCompletions.levels[i].playtimePercentage || 0}%;")
+            else
+              td
+            if showLeftGame
+              td= campaignCompletions.levels[i].dropped
+              if campaignCompletions.levels[i].dropPercentage
+                if campaignCompletions.top3DropPercentage && campaignCompletions.top3DropPercentage.indexOf(campaignCompletions.levels[i].level) >= 0
+                  td(style='background-color:pink;')= campaignCompletions.levels[i].dropPercentage.toFixed(2)
+                else
+                  td= campaignCompletions.levels[i].dropPercentage.toFixed(2)
+              else
+                td
+              if campaignCompletions.levels[i].droppedPerSecond
+                if campaignCompletions.top3DropPerSecond && campaignCompletions.top3DropPerSecond.indexOf(campaignCompletions.levels[i].level) >= 0
+                  td(style='background-color:pink;')= campaignCompletions.levels[i].droppedPerSecond.toFixed(2)
+                else
+                  td= campaignCompletions.levels[i].droppedPerSecond.toFixed(2)
+              else
+                td
+            if showSubscriptions
+              td= campaignCompletions.levels[i].subsShown
+              td= campaignCompletions.levels[i].subsPurchased
+  else
+    div Loading...
+
+block modal-footer

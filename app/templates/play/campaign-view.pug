@@ -1,0 +1,352 @@
+if view.showAds()
+  // TODO: loading this multiple times yields script error:
+  // Uncaught TagError: adsbygoogle.push() error: All ins elements in the DOM with class=adsbygoogle already have ads in them.
+  .ad-container
+    if campaign
+      script(async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+      ins.adsbygoogle(style="display:inline-block;width:728px;height:90px", data-ad-client="ca-pub-6640930638193614", data-ad-slot="4924994487")
+      script.
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    else
+      script(async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+      ins.adsbygoogle(style="display:inline-block;width:728px;height:90px", data-ad-client="ca-pub-6640930638193614", data-ad-slot="4469166082")
+      script.
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+
+if showGameDevAlert
+  #game-dev-hoc-license-alert.alert.alert-success
+    span(data-i18n="play.get_course_for_class")
+    =" "
+    a(href="/teachers/licenses", data-i18n="play.request_licenses")
+
+// TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
+.gameplay-container
+  if features.codePlay
+    img.small-nav-logo.codeplay-logo(src="/images/common/codeplay/CodePlay_Lockup.png")
+
+  else
+    a(href="/").picoctf-hide
+      img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+
+    .picoctf-show
+      a(href="http://staging.picoctf.com").picoctf-logo
+        img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
+      a(href="http://codecombat.com").picoctf-powered-by
+        em.spr powered by
+        img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
+
+    if view.shouldShow('back-to-classroom')
+      a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase.under-logo(href='/play', data-i18n="play.back_to_classroom")
+    
+    if view.shouldShow('videos')
+      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
+
+  if serverConfig.codeNinjas
+    a(href="https://code.ninja")
+      img.small-nav-logo.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png", title="Code Ninjas home", alt="Code Ninjas home")
+
+  if view.shouldShow('anonymous-classroom-signup')
+    #anonymous-classroom-signup-dialog.modal-content.style-flat
+      .modal-header
+        span#anon-classroom-signup-close.glyphicon.glyphicon-remove.button.close
+        h4
+          div(data-i18n="play.anon_signup_title_1")
+          div(data-i18n="play.anon_signup_title_2")
+      .modal-body
+        .strong(data-i18n="play.anon_signup_enter_code")
+        div(data-i18n="play.anon_signup_ask_teacher")
+        div
+          span
+            input#anon-classroom-signup-code(type="text")
+          span
+            button#anon-classroom-join-btn.btn.btn-sm.btn-navy(data-i18n="courses.join")
+        .strong(data-i18n="play.anon_signup_create_class")
+        div(data-i18n="play.anon_signup_setup_class")
+        button#anon-classroom-signup-btn.btn.btn-sm.btn-navy(data-i18n="play.anon_signup_create_teacher")
+
+  if campaign
+    if view.shouldShow('amazon-campaign')
+      #amazon-campaign-container
+        img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
+
+    .map
+      if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
+        #brain-pop-done-banner-wrapper
+          #brain-pop-done-banner
+            img(src="/images/pages/play/Victory_Pose.png")
+            p
+              strong(data-i18n="play.brain_pop_done")
+            p
+              span(data-i18n="play.brain_pop_challenge")
+            p
+              button#brain-pop-replay-btn.btn.btn-success.btn-illustrated.btn-lg(data-i18n="play.replay")
+      .gradient.horizontal-gradient.top-gradient
+      .gradient.vertical-gradient.right-gradient
+      .gradient.horizontal-gradient.bottom-gradient
+      .gradient.vertical-gradient.left-gradient
+      .map-background(alt="", draggable="false")
+
+      each level in levels
+        if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
+          - continue;
+        - var levelNumber = '';
+        if view.shouldShow('back-to-classroom') && view.classroom
+          if level.assessment === 'cumulative'
+            - levelNumber = $.t('play_level.combo_challenge') + ': '
+          else if level.assessment
+            - levelNumber = $.t('play_level.concept_challenge') + ': '
+          else
+            - levelNumber = view.classroom.getLevelNumber(level.original, '');
+            if (levelNumber)
+              - levelNumber += '. ';
+        div(
+          style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}",
+          class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""),
+          data-level-slug=level.slug,
+          data-level-original=level.original,
+          title=levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
+        )
+          if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatusMap[level.slug] === 'complete')
+            img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
+          a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+          if levelStatusMap[level.slug] === 'complete'
+            img.star(src="/images/pages/play/star.png")
+          if editorMode
+            - var kindKey = ((level.kind && level.kind[0]) || "").toUpperCase();
+            //if kindKey
+            div(class="level-kind " + level.kind)= kindKey
+            - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
+            .level-acronym= acronym
+          if !level.hidden && !level.noFlag
+            if level.replayable
+              img.banner(src="/images/pages/play/level-banner-replayable.png")
+            else if level.type === 'hero-ladder' || level.type === 'course-ladder'
+              img.banner(src="/images/pages/play/level-banner-multiplayer.png")
+            else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatusMap[level.slug] !== 'complete'
+              img.banner(src="/images/pages/play/level-banner-special.png")
+            else if level.unlocksHero && levelStatusMap[level.slug] !== 'complete'
+              img.banner(src="/images/pages/play/level-banner-unlock#{level.requiresSubscription?'-subscriber':''}.png")
+              img.premium-hero-banner(src="/db/thang.type/#{level.unlocksHero}/toFile/poseImage")
+              img.treasure-chest(src="/images/pages/play/gold-chest.png")
+            else if level.unlocksItem && levelStatusMap[level.slug] !== 'complete'
+              img.banner(src="/images/pages/play/level-banner-unlock#{level.requiresSubscription?'-subscriber':''}.png")
+              if level.unlocksPet
+                img.pet-banner(src="/db/thang.type/#{level.unlocksItem}/toFile/dollImages.pet")
+              else
+                img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
+              img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
+            else if levelStatusMap[level.slug] !== 'complete' && level.assessment
+              img.banner(src="/images/pages/play/level-banner-unstarted-subscriber.png")
+            else if levelStatusMap[level.slug] === 'started'
+              img.banner(src="/images/pages/play/level-banner-started.png")
+            else if levelStatusMap[level.slug] !== 'complete'
+              img.banner(src="/images/pages/play/level-banner-unstarted#{level.requiresSubscription?'-subscriber':''}.png")
+            if levelDifficultyMap[level.slug]
+              .level-difficulty-banner-text= levelDifficultyMap[level.slug]
+          if level.locked
+            if level.unlocksItem && !level.unlocksHero
+              img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
+            else if level.unlocksHero
+              img.treasure-chest(src="/images/pages/play/gold-chest.png")
+        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
+        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original)
+          - var playCount = levelPlayCountMap[level.slug]
+          .progress.progress-striped.active.hide
+            .progress-bar(style="width: 100%")
+          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1));
+
+          div(class="level-info rtl-allowed " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
+            .level-status.rtl-allowed(dir="auto")
+            - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
+            h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")= levelName
+            if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatusMap[level.slug] === 'complete'
+              - topScore = view.levelScoreMap[level.original]
+              if topScore.thresholdAchieved
+                img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
+            - var description = i18n(level, 'description') || level.description || ""
+            .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: !picoCTF})
+            if level.disabled
+              p
+                span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
+                a.spr(href="/contribute/adventurer")
+                  strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
+                span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+            if level.displayConcepts && level.displayConcepts.length
+              p
+                for concept in level.displayConcepts
+                  kbd(data-i18n="concepts." + concept)
+
+            if !level.disabled && !level.locked
+              if playCount && playCount.sessions
+                .play-counts.hidden
+                  span.spl.spr= playCount.sessions
+                  span(data-i18n="play.players") players
+                  span.spr , #{Math.round(playCount.playtime / 3600)}
+                  span(data-i18n="play.hours_played") hours played
+              if showsLeaderboard
+                button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
+                  span(data-i18n="leaderboard.scores")
+
+              if view.shouldShow('classroom-level-play-button')
+                .course-version.hidden(data-level-original=level.original)
+                  button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
+                    span(data-i18n="common.play") Play
+              else
+                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+
+
+      for adjacentCampaign in adjacentCampaigns
+        a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
+          span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
+      // Minecraft Modal
+      .level.cube-level#cube-level-container(style="display: none;")
+        #spinning-cube
+          .cube
+            .front
+            .back
+            .top
+            .bottom
+            .left
+            .right
+      // Minecraft Modal
+      .cube-level#cube-level-shadow(style="left: 30%; top: 16.5%;display: none",class="level-shadow")
+  else
+    .portal
+      .portals
+        for campaignSlug in features.campaignSlugs || ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'mountain', 'glacier', 'volcano']
+          if campaignSlug === 'beta-campaigns-1' || campaignSlug === 'beta-campaigns-2'
+            - if (me.freeOnly()) continue;
+            - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']);
+            .beta-container
+              each campaignSlug in betaSlugs
+                - var campaign = campaigns[campaignSlug];
+                if !campaign
+                  - continue;
+                div(class="beta-campaign" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+                  .background-container(class=campaignSlug)
+                  .campaign-label
+                    h3.campaign-name
+                      if campaign
+                        span= i18n(campaign.attributes, 'fullName')
+                        if campaign.levelsTotal
+                          span.spl= campaign.levelsCompleted
+                          | /
+                          span= campaign.levelsTotal
+                      else
+                        span ???
+                    if campaign && campaign.locked && !godmode
+                      h4.campaign-locked(data-i18n="play.locked") Locked
+                    else if campaign
+                      if serverConfig.static
+                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
+                      else
+                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                    if campaign && campaign.get('description')
+                      p.campaign-description(dir="auto")
+                        span= i18n(campaign.attributes, 'description')
+          else
+            - var campaign = campaigns[campaignSlug];
+            - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
+            div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+              .campaign-label
+                h2.campaign-name
+                  if campaign
+                    span= i18n(campaign.attributes, 'fullName')
+                  else
+                    span ???
+                if campaign && campaign.levelsTotal && !features.brainPop
+                  h3.levels-completed
+                    span= campaign.levelsCompleted
+                    | /
+                    span= campaign.levelsTotal
+                if campaign && campaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if campaign
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/" + campaignSlug).btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if campaign && campaign.get('description')
+                  p.campaign-description(dir="auto")
+                    span= i18n(campaign.attributes, 'description')
+
+  .game-controls.header-font.picoctf-hide
+    if !(features.picoCtf || features.brainPop)
+      if view.shouldShow('premium')
+        button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
+      if view.shouldShow('poll')
+        button.btn.poll.hidden(data-i18n="[title]play.poll")
+      if view.shouldShow('clans')
+        a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
+      if view.shouldShow('items')
+        button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
+      if view.shouldShow('heros')
+        button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+      if view.shouldShow('achievements')
+        button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+      if view.shouldShow('buy-gems')
+        button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
+      if !me.get('anonymous', true) && view.shouldShow('settings')
+        a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
+      if me.get('anonymous', true)
+        button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]nav.account")
+
+  .user-status.header-font.picoctf-hide
+    .user-status-line
+      if view.shouldShow('status-line')
+        if view.shouldShow('gems')
+          span.gem.gem-30
+          span#gems-count.spr= me.gems()
+        if view.shouldShow('level')
+          .rtl-allowed
+            span.level-indicator(data-i18n="general.player_level")
+            span.player-level.spr= me.level()
+        span.player-hero-icon
+        if me.get('anonymous')
+          span.player-name(data-i18n="play.anonymous") Anonymous Player
+          button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+          button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+        else
+          if me.isStudent()
+            a(href="/play").player-name.spr= me.get('name')
+          else
+            a(href="/account").player-name.spr= me.get('name')
+          if !features.codePlay && !me.isStudent()
+            button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+          if me.isPremium()
+            button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+
+  button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+    .glyphicon.glyphicon-volume-off
+    .glyphicon.glyphicon-volume-down
+    .glyphicon.glyphicon-volume-up
+
+  if campaign && campaign.get('type') !== 'hoc' && !editorMode && view.shouldShow('back-to-campaigns')
+    button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
+      .glyphicon.glyphicon-globe
+
+  if editorMode
+    button.btn.btn-lg.btn-inverse.campaign-control-button#clear-storage-button(data-i18n="[title]editor.clear_storage", title="Clear your local changes")
+      .glyphicon.glyphicon-refresh
+
+  if campaign && campaign.loaded
+    h1#campaign-status.picoctf-hide
+      .campaign-status-background.rtl-allowed
+        .campaign-name.rtl-allowed
+          span= i18n(campaign.attributes, 'fullName')
+        .levels-completed.rtl-allowed
+          span= levelsCompleted
+          | /
+          span= levelsTotal
+
+if campaign && view.shouldShow('codeplay-ads')
+  a(href="https://lenovogamestate.com/pages/products/")
+    - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
+    if me.isFromUk()
+      - url = "/images/common/codeplay/UK_LevelsPage_Cube_160x480.png"
+    if me.setToGerman()
+      - url = "/images/common/codeplay/DE_LevelsPage_MIIX510_160x480_DE.png"
+    if me.setToSpanish()
+      - url = "/images/common/codeplay/MX_LevelsPage_910_160x480_MX.png"
+    img#codeplay-ad(src=url)

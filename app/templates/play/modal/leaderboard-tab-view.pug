@@ -1,0 +1,41 @@
+h1
+  span.spr(data-i18n="leaderboard.top_players") Top Players by
+  span(data-i18n="leaderboard.#{scoreType.replace('-', '_')}")
+  span.spr ,
+  span(data-i18n="leaderboard.#{timespan}")
+
+if topScores
+  table.table.table-bordered.table-condensed.table-hover
+    thead
+      tr
+        th(colspan=4, data-i18n="general.player")
+        th(data-i18n="general.score")
+        th(data-i18n="general.when")
+        th
+    tbody
+      for row, rank in topScores
+        - var isMyRow = row.creator == me.id;
+        - var viewable = rank >= 5 || me.isAdmin();
+        - var title = me.isAdmin() ? '<pre>' + row.code + '</pre>' : viewable ? "View solution" : "Can't view top 5 solutions";
+        - var toggle = me.isAdmin() ? "tooltip" : "";
+        tr(class=isMyRow ? "success" : "" + (viewable ? " viewable" : ""), data-player-id=row.creator, data-session-id=row.session, title=title, data-toggle=toggle)
+          td.rank-cell= rank + 1
+          td.code-language-cell(style="background-image: url(/images/common/code_languages/#{row.codeLanguage}_small.png)" title=_.string.capitalize(row.codeLanguage))
+          td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{row.hero}/portrait.png)")
+          td.name-col-cell= row.creatorName || "Anonymous"
+          td.score-cell= row.score
+          td.ago-cell= row.ago
+          td.viewable-cell
+            if viewable
+              if (me.get('preferredLanguage', true) || 'en-US').substr(0, 2) == 'en' && !me.isAdmin()
+                .btn.btn-xs.btn-info Watch
+              else
+                .glyphicon.glyphicon-eye-open
+            else
+              .glyphicon.glyphicon-eye-close
+            if me.isAdmin()
+              .nuke-button.glyphicon.glyphicon-remove
+else if loading
+  h3(data-i18n="common.loading")
+else
+  h3 No scores yet.

@@ -1,0 +1,125 @@
+.modal-dialog
+  .modal-content
+
+    img(src="/images/pages/play/modal/choosehero-background.png", draggable="false")#play-heroes-background
+    
+    h1(data-i18n="choose_hero.choose_hero")
+
+    div#gems-count-container
+      span#gems-count
+        .gem.gem-20
+        span.spl= gems
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    #hero-carousel.carousel.slide(data-interval=0)
+      .carousel-indicator-container
+        ol.carousel-indicators
+          for hero, index in heroes
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : "") + (hero.premium ? " premium " : ""))
+              .hero-avatar
+      .carousel-inner
+        for hero in heroes
+          div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""), data-hero-id=hero.get('original'))
+            canvas.hero-canvas
+            .hero-pose-image
+              img(draggable="false")
+            .hero-stats.rtl-allowed(dir="auto")
+              h2= hero.name
+              .hero-description= hero.description
+              
+              .hero-stat-row
+                .stat-label(data-i18n='leaderboard.difficulty')
+                .stat-value.hero-status-value(data-i18n=hero.class == 'ranger' ? 'general.medium' : (hero.class == 'wizard' ? 'general.hard' : 'general.easy'))
+              
+              .hero-stat-row
+                .stat-label(data-i18n='editor.level_components_type')  
+                .stat-value(data-i18n='general.' +hero.class)
+
+              .hero-stat-row
+                .stat-label(data-i18n='choose_hero.weapons')
+                .stat-value(data-i18n='choose_hero.weapons_'+hero.class)
+
+              if hero.stats
+                if hero.stats.skills.length
+                  .hero-stat-row
+                    .stat-label(data-i18n='choose_hero.skills')
+                    .stat-value= hero.stats.skills.join(', ')
+                for stat in ['attack', 'health', 'speed']
+                  .hero-stat-row(class=stat, title=hero.stats[stat].description)
+                    .stat-label(data-i18n='choose_hero.'+stat)
+                    .stat-value
+                      .stat-progress
+                        .stat-progress-bar(style="width: " + (parseInt(hero.stats[stat].relative * 100)) + "%")
+      
+      a.left(role="button", data-slide="prev", href="#hero-carousel")
+        span.glyphicon.glyphicon-play
+      a.right(role="button", data-slide="next", href="#hero-carousel")
+        span.glyphicon.glyphicon-play
+
+    #hero-footer
+      if visibleHero
+        if !visibleHero.get('original')
+          #loading-hero-explanation
+            h2(data-i18n="common.loading") Loading...
+
+        else if visibleHero.restricted
+          #hero-footer-text-background
+            .image-block
+              img(src= "/images/pages/play/modal/language-selector-background.png")
+          #restricted-hero-explanation
+            h2
+              span= visibleHero.name
+              span.spl(data-i18n="inventory.restricted_title") Restricted
+            span.spr(data-i18n="choose_hero.restricted_to_certain_heroes") Only certain heroes can play this level.
+          button.btn.disabled.btn-illustrated#restricted-hero-button(data-i18n="inventory.restricted_title") Restricted
+  
+        else if visibleHero.purchasable
+          #hero-footer-text-background
+            .image-block
+              img(src= "/images/pages/play/modal/language-selector-background.png")
+          #purchasable-hero-explanation
+            h2(data-i18n="choose_hero.available_for_purchase") Available for Purchase
+          button.btn.unlock-button#purchase-hero-button
+            span.spr(data-i18n="play.unlock") Unlock
+            - if(!visibleHero.get('gems')) {
+            -   console.error('Huh, we loaded the hero with no gem cost.');
+            -   visibleHero.set('gems', {ninja: 400, librarian: 630, samurai: 1000, trapper: 1400, "potion-master": 1800, "forest-archer": 2500, sorcerer: 3400, raiser: 4600, necromancer: 6300, pixie: 8500, goliath: 12000, guardian: 16000, "dark-wizard": 21000, assassin: 29000}[visibleHero.get('slug')] || 99999);
+            - }
+            span= visibleHero.get('gems')
+            span.gem.gem-20
+  
+        else if visibleHero.locked
+          #hero-footer-text-background
+            .image-block
+              img(src= "/images/pages/play/modal/language-selector-background.png")
+          #locked-hero-explanation
+            h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
+            span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
+          button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
+            span.spr(data-i18n="subscribe.subscribe_title") Subscribe
+  
+        else if visibleHero.loaded 
+          if !me.isStudent() 
+            #hero-footer-text-background
+              .image-block
+                img(src= "/images/pages/play/modal/language-selector-background.png")
+            .form
+              .form-group.select-group             
+                span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
+                select#option-code-language(name="code-language")
+                  for option in codeLanguages
+                    option(value=option.id, selected=codeLanguage === option.id)= option.name               
+          a#confirm-button(data-i18n=confirmButtonI18N)
+
+    if !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds
+      a(href="https://lenovogamestate.com/pages/products/")
+        - var url = "/images/common/codeplay/NA_ChooseHeroPage_Yoga520_800x90.png"
+        if me.isFromUk()
+          - url = "/images/common/codeplay/UK_ChooseHeroPage_Yoga510_800x90.png"
+        if me.setToGerman()
+          - url = "/images/common/codeplay/DE_ChooseHeroPage_Ideapad710s_800x90_DE.png"
+        if me.setToSpanish()
+          - url = "/images/common/codeplay/MX_ChooseHeroPage_YogaBook_800x90_MX.png"
+        img#codeplay-choose-hero-ad(src=url)

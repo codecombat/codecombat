@@ -1,0 +1,86 @@
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/play/modal/inventory-background.png", draggable="false")#play-items-modal-narrow-bg
+
+    h1(data-i18n="game_menu.inventory_tab")
+
+    div#gems-count-container
+      span#gems-count.big-font= gems
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    #equipped
+      if selectedHero && selectedHero.get('featureImages')
+        - var featureImages = selectedHero.get('featureImages');
+        img(src="/file/"+featureImages.body, draggable="false")#hero-image
+        img(src="/file/"+featureImages.head, draggable="false")#hero-image-head
+        img(src="/file/"+featureImages.hair, draggable="false")#hero-image-hair
+        img(src="/file/"+featureImages.thumb, draggable="false")#hero-image-thumb
+
+      for slot in ['head', 'eyes', 'neck', 'torso', 'gloves', 'wrists', 'left-hand', 'right-hand', 'waist', 'feet', 'left-ring', 'right-ring', 'minion', 'flag', 'pet', 'programming-book', 'misc-0', 'misc-1']
+        .item-slot(data-slot=slot)
+          .placeholder
+          if equipment[slot]
+            img.item(src=equipment[slot].getPortraitURL(), data-item-id=equipment[slot].id)
+
+    #unequipped
+      .nano
+        .nano-content
+          if itemGroups
+            if itemGroups.requiredPurchaseItems.models.length
+              h4#required-purchase-description(data-i18n="inventory.required_purchase_title")
+              for item in itemGroups.requiredPurchaseItems.models
+                if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
+                  .item(class=item.classes, data-item-id=item.id)
+                    img(draggable="false")
+              .clearfix
+
+            if itemGroups.availableItems.models.length
+              h4#available-description(data-i18n="inventory.available_item")
+              for item in itemGroups.availableItems.models
+                if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
+                  .item.available(class=item.classes, data-item-id=item.id)
+                    img
+                    button.btn.equip-item(data-i18n="inventory.equip")
+              .clearfix
+            
+            #double-click-hint.alert.alert-info
+              span.glyphicon.glyphicon-info-sign.spr
+              span(data-i18n="inventory.should_equip")
+            
+            if itemGroups.subscriberItems.models.length && !me.freeOnly() && !me.get('hourOfCode')
+              h4#restricted-description Subscriber Only
+              for item in itemGroups.subscriberItems.models
+                if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
+                  .item(class=item.classes, data-item-id=item.id)
+                    img(draggable="false")
+              .clearfix
+
+            if itemGroups.restrictedItems.models.length
+              h4#restricted-description(data-i18n="inventory.restricted_title")
+              for item in itemGroups.restrictedItems.models
+                if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
+                  .item(class=item.classes, data-item-id=item.id)
+                    img(draggable="false")
+              .clearfix
+            
+            if itemGroups.lockedItems.models.length
+              h4#locked-description(data-i18n="play.locked")
+              for item in itemGroups.lockedItems.models
+                if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
+                  .item(class=item.classes, data-item-id=item.id)
+                    img(draggable="false")
+              .clearfix
+
+    #item-details-view
+    #item-details-extra
+      button#equip-item-viewed.btn.secret(data-i18n="inventory.equip")
+      button#unequip-item-viewed.btn.secret(data-i18n="inventory.unequip")
+      button#subscriber-item-viewed.btn.big-font.secret(data-i18n="play.subscribe_unlock")
+      .alert.alert-danger#restricted-item-viewed.secret(data-i18n="inventory.restricted")
+    if !me.isStudent()
+      button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active(data-i18n="play.change_hero_or_language")
+    else if me.showHeroAndInventoryModalsToStudents()
+      button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active(data-i18n="play.change_hero")
+    button#play-level-button.btn.btn-lg.btn-success.choose-inventory-active(data-i18n="common.play")

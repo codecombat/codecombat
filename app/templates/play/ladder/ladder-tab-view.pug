@@ -1,0 +1,96 @@
+- var league = view.options.league
+.row
+  for team, teamIndex in view.teams
+    div.column.col-md-6
+      div(id="histogram-display-#{team.name}", class="histogram-display", data-team-name=team.name)
+      table.table.table-bordered.table-condensed.table-hover.ladder-table(data-team=team.id)
+        - var levelType = view.level.get('type', true)
+        - var topSessions = team.leaderboard.topPlayers.models;
+        - var showJustTop = team.leaderboard.inTopSessions() || me.get('anonymous');
+        - if(!showJustTop && topSessions.length == 20) topSessions = topSessions.slice(0, 10);
+        thead
+          tr
+            th(colspan=levelType == 'hero-ladder' ? 3 : 2)
+            th(colspan=4, style="color: #{team.primaryColor}")
+              span= team.displayName
+              span.spl(data-i18n="ladder.leaderboard") Leaderboard
+          tr
+            th(colspan=levelType == 'hero-ladder' ? 3 : 2)
+            th(data-i18n="general.score") Score
+            th(data-i18n="general.name").name-col-cell Name
+            th(data-i18n="general.when") When
+            th
+            th.iconic-cell
+              .glyphicon.glyphicon-eye-open
+
+        tbody          
+          for session, rank in topSessions
+            - var myRow = session.get('creator') == me.id
+            - var sessionStats = league ? (_.find(session.get('leagues') || [], {leagueID: league.id}) || {}).stats || {} : session.attributes;
+            tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
+              td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)" title=view.capitalize(session.get('submittedCodeLanguage')))
+              if levelType == 'hero-ladder'
+                td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
+              td.rank-cell= rank + 1
+              td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2))
+              td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
+              td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
+              td.fight-cell
+                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
+                  span(data-i18n="ladder.fight") Fight!
+              td.spectate-cell.iconic-cell
+                .glyphicon.glyphicon-eye-open
+
+          if !showJustTop && team.leaderboard.nearbySessions().length
+            tr(class="active")
+              td(colspan=4).ellipsis-row ...
+            for session in team.leaderboard.nearbySessions()
+              - var myRow = session.get('creator') == me.id
+              - var sessionStats = league ? (_.find(session.get('leagues'), {leagueID: league.id}) || {}).stats || {} : session.attributes;
+              tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
+                td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)")
+                if levelType == 'hero-ladder'
+                  td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
+                td.rank-cell= session.rank
+                td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2))
+                td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
+                td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
+                td.fight-cell
+                  a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
+                    span(data-i18n="ladder.fight") Fight!
+                td.spectate-cell.iconic-cell
+                  .glyphicon.glyphicon-eye-open
+      if teamIndex == 1
+        .btn.btn-sm.load-more-ladder-entries(data-i18n="editor.more") More
+
+  div.column.col-md-4.secret
+    h4.friends-header(data-i18n="ladder.friends_playing") Friends Playing
+    if me.get('anonymous')
+      div.alert.alert-info
+        a(data-toggle="coco-modal", data-target="core/CreateAccountModal", data-i18n="ladder.log_in_for_friends") Log in to play with your friends!
+    
+    else
+      if !onFacebook || !onGPlus
+        div.connect-buttons
+          span(data-i18n="ladder.social_connect_blurb") Connect and play against your friends!
+          br
+          if !onFacebook
+            button.btn.btn-sm.connect-facebook(data-i18n="community.facebook") Facebook
+          if !onGPlus
+            button.btn.btn-sm.connect-google-plus(data-i18n="community.gplus") Google+
+
+      if view.friends
+        for friend in view.friends
+          p.friend-entry
+            img(src=friend.imageSource).img-thumbnail
+            span= friend.creatorName + ' (' + friend.name + ')'
+            br
+            span= Math.round(view.scoreForDisplay(friend.totalScore))
+            span : 
+            span= friend.team
+            br
+            a(href="/play/level/#{view.level.get('slug') || view.level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}" + (league ? "&league=" + league.id : ""))
+              span(data-i18n="ladder.fight") Fight!
+
+      else if onFacebook || onGPlus
+        p(data-i18n="ladder.invite_friends_to_battle") Invite your friends to join you in battle!

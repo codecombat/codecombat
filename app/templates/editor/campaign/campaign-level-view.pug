@@ -1,0 +1,137 @@
+.jumbotron
+  .button.close(type="button", aria-hidden="true") &times;
+  h1
+    span.spr= level.get('name')
+    a(href="/editor/level/#{level.get('slug')}", target="_blank") (edit)
+  p= level.get('description')
+
+  if analytics.startDay && analytics.endDay
+    .input-group.input-group-sm
+      input.form-control#input-startday(type='text', style='width:100px;', value=analytics.startDay)
+      input.form-control#input-endday(type='text', style='width:100px;', value=analytics.endDay)
+      button.btn.btn-default.btn-sm#reload-button(style='margin-left:10px;') Reload
+
+  each graph in analytics.graphs
+    each line in graph.lines
+      label.line-graph-label
+        input.line-graph-checkbox(data-lineid="#{line.lineID}", type='checkbox', checked=line.enabled)
+        span #{line.description}
+        span &nbsp;&nbsp;
+    .line-graph-container
+      each line in graph.lines
+        each point in line.points
+          .graph-point-info-container(data-pointid="#{point.pointID}")
+            div(style='font-weight:bold;') #{point.day}
+            each value in point.values
+              div #{value}
+
+  h4 Common Problems
+  if analytics.commonProblems.loading
+    div Loading...
+  else
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Language
+          td Error Message
+          td Error Hint
+          td Count
+      tbody
+        - for (var i = 0; i < analytics.commonProblems.data.length && i < 20; i++)
+          tr
+            td= analytics.commonProblems.data[i].language
+            td= analytics.commonProblems.data[i].message
+            td= analytics.commonProblems.data[i].hint
+            td= analytics.commonProblems.data[i].count
+
+  h4 Recent Sessions
+  if analytics.recentSessions.loading
+    div Loading...
+  else
+    div
+      .input-group.input-group-sm
+        input.form-control#input-session-num(type='number', min=100, max=10000, style='width:100px;', value=view.limit)
+        button.btn.btn-default.btn-sm#recent-button(style='margin-left:10px;') Reload recent
+    div(style='font-size:10pt') Latest #{analytics.recentSessions.data.length} sessions for this level
+    div(style='font-size:10pt') Double-click row to open player and session
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Session ID
+          td Player
+          td Product
+          td Code Language
+          td Playtime
+          td Complete
+          td Changed
+          td Replay
+      tbody
+        - for (var i = 0; i < analytics.recentSessions.data.length; i++)
+          - var session = analytics.recentSessions.data[i];
+          tr(data-player-id=session.creator, data-session-id=session._id, class='recent-session ' + (session.state && session.state.complete ? 'complete' : 'incomplete'))
+            td= session._id
+            td= session.creatorName || session.creator
+            td= session.isForClassroom ? 'classroom' : 'home'
+            td= session.codeLanguage
+            td= session.playtime
+            if session.state && session.state.complete
+              td= session.state.complete
+            else
+              td false
+            td= session.changed
+            td
+              button.btn.replay-button.btn-xs
+                .glyphicon.glyphicon-eye-open
+
+  h4 Completion Rates
+  if analytics.levelCompletions.loading
+    div Loading...
+  else
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Date
+          td Started
+          td Finished
+          td Completion %
+          if analytics.levelHelps.data.length === analytics.levelCompletions.data.length
+            td Helps Clicked
+            td Helps / Started
+            td Help Videos
+            td Videos / Started
+      tbody
+        - for (var i = 0; i < analytics.levelCompletions.data.length; i++)
+          tr
+            td= analytics.levelCompletions.data[i].created
+            td= analytics.levelCompletions.data[i].started
+            td= analytics.levelCompletions.data[i].finished
+            td= analytics.levelCompletions.data[i].rate
+            if analytics.levelHelps.data.length === analytics.levelCompletions.data.length && analytics.levelCompletions.data[i].created == analytics.levelHelps.data[i].day
+              td= analytics.levelHelps.data[i].alertHelps + analytics.levelHelps.data[i].paletteHelps
+              td= ((analytics.levelHelps.data[i].alertHelps + analytics.levelHelps.data[i].paletteHelps) / analytics.levelCompletions.data[i].started).toFixed(2)
+              td= analytics.levelHelps.data[i].videoStarts
+              td= (analytics.levelHelps.data[i].videoStarts / analytics.levelCompletions.data[i].started).toFixed(2)
+
+  h4 Average Playtimes
+  if analytics.levelPlaytimes.loading
+    div Loading...
+  else
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Date
+          td Average (s)
+      tbody
+        - for (var i = 0; i < analytics.levelPlaytimes.data.length; i++)
+          tr
+            td= analytics.levelPlaytimes.data[i].created
+            td= analytics.levelPlaytimes.data[i].average.toFixed(2)
+
+if level.get('tasks')
+  .tasks
+    h3 Tasks (read only)
+    ul.list-unstyled
+      for task in level.get('tasks')
+        li
+          input(type='checkbox', checked=task.complete)
+          span.spl= task.name

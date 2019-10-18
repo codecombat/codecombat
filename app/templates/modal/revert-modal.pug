@@ -1,0 +1,13 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="editor.revert_models") Revert Models
+
+block modal-body-content
+  table.table.table-striped#changed-models
+    for model in models
+      tr
+        td
+          | #{model.type()}: #{model.get('name')}
+        td
+          button(value=model.id, data-i18n="editor.revert") Revert

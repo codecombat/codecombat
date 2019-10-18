@@ -1,0 +1,47 @@
+extends /templates/play/modal/announcement-modal
+
+block config
+  - showSubscribe = true
+  - showNfo = true
+
+block title
+  h1(style="font-size: 2em; top:-10px" data-i18n="announcement.now_available")
+  h1(data-i18n="announcement.cuddly_companions")
+
+block image
+  img.full-width-image(src="/images/pages/play/modal/announcement/pets/bg_baked_shadows.png")
+
+  img.pet-image.has-tooltip.no-show-pet.excitable-hidden(src="/images/pages/play/modal/announcement/pets/fire_elem.png" style="top: 50%; left:45%" data-name="announcement.kindling_name" data-coming-soon="true" data-description="announcement.kindling_description")
+
+  img.full-width-image(src="/images/pages/play/modal/announcement/pets/heroes_and_fire.png" style="top:2%")
+
+  img.pet-image.has-tooltip.no-show-pet.excitable-hidden(src="/images/pages/play/modal/announcement/pets/griffin.png" style="top: 15%; left:5%" data-name="announcement.griffin_name" data-coming-soon="true" data-description="announcement.griffin_description")
+
+  img.pet-image.has-tooltip.no-show-pet.excitable-hidden(src="/images/pages/play/modal/announcement/pets/raven.png" style="top: 10%; left:25%" data-name="announcement.raven_name" data-coming-soon="true" data-description="announcement.raven_description")
+
+  img.pet-image.has-tooltip.no-show-pet.excitable-hidden(src="/images/pages/play/modal/announcement/pets/mimic_no_shadow.png" style="top: 55%; left:2%" data-name="announcement.mimic_name" data-coming-soon="true" data-description="announcement.mimic_description")
+
+  img.pet-image.has-tooltip.excitable(src="/images/pages/play/modal/announcement/pets/cougar_no_shadow.png" style="top: 58%; left:7%;clip-path: polygon(45% 0, 100% 0, 100% 100%, 0 100%, 0 43%);" data-name="announcement.cougar_name" data-description="announcement.cougar_description")
+
+  img.pet-image.has-tooltip.no-show-pet.excitable-hidden(src="/images/pages/play/modal/announcement/pets/fox_no_shadow.png" style="top: 35%; left:77.5%" data-name="announcement.fox_name" data-coming-soon="true" data-description="announcement.fox_description")
+
+  img.pet-image.has-tooltip.no-show-pet.excitable-hidden(src="/images/pages/play/modal/announcement/pets/pug_no_shadow.png" style="top: 59%; left:69%" data-name="announcement.pugicorn_name" data-coming-soon="true" data-description="announcement.pugicorn_description")
+
+  img.pet-image.has-tooltip.excitable(src="/images/pages/play/modal/announcement/pets/wolf_pup_no_shadow_only_wolf.png" style="top: 62%; left:79%" data-name="announcement.wolf_name" data-description="announcement.wolf_description")
+  img.pet-image.has-tooltip.excitable(src="/images/pages/play/modal/announcement/pets/ball_no_shadow_only_ball.png" style="top: 90%; left:75.75%" data-name="announcement.ball_name" data-description="announcement.ball_description")
+
+  img.full-width-image(src="/images/pages/play/modal/announcement/pets/grass.png" style="position:absolute;top: 0%; left:0%")
+
+block info
+  div
+    ul(style="margin: 2px; padding: 2px; padding-left: 18px")
+      li(data-i18n="announcement.collect_pets")
+      li(data-i18n="announcement.each_pet")
+      if !me.isPremium()
+        li
+          != translate('announcement.upgrade_to_premium').replace('{{subscriber}}', '<a href="/premium">' + translate('announcement.subscriber') + '</a>')
+      else if me.get('stats') && me.get('stats').gamesCompleted >= 7
+        li
+          != translate('announcement.play_second_kithmaze').replace('{{the_second_kithmaze}}', '<a href="/play/level/the-second-kithmaze">' + translate('announcement.the_second_kithmaze') + '</a>')
+      else
+        li(data-i18n="announcement.keep_playing")

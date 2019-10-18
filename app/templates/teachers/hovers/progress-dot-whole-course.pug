@@ -1,0 +1,18 @@
+if loading
+  span.small-details(data-i18n='common.loading')
+    | Loading...
+else if !total
+  span.small-details(data-i18n='teacher.no_progress')
+    | No Progress
+else
+  .fraction-students.small-details
+    = complete
+    | /
+    = total
+    span.spl(data-i18n='courses.students')
+      | Students
+  .percent-students.small-details
+    = percentLevelCompletion || Math.floor(complete / total * 100)
+    | %
+    span.spl(data-i18n='clans.complete_2')
+      | Complete

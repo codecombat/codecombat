@@ -1,0 +1,42 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3
+    span(data-i18n="play_level.victory_title_prefix")
+    span= levelName
+    span(data-i18n="play_level.victory_title_suffix") Complete
+
+block modal-body-content
+  img.victory-banner(src="/images/level/victory.png", alt="")
+  div!= body
+  
+block modal-footer-content
+  if readyToRank
+    .ladder-submission-view
+  else if level.isType('ladder')
+    a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
+  else
+    a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
+  if me.get('anonymous')
+    p.sign-up-poke
+      button.btn.btn-success.sign-up-button.btn-large(data-dismiss="modal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
+      span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
+    p.clearfix
+  else
+    div.rating.secret
+      span(data-i18n="play_level.victory_rate_the_level") Rate the level:
+      i.icon-star-empty
+      i.icon-star-empty
+      i.icon-star-empty
+      i.icon-star-empty
+      i.icon-star-empty
+  if !me.get('anonymous')
+    div.review.secret
+      span(data-i18n="play_level.victory_review") Tell us more!
+      br
+      textarea
+  div.share-buttons
+    .g-plusone(data-href="http://codecombat.com", data-size="medium")
+    .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_victory_#{fbRef}")
+    a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
+    iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")

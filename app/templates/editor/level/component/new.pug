@@ -1,0 +1,19 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="editor.new_component_title") Create New Component
+
+block modal-body-content
+  form.form
+    .form-group
+      label(for="level-component-system", data-i18n="editor.new_component_field_system").control-label System
+      select.form-control#level-component-system(name='system')
+        for system in view.systems
+          option(value=system)= system
+    .form-group
+      label(for="level-component-name", data-i18n="general.name").control-label Name
+      input.form-control#level-component-name(name="name", type="text")
+
+block modal-footer-content
+  button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
+  button(data-i18n="common.create").btn.btn-primary#new-level-component-submit Create

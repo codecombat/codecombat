@@ -1,0 +1,32 @@
+.modal-dialog
+  .background-wrapper
+    .modal-content
+      .modal-header
+        #close-modal.well.well-sm.well-parchment(data-dismiss="modal")
+          span.glyphicon.glyphicon-remove
+        #victory-header
+          #victory-title
+            if !me.get('preferredLanguage') || me.get('preferredLanguage').split('-')[0] == 'en'
+              img(src="/images/pages/play/level/modal/victory_word.png", draggable="false")
+            else
+              h1(data-i18n="play_level.victory") Victory
+      
+      .modal-body
+        .container-fluid
+          .row
+           - var victoryText = view.level.get('victory');
+           if victoryText && victoryText.body
+             .well.well-sm.well-parchment
+               h3= victoryText.body
+
+          .row
+            if view.nextLevel && view.nextLevel.get('slug')
+              .col-sm-5.col-sm-offset-2
+                a(href="/play/picoctf")#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Done
+              .col-sm-5
+                a(href="/play/level/#{view.nextLevel.get('slug')}")#continue-button.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase Continue
+            else
+              .col-sm-5.col-sm-offset-2
+              .col-sm-5
+                a(href="/play/picoctf")#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase Done
+  

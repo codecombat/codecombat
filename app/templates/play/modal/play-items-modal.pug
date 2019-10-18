@@ -1,0 +1,72 @@
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/play/modal/items-background.png", draggable="false")#play-items-modal-bg
+    img(src="/images/pages/play/modal/items-background-narrow.png", draggable="false")#play-items-modal-narrow-bg
+    
+    h1.big-font(data-i18n="play.items")
+    
+    div#gems-count-container
+      span#gems-count.big-font= gems
+    
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+    
+    ul.nav.nav-pills.nav-stacked
+      for category, index in itemCategories
+        li(class=index ? "" : "active", id=category + '-tab')
+          a.one-line(href="#item-category-" + category, data-toggle="tab")
+            img.tab-icon(src="/images/pages/play/modal/item-icon-"+category+".png", draggable="false")
+            span.big-font= itemCategoryNames[index]
+
+    #hero-type-select.btn-group(data-toggle="buttons")
+      label.btn.active#all
+        input(type="radio", name="hero-class-select", autocomplete="off")
+        span(data-i18n="editor.level_tab_thangs_all")
+      label.btn#warrior
+        input(type="radio", name="hero-class-select", autocomplete="off")
+        span(data-i18n="general.warrior")
+      label.btn#ranger
+        input(type="radio", name="hero-class-select", autocomplete="off")
+        span(data-i18n="general.ranger")
+      label.btn#wizard
+        input(type="radio", name="hero-class-select", autocomplete="off")
+        span(data-i18n="general.wizard")
+
+    .tab-content
+      for category, index in itemCategories
+        .tab-pane(id="item-category-" + category, class=index ? "" : "active")
+          .nano
+            .nano-content
+              for item in itemCategoryCollections[category].models
+                - var hidden = item.comingSoon && !me.isAdmin()
+                - hidden = hidden || (!item.get('gems') && !item.owned)
+                div(class="item " + item.get('heroClass') + (hidden ? " hide" : "") + (item.silhouetted && !item.owned ? " silhouetted" : ""), data-item-id=item.id)
+                  if item.silhouetted && !item.owned
+                    span.glyphicon.glyphicon-lock.bolder
+                    span.glyphicon.glyphicon-lock
+                    img.item-silhouette(draggable="false")
+                    if item.level
+                      .required-level
+                        div(data-i18n="general.player_level")
+                        div= item.level
+                  else
+                    strong.big-font= item.name
+                    img.item-img(draggable="false")
+                  
+                  if item.owned
+                    span.big-font.owned(data-i18n="play.owned")
+                  else if item.silhouetted
+                    span.big-font.locked(data-i18n="play.locked")
+                  else
+                    span.cost
+                      img(src="/images/common/gem.png", draggable="false")
+                      span.big-font= item.get('gems')
+                    if item.get('subscriber') && !me.isPremium()
+                      span.btn.subscribe-button.big-font(data-i18n="subscribe.subscribe_title")
+                    else if item.unequippable
+                      span.big-font.unequippable(data-i18n="general."+item.get('heroClass').toLowerCase())
+                    else
+                      button.btn.unlock-button.big-font(data-i18n="play.unlock", data-item-id=item.id)
+              .clearfix
+              
+    #item-details-view

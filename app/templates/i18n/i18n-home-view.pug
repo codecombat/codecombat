@@ -1,0 +1,34 @@
+extends /templates/base
+
+block content
+  if selectedLanguage
+    .progress
+      .progress-bar.progress-bar-info(role="progressbar" aria-valuenow=progress aria-valuemin="0" aria-valuemax="100" style="width: "+progress+"%")= progress+"%"
+  
+  table.table.table-condensed
+    tr
+      th
+        select#language-select.form-control.input-sm
+          option(value='') Select one...
+
+      th Translated Name
+      th Type
+      th Specifically Covered
+      if showGeneralCoverage
+        th Generally Covered
+
+    if selectedLanguage
+      for model in collection.models
+        -var translatedName = ''
+        -if (model.get('i18n') != undefined)
+          -if (model.get('i18n').hasOwnProperty(selectedLanguage)) 
+            -translatedName = model.get('i18n')[selectedLanguage].name
+
+        tr
+          td
+            a(href=model.i18nURLBase+(model.get('slug') || model.id))= model.get('displayName') || model.get('name')
+          td= translatedName
+          td= model.constructor.className
+          td(class=model.specificallyCovered ? 'success' : 'danger')= model.specificallyCovered ? 'Yes' : 'No'
+          if showGeneralCoverage
+            td(class=model.generallyCovered ? 'success' : 'danger')= model.generallyCovered ? 'Yes' : 'No'

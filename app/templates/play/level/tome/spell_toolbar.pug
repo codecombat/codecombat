@@ -1,0 +1,25 @@
+.flow
+
+  .spell-progress
+    .progress
+      .progress-bar
+        .scrubber-handle
+  
+  .btn-group.steppers
+    button.btn.btn-mini.btn-inverse.banner.step-backward(title="Ctrl/Cmd + Alt + [: Step Backward")
+      i.icon-arrow-left.icon-white
+    button.btn.btn-mini.btn-inverse.banner.step-forward(title="Ctrl/Cmd + Alt + ]: Step Forward")
+      i.icon-arrow-right.icon-white
+  
+  .metrics
+    .statements-metric
+      | Statement 
+      span.metric.statement-index
+      |  / 
+      span.metric.statements-executed
+      span.metric.statements-executed-total
+    .calls-metric
+      | Call 
+      span.metric.call-index
+      |  / 
+      span.metric.calls-executed

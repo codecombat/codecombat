@@ -1,0 +1,14 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="editor.create_system_title") Create New System
+
+block modal-body-content
+  form.form
+    .form-group
+      label(for="level-system-name", data-i18n="general.name").control-label Name
+      input.form-control#level-system-name(name="name", type="text")
+
+block modal-footer-content
+  button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
+  button(data-i18n="common.create").btn.btn-primary#new-level-system-submit Create

@@ -1,0 +1,31 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="play.achievements") Achievements
+
+block modal-body-content
+  for achievement in view.achievements.models
+    .panel(class=achievement.earned ? 'earned' : '')
+      .panel-body
+        img.icon(src=achievement.getImageURL(), draggable="false")
+        h3= achievement.name + (achievement.earned && achievement.earned.get('achievedAmount') ? (' - ' + achievement.earned.get('achievedAmount') + 'x') : '')
+        p= achievement.description
+
+      if achievement.earnedDate
+        .created=moment(achievement.earnedDate).fromNow()
+      else
+        .created(data-i18n="user.status_unfinished")
+
+      .rewards
+        - rewards = achievement.get('rewards');
+        if rewards && rewards.gems
+          span.gems.label.label-default
+            span= achievement.earnedGems || rewards.gems
+            img.gem(src="/images/common/gem.png", draggable="false")
+
+        - worth = achievement.get('worth');
+        if worth
+          span.worth.label.label-default
+            span #{achievement.earnedPoints || worth}xp
+        // maybe add more icons/numbers for items, heroes, levels, xp?
+block modal-footer

@@ -1,0 +1,90 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="ladder.choose_opponent") Choose an Opponent
+
+block modal-body-content
+  
+  if !view.level.isType('course-ladder')
+    h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
+    .form-group.select-group
+      select#tome-language(name="language")
+        for option in view.languages
+          option(value=option.id selected=(view.language === option.id))= option.name
+
+  div#noob-view.secret
+    a(href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : "")).btn.btn-success.btn-block.btn-lg
+      p
+        strong(data-i18n="ladder.tutorial_play") Play Tutorial
+      span(data-i18n="ladder.tutorial_recommended") Recommended if you've never played before
+    span.btn.btn-primary.btn-block.btn-lg#skip-tutorial-button(data-i18n="ladder.tutorial_skip") Skip Tutorial
+
+  div#normal-view
+    if view.tutorialLevelExists
+      p.tutorial-suggestion
+        strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
+        |  
+        a(href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : ""), data-i18n="ladder.tutorial_play_first") Play the tutorial first.
+    a(href="/play/level/#{view.levelID}?team=#{view.team}" + (view.options.league ? "&league=" + view.options.league.id : ""))
+      div.play-option
+        img(src=view.myPortrait).my-icon.only-one
+        img(src="/images/pages/play/ladder/#{view.team}_ladder_tutorial.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+        img(src=view.genericPortrait).opponent-icon
+        img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_tutorial.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+        div.my-name.name-label.only-one
+          span= view.myName
+        div.opponent-name.name-label
+          span(data-i18n="ladder.simple_ai")
+          //span.code-language(style="background-image: url(/images/common/code_languages/javascript_small.png)")
+        div.difficulty
+          span(data-i18n="ladder.warmup") Warmup
+    
+    if view.challengers && view.challengers.easy
+      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.easy.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : ""))
+        div.play-option.easy-option
+          img(src=view.myPortrait).my-icon.only-one
+          img(src="/images/pages/play/ladder/#{view.team}_ladder_easy.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+          img(src=view.challengers.easy.opponentImageSource||view.genericPortrait).opponent-icon
+          img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_easy.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+          div.my-name.name-label.only-one
+            span= view.myName
+          div.opponent-name.name-label
+            span= view.challengers.easy.opponentName
+            if view.challengers.easy.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/#{view.challengers.easy.codeLanguage}_small.png)")
+          div.difficulty
+            span(data-i18n="general.easy") Easy
+  
+    if view.challengers && view.challengers.medium
+      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.medium.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : ""))
+        div.play-option.medium-option
+          img(src=view.myPortrait).my-icon.only-one
+          img(src="/images/pages/play/ladder/#{view.team}_ladder_medium.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+          img(src=view.challengers.medium.opponentImageSource||view.genericPortrait).opponent-icon
+          img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_medium.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+          div.my-name.name-label.only-one
+            span= view.myName
+          div.opponent-name.name-label
+            span= view.challengers.medium.opponentName
+            if view.challengers.medium.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/#{view.challengers.medium.codeLanguage}_small.png)")
+          div.difficulty
+            span(data-i18n="general.medium") Medium
+  
+    if view.challengers && view.challengers.hard
+      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.hard.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : ""))
+        div.play-option.hard-option
+          img(src=view.myPortrait).my-icon.only-one
+          img(src="/images/pages/play/ladder/#{view.team}_ladder_hard.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
+          img(src=view.challengers.hard.opponentImageSource||view.genericPortrait).opponent-icon
+          img(src="/images/pages/play/ladder/#{view.otherTeam}_ladder_hard.png", style="border: 1px solid #{view.opponentTeamColor}; background: #{view.opponentTeamBackgroundColor}").opponent-team-icon.img-circle
+          div.my-name.name-label.only-one
+            span= view.myName
+          div.opponent-name.name-label
+            span= view.challengers.hard.opponentName
+            if view.challengers.hard.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/#{view.challengers.hard.codeLanguage}_small.png)")
+          div.difficulty
+            span(data-i18n="general.hard") Hard
+
+block modal-footer

@@ -1,0 +1,43 @@
+#share-licenses-component.modal-body
+  .text-center.subheader-text
+    p.small
+      | {{ $t("share_licenses.subheader") }}
+  
+  h4.m-t-3.input-label
+    | {{ $t("share_licenses.add_teacher_label") }}
+  
+  form.row.form-group
+    .col-xs-8
+      input.form-control(v-model:value.trim="teacherSearchInput")
+    .col-xs-4
+      button.add-teacher-btn.btn.btn-navy(v-on:click.prevent="addTeacher")
+        span.m-l-1.m-r-1
+          | {{ $t("share_licenses.add_teacher_button") }}
+  
+  .row(v-if="error")
+    .col-xs-8
+      p.error-message.small
+        | {{ error }}
+        =" "
+        a(href='/teachers/resources/faq#how-do-i-share-licenses-to-other-teachers-in-my-organization')
+          span
+            | {{ $t("share_licenses.more_info") }}
+  
+  h4.m-t-5
+    | {{ $t("share_licenses.teachers_using_these") }}
+  
+  transition-group.m-b-5(name="list" v-if="prepaid" tag="div")
+    li.list-item( is="share-licenses-joiner-row",
+        v-if="joiner",
+        v-for="joiner in prepaid.joiners",
+        :key="joiner.userID",
+        :joiner="joiner",
+        :prepaid="prepaid")
+  
+  .text-center.footer-text
+    p.small
+      | {{ $t("share_licenses.footer") }}
+  
+    button.btn.btn-lg.btn-navy-alt(data-dismiss="modal")
+      span.m-l-3.m-r-3
+        | {{ $t("general.close_window") }}

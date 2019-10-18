@@ -1,0 +1,164 @@
+extends /templates/base
+
+block content
+
+  ol.breadcrumb
+    li
+      a(href="/")
+        span.glyphicon.glyphicon-home
+    li
+      a(href="/account", data-i18n="nav.account")
+    li.active(data-i18n="account.subscription")
+
+  if me.get('anonymous')
+    p.logged-out-blurb(data-i18n="subscribe.must_be_logged")
+  else
+
+    //- Personal Subscriptions
+
+    .panel.panel-default
+      .panel-heading
+        h3(data-i18n="subscribe.personal_sub")
+        if view.personalSub.prepaidCode && !view.personalSub.usingPrepaidCode
+          div
+            span(data-i18n="subscribe.subscribe_prepaid")
+            span.spl.spr= view.personalSub.prepaidCode
+      .panel-body
+        if view.personalSub.state === 'loading'
+          .alert.alert-info(data-i18n="subscribe.loading_info")
+        else if view.personalSub.state === 'subscribing'
+          .alert.alert-info(data-i18n="subscribe.subscribing")
+        else if view.personalSub.sponsor
+          div
+            span.spr(data-i18n="subscribe.managed_by")
+            span #{view.personalSub.sponsorName} (#{view.personalSub.sponsorEmail})
+          if view.personalSub.endDate
+            div
+              span.spr(data-i18n="subscribe.will_be_cancelled")
+              span= moment(view.personalSub.endDate).format('l')
+
+        else if view.personalSub.usingPrepaidCode
+          div(data-i18n="subscribe.using_prepaid")
+
+        else if view.personalSub.self
+          if view.personalSub.state === 'declined'
+            .alert.alert-danger.alert-dismissible
+              span(data-i18n="buy_gems.declined")
+              button.close(type="button" data-dismiss="alert")
+                span(aria-hidden="true") &times;
+            br
+          else if view.personalSub.state === 'unknown_error'
+            .alert.alert-danger.alert-dismissible
+              button.close(type="button" data-dismiss="alert")
+                span(aria-hidden="true") &times;
+              p(data-i18n="loading_error.unknown")
+              p= view.personalSub.stateMessage
+            br
+
+          if !view.personalSub.subscribed || view.personalSub.prepaidCode
+            button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
+          else
+            button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe")
+
+          .unsubscribe-feedback.row.secret
+            .col-lg-7
+              h3
+                if view.personalSub.monthsSubscribed > 1
+                  span.spr(data-i18n="subscribe.thank_you_months_prefix")
+                  span= view.personalSub.monthsSubscribed
+                  span.spl(data-i18n="subscribe.thank_you_months_suffix")
+                else
+                  span(data-i18n="subscribe.thank_you")
+              div(data-i18n="subscribe.sorry_to_see_you_go")
+              textarea(rows=3, data-i18n="[placeholder]subscribe.unsubscribe_feedback_placeholder")
+            .col-lg-5
+              button.cancel-end-subscription-button.btn.btn-lg.btn-default(data-i18n="subscribe.never_mind")
+              button.confirm-end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.confirm_unsubscribe")
+
+          table.table.table-striped.table-condensed
+            tr
+              th(data-i18n="user.status")
+              td
+                if view.personalSub.subscribed
+                  strong(data-i18n="account.subscribed")
+                else
+                  if view.personalSub.active
+                    strong(data-i18n="account.active")
+                    .text-muted(data-i18n="account.status_unsubscribed_active")
+                  else
+                    strong(data-i18n="account.unsubscribed")
+                    .text-muted(data-i18n="account.status_unsubscribed")
+            if view.personalSub.activeUntil
+              tr
+                th(data-i18n="account.active_until")
+                td= moment(view.personalSub.activeUntil).format('l')
+            if view.personalSub.nextPaymentDate
+              tr
+                th(data-i18n="account.next_payment")
+                td= moment(view.personalSub.nextPaymentDate).format('l')
+            if view.personalSub.cost
+              tr
+                th(data-i18n="account.cost")
+                td= view.personalSub.cost
+              if view.personalSub.card
+                tr
+                  th(data-i18n="account.card")
+                  td= view.personalSub.card
+            if view.personalSub.service
+              tr
+                th(data-i18n="account.service")
+                td= view.personalSub.service
+
+        else
+          if view.personalSub.free === true
+            div(data-i18n="subscribe.lifetime")
+          else if typeof view.personalSub.free === 'string'
+            if new Date() < new Date(view.personalSub.free)
+              div
+                span.spr(data-i18n="subscribe.currently_free_until")
+                span= moment(new Date(view.personalSub.free)).format('l')
+            else
+              span.spr(data-i18n="subscribe.was_free_until")
+              span= moment(new Date(view.personalSub.free)).format('l')
+              button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
+          else
+            button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
+
+    //- Sponsored Subscriptions
+    if !_.isEmpty(view.recipientSubs.recipients) || view.recipientSubs.unsubscribingRecipients && view.recipientSubs.unsubscribingRecipients.length > 0 || view.recipientSubs.nextPaymentAmount > 0 && view.recipientSubs.sponsorSub
+      .panel.panel-default
+        .panel-heading
+          h3(data-i18n="subscribe.managed_subs")
+          p
+            span.spr Managed subscriptions are discontinued. Please contact
+            a(href='mailto:team@codecombat.com') team@codecombat.com
+            span.spl for more information.
+
+        .panel-body
+          if view.recipientSubs.nextPaymentAmount > 0 && view.recipientSubs.sponsorSub
+            h4(data-i18n="account.next_payment")
+            p= moment(new Date(view.recipientSubs.sponsorSub.current_period_end * 1000)).format('l')
+            p $#{view.recipientSubs.nextPaymentAmount / 100}
+            p= view.recipientSubs.card
+
+          h4(data-i18n="subscribe.current_recipients")
+          if view.recipientSubs.unsubscribingRecipients && view.recipientSubs.unsubscribingRecipients.length > 0
+            .alert.alert-info
+              span.spr(data-i18n="subscribe.unsubscribing")
+              span= view.recipientSubs.unsubscribingRecipients[0]
+          else
+            table.table.table-striped.table-condensed.recipients-table
+              tr
+                th(data-i18n="general.email")
+                th(data-i18n="general.name")
+                th
+              for recipient in view.recipientSubs.recipients
+                tr(data-recipient-id=recipient._id)
+                  td.recipient-email= recipient.emailLower
+                  td.recipient-name= recipient.name
+                  td.recipient-unsubscribe
+                    if recipient.cancel_at_period_end
+                      div Ends #{moment(recipient.cancel_at_period_end).format('l')}
+                    else
+                      button.recipient-unsubscribe-button.btn.btn-sm.btn-warning(data-i18n="subscribe.unsubscribe")
+                      button.confirm-recipient-unsubscribe-button.btn.btn-sm.btn-primary.hide(data-i18n="play.confirm")

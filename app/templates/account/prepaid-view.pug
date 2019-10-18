@@ -1,0 +1,91 @@
+extends /templates/base
+
+block content
+
+  if me.get('anonymous')
+    p(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
+
+  else
+    .container-fluid#prepaidViewContainer
+      ol.breadcrumb
+        li
+          a(href="/")
+            span.glyphicon.glyphicon-home
+        li
+          a(href="/account", data-i18n="nav.account")
+        li.active(data-i18n="account.prepaid_codes")
+
+      .row
+        .col-md-12
+          .panel.panel-default
+            .panel-heading
+              .panel-title
+                a(data-toggle="collapse" href="#purchasepanel")
+                  span(data-i18n="account_prepaid.purchase_code")
+            .panel-collapse.collapse(class=view.ppcQuery ? "": "in")#purchasepanel
+              .panel-body
+                p Prepaids are no longer available for purchase.
+      .row
+        .col-md-12
+          .panel.panel-default
+            .panel-heading
+              .panel-title
+                a(data-toggle="collapse" href="#redeempanel")
+                  span(data-i18n="account_prepaid.redeem_codes")
+            .panel-collapse.collapse.in#redeempanel
+              .panel-body
+                .form-group
+                  label(for="ppc code" data-i18n="account_prepaid.prepaid_code")
+                  span.spr :
+                  input.input-ppc.form-control(name="ppc", type="text", value="#{view.ppc}", required)
+                if view.ppcInfo && view.ppcInfo.length > 0
+                  p
+                    each info in view.ppcInfo
+                      div
+                        != info
+                .row
+                  .col-xs-6
+                    span.spr
+                      button#lookup-code-btn.btn.btn-info.btn-block(data-i18n="account_prepaid.lookup_code")
+                  .col-xs-6
+                    span
+                      button#redeem-code-btn.btn.btn-success.btn-block(data-i18n="account_prepaid.apply_account")
+      .row
+        .col-md-12
+          #codes-panel.panel.panel-default
+            .panel-heading
+              .panel-title
+                a(data-toggle="collapse" href="#codeslist")
+                  span(data-i18n="account_prepaid.your_codes")
+            .panel-collapse.collapse.in#codeslist
+              .panel-body
+                if view.codes && view.codes.length
+                  table.table.table-striped
+                    tr
+                      th(scope="col") 
+                        span.spr(data-i18n="[title]account_prepaid.copy_link;general.code", title="You can copy the code's link and send it to someone.")
+                          span.glyphicon.glyphicon-question-sign(aria-hidden="true")
+                      th(scope="col" data-i18n="account_prepaid.months")
+                      th(scope="col") Remaining Users
+                      th(scope="col") Total Users
+                      th(scope="col" data-i18n="user.status")
+                    for code in view.codes.models
+                      if code.get('type') === 'terminal_subscription'
+                        - var owner = (code.get('creator') == me.id ? true : false)
+                        - var properties = code.get('properties')
+                        - var redeemers = code.get('redeemers')
+                        - var redeemed = redeemers ? redeemers.length : 0
+                        tr
+                          td
+                            a(href="/account/prepaid?_ppc=#{code.get('code')}")= code.get('code')
+                          td= properties.months || '-'
+                          if owner
+                            td= code.get('maxRedeemers') - redeemed
+                            td= code.get('maxRedeemers')
+                            td(data-i18n="account.purchased")
+                          else
+                            td -
+                            td -
+                            td(data-i18n="account_prepaid.redeemed")
+                else
+                  p(data-i18n="account_prepaid.no_codes")

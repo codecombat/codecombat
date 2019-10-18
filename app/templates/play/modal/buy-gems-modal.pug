@@ -1,0 +1,78 @@
+.modal-dialog
+  .modal-content 
+  
+    if view.state === 'purchasing'
+      .alert.alert-info(data-i18n="buy_gems.purchasing")
+
+    else if view.state === 'retrying'
+      #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
+
+    else
+      if (me.get('preferredLanguage',true) || 'en-US').split('-')[0] == 'nl'
+        img(src="/images/pages/play/modal/lang-nl/buy-gems-background-NL.png")#buy-gems-background
+      else
+        img(src="/images/pages/play/modal/buy-gems-background.png")#buy-gems-background 
+      h1(data-i18n="play.buy_gems") 
+     
+      #products
+        if view.supermodel.finished()
+          for product in view.products.models
+            .product
+              h4 x#{product.get('gems')}
+              h3(data-i18n=view.getProductDescription(product.get('name')))
+              button.btn.btn-illustrated.btn-lg(value=product.get('name'))
+                span= product.get('priceString')
+  
+          if (me.get('preferredLanguage',true) || 'en-US').split('-')[0] == 'nl'
+            .product
+              h4.subscription-gem-amount x{{gems}} / mo
+              h3 
+                | 1, 3, 6 OF 12 
+                br
+                | MAANDEN
+              a(href="http://www.codecombat.nl/kopen", target="_blank")
+                button.btn.btn-ideal.btn-illustrated.btn-lg.btn-succes PREPAID CODES
+  
+          if view.basicProduct
+            .product
+              h3.subscribe-text(data-i18n="account.subscribe_for_gems")
+              if me.hasSubscription()
+                button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
+                  | ✓ 
+                  span(data-i18n="account.subscribed")
+              else
+                button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="subscribe.subscribe_title")
+            
+          else if view.lifetimeProduct
+            .product
+              h4.subscription-gem-amount x#{view.lifetimeProduct.get('gems')}
+              h3(data-i18n="buy_gems.buy_premium")
+              if me.isForeverPremium()
+                button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
+                  | ✓ 
+                  span(data-i18n="buy_gems.purchased")
+              else
+                button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="buy_gems.purchase")
+
+
+      if view.state === 'declined'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.declined")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;      
+          
+      if view.state === 'unknown_error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= view.stateMessage
+      
+      if view.state === 'recovered_charge'
+        #recovered-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.recovered")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+            
+      div#close-modal
+        span.glyphicon.glyphicon-remove

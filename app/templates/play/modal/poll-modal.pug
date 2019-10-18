@@ -1,0 +1,41 @@
+extends /templates/core/modal-base
+block modal-header-content
+  h1(dir="auto")
+    span= i18n(poll.attributes, "name")
+
+block modal-body-content
+  .description.rtl-allowed
+    if poll.get("description")
+      div(dir="auto")!= marked(i18n(poll.attributes, "description"))
+    else
+      div &nbsp;
+
+  .answers-container-wrapper
+    .answers-container
+      table.table.table-hover.rtl-allowed(dir="auto")
+        for answer in poll.get("answers") || []
+          tr(class="answer", data-answer=answer.key)
+            td!= marked(i18n(answer, "text"))
+            td.graph-cell
+              .progress
+                .progress-bar
+            td.votes-cell
+              span.badge.vote-percentage
+            if me.isAdmin()
+              td.votes-cell
+                span.badge.vote-count
+
+  .random-gems-container-wrapper
+    .random-gems-container
+      code.random-gems-code
+        span randomNumber = Math.random()                   
+        span.comment#random-number-comment
+      code.random-gems-code
+        span gems = Math.ceil(2 * randomNumber * me.level)  
+        span.comment#random-gems-comment
+      code.random-gems-code
+        span me.gems += gems                                
+        span.comment#total-gems-comment
+
+block modal-footer-content
+  button.btn.btn-illustrated.btn-lg.done-button(data-dismiss="modal", aria-hidden="true", data-i18n="play_level.done") Done

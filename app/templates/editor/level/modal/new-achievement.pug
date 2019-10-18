@@ -1,0 +1,28 @@
+extends /templates/editor/modal/new-model-modal
+
+block modal-body-content
+  form.form
+    .form-group
+      label.control-label(for="name", data-i18n="general.name") Name
+      input#name.form-control(name="name", type="text")
+    .form-group
+      label.control-label(for="description" data-i18n="general.description") Description
+      input#description.form-control(name="description", type="text")
+    h4(data-i18n="editor.achievement_query_misc") Key achievement off of miscellanea
+    .radio
+      label
+        input(type="checkbox", name="queryOptions" id="misc-level-completion" value="misc-level-completion")
+        span.spl(data-i18n="editor.level_completion") Level Completion
+    - var goals = view.level.get('goals');
+    if goals && goals.length
+      h4(data-i18n="editor.achievement_query_goals") Key achievement off of level goals
+      each goal in goals
+        .radio
+          label
+            input(type="checkbox", name="queryOptions" id="#{goal.id}" value="#{goal.id}")
+            span.spl= goal.name
+
+block modal-footer
+  .modal-footer
+    button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+    button#save-new-achievement-link.btn.btn-primary.new-model-submit(data-i18n="common.create") Create

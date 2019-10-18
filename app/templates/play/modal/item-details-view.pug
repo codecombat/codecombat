@@ -1,0 +1,50 @@
+
+#item-title
+  h2.one-line.big-font(dir="auto")= item ? item.name : ''
+
+#item-details-body
+  if item
+    .nano
+      .nano-content
+        #item-container
+          img.item-img(src=item.getPortraitURL(), draggable="false")
+          img.item-shadow(src=item.getPortraitURL(), draggable="false")
+
+        img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
+
+        for stat in stats
+          div(class="stat-row big-font" + (/^en/.test(me.get('preferredLanguage')) && stat.matchedShortName ? " short-name" : ""))
+            div.stat-label= stat.name
+            div.stat= stat.display
+          img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
+
+        if item.description
+          .item-description(dir="auto")= item.description
+
+        if props.length
+          #skills
+            h3.big-font(data-i18n="play.skills_granted")
+            for prop in props
+              p
+                strong= prop.name
+                span.spr :
+                span!= prop.description
+
+        if item.comingSoon
+          .text-center
+            h3 This item has no stats.
+            p Only admins will see it for now.
+
+if item && !item.owned
+  if item.unequippable
+    button.btn.big-font.disabled.unequippable(data-i18n="inventory."+item.get('heroClass').toLowerCase()+"_only")
+  else
+    - var showSubscribe = item.get('subscriber') && !me.isPremium() && !me.isStudent()
+    button#selected-item-unlock-button.btn.big-font(data-item-id=item.id, class=(showSubscribe ? "subscribe-button" : "unlock-button"))
+      if showSubscribe
+        span(data-i18n="subscribe.subscribe_title")
+      else
+        span(data-i18n="play.unlock")
+        span.spl= '('+item.get('gems')
+        img(src="/images/common/gem.png", draggable="false")
+        span )

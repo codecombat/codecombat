@@ -1,0 +1,67 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_archmage.png", alt="")
+
+    div.class-main#archmage-main
+    
+      h2
+        span(data-i18n="classes.archmage_title") Archmage
+        span  
+        span(data-i18n="classes.archmage_title_description") (Coder)
+      p(data-i18n="contribute.archmage_introduction")
+        | One of the best parts about building games is they synthesize so many different things.
+        | Graphics, sound, real-time networking, social networking, and of course many of the
+        | more common aspects of programming, from low-level database management, 
+        | and server administration to user facing design and interface building. 
+        | There's a lot to do, and if you're an experienced programmer with a hankering
+        | to really dive into the nitty-gritty of CodeCombat, this class might be for you.
+        | We would love to have your help building the best programming game ever.
+    
+      h4(data-i18n="contribute.class_attributes") Class Attributes
+      ul
+        li
+          span(data-i18n="contribute.archmage_attribute_1_pref") Knowledge in 
+          a(href="http://coffeescript.org/") CoffeeScript
+          span(data-i18n="contribute.archmage_attribute_1_suf")
+            | , or a desire to learn. Most of our code is in this language.
+            | If you're a fan of Ruby or Python, you'll feel right at home.
+            | It's just JavaScript, but with a nicer syntax.
+        li(data-i18n="contribute.archmage_attribute_2")
+          | Some experience in programming and personal initiative.
+          | We'll help you get oriented, but we can't spend much time training you.
+      
+      h4(data-i18n="contribute.how_to_join") How To Join
+      
+      p
+        span(data-i18n="contribute.join_desc_1")
+          | Anyone can help out! Just check out our 
+        a(href="https://github.com/codecombat/codecombat", tabindex=-1)
+          | GitHub
+        span  
+        span(data-i18n="contribute.join_desc_2")  
+          | to get started, and check the box below to mark yourself as a brave Archmage and get the latest news by email.
+          | Want to chat about what to do or how to get more deeply involved? 
+        a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="contribute.join_url_email")
+          | Email us
+        span(data-i18n="contribute.join_desc_3")
+          | , or find us in our 
+        a(href="https://coco-slack-invite.herokuapp.com/", data-i18n="contribute.join_url_slack") public Slack channel
+        span  
+        span(data-i18n="contribute.join_desc_4")
+          | and we'll go from there!
+
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="developer", data-contributor-class-name="archmage")
+
+      h3(data-i18n="contribute.powerful_archmages")
+        | Our Powerful Archmages:
+
+      #contributor-list
+
+    div.clearfix

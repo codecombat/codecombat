@@ -1,0 +1,136 @@
+extends /templates/base
+
+block content
+
+  if !me.isAnonymous() && me.isTeacher()
+    .alert.alert-danger.text-center
+      //- DNT: Temporary
+      h3 ATTENTION TEACHERS:
+      p We are transitioning to a new classroom management system; this page will soon be student-only.
+      a(href="/teachers/classes") Go to teachers area.
+
+  - var isOwner = view.classroom ? view.classroom.get('ownerID') === me.id : false;
+  if isOwner
+    a(href="/teachers/classes", data-i18n="courses.back_classrooms")
+  else
+    a(href="/students", data-i18n="courses.back_courses")
+
+  if !me.isAnonymous()
+    h1
+      span.spr= view.classroom.get('name')
+      if isOwner
+        a#edit-class-details-link
+          small(data-i18n="courses.edit_details")
+
+    if view.classroom.get('description')
+      p= view.classroom.get('description')
+
+    h3(data-i18n="courses.stats")
+    table.progress-stats-container
+      - var stats = view.classStats()
+      tr
+        td(data-i18n="courses.total_students")
+        td
+          span.spr= _.size(view.classroom.get('members'))
+      tr
+        td(data-i18n="courses.average_time")
+        td= stats.averagePlaytime
+      tr
+        td(data-i18n="courses.total_time")
+        td= stats.totalPlaytime
+      tr
+        td(data-i18n="courses.average_levels")
+        td= stats.averageLevelsComplete
+      tr
+        td(data-i18n="courses.total_levels")
+        td= stats.totalLevelsComplete
+
+    h1
+      span(data-i18n="courses.students")
+      if view.teacherMode
+        .pull-right#main-button-area
+          button#add-students-btn.btn.btn-primary.text-uppercase(data-i18n="courses.add_students")
+          button#activate-licenses-btn.btn.btn-info.text-uppercase(data-i18n="courses.enroll_paid")
+          a.btn.btn-success.text-uppercase(href="/courses/purchase?from-classroom="+view.classroom.id, data-i18n="courses.purchase_enrollments")
+
+    hr
+
+    for user in view.users.models
+      .row
+        .col-md-6
+          .student-name= user.broadName()
+        .col-md-6
+          if view.teacherMode
+            a.remove-student-link.pull-right.text-uppercase(data-user-id=user.id)
+              span.glyphicon.glyphicon-remove
+              span.spl(data-i18n="courses.remove_student")
+      - var lastPlayedString = view.userLastPlayedString(user);
+      - var playtime = view.userPlaytimeString(user);
+      if lastPlayedString || playtime
+        #student-stats-row.row
+          if lastPlayedString
+            .col-sm-6
+              span(data-i18n="user.last_played")
+              span.spr :
+              span= lastPlayedString
+          if playtime
+            .col-sm-6
+              span(data-i18n="clans.playtime")
+              span.spr :
+              span= playtime
+
+      - var paidFor = user.isEnrolled();
+      for courseInstance in view.courseInstances.models
+        - var inCourse = _.contains(courseInstance.get('members'), user.id);
+        if !(inCourse || view.teacherMode)
+          - continue;
+        - var course = view.courses.get(courseInstance.get('courseID'));
+        - var sessions = courseInstance.sessionsByUser[user.id] || [];
+        if !(course.get('free') || paidFor)
+          - continue;
+        if inCourse
+          .row
+            .col-sm-3.text-right= i18n(course.attributes, 'name')
+            .col-sm-9
+              if inCourse
+                - var levels = view.classroom.getLevels({courseID: course.id});
+                - var numLevels = levels.size();
+                - var sessionMap = _.zipObject(_.map(sessions, function(s) { return s.get('level').original; }), sessions);
+                - var levelCellWidth = 100.00;
+                if numLevels > 0
+                  - levelCellWidth = 100.00 / numLevels;
+                - var css = "width:"+levelCellWidth+"%;"
+                - var i = 0;
+                .progress
+                  each trimModel in levels.models
+                    - var level = view.levels.get(trimModel.get('original')); // get the level loaded through the db
+                    - var levelNumber = view.classroom.getLevelNumber(level.get('original'), i + 1)
+                    - i++
+                    - var session = sessionMap[level.get('original')];
+                    a(href=view.getLevelURL(level, course, courseInstance, session))
+                      - var content = view.levelPopoverContent(level, session, levelNumber);
+                      if session && session.get('state') && session.get('state').complete
+                        .progress-bar.progress-bar-complete(style=css, data-content=content, data-toggle='popover')= levelNumber
+                      else if session
+                        .progress-bar.progress-bar-started(style=css, data-content=content, data-toggle='popover')= levelNumber
+                      else
+                        .progress-bar.progress-bar-default(style=css, data-content=content, data-toggle='popover')= levelNumber
+        else if paidFor
+          .text-center
+            button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid)
+              span.spr(data-i18n="courses.assign")
+              span= i18n(course.attributes, 'name')
+
+
+      if view.teacherMode && !paidFor
+        .text-center
+          p
+            em
+              span.spr(data-i18n="courses.enroll")
+              strong= user.broadName()
+              span.spl(data-i18n="courses.to_assign")
+          p
+            button.activate-single-license-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id)
+              span.spr(data-i18n="courses.enroll")
+              span= user.broadName()
+      hr

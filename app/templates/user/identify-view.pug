@@ -1,0 +1,21 @@
+extends /templates/base
+
+block content
+
+  if callbackURL && callbackSource && callbackID
+    h3 Share your username?
+    p
+      | #{callbackSource} would like to know that you are #{me.get('name') || 'you'} on CodeCombat.
+      if me.get('anonymous')
+        br
+        button.btn.btn-lg.btn-default.header-font.login-button(data-i18n="login.log_in")
+      else if me.get('name')
+        a.spl.spr(href="#{callbackURL}") Click here
+        | to share your username.
+      else
+        | But you don't have a username yet. Set one
+        a.spl(href="/account/settings") here
+        | .
+  else
+    h3 Invalid identify URL.
+    p callbackID, callbackURL, and callbackSource are needed.

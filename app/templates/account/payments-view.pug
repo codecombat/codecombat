@@ -1,0 +1,68 @@
+extends /templates/base
+
+block content
+
+  ol.breadcrumb
+    li
+      a(href="/")
+        span.glyphicon.glyphicon-home
+    li
+      a(href="/account", data-i18n="nav.account")
+    li.active(data-i18n="account.payments")
+
+  if view.prepaidMap
+    table.table.table-striped
+      tr
+        th(data-i18n="account.purchased")
+        th(data-i18n="account.paid_on")
+        th(data-i18n="account.price")
+        th(data-i18n="account.gems")
+        th(data-i18n="general.description")
+      for payment in view.payments.models
+        - var service = payment.get('service') || '';
+        - var productID = payment.get('productID');
+        - var prepaidID = payment.get('prepaidID');
+        tr
+          if prepaidID && view.prepaidMap[prepaidID]
+            case view.prepaidMap[prepaidID].get('type')
+              when 'subscription'
+                td(data-i18n="subscribe.stripe_description")
+              when 'terminal_subscription'
+                td(data-i18n="subscribe.stripe_description")
+              when 'course'
+                td(data-i18n="special_offer.course_prefix")
+              when 'starter_license'
+                td(data-i18n="special_offer.student_starter_license")
+              default
+                td
+          else if productID === 'custom'
+            td= payment.get('description')
+          else if productID
+            if /lifetime_subscription$/.test(productID)
+              td(data-i18n="subscribe.lifetime")
+            else if /year_subscription$/.test(productID)
+              td(data-i18n="subscribe.year_subscription")
+            else if /basic_subscription$/.test(productID)
+              td(data-i18n="subscribe.stripe_description")
+            else
+              td(data-i18n="account.gems")
+          else if me.get('stripe') && me.get('stripe').free != null
+            - var purchaseDate = new Date(payment.get('created'));
+            if typeof(me.get('stripe').free) === 'boolean' && purchaseDate > new Date(2017, 0, 1)
+              if me.get('stripe').customerID || payment.get('gems') >= 18000
+                td(data-i18n="subscribe.lifetime")
+              else
+                td(data-i18n="subscribe.free_subscription")
+            else if payment.get('gems') >= 18000
+              td(data-i18n="subscribe.year_subscription")
+            else
+              td(data-i18n="subscribe.stripe_description")
+          else if service.toLowerCase() === 'paypal'
+            td(data-i18n="subscribe.stripe_description")
+          else
+            //- E.g. PayPal
+            td(data-i18n="subscribe.stripe_description")
+          td= moment(payment.getCreationDate()).format('l')
+          td $#{((payment.get('amount') || 0) / 100).toFixed(2)}
+          td= payment.get('gems') || 'n/a'
+          td= payment.get('description') || ''

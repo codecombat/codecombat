@@ -1,0 +1,67 @@
+.row
+  for team in view.teams
+    div.matches-column.col-md-6
+      table.table.table-bordered.table-condensed.my-matches-table
+
+        tr
+          th(colspan=5, style="color: #{team.primaryColor}")
+            span(data-i18n="ladder.summary_your") Your 
+            |#{team.displayName}
+            |  
+            span(data-i18n="ladder.summary_matches") Matches - 
+            |#{team.wins}
+            span(data-i18n="ladder.summary_wins")  Wins, 
+            |#{team.losses}
+            span(data-i18n="ladder.summary_losses")  Losses 
+
+        if team.session
+          tr
+            th(colspan=5)
+              .ladder-submission-view(data-session-id=team.session.id)
+
+        if team.scoreHistory
+          tr
+            th(colspan=5, style="color: #{team.primaryColor}")
+              div(class="score-chart-wrapper", data-team-name=team.name, id="score-chart-#{team.name}")
+
+        tr
+          th(data-i18n="general.result") Result
+          th
+          th(data-i18n="general.opponent") Opponent
+          th(data-i18n="general.when") When
+          th
+        for match in team.matches
+          tr(class=(match.stale ? "stale " : "") + (match.fresh ? "fresh " : "") + match.state, title=match.simulator)
+            td.state-cell
+              if match.state === 'win'
+                span(data-i18n="general.win").win Win
+              if match.state === 'loss'
+                span(data-i18n="general.loss").loss Loss
+              if match.state === 'tie'
+                span(data-i18n="general.tie").tie Tie
+            td.code-language-cell(style="background-image: url(/images/common/code_languages/" + match.codeLanguage +  "_icon.png)")
+            td.name-cell= match.opponentName || view.nameMap[match.opponentID] || "Anonymous"
+            td.time-cell= match.when
+            td.battle-cell
+              - var levelID = view.level.get('slug') || view.level.id
+              - var league = view.options.league
+              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
+                if (match.state === 'win')
+                  span(data-i18n="ladder.watch_victory") Watch your victory
+                else
+                  span(data-i18n="ladder.defeat_the") Defeat the
+                  |  
+                  | #{team.otherTeamDisplayName}
+
+        if !team.matches.length
+          tr
+            if team.isRanking
+              td(colspan=4).alert.alert-info
+                span(data-i18n="ladder.code_being_simulated")
+                  | Your new code is being simulated by other players for ranking.
+                  | This will refresh as new matches come in.
+            else
+              td(colspan=4).alert.alert-warning
+                span(data-i18n="ladder.no_ranked_matches_pre") No ranked matches for the
+                | #{team.name}
+                span(data-i18n="ladder.no_ranked_matches_post") team! Play against some competitors and then come back here to get your game ranked.

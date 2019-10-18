@@ -1,0 +1,36 @@
+//- DNT
+extends /templates/base
+
+block content
+  div
+    a(href='/artisans')
+      span.glyphicon.glyphicon-chevron-left
+      span Artisans Home
+  button#overview-button Show Overviews
+  br
+  button#intro-button Show Intros
+  table.table#level-table
+    for levelObj in (view.levels || [])
+      - var level = levelObj.level
+      tr
+        td.level-details
+          a(href='/editor/level/'+level.get('slug') target="_blank")=level.get('name')
+          div
+            ul
+              for problem in levelObj.problems
+                li.problem=problem
+        td(style='width:90%')
+          if levelObj.overview
+            .panel.panel-default
+              .panel-heading
+                h2.panel-title
+                  a(data-toggle='collapse' href='#'+level.get('slug')+'-overview-collapse') Overview
+              .panel-collapse.collapse.overview(id=level.get('slug')+'-overview-collapse')
+                pre=levelObj.overview.body
+          if levelObj.intro
+            .panel.panel-default
+              .panel-heading
+                h2.panel-title
+                  a(data-toggle='collapse' href='#'+level.get('slug')+'-intro-collapse') Intro
+              .panel-collapse.collapse.intro(id=level.get('slug')+'-intro-collapse')
+                pre=levelObj.intro.body

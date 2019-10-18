@@ -1,0 +1,22 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h1(data-i18n="editor.add_components") Add Components
+
+block modal-body-content
+  form
+    ul.list-group
+      for system in systems
+        li.list-group-item
+          div.item-title(data-toggle="collapse", data-target="##{system}").collapsed
+            span.glyphicon.glyphicon-chevron-down.text-muted.spr
+            span.glyphicon.glyphicon-chevron-up.text-muted.spr
+            a= system
+            span.spl.text-muted= nameLists[system]
+          .collapse-panel.collapse(id=system)
+            for component in components[system]
+              .checkbox
+                label
+                  input(type='checkbox', value=component.id)
+                  span.spr #{component.get('name')}:
+                  span.text-muted= component.get('description')
