@@ -199,7 +199,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
   modal:
     close: "關閉"
     okay: "好"
-#    cancel: "Cancel"
+    cancel: "取消"
 
   not_found:
     page_not_found: "找不到網頁"
