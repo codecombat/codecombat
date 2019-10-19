@@ -1358,7 +1358,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
 
-#  cinematic:
+  cinematic:
     click_anywhere_continue: "点击任意区域继续"
 
   community:
@@ -2414,7 +2414,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
 
-#  ozaria_chrome:
+  ozaria_chrome:
     sound_off: "关闭声音"
     sound_on: "开启声音"
     back_to_map: "返回地图"
