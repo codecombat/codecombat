@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "Noget andet, vi bør vide?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Tak for at anmode om en demo!" # {change}
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "Vi vil snart tage kontakt. Spørgsmål? Email os:" # {change}

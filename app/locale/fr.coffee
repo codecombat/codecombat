@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     referrer_web: "Google"
     referrer_other: "Autre"
     anything_else: "Quel genre de classe utilisera CodeCombat?"
+#    anything_else_helper: ""
     thanks_header: "Demande Reçue!"
     thanks_sub_header: "Merci d'avoir exprimé votre intérêt dans CodeCombat pour votre école."
     thanks_p: "Nous serons en contact rapidement! si vous avez besoin de nous joindre, vous pouvez nous joindre à cette adresse:"

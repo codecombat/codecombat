@@ -199,7 +199,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
   modal:
     close: "關閉"
     okay: "好"
-#    cancel: "Cancel"
+    cancel: "取消"
 
   not_found:
     page_not_found: "找不到網頁"
@@ -550,7 +550,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "回到地圖"
     directions: "目標方向"
     edit_level: "編輯關卡"
 #    keep_learning: "Keep Learning"
@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "還有甚麼我們需要知道的嗎?" # {change}
+#    anything_else_helper: ""
     thanks_header: "已收到申請!"
     thanks_sub_header: "感謝您表達您的學校對於CodeCombat的興趣。"
     thanks_p: "我們不久將會與您接觸!如果需要與我們聯絡，您可以以下面方式找到我們:"
@@ -1648,7 +1649,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   teacher:
     assigning_course: "派發課程中"
-#    back_to_top: "Back to Top"
+    back_to_top: "回到頂部"
 #    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
 #    code: "__name__'s Code"
 #    complete_solution: "Complete Solution"
@@ -1974,7 +1975,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
 #    back_to_resource_hub: "Back to Resource Hub"
-#    back_to_course_guides: "Back to Course Guides"
+    back_to_course_guides: "回到課程引導"
 #    print_guide: "Print this guide"
 #    combo: "Combo"
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
@@ -2368,10 +2369,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     status_unsubscribed_active: "您尚未訂閱並且將不會收到賬單，但是您的帳號現在仍然是有效的。"
     status_unsubscribed: "藉由訂閱CodeCombat，取得存取新關卡、新英雄、新物品和額外寶石的資格！"
     not_yet_verified: "尚未驗證。"
-    resend_email: "重新寄出email"
-    email_sent: "已寄出Email! 請查看您的信箱。"
-    verifying_email: "正在驗證您的email..."
-    successfully_verified: "您已經成功的驗證了您的email!"
+    resend_email: "重新寄出電子郵件"
+    email_sent: "已寄出電子郵件! 請查看您的信箱。"
+    verifying_email: "正在驗證您的電子郵件..."
+    successfully_verified: "您已經成功的驗證了您的電子郵件!"
     verify_error: "在驗證您的信箱時發生錯誤 :("
 #    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
 #    unsubscribe_button: "Yes, unsubscribe"
