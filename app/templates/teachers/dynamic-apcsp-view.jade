@@ -1,0 +1,30 @@
+extends /templates/base-flat.jade
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+  .container
+    if view.name !== 'index'
+      span.backlink
+        a(href='/apcsp')
+          |&lt; Back to AP CS Principles Home
+    
+    if view.cannotAccess()
+      #apcsp-landing Stub
+    else if view.loadingData
+      h4.text-center
+        i Loading...
+    else if view.notFound
+      h4.text-center
+        i Document not found
+    else if view.error
+      h4.text-center
+        i= view.error
+    else
+      .print
+        .btn.btn-md.btn-navy
+          a(href='javascript:window.print()')
+            span.glyphicon.glyphicon-print &#160;
+            |Print this guide
+      div(class='lesson-plans' id=view.name)!=view.content

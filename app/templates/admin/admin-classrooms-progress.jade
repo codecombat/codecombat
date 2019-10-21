@@ -1,0 +1,207 @@
+
+//- DO NOT TRANSLATE
+extends /templates/base-flat.jade
+
+block content
+
+  if !me.isAdmin()
+    div.text-center You must be logged in as an admin to view this page.
+  else
+    h1 Classroom progress vs. available content
+    .small Classroom progress vs. available content is against individual classroom version of content
+    .small Licenses with end dates between now and #{view.licenseEndMonths} months, with at least one redeemer
+    .small Progress rows are per-license for a given classroom owner
+    .small Hover mouse over little dashes, vertical bars, etc. for more info
+    .small Users column is number of students for classroom details row, and number of redeemed licenses for colorful per-license progress row
+    .small Excluding classrooms with only free courses assigned
+    .small Ignoring level sessions / progress for free courses
+    .small
+      table.table.table-condensed
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.completed-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text GD1
+            span.level-cell(style="height:5px; left:70px; width:6px;", title="level")
+            span.level-cell(style="height:5px; left:76px; width:6px;", title="level")
+          td &nbsp; level
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.completed-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text WD1
+            span.student-completed-cell(style="height:20px; left:60%; width:6px;", title="student")
+            span.level-cell(style="height:5px; left:60%; width:6px;", title="completed level")
+          td &nbsp; completed level
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.completed-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS2
+            span.student-furthest-cell(style="height:20px; left:30%; width:6px;", title="student")
+            span.level-cell(style="height:5px; left:30%; width:6px;", title="furthest level")
+          td &nbsp; furthest level for an individual student
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.remaining-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text GD2
+          td &nbsp; remaining course in classroom
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.remaining-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text WD2
+            span.missing-level-cell(style="height:20px; left:70%; width:6px;", title="student")
+            span.level-cell(style="height:5px; left:70%; width:6px;", title="level")
+          td &nbsp; released level, but not available in classroom
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.available-background(style="height:20px; width: 100%;")
+            span.missing-course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS3
+          td &nbsp; released course not versioned in classroom, but teacher can add via UI
+    if !view.classroomProgress
+      h1.text-center= view.loadingMessage
+    else
+      .small
+        table.table.table-condensed
+          tr
+            td
+            td Teacher name, email, id
+            td
+            td
+            td Class
+            td Latest Activity
+            td.text-center Users
+            td.text-center Start
+            td.text-center End
+          - lastTeacherId = null;
+          each classroomData, index in view.classroomProgress || []
+            if !classroomData.latestActivity
+              - continue;
+            if !classroomData.licenses.find(function(l) {return l.percentComplete > 0;})
+              - continue;
+            tr
+              td #{index + 1}.
+              td #{view.teacherMap[classroomData.classroom.ownerID].name || 'Anonymous'}
+              if lastTeacherId !== classroomData.classroom.ownerID
+                td #{view.teacherMap[classroomData.classroom.ownerID].emailLower}
+                td #{classroomData.classroom.ownerID}
+                - lastTeacherId = classroomData.classroom.ownerID;
+              else
+                td
+                td
+              td
+                a(href='/teachers/classes/#{classroomData.classroom._id}') #{classroomData.classroom.name}
+                spal.spl (created #{moment(view.objectIdToDate(classroomData.classroom._id)).format('l')})
+              td #{classroomData.latestActivity ? classroomData.latestActivity.substring(0, 10) : 'n/a'}
+              td.text-center #{classroomData.classroom.members.length}
+              td.text-center #{new Date(parseInt(classroomData.classroom._id.substring(0, 8), 16) * 1000).toISOString().substring(0, 10)}
+              td.text-center n/a
+            each licenseData in classroomData.licenses
+              if licenseData.percentComplete === 0
+                - continue;
+              - var totalLevels = licenseData.levels.length;
+              - var numMissingCourseLevels = 0
+              each missingCourse in licenseData.missingCourses
+                - totalLevels += missingCourse.levels.length;
+                - numMissingCourseLevels += missingCourse.levels.length;
+              - var completedRatio = (licenseData.furthestLevelIndex + 1) / totalLevels;
+              - var remainingRatio = (licenseData.levels.length - licenseData.furthestLevelIndex - 1) / totalLevels;
+              - var availableRatio = numMissingCourseLevels / totalLevels;
+              - var levelCellWidth = 100 / (totalLevels);
+              tr
+                td.range-container(colspan=6)
+                  span.completed-background(style="width:#{completedRatio * 100}%;")
+                  span.remaining-background(style="left:#{(completedRatio) * 100}%; width:#{remainingRatio * 100}%;")
+                  span.available-background(style="left:#{(completedRatio + remainingRatio) * 100}%; width:#{availableRatio * 100}%;")
+                  each data, index in licenseData.courseLastLevelIndexes
+                    - var courseCellOffest = (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index + 1 : 0) / totalLevels * 100;
+                    - var courseCellWidth = (data.index - (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index : -1)) / totalLevels * 100;
+                    span.course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
+                      if view.latestCourseMap[data.courseId]
+                        .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                      else
+                        - console.log('no course?', data);
+                  - var missingCourseLastIndex = licenseData.levels.length;
+                  each data in licenseData.missingCourses
+                    - var courseCellOffest = (missingCourseLastIndex) / totalLevels * 100;
+                    - var courseCellWidth = data.levels.length / totalLevels * 100;
+                    span.missing-course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
+                      .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                    each levelOriginal, index in data.levels
+                      span.level-cell(style="left:#{index * levelCellWidth + courseCellOffest}%; width:#{levelCellWidth}%", title="#{index + 1}. #{view.latestLevelSlugMap[levelOriginal] || levelOriginal}")
+                    - missingCourseLastIndex += data.levels.length;
+                  each level, index in licenseData.levels
+                    if level.numUsers > 0
+                      - var title = level.numUsers + " students on level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
+                      span.student-furthest-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="#{title}")
+                    else if level.missing
+                      span.missing-level-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="level #{view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal} is released but not available in this classroom version")
+                    else if level.numCompleted > 0
+                      - var title = level.numCompleted + " students completed level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
+                      span.student-completed-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="#{title}")
+                    span.level-cell(style="left:#{index * levelCellWidth}%; width:#{levelCellWidth}%", title="#{index + 1}. #{view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal}")
+                td.text-center= licenseData.license.redeemers.length
+                td.text-center= licenseData.license.startDate.substring(0, 10)
+                td.text-center= licenseData.license.endDate.substring(0, 10)
+
+              each data in licenseData.courseProgressDates
+                if _.isEmpty(data.dates)
+                  - continue;
+                tr
+                  td.timeline-courses-container(colspan=9)
+                    div
+                      - var bgColor = view.courseColorMap[data.id]
+                      - var startDate = new Date(data.dates[0]);
+                      - var endDate = null;
+                      - for (target in data.dates)
+                        if target === 0
+                          - continue;
+                        - endDate = new Date(data.dates[target]);
+                      if !endDate || endDate == startDate
+                        - endDate = new Date();
+                      - var width = (endDate.getTime() - startDate.getTime()) / view.totalTime * 100;
+                      - var left = (startDate.getTime() - view.startTime) / view.totalTime * 100;
+                      - var title = view.courseAcronymMap[data.id] + "\n";
+                      - for (target in data.dates)
+                        - title += target + "% on " + data.dates[target] + "\n";
+                      span.timeline-course-section(style="width:#{width}%;left:#{left}%;", title="#{title}")= view.courseAcronymMap[data.id]
+
+                      - var opacity = 0.1;
+                      - var prevDate = null;
+                      - var prevTarget = null;
+                      each date, target in data.dates
+                        - date = new Date(date);
+                        if prevDate
+                          - var width = (date.getTime() - prevDate.getTime()) / view.totalTime * 100;
+                          - var left = (prevDate.getTime() - view.startTime) / view.totalTime * 100;
+                          span.timeline-course-target(style="opacity:#{opacity};background-color:#{bgColor};width:#{width}%;left:#{left}%;", title="#{view.courseAcronymMap[data.id]} #{target}% complete on #{date.toISOString()}")
+                        - prevDate = date;
+                        - prevTarget = target;
+                        - opacity += 0.1;
+
+              tr
+                td.timeline-months-container(colspan=9)
+                  div
+                    - var startDate = new Date(view.startDay);
+                    - var endDate = new Date(view.endDay);
+                    - var midDate = new Date(startDate);
+                    - midDate.setUTCMonth(startDate.getUTCMonth() + 1, 1);
+                    if startDate.getUTCDate() > 1
+                      span.timeline-date-section(style="width:#{(midDate.getTime() - startDate.getTime()) / view.totalTime * 100}%;left:0px;")= moment(startDate).utc().format("MMM YY")
+                      - startDate.setUTCMonth(startDate.getUTCMonth() + 1, 1);
+                      - midDate.setUTCMonth(midDate.getUTCMonth() + 1);
+                    while midDate.getTime() < endDate.getTime()
+                      span.timeline-date-section(style="width:#{(midDate.getTime() - startDate.getTime()) / view.totalTime * 100}%;left:#{(startDate.getTime() - view.startTime) / view.totalTime * 100}%;")= moment(startDate).utc().format("MMM YY")
+                      - startDate.setUTCMonth(startDate.getUTCMonth() + 1);
+                      - midDate.setUTCMonth(midDate.getUTCMonth() + 1);
+                    if startDate.getTime() < endDate.getTime()
+                      span.timeline-date-section(style="width:#{(endDate.getTime() - startDate.getTime()) / view.totalTime * 100}%;left:#{(startDate.getTime() - view.startTime) / view.totalTime * 100}%;")= moment(startDate).utc().format("MMM YY")
+
+            tr
+              td
+                br
+                br
+                br

@@ -1,0 +1,266 @@
+extends /templates/core/modal-base-flat.jade
+
+//- DNT
+
+block modal-header-content
+
+  h4 Name: #{view.user.get('name')} (#{view.user.get('firstName')} #{view.user.get('lastName')})
+  h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
+  if view.user.isTeacher() && view.trialRequest
+    - var props = view.trialRequest.get('properties') || {}
+    h4 School: #{props.nces_school || props.organization}
+    h4 District: #{props.nces_district || props.district}
+  if view.user.isStudent() || view.user.isTeacher()
+    p
+      if view.user.isStudent()
+        button#destudent-btn.btn.btn-burgundy Destudent
+      if view.user.isTeacher()
+        button#deteacher-btn.btn.btn-burgundy Deteacher
+  p
+    button#reset-progress-btn.btn.btn-burgundy Reset Progress
+    a#export-data-btn.btn.btn-primary(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
+  br
+
+  if view.prepaids.size()
+    div
+      a(href="#prepaids") Existing Prepaids
+  div
+    a(href="#licenses") Grant Student Licenses
+  if view.classrooms.size()
+    div
+      a(href="#classrooms") Update Classrooms
+  div
+    a(href="#stripe") Modify Stripe Subscription
+  div
+    a(href="#create-payment") Create Payment
+  div
+    a(href="#details") User Details
+
+  div.m-t-1
+    label
+      input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+      span.p-l-1
+        | APCSP Verified Teacher (has access to private forum)
+    br
+    label
+      input#school-admin-checkbox(type='checkbox', checked=view.userIsSchoolAdmin())
+      span.p-l-1
+        | Enable School Administrator
+      span.p-l-1
+        a(href="#edit-school-admins-link")#edit-school-admins-link edit teachers
+    div
+      if view.userSaveState == 'saving'
+        | Saving...
+      else if view.userSaveState == 'saved'
+        | Saved!
+      else
+        | &nbsp;
+
+block modal-body-content
+  if view.editingSchoolAdmins
+    h3.m-t-3#school-admins-title Edit School Admin Teacher Access
+    h5 Add teacher
+    table.table.table-condensed
+      .form-horizontal
+        form#teacher-search-form.form-group
+        .col-sm-4
+          input.form-control#teacher-search(type="text")
+        .col-sm-1
+          button.btn.btn-primary.btn-large#teacher-search-button Search
+        .col-sm-1
+          button.btn.btn-large#clear-teacher-search-button Clear results
+      #teacher-search-result
+    if view.userSaveState
+      br
+      div= view.userSaveState
+    br
+    h5 Edit teachers
+    br
+    table.table.table-condensed
+      #school-admin-result
+
+
+  if view.prepaids.size()
+    h3.m-t-3#prepaids Existing Prepaids
+    table.table.table-condensed
+      tr
+        th ID
+        th Shared by
+        th Type
+        if view.timeZone == 'Asia/Shanghai'
+          th Issued (CT)
+          th Start (CT)
+          th End (CT)
+        else
+          th Issued (PT)
+          th Start (PT)
+          th End (PT)
+        th Used
+      for prepaid in view.prepaids.models
+        - var prepaidControlId=prepaid.id
+        tr(id=prepaidControlId)
+          td= prepaid.id
+          td
+            if prepaid.creator
+              if prepaid.creator.id !== view.user.id
+                a.user-link(data-user-id=prepaid.creator.id)
+                  = prepaid.creator.get('name')
+              else
+                | -
+          td= prepaid.get('type')
+          td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
+          td
+            if prepaid.get('startDate')
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                - var startDateControlId='startDate-'+prepaid.id
+                input(id= startDateControlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+              else
+                = moment.timezone(prepaid.get('startDate')).tz(view.timeZone).format('l')
+          td
+            if prepaid.get('endDate')
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                - var endDateControlId='endDate-'+prepaid.id
+                input(id= endDateControlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('YYYY-MM-DD'))
+              else
+                = moment.timezone(prepaid.get('endDate')).tz(view.timeZone).format('l')
+          td
+            if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+              - var totalLicensesControlId='totalLicenses-'+prepaid.id
+              = (prepaid.get('redeemers') || []).length + ' / ' 
+              input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
+            else
+              = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
+          td
+            if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+              button.btn.btn-primary.save-prepaid-info-btn(data-prepaid-id=prepaid.id) Save
+              button.btn.btn-primary.cancel-prepaid-info-edit-btn(data-prepaid-id=prepaid.id) Cancel
+            else
+              button.btn.btn-primary.edit-prepaids-info-btn(data-prepaid-id=prepaid.id) Edit
+    hr
+
+  h3.m-t-3#licenses Grant Student Licenses
+  #prepaid-form.form
+    if view.state === 'creating-prepaid'
+      .progress.progress-striped.active
+        .progress-bar(style="width: 100%")
+
+    else if view.state === 'made-prepaid'
+      .alert.alert-success Licenses created!
+
+    else
+      if view.timeZone == 'Asia/Shanghai'
+        h4.small(style="max-width: 700px") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
+      else 
+        h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
+      .form-group
+        label
+          span Number of Licenses
+          =" "
+          input#seats-input(type="number", name="maxRedeemers", min="1")
+      .form-group
+        label
+          span Start Date
+          =" "
+          input(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
+      .form-group
+        label
+          span End Date
+          =" "
+          input(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+      .form-group
+        button#add-seats-btn.btn.btn-primary Add Licenses
+    hr
+
+  if view.classrooms.size()
+    h3.m-t-3#classrooms Update Classrooms
+    table#classroom-table.table
+      tr
+        th Name
+        th Lang
+        th # Levels / Courses
+        th
+      for classroom in view.classrooms.models
+        tr
+          td
+            = classroom.get('name')
+            if classroom.get('archived')
+              i.spl.text-muted (archived)
+          td= classroom.capitalLanguage
+          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+          td
+            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+    hr
+
+  h3#stripe Modify Stripe Subscription
+  .small Use this to grant premium access and gems to this user.
+  .form
+    .form-group
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="" checked=view.none)
+          | None
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+          | Free
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+          span Free Until
+          =" "
+          input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
+          span Coupon
+          =" "
+        select#coupon-select
+          for coupon in view.coupons.models
+            option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+    .form-group
+      label
+        span Gems to add to user
+        =" "
+        input#stripe-add-gems(type="number", name="addGems", value=0)
+    button#save-changes.btn.btn-primary Save Changes
+  hr
+
+  h3#create-payment Create Payment
+  .small Use this to create a payment entry for this user.
+  .form
+    .form-group
+      pre
+        table
+          tr
+            td purchaser:
+            td= view.user.id
+          tr
+            td recipient:
+            td= view.user.id
+          tr
+            td service:
+            td
+              input#payment-service(type='text', value='paypal')
+              =" "
+              span Only enter paypal, stripe, or external
+          tr
+            td gems:
+            td
+              input#payment-gems(type='number', value='10500')
+          tr
+            td amount:
+            td
+              input#payment-amount(type='number', value='2997')
+          tr
+            td description:
+            td
+              input#payment-description(type='text')
+    button#create-payment-btn.btn.btn-primary Create Payment
+  hr
+
+  h3#details User Details
+  pre.user-props= JSON.stringify(view.user, null, 2)
+  hr
+
+block modal-footer
