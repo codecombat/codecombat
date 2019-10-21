@@ -66,7 +66,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
 #    game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
 #    get_started: "Get started"
-    global_title: "Join Our Global Community of Learners and Educators" "저희의 세계적인 선생님과 학생 커뮤니티에 참여하세요"
+    global_title: "저희의 세계적인 선생님과 학생 커뮤니티에 참여하세요"
     global_subtitle1: "학생들"
     global_subtitle2: "작성된 코드 줄"
     global_subtitle3: "선생님들"
