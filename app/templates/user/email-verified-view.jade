@@ -1,0 +1,37 @@
+extends /templates/base-flat.jade
+
+block content
+  .container.text-center
+    if state.get('verifyStatus') === "pending"
+      span(data-i18n="account.verifying_email")
+        | Verifying your email address...
+    else if state.get('verifyStatus') === "success"
+      .alert.alert-success.center-block
+        .glyphicon.glyphicon-ok-circle.m-r-1
+        span(data-i18n="account.successfully_verified")
+          | You've successfully verified your email address!
+      if view.userID !== me.id
+        a.login-button.btn.btn-navy.btn-lg(data-i18n="login.log_in")
+      else if view.user.isTeacher()
+        a.btn.btn-lg.btn-forest(href="/teachers/classes")
+          span(data-i18n="new_home.goto_classes")
+      else if me.isStudent()
+        div.m-b-1
+          a.btn.btn-forest.btn-lg(href="/students", data-i18n="courses.continue_playing")
+        div
+          a.btn.btn-primary.btn-lg.play-btn(href="/students", data-i18n="new_home.view_progress")
+      else
+        div.m-b-1
+          a.btn.btn-forest.btn-lg.play-btn(href="/play", data-i18n="courses.continue_playing")
+        div
+          a.btn.btn-primary.btn-lg(href="/user/#{me.getSlugOrID()}", data-i18n="new_home.view_profile")
+    else if state.get('verifyStatus') === "error"
+      .alert.alert-danger.center-block
+        .glyphicon.glyphicon-remove-circle.m-r-1
+        span(data-i18n="account.verify_error")
+          | Something went wrong when verifying your email :(
+    else
+      div
+        | This really shouldn't happen
+      div
+        = state.get('verifyStatus')

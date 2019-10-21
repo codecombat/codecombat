@@ -1,0 +1,17 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  h3.text-center= view.getVictoryMessage()
+
+block modal-body-content
+  .text-center Share this level so your friends and family can play it:
+    
+  .share-row.text-center
+    input#copy-url-input.text-h4.semibold.form-control.input-lg(value=view.shareURL)
+    button#copy-url-btn.btn.btn-lg.btn-navy-alt
+      span(data-i18n='sharing.copy_url')
+
+block modal-footer-content
+  .text-center
+    button#replay-game-btn.btn.btn-navy.btn-lg(data-dismiss="modal") Replay Game
+    a#play-more-codecombat-btn.btn.btn-navy.btn-lg(href="/") Play More CodeCombat

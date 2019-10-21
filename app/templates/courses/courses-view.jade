@@ -1,0 +1,211 @@
+extends /templates/base-flat.jade
+
+block content
+  .container
+    .row.m-y-3
+      .col-xs-12
+        if me.isTeacher()
+          .alert.alert-danger.text-center
+            //- DNT: Temporary
+            h3 ATTENTION TEACHERS:
+            p We are transitioning to a new classroom management system; this page will soon be student-only.
+            a(href="/teachers/classes") Go to teachers area.
+
+        #main-content(dir="auto")
+          if me.isAnonymous()
+
+            h1.text-center(data-i18n="courses.welcome_to_courses")
+
+            .text-center
+              p
+                h2(data-i18n="courses.ready_to_play")
+              p
+                button#start-new-game-btn.btn.btn-navy(data-i18n="courses.start_new_game")
+              p
+                span.spr -
+                span.text-uppercase(data-i18n="general.or")
+                span.spl -
+              p
+                button#log-in-btn.btn.btn-forest(data-i18n="login.log_in")
+
+            h2#play-now-to-learn-header.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
+            ul#benefits-ul
+              li(data-i18n="courses.play_now_learn_1")
+              li(data-i18n="courses.play_now_learn_2")
+              li(data-i18n="courses.play_now_learn_3")
+              li(data-i18n="courses.play_now_learn_4")
+
+          else
+
+            if view.showTournament || view.awaitingTournament
+              .tournament-logo
+                img(src="/images/pages/courses/tarena-discovery-cup-tournament-logo.png")
+              .text-center
+                h1#tournament-title(data-i18n="ladder.live_tournament")
+                a#tournament-rules(data-i18n="ladder.tournament_rules")
+                #tournament-rules-content.hide.rtl-allowed
+                  if /^zh/.test(me.get('preferredLanguage', true))
+                    p 欢迎参加童程童美 CodeCombat 现场锦标赛，争夺前全国决赛的席位。
+
+                    p 评分规则如下：你提交的代码将在后台持续与其他玩家对战，每一次对战获得或者失去的积分将会基于贝叶斯定理所预测的获胜概率。当你击败排名比你高的玩家或者被排名比你低的玩家击败时，你会相应地获得或者失去较多的积分。而当你击败排名比你低的玩家或被排名比你高的玩家击败时，你只会获得或失去少量的积分；你应该将你的代码分别提交到红方和蓝方，比赛最终将取较高一方的分数作为最终排名的依据。
+
+                    p 你可以挑选任何玩家来测试你的代码，并改进你的策略直到获胜。但请记住：只有在你点击"为我的游戏评分"按钮之后，你的代码才会自动与其他玩家进行比赛之后，从而开始计算得分。
+                  else
+                    p Welcome to the Tarena CodeCombat live tournament! Compete for a seat in the national finals.
+
+                    p Scoring is as follows: your code will play constantly in the background against other players to determine how strong it is. The number of points you earn for a match are determined by a Bayesian calculation predicting how likely you were to win that match. So if you beat a player ranked more highly than you, you gain more points. Beat a player lower than you, gain fewer points. Lose to a weaker player, lose more points. Lose to a stronger player, lose fewer points. Your code will play on both the red and blue teams, and scoring will be based on your higher score of the two teams.
+
+                    p You can test your code against any player and improve your strategy until you win, but remember: no points are scored until you submit your latest code and it starts to automatically plays matches against other players.
+
+            if view.awaitingTournament
+              .text-center
+                h2(data-i18n="ladder.awaiting_tournament_title")
+                p(data-i18n="ladder.awaiting_tournament_blurb")
+                br
+                br
+            else if view.showTournament
+              for level in view.tournamentArenas()
+                a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, title=level.description)
+                  .level
+                    if level.image
+                      img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
+                    else
+                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
+                      h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
+                    .play-text-container
+                      .overlay-text.play-text(data-i18n="common.play")
+
+            .text-center
+              h1(data-i18n="courses.welcome_to_page")
+
+            if me.showAvatarOnStudentDashboard()
+              .current-hero-container.text-center.row
+                .hero-avatar
+                  img(src=view.hero.getPortraitURL())
+                .current-hero-right-col.rtl-allowed
+                  .semibold.current-hero-text
+                    if view.hero.getGender() == 'female'
+                      span.spr(data-i18n="courses.current_hero_female")
+                    else
+                      span.spr(data-i18n="courses.current_hero")
+                    span.current-hero-name= view.hero.getHeroShortName()
+                  button.change-hero-btn.btn.btn-lg.btn-forest
+                    span(data-i18n="play.change_hero")
+
+            if view.classrooms.size()
+              br
+              h3(data-i18n="courses.my_classes")
+
+              for classroom in view.classrooms.models
+                hr.class-break
+                - var justAdded = classroom.id === view.classroomJustAdded;
+                - var classroomClass = justAdded ? 'just-added' : '';
+                if justAdded
+                  #just-added-text.text-center(data-i18n="courses.class_added")
+
+                //- sigh
+                div(class=classroomClass).rtl-allowed
+                  h5(dir="auto")
+                    span.spr= classroom.get('name')
+                    span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
+                  p
+                    span(data-i18n="courses.teacher")
+                    span :
+                    if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+                      span.spl= view.ownerNameMap[classroom.get('ownerID')]
+
+                  - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+                  for courseInstance in courseInstances
+
+                    .course-instance-entry.rtl-allowed
+                      - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
+                      h6
+                        span.spr= i18n(course, 'name')
+                        small
+                          a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
+                          if view.courseInstanceHasProject(courseInstance)
+                            a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
+                          if classroom.hasAssessments({courseId: course._id})
+                            =" "
+                            a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
+                          if view.showVideosLinkForCourse(course._id)
+                            = " "
+                            a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
+                          // the ranking will only be visible in this class
+                          if (courseInstance.id=="5cd4352deed476002dd14019" || courseInstance.id=="5cd57c5216f64600245afedd" || courseInstance.id=='5ce01f45da3b2900357d7ed7')
+                            a.view-ranking-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_ranking")
+                      +course-instance-body(courseInstance, classroom)
+                      .clearfix
+
+            h3.text-uppercase(data-i18n="courses.join_class")
+            hr
+
+            form#join-class-form.form-inline
+              .help-block
+                em(data-i18n="courses.ask_teacher_for_code")
+              .form-group
+                input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code", placeholder="<Enter Class Code>", value=view.classCode)
+              input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
+
+              if view.state === 'enrolling'
+                .progress.progress-striped.active
+                  .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
+
+              if view.errorMessage
+                .alert.alert-danger= view.errorMessage
+
+
+mixin course-instance-body(courseInstance, classroom)
+  - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
+  - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+  - var nextLevel = stats.levels.next;
+
+  if stats.courseComplete
+    .text-success
+      span.glyphicon.glyphicon-ok
+      span.spl(data-i18n="courses.course_complete")
+      span !
+  .pull-right
+    if stats.courseComplete
+      - var arenaLevel = stats.levels.arena;
+      - var projectLevel = stats.levels.project;
+      if arenaLevel
+        - var url = view.urls.courseArenaLadder({level: view.originalLevelMap[arenaLevel.get('original')] || arenaLevel, courseInstance: courseInstance});
+        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
+          span(data-i18n="courses.play_arena")
+      else if projectLevel
+        - var url = view.urls.courseLevel({level: view.originalLevelMap[projectLevel.get('original')] || projectLevel, courseInstance: courseInstance});
+        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
+          span(data-i18n="courses.view_project")
+      else
+        a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
+    else if nextLevel
+      - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
+      if nextLevel != stats.levels.first
+        a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
+          span(data-i18n="common.continue")
+      else
+        a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
+          span(data-i18n="courses.start")
+
+  if stats.courseComplete
+    a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
+      img(src='/images/pages/user/certificates/certificate-icon.png')
+      div(data-i18n='user.certificate_view')
+  else if stats.levels.lastPlayed
+    div
+      span(data-i18n="courses.last_level")
+      span :
+      if stats.levels.lastPlayedNumber
+        span.spl #{stats.levels.lastPlayedNumber}.
+      - var levelNameEnglish = stats.levels.lastPlayed.get('name');
+      - var levelWithI18N = view.originalLevelMap[stats.levels.lastPlayed.get('original')];
+      - var levelName = levelWithI18N ? i18n(levelWithI18N.attributes, 'name') : levelNameEnglish;
+      span.spl= levelName || levelNameEnglish
+
+  .clearfix
+  if stats.courseComplete
+    br
+  else
+    .progress
+      .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone
