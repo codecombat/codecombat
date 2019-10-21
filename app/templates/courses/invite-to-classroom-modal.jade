@@ -1,0 +1,25 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  //- TODO: only load this once, probably in the services/google
+  script(src='https://www.google.com/recaptcha/api.js')
+
+block modal-body-content
+  h3(data-i18n="courses.option1_header")
+  .form
+    .form-group
+      p.small.help-block(data-i18n="courses.enter_emails")
+      textarea#invite-emails-textarea.form-control(rows=10)
+    .form-group
+      .text-center
+        .g-recaptcha(data-sitekey=view.recaptcha_site_key, data-callback="recaptchaCallback")
+    .form-group
+      .text-center
+        button#send-invites-btn.btn.btn-lg.btn-primary.disabled(data-i18n="courses.send_invites")
+        #invite-emails-sending-alert.alert.alert-info.hide(data-i18n="common.sending")
+        #invite-emails-success-alert.alert.alert-success.hide(data-i18n="play_level.done")
+  br
+  p.small
+    span(data-i18n="[html]courses.student_email_invite_blurb", data-i18n-options={classCode: view.classroom.get('codeCamel')})
+
+block modal-footer-content

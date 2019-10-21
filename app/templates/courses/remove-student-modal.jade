@@ -1,0 +1,34 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  .text-center
+    h1.modal-title(data-i18n="courses.remove_student1")
+    span.glyphicon.glyphicon-warning-sign.text-danger
+    p
+      span= view.user.get('name', true)
+      if view.user.get('email')
+        span= " — " + view.user.get('email')
+    h2(data-i18n="courses.are_you_sure")
+
+block modal-body-content
+  p.text-center
+    span(data-i18n="courses.remove_description1")
+  if view.user.isEnrolled()
+    p.text-center
+      if view.willRevokeLicense
+        span(data-i18n="courses.license_will_revoke")
+      else
+        span(data-i18n="courses.remove_description2")
+
+block modal-footer-content
+  #remove-student-buttons.text-center
+    p
+      button.btn.btn-lg.btn-forest.text-uppercase(data-dismiss="modal", data-i18n="courses.keep_student")
+    p - OR -
+    p
+      button#remove-student-btn.btn.btn-lg.btn-burgundy.text-uppercase(data-i18n="courses.remove_student1")
+
+  #remove-student-progress.text-center.hide
+    .progress
+      .progress-bar
+    p.text-info(data-i18n="courses.removing_user")

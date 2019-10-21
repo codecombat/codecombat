@@ -1,0 +1,78 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  .clearfix
+  .text-center
+    h1(data-i18n="teacher.apply_licenses")
+    h2(data-i18n="courses.grants_lifetime_access")
+
+block modal-body-content
+  - var numToEnroll = state.get('visibleSelectedUsers').length
+  - var unusedEnrollments = view.prepaids.totalMaxRedeemers() - view.prepaids.totalRedeemers()
+  - var tooManySelected = numToEnroll > unusedEnrollments
+  - var noneSelected = numToEnroll == 0
+  
+  if view.classrooms.length > 1
+    .row
+      .col-sm-10.col-sm-offset-1
+        .text-center.m-b-3
+          .small.color-navy
+            span(data-i18n='teacher.show_students_from')
+            span.spr :
+          select.classroom-select
+            each classroom in view.classrooms.models
+              option(selected=(view.classroom ? classroom.id === view.classroom.id : false), value=classroom.id)
+                = classroom.get('name')
+            option(selected=(!view.classroom), value='' data-i18n='teacher.all_students')
+  
+  form.form.m-t-3
+    span(data-i18n="teacher.apply_licenses_to_the_following_students")
+    span :
+    .well.form-group
+      - var enrolledUsers = view.enrolledUsers()
+      - var unenrolledUsers = view.unenrolledUsers()
+      - var areAllSelected = view.areAllSelected()
+      .checkbox
+        label
+          input.select-all-users-checkbox(type="checkbox", disabled=false, checked=areAllSelected)
+          span.spr(data-i18n="teacher.select_all")
+      for user in unenrolledUsers
+        - var selected = state.get('selectedUsers').get(user.id)
+        .checkbox
+          label
+            input.user-checkbox(type="checkbox", disabled=false, checked=selected, data-user-id=user.id, name='user')
+            span.spr= user.broadName()
+      if enrolledUsers.length > 0
+        .small-details.m-t-3
+          span(data-i18n='teacher.students_have_licenses')
+      for user in enrolledUsers
+        - var selected = state.get('selectedUsers').get(user.id)
+        .checkbox
+          label
+            input.user-checkbox(type="checkbox", disabled=true, checked=true, data-user-id=user.id, name='user')
+            span.spr= user.broadName()
+    
+    if state.get('error')
+      .alert.alert-danger
+        = state.get('error')
+    
+    #submit-form-area.text-center
+      p.small-details.not-enough-enrollments(class=(tooManySelected ? 'visible' : ''))
+        span(data-i18n='teacher.not_enough_enrollments')
+      
+      p.small-details
+        span.spr(data-i18n="courses.enrollment_credits_available")
+        span#total-available= view.prepaids.totalAvailable()
+
+      p
+        button#activate-licenses-btn.btn.btn-lg.btn-primary(type="submit" class=(tooManySelected || noneSelected ? 'disabled' : ''))
+          span(data-i18n="teacher.apply_licenses")
+          |  (
+          span#total-selected-span
+            = numToEnroll
+          | )
+
+      p
+        a#get-more-licenses-btn.btn.btn-lg.btn-primary-alt(href="/teachers/licenses", data-i18n="courses.get_enrollments")
+
+block modal-footer-content

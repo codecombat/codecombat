@@ -1,0 +1,89 @@
+extends /templates/base-flat.jade
+
+block content
+
+  .container.m-t-3
+    p
+      a(href="/students", data-i18n="courses.back_courses")
+    p
+      strong
+        if view.courseInstance.get('name')
+          span= view.courseInstance.get('name')
+        else if view.classroom.get('name')
+          span= view.classroom.get('name')
+        else
+          span(data-i18n='courses.unnamed_class')
+
+      if !view.owner.isNew() && view.getOwnerName() && view.courseInstance.get('name') != 'Single Player'
+        span.spl -
+        span.spl(data-i18n='courses.teacher')
+        span.spr :
+        span
+          strong= view.getOwnerName()
+
+    h1
+      | #{i18n(view.course.attributes, 'name')}
+      if view.courseComplete
+        span.spl -
+        span.spl(data-i18n='clans.complete_2')
+        span !
+
+    p
+      if view.courseInstance.get('description')
+        each line in view.courseInstance.get('description').split('\n')
+          div= line
+
+    .available-courses-title(data-i18n='courses.available_levels')
+    table.table.table-striped.table-condensed
+      thead
+        tr
+          th
+          th(data-i18n="clans.status")
+          th(data-i18n="editor.level_components_type")
+          th(data-i18n="resources.level")
+          th(data-i18n="courses.concepts")
+      tbody
+        - var previousLevelCompleted = true;
+        - var lastLevelCompleted = view.getLastLevelCompleted();
+        - var passedLastCompletedLevel = !lastLevelCompleted;
+        - var levelCount = 0;
+        each level in view.levels.models
+          - var levelStatus = null;
+          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), ++levelCount);
+          if view.userLevelStateMap[me.id]
+            - levelStatus = view.userLevelStateMap[me.id][level.get('original')]
+          tr
+            td
+              if previousLevelCompleted || !passedLastCompletedLevel || levelStatus
+                - var i18nTag = level.isType('course-ladder') ? 'play.compete' : 'common.play';
+                button.btn.btn-forest.btn-play-level(data-level-slug=level.get('slug'), data-i18n=i18nTag, data-level-id=level.get('original'))
+                if level.get('shareable')
+                  - var levelOriginal = level.get('original');
+                  - var session = view.levelSessions.find(function(session) { return session.get('level').original === levelOriginal });
+                  if session
+                    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + session.id + '?course=' + view.courseID + '&course-instance=' + view.courseInstanceID;
+                    a.btn.btn-gold.btn-view-project-level(href=url)
+                      if level.isType('game-dev')
+                        span(data-i18n='sharing.game')
+                      else
+                        span(data-i18n='sharing.webpage')
+            td
+              if view.userLevelStateMap[me.id]
+                div(data-i18n="courses." + view.userLevelStateMap[me.id][level.get('original')])
+            if level.get('practice')
+              td(data-i18n="courses.practice")
+            else
+              td(data-i18n="courses.required")
+            td #{levelNumber}. #{i18n(level.attributes, 'name').replace('Course: ', '')}
+            td
+              if view.levelConceptMap[level.get('original')]
+                each concept in view.course.get('concepts')
+                  if view.levelConceptMap[level.get('original')][concept]
+                    span.spr.concept(data-i18n="concepts." + concept)
+            if level.get('original') === lastLevelCompleted
+              - passedLastCompletedLevel = true
+            if !level.get('practice')
+              if view.userLevelStateMap[me.id]
+                - previousLevelCompleted = view.userLevelStateMap[me.id][level.get('original')] === 'complete'
+              else
+                - previousLevelCompleted = false
