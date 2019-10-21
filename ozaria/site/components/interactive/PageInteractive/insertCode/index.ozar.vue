@@ -58,7 +58,6 @@
         .starterCode
         .trim()
         .split('\n')
-        .map(line => line.trim())
 
       let defaultImage
       if (this.interactive.defaultArtAsset) {
