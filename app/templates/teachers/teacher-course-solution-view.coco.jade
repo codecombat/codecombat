@@ -1,0 +1,117 @@
+extends /templates/base-flat.jade
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+  .do-not-print.container
+    span.backlink
+      a(href='/teachers/courses')
+        |&lt;
+        span= ' '
+        spna(data-i18n="teacher.back_to_course_guides")
+    if view.paidTeacher || view.course.get('free')
+      .print
+        .btn.btn-md.btn-navy
+          a(href='javascript:window.print()')
+            span.glyphicon.glyphicon-print &#160;
+            span(data-i18n="teacher.print_guide")
+
+block content
+
+  if !me.isTeacher() && !me.isAdmin()
+    a(href="/")
+      img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+    h2.text-center(data-i18n="teacher.teacher_account_required")
+  else if !view.paidTeacher && !view.course.get('free')
+    h2.text-center(data-i18n="courses.solutions_require_licenses")
+  else
+    .text-center
+      img(src="http://direct.codecombat.com/images/pages/base/logo.png")
+      if view.course.loaded
+        h1 #{i18n(view.course.attributes, 'name')}
+        h3 #{view.prettyLanguage}
+        i= i18n(view.course.attributes, 'description')
+    br
+
+    if view.levels
+      h3(data-i18n="common.table_of_contents")
+      each level, index in view.levels.models
+        .small
+          a(href="##{level.get('slug')}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+      br
+
+      each level, index in view.levels.models
+        - var langClass = 'lang-' + (level.get('primerLanguage') || view.language || 'python');
+        h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+        h3(data-i18n="teacher.level_overview_solutions")
+        i #{i18n(level.attributes, 'description')}
+        div
+          h4.text-center(data-i18n="common.intro")
+          if level.get('intro')
+            p!= level.get('intro')
+          else
+            .text-center
+              i(data-i18n="common.coming_soon")
+          h4.text-center(data-i18n="common.default_code")
+          if level.get('begin')
+            pre
+              code(class=langClass)= level.get('begin')
+          else
+            .text-center
+              i(data-i18n="common.coming_soon")
+        div.overview
+          br
+          h4.text-center(data-i18n="common.overview")
+          if level.get('guide')
+            p!= level.get('guide')
+          else
+            .text-center
+              i(data-i18n="common.coming_soon")
+          h4.text-center
+            span= i18n(level.attributes, 'name')
+            span.spl(data-i18n="common.solution")
+          if level.get('assessment') === 'open-ended'
+            em(data-i18n="teacher.explain_open_ended")
+
+          - var solutions = view.levelSolutionsMap[level.get('original')] || [];
+          if solutions.length === 1
+            each solution in solutions
+              pre
+                code(class=langClass)= solution.source
+          else if solutions.length > 0
+            div(role='tabpanel')
+              ul.nav.nav-tabs(role='tablist')
+                each solution, index in solutions
+                  li.nav-item(class=(index === 0 ? 'active' : ''))
+                    - var target = level.get('original') + index;
+                    a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
+                      if solution.capstoneStage
+                        .text-center
+                          span(data-i18n="teacher.capstone_solution")
+                          =" "
+                          span= solution.capstoneStage
+                      else if index === 0
+                        strong.text-center(data-i18n="teacher.complete_solution")
+                      else
+                        .text-center
+                          span(data-i18n="teacher.partial_solution")
+                          =" "
+                          span= index
+                  if index < solutions.length - 1
+                    .tab-spacer
+                  else
+                    .tab-filler
+              .tab-content
+                each solution, index in solutions
+                  - var target = level.get('original') + index;
+                  div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
+                    div!= marked(solution.description || '')
+                    pre
+                      code(class=langClass)= solution.source
+          else
+            .text-center
+              if level.isProject()
+                i(data-i18n="teacher.solution_project_blurb")
+              else
+                i(data-i18n="common.coming_soon")
+        hr
+        br

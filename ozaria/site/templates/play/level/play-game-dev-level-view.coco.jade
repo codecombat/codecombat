@@ -1,0 +1,64 @@
+- var ready = !(view.state.get('errorMessage') || view.state.get('loading'))
+
+include ../game-dev-goals.jade
+
+.container-fluid.style-flat
+  #game-row.row
+    .col-xs-9
+      #canvas-wrapper
+        #game-dev-track-view
+        canvas(width=924, height=589)#webgl-surface
+        canvas(width=924, height=589)#normal-surface
+
+    #info-col.col-xs-3
+      .panel.panel-default
+        #directions.panel-body.text-center
+          if view.state.get('errorMessage')
+            .alert.alert-danger= view.state.get('errorMessage')
+
+          if view.level.id && view.session.id
+            h3.m-y-1= view.getLevelName()
+            h4= view.state.get('creatorString')
+            hr
+
+          if view.state.get('loading')
+            h1.m-y-1(data-i18n="common.loading")
+            .progress
+              .progress-bar(style="width: #{view.state.get('progress')}")
+
+          if ready
+            h3
+              span(data-i18n="play_level.directions")
+              | :
+            if view.studentGoals && view.studentGoals.length
+              +game-dev-goals(view.studentGoals)
+            else
+              p!= view.howToPlayText
+            hr
+
+        if ready
+          .panel-footer
+            - var playing = view.state.get('playing')
+            if playing
+              button#game-dev-play-button.btn.btn-lg.btn-burgundy.btn-block(data-i18n="play_game_dev_level.restart")
+            else
+              button#game-dev-play-button.btn.btn-lg.btn-forest.btn-block(data-i18n="play_game_dev_level.play")
+            if view.state.get('isOwner')
+              br
+              button#edit-level-btn.btn.btn-lg.btn-warning.btn-block(data-i18n="play_level.edit_level")
+
+
+
+  #share-row.m-t-3
+    if ready
+      .panel.panel-default
+        #share-panel-body.panel-body
+          div#share-text-div.text-right
+            b(data-i18n='sharing.share_game')
+          input#copy-url-input.text-h4.semibold.form-control.input-lg(value=view.state.get('shareURL'))
+          div#copy-url-div
+            button#copy-url-btn.btn.btn-lg.btn-navy-alt
+              span(data-i18n='sharing.copy_url')
+        if !view.state.get('isOwner')
+          .panel-body
+            a#play-more-codecombat-btn.btn.btn-lg.btn-navy-alt.pull-right(href="/", data-i18n="play_game_dev_level.play_more_codecombat")

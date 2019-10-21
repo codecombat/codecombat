@@ -1,0 +1,228 @@
+extends /templates/base-flat.jade
+
+block content
+  - var showDone = !view.trialRequest.isNew() && me.isAnonymous();
+
+  #learn-more-modal.modal.fade
+    .modal-dialog.modal-sm
+      .modal-content.style-flat
+        .modal-header
+          .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+        .modal-body(data-i18n="teachers_quote.learn_more_modal")
+
+  .container
+    form#request-form(class=showDone ? 'hide' : '')
+      .row
+        .col-md-offset-2.col-md-8
+          h3.text-center(data-i18n="new_home.request_quote")
+          h4.text-center(data-i18n="[html]teachers_quote.subtitle")
+
+      if !me.isAnonymous()
+        .row
+          .col-md-offset-2.col-md-8
+            .alert.alert-info.text-center
+              div
+                span.spr(data-i18n="teachers_quote.not")
+                strong= me.broadName()
+                | ?
+                a.spl#logout-link(data-i18n="login.log_out")
+              if me.get('role') === 'student'
+                div#conversion-warning
+                  span.spr(data-i18n="[html]teachers_quote.conversion_warning")
+                  a(data-i18n="new_home.learn_more" data-toggle="modal" data-target="#learn-more-modal")
+
+      #form-teacher-info
+        .row
+          .col-md-offset-2.col-md-4.col-sm-6
+            #full-name.form-group
+              span.control-label(data-i18n="general.name")
+              - var firstName = me.get('firstName') || '';
+              - var lastName = me.get('lastName') || '';
+              - var name = (firstName + ' ' + lastName).trim()
+              input.form-control(name="fullName" value=name, disabled=!!name)
+
+          .col-md-4.col-sm-6
+            #email-form-group.form-group
+              span.control-label(data-i18n="general.email")
+              - var email = me.get('email') || '';
+              span.email-check.fancy-error.pull-right
+                - var checkEmailState = view.state.get('checkEmailState');
+                if checkEmailState === 'checking'
+                  span.small(data-i18n="signup.checking")
+                if checkEmailState === 'exists'
+                  span.small
+                    span(data-i18n="signup.account_exists")
+                    =" "
+                    a#email-exists-login-link.login-link(data-i18n="signup.sign_in")
+
+                if checkEmailState === 'available'
+                  span.small
+                    span(data-i18n="signup.email_good")
+              input.form-control(name="email" type="email", value=email, disabled=!!email)
+
+        .row
+          .col-md-offset-2.col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.phone_number")
+              input.form-control(name="phoneNumber", data-i18n="[placeholder]teachers_quote.phone_number_help")
+
+          .col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.primary_role_label")
+              select.form-control(name="role")
+                option(data-i18n="teachers_quote.primary_role_default", , value='')
+                option(data-i18n="courses.teacher", value="Teacher")
+                option(data-i18n="teachers_quote.tech_coordinator", value="Technology coordinator")
+                option(data-i18n="teachers_quote.advisor", value="Advisor")
+                option(data-i18n="teachers_quote.principal", value="Principal")
+                option(data-i18n="teachers_quote.superintendent", value="Superintendent")
+                option(data-i18n="teachers_quote.parent", value="Parent")
+
+        if !me.isAnonymous()
+          .row
+            .col-md-offset-2.col-md-4.col-sm-6
+              .form-group
+                span.control-label
+                  span(data-i18n="general.username")
+                  span.spl.text-muted(data-i18n="signup.optional")
+                - var name = me.get('name') || '';
+                span.name-check.fancy-error.pull-right
+                  - var checkNameState = view.state.get('checkNameState');
+                  if checkNameState === 'checking'
+                    span.small(data-i18n="signup.checking")
+                  if checkNameState === 'exists'
+                    span.small
+                      span= view.state.get('suggestedNameText')
+                  if checkNameState === 'available'
+                    span.small
+                      span(data-i18n="signup.name_available")
+                input.form-control(name="name" value=name, disabled=!!name)
+
+      #form-school-info
+        .row.m-y-2
+          .col-md-offset-2.col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.organization_label")
+              input.form-control#organization-control(name="organization")
+
+          .col-md-4.col-sm-6
+            .form-group
+              //- TODO: algolia and form errors both change form-control
+              //- TODO: District not red on validation error
+              span.control-label.form-control.nullify-form-control(data-i18n="teachers_quote.district_label")
+              input.form-control#district-control(name="district", data-i18n="[placeholder]teachers_quote.district_na")
+
+        .row.m-y-2
+          .col-md-offset-2.col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.city")
+              input.form-control(name="city")
+
+          .col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.state")
+              input.form-control(name="state")
+
+        .row.m-y-2
+          .col-md-offset-2.col-md-4.col-sm-6
+            .form-group
+              span.control-labelspan.control-label(data-i18n="teachers_quote.country")
+              input.form-control(name="country")
+
+      #form-students-info
+        .row
+          .col-md-offset-2.col-md-4
+            .form-group
+              span.control-label(data-i18n="courses.number_programming_students")
+              .help-block.small
+                em.text-info(data-i18n="teachers_quote.num_students_help")
+              select.form-control(name="numStudents")
+                option(data-i18n="teachers_quote.num_students_default", value='')
+                option 1-10
+                option 11-50
+                option 51-100
+                option 101-200
+                option 201-500
+                option 501-1000
+                option 1000+
+
+          .col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="courses.number_total_students")
+              select.form-control(name="numStudentsTotal")
+                option(data-i18n="teachers_quote.num_students_default", value='')
+                option 1-500
+                option 500-1,000
+                option 1,000-5,000
+                option 5,000-10,000
+                option 10,000+
+
+      input(type="hidden" name="nces_id")
+      input(type="hidden" name="nces_name")
+      input(type="hidden" name="nces_district")
+      input(type="hidden" name="nces_district_id")
+      input(type="hidden" name="nces_district_schools")
+      input(type="hidden" name="nces_district_students")
+      input(type="hidden" name="nces_students")
+      input(type="hidden" name="nces_phone")
+
+      #buttons-row.row.m-y-2.text-center
+        input#submit-request-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="common.submit" data-event-action="Teachers Request Demo Submit Clicked")
+
+    #form-submit-success.text-center(class=showDone ? '' : 'hide')
+      h3(data-i18n="teachers_quote.thanks_header")
+      h4(data-i18n="teachers_quote.thanks_sub_header")
+      p
+        span.spr(data-i18n="teachers_quote.thanks_p")
+        a.spl(href="mailto:team@codecombat.com") team@codecombat.com
+
+      unless me.isAnonymous()
+        a.btn.btn-lg.btn-navy(href="/teachers/classes")
+          span(data-i18n='teachers_quote.back_to_classes')
+
+      if me.isAnonymous()
+        h5(data-i18n="teachers_quote.finish_signup")
+        p(data-i18n="teachers_quote.finish_signup_p")
+
+        if me.useSocialSignOn()
+          #social-network-signups
+            button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
+              span.spr(data-i18n="teachers_quote.signup_with")
+              | Facebook
+              img.m-l-1(src='/images/pages/community/logo_facebook.png')
+            button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
+              span.spr(data-i18n="teachers_quote.signup_with")
+              | Google
+              img.m-l-1(src='/images/pages/community/logo_g+.png')
+
+          .text-h1.text-uppercase(data-i18n="general.or")
+
+        form#signup-form.text-left
+          .row
+            .col-md-offset-2.col-md-4
+              .form-group
+                span.control-label(data-i18n="general.username")
+                span.name-check.fancy-error.pull-right
+                  - var checkNameState = view.state.get('checkNameState');
+                  if checkNameState === 'checking'
+                    span.small(data-i18n="signup.checking")
+                  if checkNameState === 'exists'
+                    span.small
+                      span= view.state.get('suggestedNameText')
+                  if checkNameState === 'available'
+                    span.small
+                      span(data-i18n="signup.name_available")
+                input.form-control(name="name")
+
+          .row
+            .col-md-offset-2.col-md-4
+              .form-group
+                span.control-label(data-i18n="general.password")
+                input.form-control(name="password1", type="password")
+            .col-md-4
+              .form-group
+                span.control-label(data-i18n="general.confirm_password")
+                input.form-control(name="password2", type="password")
+
+          .text-center
+            button.btn.btn-lg.btn-navy(data-i18n="login.sign_up")
