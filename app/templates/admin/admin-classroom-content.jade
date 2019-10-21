@@ -1,0 +1,52 @@
+extends /templates/base-flat.jade
+
+//- DO NOT TRANSLATE
+
+block content
+
+  if !me.isAdmin()
+    div.text-center You must be logged in as an admin to view this page.
+  else if !view.courseLevelPlaytimes
+    h1.text-center #{view.loadingMessage}
+  else
+    h2 CodeCombat has #{Math.round((view.totalSeconds || 0) / 60 / 60)} hours of classroom game content across #{view.courseSeconds.length} courses and #{view.courseLevelPlaytimes.length} levels.
+    p
+      .small Look for minimum of #{view.minSessionCount} completed level sessions per level
+      .small 5 minutes added for each level with no level sessions yet
+      .small Practice levels contribute 1/3 of their playtime to course totals
+      .small Max #{view.maxPlaytimePerlevel / 60} minutes counted per level session
+      .small minAge=#{view.minAge} maxAge=#{view.maxAge}
+      .small Searched #{view.maxDays} days into the past
+    p
+      .small Available page query params:
+      .small minSessionCount: minimum number of completed sessions to use per level
+      .small maxDays: maximum number of days to look into the past
+      .small maxPlaytimePerlevel: cap the maximum playtime used for a given level session
+      .small minAge: inclusive, based on classroom.ageRangeMin and classroom.ageRangeMax
+      .small maxAge: inclusive, based on classroom.ageRangeMin and classroom.ageRangeMax
+
+    table.table.table-striped.table-condensed.table-courses
+      tr
+        td Course
+        td Content
+      each data in view.courseSeconds || []
+        tr
+          td= data.courseSlug
+          td #{Math.floor(data.seconds / 60 / 60)} hrs #{Math.round(data.seconds / 60) - Math.floor(data.seconds / 60 / 60) * 60} mins
+
+    table.table.table-striped.table-condensed
+      tr
+        td Course
+        td Level
+        td Average Playtime (s)
+        td Sessions
+
+      each data in view.courseLevelPlaytimes || []
+        tr
+          td= data.courseSlug
+          td= data.levelSlug
+          if data.count > 0
+            td= Math.round(data.playtime / data.count)
+          else
+            td= 0
+          td= data.count

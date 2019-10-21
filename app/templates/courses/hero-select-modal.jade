@@ -1,0 +1,14 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  .text-center
+    h3(data-i18n="courses.select_your_hero")
+    h4(data-i18n="courses.select_your_hero_description")
+
+block modal-body-content
+  #hero-select-view
+
+block modal-footer-content
+  .select-hero-btn.btn.btn-lg.btn-forest
+    span(data-i18n="courses.select_this_hero")
+  

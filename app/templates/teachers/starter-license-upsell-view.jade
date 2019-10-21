@@ -1,0 +1,147 @@
+extends /templates/base-flat.jade
+
+block page_nav
+  include /templates/courses/teacher-dashboard-nav.jade
+
+block content
+  .bg-forest
+    .container.text-center
+      .m-t-1.m-b-1
+        b.small-details.text-uppercase(data-i18n="special_offer.special_offer")
+        h3(data-i18n="special_offer.student_starter_license")
+        .small-details
+          i(data-i18n="special_offer.purchase_starter_licenses_to_grant", data-i18n-options=JSON.stringify(view.i18nData()))
+
+  .container
+    .row.tall-margin
+      .checkmark-blurb.col-xs-4.text-center
+        span.fa.fa-check(aria-hidden=true)
+        h5(data-i18n="special_offer.project_based_title") 
+        p.small(data-i18n="special_offer.project_based_description")
+      .checkmark-blurb.col-xs-4.text-center
+        span.fa.fa-check(aria-hidden=true)
+        h5(data-i18n="special_offer.great_for_clubs_title")
+        p.small(data-i18n="special_offer.great_for_clubs_description", data-i18n-options=JSON.stringify(view.i18nData()))
+      .checkmark-blurb.col-xs-4.text-center
+        span.fa.fa-check(aria-hidden=true)
+        h5(data-i18n='special_offer.low_price_title', data-i18n-options=JSON.stringify({ starterLicensePrice: '$' + view.state.get('dollarsPerStudent') }))
+        p.small(data-i18n="special_offer.low_price_description", data-i18n-options=JSON.stringify(view.i18nData()))
+  
+    .row.text-center.tall-margin-top
+      h2
+        span(data-i18n="special_offer.three_great_courses")
+    .row.tall-margin-bottom.m-t-2
+      .col-xs-4
+        .text-center
+          img(src="/images/pages/home/computer-science-2.png" width=147 height=147)
+        b(data-i18n="teacher.cs2")
+        =' '
+        span(data-i18n="special_offer.cs2_description")
+      .col-xs-4
+        .text-center
+          img(src="/images/pages/home/web-development-1.png" width=147 height=147)
+        b(data-i18n="special_offer.wd1")
+        =' '
+        span(data-i18n="special_offer.wd1_description")
+        //- div
+        //-   a(href="TODO")
+        //-     span(data-i18n="special_offer.see_an_example_project")
+      .col-xs-4
+        .text-center
+          img(src="/images/pages/home/game-development-1.png" width=147 height=147)
+        b(data-i18n="special_offer.gd1")
+        =' '
+        span(data-i18n="special_offer.gd1_description")
+        //- div
+        //-   a(href="TODO")
+        //-     span(data-i18n="special_offer.see_an_example_project")
+
+    .row.text-center.tall-margin
+      h2.m-b-2
+        span(data-i18n="special_offer.get_started_today")
+      a.purchase-btn.btn.btn-lg.btn-navy
+        span(data-i18n="special_offer.purchase_starter_licenses")
+      .m-t-3
+        span(data-i18n="special_offer.want_all_the_courses")
+      a.contact-us-btn.btn.btn-forest
+        span(data-i18n="general.contact_us")
+          
+    .row.text-center.tall-margin
+      h2.m-b-3
+        span(data-i18n="special_offer.compare_license_types")
+
+      table.feature-comparison-table
+        tr
+          th
+          th
+          th.special-offer-col
+            i
+              b Special Offer
+          th
+        tr
+          th
+          th(data-i18n="teacher.trial")
+          th.special-offer-col(data-i18n="teacher.starter_license")
+          th(data-i18n="teacher.full_license")
+        tr
+          th(data-i18n="special_offer.cs")
+          td
+            span.spl(data-i18n="special_offer.course_prefix")
+            =" 1 "
+            span.spr(data-i18n="special_offer.course_suffix")
+          td.special-offer-col
+            span.spl(data-i18n="special_offer.courses_prefix")
+            =" 1–2 "
+            span.spr(data-i18n="special_offer.courses_suffix")
+          td
+            span.spl(data-i18n="special_offer.courses_prefix")
+            =" 1–5+ "
+            span.spr(data-i18n="special_offer.courses_suffix")
+        tr
+          th(data-i18n="special_offer.gd")
+          td x
+          td.special-offer-col
+            span(data-i18n="special_offer.course_prefix")
+            =" 1 "
+            span(data-i18n="special_offer.course_suffix")
+          td
+            span.spl(data-i18n="special_offer.courses_prefix")
+            =" 1–2+ "
+            span.spr(data-i18n="special_offer.courses_suffix")
+        tr
+          th(data-i18n="special_offer.wd")
+          td x
+          td.special-offer-col
+            span(data-i18n="special_offer.course_prefix")
+            =" 1 "
+            span(data-i18n="special_offer.course_suffix")
+          td
+            span.spl(data-i18n="special_offer.courses_prefix")
+            =" 1–2+ "
+            span.spr(data-i18n="special_offer.courses_suffix")
+        tr
+          th(data-i18n="special_offer.maximum_students")
+          td(data-i18n="special_offer.unlimited")
+          td.special-offer-col 75
+          td(data-i18n="special_offer.unlimited")
+        tr
+          th(data-i18n="special_offer.priority_support")
+          td x
+          td.special-offer-col x
+          td(data-i18n="special_offer.yes")
+        tr
+          th(data-i18n="special_offer.pricing")
+          td(data-i18n="special_offer.free")
+          //- TODO: Do we localize prices at all?
+          td.special-offer-col
+            span(data-i18n="special_offer.price_per_student", data-i18n-options=JSON.stringify({ price: '$' + view.state.get('dollarsPerStudent') }))
+          td(data-i18n="general.contact_us")
+        tr
+          th
+          th
+          th.special-offer-col
+            a.purchase-btn.btn.btn-navy
+              b(data-i18n="special_offer.purchase")
+          th
+            a.contact-us-btn.btn.btn-forest
+              b(data-i18n="general.contact_us")

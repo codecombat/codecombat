@@ -1,0 +1,44 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  if view.classroom.loaded
+    .text-center
+      h3.modal-title
+        span(data-i18n="courses.join")
+        span.spr 
+        span= view.classroom.get('name')
+      b.small-details
+        span.spr(data-i18n="courses.instructor")
+        span= view.classroom.owner.get('name')
+
+block modal-body-content
+  if view.classroom.loaded
+    p
+      span.spr(data-i18n="courses.youve_been_invited_1")
+      span= view.classroom.get('name')
+      span.spr(data-i18n="courses.youve_been_invited_2")
+      span= view.classroom.capitalLanguage
+      span.spl(data-i18n="courses.youve_been_invited_3")
+    p
+      span.spr(data-i18n="courses.by_joining_1")
+      span= view.classroom.get('name')
+      span.spr , 
+      span= view.classroom.owner.get('name')
+      span.spr  
+      span(data-i18n="courses.by_joining_2")
+
+    unless me.get('emailVerified')
+      div.text-center.m-t-4
+        div
+          b.small-details
+            span(data-i18n="courses.sent_verification")
+        .small= me.get('email')
+        .small
+          span.spr(data-i18n="courses.you_can_edit")
+          a(href="/account/settings")
+            span(data-i18n="courses.account_settings")
+
+block modal-footer-content
+  .text-center
+    button.join-class-btn.btn.btn-lg.btn-navy(data-i18n="courses.join_class_2")
+    button.btn.btn-lg(data-dismiss="modal", data-i18n="common.cancel")

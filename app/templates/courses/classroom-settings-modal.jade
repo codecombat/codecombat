@@ -1,0 +1,117 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  if view.classroom.isNew()
+    h3.modal-title(data-i18n="courses.create_new_class")
+  else
+    h3.modal-title(data-i18n="courses.edit_settings1")
+
+block modal-body-content
+  form
+    if view.shouldShowGoogleClassroomButton()
+      a#link-google-classroom-btn.btn.btn-primary.btn-lg(data-i18n="courses.link_google_classroom")
+    
+    .form-group.google-class-name.secret
+      label(data-i18n="courses.select_your_classroom")
+      if view.googleClassrooms.length > 0
+        select.select-google-class.form-control(name="googleClassroomId" type='text')
+          option(value="" data-i18n="courses.select_your_classroom")
+          for classroom in view.googleClassrooms
+            option(value = classroom.id)= classroom.name
+      else
+        select.select-google-class.form-control(name="googleClassroomId" type='text' disabled=true)
+          option(value="" data-i18n="courses.no_classrooms_found")
+        a.small.create-manually 
+          u(data-i18n="courses.create_classroom_manually")
+    
+    .form-group.class-name
+      label(data-i18n="courses.class_name")
+      input#name-input.form-control(name="name" type='text' value=view.classroom.get('name'))
+
+    .form-group
+      label
+        span(data-i18n="general.description")
+        i.spl.text-muted(data-i18n="signup.optional")
+      textarea.form-control(name="description" rows=2)= view.classroom.get('description')
+
+    .form-group
+      label(data-i18n="choose_hero.programming_language")
+      - var aceConfig = view.classroom.get('aceConfig') || {};
+      - var languageDisabled = !!_.size(view.classroom.get('members'));
+      .help-block.small.text-navy(data-i18n="courses.language_cannot_change")
+      select#programming-language-select.form-control(name="language" value=aceConfig.language disabled=languageDisabled)
+        - var aceConfig = view.classroom.get('aceConfig') || {};
+        option(value="" data-i18n="courses.language_select")
+        option(value="python") Python
+        option(value="javascript") JavaScript
+
+    .form-group
+      label
+        span(data-i18n="courses.avg_student_exp_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      .help-block.small.text-navy(data-i18n="courses.avg_student_exp_desc")
+      select.form-control(name="averageStudentExp", value=view.classroom.get('averageStudentExp'))
+        option(value="" data-i18n="courses.avg_student_exp_select")
+        option(value="none" data-i18n="courses.avg_student_exp_none")
+        option(value="beginner" data-i18n="courses.avg_student_exp_beginner")
+        option(value="intermediate" data-i18n="courses.avg_student_exp_intermediate")
+        option(value="advanced" data-i18n="courses.avg_student_exp_advanced")
+        option(value="varied" data-i18n="courses.avg_student_exp_varied")
+
+    .form-group
+      label
+        span(data-i18n="courses.student_age_range_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      div
+        +ageRange("ageRangeMin")
+        span.spl.spr(data-i18n="courses.student_age_range_to")
+        +ageRange("ageRangeMax")
+
+      mixin ageRange(name)
+        select.age-range-select.form-control(name=name value=view.classroom.get(name))
+          option(value="") -
+          option(value="<6" data-i18n="courses.student_age_range_younger")
+          for i in _.range(6,18)
+            option(value=i)= i
+          option(value="18" data-i18n="courses.student_age_range_older")
+
+    .form-group
+      label
+        span(data-i18n="courses.estimated_class_dates_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      div
+        input.class-dates.form-control(name="classDateStart" type="date" value=view.classroom.get('classDateStart'))
+        span.spl.spr(data-i18n="courses.student_age_range_to")
+        input.class-dates.form-control(name="classDateEnd" type="date" value=view.classroom.get('classDateEnd'))
+
+    .form-group
+      label
+        span(data-i18n="courses.estimated_class_frequency_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      div.row
+        .col-sm-5
+          select.classes-per-week-select.form-control(name="classesPerWeek", value=view.classroom.get('classesPerWeek'))
+            for i in _.range(1,6)
+              option(value = i)= i
+          .help-block.small.text-navy.m-l-1.classes-per-week-help(data-i18n="courses.classes_per_week")
+        .col-sm-5
+          select.minutes-per-class-select.form-control(name="minutesPerClass", value=view.classroom.get('minutesPerClass'))
+            option(value="<30")= '<30'
+            option(value="30")= '30'
+            option(value="50")= '50'
+            option(value="75")= '75'
+            option(value=">75")= '>75'
+          .help-block.small.text-navy.m-l-1.minutes-per-class-help(data-i18n="courses.minutes_per_class")
+
+block modal-footer-content
+  .text-center
+    if view.classroom.isNew()
+      button#save-settings-btn.btn.btn-primary.btn-lg(data-i18n="courses.create_class")
+    else
+      button#save-settings-btn.btn.btn-primary.btn-lg(data-i18n="common.save_changes")
+
+    if me.isAdmin()
+      hr
+      //- DNT
+      h3 Admin Only
+      button#update-courses-btn.btn.btn-forest.btn-lg Update Courses

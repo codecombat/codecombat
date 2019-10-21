@@ -1,0 +1,27 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  .text-center
+    h3(data-i18n="teacher.how_to_assign_courses")
+
+block modal-body-content
+
+  p(data-i18n="teacher.unused_licenses")
+  .instructions
+    .row
+      .col-xs-6
+        h5 1. 
+          span(data-i18n="teacher.select_students")
+        p.small(data-i18n="teacher.select_instructions")
+      .col-xs-6
+        img.size-by-height(src="/images/pages/modal/assign-courses/select_students.gif")
+    .row
+      .col-xs-6
+        h5 2. 
+          span(data-i18n="teacher.choose_course")
+        p.small(data-i18n="teacher.choose_instructions")
+      .col-xs-6
+        img.size-by-width(src="/images/pages/modal/assign-courses/select_courses.gif")
+
+    p.small.italic
+      != translate('teacher.push_projects').replace('{{resource_hub}}', '<a href="/teachers/resources">' + translate('nav.resource_hub') + '</a>')
