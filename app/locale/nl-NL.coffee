@@ -981,6 +981,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     coffeescript_blurb: "JavaScript, met betere syntax."
     lua_blurb: "Game scripting taal."
     java_blurb: "(Alleen voor abonnees) Android en enterprise."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Wapens"
     weapons_warrior: "Zwaarden - Korte afstand, geen tovenarij"
@@ -1108,9 +1109,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Speldesigner" # {change}
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
+    bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
@@ -1252,6 +1253,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     referrer_web: "Google"
     referrer_other: "Anders"
     anything_else: "Is er verder nog iets dat we moeten weten?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Bedankt voor je demo-aanvraag!"
     thanks_sub_header: "Bedankt voor je interesse in CodeCombat."
     thanks_p: "Wij zullen spoedig contact met u opnemen. Vragen? Mail ons:" # {change}
@@ -1979,6 +1981,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     combo_explanation: "leerlingen komen doorCombo challenge levels door in ieder geval één van de genoemde concepten te gebruiken. Bekijk de code van de leerling door op 'vooruitgang'te klikken."
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2429,8 +2443,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    fav_features: "Favorite Features"
 #    responsive_support: "Responsive Support"
 #    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the \t    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
 #    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
 #    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
 #    quote_attribution: "Scott Baily, Technology Teacher"
@@ -2468,6 +2482,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     unauthorized: "Je moet ingelogd zijn. Heb je de cookies uitgeschakeld?"
     forbidden: "Je hebt hier geen toestemming voor." # {change}
     forbidden_desc: "Oh nee, er is niets dat we je hier kunnen laten zien. Zorg dat je bent ingelogd op de juiste account, of klik op een van de volgende links om verder te gaan met programmeren!"
+#    user_not_found: "User Not Found"
     not_found: "Niet gevonden." # {change}
     not_found_desc: "Hm, hier is niets. Klik op een van de volgende links om verder te gaan met programmeren!"
     not_allowed: "Methode niet toegestaan."

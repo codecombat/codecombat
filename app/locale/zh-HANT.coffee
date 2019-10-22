@@ -199,7 +199,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
   modal:
     close: "關閉"
     okay: "好"
-#    cancel: "Cancel"
+    cancel: "取消"
 
   not_found:
     page_not_found: "找不到網頁"
@@ -550,7 +550,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "回到地圖"
     directions: "目標方向"
     edit_level: "編輯關卡"
 #    keep_learning: "Keep Learning"
@@ -981,6 +981,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     coffeescript_blurb: "懶人版的 Javascript。"
     lua_blurb: "許多遊戲引擎支援的程式語言。"
     java_blurb: "(訂閱者限定)Android和企業"
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "狀態"
     weapons: "武器"
     weapons_warrior: "刀劍 - 短距離、非魔法"
@@ -1108,9 +1109,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-#    bryukh_title: "Gameplay Developer"
     retrostyle_title: "插畫師"
     retrostyle_blurb: "復古風格的遊戲"
+#    bryukh_title: "Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...以及我們的開放原始碼社群"
     community_subtitle: "超過 500 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！"
@@ -1252,6 +1253,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "還有甚麼我們需要知道的嗎?" # {change}
+#    anything_else_helper: ""
     thanks_header: "已收到申請!"
     thanks_sub_header: "感謝您表達您的學校對於CodeCombat的興趣。"
     thanks_p: "我們不久將會與您接觸!如果需要與我們聯絡，您可以以下面方式找到我們:"
@@ -1647,7 +1649,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   teacher:
     assigning_course: "派發課程中"
-#    back_to_top: "Back to Top"
+    back_to_top: "回到頂部"
 #    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
 #    code: "__name__'s Code"
 #    complete_solution: "Complete Solution"
@@ -1973,12 +1975,24 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
 #    back_to_resource_hub: "Back to Resource Hub"
-#    back_to_course_guides: "Back to Course Guides"
+    back_to_course_guides: "回到課程引導"
 #    print_guide: "Print this guide"
 #    combo: "Combo"
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2355,10 +2369,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     status_unsubscribed_active: "您尚未訂閱並且將不會收到賬單，但是您的帳號現在仍然是有效的。"
     status_unsubscribed: "藉由訂閱CodeCombat，取得存取新關卡、新英雄、新物品和額外寶石的資格！"
     not_yet_verified: "尚未驗證。"
-    resend_email: "重新寄出email"
-    email_sent: "已寄出Email! 請查看您的信箱。"
-    verifying_email: "正在驗證您的email..."
-    successfully_verified: "您已經成功的驗證了您的email!"
+    resend_email: "重新寄出電子郵件"
+    email_sent: "已寄出電子郵件! 請查看您的信箱。"
+    verifying_email: "正在驗證您的電子郵件..."
+    successfully_verified: "您已經成功的驗證了您的電子郵件!"
     verify_error: "在驗證您的信箱時發生錯誤 :("
 #    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
 #    unsubscribe_button: "Yes, unsubscribe"
@@ -2429,8 +2443,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    fav_features: "Favorite Features"
 #    responsive_support: "Responsive Support"
 #    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the \t    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
 #    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
 #    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
 #    quote_attribution: "Scott Baily, Technology Teacher"
@@ -2468,6 +2482,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unauthorized: "您需要先登入。您把cookies禁用了嗎？"
     forbidden: "您沒有權限。"
     forbidden_desc: "喔不，這裡沒有東西可以顯示給您看! 請確認您登入的是正確的帳號，或是進入下方的其中一個連結以回到編程頁面!"
+#    user_not_found: "User Not Found"
     not_found: "沒找到。"
     not_found_desc: "嗯，這裡沒有任何東西。 請進入下方的其中一個連結以回到編程頁面!"
     not_allowed: "方法不被允許。"

@@ -981,6 +981,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     coffeescript_blurb: "Avpre WninFpevcg flagnk."
     lua_blurb: "Tnzr fpevcgvat ynathntr."
     java_blurb: "(Fhofpevore Bayl) Naqebvq naq ragrecevfr."
+    cpp_blurb: "(Fhofpevore Bayl) Tnzr qrirybczrag naq uvtu cresbeznapr pbzchgvat."
     status: "Fgnghf"
     weapons: "Jrncbaf"
     weapons_warrior: "Fjbeqf - Fubeg Enatr, Ab Zntvp"
@@ -1108,7 +1109,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     stephanie_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
     rob_title: "Fnyrf Qrirybczrag Ercerfragngvir"
     shubhangi_title: "Fravbe Fbsgjner Ratvarre"
-    bryukh_title: "Tnzrcynl Qrirybcre"
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"
     bryukh_title: "Tnzrcynl Qrirybcre"
@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     referrer_web: "Tbbtyr"
     referrer_other: "Bgure"
     anything_else: "Jung xvaq bs pynff qb lbh nagvpvcngr hfvat PbqrPbzong sbe?"
+    anything_else_helper: ""
     thanks_header: "Erdhrfg Erprvirq!"
     thanks_sub_header: "Gunaxf sbe rkcerffvat vagrerfg va PbqrPbzong sbe lbhe fpubby."
     thanks_p: "Jr'yy or va gbhpu fbba! Vs lbh arrq gb trg va pbagnpg, lbh pna ernpu hf ng:"
@@ -1980,6 +1981,18 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     combo_explanation: "Fghqragf cnff Pbzob punyyratr yriryf ol hfvat ng yrnfg bar yvfgrq pbaprcg. Erivrj fghqrag pbqr ol pyvpxvat gur cebterff qbg."
     concept: "Pbaprcg"
     sync_google_classroom: "Flap Tbbtyr Pynffebbz"
+    try_ozaria_footer: "Gel bhe arj nqiragher tnzr, Bmnevn!"
+
+  teacher_ozaria_encouragement_modal:
+    title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
+    sub_title: "Lbh ner vaivgrq gb gel gur arj nqiragher tnzr sebz PbqrPbzong"
+    cancel: 'Onpx gb PbqrPbzong'
+    accept: 'Gel Svefg Havg Serr'
+    bullet1: 'Qrrcra fghqrag pbaarpgvba gb yrneavat guebhtu na rcvp fgbel naq vzzrefvir tnzrcynl'
+    bullet2: 'Grnpu PF shaqnzragnyf, Clguba be WninFpevcg naq 21fg praghel fxvyyf'
+    bullet3: 'Haybpx perngvivgl guebhtu pncfgbar cebwrpgf'
+    bullet4: 'Fhccbeg vafgehpgvbaf guebhtu qrqvpngrq pheevphyhz erfbheprf'
+    you_can_return: 'Lbh pna nyjnlf erghea gb PbqrPbzong'
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"
@@ -2406,7 +2419,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     back_to_map: 'Onpx gb Znc',
     level_options: 'Yriry Bcgvbaf',
     restart_level: 'Erfgneg Yriry'
-  
+
   impact:
     hero_heading: 'Ohvyqvat N Jbeyq-Pynff Pbzchgre Fpvrapr Cebtenz'
     hero_subheading: 'Jr Uryc Rzcbjre Rqhpngbef naq Vafcver Fghqragf Npebff gur Pbhagel'
@@ -2430,8 +2443,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     fav_features: 'Snibevgr Srngherf'
     responsive_support: 'Erfcbafvir Fhccbeg'
     immediate_engagement: 'Vzzrqvngr Ratntrzrag'
-    paragraph1: 'Obool Qhxr Zvqqyr Fpubby fvgf arfgyrq orgjrra gur 	    Fbhgurea Pnyvsbeavn zbhagnvaf bs Pbnpuryyn Inyyrl gb gur jrfg naq rnfg naq gur Fnygba Frn 33 zvyrf fbhgu, naq obnfgf n fghqrag cbchyngvba bs 697 fghqragf jvguva Pbnpuryyn Inyyrl Havsvrq’f qvfgevpg-jvqr cbchyngvba bs 18,861 fghqragf.'
-    paragraph2: 'Gur fghqragf bs Obool Qhxr Zvqqyr Fpubby ersyrpg gur fbpvbrpbabzvp punyyratrf snpvat Pbnpuryyn Inyyrl’f erfvqragf naq fghqragf jvguva gur qvfgevpg. Jvgu bire 95% bs gur Obool Qhxr Zvqqyr Fpubby fghqrag cbchyngvba dhnyvslvat sbe serr naq erqhprq-cevpr zrnyf naq bire 40% pynffvsvrq nf Ratyvfu ynathntr yrnearef , gur vzcbegnapr bs grnpuvat 21fg praghel fxvyyf jnf gur gbc cevbevgl bs Obool Qhxr Zvqqyr Fpubby Grpuabybtl grnpure, Fpbgg Onvyl.'
+    paragraph1: 'Obool Qhxr Zvqqyr Fpubby fvgf arfgyrq orgjrra gur Fbhgurea Pnyvsbeavn zbhagnvaf bs Pbnpuryyn Inyyrl gb gur jrfg naq rnfg naq gur Fnygba Frn 33 zvyrf fbhgu, naq obnfgf n fghqrag cbchyngvba bs 697 fghqragf jvguva Pbnpuryyn Inyyrl Havsvrq’f qvfgevpg-jvqr cbchyngvba bs 18,861 fghqragf.'
+    paragraph2: 'Gur fghqragf bs Obool Qhxr Zvqqyr Fpubby ersyrpg gur fbpvbrpbabzvp punyyratrf snpvat Pbnpuryyn Inyyrl’f erfvqragf naq fghqragf jvguva gur qvfgevpg. Jvgu bire 95% bs gur Obool Qhxr Zvqqyr Fpubby fghqrag cbchyngvba dhnyvslvat sbe serr naq erqhprq-cevpr zrnyf naq bire 40% pynffvsvrq nf Ratyvfu ynathntr yrnearef, gur vzcbegnapr bs grnpuvat 21fg praghel fxvyyf jnf gur gbc cevbevgl bs Obool Qhxr Zvqqyr Fpubby Grpuabybtl grnpure, Fpbgg Onvyl.'
     paragraph3: 'Onvyl xarj gung grnpuvat uvf fghqragf pbqvat jnf n xrl cngujnl gb bccbeghavgl va n wbo ynaqfpncr gung vapernfvatyl cevbevgvmrf naq arprffvgngrf pbzchgvat fxvyyf. Fb, ur qrpvqrq gb gnxr ba gur rkpvgvat punyyratr bs perngvat naq grnpuvat gur bayl pbqvat pynff va gur fpubby naq svaqvat n fbyhgvba gung jnf nssbeqnoyr, erfcbafvir gb srrqonpx, naq ratntvat gb fghqragf bs nyy yrneavat novyvgvrf naq onpxtebhaqf.'
     teacher_quote: 'Jura V tbg zl unaqf ba PbqrPbzong [naq] fgnegrq univat zl fghqragf hfr vg, gur yvtug ohyo jrag ba. Vg jnf whfg avtug naq qnl sebz rirel bgure cebtenz gung jr unq hfrq. Gurl’er abg rira pybfr.'
     quote_attribution: 'Fpbgg Onvyl, Grpuabybtl Grnpure'
@@ -2469,6 +2482,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unauthorized: "Lbh arrq gb or fvtarq va. Qb lbh unir pbbxvrf qvfnoyrq?"
     forbidden: "Sbeovqqra"
     forbidden_desc: "Bu ab, gurer’f abguvat jr pna fubj lbh urer! Znxr fher lbh’er ybttrq vagb gur pbeerpg nppbhag, be ivfvg bar bs gur yvaxf orybj gb trg onpx gb cebtenzzvat!"
+    user_not_found: "Hfre Abg Sbhaq"
     not_found: "Abg Sbhaq"
     not_found_desc: "Uz, gurer’f abguvat urer. Ivfvg bar bs gur sbyybjvat yvaxf gb trg onpx gb cebtenzzvat!"
     not_allowed: "Zrgubq abg nyybjrq."

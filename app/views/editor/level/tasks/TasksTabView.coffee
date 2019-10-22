@@ -189,9 +189,11 @@ defaultTasks = [
   {name: 'Create two sample projects.', types: ['game-dev', 'web-dev']}
   {name: 'Write Lua sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().lua}
   {name: 'Write Java sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().java}
+  {name: 'Write C++ sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().cpp}
   {name: 'Write CoffeeScript sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().coffeescript}
   {name: 'Write Lua solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'lua')}
   {name: 'Write Java solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'java')}
+  {name: 'Write C++ solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'cpp')}
   {name: 'Write CoffeeScript solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'coffeescript')}
 ]
 

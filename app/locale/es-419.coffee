@@ -170,7 +170,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     legal: "Legal"
     privacy: "Privacidad"
     about: "Acerca"
-#    impact: "Impact"
+    impact: "Impacto"
     contact: "Contacto"
     twitter_follow: "Seguir"
     my_classrooms: "Mis clases"
@@ -199,7 +199,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   modal:
     close: "Cerrar"
     okay: "OK"
-#    cancel: "Cancel"
+    cancel: "Cancelar"
 
   not_found:
     page_not_found: "Página no encontrada"
@@ -213,12 +213,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     subscribe_as_diplomat: "Suscríbete como un Diplomático"
 
   play:
-#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
-#    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
+    title: "Juega los Niveles de - Aprende Python, JavaScript, y HTML"
+    meta_description: "Aprende a programar con un juego de programacion para principiantes. Aprende Python o JavaScript mientras resuelves laberintos, creas tus propios juegos, y subes de nivel. Reta a tus amigos en los niveles de arenas multijugador!"
+    level_title: "__nivel__ - Aprende a programar en Python, JavaScript, HTML"
+    video_title: "__video__ | Video de Nivel"
+    game_development_title: "__nivel__ | Desarollo de Juegos"
+    web_development_title: "_nivel__ | Desarrollo de Paginas Web"
     anon_signup_title_1: "CodeCombat tiene un"
     anon_signup_title_2: "¡Versión de aula!"
     anon_signup_enter_code: "Ingresa el código de la clase:"
@@ -433,8 +433,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     books: "Libros"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    default_title: "CodeCombat - Juegos de programacion para aprender Python y JavaScript"
+    default_meta_description: "Aprende codigos a traves de un juego de programacion. Aprende Python, JavaScript, y HTML mientras resuelves laberintos y aprendes a programar tus propios juegos y sitios web."
     back: "Atrás" # When used as an action verb, like "Navigate backward"
     coming_soon: "¡Próximamente!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
@@ -466,9 +466,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submit_changes: "Enviar cambios"
     save_changes: "Guardar cambios"
     required_field: "Requisito necesario" # {change}
-#    submit: "Submit"
-#    replay: "Replay"
-#    complete: "Complete"
+    submit: "Enviar"
+    replay: "Repetir"
+    complete: "Completar"
 
   general:
     and: "y"
@@ -601,8 +601,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     reload_title: "¿Recargar Todo el Código?"
     reload_really: "¿Estás seguro de que quieres empezar este nivel desde el principio?"
     reload_confirm: "Recargar Todo"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
-#    restart_confirm: "Yes, Restart"
+    restart_really: "¿Quieres reiniciar este nivel? Perderas todo el codigo que has escrito."
+    restart_confirm: "Sí, Reiniciar"
     test_level: "Probar Nivel"
     victory: "Victoria"
     victory_title_prefix: "¡"
@@ -627,7 +627,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tome_cast_button_run: "Ejecutar"
     tome_cast_button_running: "Ejecutando"
     tome_cast_button_ran: "Ejecutado"
-#    tome_cast_button_update: "Update"
+    tome_cast_button_update: "Actualizar"
     tome_submit_button: "Enviar"
     tome_reload_method: "Recargar código original para este método" # {change}
     tome_available_spells: "Hechizos Disponibles"
@@ -730,12 +730,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     learn_new_concepts: "Aprende nuevos conceptos"
     watch_a_video: "Mira un video de __concept_name__"
     concept_unlocked: "Concepto desbloqueado"
-#    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
-#    learning_goals: "Learning Goals"
-#    start: "Start"
+    use_at_least_one_concept: "Usa al menos un concepto: "
+    command_bank: "Banco de Comandos"
+    learning_goals: "Metas de Aprendizaje"
+    start: "Iniciar"
 #    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    click_to_continue: "Click para Continuar"
 
   apis:
     methods: "Métodos"
@@ -981,6 +981,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     coffeescript_blurb: "JavaScript pero más bonito."
     lua_blurb: "Lenguaje para Juegos."
     java_blurb: "(Sólo para Suscriptiores) Android y Empresarial."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Estado"
     weapons: "Armas"
     weapons_warrior: "Espada - Corto Alcance, Sin Magia"
@@ -1108,9 +1109,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Desarrollador de Juego"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
+    bryukh_title: "Desarrollador de Juego"
     bryukh_blurb: "Construye Rompecabezas"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
@@ -1252,6 +1253,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     referrer_web: "Google"
     referrer_other: "Otro"
     anything_else: "¿Algo más que deberíamos saber?" # {change}
+#    anything_else_helper: ""
     thanks_header: "¡Gracias por solicitar un presupuesto!" # {change}
     thanks_sub_header: "Gracias por el interés de su institución en CodeCombat"
     thanks_p: "Estaremos en contacto pronto. ¿Preguntas? Escríbenos:" # {change}
@@ -1979,6 +1981,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2429,8 +2443,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    fav_features: "Favorite Features"
 #    responsive_support: "Responsive Support"
 #    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the \t    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
 #    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
 #    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
 #    quote_attribution: "Scott Baily, Technology Teacher"
@@ -2468,6 +2482,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     unauthorized: "Necesitas acceder. ¿Tienes desabilitadas las cookies?"
     forbidden: "No tienes los permisos."
     forbidden_desc: "Oh no, no hay nada que podemos mostrarte aquí! Asegurate que has iniciado sesión en la cuenta correcta, o visita uno de los siguientes enlaces para regresar a programar!"
+#    user_not_found: "User Not Found"
     not_found: "No encontrado."
     not_found_desc: "Mmm, no hay nada aquí. Visita uno de los siguientes enlaces para regresar a programar!"
     not_allowed: "Método no permitido."

@@ -981,6 +981,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coffeescript_blurb: "Nicer JavaScript syntax."
     lua_blurb: "Game scripting language."
     java_blurb: "(Subscriber Only) Android and enterprise."
+    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Weapons"
     weapons_warrior: "Swords - Short Range, No Magic"
@@ -1108,7 +1109,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     stephanie_title: "Customer Support Specialist"
     rob_title: "Sales Development Representative"
     shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Gameplay Developer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Gameplay Developer"
@@ -1253,6 +1253,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     referrer_web: "Google"
     referrer_other: "Other"
     anything_else: "What kind of class do you anticipate using CodeCombat for?"
+    anything_else_helper: ""
     thanks_header: "Request Received!"
     thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
@@ -1980,7 +1981,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Concept"
     sync_google_classroom: "Sync Google Classroom"
-    try_ozaria_footer: "Try our new adventrue game, Ozaria!"
+    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"
@@ -2418,7 +2419,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     back_to_map: 'Back to Map',
     level_options: 'Level Options',
     restart_level: 'Restart Level'
-  
+
   impact:
     hero_heading: 'Building A World-Class Computer Science Program'
     hero_subheading: 'We Help Empower Educators and Inspire Students Across the Country'
@@ -2442,8 +2443,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     fav_features: 'Favorite Features'
     responsive_support: 'Responsive Support'
     immediate_engagement: 'Immediate Engagement'
-    paragraph1: 'Bobby Duke Middle School sits nestled between the 	    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students.'
-    paragraph2: 'The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily.'
+    paragraph1: 'Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students.'
+    paragraph2: 'The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily.'
     paragraph3: 'Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds.'
     teacher_quote: 'When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close.'
     quote_attribution: 'Scott Baily, Technology Teacher'

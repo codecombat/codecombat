@@ -175,5 +175,6 @@ commentStarts =
   coffeescript: '#'
   lua: '--'
   java: '//'
+  cpp: '//'
   html: '<!--'
   css: '/\\*'

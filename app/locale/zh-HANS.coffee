@@ -981,6 +981,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     coffeescript_blurb: "一种更好的JavaScript语法。"
     lua_blurb: "一种游戏脚本语言。"
     java_blurb: "(仅订阅用户) Android 和企业的选择。"
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "状态"
     weapons: "武器"
     weapons_warrior: "刀剑 - 近程物理攻击"
@@ -1108,9 +1109,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-#    bryukh_title: "Gameplay Developer"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
+#    bryukh_title: "Gameplay Developer"
     bryukh_blurb: "构建拼图"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
@@ -1207,8 +1208,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   teachers_quote:
     subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
     email_exists: "使用该账号的电子邮箱"
-    phone_number: "电话号码"
-    phone_number_help: "工作日时我们在哪可以找到您？"
+    phone_number: "手机号码"
+    phone_number_help: "工作日我们如何找到您？"
     primary_role_label: "您的主要职业"
     role_default: "选择职业"
     primary_role_default: "（请选择）"
@@ -1224,12 +1225,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     approve_funds: "批准资金"
     no_purchaser_role: "不参与购买决策"
     district_label: "地区"
-    district_name: "区"
+    district_name: "区/县"
     district_na: "不可用时请输入 N/A"
     organization_label: "学校："
-    school_name: "学校名称"
-    city: "城市"
-    state: "省" # {change}
+    school_name: "学校或机构名称"
+    city: "市（直辖市可填无）"
+    state: "省/直辖市" # {change}
     country: "国家"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
@@ -1252,6 +1253,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     referrer_web: "Google"
     referrer_other: "其他"
     anything_else: "您还有什么建议？" # {change}
+    anything_else_helper: "也可留下您的微信号，我们会为您提供更多帮助"
     thanks_header: "申请已发送！"
     thanks_sub_header: "感谢您为您的学校表达对 CodeCombat 的兴趣。"
     thanks_p: "我们不久会和你联系！如果想和我们取得联系，可以通过以下方式："
@@ -1266,7 +1268,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_account_subtitle: "在 CodeCombat 班级中使用老师专用工具。 <strong>创建班级</strong>添加学生、<strong>观察学生进度</strong>！"
     convert_account_title: "升级为老师账号"
     not: "不是"
-#    full_name_required: "First and last name required"
+    full_name_required: "姓和名是必填项"
 
   versions:
     save_version_title: "保存新版本"
@@ -1356,8 +1358,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "点击任意区域继续"
 
   community:
     main_title: "CodeCombat社区"
@@ -1979,6 +1981,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     combo_explanation: "学生至少使用一个列出的概念组合来挑战关卡，点击进度点查看学生代码。"
     concept: "概念"
     sync_google_classroom: "同步谷歌教室"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "分配许可"
@@ -2326,12 +2340,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     left_xp_postfix: ""
 
   account:
-#    title: "Account"
-#    settings_title: "Account Settings"
-#    unsubscribe_title: "Unsubscribe"
-#    payments_title: "Payments"
-#    subscription_title: "Subscription"
-#    invoices_title: "Invoices"
+    title: "账户"
+    settings_title: "账户设置"
+    unsubscribe_title: "取消订阅"
+    payments_title: "支付"
+    subscription_title: "订阅"
+    invoices_title: "发票"
 #    prepaids_title: "Prepaids"
     payments: "支付方式"
     prepaid_codes: "预付费码"
@@ -2399,12 +2413,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
 
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
+  ozaria_chrome:
+    sound_off: "关闭声音"
+    sound_on: "开启声音"
+    back_to_map: "返回地图"
+    level_options: "关卡选项"
+    restart_level: "重新开始这个关卡"
 
   impact:
     hero_heading: "创建世界一流的计算机科学课程"
@@ -2506,8 +2520,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     arithmetic: "四则运算"
     array_2d: "二维数组"
     array_index: "数组下标"
-#    array_iterating: "Iterating Over Arrays"
-#    array_literals: "Array Literals"
+    array_iterating: "数组迭代"
+    array_literals: "数组字面量"
     array_searching: "数组遍历"
     array_sorting: "数组排序"
     arrays: "数组"
@@ -2547,7 +2561,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     game_goals: "游戏目标"
 #    game_spawn: "Game Spawn"
     graphics: "图形"
-#    graphs: "Graphs"
+    graphs: "图"
     heaps: "堆"
     if_condition: "If条件语句"
     if_else_if: "If/Else If语句"
@@ -2568,7 +2582,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jquery_selectors: "jQuery选择器"
     length: "数组长度"
 #    math_coordinates: "Coordinate Math"
-#    math_geometry: "Geometry"
+    math_geometry: "几何"
     math_operations: "数学程序库操作"
 #    math_proportions: "Proportion Math"
 #    math_trigonometry: "Trigonometry"
@@ -2593,7 +2607,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     while_condition_loops: "使用条件语句的While循环"
     while_loops_simple: "While循环"
     while_loops_nested: "While嵌套循环"
-#    xy_coordinates: "Coordinate Pairs"
+    xy_coordinates: "坐标对"
     advanced_strings: "高级字符串" # Rest of concepts are deprecated
     algorithms: "算法"
     boolean_logic: "布尔逻辑"
