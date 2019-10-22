@@ -1,0 +1,123 @@
+extends /templates/base-flat.jade
+
+block content
+  .container
+    div.row.verifier-row
+      div.col-sm-3
+        p.alert.alert-success
+          | Passed: #{view.passed}
+      div.col-sm-3
+        p.alert.alert-warning
+          | Test Problem: #{view.problem}
+      div.col-sm-3
+        p.alert.alert-danger
+          | Failed: #{view.failed}
+      div.col-sm-3
+        p.alert.alert-info
+          | To Run: #{view.testCount - view.passed - view.problem - view.failed}
+
+    .form.form-inline
+      .row.lineUnder
+        .form-group.campaign-mix
+          input(id="careAboutFrames", type="checkbox", checked=!!view.careAboutFrames, disabled=!!view.tests) 
+          label(for="careAboutFrames") Check frame counts
+        .form-group.campaign-mix
+          label(for="cores") Threads:
+          input(id="cores", type="number", min="1", max="16", value=view.cores, disabled=!!view.tests)
+
+    if view.levelsByCampaign
+      .form.form-inline
+        .row.lineUnder
+          each campaignInfo, campaign in view.levelsByCampaign
+            .form-group.campaign-mix
+              - var campaignID = "campaign-" + campaign + "-checkbox";
+              input(id=campaignID, type="checkbox", checked=campaignInfo.checked, disabled=!!view.tests)
+              label(for=campaignID)= campaign + ': ' + campaignInfo.levels.length
+        .row
+          each codeLanguage in view.codeLanguages
+            .form-group.code-language-mix
+              - var codeLanguageID = "code-language-" + codeLanguage.id + "-checkbox";
+              input(id=codeLanguageID, type="checkbox", checked=codeLanguage.checked, disabled=!!view.tests)
+              label(for=codeLanguageID)= codeLanguage.id
+          .pull-right
+            button.btn.btn-primary#go-button(disabled=!!view.tests) Start Tests
+
+    if view.levelsToLoad && !view.tests
+      .progress
+        .progress-bar.progress-bar-success(role="progressbar" style="width: #{100*(1 - view.levelsToLoad/view.initialLevelsToLoad)}%")
+
+    if view.tests
+      if view.levelIDs
+        .progress
+          .progress-bar.progress-bar-success(role="progressbar" style="width: #{100*view.passed/view.testCount}%")
+          .progress-bar.progress-bar-warning(role="progressbar" style="width: #{100*view.problem/view.testCount}%")
+          .progress-bar.progress-bar-danger(role="progressbar" style="width: #{100*view.failed/view.testCount}%")
+
+      each test, id in view.tests
+        - if (test.state == 'no-solution')
+        -   continue;
+        if test.level
+          .pull-right
+            - var last = test.level.get('slug') + view.linksQueryString
+            a.btn.btn-primary(href="/editor/verifier/" + last) Focus
+            a.btn.btn-success(href="/play/level/" + last) Play
+            a.btn.btn-warning(href="/editor/level/" + last) Edit
+            a.btn.btn-default(data-target='#verifier-test-' + id, data-toggle="collapse") Toggle
+
+          if !test.goals
+            h2.test-running= test.level.get('name')
+              small= ' in ' + test.language + ''
+          else if test.isSuccessful()
+            h2.test-success= test.level.get('name')
+              small= ' in ' + test.language + ''
+          else
+            h2.test-failed= test.level.get('name')
+              small= ' in ' + test.language + ''
+
+          div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
+            div.col-xs-8
+              if test.solution
+                pre.solution #{test.solution.source}
+              else
+                h4 Error Loading Test
+                pre #{test.error}
+            div.col-xs-4.well
+              if test.goals
+                if test.frames == test.solution.frameCount
+                  div.test-success ✓ Frames: #{test.frames}
+                else
+                  div.test-failed ✘ Frames: #{test.frames} vs #{test.solution.frameCount}
+
+                each v,k in test.goals || []
+                  if !test.solution.goals
+                    div.test-running ? #{k} (#{v.status})
+                  else if v.status == test.solution.goals[k]
+                    div.test-success ✓ #{k} (#{v.status})
+                  else
+                    div.test-failed ✘ #{k} (#{v.status} vs #{test.solution.goals[k]})
+              else
+                h3 Pending....
+
+              if test.error
+                  pre.test-failed #{test.error}
+
+              if test.testLogs && test.testLogs.length
+                  for log in test.testLogs
+                      pre.test-failed= log
+
+              if test.userCodeProblems.length
+                h4.test-failed User Code Problems
+                pre.test-failed #{JSON.stringify(test.userCodeProblems, null, 2)}
+
+              if test.simulationFrameRate
+                if test.simulationFrameRate > 90
+                  div.test-success ✓ #{test.simulationFrameRate.toFixed(1)} FPS
+                else if test.simulationFrameRate > 30
+                  div.test-running ~ #{test.simulationFrameRate.toFixed(1)} FPS
+                else
+                  div.test-failed ✘ #{test.simulationFrameRate.toFixed(1)} FPS
+
+        else
+          h1 Loading Level...
+
+        // TODO: show last frame hash

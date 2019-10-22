@@ -1,0 +1,73 @@
+//- DNT
+extends /templates/base-flat.jade
+
+block content
+  .container
+    div
+      a(href="/artisans")
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    h1 Common Student Solutions
+    div.row.well
+      form
+        div.col-xs-2.form-group
+          label(for="levelSlug") Level Slug:
+          input.form-control#levelSlug(type="text" value=view.levelSlug)
+        div.col-xs-2.form-group
+          label(for="languageSelect") Language:
+          p: select#languageSelect
+            option(value="all", selected=(view.languages=="all")) js / py
+            option(value="javascript", selected=(view.languages=="javascript") ? true : false) Javascript
+            option(value="python", selected=(view.languages=="python") ? true : false) Python
+        div.col-xs-2.form-group
+          label(for="sessionNum") Sessions:
+          input.form-control#sessionNum(type="number", min=100, max=100000, step=10, value=view.limit)
+        div.col-xs-3.go-button
+          button.btn.btn-primary#go-button Go
+
+    div.row
+      div.col-xs-12.well
+        div.row
+          div.col-xs-3 Language: javascript
+          div.col-xs-3 Sessions: #{view.stats.javascript.total}
+          div.col-xs-3 Errors: #{view.stats.javascript.errors}
+        div.row
+          div.col-xs-3 Language: python
+          div.col-xs-3 Sessions: #{view.stats.python.total}
+          div.col-xs-3 Errors: #{view.stats.python.errors}
+    div.row
+      if view.errorMessage
+        div.col-xs-6.col-xs-offset-3
+          span.center-block Error: #{view.errorMessage}
+      if view.sortedTallyCounts && view.sortedTallyCounts.length > 0
+        div.col-xs-6.col-xs-offset-3
+          span.center-block Viewing #{view.limit} recent sessions from #{view.levelSlug}
+
+    for num in (view.sortedTallyCounts || [])
+      - var hashes = view.talliedHashes[num]
+      for hash in hashes
+        - var session = view.solutions[hash][0]
+        - var lang = session.codeLanguage
+        - var isComplete = session.state && session.state.complete
+        - var isDefault = (hash == view.defaultcode[lang].hash)
+        - var isIntended = (hash == view.intended[lang].hash)
+        div.row.solutions-row
+          div.col-xs-2.well.solution-info
+            p 
+              b Count: 
+              | #{num}
+            if view.doLanguages.length > 1
+              p <b>Language:</b> #{lang}
+            if isDefault
+              p <b>Status:</b> Default Code
+            else if isIntended
+              p <b>Status:</b> Intended Code
+            else if isComplete
+              p <b>Status:</b> Success
+            else
+              p <b>Status:</b> Failure
+
+            p.is-breakable <b>Fingerprint:</b> #{hash}
+          div.col-xs-10
+            if session.code && session.code['hero-placeholder']
+              .ace(data-language=lang) #{session.code['hero-placeholder'].plan}

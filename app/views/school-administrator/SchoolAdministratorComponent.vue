@@ -14,7 +14,7 @@
     import { mapGetters } from 'vuex'
 
     import RawPugComponent from 'app/views/common/RawPugComponent'
-    import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.pug'
+    import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.jade'
 
     export default {
       metaInfo: function () {

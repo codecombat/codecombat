@@ -1,0 +1,82 @@
+extends /templates/base-flat.jade
+
+block content
+  
+  .container
+    h1.m-t-3.m-b-2.text-center Create Account
+    
+    if loading
+      h5.text-center Loading
+    
+    else if fatalError
+      .alert.alert-danger.text-center
+  
+        if fatalError === 'signed-in'
+          // You already have an account
+          h3 יש לך כבר חשבון
+          // Play CodeCombat!
+          a(href="/play") שחק CodeCombat!
+          
+        else if fatalError === 'missing-input'
+          // Not enough information was provided
+          h3 חסר מידע
+          // Need at least "israelId" included in GET parameters.
+          p לפחות קוד זיהוי ישראלי -  israelId חייב להיכלל בפרמטרים של בקשת ה GET
+          
+        else if fatalError === 'email-exists'
+          // Your email is already in use
+          h3 דוא"ל זה כבר נמצא בשימוש  "
+          a.login-button(data-i18n="login.log_in")
+  
+        else
+          // Error
+          h3 שגיאה
+          p= fatalError
+          
+    else
+      .row
+        .col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
+          table.table.table-condensed
+            if queryParams.email
+              tr
+                // Email
+                th אמייל
+                td= queryParams.email
+            if queryParams.firstName
+              tr
+                // First Name
+                th שם פרטי
+                td= queryParams.firstName
+            if queryParams.lastName
+              tr
+                // Last Name
+                th שם משפחה
+                td= queryParams.lastName
+            if queryParams.school
+              tr
+                // School
+                th בית ספר
+                td= queryParams.school
+            if queryParams.city
+              tr
+                // City
+                th עיר
+                td= queryParams.city
+            if queryParams.district
+              tr
+                // District
+                th מחוז
+                td= queryParams.district
+          form
+            .form-group
+              label.control-label(for="username-input" data-i18n="general.username")
+              input.form-control.input-lg(name="name" value=name)
+            
+            .form-group
+              label.control-label(for="password-input" data-i18n="general.password")
+              input.form-control.input-lg(name="password" type="password" value=password)
+              
+            if formError
+              .alert.alert-danger.text-center= formError
+
+            button#create-account-btn.btn.btn-lg.btn-block.btn-navy(type="submit" data-i18n="login.sign_up")

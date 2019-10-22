@@ -1,0 +1,346 @@
+extends /templates/base-flat.jade
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+  .container
+
+    .content.rtl-allowed
+      if me.attributes.hourOfCode && me.isAnonymous()
+        #hour-of-code
+          h3
+            span(data-i18n="teacher.hoc_welcome")
+            | !
+          p
+            span(data-i18n="teacher.hoc_intro")
+            | :
+          ol.small
+            li
+              strong.spr(data-i18n="teacher.hoc_self_led")
+              | -
+              span.spl.spr(data-i18n="teacher.hoc_self_led_desc")
+              | -
+              a(href="/play/game-dev-hoc?hour_of_code=true")
+                span(data-i18n="teacher.hoc_game_dev")
+              span.spl.spr(data-i18n="teacher.hoc_and")
+              a(href="/play?hour_of_code=true")
+                span(data-i18n="teacher.hoc_programming")
+              | .
+            li
+              strong.spr(data-i18n="teacher.hoc_teacher_led")
+              | -
+              span.spr(data-i18n="teacher.hoc_teacher_led_desc1")
+              a(href="/teachers/resources/cs1")
+                span(data-i18n="teacher.hoc_teacher_led_link")
+              span.spl(data-i18n="teacher.hoc_teacher_led_desc2")
+              | .
+            li
+              strong.spr(data-i18n="teacher.hoc_group")
+              | -
+              span.spr(data-i18n="teacher.hoc_group_desc_1")
+              a(href="/teachers/resources/getting-started")
+                span(data-i18n="teacher.hoc_group_link")
+              span.spl(data-i18n="teacher.hoc_group_desc_2")
+              | .
+          p.small
+            span.spr(data-i18n="teacher.hoc_additional_desc1")
+            a(href="/teachers/resources/")
+              span(data-i18n="teacher.resource_hub")
+            span .
+            span(data-i18n="teacher.hoc_additional_desc2")
+            span.spr ?
+            a(href="mailto:schools@codecombat.com")
+              span(data-i18n="teacher.hoc_additional_contact")
+            | .
+
+      h1(data-i18n="teacher.resource_hub")
+
+      h4(data-i18n="teacher.getting_started")
+      ul(dir="auto")
+        li
+          strong(data-i18n="teacher.pacing_guides")
+          p 
+            span(data-i18n="teacher.pacing_guides_desc")
+            br
+            - var elementarySchoolPacingURL = "http://files.codecombat.com/docs/resources/ElementaryPacing.pdf";
+            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+            -     elementarySchoolPacingURL = elementarySchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
+            a(href=elementarySchoolPacingURL)
+              span(data-i18n="teacher.pacing_guides_elem")
+            span.spl.spr | 
+            - var middleSchoolPacingURL = "http://files.codecombat.com/docs/resources/MiddleSchoolPacing.pdf";
+            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+            -     middleSchoolPacingURL = middleSchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
+            a(href=middleSchoolPacingURL)
+              span(data-i18n="teacher.pacing_guides_middle")
+            span.spl.spr | 
+            - var highSchoolPacingURL = "http://files.codecombat.com/docs/resources/HighSchoolPacing.pdf";
+            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+            -     highSchoolPacingURL = highSchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
+            a(href=highSchoolPacingURL)
+              span(data-i18n="teacher.pacing_guides_high")
+        li
+          - var faqURL = "/teachers/resources/faq";
+          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+          -     faqURL += "-nl-NL";
+          - if (me.get('preferredLanguage') == 'he')
+          -     faqURL += "-he";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     faqURL += "-pt-BR";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     faqURL += "-zh-HANS";
+          a(href=faqURL)
+            span(data-i18n="teacher.educator_faq")
+          p(data-i18n="teacher.educator_faq_desc")
+        li
+          - var gettingStartedURL = "/teachers/resources/getting-started";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     gettingStartedURL += "-pt-BR";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     gettingStartedURL += "-zh-HANS";
+          a(href=gettingStartedURL)
+            span(data-i18n="teacher.teacher_getting_started")
+          p(data-i18n="teacher.teacher_getting_started_desc")
+        li
+          - var quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     quickStartURL = quickStartURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     quickStartURL = quickStartURL.replace(/\.pdf/, '-pt-BR.pdf');
+          a(href=quickStartURL)
+            span(data-i18n="teacher.student_getting_started")
+            span.spl [PDF]
+          p(data-i18n="teacher.student_getting_started_desc")
+        li
+          - var progressJournalURL = "http://files.codecombat.com/docs/resources/ProgressJournal.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     progressJournalURL = progressJournalURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     progressJournalURL = progressJournalURL.replace(/\.pdf/, '-pt-BR.pdf');
+          a(href=progressJournalURL)
+            span(data-i18n="teacher.progress_journal")
+            span.spl [PDF]
+          p(data-i18n="teacher.progress_journal_desc")
+        li
+          a(href="/apcsp")
+            span(data-i18n="teacher.ap_cs_principles")
+          p(data-i18n="teacher.ap_cs_principles_desc")
+
+      h4(data-i18n="teacher.cs1")
+      ul
+        li
+          - var cs1URL = "/teachers/resources/cs1";
+          - if (me.get('preferredLanguage') == 'he')
+          -     cs1URL += '-he'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     cs1URL += '-zh-HANS'
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs1URL += '-pt-BR'
+          a(href=cs1URL)
+            span(data-i18n="teacher.cs1_curriculum")
+          p(data-i18n="teacher.cs1_curriculum_desc")
+        li
+          - var pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     pythonURL = pythonURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     pythonURL = pythonURL.replace(/\.pdf/, '-pt-BR.pdf');
+          a(href=pythonURL)
+            span(data-i18n="teacher.cs1_syntax_python")
+            span.spl [PDF]
+          p(data-i18n="teacher.cs1_syntax_python_desc")
+        li
+          - var jsURL = "http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     jsURL = jsURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          //- if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          //-     jsURL = jsURL.replace(/\.pdf/, '-pt-BR.pdf');
+          a(href=jsURL)
+            span(data-i18n="teacher.cs1_syntax_javascript")
+            span.spl [PDF]
+          p(data-i18n="teacher.cs1_syntax_javascript_desc")
+        li
+          - var arenasURL = "http://files.codecombat.com/docs/resources/assessment_guide.pdf";
+          //- - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          //- -     arenasURL += '-pt-BR'
+          a(href=arenasURL)
+            span(data-i18n="teacher.assessments_curriculum")
+          p(data-i18n="teacher.assessments_curriculum_desc")
+        li
+          - var arenasURL = "/teachers/resources/arenas";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     arenasURL += '-pt-BR'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     arenasURL += '-zh-HANS'
+          a(href=arenasURL)
+            span(data-i18n="teacher.arenas_curriculum")
+          p(data-i18n="teacher.arenas_curriculum_desc")
+        li
+          - var engineeringCycleWorksheetURL = "http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     engineeringCycleWorksheetURL = engineeringCycleWorksheetURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     engineeringCycleWorksheetURL = engineeringCycleWorksheetURL.replace(/\.pdf/, '-pt-BR.pdf');
+          a(href=engineeringCycleWorksheetURL)
+            span(data-i18n="teacher.engineering_cycle_worksheet")
+            span.spl [PDF]
+          - var worksheetExampleURL = "http://files.codecombat.com/docs/resources/WorksheetExample.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     worksheetExampleURL = worksheetExampleURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          //- if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          //-     worksheetExampleURL = worksheetExampleURL.replace(/\.pdf/, '-pt-BR.pdf');
+          a(href=worksheetExampleURL)
+            i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
+          p(data-i18n="teacher.engineering_cycle_worksheet_desc")
+        li
+          - var pairProgrammingURL = "/teachers/resources/pair-programming";
+          - if (me.get('preferredLanguage') == 'he')
+          -     pairProgrammingURL += '-he'
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     pairProgrammingURL += "-pt-BR";
+          a(href=pairProgrammingURL)
+            span(data-i18n="teacher.cs1_pairprogramming")
+          p(data-i18n="teacher.cs1_pairprogramming_desc")
+
+      h4(data-i18n="teacher.gd1")
+      ul
+        li
+          - var gd1URL = "/teachers/resources/gd1-5day";
+          - if (me.get('preferredLanguage') == 'he')
+          -     gd1URL += '-he'
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     gd1URL += '-pt-BR'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     gd1URL = '/teachers/resources/gd1-zh-HANS'
+          a(href=gd1URL)
+            span(data-i18n="teacher.gd1_guide")
+          p(data-i18n="teacher.gd1_guide_desc")
+        li
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf")
+            span(data-i18n="teacher.gd1_rubric")
+          p(data-i18n="teacher.gd1_rubric_desc")
+          
+      h4(data-i18n="teacher.wd1")
+      ul
+        // We are not done with WD1 curriculum guide yet
+        //li
+        //  - var wd1URL = "/teachers/resources/wd1";
+        //  - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+        //  -     wd1URL += '-pt-BR'
+        //  a(href=wd1URL)
+        //    span(data-i18n="teacher.wd1_curriculum")
+        //  p(data-i18n="teacher.wd1_curriculum_desc")
+
+        li
+          - var wd1guideURL = "/teachers/resources/wd1guide";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     wd1guideURL += '-zh-HANS'
+          a(href=wd1guideURL)
+            span(data-i18n="teacher.wd1_curriculum")
+          p(data-i18n="teacher.wd1_curriculum_desc")
+        li
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesWorksheet.pdf")
+            span(data-i18n="teacher.wd1_headlines")
+            span.spl [PDF]
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesExample.pdf")
+            i.span.spl(data-i18n="teacher.wd1_headlines_example")
+          p(data-i18n="teacher.wd1_headlines_desc")
+        li
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf")
+            span(data-i18n="teacher.wd1_html_syntax")
+            span.spl [PDF]
+          p(data-i18n="teacher.wd1_html_syntax_desc")
+        li
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf")
+            span(data-i18n="teacher.wd1_css_syntax")
+            span.spl [PDF]
+          p(data-i18n="teacher.wd1_css_syntax_desc")
+          
+      h4(data-i18n="teacher.cs2")
+      ul
+        li
+          - var cs2URL = "/teachers/resources/cs2";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs2URL += '-pt-BR'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     cs2URL += '-zh-HANS'
+          a(href=cs2URL)
+            span(data-i18n="teacher.cs2_curriculum")
+          p(data-i18n="teacher.cs2_curriculum_desc")
+          
+      h4(data-i18n="teacher.gd2")
+      ul
+        li
+          - var gd2URL = "/teachers/resources/gd2";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     gd2URL += '-pt-BR'
+          a(href=gd2URL)
+            span(data-i18n="teacher.gd2_curriculum")
+          p(data-i18n="teacher.gd2_curriculum_desc")
+
+
+      h4(data-i18n="teacher.wd2")
+      ul
+        li
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD2-jQueryFunctionsCheatsheet.pdf")
+            span(data-i18n="teacher.wd2_jquery_syntax")
+            span.spl [PDF]
+          p(data-i18n="teacher.wd2_jquery_syntax_desc")
+        li
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/QuizletPlanningWorksheet.pdf")
+            span(data-i18n="teacher.wd2_quizlet_worksheet")
+            span.spl [PDF]
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/QuizletPlanningInstructions.pdf")
+            i.span.spl(data-i18n="teacher.wd2_quizlet_worksheet_instructions")
+          p(data-i18n="teacher.wd2_quizlet_worksheet_desc")
+
+      h4(data-i18n="teacher.cs3")
+      ul
+        li
+          - var cs3URL = "/teachers/resources/cs3";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs3URL += '-pt-BR'
+          a(href=cs3URL)
+            span(data-i18n="teacher.cs3_curriculum")
+          p(data-i18n="teacher.cs3_curriculum_desc")
+
+      h4(data-i18n="teacher.gd3")
+      ul
+        li
+          - var gd3URL = "/teachers/resources/gd3";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     gd3URL += '-pt-BR'
+          a(href=gd3URL)
+            span(data-i18n="teacher.gd3_curriculum")
+          p(data-i18n="teacher.gd3_curriculum_desc")
+
+      h4(data-i18n="teacher.cs4")
+      ul
+        li
+          - var cs4URL = "/teachers/resources/cs4";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs4URL += '-pt-BR'
+          a(href=cs4URL)
+            span(data-i18n="teacher.cs4_curriculum")
+          p(data-i18n="teacher.cs4_curriculum_desc")
+
+      h4(data-i18n="teacher.cs5")
+      ul
+        li
+          - var cs5PyURL = "/teachers/resources/cs5_py";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs5PyURL += '-pt-BR'
+          a(href=cs5PyURL)
+            span(data-i18n="teacher.cs5_curriculum_py")
+          p(data-i18n="teacher.cs5_curriculum_desc_py")
+        li
+          - var cs5JSURL = "/teachers/resources/cs5_js";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs5JSURL += '-pt-BR'
+          a(href=cs5JSURL)
+            span(data-i18n="teacher.cs5_curriculum_js")
+          p(data-i18n="teacher.cs5_curriculum_desc_js")
+
+      h4.coming-soon
+        i(data-i18n="teacher.coming_soon")
