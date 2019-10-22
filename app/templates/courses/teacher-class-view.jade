@@ -175,6 +175,30 @@ mixin courseProgressTab
                 .col-sm-2
                   .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
                     span(data-i18n='teacher.assign_course')
+    - var courseInstance = view.getSelectedCourseInstance()
+    if courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
+      .play-level-form(data-course-id=course.id)
+        .form-group
+          label.control-label
+            span(data-i18n="courses.select_level")
+            | :
+            select.level-select.form-control(disabled=disablePlayButtons)
+              option(data-i18n="courses.play_level" value='none' selected=('none'===courseInstance.get('lastUnlockedLevel')))
+              - var levels = view.classroom.getLevels({courseID: course.id}).models
+              - console.log(levels, view.campaignLevelNumberMap)
+              each level, levelIndex in levels
+                option(value=level.get('slug') selected=(level.get('slug')===courseInstance.get('lastUnlockedLevel')))
+                  if level.get('assessment')
+                    if level.get('assessment') === 'cumulative'
+                      =$.t('play_level.combo_challenge')
+                    else
+                      =$.t('play_level.concept_challenge')
+                    =":"
+                  else
+                    span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
+                  = " "
+                  span
+                    = i18n(level.attributes, 'name').replace('Course: ', '')
 
 mixin courseOverview(course)
   - var levels = view.classroom.getLevels({courseID: course.id}).models

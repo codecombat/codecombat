@@ -19,6 +19,7 @@ _.extend CourseInstanceSchema.properties,
     language: {type: 'string', 'enum': ['python', 'javascript']}
   hourOfCode: { type: 'boolean', description: 'Deprecated, do not use.' }
   stats: c.object({ additionalProperties: true })
+  lastUnlockedLevel: {type: 'string'}
 
 c.extendBasicProperties CourseInstanceSchema, 'CourseInstance'
 
