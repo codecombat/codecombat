@@ -1407,9 +1407,10 @@ module.exports = class CampaignView extends RootView
       if not @campaign.levelIsPractice(level) and not @campaign.levelIsAssessment(level)
         lastNormalLevel = level
 
-      level.locked = lockedByTeacher
-      if level.slug == @courseInstance.get('lastUnlockedLevel') # lock level after lastUnlockedLevel
+      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
         lockedByTeacher = true
+      level.locked = lockedByTeacher
+
 
     return true
 

@@ -143,14 +143,14 @@ mixin courseProgressTab
     - var courseInstance = view.getSelectedCourseInstance()
     if me.showCourseProgressControll() && courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
       .text-center(data-course-id=course.id)
-        span(data-i18n="courses.set_last_unlocked_level")
+        span(data-i18n="courses.set_start_locked_level")
         span.spr :
         select.level-select
-          option(data-i18n="courses.no_block_level" value='none' selected=('none' === courseInstance.get('lastUnlockedLevel')))
+          option(data-i18n="courses.no_block_level" value='none' selected=('none' === courseInstance.get('startLockedLevel')))
           - var levels = view.classroom.getLevels({courseID: course.id}).models
           each level, levelIndex in levels
             unless level.get('assessment') || level.get('practice')
-              option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('lastUnlockedLevel')))
+              option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('startLockedLevel')))
                 span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
                   = " "
                 span

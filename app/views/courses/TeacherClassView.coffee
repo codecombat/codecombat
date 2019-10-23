@@ -214,7 +214,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
       @state.set selectedCourse: selectedCourse
     @listenTo @, 'level-select:change', ({ selectedLevel }) ->
-      @setSelectedCourseUnlockLevel(selectedLevel)
+      @setSelectedCourseLockedLevel(selectedLevel)
     @listenTo @state, 'change:selectedCourse', (e) ->
       @setSelectedCourseInstance()
 
@@ -236,10 +236,10 @@ module.exports = class TeacherClassView extends RootView
       @setSelectedCourseInstance()
     return @state.get 'selectedCourseInstance'
 
-  setSelectedCourseUnlockLevel: (level) ->
+  setSelectedCourseLockedLevel: (level) ->
     courseInstance = @getSelectedCourseInstance()
     if courseInstance and level
-      courseInstance.set 'lastUnlockedLevel', level
+      courseInstance.set 'startLockedLevel', level
       courseInstance.save()
 
   onLoaded: ->
