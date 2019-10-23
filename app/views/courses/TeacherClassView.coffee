@@ -239,8 +239,8 @@ module.exports = class TeacherClassView extends RootView
   setSelectedCourseUnlockLevel: (level) ->
     courseInstance = @getSelectedCourseInstance()
     if courseInstance and level
-        courseInstance.set 'lastUnlockedLevel', level
-        courseInstance.save()
+      courseInstance.set 'lastUnlockedLevel', level
+      courseInstance.save()
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
@@ -864,4 +864,3 @@ module.exports = class TeacherClassView extends RootView
     .then () =>
       $('.sync-google-classroom-btn').text($.i18n.t('teacher.sync_google_classroom'))
       $('.sync-google-classroom-btn').attr('disabled', false)
-
