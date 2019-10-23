@@ -1641,6 +1641,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classes: "Classes"
     certificate_btn_print: "Print"
     certificate_btn_toggle: "Toggle"
+    set_unblocked_level: "Set unblocked level"
+    no_block_level: "No limit"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
