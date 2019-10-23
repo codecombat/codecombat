@@ -143,7 +143,7 @@ mixin courseProgressTab
     - var courseInstance = view.getSelectedCourseInstance()
     if me.showCourseProgressControll() && courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
       .text-center(data-course-id=course.id)
-        span(data-i18n="courses.set_unblocked_level")
+        span(data-i18n="courses.set_last_unlocked_level")
         span.spr :
         select.level-select
           option(data-i18n="courses.no_block_level" value='none' selected=('none' === courseInstance.get('lastUnlockedLevel')))
