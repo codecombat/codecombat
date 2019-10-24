@@ -199,7 +199,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   modal:
     close: "Schließen"
     okay: "Okay"
-    cancel: "Abbrechen" # Cancel
+    cancel: "Abbrechen"
 
   not_found:
     page_not_found: "Tut uns leid! Wir haben die Seite nicht gefunden"
