@@ -237,6 +237,7 @@ module.exports = class TeacherClassView extends RootView
     return @state.get 'selectedCourseInstance'
 
   setSelectedCourseLockedLevel: (level) ->
+    return unless me.showCourseProgressControl()
     courseInstance = @getSelectedCourseInstance()
     if courseInstance and level
       courseInstance.set 'startLockedLevel', level
