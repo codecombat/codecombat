@@ -562,8 +562,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     course: "Kurs:"
     done: "Zrobione"
     next_level: "Następny poziom"
-#   combo_challenge: "Combo Challenge"
-#   concept_challenge: "Concept Challenge"
+#    combo_challenge: "Combo Challenge"
+#    concept_challenge: "Concept Challenge"
     challenge_unlocked: "Odblokowano wyzwanie"
 #    combo_challenge_unlocked: "Combo Challenge Unlocked"
 #    concept_challenge_unlocked: "Concept Challenge Unlocked"
@@ -721,7 +721,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     project_complete: "Projekt ukończony!"
     share_this_project: "Udostępnij ten projekt znajomym i rodzinie:"
     ready_to_share: "Gotowt aby udostępnić swój projekt?"
-    click_publish: "Kliknij \Publikuj\ aby porojekt pojawił się w klasowej galerii, potem sprawdź co zbudowali twoi koledzy! Możesz powrócić i kontynuować pracę nad projektem. Każde późniejsze zmiany będą automatycznie zapisywane i udostępniane twojej klasie."
+    click_publish: "Kliknij Publikuj aby porojekt pojawił się w klasowej galerii, potem sprawdź co zbudowali twoi koledzy! Możesz powrócić i kontynuować pracę nad projektem. Każde późniejsze zmiany będą automatycznie zapisywane i udostępniane twojej klasie."
 #    already_published_prefix: "Your changes have been published to the class gallery."
 #    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
     view_gallery: "Zobacz galerię"
@@ -839,8 +839,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     purchasing: "Kupowanie..."
     declined: "Karta została odrzucona"
     retrying: "Błąd serwera, ponawiam."
-    prompt_title: "Za mało klejnotów"
-    prompt_body: "Chcesz zdobyć więcej?"
+    prompt_title: "Niewystarczająca ilość kryształów!"
+    prompt_body: "Weź Premium, aby zdobyć kryształy i dostać się do jeszcze większej ilości poziomów!"
     prompt_button: "Wejdź do sklepu"
     recovered: "Przywrócono poprzednie zakupy. Proszę odświeżyć stronę."
     price: "x{{gems}} / mieś."
@@ -849,8 +849,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     purchased: "Zakupiono"
 
 #  subscribe_for_gems:
-    prompt_title: "Niewystarczająca ilość kryształów!"
-    prompt_body: "Weź Premium, aby zdobyć kryształy i dostać się do jeszcze większej ilości poziomów!"
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
     prompt_title: "Za mało klejnotów"
