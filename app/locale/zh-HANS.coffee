@@ -1642,7 +1642,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     certificate_btn_print: "打印"
     certificate_btn_toggle: "中英切换"
     set_start_locked_level: "设置要锁定的起始关卡"
-    no_block_level: "无限制"
+    no_level_limit: "无限制"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"

@@ -141,12 +141,12 @@ mixin courseProgressTab
         .clearfix
     - var course = state.get('selectedCourse');
     - var courseInstance = view.getSelectedCourseInstance()
-    if me.showCourseProgressControll() && courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
+    if me.showCourseProgressControl() && courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
       .text-center(data-course-id=course.id)
         span(data-i18n="courses.set_start_locked_level")
         span.spr :
-        select.level-select
-          option(data-i18n="courses.no_block_level" value='none' selected=('none' === courseInstance.get('startLockedLevel')))
+        select.locked-level-select
+          option(data-i18n="courses.no_level_limit" value='none')
           - var levels = view.classroom.getLevels({courseID: course.id}).models
           each level, levelIndex in levels
             unless level.get('assessment') || level.get('practice')

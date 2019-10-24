@@ -1393,6 +1393,12 @@ module.exports = class CampaignView extends RootView
           level.hidden = false
 
       level.noFlag = !level.next
+
+      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
+        lockedByTeacher = true
+      if lockedByTeacher and me.showCourseProgressControl()
+        level.locked = true
+
       if level.locked
         level.color = 'rgb(193, 193, 193)'
       else if level.practice
@@ -1406,11 +1412,6 @@ module.exports = class CampaignView extends RootView
       prev = level
       if not @campaign.levelIsPractice(level) and not @campaign.levelIsAssessment(level)
         lastNormalLevel = level
-
-      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
-        lockedByTeacher = true
-      level.locked = lockedByTeacher
-
 
     return true
 

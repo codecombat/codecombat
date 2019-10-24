@@ -62,7 +62,7 @@ module.exports = class TeacherClassView extends RootView
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
     'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
-    'change .level-select': 'onChangeLevelSelect'
+    'change .locked-level-select': 'onChangeLockedLevelSelect'
 
   getInitialState: ->
     {
@@ -213,7 +213,7 @@ module.exports = class TeacherClassView extends RootView
       @state.set students: @students
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
       @state.set selectedCourse: selectedCourse
-    @listenTo @, 'level-select:change', ({ selectedLevel }) ->
+    @listenTo @, 'locked-level-select:change', ({ selectedLevel }) ->
       @setSelectedCourseLockedLevel(selectedLevel)
     @listenTo @state, 'change:selectedCourse', (e) ->
       @setSelectedCourseInstance()
@@ -445,8 +445,8 @@ module.exports = class TeacherClassView extends RootView
   onChangeCourseSelect: (e) ->
     @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
 
-  onChangeLevelSelect: (e) ->
-    @trigger 'level-select:change', { selectedLevel: $(e.currentTarget).val() }
+  onChangeLockedLevelSelect: (e) ->
+    @trigger 'locked-level-select:change', { selectedLevel: $(e.currentTarget).val() }
 
   getSelectedStudentIDs: ->
     Object.keys(_.pick @state.get('checkboxStates'), (checked) -> checked)
