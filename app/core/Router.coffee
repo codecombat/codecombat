@@ -274,6 +274,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
     'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
+    'teachers/resources/hoc2019': redirect('/teachers/resources/1fhLessonPlan') # Temporary redirect unitl we finalize the landing page.
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
