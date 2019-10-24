@@ -214,7 +214,7 @@
       },
 
       setNextLevels () {
-        if (this.nextLevelOriginal) {
+        if (this.nextLevelOriginal && this.levels[this.nextLevelOriginal]) {
           this.levels[this.nextLevelOriginal].next = true
         }
       }

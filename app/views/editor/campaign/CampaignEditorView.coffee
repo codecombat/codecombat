@@ -153,7 +153,7 @@ module.exports = class CampaignEditorView extends RootView
 
     for level in _.values campaignLevels
       continue if /test/.test @campaign.get('slug')  # Don't overwrite level stuff for testing Campaigns
-      model = @levels.findWhere {original: level.original}
+      model = @supermodel.getModelByOriginal Level, level.original
       # do not propagate campaignIndex for non-course campaigns
       propsToPropagate = Campaign.denormalizedLevelProperties
       if @campaign.get('type') isnt 'course'
@@ -405,6 +405,8 @@ class LevelNode extends TreemaObjectNode
   populateData: ->
     return if @data.name?
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.denormalizedLevelProperties
+    # Mark a level as internally released by default, so that we do not accidentally release a level externally.
+    data.releasePhase = 'internalRelease'
     _.extend @data, data
 
 class NextLevelNode extends LevelNode
