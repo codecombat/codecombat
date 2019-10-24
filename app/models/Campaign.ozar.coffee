@@ -9,7 +9,7 @@ module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
   @schema: schema
   urlRoot: '/db/campaign'
-  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage']))
+  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage', 'releasePhase']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
   @nextLevelProperties: ['original', 'name', 'slug', 'type']
 
@@ -20,6 +20,12 @@ module.exports = class Campaign extends CocoModel
   @getLevels: (campaign) ->
     levels = campaign.levels
     levels = _.sortBy(levels, 'campaignIndex')
+    if not me.isAdmin() and me.isInternal()
+      # remove beta levels
+      levels = levels.filter((l) => l.releasePhase != 'beta')
+    else if not me.isAdmin() and not me.isInternal()
+      # remove beta+internal levels
+      levels = levels.filter((l) => l.releasePhase != 'beta' && l.releasePhase != 'internalRelease')
     return levels
 
   getLevels: ->

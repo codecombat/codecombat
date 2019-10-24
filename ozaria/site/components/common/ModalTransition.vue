@@ -152,7 +152,7 @@
           currentLevelStage = parseInt(this.capstoneStage)
         }
         const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
-        if (nextLevel.original && !this.showShareModal) {
+        if (nextLevel.original && !this.showShareModal && this.levelsList[nextLevel.original]) {
           const nextLevelLinkOptions = {
             courseId: this.courseId,
             courseInstanceId: this.courseInstanceId,

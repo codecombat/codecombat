@@ -100,6 +100,8 @@ _.extend CampaignSchema.properties, {
 
       campaignPage: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}
 
+      releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' }
+
       #- denormalized properties from Levels are cloned below
     }
 

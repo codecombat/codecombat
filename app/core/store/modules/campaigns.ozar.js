@@ -1,4 +1,5 @@
 import campaignsApi from 'core/api/campaigns'
+import Campaign from 'models/Campaign'
 
 export default {
   namespaced: true,
@@ -37,6 +38,12 @@ export default {
         if (campaignData.backgroundImage) {
           campaignData.backgroundImage.filter(b => !b.campaignPage).map(b => { b.campaignPage = 1 })
         }
+
+        // Delete inaccessible levels based on releasePhase
+        const accessibleLevelsOriginal = new Set(Campaign.getLevels(campaignData).map(l => l.original))
+        const removeLevelsOriginal = Object.keys(campaignData.levels).filter(l => !accessibleLevelsOriginal.has(l))
+        removeLevelsOriginal.forEach(l => delete campaignData.levels[l])
+
         Object.values(campaignData.levels)
           .filter(l => !l.campaignPage)
           .map(l => { l.campaignPage = 1 })
