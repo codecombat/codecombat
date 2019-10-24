@@ -335,8 +335,6 @@ setupProxyMiddleware = (app) ->
   target = 'https://very.direct.codecombat.com'
   headers = {}
 
-  target = 'http://staging.koudashijie.com'
-  headers['Host'] = 'staging.koudashijie.com'
   if (process.env.COCO_PROXY_NEXT)
     target = 'https://next.codecombat.com'
     headers['Host'] = 'next.codecombat.com'
