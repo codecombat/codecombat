@@ -2416,9 +2416,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   ozaria_chrome:
     sound_off: "Вимкнути звук"
     sound_on: "Увімкнути звук"
-    back_to_map: "Повернутись до карти"
+    back_to_map: "Повернутись до мапи"
     level_options: "Налаштування рівня"
-    restart_level: "Перезапустити рівень"
+    restart_level: "Перезавантажити рівень"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
