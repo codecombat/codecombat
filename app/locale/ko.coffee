@@ -153,6 +153,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     student: "학생"
 
   nav:
+    educators: "선생님들"
 #    follow_us: "Follow Us"
 #    general: "General"
     map: "맵"
