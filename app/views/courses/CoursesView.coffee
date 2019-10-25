@@ -112,17 +112,12 @@ module.exports = class CoursesView extends RootView
       @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
       @render?()
     )
-    @allCompleted = true
-    for classroom, index in @classrooms.models
-      courseInstances = @courseInstances.where({classroomID: classroom.id})
-      for courseInstance in courseInstances
+
+    @allCompleted = not _.some @classrooms.models, classroom ->
+      _.some @courseInstances.where({classroomID: classroom.id}), courseInstance ->
         course = @store.state.courses.byId[courseInstance.get('courseID')]
         stats = classroom.statsForSessions(courseInstance.sessions, course._id)
-        unless stats.courseComplete
-          @allCompleted = false
-          break
-      unless @allCompleted
-        break
+        not stats.courseComplete
 
     _.forEach _.unique(_.pluck(@classrooms.models, 'id')), (classroomID) =>
       levels = new Levels()
