@@ -1,0 +1,281 @@
+extends /templates/base-flat.jade
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+  .container
+
+    .content
+      h1(id="apcsp_section", data-i18n="teacher.ap_cs_principles")
+      ul
+        li
+          a(href="https://s3.amazonaws.com/files.codecombat.com/docs/resources/APComputerSciencePrinciplesSyllabus.pdf")
+            span(data-i18n="apcsp.syllabus")
+          p(data-i18n="apcsp.syllabus_description")
+        li
+          div
+            span(data-i18n="apcsp.unit_1")
+            p
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P4
+              br
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.5, 1.3.1, 7.1.1, 7.2.1
+              br
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1d, CR2a, CR2g
+              br
+              - var activityURL = "/teachers/resources/apcsp-tech-usability";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_1_activity_1")
+
+        li
+          div
+            span(data-i18n="apcsp.unit_2")
+            p 
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P2, P3, P5, P6
+              br
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.2.4, 2.1.1, 2.1.2, 2.2.1, 2.3.1, 2.3.2
+              br
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1b, CR1c, CR1f, CR2a, CR2b
+              br
+              - activityURL = "/teachers/resources/apcsp-binary-sequences";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_2_activity_1")
+              br
+              - activityURL = "/teachers/resources/apcsp-computing-lesson";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_2_activity_2")
+
+        li
+          div
+            span(data-i18n="apcsp.unit_3")
+            p 
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
+              br
+              span(data-i18n="apcsp.learning_objectives")
+              | : 2.2.1, 2.2.2, 2.3.1, 2.3.2, 4.1.1, 4.1.2, 4.2.1, 4.2.2, 4.2.3, 4.2.4, 5.1.2, 5.1.3
+              br
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2b, CR2d, CR2e
+              br
+              - activityURL = "/teachers/resources/apcsp-hitchhikers-guide";
+              if (me.get('preferredLanguage') == 'he')
+                - activityURL += '-he';
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_3_activity_1")
+              br
+              - activityURL = "/teachers/resources/apcsp-simulation";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_3_activity_2")
+              br
+              - activityURL = "/teachers/resources/apcsp-pair-algorithms";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_3_activity_3")
+
+        li
+          div
+            span(data-i18n="apcsp.unit_4")
+            p 
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
+              br
+              span(data-i18n="apcsp.learning_objectives")
+              | : 2.2.1, 2.2.2, 2.2.3, 4.1.1, 4.1.2, 5.1.2, 5.1.3, 5.2.1, 5.3.1, 5.4.1, 5.5.1
+              br
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1c, CR1d, CR1f, CR2b, CR2d, CR2e
+              br
+              - activityURL = "/teachers/resources/apcsp-getting-abstract";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_4_activity_1")
+              br
+              - activityURL = "/teachers/resources/apcsp-search-sort";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_4_activity_2")
+              br
+              - activityURL = "/teachers/resources/apcsp-refactoring";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_4_activity_3")
+                
+        li
+          div
+            span(data-i18n="apcsp.unit_5")
+            p 
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
+              br
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.1.1, 1.2.2, 1.2.3, 1.2.4, 2.3.1, 3.3.1, 6.1.1, 6.2.1, 6.2.2, 6.3.1, 7.5.1, 7.5.2
+              br
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1d, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2f, CR2g
+              br
+              - activityURL = "/teachers/resources/apcsp-how-the-internet-works";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_5_activity_1")
+              br
+              - activityURL = "/teachers/resources/apcsp-internet-simulation";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_5_activity_2")
+              br
+              - activityURL = "/teachers/resources/apcsp-internet-chat-simulation";
+              if (me.get('preferredLanguage') == 'he')
+                - activityURL += '-he';
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_5_activity_3")
+              br
+              - activityURL = "/teachers/resources/apcsp-internet-cybersecurity";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_5_activity_4")
+
+        li
+          div
+            span(data-i18n="apcsp.unit_6")
+            p 
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
+              br
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.3.1, 2.3.1, 3.1.1, 3.1.2, 3.1.3, 3.2.1, 3.2.2, 3.3.1, 7.2.1
+              br
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2g
+              br
+              - activityURL = "/teachers/resources/apcsp-data-project";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_6_activity_1")
+              br
+              - activityURL = "/teachers/resources/apcsp-big-data";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_6_activity_2")
+              br
+              - activityURL = "/teachers/resources/apcsp-compression";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_6_activity_3")
+
+        li
+          div
+            span(data-i18n="apcsp.unit_7")
+            p 
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P4, P5
+              br
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.2.2, 1.2.3, 7.1.1, 7.1.2, 7.2.1, 7.3.1, 7.4.1, 7.5.1, 7.5.2
+              br
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1d, CR1e, CR1f, CR2a, CR2g
+              br
+              - activityURL = "/teachers/resources/apcsp-personal-and-global-impact";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_7_activity_1")
+              br
+              - activityURL = "/teachers/resources/apcsp-crowdsourcing";
+              if (me.get('preferredLanguage') == 'he')
+                - activityURL += '-he';
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_7_activity_2")
+        li
+          div
+            span(data-i18n="apcsp.unit_8")
+            p 
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR3, CR4
+            p
+              span(data-i18n="apcsp.unit_8_description")
+            p
+              - activityURL = "/teachers/resources/create-task-practice-1";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_8_activity_1")
+              br
+              - activityURL = "/teachers/resources/create-task-practice-2";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_8_activity_2")
+              br
+              - activityURL = "/teachers/resources/create-task-practice-3";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
+                span(data-i18n="apcsp.unit_8_activity_3")
+
+        li
+          div
+            span(data-i18n="apcsp.unit_9")
+          p
+            i(data-i18n="common.coming_soon")
+
+        li
+          div
+            span(data-i18n="apcsp.unit_10")
+          p
+            - activityURL = "/teachers/resources/apcsp-web-quiz";
+            if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+              - activityURL += '-pt-BR';
+            a(href=activityURL)
+              span(data-i18n="apcsp.unit_10_activity_1")
+
+        li
+          - activityURL = "/teachers/resources/pair-programming";
+          if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+            - activityURL += '-pt-BR';
+          a(href=activityURL)
+            span(data-i18n="teacher.cs1_pairprogramming")
+          p(data-i18n="teacher.cs1_pairprogramming_desc")
+        li
+          - activityURL = "/teachers/resources/gd1-5day";
+          if (me.get('preferredLanguage') == 'he')
+            - activityURL += '-he';
+          if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+            - activityURL += '-pt-BR';
+          if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+            - activityURL += '-zh-HANS';
+          a(href=activityURL)
+            span(data-i18n="teacher.gd1_guide")
+          p(data-i18n="teacher.gd1_guide_desc")
+          

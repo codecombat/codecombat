@@ -1,0 +1,97 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  h3
+    span.spr(data-i18n="teacher.edit_2")
+    span=view.user.broadName()
+    
+block modal-body-content
+
+  - var status = view.user.prepaidStatus()
+  - var prepaidType = view.user.prepaidType()
+
+  .text-center
+    .license-details
+      strong(data-i18n="teacher.license_status")
+      span.spr :
+      if status == "not-enrolled"
+        .small-details
+          span(data-i18n="teacher.status_not_enrolled")
+      else
+        .small-details
+          if prepaidType === 'course'
+            span.spr(data-i18n="teacher.full_license")
+          else if prepaidType === 'starter_license'
+            span.spr(data-i18n="teacher.starter_license")
+          span (
+          span(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
+          span )
+      if status !== 'enrolled' && me.canManageLicensesViaUI()
+        .small-details
+          if view.prepaids.totalAvailable() == 0
+            button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license")
+            .small-details.not-enough-enrollments
+              span(data-i18n='teacher.not_enough_enrollments')
+          else
+            button.enroll-student-btn.btn.btn-navy(data-i18n="teacher.apply_license")
+      else if me.canRevokeLicensesViaUI()
+        .small-details
+          button.revoke-student-btn.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license")
+    .edit-student-details
+      strong(data-i18n="teacher.student_details")
+      span.spr :
+      .small-details 
+        span(data-i18n="teacher.student_name")
+        span.spr :
+        if (view.user.get('firstName') && view.user.get('lastName'))
+          span= view.user.get('firstName')
+          span.spl= view.user.get('lastName')
+        else 
+          i(data-i18n="teacher.no_name")
+      .small-details 
+        span(data-i18n="general.username")
+        span.spr :
+        if (view.user.get('name'))
+          span= view.user.get('name')
+        else 
+          i(data-i18n="teacher.no_username")
+      .small-details  
+        span(data-i18n="general.email")
+        span.spr :
+        if (view.user.get('email'))
+          a(href= "mailto:"+view.user.get('email'))
+            span= view.user.get('email')
+        else
+          i(data-i18n="teacher.no_email")
+    if view.user.get('emailVerified')
+      p
+        span(data-i18n="teacher.send_email_to")
+      p.m-b-3
+        = view.user.get('email')
+      if state.get('emailSent')
+        .send-recovery-email-btn.btn.btn-lg.btn-primary.uppercase.disabled
+          span(data-i18n="teacher.email_sent")
+      else
+        .send-recovery-email-btn.btn.btn-lg.btn-primary.uppercase
+          span(data-i18n="teacher.send_recovery_email")
+    else
+      div.m-b-1
+        strong(data-i18n="teacher.enter_new_password_below")
+      div.m-b-2.form-group(class=(state.get('errorMessage') ? 'has-error' : ''))
+        input.new-password-input(placeholder="type a new password here" value=state.get('newPassword'))
+        div.help-block.error-help-block.m-t-1.small
+          span=state.get('errorMessage')
+      if state.get('passwordChanged')
+        button.change-password-btn.btn.btn-lg.btn-primary.uppercase.disabled
+          span(data-i18n="teacher.changed")
+      else
+        button.change-password-btn.btn.btn-lg.btn-primary.uppercase
+          span(data-i18n="teacher.change_password")
+      
+
+block modal-footer-content
+  button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true")
+    if state.get('passwordChanged') || state.get('emailSent')
+      span(data-i18n="modal.close")
+    else
+      span(data-i18n="common.cancel")

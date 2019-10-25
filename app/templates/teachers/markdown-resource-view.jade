@@ -1,0 +1,74 @@
+extends /templates/base-flat.jade
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+
+  .container
+    if me.attributes.hourOfCode && me.isAnonymous() && view.name == 'cs1'
+      #hour-of-code
+        h3
+          span(data-i18n="teacher.hoc_welcome")
+          | !
+        p
+          span(data-i18n="teacher.hoc_intro")
+          | :
+        ol.small
+          li
+            strong.spr(data-i18n="teacher.hoc_self_led") 
+            | - 
+            span.spl.spr(data-i18n="teacher.hoc_self_led_desc") 
+            | - 
+            a(href="/play/game-dev-hoc?hour_of_code=true")
+              span(data-i18n="teacher.hoc_game_dev")
+            span.spl.spr(data-i18n="teacher.hoc_and")
+            a(href="/play?hour_of_code=true") 
+              span(data-i18n="teacher.hoc_programming")
+            | .
+          li
+            strong.spr(data-i18n="teacher.hoc_teacher_led")
+            | - 
+            span.spr(data-i18n="teacher.hoc_teacher_led_desc1")
+            a(href="/teachers/resources/cs1")
+              span(data-i18n="teacher.hoc_teacher_led_link")
+            span.spl(data-i18n="teacher.hoc_teacher_led_desc2")
+            | .
+          li
+            strong.spr(data-i18n="teacher.hoc_group")
+            | - 
+            span.spr(data-i18n="teacher.hoc_group_desc_1") 
+            a(href="/teachers/resources/getting-started")
+              span(data-i18n="teacher.hoc_group_link")
+            span.spl(data-i18n="teacher.hoc_group_desc_2")
+            | .
+        p.small
+          span.spr(data-i18n="teacher.hoc_additional_desc1")
+          a(href="/teachers/resources/")
+            span(data-i18n="teacher.resource_hub")
+          span . 
+          span(data-i18n="teacher.hoc_additional_desc2")
+          span.spr ?
+          a(href="mailto:schools@codecombat.com")
+            span(data-i18n="teacher.hoc_additional_contact")
+          | .  
+
+    span.backlink
+      a(href='/teachers/resources')
+        span= '< '
+        span(data-i18n="teacher.back_to_resource_hub")
+    if view.loadingData
+      .comingsoon
+        h4(style="text-align:center")
+          i(data-i18n="common.loading")
+    else if view.content == ''
+      .comingsoon
+        h4(style="text-align:center")
+          i(data-i18n="loading_error.not_found")
+    else
+      .print
+        .btn.btn-md.btn-navy
+          a(href='javascript:window.print()')
+            span.glyphicon.glyphicon-print &#160;
+            span(data-i18n="teacher.print_guide")
+      .lesson-plans.rtl-allowed(id=view.name, dir="auto")!=view.content

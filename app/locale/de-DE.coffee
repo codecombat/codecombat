@@ -199,7 +199,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   modal:
     close: "Schließen"
     okay: "Okay"
-#    cancel: "Cancel"
+    cancel: "Abbrechen"
 
   not_found:
     page_not_found: "Tut uns leid! Wir haben die Seite nicht gefunden"
@@ -633,7 +633,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
     hints: "Tipps"
-#    videos: "Videos"
+    videos: "Videos"
     hints_title: "Tipp {{number}}"
     code_saved: "Code gespeichert"
     skip_tutorial: "Überspringen (Esc)"
