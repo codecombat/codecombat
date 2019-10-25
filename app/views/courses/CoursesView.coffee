@@ -113,11 +113,13 @@ module.exports = class CoursesView extends RootView
       @render?()
     )
 
-    @allCompleted = not _.some @classrooms.models, classroom ->
-      _.some @courseInstances.where({classroomID: classroom.id}), courseInstance ->
+    @allCompleted = not _.some @classrooms.models, ((classroom) ->
+      _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
         course = @store.state.courses.byId[courseInstance.get('courseID')]
         stats = classroom.statsForSessions(courseInstance.sessions, course._id)
         not stats.courseComplete
+        ), this
+      ), this
 
     _.forEach _.unique(_.pluck(@classrooms.models, 'id')), (classroomID) =>
       levels = new Levels()
