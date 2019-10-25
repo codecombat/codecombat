@@ -17,9 +17,9 @@ _.extend CourseInstanceSchema.properties,
   prepaidID: c.objectId() # deprecated
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript']}
-  hourOfCode: { type: 'boolean', description: 'Deprecated, do not use.' }
-  stats: c.object({ additionalProperties: true })
-  startLockedLevel: c.shortString()
+  hourOfCode: {type: 'boolean', description: 'Deprecated, do not use.'}
+  stats: c.object({additionalProperties: true})
+  startLockedLevel: c.shortString(description: 'Updated by teacher, to lock levels after this one in a course')
 
 c.extendBasicProperties CourseInstanceSchema, 'CourseInstance'
 
