@@ -177,8 +177,9 @@ mixin accountLinks
                   .col-lg-3
                     h3(data-i18n="nav.get_involved")
                     ul.list-unstyled
-                      li
-                        a(href='/community', data-i18n="nav.community")
+                      if !features.china
+                        li
+                          a(href='/community', data-i18n="nav.community")
                       li
                         a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
                       if me.showGithubLink()

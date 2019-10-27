@@ -7,16 +7,17 @@ block content
   
   hr
 
-  p(data-i18n="legal.opensource_introduction").lead
+  if !features.china
+    p(data-i18n="legal.opensource_introduction").lead
 
-  p
-    span(data-i18n="legal.opensource_description_prefix")
-    a(href="https://github.com/codecombat/codecombat", data-i18n="legal.github_url")
-    span , 
-    span(data-i18n="legal.opensource_description_center")
-    a(href="https://github.com/codecombat/codecombat/wiki/Archmage-Home", data-i18n="legal.archmage_wiki_url")
-    span.spl(data-i18n="legal.opensource_description_suffix")
-  hr
+    p
+      span(data-i18n="legal.opensource_description_prefix")
+      a(href="https://github.com/codecombat/codecombat", data-i18n="legal.github_url")
+      span , 
+      span(data-i18n="legal.opensource_description_center")
+      a(href="https://github.com/codecombat/codecombat/wiki/Archmage-Home", data-i18n="legal.archmage_wiki_url")
+      span.spl(data-i18n="legal.opensource_description_suffix")
+    hr
 
   div.aside.well
     h3(data-i18n="legal.practices_title")
