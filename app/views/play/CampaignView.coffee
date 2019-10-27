@@ -392,7 +392,21 @@ module.exports = class CampaignView extends RootView
     }, 0
     levelPlayCountsRequest.load()
 
+  isOldBrowser: ->
+    if features.china
+      return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
+      majorVersion = $.browser.versionNumber
+      return true if $.browser.mozilla && majorVersion < 25
+      return true if $.browser.chrome && majorVersion < 21
+      return true if $.browser.safari && majorVersion < 6
+    return false
+
   onLoaded: ->
+    if @isOldBrowser()
+      unless storage.load('hideBrowserRecommendation')
+        BrowserRecommendationModal = require 'views/core/BrowserRecommendationModal'
+        @openModalView(new BrowserRecommendationModal())
+
     if @isClassroom()
       @updateClassroomSessions()
     else
