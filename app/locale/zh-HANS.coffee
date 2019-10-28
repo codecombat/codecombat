@@ -1641,6 +1641,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classes: "班级"
     certificate_btn_print: "打印"
     certificate_btn_toggle: "中英切换"
+    ask_next_course: "想继续学习下一个课程？请联系老师或家长获取帮助"
+    set_start_locked_level: "设置要锁定的起始关卡"
+    no_level_limit: "无限制"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
