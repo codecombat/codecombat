@@ -28,7 +28,7 @@
 - Explanation of instructional pathway
     - Module 3 comes after students learn about debugging and before students learn about conditionals/branching logic.
 
-# **Narrative Background**
+# Narrative Background
 
 The hero and Vega have stumbled on a night carnival. Vega takes the opportunity to introduce the hero to a new concept—variables. The hero then meets Capella, who is the leader of the Moon Dancers and an expert in illusion magic. Capella makes a deal with the hero: they can get a ride if the hero helps clean up the carnival. The hero uses variables to help with this, and meets Octans, head of the guards, along the way. The group starts the journey when Vega and the hero are interrupted by Tengshe (Lizard People)! The hero helps defeat the Tengshe, and Capella is convinced to help the hero go to Xing&#39;chen.
 
