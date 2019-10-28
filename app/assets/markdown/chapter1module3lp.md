@@ -15,7 +15,7 @@
 
 # Materials
 
-- Module Overview
+- [Module Overview](https://www.ozaria.com/teachers/resources/chapter1module3overview)
 - Teacher Guide to Systems (coming soon)
     - See the Prologue Lesson Plan for an explanation of important in-game student supports.
 - Solutions: To view solutions for levels, navigate to the Unit Guides tab and click on the &quot;Level Overviews and Solutions — Module 3&quot; link.
