@@ -4,21 +4,21 @@
 
 **Learning Objectives**
 
-    - Use pseudocode as a tool to plan code and understand algorithms.
-    - Explain how conditions and decision points result in different algorithm execution.
-    - Explain Boolean logic and simple Boolean expressions.
-    - Use if/else statements to provide varied paths based on conditional logic.
+   - Use pseudocode as a tool to plan code and understand algorithms.
+   - Explain how conditions and decision points result in different algorithm execution.
+   - Explain Boolean logic and simple Boolean expressions.
+   - Use if/else statements to provide varied paths based on conditional logic.
 
 **Standards**
 
 This module was designed to align to the following K-12 CSTA standards:
 
-    - 1A-AP-08: Model daily processes by creating and following algorithms (sets of step-by-step instructions) to complete tasks.
-    - 1A-AP-10: Develop programs with sequences and simple loops, to express ideas or address a problem.
-    - 1A-AP-11: Decompose (break down) the steps needed to solve a problem into a precise sequence of instructions.
-    - 1A-AP-12: Develop plans that describe a program&#39;s sequence of events, goals, and expected outcomes.
-    - 1A-AP-15: Using correct terminology, describe steps taken and choices made during the iterative process of program development.
-    - 1B-AP-10: Create programs that include sequences, events, loops, and conditionals.
+   - 1A-AP-08: Model daily processes by creating and following algorithms (sets of step-by-step instructions) to complete tasks.
+   - 1A-AP-10: Develop programs with sequences and simple loops, to express ideas or address a problem.
+   - 1A-AP-11: Decompose (break down) the steps needed to solve a problem into a precise sequence of instructions.
+   - 1A-AP-12: Develop plans that describe a program&#39;s sequence of events, goals, and expected outcomes.
+   - 1A-AP-15: Using correct terminology, describe steps taken and choices made during the iterative process of program development.
+   - 1B-AP-10: Create programs that include sequences, events, loops, and conditionals.
 
 # Materials
 
@@ -52,7 +52,7 @@ if distance < 10:
   hero.moveTo(enemy)
 ```
 
-    - **If/else statement**: A type of conditional in which one set of statements runs if the condition is true, and a different one runs if the condition is false.
+   - **If/else statement**: A type of conditional in which one set of statements runs if the condition is true, and a    different one runs if the condition is false.
 
 ```
 distance = getDistanceTo(enemy)
@@ -67,7 +67,7 @@ else:
 - Explanation of instructional pathway
     - Module 4 comes after students learn about variables and before students learn tools to apply to their Capstone final projects.
 
-# **Narrative Background**
+# Narrative Background
 
 The hero and Vega head into Xing&#39;chen to find the Academy. Along the way, Vega teaches the hero about Boolean logic and conditionals. When they arrive, they find out that someone stole the Earth Totems and the leader of the Earth Magic Academy, Luten, blames the hero. They have to find the totems to get back in Luten&#39;s good graces. The hero finds the totems and learns that Eridani, Luten&#39;s son, has stolen them to help people grow food. The hero returns to the Academy to tell Luten, and he allows the hero in.
 
