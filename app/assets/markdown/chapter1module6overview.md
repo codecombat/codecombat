@@ -1,6 +1,6 @@
 # Chapter 1: Module 6 Overview
 
-# **Terminology**
+## **Terminology**
 
 1. _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
 1. _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
