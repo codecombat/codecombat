@@ -2041,6 +2041,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
     prologue: "Prologue: The Sky Mountain"
     unit_overview: "Unit Overview"
+    module_overview: "Module Overview"
     prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
     lesson_plan: "Lesson Plan"
     prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
@@ -2051,11 +2052,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     module2: "Module 2"
     module3: "Module 3"
     module4: "Module 4"
-    module5_6: "Module 5 & 6"
+    module5: "Module 5"
+    module6: "Module 6"
     algorithms_and_syntax: "Algorithms and Syntax"
     debugging: "Debugging"
     variables: "Variables"
     conditionals: "Conditionals"
+    capstone_intro: "Capstone Intro"
     capstone_project: "Capstone Project"
 
 
