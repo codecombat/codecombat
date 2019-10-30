@@ -116,7 +116,7 @@ module.exports = class SpellPaletteView extends CocoView
         console.log 'could not find doc for', propName, 'from', allDocs['__' + propName]
         doc = propName
       if doc
-        @entries.push @addEntry(doc, section, subSection)
+        @entries.push @addEntry(doc, section, subSection, false)
     @entryGroups = _.groupBy @entries, (entry) -> entry.doc.section
     
 
