@@ -11,6 +11,7 @@ patchables = [
   'poll'
   'product'
   'thang_type'
+  'cinematic'
 ]
 
 PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMessage']}, {

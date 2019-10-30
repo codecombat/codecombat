@@ -9,6 +9,7 @@ ThangType = require 'models/ThangType'
 Level = require 'models/Level'
 Achievement = require 'models/Achievement'
 Campaign = require 'models/Campaign'
+Cinematic = require 'ozaria/site/models/Cinematic'
 Poll = require 'models/Poll'
 
 languages = _.keys(require 'locale/locale').sort()
@@ -41,8 +42,9 @@ module.exports = class I18NHomeView extends RootView
     @campaigns = new CocoCollection([], { url: '/db/campaign?view=i18n-coverage', project: project, model: Campaign })
     @polls = new CocoCollection([], { url: '/db/poll?view=i18n-coverage', project: project, model: Poll })
     @courses = new Courses()
+    @cinematics = new CocoCollection([], { url: '/db/cinematic?view=i18n-coverage', project: project, model: Cinematic })
     @articles = new CocoCollection([], { url: '/db/article?view=i18n-coverage', project: project, model: Article })
-    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles]
+    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @cinematics]
       c.skip = 0
       
       c.fetch({data: {skip: 0, limit: PAGE_SIZE}, cache:false})
@@ -62,6 +64,7 @@ module.exports = class I18NHomeView extends RootView
         when 'Course' then '/i18n/course/'
         when 'Product' then '/i18n/product/'
         when 'Article' then '/i18n/article/'
+        when 'Cinematic' then '/i18n/cinematic/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
     @render()
