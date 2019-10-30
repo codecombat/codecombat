@@ -1,4 +1,4 @@
-# Chapter 1 Module 6 Lesson Plan: Capstone
+# **Chapter 1 Capstone Lesson Plan**
 
 # Overview
 
@@ -19,9 +19,8 @@
 
 # Materials
 
-- Module Overview
-- Project Rubric
-- Reflection Activity
+- [Module Overview](https://www.ozaria.com/teachers/resources/chapter1module6overview)
+- [Project Rubric](https://www.ozaria.com/teachers/resources/chapter1rubric)
 
 # Instructional Tips
 
