@@ -123,9 +123,9 @@
         const ozariaUserOptions = me.get('ozariaUserOptions') || {}
         this.characterName = ozariaUserOptions.playerHeroName || ''
 
-        if (ozariaUserOptions.thangType) {
+        if (ozariaUserOptions.cinematicThangTypeOriginal) {
           for (const key of Object.keys(ozariaHeroes)) {
-            if (ozariaUserOptions.thangType === ozariaHeroes[key].original) {
+            if (ozariaUserOptions.cinematicThangTypeOriginal === ozariaHeroes[key].original) {
               this.selectedHero = key
             }
           }
