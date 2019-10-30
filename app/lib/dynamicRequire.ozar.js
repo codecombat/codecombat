@@ -80,6 +80,7 @@ module.exports = {
   'views/i18n/I18NEditCampaignView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCampaignView') },
   'views/i18n/I18NEditPollView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditPollView') },
   'views/i18n/I18NEditCourseView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCourseView') },
+  'views/i18n/I18NEditCinematicView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCinematicView') },
   'views/i18n/I18NEditProductView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditProductView') },
   'views/i18n/I18NEditArticleView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditArticleView') },
   'views/user/IdentifyView': function () { return import(/* webpackChunkName: "user" */ 'views/user/IdentifyView') },

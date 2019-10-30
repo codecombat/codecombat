@@ -100,6 +100,43 @@ module.exports = Vue.extend({
     },
 
     /**
+     * Ensures that there is an empty `i18n` field set on the cinematic.
+     * Allows fields to be translated via /i18n route.
+     */
+    makeTranslatable () {
+      if (!(this.treema || {}).data) {
+        noty({ text: 'Nothing to translate', timeout: 1000 })
+        return
+      }
+
+      if (!window.confirm("This will populate any missing i18n fields so that cinematics can be translated. Do you want to continue?")) {
+        noty({ text: 'Cancelled', timeout: 1000 })
+        return
+      }
+
+      const cinematicData = this.treema.data;
+
+      const i18n = cinematicData.i18n
+      if (i18n === undefined) {
+        cinematicData.i18n = {"-": { "-": "-" }}
+      }
+
+      const shots = cinematicData.shots || []
+      for (const shot of shots) {
+        const dialogNodes = shot.dialogNodes || []
+        for (const dialogNode of dialogNodes) {
+          const i18n = dialogNode.i18n
+          if ((!i18n) && dialogNode.text) {
+            dialogNode.i18n = {"-": { "-": "-" }}
+          }
+        }
+      }
+
+      noty({ text: 'Translations added. Please save to keep changes', type:"success", timeout: 8000 })
+      this.pushChanges()
+    },
+
+    /**
      * Saves the cinematic to the database.
      * Only the shots property will be saved.
      */
@@ -182,10 +219,11 @@ module.exports = Vue.extend({
       <div class="row">
         <div class="col-md-8"><h1>{{ heading }}</h1></div>
         <div class="col-md-4">
-          <span>There is no autosave. Please click this button often.</span>
+          <span>There is no autosave.</span>
           <button v-on:click="saveCinematic" :disabled="state.saving || !cinematic">save</button>
           <button v-on:click="runCinematic">Test Cinematic</button>
           <button><a v-on:click="fetchList">Back to list view</a></button>
+          <button v-on:click="makeTranslatable">Make Translatable</button>
         </div>
       </div>
 

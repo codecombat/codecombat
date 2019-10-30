@@ -160,6 +160,7 @@ const CinematicSchema = c.object({
   description: 'A cinematic composed of shots.',
   title: 'Cinematic'
 }, {
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'displayName'], description: 'Help translate this level' },
   shots: c.array({
     title: 'Shots',
     description: 'Ordered list of shots that make up a cinematic'
@@ -169,5 +170,7 @@ const CinematicSchema = c.object({
 
 c.extendBasicProperties(CinematicSchema, 'cinematic')
 c.extendNamedProperties(CinematicSchema)
+c.extendTranslationCoverageProperties(CinematicSchema)
+c.extendPatchableProperties(CinematicSchema)
 
 module.exports = CinematicSchema
