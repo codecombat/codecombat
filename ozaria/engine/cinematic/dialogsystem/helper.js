@@ -102,7 +102,7 @@ export function getDefaultTextPosition (speaker, cameraZoom) {
     }
   } else if (speaker === 'right') {
     if (cameraZoom === 1) {
-      return { x: 875, y: 280 }
+      return { x: 825, y: 280 }
     } else if (cameraZoom === 2) {
       return { x: 600, y: 300 }
     }
