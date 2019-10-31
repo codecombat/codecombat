@@ -343,15 +343,6 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.i18n()
     @applyRTLIfNeeded()
 
-  isOldBrowser: ->
-    if features.china
-      return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
-      majorVersion = $.browser.versionNumber
-      return true if $.browser.mozilla && majorVersion < 25
-      return true if $.browser.chrome && majorVersion < 21
-      return true if $.browser.safari && majorVersion < 6
-    return false
-
   forumLink: ->
     link = 'http://discourse.codecombat.com/'
     lang = (me.get('preferredLanguage') or 'en-US').split('-')[0]

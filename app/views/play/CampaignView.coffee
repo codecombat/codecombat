@@ -397,7 +397,7 @@ module.exports = class CampaignView extends RootView
       return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
       majorVersion = $.browser.versionNumber
       return true if $.browser.mozilla && majorVersion < 25
-      return true if $.browser.chrome && majorVersion < 21
+      return true if $.browser.chrome && majorVersion < 72
       return true if $.browser.safari && majorVersion < 6
     return false
 
