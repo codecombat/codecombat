@@ -7,7 +7,7 @@ block content
   
   hr
 
-  if !features.china
+  if me.showOpenResourceLink()
     p(data-i18n="legal.opensource_introduction").lead
 
     p
@@ -38,13 +38,14 @@ block content
     
   h2(data-i18n="legal.copyrights_title")
   
-  h3(data-i18n="legal.contributor_title")
+  if me.showOpenResourceLink()
+    h3(data-i18n="legal.contributor_title")
   
-  p
-    span.spr(data-i18n="legal.contributor_description_prefix")
-    a(href="/cla", data-i18n="legal.cla_url")
-    span , 
-    span(data-i18n="legal.contributor_description_suffix")
+    p
+      span.spr(data-i18n="legal.contributor_description_prefix")
+      a(href="/cla", data-i18n="legal.cla_url")
+      span , 
+      span(data-i18n="legal.contributor_description_suffix")
   
   h3(data-i18n="legal.code_title")
   

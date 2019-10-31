@@ -22,7 +22,7 @@ block content
             li
               a(href="#team")#team-link
                 small.label(data-i18n="about.team_link")
-            if !features.china
+            if me.showOpenResourceLink()
               li
                 a(href="#community")#community-link
                   small.label(data-i18n="nav.community")
@@ -313,7 +313,7 @@ block content
               small(data-i18n="about.retrostyle_title")
               small(data-i18n="about.retrostyle_blurb")
 
-      if !features.china
+      if me.showOpenResourceLink()
         #community.anchor
           #community-row-1.row.text-center
             .col-sm-12
