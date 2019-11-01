@@ -52,10 +52,6 @@ block content
                 a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
                   span(data-i18n="courses.play_level")
               .clearfix
-    // The color of this row is hard coded.
-    .row.coming-soon-row
-      .col-sm-12
-        h4(data-i18n="courses.module_coming_soon")
 
 mixin course-info(course)
   .course-info
@@ -76,18 +72,9 @@ mixin course-info(course)
       if disableButtons
         p
           i(data-i18n="courses.solutions_require_licenses")
-      //- assuming that the first course is free and does not have modules
-      if course.get('free')
-        a.guide-btn.btn.btn-primary(href=("/teachers/resources/" + course.get('slug') + "-solutions") disabled=disableButtons)
-          span(data-i18n="courses.view_guide_online")
-      else
-        //- TODO hard-coding 2 modules for now. Later, we should add a property in course like `modulesReleased`, and loop over that number.
-        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/resources/" + course.get('slug') + "-module-1" + "-solutions"))
-          span(data-i18n="courses.view_guide_online")
-          |  &mdash; Module 1
-        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/resources/" + course.get('slug') + "-module-2" + "-solutions"))
-          span(data-i18n="courses.view_guide_online")
-          |  &mdash; Module 2
-        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/resources/" + course.get('slug') + "-module-3" + "-solutions"))
-          span(data-i18n="courses.view_guide_online")
-          |  &mdash; Module 3
+      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '' : 'disabled'))
+        span(data-i18n="courses.view_guide_online")
+        |  &mdash; JavaScript
+      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '' : 'disabled'))
+        span(data-i18n="courses.view_guide_online")
+        |  &mdash; Python
