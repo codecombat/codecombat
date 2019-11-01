@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     map: "Térkép"
     play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
-    courses: "Kurzusok"
+#    units: "Units"
     blog: "Blog"
     forum: "Fórum"
     account: "Fiók"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     privacy: "Adatvédelmi megjegyzés"
     about: "Rólunk"
     contact: "Kapcsolat"
+#    press: "Press"
     twitter_follow: "Követés"
     my_classrooms: "Tantermeim"
-    my_courses: "Kurzusaim"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Karrier"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     resource_hub: "Segédanyag központ"
     apcsp: "Számítógép-tudományi alapelvek"
     parent: "Szülők"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Bezár"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     back_to_classroom: "Vissza az Osztályterembe"
     teacher_button: "Tanároknak"
     get_more_codecombat: "Még több CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "ha" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     title: "Szép munka, Tanítvány"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Regisztráció"
-    email_or_username: "E-mail vagy felhasználónév"
+    email_or_username: "E-mail vagy felhasználónév" # {change}
+#    or: "or"
     log_in: "Bejelentkezés"
+#    sign_in: "Sign In"
     logging_in: "Bejelentkezés"
     log_out: "Kijelentkezés"
     forgot_password: "Elfelejtetted a jelszavad?"
     finishing: "Befejezés"
-    sign_in_with_facebook: "Jelentkezz be Facebook-kal"
-    sign_in_with_gplus: "Jelentkezz be G+-szal"
+    sign_in_with_facebook: "Jelentkezz be Facebook-kal" # {change}
+    sign_in_with_gplus: "Jelentkezz be G+-szal" # {change}
     signup_switch: "Hozz létre egy fiókot!"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "Előfizetés létrehozása"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     teacher_type_2: "Hozz létre saját osztályt"
     teacher_type_3: "Kurzus útmutatók megtekintése"
     teacher_type_4: "Tanulói fejlődés megtekintése"
-    signup_as_teacher: "Feliratkozás tanárként"
+    signup_as_teacher: "Feliratkozás tanárként" # {change}
     student_type_1: "Tanulj meg programozni egy lebilincselő játékban!"
     student_type_2: "Játssz az osztályoddal"
     student_type_3: "Versenyezz az arénákban"
     student_type_4: "Válassz hőst"
     student_type_5: "Készítsd elő az osztálykódot!"
-    signup_as_student: "Feliratkozás tanulóként"
+    signup_as_student: "Feliratkozás tanulóként" # {change}
     individuals_or_parents: "Egyéni játékosok és szülők"
     individual_type: "Egyéni játékosok számára iskolai kereteken kívül. A szülők itt iratkozhatnak fel fiók létrehozásához."
     signup_as_individual: "Feliratkozás egyéni játékosként"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     account_created: "A fiók létrejött."
     confirm_student_blurb: "Jegyezd fel az adatokat, mert később is szükséged lesz rájuk. A tanárod is tud segíteni, ha bármikor új jelszót szeretnél beállítani."
     confirm_individual_blurb: "Jegyezd fel a bejelentkezési adataidat, később is szükséged lehet rájuk. Erősítsd meg az e-mail címed, így akkor is helyreállíthatod a fiókod, ha elfelejtenéd a jelszavadat. Ellenőrizd a postafiókod."
-    write_this_down: "Jegyezd fel ezeket az adatokat:"
+    write_this_down: "Jegyezd fel ezeket az adatokat:" # {change}
     start_playing: "Kezdd el a játékot!"
     sso_connected: "Sikeresen kapcsolódtál:"
     select_your_starting_hero: "Válaszd ki azt a hőst, amelyikkel el szeretnéd kezdeni a játékot:"
     you_can_always_change_your_hero_later: "A kiválasztott hőst a későbbiekben bármikor lecserélheted."
     finish: "Befejezés"
 #    teacher_ready_to_create_class: "You're ready to create your first class!"
-#    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
+#    teacher_students_can_start_now: "Your students will be able to start playing the first unit, Prologue: The Sky Mountain, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
 #    teacher_list_resource_hub_1: "Check out the"
-#    teacher_list_resource_hub_2: "Course Guides"
+#    teacher_list_resource_hub_2: "Unit Guides"
 #    teacher_list_resource_hub_3: "for solutions to every level, and the"
 #    teacher_list_resource_hub_4: "Resource Hub"
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Meglévő fiók visszaállítása"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     books: "Könyvek"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Vissza" # When used as an action verb, like "Navigate backward"
     coming_soon: "Hamarosan!"
     continue: "Folytasd" # When used as an action verb, like "Continue forward"
     next: "Következő"
     default_code: "Alapértelmezett kód"
     loading: "Töltés..."
+#    LOADING: "LOADING"
     overview: "Áttekintés"
     processing: "Feldolgozás..."
     solution: "Megoldás"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     save_changes: "Változások mentése"
     required_field: "kötelező"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "és"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     next_level: "Következő pálya"
 #    combo_challenge: "Combo Challenge"
 #    concept_challenge: "Concept Challenge"
+#    challenge: "Challenge"
 #    challenge_unlocked: "Challenge Unlocked"
 #    combo_challenge_unlocked: "Combo Challenge Unlocked"
 #    concept_challenge_unlocked: "Concept Challenge Unlocked"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     reload_title: "Újra kezded mindet?"
     reload_really: "Biztos vagy benne, hogy előlről szeretnéd kezdeni az egész pályát?"
     reload_confirm: "Előlről az egészet"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "Teszt pálya"
     victory: "Győzelem"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
 #  apis:
 #    methods: "Methods"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     level_to_unlock: "Szükséges pályák:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Csak bizonyos hős játszhatja ezt a pályát."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "függvény (function)" # skill types
     method: "metódus"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     volume_label: "Hangerő"
     music_label: "Zene"
     music_description: "Háttérzene ki/bekapcsolása"
-    editor_config_title: "Szerkesztő Beállítások"
-    editor_config_livecompletion_label: "Automatikus kód-kitöltés"
+    editor_config_title: "Szerkesztő Beállítások" # {change}
+    editor_config_livecompletion_label: "Automatikus kód-kitöltés" # {change}
     editor_config_livecompletion_description: "Gépelés közben automatikus kód-kitöltés javaslatok megmutatása."
     editor_config_invisibles_label: "Láthatatlan karakterek"
     editor_config_invisibles_description: "Megjeleníti a láthatatlan karaktereket, úgymint a szóközt vagy a tab-ot"
     editor_config_indentguides_label: "Bekezdés segítő"
     editor_config_indentguides_description: "Vízszintes vonalak megjelenítése a jobb áttekinthetőség érdekében."
-    editor_config_behaviors_label: "Okos viselkedés"
+    editor_config_behaviors_label: "Okos viselkedés" # {change}
     editor_config_behaviors_description: "Automata zárójel és idézet befejezés."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     team_link: "Csapat"
     story_link: "Történet"
     press_link: "Sajtó"
-    mission_title: "Küldetésünk az, hogy a programozást a földkerekség minden diákja számára elérhetővé tegyük."
-    mission_description_1: "<strong>A programozás varázslat!</strong>. A programozás az a képesség, amellyel a semmiből teremthetünk világokat a puszta képzeletünk révén. A CodeCombat azzal a céllal indult el, hogy a diákoknak megadja ezt a varázslatos képességet, így a <strong>begépelt kód</strong> életre kelhet az ujjaik nyomán."
-    mission_description_2: "Úgy tűnik, hogy ez a módszer a tanulást is felgyorsítja. Jelentősen felgyorsítja. A különbség olyan, mint ha az útmutató olvasása helyett egy jót beszélgetnénk. Ezt a laza beszélgetős módszert szeretnénk elhozni minden iskola és <strong>minden egyes diák</strong> életébe, mert mindenkinek lehetőséget kell adni, hogy elsajátítsa a programozás varázslatos tudományát."
+    mission_title: "Küldetésünk az, hogy a programozást a földkerekség minden diákja számára elérhetővé tegyük." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Ismerd meg a CodeCombat csapatát"
-    team_values: "A nyitott párbeszédben, az egymás iránti tiszteletben hiszünk, ahol a legjobb ötlet a nyerő. A döntéseink piackutatáson alapulnak, a folyamataink kialakítása pedig a kézzelfogható eredmények létrehozását célozza meg. Mindenki együttműködő és az ügyvezetőtől a GitHub fejlesztőkig mindenki aktívan részt vesz a munkában. Nagyrértékeljük a növekedést és készek vagyunk tanulni egymástól."
+    team_values: "A nyitott párbeszédben, az egymás iránti tiszteletben hiszünk, ahol a legjobb ötlet a nyerő. A döntéseink piackutatáson alapulnak, a folyamataink kialakítása pedig a kézzelfogható eredmények létrehozását célozza meg. Mindenki együttműködő és az ügyvezetőtől a GitHub fejlesztőkig mindenki aktívan részt vesz a munkában. Nagyrértékeljük a növekedést és készek vagyunk tanulni egymástól." # {change}
     nick_title: "Programozó" # {change}
     matt_title: "Programozó" # {change}
     cat_title: "Játéktervező"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     number_contributors: "Eddig több mint 450 támogató segítette munkájával a projektet."
     story_title: "Történetünk számokban"
     story_subtitle: "2013 óta a CodeCombat néhány vázlatos rajzból egy élő és folyamatosan fejlődő játékká nőtte ki magát."
-    story_statistic_1a: "5 000 000+"
+    story_statistic_1a: "5 000 000+" # {change}
     story_statistic_1b: "játékos"
-    story_statistic_1c: "kezdte el eddig utazását a kódolás világában a CodeCombat révén"
+    story_statistic_1c: "kezdte el eddig utazását a kódolás világában a CodeCombat révén" # {change}
     story_statistic_2a: "Több mint 50 nyelvre fordították le eddig a játékot, a játokosaink pedig mintegy"
     story_statistic_2b: "200 különböző országból tevődnek össze" # {change}
     story_statistic_3a: "Ők együttesen"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     story_long_way_1: "Nagy utat tettünk meg eddig..."
     story_sketch_caption: "Nick első vázlata az egyik játékról."
     story_long_way_2: "mégis hosszú még az út a küldetésünk teljesítéséig, ezért..."
-    jobs_title: "Gyere, dolgozz velünk és segíts újraírni a CodeCombat történetét!"
+    jobs_title: "Gyere, dolgozz velünk és segíts újraírni a CodeCombat történetét!" # {change}
     jobs_subtitle: "Nem látsz hozzádillő munkát a listában, de figyelemmel kísérnéd a lehetőségeket? Tekintsd meg a ”Hozd létre a sajátod\" listát."
     jobs_benefits: "Juttatások"
     jobs_benefit_4: "Korlátlan szabadság"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     jobs_custom_contact_2: "címre, és mi hamarosan kapcsolatba lépünk veled."
     contact_title: "Sajtó & Kapcsolat"
     contact_subtitle: "Toábbi információra van szükséged? Erre a címre írhatsz nekünk:"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Képek a játékból"
     screenshots_hint: "(kattints a képre a teljes méret megtekintéséhez)"
     downloads_title: "Letöltés"
@@ -1240,7 +1306,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    referrer_other: "Other"
     anything_else: "Egyéb tudnivalók" # {change}
     thanks_header: "Kérésedet megkaptuk!"
-    thanks_sub_header: "Köszönjük az érdeklődésedet, örülünk, hogy fel szeretnéd használni a CodeCombatet az iskoládban."
+    thanks_sub_header: "Köszönjük az érdeklődésedet, örülünk, hogy fel szeretnéd használni a CodeCombatet az iskoládban." # {change}
     thanks_p: "Hamarosan jelentkezünk. Addig is szükség esetén a következő e-mail címen érhetsz el minket:"
     back_to_classes: "Vissza az osztályokhoz"
     finish_signup: "Fejezd be az oktatói fiókod létrehozását:"
@@ -1460,7 +1526,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     greetings: "Üdvözlünk!"
     back_classrooms: "Vissza a saját osztályokhoz"
 #    back_classroom: "Back to classroom"
-    back_courses: "Vissza a saját kurzusokhoz"
+    back_courses: "Vissza a saját kurzusokhoz" # {change}
     edit_details: "Osztály részletes adatainak szerkesztése"
     purchase_enrollments: "Tanulói licencek vásárlása"
     remove_student: "tanuló eltávolítása"
@@ -1482,19 +1548,19 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     play_now_learn_2: "a while-ciklusokat, amelyekkel megoldhatod a fejtörőket"
     play_now_learn_3: "a stringeket és a változókat, amelyekkel finomhangolhatod a műveleteket"
     play_now_learn_4: "az ogrék gyenge pontjait (ez különösen jól fog jönni a nagybetűs életben)"
-    welcome_to_page: "Tanulói irányítópult"
+    welcome_to_page: "Tanulói irányítópult" # {change}
     my_classes: "Jelenlegi osztályok"
     class_added: "Az osztály létrehozása sikeresen megtörtént."
 #    view_map: "view map"
 #    view_videos: "view videos"
 #    view_project_gallery: "view my classmates' projects"
-    join_class: "Csatlakozás egy osztályhoz"
+    join_class: "Csatlakozás egy osztályhoz" # {change}
     join_class_2: "Osztályhoz csatlakozás"
-    ask_teacher_for_code: "Kérd el a CodeCombat osztály kódját a tanárodtól! Ha megvan, írd be ide:"
-    enter_c_code: "<Add meg az osztálykódot>"
+    ask_teacher_for_code: "Kérd el a CodeCombat osztály kódját a tanárodtól! Ha megvan, írd be ide:" # {change}
+    enter_c_code: "<Add meg az osztálykódot>" # {change}
     join: "Csatlakozás"
     joining: "Osztályhoz csatlakozás"
-    course_complete: "Kurzus teljesítve"
+#    unit_complete: "Unit Complete"
     play_arena: "Aréna indítása"
     view_project: "Projekt megtekintése"
     start: "Kezdés"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Tanuló megtartása"
     removing_user: "Felhasználó eltávolítása"
-    subtitle: "Kurzusleírások és pályák áttekintése" # Flat style redesign
+    subtitle: "Kurzusleírások és pályák áttekintése" # {change}
     changelog: "Tekintsd meg a kurzus részét képező pályákkal kapcsolatos módosításokat."
     select_language: "Válassz nyelvet"
     select_level: "Válassz egy pályát"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    current_hero_female: "Current Hero:"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
-#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+#    license_required_to_play: "Ask your teacher to assign you a license so you can continue to play Ozaria!"
 #    update_old_classroom: "New school year, new levels!"
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    student_code: "__name__'s Student Code"
     teacher_dashboard: "Tanári irányítópult" # Navbar
     my_classes: "Saját osztályok"
-    courses: "Kurzus útmutatók"
+    courses: "Kurzus útmutatók" # {change}
     enrollments: "Tanulói licencek"
     resources: "Erőforrások"
     help: "Segítség"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     edit_class_settings: "Osztály szerkesztése"
     access_restricted: "A fiókot frissíteni kell!"
     teacher_account_required: "A tartalom csak oktatói fiókból érhető el."
-    create_teacher_account: "Oktatói fiók létrehozása"
+    create_teacher_account: "Oktatói fiók létrehozása" # {change}
     what_is_a_teacher_account: "Mi az az oktatói fiók?"
     teacher_account_explanation: "CodeCombat oktatói fiókkal osztályokat állíthatsz össze, követheted tanulóid fejlődését, valamint különböző erőforrásokhoz férhetsz hozzá, melyek segítenek a tananyag létrehozásában."
     current_classes: "Jelenlegi osztályok"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    revoke_license: "Revoke License"
 #    revoke_licenses: "Revoke All Licenses"
     course_progress: "Kurzus állapota"
+#    unit_progress: "Unit Progress"
     not_applicable: "[nem elérhető]"
     edit: "szerkesztés"
     edit_2: "Szerkesztés"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     no_progress: "Nincs fejlődés"
 #    not_required: "Not required"
 #    view_student_code: "Click to view student code"
-    select_course: "Megnézendő kurzus kiválasztása"
+    select_course: "Megnézendő kurzus kiválasztása" # {change}
 #    progress_color_key: "Progress color key:"
 #    level_in_progress: "Level in Progress"
 #    level_not_started: "Level Not Started"
@@ -1732,13 +1800,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
 #    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
-#    assign_course: "Assign Course"
+#    assign_course: "Assign Unit"
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
-#    remove_course: "Remove Course"
-#    not_assigned_modal_title: "Courses were not assigned"
+#    remove_course: "Remove Unit"
+#    not_assigned_modal_title: "Units were not assigned"
 #    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
-#    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_full_body_1: "This unit requires a Full License. You do not have enough Full Licenses available to assign this unit to all __selected__ selected students."
 #    not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
 #    not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
     assigned: "Hozzárendelve"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     all_students: "Minden tanuló"
 #    apply_licenses: "Apply Licenses"
     not_enough_enrollments: "Nincs elég licenc."
-#    enrollments_blurb: "Students are required to have a license to access any content after the first course."
+#    enrollments_blurb: "Students are required to have a license to access any content after the first unit."
 #    how_to_apply_licenses: "How to Apply Licenses"
     export_student_progress: "Tanuló fejlődésének exportálása (CSV)"
     send_email_to: "Jelszó-emlékeztető e-mail küldése ide:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     start_date: "Kezdő dátum:"
     end_date: "Befejező dátum:"
     get_enrollments_blurb: " Segítünk osztályod, iskolád vagy lakóterületed igényeire szabott megoldást találni!"
-#    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
-#    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
+#    how_to_apply_licenses_blurb_1: "When a teacher assigns a unit to a student for the first time, we’ll automatically apply a license. Use the Select Unit dropdown in your classroom to assign a unit to selected students:"
+#    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a unit?"
 #    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
     request_sent: "Kérés elküldve."
 #    assessments: "Assessments"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    pacing_guides_high: "High School Pacing Guide"
 #    getting_started: "Getting Started"
 #    educator_faq: "Educator FAQ"
-#    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
+#    educator_faq_desc: "Frequently asked questions about using Ozaria in your classroom or school."
 #    teacher_getting_started: "Teacher Getting Started Guide"
-#    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
+#    teacher_getting_started_desc: "New to Ozaria? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first unit."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
 #    ap_cs_principles: "AP Computer Science Principles"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
 #    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
 #    teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__."
 #    teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
 #    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
 #    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "A betöltés a szerverről sikertelen" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     bootstrap: "Bootstrap"
     break_statements: "Feltételes elágazás"
     classes: "Osztályok"
+#    conditionals: "Conditionals"
     continue_statements: "Elágazás folytatása"
+#    debugging: "Debugging"
 #    dom_events: "DOM Events"
 #    dynamic_styling: "Dynamic Styling"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    reading_docs: "Reading the Docs"
     recursion: "Rekurzió"
 #    return_statements: "Return Statements"
+#    sequences_algorithms: "Sequences & Algorithms"
 #    stacks: "Data Structures - Stacks"
     strings: "Szövegek"
 #    strings_concatenation: "String Concatenation"
 #    strings_substrings: "Substring"
+#    syntax: "Syntax"
 #    trees: "Data Structures - Trees"
     variables: "Változók"
     vectors: "Vektorok"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"

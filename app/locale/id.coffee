@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Indonesian", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     map: "Peta"
     play: "Tingkatan" # The top nav bar entry where players choose which levels to play
     community: "Komunitas"
-    courses: "Kursus"
+#    units: "Units"
     blog: "Blog"
     forum: "Forum"
     account: "Akun"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     privacy: "Pemberitahuan Privasi"
     about: "Tentang"
     contact: "Kontak"
+#    press: "Press"
     twitter_follow: "Ikuti"
     my_classrooms: "Kelasku"
-    my_courses: "Kursusku"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Karir"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     resource_hub: "Pusat Sumber Daya"
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Tutup"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     back_to_classroom: "Kembali ke Kelas"
     teacher_button: "Untuk Guru"
     get_more_codecombat: "Dapatkan Lebih Lagi CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     title: "Kerja yang sangat bagus, Murid"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Buat Akun"
-    email_or_username: "Email atau username"
+    email_or_username: "Email atau username" # {change}
+#    or: "or"
     log_in: "Masuk"
+#    sign_in: "Sign In"
     logging_in: "Sedang masuk"
     log_out: "Keluar"
     forgot_password: "Lupa dengan passwordmu?"
     finishing: "Finishing"
-    sign_in_with_facebook: "Masuk dengan Facebook"
-    sign_in_with_gplus: "Masuk dengan Google"
+    sign_in_with_facebook: "Masuk dengan Facebook" # {change}
+    sign_in_with_gplus: "Masuk dengan Google" # {change}
     signup_switch: "Ingin membuat akun?"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "Berlanggangan Penuh"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_type_2: "Mempersiapkan kelasmu"
     teacher_type_3: "Mengakses Panduan Kursus"
     teacher_type_4: "Melihat perkembangan siswa"
-    signup_as_teacher: "Masuk sebagai guru"
+    signup_as_teacher: "Masuk sebagai guru" # {change}
     student_type_1: "Mempelajari cara pemrograman sambil bermain sebuah permainan yang menarik!"
     student_type_2: "Bermain dengan kelasmu"
     student_type_3: "Bersaing dalam arena"
     student_type_4: "Pilih jagoanmu!"
     student_type_5: "Persiapkan Kode Kelasmu!"
-    signup_as_student: "Masuk sebagai siswa"
+    signup_as_student: "Masuk sebagai siswa" # {change}
     individuals_or_parents: "Individu dan Orang tua"
     individual_type: "Untuk param pemain yang belajar kode di luar dari kelas. Para orang tua harus mendaftar akun di sini"
     signup_as_individual: "Daftar sebagai individu"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     account_created: "Akun Telah Dibuat!"
     confirm_student_blurb: "Tulislah informasi kamu supaya kamu tidak lupa. Gurumu juga dapat membantu untuk mereset kata sandi kamu setiap saat."
     confirm_individual_blurb: "Tulis informasi masuk kamu jika kamu membutuhkannya lain waktu. Verifikasi email kamu supaya kamu dapat memulihkan akun kamu jika kamu lupa kata sandimu - check kotak masukmu!"
-    write_this_down: "Tulislah ini:"
+    write_this_down: "Tulislah ini:" # {change}
     start_playing: "Mulai Bermain!"
     sso_connected: "Berhasil tersambung dengan:"
     select_your_starting_hero: "Pilihlah Jagoan Awalmu:"
     you_can_always_change_your_hero_later: "Kamu dapat mengganti jagoanmu nanti."
     finish: "Selesai"
     teacher_ready_to_create_class: "Kamu telah siap untuk membuat kelas pertamamu!"
-    teacher_students_can_start_now: "Siswa-siswamu dapat mulai bermain di kursus pertama, Pengenalan dalam Ilmu Komputer, segera."
+    teacher_students_can_start_now: "Siswa-siswamu dapat mulai bermain di kursus pertama, Pengenalan dalam Ilmu Komputer, segera." # {change}
     teacher_list_create_class: "Di layar berikut, kamu akan dapat membuat sebuah kelas."
     teacher_list_add_students: "Tambahkan siswa-siswa ke dalam kelas dengan mengklik link Lihat Kelas, lalu kirimkan siswa-siswamu ke dalam Kode Kelas atau URL. Kamu juga dapat mengundang mereka dari email jika mereka memiliki alamat email."
     teacher_list_resource_hub_1: "Periksalah"
-    teacher_list_resource_hub_2: "Petunjuk Kursus"
+    teacher_list_resource_hub_2: "Petunjuk Kursus" # {change}
     teacher_list_resource_hub_3: "Untuk penyelesaian di setiap level, dan"
     teacher_list_resource_hub_4: "Pusat Materi"
     teacher_list_resource_hub_5: "untuk panduan kurikulum, aktifitas, dan lainnya!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Pulihkan Akun"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     books: "Buku-buku"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Kembali" # When used as an action verb, like "Navigate backward"
     coming_soon: "Segera Hadir!"
     continue: "Lanjutkan" # When used as an action verb, like "Continue forward"
     next: "Selanjutnya"
     default_code: "Kode Asli"
     loading: "Memuat..."
+#    LOADING: "LOADING"
     overview: "Ikhtisar"
     processing: "Memproses..."
     solution: "Solusi"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     save_changes: "Simpan Perubahan"
     required_field: "wajib"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "dan"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     next_level: "Level Selanjutnya"
     combo_challenge: "Combo Tantangan"
     concept_challenge: "Tantangan Konsep"
+#    challenge: "Challenge"
     challenge_unlocked: "Tantangan Terbuka"
     combo_challenge_unlocked: "Tantangan Combo Terbuka"
     concept_challenge_unlocked: "Tantangan Konsep Terbuka"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     reload_title: "Muat Ulang Semua Kode?"
     reload_really: "Apakah kamu yakin ingin memuat ulang semua level kembali ke awal mula?"
     reload_confirm: "Muat Ulang Semua"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "Tes Level"
     victory: "Menang"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
 #  apis:
 #    methods: "Methods"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
   premium_features:
     get_premium: "Dapatkan<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Menjadi seorang Master Kode dengan berlangganan sekarang!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     level_to_unlock: "Level untuk dibuka:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Hanya beberapa jagoan yang bisa memainkan level ini."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
 #  skill_docs:
 #    function: "function" # skill types
 #    method: "method"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     volume_label: "Suara"
     music_label: "Musik"
     music_description: "Mengubah musik latar menyala/mati."
-    editor_config_title: "Konfigurasi Editor"
-    editor_config_livecompletion_label: "Otomatisasi Komplit"
+    editor_config_title: "Konfigurasi Editor" # {change}
+    editor_config_livecompletion_label: "Otomatisasi Komplit" # {change}
     editor_config_livecompletion_description: "Menunjukkan saran otomatis komplit selagi mengetik"
     editor_config_invisibles_label: "Tunjukkan yang Kasat Mata"
     editor_config_invisibles_description: "Menunjukkan yang kasat mata seperti spasi ataupun tabulasi."
     editor_config_indentguides_label: "Tunjukkan Panduan Indentasi"
     editor_config_indentguides_description: "Menunjukkan garis vertikal untuk melihat indentasi lebih baik."
-    editor_config_behaviors_label: "Bantuan Cerdas"
+    editor_config_behaviors_label: "Bantuan Cerdas" # {change}
     editor_config_behaviors_description: "Otomatis komplit tanda kurung, kurung kurawal, dan tanda petik."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     team_link: "Tim"
     story_link: "Cerita"
     press_link: "Pers"
-    mission_title: "Misi kami: membuat pemrogramman dapat diakses oleh semua siswa di Bumi."
-    mission_description_1: "<strong>Pemrograman adalah sihir</strong>. Kemampuannya untuk membuat sesuatu dari imajinasi murni. Kami memulai CodeCombat untuk memberikan para pelajar rasa kekuatan ajaib berada di ujung jemari dengan menggunakan <strong>kode diketik</strong>."
-    mission_description_2: "Ternyata, membuat mereka belajar lebih cepat pula. JAUH lebih cepat. Seperti bercakap-cakap daripada membaca buku petunjuk. Kami ingin membawa percakapan tersebut ke setiap sekolah dan ke <strong>semua siswa</strong>, karena semuanya harus memiliki kesempatan untuk belajar keajaiban pemrograman."
+    mission_title: "Misi kami: membuat pemrogramman dapat diakses oleh semua siswa di Bumi." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Bertemu dengan tim CodeCombat"
-    team_values: "Kami menghargai dialog terbuka dan sopan, dimana ide terbaiklah yang menang. Keputusan kami didasari dari riset pelanggan dan proses kami berfokus pada penyerahan hasil yang jelas kepada mereka. Semuanya turut serta mulai dari CEO sampai ke kontributor Github, karena kami menghargai perkembangan dan pembelajaran dalam tim kami."
+    team_values: "Kami menghargai dialog terbuka dan sopan, dimana ide terbaiklah yang menang. Keputusan kami didasari dari riset pelanggan dan proses kami berfokus pada penyerahan hasil yang jelas kepada mereka. Semuanya turut serta mulai dari CEO sampai ke kontributor Github, karena kami menghargai perkembangan dan pembelajaran dalam tim kami." # {change}
     nick_title: "Cofounder, CEO"
     matt_title: "Cofounder, CTO"
     cat_title: "Perancang Permainan"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     number_contributors: "Lebih dri 450 kontributor telah meminjamkan dukungan dan waktu untuk proyek ini."
     story_title: "Kisah kami sejauh ini"
     story_subtitle: "Dari 2013, CodeCombat telah berkembang dari sekedar kumpulan sketsa sampai ke permainan yang hidup dan berkembang."
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "5,000,000+" # {change}
     story_statistic_1b: "total pemain"
-    story_statistic_1c: "telah memulai perjalanan pemrograman mereka melalui CodeCombat"
+    story_statistic_1c: "telah memulai perjalanan pemrograman mereka melalui CodeCombat" # {change}
     story_statistic_2a: "Kami telah menerjemahkan menjadi lebih dari 50 bahasa - pemain kami berasal"
     story_statistic_2b: "190+ negara"
     story_statistic_3a: "Bersama, mereka telah menulis"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     story_long_way_1: "Kami melalui perjalanan yang panjang..."
     story_sketch_caption: "Sketsa paling pertama milik Nick menggambarkan permainan pemrograman beraksi."
     story_long_way_2: "masih banyak yang harus kami lakukan sebelum menyelesaikan pencarian kami, jadi..."
-    jobs_title: "Mari bekerja bersama kami dan membantu menulis sejarah CodeCombat!"
+    jobs_title: "Mari bekerja bersama kami dan membantu menulis sejarah CodeCombat!" # {change}
     jobs_subtitle: "Tidak cocok tetapi berminat untuk tetap berhubungan? Lihat daftar \"Buat Sendiri\" kami"
     jobs_benefits: "Keuntungan Karyawan"
     jobs_benefit_4: "Liburan tanpa batas"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     jobs_custom_contact_2: "perkenalkan dirimu dan kami mungkin dapat menghubungi di kemudian hari!"
     contact_title: "Kontak & Pers"
     contact_subtitle: "Butuh informasi lebih? Hubungi kami di"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Screenshot Game"
     screenshots_hint: "(klik untuk melihat ukuran penuh)"
     downloads_title: "Unduh Aset & Informasi"
@@ -1218,7 +1284,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     city: "Kota"
     state: "Provinsi" # {change}
     country: "Negara"
-    num_students_help: "Berapa banyak siswa yang akan menggunakan CodeCombat"
+    num_students_help: "Berapa banyak siswa yang akan menggunakan CodeCombat" # {change}
     num_students_default: "Pilih Jumlah"
     education_level_label: "Level Edukasi Siswa"
     education_level_help: "Pilih sebanyak yang akan mendaftar."
@@ -1238,9 +1304,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     referrer_pd: "Pelatihan profesional/workshops"
     referrer_web: "Google"
     referrer_other: "Lainnya"
-    anything_else: "Kelas yang seperti apa yang kamu perkirakan untuk menggunakan CodeCombat?"
+    anything_else: "Kelas yang seperti apa yang kamu perkirakan untuk menggunakan CodeCombat?" # {change}
     thanks_header: "Permintaan Diterima!"
-    thanks_sub_header: "Terima kasih telah menyatakan ketertarikan dalam CodeCombat untuk sekolahmu."
+    thanks_sub_header: "Terima kasih telah menyatakan ketertarikan dalam CodeCombat untuk sekolahmu." # {change}
     thanks_p: "Kamu akan menghubungi segera! Jika kamu membutuhkan kontak, kamu bisa menghubungi di:"
     back_to_classes: "Kembali ke Kelas"
     finish_signup: "Selesai membuat akun gurumu:"
@@ -1459,8 +1525,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     switch_to: "Mengganti Menjadi"
     greetings: "Hai!"
     back_classrooms: "Kembali ke ruang kelasku"
-    back_classroom: "Kembali ke ruang kelas"
-    back_courses: "Kembali ke kursusku"
+    back_classroom: "Kembali ke ruang kelas" # {change}
+    back_courses: "Kembali ke kursusku" # {change}
     edit_details: "Ubah detail kelas"
     purchase_enrollments: "Membeli Lisensi Siswa"
     remove_student: "hapus siswa"
@@ -1482,19 +1548,19 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     play_now_learn_2: "perulangan untuk memecahkan puzzle yang menganggu"
     play_now_learn_3: "strings & variabel-variabel untuk mengatur tindakan-tindakan"
     play_now_learn_4: "bagaimana cara mengalahkan raksasa (keahlian hidup yang penting!)"
-    welcome_to_page: "Beranda Siswaku"
+    welcome_to_page: "Beranda Siswaku" # {change}
     my_classes: "Kelas Saat Ini"
     class_added: "Kelas berhasil ditambahkan!"
 #    view_map: "view map"
 #    view_videos: "view videos"
     view_project_gallery: "lihat proyek teman kelasku"
-    join_class: "Bergabung Ke Kelas"
+    join_class: "Bergabung Ke Kelas" # {change}
     join_class_2: "Ikut Kelas"
-    ask_teacher_for_code: "Tanya ke gurumu jika kamu memiliki kode kelas CodeCombat! Jika iya, masukkan kode di:"
-    enter_c_code: "<Masukkan Kode Kelas>"
+    ask_teacher_for_code: "Tanya ke gurumu jika kamu memiliki kode kelas CodeCombat! Jika iya, masukkan kode di:" # {change}
+    enter_c_code: "<Masukkan Kode Kelas>" # {change}
     join: "Bergabung"
     joining: "Ikuti kelas"
-    course_complete: "Kursus Selesai"
+#    unit_complete: "Unit Complete"
     play_arena: "Arena Bermain"
     view_project: "Lihat Proyek"
     start: "Mulai"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     license_will_revoke: "Lisensi berbayar siswa ini akan dicabut dan menjadi tersedia untuk diberikan ke siswa lain."
     keep_student: "Simpan Siswa"
     removing_user: "Menghapus siswa"
-    subtitle: "Mengulas ikhtisar kursus dan level" # Flat style redesign
+    subtitle: "Mengulas ikhtisar kursus dan level" # {change}
     changelog: "Melihat perubahan terakhir level kursus."
     select_language: "Pilih bahasa"
     select_level: "Pilih level"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     current_hero_female: "Jagoan Saat Ini:"
     web_dev_language_transition: "Semua kelas program dalam HTML / JavaScript untuk kursus ini. Kelas yang telah menggunakan Python akan mulai dengan level pengenalan extra JavaScript untuk mempermudah transisi. Kelas yang telah menggunakan JavaScript akan melewati level pengenalan."
     course_membership_required_to_play: "Kamu butuh bergabung dengan sebuah kursus untuk memainkan level ini."
-    license_required_to_play: "Tanyakan gurumu untuk memberikan lisensi ke kamu supaya kamu dapat melanjutkan bermain CodeCombat!"
+    license_required_to_play: "Tanyakan gurumu untuk memberikan lisensi ke kamu supaya kamu dapat melanjutkan bermain CodeCombat!" # {change}
     update_old_classroom: "Tahun ajaran baru, level baru!"
     update_old_classroom_detail: "Untuk memastikan kamu mendapatkan level paling baru, pastikan kamu membuat kelas baru untuk semester ini dengan menekan Buat Kelas Baru di "
     teacher_dashboard: "beranda guru"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_code: "Kode Siswa __name__"
     teacher_dashboard: "Beranda Guru" # Navbar
     my_classes: "Kelasku"
-    courses: "Panduan Kursus"
+    courses: "Panduan Kursus" # {change}
     enrollments: "Lisensi Siswa"
     resources: "Sumber Daya"
     help: "Bantuan"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     edit_class_settings: "ubah setingan kelas"
     access_restricted: "Wajib Perbaharui Akun"
     teacher_account_required: "akun guru dibutuhkan untuk mengakses konten ini."
-    create_teacher_account: "Buat Akun Guru"
+    create_teacher_account: "Buat Akun Guru" # {change}
     what_is_a_teacher_account: "Apakah Akun Guru?"
     teacher_account_explanation: "Akun Guru CodeCombat memungkinkan kamu mmempersiapkan ruang kelas, memonitor perkembangan siswa selagi mereka mengerjakan kursus, mengatur lisensi dan mengakses sumber daya untuk membantu membangun kurikulummu."
     current_classes: "Kelas Saat Ini"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     revoke_license: "Cabut Lisensi"
     revoke_licenses: "Cabut Semua Lisensi"
     course_progress: "Perkembangan Kursus"
+#    unit_progress: "Unit Progress"
 #    not_applicable: "N/A"
     edit: "ubah"
     edit_2: "Ubah"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     no_progress: "Belum ada perkembangan"
     not_required: "Tidak wajib"
     view_student_code: "Klik untuk melihat kode siswa"
-    select_course: "Pilih kursus untuk melihat"
+    select_course: "Pilih kursus untuk melihat" # {change}
     progress_color_key: "Warna kunci perkembangan:"
     level_in_progress: "Perkembangan di Level"
     level_not_started: "Level Belum Dimulai"
@@ -1728,17 +1796,17 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     copy_class_url: "Salin URL Kelas"
     class_join_url_blurb: "Kamu juga dapat mengirim URL Kelas unik ini ke halaman web bersama."
     add_students_manually: "Undang Siswa dengan Email"
-    bulk_assign: "Pilih kursus"
+    bulk_assign: "Pilih kursus" # {change}
     assigned_msg_1: "{{numberAssigned}} siswa di ditetapkan {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} lisensi dipakai."
     assigned_msg_3: "Kamu sekarang memiliki {{remainingSpots}} sisa lisensi yang tersedia."
-    assign_course: "Daftarkan Kursus"
+    assign_course: "Daftarkan Kursus" # {change}
     removed_course_msg: "{{numberRemoved}} siswa telah dihapus dari {{courseName}}."
-    remove_course: "Hapus Kursus"
-    not_assigned_modal_title: "Kursus belum ditetapkan"
+    remove_course: "Hapus Kursus" # {change}
+    not_assigned_modal_title: "Kursus belum ditetapkan" # {change}
     not_assigned_modal_starter_body_1: "Kursus ini membutuhkan Lisensi Awal. Kamu tidak memiliki cukup Lisensi Awal yang tersedia untuk menetapkan kursus ini ke semua __selected__ siswa terpilih."
     not_assigned_modal_starter_body_2: "Beli Lisensi Awal untuk berikan akses ke kursus ini"
-    not_assigned_modal_full_body_1: "Kursus ini membutuhkan Lisensi Penuh. Kamu tidak memiliki cukup Lisensi Penuh yang tersedia untuk menetapkan kursus ke semua __selected__ siswa terpilih."
+    not_assigned_modal_full_body_1: "Kursus ini membutuhkan Lisensi Penuh. Kamu tidak memiliki cukup Lisensi Penuh yang tersedia untuk menetapkan kursus ke semua __selected__ siswa terpilih." # {change}
     not_assigned_modal_full_body_2: "Kamu hanya memiliki __numFullLicensesAvailable__ Lisensi Penuh yang tersedia (__numStudentsWithoutFullLicenses__ siswa saat ini tidak memiliki Lisensi Penuh yang aktif)."
     not_assigned_modal_full_body_3: "Silakan memilih siswa yang lebih sedikit, atau jangkau ke __supportEmail__ untuk bantuan."
     assigned: "Tetapkan"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     all_students: "Semua Siswa"
     apply_licenses: "Pakai Lisensi"
     not_enough_enrollments: "Lisensi yang tersedia tidak cukup."
-    enrollments_blurb: "Para siswa diwajibkan untuk memiliki lisensi untuk mengakses konton manapun setelah kursus pertama."
+    enrollments_blurb: "Para siswa diwajibkan untuk memiliki lisensi untuk mengakses konton manapun setelah kursus pertama." # {change}
     how_to_apply_licenses: "Bagaimana cara Menggunakan Lisensi"
     export_student_progress: "Ekspor Perkembangan Siswa (CSV)"
     send_email_to: "Kirim Pemulihan Kata Kunci ke Email:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     start_date: "tanggal mulai:"
     end_date: "tanggal berakhir:"
     get_enrollments_blurb: " Kami membantu anda membangun solusi yang memenuhi kebutuhan kelas, sekolah, ataupun wilayah kamu."
-    how_to_apply_licenses_blurb_1: "Ketika guru menetapkan kursus untuk siswa untuk pertamakali, kami secara otomatis menggunakan lisensi. Gunakan penetapan-masal tarik-turun di ruang kelasmu untuk menetapkan kursus untuk siswa yang terpilih:"
-    how_to_apply_licenses_blurb_2: "Dapatkan saya menggunakan lisensi tanpa menetapkan ke sebuah kursus?"
+    how_to_apply_licenses_blurb_1: "Ketika guru menetapkan kursus untuk siswa untuk pertamakali, kami secara otomatis menggunakan lisensi. Gunakan penetapan-masal tarik-turun di ruang kelasmu untuk menetapkan kursus untuk siswa yang terpilih:" # {change}
+    how_to_apply_licenses_blurb_2: "Dapatkan saya menggunakan lisensi tanpa menetapkan ke sebuah kursus?" # {change}
     how_to_apply_licenses_blurb_3: "Ya - pergi ke label Status Lisensi di ruang kelasmu dan klik \"Pakai Lisensi\" ke siswa manapun yang tidak memiliki lisensi aktif."
     request_sent: "Permintaan Dikirim!"
     assessments: "Penilaian"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     pacing_guides_high: "Panduang Berulang Sekolah Menengah Atas"
     getting_started: "Memulai"
     educator_faq: "FAQ Pengajar"
-    educator_faq_desc: "Pertanyaan yang paling sering diajukan mengenai menggunakan Codecombat di kelas atau di sekolahmu."
+    educator_faq_desc: "Pertanyaan yang paling sering diajukan mengenai menggunakan Codecombat di kelas atau di sekolahmu." # {change}
     teacher_getting_started: "Panduan Guru untuk Memulai"
-    teacher_getting_started_desc: "Baru di CodeCombat? Unduh Panduan Guru untuk Memulai ini untuk mempersiapkan akunmu, membuat kelas pertamamu, dan mengundang siswa untuk kursus pertama."
+    teacher_getting_started_desc: "Baru di CodeCombat? Unduh Panduan Guru untuk Memulai ini untuk mempersiapkan akunmu, membuat kelas pertamamu, dan mengundang siswa untuk kursus pertama." # {change}
     student_getting_started: "Panduan Memulai Cepat Siswa"
     student_getting_started_desc: "Kamu dapat membagikan panduan ini kepada siswamu sebelum memulai CodeCombat supaya mereka dapat membiasakan diri mereka dengan editor kode. Panduan ini dapat digunakan baik untuk kelas Python dan JavaScript."
     ap_cs_principles: "Kepala Sekolah Ilmu Komputer AP"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_quest_teach_methods_step2: "Cetak [Panduan Memulai Cepat Siswa](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) di Pusat Sumber Daya."
 #    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Dapatkan minimal 75% dari satu kelas melalui __True Names__."
-    teacher_quest_teach_strings_step2: "Gunakan Pemilih Level Guru di halaman [Panduan Kursus](/teachers/courses) untuk melihat __True Names__."
+    teacher_quest_teach_strings_step2: "Gunakan Pemilih Level Guru di halaman [Panduan Kursus](/teachers/courses) untuk melihat __True Names__." # {change}
     teacher_quest_teach_loops: "Jaga siswa anda dalam perulangan lingkaran mengenai `perulangan`"
     teacher_quest_teach_loops_step1: "Dapatkan minimal 75% dari satu kelas melalui __Fire Dancing__."
     teacher_quest_teach_loops_step2: "Gunakan __Loops Activity__  di [Panduan Kurikulum IlKom1](/teachers/resources/cs1) untuk memperkuat konsep ini."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     combo_explanation: "Siswa melewati tantangan level Combo dengan menggunakan salah satu konsep yang terdaftar. Tinjau kode siswa dengan mengklik titik perkembangan."
     concept: "Konsep"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
   share_licenses:
     share_licenses: "Bagikan Lisensi"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "Kesalahan memuat dari server" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    bootstrap: "Bootstrap"
 #    break_statements: "Break Statements"
 #    classes: "Classes"
+#    conditionals: "Conditionals"
 #    continue_statements: "Continue Statements"
+#    debugging: "Debugging"
 #    dom_events: "DOM Events"
 #    dynamic_styling: "Dynamic Styling"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    reading_docs: "Reading the Docs"
 #    recursion: "Recursion"
 #    return_statements: "Return Statements"
+#    sequences_algorithms: "Sequences & Algorithms"
 #    stacks: "Data Structures - Stacks"
 #    strings: "Strings"
 #    strings_concatenation: "String Concatenation"
 #    strings_substrings: "Substring"
+#    syntax: "Syntax"
 #    trees: "Data Structures - Trees"
 #    variables: "Variables"
 #    vectors: "Vectors"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"
