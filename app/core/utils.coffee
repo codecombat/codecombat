@@ -106,6 +106,8 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return 16 if country.inEU
   return defaultIfUnknown
 
+freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # 1FH campaign
+
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
   CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
@@ -722,6 +724,7 @@ module.exports = {
   findNextAssessmentForLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
   getByPath
