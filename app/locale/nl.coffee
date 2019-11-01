@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     map: "Kaart"
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Community"
-    courses: "Lessen"
+#    units: "Units"
     blog: "Blog"
     forum: "Forum"
     account: "Lidmaatschap"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     privacy: "Privacy"
     about: "Over Ons"
     contact: "Contact"
+#    press: "Press"
     twitter_follow: "Volgen"
     my_classrooms: "Mijn klassen" # {change}
-    my_courses: "Mijn lessen"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Banen"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     resource_hub: "Hulpmiddelen"
     apcsp: "AP CS Principes"
     parent: "Ouders"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Sluiten"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     back_to_classroom: "Terug naar Klaslokaal"
     teacher_button: "Voor Leerkrachten"
     get_more_codecombat: "Ga door met CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     title: "Goed werk, leerling"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Account maken"
-    email_or_username: "E-mail of gebruikersnaam"
+    email_or_username: "E-mail of gebruikersnaam" # {change}
+#    or: "or"
     log_in: "Inloggen"
+#    sign_in: "Sign In"
     logging_in: "Bezig met inloggen"
     log_out: "Uitloggen"
     forgot_password: "Wachtwoord vergeten?"
     finishing: "Afronden"
-    sign_in_with_facebook: "Inloggen met Facebook"
-    sign_in_with_gplus: "Inloggen met G+"
+    sign_in_with_facebook: "Inloggen met Facebook" # {change}
+    sign_in_with_gplus: "Inloggen met G+" # {change}
     signup_switch: "Wil je een account maken?"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "Maak de inschrijving compleet"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_type_2: "Maak je klas"
     teacher_type_3: "Krijg toegang tot de cursus gidsen"
     teacher_type_4: "Bekijk voortgang studenten"
-    signup_as_teacher: "Registreer als een leraar"
+    signup_as_teacher: "Registreer als een leraar" # {change}
     student_type_1: "Leer programmeren terwijl je een uitdagend spel speelt!"
     student_type_2: "Speel met je klas"
     student_type_3: "Strijd in arena's"
     student_type_4: "Kies je held!"
     student_type_5: "Heb je klassencode bij de hand!"
-    signup_as_student: "Registreer als een leerling"
+    signup_as_student: "Registreer als een leerling" # {change}
     individuals_or_parents: "Individueel & Ouders"
     individual_type: "Voor spelers die leren coderen buiten school. Ouders moeten zich hier aanmelden."
     signup_as_individual: "Registreer als een individu (persoonlijk)"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     account_created: "Account Aangemaakt!"
     confirm_student_blurb: "Schrijf je gegevens op zodat je ze niet vergeet. Je leraar kan ook op elk moment helpen om je password te herstellen."
     confirm_individual_blurb: "Schrijf je login gegevens op voor het geval je ze later nog eens nodig hebt. Bevestig je email adres zodat je je account kan herstellen, mocht je ooit je wachtwoord vergeten - check je inbox!"
-    write_this_down: "Schrijf dit op:"
+    write_this_down: "Schrijf dit op:" # {change}
     start_playing: "Speel Nu!"
     sso_connected: "Succesvol verbonden met:"
     select_your_starting_hero: "Kies Je Eerste Held:"
     you_can_always_change_your_hero_later: "Je kan altijd nog van held veranderen."
     finish: "Voltooi"
     teacher_ready_to_create_class: "Je bent er klaar voor om je eerste klas aan te maken!"
-    teacher_students_can_start_now: "Je studenten zullen hun eerste cursus, Introduction to Computer Science, meteen kunnen spelen."
+    teacher_students_can_start_now: "Je studenten zullen hun eerste cursus, Introduction to Computer Science, meteen kunnen spelen." # {change}
     teacher_list_create_class: "In het volgende scherm kun je een nieuwe klas aanmaken."
     teacher_list_add_students: "Voeg studenten aan de klas toe door op 'bekijk klas' te klikken, en daarna je studenten de klassencode of link te sturen. Je kunt ze ook per email uitnodigen als ze een emailadres hebben."
     teacher_list_resource_hub_1: "Bekijk de"
-    teacher_list_resource_hub_2: "Cursushandleidingen"
+    teacher_list_resource_hub_2: "Cursushandleidingen" # {change}
     teacher_list_resource_hub_3: "voor oplossingen van elk level, en de"
     teacher_list_resource_hub_4: "Verdeelcentrum voor hulpmiddelen"
     teacher_list_resource_hub_5: "voor lesprogrammagidsen, activiteiten, en meer!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's."
     eu_confirmation_student: "Als je het niet zeker weet, vraag het dan aan je leraar."
     eu_confirmation_individual: "Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Herstel Account"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     books: "Boeken"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Terug" # When used as an action verb, like "Navigate backward"
     coming_soon: "Binnenkort!"
     continue: "Doorgaan" # When used as an action verb, like "Continue forward"
     next: "Next"
     default_code: "Standaard Code"
     loading: "Bezig met laden..."
+#    LOADING: "LOADING"
     overview: "Overzicht"
     processing: "Verwerken..."
     solution: "Oplossing"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "en"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     next_level: "Volgende Level"
     combo_challenge: "Combo Challenge"
     concept_challenge: "Concept Challenge"
+#    challenge: "Challenge"
     challenge_unlocked: "Challenge Ontgrendeld"
     combo_challenge_unlocked: "Combo Challenge Ontgrendeld"
     concept_challenge_unlocked: "Concept Challenge Ontgrendeld"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "Test Level"
     victory: "Gewonnen"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
   apis:
     methods: "Methodes"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     wallOfDarkness_name: "Duistere Muur"
     wallOfDarkness_description: "Verberg je achter een muur van schaduwen om nieuwsgierige blikken te vermijden."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Word een Meesterprogrammeur door je vandaag te abonneren!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_to_unlock: "Beschikbaar na level:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Alleen bepaalde helden kunnen dit level spelen."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "functie" # skill types
     method: "methode"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     volume_label: "Volume"
     music_label: "Muziek"
     music_description: "zet achtergrondmuziek aan/uit."
-    editor_config_title: "Editor Configuratie"
-    editor_config_livecompletion_label: "Automatisch aanvullen"
+    editor_config_title: "Editor Configuratie" # {change}
+    editor_config_livecompletion_label: "Automatisch aanvullen" # {change}
     editor_config_livecompletion_description: "Toont suggesties tijdens het typen."
     editor_config_invisibles_label: "Toon onzichtbare"
     editor_config_invisibles_description: "Toon onzichtbare (spatie) karakters."
     editor_config_indentguides_label: "Toon inspringing regels"
     editor_config_indentguides_description: "Toon verticale hulplijnen om de zichtbaarheid te verbeteren."
-    editor_config_behaviors_label: "Slim gedrag"
+    editor_config_behaviors_label: "Slim gedrag" # {change}
     editor_config_behaviors_description: "Automatisch aanvullen van (gekrulde) haakjes en aanhalingstekens."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     team_link: "Team"
     story_link: "Verhaal"
     press_link: "Pers"
-    mission_title: "Onze missie: maak programmeren toegankelijk voor elke leerling op aarde."
-    mission_description_1: "<strong>Programmeren is magie</strong>. Het is het vermogen om dingen te maken vanuit pure fantasie. We zijn CodeCombat begonnen om leerlingen het gevoel the geven van een toverachtige kracht aan hun vingertoppen door het gebruik van <strong>getypte code</strong>." # {change}
-    mission_description_2: "Het blijkt, dat het ze er ook nog in toe staat stelt om sneller te leren. VEEL sneller. Het is zoals een gesprek hebben in plaats van het lezen van een handleiding. We willen dat gesprek brengen naar elke school en naar <strong>elke leerling</strong>, omdat iedereen de kans moet krijgen om die magie van programmeren te leren." # {change}
+    mission_title: "Onze missie: maak programmeren toegankelijk voor elke leerling op aarde." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Ontmoet het CodeCombat team"
-    team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
+    team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team." # {change}
     nick_title: "Programmeur" # {change}
     matt_title: "Programmeur" # {change}
     cat_title: "Hoofd Ambachtsman" # {change}
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     number_contributors: "Meer dan 450 bijdragers hebben hun hulp en tijd verleend aan dit project."
     story_title: "Ons verhaal tot nu toe"
     story_subtitle: "Sinds 2013, is CodeCombat gegroeid van een paar schetsen naar een levend, bloeiend spel."
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "5,000,000+" # {change}
     story_statistic_1b: "totale spelers"
-    story_statistic_1c: "zijn hun programmeerreis begonnen door CodeCombat"
+    story_statistic_1c: "zijn hun programmeerreis begonnen door CodeCombat" # {change}
     story_statistic_2a: "We zijn vertaald in meer dan 50 talen - waar onze spelers vandaan komen"
     story_statistic_2b: "200+ landen" # {change}
     story_statistic_3a: "Samen schreven zij meer dan"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     story_long_way_1: "Hoewel we ver zijn gekomen..."
     story_sketch_caption: "Nick's eerste schets die een programmeerspel in actie weergeeft."
     story_long_way_2: "hebben we nog veel te doen voordat we onze zoektocht af hebben, dus..."
-    jobs_title: "Kom bij ons werken en help om CodeCombat geschiedenis te laten schrijven!"
+    jobs_title: "Kom bij ons werken en help om CodeCombat geschiedenis te laten schrijven!" # {change}
     jobs_subtitle: "Zie je niets dat bij je past maar wil je toch contact houden? Bekijk onze \"Maak eigen\" vermelding."
     jobs_benefits: "Arbeidsvoorwaarden"
     jobs_benefit_4: "Onbeperkt (ziekte)verlof" # {change}
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jobs_custom_contact_2: "waarin je jezelf voorstelt, en misschien hoor je nog van ons!"
     contact_title: "Media & Contact"
     contact_subtitle: "Zoek je meer informatie? Neem contact met ons op!"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Game Screenshots"
     screenshots_hint: "(klik voor grote versie)"
     downloads_title: "Download Pakketten & Informatie"
@@ -1240,7 +1306,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     referrer_other: "Anders"
     anything_else: "Is er verder nog iets dat we moeten weten?" # {change}
     thanks_header: "Bedankt voor je demo-aanvraag!"
-    thanks_sub_header: "Bedankt voor je interesse in CodeCombat."
+    thanks_sub_header: "Bedankt voor je interesse in CodeCombat." # {change}
     thanks_p: "Wij zullen spoedig contact met u opnemen. Vragen? Mail ons:" # {change}
     back_to_classes: "Terug naar Klassen"
     finish_signup: "Voltooi je docenten-account:"
@@ -1459,8 +1525,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     switch_to: "Verander naar"
     greetings: "Groeten"
     back_classrooms: "Terug naar mijn klaslokalen"
-    back_classroom: "Terug naar klaslokaal"
-    back_courses: "Terug naar mijn cursussen"
+    back_classroom: "Terug naar klaslokaal" # {change}
+    back_courses: "Terug naar mijn cursussen" # {change}
     edit_details: "Bewerk klasgegevens"
     purchase_enrollments: "Koop inschrijvingen" # {change}
     remove_student: "Verwijder leerling"
@@ -1488,13 +1554,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    view_map: "view map"
 #    view_videos: "view videos"
     view_project_gallery: "Bekijk de projecten van mijn klasgenoten"
-    join_class: "Doe mee met een klas"
+    join_class: "Doe mee met een klas" # {change}
     join_class_2: "Deelnemen"
-    ask_teacher_for_code: "Vraag je juf/meester of je een CodeCombat klassencode hebt! Als dat zo is, vul die dan hieronder in:"
-    enter_c_code: "<voer klassencode in>"
+    ask_teacher_for_code: "Vraag je juf/meester of je een CodeCombat klassencode hebt! Als dat zo is, vul die dan hieronder in:" # {change}
+    enter_c_code: "<voer klassencode in>" # {change}
     join: "Doe mee"
     joining: "Doe mee met klas"
-    course_complete: "Cursus afgerond"
+#    unit_complete: "Unit Complete"
     play_arena: "Speel Arena"
     view_project: "Bekijk Project"
     start: "Start"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     license_will_revoke: "Deze betaalde leerling-licentie wordt ingetrokken en beschikbaar om opnieuw toe te wijzen aan een andere leerling."
     keep_student: "bewaar leerling"
     removing_user: "Verwijder gebruiker"
-    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # Flat style redesign {change}
+    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # {change}
     changelog: "Bekijk recente aanpassingen aan cursuslevels."
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     current_hero_female: "Huidige Held:"
     web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
     course_membership_required_to_play: "Je moet je bij een cursus aanmelden om dit level te spelen."
-    license_required_to_play: "Vraag een leraar om je een licentie te geven zodat je verder kunt gaan met CodeCombat!"
+    license_required_to_play: "Vraag een leraar om je een licentie te geven zodat je verder kunt gaan met CodeCombat!" # {change}
     update_old_classroom: "Nieuw schooljaar, nieuwe levels!"
     update_old_classroom_detail: "Om ervoor te zorgen dat je zoveel mogelijk up-to-date levels hebt, zorg je ervoor dat je een nieuwe klas aanmaakt voor dit semester door te klikken op 'Nieuwe Klas Aanmaken'op je"
     teacher_dashboard: "lerarendashboard"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     edit_class_settings: "Wijzig instellingen van de klas"
     access_restricted: "Account Update vereist"
     teacher_account_required: "Voor deze inhoud is een Lerarenaccount vereist."
-    create_teacher_account: "Maak Lerarenaccount aan"
+    create_teacher_account: "Maak Lerarenaccount aan" # {change}
     what_is_a_teacher_account: "Wat is een Lerarenaccount?"
     teacher_account_explanation: "Een CodeCombat Lerarenaccount geeft je de mogelijkheid om klassen aan te maken, voortgang van leerlingen te bekijken terwijl ze de cursussen volgen, inschrijvingen te beheren en hulpmiddelen te gebruiken voor het opzetten van een leerplan" # {change}
     current_classes: "Huidige Klassen"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     revoke_license: "Licentie intrekken"
     revoke_licenses: "Trek alle licenties in"
     course_progress: "Cursusvoortgang"
+#    unit_progress: "Unit Progress"
     not_applicable: "n.v.t."
     edit: "wijzig"
     edit_2: "Wijzig"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     no_progress: "Geen voortgang"
     not_required: "Niet vereist"
     view_student_code: "Klik om de code van de student te bekijken"
-    select_course: "Selecteer cursus om te bekijken"
+    select_course: "Selecteer cursus om te bekijken" # {change}
     progress_color_key: "Voortgang kleurcode:"
     level_in_progress: "Bezig met level"
     level_not_started: "Level nog niet begonnen"
@@ -1732,13 +1800,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     assigned_msg_1: "{{numberAssigned}} studenten zitten bij {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licenties zijn toegepast."
     assigned_msg_3: "Je hebt nog {{remainingSpots}} beschikbare licenties."
-    assign_course: "Cursus toewijzen"
+    assign_course: "Cursus toewijzen" # {change}
     removed_course_msg: "{{numberRemoved}} leerlingen zijn verwijderd van {{courseName}}."
-    remove_course: "Verwijder Cursus"
-    not_assigned_modal_title: "Cursussen zijn niet toegewezen"
+    remove_course: "Verwijder Cursus" # {change}
+    not_assigned_modal_title: "Cursussen zijn niet toegewezen" # {change}
     not_assigned_modal_starter_body_1: "Voor deze cursus is een Licentie nodig. U heeft niet genoeg Licenties beschikbaar om deze curus toe te wijzen aan de __selected__ geselecteerde leerlingen."
     not_assigned_modal_starter_body_2: "Schaf Licenties aan om toegang te verlenen tot deze cursus."
-    not_assigned_modal_full_body_1: "Voor deze cursus is een Volledige Licentie nodig. U heeft niet genoeg Volledige Licenties beschikbaar om deze curus toe te wijzen aan de __selected__ geselecteerde leerlingen."
+    not_assigned_modal_full_body_1: "Voor deze cursus is een Volledige Licentie nodig. U heeft niet genoeg Volledige Licenties beschikbaar om deze curus toe te wijzen aan de __selected__ geselecteerde leerlingen." # {change}
     not_assigned_modal_full_body_2: "U heeft maar __numFullLicensesAvailable__ Volledige Licenties beschikbaar (__numStudentsWithoutFullLicenses__ leeringen hebben momenteel geen actieve Volledige Licentie)."
     not_assigned_modal_full_body_3: "Selecteer minder leerlingen, of neem contant op met __supportEmail__."
     assigned: "Toegewezen"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     all_students: "Alle leerlingen"
     apply_licenses: "Pas licenties toe"
     not_enough_enrollments: "Onvoldoende licenties beschikbaar." # {change}
-    enrollments_blurb: "Leerlingen hebben een licentie nodig om na de eerste cursus verder te spelen."
+    enrollments_blurb: "Leerlingen hebben een licentie nodig om na de eerste cursus verder te spelen." # {change}
     how_to_apply_licenses: "Hoe pas je licenties toe"
     export_student_progress: "Exporteer leerlingen voortgang  (CSV bestand)"
     send_email_to: "Stuur wachtwoord herstel-e-mail naar:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     start_date: "startdatum:"
     end_date: "einddatum:"
     get_enrollments_blurb: " We helpen je met een op maat gemaakte oplossing voor jullie klas, school of gemeenschap."
-    how_to_apply_licenses_blurb_1: "Als een leraar voor het eerst een cursus aan een leerling toewijst, voegen we automatisch een licentie toe. Gebruik de dropdown in je klas om de cursus aan meerdere leerlingen toe te wijzen:"
-    how_to_apply_licenses_blurb_2: "Kan ik een licentie toepassen zonder een cursus toe te wijzen?"
+    how_to_apply_licenses_blurb_1: "Als een leraar voor het eerst een cursus aan een leerling toewijst, voegen we automatisch een licentie toe. Gebruik de dropdown in je klas om de cursus aan meerdere leerlingen toe te wijzen:" # {change}
+    how_to_apply_licenses_blurb_2: "Kan ik een licentie toepassen zonder een cursus toe te wijzen?" # {change}
     how_to_apply_licenses_blurb_3: "Ja — ga naar de Licentie Status tab in je klas en klik op \"Licentie toepassen\" bij een leerling die geen actieve licentie heeft."
     request_sent: "Verzoek Verstuurd!"
 #    assessments: "Assessments"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     pacing_guides_high: "Stap-voor-stap gids hogere klassen Middelbare school"
     getting_started: "Aan de Slag"
     educator_faq: "Leraar FAQ"
-    educator_faq_desc: "Veel gestelde vragen over het gebruik van CodeCombat in je klas of school."
+    educator_faq_desc: "Veel gestelde vragen over het gebruik van CodeCombat in je klas of school." # {change}
     teacher_getting_started: "Leraar Startgids"
-    teacher_getting_started_desc: "Nieuw bij CodeCombat? Download de Leraar Startgids om een account op te zetten, een klas te creëren en leerlingen uit te nodigen voor hun eerste cursus."
+    teacher_getting_started_desc: "Nieuw bij CodeCombat? Download de Leraar Startgids om een account op te zetten, een klas te creëren en leerlingen uit te nodigen voor hun eerste cursus." # {change}
     student_getting_started: "Leerlingen Startgids"
     student_getting_started_desc: "Leerlingen kunnen deze gids bekijken voordat ze met CodeCombat beginnen zodat ze alvast vertrouwd raken met de code editor. Deze gids kan gebruikt worden in Python en JavaScript klassen."
     ap_cs_principles: "AP Computerwetenschap Principes"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_quest_teach_methods_step2: "Print de [Snelle Startgids voor Leerlingen](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in de Resource Hub."
     teacher_quest_teach_strings: "Trek niet aan de touwtjes van je leerlingen, leer ze `strings`."
     teacher_quest_teach_strings_step1: "Zorg dat 75% van je leerlingen heelhuids door __True Names__ heen komen!"
-    teacher_quest_teach_strings_step2: "Gebruik de 'Teacher Level Selector'op de [Course Guides](/teachers/courses) pagina om __True Names__ te bekijken."
+    teacher_quest_teach_strings_step2: "Gebruik de 'Teacher Level Selector'op de [Course Guides](/teachers/courses) pagina om __True Names__ te bekijken." # {change}
     teacher_quest_teach_loops: "Houd je leerlingen op de hoogte over `loops`."
     teacher_quest_teach_loops_step1: "Zorg dat in ieder geval 75% van in ieder geval één klas door __Fire Dancing__ heenkomt."
     teacher_quest_teach_loops_step2: "Gebruik de __Loops Activity__ in de [CS1 Curriculum guide](/teachers/resources/cs1) om dit concept te versterken."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     combo_explanation: "Leerlingen komen door Combo challenge levels door in ieder geval één van de genoemde concepten te gebruiken. Bekijk de code van de leerling door op 'vooruitgang'te klikken."
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "Fout bij het laden van de server" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     bootstrap: "Bootstrap"
     break_statements: "Break instructie"
     classes: "Klassen"
+#    conditionals: "Conditionals"
     continue_statements: "Continue instructie"
+#    debugging: "Debugging"
     dom_events: "DOM Events"
     dynamic_styling: "Dynamische Styling"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     reading_docs: "Documentatie Lezen"
     recursion: "Recursie"
     return_statements: "Return Statements"
+#    sequences_algorithms: "Sequences & Algorithms"
     stacks: "Data Structuren - Stacks"
     strings: "Strings"
     strings_concatenation: "Strings Samenvoegen"
     strings_substrings: "Substring"
+#    syntax: "Syntax"
     trees: "Data Structuren - Trees"
     variables: "Variabelen"
     vectors: "Vectoren"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"

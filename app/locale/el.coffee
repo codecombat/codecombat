@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "Ελληνικά", englishDescription: "Greek", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     map: "Χάρτης"
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
     community: "Κοινότητα"
-    courses: "Μαθήματα"
+#    units: "Units"
     blog: "Ιστολόγιο"
     forum: "Φόρουμ"
     account: "Λογαριασμός"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     privacy: "Ιδιωτικότητα"
     about: "Περί"
     contact: "Επικοινωνία"
+#    press: "Press"
     twitter_follow: "Ακολούθησε"
     my_classrooms: "Οι Τάξεις Μου"
-    my_courses: "Τα Μαθήματά Μου"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Καριέρες"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     resource_hub: "Κέντρο Υλικού"
     apcsp: "Αρχές Πληροφορικής AP"
 #    parent: "Parents"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Κλείσιμο"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     back_to_classroom: "Πίσω στη Τάξη"
     teacher_button: "Για Εκπαιδευτικούς"
     get_more_codecombat: "Περισσότερο CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "αν" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     title: "Εξαιρετική Δουλειά, Μαθητευόμενε"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Δημιουργία Λογαριασμού"
-    email_or_username: "Email ή όνομα χρήστη"
+    email_or_username: "Email ή όνομα χρήστη" # {change}
+#    or: "or"
     log_in: "Σύνδεση"
+#    sign_in: "Sign In"
     logging_in: "Σύνδεση σε εξέλιξη"
     log_out: "Αποσύνδεση"
     forgot_password: "Ξεχάσατε τον κωδικό σας;"
     finishing: "Τελειώνει"
-    sign_in_with_facebook: "Σύνδεση μέσω Facebook"
-    sign_in_with_gplus: "Σύνδεση μέσω G+"
+    sign_in_with_facebook: "Σύνδεση μέσω Facebook" # {change}
+    sign_in_with_gplus: "Σύνδεση μέσω G+" # {change}
     signup_switch: "Δεν έχεις λογαριασμό;"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "Ολοκλήρωση Συνδρομής"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teacher_type_2: "Δημιουργήστε τις τάξεις σας"
     teacher_type_3: "Πρόσβαση σε Οδηγούς Μαθημάτων"
     teacher_type_4: "Προβολή προόδου μαθητή"
-    signup_as_teacher: "Συνδεθείτε ως Δάσκαλος"
+    signup_as_teacher: "Συνδεθείτε ως Δάσκαλος" # {change}
     student_type_1: "Μάθετε να προγραμματίζετε ενώ παίζετε ένα συναρπαστικό παιχνίδι!"
     student_type_2: "Παίξε με την τάξη σου"
     student_type_3: "Αναμετρήσου στις Αρένες"
     student_type_4: "Επιλέξτε τον ήρωά σας!"
     student_type_5: "Να έχετε έτοιμο τον Κωδικό Τάξης!"
-    signup_as_student: "Συνδεθείτε ως Μαθητής"
+    signup_as_student: "Συνδεθείτε ως Μαθητής" # {change}
     individuals_or_parents: "Προσωπικό και Γονέα"
     individual_type: "Για παίκτες που μαθαίνουν να προγραμματίζουν έξω από μια τάξη. Οι γονείς θα πρέπει να εγγραφούν εδώ για λογαριασμό."
     signup_as_individual: "Κάνε εγγραφή ως ένα άτομο"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     account_created: "Ο Λογαριασμός Δημιουργήθηκε!"
     confirm_student_blurb: "Γράψτε τις πληροφορίες σας έτσι ώστε να μην τις ξεχάσετε. Ο δάσκαλός σας μπορεί επίσης να σας βοηθήσει να επαναφέρετε τον κωδικό πρόσβασης ανά πάσα στιγμή."
     confirm_individual_blurb: "Γράψτε τις πληροφορίες σύνδεσης σε περίπτωση που τις χρειαστείτε αργότερα. Επαληθεύστε το ηλεκτρονικό σας ταχυδρομείο ώστε να μπορείτε να ανακτήσετε το λογαριασμό σας αν ξεχάσετε ποτέ τον κωδικό πρόσβασής σας - ελέγξτε τα εισερχόμενά σας!"
-    write_this_down: "Γράψτε αυτά:"
+    write_this_down: "Γράψτε αυτά:" # {change}
     start_playing: "Ξεκινήστε να Παίζετε!"
     sso_connected: "Συνδεθήκατε επιτυχώς με:"
     select_your_starting_hero: "Επιλέξτε Τον Αρχικό Σας Ήρωα:"
     you_can_always_change_your_hero_later: "Μπορείτε ανά πάσα στιγμή να αλλάξετε τον ήρωα σας αργότερα."
     finish: "Ολοκληρώθηκε"
     teacher_ready_to_create_class: "Είστε έτοιμοι να δημιουργήσετε την πρώτη σας τάξη!"
-    teacher_students_can_start_now: "Οι φοιτητές σας θα είναι σε θέση να ξεκινήσουν αμέσως το πρώτο μάθημα, Εισαγωγή στην Πληροφορική."
+    teacher_students_can_start_now: "Οι φοιτητές σας θα είναι σε θέση να ξεκινήσουν αμέσως το πρώτο μάθημα, Εισαγωγή στην Πληροφορική." # {change}
     teacher_list_create_class: "Στην επόμενη οθόνη θα μπορείτε να δημιουργήσετε μια νέα τάξη."
     teacher_list_add_students: "Προσθέστε τους μαθητές στην τάξη κάνοντας κλικ στο σύνδεσμο Προβολή Τάξης και στη συνέχεια στέλνοντας στους μαθητές τον Κωδικό Τάξης ή τη διεύθυνση URL. Μπορείτε επίσης να τους καλέσετε μέσω ηλεκτρονικού ταχυδρομείου εάν έχουν."
     teacher_list_resource_hub_1: "Ελέγξτε τους"
-    teacher_list_resource_hub_2: "Οδηγούς Μαθημάτων"
+    teacher_list_resource_hub_2: "Οδηγούς Μαθημάτων" # {change}
     teacher_list_resource_hub_3: "για λύσεις για κάθε επίπεδο και το"
     teacher_list_resource_hub_4: "Κέντρο Υλικού"
     teacher_list_resource_hub_5: "για οδηγούς προγράμματος σπουδών, δραστηριότητες και άλλα πολλά!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Ανάκτηση λογαριασμού"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     books: "Βιβλία"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Προηγούμενο" # When used as an action verb, like "Navigate backward"
     coming_soon: "Έρχεται σύντομα! Coming soon!"
     continue: "Συνέχεια" # When used as an action verb, like "Continue forward"
     next: "Επόμενο"
     default_code: "Προκαθορισμένος Κωδικός"
     loading: "Φορτώνει..."
+#    LOADING: "LOADING"
     overview: "Επισκόπηση"
     processing: "επεξεργασία..."
     solution: "Λύση"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     save_changes: "Αποθήκευση Αλλαγών"
     required_field: "απαιτείται"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "και"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     next_level: "Επόμενο Επίπεδο"
     combo_challenge: "Συνδυαστική Πρόκληση"
     concept_challenge: "Πρόκληση Αντίληψης"
+#    challenge: "Challenge"
     challenge_unlocked: "Η Πρόκληση Ξεκλειδώθηκε"
     combo_challenge_unlocked: "Η Συνδυαστική Πρόκληση Ξεκλειδώθηκε"
     concept_challenge_unlocked: "Η Πρόκληση Αντίληψης Ξεκλειδώθηκε"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     reload_title: "Ανανέωση όλου του κώδικα;"
     reload_really: "Είσαι σίγουρος ότι θέλεις να φορτώσεις αυτό το επίπεδο από την αρχή;"
     reload_confirm: "Ανανέωση όλων"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "Δοκιμή Επιπέδου"
     victory: "Νίκη"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
   apis:
     methods: "Μέθοδοι"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     wallOfDarkness_name: "Σκοτεινό Τοίχος"
     wallOfDarkness_description: "Κρύψου πίσω από έναν τοίχο σκιών για να αποφύγεις το βλέμμα των αδιάκριτων ματιών."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
   premium_features:
     get_premium: "Πάρε <br>CodeCombat<br> Προνομιακό" # Fit into the banner on the /features page
     master_coder: "Γίνε μία Αυθεντία του Κώδικα κάνοντας συνδρομή σήμερα!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     level_to_unlock: "Επίπεδο για ξεκλείδωμα:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "συνάρτηση" # skill types
     method: "μέθοδος"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     volume_label: "Ένταση"
     music_label: "Μουσική"
     music_description: "Ανοιγόκλεισμα μουσικής υπόβαθρου."
-    editor_config_title: "Ρύθμιση συντάκτη κειμένου"
-    editor_config_livecompletion_label: "Αυτόματη Συμπλήρωση"
+    editor_config_title: "Ρύθμιση συντάκτη κειμένου" # {change}
+    editor_config_livecompletion_label: "Αυτόματη Συμπλήρωση" # {change}
     editor_config_livecompletion_description: "Εμφανίζει προτάσεις αυτόματης συμπλήρωσης την ώρα που γράφεις."
     editor_config_invisibles_label: "Εμφάνιση Αόρατων"
     editor_config_invisibles_description: "Εμφανίζει μη εκτυπώσιμους χαρακτήρες όπως τα κενά ή τα tabs."
     editor_config_indentguides_label: "Εμφάνιση Οδηγών Στοίχισης"
     editor_config_indentguides_description: "Εμφανίζει κάθετες γραμμές για να βλέπεις τη στοίχιση καλύτερα."
-    editor_config_behaviors_label: "Έξυπνες Συμπεριφορές"
+    editor_config_behaviors_label: "Έξυπνες Συμπεριφορές" # {change}
     editor_config_behaviors_description: "Συμπληρώνει αυτόματα αγκύλες, άγκιστρα και εισαγωγικά."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     team_link: "Ομάδα"
     story_link: "Ιστορία"
     press_link: "Τύπος"
-    mission_title: "Η αποστολή μας: να κάνουμε τον προγραμματισμό προσβάσιμο σε κάθε μαθητή στη Γη."
-    mission_description_1: "<strong>Ο προγραμματισμός είναι μαγικός</strong>. Είναι η δυνατότητα να δημιουργήσετε πράγματα από καθαρή φαντασία. Ξεκινήσαμε το CodeCombat για να δώσουμε στους εκπαιδευόμενους την αίσθηση της μαγικής δύναμης των δακτύλων τους χρησιμοποιώντας <strong>ήδη γραμμένο κώδικα</strong>."
-    mission_description_2: "Όπως αποδεικνύεται, αυτό τους δίνει τη δυνατότητα να μάθουν ταχύτερα. Γρηγορότερη ΜΕΘΟΔΟΣ. Είναι σαν να έχετε μια συζήτηση αντί να διαβάσετε ένα βιβλίο. Θέλουμε να φέρουμε αυτή τη συζήτηση σε κάθε σχολείο και σε <strong>κάθε μαθητή</strong>, επειδή όλοι πρέπει να έχουν την ευκαιρία να μάθουν τη μαγεία του προγραμματισμού."
+    mission_title: "Η αποστολή μας: να κάνουμε τον προγραμματισμό προσβάσιμο σε κάθε μαθητή στη Γη." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Γνωρίστε την ομάδα του CodeCombat"
-    team_values: "Εκτιμούμε τον ανοιχτό και με σεβασμό διάλογο, όπου κερδίζει η καλύτερη ιδέα. Οι αποφάσεις μας βασίζονται στην έρευνα πελατών και οι ενέργειές μας επικεντρώνεται στην παροχή απτών αποτελεσμάτων για αυτούς. Ο καθένας είναι χρήσιμος, από τον Διευθύνοντα Σύμβουλό μας μέχρι τους συνεισφέροντες στο GitHub, επειδή εκτιμούμε την ανάπτυξη και τη μάθηση στην ομάδα μας."
+    team_values: "Εκτιμούμε τον ανοιχτό και με σεβασμό διάλογο, όπου κερδίζει η καλύτερη ιδέα. Οι αποφάσεις μας βασίζονται στην έρευνα πελατών και οι ενέργειές μας επικεντρώνεται στην παροχή απτών αποτελεσμάτων για αυτούς. Ο καθένας είναι χρήσιμος, από τον Διευθύνοντα Σύμβουλό μας μέχρι τους συνεισφέροντες στο GitHub, επειδή εκτιμούμε την ανάπτυξη και τη μάθηση στην ομάδα μας." # {change}
     nick_title: "Συνιδρυτής, Διευθύνων Σύμβουλος"
     matt_title: "Συνιδρυτής, Γενικός Διευθυντής Τεχνολογίας"
     cat_title: "Σχεδιαστής Παιχνιδιού"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     number_contributors: "Πάνω από 450 εθελοντές έχουν προσφέρει την υποστήριξή τους και το χρόνο τους σε αυτό το έργο."
     story_title: "Η ιστορία μας μέχρι στιγμής"
     story_subtitle: "Από το 2013, το CodeCombat έχει αναπτυχθεί από ένα απλό σύνολο σκίτσων σε ένα ζωντανό, ακμάζον παιχνίδι."
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "5,000,000+" # {change}
     story_statistic_1b: "συνολικά παίχτες"
-    story_statistic_1c: "έχουν αρχίσει το ταξί τους στον προγραμματισμό μέσα από το CodeCombat"
+    story_statistic_1c: "έχουν αρχίσει το ταξί τους στον προγραμματισμό μέσα από το CodeCombat" # {change}
     story_statistic_2a: "Έχουμε μεταφραστεί σε περισσότερες από 50 γλώσσες - οι παίκτες μας χαιρετούν από"
     story_statistic_2b: "190+ χώρες"
     story_statistic_3a: "Μαζί, έχουν γράψει"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     story_long_way_1: "Αν και έχουμε προχωρήσει πολύ..."
     story_sketch_caption: "Το πρώτο σκίτσο του Nick που απεικονίζει ένα παιχνίδι προγραμματισμού σε δράση."
     story_long_way_2: "έχουμε ακόμα πολλά να κάνουμε πριν ολοκληρώσουμε την αναζήτησή μας, έτσι..."
-    jobs_title: "Ελάτε να συνεργαστείτε μαζί μας και να γράψετε την ιστορία του CodeCombat!"
+    jobs_title: "Ελάτε να συνεργαστείτε μαζί μας και να γράψετε την ιστορία του CodeCombat!" # {change}
     jobs_subtitle: "Δεν βλέπετε κάτι που να σας κάνει αλλά ενδιαφέρεστε να διατηρείτε επαφή; Ανατρέξτε στο \"Δημιουργήστε τη Δικιά Σας\" θέση."
     jobs_benefits: "Παροχές σε Εργαζόμενους"
     jobs_benefit_4: "Απεριόριστες διακοπές"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     jobs_custom_contact_2: "παρουσίασή σας και μπορεί να έρθουμε σε επαφή στο μέλλον!"
     contact_title: "Τύπος & Επικοινωνία"
     contact_subtitle: "Χρειάζεστε περισσότερες πληροφορίες; Επικοινωνήστε μαζί μας"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Στιγμιότυπα παιχνιδιού"
     screenshots_hint: "(κάνε κλικ για να τα δεις σε πλήρες μέγεθος)"
     downloads_title: "Λήψη Στοιχείων Παιχνιδιού & Πληροφοριών"
@@ -1218,7 +1284,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     city: "Πόλη"
     state: "Πολιτεία" # {change}
     country: "Χώρα"
-    num_students_help: "Για πόσους μαθητές προορίζετε το CodeCombat;"
+    num_students_help: "Για πόσους μαθητές προορίζετε το CodeCombat;" # {change}
     num_students_default: "Επιλογή Εύρους"
     education_level_label: "Επίπεδο Εκπαίδευσης των Μαθητών"
     education_level_help: "Επιλέξτε όσα ισχύουν."
@@ -1238,9 +1304,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     referrer_pd: "Επαγγελματικές εκπαιδεύσεις/εργαστήρια"
     referrer_web: "Google"
     referrer_other: "Άλλο"
-    anything_else: "Τι είδους τάξη ενδιαφέρεστε να χρησιμοποιήσετε στο CodeCombat;"
+    anything_else: "Τι είδους τάξη ενδιαφέρεστε να χρησιμοποιήσετε στο CodeCombat;" # {change}
     thanks_header: "Το Αίτημα Ελήφθη!"
-    thanks_sub_header: "Ευχαριστώ που εκφράσατε ενδιαφέρον για το CodeCombat για το σχολείο σας."
+    thanks_sub_header: "Ευχαριστώ που εκφράσατε ενδιαφέρον για το CodeCombat για το σχολείο σας." # {change}
     thanks_p: "Θα είμαστε σε επαφή σύντομα! Αν χρειαστεί να έρθετε σε επαφή, μπορείτε να επικοινωνήσετε μαζί μας στη διεύθυνση:"
     back_to_classes: "Επιστροφή στα Θρανία"
     finish_signup: "Ολοκληρώστε τη δημιουργία του λογαριασμού σας για εκπαιδευτικούς:"
@@ -1459,8 +1525,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     switch_to: "Αλλαγή σε"
     greetings: "Καλώς Ήρθες!"
     back_classrooms: "Πίσω στις τάξεις μου"
-    back_classroom: "Πίσω στην τάξη"
-    back_courses: "Πίσω στα μαθήματα μου"
+    back_classroom: "Πίσω στην τάξη" # {change}
+    back_courses: "Πίσω στα μαθήματα μου" # {change}
     edit_details: "Επεξεργασία Ρυθμίσεων Τάξης"
     purchase_enrollments: "Αγόρασε Άδειες Μαθητών"
     remove_student: "Διαγραφή Μαθητή"
@@ -1482,19 +1548,19 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     play_now_learn_2: "Επαναληπτικοί Βρόχοι While για να λύσεις βαρετούς γρίφους"
     play_now_learn_3: "συμβολοσειρές και μεταβλητές για να τροποποιείς εύκολα τις ενέργειες σου"
     play_now_learn_4: " Πως να νικήσεις ένα Ogre(απαραίτητο μάθημα επιβίωσης!)"
-    welcome_to_page: "Πίνακας Ελέγχου τον Μαθητών μου"
+    welcome_to_page: "Πίνακας Ελέγχου τον Μαθητών μου" # {change}
     my_classes: "Οι Τάξεις μου"
     class_added: "Τάξη Προστέθηκε!"
 #    view_map: "view map"
 #    view_videos: "view videos"
     view_project_gallery: "προβολή των έργων των συμμαθητών μου"
-    join_class: "Σύνδεση Σε Μία Τάξη"
+    join_class: "Σύνδεση Σε Μία Τάξη" # {change}
     join_class_2: "Σύνδεση σε τάξη"
-    ask_teacher_for_code: "Ζήτα από το δάσκαλο σου, εάν έχει ένα κωδικό τάξης για το CodeCombat! Εάν έχει, πληκτρολόγησε τον παρακάτω:"
-    enter_c_code: "<Πληκτρολόγησε Κωδικό Τάξης>"
+    ask_teacher_for_code: "Ζήτα από το δάσκαλο σου, εάν έχει ένα κωδικό τάξης για το CodeCombat! Εάν έχει, πληκτρολόγησε τον παρακάτω:" # {change}
+    enter_c_code: "<Πληκτρολόγησε Κωδικό Τάξης>" # {change}
     join: "Σύνδεση"
     joining: "Σύνδεση με Τάξη"
-    course_complete: "Μάθημα Ολοκληρωμένο"
+#    unit_complete: "Unit Complete"
     play_arena: "Παίξε στην Αρένα"
     view_project: "Προβολή Έργου"
     start: "Εκκίνηση"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     license_will_revoke: "Η πληρωμένη άδεια του μαθητή θα ανακληθεί και θα διατεθεί ώστε να ανατεθεί σε άλλον μαθητή."
     keep_student: "Παραμονή Μαθητή"
     removing_user: "Διαγραφή χρήστη"
-    subtitle: "Ελέγξτε τις επισκοπήσεις των μαθημάτων και τα επίπεδα" # Flat style redesign
+    subtitle: "Ελέγξτε τις επισκοπήσεις των μαθημάτων και τα επίπεδα" # {change}
     changelog: "Προβολή προσφάτων αλλαγών στα επίπεδα του μαθήματος."
     select_language: "Επιλογή γλώσσας"
     select_level: "Επιλογή επιπέδου"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     current_hero_female: "Επιλεγμένη Ηρωίδα:"
     web_dev_language_transition: "Το πρόγραμμα σε όλες τις τάξεις για αυτό το μάθημα είναι σε HTML / JavaScript. Οι τάξεις που χρησιμοποιούν την Python θα ξεκινήσουν με επιπλέον επίπεδα εισαγωγής στη JavaScript για να διευκολυνθούν στη μετάβαση. Οι τάξεις που χρησιμοποιούν ήδη την JavaScript θα παραλείψουν τα επίπεδα εισαγωγής."
     course_membership_required_to_play: "Πρέπει να συνδεθείς σε ένα μάθημα για να παίξεις αυτό το επίπεδο."
-    license_required_to_play: "Ζητήστε από τον δάσκαλό σας να σας εκχωρήσει μια άδεια για να μπορείτε να συνεχίσετε να παίζετε CodeCombat!"
+    license_required_to_play: "Ζητήστε από τον δάσκαλό σας να σας εκχωρήσει μια άδεια για να μπορείτε να συνεχίσετε να παίζετε CodeCombat!" # {change}
     update_old_classroom: "Νέα σχολική χρονιά, νέα επίπεδά!"
     update_old_classroom_detail: "Για να σιγουρευτείτε ότι έχετε τα πιο ενημερωμένα επίπεδα, βεβαιωθείτε ότι δημιουργήσατε μια νέα τάξη για αυτό το εξάμηνο, κάνοντας κλικ στην επιλογή Δημιουργία Νέας Τάξης στον"
     teacher_dashboard: "πίνακα ελέγχου των εκπαιδευτικών"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     student_code: "Κώδικας του Μαθητή __name__"
     teacher_dashboard: "Πίνακας Ελέγχου Δασκάλου" # Navbar
     my_classes: "Οι Τάξεις Μου"
-    courses: "Οδηγοί Μαθημάτων"
+    courses: "Οδηγοί Μαθημάτων" # {change}
     enrollments: "Άδειες Μαθητών"
     resources: "Πόροι"
     help: "Βοήθεια"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     edit_class_settings: "επεξεργασία ρυθμίσεων τάξης"
     access_restricted: "Απαιτείται Αναβάθμιση Λογαριασμού"
     teacher_account_required: "Απαιτείται ένα λογαριασμός εκπαιδευτικού για να έχετε πρόσβαση σε αυτό το περιεχόμενο."
-    create_teacher_account: "Δημιουργία Λογαριασμού Εκπαιδευτικού"
+    create_teacher_account: "Δημιουργία Λογαριασμού Εκπαιδευτικού" # {change}
     what_is_a_teacher_account: "Τι είναι ένας Λογαριασμός Εκπαιδευτικού;"
     teacher_account_explanation: "Ένας λογαριασμός εκπαιδευτικού στο CodeCombat σάς επιτρέπει να δημιουργείτε αίθουσες διδασκαλίας, να παρακολουθείτε την πρόοδο των μαθητών καθώς εργάζονται μέσω μαθημάτων, να διαχειρίζεστε άδειες και να έχετε πρόσβαση σε πόρους που βοηθούν στην σύνταξη της σειράς μαθημάτων σας."
     current_classes: "Τρέχων Τάξεις"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     revoke_license: "Ανάκληση Άδειας"
     revoke_licenses: "Ανάκληση Όλων των Αδειών"
     course_progress: "Πρόοδος μαθήματος"
+#    unit_progress: "Unit Progress"
     not_applicable: "Μη εφαρμόσιμο"
     edit: "επεξεργασία"
     edit_2: "Επεξεργασία"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     no_progress: "Χωρίς πρόοδο"
     not_required: "Δεν απαιτείται"
 #    view_student_code: "Click to view student code"
-    select_course: "Επέλεξε μάθημα για προβολή"
+    select_course: "Επέλεξε μάθημα για προβολή" # {change}
     progress_color_key: "Κλειδί χρώματος προόδου:"
     level_in_progress: "Επίπεδο σε Εξέλιξη"
     level_not_started: "Το Επίπεδο Δεν Ξεκίνησε"
@@ -1728,17 +1796,17 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     copy_class_url: "Αντιγραφή Διεύθυνσης (URL) Τάξης"
     class_join_url_blurb: "Μπορείτε επίσης να δημοσιεύσετε αυτήν τη μοναδική διεύθυνση URL της τάξης σε μια δημόσια ιστοσελίδα."
     add_students_manually: "Πρόσκληση Μαθητών από Email"
-    bulk_assign: "Επιλογή μαθήματος"
+    bulk_assign: "Επιλογή μαθήματος" # {change}
     assigned_msg_1: "{{numberAssigned}} μαθητές έχουν εκχωρηθεί {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} άδειες έχουν γίνει αποδεκτές."
     assigned_msg_3: "Τώρα έχουν απομείνει {{remainingSpots}} διαθέσιμε άδειες."
-    assign_course: "Συμμετοχή σε Μάθημα"
+    assign_course: "Συμμετοχή σε Μάθημα" # {change}
     removed_course_msg: "{{numberRemoved}} μαθητές έχουν απομακρυνθεί από {{courseName}}."
-    remove_course: "Διαγραφή Μαθήματος"
-    not_assigned_modal_title: "Μαθήματα που δεν έχουν εκχωρηθεί"
+    remove_course: "Διαγραφή Μαθήματος" # {change}
+    not_assigned_modal_title: "Μαθήματα που δεν έχουν εκχωρηθεί" # {change}
     not_assigned_modal_starter_body_1: "Αυτό το μάθημα απαιτεί Άδεια Εκκίνησης. Δεν έχετε στη διάθεσή σας αρκετές Άδειες Εκκίνησης για να εκχωρήσετε αυτό το μάθημα σε όλους τους __selected__ επιλεγμένους μαθητές."
     not_assigned_modal_starter_body_2: "Αγοράστε Άδειες Εκκίνησης για να επιτρέψετε την πρόσβαση σε αυτό το μάθημα."
-    not_assigned_modal_full_body_1: "Αυτό το μάθημα απαιτεί Πλήρη Άδεια. Δεν έχετε στη διάθεσή σας αρκετές Πλήρεις Άδειες για να εκχωρήσετε αυτό το μάθημα σε όλους τους __selected__ επιλεγμένους μαθητές."
+    not_assigned_modal_full_body_1: "Αυτό το μάθημα απαιτεί Πλήρη Άδεια. Δεν έχετε στη διάθεσή σας αρκετές Πλήρεις Άδειες για να εκχωρήσετε αυτό το μάθημα σε όλους τους __selected__ επιλεγμένους μαθητές." # {change}
     not_assigned_modal_full_body_2: "Έχετε μόνο __numFullLicensesAvailable__ Πλήρεις Άδειες διαθέσιμες (__numStudentsWithoutFullLicenses__ μαθητές δεν έχουν επί του παρόντος ενεργή Πλήρη Άδεια)."
     not_assigned_modal_full_body_3: "Επιλέξτε λιγότερους μαθητές ή απευθυνθείτε στο __supportEmail__ για βοήθεια."
     assigned: "Εκχωρήθηκαν"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     all_students: "Όλοι οι Μαθητές"
     apply_licenses: "Εφαρμογή Αδειών"
     not_enough_enrollments: "Δεν υπάρχουν διαθέσιμες άδειες."
-    enrollments_blurb: "Οι μαθητές υποχρεούνται να έχουν μία άδεια για να έχουν πρόσβασης σε οποιοδήποτε περιεχόμενο μετά από το πρώτο μάθημα."
+    enrollments_blurb: "Οι μαθητές υποχρεούνται να έχουν μία άδεια για να έχουν πρόσβασης σε οποιοδήποτε περιεχόμενο μετά από το πρώτο μάθημα." # {change}
     how_to_apply_licenses: "Πώς να Εφαρμόσετε τις Άδειες Χρήσης"
     export_student_progress: "Εξαγωγή Προόδου Μαθητών (CSV)"
     send_email_to: "Αποστολή Email Επαναφοράς Κωδικού σε:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     start_date: "ημερομηνία αρχής:"
     end_date: "ημερομηνία τέλους:"
     get_enrollments_blurb: "Θα σας βοηθήσουμε να δημιουργήσετε μια λύση που να ανταποκρίνεται στις ανάγκες της τάξης, του σχολείου ή της περιοχής σας."
-    how_to_apply_licenses_blurb_1: "Όταν ένας δάσκαλος δίνει για πρώτη φορά έναν κύκλο μαθημάτων σε έναν μαθητή, θα εφαρμόσουμε αυτόματα μια άδεια. Χρησιμοποιήστε το αναπτυσσόμενο μενού επέκτασης αναθέσεων στην τάξη σας για να αναθέσετε ένα μάθημα σε επιλεγμένους μαθητές:"
-    how_to_apply_licenses_blurb_2: "Μπορώ να εξακολουθήσω να αναθέτω μια άδεια χωρίς να εκχωρήσω ένα μάθημα;"
+    how_to_apply_licenses_blurb_1: "Όταν ένας δάσκαλος δίνει για πρώτη φορά έναν κύκλο μαθημάτων σε έναν μαθητή, θα εφαρμόσουμε αυτόματα μια άδεια. Χρησιμοποιήστε το αναπτυσσόμενο μενού επέκτασης αναθέσεων στην τάξη σας για να αναθέσετε ένα μάθημα σε επιλεγμένους μαθητές:" # {change}
+    how_to_apply_licenses_blurb_2: "Μπορώ να εξακολουθήσω να αναθέτω μια άδεια χωρίς να εκχωρήσω ένα μάθημα;" # {change}
     how_to_apply_licenses_blurb_3: "Ναι - μεταβείτε στην καρτέλα Κατάσταση Άδειας Χρήσης στην τάξη και κάντε κλικ στην επιλογή \"Εφαρμογή άδειας\" σε οποιονδήποτε μαθητή που δεν διαθέτει ενεργή άδεια."
     request_sent: "Αίτημα εστάλη!"
     assessments: "Αξιολόγησης"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     pacing_guides_high: "Οδηγός Βήμα, Βήμα Λυκείου"
     getting_started: "Ξεκινώντας"
     educator_faq: "Συχνές Ερωτήσεις Εκπαιδευτικού"
-    educator_faq_desc: "Συχνές ερωτήσεις σχετικά με τη χρήση του CodeCombat στην τάξη ή στο σχολείο σας."
+    educator_faq_desc: "Συχνές ερωτήσεις σχετικά με τη χρήση του CodeCombat στην τάξη ή στο σχολείο σας." # {change}
     teacher_getting_started: "Οδηγός Ξεκινήματος Εκπαιδευτικού"
-    teacher_getting_started_desc: "Καινούριος στο CodeCombat; Κάντε λήψη αυτού του Οδηγού Ξεκινήματος Εκπαιδευτικού για να ρυθμίσετε το λογαριασμό σας, να δημιουργήσετε την πρώτη σας τάξη και να προσκαλέσετε τους μαθητές στο πρώτο μάθημα."
+    teacher_getting_started_desc: "Καινούριος στο CodeCombat; Κάντε λήψη αυτού του Οδηγού Ξεκινήματος Εκπαιδευτικού για να ρυθμίσετε το λογαριασμό σας, να δημιουργήσετε την πρώτη σας τάξη και να προσκαλέσετε τους μαθητές στο πρώτο μάθημα." # {change}
     student_getting_started: "Οδηγός Γρήγορης Εκκίνησης Μαθητή"
     student_getting_started_desc: "Μπορείτε να διανείμετε αυτόν τον οδηγό στους σπουδαστές σας πριν ξεκινήσετε το CodeCombat έτσι ώστε να μπορέσουν να εξοικειωθούν με τον επεξεργαστή κώδικα. Αυτός ο οδηγός μπορεί να χρησιμοποιηθεί για τις τάξεις Python και JavaScript."
     ap_cs_principles: "Αρχές της Επιστήμης των Υπολογιστών AP"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teacher_quest_teach_methods_step2: "Εκτυπώστε τον [Οδηγός Γρήγορης Εκκίνησης Μαθητή](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) στο Κέντρο Υλικού."
     teacher_quest_teach_strings: "Μην συμβουλεύετε μόνο τους μαθητές σας, διδάξετέ τους `συμβολοσειρές`."
     teacher_quest_teach_strings_step1: "Φτάσετε στο 75% τουλάχιστον μιας τάξης μέσω του __True Names__"
-    teacher_quest_teach_strings_step2: "Χρησιμοποιήστε τον Επιλογέα Επιπέδου του Δασκάλου στη σελίδα [Οδηγοί Μαθημάτων](/teachers/courses) για να κάνετε επισκόπηση του __True Names__."
+    teacher_quest_teach_strings_step2: "Χρησιμοποιήστε τον Επιλογέα Επιπέδου του Δασκάλου στη σελίδα [Οδηγοί Μαθημάτων](/teachers/courses) για να κάνετε επισκόπηση του __True Names__." # {change}
     teacher_quest_teach_loops: "Βάλτε τους μαθητές σας σε λούπα με `βρόχους`."
     teacher_quest_teach_loops_step1: "Φτάσετε στο 75% τουλάχιστον μιας τάξης μέσω του __Fire Dancing__."
     teacher_quest_teach_loops_step2: "Χρησιμοποιήστε την __Loops Activity__ στο [Πληροφορική 1 Οδηγός Προγράμματος Μαθημάτων](/teachers/resources/cs1) για να ενισχύσετε αυτή την έννοια."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     combo_explanation: "Οι μαθητές περνούν τα επίπεδα συνδυαστικής πρόκλησης χρησιμοποιώντας τουλάχιστον μία εισηγμένη έννοια. Ελέγξτε τον κώδικα των μαθητών κάνοντας κλικ στην κουκκίδα προόδου."
     concept: "Έννοια"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
   share_licenses:
     share_licenses: "Μοίρασμα Αδειών"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "Σφάλμα φόρτωσης από τον εξυπηρετητή" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     bootstrap: "Εκκίνηση"
     break_statements: "Εντολές Διακοπής"
     classes: "Κλάσεις"
+#    conditionals: "Conditionals"
     continue_statements: "Εντολές Συνέχειας"
+#    debugging: "Debugging"
     dom_events: "Συμβάντα DOM (Μοντέλου Αντικείμενου Εγγράφου)"
     dynamic_styling: "Δυναμική Μορφοποίηση"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     reading_docs: "Ανάγνωση Εγγράφων"
     recursion: "Αναδρομή"
     return_statements: "Δηλώσεις Return"
+#    sequences_algorithms: "Sequences & Algorithms"
     stacks: "Δομές δεδομένων - Στοίβες"
     strings: "Συμβολοσειρές"
     strings_concatenation: "Σύνδεση Συμβολοσειρών"
     strings_substrings: "Υποσυμβολοσειρά"
+#    syntax: "Syntax"
     trees: "Δομές δεδομένων - Δέντρα"
     variables: "Μεταβλητές"
     vectors: "Δυναμικοί Πίνακες"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"

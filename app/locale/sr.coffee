@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "српски", englishDescription: "Serbian", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     map: "Maпа"
     play: "Нивои" # The top nav bar entry where players choose which levels to play
     community: "Заједница"
-    courses: "Курсеви"
+#    units: "Units"
     blog: "Блог"
     forum: "Форум"
     account: "Налог"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     privacy: "Приватност"
     about: "О нама"
     contact: "Контакт"
+#    press: "Press"
     twitter_follow: "Прати"
     my_classrooms: "Моји разреди"
-    my_courses: "Моји курсеви"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Каријере"
     facebook: "Фејсбук"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     resource_hub: "Ресурси"
     apcsp: "AP CS принципи"
 #    parent: "Parents"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Затвори"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     back_to_classroom: "Назад у учионицу"
     teacher_button: "За наставнике"
     get_more_codecombat: "Добиј још CodeCombat-а"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "ако" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     title: "Одличан посао Шегрте"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Направи налог"
-    email_or_username: "И-мејл адреса или корисничко име"
+    email_or_username: "И-мејл адреса или корисничко име" # {change}
+#    or: "or"
     log_in: "Улогуј се"
+#    sign_in: "Sign In"
     logging_in: "Логовање"
     log_out: "Излогуј се"
     forgot_password: "Да ли си заборавио шифру?"
     finishing: "Завршавање"
-    sign_in_with_facebook: "Учлани се преко Фејсбука"
-    sign_in_with_gplus: "Учлани се преко Гугл+"
+    sign_in_with_facebook: "Учлани се преко Фејсбука" # {change}
+    sign_in_with_gplus: "Учлани се преко Гугл+" # {change}
     signup_switch: "Да ли желиш да направиш налог?"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "Заврши претплату"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     teacher_type_2: "Подеси свој разред"
     teacher_type_3: "Приступи упутствима за курс"
     teacher_type_4: "Погледај напредак ученика"
-    signup_as_teacher: "Пријави се као наставник"
+    signup_as_teacher: "Пријави се као наставник" # {change}
     student_type_1: "Научи да програмираш играјући занимљиву игру!"
     student_type_2: "Играј са својим одељењем"
     student_type_3: "Такмичи се у аренама"
     student_type_4: "Одабери свог хероја!"
     student_type_5: "Припреми свој код разреда!"
-    signup_as_student: "Пријави се као ученик"
+    signup_as_student: "Пријави се као ученик" # {change}
     individuals_or_parents: "Индивидуалци и родитељи"
     individual_type: "За играче који уче програмирање ван разреда. Родитељи треба да се пријаве за налог овде."
     signup_as_individual: "Пријави се као индивидуалац"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     account_created: "Налог направљен!"
     confirm_student_blurb: "Запиши своје податке да их не заборавиш. И твој наставник може да ти помогне да ресетујеш своју шифру у било ком тренутку."
     confirm_individual_blurb: "Упиши податке за пријаву на свој налог, у случају да ти буду потребни касније. Потврди своју и-мејл адресу да би могао да опоравиш свој налог у случају да некад заборавиш шифру - провери да ли ти је стигао и-мејл!"
-    write_this_down: "Запиши ово:"
+    write_this_down: "Запиши ово:" # {change}
     start_playing: "Почни да играш!"
     sso_connected: "Успешно повезивање са:"
     select_your_starting_hero: "Одабери хероја са којим желиш да почнеш:"
     you_can_always_change_your_hero_later: "Касније можеш у сваком тренутку да промениш хероја."
     finish: "Готово"
     teacher_ready_to_create_class: "Спреман си да направиш свој први час!"
-    teacher_students_can_start_now: "Твоји ученици ће одмах моћи да почну са првим курсом, Увод у компјутерску науку. "
+    teacher_students_can_start_now: "Твоји ученици ће одмах моћи да почну са првим курсом, Увод у компјутерску науку. " # {change}
     teacher_list_create_class: "На следећем екрану ћеш моћи да направиш нови час."
     teacher_list_add_students: "Додај ученике у разред тако што ћеш кликнути на линк Преглед часа, па послати Код за час или URL својим ученицима. Увек можеш да их позовеш путем и-мејла ако имају и-мејл адресу."
     teacher_list_resource_hub_1: "Види  "
-    teacher_list_resource_hub_2: "водиче за курсеве"
+    teacher_list_resource_hub_2: "водиче за курсеве" # {change}
     teacher_list_resource_hub_3: "за решења за сваки ниво и "
     teacher_list_resource_hub_4: "средиште за ресурсе"
     teacher_list_resource_hub_5: "за водиче за наставу, активности и више! "
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     eu_confirmation_place_of_processing: "Сазнај више о могућим ризицима"
     eu_confirmation_student: "Ако ниси сигуран, питај наставника."
     eu_confirmation_individual: "Ако не желиш да чувамо твоје податке на америчким серверима, увек можеш да наставиш анонимно да се играш без чувања кода."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Поврати налог"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     books: "Књиге"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Врати се" # When used as an action verb, like "Navigate backward"
     coming_soon: "У припреми - биће доступно ускоро!"
     continue: "Настави" # When used as an action verb, like "Continue forward"
     next: "Следеће"
     default_code: "Подразумевани код"
     loading: "Учитавање"
+#    LOADING: "LOADING"
     overview: "Преглед"
     processing: "Обрада..."
     solution: "Решење"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     save_changes: "Сачувај измене"
     required_field: "Обавезно поље" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "и"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     next_level: "Следећи ниво"
     combo_challenge: "Мешани изазов"
     concept_challenge: "Концепт изазов"
+#    challenge: "Challenge"
     challenge_unlocked: "Изазов је откључан"
     combo_challenge_unlocked: "Мешани изазов је откључан"
     concept_challenge_unlocked: "Концепт изазов је откључан"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     reload_title: "Поновно учитавање целог кода?"
     reload_really: "Да ли си сигуран да желиш да започнеш ниво испочетка?"
     reload_confirm: "Поновно учитавање свега"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "Тест ниво"
     victory: "Победа"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
   apis:
     methods: "Методе"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     wallOfDarkness_name: "Зид таме"
     wallOfDarkness_description: "Сакриј се иза зида сенки да би спречио да те гледају радознале очи."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
   premium_features:
     get_premium: "Прими<br>CodeCombat<br>премијум" # Fit into the banner on the /features page
     master_coder: "Постани члан Главног кодирања тако што ћеш се данас претплатити!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     level_to_unlock: "Ниво који треба откључати:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Само одређени хероји могу да играју овај ниво."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "функција" # skill types
     method: "метод"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     volume_label: "Јачина звука"
     music_label: "Музика"
     music_description: "Укључи/искључи позадинску музику."
-    editor_config_title: "Уређивач конфигурација"
-    editor_config_livecompletion_label: "Аутоматско довршавање у реалном времену"
+    editor_config_title: "Уређивач конфигурација" # {change}
+    editor_config_livecompletion_label: "Аутоматско довршавање у реалном времену" # {change}
     editor_config_livecompletion_description: "Приказује сугестију за аутоматску допуну док куцаш."
     editor_config_invisibles_label: "Прикажи невидљиве"
     editor_config_invisibles_description: "Приказује невидљиве као што су размаци или табови."
     editor_config_indentguides_label: "Прикажи водиче за индентацију"
     editor_config_indentguides_description: "Приказује вертикалне линије да би се индентације боље виделе."
-    editor_config_behaviors_label: "Паметна понашања"
+    editor_config_behaviors_label: "Паметна понашања" # {change}
     editor_config_behaviors_description: "Аутоматски довршава угласте и витичасте заграде и наводнике."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     team_link: "Тим"
     story_link: "Прича"
     press_link: "Штампа"
-    mission_title: "Наша мисија: да учинимо програмирање доступним сваком ученику на планети."
-    mission_description_1: "<strong>Програмирање је магично</strong>. То је могућност да створиш ствари из чисте маште. Ми смо покренули CodeCombat да бисмо дали ученицима осећај чаробњачке моћи на дохват руке користећи <strong>куцани код</strong>."
-    mission_description_2: "Како се испоставља, то им омогућава да такође уче брже. МНОГО брже. То је као конверзација уместо коришћења упутства. Желимо да донесемо ту конверзацију у сваку школу и <strong>сваком ученику</strong>, јер би свако требало да добије шансу да научи магију програмирања."
+    mission_title: "Наша мисија: да учинимо програмирање доступним сваком ученику на планети." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Упознај CodeCombat тим"
-    team_values: "Ми ценимо отворен дијалог пун поштовања, где најбоља идеја побеђује. Наше одлуке су засноване на истраживању потрошача и наш процес је фокусиран на достављање опипљивих резултата за њих. Свако је практичан, од нашег генералног директора до наших Github сарадника, јер ми ценимо раст и учење у нашем тиму."
+    team_values: "Ми ценимо отворен дијалог пун поштовања, где најбоља идеја побеђује. Наше одлуке су засноване на истраживању потрошача и наш процес је фокусиран на достављање опипљивих резултата за њих. Свако је практичан, од нашег генералног директора до наших Github сарадника, јер ми ценимо раст и учење у нашем тиму." # {change}
     nick_title: "Кооснивач, генерални директор"
     matt_title: "Кооснивач, технички директор"
     cat_title: "Дизајнер игара"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     number_contributors: "Преко 450 сарадника је дало своју подршку и време овом пројекту."
     story_title: "Наша прича до сад"
     story_subtitle: "Од 2013. године, CodeCombat је израстао из обичних скупова скица у праву успешну игру."
-    story_statistic_1a: "Више од 5.000.000"
+    story_statistic_1a: "Више од 5.000.000" # {change}
     story_statistic_1b: "играча укупно"
-    story_statistic_1c: "је започело своје програмерско путовање кроз CodeCombat"
+    story_statistic_1c: "је започело своје програмерско путовање кроз CodeCombat" # {change}
     story_statistic_2a: "Преведени смо на преко 50 језика — наши играчи долазе из"
     story_statistic_2b: "преко 200 земаља" # {change}
     story_statistic_3a: "Заједно, они су написали"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     story_long_way_1: "Иако смо прешли велики пут..."
     story_sketch_caption: "Nick-ове прве скице које приказују програмску игру на делу."
     story_long_way_2: "и даље имамо доста да урадимо пре него што завршимо нашу потрагу, тако да..."
-    jobs_title: "Дођи да радиш са нама и помози нам да напишемо CodeCombat историју!"
+    jobs_title: "Дођи да радиш са нама и помози нам да напишемо CodeCombat историју!" # {change}
     jobs_subtitle: "Не уклапа ти се ништа, али си заинтересован за остајање у контакту? Погледај наш \"Направи свој\" списак."
     jobs_benefits: "Бенефиције за запослене"
     jobs_benefit_4: "Неограничен одмор"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     jobs_custom_contact_2: "и представи се и можда ступимо у контакт у будућности!"
     contact_title: "Штампа и контакт"
     contact_subtitle: "Треба ти још информација? Ступи у контакт с нама на"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Снимци екрана игре"
     screenshots_hint: "(кликни да видиш пуну величину)"
     downloads_title: "Преузми средства и информације"
@@ -1240,7 +1306,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     referrer_other: "Друго"
     anything_else: "Још нешто што треба да знамо?" # {change}
     thanks_header: "Захтев је примљен!"
-    thanks_sub_header: "Хвала на интересовању за CodeCombat за твоју школу."
+    thanks_sub_header: "Хвала на интересовању за CodeCombat за твоју школу." # {change}
     thanks_p: "Контактираћемо те ускоро! Ако желиш да ступиш у контакт, можеш нас добити на:"
     back_to_classes: "Назад на разреде"
     finish_signup: "Заврши креирање свој наставничког налога:"
@@ -1459,8 +1525,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     switch_to: "Пребаци на"
     greetings: "Поздрав!"
     back_classrooms: "Назад на моје учионице"
-    back_classroom: "Назад на учионицу"
-    back_courses: "Назад на моје курсеве"
+    back_classroom: "Назад на учионицу" # {change}
+    back_courses: "Назад на моје курсеве" # {change}
     edit_details: "Измени детаље разреда"
     purchase_enrollments: "Купи уписе" # {change}
     remove_student: "уклони ученика"
@@ -1488,13 +1554,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    view_map: "view map"
 #    view_videos: "view videos"
     view_project_gallery: "види пројекте мог разреда"
-    join_class: "Придружи се разреду"
+    join_class: "Придружи се разреду" # {change}
     join_class_2: "Придружи се разреду"
-    ask_teacher_for_code: "Питај свог наставника да ли имаш CodeCombat код за разред! Ако имаш, унеси га испод:"
-    enter_c_code: "<Упиши код за разред>"
+    ask_teacher_for_code: "Питај свог наставника да ли имаш CodeCombat код за разред! Ако имаш, унеси га испод:" # {change}
+    enter_c_code: "<Упиши код за разред>" # {change}
     join: "Придружи се"
     joining: "Придруживање разреду"
-    course_complete: "Курс завршен"
+#    unit_complete: "Unit Complete"
     play_arena: "Играј Арену"
     view_project: "Види пројекат"
     start: "Почни"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     license_will_revoke: "Плаћена лиценца овог ученика ће се повући и биће доступна за доделу другом ученику. "
     keep_student: "Задржи ученика"
     removing_user: "Уклањање корисника"
-    subtitle: "Види преглед курса и нивое" # Flat style redesign
+    subtitle: "Види преглед курса и нивое" # {change}
     changelog: "Види најновије измене у нивоима курса. "
     select_language: "Изабери језик"
     select_level: "Изабери ниво"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     current_hero_female: "Тренутна хероина:"
     web_dev_language_transition: "Цео програм часа је у HTML / JavaScript за овај курс. Часови који користе Python ће започети са додатним JavaScript уводним нивоима зарад лакше транзиције. Часови који већ користе JavaScript ће прескочити уводне нивое."
     course_membership_required_to_play: "Мораћеш да се учланиш у курс да би играо овај ниво."
-    license_required_to_play: "Тражи од наставнка да ти додели лиценцу како би наставио да играш CodeCombat!"
+    license_required_to_play: "Тражи од наставнка да ти додели лиценцу како би наставио да играш CodeCombat!" # {change}
     update_old_classroom: "Нова школска година, нови нивои!"
     update_old_classroom_detail: "Да би добио ажуриране нивое, постарај се да креираш нов час за ово полугодиште тако што ћеш кликнути на Креирај нов час на својој"
     teacher_dashboard: "табели за наставника"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     student_code: "Код ученика који се зове __name__"
     teacher_dashboard: "Наставникова табла" # Navbar
     my_classes: "Моји часови"
-    courses: "Водичи за курс"
+    courses: "Водичи за курс" # {change}
     enrollments: "Ученичке лиценце"
     resources: "Ресурси"
     help: "Помоћ"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     edit_class_settings: "уреди подешавања часа"
     access_restricted: "Потребно је ажурирање налога"
     teacher_account_required: "Наставнички налог је потребан за приступ овом садржају."
-    create_teacher_account: "Направи наставнички налог"
+    create_teacher_account: "Направи наставнички налог" # {change}
     what_is_a_teacher_account: "Шта је наставнички налог?"
     teacher_account_explanation: "CodeCombat наставнички налог ти допушта да подесиш учионице, надгледаш напредак ученика док похађају курсеве, управљаш лиценцама и приступаш ресурсима за помоћ при стварању твог наставног плана. "
     current_classes: "Тренутни часови"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     revoke_license: "Одузми лиценцу"
     revoke_licenses: "Одузми све лиценце"
     course_progress: "Напредак курса"
+#    unit_progress: "Unit Progress"
     not_applicable: "није применљиво"
     edit: "уреди"
     edit_2: "Уреди"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     no_progress: "У току"
     not_required: "Није обавезно"
     view_student_code: "Кликни да видиш код ученика"
-    select_course: "Изабери курсеве за преглед"
+    select_course: "Изабери курсеве за преглед" # {change}
     progress_color_key: "Боја дугмета напретка:"
     level_in_progress: "Ниво у напретку"
     level_not_started: "Ниво није започет"
@@ -1728,17 +1796,17 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     copy_class_url: "Копирај URL часа"
     class_join_url_blurb: "Такође можеш да објавиш овај јединствени URL часа на заједнички вебсајт."
     add_students_manually: "Позови ученике и-мејлом"
-    bulk_assign: "Изабери курс   "
+    bulk_assign: "Изабери курс   " # {change}
     assigned_msg_1: "{{numberAssigned}} ученицима је додељен {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} лиценце су примењене."
     assigned_msg_3: "Сада имаш {{remainingSpots}} преосталих доступних лиценци"
-    assign_course: "Додели курс"
+    assign_course: "Додели курс" # {change}
     removed_course_msg: "{{numberRemoved}} ученици су уклоњени из {{courseName}}."
-    remove_course: "Уклони курс"
-    not_assigned_modal_title: "Курсеви нису додељени"
+    remove_course: "Уклони курс" # {change}
+    not_assigned_modal_title: "Курсеви нису додељени" # {change}
     not_assigned_modal_starter_body_1: "Овај курс захтева почетну лиценцу. Немаш довољно доступних почетних лиценци за доделу овог курса свим __selected__ изабраним ученицима."
     not_assigned_modal_starter_body_2: "Купи почетне лиценце за доделу приступа овом курсу."
-    not_assigned_modal_full_body_1: "Овај курс захтева пуну лиценцу. Немаш довољно доступних пуних лиценци за доделу овог курса свим __selected__ изабраним ученицима."
+    not_assigned_modal_full_body_1: "Овај курс захтева пуну лиценцу. Немаш довољно доступних пуних лиценци за доделу овог курса свим __selected__ изабраним ученицима." # {change}
     not_assigned_modal_full_body_2: "Имаш само __numFullLicensesAvailable__ доступних пуних лиценци (__numStudentsWithoutFullLicenses__ ученици тренутно немају пуне активне лиценце)."
     not_assigned_modal_full_body_3: "Молимо да изаберете мање ученика или да се обратите __supportEmail__ за помоћ."
     assigned: "Додељено"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     all_students: "Сви ученици"
     apply_licenses: "Примени лиценце"
     not_enough_enrollments: "Нема довољно доступних лиценци."
-    enrollments_blurb: "Ученици морају да имају лиценцу за приступ садржају након првог курса. "
+    enrollments_blurb: "Ученици морају да имају лиценцу за приступ садржају након првог курса. " # {change}
     how_to_apply_licenses: "Како применити лиценце"
     export_student_progress: "Извези напредак ученика (CSV)"
     send_email_to: "Пошаљи повраћену лозинку путем и-мејла на:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     start_date: "датум почетка:"
     end_date: "датум краја:"
     get_enrollments_blurb: "Помоћи ћемо ти да направиш решење које испуњава потребе твог разреда, школе или округа. "
-    how_to_apply_licenses_blurb_1: "Када наставник додели курс ученику по први пут, аутоматски ћемо применити лиценцу. Изабери стрелицу на доле у својој учионици да доделиш курс изабраним ученицима:"
-    how_to_apply_licenses_blurb_2: "Да ли још увек могу да применим лиценцу без доделе курса?"
+    how_to_apply_licenses_blurb_1: "Када наставник додели курс ученику по први пут, аутоматски ћемо применити лиценцу. Изабери стрелицу на доле у својој учионици да доделиш курс изабраним ученицима:" # {change}
+    how_to_apply_licenses_blurb_2: "Да ли још увек могу да применим лиценцу без доделе курса?" # {change}
     how_to_apply_licenses_blurb_3: "Да — иди на језичак статуса лиценце у својој учионици и кликни на \"Apply License\" за било којег ученика који нема активну лиценцу."
     request_sent: "Захтев је послат!"
     assessments: "Процене"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     pacing_guides_high: "Водич за средњу школу"
     getting_started: "Започињање"
     educator_faq: "Често постављена питања (FAQ) едукатора"
-    educator_faq_desc: "Често постављена питања о коришћењу CodeCombat-а у твојој учионици или школи."
+    educator_faq_desc: "Често постављена питања о коришћењу CodeCombat-а у твојој учионици или школи." # {change}
     teacher_getting_started: "Водич за започињање за наставника"
-    teacher_getting_started_desc: "Нов си на CodeCombat-у? Преузми овај водич за започињање за наставника да направиш свог налог, свој први час и да позовеш ученике на први курс."
+    teacher_getting_started_desc: "Нов си на CodeCombat-у? Преузми овај водич за започињање за наставника да направиш свог налог, свој први час и да позовеш ученике на први курс." # {change}
     student_getting_started: "Водич за брзо започињање за ученика"
     student_getting_started_desc: "Можеш да поделиш овај водич ученицима пре него што отпочнеш CodeCombat да би могли да се упознају са уређивачем кода. Овај водич може да се користи и за Python и за JavaScript учионице."
     ap_cs_principles: "AP принципи компјутерске науке"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     teacher_quest_teach_methods_step2: "Одштампај [Водич за брзи почетак за ученика](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) из ресурса."
     teacher_quest_teach_strings: "Немој да стрингујеш ученике, научи их `стринговима`."
     teacher_quest_teach_strings_step1: "Добиј 75% од најмање једног часа путем __True Names__"
-    teacher_quest_teach_strings_step2: "Користи бирач нивоа за наставника на [Водичи за курсеве](/teachers/courses) страни за преглед __True Names__."
+    teacher_quest_teach_strings_step2: "Користи бирач нивоа за наставника на [Водичи за курсеве](/teachers/courses) страни за преглед __True Names__." # {change}
     teacher_quest_teach_loops: "Држи ученике у петљи о `петљама`."
     teacher_quest_teach_loops_step1: "Добиј 75% од најмање једног часа путем __Fire Dancing__."
     teacher_quest_teach_loops_step2: "Користи __Loops Activity__ у [CS1 Водич за наставни план](/teachers/resources/cs1) да појачаш концепт."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     combo_explanation: "Ученици прелазе Комбо нивое изазова користећи бар један наведен концепт. Прегледај код ученика тако што ћеш кликнути на тачку напретка."
     concept: "Концепт"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
   share_licenses:
     share_licenses: "Подели лиценце"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "Грешка учитавања са сервера" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     bootstrap: "Bootstrap"
     break_statements: "Break искази"
     classes: "Класе"
+#    conditionals: "Conditionals"
     continue_statements: "Continue искази"
+#    debugging: "Debugging"
     dom_events: "DOM догађаји"
     dynamic_styling: "Динамичка стилизација"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     reading_docs: "Читање докумената"
     recursion: "Рекурзије"
     return_statements: "Враћање - искази за враћање резултата"
+#    sequences_algorithms: "Sequences & Algorithms"
     stacks: "Структуре података - стекови"
     strings: "Стрингови"
     strings_concatenation: "Спајање стрингова"
     strings_substrings: "Подстринг"
+#    syntax: "Syntax"
     trees: "Структуре података - стабла"
     variables: "Променљиве"
     vectors: "Вектори"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"

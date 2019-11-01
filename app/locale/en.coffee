@@ -26,8 +26,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sign_up: "Sign Up"
 
   new_home:
-    title: "Ozaria - Computer science that captivates" # {change}
-    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world." # {change}
+    title: "Ozaria - Computer science that captivates"
+    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Computer Science"
@@ -359,7 +359,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   login:
     auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Create Account"
-    email_or_username: "Email or Username" # {change}
+    email_or_username: "Email or Username"
     or: 'or'
     log_in: "Log In"
     sign_in: "Sign In"
@@ -367,8 +367,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     log_out: "Log Out"
     forgot_password: "Forgot your password?"
     finishing: "Finishing"
-    sign_in_with_facebook: "Facebook" # {change}
-    sign_in_with_gplus: "Google" # {change}
+    sign_in_with_facebook: "Facebook"
+    sign_in_with_gplus: "Google"
     signup_switch: "Want to create an account?"
     already_have_account1: "Already have a CodeCombat Teacher or Student account?"
     already_have_account2: "You can sign into Ozaria.com using that account."
@@ -410,13 +410,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_type_2: "Set up your class"
     teacher_type_3: "Access Course Guides"
     teacher_type_4: "View student progress"
-    signup_as_teacher: "Create Teacher Account" # {change}
+    signup_as_teacher: "Create Teacher Account"
     student_type_1: "Learn to program while playing an engaging game!"
     student_type_2: "Play with your class"
     student_type_3: "Compete in arenas"
     student_type_4: "Choose your hero!"
     student_type_5: "Have your Class Code ready!"
-    signup_as_student: "Create Student Account" # {change}
+    signup_as_student: "Create Student Account"
     individuals_or_parents: "Individuals & Parents"
     individual_type: "For players learning to code outside of a class. Parents should sign up for an account here."
     signup_as_individual: "Sign up as an Individual"
@@ -434,18 +434,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     account_created: "Account Created!"
     confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
     confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
-    write_this_down: "Write down your username:" # {change}
+    write_this_down: "Write down your username:"
     start_playing: "Start Playing!"
     sso_connected: "Successfully connected with:"
     select_your_starting_hero: "Select Your Starting Hero:"
     you_can_always_change_your_hero_later: "You can always change your hero later."
     finish: "Finish"
     teacher_ready_to_create_class: "You're ready to create your first class!"
-    teacher_students_can_start_now: "Your students will be able to start playing the first unit, Prologue: The Sky Mountain, immediately." # {change}
+    teacher_students_can_start_now: "Your students will be able to start playing the first unit, Prologue: The Sky Mountain, immediately."
     teacher_list_create_class: "On the next screen you will be able to create a new class."
     teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
     teacher_list_resource_hub_1: "Check out the"
-    teacher_list_resource_hub_2: "Unit Guides" # {change}
+    teacher_list_resource_hub_2: "Unit Guides"
     teacher_list_resource_hub_3: "for solutions to every level, and the"
     teacher_list_resource_hub_4: "Resource Hub"
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
@@ -474,9 +474,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     books: "Books"
 
   common:
-    default_title: "Ozaria - Computer science that captivates" # {change}
+    default_title: "Ozaria - Computer science that captivates"
     ozaria: "Ozaria"
-    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world." # {change}
+    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Back" # When used as an action verb, like "Navigate backward"
     coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"
@@ -648,7 +648,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
     reload_confirm: "Reload All"
-    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written." # {change}
+    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
     restart_confirm: "Yes, Restart"
     test_level: "Test Level"
     victory: "Victory"
@@ -778,7 +778,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     watch_a_video: "Watch a video on __concept_name__"
     concept_unlocked: "Concept Unlocked"
     use_at_least_one_concept: "Use at least one concept: "
-    command_bank: "Code Bank" # {change}
+    command_bank: "Code Bank"
     learning_goals: "Learning Goals"
     start: "Start"
     vega_character: "Vega Character"
@@ -1103,19 +1103,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     volume_label: "Volume"
     music_label: "Music"
     music_description: "Turn background music on/off."
-    editor_config_title: "Level Options:" # {change}
-    editor_config_livecompletion_label: "Enable Autocomplete" # {change}
+    editor_config_title: "Level Options:"
+    editor_config_livecompletion_label: "Enable Autocomplete"
     editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
     editor_config_invisibles_label: "Show Invisibles"
     editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
     editor_config_indentguides_label: "Show Indent Guides"
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
-    editor_config_behaviors_label: "Enable Smart Behaviors" # {change}
+    editor_config_behaviors_label: "Enable Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   about:
     title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
-    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination." # {change}
+    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
     learn_more: "Learn More"
     main_title:"If you want to learn to program, you need to write (a lot of) code."
     main_description: "Our job is to make sure you're doing that with a smile on your face."
@@ -1123,13 +1123,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     team_link: "Team"
     story_link: "Story"
     press_link: "Press"
-    mission_title: "Our mission: make computer science accessible to every student on Earth." # {change}
+    mission_title: "Our mission: make computer science accessible to every student on Earth."
     mission_teach: "Teach through Adventure"
     mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
     mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
     mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Meet the CodeCombat team"
-    team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team." # {change}
+    team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
     nick_title: "Cofounder, CEO"
     matt_title: "Cofounder, CTO"
     cat_title: "Game Designer"
@@ -1155,7 +1155,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     daniela_title: "Marketing Manager"
     chelsea_title: "Operations Manager"
     claire_title: "Executive Assistant"
-    bobby_title: "Game Designer" # {change}
+    bobby_title: "Game Designer"
     brian_title: "Lead Game Designer"
     andrew_title: "Software Engineer"
     stephanie_title: "Customer Support Specialist"
@@ -1176,9 +1176,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     number_contributors: "Over 450 contributors have lent their support and time to this project."
     story_title: "Our story so far"
     story_subtitle: "Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game."
-    story_statistic_1a: "12,000,000+" # {change}
+    story_statistic_1a: "12,000,000+"
     story_statistic_1b: "total players"
-    story_statistic_1c: "have started their programming journey through CodeCombat and Ozaria" # {change}
+    story_statistic_1c: "have started their programming journey through CodeCombat and Ozaria"
     story_statistic_2a: "We’ve been translated into over 50 languages — our players hail from"
     story_statistic_2b: "190+ countries"
     story_statistic_3a: "Together, they have written"
@@ -1187,7 +1187,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     story_long_way_1: "Though we've come a long way..."
     story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
     story_long_way_2: "we still have much to do before we complete our quest, so..."
-    jobs_title: "Come join us and bring computer science to the world!" # {change}
+    jobs_title: "Come join us and bring computer science to the world!"
     jobs_subtitle: """Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing."""
     jobs_benefits: "Employee Benefits"
     jobs_benefit_4: "Unlimited vacation"
@@ -1260,7 +1260,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Learn more about Ozaria with an interactive walk through of the product, pricing, and implementation!" # {change}
+    subtitle: "Learn more about Ozaria with an interactive walk through of the product, pricing, and implementation!"
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "What's the best number to reach you?"
@@ -1286,7 +1286,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     city: "City"
     state: "State / Region"
     country: "Country"
-    num_students_help: "How many students will use Ozaria?" # {change}
+    num_students_help: "How many students will use Ozaria?"
     num_students_default: "Select Range"
     education_level_label: "Education Level of Students"
     education_level_help: "Choose as many as apply."
@@ -1306,9 +1306,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     referrer_pd: "Professional trainings/workshops"
     referrer_web: "Google"
     referrer_other: "Other"
-    anything_else: "What kind of class do you anticipate using Ozaria for?" # {change}
+    anything_else: "What kind of class do you anticipate using Ozaria for?"
     thanks_header: "Request Received!"
-    thanks_sub_header: "Thanks for expressing interest in Ozaria for your school." # {change}
+    thanks_sub_header: "Thanks for expressing interest in Ozaria for your school."
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
     back_to_classes: "Back to Classes"
     finish_signup: "Finish creating your teacher account:"
@@ -1527,8 +1527,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     switch_to: "Switch To"
     greetings: "Greetings!"
     back_classrooms: "Back to my classrooms"
-    back_classroom: "Back to classroom" # {change}
-    back_courses: "Back to Classes" # {change}
+    back_classroom: "Back to classroom"
+    back_courses: "Back to Classes"
     edit_details: "Edit class details"
     purchase_enrollments: "Purchase Student Licenses"
     remove_student: "remove student"
@@ -1550,16 +1550,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_now_learn_2: "while loops to solve pesky puzzles"
     play_now_learn_3: "strings & variables to customize actions"
     play_now_learn_4: "how to defeat an ogre (important life skills!)"
-    welcome_to_page: "Student Dashboard" # {change}
+    welcome_to_page: "Student Dashboard"
     my_classes: "Current Classes"
     class_added: "Class successfully added!"
     view_map: "view map"
     view_videos: "view videos"
     view_project_gallery: "view my classmates' projects"
-    join_class: "Join a Class" # {change}
+    join_class: "Join a Class"
     join_class_2: "Join class"
-    ask_teacher_for_code: "Ask your teacher if you have a Ozaria class code! If so, enter it below:" # {change}
-    enter_c_code: "Enter Class Code" #{change}
+    ask_teacher_for_code: "Ask your teacher if you have a Ozaria class code! If so, enter it below:"
+    enter_c_code: "Enter Class Code" #
     join: "Join"
     joining: "Joining class"
     unit_complete: "Unit Complete"
@@ -1577,7 +1577,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Keep Student"
     removing_user: "Removing user"
-    subtitle: "Review unit overviews and levels" # {change}
+    subtitle: "Review unit overviews and levels"
     changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
@@ -1654,7 +1654,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     current_hero_female: "Current Hero:"
     web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
     course_membership_required_to_play: "You'll need to join a course to play this level."
-    license_required_to_play: "Ask your teacher to assign you a license so you can continue to play Ozaria!" # {change}
+    license_required_to_play: "Ask your teacher to assign you a license so you can continue to play Ozaria!"
     update_old_classroom: "New school year, new levels!"
     update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
     teacher_dashboard: "teacher dashboard"
@@ -1734,7 +1734,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     student_code: "__name__'s Student Code"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
-    courses: "Unit Guides" # {change}
+    courses: "Unit Guides"
     enrollments: "Student Licenses"
     resources: "Resources"
     help: "Help"
@@ -1742,7 +1742,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     edit_class_settings: "edit class settings"
     access_restricted: "Account Update Required"
     teacher_account_required: "A teacher account is required to access this content."
-    create_teacher_account: "Create a Teacher Account" # {change}
+    create_teacher_account: "Create a Teacher Account"
     what_is_a_teacher_account: "What's a Teacher Account?"
     teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Current Classes"
@@ -1786,7 +1786,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_progress: "No progress"
     not_required: "Not required"
     view_student_code: "Click to view student code"
-    select_course: "Select unit to view" # {change}
+    select_course: "Select unit to view"
     progress_color_key: "Progress color key:"
     level_in_progress: "Level in Progress"
     level_not_started: "Level Not Started"
@@ -1798,17 +1798,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     copy_class_url: "Copy Class URL"
     class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
     add_students_manually: "Invite Students by Email"
-    bulk_assign: "Select unit" #{change}
+    bulk_assign: "Select unit" #
     assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licenses were applied."
     assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
-    assign_course: "Assign Unit" # {change}
+    assign_course: "Assign Unit"
     removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
-    remove_course: "Remove Unit" # {change}
-    not_assigned_modal_title: "Units were not assigned" # {change}
+    remove_course: "Remove Unit"
+    not_assigned_modal_title: "Units were not assigned"
     not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
-    not_assigned_modal_full_body_1: "This unit requires a Full License. You do not have enough Full Licenses available to assign this unit to all __selected__ selected students." # {change}
+    not_assigned_modal_full_body_1: "This unit requires a Full License. You do not have enough Full Licenses available to assign this unit to all __selected__ selected students."
     not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
     not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
     assigned: "Assigned"
@@ -1820,7 +1820,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     all_students: "All Students"
     apply_licenses: "Apply Licenses"
     not_enough_enrollments: "Not enough licenses available."
-    enrollments_blurb: "Students are required to have a license to access any content after the first unit." # {change}
+    enrollments_blurb: "Students are required to have a license to access any content after the first unit."
     how_to_apply_licenses: "How to Apply Licenses"
     export_student_progress: "Export Student Progress (CSV)"
     send_email_to: "Send Recover Password Email to:"
@@ -1840,8 +1840,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start_date: "start date:"
     end_date: "end date:"
     get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
-    how_to_apply_licenses_blurb_1: "When a teacher assigns a unit to a student for the first time, we’ll automatically apply a license. Use the Select Unit dropdown in your classroom to assign a unit to selected students:" # {change}
-    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a unit?" # {change}
+    how_to_apply_licenses_blurb_1: "When a teacher assigns a unit to a student for the first time, we’ll automatically apply a license. Use the Select Unit dropdown in your classroom to assign a unit to selected students:"
+    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a unit?"
     how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
     request_sent: "Request Sent!"
     assessments: "Assessments"
@@ -1863,9 +1863,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pacing_guides_high: "High School Pacing Guide"
     getting_started: "Getting Started"
     educator_faq: "Educator FAQ"
-    educator_faq_desc: "Frequently asked questions about using Ozaria in your classroom or school." # {change}
+    educator_faq_desc: "Frequently asked questions about using Ozaria in your classroom or school."
     teacher_getting_started: "Teacher Getting Started Guide"
-    teacher_getting_started_desc: "New to Ozaria? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first unit." # {change}
+    teacher_getting_started_desc: "New to Ozaria? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first unit."
     student_getting_started: "Student Quick Start Guide"
     student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
     ap_cs_principles: "AP Computer Science Principles"
@@ -1996,7 +1996,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__." # {change}
+    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__."
     teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
     teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
     teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
@@ -3022,7 +3022,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   interactives:
     phenomenal_job: 'Phenomenal Job!'
     try_again: 'Whoops, try again!'
-    select_statement_left: 'Whoops! Select a code statement before pressing Submit.' # {change}
+    select_statement_left: 'Whoops! Select a code statement before pressing Submit.'
     fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
     cannot_play_video: 'Sadly, this video cannot be played in your area.'
     console_instructions: 'See why by opening your browser console: 1) Right click 2) Choose "Inspect" 3) Click the console tab.'

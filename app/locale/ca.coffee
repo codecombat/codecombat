@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "Català", englishDescription: "Catalan", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     map: "Mapa"
     play: "Nivells" # The top nav bar entry where players choose which levels to play
     community: "Comunitat"
-    courses: "Cursos"
+#    units: "Units"
     blog: "Bloc"
     forum: "Fòrum"
     account: "Compte"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     privacy: "Privadesa"
     about: "Sobre Nosaltres"
     contact: "Contacta"
+#    press: "Press"
     twitter_follow: "Segueix-nos"
     my_classrooms: "Les Meves Classes"
-    my_courses: "Els Meus Cursos"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Professions"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     resource_hub: "Centre de Recursos"
     apcsp: "Principis AP CS"
     parent: "Pares"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Tancar"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     back_to_classroom: "Tornar a l'aula"
     teacher_button: "Per a Docents"
     get_more_codecombat: "Obté més CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     title: "Excel·lent feina, aprenent"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Crear un compte"
-    email_or_username: "E-mail o usuari"
+    email_or_username: "E-mail o usuari" # {change}
+#    or: "or"
     log_in: "Iniciar Sessió"
+#    sign_in: "Sign In"
     logging_in: "Iniciant Sessió"
     log_out: "Tancar Sessió"
     forgot_password: "Contrasenya oblidada?"
     finishing: "Acabant"
-    sign_in_with_facebook: "Inicia amb Facebook"
-    sign_in_with_gplus: "Inicia amb G+"
+    sign_in_with_facebook: "Inicia amb Facebook" # {change}
+    sign_in_with_gplus: "Inicia amb G+" # {change}
     signup_switch: "Vols crear-te un compte?"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "Subscripció completa"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     teacher_type_2: "Configureu la vostra classe"
     teacher_type_3: "Accediu a guies del curs"
     teacher_type_4: "Mostra el progrés de l'alumnat"
-    signup_as_teacher: "Registra't com a docent"
+    signup_as_teacher: "Registra't com a docent" # {change}
     student_type_1: "Aprèn a programar mentre fas un joc atractiu!"
     student_type_2: "Juga amb la teva classe"
     student_type_3: "Competeix en els estàdiums"
     student_type_4: "Tria el teu heroi!"
     student_type_5: "Tingues preparat el teu Codi de classe!"
-    signup_as_student: "Registra't com a estudiant"
+    signup_as_student: "Registra't com a estudiant" # {change}
     individuals_or_parents: "Particulars i pares"
     individual_type: "Per als jugadors que aprenen a codificar fora d'una classe. Els pares s'han d'inscriure a un compte aquí."
     signup_as_individual: "Inscriviu-vos com a particular"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     account_created: "S'ha creat el compte!"
     confirm_student_blurb: "Escriviu la vostra informació perquè no us oblideu. El vostre professor també us pot ajudar a restablir la vostra contrasenya en qualsevol moment."
     confirm_individual_blurb: "Escriviu la informació d'inici de sessió en cas que la necessiti més tard. Verifiqueu el vostre correu electrònic perquè pugueu recuperar el vostre compte si alguna vegada us oblideu de la contrasenya: consulteu la safata d'entrada!"
-    write_this_down: "Escriviu això:"
+    write_this_down: "Escriviu això:" # {change}
     start_playing: "Comença a jugar!"
     sso_connected: "S'ha connectat correctament amb:"
     select_your_starting_hero: "Seleccioneu el vostre heroi inicial:"
     you_can_always_change_your_hero_later: "Sempre podeu canviar l'heroi més tard."
     finish: "Acaba"
     teacher_ready_to_create_class: "Estàs preparat per crear la teva primera classe!"
-    teacher_students_can_start_now: "Els teus alumnes podran començar a jugar immediatament al primer curs, Introducció a la informàtica."
+    teacher_students_can_start_now: "Els teus alumnes podran començar a jugar immediatament al primer curs, Introducció a la informàtica." # {change}
     teacher_list_create_class: "A la pantalla següent podreu crear una nova classe."
     teacher_list_add_students: "Afegiu estudiants a la classe fent clic a l'enllaç Visualitza la classe i, a continuació, envia als vostres estudiants el codi de la classe o l'URL. També podeu convidar-los per correu electrònic si tenen adreces de correu electrònic."
     teacher_list_resource_hub_1: "Consulteu les"
-    teacher_list_resource_hub_2: "Guies del Curs"
+    teacher_list_resource_hub_2: "Guies del Curs" # {change}
     teacher_list_resource_hub_3: "per obtenir solucions a tots els nivells, i el"
     teacher_list_resource_hub_4: "Centre de Recursos"
     teacher_list_resource_hub_5: "per guies curriculars, activitats i molt més!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     eu_confirmation_place_of_processing: "Saber més sobre possibles riscos"
     eu_confirmation_student: "Si dubtes, consulta al teu professorat."
     eu_confirmation_individual: "Si no vols que desem les teves dades als servidors dels EE.UU., sempre pots continuar jugant de manera anònima sense desar el teu codi."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     books: "Llibres"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Endarrere" # When used as an action verb, like "Navigate backward"
     coming_soon: "Pròximament!"
     continue: "Continua" # When used as an action verb, like "Continue forward"
     next: "Següent"
     default_code: "Codi per defecte"
     loading: "Carregant..."
+#    LOADING: "LOADING"
     overview: "Resum"
     processing: "Processant..."
     solution: "Solució"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     save_changes: "Guarda canvis"
     required_field: "obligatori"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "i"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     next_level: "Següent nivell"
     combo_challenge: "Repte combinat"
     concept_challenge: "Repte conceptual"
+#    challenge: "Challenge"
     challenge_unlocked: "Repte desbloquejat"
     combo_challenge_unlocked: "Repte combinat desbloquejat"
     concept_challenge_unlocked: "Repte conceptual desbloquejat"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     reload_title: "Recarregar tot el codi?"
     reload_really: "Estàs segur que vols recarregar aquest nivell des del principi?"
     reload_confirm: "Recarregar tot"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "Test de Nivell"
     victory: "Victòria"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
   apis:
     methods: "Mètodes"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     wallOfDarkness_name: "Paret de Foscor"
     wallOfDarkness_description: "Amaga't darrere una paret d'ombres per evitar la mirada d'ulls curiosos."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
   premium_features:
     get_premium: "Aconsegueix<br>CodeCombat<br>Prèmium" # Fit into the banner on the /features page
     master_coder: "Converteix-te en un Maestre Codificador subscrivint-te avui mateix!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     level_to_unlock: "Nivell per desbloquejar:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Només certs herois poden jugar aquest nivell."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "funció" # skill types
     method: "mètode"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     volume_label: "Volum"
     music_label: "Musica"
     music_description: "Activa / desactiva la música de fons."
-    editor_config_title: "Configuració de l'editor"
-    editor_config_livecompletion_label: "Autocompleció en directe"
+    editor_config_title: "Configuració de l'editor" # {change}
+    editor_config_livecompletion_label: "Autocompleció en directe" # {change}
     editor_config_livecompletion_description: "Mostra els suggeriments automàtics mentre escriviu."
     editor_config_invisibles_label: "Mostra invisibles"
     editor_config_invisibles_description: "Mostra invisibles com ara espais o tabuladors."
     editor_config_indentguides_label: "Mostra guies de sagnia"
     editor_config_indentguides_description: "Mostra línees verticals per veure i identificar millor."
-    editor_config_behaviors_label: "Comportament intel·ligent"
+    editor_config_behaviors_label: "Comportament intel·ligent" # {change}
     editor_config_behaviors_description: "Autocompleta claudàtors, correctors i cometes."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     team_link: "Equip"
     story_link: "Història"
     press_link: "Prensa"
-    mission_title: "La nostra missió: fer que la programació sigui accessible per a tots els estudiants de la Terra."
-    mission_description_1: "<strong>Programar és màgic</strong>. És la capacitat de crear coses des d'una imaginació pura. Vam començar CodeCombat per donar a l'alumnat la sensació d'un poder màgic al seu abast usant <strong>codi escrit</strong>."
-    mission_description_2: "Com a conseqüència, això els permet aprendre més ràpidament. MOLT ràpidament. És com tenir una conversa en comptes de llegir un manual. Volem portar aquesta conversa a cada escola i <strong>a cada alumne</strong>, perquè tothom hauria de tenir l'oportunitat d'aprendre la màgia de la programació."
+    mission_title: "La nostra missió: fer que la programació sigui accessible per a tots els estudiants de la Terra." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Coneix l'equip de CodeCombat"
-    team_values: "Valorem un diàleg obert i respectuós, on guanyi la millor idea. Les nostres decisions es basen en la investigació del client i el nostre procés se centra a oferir resultats tangibles per a ells. Tothom en té cabuda, del nostre CEO als nostres col·laboradors de GitHub, perquè valorem el creixement i l'aprenentatge al nostre equip."
+    team_values: "Valorem un diàleg obert i respectuós, on guanyi la millor idea. Les nostres decisions es basen en la investigació del client i el nostre procés se centra a oferir resultats tangibles per a ells. Tothom en té cabuda, del nostre CEO als nostres col·laboradors de GitHub, perquè valorem el creixement i l'aprenentatge al nostre equip." # {change}
     nick_title: "Cofundador, CEO"
     matt_title: "Cofundador, CTO"
     cat_title: "Dissenyador de jocs"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     number_contributors: "Més de 450 col·laboradors han prestat el seu suport i el seu temps a aquest projecte."
     story_title: "La nostra història fins ara"
     story_subtitle: "Des de 2013, CodeCombat ha passat de ser un mer conjunt d'esbossos a un joc viu i pròsper."
-    story_statistic_1a: "Més de 5,000,000"
+    story_statistic_1a: "Més de 5,000,000" # {change}
     story_statistic_1b: "de jugadors en total"
-    story_statistic_1c: "han iniciat el seu viatge vers la programació mitjançant CodeCombat"
+    story_statistic_1c: "han iniciat el seu viatge vers la programació mitjançant CodeCombat" # {change}
     story_statistic_2a: "Hem estat treduits a més de 50 idiomes — els nostres jugadors provenen de"
     story_statistic_2b: "més de 190 països"
     story_statistic_3a: "Tots junts, han escrit"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     story_long_way_1: "Tot i que hem recorregut un llarg camí..."
     story_sketch_caption: "El primer esbós de Nick que representa un joc de programació en acció."
     story_long_way_2: "encara tenim molt per fer abans de completar la nostra recerca, així que..."
-    jobs_title: "Vine a treballar amb nosaltres i ajuda'ns a escriure la història de CodeCombat!"
+    jobs_title: "Vine a treballar amb nosaltres i ajuda'ns a escriure la història de CodeCombat!" # {change}
     jobs_subtitle: "No ho veus clar però t'interessa mantenir-te en contacte? Mira nostra \"Crea Tu Mateix\" llista."
     jobs_benefits: "Beneficis per l'empleat"
     jobs_benefit_4: "Vacances il·limitades"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     jobs_custom_contact_2: "introduint-te i podrem contactar amb tu en el futur!"
     contact_title: "Premsa i Contacte"
     contact_subtitle: "Necessites més informació? Contacta amb nosaltres a"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Captures de pantalla del joc"
     screenshots_hint: "(clica per veure a mida completa)"
     downloads_title: "Baixa Actius i Informació"
@@ -1218,7 +1284,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     city: "Ciutat"
     state: "Província" # {change}
     country: "País"
-    num_students_help: "Quants alumnes usaran CodeCombat?"
+    num_students_help: "Quants alumnes usaran CodeCombat?" # {change}
     num_students_default: "Selecciona Rang"
     education_level_label: "Nivell educatiu dels alumnes"
     education_level_help: "Trieu tants com calgui."
@@ -1238,9 +1304,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     referrer_pd: "Formacions / tallers professionals"
     referrer_web: "Google"
     referrer_other: "Altres"
-    anything_else: "Amb quin tipus de classe preveus usar CodeCombat?"
+    anything_else: "Amb quin tipus de classe preveus usar CodeCombat?" # {change}
     thanks_header: "Sol·licitud rebuda!"
-    thanks_sub_header: "Gràcies per expressar l'interès en CodeCombat per al vostre centre."
+    thanks_sub_header: "Gràcies per expressar l'interès en CodeCombat per al vostre centre." # {change}
     thanks_p: "Estarem en contacte aviat! Si necessiteu posar-vos en contacte, podeu contactar amb nosaltres a:"
     back_to_classes: "Torna a Classes"
     finish_signup: "Acaba de crear el vostre compte de professor:"
@@ -1459,8 +1525,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     switch_to: "Canvia a"
     greetings: "Felicitats!"
     back_classrooms: "Torna a Les Meves Classes"
-    back_classroom: "Torna a Classe"
-    back_courses: "Torna a Els Meus Cursos"
+    back_classroom: "Torna a Classe" # {change}
+    back_courses: "Torna a Els Meus Cursos" # {change}
     edit_details: "Edita els detalls de la classe"
     purchase_enrollments: "Compra Llicències Estudiantils"
     remove_student: "esborrar alumne"
@@ -1482,19 +1548,19 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     play_now_learn_2: "bucles 'while' per resoldre molestos trencaclosques"
     play_now_learn_3: "cadenes i variables per personalitzar accions"
     play_now_learn_4: "com vèncer a un ogre (habilitats vitals importants!)"
-    welcome_to_page: "el meu Tauler d'alumnat"
+    welcome_to_page: "el meu Tauler d'alumnat" # {change}
     my_classes: "Classes Actuals"
     class_added: "Classe afegida satisfactòriament!"
 #    view_map: "view map"
 #    view_videos: "view videos"
     view_project_gallery: "veure els projectes dels meus companys"
-    join_class: "Uneix-te a una Classe"
+    join_class: "Uneix-te a una Classe" # {change}
     join_class_2: "Unir-se a una classe"
-    ask_teacher_for_code: "Demana al teu professorat si té un codi de classe CodeCombat! Si el té, posa'l a continuació:"
-    enter_c_code: "<Posa el Codi de Classe>"
+    ask_teacher_for_code: "Demana al teu professorat si té un codi de classe CodeCombat! Si el té, posa'l a continuació:" # {change}
+    enter_c_code: "<Posa el Codi de Classe>" # {change}
     join: "Unir-se"
     joining: "Unint-se a la classe"
-    course_complete: "Curs Complet"
+#    unit_complete: "Unit Complete"
     play_arena: "Terreny de joc"
     view_project: "Veure Projecte"
     start: "Començar"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     license_will_revoke: "La llicència de pagament d'aquest alumne serà revocada i restarà disponible per ésser assignada a qualsevol altre alumne."
     keep_student: "Mantenir l'alumne"
     removing_user: "Esborrant l'usuari"
-    subtitle: "Reviseu els detalls i nivells del curs" # Flat style redesign
+    subtitle: "Reviseu els detalls i nivells del curs" # {change}
     changelog: "Veure els darrers canvis als nivells del curs."
     select_language: "Seleccionar idioma"
     select_level: "Seleccionar nivell"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     current_hero_female: "Heroïna actual:"
     web_dev_language_transition: "En aquest curs totes les classes programen en HTML / JavaScript. Les classes que han estat usant Python començaran amb uns nivells d'introducció extra de JavaScripts per fer la transició més fàcil.  Les classes que ja usaven JavaScript ometran els nivells introductoris."
     course_membership_required_to_play: "T'has d'unir a un curs per jugar aquest nivell."
-    license_required_to_play: "Demana al teu professorat que t'assigni una llicència per continuar jugant a CodeCombat!"
+    license_required_to_play: "Demana al teu professorat que t'assigni una llicència per continuar jugant a CodeCombat!" # {change}
     update_old_classroom: "Nou curs escolar, nous nivells!"
     update_old_classroom_detail: "Per assegurar-se que estàs obtenint els nivells actualitzats, comprova haver creat una classe nova per aquest semestre clicant Crear una Classe Nova al teu"
     teacher_dashboard: "taulell del professorat"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     student_code: "Codi d'alumnat de __name__"
     teacher_dashboard: "Taulell del Professorat" # Navbar
     my_classes: "Les Meves Classes"
-    courses: "Guies dels Cursos"
+    courses: "Guies dels Cursos" # {change}
     enrollments: "Llicències d'Alumnat"
     resources: "Recursos"
     help: "Ajuda"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     edit_class_settings: "edita la configuració de la classe"
     access_restricted: "Actualització del compte obligatori"
     teacher_account_required: "Es requereix un compte de professorat per accedir a aquest contingut."
-    create_teacher_account: "Crear un compte de professorat"
+    create_teacher_account: "Crear un compte de professorat" # {change}
     what_is_a_teacher_account: "Què és un Compte de Professorat?"
     teacher_account_explanation: "Un compte de professorat CodeCombat et permet configurar aules, veure el progrés de l'alumnat mentre van fent els cursos, administrar llicències i accedir a recursos per ajudar-te en la creació de currículums."
     current_classes: "Classes actuals"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     revoke_license: "Revocar Llicència"
     revoke_licenses: "Revocar Totes les llicències"
     course_progress: "Progrés del curs"
+#    unit_progress: "Unit Progress"
     not_applicable: "N/A"
     edit: "edita"
     edit_2: "Edita"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     no_progress: "Cap progrés"
     not_required: "No requerit"
     view_student_code: "Fes clic per veure el codi d'alumnat"
-    select_course: "Selecciona el curs per veure'l"
+    select_course: "Selecciona el curs per veure'l" # {change}
     progress_color_key: "Codi de colors de progrés:"
     level_in_progress: "Nivell en Progrés"
     level_not_started: "Nivell no Iniciat"
@@ -1728,17 +1796,17 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     copy_class_url: "Copiar URL de la Classe"
     class_join_url_blurb: "També pots posar aquesta URL única d'aquesta classe en una plana web compartida."
     add_students_manually: "Invitar Alumnes per e-mail"
-    bulk_assign: "Seleccionar curs"
+    bulk_assign: "Seleccionar curs" # {change}
     assigned_msg_1: "{{numberAssigned}} alumnes s'han assignat a {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} llicències s'han utilitzat."
     assigned_msg_3: "Ara teniu {{remainingSpots}} llicències restants disponibles."
-    assign_course: "Assignar Curs"
+    assign_course: "Assignar Curs" # {change}
     removed_course_msg: "{{numberRemoved}} alumnes s'han esborrat de {{courseName}}."
-    remove_course: "Esborrar Curs"
-    not_assigned_modal_title: "Els cursos no es van assignar"
+    remove_course: "Esborrar Curs" # {change}
+    not_assigned_modal_title: "Els cursos no es van assignar" # {change}
     not_assigned_modal_starter_body_1: "Aquest curs requereix Llicències Inicials. No tens suficients Llicències Inicials disponibles per assignar aquest curs a tots els __selected__ alumnes seleccionats."
     not_assigned_modal_starter_body_2: "Compra Llicències Inicials per garantir l'accés a aquest curs."
-    not_assigned_modal_full_body_1: "Aquest curs requereix Llicències Totals. No tens suficients Llicències Totals disponibles per assignar aquest curs a tots els __selected__ alumnes seleccionats."
+    not_assigned_modal_full_body_1: "Aquest curs requereix Llicències Totals. No tens suficients Llicències Totals disponibles per assignar aquest curs a tots els __selected__ alumnes seleccionats." # {change}
     not_assigned_modal_full_body_2: "Només tens __numFullLicensesAvailable__ Llicències Totals disponibles (__numStudentsWithoutFullLicenses__ alumnes no tenen encara Llicències Totals actives)."
     not_assigned_modal_full_body_3: "Si us plau selecciona menys alumnes, o demana ajuda a __supportEmail__."
     assigned: "Assignats"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     all_students: "Tots els Alumnes"
     apply_licenses: "Otorgar Llicències"
     not_enough_enrollments: "No n'hi han suficients llicències."
-    enrollments_blurb: "Als alumnes se'ls demana tenir una llicència per accedir a qualsevol contingut després del primer curs."
+    enrollments_blurb: "Als alumnes se'ls demana tenir una llicència per accedir a qualsevol contingut després del primer curs." # {change}
     how_to_apply_licenses: "Com otorgar llicències"
     export_student_progress: "Exportar el Progrés de l'Alumnat (CSV)"
     send_email_to: "Envieu Recuperar contrasenya per e-mail a:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     start_date: "data d'inici:"
     end_date: "data d'acabament:"
     get_enrollments_blurb: " Us ajudarem a construir una solució que satisfaci les necessitats de la vostra classe, escola o districte."
-    how_to_apply_licenses_blurb_1: "Quan un professor assigni un curs a un estudiant per primera vegada, aplicarem automàticament una llicència. Utilitzau el menú desplegables d'assignació massiva a la vostra aula per assignar un curs als alumnes selececionats:"
-    how_to_apply_licenses_blurb_2: "Puc aplicar una llicència encara que no hagi assignat un curs?"
+    how_to_apply_licenses_blurb_1: "Quan un professor assigni un curs a un estudiant per primera vegada, aplicarem automàticament una llicència. Utilitzau el menú desplegables d'assignació massiva a la vostra aula per assignar un curs als alumnes selececionats:" # {change}
+    how_to_apply_licenses_blurb_2: "Puc aplicar una llicència encara que no hagi assignat un curs?" # {change}
     how_to_apply_licenses_blurb_3: "Sí — ves a l'etiqueta Estat de les Llicències a la teva aula i fes clic a \"Aplicar Llicència\" a qualsevol alumne que no tingui una llicència activa."
     request_sent: "Petició enviada!"
     assessments: "Avaluacions"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     pacing_guides_high: "Guia pas a pas d'un Centre d'Estudis Postobligatoris"
     getting_started: "Començant"
     educator_faq: "Preguntes freqüents de Docents"
-    educator_faq_desc: "Preguntes habituals sobre l'ús de CodeCombat a la teva aula o al teu centre."
+    educator_faq_desc: "Preguntes habituals sobre l'ús de CodeCombat a la teva aula o al teu centre." # {change}
     teacher_getting_started: "Guia d'introducció per a docents"
-    teacher_getting_started_desc: "Ets nou a CodeCombat? Descarrega aquesta Guia d'introducció per a docents per configurar el teu compte, crear la teva primera classe, i invitar alumnat al primer curs."
+    teacher_getting_started_desc: "Ets nou a CodeCombat? Descarrega aquesta Guia d'introducció per a docents per configurar el teu compte, crear la teva primera classe, i invitar alumnat al primer curs." # {change}
     student_getting_started: "Guia d'introducció per l'alumnat"
     student_getting_started_desc: "Pots distribuir aquesta guia al teu alumnat abans de començar amb CodeCombat per a que es puguin anar familiaritzant amb l'editor de codi. Aquesta guis serveix tant per classes de Python com de JavaScript."
     ap_cs_principles: "AP Principis d'informàtica"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     teacher_quest_teach_methods_step2: "Imprimir la [Guia d'introducció per l'alumnat](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) del Centre de Recursos."
     teacher_quest_teach_strings: "No encadenar els teus alumnes junts, ensenya'ls `cadenes`."
     teacher_quest_teach_strings_step1: "Tenir el 75% com a mínim d'una classe amb __True Names__ passat"
-    teacher_quest_teach_strings_step2: "Usar el Selector de Nivells del Professorat a la plana [Guies del Curs](/teachers/courses) per tenir una vista prèvia de __True Names__."
+    teacher_quest_teach_strings_step2: "Usar el Selector de Nivells del Professorat a la plana [Guies del Curs](/teachers/courses) per tenir una vista prèvia de __True Names__." # {change}
     teacher_quest_teach_loops: "Mantenir els alumnes en el bucle sobre els `bucles`."
     teacher_quest_teach_loops_step1: "Tenir el 75% com a mínim d'una classe amb __Fire Dancing__ passat."
     teacher_quest_teach_loops_step2: "Usar el __Loops Activity__ en la [CS1 Guia del Currículum](/teachers/resources/cs1) per reforçar aquest concepte."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     combo_explanation: "Els estudiants passen els nivells de desafiament combinat utilitzant com a mínim un concepte enumerat. Reviseu el codi de l'alumne fent clic al punt de progrés."
     concept: "Concepte"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
   share_licenses:
     share_licenses: "Compartir llicències"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "Error de carrega del servidor"
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     bootstrap: "Programa d'arranque"
     break_statements: "Declaracions Break"
     classes: "Classes"
+#    conditionals: "Conditionals"
     continue_statements: "Sentències Continue"
+#    debugging: "Debugging"
     dom_events: "Events DOM"
     dynamic_styling: "Estilisme dinàmic"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     reading_docs: "Llegint els Documents"
     recursion: "Recursivitat"
     return_statements: "Sentències de retorn"
+#    sequences_algorithms: "Sequences & Algorithms"
     stacks: "Estructures de dades - Piles"
     strings: "Cadenes"
     strings_concatenation: "Concatenació de cadenes"
     strings_substrings: "Subcadenes"
+#    syntax: "Syntax"
     trees: "Estructures de dades - Arbres"
     variables: "Variables"
     vectors: "Vectors"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"

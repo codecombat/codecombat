@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    map: "Map"
     play: "Chơi!!" # The top nav bar entry where players choose which levels to play
     community: "Cộng đồng"
-    courses: "Khoá học"
+#    units: "Units"
     blog: "Blog"
     forum: "Diễn đàn"
     account: "Tài khoản"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    privacy: "Privacy Notice"
     about: "Chúng tôi"
     contact: "Liên hệ"
+#    press: "Press"
     twitter_follow: "Theo dõi"
 #    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Cơ hội việc làm"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Đóng"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    back_to_classroom: "Back to Classroom"
 #    teacher_button: "For Teachers"
 #    get_more_codecombat: "Get More CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     title: "Làm tốt lắm, Thực Tập Viên!"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Tạo tài khoản"
-    email_or_username: "Email hoặc tên đăng nhập"
+    email_or_username: "Email hoặc tên đăng nhập" # {change}
+#    or: "or"
     log_in: "Đăng nhập"
+#    sign_in: "Sign In"
     logging_in: "Đang đăng nhập"
     log_out: "Đăng xuất"
     forgot_password: "Quên mật khẩu?"
     finishing: "Sắp hoàn tất"
-    sign_in_with_facebook: "Đăng nhập với Facebook"
-    sign_in_with_gplus: "Đăng nhập với G+"
+    sign_in_with_facebook: "Đăng nhập với Facebook" # {change}
+    sign_in_with_gplus: "Đăng nhập với G+" # {change}
     signup_switch: "Bạn muốn tạo tài khoản mới?"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
 #    complete_subscription: "Complete Subscription"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     teacher_type_2: "Tạo lớp của bạn"
     teacher_type_3: "Truy cập vào khóa hướng dẫn của bạn"
     teacher_type_4: "Xem tiến trình học tập của học sinh"
-    signup_as_teacher: "Đăng ký làm Giáo Viên"
+    signup_as_teacher: "Đăng ký làm Giáo Viên" # {change}
 #    student_type_1: "Learn to program while playing an engaging game!"
     student_type_2: "Chơi với lớp học của bạn"
     student_type_3: "Đọ sức tại đấu trường"
     student_type_4: "Lựa chọn một vị tướng!"
     student_type_5: "Sẵn sàng cho lớp lập trình!"
-#    signup_as_student: "Sign up as a Student"
+#    signup_as_student: "Create Student Account"
 #    individuals_or_parents: "Individuals & Parents"
 #    individual_type: "For players learning to code outside of a class. Parents should sign up for an account here."
 #    signup_as_individual: "Sign up as an Individual"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    account_created: "Account Created!"
 #    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
 #    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
-#    write_this_down: "Write this down:"
+#    write_this_down: "Write down your username:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
 #    select_your_starting_hero: "Select Your Starting Hero:"
 #    you_can_always_change_your_hero_later: "You can always change your hero later."
 #    finish: "Finish"
 #    teacher_ready_to_create_class: "You're ready to create your first class!"
-#    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
+#    teacher_students_can_start_now: "Your students will be able to start playing the first unit, Prologue: The Sky Mountain, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
 #    teacher_list_resource_hub_1: "Check out the"
-#    teacher_list_resource_hub_2: "Course Guides"
+#    teacher_list_resource_hub_2: "Unit Guides"
 #    teacher_list_resource_hub_3: "for solutions to every level, and the"
 #    teacher_list_resource_hub_4: "Resource Hub"
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     books: "Sách"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Trở lại" # When used as an action verb, like "Navigate backward"
 #    coming_soon: "Coming soon!"
     continue: "Tiếp tục" # When used as an action verb, like "Continue forward"
 #    next: "Next"
 #    default_code: "Default Code"
     loading: "Đang Tải..."
+#    LOADING: "LOADING"
 #    overview: "Overview"
 #    processing: "Processing..."
 #    solution: "Solution"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     save_changes: "Lưu thay dổi"
     required_field: "Thông tin bắt buộc" # {change}
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "và"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     next_level: "Màn chơi kế tiếp"
 #    combo_challenge: "Combo Challenge"
 #    concept_challenge: "Concept Challenge"
+#    challenge: "Challenge"
 #    challenge_unlocked: "Challenge Unlocked"
 #    combo_challenge_unlocked: "Combo Challenge Unlocked"
 #    concept_challenge_unlocked: "Concept Challenge Unlocked"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     reload_title: "Tải lại tất cả code?"
     reload_really: "Bạn có chắc bạn muốn tải lại màn này về trạng thái ban đầu?"
     reload_confirm: "Tải lại tất cả"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
     victory: "Thắng"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
 #  apis:
 #    methods: "Methods"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     level_to_unlock: "Yêu cầu cấp độ:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Chỉ một số tướng chơi được màn chơi này."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
 #    function: "function" # skill types
 #    method: "method"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     volume_label: "Âm Lượng"
     music_label: "Âm Nhạc"
     music_description: "Bật/tắt nhạc nền."
-    editor_config_title: "Cấu Hình Editor"
-    editor_config_livecompletion_label: "Gợi ý tự động"
+    editor_config_title: "Cấu Hình Editor" # {change}
+    editor_config_livecompletion_label: "Gợi ý tự động" # {change}
     editor_config_livecompletion_description: "Hiển thị gợi ý tự động trong khi gõ phím."
     editor_config_invisibles_label: "Hiện kí tự ẩn"
     editor_config_invisibles_description: "Hiển thị các kí tự ẩn như dấu cách hay tab."
     editor_config_indentguides_label: "Hỗ trợ căn lề"
     editor_config_indentguides_description: "Hiển thị các đường dọc hỗ trợ việc căn lề."
-    editor_config_behaviors_label: "Hỗ trợ thông minh"
+    editor_config_behaviors_label: "Hỗ trợ thông minh" # {change}
     editor_config_behaviors_description: "Tự động hoàn thiện đóng ngoặc tròn, đóng ngoặc nhọn, đóng quote."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     team_link: "Đội ngũ"
     story_link: "Chúng tôi"
     press_link: "Liên hệ"
-    mission_title: "Sứ mệnh của chúng tôi: đưa lập trình đến với mọi người trên Trái Đát này."
-    mission_description_1: "<strong>Lập trình thật kì diệu</strong>. Bạn có thể tạo ra một thứ gì đó chỉ từ trí tưởng tượng. Chúng tôi bắt đầu CodeCombat để đem tới cho học viên những trải nghiệm nhiệm màu khi <strong>viết code</strong> thực tế."
-    mission_description_2: "Trên thực tế, việc này giúp cho bạn học nhanh hơn. Nhanh hơn RẤT NHIỀU. Bạn được thực hành thay vì chỉ đọc lý thuyết. Chúng tôi muốn đưa môi trường thực hành này đến với trường học và đến tay <strong>mọi học sinh</strong>, bởi vì mọi người đều cần có cơ hội biết đến sự nhiệm màu của lập trình."
+    mission_title: "Sứ mệnh của chúng tôi: đưa lập trình đến với mọi người trên Trái Đát này." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Đội ngũ của CodeCombat"
-    team_values: "Chúng tôi chân trọng những cuộc đối thoại mở và có sự tôn trọng lẫn nhau, nơi mà những ý tưởng tốt nhất giành chiến thắng. Những quyết định của chúng tôi được đưa ra hoàn toàn dựa trên những báo cáo nghiên cứu ý kiến khách hàng và quy trình của chúng tôi chú trọng vào mục tiêu đưa đến những giá trị hữu hình cho cho khách hàng. Mọi người đều có vai trò của mình, từ CEO của chúng tôi cho đến những người tham gia công đồng trên Github, bởi vì chúng tôi chân trọng sự phát triển và học hỏi của từng thành viên trong nhóm."
+    team_values: "Chúng tôi chân trọng những cuộc đối thoại mở và có sự tôn trọng lẫn nhau, nơi mà những ý tưởng tốt nhất giành chiến thắng. Những quyết định của chúng tôi được đưa ra hoàn toàn dựa trên những báo cáo nghiên cứu ý kiến khách hàng và quy trình của chúng tôi chú trọng vào mục tiêu đưa đến những giá trị hữu hình cho cho khách hàng. Mọi người đều có vai trò của mình, từ CEO của chúng tôi cho đến những người tham gia công đồng trên Github, bởi vì chúng tôi chân trọng sự phát triển và học hỏi của từng thành viên trong nhóm." # {change}
     nick_title: "Đồng Sáng Lập, CEO" # {change}
     matt_title: "Đồng Sáng Lập, CTO" # {change}
     cat_title: "Game Designer"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     number_contributors: "Hơn 450 người đã bỏ công sức và thời gian để đóng góp cho dự án này."
     story_title: "Hãy nghe câu chuyện của chúng tôi"
     story_subtitle: "Kể từ năm 2013 đến nay, CodeCombat khởi nguồn chỉ là những phác thảo sơ khai đã được hiện thực hóa để trở thành một tựa game đầy lôi cuốn."
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "5,000,000+" # {change}
     story_statistic_1b: "người chơi"
-    story_statistic_1c: "đã bắt đầu đặt chân vào thế giới lập trình cùng với CodeCombat"
+    story_statistic_1c: "đã bắt đầu đặt chân vào thế giới lập trình cùng với CodeCombat" # {change}
     story_statistic_2a: "Chúng tôi phục vụ hơn 50 ngôn ngữ — người chơi của chúng tôi đến từ"
     story_statistic_2b: "200+ quốc gia" # {change}
     story_statistic_3a: "Cùng với nhau, họ đã viết"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     story_long_way_1: "Mặc dù chúng tôi đã trải qua rất nhiều..."
     story_sketch_caption: "Bản phác thảo đầu tiên của Nick mô tả một tựa game lập trình."
     story_long_way_2: "chúng tôi vẫn còn rất nhiều điều phải làm để chinh phục sứ mệnh, vì thế..."
-    jobs_title: "Hãy tham gia cùng chúng tôi và viết nên lịch sử CodeCombat!"
+    jobs_title: "Hãy tham gia cùng chúng tôi và viết nên lịch sử CodeCombat!" # {change}
     jobs_subtitle: "Bạn muốn ứng tuyển nhưng không tìm thấy vị trí phù hợp? Hãy tham khảo mục \"Tự Ứng Tuyển\"."
     jobs_benefits: "Quyền Lợi Nhân Viên"
 #    jobs_benefit_4: "Unlimited vacation"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     jobs_custom_contact_2: "và giới thiệu về bản thân bạn để chúng tôi có thể liên hệ lại trong tương lai!"
     contact_title: "Báo Chí & Liên Hệ"
     contact_subtitle: "Bạn cần thêm thông tin? Hãy liên lạc với chúng tôi tại"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Ảnh Chụp Màn Hình Game"
     screenshots_hint: "(click để xem cỡ lớn)"
     downloads_title: "Download Tài Liệu & Thông Tin"
@@ -1240,7 +1306,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    referrer_other: "Other"
     anything_else: "Còn điều gì chúng tôi nên biết thêm nữa không?" # {change}
     thanks_header: "Đã nhận yêu cầu!"
-    thanks_sub_header: "Cảm ơn vì đã bày tỏ sự quan tâm của trường bạn với CodeCombat."
+    thanks_sub_header: "Cảm ơn vì đã bày tỏ sự quan tâm của trường bạn với CodeCombat." # {change}
     thanks_p: "Chúng tôi sẽ sớm trả lời lại! Nếu bạn cần liên hệ, hãy liên lạc với chúng tôi tại:"
     back_to_classes: "Quay lại Lớp học"
     finish_signup: "Hoàn thiện tài khoản giáo viên:"
@@ -1460,7 +1526,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    greetings: "Greetings!"
 #    back_classrooms: "Back to my classrooms"
 #    back_classroom: "Back to classroom"
-#    back_courses: "Back to my courses"
+#    back_courses: "Back to Classes"
 #    edit_details: "Edit class details"
 #    purchase_enrollments: "Purchase Student Licenses"
 #    remove_student: "remove student"
@@ -1488,13 +1554,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    view_map: "view map"
 #    view_videos: "view videos"
 #    view_project_gallery: "view my classmates' projects"
-    join_class: "Tham Gia Lớp Học"
+    join_class: "Tham Gia Lớp Học" # {change}
 #    join_class_2: "Join class"
-    ask_teacher_for_code: "Hãy hỏi giáo viên của bạn để lấy mã lớp CodeCombat! Nếu có, hãy điền phía dưới:"
-    enter_c_code: "<Nhập Mã Lớp>"
+    ask_teacher_for_code: "Hãy hỏi giáo viên của bạn để lấy mã lớp CodeCombat! Nếu có, hãy điền phía dưới:" # {change}
+    enter_c_code: "<Nhập Mã Lớp>" # {change}
     join: "Tham gia"
     joining: "Đang tham gia lớp"
-    course_complete: "Khóa học hoàn thành"
+#    unit_complete: "Unit Complete"
 #    play_arena: "Play Arena"
 #    view_project: "View Project"
     start: "Bắt đầu"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
-    subtitle: "Xem giáo án của các khóa học, lời giải và các màn chơi" # Flat style redesign {change}
+    subtitle: "Xem giáo án của các khóa học, lời giải và các màn chơi" # {change}
     changelog: "Xem những thay đổi mới nhất về các khóa học."
     select_language: "Chọn ngôn ngữ"
     select_level: "Chọn màn chơi"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    current_hero_female: "Current Hero:"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
-#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+#    license_required_to_play: "Ask your teacher to assign you a license so you can continue to play Ozaria!"
 #    update_old_classroom: "New school year, new levels!"
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    student_code: "__name__'s Student Code"
     teacher_dashboard: "Bảng Điều Khiển Giáo Viên" # Navbar
     my_classes: "Lớp của tôi"
-    courses: "Các khóa học"
+    courses: "Các khóa học" # {change}
     enrollments: "Tham gia"
 #    resources: "Resources"
 #    help: "Help"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    edit_class_settings: "edit class settings"
     access_restricted: "Cần nâng cấp tài khoản"
     teacher_account_required: "Bạn cần tài khoản Giáo Viên để truy cập vào nội dung này."
-    create_teacher_account: "Tạo tài khoản Giáo Viên"
+    create_teacher_account: "Tạo tài khoản Giáo Viên" # {change}
     what_is_a_teacher_account: "Tài khoản Giáo Viên là gì?"
 #    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Các lớp hiện tại"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    revoke_license: "Revoke License"
 #    revoke_licenses: "Revoke All Licenses"
 #    course_progress: "Course Progress"
+#    unit_progress: "Unit Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
 #    edit_2: "Edit"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    no_progress: "No progress"
 #    not_required: "Not required"
 #    view_student_code: "Click to view student code"
-#    select_course: "Select course to view"
+#    select_course: "Select unit to view"
 #    progress_color_key: "Progress color key:"
 #    level_in_progress: "Level in Progress"
 #    level_not_started: "Level Not Started"
@@ -1728,17 +1796,17 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    copy_class_url: "Copy Class URL"
 #    class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
 #    add_students_manually: "Invite Students by Email"
-#    bulk_assign: "Select course"
+#    bulk_assign: "Select unit"
 #    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
 #    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
-#    assign_course: "Assign Course"
+#    assign_course: "Assign Unit"
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
-#    remove_course: "Remove Course"
-#    not_assigned_modal_title: "Courses were not assigned"
+#    remove_course: "Remove Unit"
+#    not_assigned_modal_title: "Units were not assigned"
 #    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
-#    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_full_body_1: "This unit requires a Full License. You do not have enough Full Licenses available to assign this unit to all __selected__ selected students."
 #    not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
 #    not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
 #    assigned: "Assigned"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    all_students: "All Students"
 #    apply_licenses: "Apply Licenses"
 #    not_enough_enrollments: "Not enough licenses available."
-#    enrollments_blurb: "Students are required to have a license to access any content after the first course."
+#    enrollments_blurb: "Students are required to have a license to access any content after the first unit."
 #    how_to_apply_licenses: "How to Apply Licenses"
 #    export_student_progress: "Export Student Progress (CSV)"
 #    send_email_to: "Send Recover Password Email to:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    start_date: "start date:"
 #    end_date: "end date:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
-#    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
-#    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
+#    how_to_apply_licenses_blurb_1: "When a teacher assigns a unit to a student for the first time, we’ll automatically apply a license. Use the Select Unit dropdown in your classroom to assign a unit to selected students:"
+#    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a unit?"
 #    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
 #    request_sent: "Request Sent!"
 #    assessments: "Assessments"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    pacing_guides_high: "High School Pacing Guide"
 #    getting_started: "Getting Started"
 #    educator_faq: "Educator FAQ"
-#    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
+#    educator_faq_desc: "Frequently asked questions about using Ozaria in your classroom or school."
 #    teacher_getting_started: "Teacher Getting Started Guide"
-#    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
+#    teacher_getting_started_desc: "New to Ozaria? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first unit."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
 #    ap_cs_principles: "AP Computer Science Principles"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
 #    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
 #    teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__."
 #    teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
 #    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
 #    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "Không kết nối được với server" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    bootstrap: "Bootstrap"
     break_statements: "Câu lệnh Break"
     classes: "Lớp"
+#    conditionals: "Conditionals"
     continue_statements: "Câu lệnh Continue"
+#    debugging: "Debugging"
 #    dom_events: "DOM Events"
 #    dynamic_styling: "Dynamic Styling"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    reading_docs: "Reading the Docs"
     recursion: "Đệ quy"
 #    return_statements: "Return Statements"
+#    sequences_algorithms: "Sequences & Algorithms"
 #    stacks: "Data Structures - Stacks"
     strings: "Chuỗi"
 #    strings_concatenation: "String Concatenation"
 #    strings_substrings: "Substring"
+#    syntax: "Syntax"
 #    trees: "Data Structures - Trees"
     variables: "Biến số"
     vectors: "Các Vector"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"
