@@ -194,6 +194,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "Parents"
+    browser_recommendation: "Recommend using chrome browser, download here"
 
   modal:
     close: "Close"
