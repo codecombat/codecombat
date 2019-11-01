@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
 
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    title: "CodeCombat - 美国大学理事会认证硅谷原版青少年编程平台"
+    meta_description: "CodeCombat（中国官方网址：koudashijie.com）于2013年成立于美国硅谷，是美国大学理事会权威认证的青少年编程学习平台，学习者可以在CodeCombat学习后参加AP计算机考试，拿到美国和世界一流名校如斯坦福大学、哈佛大学、麻省理工学院等学分减免政策，是全球公认的权威计算机编程能力学习平台之一。"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
