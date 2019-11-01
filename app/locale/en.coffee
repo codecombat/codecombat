@@ -3009,3 +3009,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_again: 'Whoops, try again!'
     select_statement_left: 'Whoops, select a statement from the left before hitting "Submit."'
     fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
+
+  browser_recommendation:
+    title: 'Please use Chrome'
+    pitch_body: 'For every function works correctly, we suggust using chrome to surf CodeCombat. Download latest Chrome by click the button below.'
