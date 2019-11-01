@@ -21,6 +21,7 @@ const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
 const utils = require('core/utils')
 const storage = require('core/storage')
+import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
 
 // tools
 const Surface = require('lib/surface/Surface')
@@ -328,12 +329,13 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
-    this.updateCapstoneStage() // update this.capstoneStage based on session's state
     this.level = this.levelLoader.level
+    this.updateCapstoneStage() // update this.capstoneStage based on session's state
     store.commit('game/setLevel', this.level.attributes)
     // Set current campaign id and unit map URL details for acodus chrome
     store.commit('campaigns/setCurrentCampaignId', this.level.get('campaign'))
     store.commit('layoutChrome/setUnitMapUrlDetails', { courseId: this.courseID, courseInstanceId: this.courseInstanceID })
+    store.dispatch('unitMap/buildLevelsData', { campaignHandle: this.level.get('campaign'), courseInstanceId: this.courseInstanceID })
     if (this.level.isType('web-dev')) {
       this.$el.addClass('web-dev') // Hide some of the elements we won't be using
       return
@@ -394,6 +396,15 @@ class PlayLevelView extends RootView {
   updateCapstoneStage () {
     if (!me.isSessionless() && this.session) {
       this.capstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
+
+      if (!this.level) {
+        return
+      }
+      // We don't want to overshoot the capstoneStage, as it causes problems with nextLevels lookups and share modals
+      const maxCapstoneStage = GoalManager.maxCapstoneStage(this.level.attributes.additionalGoals)
+      if (this.capstoneStage > maxCapstoneStage) {
+        this.capstoneStage = maxCapstoneStage
+      }
     }
   }
 
@@ -649,6 +660,9 @@ class PlayLevelView extends RootView {
       courseInstanceID: this.courseInstanceID
     })
     this.insertSubView(this.controlBar)
+
+    // Note: This may be buggy now that the goalManager is being messed with
+    // to handle even more complex capstone states, and reloading on the same page
     if (this.level.isType('web-dev')) {
       this.webSurface = new WebSurfaceView({
         level: this.level,
@@ -1062,7 +1076,7 @@ class PlayLevelView extends RootView {
     if (e.showModal) {
       this.showVictory(_.pick(e, 'manual', 'capstoneInProgress'))
     }
-    if (this.victorySeen) {
+    if (this.victorySeen && !e.capstoneInProgress) {
       return
     }
     this.victorySeen = true
@@ -1124,15 +1138,26 @@ class PlayLevelView extends RootView {
     }
     if (!me.isSessionless()) {
       this.onSubmissionComplete()
+
+      if (this.continueEditing) {
+        options.showShareModal = true
+      }
     }
+
+    if (this.level.isCapstone()) {
+      const campaignLevel = store.state.unitMap.currentLevelsList[this.level.original || this.level.attributes.original]
+      if (!getNextLevelForLevel(campaignLevel, this.capstoneStage)) {
+        // If there is no nextLevel, we simply go to the next capstoneStage directly
+        this.softReload()
+        return
+      }
+    }
+
     let ModalClass = OzariaTransitionModal
     if (this.level.isType('course-ladder')) {
       options.courseInstanceID =
         utils.getQueryVariable('course-instance') ||
         utils.getQueryVariable('league')
-    }
-    if (this.continueEditing) {
-      options.showShareModal = true
     }
 
     const victoryModal = new ModalClass(options)
@@ -1511,6 +1536,32 @@ class PlayLevelView extends RootView {
 
   onRunCode () {
     return store.commit('game/incrementTimesCodeRun')
+  }
+
+  // Update the elements on the page without reloading the entire page.
+  // This lets us progress to a new capstoneStage and update each element that needs this information.
+  softReload () {
+    this.showVictoryHandlingInProgress = false
+    this.updateCapstoneStage()
+
+    if (me.isSessionless() || !this.session) {
+      this.capstoneStage += 1
+      let url = document.URL
+      if (url.indexOf('capstoneStage') > 0) {
+        url = url.replace(new RegExp('capstoneStage=[^&]+'), 'capstoneStage=' + this.capstoneStage)
+      } else if (url.indexOf('?') > 0) { // No capstoneStage query parameter found, but at least there is a query parameter
+        url += '&capstoneStage=' + this.capstoneStage
+      } else { // Somehow we don't have ANY query parameters... unlikely to ever reach this state
+        url += '?capstoneStage=' + this.capstoneStage
+      }
+
+      window.history.pushState(null, null, url);
+    }
+
+    this.scriptManager.setScripts(this.level.get('scripts'))
+    this.updateGoals(this.level.get('goals'))
+    this.tome.softReloadCapstoneStage(this.capstoneStage)
+    Backbone.Mediator.publish('tome:updateAether')
   }
 }
 
