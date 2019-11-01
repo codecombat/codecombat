@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     map: "מפה"
     play: "שלבים" # The top nav bar entry where players choose which levels to play
     community: "קהילה"
-    courses: "קורסים"
+#    units: "Units"
     blog: "בלוג"
     forum: "פורום"
     account: "חשבון"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     privacy: "פרטיות"
     about: "אודות"
     contact: "יצירת קשר"
+#    press: "Press"
     twitter_follow: "מעקב"
     my_classrooms: "הכיתות שלי"
-    my_courses: "הקורסים שלי"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "דרושים"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     resource_hub: "מרכז המשאבים"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "סגור"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     back_to_classroom: "בחזרה לכיתה"
 #    teacher_button: "For Teachers"
 #    get_more_codecombat: "Get More CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "אם" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     title: "כל הכבוד, חניכים"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "יצירת חשבון"
-    email_or_username: "דואר אלקטרוני או שם משתמש"
+    email_or_username: "דואר אלקטרוני או שם משתמש" # {change}
+#    or: "or"
     log_in: "כניסה"
+#    sign_in: "Sign In"
     logging_in: "מבצע כניסה"
     log_out: "יציאה"
     forgot_password: "שכחתם את הסיסמה?"
     finishing: "מסיים"
-    sign_in_with_facebook: "כניסה באמצעות Facebook"
-    sign_in_with_gplus: "כניסה באמצעות Google"
+    sign_in_with_facebook: "כניסה באמצעות Facebook" # {change}
+    sign_in_with_gplus: "כניסה באמצעות Google" # {change}
     signup_switch: "רוצים ליצור חשבון?"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
 #    complete_subscription: "Complete Subscription"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_type_2: "הקימו כיתה משלכם"
     teacher_type_3: "גישה אל מדריכי קורס"
     teacher_type_4: "צפייה בהתקדמות התלמידים"
-    signup_as_teacher: "הרשמה כמורה"
+    signup_as_teacher: "הרשמה כמורה" # {change}
     student_type_1: "למדו כיצד לתכנת, תוך כדי חוויית משחק מרתקת!"
     student_type_2: "שחקו עם הכיתה שלכם"
     student_type_3: "התחרו בזירות"
     student_type_4: "בחרו גיבור או גיבורה משלכם!"
     student_type_5: "להתכונן עם קוד הכיתה!"
-    signup_as_student: "הרשמה כתלמיד"
+    signup_as_student: "הרשמה כתלמיד" # {change}
     individuals_or_parents: "אנשים פרטיים והורים"
     individual_type: "עבור שחקנים שלומדים איך לקודד שלא במסגרת לימודית. הורים נרשמים לחשבון כאן."
     signup_as_individual: "הרשמה כאדם פרטי"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     account_created: "החשבון נוצר!"
     confirm_student_blurb: "רשמו את הפרטים שלכם, כדי לא לשכוח. תוכלו גם לבקש מהמורה לעזור לכם באיפוס הסיסמה בכל עת."
     confirm_individual_blurb: "רשמו את פרטי הכניסה שלכם, כדי שתוכלו להשתמש בהם בעתיד. ודאו את כתובת הדואר האלקטרוני, כדי שתוכלו לשחזר את חשבונכם אפילו אם תשכחו את הסיסמה - חפשו את ההודעה בתיבת הדואר הנכנס!"
-    write_this_down: "רשמו:"
+    write_this_down: "רשמו:" # {change}
     start_playing: "התחילו לשחק!"
     sso_connected: "התחברתם בהצלחה אל:"
     select_your_starting_hero: "בחרו גיבור להתחיל אתו:"
     you_can_always_change_your_hero_later: "תמיד תוכלו להחליף גיבור בהמשך."
     finish: "סיום"
     teacher_ready_to_create_class: "אתם מוכנים ליצירת הכיתה הראשונה שלכם!"
-    teacher_students_can_start_now: "התלמידים שלכם מיד יוכלו להתחיל ולשחק בקורס הראשון, 'מבוא למדעי המחשב'."
+    teacher_students_can_start_now: "התלמידים שלכם מיד יוכלו להתחיל ולשחק בקורס הראשון, 'מבוא למדעי המחשב'." # {change}
     teacher_list_create_class: "במסך הבא תוכלו ליצור כיתה חדשה."
     teacher_list_add_students: "כדי להוסיף תלמידים לכיתה, לחצו על הקישור 'הצג כיתה', ולאחר מכן שלחו אל התלמידים את קוד הכיתה או כתובת ה-URL. תוכלו גם להזמין אותם בדואר אלקטרוני, אם יש להם כתובות דוא\"ל."
     teacher_list_resource_hub_1: "בואו לעיין"
-    teacher_list_resource_hub_2: "במדריכים לקורס"
+    teacher_list_resource_hub_2: "במדריכים לקורס" # {change}
     teacher_list_resource_hub_3: "כדי למצוא פתרונות לכל שלב, וכן"
     teacher_list_resource_hub_4: "במרכז המשאבים"
     teacher_list_resource_hub_5: "כדי למצוא מדריכים לתכנית לימודים, פעילויות ועוד!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
     eu_confirmation_student: "אם אתה לא בטוח, תשאל את המורה שלך"
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "שחזור חשבון"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     books: "ספרים"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "חזור" # When used as an action verb, like "Navigate backward"
     coming_soon: "בקרוב!"
     continue: "המשך" # When used as an action verb, like "Continue forward"
     next: "הבא"
     default_code: "קוד ברירת מחדל"
     loading: "טוען..."
+#    LOADING: "LOADING"
     overview: "סקירה כללית"
 #    processing: "Processing..."
     solution: "פתרון"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     save_changes: "שמור שינויים"
     required_field: "חובה"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "וכן"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     next_level: "השלב הבא"
 #    combo_challenge: "Combo Challenge"
 #    concept_challenge: "Concept Challenge"
+#    challenge: "Challenge"
 #    challenge_unlocked: "Challenge Unlocked"
 #    combo_challenge_unlocked: "Combo Challenge Unlocked"
 #    concept_challenge_unlocked: "Concept Challenge Unlocked"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     reload_title: "האם לטעון מחדש את כל הקוד?"
     reload_really: "האם אתם בטוחים שברצונכם לטעון מחדש שלב זה לנקודת ההתחלה?"
     reload_confirm: "טען מחדש הכול"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "בדיקת שלב"
     victory: "ניצחון"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
 #  apis:
 #    methods: "Methods"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     wallOfDarkness_name: "קיר חושך"
     wallOfDarkness_description: "הסתתרו מאחורי קיר צללים, כדי לחמוק מעיניים סקרניות."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
   premium_features:
     get_premium: "מנוי<br>CodeCombat<br>פרימיום" # Fit into the banner on the /features page
     master_coder: "הירשמו עוד היום כדי להפוך לאשפי תכנות!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     level_to_unlock: "שלב לפתיחה:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "רק גיבורים מסוימים יכולים לשחק בשלב זה."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "פונקציה" # skill types
     method: "מתודה"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     volume_label: "עוצמת קול"
     music_label: "מוזיקה"
     music_description: "להפעלה/כיבוי של המוזיקה."
-    editor_config_title: "תצורת עורך"
-    editor_config_livecompletion_label: "השלמה אוטומטית"
+    editor_config_title: "תצורת עורך" # {change}
+    editor_config_livecompletion_label: "השלמה אוטומטית" # {change}
     editor_config_livecompletion_description: "מציג הצעות להשלמה אוטומטית תוך כדי הקלדה."
     editor_config_invisibles_label: "הצג בלתי נראים"
     editor_config_invisibles_description: "מציג בלתי נראים, כגון תווי רווח או טאב."
     editor_config_indentguides_label: "הצג קווי הזחה"
     editor_config_indentguides_description: "מציג קווים אנכיים, להצגה ברורה יותר של ההזחה."
-    editor_config_behaviors_label: "אופני פעולה חכמים"
+    editor_config_behaviors_label: "אופני פעולה חכמים" # {change}
     editor_config_behaviors_description: "משלים באופן אוטומטי סוגריים מרובים, סוגריים מסולסלים ומירכאות."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     team_link: "הצוות"
     story_link: "הסיפור"
     press_link: "עיתונות"
-    mission_title: "המשימה שלנו: להפוך את התכנות נגיש לכל תלמיד בעולם."
-    mission_description_1: "<strong>תכנות זה קסם</strong>. הוא היכולת ליצור דברים מתוך הדמיון עצמו. הקמנו את CodeCombat כדי להעניק ללומדים תחושה של כוחות קסם בקצות אצבעותיהם, דרך השימוש ב<strong>קוד מוקלד</strong>."
-    mission_description_2: "מסתבר שזה גם מאפשר להם ללמוד מהר יותר. הרבה יותר מהר. זה דומה לניהול של שיחה, במקום קריאה של ספר הדרכה. אנו רוצים להביא את השיחה הזאת אל כל מוסד לימוד ואל <strong>כל תלמיד</strong>, משום שלכולם מגיעה הזדמנות ללמוד את הקסם שבתכנות."
+    mission_title: "המשימה שלנו: להפוך את התכנות נגיש לכל תלמיד בעולם." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "הכירו את הצוות של CodeCombat"
-    team_values: "    חשוב לנו שיח פתוח ומכבד, שבו הרעיונות הטובים ביותר מנצחים. ההחלטות שלנו מבוססות על חקר לקוחות, ותהליך העבודה שלנו מתמקד באספקה של תוצאות מוחשיות עבורם. כולם מעורבים בתהליך, מהמנכ\"ל ועד לתורמים שלנו ב-GitHub, משום שאצלנו בצוות נותנים חשיבות לצמיחה וללימוד."
+    team_values: "    חשוב לנו שיח פתוח ומכבד, שבו הרעיונות הטובים ביותר מנצחים. ההחלטות שלנו מבוססות על חקר לקוחות, ותהליך העבודה שלנו מתמקד באספקה של תוצאות מוחשיות עבורם. כולם מעורבים בתהליך, מהמנכ\"ל ועד לתורמים שלנו ב-GitHub, משום שאצלנו בצוות נותנים חשיבות לצמיחה וללימוד." # {change}
     nick_title: "מייסד-שותף, מנכ\"ל"
     matt_title: "מייסד-שותף, מנהל טכנולוגיה ראשי"
     cat_title: "מעצבת משחק"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     number_contributors: "למעלה מ-450 תורמים כבר העניקו תמיכה ותרמו מזמנם לפרויקט."
     story_title: "סיפורנו עד כה"
     story_subtitle: "מאז שנת 2013, CodeCombat צמח מאוסף של סקיצות למשחק חי ומשגשג."
-    story_statistic_1a: "יותר מ-5,000,000"
+    story_statistic_1a: "יותר מ-5,000,000" # {change}
     story_statistic_1b: "שחקנים בסך הכול"
-    story_statistic_1c: "התחילו את המסע שלהם בעולם התכנות דרך CodeCombat"
+    story_statistic_1c: "התחילו את המסע שלהם בעולם התכנות דרך CodeCombat" # {change}
     story_statistic_2a: "כבר תורגמנו ליותר מ-50 שפות - והשחקנים שלנו מגיעים"
     story_statistic_2b: "מיותר מ-200 ארצות" # {change}
     story_statistic_3a: "ביחד, הם כתבו"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     story_long_way_1: "למרות שכבר התקדמנו המון..."
     story_sketch_caption: "הסקיצה הראשונה של ניק, שמתארת משחק תכנות בפעולה."
     story_long_way_2: "אנחנו עוד צריכים לעשות הרבה כדי להשיג את המשימה שלנו, אז..."
-    jobs_title: "בואו לעבוד אתנו ולעזור לכתוב את ההיסטוריה של CodeCombat!"
+    jobs_title: "בואו לעבוד אתנו ולעזור לכתוב את ההיסטוריה של CodeCombat!" # {change}
     jobs_subtitle: "לא מוצאים משהו שמתאים לכם, אבל רוצים לשמור על קשר? ראו תחת \"יצירה משלך\"."
     jobs_benefits: "הטבות עובדים"
     jobs_benefit_4: "חופשות ללא הגבלה"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     jobs_custom_contact_2: "כדי להציג את עצמכם, ואולי ניצור עמכם קשר בעתיד!"
     contact_title: "עיתונות ויצירת קשר"
     contact_subtitle: "זקוקים למידע נוסף? בואו ליצור אתנו קשר ב:"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "צילומי מסך מהמשחק"
     screenshots_hint: "(לחצו לגודל מלא)"
     downloads_title: "הורדת נכסים ומידע"
@@ -1240,7 +1306,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    referrer_other: "Other"
     anything_else: "יש עוד משהו שכדאי לנו לדעת?" # {change}
     thanks_header: "הבקשה התקבלה!"
-    thanks_sub_header: "אנו מודים לכם על גילוי העניין ב-CodeCombat עבור מוסד הלימודים שלכם."
+    thanks_sub_header: "אנו מודים לכם על גילוי העניין ב-CodeCombat עבור מוסד הלימודים שלכם." # {change}
     thanks_p: "ניצור קשר בקרוב! ליצירת קשר, ניתן לפנות אלינו ב:"
     back_to_classes: "בחזרה לכיתות"
     finish_signup: "סיימו ליצור את חשבון המורה שלכם:"
@@ -1459,8 +1525,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     switch_to: "עבור אל"
     greetings: "ברכותינו!"
     back_classrooms: "בחזרה לכיתות שלי"
-    back_classroom: "בחזרה לכיתה"
-    back_courses: "בחזרה לקורסים שלי"
+    back_classroom: "בחזרה לכיתה" # {change}
+    back_courses: "בחזרה לקורסים שלי" # {change}
     edit_details: "עריכת פרטי כיתה"
     purchase_enrollments: "רכישת רישיונות תלמיד"
     remove_student: "הסר תלמיד"
@@ -1482,19 +1548,19 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     play_now_learn_2: "לולאות 'כל עוד' כדי לפתור פאזלים מעצבנים"
     play_now_learn_3: "מחרוזות ומשתנים להתאמה של הפעולות"
     play_now_learn_4: "כיצד להביס ענק (אלה כישורי חיים חשובים!)"
-    welcome_to_page: "לוח התוצאות שלי"
+    welcome_to_page: "לוח התוצאות שלי" # {change}
     my_classes: "כיתות נוכחיות"
     class_added: "הכיתה נוספה בהצלחה!"
 #    view_map: "view map"
 #    view_videos: "view videos"
     view_project_gallery: "הצג פרויקטים של חבריי לכיתה"
-    join_class: "הצטרפו לכיתה"
+    join_class: "הצטרפו לכיתה" # {change}
     join_class_2: "הצטרף לכיתה"
-    ask_teacher_for_code: "שאלו את המורה אם יש לכם קוד כיתה של CodeCombat! אם כן, הזינו אותו למטה:"
-    enter_c_code: "<הזן קוד כיתה>"
+    ask_teacher_for_code: "שאלו את המורה אם יש לכם קוד כיתה של CodeCombat! אם כן, הזינו אותו למטה:" # {change}
+    enter_c_code: "<הזן קוד כיתה>" # {change}
     join: "הצטרף"
     joining: "מצטרף לכיתה"
-    course_complete: "הקורס הושלם"
+#    unit_complete: "Unit Complete"
     play_arena: "שחק בזירה"
     view_project: "הצג פרויקט"
     start: "התחל"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "שמור תלמיד"
     removing_user: "מסיר משתמש"
-    subtitle: "עיינו בסקירה כללית של הקורסים ובשלביהם" # Flat style redesign
+    subtitle: "עיינו בסקירה כללית של הקורסים ובשלביהם" # {change}
     changelog: "עיינו בשינויים האחרונים בשלבי הקורסים."
     select_language: "בחירת שפה"
     select_level: "בחירת שלב"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     current_hero_female: "הגיבורה הנוכחית:"
     web_dev_language_transition: "עבור קורס זה, כל הכיתות מתכנתות ב-HTML/JavaScript.  כיתות שכבר משתמשות ב-Python יתחילו עם כמה שלבי מבוא נוספים ב-JavaScript כדי להקל על המעבר.  כיתות שכבר משתמשות ב-JavaScript ידלגו על שלבי המבוא."
     course_membership_required_to_play: "כדי לשחק בשלב זה, יש להצטרף לקורס."
-    license_required_to_play: "בקשו מהמורה להקצות לכם רישיון, כדי שתוכלו להמשיך ולשחק ב-CodeCombat!"
+    license_required_to_play: "בקשו מהמורה להקצות לכם רישיון, כדי שתוכלו להמשיך ולשחק ב-CodeCombat!" # {change}
     update_old_classroom: "שנת לימודים חדשה, שלבים חדשים!"
     update_old_classroom_detail: "בכדי לוודא שאתם מקבלים את השלבים המעודכנים ביותר, וודא שאתם יוצרים כתה חדשה לסמסטר הנוכחי, על ידי לחיצה על ״צור כיתה חדשה״"
     teacher_dashboard: "על לוח המחוונים למורה"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    student_code: "__name__'s Student Code"
     teacher_dashboard: "לוח המחוונים למורה" # Navbar
     my_classes: "הכיתות שלי"
-    courses: "מדריכים לקורס"
+    courses: "מדריכים לקורס" # {change}
     enrollments: "רישיונות תלמיד"
     resources: "משאבים"
     help: "עזרה"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     edit_class_settings: "עריכת הגדרות כיתה"
     access_restricted: "נדרש עדכון חשבון"
     teacher_account_required: "כדי לגשת לתוכן זה, נדרש חשבון מורה."
-    create_teacher_account: "יצירת חשבון מורה"
+    create_teacher_account: "יצירת חשבון מורה" # {change}
     what_is_a_teacher_account: "מהו חשבון מורה?"
     teacher_account_explanation: "חשבון מורה ב-CodeCombat מאפשר לכם להקים כיתות, לעקוב אחר התקדמות התלמידים בקורסים, לנהל רישיונות ולגשת אל משאבים שיעזרו לכם בבניית תכנית הלימודים."
     current_classes: "כיתות נוכחיות"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     revoke_license: "שלול רישיון"
 #    revoke_licenses: "Revoke All Licenses"
     course_progress: "התקדמות בקורס"
+#    unit_progress: "Unit Progress"
     not_applicable: "לא זמין"
     edit: "עריכה"
     edit_2: "עריכה"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     no_progress: "אין התקדמות"
     not_required: "לא נדרש"
 #    view_student_code: "Click to view student code"
-    select_course: "בחרו קורס להצגה"
+    select_course: "בחרו קורס להצגה" # {change}
     progress_color_key: "מקרא צבעי התקדמות:"
     level_in_progress: "השלב בביצוע כעת"
     level_not_started: "השלב לא התחיל"
@@ -1732,13 +1800,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     assigned_msg_1: "{{courseName}} הוקצה ל-{{numberAssigned}} תלמידים."
     assigned_msg_2: "הוחלו {{numberEnrolled}} רישיונות."
     assigned_msg_3: "נותרו לכם {{remainingSpots}} רישיונות זמינים."
-    assign_course: "הקצה קורס"
+    assign_course: "הקצה קורס" # {change}
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
-    remove_course: "הסרת קורס"
-    not_assigned_modal_title: "לא הוקצו קורסים"
+    remove_course: "הסרת קורס" # {change}
+    not_assigned_modal_title: "לא הוקצו קורסים" # {change}
     not_assigned_modal_starter_body_1: "לקורס זה נדרש רישיון למתחילים. אין מספיק רישיונות למתחילים זמינים על מנת להקצות קורס זה לכל __selected__ התלמידים שנבחרו."
     not_assigned_modal_starter_body_2: "רכשו רישיונות למתחילים כדי להעניק גישה אל קורס זה."
-    not_assigned_modal_full_body_1: "לקורס זה נדרש רישיון מלא. אין מספיק רישיונות מלאים זמינים על מנת להקצות קורס זה לכל __selected__ התלמידים שנבחרו."
+    not_assigned_modal_full_body_1: "לקורס זה נדרש רישיון מלא. אין מספיק רישיונות מלאים זמינים על מנת להקצות קורס זה לכל __selected__ התלמידים שנבחרו." # {change}
     not_assigned_modal_full_body_2: "יש לכם __numFullLicensesAvailable__ רישיונות מלאים בלבד (ל-__numStudentsWithoutFullLicenses__ תלמידים אין כעת רישיון מלא פעיל)."
     not_assigned_modal_full_body_3: "נא לבחור פחות תלמידים או לפנות אל __supportEmail__ לקבלת סיוע."
     assigned: "הוקצה"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     all_students: "כל התלמידים"
     apply_licenses: "החל רישיונות"
     not_enough_enrollments: "אין מספיק רישיונות זמינים."
-    enrollments_blurb: "לתלמידים נדרש רישיון כדי לגשת לתוכן כלשהו אחרי הקורס הראשון."
+    enrollments_blurb: "לתלמידים נדרש רישיון כדי לגשת לתוכן כלשהו אחרי הקורס הראשון." # {change}
     how_to_apply_licenses: "כיצד להחיל רישיונות"
     export_student_progress: "ייצוא התקדמות תלמידים (CSV)"
     send_email_to: "שלח הודעת שחזור סיסמה בדואר אלקטרוני לכתובת:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     start_date: "תאריך התחלה:"
     end_date: "תאריך סיום:"
     get_enrollments_blurb: " אנו נעזור לכם לבנות פתרונות שעומדים בצורכי הכיתה, מוסד הלימודים או המחוז שלכם."
-    how_to_apply_licenses_blurb_1: "כאשר מורה מקצה קורס לתלמיד בפעם הראשונה, אנו נחיל רישיון באופן אוטומטי. באמצעות התפריט הנפתח להקצאה המונית בכיתה, ניתן להקצות קורס לתלמידים הנבחרים:"
-    how_to_apply_licenses_blurb_2: "האם עדיין אפשר להחיל רישיון בלי להקצות קורס?"
+    how_to_apply_licenses_blurb_1: "כאשר מורה מקצה קורס לתלמיד בפעם הראשונה, אנו נחיל רישיון באופן אוטומטי. באמצעות התפריט הנפתח להקצאה המונית בכיתה, ניתן להקצות קורס לתלמידים הנבחרים:" # {change}
+    how_to_apply_licenses_blurb_2: "האם עדיין אפשר להחיל רישיון בלי להקצות קורס?" # {change}
     how_to_apply_licenses_blurb_3: "כן - עברו אל כרטיסיית מצב הרישיון בכיתה שלכם, ולחצו על \"החל רישיון\" עבור כל תלמיד שאין לו רישיון פעיל."
     request_sent: "הבקשה נשלחה!"
 #    assessments: "Assessments"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     pacing_guides_high: "מדריך קצב לימודים לתיכון"
     getting_started: "כיצד להתחיל"
     educator_faq: "שאלות נפוצות לאנשי חינוך"
-    educator_faq_desc: "שאלות נפוצות על השימוש ב-CodeCombat בכיתה או במוסד הלימודים שלכם."
+    educator_faq_desc: "שאלות נפוצות על השימוש ב-CodeCombat בכיתה או במוסד הלימודים שלכם." # {change}
     teacher_getting_started: "מדריך ההתחלה המהירה למורה"
-    teacher_getting_started_desc: "חדשים ב-CodeCombat? הורידו את מדריך ההתחלה המהירה למורה כדי להקים חשבון, ליצור את הכיתה הראשונה ולהזמין תלמידים לקורס הראשון."
+    teacher_getting_started_desc: "חדשים ב-CodeCombat? הורידו את מדריך ההתחלה המהירה למורה כדי להקים חשבון, ליצור את הכיתה הראשונה ולהזמין תלמידים לקורס הראשון." # {change}
     student_getting_started: "מדריך התחלה מהירה לתלמיד"
     student_getting_started_desc: "תוכלו לחלק מדריך זה לתלמידים שלכם לפני שתתחילו עם CodeCombat, כדי לתת להם הזדמנות להכיר את עורך הקוד. ניתן להשתמש במדריך זה בכיתות ללימוד Python ו-JavaScript ."
     ap_cs_principles: "עקרונות מדעי המחשב AP"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_quest_teach_methods_step2: "הדפיסו את [Student Quick Start Guide]‏(http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) במרכז המשאבים."
     teacher_quest_teach_strings: "במקום לסבך את התלמידים, למדו אותם 'מחרוזות'."
     teacher_quest_teach_strings_step1: "הביאו 75% מכיתה אחת לפחות אל __True Names__"
-    teacher_quest_teach_strings_step2: "השתמשו בבורר השלבים של המורה בדף [Course Guides]‏(/teachers/courses) כדי לראות תצוגה מקדימה של __True Names__."
+    teacher_quest_teach_strings_step2: "השתמשו בבורר השלבים של המורה בדף [Course Guides]‏(/teachers/courses) כדי לראות תצוגה מקדימה של __True Names__." # {change}
     teacher_quest_teach_loops: "אל תלכו במעגלים - למדו את התלמידים על 'לולאות'."
     teacher_quest_teach_loops_step1: "הביאו 75% מכיתה אחת לפחות אל __Fire Dancing__."
     teacher_quest_teach_loops_step2: "היעזרו בחומר על __Loops Activity__ תחת [CS1 Curriculum guide](/teachers/resources/cs1) כדי לחזק עיקרון זה."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
   share_licenses:
     share_licenses: "שיתוף רישיונות"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "אירעה שגיאה בטעינה מהשרת" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     bootstrap: "Bootstrap"
     break_statements: "פסוקי עצירה"
     classes: "מחלקות"
+#    conditionals: "Conditionals"
     continue_statements: "פסוקי המשך"
+#    debugging: "Debugging"
     dom_events: "אירועי DOM"
     dynamic_styling: "עיצוב דינמי"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     reading_docs: "קריאת המסמכים"
     recursion: "רקורסיה"
     return_statements: "פסוקי החזרה"
+#    sequences_algorithms: "Sequences & Algorithms"
     stacks: "מבני נתונים - ערימות"
     strings: "מחרוזות"
     strings_concatenation: "שרשור מחרוזות"
     strings_substrings: "מחרוזת משנה"
+#    syntax: "Syntax"
     trees: "מבני נתונים - עצים"
     variables: "משתנים"
     vectors: "וקטורים"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"

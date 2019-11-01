@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     map: "Карта"
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
-    courses: "Курсы"
+#    units: "Units"
     blog: "Блог"
     forum: "Форум"
     account: "Аккаунт"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     privacy: "Конфиденциальность"
     about: "О нас"
     contact: "Связаться"
+#    press: "Press"
     twitter_follow: "Подписаться"
     my_classrooms: "Мои классы"
-    my_courses: "Мои курсы"
+#    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Карьера"
     facebook: "Facebook"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     resource_hub: "Ресурсы"
     apcsp: "AP CS Принципы"
     parent: "Родителям"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "Закрыть"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     back_to_classroom: "Назад в класс"
     teacher_button: "Для учителей"
     get_more_codecombat: "Получить больше возможностей от CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "если" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     title: "Прекрасная работа, Ученик"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "Создать аккаунт"
-    email_or_username: "E-mail или имя пользователя"
+    email_or_username: "E-mail или имя пользователя" # {change}
+#    or: "or"
     log_in: "Войти"
+#    sign_in: "Sign In"
     logging_in: "Входим..."
     log_out: "Выйти"
     forgot_password: "Забыли пароль?"
     finishing: "Завершение"
-    sign_in_with_facebook: "Войти через Facebook"
-    sign_in_with_gplus: "Войти через G+"
+    sign_in_with_facebook: "Войти через Facebook" # {change}
+    sign_in_with_gplus: "Войти через G+" # {change}
     signup_switch: "Хотите создать аккаунт?"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "Вы успешно подписались"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teacher_type_2: "Настраивайте ваш класс"
     teacher_type_3: "Получите доступ к учебным материалам "
     teacher_type_4: "Следите за прогрессом учеников"
-    signup_as_teacher: "Зарегистрироваться как Учитель"
+    signup_as_teacher: "Зарегистрироваться как Учитель" # {change}
     student_type_1: "Учитесь программировать во время захватывающей игры!"
     student_type_2: "Играйте вместе с классом"
     student_type_3: "Соревнуйтесь на аренах"
     student_type_4: "Выбирайте своего героя!"
     student_type_5: "Получите код класса!"
-    signup_as_student: "Зарегистрироваться как Ученик"
+    signup_as_student: "Зарегистрироваться как Ученик" # {change}
     individuals_or_parents: "Индивидуально и Родители"
     individual_type: "Для игроков, которые учатся вне класса. Родители должны создать учетную запись здесь."
     signup_as_individual: "Зарегистрироваться как индивидуальный игрок"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     account_created: "Учётная запись создана!"
     confirm_student_blurb: "Запишите свои данные, чтобы не забыть их. Если потребуется, учитель в любое время поможет сбросить пароль."
     confirm_individual_blurb: "Запишите свои учётные данные, если они потребуются в дальнейшем. Проверьте свой e-mail – если забудете пароль, останется возможность восстановить учётную запись!"
-    write_this_down: "Запишите это:"
+    write_this_down: "Запишите это:" # {change}
     start_playing: "Начать играть!"
     sso_connected: "Успешно подключились с помощью:"
     select_your_starting_hero: "Выберите своего первого героя:"
     you_can_always_change_your_hero_later: "Вы в любое время сможете поменять героя."
     finish: "закончить"
     teacher_ready_to_create_class: "Вы готовы создать свой первый класс!"
-    teacher_students_can_start_now: "Ваши ученики могут пройти свой первый курс обучения, Введение в информатику, прямо сейчас."
+    teacher_students_can_start_now: "Ваши ученики могут пройти свой первый курс обучения, Введение в информатику, прямо сейчас." # {change}
     teacher_list_create_class: "В следущем окне вы сможете создать новый класс."
     teacher_list_add_students: "Добавьте учеников в класс, нажав на Просмотр ссылки класса, и затем отправив ученикам код класса или URL. Вы также можете пригласить их по электронной почте, если они таковую имеют."
     teacher_list_resource_hub_1: "Просмотрите"
-    teacher_list_resource_hub_2: "Руководство по курсу"
+    teacher_list_resource_hub_2: "Руководство по курсу" # {change}
     teacher_list_resource_hub_3: "чтобы узнать решения уровней, а также"
     teacher_list_resource_hub_4: "Ресурсный центр"
     teacher_list_resource_hub_5: "для получения информации по учебным пособиям, мероприятиям, и другому!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     eu_confirmation_place_of_processing: "Узнайте больше о возможных рискахs"
     eu_confirmation_student: "Если вы не уверены, спросите своего учителя."
     eu_confirmation_individual: "Если вы не хотите хранить данные на американских серверах, вы всегда можете играть анонимно, не сохраняя ваш код."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "Восстановить учётную запись"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     books: "Книги"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Вернуться" # When used as an action verb, like "Navigate backward"
     coming_soon: "Скоро!"
     continue: "Продолжить" # When used as an action verb, like "Continue forward"
     next: "Далее"
     default_code: "Код по умолчанию"
     loading: "Загрузка..."
+#    LOADING: "LOADING"
     overview: "Обзор"
     processing: "Обрабатывается..."
     solution: "Решение"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     save_changes: "Сохранить изменения"
     required_field: "обязательное поле"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "и"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     next_level: "Следующий уровень"
     combo_challenge: "Комбинированное испытание"
     concept_challenge: "Испытание на использование концепций"
+#    challenge: "Challenge"
     challenge_unlocked: "Испытание разблокировано"
     combo_challenge_unlocked: "Комбинированное испытание разблокировано"
     concept_challenge_unlocked: "Испытание на использование концепций разблокировано"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "Проверить уровень"
     victory: "Победа"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
   apis:
     methods: "Методы"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wallOfDarkness_name: "Стена Тьмы"
     wallOfDarkness_description: "Скройтесь от любопытных взглядов за стеной из теней."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
   premium_features:
     get_premium: "Получи<br>CodeCombat<br>Премиум" # Fit into the banner on the /features page
     master_coder: "Стань мастером програмирования, подписавшись сегодня!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_to_unlock: "Разблокируется на уровне:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Только определённые герои могут играть на этом уровне."
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "функция" # skill types
     method: "метод"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     volume_label: "Громкость"
     music_label: "Музыка"
     music_description: "Фоновая музыка вкл/выкл"
-    editor_config_title: "Настройки редактора"
-    editor_config_livecompletion_label: "Автозаполнение"
+    editor_config_title: "Настройки редактора" # {change}
+    editor_config_livecompletion_label: "Автозаполнение" # {change}
     editor_config_livecompletion_description: "Отображение вариантов автозаполнения во время печати."
     editor_config_invisibles_label: "Показывать непечатные символы"
     editor_config_invisibles_description: "Отображение непечатных символов, например, пробелов или табуляции."
     editor_config_indentguides_label: "Показывать направляющие отступов"
     editor_config_indentguides_description: "Отображение вертикальных линий для лучшего обзора отступов."
-    editor_config_behaviors_label: "Умное поведение"
+    editor_config_behaviors_label: "Умное поведение" # {change}
     editor_config_behaviors_description: "Автозавершение кавычек, квадратных и фигурных скобок."
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     team_link: "Команда"
     story_link: "История"
     press_link: "Для прессы"
-    mission_title: "Наша задача: сделать программирование доступным для каждого учащегося на Земле."
-    mission_description_1: "<strong>Программирование – это магия</strong>. Это способность создавать что-то с помощью воображения. Мы создавали CodeCombat, чтобы дать учащимся почувствовать магию на кончиках пальцев, когда они <strong>пишут код</strong>."
-    mission_description_2: "Как оказалось, это позволяет им учиться быстрее. СИЛЬНО быстрее. Это как живой рассказ вместо чтения учебника. Мы хотим принести этот метод в каждую школу и <strong>каждому ученику</strong>, потому что все должны иметь шанс научиться волшебству программирования."
+    mission_title: "Наша задача: сделать программирование доступным для каждого учащегося на Земле." # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "Присоединяйтесь к команде CodeCombat"
-    team_values: "Мы ценим открытый и вежливый диалог, где побеждают лучшие идеи. Наши решения основаны на исследовании пожеланий клиентов, а наш процесс направлен на то, чтобы приносить осязаемые результаты. У нас все при деле, от CEO до контрибьютеров на GitHub, потому что мы ценим рост и обучение в своей команде."
+    team_values: "Мы ценим открытый и вежливый диалог, где побеждают лучшие идеи. Наши решения основаны на исследовании пожеланий клиентов, а наш процесс направлен на то, чтобы приносить осязаемые результаты. У нас все при деле, от CEO до контрибьютеров на GitHub, потому что мы ценим рост и обучение в своей команде." # {change}
     nick_title: "Сооснователь, CEO"
     matt_title: "Сооснователь, CTO"
     cat_title: "Гейм-дизайнер"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     number_contributors: "Более 450 участников потратили свои силы и время на поддержку проекта."
     story_title: "Наша история"
     story_subtitle: "Начиная с 2013 года, CodeCombat вырос от простого набора эскизов в живую и растущую игровую платформу."
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "5,000,000+" # {change}
     story_statistic_1b: "всего игроков"
-    story_statistic_1c: "начали путешествие в мир программирования с помощью CodeCombat"
+    story_statistic_1c: "начали путешествие в мир программирования с помощью CodeCombat" # {change}
     story_statistic_2a: "Мы переведены более чем на 50 языков — наши игроки приходят из"
     story_statistic_2b: "190+ стран"
     story_statistic_3a: "Все вместе мы написали"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     story_long_way_1: "Хотя мы прошли длинный путь..."
     story_sketch_caption: "Самый первый эскиз Ника, который изображает игру програмирования в действии."
     story_long_way_2: "нам всё ещё нужно многое сделать перед тем, как сможем завершить задание, так что..."
-    jobs_title: "Сотрудничайте с нами и помогайте писать историю CodeCombat!"
+    jobs_title: "Сотрудничайте с нами и помогайте писать историю CodeCombat!" # {change}
     jobs_subtitle: "Не видите хорошую возможность для поддержания связи, но заинтересованы в ней? Обратите внимание на \"Создать свой собственный\" список."
     jobs_benefits: "Преимущества сотрудников"
     jobs_benefit_4: "Бессрочный отпуск"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     jobs_custom_contact_2: "представляя нам себя, у вас есть шанс войти с нами в контакт в будущем!"
     contact_title: "Для прессы и контакты"
     contact_subtitle: "Нужно больше информации? Свяжитесь с нами по"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "Скриншоты игры"
     screenshots_hint: "(нажмите для просмотра в полном размере)"
     downloads_title: "Загрузить дополнения и информацию"
@@ -1240,7 +1306,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     referrer_other: "Другое"
     anything_else: "Что-нибудь ещё, о чём мы должны знать?" # {change}
     thanks_header: "Запрос получен!"
-    thanks_sub_header: "Спасибо, что проявили интерес к CodeCombat для вашей школы."
+    thanks_sub_header: "Спасибо, что проявили интерес к CodeCombat для вашей школы." # {change}
     thanks_p: "Мы скоро свяжемся! Если вам нужно связаться, вы можете связаться с нами здесь:"
     back_to_classes: "Назад к классам"
     finish_signup: "Закончить создание вашего аккаунта учителя:"
@@ -1459,8 +1525,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     switch_to: "Переключить на"
     greetings: "Поздравления!"
     back_classrooms: "Назад к моим классам"
-    back_classroom: "Вернуться к классу"
-    back_courses: "Назад к моим курсам"
+    back_classroom: "Вернуться к классу" # {change}
+    back_courses: "Назад к моим курсам" # {change}
     edit_details: "Редактировать описание класса"
     purchase_enrollments: "Купить лицензии учеников"
     remove_student: "удалить ученика"
@@ -1482,19 +1548,19 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     play_now_learn_2: "циклы while, чтобы решать надоедливые головоломки"
     play_now_learn_3: "строки и переменные, чтобы настраивать действия"
     play_now_learn_4: "Как победить огра (важные жизненные навыки!)"
-    welcome_to_page: "Моя панель ученика"
+    welcome_to_page: "Моя панель ученика" # {change}
     my_classes: "Мои классы"
     class_added: "Класс успешно добавлен!"
 #    view_map: "view map"
 #    view_videos: "view videos"
     view_project_gallery: "посмотреть проекты моих одноклассников"
-    join_class: "Присоединиться к классу"
+    join_class: "Присоединиться к классу" # {change}
     join_class_2: "Присоединиться к классу"
-    ask_teacher_for_code: "Спросите у вашего учителя код класса для CodeCombat! Введите его ниже:"
-    enter_c_code: "<Введите Код Класса>"
+    ask_teacher_for_code: "Спросите у вашего учителя код класса для CodeCombat! Введите его ниже:" # {change}
+    enter_c_code: "<Введите Код Класса>" # {change}
     join: "Присоединиться"
     joining: "Присоединение к классу"
-    course_complete: "Курс завершён"
+#    unit_complete: "Unit Complete"
     play_arena: "Играть Арену"
     view_project: "Посмотреть проект"
     start: "Старт"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Оставить ученика"
     removing_user: "Удаление пользователя"
-    subtitle: "Посмотреть описание и уровни курса" # Flat style redesign
+    subtitle: "Посмотреть описание и уровни курса" # {change}
     changelog: "Посмотреть последние изменения уровней курса."
     select_language: "Выбрать язык"
     select_level: "Выбрать уровень"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    current_hero_female: "Current Hero:"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
     course_membership_required_to_play: "You'll need to join a course to play this level."
-    license_required_to_play: "Попроси своего учителя назначить тебе лицензию для продолжения игры на CodeCombat!"
+    license_required_to_play: "Попроси своего учителя назначить тебе лицензию для продолжения игры на CodeCombat!" # {change}
 #    update_old_classroom: "New school year, new levels!"
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     student_code: "Код ученика с именем __name__"
     teacher_dashboard: "Панель учителя" # Navbar
     my_classes: "Мои классы"
-    courses: "Руководства курсов"
+    courses: "Руководства курсов" # {change}
     enrollments: "Лицензии учеников"
     resources: "Ресурсы"
     help: "Помощь"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     edit_class_settings: "редактировать настройки класса"
     access_restricted: "Требуется обновление аккаунта"
     teacher_account_required: "Необходимо иметь аккаунт учителя, чтобы получить доступ к этим материалам."
-    create_teacher_account: "Создать аккаунт учителя"
+    create_teacher_account: "Создать аккаунт учителя" # {change}
     what_is_a_teacher_account: "Что такое аккаунт учителя?"
     teacher_account_explanation: "Аккаунт учителя CodeCombat позволит Вам создавать классные комнаты, мониторить успеваемость учеников по мере их обучения, управлять лицензиями и получить доступ к ресурсам, которые помогут в составлении учебного плана."
     current_classes: "Текущие классы"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     revoke_license: "Отозвать лицензию"
     revoke_licenses: "Отозвать Все Лицензии"
     course_progress: "Прогресс курса"
+#    unit_progress: "Unit Progress"
     not_applicable: "N/A"
     edit: "редактировать"
     edit_2: "Редактировать"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_progress: "Нет прогресса"
     not_required: "Не требуется"
 #    view_student_code: "Click to view student code"
-    select_course: "Выберите курс для просмотра"
+    select_course: "Выберите курс для просмотра" # {change}
     progress_color_key: "Цветовой ключ прогресса:"
     level_in_progress: "Уровень в процессе"
     level_not_started: "Уровень не начат"
@@ -1728,17 +1796,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     copy_class_url: "Копировать URL класса"
     class_join_url_blurb: "Вы также можете опубликовать этот уникальный Классный URL на общей веб-странице."
     add_students_manually: "Пригласить учеников по email"
-    bulk_assign: "Выбор курса"
+    bulk_assign: "Выбор курса" # {change}
     assigned_msg_1: "{{numberAssigned}} учеников назначены на курс {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} лицензий были приняты."
     assigned_msg_3: "У вас теперь осталось {{remainingSpots}} доступных лицензий."
-    assign_course: "Назначить курс"
+    assign_course: "Назначить курс" # {change}
     removed_course_msg: "{{numberRemoved}} учеников были исключены с курса {{courseName}}."
-    remove_course: "Удалить курс"
-    not_assigned_modal_title: "Курсы не были назначены"
+    remove_course: "Удалить курс" # {change}
+    not_assigned_modal_title: "Курсы не были назначены" # {change}
     not_assigned_modal_starter_body_1: "Этот курс требует Стартовую Лицензию. У Вас нет Стартовой Лицензии для назначения всех __selected__ выбранных учеников на курс."
     not_assigned_modal_starter_body_2: "Купите Стартовую Лицензию для предоставления доступа к этому курсу."
-    not_assigned_modal_full_body_1: "Этот курс требует Полную Лицензию. У Вас нет Полной Лицензии для назначения всех __selected__ выбранных учеников на курс."
+    not_assigned_modal_full_body_1: "Этот курс требует Полную Лицензию. У Вас нет Полной Лицензии для назначения всех __selected__ выбранных учеников на курс." # {change}
     not_assigned_modal_full_body_2: "У Вас есть лишь __numFullLicensesAvailable__ Полных Лицензий (__numStudentsWithoutFullLicenses__ учеников не имеют Полной Лицензии)."
     not_assigned_modal_full_body_3: "Пожалуйста, выберите меньше учеников или обратитесь в __supportEmail__ для получения помощи."
     assigned: "Назначен"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     all_students: "Все ученики"
     apply_licenses: "Применить Лицензию"
     not_enough_enrollments: "Недостаточно доступных лицензий."
-    enrollments_blurb: "Ученики должны иметь лицензию для доступа ко всему контенту после первого курса."
+    enrollments_blurb: "Ученики должны иметь лицензию для доступа ко всему контенту после первого курса." # {change}
     how_to_apply_licenses: "Как подтверждать Лицензии"
     export_student_progress: "Экспортировать прогресс ученика (CSV)"
     send_email_to: "Отправить письмо для восстановления пароля на:"
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     start_date: "дата начала:"
     end_date: "дата конца:"
     get_enrollments_blurb: " Мы поможем Вам принять решение, необходимое именно для Ваших классов, школы или района."
-    how_to_apply_licenses_blurb_1: "Когда учитель назначает ученика на курс впервые, мы автоматически выдадим лицензию. Используйте выпадающий список \"Назначение учеников\" в классной комнате, чтобы назначить на курс выбранных студентов:"
-    how_to_apply_licenses_blurb_2: "Могу ли я применить лицензию без назначения на курс?"
+    how_to_apply_licenses_blurb_1: "Когда учитель назначает ученика на курс впервые, мы автоматически выдадим лицензию. Используйте выпадающий список \"Назначение учеников\" в классной комнате, чтобы назначить на курс выбранных студентов:" # {change}
+    how_to_apply_licenses_blurb_2: "Могу ли я применить лицензию без назначения на курс?" # {change}
     how_to_apply_licenses_blurb_3: "Да. Перейдите на вкладку \"Статус лицензии\" в своем классе и нажмите \"Применить лицензию\" для любого ученика, у которого нет активной лицензии."
     request_sent: "Запрос отправлен!"
     assessments: "Анализ"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     pacing_guides_high: "Руководство для Старшей школы"
     getting_started: "Начать!"
     educator_faq: "Учительское FAQ"
-    educator_faq_desc: "Часто задаваемые вопросы об использовании CodeCombat в Вашем классе или школе."
+    educator_faq_desc: "Часто задаваемые вопросы об использовании CodeCombat в Вашем классе или школе." # {change}
     teacher_getting_started: "Учительское руководство начинающего"
-    teacher_getting_started_desc: "Вы новичок на CodeCombat? Загрузите учительское руководство начинающего, чтобы настроить свою учетную запись, создать свой первый класс и пригласить учеников на первый курс."
+    teacher_getting_started_desc: "Вы новичок на CodeCombat? Загрузите учительское руководство начинающего, чтобы настроить свою учетную запись, создать свой первый класс и пригласить учеников на первый курс." # {change}
     student_getting_started: "Ученическое руководство начинающего"
     student_getting_started_desc: "Вы можете показать это руководство ученикам перед началом урока на CodeCombat, чтобы они могли ознакомиться с редактором кода. Это руководство может использоваться как для Python, так и для JavaScript классов."
 #    ap_cs_principles: "AP Computer Science Principles"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
 #    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
 #    teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__."
 #    teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
 #    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
 #    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     bootstrap: "Bootstrap"
     break_statements: "Оператор \"break\""
     classes: "Классы"
+#    conditionals: "Conditionals"
     continue_statements: "Оператор \"continue\""
+#    debugging: "Debugging"
     dom_events: "События DOM"
     dynamic_styling: "Динамические стили"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reading_docs: "Читать документацию"
     recursion: "Рекурсия"
     return_statements: "Код возврата"
+#    sequences_algorithms: "Sequences & Algorithms"
     stacks: "Структуры данных - стеки"
     strings: "Строки"
     strings_concatenation: "Конкатенация строк"
     strings_substrings: "Подстроки"
+#    syntax: "Syntax"
     trees: "Структуры данных - деревья"
     variables: "Переменные"
     vectors: "Векторы"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"

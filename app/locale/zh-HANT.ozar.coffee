@@ -1,8 +1,34 @@
 module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese (Traditional)", translation:
 
+#  ozaria_home:
+#    subtitle: "Computer Science that Captivates"
+#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    value_prop1_h1: "Epic Story. Immersive Gameplay."
+#    value_prop1_h2: "Inspire a deeper connection to learning"
+#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+#    value_prop2_h1: "Discover the Hero within Every Student"
+#    value_prop2_h2: "Build real skills through play"
+#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+#    value_prop3_h1: "Start Your Journey For Free"
+#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+#    student_creativity: "Unleash Student Creativity"
+#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+#    teach_with_support: "Teach with Support"
+#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+#    request_demo: "Request a Demo"
+#    im_an_educator: "I'm an Educator"
+#    im_a_student: "I'm a Student"
+#    global_title: "Join Our Global Community of Learners and Educators"
+#    global_subtitle1: "Learners"
+#    global_subtitle2: "Lines of Code"
+#    global_subtitle3: "Teachers"
+#    global_subtitle4: "Countries"
+#    sign_up: "Sign Up"
+
   new_home:
-    title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript"
-    meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
+    title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript" # {change}
+    meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。" # {change}
     built_for_teachers_title: "一個由教師建構的編碼遊戲"
     built_for_teachers_blurb: "教孩子們編寫代碼往往會令人感到招架不住。 透過 CodeCombat 可以幫助所有教育工作者教授學生如何使用 JavaScript 或 Python（兩種最流行的編程語言）進行編碼。 透過包含六個計算機科學的綜合課程，以及遊戲開發和 Web 開發專題來進行加強學習，孩子們將在從基本語法往遞迴程式設計中前進！"
     built_for_teachers_subtitle1: "電腦科學"
@@ -159,7 +185,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     map: "地圖"
     play: "返回地圖" # The top nav bar entry where players choose which levels to play
     community: "社群"
-    courses: "課程"
+#    units: "Units"
     blog: "官方部落格"
     forum: "論壇"
     account: "帳號"
@@ -171,9 +197,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     privacy: "隱私權政策"
     about: "關於"
     contact: "聯繫我們"
+#    press: "Press"
     twitter_follow: "在 Twitter 關注"
     my_classrooms: "我的班級"
-    my_courses: "我的課程"
+#    my_units: "My Units"
     my_teachers: "我的導師"
     careers: "招聘"
     facebook: "Facebook臉書"
@@ -194,6 +221,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
     parent: "雙親"
+#    faq: "FAQ"
+#    return_coco: "Return to CodeCombat"
+#    classes: "Classes"
 
   modal:
     close: "關閉"
@@ -265,6 +295,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     back_to_classroom: "回到教室"
     teacher_button: "老師專用功能"
 #    get_more_codecombat: "Get More CodeCombat"
+#    back_to_dashboard: "Back to Dashboard"
+#    back_to_ozaria: "Back to ozaria.com"
+#    customize_hero: "Customize Hero"
 
   code:
     if: "若是" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,16 +358,22 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     title: "做得不錯，同學"
 
   login:
+#    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "註冊"
-    email_or_username: "輸入Email帳號 或是 使用者名稱"
+    email_or_username: "輸入Email帳號 或是 使用者名稱" # {change}
+#    or: "or"
     log_in: "登入"
+#    sign_in: "Sign In"
     logging_in: "登入中"
     log_out: "登出"
     forgot_password: "忘記密碼？"
     finishing: "結束"
-    sign_in_with_facebook: "使用 Facebook 登入"
-    sign_in_with_gplus: "使用 Google+ 登入"
+    sign_in_with_facebook: "使用 Facebook 登入" # {change}
+    sign_in_with_gplus: "使用 Google+ 登入" # {change}
     signup_switch: "建立一個帳號"
+#    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
+#    already_have_account2: "You can sign into Ozaria.com using that account."
+#    sign_into_ozaria: "Sign Into Ozaria.com"
 
   signup:
     complete_subscription: "完成訂閱"
@@ -371,13 +410,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     teacher_type_2: "建立班級"
     teacher_type_3: "取得課程指引"
     teacher_type_4: "查看學生進度"
-    signup_as_teacher: "註冊成為老師"
+    signup_as_teacher: "註冊成為老師" # {change}
     student_type_1: "一邊玩遊戲一邊學程式設計！"
     student_type_2: "和班上同學一起玩！"
     student_type_3: "在競技場中互相對抗"
     student_type_4: "選擇一個英雄！"
     student_type_5: "準備好您的班級代碼！"
-    signup_as_student: "註冊成為學生"
+    signup_as_student: "註冊成為學生" # {change}
     individuals_or_parents: "獨立帳戶＆家長"
     individual_type: "對於想要在課外學習程式語言的學生，家長應該從這個地方註冊帳號。"
     signup_as_individual: "創建獨立帳戶"
@@ -395,18 +434,18 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     account_created: "帳戶創建完成！"
     confirm_student_blurb: "把您的資訊寫下來，以防您忘記它。您的老師也可以協助您重設密碼。"
     confirm_individual_blurb: "把您的登入資訊寫下來，以便日後需要使用。驗證您的email，這樣您之後忘記密碼才可以恢復帳戶──去您的收件匣收信吧！"
-    write_this_down: "把這個寫下來："
+    write_this_down: "把這個寫下來：" # {change}
     start_playing: "開始遊戲！"
     sso_connected: "成功連接："
     select_your_starting_hero: "選擇您最初的英雄"
     you_can_always_change_your_hero_later: "您隨時可以切換您的英雄。"
     finish: "完成"
     teacher_ready_to_create_class: "你已經可以開胎建立你的第一個課程!"
-#    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
+#    teacher_students_can_start_now: "Your students will be able to start playing the first unit, Prologue: The Sky Mountain, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
 #    teacher_list_resource_hub_1: "Check out the"
-#    teacher_list_resource_hub_2: "Course Guides"
+#    teacher_list_resource_hub_2: "Unit Guides"
 #    teacher_list_resource_hub_3: "for solutions to every level, and the"
 #    teacher_list_resource_hub_4: "Resource Hub"
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
@@ -417,6 +456,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
+#    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
+#    looking_for_classroom: "Looking for classroom..."
 
   recover:
     recover_account_title: "復原帳號"
@@ -432,14 +474,16 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     books: "書籍"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    default_title: "Ozaria - Computer science that captivates"
+#    ozaria: "Ozaria"
+#    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "上一步" # When used as an action verb, like "Navigate backward"
     coming_soon: "即將公布！"
     continue: "下一步" # When used as an action verb, like "Continue forward"
 #    next: "Next"
     default_code: "預設程式碼"
     loading: "載入中…"
+#    LOADING: "LOADING"
     overview: "總覽"
 #    processing: "Processing..."
     solution: "解決方法"
@@ -466,6 +510,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     save_changes: "保存更改"
     required_field: "需求"
 #    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
+#    continue_editing: "Continue Editing"
+#    logout: "Logout"
 
   general:
     and: "和"
@@ -561,6 +609,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     next_level: "下一個關卡："
 #    combo_challenge: "Combo Challenge"
 #    concept_challenge: "Concept Challenge"
+#    challenge: "Challenge"
 #    challenge_unlocked: "Challenge Unlocked"
 #    combo_challenge_unlocked: "Combo Challenge Unlocked"
 #    concept_challenge_unlocked: "Concept Challenge Unlocked"
@@ -598,7 +647,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     reload_title: "重新載入程式碼？"
     reload_really: "確定重設所有的程式碼？"
     reload_confirm: "重設所有程式碼"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_really: "Are you sure you want to restart the level? You'll lose all the code you've written."
 #    restart_confirm: "Yes, Restart"
     test_level: "測試關卡"
     victory: "勝利"
@@ -728,11 +777,14 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
+#    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    share_your_project: "Share Your Project"
+#    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
+#    copy_url: "Copy URL"
 
 #  apis:
 #    methods: "Methods"
@@ -941,6 +993,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+#    select_avatar_title: "Choose Player Avatar"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -1000,6 +1056,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     level_to_unlock: "解鎖關卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "特定英雄才可遊玩此關卡。"
 
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
+
   skill_docs:
     function: "功能" # skill types
     method: "方法"
@@ -1039,14 +1102,14 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     volume_label: "音量"
     music_label: "音樂"
     music_description: "開關背景音樂。"
-    editor_config_title: "編輯器設定值"
-    editor_config_livecompletion_label: "語法自動校正"
+    editor_config_title: "編輯器設定值" # {change}
+    editor_config_livecompletion_label: "語法自動校正" # {change}
     editor_config_livecompletion_description: "當編寫語法的時候自動提示。"
     editor_config_invisibles_label: "顯示隱藏字元"
     editor_config_invisibles_description: "顯示如空白鍵或TAB鍵等隱藏字元。"
     editor_config_indentguides_label: "顯示縮排導引"
     editor_config_indentguides_description: "顯示縮排行數以便閱讀。"
-    editor_config_behaviors_label: "智慧校正"
+    editor_config_behaviors_label: "智慧校正" # {change}
     editor_config_behaviors_description: "自動填入小括號、大括號以及引號。"
 
   about:
@@ -1059,11 +1122,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     team_link: "隊伍"
     story_link: "故事"
     press_link: "點擊"
-    mission_title: "我們的任務為：讓世上每個學生都有機會能學會編程。"
-    mission_description_1: "<strong>編程是一種魔法</strong>。它是一種從純粹的想像中創造東西的能力。我們營運CodeCombat來讓學習者可以透過<strong>鍵入程式碼</strong>在指尖感覺到巫師般的力量。"
-    mission_description_2: "它的出現也讓使用者學得更快，就像是與它對話而不是閱讀手冊一般。我們想將這種對話帶給每一個學校以及<strong>每一位學生</strong>，因為每個人都應該要有機會體會編程的魔力。 "
+    mission_title: "我們的任務為：讓世上每個學生都有機會能學會編程。" # {change}
+#    mission_teach: "Teach through Adventure"
+#    mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
+#    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
+#    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "認識CodeCombat團隊。"
-    team_values: "我們重視開放且互相尊重的對話，好的想法才會勝出。我們的抉擇建立於客戶調查上，且過程注重於將具體的結果交給客戶。從我們的CEO到我們的Github貢獻者，每一個人都會動手參與，因為我們傾向在團隊中學習成長。"
+    team_values: "我們重視開放且互相尊重的對話，好的想法才會勝出。我們的抉擇建立於客戶調查上，且過程注重於將具體的結果交給客戶。從我們的CEO到我們的Github貢獻者，每一個人都會動手參與，因為我們傾向在團隊中學習成長。" # {change}
     nick_title: "共同創辦人，CEO"
     matt_title: "共同創辦人，CTO"
     cat_title: "遊戲設計師"
@@ -1089,7 +1154,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
-#    bobby_title: "Senior Game Designer"
+#    bobby_title: "Game Designer"
 #    brian_title: "Lead Game Designer"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
@@ -1109,9 +1174,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     number_contributors: "超過 450 位貢獻者奉獻他們的時間來協助本專案。"
     story_title: "我們的故事..."
     story_subtitle: "從 2013 年起，CodeCombat 從簡單的草圖成長為一個有生命且生氣蓬勃的遊戲。"
-    story_statistic_1a: "總計超過 5,000,000+ "
+    story_statistic_1a: "總計超過 5,000,000+ " # {change}
     story_statistic_1b: "位玩家"
-    story_statistic_1c: "藉由 CodeCombat 開啟他們的程式之旅"
+    story_statistic_1c: "藉由 CodeCombat 開啟他們的程式之旅" # {change}
     story_statistic_2a: "我們已翻譯至超過 50 種語言，我們的玩家來自"
     story_statistic_2b: "超過 200+ 個國家" # {change}
     story_statistic_3a: "他們一起撰寫完成"
@@ -1120,7 +1185,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     story_long_way_1: "雖然我們已經走過很長的一段路..."
     story_sketch_caption: "Nick 著手完成了一個初版的藍圖，描述一個撰寫程式的遊戲。"
     story_long_way_2: "然而在完成任務之前，我們仍然還有許多事情要做。所以..."
-    jobs_title: "與我們一同工作，來協助撰寫 CodeCombat 的歷史吧！"
+    jobs_title: "與我們一同工作，來協助撰寫 CodeCombat 的歷史吧！" # {change}
     jobs_subtitle: "找不到符合的位置，但有興趣與我們保持連繫？查看『創造自己的工作』清單吧。"
     jobs_benefits: "員工福利"
     jobs_benefit_4: "無盡假期"
@@ -1136,6 +1201,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     jobs_custom_contact_2: "介紹您自己，未來我們可能會與您接觸!"
     contact_title: "點擊 & 連繫"
     contact_subtitle: "需要更多資訊？透過以下與我們連繫"
+#    press_subtitle: "or visit our press site at"
     screenshots_title: "遊戲螢幕截圖"
     screenshots_hint: "(點擊查看完整尺寸)"
     downloads_title: "下載資源 & 資訊"
@@ -1240,7 +1306,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    referrer_other: "Other"
     anything_else: "還有甚麼我們需要知道的嗎?" # {change}
     thanks_header: "已收到申請!"
-    thanks_sub_header: "感謝您表達您的學校對於CodeCombat的興趣。"
+    thanks_sub_header: "感謝您表達您的學校對於CodeCombat的興趣。" # {change}
     thanks_p: "我們不久將會與您接觸!如果需要與我們聯絡，您可以以下面方式找到我們:"
     back_to_classes: "回到班級"
     finish_signup: "完成您的教師帳號創建:"
@@ -1460,7 +1526,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     greetings: "您好!"
     back_classrooms: "回到我的教室"
 #    back_classroom: "Back to classroom"
-    back_courses: "回到我的課程"
+    back_courses: "回到我的課程" # {change}
     edit_details: "編輯班級資訊"
     purchase_enrollments: "購買學生註冊碼"
     remove_student: "移除學生"
@@ -1482,19 +1548,19 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     play_now_learn_2: "當您陷入討厭謎題無法解開的迴圈時"
     play_now_learn_3: "用字串和變數來完成想要的動作"
     play_now_learn_4: "如何去擊敗一個食人魔(重要的生存技巧!)"
-    welcome_to_page: "我的學生面板"
+    welcome_to_page: "我的學生面板" # {change}
     my_classes: "現在的教室"
     class_added: "您已經成功的加入一個教室!"
 #    view_map: "view map"
 #    view_videos: "view videos"
 #    view_project_gallery: "view my classmates' projects"
-    join_class: "加入一個班級"
+    join_class: "加入一個班級" # {change}
     join_class_2: "加入班級"
-    ask_teacher_for_code: "詢問您的老師是否有一個您的CodeCombat教室代碼! 如果有的話，輸入在後方:"
-    enter_c_code: "<輸入班級代碼>"
+    ask_teacher_for_code: "詢問您的老師是否有一個您的CodeCombat教室代碼! 如果有的話，輸入在後方:" # {change}
+    enter_c_code: "<輸入班級代碼>" # {change}
     join: "加入"
     joining: "加入班級中"
-    course_complete: "課程完結"
+#    unit_complete: "Unit Complete"
     play_arena: "進入競技場"
     view_project: "觀看計畫"
     start: "開始"
@@ -1509,7 +1575,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "保留學生"
     removing_user: "移除使用者中"
-    subtitle: "回顧課程的總覽以及關卡" # Flat style redesign
+    subtitle: "回顧課程的總覽以及關卡" # {change}
     changelog: "觀看課程關卡的最後編輯。"
     select_language: "選擇語言"
     select_level: "選擇關卡"
@@ -1586,7 +1652,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    current_hero_female: "Current Hero:"
     web_dev_language_transition: "在這個課程中所有的班級都使用 HTML / JavaScript。 已經使用Python的班級將會從額外的JavaScript介紹關卡開始以銜接內容。 已經使用JavaScript的班級將會跳過介紹關卡。"
     course_membership_required_to_play: "您需要加入一個課程來遊玩此關卡。"
-    license_required_to_play: "詢問您的老師來分派一個授權碼給您，這樣您就可以繼續遊玩CodeCombat!"
+    license_required_to_play: "詢問您的老師來分派一個授權碼給您，這樣您就可以繼續遊玩CodeCombat!" # {change}
 #    update_old_classroom: "New school year, new levels!"
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
@@ -1627,6 +1693,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1665,7 +1732,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    student_code: "__name__'s Student Code"
     teacher_dashboard: "老師的管理台" # Navbar
     my_classes: "我的班級"
-    courses: "課程引導"
+    courses: "課程引導" # {change}
     enrollments: "學生註冊碼"
     resources: "資源"
     help: "幫助"
@@ -1673,7 +1740,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     edit_class_settings: "編輯班級設定"
     access_restricted: "帳號升級請求"
     teacher_account_required: "需要一個老師帳號來取得這些內容。"
-    create_teacher_account: "建立老師帳號"
+    create_teacher_account: "建立老師帳號" # {change}
     what_is_a_teacher_account: "什麼是老師帳號?"
     teacher_account_explanation: "一個CodeCombat老師帳號讓您可以設立教室，當學生們學完課程後可以監看他們的進度，管理註冊碼以及取得資源來協助建立您的課程。"
     current_classes: "現有班級"
@@ -1701,6 +1768,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     revoke_license: "撤銷註冊碼"
 #    revoke_licenses: "Revoke All Licenses"
     course_progress: "課程進展"
+#    unit_progress: "Unit Progress"
     not_applicable: "N/A"
     edit: "編輯"
     edit_2: "編輯"
@@ -1716,7 +1784,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     no_progress: "無進度"
     not_required: "不需要"
 #    view_student_code: "Click to view student code"
-    select_course: "選擇課程以觀看"
+    select_course: "選擇課程以觀看" # {change}
     progress_color_key: "進度分類顏色:"
     level_in_progress: "進度中的關卡"
     level_not_started: "未開始的關卡"
@@ -1732,13 +1800,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     assigned_msg_1: "{{numberAssigned}} 個學生被指派到 {{courseName}} 中。"
     assigned_msg_2: "需要使用 {{numberEnrolled}} 個註冊碼。"
     assigned_msg_3: "您現在還有 {{remainingSpots}} 個可使用的註冊碼。"
-    assign_course: "指派班級"
+    assign_course: "指派班級" # {change}
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
-#    remove_course: "Remove Course"
-    not_assigned_modal_title: "班級未被指派"
+#    remove_course: "Remove Unit"
+    not_assigned_modal_title: "班級未被指派" # {change}
     not_assigned_modal_starter_body_1: "這個課程需要一個起始註冊碼。您沒有足夠多可用的起始註冊碼來指派這個課程給所有 __selected__ 選擇的學生。"
     not_assigned_modal_starter_body_2: "購買起始註冊碼來授予這個課程的存取。"
-    not_assigned_modal_full_body_1: "這個課程需要一個完整註冊碼。您沒有足夠多可用的完整註冊碼來指派這個課程給所有 __selected__ 選擇的學生。"
+    not_assigned_modal_full_body_1: "這個課程需要一個完整註冊碼。您沒有足夠多可用的完整註冊碼來指派這個課程給所有 __selected__ 選擇的學生。" # {change}
     not_assigned_modal_full_body_2: "您只擁有 __numFullLicensesAvailable__ 個可用的完整註冊碼 (__numStudentsWithoutFullLicenses__ 個學生還沒有啟動完整註冊碼)。"
     not_assigned_modal_full_body_3: "請選擇少一點的學生，或是寫信到 __supportEmail__ 取得幫助。"
     assigned: "已指派"
@@ -1750,7 +1818,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     all_students: "所有學生"
     apply_licenses: "適用註冊碼"
     not_enough_enrollments: "沒有足夠多可用的註冊碼。"
-    enrollments_blurb: "學生們需要有一個註冊碼來存取任何第一堂課之後的內容。"
+    enrollments_blurb: "學生們需要有一個註冊碼來存取任何第一堂課之後的內容。" # {change}
     how_to_apply_licenses: "如何使用註冊碼"
     export_student_progress: "匯出學生進度 (CSV)"
     send_email_to: "傳送回復密碼信件到："
@@ -1770,8 +1838,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     start_date: "開始日期:"
     end_date: "結束日期:"
     get_enrollments_blurb: " 我們將會幫助您建立解答來符合您班級、學校、學區的需求。"
-    how_to_apply_licenses_blurb_1: "當老師第一次分派一個課程給學生時, 我們會自動地使用註冊碼。您可以利用教室中的批量指派下拉選項來分派課程給被選到的學生:"
-    how_to_apply_licenses_blurb_2: "我可以在沒有指派課程的情況下使用註冊碼媽?"
+    how_to_apply_licenses_blurb_1: "當老師第一次分派一個課程給學生時, 我們會自動地使用註冊碼。您可以利用教室中的批量指派下拉選項來分派課程給被選到的學生:" # {change}
+    how_to_apply_licenses_blurb_2: "我可以在沒有指派課程的情況下使用註冊碼媽?" # {change}
     how_to_apply_licenses_blurb_3: "可以 — 到您教室中的註冊碼狀態標籤並點擊 \"使用註冊碼\" 給任何沒有完成註冊碼的學生。"
     request_sent: "請求已送出!"
 #    assessments: "Assessments"
@@ -1793,9 +1861,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    pacing_guides_high: "High School Pacing Guide"
     getting_started: "開始吧"
     educator_faq: "教育者常見問題"
-    educator_faq_desc: "常見問題關於在您的班上或學校中使用 CodeCombat 。"
+    educator_faq_desc: "常見問題關於在您的班上或學校中使用 CodeCombat 。" # {change}
     teacher_getting_started: "給已經開始的老師指引"
-    teacher_getting_started_desc: "對於 CodeCombat 還不熟悉嗎? 下載這份<給已經開始的老師指引>來設立您的帳號，建立您的第一個班級，並且邀請學生來上第一堂課程。"
+    teacher_getting_started_desc: "對於 CodeCombat 還不熟悉嗎? 下載這份<給已經開始的老師指引>來設立您的帳號，建立您的第一個班級，並且邀請學生來上第一堂課程。" # {change}
     student_getting_started: "學生快速開始指引"
     student_getting_started_desc: "您可以分發這份指引給您的學生，然後再開始進行 CodeCombat ，這樣他們就可以自行運用逞式碼編輯器熟悉環境。 這份指引可以適用於 Python 以及 JavaScript 的班級。"
 #    ap_cs_principles: "AP Computer Science Principles"
@@ -1926,7 +1994,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
 #    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
 #    teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__."
 #    teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
 #    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
 #    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
@@ -1967,6 +2035,29 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
+#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
+#    prologue: "Prologue: The Sky Mountain"
+#    unit_overview: "Unit Overview"
+#    module_overview: "Module Overview"
+#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    lesson_plan: "Lesson Plan"
+#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    capstone_rubric: "Capstone Rubric"
+#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: The Moon Dancers"
+#    module1: "Module 1"
+#    module2: "Module 2"
+#    module3: "Module 3"
+#    module4: "Module 4"
+#    module5: "Module 5"
+#    module6: "Module 6"
+#    algorithms_and_syntax: "Algorithms and Syntax"
+#    debugging: "Debugging"
+#    variables: "Variables"
+#    conditionals: "Conditionals"
+#    capstone_intro: "Capstone Intro"
+#    capstone_project: "Capstone Project"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2393,6 +2484,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    back_to_map: "Back to Map"
 #    level_options: "Level Options"
 #    restart_level: "Restart Level"
+#    max_browser: "Maximize Browser"
 
   loading_error:
     could_not_load: "從伺服器載入失敗" # {change}
@@ -2463,7 +2555,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     bootstrap: "引導程序"
     break_statements: "break(終止) 敘述"
     classes: "類別"
+#    conditionals: "Conditionals"
     continue_statements: "continue(繼續) 敘述"
+#    debugging: "Debugging"
     dom_events: "DOM(文件物件模型) 事件"
     dynamic_styling: "動態式樣"
 #    events: "Events"
@@ -2517,10 +2611,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     reading_docs: "讀取文件"
     recursion: "遞歸"
     return_statements: "Return(回傳) 敘述"
+#    sequences_algorithms: "Sequences & Algorithms"
     stacks: "資料結構 - 堆疊"
     strings: "字串"
     strings_concatenation: "字串鏈結"
     strings_substrings: "子字串"
+#    syntax: "Syntax"
     trees: "資料結構 - 樹狀結構"
     variables: "變數"
     vectors: "向量"
@@ -2923,5 +3019,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
 #    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+#    cannot_play_video: "Sadly, this video cannot be played in your area."
+#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
+#    skip_video: "Skip video"
+#    unavailable: "Unavailable"
