@@ -19,13 +19,12 @@ block content
 
   if !me.isTeacher() && !me.isAdmin()
     a(href="/")
-      img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+      img#nav-logo(src="/images/ozaria/home/ozaria-logo.png", title="Ozaria - Computer Science that Captivates", alt="Ozaria")
     h2.text-center(data-i18n="teacher.teacher_account_required")
   else if !view.paidTeacher && !view.course.get('free')
     h2.text-center(data-i18n="courses.solutions_require_licenses")
   else
     .text-center
-      img(src="http://direct.codecombat.com/images/pages/base/logo.png")
       if view.course.loaded
         h1 #{i18n(view.course.attributes, 'name')}
         h3 #{view.prettyLanguage}
@@ -35,19 +34,24 @@ block content
     if view.levels
       h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
+        - var levelName = i18n(level.attributes, 'displayName') || level.get('displayName') || i18n(level.attributes, 'name') || level.get('name')
         .small
-          a(href="##{level.get('slug')}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+          a(href="##{level.get('slug')}") #{levelName}
       br
 
       each level, index in view.levels.models
         - var langClass = 'lang-' + (level.get('primerLanguage') || view.language || 'python');
-        h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
-        h3(data-i18n="teacher.level_overview_solutions")
+        - var levelName = i18n(level.attributes, 'displayName') || level.get('displayName') || i18n(level.attributes, 'name') || level.get('name')
+        - var learningGoals = view.getLearningGoalsForLevel(level)
+        h2.page-break-before(id=level.get('slug')) #{levelName}
+        a(href="/play/level/#{level.get('slug')}?course=#{view.courseID}&codeLanguage=#{view.language}").play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
+          span(data-i18n="courses.play_level")
+        h4(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
         div
-          h4.text-center(data-i18n="common.intro")
-          if level.get('intro')
-            p!= level.get('intro')
+          h4.text-center(data-i18n="play_level.learning_goals")
+          if learningGoals
+            p!= learningGoals
           else
             .text-center
               i(data-i18n="common.coming_soon")
@@ -57,17 +61,14 @@ block content
               code(class=langClass)= level.get('begin')
           else
             .text-center
-              i(data-i18n="common.coming_soon")
+              p(data-i18n="common.empty")
         div.overview
           br
-          h4.text-center(data-i18n="common.overview")
           if level.get('guide')
+            h4.text-center(data-i18n="common.overview")
             p!= level.get('guide')
-          else
-            .text-center
-              i(data-i18n="common.coming_soon")
           h4.text-center
-            span= i18n(level.attributes, 'name')
+            span= levelName
             span.spl(data-i18n="common.solution")
           if level.get('assessment') === 'open-ended'
             em(data-i18n="teacher.explain_open_ended")
@@ -113,5 +114,7 @@ block content
                 i(data-i18n="teacher.solution_project_blurb")
               else
                 i(data-i18n="common.coming_soon")
+        h4.text-center(data-i18n="teacher.level_code")
+        pre!= level.get('slug')
         hr
         br
