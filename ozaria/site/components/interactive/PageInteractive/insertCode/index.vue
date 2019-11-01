@@ -80,7 +80,8 @@
           tabSize: 2,
           mode: `text/${language}`,
           lineNumbers: true,
-          readOnly: 'nocursor'
+          readOnly: 'nocursor',
+          lineWrapping: true
         },
 
         splitSampleCode,

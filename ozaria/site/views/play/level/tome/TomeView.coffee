@@ -266,6 +266,9 @@ module.exports = class TomeView extends CocoView
     thang = _.merge thang, programmableConfig, usesHTMLConfig, usesWebJavaScriptConfig, usesJQueryConfig
     thang
 
+  softReloadCapstoneStage: (newCapstoneStage) ->
+    @castButton.softReloadCapstoneStage(newCapstoneStage)
+
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
     @worker?.terminate()
