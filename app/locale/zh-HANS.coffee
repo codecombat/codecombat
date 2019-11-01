@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
 
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    title: "CodeCombat - 美国大学理事会认证硅谷原版青少年编程平台"
+    meta_description: "CodeCombat（中国官方网址：koudashijie.com）于2013年成立于美国硅谷，是美国大学理事会权威认证的青少年编程学习平台，学习者可以在CodeCombat学习后参加AP计算机考试，拿到美国和世界一流名校如斯坦福大学、哈佛大学、麻省理工学院等学分减免政策，是全球公认的权威计算机编程能力学习平台之一。"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
@@ -410,7 +410,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_list_resource_hub_3: "关卡解决方案，和"
     teacher_list_resource_hub_4: "资源汇总"
     teacher_list_resource_hub_5: "课程指导，课程活动和更多信息！"
-    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 bill@codecombat.com。"
+    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 china@codecombat.com。"
     dont_use_our_email_silly: "请填写家长的邮箱地址。"
     want_codecombat_in_school: "想接着玩CodeCombat?"
     eu_confirmation: "我同意 CodeCombat 在美国的服务器上存储我的数据"
@@ -548,7 +548,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_level:
     back_to_map: "返回地图"
-    directions: "方向"
+    directions: "游戏指引"
     edit_level: "编辑关卡"
     keep_learning: "不断学习"
     explore_codecombat: "探索CodeCombat"
@@ -738,8 +738,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     methods: "函数"
     events: "事件"
 #    handlers: "Handlers"
-#    properties: "Properties"
-#    snippets: "Snippets"
+    properties: "属性"
+    snippets: "字段"
     spawnable: "可生成物"
     html: "HTML"
     math: "数学"
@@ -770,7 +770,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     created_during_hoc: "在“编程一小时”中创建。"
     restart: "重新开始关卡"
     play: "开始关卡"
-    learn_about_ozaria: "Learn About Ozaria"
+    play_more_codecombat: "玩更多的 CodeCombat 关卡"
     default_student_instructions: "单击控制英雄，并取得胜利！"
     goal_survive: "生存。"
     goal_survive_time: "生存 __seconds__ 秒。"
@@ -897,7 +897,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     year_subscription: "年度订阅"
     year_price: "$__price__/年"
     support_part1: "付款时需要帮助? Email" # {change}
-    support_part2: "bill@codecombat.com"
+    support_part2: "china@codecombat.com"
 
   announcement:
     now_available: "现在订阅者可以获得更多内容"
@@ -1055,7 +1055,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     learn_more: "了解更多"
     main_title: "学习编程需要动手写大量代码"
     main_description: "CodeCombat让你带着微笑学习"
-    mission_link: "任务"
+    mission_link: "愿景"
     team_link: "团队"
     story_link: "历程"
     press_link: "联系方式"
@@ -1063,7 +1063,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     mission_description_1: "<strong>编程是一种魔法</strong>。这是一种从想象中创造万物的能力。我们开始了 CodeCombat 这个项目，是为了让学习者通过<strong>编写代码</strong>感受到他们指尖上的魔力。"
     mission_description_2: "同时，他们也能迅速学习，因为学习的方式变快了。学习就像是对话而不是阅读枯燥的手册。我们想将这种对话带给每所学校和<strong>每个学生</strong>，因为每个人都应有机会学习编程的魔法。"
     team_title: "与CodeCombat团队见面"
-    team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲历亲为，因为在团队中我们收获了成长与经验。"
+    team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲力亲为，因为在团队中我们收获了成长与经验。"
 #    nick_title: "Cofounder, CEO"
 #    matt_title: "Cofounder, CTO"
 #    cat_title: "Game Designer"
@@ -1103,17 +1103,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
-    community_description_1: "，上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
+    community_description_1: "上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
     community_description_link: "贡献者页面"
     community_description_2: "了解更多信息。"
     number_contributors: "超过 450 个志愿者将他们的知识和时间投入到这个项目中。"
     story_title: "我们已走过的历程"
     story_subtitle: "从2013年至今，CodeCombat已经从一组小草图成长为一个生动的、蓬勃发展的游戏。"
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "12,000,000+"
     story_statistic_1b: "总玩家"
     story_statistic_1c: "已经通过CodeCombat开始了他们的编程之旅"
     story_statistic_2a: "我们将这个游戏翻译为超过 50 种语言 —— 得益于来自"
-    story_statistic_2b: "200+ 个国家" # {change}
+    story_statistic_2b: "190+ 个国家" # {change}
     story_statistic_3a: "的玩家，他们总共写下了"
     story_statistic_3b: "10亿行代码和说明"
     story_statistic_3c: "，涵盖了多种编程语言。"
@@ -1159,7 +1159,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     low_price_title: "每个学生仅仅只要 __starterLicensePrice__ 元 "
     low_price_description: "学生入门许可证在购买后的 __starterLicenseLengthMonths__ 个月内有效."
     three_great_courses: "学生入门许可证中包含三个伟大的课程:"
-    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 bill@codecombat.com. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
+    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 china@codecombat.com. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
     student_starter_license: "学生入门许可"
     purchase_starter_licenses: "购买入门许可证"
     purchase_starter_licenses_to_grant: "购买入门许可证可被授权访问 __starterLicenseCourseList__"
@@ -1194,8 +1194,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   teachers_quote:
     subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
     email_exists: "使用该账号的电子邮箱"
-    phone_number: "电话号码"
-    phone_number_help: "工作日时我们在哪可以找到您？"
+    phone_number: "手机号码"
+    phone_number_help: "工作日我们如何找到您？"
     primary_role_label: "您的主要职业"
     role_default: "选择职业"
     primary_role_default: "（请选择）"
@@ -1211,12 +1211,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     approve_funds: "批准资金"
     no_purchaser_role: "不参与购买决策"
     district_label: "地区"
-    district_name: "区"
+    district_name: "区/县"
     district_na: "不可用时请输入 N/A"
     organization_label: "学校："
-    school_name: "学校名称"
-    city: "城市"
-    state: "省" # {change}
+    school_name: "学校或机构名称"
+    city: "市（直辖市可填无）"
+    state: "省/直辖市" # {change}
     country: "国家"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
@@ -1253,7 +1253,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_account_subtitle: "在 CodeCombat 班级中使用老师专用工具。 <strong>创建班级</strong>添加学生、<strong>观察学生进度</strong>！"
     convert_account_title: "升级为老师账号"
     not: "不是"
-#    full_name_required: "First and last name required"
+    full_name_required: "姓和名是必填项"
 
   versions:
     save_version_title: "保存新版本"
@@ -1343,8 +1343,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "点击任意区域继续"
 
   community:
     main_title: "CodeCombat社区"
@@ -1740,7 +1740,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
     not_assigned_modal_full_body_1: "本课程需要许可证才能使用。您没有足够的许可证, 因此无法将此课程分配给已选定的 __selected__ 名学生。"
     not_assigned_modal_full_body_2: "您当前仅有__numFullLicensesAvailable__个许可证可供使用 (__numStudentsWithoutFullLicenses__名学生目前没有许可证) 。"
-    not_assigned_modal_full_body_3: "请适量减少选定的学生数量, 或联系bill@codecombat.com寻求帮助。"
+    not_assigned_modal_full_body_3: "请适量减少选定的学生数量, 或联系china@codecombat.com寻求帮助。"
     assigned: "已添加"
     enroll_selected_students: "注册选中的学生"
     no_students_selected: "没有学生被选中。"
@@ -2314,12 +2314,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     left_xp_postfix: ""
 
   account:
-#    title: "Account"
-#    settings_title: "Account Settings"
-#    unsubscribe_title: "Unsubscribe"
-#    payments_title: "Payments"
-#    subscription_title: "Subscription"
-#    invoices_title: "Invoices"
+    title: "账户"
+    settings_title: "账户设置"
+    unsubscribe_title: "取消订阅"
+    payments_title: "支付"
+    subscription_title: "订阅"
+    invoices_title: "发票"
 #    prepaids_title: "Prepaids"
     payments: "支付方式"
     prepaid_codes: "预付费码"
@@ -2440,8 +2440,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     arithmetic: "四则运算"
     array_2d: "二维数组"
     array_index: "数组下标"
-#    array_iterating: "Iterating Over Arrays"
-#    array_literals: "Array Literals"
+    array_iterating: "数组迭代"
+    array_literals: "数组字面量"
     array_searching: "数组遍历"
     array_sorting: "数组排序"
     arrays: "数组"
@@ -2481,7 +2481,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     game_goals: "游戏目标"
 #    game_spawn: "Game Spawn"
     graphics: "图形"
-#    graphs: "Graphs"
+    graphs: "图"
     heaps: "堆"
     if_condition: "If条件语句"
     if_else_if: "If/Else If语句"
@@ -2502,7 +2502,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jquery_selectors: "jQuery选择器"
     length: "数组长度"
 #    math_coordinates: "Coordinate Math"
-#    math_geometry: "Geometry"
+    math_geometry: "几何"
     math_operations: "数学程序库操作"
 #    math_proportions: "Proportion Math"
 #    math_trigonometry: "Trigonometry"
@@ -2527,7 +2527,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     while_condition_loops: "使用条件语句的While循环"
     while_loops_simple: "While循环"
     while_loops_nested: "While嵌套循环"
-#    xy_coordinates: "Coordinate Pairs"
+    xy_coordinates: "坐标对"
     advanced_strings: "高级字符串" # Rest of concepts are deprecated
     algorithms: "算法"
     boolean_logic: "布尔逻辑"
@@ -2913,7 +2913,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     projects_created: "学生作品数"
     other: "其他"
     notice: "以下学校管理员对您的课堂数据有查看权限："
-    add_additional_teacher: "需要添加其他的教师吗？请联系您的CodeCombat客户经理或发送电子邮件至bill@codecombat.com。 "
+    add_additional_teacher: "需要添加其他的教师吗？请联系您的CodeCombat客户经理或发送电子邮件至china@codecombat.com。 "
     license_stat_description: "可用许可证是教师可用的许可证总数，包括共享的许可证。"
     students_stat_description: "学生总数是所有教室的所有学生数，不管他们是否使用了许可证，都会被计算在内。"
     active_students_stat_description: "活跃学生数是在过去60天登录CodeCombat的学生人数。"
