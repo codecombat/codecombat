@@ -2733,7 +2733,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     license: "라이센스"
 #    oreilly: "ebook of your choice"
 
-#  calendar:
+  calendar:
     year: "년"
     day: "일"
    month: "월"
