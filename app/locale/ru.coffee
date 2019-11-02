@@ -2,7 +2,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   new_home:
     title: "CodeCombat - Игры с програмированнием для изучения Python и Java Script"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    meta_description: "Научитесь писать код через игру по программированию. Изучите Python, JavaScript и HTML решая головоломки и научитесь разрабатывать свои собственные игры и веб-сайты."
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Информатика"
