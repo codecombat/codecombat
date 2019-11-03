@@ -69,9 +69,9 @@
       },
       tooltipText: function () {
         if ((this.concepts || []).length > 0) {
-          return `<p>${this.displayName}</p><p>${this.levelType}: ${this.concepts}</p><p>Status: ${this.levelStatus}</p>`
+          return `<p>${this.displayName}</p><p>${this.levelType}: ${this.concepts}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatus}</p>`
         } else {
-          return `<p>${this.displayName}</p><p>${this.levelType}</p><p>Status: ${this.levelStatus}</p>`
+          return `<p>${this.displayName}</p><p>${this.levelType}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatus}</p>`
         }
       }
     },
@@ -86,33 +86,33 @@
     methods: {
       setLevelTypeAndIcon () {
         if (this.levelData.ozariaType === 'practice') {
-          this.levelType = 'Practice'
+          this.levelType = $.i18n.t('play_level.level_type_practice')
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_practice.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
         } else if (this.levelData.ozariaType === 'challenge') {
-          this.levelType = 'Challenge'
+          this.levelType = $.i18n.t('play_level.level_type_challenge')
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_challenge.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_challenge.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_challenge.png'
         } else if (this.isCutsceneLevel) {
-          this.levelType = 'Cutscene'
+          this.levelType = $.i18n.t('play_level.level_type_cutscene')
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_cutscene.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_cutscene.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_cutscene.png'
         } else if (this.levelData.ozariaType === 'capstone') {
-          this.levelType = 'Capstone'
+          this.levelType = $.i18n.t('play_level.level_type_capstone')
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_capstone.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_capstone.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_capstone.png'
         } else if (this.levelData.type === 'intro') {
-          this.levelType = 'Intro'
+          this.levelType = $.i18n.t('play_level.level_type_intro')
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_intro.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_intro.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_intro.png'
         } else {
           // Using practice as the default values
-          this.levelType = 'Practice'
+          this.levelType = $.i18n.t('play_level.level_type_practice')
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_practice.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
@@ -120,11 +120,11 @@
       },
       setLevelStatus () {
         if (this.levelData.locked) {
-          this.levelStatus = 'Locked'
+          this.levelStatus = $.i18n.t('play_level.level_status_locked')
         } else if (this.levelData.next) {
-          this.levelStatus = 'In Progress'
+          this.levelStatus = $.i18n.t('play_level.level_status_in_progress')
         } else {
-          this.levelStatus = 'Complete'
+          this.levelStatus = $.i18n.t('play_level.level_status_complete')
         }
       },
       setLevelConcepts () {

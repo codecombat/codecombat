@@ -74,7 +74,7 @@
       contentName () {
         return this.currentContent.displayName || this.currentContent.name
       },
-      contentType () {
+      contentType () { // TODO: localize
         if (this.currentContent.ozariaType) {
           return this.currentContent.ozariaType + ' level'
         } else {

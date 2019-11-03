@@ -1,6 +1,6 @@
 <template>
 <div id="capstone-playback-view" v-bind:style="{ display: isPlaying ? 'none': ''}">
-  <button @click="clickedPlay">Play</button>
+  <button @click="clickedPlay"> {{$t("common.play") }} </button>
 </div>
 </template>
 
