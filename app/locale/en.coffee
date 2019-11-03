@@ -514,6 +514,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     complete: "Complete"
     continue_editing: "Continue Editing"
     logout: "Logout"
+    empty: "Empty"
 
   general:
     and: "and"
@@ -2060,6 +2061,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     conditionals: "Conditionals"
     capstone_intro: "Capstone Intro"
     capstone_project: "Capstone Project"
+    level_code: "Level Code"
 
 
   share_licenses:

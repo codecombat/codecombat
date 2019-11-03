@@ -1,34 +1,36 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
+  ozaria_home:
+    subtitle: "Computer Science that Captivates"
+    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+    value_prop1_h1: "Epic Story. Immersive Gameplay."
+    value_prop1_h2: "Inspire a deeper connection to learning"
+    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
+    value_prop2_h1: "Discover the Hero within Every Student"
+    value_prop2_h2: "Build real skills through play"
+    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
+    value_prop3_h1: "Start Your Journey For Free"
+    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
+    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+    student_creativity: "Unleash Student Creativity"
+    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
+    teach_with_support: "Teach with Support"
+    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
+    request_demo: "Request a Demo"
+    im_an_educator: "我是老师"
+    im_a_student: "我是学生"
+    global_title: "Join Our Global Community of Learners and Educators"
+    global_subtitle1: "学习者"
+    global_subtitle2: "行代码"
+    global_subtitle3: "老师"
+    global_subtitle4: "国家"
+    sign_up: "注册"
+    go_to_my_classes: "进入我的教室"
+    go_to_my_dashboard: "进入我的课程"
 
-#  ozaria_home:
-#    subtitle: "Computer Science that Captivates"
-#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
-#    value_prop1_h1: "Epic Story. Immersive Gameplay."
-#    value_prop1_h2: "Inspire a deeper connection to learning"
-#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
-#    value_prop2_h1: "Discover the Hero within Every Student"
-#    value_prop2_h2: "Build real skills through play"
-#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
-#    value_prop3_h1: "Start Your Journey For Free"
-#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
-#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
-#    student_creativity: "Unleash Student Creativity"
-#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
-#    teach_with_support: "Teach with Support"
-#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
-#    request_demo: "Request a Demo"
-#    im_an_educator: "I'm an Educator"
-#    im_a_student: "I'm a Student"
-#    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
-#    global_subtitle4: "Countries"
-#    sign_up: "Sign Up"
 
   new_home:
-    title: "CodeCombat - 美国大学理事会认证硅谷原版青少年编程平台"
-    meta_description: "CodeCombat（中国官方网址：koudashijie.com）于2013年成立于美国硅谷，是美国大学理事会权威认证的青少年编程学习平台，学习者可以在CodeCombat学习后参加AP计算机考试，拿到美国和世界一流名校如斯坦福大学、哈佛大学、麻省理工学院等学分减免政策，是全球公认的权威计算机编程能力学习平台之一。"
+#    title: "Ozaria - Computer science that captivates"
+#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
@@ -221,9 +223,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     resource_hub: "资源中心"
     apcsp: "AP计算机科学原理"
     parent: "家长参与"
-#    faq: "FAQ"
-#    return_coco: "Return to CodeCombat"
-#    classes: "Classes"
+    faq: "常见问题"
+    return_coco: "返回CodeCombat"
+    classes: "Classes"
 
   modal:
     close: "关闭"
@@ -273,7 +275,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     achievements: "成就" # Tooltip on achievement list button from /play
     settings: "设置" # Tooltip on settings button from /play
     poll: "投票" # Tooltip on poll button from /play
-    next: "下一页" # Go from choose hero to choose inventory before playing a level
+    next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     change_hero_or_language: "切换英雄或者语言"
     buy_gems: "购买宝石"
@@ -295,9 +297,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back_to_classroom: "返回教室"
     teacher_button: "带到学校"
     get_more_codecombat: "获取跟过CodeCombat游戏的信息"
-#    back_to_dashboard: "Back to Dashboard"
-#    back_to_ozaria: "Back to ozaria.com"
-#    customize_hero: "Customize Hero"
+    back_to_dashboard: "回到我的面板"
+    back_to_ozaria: "回到奥佳睿首页"
+    customize_hero: "英雄设置"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -483,7 +485,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     next: "下一个"
     default_code: "默认代码"
     loading: "读取中……"
-#    LOADING: "LOADING"
+    LOADING: "加载中"
     overview: "概览"
     processing: "进行中……"
     solution: "解法"
@@ -509,11 +511,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit_changes: "提交更新"
     save_changes: "保存更新"
     required_field: "必填" # {change}
-#    submit: "Submit"
-#    replay: "Replay"
-#    complete: "Complete"
-#    continue_editing: "Continue Editing"
-#    logout: "Logout"
+    submit: "提交"
+    replay: "重新开始"
+    complete: "完成"
+    continue_editing: "继续编辑"
+    logout: "退出登录"
 
   general:
     and: "与"
@@ -673,7 +675,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_cast_button_run: "运行"
     tome_cast_button_running: "正在运行"
     tome_cast_button_ran: "运行过"
-#    tome_cast_button_update: "Update"
+    tome_cast_button_update: "更新"
     tome_submit_button: "提交"
     tome_reload_method: "恢复关卡初始代码"
     tome_available_spells: "可用的法术"
@@ -779,10 +781,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     use_at_least_one_concept: "请使用以下至少一个概念： "
 #    command_bank: "Code Bank"
 #    learning_goals: "Learning Goals"
-#    start: "Start"
+    start: "开始"
 #    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
-#    share_your_project: "Share Your Project"
+    click_to_continue: "点击继续"
+    share_your_project: "分享你的项目"
 #    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
 #    copy_url: "Copy URL"
 
@@ -2478,13 +2480,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
 
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
-#    max_browser: "Maximize Browser"
+  ozaria_chrome:
+    sound_off: "关闭音效"
+    sound_on: "开启音效"
+    back_to_map: "回到地图"
+    level_options: "关卡选项"
+    restart_level: "重新开始"
+    max_browser: "全屏模式"
 
   loading_error:
     could_not_load: "载入失败" # {change}

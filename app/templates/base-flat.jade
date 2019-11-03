@@ -37,10 +37,10 @@ mixin accountLinks
                 ul.nav.navbar-nav.navbar-left#home-link
                   if document.location.pathname == '/'
                     li
-                      a.text-p.text-moon(href="/") Home
+                      a.text-p.text-moon(href="/", data-i18n="nav.home")
                   else
                     li
-                      a.text-p(href="/") Home
+                      a.text-p(href="/", data-i18n="nav.home")
 
             if !serverConfig.static
               #navbar-collapse.collapse.navbar-collapse
