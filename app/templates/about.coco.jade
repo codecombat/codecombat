@@ -22,9 +22,10 @@ block content
             li
               a(href="#team")#team-link
                 small.label(data-i18n="about.team_link")
-            li
-              a(href="#community")#community-link
-                small.label(data-i18n="nav.community")
+            if me.showOpenResourceLink()
+              li
+                a(href="#community")#community-link
+                  small.label(data-i18n="nav.community")
             li
               a(href="#story")#story-link
                 small.label(data-i18n="about.story_link")
@@ -312,29 +313,30 @@ block content
               small(data-i18n="about.retrostyle_title")
               small(data-i18n="about.retrostyle_blurb")
 
-      #community.anchor
-        #community-row-1.row.text-center
-          .col-sm-12
-          .text-center
-            h3(data-i18n="about.community_title")
-            h4(data-i18n="about.community_subtitle")
-            img(src="/images/pages/about/github_avatars.png")#community-avatars
+      if me.showOpenResourceLink()
+        #community.anchor
+          #community-row-1.row.text-center
+            .col-sm-12
+            .text-center
+              h3(data-i18n="about.community_title")
+              h4(data-i18n="about.community_subtitle")
+              img(src="/images/pages/about/github_avatars.png")#community-avatars
 
-        #community-row-2.row
-          .col-sm-5
-            p.responsive-side-margins
-              span.spr(data-i18n="about.community_description_3")
-              a(href="/community")
-                span(data-i18n="about.community_description_link_2")
-              span ,
-              span.spr(data-i18n="about.community_description_1")
-              a(href="/contribute")
-                span(data-i18n="about.community_description_link")
-              span.spl(data-i18n="about.community_description_2")
-          .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
-            h2(data-i18n="about.number_contributors")
-            img(src="/images/pages/about/github.png")
-            #community-graphic-filler
+          #community-row-2.row
+            .col-sm-5
+              p.responsive-side-margins
+                span.spr(data-i18n="about.community_description_3")
+                a(href="/community")
+                  span(data-i18n="about.community_description_link_2")
+                span ,
+                span.spr(data-i18n="about.community_description_1")
+                a(href="/contribute")
+                  span(data-i18n="about.community_description_link")
+                span.spl(data-i18n="about.community_description_2")
+            .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
+              h2(data-i18n="about.number_contributors")
+              img(src="/images/pages/about/github.png")
+              #community-graphic-filler
 
       #story.anchor
         .text-center
