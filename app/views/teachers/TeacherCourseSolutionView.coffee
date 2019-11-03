@@ -15,7 +15,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   events:
     'click .nav-link': 'onClickSolutionTab'
-  
+
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
@@ -59,8 +59,21 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
 
+
   updateLevelData: ->
     @levelSolutionsMap = @levels.getSolutionsMap([@language])
+    # TODO: When we have a property in the course like `modulesReleased`, we can limit and loop over that number here:
+    @levels.models = @levels.models.filter((level) =>
+      # Intro types don't have solutions yet, so don't show them for now:
+      if level.get('type') == 'intro'
+        return false
+      # Without a solution, guide or default code, there's nothing to show:
+      solution = @levelSolutionsMap[level.get('original')] || []
+      if solution.length == 0 && !level.get('guide') && !level.get('begin')
+        return false
+
+      return true
+    )
     for level in @levels?.models
       articles = level.get('documentation')?.specificArticles
       if articles
@@ -90,9 +103,6 @@ module.exports = class TeacherCourseSolutionView extends RootView
         assessment: level.get('assessment') ? false
       })
     @levelNumberMap = utils.createLevelNumberMap(levels)
-    if @course?.id == utils.courseIDs.WEB_DEVELOPMENT_2
-      # Filter out non numbered levels.
-      @levels.models = @levels.models.filter((l) => l.get('original') of @levelNumberMap)
     @render?()
 
   afterRender: ->
@@ -105,3 +115,19 @@ module.exports = class TeacherCourseSolutionView extends RootView
       aceEditor.setBehavioursEnabled false
       aceEditor.setAnimatedScroll false
       aceEditor.$blockScrolling = Infinity
+      aceEditor.renderer.setShowGutter(true)
+
+  getLearningGoalsForLevel: (level) ->
+    documentation = level.get('documentation')
+    if !documentation
+      return
+
+    specificArticles = documentation.specificArticles
+    if !specificArticles
+      return
+
+    learningGoals = _.find(specificArticles, { name: 'Learning Goals' })
+    if !learningGoals
+      return
+
+    return learningGoals.body
