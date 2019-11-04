@@ -106,6 +106,8 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return 16 if country.inEU
   return defaultIfUnknown
 
+freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # 1FH campaign
+
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
   CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
@@ -479,7 +481,7 @@ createLevelNumberMap = (levels) ->
     else if level.assessment
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
-      levelNumber = if level.assessment is 'cumulative' then $.t('play_level.combo_challenge') else $.t('play_level.concept_challenge')
+      levelNumber = $.t('play_level.challenge')
     else
       practiceLevelCurrentCount = 0
     levelNumberMap[level.key] = levelNumber
@@ -722,6 +724,7 @@ module.exports = {
   findNextAssessmentForLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
   getByPath

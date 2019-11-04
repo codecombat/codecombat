@@ -159,7 +159,7 @@
 
       <div v-if="title">
         <div id="text-tab">
-          <div class="text-contents">
+          <div class="text-contents" :class="[ chromeOn ? 'chrome-on' : 'chrome-off']">
             <span>{{ title }}</span>
           </div>
         </div>
@@ -301,6 +301,16 @@
     #text-tab
       text-align: center
 
+      .text-contents.chrome-off
+        background: url(/images/ozaria/layout/chrome/Tab-Title-Off.png)
+        background-position-x: center
+        background-size: 100% 100%
+
+      .text-contents.chrome-on
+        background: url(/images/ozaria/layout/chrome/Tab-Title.png)
+        background-position-x: center
+        background-size: 100% 100%
+
       .text-contents
         display: inline-block
         color: #40F3E4
@@ -310,10 +320,6 @@
         letter-spacing: 1.78px
         line-height: 24px
         text-shadow: 0 2px 4px rgba(51,236,201,0.55)
-
-        background: url(/images/ozaria/layout/chrome/Tab-Title.png)
-        background-position-x: center
-        background-size: 100% 100%
         min-width: 370px
 
     #btn-home
