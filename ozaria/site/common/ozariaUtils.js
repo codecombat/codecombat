@@ -215,13 +215,52 @@ export function internationalizeConfig (levelConfig, userLocale) {
   const generalLocaleObject = interactiveConfigI18n[userGeneralLocale] || {}
   const fallbackLocaleObject = interactiveConfigI18n[fallbackLocale] || {}
 
-  return merge(
+  levelConfig = merge(
     {},
     levelConfig,
     fallbackLocaleObject,
     generalLocaleObject,
     userLocaleObject
   )
+
+  for (const values of Object.values(levelConfig)) {
+    if (Array.isArray(values)) {
+      for (const arrayVal of values) {
+        internationalizeConfigAux(arrayVal, userLocale)
+      }
+    } else if (typeof values === 'object') {
+      internationalizeConfigAux(values, userLocale)
+    }
+  }
+
+  return levelConfig
+}
+
+/**
+ * This replaces properties recursively with the i18n properties.
+ * It's a very naive implementation and should be replaced with the
+ * i18n function in utils.
+ *
+ * The translation falls back to English but doesn't fall sideways or
+ * fallback gracefully from Traditional to Simplified Chinese.
+ */
+function internationalizeConfigAux (obj, userLocale) {
+  const { i18n } = obj || {}
+  if (i18n) {
+    const translatedObj = i18n[userLocale] || {}
+    _.merge(obj, translatedObj)
+    return
+  }
+
+  for (const values of Object.values(obj)) {
+    if (Array.isArray(values)) {
+      for (const arrayVal of values) {
+        internationalizeConfigAux(arrayVal, userLocale)
+      }
+    } else if (typeof values === 'object') {
+      internationalizeConfigAux(values, userLocale)
+    }
+  }
 }
 
 export function tryCopy () {

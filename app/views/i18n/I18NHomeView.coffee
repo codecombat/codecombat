@@ -3,6 +3,7 @@ template = require 'templates/i18n/i18n-home-view'
 CocoCollection = require 'collections/CocoCollection'
 Courses = require 'collections/Courses'
 Article = require 'models/Article'
+Interactive = require 'ozaria/site/models/Interactive'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
@@ -44,7 +45,8 @@ module.exports = class I18NHomeView extends RootView
     @courses = new Courses()
     @cinematics = new CocoCollection([], { url: '/db/cinematic?view=i18n-coverage', project: project, model: Cinematic })
     @articles = new CocoCollection([], { url: '/db/article?view=i18n-coverage', project: project, model: Article })
-    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @cinematics]
+    @interactive = new CocoCollection([], { url: '/db/interactive?view=i18n-coverage', project: project, model: Interactive })
+    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics]
       c.skip = 0
       
       c.fetch({data: {skip: 0, limit: PAGE_SIZE}, cache:false})
@@ -64,6 +66,7 @@ module.exports = class I18NHomeView extends RootView
         when 'Course' then '/i18n/course/'
         when 'Product' then '/i18n/product/'
         when 'Article' then '/i18n/article/'
+        when 'Interactive' then '/i18n/interactive/'
         when 'Cinematic' then '/i18n/cinematic/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)

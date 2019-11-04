@@ -14,7 +14,8 @@ const interactiveDraggableOrderingSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true }
+          textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true },
+          i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this interactive.' }
         }
       }
     },
@@ -26,12 +27,12 @@ const interactiveDraggableOrderingSchema = {
         properties: {
           text: { type: 'string' },
           textStyleCode: { type: 'boolean', title: 'Text Style Is Code?', default: true },
-          elementId: schema.stringID({ readOnly: true })
+          elementId: schema.stringID({ readOnly: true }),
+          i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this interactive.' }
         }
       }
     },
-    solution: solutionSchema.elementOrderingSolutionSchema,
-    i18n: { type: 'object', format: 'i18n', props: ['labels', 'elements'], description: 'Help translate this interactive.' }
+    solution: solutionSchema.elementOrderingSolutionSchema
   }
 }
 
@@ -70,7 +71,8 @@ const interactiveDraggableClassificationSchema = {
         additionalProperties: false,
         properties: {
           categoryId: schema.stringID({ readOnly: true }),
-          text: { type: 'string' }
+          text: { type: 'string' },
+          i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this interactive.' }
         }
       }
     },
@@ -81,12 +83,12 @@ const interactiveDraggableClassificationSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          elementId: schema.stringID({ readOnly: true })
+          elementId: schema.stringID({ readOnly: true }),
+          i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this interactive.' }
         }
       }
     },
-    solution: solutionSchema.classificationSolutionSchema,
-    i18n: { type: 'object', format: 'i18n', props: ['categories', 'elements'], description: 'Help translate this interactive.' }
+    solution: solutionSchema.classificationSolutionSchema
   }
 }
 
@@ -102,12 +104,12 @@ const interactiveMultipleChoiceSchema = {
         additionalProperties: false,
         properties: {
           text: { type: 'string' },
-          choiceId: schema.stringID({ readOnly: true })
+          choiceId: schema.stringID({ readOnly: true }),
+          i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this interactive.' }
         }
       }
     },
-    solution: solutionSchema.singleSolutionSchema,
-    i18n: { type: 'object', format: 'i18n', props: ['choices'], description: 'Help translate this interactive.' }
+    solution: solutionSchema.singleSolutionSchema
   }
 }
 

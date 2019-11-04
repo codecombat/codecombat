@@ -11,6 +11,7 @@ patchables = [
   'poll'
   'product'
   'thang_type'
+  'interactive'
   'cinematic'
 ]
 

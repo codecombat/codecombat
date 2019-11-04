@@ -20,7 +20,7 @@ const interactiveSchema = {
       'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion'],
       title: 'Type of interactive'
     },
-    displayName: schema.shortString({title: 'Display Name'}),
+    displayName: schema.shortString({ title: 'Display Name' }),
     promptText: { type: 'string', title: 'Prompt text' },
     draggableOrderingData: interactiveTypeSchema.interactiveDraggableOrderingSchema,
     insertCodeData: interactiveTypeSchema.interactiveInsertCodeSchema,
@@ -136,5 +136,7 @@ const interactiveSchema = {
 
 schema.extendBasicProperties(interactiveSchema, 'interactive')
 schema.extendNamedProperties(interactiveSchema)
+schema.extendTranslationCoverageProperties(interactiveSchema)
+schema.extendPatchableProperties(interactiveSchema)
 
 module.exports = interactiveSchema
