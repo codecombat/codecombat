@@ -16,7 +16,8 @@
         if me.get('name')
           p.large-gray
             b
-            | #{me.get('name')}
+              span(data-i18n="general.username")
+              |:  #{me.get('name')}
         if me.get('email')
           p.large-gray
             b

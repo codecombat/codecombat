@@ -147,6 +147,7 @@ export default {
   position: relative
   .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
     font-size: 24px
+    font-size: 3.2vmin
     line-height: 1.42
     color: #0e1111
 
@@ -173,8 +174,9 @@ export default {
   color: #1FBAB4
   font-family: "Open Sans"
   font-size: 12px
+  font-size: 1.6vmin
   letter-spacing: 0.51px
-  line-height: 26px
+  line-height: 3.2vmin
   font-style: italic
 
 </style>

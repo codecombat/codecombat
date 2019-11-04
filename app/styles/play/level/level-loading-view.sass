@@ -12,27 +12,34 @@
   background-color: $eve
 
   #loading-details
-    position: absolute
-    top: 86px
-    right: 50%
-    $WIDTH: 450px
-    width: $WIDTH
-    height: 450px
-    margin-right: (-$WIDTH / 2)
     z-index: 100
     color: darkslategray
     font-size: 15px
-    padding: 4% 80px 40px 80px
     text-align: center
     font-family: 'Open Sans Condensed'
+    position: fixed
+
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+
+    padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
+
+    // TODO: Swap out with higher resolution image.
+    background-image: url(/images/ozaria/layout/chrome/AC_backer.png)
+    background-position: center center
+    background-size: cover
+    background-repeat: no-repeat
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
 
     .progress-or-start-container
       color: white
-      position: absolute
-      bottom: 95px
-      height: 80px
-      left: 48px
-      right: 77px
+      width: 450px
 
       img
         width: 144px
@@ -86,3 +93,108 @@
         margin: 20px auto 0px
         font-size: 40px
         font-variant: small-caps
+
+    // NOTE: copied as-is from LayoutChrome.vue
+    .chrome-border
+      $topOffset: 25px
+      position: absolute
+
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+
+      pointer-events: none
+      z-index: 10
+
+      &.chrome-on-slice
+        border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-on.png)
+
+      &.chrome-off-slice
+        border-image: url(/images/ozaria/layout/chrome/Layout-Chrome-off.png)
+
+      &.chrome-off-slice, &.chrome-on-slice
+        border-image-slice: 182 194 130 118 fill
+        border-image-width: 140px 148px 124px 90px
+        border-image-repeat: round
+
+      .side-center-on
+        background: url(/images/ozaria/layout/chrome/central_on.png)
+
+      .side-center-off
+        background: url(/images/ozaria/layout/chrome/central_off.png)
+
+      .side-center-off, .side-center-on
+        width: 75px
+        height: 100%
+        overflow: hidden
+        position: absolute
+        right: 0
+        top: $topOffset
+        background-position: center
+        background-size: contain
+        background-repeat: no-repeat
+
+      #chrome-menu
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        width: 58px
+        height: 80vh
+        position: absolute
+        top: calc(10vh + #{$topOffset})
+        right: 0
+        pointer-events: auto
+        .button-flex-item
+          width: 58px
+          height: 58px
+          margin: 3px 0
+          cursor: pointer
+
+        .spacer
+          flex-grow: 1
+          min-height: 224px
+
+        .hideBtn
+          visibility: hidden
+
+        .options-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_LevelOptions.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_LevelOptions.png)
+
+        .restart-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_Restart.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_Restart.png)
+        .map-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_Map.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_Map.png)
+
+        .fullscreen-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_MaxBrowser.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_MaxBrowser.png)
+
+        .sound-btn
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOn.png)
+
+          &:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOn.png)
+
+          &.menuVolumeOff
+            background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOff.png)
+
+          &.menuVolumeOff:hover
+            background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
+
+        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
+          &, &:hover
+            background-size: 45px
+            background-position: center
+            background-repeat: no-repeat

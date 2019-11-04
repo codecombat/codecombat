@@ -71,8 +71,6 @@
     align-items: center;
     justify-content: center;
 
-    background-color: #F1BF33;
-
     .interactive-container {
       min-width: 760px !important;
       min-height: 397px !important;

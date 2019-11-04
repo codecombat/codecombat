@@ -27,6 +27,7 @@ module.exports = class SpellPaletteView extends CocoView
     'click .closeBtn': 'onClickClose'
     'click .sub-section-header': 'onSubSectionHeaderClick'
     'click': 'onClick'
+    'mousemove': 'onMouseMove'
 
   initialize: (options) ->
     {@level, @session, @thang, @useHero} = options
@@ -50,7 +51,7 @@ module.exports = class SpellPaletteView extends CocoView
         if subGroup != 'none'
           header = $("<div class='sub-section-header' data-panel='#sub-section-#{subGroup}-#{group}'>
               <span>#{subGroup}</span>
-              <div style='float: right; padding-top: 3px;' class='glyphicon glyphicon-chevron-down blue-glyphicon'></div>
+              <div style='float: right; padding-top: 3px; cursor: pointer' class='glyphicon glyphicon-chevron-down blue-glyphicon'></div>
             </a>").appendTo itemGroup
           itemSubGroup = $("<div class='property-entry-item-sub-group collapse' id='sub-section-#{subGroup}-#{group}'></div>").appendTo itemGroup
         for entry, entryIndex in entries
@@ -116,7 +117,7 @@ module.exports = class SpellPaletteView extends CocoView
         console.log 'could not find doc for', propName, 'from', allDocs['__' + propName]
         doc = propName
       if doc
-        @entries.push @addEntry(doc, section, subSection)
+        @entries.push @addEntry(doc, section, subSection, false)
     @entryGroups = _.groupBy @entries, (entry) -> entry.doc.section
     
 
@@ -215,7 +216,7 @@ module.exports = class SpellPaletteView extends CocoView
     @createPalette()
     @render()
 
-  onClick: (e) ->
+  checkCommandBankClickedTab: (e) ->
     rightBorderWidth = parseInt(@$el.css('borderRightWidth'))
     leftPanelWidth = parseInt(@$el.find('.left').css('width'))
     rightPanelWidth = parseInt(@$el.find('.right').css('width'))
@@ -223,9 +224,20 @@ module.exports = class SpellPaletteView extends CocoView
     viewWidthOpen = rightBorderWidth + leftPanelWidth # when only left panel is open
     viewWidthExpanded = rightBorderWidth + leftPanelWidth + rightPanelWidth # when completely open with left and right panel
     if viewWidth == rightBorderWidth
-      @$el.addClass('open')
+      clickedHalfOpenTab = true
     else if (viewWidth == viewWidthOpen && e.offsetX > leftPanelWidth) || (viewWidth == viewWidthExpanded && e.offsetX > leftPanelWidth + rightPanelWidth)
-      @closeCommandBank()
+      clickedFullOpenTab = true
+    {clickedHalfOpenTab, clickedFullOpenTab}
+
+  onClick: (e) ->
+    {clickedHalfOpenTab, clickedFullOpenTab} = @checkCommandBankClickedTab(e)
+    if clickedHalfOpenTab then @$el.addClass('open')
+    else if clickedFullOpenTab then @closeCommandBank()
+
+  onMouseMove:  (e) ->
+    {clickedHalfOpenTab, clickedFullOpenTab} = @checkCommandBankClickedTab(e)
+    if clickedHalfOpenTab or clickedFullOpenTab then @$el.css('cursor', 'pointer')
+    else @$el.css('cursor', 'default')
 
   onClickHeader: (e) ->
     @closeCommandBank()
