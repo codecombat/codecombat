@@ -795,8 +795,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_type_practice: "Practice"
     level_type_challenge: "Challenge"
     level_type_cutscene: "Cutscene"
+    content_type_avatar: "avatar selection"
+    content_type_cinematic: "Cinematic"
+    content_type_interactive: "Interactive"
     level_type_capstone: "Capstone"
     level_type_intro: "Intro"
+    level_type_level_suffix: " Level"  # example: "Capstone Level", "Challenge Level", for Chinese it doesn't need space, so it's better placing space here
 
 
   apis:

@@ -76,7 +76,7 @@
         return ['5d1a998157b3ed00300e64b0', '5cd0cc1c4bc4450030336cee', '5cd0cc4d4bc4450030336d00', '5cd0cc66f4227b002facba95', '5cd0cc804bc4450030336d23'].indexOf(this.levelOriginal) < 0
       },
       title: function () {
-        return this.levelType + ' Level: ' + this.levelName
+        return this.levelType + $.i18n.t('play_level.level_type_level_suffix') +': ' + this.levelName
       }
     }
   })
