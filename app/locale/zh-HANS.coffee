@@ -790,11 +790,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_status_locked: "已锁定"
     level_status_in_progress: "进行中"
     level_status_complete: "已完成"
-    level_type_practice: "练习关卡"
-    level_type_challenge: "挑战关卡"
-    level_type_cutscene: "过渡关卡"
-    level_type_capstone: "顶点关卡"
-    level_type_intro: "热身关卡"
+    level_type_practice: "练习"
+    level_type_challenge: "挑战"
+    level_type_capstone: "顶点"
+    level_type_intro: "引言"
+    level_type_level_suffix: "关卡"
+    level_type_cutscene: "剧情"
+    content_type_avatar: "选择化身"
+    content_type_cinematic: "概念"
+    content_type_interactive: "互动"
 
   apis:
     methods: "函数"
@@ -1003,9 +1007,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
-#  avatar_selection:
-#    pick_an_avatar: "Pick an avatar that will represent you as a player"
-#    select_avatar_title: "Choose Player Avatar"
+  avatar_selection:
+    pick_an_avatar: "选择一个化身用来代表你的角色"
+    select_avatar_title: "选择化身"
 
   premium_features:
     get_premium: "获取<br>CodeCombat<br>高级订阅" # Fit into the banner on the /features page
