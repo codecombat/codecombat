@@ -36,9 +36,11 @@ style.
 
   .certificate
     if view.courseStats
-      img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
+      //- TODO: replace with per-unit background
+      //- img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
+      img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-cs1.png")
     div(class="certificate-contents")
-      img.logo-img(src="/images/pages/base/logo.png")
+      img.logo-img(src="/images/ozaria/home/ozaria-wordmark-500px.png")
       .certificate-text-container
         if view.supermodel.isLoading || !view.courseStats
           h1.loading-indicator(data-i18n="common.loading")
@@ -94,8 +96,10 @@ style.
           else
             h4 Loading hero 
           .course-ribbon(class=view.course.acronym().replace(/\d/g, '').toLowerCase() + ' ' + view.course.acronym().toLowerCase())
-            img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
-            h3= view.course.acronym()
+            //- TODO: replace with per-unit background
+            //- img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
+            img(src='/images/pages/user/certificates/medallions/medallion-cs1.png')
+            //- h3= view.course.acronym()
 
       if view.thangType && view.thangType.loaded
         - var heroSlug = view.thangType.get('slug') || 'captain';

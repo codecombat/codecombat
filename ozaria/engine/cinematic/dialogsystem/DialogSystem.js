@@ -11,8 +11,8 @@ import { processText, getDefaultTextPosition } from './helper'
 import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
 
 const BUBBLE_PADDING = 10
-const SPEECH_BUBBLE_MAX_WIDTH = `300px` // Removed 20 px to account for padding.
-const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `400px`
+const SPEECH_BUBBLE_MAX_WIDTH = `31vmin`
+const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `66.6vmin`
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
@@ -130,17 +130,17 @@ class SpeechBubble {
 
     // Calculate bounding box
     const bbox = speechBubbleDiv.getBoundingClientRect()
-    const width = (bbox.right - bbox.left) + 2 * BUBBLE_PADDING
     const height = (bbox.bottom - bbox.top) + 2 * BUBBLE_PADDING
 
     // Set the origin for the left character speech bubble on the bottom left.
     // Set the origin for the right character speech bubble on the bottom right.
     y -= (height - BUBBLE_PADDING)
     if (side === 'right') {
-      x -= width
+      speechBubbleDiv.style.right = `${(WIDTH - x) / WIDTH * 100}%`
+    } else {
+      speechBubbleDiv.style.left = `${x / WIDTH * 100}%`
     }
 
-    speechBubbleDiv.style.left = `${x / WIDTH * 100}%`
     speechBubbleDiv.style.top = `${y / HEIGHT * 100}%`
 
     const letters = (document.querySelectorAll(`#${this.id} .letter`) || []).length || 1

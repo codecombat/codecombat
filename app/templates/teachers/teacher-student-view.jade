@@ -254,10 +254,7 @@ mixin breadcrumbs
                   if level.get('assessment')
                     =" "
                     span (
-                    if level.get('assessment') === 'cumulative'
-                      span(data-i18n="play_level.combo_challenge")
-                    else
-                      span(data-i18n="play_level.concept_challenge")
+                      span(data-i18n="play_level.challenge")
                     span )
                   if level.isProject()
                     =" "
