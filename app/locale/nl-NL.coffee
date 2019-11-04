@@ -2941,7 +2941,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     send: "Verzend e-mail"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
