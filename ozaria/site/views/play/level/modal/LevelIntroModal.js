@@ -31,7 +31,7 @@ class LevelIntroModal extends ModalComponent {
       }
       let levelTypeText = internationalizeLevelType(options.level.get('ozariaType'))
       this.propsData = {
-        levelName: options.level.get('displayName') || options.level.get('name'),   //TODO: localize
+        levelName: options.level.get('displayName') || options.level.get('name'),
         levelOriginal: options.level.get('original'),
         levelType: levelTypeText,
         narrative: narrativeText,

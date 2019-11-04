@@ -89,12 +89,12 @@
     },
     methods: {
       setLevelTypeAndIcon () {
-        let type = this.levelData.ozariaType || 'practice'
-        if (this.levelData.ozariaType === 'practice') {
+        let type = this.levelData.ozariaType
+        if (type === 'practice') {
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_practice.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
-        } else if (this.levelData.ozariaType === 'challenge') {
+        } else if (type === 'challenge') {
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_challenge.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_challenge.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_challenge.png'
@@ -103,7 +103,7 @@
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_cutscene.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_cutscene.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_cutscene.png'
-        } else if (this.levelData.ozariaType === 'capstone') {
+        } else if (type === 'capstone') {
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_capstone.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_capstone.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_capstone.png'
@@ -118,7 +118,7 @@
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
         }
-        this.levelType = internationalizeLevelType(type) + $.i18n.t()
+        this.levelType = internationalizeLevelType(type)
       },
       setLevelStatus () {
         if (this.levelData.locked) {
