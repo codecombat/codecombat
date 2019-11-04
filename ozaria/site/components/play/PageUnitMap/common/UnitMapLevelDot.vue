@@ -49,7 +49,7 @@
         return {
           locked: this.levelData.locked,
           next: this.levelData.next,
-          'has-tooltip': this.levelData.next || !this.levelData.locked
+          'has-tooltip': true
         }
       },
       playLevelLink: function () {
@@ -68,6 +68,9 @@
         return this.levelData.displayName || this.levelData.name
       },
       tooltipText: function () {
+        if (this.levelStatus === 'Locked') {
+          return `<p>${this.displayName}</p>`
+        }
         if ((this.concepts || []).length > 0) {
           return `<p>${this.displayName}</p><p>${this.levelType}: ${this.concepts}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatus}</p>`
         } else {

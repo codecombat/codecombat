@@ -138,6 +138,11 @@
           await this.fetchCampaign(this.campaign)
           this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
 
+          if (!me.hasCampaignAccess(this.campaignData)) {
+            alert('You must obtain a student license to access this page.')
+            return application.router.navigate('/', { trigger: true })
+          }
+
           // Set current campaign id and unit map URL details for acodus chrome
           this.setCurrentCampaignId(this.campaign)
           this.setUnitMapUrlDetails({ courseId: this.computedCourseId, courseInstanceId: this.computedCourseInstanceId })

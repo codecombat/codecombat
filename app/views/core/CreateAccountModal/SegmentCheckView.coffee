@@ -60,7 +60,7 @@ module.exports = class SegmentCheckView extends CocoView
       if classroom
         firstName = classroom.owner.get('firstName')
         lastName = classroom.owner.get('lastName')
-        ownerName = (firstName || lastName) ? "#{firstName} #{lastName}" : classroom.owner.get('name')
+        ownerName = if firstName || lastName then "#{firstName} #{lastName}" else classroom.owner.get('name')
         @state.set {
           ownerName
           classroomName: classroom.get('name')
