@@ -128,32 +128,7 @@ module.exports = class CampaignView extends RootView
 
     @campaignPage = options.campaignPage || 1
 
-    if @terrain is "hoc-2018"
-      $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
-
-    if utils.getQueryVariable('hour_of_code')
-      if me.isStudent() or me.isTeacher()
-        if @terrain is 'dungeon'
-          newCampaign = 'intro'
-          api.users.getCourseInstances({ userID: me.id, campaignSlug: newCampaign }, { data: { project: '_id' } })
-          .then (courseInstances) =>
-            if courseInstances.length
-              courseInstanceID = _.first(courseInstances)._id
-              application.router.navigate("/play/#{newCampaign}?course-instance=#{courseInstanceID}", { trigger: true, replace: true })
-            else
-              application.router.navigate((if me.isStudent() then '/students' else '/teachers'), {trigger: true, replace: true})
-              noty({text: 'Please create or join a classroom first', layout: 'topCenter', timeout: 8000, type: 'success'})
-          return
-      if @terrain is 'game-dev-hoc'
-        window.tracker?.trackEvent 'Start HoC Campaign', label: 'game-dev-hoc'
-      me.set('hourOfCode', true)
-      me.patch()
-      pixelCode = switch @terrain
-        when 'game-dev-hoc' then 'code_combat_gamedev'
-        when 'game-dev-hoc-2' then 'code_combat_build_arcade'
-        else 'code_combat'
-      $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
-    else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
+    if me.isTeacher() and not utils.getQueryVariable('course-instance') and
         not application.getHocCampaign() and not @terrain is "hoc-2018"
       # redirect teachers away from home campaigns
       application.router.navigate('/teachers', { trigger: true, replace: true })

@@ -154,7 +154,12 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': redirect('/play/prologue-sky-mountain')
+    'hoc': () ->
+      # Load the tracking image without it disrupting the page layout.
+      hocImg = new Image()
+      hocImg.src = 'https://code.org/api/hour/begin_codecombat_ozaria.png'
+      @navigate('/play/prologue-sky-mountain', { trigger: true })
+
     'home': go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
