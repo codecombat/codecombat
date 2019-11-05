@@ -2941,7 +2941,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     send: "发送邮件"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
     page_heading: "教你的学生如何建立自己的街机游戏!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
