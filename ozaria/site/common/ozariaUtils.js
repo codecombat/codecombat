@@ -233,16 +233,18 @@ export function tryCopy () {
   }
 }
 
-export function internationalizeLevelType(type){
-  console.log("get internationalizeLevelType", type)
+export function internationalizeLevelType(type, withLevelSuffix){
   if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1){
     type = 'practice'
   }
-  return $.i18n.t('play_level.level_type_' + type)
+  let key = 'play_level.level_type_' + type;
+  if (withLevelSuffix){
+    key += '_level'
+  }
+  return $.i18n.t(key)
 }
 
 export function internationalizeContentType(type){
-  console.log("get internationalizeContentType", type)
   switch (type) {
     case 'cutscene-video':
       return $.i18n.t('play_level.level_type_cutscene')

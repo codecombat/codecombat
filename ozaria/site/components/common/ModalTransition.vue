@@ -74,9 +74,9 @@
       contentName () {
         return this.currentContent.displayName || this.currentContent.name
       },
-      contentType () { // TODO: localize
+      contentType () {
         if (this.currentContent.ozariaType) {
-          return internationalizeLevelType(this.currentContent.ozariaType) + $.i18n.t('play_level.level_type_level_suffix')
+          return internationalizeLevelType(this.currentContent.ozariaType, true)
         } else {
           return internationalizeContentType(this.currentContent.contentType)
         }
