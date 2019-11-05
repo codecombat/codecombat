@@ -2941,7 +2941,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    send: "Send Email"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
     page_heading: "生徒に自分のゲームの作り方を教えよう！" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"

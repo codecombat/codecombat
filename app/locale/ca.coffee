@@ -2941,7 +2941,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     send: "E-mail enviat"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
