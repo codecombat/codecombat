@@ -1,7 +1,7 @@
 <script>
   import BaseModal from './BaseModal'
   import { mapActions, mapGetters } from 'vuex'
-  import { internationalizeConfig, getNextLevelForLevel, getNextLevelLink, tryCopy } from 'ozaria/site/common/ozariaUtils'
+  import { internationalizeConfig, getNextLevelForLevel, getNextLevelLink, tryCopy, internationalizeLevelType, internationalizeContentType } from 'ozaria/site/common/ozariaUtils'
   import utils from 'core/utils'
   import urls from 'core/urls'
   import api from 'core/api'
@@ -76,15 +76,9 @@
       },
       contentType () {
         if (this.currentContent.ozariaType) {
-          return this.currentContent.ozariaType + ' level'
+          return internationalizeLevelType(this.currentContent.ozariaType, true)
         } else {
-          if (this.currentContent.contentType === 'cutscene-video') {
-            return 'cutscene'
-          }
-          if (this.currentContent.contentType === 'avatarSelectionScreen') {
-            return 'avatar selection'
-          }
-          return this.currentContent.contentType
+          return internationalizeContentType(this.currentContent.contentType)
         }
       },
       learningGoals () {

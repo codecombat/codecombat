@@ -176,6 +176,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     want_coco: "Want CodeCombat at your school?"
     educator: "Educator"
     student: "Student"
+    go_to_my_dashboard: "Go to My Dashboard"
 
   nav:
     educators: "Educators"
@@ -787,6 +788,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_your_project: "Share Your Project"
     keep_editing_your_project: "You can always keep editing your project, even after sharing it."
     copy_url: "Copy URL"
+    level_status: "Status"
+    level_status_locked: "Locked"
+    level_status_in_progress: "In Progress"
+    level_status_complete: "Complete"
+    level_type_practice: "Practice"
+    level_type_challenge: "Challenge"
+    level_type_cutscene: "Cutscene"
+    level_type_capstone: "Capstone"
+    level_type_intro: "Intro"
+    level_type_practice_level: "Practice Level"
+    level_type_challenge_level: "Challenge Level"
+    level_type_cutscene_level: "Cutscene Level"
+    level_type_capstone_level: "Capstone Level"
+    level_type_intro_level: "Intro Level"
+    content_type_avatar: "Avatar Selection"
+    content_type_cinematic: "Cinematic"
+    content_type_interactive: "Interactive"
 
   apis:
     methods: "Methods"

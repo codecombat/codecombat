@@ -1,6 +1,6 @@
 import ModalComponent from 'app/views/core/ModalComponent'
 import LevelIntroComponent from './LevelIntroComponent.vue'
-import { internationalizeConfig } from 'ozaria/site/common/ozariaUtils'
+import { internationalizeConfig, internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
 
 class LevelIntroModal extends ModalComponent {
   // Runs before the constructor is called.
@@ -29,10 +29,11 @@ class LevelIntroModal extends ModalComponent {
       if (learningGoals) {
         learningGoalsText = internationalizeConfig(learningGoals).body
       }
+      let levelTypeText = internationalizeLevelType(options.level.get('ozariaType'), true)
       this.propsData = {
         levelName: options.level.get('displayName') || options.level.get('name'),
         levelOriginal: options.level.get('original'),
-        levelType: options.level.get('ozariaType') || 'Practice',
+        levelType: levelTypeText,
         narrative: narrativeText,
         learningGoals: learningGoalsText
       }
