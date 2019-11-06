@@ -6,6 +6,7 @@ import { getCinematic } from '../../../api/cinematic'
 import CinematicCanvas from '../common/CinematicCanvas'
 import LayoutChrome from '../../common/LayoutChrome'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
+const utils = require('core/utils')
 
 module.exports = Vue.extend({
   props: {
@@ -39,7 +40,10 @@ module.exports = Vue.extend({
       soundOn: 'layoutChrome/soundOn'
     }),
     title () {
-      return (this.cinematicData || {}).displayName || (this.cinematicData || {}).name
+      if (this.cinematicData === null) {
+        return ''
+      }
+      return utils.i18n(this.cinematicData, 'displayName') || utils.i18n(this.cinematicData, 'name')
     }
   },
 
