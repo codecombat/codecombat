@@ -253,6 +253,23 @@ class JavaScriptFileTreema extends ImageFileTreema
       name = path[path.length-1]
       valEl.append($('<span></span>').text(name))
 
+# TODO: create a generic FileTreema class and extend it for ImageFileTreema/SoundFileTreema/JavaScriptFileTreema classes
+class VttFileTreema extends ImageFileTreema
+  valueClass: 'treema-vtt-file'
+  editable: false
+
+  buildValueForDisplay: (valEl, data) ->
+    fileExtension = '.vtt'
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload vtt file</a>')
+      .click(=> filepicker.pick { accept:[fileExtension] }, @onFileChosen)
+
+    valEl.append(pickButton)
+    if data
+      path = data.split('/')
+      name = path[path.length-1]
+      valEl.append($('<span></span>').text(name))
+
+
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
     (key for key in _.keys(aceUtils.aceEditModes) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
@@ -578,4 +595,5 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass 'slug-props', SlugPropsObject
   TreemaNode.setNodeSubclass 'task', TaskTreema
   TreemaNode.setNodeSubclass('js-file', JavaScriptFileTreema)
+  TreemaNode.setNodeSubclass('vtt-file', VttFileTreema)
   #TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema
