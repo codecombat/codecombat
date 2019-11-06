@@ -271,3 +271,29 @@ export function tryCopy () {
     noty({ text: message, layout: 'topCenter', type: 'error', killer: false })
   }
 }
+
+export function internationalizeLevelType(type, withLevelSuffix){
+  if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1){
+    type = 'practice'
+  }
+  let key = 'play_level.level_type_' + type;
+  if (withLevelSuffix){
+    key += '_level'
+  }
+  return $.i18n.t(key)
+}
+
+export function internationalizeContentType(type){
+  switch (type) {
+    case 'cutscene-video':
+      return $.i18n.t('play_level.level_type_cutscene')
+    case 'avatarSelectionScreen':
+      return $.i18n.t('play_level.content_type_avatar')
+    case 'cinematic':
+      return $.i18n.t('play_level.content_type_cinematic')
+    case 'interactive':
+      return $.i18n.t('play_level.content_type_interactive')
+    default:
+      return this.currentContent.contentType
+  }
+}
