@@ -1,6 +1,7 @@
 <script>
   import { getNextLevelLink } from 'ozaria/site/common/ozariaUtils'
   import { mapGetters } from 'vuex'
+  import { internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
 
   export default Vue.extend({
     props: {
@@ -88,38 +89,36 @@
     },
     methods: {
       setLevelTypeAndIcon () {
-        if (this.levelData.ozariaType === 'practice') {
-          this.levelType = $.i18n.t('play_level.level_type_practice')
+        let type = this.levelData.ozariaType
+        if (type === 'practice') {
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_practice.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
-        } else if (this.levelData.ozariaType === 'challenge') {
-          this.levelType = $.i18n.t('play_level.level_type_challenge')
+        } else if (type === 'challenge') {
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_challenge.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_challenge.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_challenge.png'
         } else if (this.isCutsceneLevel) {
-          this.levelType = $.i18n.t('play_level.level_type_cutscene')
+          type = 'cutscene'
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_cutscene.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_cutscene.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_cutscene.png'
-        } else if (this.levelData.ozariaType === 'capstone') {
-          this.levelType = $.i18n.t('play_level.level_type_capstone')
+        } else if (type === 'capstone') {
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_capstone.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_capstone.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_capstone.png'
         } else if (this.levelData.type === 'intro') {
-          this.levelType = $.i18n.t('play_level.level_type_intro')
+          type = 'intro'
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_intro.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_intro.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_intro.png'
         } else {
           // Using practice as the default values
-          this.levelType = $.i18n.t('play_level.level_type_practice')
           this.levelIcon['Complete'] = '/images/ozaria/unit-map/complete_practice.png'
           this.levelIcon['Locked'] = '/images/ozaria/unit-map/locked_practice.png'
           this.levelIcon['In Progress'] = '/images/ozaria/unit-map/unlocked_practice.png'
         }
+        this.levelType = internationalizeLevelType(type)
       },
       setLevelStatus () {
         if (this.levelData.locked) {

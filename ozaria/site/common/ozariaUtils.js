@@ -215,13 +215,52 @@ export function internationalizeConfig (levelConfig, userLocale) {
   const generalLocaleObject = interactiveConfigI18n[userGeneralLocale] || {}
   const fallbackLocaleObject = interactiveConfigI18n[fallbackLocale] || {}
 
-  return merge(
+  levelConfig = merge(
     {},
     levelConfig,
     fallbackLocaleObject,
     generalLocaleObject,
     userLocaleObject
   )
+
+  for (const values of Object.values(levelConfig)) {
+    if (Array.isArray(values)) {
+      for (const arrayVal of values) {
+        internationalizeConfigAux(arrayVal, userLocale)
+      }
+    } else if (typeof values === 'object') {
+      internationalizeConfigAux(values, userLocale)
+    }
+  }
+
+  return levelConfig
+}
+
+/**
+ * This replaces properties recursively with the i18n properties.
+ * It's a very naive implementation and should be replaced with the
+ * i18n function in utils.
+ *
+ * The translation falls back to English but doesn't fall sideways or
+ * fallback gracefully from Traditional to Simplified Chinese.
+ */
+function internationalizeConfigAux (obj, userLocale) {
+  const { i18n } = obj || {}
+  if (i18n) {
+    const translatedObj = i18n[userLocale] || {}
+    _.merge(obj, translatedObj)
+    return
+  }
+
+  for (const values of Object.values(obj)) {
+    if (Array.isArray(values)) {
+      for (const arrayVal of values) {
+        internationalizeConfigAux(arrayVal, userLocale)
+      }
+    } else if (typeof values === 'object') {
+      internationalizeConfigAux(values, userLocale)
+    }
+  }
 }
 
 export function tryCopy () {
@@ -230,5 +269,31 @@ export function tryCopy () {
   } catch (err) {
     const message = 'Oops, unable to copy'
     noty({ text: message, layout: 'topCenter', type: 'error', killer: false })
+  }
+}
+
+export function internationalizeLevelType(type, withLevelSuffix){
+  if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1){
+    type = 'practice'
+  }
+  let key = 'play_level.level_type_' + type;
+  if (withLevelSuffix){
+    key += '_level'
+  }
+  return $.i18n.t(key)
+}
+
+export function internationalizeContentType(type){
+  switch (type) {
+    case 'cutscene-video':
+      return $.i18n.t('play_level.level_type_cutscene')
+    case 'avatarSelectionScreen':
+      return $.i18n.t('play_level.content_type_avatar')
+    case 'cinematic':
+      return $.i18n.t('play_level.content_type_cinematic')
+    case 'interactive':
+      return $.i18n.t('play_level.content_type_interactive')
+    default:
+      return this.currentContent.contentType
   }
 }

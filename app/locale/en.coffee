@@ -797,7 +797,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_type_cutscene: "Cutscene"
     level_type_capstone: "Capstone"
     level_type_intro: "Intro"
-
+    level_type_practice_level: "Practice Level"
+    level_type_challenge_level: "Challenge Level"
+    level_type_cutscene_level: "Cutscene Level"
+    level_type_capstone_level: "Capstone Level"
+    level_type_intro_level: "Intro Level"
+    content_type_avatar: "Avatar Selection"
+    content_type_cinematic: "Cinematic"
+    content_type_interactive: "Interactive"
 
   apis:
     methods: "Methods"
