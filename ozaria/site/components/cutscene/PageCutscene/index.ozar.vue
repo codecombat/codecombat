@@ -128,7 +128,7 @@ module.exports = Vue.extend({
         </div>
       </layout-aspect-ratio-container>
     </layout-center-content>
-    <button id="skip-btn" @click="handleSkip">Skip Video</button>
+    <button id="skip-btn" @click="handleSkip">{{ $t("interactives.skip_video") }}</button>
   </layout-chrome>
 </template>
 
