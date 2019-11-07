@@ -11,15 +11,13 @@
   import UnitMapBackground from './common/UnitMapBackground'
   import AudioPlayer from 'app/lib/AudioPlayer'
   import createjs from 'app/lib/createjs-parts'
-  import HocModal from 'ozaria/site/views/special_event/HoC2019InterstitialModal.vue'
 
   export default Vue.extend({
     components: {
       'layout-chrome': LayoutChrome,
       'layout-center-content': LayoutCenterContent,
       'layout-aspect-ratio-container': LayoutAspectRatioContainer,
-      'unit-map-background': UnitMapBackground,
-      'hoc-modal': HocModal
+      'unit-map-background': UnitMapBackground
     },
 
     props: {
@@ -58,8 +56,7 @@
       levelStatusMap: {},
       dataLoaded: false,
       nextLevelOriginal: '',
-      ambientSound: undefined,
-      showHocModal: false
+      ambientSound: undefined
     }),
 
     computed: {
@@ -95,20 +92,13 @@
     },
 
     async mounted () {
-      if (!utils.getQueryVariable('hour_of_code') && application.getHocCampaign() !== this.campaign) { // dont redirect students/teachers if its hoc activity
-        if ((me.isStudent() && !this.computedCourseInstanceId)) {
-          return application.router.navigate('/students', { trigger: true })
-        } else if (me.isTeacher() && !this.computedCourseId) {
-          return application.router.navigate('/teachers', { trigger: true })
-        }
+      if ((me.isStudent() && !this.computedCourseInstanceId)) {
+        return application.router.navigate('/students', { trigger: true })
+      } else if (me.isTeacher() && !this.computedCourseId) {
+        return application.router.navigate('/teachers', { trigger: true })
       }
       await this.loadUnitMapData()
-      if (utils.getQueryVariable('hour_of_code') && utils.freeCampaignIds.includes(this.campaignData._id)) {
-        application.setHocCampaign(this.campaignData.slug) // Needed so that logged in users dont get redirected from PlayLevelView and 'Back to unit map' button
-        this.showHocModal = true
-      } else {
-        this.playAmbientSound()
-      }
+      this.playAmbientSound()
     },
 
     beforeDestroy () {
@@ -232,15 +222,6 @@
         if (this.nextLevelOriginal && this.levels[this.nextLevelOriginal]) {
           this.levels[this.nextLevelOriginal].next = true
         }
-      },
-
-      clickTeacherHocModal () {
-        return application.router.navigate('/teachers/hour-of-code', { trigger: true })
-      },
-
-      closeHocModal () {
-        this.showHocModal = false
-        this.playAmbientSound()
       }
     }
   })
@@ -264,14 +245,6 @@
           :course-instance-id="computedCourseInstanceId"
           :code-language="computedCodeLanguage"
         />
-        <hoc-modal
-          v-if="showHocModal"
-          id="hoc-modal"
-          :click-student="closeHocModal"
-          :click-teacher="clickTeacherHocModal"
-          :show-video="true"
-          @close="closeHocModal"
-        />
       </layout-aspect-ratio-container>
     </layout-center-content>
   </layout-chrome>
@@ -283,14 +256,5 @@
   height: 100%;
   max-width: 1266px;
   max-height: 668px;
-}
-
-#hoc-modal{
-  position: absolute;
-  width: 60%;
-  z-index: 5;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 </style>
