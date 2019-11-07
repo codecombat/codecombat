@@ -158,7 +158,7 @@ module.exports = class CocoRouter extends Backbone.Router
       # Load the tracking image without it disrupting the page layout.
       hocImg = new Image()
       hocImg.src = 'https://code.org/api/hour/begin_codecombat_ozaria.png'
-      @navigate('/play/prologue-sky-mountain', { trigger: true })
+      @navigate('/play/prologue-sky-mountain?hour_of_code=true', { trigger: true })
 
     'home': go('HomeView')
 
