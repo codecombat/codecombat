@@ -1,34 +1,34 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
+  ozaria_home:
+    subtitle: "引人入胜的计算机科学教程"
+    summary: "Ozaria（“奥佳睿”）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
+    value_prop1_h1: "史诗故事，沉浸式体验"
+    value_prop1_h2: "Inspire a deeper connection to learning"
+    value_prop1_p: "在奥佳睿，学生们身处史诗故事的中心，他们必须通过掌握计算思维来晋级。逐渐展开的情节打造出以学生为中心的学习体验，基于每个学生对奥佳睿的投入程度。"
+    value_prop2_h1: "Discover the Hero within Every Student"
+    value_prop2_h2: "Build real skills through play"
+    value_prop2_p: "计算机科学概念和技能通过富有吸引力的内容切入，包括游戏关卡、教学角色对话、过渡动画等。学生学习键入 Python 或 JavaScript 真实代码，运用计算思维解决问题，通过结构性教学评估证验证知识理解，并制作自己的项目来应用所学知识。"
+    value_prop3_h1: "免费开启你的编程之旅"
+    value_prop3_p: "通过冒险故事的进行开展授课，提供涵盖计算机科学入门概念的免费内容，以及获得课程指南和课程计划的渠道。"
+    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
+    student_creativity: "Unleash Student Creativity"
+    student_creativity_paragraph: "在每个单元最后，学生将运用所学知识创建自己的项目，包括选择你自己的冒险故事到游戏设计中来。建立在明确目标下，但可以有无限构想的内容形式，创建共享和可玩的作品集，展示了学生们无限的创造力。"
+    teach_with_support: "Teach with Support"
+    teach_with_support_paragraph: "Ozaria（“奥佳睿”）专为教育工作者而建。 整个课程中的每个单元都有一个课程计划，概述学习目标，常见学生误区，关键术语和CSTA标准。 此外，完善的教学管理后台可以帮助教师跟踪学生的进度并检查学生的代码。"
+    request_demo: "Request a Demo"
+    im_an_educator: "我是老师"
+    im_a_student: "我是学生"
+    global_title: "Join Our Global Community of Learners and Educators"
+    global_subtitle1: "学习者"
+    global_subtitle2: "行代码"
+    global_subtitle3: "老师"
+    global_subtitle4: "国家"
+    sign_up: "注册"
 
-#  ozaria_home:
-#    subtitle: "Computer Science that Captivates"
-#    summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
-#    value_prop1_h1: "Epic Story. Immersive Gameplay."
-#    value_prop1_h2: "Inspire a deeper connection to learning"
-#    value_prop1_p: "In Ozaria, students find themselves embedded in a new world where they master core computer science concepts to progress within the game. The unfolding narrative creates a powerful student-centered learning experience, with each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
-#    value_prop2_h1: "Discover the Hero within Every Student"
-#    value_prop2_h2: "Build real skills through play"
-#    value_prop2_p: "Concepts and skills are introduced via a thoughtfully-designed content progression that includes game levels, instructional character dialogue, cutscenes, and more. Students learn to type Python or JavaScript, problem-solve using computational thinking, demonstrate understanding through formative assessments, and apply what they learn by making their own projects."
-#    value_prop3_h1: "Start Your Journey For Free"
-#    value_prop3_p: "Teach through adventure with free content covering introductory computer science concepts, plus access to implementation guides and lesson plans."
-#    projects_inspire_heading: "Projects that Inspire. Resources that Empower."
-#    student_creativity: "Unleash Student Creativity"
-#    student_creativity_paragraph: "At the end of each unit, students apply what they've learned by creating projects, from games to choose-your-own adventure stories and more. Built with scaffolded goals, yet allowing for limitless ideation, students build a shareable and playable portfolio of work that showcases their creative identity."
-#    teach_with_support: "Teach with Support"
-#    teach_with_support_paragraph: "Ozaria is built for educators. Each unit throughout the curriculum has a lesson plan that outlines learning objectives, common student misconceptions, key terms, and CSTA standards. In addition, a comprehensive teacher dashboard helps teachers to track student progress and check student code."
-#    request_demo: "Request a Demo"
-#    im_an_educator: "I'm an Educator"
-#    im_a_student: "I'm a Student"
-#    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
-#    global_subtitle4: "Countries"
-#    sign_up: "Sign Up"
 
   new_home:
-#    title: "Ozaria - Computer science that captivates"
-#    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+    title: "Ozaria - 引人入胜的计算机科学教程"
+    meta_description: "Ozaria（“奥佳睿”）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
@@ -175,8 +175,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     view_progress: "查看进度"
     go_to_courses: "进入我的课程"
     want_coco: "把 CodeCombat 带到您的学校？"
-#    educator: "Educator"
-#    student: "Student"
+    educator: "教师"
+    student: "学生"
+    go_to_my_dashboard: "进入我的课程"
 
   nav:
     educators: "教育者"
@@ -221,14 +222,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     resource_hub: "资源中心"
     apcsp: "AP计算机科学原理"
     parent: "家长参与"
-#    faq: "FAQ"
-#    return_coco: "Return to CodeCombat"
-#    classes: "Classes"
+    faq: "常见问题"
+    return_coco: "返回CodeCombat"
+    classes: "我的课程"
 
   modal:
     close: "关闭"
     okay: "是"
-#    cancel: "Cancel"
+    cancel: "取消"
 
   not_found:
     page_not_found: "找不到网页"
@@ -273,7 +274,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     achievements: "成就" # Tooltip on achievement list button from /play
     settings: "设置" # Tooltip on settings button from /play
     poll: "投票" # Tooltip on poll button from /play
-    next: "下一页" # Go from choose hero to choose inventory before playing a level
+    next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     change_hero_or_language: "切换英雄或者语言"
     buy_gems: "购买宝石"
@@ -295,9 +296,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back_to_classroom: "返回教室"
     teacher_button: "带到学校"
     get_more_codecombat: "获取跟过CodeCombat游戏的信息"
-#    back_to_dashboard: "Back to Dashboard"
-#    back_to_ozaria: "Back to ozaria.com"
-#    customize_hero: "Customize Hero"
+    back_to_dashboard: "返回我的课程"
+    back_to_ozaria: "返回奥佳睿首页"
+    customize_hero: "英雄设置"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -361,7 +362,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    auth_sign_up: "New to Ozaria? Create an Account"
     sign_up: "注册"
     email_or_username: "邮箱或用户名" # {change}
-#    or: "or"
+    or: "或"
     log_in: "登录"
 #    sign_in: "Sign In"
     logging_in: "正在登录"
@@ -449,7 +450,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_list_resource_hub_3: "关卡解决方案，和"
     teacher_list_resource_hub_4: "资源汇总"
     teacher_list_resource_hub_5: "课程指导，课程活动和更多信息！"
-    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 bill@codecombat.com。"
+    teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 china@codecombat.com。"
     dont_use_our_email_silly: "请填写家长的邮箱地址。"
     want_codecombat_in_school: "想接着玩CodeCombat?"
     eu_confirmation: "我同意 CodeCombat 在美国的服务器上存储我的数据"
@@ -480,10 +481,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
     continue: "继续" # When used as an action verb, like "Continue forward"
-    next: "下一个"
+    next: "下一步"
     default_code: "默认代码"
     loading: "读取中……"
-#    LOADING: "LOADING"
+    LOADING: "加载中"
     overview: "概览"
     processing: "进行中……"
     solution: "解法"
@@ -509,11 +510,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit_changes: "提交更新"
     save_changes: "保存更新"
     required_field: "必填" # {change}
-#    submit: "Submit"
-#    replay: "Replay"
-#    complete: "Complete"
-#    continue_editing: "Continue Editing"
-#    logout: "Logout"
+    submit: "提交"
+    replay: "重新开始"
+    complete: "完成"
+    continue_editing: "继续编辑"
+    logout: "退出登录"
 
   general:
     and: "与"
@@ -596,7 +597,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_level:
     back_to_map: "返回地图"
-    directions: "方向"
+    directions: "游戏指引"
     edit_level: "编辑关卡"
     keep_learning: "不断学习"
     explore_codecombat: "探索CodeCombat"
@@ -673,7 +674,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_cast_button_run: "运行"
     tome_cast_button_running: "正在运行"
     tome_cast_button_ran: "运行过"
-#    tome_cast_button_update: "Update"
+    tome_cast_button_update: "更新"
     tome_submit_button: "提交"
     tome_reload_method: "恢复关卡初始代码"
     tome_available_spells: "可用的法术"
@@ -778,8 +779,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concept_unlocked: "已解锁的概念"
     use_at_least_one_concept: "请使用以下至少一个概念： "
 #    command_bank: "Code Bank"
-#    learning_goals: "Learning Goals"
-#    start: "Start"
+    learning_goals: "学习目标"
+    start: "开始"
 #    vega_character: "Vega Character"
     click_to_continue: "点击继续"
     share_your_project: "分享你的项目"
@@ -804,8 +805,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     methods: "函数"
     events: "事件"
 #    handlers: "Handlers"
-#    properties: "Properties"
-#    snippets: "Snippets"
+    properties: "属性"
+    snippets: "字段"
     spawnable: "可生成物"
     html: "HTML"
     math: "数学"
@@ -836,7 +837,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     created_during_hoc: "在“编程一小时”中创建。"
     restart: "重新开始关卡"
     play: "开始关卡"
-    learn_about_ozaria: "Learn About Ozaria"
+    play_more_codecombat: "玩更多的 CodeCombat 关卡"
     default_student_instructions: "单击控制英雄，并取得胜利！"
     goal_survive: "生存。"
     goal_survive_time: "生存 __seconds__ 秒。"
@@ -963,7 +964,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     year_subscription: "年度订阅"
     year_price: "$__price__/年"
     support_part1: "付款时需要帮助? Email" # {change}
-    support_part2: "bill@codecombat.com"
+    support_part2: "china@codecombat.com"
 
   announcement:
     now_available: "现在订阅者可以获得更多内容"
@@ -1132,7 +1133,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     learn_more: "了解更多"
     main_title: "学习编程需要动手写大量代码"
     main_description: "CodeCombat让你带着微笑学习"
-    mission_link: "任务"
+    mission_link: "愿景"
     team_link: "团队"
     story_link: "历程"
     press_link: "联系方式"
@@ -1142,7 +1143,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
 #    mission_desc_3: "Over the last five years, over twelve million people have learned to write Python and JavaScript using CodeCombat, making it one of the most popular coding games in history. Now, we are excited to launch Ozaria and expand on our commitment to inspire a new generation of students to learn computer science. Ozaria is an adventure game that places each learner at the center of a legendary story where they must save the world of Ozaria from impending darkness by mastering the lost magic of coding. As the narrative unfolds, a powerful student-centered learning experience is created - each student’s investment in Ozaria’s story paralleling the investment they are making in their own learning journey."
     team_title: "与CodeCombat团队见面"
-    team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲历亲为，因为在团队中我们收获了成长与经验。" # {change}
+    team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲力亲为，因为在团队中我们收获了成长与经验。"
 #    nick_title: "Cofounder, CEO"
 #    matt_title: "Cofounder, CTO"
 #    cat_title: "Game Designer"
@@ -1182,7 +1183,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
-    community_description_1: "，上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
+    community_description_1: "上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
     community_description_link: "贡献者页面"
     community_description_2: "了解更多信息。"
     number_contributors: "超过 450 个志愿者将他们的知识和时间投入到这个项目中。"
@@ -1192,7 +1193,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     story_statistic_1b: "总玩家"
     story_statistic_1c: "已经通过CodeCombat开始了他们的编程之旅" # {change}
     story_statistic_2a: "我们将这个游戏翻译为超过 50 种语言 —— 得益于来自"
-    story_statistic_2b: "200+ 个国家" # {change}
+    story_statistic_2b: "190+ 个国家" # {change}
     story_statistic_3a: "的玩家，他们总共写下了"
     story_statistic_3b: "10亿行代码和说明"
     story_statistic_3c: "，涵盖了多种编程语言。"
@@ -1239,7 +1240,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     low_price_title: "每个学生仅仅只要 __starterLicensePrice__ 元 "
     low_price_description: "学生入门许可证在购买后的 __starterLicenseLengthMonths__ 个月内有效."
     three_great_courses: "学生入门许可证中包含三个伟大的课程:"
-    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 bill@codecombat.com. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
+    license_limit_description: "老师最多可以购买 __maxQuantityStarterLicenses__ 个许可证. 你已经购买了 __quantityAlreadyPurchased__ 个. 如果你需要更多, 请联系 china@codecombat.com. 学生入门许可证有效期为 __starterLicenseLengthMonths__ 个月."
     student_starter_license: "学生入门许可"
     purchase_starter_licenses: "购买入门许可证"
     purchase_starter_licenses_to_grant: "购买入门许可证可被授权访问 __starterLicenseCourseList__"
@@ -1274,8 +1275,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   teachers_quote:
     subtitle: "将 CodeCombat 带到您的班级、俱乐部、学校甚至地区！" # {change}
     email_exists: "使用该账号的电子邮箱"
-    phone_number: "电话号码"
-    phone_number_help: "工作日时我们在哪可以找到您？"
+    phone_number: "手机号码"
+    phone_number_help: "工作日我们如何找到您？"
     primary_role_label: "您的主要职业"
     role_default: "选择职业"
     primary_role_default: "（请选择）"
@@ -1291,12 +1292,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     approve_funds: "批准资金"
     no_purchaser_role: "不参与购买决策"
     district_label: "地区"
-    district_name: "区"
+    district_name: "区/县"
     district_na: "不可用时请输入 N/A"
     organization_label: "学校："
-    school_name: "学校名称"
-    city: "城市"
-    state: "省" # {change}
+    school_name: "学校或机构名称"
+    city: "市（直辖市可填无）"
+    state: "省/直辖市" # {change}
     country: "国家"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
@@ -1333,7 +1334,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_account_subtitle: "在 CodeCombat 班级中使用老师专用工具。 <strong>创建班级</strong>添加学生、<strong>观察学生进度</strong>！"
     convert_account_title: "升级为老师账号"
     not: "不是"
-#    full_name_required: "First and last name required"
+    full_name_required: "姓和名是必填项"
 
   versions:
     save_version_title: "保存新版本"
@@ -1423,8 +1424,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     beautify: "利用标准编码格式美化您的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "点击任意区域继续"
 
   community:
     main_title: "CodeCombat社区"
@@ -1562,7 +1563,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play_now_learn_2: "解决麻烦谜题的while循环"
     play_now_learn_3: "自定义动作的字符串和变量"
     play_now_learn_4: "如何打败食人魔（重要生存技巧！）"
-    welcome_to_page: "欢迎来到你的课程页面！" # {change}
+    welcome_to_page: "欢迎来到我的课程！"
     my_classes: "我的课程" # {change}
     class_added: "成功添加课程！"
     view_map: "查看地图"
@@ -1574,7 +1575,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     enter_c_code: "<输入班级代码>" # {change}
     join: "加入"
     joining: "加入课程中"
-#    unit_complete: "Unit Complete"
+    unit_complete: "已完成"
     play_arena: "玩竞技场"
     view_project: "查看项目"
     start: "开始"
@@ -1586,7 +1587,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     are_you_sure: "你确定要从该课程中删除该学生吗？"
     remove_description1: "学生将失去访问该课程和被分派课程的权利。游戏进度不会丢失，该学生可以在任何时间被添加回该班级。"
     remove_description2: "被激活的付费许可证将无法返还。"
-#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
+    license_will_revoke: "该学生付费许可将被撤销，稍后可以分配给其他学生"
     keep_student: "保留学生"
     removing_user: "删除用户"
     subtitle: "复习课程指导、解法和关卡" # {change}
@@ -1782,7 +1783,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     revoke_license: "终止许可"
     revoke_licenses: "终止所有许可"
     course_progress: "课程进度"
-#    unit_progress: "Unit Progress"
+    unit_progress: "课程进度"
     not_applicable: "N/A"
     edit: "修改"
     edit_2: "修改"
@@ -1822,7 +1823,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
     not_assigned_modal_full_body_1: "本课程需要许可证才能使用。您没有足够的许可证, 因此无法将此课程分配给已选定的 __selected__ 名学生。" # {change}
     not_assigned_modal_full_body_2: "您当前仅有__numFullLicensesAvailable__个许可证可供使用 (__numStudentsWithoutFullLicenses__名学生目前没有许可证) 。"
-    not_assigned_modal_full_body_3: "请适量减少选定的学生数量, 或联系bill@codecombat.com寻求帮助。"
+    not_assigned_modal_full_body_3: "请适量减少选定的学生数量, 或联系china@codecombat.com寻求帮助。"
     assigned: "已添加"
     enroll_selected_students: "注册选中的学生"
     no_students_selected: "没有学生被选中。"
@@ -2051,7 +2052,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sync_google_classroom: "同步谷歌教室"
 #    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
 #    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
-#    prologue: "Prologue: The Sky Mountain"
+    prologue: "序章: 天山"
 #    unit_overview: "Unit Overview"
 #    module_overview: "Module Overview"
 #    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
@@ -2419,12 +2420,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     left_xp_postfix: ""
 
   account:
-#    title: "Account"
-#    settings_title: "Account Settings"
-#    unsubscribe_title: "Unsubscribe"
-#    payments_title: "Payments"
-#    subscription_title: "Subscription"
-#    invoices_title: "Invoices"
+    title: "账户"
+    settings_title: "账户设置"
+    unsubscribe_title: "取消订阅"
+    payments_title: "支付"
+    subscription_title: "订阅"
+    invoices_title: "发票"
 #    prepaids_title: "Prepaids"
     payments: "支付方式"
     prepaid_codes: "预付费码"
@@ -2546,8 +2547,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     arithmetic: "四则运算"
     array_2d: "二维数组"
     array_index: "数组下标"
-#    array_iterating: "Iterating Over Arrays"
-#    array_literals: "Array Literals"
+    array_iterating: "数组迭代"
+    array_literals: "数组字面量"
     array_searching: "数组遍历"
     array_sorting: "数组排序"
     arrays: "数组"
@@ -2589,7 +2590,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     game_goals: "游戏目标"
 #    game_spawn: "Game Spawn"
     graphics: "图形"
-#    graphs: "Graphs"
+    graphs: "图"
     heaps: "堆"
     if_condition: "If条件语句"
     if_else_if: "If/Else If语句"
@@ -2610,7 +2611,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jquery_selectors: "jQuery选择器"
     length: "数组长度"
 #    math_coordinates: "Coordinate Math"
-#    math_geometry: "Geometry"
+    math_geometry: "几何"
     math_operations: "数学程序库操作"
 #    math_proportions: "Proportion Math"
 #    math_trigonometry: "Trigonometry"
@@ -2637,7 +2638,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     while_condition_loops: "使用条件语句的While循环"
     while_loops_simple: "While循环"
     while_loops_nested: "While嵌套循环"
-#    xy_coordinates: "Coordinate Pairs"
+    xy_coordinates: "坐标对"
     advanced_strings: "高级字符串" # Rest of concepts are deprecated
     algorithms: "算法"
     boolean_logic: "布尔逻辑"
@@ -3023,7 +3024,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     projects_created: "学生作品数"
     other: "其他"
     notice: "以下学校管理员对您的课堂数据有查看权限："
-    add_additional_teacher: "需要添加其他的教师吗？请联系您的CodeCombat客户经理或发送电子邮件至bill@codecombat.com。 "
+    add_additional_teacher: "需要添加其他的教师吗？请联系您的CodeCombat客户经理或发送电子邮件至china@codecombat.com。 "
     license_stat_description: "可用许可证是教师可用的许可证总数，包括共享的许可证。"
     students_stat_description: "学生总数是所有教室的所有学生数，不管他们是否使用了许可证，都会被计算在内。"
     active_students_stat_description: "活跃学生数是在过去60天登录CodeCombat的学生人数。"
