@@ -3011,6 +3011,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     show_resources: "Show me teacher resources!"
     student: "I'm a student"
     ready_to_code: "I'm ready to code!"
+    ozaria_hoc_welcome: 'Welcome to Ozaria by CodeCombat!'
 
   hoc_2018_completion:
     congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
