@@ -2941,7 +2941,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2018:
-    banner: "Jrypbzr gb Ubhe bs Pbqr 2019!" #{punatr}
+    banner: "Jrypbzr gb Ubhe bs Pbqr 2019!" #
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
