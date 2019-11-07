@@ -211,6 +211,7 @@ export default Vue.extend({
 
 .header h1 {
   margin-top: 0;
+  font-size: 5vh;
 }
 
 .avatar-selector {
@@ -223,10 +224,12 @@ export default Vue.extend({
   flex-direction: column;
   justify-content: space-between;
 
+  overflow: scroll;
 }
 
 .avatar-item {
   height: 100%;
+  padding: 0 0.8vh;
 
   div {
     height: 100%;
@@ -251,11 +254,11 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 100%;
+  height: 40vh;
 }
 
 .avatar-grid .row {
-  margin: 15px 0;
+  margin: 0.8vh 0;
   /* Locking height resolves responsive issues seen on chromebook */
   height: 170px;
 }
