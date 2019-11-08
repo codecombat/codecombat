@@ -97,10 +97,9 @@ _.extend CampaignSchema.properties, {
         }
       }
       first: {type: 'boolean', description: 'Is it the first level in the campaign', default: true }
-
       campaignPage: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}
-
       releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' }
+      moduleNum: {type: 'number', title: 'Module number', default: 1}
 
       #- denormalized properties from Levels are cloned below
     }
