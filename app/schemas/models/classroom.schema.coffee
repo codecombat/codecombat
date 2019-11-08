@@ -61,6 +61,9 @@ _.extend ClassroomSchema.properties,
       }
       first: {type: 'boolean', description: 'Is it the first level in the campaign' }
       campaignPage: {type: 'number', title: 'Campaign page number'}
+      moduleNum: {type: 'number', title: 'Module number'}
+      ozariaType: c.shortString()
+      introContent: c.array()
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
