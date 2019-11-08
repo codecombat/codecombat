@@ -194,7 +194,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "Parents"
-    browser_recommendation: "Recommend using chrome browser, download here"
+    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Close"
@@ -3011,5 +3011,5 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
 
   browser_recommendation:
-    title: 'Please use Chrome'
-    pitch_body: 'For every function works correctly, we suggust using chrome to surf CodeCombat. Download latest Chrome by click the button below.'
+    title: 'CodeCombat works best on Chrome!'
+    pitch_body: 'For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!'
