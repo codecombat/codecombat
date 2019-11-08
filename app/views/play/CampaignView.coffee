@@ -393,7 +393,7 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
-    if not @isOldBrowser()
+    if @isOldBrowser()
       unless storage.load('hideBrowserRecommendation')
         BrowserRecommendationModal = require 'views/core/BrowserRecommendationModal'
         @openModalView(new BrowserRecommendationModal())
