@@ -2941,7 +2941,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     send: "Envoyer un courriel"
 
   hoc_2018:
-    banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !"
+    banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !" # {change}
     page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
     step_1: "Étape 1 : Regarder la vidéo Aperçu"
     step_2: "Étape 2 : Essayez-le vous-même"

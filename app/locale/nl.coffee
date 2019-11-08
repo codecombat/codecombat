@@ -2941,7 +2941,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     send: "Verzend e-mail"
 
   hoc_2018:
-    banner: "Fijne Computer Science Education Week 2018!"
+    banner: "Fijne Computer Science Education Week 2018!" # {change}
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
     step_1: "Stap 1: bekijk video-overzicht"
     step_2: "Stap 2: Probeer het zelf"
