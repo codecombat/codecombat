@@ -103,33 +103,56 @@
 
     beforeDestroy () {
       if (this.ambientSound) {
-        createjs.Tween.get(this.ambientSound).to({ volume: 0.0 }, 1500).call(this.ambientSound.stop)
+        this.fadeTrack({
+          track: 'background',
+          to: 0,
+          duration: 1500
+        })
+          .then(() =>
+            this.stopTrack({
+              track: 'background',
+              unload: true
+            })
+          )
       }
     },
 
     methods: {
       ...mapActions({
         fetchCampaign: 'campaigns/fetch',
-        buildLevelsData: 'unitMap/buildLevelsData'
+        buildLevelsData: 'unitMap/buildLevelsData',
+
+        playSound: 'audio/playSound',
+        fadeTrack: 'audio/fadeTrack',
+        stopTrack: 'audio/stopTrack'
       }),
+
       ...mapMutations({
         setUnitMapUrlDetails: 'layoutChrome/setUnitMapUrlDetails',
         setCurrentCampaignId: 'campaigns/setCurrentCampaignId'
       }),
 
       playAmbientSound () {
-        const file = ((this.campaignData || {}).ambientSound || {})[AudioPlayer.ext.substr(1)]
-        if (!file || !me.get('volume') || this.ambientSound) {
+        const ambientSoundConfig = (this.campaignData || {}).ambientSound || {}
+        const soundFiles = Object.values(ambientSoundConfig)
+
+        if (soundFiles.length === 0 || this.ambientSound) {
           return
         }
-        const src = `/file/${file}`
-        if (!(AudioPlayer.getStatus(src) || {}).loaded) {
-          AudioPlayer.preloadSound(src)
-          Backbone.Mediator.subscribeOnce('audio-player:loaded', this.playAmbientSound, this)
-          return
-        }
-        this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
-        return createjs.Tween.get(this.ambientSound).to({ volume: 1.0 }, 1000)
+
+        this.ambientSound = this.playSound({
+          track: 'background',
+          src: soundFiles.map(f => `/file/${f}`),
+          loop: true,
+          volume: 0.1
+        })
+
+        this.fadeTrack({
+          track: 'background',
+          from: 0.1,
+          to: 1,
+          duration: 1000
+        })
       },
 
       async loadUnitMapData () {

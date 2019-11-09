@@ -212,7 +212,7 @@ export default {
      *
      * @throws {Error} when invalid ID specified
      */
-    playSound ({ getters, commit }, opts) {
+    playSound ({ getters, commit, state }, opts) {
       if (typeof opts !== 'object') {
         const id = opts
 
@@ -230,7 +230,11 @@ export default {
       }
 
       const { track, ...howlOpts } = opts
-      const sound = new Howl(howlOpts)
+      const sound = new Howl({
+        ...howlOpts,
+
+        mute: howlOpts.muted || state.muted.all || state.muted[opts.track]
+      })
 
       const soundId = sound.play()
 

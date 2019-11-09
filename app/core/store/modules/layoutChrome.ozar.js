@@ -57,8 +57,17 @@ export default {
   },
 
   actions: {
-    toggleSoundAction ({ commit }) {
+    toggleSoundAction ({ commit, dispatch }) {
       commit('toggleSound')
+      dispatch('syncSoundToAudioSystem')
+    },
+
+    syncSoundToAudioSystem ({ dispatch, state }) {
+      if (state.soundOn) {
+        dispatch('audio/unmuteAll', undefined, { root: true })
+      } else {
+        dispatch('audio/muteAll', undefined, { root: true })
+      }
     }
   }
 }

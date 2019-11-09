@@ -43,6 +43,34 @@ describe ('VueX Audio module', () => {
       done()
     })
 
+    it('Plays a new sound muted when audio is muted', async (done) => {
+      await store.dispatch('audio/muteAll')
+
+      const id = await store.dispatch('audio/playSound', { track: 'background', ...BASE_SOUND_OPTIONS })
+      const sound = store.getters['audio/getSoundById'](id)
+
+      expect(sound).toBeDefined()
+      expect(store.state.audio.tracks['background'].get(id)).toEqual(sound)
+      expect(isPlayingOrQueued(sound)).toEqual(true)
+      expect(sound._muted).toEqual(true)
+
+      done()
+    })
+
+    it('Plays a new sound muted when track is muted', async (done) => {
+      await store.dispatch('audio/muteTrack', 'background')
+
+      const id = await store.dispatch('audio/playSound', { track: 'background', ...BASE_SOUND_OPTIONS })
+      const sound = store.getters['audio/getSoundById'](id)
+
+      expect(sound).toBeDefined()
+      expect(store.state.audio.tracks['background'].get(id)).toEqual(sound)
+      expect(isPlayingOrQueued(sound)).toEqual(true)
+      expect(sound._muted).toEqual(true)
+
+      done()
+    })
+
     it('Requires a track to play a sound', async (done) => {
       try {
         await store.dispatch('audio/playSound', { ...BASE_SOUND_OPTIONS })
