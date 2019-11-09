@@ -58,8 +58,11 @@ Application = {
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
+
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
+    store.dispatch('layoutChrome/syncSoundToAudioSystem')
+
     if me.showChinaRemindToast()
       setInterval ( -> noty {
         text: '你已经练习了一个小时了，建议休息一会儿哦'

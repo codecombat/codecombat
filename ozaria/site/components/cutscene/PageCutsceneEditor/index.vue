@@ -45,6 +45,7 @@ export default {
       const treema = this.treema = TreemaNode.make(el, {
         data: data,
         schema: Cutscene.schema,
+        filePath: 'cutscene',
         callbacks: {
           change: this.onTreemaChange
         }

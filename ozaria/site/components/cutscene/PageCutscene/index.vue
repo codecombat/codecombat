@@ -6,6 +6,9 @@ import LayoutChrome from '../../common/LayoutChrome'
 import BaseVideo from '../common/BaseVideo'
 import { getCutscene } from '../../../api/cutscene'
 import { cutsceneEvent } from '../common/cutsceneUtil'
+import LayoutAspectRatioContainer from '../../common/LayoutAspectRatioContainer'
+import LayoutCenterContent from '../../common/LayoutCenterContent'
+import CloudflareVideoPlayer from '../common/CloudflareVideoPlayer'
 
 const throttledCutsceneEvent = _.once(cutsceneEvent)
 
@@ -19,20 +22,22 @@ module.exports = Vue.extend({
 
   data: () => ({
     vimeoId: null,
-    cutscene: {}
+    videoSrc: null,
+    captions: ()=>([]),
+    cutscene: {},
+    cloudflareID: null
   }),
 
   components: {
     LayoutChrome,
-    BaseVideo
+    BaseVideo,
+    LayoutAspectRatioContainer,
+    LayoutCenterContent,
+    CloudflareVideoPlayer
   },
 
-  mounted: function() {
+  mounted () {
     this.loadCutscene()
-
-    // TODO: Do we still need this localhost workaround for private videos?
-    // Provides a way to skip cutscenes via the terminal.
-    window.forceCutsceneCompleted = this.onCompleted
   },
 
   computed: {
@@ -44,8 +49,32 @@ module.exports = Vue.extend({
   methods: {
     async loadCutscene() {
       // TODO handle_error_ozaria - What if unable to fetch cutscene?
-      this.cutscene = await getCutscene(this.cutsceneId)
-      this.vimeoId = this.cutscene.vimeoId
+
+      const cutscene = this.cutscene = await getCutscene(this.cutsceneId)
+
+      if (me.showChinaVideo() && cutscene.chinaVideoSrc) {
+        this.videoSrc = cutscene.chinaVideoSrc
+      } else if (cutscene.cloudflareID) {
+        this.cloudflareID = cutscene.cloudflareID
+      } else {
+        this.vimeoId = cutscene.vimeoId
+      }
+
+      /**
+       * Captions need to be a valid array, for the Plyr video player.
+       */
+      this.captions = Object.keys(cutscene.i18n || {})
+        .filter((i18nKey) => {
+          if (i18nKey === '-' || !cutscene.i18n[i18nKey].captions) {
+            return false;
+          }
+          const { src, label } = cutscene.i18n[i18nKey].captions
+          return label && src
+        }).map(i18nKey => ({
+          label: cutscene.i18n[i18nKey].captions.label,
+          src: `/file/${cutscene.i18n[i18nKey].captions.src}`,
+          srclang: i18nKey
+        }))
     },
 
     onCompleted() {
@@ -64,7 +93,16 @@ module.exports = Vue.extend({
   <layout-chrome
     :title="cutscene.displayName || cutscene.name"
   >
-    <button id="skip-btn" @click="handleSkip">Skip Video</button>
+    <!-- CLOUDFLARE PLAYER -->
+    <CloudflareVideoPlayer
+      v-if="cloudflareID"
+
+      :cutscene="cutscene"
+      :cloudflareID="cloudflareID"
+
+      v-on:completed="onCompleted"
+    />
+    <!-- VIMEO PLAYER -->
     <base-video
       v-if="vimeoId"
 
@@ -74,10 +112,27 @@ module.exports = Vue.extend({
 
       v-on:completed="onCompleted"
     />
+    <!-- FALLBACK CHINA PLAYER -->
+    <layout-center-content v-if="videoSrc">
+      <layout-aspect-ratio-container
+        class="cutscene-container"
+        :aspect-ratio="16 / 9"
+      >
+        <div class="cutscene">
+          <base-video
+            :videoSrc="videoSrc"
+            :captions="captions"
+
+            v-on:completed="onCompleted"
+          />
+        </div>
+      </layout-aspect-ratio-container>
+    </layout-center-content>
+    <button id="skip-btn" @click="handleSkip">{{ $t("interactives.skip_video") }}</button>
   </layout-chrome>
 </template>
 
-<style lang="sass">
+<style scoped lang="sass">
   @import "ozaria/site/styles/common/variables.scss"
 
   button#skip-btn

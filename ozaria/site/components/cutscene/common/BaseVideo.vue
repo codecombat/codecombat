@@ -67,7 +67,8 @@ export default {
         this.videoUnavailable = true
       })
     } else if (this.videoSrc) {
-      new Plyr(this.$refs['player'], { captions: {active: true } })
+      const vid = new Plyr(this.$refs['player'], { captions: { active: true } })
+      vid.on('ended', () => this.$emit('completed'))
     }
   },
 

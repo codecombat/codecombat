@@ -29,7 +29,7 @@ const interactiveSchema = {
     fillInCodeData: interactiveTypeSchema.interactiveFillInCodeSchema,
     draggableStatementCompletionData: interactiveTypeSchema.interactiveDraggableStatementCompletionSchema,
     unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'], title: 'Programming Language' },
-    i18n: { type: 'object', format: 'i18n', props: ['promptText'], description: 'Help translate this interactive.' },
+    i18n: { type: 'object', format: 'i18n', props: ['name', 'displayName', 'promptText'], description: 'Help translate this interactive.' },
     defaultArtAsset: { type: 'string', format: 'image-file', title: 'Default Art Asset' },
     documentation: schema.object({
       title: 'Documentation',

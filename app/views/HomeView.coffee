@@ -58,7 +58,9 @@ module.exports = class HomeView extends RootView
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
 
     # Ozaria local setting to force English.
-#    $.i18n.setLng('en-US', {})
+    # TODO: Remove when user can pick a language.
+    if me.setTemporaryEnglishLock()
+      $.i18n.setLng('en-US', {})
 
     super()
 

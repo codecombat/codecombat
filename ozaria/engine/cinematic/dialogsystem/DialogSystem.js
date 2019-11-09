@@ -12,7 +12,7 @@ import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
 
 const BUBBLE_PADDING = 10
 const SPEECH_BUBBLE_MAX_WIDTH = `31vmin`
-const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `66.6vmin`
+const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `50vmin`
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
