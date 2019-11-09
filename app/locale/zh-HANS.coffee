@@ -1078,12 +1078,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_to_unlock: "未解锁关卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
 
-#  char_customization_modal:
-#    heading: "Customize Your Hero"
-#    body: "Body"
-#    name_label: "Hero's Name"
-#    hair_label: "Hair Color"
-#    skin_label: "Skin Color"
+  char_customization_modal:
+    heading: "个性化定制你的英雄"
+    body: "身体"
+    name_label: "英雄的名字"
+    hair_label: "头发颜色"
+    skin_label: "皮肤颜色"
 
   skill_docs:
     function: "函数" # skill types
@@ -1113,7 +1113,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     optional_parameters: "可选"
     returns: "返回值"
     granted_by: "技能来自"
-#    still_undocumented: "Still undocumented, sorry."
+    still_undocumented: "抱歉，暂时还没有说明"
 
   save_load:
     granularity_saved_games: "保存"
