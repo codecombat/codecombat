@@ -31,6 +31,7 @@ store = new Vuex.Store({
     tints: require('./modules/tints').default
     layoutChrome: require('./modules/layoutChrome').default
     unitMap: require('./modules/unitMap').default
+    audio: require('./modules/audio').default
   }
 })
 
