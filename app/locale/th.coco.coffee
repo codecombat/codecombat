@@ -195,6 +195,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     resource_hub: "แหล่งข้อมูล"
 #    apcsp: "AP CS Principles"
     parent: "พ่อแม่"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "ปิด"
@@ -3008,3 +3009,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"

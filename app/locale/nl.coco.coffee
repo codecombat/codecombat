@@ -195,6 +195,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     resource_hub: "Hulpmiddelen"
     apcsp: "AP CS Principes"
     parent: "Ouders"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Sluiten"
@@ -3008,3 +3009,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     try_again: "Oeps, probeer het opnieuw!"
     select_statement_left: "Oeps, selecteer iets van links voordat je op \"Submit.\" klikt."
     fill_boxes: "Oeps, zorg ervoor dat je alle velden hebt ingevuld voordat je op \"Submit.\"klikt."
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
