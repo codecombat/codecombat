@@ -1,6 +1,7 @@
 # Chapter 1: Module 3 Lesson Plan
 
 # Overview
+Module 3 consists of all the content from **The Moon Dancers** to **Onward to Xing'chen**.
 
 **Learning Objectives**
 
