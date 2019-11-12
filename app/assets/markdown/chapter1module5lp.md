@@ -1,6 +1,7 @@
 # Chapter 1: Module 5 Lesson Plan
 
 # Overview
+Module 5 consists of all the content from **The Spirit Lands** to **The Trap is Set**.
 
 **Learning Objectives**
 
