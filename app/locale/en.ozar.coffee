@@ -24,6 +24,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     global_subtitle3: "Teachers"
     global_subtitle4: "Countries"
     sign_up: "Sign Up"
+    learner_number: "12 Million"
+    code_line_number: "1 Billion"
+
 
   new_home:
     title: "Ozaria - Computer science that captivates"
