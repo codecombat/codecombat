@@ -769,7 +769,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
-#  play_game_dev_level:
+  play_game_dev_level:
 #    created_by: "Created by {{name}}"
 #    created_during_hoc: "Created during Hour of Code"
     restart: "레벨 다시 시작"
