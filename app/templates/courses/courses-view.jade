@@ -96,6 +96,10 @@ block content
               br
               h3(data-i18n="courses.my_classes")
 
+              if view.allCompleted
+                p.alert.alert-success
+                  span(data-i18n="courses.ask_next_course")
+
               for classroom in view.classrooms.models
                 hr.class-break
                 - var justAdded = classroom.id === view.classroomJustAdded;

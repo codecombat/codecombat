@@ -195,6 +195,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     resource_hub: "Centre de Recursos"
     apcsp: "Principis AP CS"
     parent: "Pares"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Tancar"
@@ -1641,6 +1642,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -2938,7 +2942,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     send: "E-mail enviat"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3005,3 +3009,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"

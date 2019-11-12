@@ -195,6 +195,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     resource_hub: "Baza Wiedzy"
     apcsp: "Zasady AP CS"
     parent: "Rodzice"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Zamknij"
@@ -562,8 +563,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     course: "Kurs:"
     done: "Zrobione"
     next_level: "Następny poziom"
-#   combo_challenge: "Combo Challenge"
-#   concept_challenge: "Concept Challenge"
+#    combo_challenge: "Combo Challenge"
+#    concept_challenge: "Concept Challenge"
     challenge_unlocked: "Odblokowano wyzwanie"
 #    combo_challenge_unlocked: "Combo Challenge Unlocked"
 #    concept_challenge_unlocked: "Concept Challenge Unlocked"
@@ -721,7 +722,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     project_complete: "Projekt ukończony!"
     share_this_project: "Udostępnij ten projekt znajomym i rodzinie:"
     ready_to_share: "Gotowt aby udostępnić swój projekt?"
-    click_publish: "Kliknij \Publikuj\ aby porojekt pojawił się w klasowej galerii, potem sprawdź co zbudowali twoi koledzy! Możesz powrócić i kontynuować pracę nad projektem. Każde późniejsze zmiany będą automatycznie zapisywane i udostępniane twojej klasie."
+    click_publish: "Kliknij Publikuj aby porojekt pojawił się w klasowej galerii, potem sprawdź co zbudowali twoi koledzy! Możesz powrócić i kontynuować pracę nad projektem. Każde późniejsze zmiany będą automatycznie zapisywane i udostępniane twojej klasie."
 #    already_published_prefix: "Your changes have been published to the class gallery."
 #    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
     view_gallery: "Zobacz galerię"
@@ -839,8 +840,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     purchasing: "Kupowanie..."
     declined: "Karta została odrzucona"
     retrying: "Błąd serwera, ponawiam."
-    prompt_title: "Za mało klejnotów"
-    prompt_body: "Chcesz zdobyć więcej?"
+    prompt_title: "Niewystarczająca ilość kryształów!"
+    prompt_body: "Weź Premium, aby zdobyć kryształy i dostać się do jeszcze większej ilości poziomów!"
     prompt_button: "Wejdź do sklepu"
     recovered: "Przywrócono poprzednie zakupy. Proszę odświeżyć stronę."
     price: "x{{gems}} / mieś."
@@ -849,8 +850,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     purchased: "Zakupiono"
 
 #  subscribe_for_gems:
-    prompt_title: "Niewystarczająca ilość kryształów!"
-    prompt_body: "Weź Premium, aby zdobyć kryształy i dostać się do jeszcze większej ilości poziomów!"
+#    prompt_title: "Not Enough Gems!"
+#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
   earn_gems:
     prompt_title: "Za mało klejnotów"
@@ -1641,6 +1642,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2938,7 +2942,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3005,3 +3009,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
