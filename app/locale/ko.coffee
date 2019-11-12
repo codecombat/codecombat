@@ -2736,7 +2736,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   calendar:
     year: "년"
     day: "일"
-   month: "월"
+    month: "월"
     january: "1월"
     february: "2월"
     march: "3월"
