@@ -1,6 +1,7 @@
 # Chapter 1: Module 4 Lesson Plan
 
 # Overview
+Module 4 consists of all the content from **Xing'chen** to **The City Saved**.
 
 **Learning Objectives**
 
