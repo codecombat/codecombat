@@ -1,6 +1,7 @@
 # **Chapter 1 Capstone Lesson Plan**
 
 # Overview
+Module 6 consists of all the content from **Story Maker** to **The Last One**.
 
 - Assessment Objectives
     - This Capstone will allow students to demonstrate mastery of the following concepts:
