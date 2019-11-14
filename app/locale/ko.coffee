@@ -1008,12 +1008,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     level_to_unlock: "레벨 해금:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "특정 영웅만이 이 레벨을 플레이할 수 있습니다."
 
-#  char_customization_modal:
-#    heading: "Customize Your Hero"
-#    body: "Body"
-#    name_label: "Hero's Name"
-#    hair_label: "Hair Color"
-#    skin_label: "Skin Color"
+  char_customization_modal:
+    heading: "당신만의 영웅을 만드세요"
+    body: "체형"
+    name_label: "영웅의 이름"
+    hair_label: "머리 색"
+    skin_label: "피부 색"
 
   skill_docs:
 #    function: "function" # skill types
@@ -1206,13 +1206,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    course_prefix: "Course"
 #    course_suffix: ""
 
-#  teachers_quote:
+  teachers_quote:
 #    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
-#    email_exists: "User exists with this email."
-#    phone_number: "Phone number"
-#    phone_number_help: "What's the best number to reach you?"
-#    primary_role_label: "Your Primary Role"
-#    role_default: "Select Role"
+    email_exists: "사용중인 이메일입니다."
+    phone_number: "전화번호"
+    phone_number_help: "연락가능한 전화번호가 있습니까?"
+    primary_role_label: "당신의 주요역할"
+    role_default: "역할을 선택하세요."
 #    primary_role_default: "Select Primary Role"
 #    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
@@ -1222,17 +1222,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    parent: "Parent"
 #    purchaser_role_label: "Your Purchaser Role"
 #    influence_advocate: "Influence/Advocate"
-#    evaluate_recommend: "Evaluate/Recommend"
+    evaluate_recommend: "평가/추천"
 #    approve_funds: "Approve Funds"
 #    no_purchaser_role: "No role in purchase decisions"
 #    district_label: "District"
 #    district_name: "District Name"
 #    district_na: "Enter N/A if not applicable"
-#    organization_label: "School"
-#    school_name: "School Name"
-#    city: "City"
-#    state: "State / Region"
-#    country: "Country"
+    organization_label: "학교"
+    school_name: "학교이름"
+    city: "도시"
+    state: "도 / 지역"
+    country: "국가"
 #    num_students_help: "How many students will use CodeCombat?"
 #    num_students_default: "Select Range"
 #    education_level_label: "Education Level of Students"
