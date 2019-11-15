@@ -31,6 +31,11 @@ describe ('VueX Audio module', () => {
     })
   })
 
+  afterEach(async (done) => {
+    await store.dispatch('audio/stopAll', { unload: true })
+    done()
+  })
+
   describe('playing', () => {
     it('Starts playing a new sound on a track', async (done) => {
       const id = await store.dispatch('audio/playSound', { track: 'background', ...BASE_SOUND_OPTIONS })
@@ -597,6 +602,134 @@ describe ('VueX Audio module', () => {
         await fadePromise
 
         done()
+      })
+    })
+
+    describe('Fade and stop', () => {
+      it('Fades and stops a sound', async (done) => {
+        const { sound, id } = await playSound(store, 'background')
+
+        const startVol = 0.11
+        spyOn(sound, 'fade')
+        spyOn(sound, 'stop')
+        spyOn(sound, 'volume').and.returnValue(startVol)
+
+        const fadeConfig = { id, to: 1, duration: 100 }
+        const fadePromise = store.dispatch('audio/fadeAndStopSound', fadeConfig)
+
+        sound._emit('fade', id)
+        await fadePromise
+
+        expect(sound.fade.calls.count()).toEqual(1)
+        expect(sound.fade.calls.first().args).toEqual([ startVol, fadeConfig.to, fadeConfig.duration ])
+
+        expect(sound.stop.calls.count()).toEqual(1)
+        expect(sound.stop.calls.first().args)
+
+        done()
+      })
+
+      it('Fades stops and unloads a sound', async (done) => {
+        const { sound, id } = await playSound(store, 'background')
+
+        const startVol = 0.11
+        spyOn(sound, 'fade')
+        spyOn(sound, 'stop')
+        spyOn(sound, 'unload')
+        spyOn(sound, 'volume').and.returnValue(startVol)
+
+        const fadeConfig = { id, to: 1, duration: 100, unload: true }
+        const fadePromise = store.dispatch('audio/fadeAndStopSound', fadeConfig)
+
+        sound._emit('fade', id)
+        await fadePromise
+
+        expect(sound.fade.calls.count()).toEqual(1)
+        expect(sound.fade.calls.first().args).toEqual([ startVol, fadeConfig.to, fadeConfig.duration ])
+
+        expect(sound.stop.calls.count()).toEqual(1)
+        expect(sound.stop.calls.first().args)
+
+        expect(sound.unload.calls.count()).toEqual(1)
+        expect(sound.unload.calls.first().args)
+
+        done()
+      })
+
+      it('Fades and stops a track', async (done) => {
+        const { sound: sound1, id: id1 } = await playSound(store, 'background')
+        const { sound: sound2, id: id2 } = await playSound(store, 'background')
+
+        const startVol = 0.11
+        const sounds = store.getters['audio/getAllSounds']
+        for (const sound of sounds) {
+          spyOn(sound, 'fade')
+          spyOn(sound, 'stop')
+          spyOn(sound, 'volume').and.returnValue(startVol)
+        }
+
+        const fadeConfig = { to: 1, duration: 100 }
+        const fadePromise = store.dispatch('audio/fadeAndStopTrack', { track: 'background', ...fadeConfig })
+
+        for (const sound of sounds) {
+          expect(sound.fade.calls.count()).toEqual(1)
+          expect(sound.fade.calls.first().args).toEqual([ startVol, fadeConfig.to, fadeConfig.duration ] )
+
+          sound._emit('fade', sound._id)
+        }
+
+        await fadePromise
+
+        expect(sound1.stop.calls.count()).toEqual(1)
+        expect(sound2.stop.calls.count()).toEqual(1)
+
+        done()
+      })
+
+      it('Fades stops and unloads a track', async (done) => {
+        const wtf = new Vuex.Store({
+          strict: false,
+
+          modules: {
+            audio: AudioModule
+          }
+        })
+
+        const { sound: sound1, id: id1 } = await playSound(wtf, 'background')
+        const { sound: sound2, id: id2 } = await playSound(wtf, 'background')
+
+        const startVol = 0.11
+        const sounds = wtf.getters['audio/getAllSounds']
+        for (const sound of sounds) {
+          spyOn(sound, 'fade')
+          spyOn(sound, 'stop')
+          spyOn(sound, 'unload')
+          spyOn(sound, 'volume').and.returnValue(startVol)
+        }
+
+        const fadeConfig = { to: 1, duration: 100 }
+        const fadePromise = wtf.dispatch('audio/fadeAndStopTrack', { unload: true, track: 'background', ...fadeConfig })
+
+        for (const sound of sounds) {
+          expect(sound.fade.calls.count()).toEqual(1)
+          expect(sound.fade.calls.first().args).toEqual([ startVol, fadeConfig.to, fadeConfig.duration ] )
+
+          sound._emit('fade', sound._id)
+        }
+
+        await fadePromise
+
+        expect(sound1.stop.calls.count()).toEqual(1)
+        expect(sound1.unload.calls.count()).toEqual(1)
+
+        expect(sound2.stop.calls.count()).toEqual(1)
+        expect(sound2.unload.calls.count()).toEqual(1)
+
+        done()
+      })
+
+      it('Fades and stops a track', () => {
+
       })
     })
   })

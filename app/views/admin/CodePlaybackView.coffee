@@ -4,9 +4,9 @@ LZString = require 'lz-string'
 CodeLog = require 'models/CodeLog'
 aceUtils = require('core/aceUtils')
 utils = require 'core/utils'
-MusicPlayer = require 'lib/surface/MusicPlayer'
 
 template = require 'templates/admin/codeplayback-view'
+store = require 'app/core/store'
 
 module.exports = class CodePlaybackView extends CocoView
   id: 'codeplayback-view'
@@ -59,15 +59,11 @@ module.exports = class CodePlaybackView extends CocoView
 
   fun: ->
     if @spade.speed is 8 and @spade.playback
-      me.set('music', true)
-      me.set('volume', 1)
-      unless @musicPlayer
-        musicFile = 'https://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.mp3'
-        @musicPlayer = new MusicPlayer()
-        Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
-    else
-      @musicPlayer?.destroy()
-      @musicPlayer = undefined
+      store.dispatch('audio/playSound', {
+        track: 'background'
+        loop: true
+        src: 'https://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.mp3'
+      })
 
   onSpeedButtonClicked: (e) ->
     @spade.speed = $(e.target).data('speed')
@@ -96,5 +92,5 @@ module.exports = class CodePlaybackView extends CocoView
 
   destroy: ->
     @clearPlayback()
-    @musicPlayer?.destroy()
+    store.dispatch('audio/fadeAndStopAll', { to: 0, duration: 1000, unload: true })
     super()

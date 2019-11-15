@@ -9,7 +9,6 @@ Campaign = require 'models/Campaign'
 AudioPlayer = require 'lib/AudioPlayer'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ThangType = require 'models/ThangType'
-MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 SubscribeModal = require 'views/core/SubscribeModal'
@@ -252,10 +251,6 @@ module.exports = class CampaignView extends RootView
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
     $(window).on 'resize', @onWindowResize
-    @probablyCachedMusic = storage.load("loaded-menu-music")
-    musicDelay = if @probablyCachedMusic then 1000 else 10000
-    delayMusicStart = => _.delay (=> @playMusic() unless @destroyed), musicDelay
-    @playMusicTimeout = delayMusicStart()
     @hadEverChosenHero = me.get('ozariaUserOptions')?.isometricThangTypeOriginal
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
@@ -265,11 +260,9 @@ module.exports = class CampaignView extends RootView
     if utils.getQueryVariable('hour_of_code') or @terrain is "hoc-2018"
       if not sessionStorage.getItem(@terrain)
         sessionStorage.setItem(@terrain, "seen-modal")
-        clearTimeout(@playMusicTimeout)
         setTimeout(=>
             @openModalView new HoCModal({
-              showVideo: @terrain is "hoc-2018",
-              onDestroy: delayMusicStart,
+              showVideo: @terrain is "hoc-2018"
             })
         , 0)
 
@@ -282,8 +275,6 @@ module.exports = class CampaignView extends RootView
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
-    @musicPlayer?.destroy()
-    clearTimeout @playMusicTimeout
     @particleMan?.destroy()
     clearInterval @portalScrollInterval
     super()
@@ -1077,12 +1068,6 @@ module.exports = class CampaignView extends RootView
       return
     @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
     createjs.Tween.get(@ambientSound).to({volume: 0.5}, 1000)
-
-  playMusic: ->
-    @musicPlayer = new MusicPlayer()
-    musicFile = '/music/music-menu'
-    Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
-    storage.save("loaded-menu-music", true) unless @probablyCachedMusic
 
   checkForCourseOption: (levelOriginal) ->
     showButton = (courseInstance) =>
