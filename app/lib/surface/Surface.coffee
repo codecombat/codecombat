@@ -16,10 +16,10 @@ CoordinateGrid = require './CoordinateGrid'
 LankBoss = require './LankBoss'
 PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
-MusicPlayer = require './MusicPlayer'
 GameUIState = require 'models/GameUIState'
 createjs = require 'lib/createjs-parts'
 require 'jquery-mousewheel'
+store = require 'app/core/store'
 
 resizeDelay = 1  # At least as much as $level-resize-transition-time.
 
@@ -105,7 +105,6 @@ module.exports = Surface = class Surface extends CocoClass
       @listenTo(@gameUIState, 'surface:stage-mouse-move', @onWorldMouseMove)
     @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
-    @initAudio()
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -167,11 +166,6 @@ module.exports = Surface = class Surface extends CocoClass
     chooserOptions = stage: @webGLStage, surfaceLayer: @surfaceTextLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
     klass = if @options.choosing is 'point' then PointChooser else RegionChooser
     @chooser = new klass chooserOptions
-
-  initAudio: ->
-    @musicPlayer = new MusicPlayer()
-
-
 
   #- Setting the world
 
@@ -837,7 +831,7 @@ module.exports = Surface = class Surface extends CocoClass
     @coordinateGrid?.destroy()
     @normalStage.clear()
     @webGLStage.clear()
-    @musicPlayer?.destroy()
+    store.dispatch('audio/fadeAndStopAll', { to: 0, duration: 1000, unload: true })
     @trailmaster?.destroy()
     @normalStage.removeAllChildren()
     @webGLStage.removeAllChildren()

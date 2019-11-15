@@ -3,7 +3,7 @@ ScriptModule = require './ScriptModule'
 currentMusic = null
 standingBy = null
 
-{me} = require('core/auth')
+store = require 'app/core/store'
 
 module.exports = class SoundScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->
@@ -12,7 +12,7 @@ module.exports = class SoundScriptModule extends ScriptModule
   startNotes: ->
     notes = []
     notes.push(@addSuppressSelectionSoundsNote()) if @noteGroup.sound.suppressSelectionSounds?
-    notes.push(@addMusicNote()) if @noteGroup.sound.music?
+    notes.push(@addMusicNote()) if @noteGroup.sound.music? and @noteGroup.sound.music.file?
     return notes
 
   endNotes: ->
@@ -29,6 +29,12 @@ module.exports = class SoundScriptModule extends ScriptModule
 
   addMusicNote: ->
     note =
-      channel: 'music-player:play-music'
-      event: @noteGroup.sound.music
+      vuex: true
+      channel: 'audio/playSound'
+      event: {
+        track: 'background'
+        src: [ "/file/#{@noteGroup.sound.music.file}.ogg", "/file/#{@noteGroup.sound.music.file}.mp3" ]
+        loop: true
+      }
+
     return note
