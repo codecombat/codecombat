@@ -43,9 +43,6 @@ compile = (contents, locals, filename, cb) ->
 
   try
     locals = _.merge({_, i18n}, locals, require './static-mock')
-
-    locals.chinaInfra = true
-
     # NOTE: do NOT add more build env-driven feature flags here if at all possible.
     # NOTE: instead, use showingStaticPagesWhileLoading (in static-mock) to delay/hide UI until features flags loaded
     locals.me.useDexecure = -> not (locals.chinaInfra ? false)
