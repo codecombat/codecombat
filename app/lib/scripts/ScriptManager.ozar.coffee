@@ -10,6 +10,7 @@ allScriptModules.push(require './SurfaceScriptModule')
 allScriptModules.push(require './PlaybackScriptModule')
 allScriptModules.push(require './SoundScriptModule')
 
+store = require 'app/core/store'
 
 DEFAULT_BOT_MOVE_DURATION = 500
 DEFAULT_SCRUB_DURATION = 1000
@@ -278,7 +279,13 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
-    Backbone.Mediator.publish note.channel, note.event ? {}
+    if note.vuex
+      store.dispatch(
+        note.channel,
+        note.event ? {}
+      )
+    else
+      Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES
 

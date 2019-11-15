@@ -27,7 +27,6 @@ module.exports = class LevelPlaybackView extends CocoView
     'playback:stop-cinematic-playback': 'onStopCinematicPlayback'
 
   events:
-    'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish 'camera:zoom-in', {} unless @shouldIgnore()
     'click #zoom-out-button': -> Backbone.Mediator.publish 'camera:zoom-out', {} unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
@@ -43,15 +42,10 @@ module.exports = class LevelPlaybackView extends CocoView
     '⌘+], ctrl+]': 'onScrubForward'
     '⌘+⇧+], ctrl+⇧+]': 'onSingleScrubForward'
 
-  constructor: ->
-    super(arguments...)
-    me.on('change:music', @updateMusicButton, @)
-
   afterRender: ->
     super()
     @$progressScrubber = $('.scrubber .progress', @$el)
     @hookUpScrubber() unless @options.level.isType('game-dev')
-    @updateMusicButton()
     $(window).on('resize', @onWindowResize)
     ua = navigator.userAgent.toLowerCase()
     if /safari/.test(ua) and not /chrome/.test(ua)
@@ -85,9 +79,6 @@ module.exports = class LevelPlaybackView extends CocoView
       "#{mins}:#{@pad2 secs}"
 
   # callbacks
-
-  updateMusicButton: ->
-    @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
     return if @realTime or @cinematic
@@ -337,14 +328,7 @@ module.exports = class LevelPlaybackView extends CocoView
     Backbone.Mediator.publish 'level:set-volume', volume: volumes[newI]
     $(document.activeElement).blur()
 
-  onToggleMusic: (e) ->
-    e?.preventDefault()
-    me.set('music', not me.get('music', true))
-    me.patch()
-    $(document.activeElement).blur()
-
   destroy: ->
-    me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)
     @onWindowResize = null
     super()

@@ -103,17 +103,12 @@
 
     beforeDestroy () {
       if (this.ambientSound) {
-        this.fadeTrack({
+        this.fadeAndStopTrack({
           track: 'background',
           to: 0,
-          duration: 1500
+          duration: 1500,
+          unload: true
         })
-          .then(() =>
-            this.stopTrack({
-              track: 'background',
-              unload: true
-            })
-          )
       }
     },
 
@@ -124,6 +119,7 @@
 
         playSound: 'audio/playSound',
         fadeTrack: 'audio/fadeTrack',
+        fadeAndStopTrack: 'audio/fadeAndStopTrack',
         stopTrack: 'audio/stopTrack'
       }),
 

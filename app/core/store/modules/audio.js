@@ -511,6 +511,41 @@ export default {
       }
 
       sound.mute(false)
+    },
+
+    /**
+     * Fades all sounds and stops those sounds after fading.  Takes the same
+     * options as fadeAll and stopAll.
+     */
+    fadeAndStopAll ({ dispatch, state }, opts) {
+      const fades = Object.keys(state.tracks)
+        .map(track => dispatch('fadeAndStopTrack', { ...opts, track }))
+
+      return Promise.all(fades)
+    },
+
+    /**
+     * Fades all sounds on a track and stops those sounds after fades are complete
+     *
+     * @param opts {object}
+     * @param opts.fadeOpts {@see fadeTrack}
+     * @param opts.unload {boolean} cleanup sounds after stop
+     */
+    async fadeAndStopTrack ({ dispatch }, { unload, ...fadeOpts }) {
+      await dispatch('fadeTrack', fadeOpts)
+      await dispatch('stopTrack', { track: fadeOpts.track, unload })
+    },
+
+    /**
+     * Fades a sound and stops it after fades are complete
+     *
+     * @param opts {object}
+     * @param opts.fadeOpts {@see fadeTrack}
+     * @param opts.unload {boolean} cleanup sound after stop
+     */
+    async fadeAndStopSound ({ dispatch }, { unload, ...fadeOpts }) {
+      await dispatch('fadeSound', fadeOpts)
+      await dispatch('stopSound', { id: fadeOpts.id, unload })
     }
   }
 }
