@@ -170,7 +170,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     legal: "Legal"
     privacy: "Privacidad"
     about: "Acerca"
-#    impact: "Impact"
+    impact: "Impacto"
     contact: "Contacto"
     twitter_follow: "Seguir"
     my_classrooms: "Mis clases"
@@ -195,11 +195,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     resource_hub: "Centro de recursos"
     apcsp: "Principios AP CS"
     parent: "Padres"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Cerrar"
     okay: "OK"
-#    cancel: "Cancel"
+    cancel: "Cancelar"
 
   not_found:
     page_not_found: "Página no encontrada"
@@ -213,12 +214,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     subscribe_as_diplomat: "Suscríbete como un Diplomático"
 
   play:
-#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
-#    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
+    title: "Juega los Niveles de - Aprende Python, JavaScript, y HTML"
+    meta_description: "Aprende a programar con un juego de programacion para principiantes. Aprende Python o JavaScript mientras resuelves laberintos, creas tus propios juegos, y subes de nivel. Reta a tus amigos en los niveles de arenas multijugador!"
+    level_title: "__nivel__ - Aprende a programar en Python, JavaScript, HTML"
+    video_title: "__video__ | Video de Nivel"
+    game_development_title: "__nivel__ | Desarollo de Juegos"
+    web_development_title: "_nivel__ | Desarrollo de Paginas Web"
     anon_signup_title_1: "CodeCombat tiene un"
     anon_signup_title_2: "¡Versión de aula!"
     anon_signup_enter_code: "Ingresa el código de la clase:"
@@ -433,8 +434,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     books: "Libros"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    default_title: "CodeCombat - Juegos de programacion para aprender Python y JavaScript"
+    default_meta_description: "Aprende codigos a traves de un juego de programacion. Aprende Python, JavaScript, y HTML mientras resuelves laberintos y aprendes a programar tus propios juegos y sitios web."
     back: "Atrás" # When used as an action verb, like "Navigate backward"
     coming_soon: "¡Próximamente!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
@@ -466,9 +467,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submit_changes: "Enviar cambios"
     save_changes: "Guardar cambios"
     required_field: "Requisito necesario" # {change}
-#    submit: "Submit"
-#    replay: "Replay"
-#    complete: "Complete"
+    submit: "Enviar"
+    replay: "Repetir"
+    complete: "Completar"
 
   general:
     and: "y"
@@ -601,8 +602,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     reload_title: "¿Recargar Todo el Código?"
     reload_really: "¿Estás seguro de que quieres empezar este nivel desde el principio?"
     reload_confirm: "Recargar Todo"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
-#    restart_confirm: "Yes, Restart"
+    restart_really: "¿Quieres reiniciar este nivel? Perderas todo el codigo que has escrito."
+    restart_confirm: "Sí, Reiniciar"
     test_level: "Probar Nivel"
     victory: "Victoria"
     victory_title_prefix: "¡"
@@ -627,7 +628,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tome_cast_button_run: "Ejecutar"
     tome_cast_button_running: "Ejecutando"
     tome_cast_button_ran: "Ejecutado"
-#    tome_cast_button_update: "Update"
+    tome_cast_button_update: "Actualizar"
     tome_submit_button: "Enviar"
     tome_reload_method: "Recargar código original para este método" # {change}
     tome_available_spells: "Hechizos Disponibles"
@@ -730,12 +731,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     learn_new_concepts: "Aprende nuevos conceptos"
     watch_a_video: "Mira un video de __concept_name__"
     concept_unlocked: "Concepto desbloqueado"
-#    use_at_least_one_concept: "Use at least one concept: "
-#    command_bank: "Command Bank"
-#    learning_goals: "Learning Goals"
-#    start: "Start"
+    use_at_least_one_concept: "Usa al menos un concepto: "
+    command_bank: "Banco de Comandos"
+    learning_goals: "Metas de Aprendizaje"
+    start: "Iniciar"
 #    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    click_to_continue: "Click para Continuar"
 
   apis:
     methods: "Métodos"
@@ -1641,6 +1642,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classes: "Clases"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "¡Sé el primero en publicar un proyecto en este curso!"
@@ -2938,7 +2942,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3005,3 +3009,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"

@@ -1,0 +1,143 @@
+extends /templates/base-flat.jade
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
+
+block content
+  if !me.isTeacher() && view.ownedClassrooms.size() && !me.isAdmin()
+    .alert.alert-danger.text-center
+      .container
+        //- DNT: Temporary
+        h3 ATTENTION: Please upgrade your account to a Teacher Account.
+        p
+          | We are transitioning to a new improved classroom management system for instructors.
+          | Please convert your account to ensure you retain access to your classrooms.
+        a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
+
+  .container(dir="auto")
+    h1(data-i18n="nav.courses")
+    h2(data-i18n="courses.subtitle")
+    //- p
+    //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
+
+  .courses.container(dir="auto")
+    - var courses = view.courses.models;
+    - var courseIndex = 0;
+    while courseIndex < courses.length
+      - var course = courses[courseIndex];
+      - courseIndex++;
+      .course.row
+        .col-sm-9
+          +course-info(course)
+        if me.isTeacher() || me.isAdmin()
+          .col-sm-3
+            .play-level-form(data-course-id=course.id)
+              .form-group
+                label.control-label
+                  span(data-i18n="courses.select_language")
+                  | :
+                  select.language-select.form-control
+                    //- TODO: Automate this list @scott
+                    //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
+                    if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_1
+                      option(value="javascript")
+                        | HTML
+                    else if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_2
+                      option(value="javascript")
+                        | HTML / JavaScript
+                    else
+                      option(value="python")
+                        | Python
+                      option(value="javascript")
+                        | JavaScript
+              .form-group
+                label.control-label
+                  span(data-i18n="courses.select_level")
+                  | :
+                  select.level-select.form-control
+                    if view.campaigns.loaded
+                      - var campaign = view.campaigns.get(course.get('campaignID'))
+                      if campaign && view.campaignLevelNumberMap[campaign.id]
+                        each level, levelIndex in campaign.getLevels().models
+                          option(value=level.get('slug'))
+                            if level.get('assessment')
+                              if level.get('assessment') === 'cumulative'
+                                =$.t('play_level.combo_challenge')
+                              else
+                                =$.t('play_level.concept_challenge')
+                              =":"
+                            else
+                              span #{view.campaignLevelNumberMap[campaign.id][level.get('original')]}.
+                            = " "
+                            span
+                              = i18n(level.attributes, 'name').replace('Course: ', '')
+              - var disablePlayButtons = !view.paidTeacher && features.china && !(me.canAccessCampaignFreelyFromChina(course.get('campaignID')))
+              a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
+                span(data-i18n="courses.play_level")
+            .clearfix
+  
+  #video-modal.modal(data-show="false")
+    .modal-dialog
+      .modal-content.video-wrapper
+          iframe.video-player(frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          .video-close-btn.btn.well.well-sm.well-parchment(data-dismiss="modal")
+            span.glyphicon.glyphicon-remove
+
+mixin course-info(course)
+  - var campaign = view.campaigns.get(course.get('campaignID'));
+  .course-info
+    .text-h4.semibold
+      = i18n(course.attributes, 'name')
+    p= i18n(course.attributes, 'description')
+    p.concepts.semibold
+      span(data-i18n="courses.concepts_covered")
+      = ": "
+      each concept in course.get('concepts')
+        span(data-i18n="concepts." + concept)
+        if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
+          span.spr ,
+
+    if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_2
+      p
+        i(data-i18n="courses.web_dev_language_transition")
+
+    if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
+      - var disableButtons = !view.paidTeacher && (features.china ? !me.canAccessCampaignFreelyFromChina(course.get('campaignID')) : !course.get('free'))
+      if disableButtons
+        p
+          i(data-i18n="courses.solutions_require_licenses")
+      //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
+      if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_1
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; HTML
+      else
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; JavaScript
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; Python
+
+    if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
+      - var levelNameMap = campaign.getLevelNameMap()
+      .row.m-t-3
+        each videoLevel, originalId in view.videoLevels
+          .col-sm-4
+            span.video-title.semibold.small(data-i18n=`courses.${videoLevel.i18name}`)
+            img.video-thumbnail(src="#{videoLevel.thumbnail_unlocked}")
+            p.video-text.small
+              span (
+              span(data-i18n="courses.video_shown_before", data-i18n-options={level:levelNameMap[originalId]})
+              span )
+    
+    if Object.keys(view.courseChangeLog[course.id] || []).length > 0
+      p
+        div.course-change-log
+          i.btn-link.show-change-log.small(data-i18n="courses.show_change_log") 
+          div.hidden.change-log
+            each messages, date in view.courseChangeLog[course.id]
+              span.semibold.small #{date}
+              ul
+                each m in messages
+                  li.small #{m.message}     

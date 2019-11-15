@@ -195,6 +195,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     resource_hub: "Centre de ressource"
     apcsp: "Principes AP CS"
     parent: "Parents"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Fermer"
@@ -1641,6 +1642,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "Soyez le premier à publier un projet dans ce cours !"
@@ -2938,7 +2942,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     send: "Envoyer un courriel"
 
   hoc_2018:
-    banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !"
+    banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !" # {change}
     page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
     step_1: "Étape 1 : Regarder la vidéo Aperçu"
     step_2: "Étape 2 : Essayez-le vous-même"
@@ -3005,3 +3009,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"

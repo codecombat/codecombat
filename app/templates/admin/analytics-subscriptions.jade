@@ -1,0 +1,161 @@
+extends /templates/base-flat.jade
+
+block content
+
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+  else
+
+    if total === 0
+      h4= refreshDataState
+    else
+      .container-fluid
+        .row
+          .col-md-5.big-stat.total-count
+            div.description Total
+            div.count= total
+          .col-md-5.big-stat.remaining-count
+            div.description Remaining
+            div.count= total - outstandingCancels.length
+          .col-md-5.big-stat.cancelled-count
+            div.description Cancels Outstanding
+            div.count= outstandingCancels.length
+          .col-md-5.big-stat.growth-rate
+            div.description 30 Day Total Growth
+            div.count #{monthlyGrowth.toFixed(1)}%
+          .col-md-5.big-stat.churn-count
+            div.description 30 Day Churn (cancelled / total)
+            div.count #{monthlyChurn.toFixed(1)}%
+
+      each graph in analytics.graphs
+        .line-graph-container
+          each line in graph.lines
+            each point in line.points
+              .graph-point-info-container(data-pointid="#{point.pointID}")
+                div(style='font-weight:bold;') #{point.day}
+                each value in point.values
+                  div #{value}
+
+    h2 Recent Subscribers
+    if !subscribers || subscribers.length < 1
+      h4= refreshDataState
+    else
+      table.table.table-striped.table-condensed
+        thead.subscribers-thead
+          tr
+            th Sub ID
+            th User Start
+            th Sub Start
+            if subscriberCancelled
+              th Cancelled
+            else
+              th
+            th Conversion
+            th Email
+            th Hero
+            th Level
+            th Age
+            th Spoken
+            th Clans
+        tbody.subscribers-tbody
+          each subscriber in subscribers
+            tr
+              td
+                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
+              td= subscriber.user.dateCreated.substring(0, 10)
+              td= subscriber.start.toISOString().substring(0, 10)
+              td
+                if subscriber.cancel
+                  span= subscriber.cancel.toISOString().substring(0, 10)
+              td
+                if subscriber.user.stripe && subscriber.user.stripe.sponsorID
+                  span *sponsored*
+                else if subscriber.user.conversion
+                  span= subscriber.user.conversion
+              if subscriber.user.deleted
+                td DELETED
+              else
+                td= subscriber.user.emailLower
+              td= subscriber.hero
+              td= subscriber.level
+              td= subscriber.user.ageRange
+              td= subscriber.user.preferredLanguage
+              if subscriber.user.clans
+                td= subscriber.user.clans.length
+              else
+                td
+
+    h2 Recent Cancellations
+    if !cancellations || cancellations.length < 1
+      h4= refreshDataState
+    else
+      table.table.table-striped.table-condensed
+        thead.subscribers-thead
+          tr
+            th Sub ID
+            th User ID
+            th User Start
+            th Sub Start
+            th Sub Cancel
+            th Length
+            th Level
+            th Age
+            th Spoken
+            th Clans
+        tbody.subscribers-tbody
+          each cancellation in cancellations
+            tr
+              td
+                a(href="https://dashboard.stripe.com/customers/#{cancellation.customerID}", target="_blank")= cancellation.subscriptionID
+              if cancellation.userID
+                td
+                  a(href="/user/#{cancellation.userID}")= cancellation.userID
+              else
+                td
+              if cancellation.user
+                td= cancellation.user.dateCreated.substring(0, 10)
+              else
+                td
+              td= cancellation.start.toISOString().substring(0, 10)
+              td= cancellation.cancel.toISOString().substring(0, 10)
+              td= moment.duration(cancellation.cancel - cancellation.start).humanize()
+              td= cancellation.level
+              if cancellation.user
+                td= cancellation.user.ageRange
+                td= cancellation.user.preferredLanguage
+                if cancellation.user.clans
+                  td= cancellation.user.clans.length
+                else
+                  td
+              else
+                td
+                td
+                td
+                td
+      if !showMoreCancellations
+        button.btn.btn-sm.btn-show-more-cancellations Show More Cancellations
+
+    h2 Subscriptions
+    if !subs || subs.length < 1
+      h4= refreshDataState
+    else
+      table.table.table-condensed
+        thead
+          tr
+            th Day
+            th Total
+            th Started
+            th Cancelled
+            th Net (cancelled)
+            th Ended
+            th Net (ended)
+        tbody
+          each sub in subs
+            tr
+              td= sub.day
+              td= sub.total
+              td= sub.started
+              td= sub.cancelled
+              td= sub.started - sub.cancelled
+              td= sub.ended
+              td= sub.started - sub.ended

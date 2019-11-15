@@ -1,0 +1,52 @@
+//- DNT
+
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  h3 Load Branch
+
+block modal-body-content
+  .container-fluid
+    .row
+      .col-sm-2
+        #branches-list-group.list-group
+          for branch, i in view.branches.models
+            a.list-group-item(class=(i == 0 ? 'active' : ''), data-branch-cid=branch.cid)
+              span.delete-branch-btn.glyphicon.glyphicon-remove.pull-right
+              = branch.get('name')
+              div.small
+                i= branch.get('updatedByName')
+                br
+                span= moment(branch.get('updated')).format('lll')
+            
+      #selected-branch-col.col-sm-10
+        if view.selectedBranch
+          .container-fluid
+            .row
+              .col-sm-6
+                h2 Original Changes
+              .col-sm-6
+                h2 Resulting Changes if Loaded
+          
+            for patch in view.selectedBranch.get('patches')
+              hr
+              h4
+                = patch.postLoadChange.get('name')
+                if patch.modelHasChangedSincePatchCreated
+                  =" "
+                  i.label.label-warning Document has changed since patch was created
+                if patch.currentModelHasLocalChanges
+                  =" "
+                  i.label.label-danger Local Changes Will Be Overwritten
+                if !patch.applied
+                  =" "
+                  i.label.label-danger Patch could not be applied
+              .row
+                .col-sm-6(data-patch-id=patch.id)
+                  .changes-stub(data-patch-id=patch.id, data-prop="original-change")
+                .col-sm-6(data-patch-id=patch.id)
+                  .changes-stub(data-patch-id=patch.id, data-prop="post-load-change")
+
+block modal-footer-content
+  button#unstash-branch-btn.btn.btn-primary Unstash Branch
+  button#load-branch-btn.btn.btn-primary Load Branch

@@ -1,0 +1,35 @@
+extends /templates/base-flat.jade
+
+//- TODO: i18n
+
+block content
+  .container.text-center
+    if state.get('status') === 'loading'
+      span(data-i18n="account.verifying_email")
+        | Verifying your email address...
+    else
+      if state.get('keepMeUpdatedSuccess')
+        .alert.alert-success
+          div Thanks! You’ve successfully opted into receiving announcements and updates from CodeCombat.
+      if state.get('keepMeUpdatedError')
+        .alert.alert-danger
+          div Error, could not keep you updated
+      if state.get('noDeleteEUSuccess')
+        .alert.alert-success
+          div Thanks for letting us know to keep your account! Sign in to start playing again.
+      if state.get('noDeleteEUError')
+        .alert.alert-danger
+          div Error, will not keep your account.
+      
+      if view.promptKeepMeUpdated
+        p
+          div Thanks for letting us know to keep your account!
+        p
+          div Want to opt into receiving announcements and updates from CodeCombat? 
+        p
+          a.keep-me-updated-btn.btn.btn-navy.btn-lg Yes, keep me updated
+      if me.isAnonymous()
+        p
+          div Sign in to start playing again. 
+        p
+          a.login-button.btn.btn-navy.btn-lg(data-i18n="login.log_in")

@@ -195,11 +195,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     resource_hub: "Resource Hub"
     apcsp: "AP CS Prinzipien"
     parent: "Eltern"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Schließen"
     okay: "Okay"
-#    cancel: "Cancel"
+    cancel: "Abbrechen"
 
   not_found:
     page_not_found: "Tut uns leid! Wir haben die Seite nicht gefunden"
@@ -633,7 +634,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
     hints: "Tipps"
-#    videos: "Videos"
+    videos: "Videos"
     hints_title: "Tipp {{number}}"
     code_saved: "Code gespeichert"
     skip_tutorial: "Überspringen (Esc)"
@@ -1641,6 +1642,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -2938,7 +2942,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     send: "Email senden"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3005,3 +3009,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"

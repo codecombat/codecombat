@@ -22,7 +22,6 @@ ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
-CourseInstance = require 'models/CourseInstance'
 AnnouncementModal = require 'views/play/modal/AnnouncementModal'
 codePlay = require('lib/code-play')
 MineModal = require 'views/core/MineModal' # Minecraft modal
@@ -1361,6 +1360,7 @@ module.exports = class CampaignView extends RootView
     found = false
     prev = null
     lastNormalLevel = null
+    lockedByTeacher = false
     for level, levelIndex in courseOrder
       playerState = @levelStatusMap[level.slug]
       level.color = 'rgb(255, 80, 60)'
@@ -1393,6 +1393,12 @@ module.exports = class CampaignView extends RootView
           level.hidden = false
 
       level.noFlag = !level.next
+
+      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
+        lockedByTeacher = true
+      if lockedByTeacher and me.showCourseProgressControl()
+        level.locked = true
+
       if level.locked
         level.color = 'rgb(193, 193, 193)'
       else if level.practice
@@ -1406,6 +1412,7 @@ module.exports = class CampaignView extends RootView
       prev = level
       if not @campaign.levelIsPractice(level) and not @campaign.levelIsAssessment(level)
         lastNormalLevel = level
+
     return true
 
   shouldShow: (what) ->

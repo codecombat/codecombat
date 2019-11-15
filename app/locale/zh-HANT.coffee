@@ -195,6 +195,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
     parent: "雙親"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "關閉"
@@ -1641,6 +1642,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1861,7 +1865,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     wd1: "網頁開發 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
 #    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
-    wd1_headlines: "標題以及標題activity"
+    wd1_headlines: "標題以及標題活動"
     wd1_headlines_example: "觀看解答範本"
     wd1_headlines_desc: "為甚麼段落和標題很重要呢? 用這些activity來說明選擇好的標題可以讓網頁更容易閱讀。 這裡有許多正確的使用方式!"
     wd1_html_syntax: "HTML 語法引導"
@@ -2938,7 +2942,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3005,3 +3009,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
