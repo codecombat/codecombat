@@ -619,9 +619,9 @@ module.exports = class User extends CocoModel
   hideDiplomatModal: -> features?.china ? false
   showChinaRemindToast: -> features?.china ? false
   showOpenResourceLink: -> not (features?.china ? false)
-  shouldUpsell: -> (not (features?.china ? false)) and (@get('preferredLanguage') isnt 'nl-BE')
+  useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
 
-  # Ozaria flags
+# Ozaria flags
   showOzariaCampaign: -> @isAdmin()
   hasCinematicAccess: -> @isAdmin()
   hasCharCustomizationAccess: -> @isAdmin()
