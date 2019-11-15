@@ -48,6 +48,7 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useDexecure = -> not (locals.chinaInfra ? false)
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
+    locals.me.useSnowPlow = -> not (locals.chinaInfra ? false)
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath
