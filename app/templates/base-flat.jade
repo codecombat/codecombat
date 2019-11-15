@@ -43,12 +43,6 @@ mixin accountLinks
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
 
-            if view.isOldBrowser()
-              .navbar-browser-recommendation.navbar-header
-                .nav-spacer
-                  .navbar-nav
-                    a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/", data-i18n="nav.browser_recommendation")
-
             if !serverConfig.static
               #navbar-collapse.collapse.navbar-collapse
                 .nav-spacer
