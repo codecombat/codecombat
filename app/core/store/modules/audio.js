@@ -93,21 +93,25 @@ export default {
     /**
      * Plays all tracks.  Noop when already playing.
      */
-    playAll ({ state, dispatch }) {
+    async playAll ({ state, dispatch }) {
       const plays = Object.keys(state.tracks)
         .map(track => dispatch('playTrack', track))
 
-      return Promise.all(plays)
+      const ids = await Promise.all(plays)
+      return ids.flat()
     },
 
     /**
      * Pauses all tracks.  Noop when already paused.
+     *
+     * @return Array of IDs of the paused sounds
      */
-    pauseAll ({ state, dispatch }) {
+    async pauseAll ({ state, dispatch }) {
       const pauses = Object.keys(state.tracks)
         .map(track => dispatch('pauseTrack', track))
 
-      return Promise.all(pauses)
+      const ids = await Promise.all(pauses)
+      return ids.flat()
     },
 
     /**
@@ -116,14 +120,17 @@ export default {
      * tracks regardless of play state for each track.
      *
      * @param opts.unload {boolean} Unload sound from memory
+     *
+     * @return Array of sound IDs that were stopped
      */
-    stopAll ({ state, dispatch }, opts = {}) {
+    async stopAll ({ state, dispatch }, opts = {}) {
       const unload = opts.unload
 
       const stops = Object.keys(state.tracks)
         .map(track => dispatch('stopTrack', { track, unload }))
 
-      return Promise.all(stops)
+      const ids = await Promise.all(stops)
+      return ids.flat()
     },
 
     /**
@@ -131,6 +138,8 @@ export default {
      *
      * @param track {string} name of track to play
      * @throws {Error} when invalid track specified
+
+     * @return Array of IDs of the played sounds
      */
     playTrack ({ state, dispatch }, track) {
       const trackData = state.tracks[track]
@@ -172,6 +181,8 @@ export default {
      *
      * @param opts.track {string} name of track to stop
      * @param opts.unload {boolean} unload / cleanup the sound
+     *
+     * @return Array of sound IDs that were stopped
      *
      * @throws {Error} when invalid track specified
      */
@@ -222,7 +233,7 @@ export default {
         }
 
         sound.play()
-        return id;
+        return id
       }
 
       if (!getters.hasTrack(opts.track)) {
@@ -247,6 +258,8 @@ export default {
      *
      * @param id {string} ID of the sound to pause.
      *
+     * @return The ID of the paused sound
+     *
      * @throws {Error} when invalid ID specified
      */
     pauseSound ({ getters }, id) {
@@ -256,6 +269,8 @@ export default {
       }
 
       sound.pause()
+
+      return id
     },
 
     /**
@@ -267,6 +282,8 @@ export default {
      *
      * @param opts.id {string} ID of sound to stop
      * @param opts.unload {boolean} unload / cleanup sound
+     *
+     * @return The ID of the sound stopped
      *
      * @throws {Error} when invalid ID specified
      */
@@ -293,6 +310,8 @@ export default {
         sound.unload()
         commit('removeSound', id)
       }
+
+      return id
     },
 
     /**
@@ -302,12 +321,15 @@ export default {
      * @param opts.from {number|undefined} start volume between 0 and 1
      * @param opts.to {number} finish volume between 0 and 1
      * @param opts.duration {number} duration of fade in milliseconds
+     *
+     * @return Array of sound IDs that were faded
      */
-    fadeAll ({ state, dispatch }, { from, to, duration }) {
+    async fadeAll ({ state, dispatch }, { from, to, duration }) {
       const fades = Object.keys(state.tracks)
         .map(track => dispatch('fadeTrack', { track, from, to, duration }))
 
-      return Promise.all(fades)
+      const ids = await Promise.all(fades)
+      return ids.flat()
     },
 
     /**
@@ -318,6 +340,8 @@ export default {
      * @param opts.from {number|undefined} start volume between 0 and 1
      * @param opts.to {number} finish volume between 0 and 1
      * @param opts.duration {number} duration of fade in milliseconds
+     *
+     * @return Array of sound IDs that were faded
      *
      * @throws {Error} when invalid track specified
      */
@@ -342,6 +366,8 @@ export default {
      * @param opts.to {number} finish volume between 0 and 1
      * @param opts.duration {number} duration of fade in milliseconds
      *
+     * @return The ID of the sound faded
+     *
      * @throws {Error} when invalid ID specified
      */
     fadeSound ({ getters }, { id, from, to, duration }) {
@@ -356,7 +382,7 @@ export default {
 
       return new Promise((resolve) => {
         sound
-          .once('fade', resolve)
+          .once('fade', () => resolve(id))
           .fade(from, to, duration)
       })
     },
@@ -365,12 +391,14 @@ export default {
      * Sets volume of all tracks
      *
      * @param volume {number} volume between 0 and 1
+     * @return Array of IDs that volume was set on
      */
-    setVolume ({ state, dispatch }, volume) {
+    async setVolume ({ state, dispatch }, volume) {
       const volumes = Object.keys(state.tracks)
         .map(track => dispatch('setTrackVolume', { track, volume }))
 
-      return Promise.all(volumes)
+      const ids = await Promise.all(volumes)
+      return ids.flat()
     },
 
     /**
@@ -379,6 +407,8 @@ export default {
      * @param opts {object}
      * @param opts.track {string} track to adjust volume of
      * @param opts.volume {number} volume between 0 and 1
+     *
+     * @return Array of IDs that volume was set on
      *
      * @throws {Error} when invalid track specified
      */
@@ -402,6 +432,8 @@ export default {
      * @param opts.id {string} sound ID to adjust volume of
      * @param opts.volume {number} volume between 0 and 1
      *
+     * @return ID of sound that volume was set on
+     *
      * @throws {Error} when invalid ID specified
      */
     setSoundVolume ({ getters }, { id, volume }) {
@@ -411,30 +443,39 @@ export default {
       }
 
       sound.volume(volume)
+      return id
     },
 
     /**
      * Mutes all sounds regardless of current mute state.  Maintains volume
      * settings on sounds.
+     *
+     * @return IDs of sounds that were muted
      */
-    muteAll ({ state, dispatch, commit }) {
+    async muteAll ({ state, dispatch, commit }) {
       const mutes = Object.keys(state.tracks)
         .map(track => dispatch('muteTrack', track))
 
       commit('setMute', { track: 'all', muted: true })
-      return Promise.all(mutes)
+
+      const ids = await Promise.all(mutes)
+      return ids.flat()
     },
 
     /**
      * Unmutes all sounds regardless of current mute state.  Maintains volume
      * settings on sounds.
+     *
+     * @return IDs of sounds that were unmuted
      */
-    unmuteAll ({ state, dispatch, commit }) {
+    async unmuteAll ({ state, dispatch, commit }) {
       const unmutes = Object.keys(state.tracks)
         .map(track => dispatch('unmuteTrack', track))
 
       commit('setMute', { track: 'all', muted: false })
-      return Promise.all(unmutes)
+
+      const ids = await Promise.all(unmutes)
+      return ids.flat()
     },
 
     /**
@@ -442,6 +483,8 @@ export default {
      * settings on sounds.
      *
      * @param track {string} track to mute
+     *
+     * @return Array of sound IDs that were muted
      *
      * @throws {Error} when invalid track specified
      */
@@ -464,6 +507,8 @@ export default {
      *
      * @param track {string} track to unmute
      *
+     * @return Array of sound IDs that were unmuted
+     *
      * @throws {Error} when invalid track specified
      */
     unmuteTrack ({ state, dispatch, commit }, track) {
@@ -485,6 +530,8 @@ export default {
      *
      * @param id {string} song ID to mute
      *
+     * @return sound ID that was muted
+     *
      * @throws {Error} when invalid sound ID specified
      */
     muteSound ({ getters }, id) {
@@ -494,6 +541,7 @@ export default {
       }
 
       sound.mute(true)
+      return id
     },
 
     /**
@@ -501,6 +549,8 @@ export default {
      * settings on sound.
      *
      * @param id {string} song ID to unmute
+     *
+     * @return sound ID that was unmuted
      *
      * @throws {Error} when invalid sound ID specified
      */
@@ -511,17 +561,21 @@ export default {
       }
 
       sound.mute(false)
+      return id
     },
 
     /**
      * Fades all sounds and stops those sounds after fading.  Takes the same
-     * options as fadeAll and stopAll.
+     * options as fadeAll and stopAll
+     *
+     * @return Array of sound IDs that were faded and stopped
      */
-    fadeAndStopAll ({ dispatch, state }, opts) {
+    async fadeAndStopAll ({ dispatch, state }, opts) {
       const fades = Object.keys(state.tracks)
         .map(track => dispatch('fadeAndStopTrack', { ...opts, track }))
 
-      return Promise.all(fades)
+      const ids = await Promise.all(fades)
+      return ids.flat()
     },
 
     /**
@@ -530,10 +584,16 @@ export default {
      * @param opts {object}
      * @param opts.fadeOpts {@see fadeTrack}
      * @param opts.unload {boolean} cleanup sounds after stop
+     *
+     * @return Array of sound IDs that were faded and stopped
      */
     async fadeAndStopTrack ({ dispatch }, { unload, ...fadeOpts }) {
-      await dispatch('fadeTrack', fadeOpts)
-      await dispatch('stopTrack', { track: fadeOpts.track, unload })
+      const ids = await dispatch('fadeTrack', fadeOpts)
+
+      const stops = ids.map(id => dispatch('stopSound', { id, unload }))
+      await Promise.all(stops)
+
+      return ids
     },
 
     /**
@@ -542,10 +602,14 @@ export default {
      * @param opts {object}
      * @param opts.fadeOpts {@see fadeTrack}
      * @param opts.unload {boolean} cleanup sound after stop
+     *
+     * @return Sound ID that was faded and stopped
      */
     async fadeAndStopSound ({ dispatch }, { unload, ...fadeOpts }) {
       await dispatch('fadeSound', fadeOpts)
       await dispatch('stopSound', { id: fadeOpts.id, unload })
+
+      return fadeOpts.id
     }
   }
 }
