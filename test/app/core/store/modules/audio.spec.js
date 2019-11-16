@@ -12,8 +12,13 @@ function isPlayingOrQueued (sound) {
     (sound._queue || []).find(q => q.event === 'play') !== undefined
 }
 
-async function playSound (store, track) {
-  const id = await store.dispatch('audio/playSound', { track, ...BASE_SOUND_OPTIONS })
+async function playSound (store, track, opts = {}) {
+  const id = await store.dispatch('audio/playSound', {
+    track,
+    ...BASE_SOUND_OPTIONS,
+    ...opts
+  })
+
   const sound = store.getters['audio/getSoundById'](id)
 
   return { sound, id }
@@ -138,6 +143,64 @@ describe ('VueX Audio module', () => {
       expect(store.state.audio.tracks['background'].get(id)).toEqual(sound)
 
       done()
+    })
+
+    it('Automatically cleans up sound from state when non looping sound stops', async (done) => {
+      const { id, sound } = await playSound(store, 'background', { loop: false })
+
+      const numPlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
+      expect(numPlayingSounds).toEqual(1)
+
+      sound._emit('stop', id)
+
+      // Allow events listeners to fire
+      setTimeout(() => {
+        const numPlayingSoundsPostStop = Array.from(store.state.audio.tracks['background'].values()).length
+        expect(numPlayingSoundsPostStop).toEqual(0)
+
+        done()
+      }, 0)
+    })
+
+    describe('Deduplication', () => {
+      it('Does not play a sound when a unique key already exists', async (done) => {
+        await playSound(store, 'background', { unique: 'test' })
+
+        const numPrePlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
+
+        const { id } = await playSound(store, 'background', { unique: 'test' })
+        expect(id).toBeUndefined()
+
+        const numPostPlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
+        expect(numPostPlayingSounds).toEqual(numPrePlayingSounds)
+
+        done()
+      })
+
+      it('Plays the sound after a unique key has been stopped and unloaded', async (done) => {
+        const { id: origId } = await playSound(store, 'background', { unique: 'test' })
+
+        const numPrePlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
+
+        const { id: noPlayId } = await playSound(store, 'background', { unique: 'test' })
+        expect(noPlayId).toBeUndefined()
+
+        const numPostPlayingSounds = Array.from(store.state.audio.tracks['background'].values()).length
+        expect(numPostPlayingSounds).toEqual(numPrePlayingSounds)
+
+        store.dispatch('audio/stopSound', { id: origId, unload: true })
+
+        const numPostStopSounds= Array.from(store.state.audio.tracks['background'].values()).length
+        expect(numPostStopSounds).toEqual(0)
+
+        const { id: nextPlayId} = await playSound(store, 'background', { unique: 'test' })
+        expect(nextPlayId).toBeDefined()
+
+        const numSecondPlaySounds = Array.from(store.state.audio.tracks['background'].values()).length
+        expect(numSecondPlaySounds).toEqual(1)
+
+        done()
+      })
     })
   })
 
