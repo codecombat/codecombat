@@ -12,6 +12,11 @@ export default {
       ui: false
     },
 
+    unique: {
+      soundIdKeys: new Map(),
+      keys: new Set()
+    },
+
     // Tracks are groupings of sounds that can be played / paused / faded / muted together
     tracks: {
       background: new Map(),
@@ -38,6 +43,16 @@ export default {
 
     setMute (state, { track, muted }) {
       state.muted[track] = muted
+    },
+
+    addUniqueEntry (state, { unique, id }) {
+      state.unique.keys.add(unique)
+      state.unique.soundIdKeys.set(id, unique)
+    },
+
+    removeUniqueEntry (state, { unique, id }) {
+      state.unique.keys.delete(unique)
+      state.unique.soundIdKeys.delete(id)
     }
   },
 
@@ -223,7 +238,7 @@ export default {
      *
      * @throws {Error} when invalid ID specified
      */
-    playSound ({ getters, commit, state }, opts) {
+    playSound ({ getters, commit, state, dispatch }, opts) {
       if (typeof opts !== 'object') {
         const id = opts
 
@@ -240,7 +255,12 @@ export default {
         throw new Error('Invalid track specified')
       }
 
-      const { track, ...howlOpts } = opts
+      const { track, unique, ...howlOpts } = opts
+
+      if (unique && state.unique.keys.has(unique)) {
+          return
+      }
+
       const sound = new Howl({
         ...howlOpts,
 
@@ -249,7 +269,17 @@ export default {
 
       const soundId = sound.play()
 
+      if (!howlOpts.loop) {
+        sound.once(
+          'stop',
+          () => dispatch('stopSound', { id: soundId, unload: true }))
+      }
+
       commit('addSoundToTrack', { trackName: opts.track, soundId, sound })
+      if (opts.unique) {
+        commit('addUniqueEntry', { id: soundId, unique })
+      }
+
       return soundId
     },
 
@@ -287,7 +317,7 @@ export default {
      *
      * @throws {Error} when invalid ID specified
      */
-    stopSound ({ getters, commit }, opts) {
+    stopSound ({ getters, commit, state }, opts) {
       let unload
       let id
 
@@ -309,6 +339,9 @@ export default {
       if (unload) {
         sound.unload()
         commit('removeSound', id)
+        if (state.unique.soundIdKeys.has(id)) {
+          commit('removeUniqueEntry', { id, unique: state.unique.soundIdKeys.get(id) })
+        }
       }
 
       return id

@@ -820,7 +820,8 @@ module.exports = Surface = class Surface extends CocoClass
   destroy: ->
     @camera?.destroy()
     createjs.Ticker.removeEventListener('tick', @tick)
-    createjs.Sound.stop()
+    createjs.Sound.stop() # TODO remove this once sounds transitioned
+    store.dispatch('audio/fadeAndStopAll', { to: 0, duration: 1000, unload: true })
     layer.destroy() for layer in @normalLayers
     @lankBoss.destroy()
     @chooser?.destroy()
@@ -831,7 +832,6 @@ module.exports = Surface = class Surface extends CocoClass
     @coordinateGrid?.destroy()
     @normalStage.clear()
     @webGLStage.clear()
-    store.dispatch('audio/fadeAndStopAll', { to: 0, duration: 1000, unload: true })
     @trailmaster?.destroy()
     @normalStage.removeAllChildren()
     @webGLStage.removeAllChildren()
