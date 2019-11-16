@@ -580,6 +580,35 @@ describe ('VueX Audio module', () => {
         done()
       })
 
+      it('Only fades and stops songs present when fadeAndStopTrack dispatched', async (done) => {
+        await playSound(store, 'background')
+        await playSound(store, 'background')
+
+        const sounds = store.getters['audio/getTrackSounds']('background')
+        for (const sound of sounds) {
+          spyOn(sound, 'fade')
+        }
+
+        const fadeConfig = { track: 'background', from: 0.5, to: 1, duration: 100 }
+        const fadePromise = store.dispatch('audio/fadeTrack', fadeConfig)
+
+        const { sound: lateSound } = await playSound(store, 'background')
+        spyOn(lateSound, 'stop')
+
+        for (const sound of sounds) {
+          expect(sound.fade.calls.count()).toEqual(1)
+          expect(sound.fade.calls.first().args).toEqual([ fadeConfig.from, fadeConfig.to, fadeConfig.duration ] )
+
+          sound._emit('fade', sound._id)
+        }
+
+        await fadePromise
+
+        expect(lateSound.stop.calls.count()).toEqual(0)
+
+        done()
+      })
+
       it('Fades all sounds and returns promise that resolves when complete', async (done) => {
         await playSound(store, 'background')
         await playSound(store, 'ui')
