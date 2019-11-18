@@ -7737,8 +7737,13 @@ createjs.deprecate = function(fallbackMethod, name) {
 			var lank = this.lank || (this.parent ? (this.parent.lank || this.parent.parent ? this.parent.parent.lank : null) : null);
 			if (lank && lank.thang && lank.thang.pos && lank.thang.pos.distanceSquared) {
 				var thangWorldPos = lank.thang.pos;
-				if (thangWorldPos.distanceSquared(createjs.lastMouseWorldPos) > 100) {
-					// Not worth testing, too far. TODO: take zoom / thang size into account to be more precise?
+				// 2019-11-12: Chrome regression in hit testing performance makes us more aggressive on this check with some heuristics as to how big a Thang could be
+				var xDist = Math.abs(thangWorldPos.x - createjs.lastMouseWorldPos.x);
+				var yDist = Math.abs(thangWorldPos.y + ((lank.thang.depth || 1) / 2 + (lank.thang.height || 1) / 2) - createjs.lastMouseWorldPos.y);
+				var xDistThreshold = Math.min(10, 1.25 * Math.max(lank.thang.width || 1) + 1);
+				var yDistThreshold = Math.min(10, 1.25 * Math.max((lank.thang.height || 1) + (lank.thang.depth || 1), 1) + 1);
+				if (xDist > xDistThreshold || yDist > yDistThreshold) {
+					// Not worth testing, too far.
 					return null;
 				}
 			}
