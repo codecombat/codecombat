@@ -43,7 +43,10 @@ block content
         .arrow-down
         .right-arrow-side
       .videoWrapper
-        iframe(src="https://www.youtube.com/embed/prJJvvI3WJM?modestbranding=1&rel=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+        if me.showChinaVideo()
+          video(src="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/aojiarui-home.mp4" controls="controls" width="100%" poster="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/home-video-poster.jpg")
+        else
+          iframe(src="https://www.youtube.com/embed/prJJvvI3WJM?modestbranding=1&rel=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
 
     .row.row-dark
       .row.width-container
