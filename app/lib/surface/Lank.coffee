@@ -9,6 +9,8 @@ ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 createjs = require 'lib/createjs-parts'
 
+store = require 'core/store'
+
 # We'll get rid of this once level's teams actually have colors
 healthColors =
   ogres: [64, 128, 212]
@@ -759,19 +761,40 @@ module.exports = Lank = class Lank extends CocoClass
         sound = AudioPlayer.soundForDialogue @thang.sayMessage, @thangType.get 'soundTriggers'
         @playSound sound, false, volume
 
+  # Sounds dont loop and never stop
+  # Sounds don't play duplicate levels
   playSound: (sound, withDelay=true, volume=1.0) ->
+    # Sounds are triggered once and play until they complete.  If a sound is already playing it
+    # is not played again.  These constraints allow us to wait until the thang type is loaded to
+    # play sounds.
+    if @thangType.loading || !@thangType.loaded
+      @thangType.once('sync', => @playSound(sound, withDelay, volume))
+      return
+
+    soundKey = undefined
+
     if _.isString sound
+      soundKey = sound
       soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
       sound = soundTriggers?[sound]
+
     if _.isArray sound
+      soundKey = sound.reduce((x, y) => "#{x}|#{y}")
       sound = sound[Math.floor Math.random() * sound.length]
+
     return null unless sound
+
+    # TODO integrate delay
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
-    name = AudioPlayer.nameForSoundReference sound
-    AudioPlayer.preloadSoundReference sound
-    instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
-    #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
-    instance
+
+    store.dispatch('audio/playSound', {
+      track: 'soundEffects'
+      unique: "lank/#{@thang.id}/#{soundKey}"
+      src: Object.values(sound).map((f) => "/file/#{f}")
+      volume: volume
+    })
+
+    # TODO return value here? was instance
 
   onMove: (e) ->
     return unless e.spriteID is @thang?.id
