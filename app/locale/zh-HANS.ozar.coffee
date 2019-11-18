@@ -3038,12 +3038,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     project_stat_description: "学生作品数是学生已经创建的游戏开发和网页开发作品的总数。"
     no_teachers: "你目前没有管理其他老师。"
 
-#  interactives:
-#    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops! Select a code statement before pressing Submit."
-#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
-#    cannot_play_video: "Sadly, this video cannot be played in your area."
-#    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
-#    skip_video: "Skip video"
-#    unavailable: "Unavailable"
+  interactives:
+    phenomenal_job: "太棒了!"
+    try_again: "请重试!"
+    select_statement_left: "点击提交前请选择一条代码"
+    fill_boxes: "请确认在提交前完成所有的表单项目"
+    cannot_play_video: "抱歉，这个视频在您的地区无法播放"
+    console_instructions: "请按照一下步骤打开浏览器命令行查看原因：1）单击鼠标右键2）选择\"检查\"3）点击Console标签栏"
+    skip_video: "跳过视频"
+    unavailable: "无法获取资源"
