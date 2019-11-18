@@ -40,6 +40,7 @@ exports.me =
   showChinaResourceInfo: -> false
   hideDiplomatModal: -> false
   showOpenResourceLink: -> true
+  useStripe: -> true
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
