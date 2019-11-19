@@ -130,6 +130,9 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
+  hourOfCodeOptions: c.object({title: 'Options useful for hour of code users'}, {
+    completedSignup: {type: 'boolean', description: 'Used to determine if hoc teachers completed the signup with school details - only valid for teachers who signup from hoc signup flow'}
+  })
   createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
@@ -316,7 +319,7 @@ _.extend UserSchema.properties,
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher", "hoc player"]}  # unset: home player
   verifiedTeacher: { type: 'boolean' }
   birthday: ({ type: 'string', title: "Birthday", description: "Just month and year, stored YYYY-MM"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
