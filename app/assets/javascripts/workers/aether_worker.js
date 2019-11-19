@@ -30,6 +30,10 @@ var ensureLanguageImported = function(language) {
     importScripts("/javascripts/app/vendor/aether-" + language + ".js");
   }
   languagesImported[language] = true;
+  if (language === 'cpp') {
+    importScripts('/javascripts/app/vendor/aether-pointers.js');
+    esper.plugin('pointers');  // Shouldn't be needed, but it's not working
+  }
 };
 
 var createAether = function (spellKey, options) {

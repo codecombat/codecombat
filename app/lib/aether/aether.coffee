@@ -51,7 +51,7 @@ module.exports = class Aether
     #  aether.lastStatementRange = [rng.start, rng.end] if rng
 
     Object.defineProperty @, 'lastStatementRange',
-      get: () -> 
+      get: () ->
         rng = @esperEngine?.evaluator?.lastASTNodeProcessed?.originalRange
         return [rng.start, rng.end] if rng
 
@@ -206,7 +206,7 @@ module.exports = class Aether
       problemOptions = error: error, code: wrappedCode, codePrefix: @language.wrappedCodePrefix, reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
       @addProblem @createUserCodeProblem problemOptions
       return ''
-    
+
     return wrappedCode
 
 
@@ -228,7 +228,8 @@ module.exports = class Aether
   getStatementCount: ->
     # esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
     esper.plugin 'lang-' + @language.id
-    
+    esper.plugin 'pointers' if @language.id in ['cpp']
+
     count = 0
     if @language.usesFunctionWrapping()
       root = @ast.body[0].body # We assume the 'code' is one function hanging inside the program.

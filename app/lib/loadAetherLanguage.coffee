@@ -17,8 +17,7 @@ loadAetherLanguage = (language) -> new Promise (accept, reject) ->
   # Javascript is build into esper.
   if language in ['javascript']
     return accept()
-
-  if language in ['python', 'coffeescript', 'lua', 'java', 'cpp']
+  else if language in ['python', 'coffeescript', 'lua', 'java']
     try
       eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });")
       console.log("Modern plugin chosen for: '#{language}'")
@@ -26,7 +25,12 @@ loadAetherLanguage = (language) -> new Promise (accept, reject) ->
     catch e
       console.log("Falling back on legacy language plugin for: '#{language}'")
       loadScript(window.javascriptsPath + "app/vendor/aether-#{language}.js", accept)
+  else if language in ['cpp']
+    # Only support modern for C++ and pointers
+    loadScript window.javascriptsPath + "app/vendor/aether-#{language}.modern.js", ->
+      loadScript(window.javascriptsPath + "app/vendor/aether-pointers.js", accept)
   else
     reject(new Error("Can't load language '#{language}'"))
+
 
 module.exports = loadAetherLanguage

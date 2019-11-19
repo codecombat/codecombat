@@ -75,6 +75,7 @@ updateState = (aether, evaluator) ->
 module.exports.parse = (aether, code) ->
   esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
   esper.plugin 'lang-' + aether.language.id
+  esper.plugin 'pointers' if aether.language.id in ['cpp']
   return esper.languages[aether.language.id].parser(code) if aether.language.id in ["coffeescript"]
   return esper.languages[aether.language.id].parser(code, inFunctionBody: true)
 
@@ -84,6 +85,7 @@ module.exports.parse = (aether, code) ->
 module.exports.createFunction = (aether) ->
   esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
   esper.plugin 'lang-' + aether.language.id
+  esper.plugin 'pointers' if aether.language.id in ['cpp']
   state = {}
   messWithLoops = false
   if aether.options.whileTrueAutoYield or aether.options.simpleLoops
@@ -152,7 +154,7 @@ makeYieldFilter = (aether) -> (engine, evaluator, e) ->
 
 
   if e? and e.type is 'event' and e.event is 'loopBodyStart'
-    
+
     if top.srcAst.type is 'WhileStatement' and top.srcAst.test.type is 'Literal'
       if aether.whileLoopMarker?
         currentMark = aether.whileLoopMarker(top)
