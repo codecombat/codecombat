@@ -99,7 +99,7 @@ function copyLanguagesFromEsper(targets) {
     ])
     .reduce((l, paths) => l.concat(paths));
 
-  for (let plugin of ['esper-plugin-pointers', 'esper-plugin-pointers-modern']) {
+  for (let plugin of ['esper-plugin-pointers.js', 'esper-plugin-pointers-modern.js']) {
     target_paths.push([
       path.join(__dirname, "bower_components", "esper.js", plugin),
       path.join(__dirname, "public", "javascripts", "app", "vendor", plugin.replace("esper-plugin", "aether"))
