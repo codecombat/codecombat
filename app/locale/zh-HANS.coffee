@@ -4,6 +4,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     title: "CodeCombat - 硅谷原创AP官方权威认证青少年编程平台"
     meta_keywords: "青少年编程, 少儿编程, CodeCombat, CodeCombat中国, steam教育, python, javascript, 游戏化编程, 美国AP/CSP认证, AI世青赛技术支持平台"
     meta_description: "CodeCombat（中国官方网址：koudashijie.com）于2013年成立于美国硅谷，是美国大学理事会权威认证的青少年编程学习平台和工信部赛迪人工智能大赛全球独家技术合作平台，学习者可以在CodeCombat学习后参加AP计算机考试，拿到世界一流名校如斯坦福大学、哈佛大学、麻省理工学院等学分减免政策，是全球公认的权威青少年计算机编程学习平台之一。"
+    meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
