@@ -131,7 +131,7 @@ _.extend UserSchema.properties,
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
   hourOfCodeOptions: c.object({title: 'Options useful for hour of code users'}, {
-    completeSignupModalSeen: {type: 'boolean', description: 'Used to determine if hoc teachers saw the complete signup modal on dashboard  - only valid for teachers who signup from hoc signup flow'}
+    showCompleteSignupModal: {type: 'boolean', description: 'Whether to show complete signup modal on teacher dashboard - only valid for teachers who signup from hoc signup flow'}
   })
   createdOnHost: { type: 'string' }
 
