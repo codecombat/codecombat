@@ -78,8 +78,8 @@ html(lang='en')
           performanceTiming: true
         }
       });
-
-    script(src='https://checkout.stripe.com/checkout.js')
+    if me.useStripe()
+      script(src='https://checkout.stripe.com/checkout.js')
     // CodePlay Tags Header
 
     // Webpack-inserted CSS:
