@@ -57,8 +57,11 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
 
 /**
  * @typedef {Object} Sound
- * @property {string} mp3
- * @property {string} ogg
+ *
+ * @property {boolean} loop
+ * @property {object} files
+ * @property {string} files.mp3
+ * @property {string} files.ogg
  */
 /**
  * @typedef {Object} DialogNode
@@ -414,7 +417,17 @@ const setupMusic = shotSetup => {
   if (!(shotSetup || {}).music) {
     return
   }
-  return shotSetup.music
+
+  const { music } = shotSetup
+  if (music.files) {
+    return music
+  }
+
+  // Music is in legacy format, normalize to new format
+  return {
+    files: music,
+    loop: false
+  }
 }
 
 /**

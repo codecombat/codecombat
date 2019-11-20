@@ -72,7 +72,19 @@ const ShotSetup = c.object({
       type: 'number'
     }
   }),
-  music: c.sound()
+  music: {
+    oneOf: [
+      c.object(
+        { title: 'Music' },
+        {
+        files: c.sound(),
+        loop: { type: 'boolean', default: false }
+      }),
+
+      // Legacy sound schema.  Present for backwards compatibility.
+      c.sound(),
+    ]
+  }
 })
 
 const DialogNode = c.object({

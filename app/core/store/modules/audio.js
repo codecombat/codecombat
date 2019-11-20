@@ -258,7 +258,14 @@ export default {
       const { track, unique, ...howlOpts } = opts
 
       if (unique && state.unique.keys.has(unique)) {
-          return
+        return
+      }
+
+      // Default to playing sounds immediately upon load but allow
+      // consumers to specify autoplay behavior to support scenarios
+      // such as pre loading sound effects.
+      if (typeof howlOpts.autoplay === 'undefined') {
+        howlOpts.autoplay = true
       }
 
       const sound = new Howl({
@@ -267,7 +274,10 @@ export default {
         mute: howlOpts.muted || state.muted.all || state.muted[opts.track]
       })
 
-      const soundId = sound.play()
+      let soundId = Math.random()
+      while (getters.hasId(soundId)) {
+        soundId = Math.random()
+      }
 
       if (!howlOpts.loop) {
         sound.once(
