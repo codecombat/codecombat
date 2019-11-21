@@ -341,7 +341,7 @@ export default {
 
       const sound = getters.getSoundById(id)
       if (!sound) {
-        throw new Error('Sound ID does not exist')
+        return
       }
 
       sound.stop()
