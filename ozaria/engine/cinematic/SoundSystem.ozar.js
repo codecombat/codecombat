@@ -30,10 +30,10 @@ export class SoundSystem {
     const music = getSetupMusic(shot)
 
     if (music) {
-      commands.push(new SyncFunction(() => {
-        store.dispatch('audio/stopAll')
+      commands.push(new SyncFunction(async () => {
+        await store.dispatch('audio/stopTrack', 'background')
 
-        store.dispatch('audio/playSound', {
+        await store.dispatch('audio/playSound', {
           track: 'background',
           src: Object.values(music.files).map(f => `/file/${f}`),
           loop: music.loop
