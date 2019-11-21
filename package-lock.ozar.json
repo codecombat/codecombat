@@ -17928,6 +17928,15 @@
       "resolved": "https://registry.npmjs.org/shelljs/-/shelljs-0.1.4.tgz",
       "integrity": "sha1-37vnjVbDwBaNL7eeEOzR28sH7A4="
     },
+    "shepherd.js": {
+      "version": "6.0.2",
+      "resolved": "https://registry.npmjs.org/shepherd.js/-/shepherd.js-6.0.2.tgz",
+      "integrity": "sha512-QMkOjr08fmE8GVpi05bbmEN2NqCrDEnA4NGOI4Qk2WlV/QsAl347aoTMx7BEfMIrJeZSbLYaY2ZESvI+MRmlbQ==",
+      "requires": {
+        "smoothscroll-polyfill": "^0.4.4",
+        "tether": "^2.0.0-beta.4"
+      }
+    },
     "sigmund": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/sigmund/-/sigmund-1.0.1.tgz",
@@ -17988,6 +17997,11 @@
       "resolved": "https://registry.npmjs.org/smart-buffer/-/smart-buffer-4.0.2.tgz",
       "integrity": "sha512-JDhEpTKzXusOqXZ0BUIdH+CjFdO/CR3tLlf5CN34IypI+xMmXW1uB16OOY8z3cICbJlDAVJzNbwBhNO0wt9OAw==",
       "dev": true
+    },
+    "smoothscroll-polyfill": {
+      "version": "0.4.4",
+      "resolved": "https://registry.npmjs.org/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz",
+      "integrity": "sha512-TK5ZA9U5RqCwMpfoMq/l1mrH0JAR7y7KRvOBx0n2869aLxch+gT9GhN3yUfjiw+d/DiF1mKo14+hd62JyMmoBg=="
     },
     "smtp-connection": {
       "version": "2.12.0",
@@ -19553,6 +19567,11 @@
           }
         }
       }
+    },
+    "tether": {
+      "version": "2.0.0-beta.4",
+      "resolved": "https://registry.npmjs.org/tether/-/tether-2.0.0-beta.4.tgz",
+      "integrity": "sha512-4VhiB7YqN2R5EJRj96HIPnaFWC9Xot2J0zTUHgItyYlq0pACXSiBaj9iIwfgD+O89aab9HdBd8iXjGfpz57B4A=="
     },
     "text-table": {
       "version": "0.2.0",

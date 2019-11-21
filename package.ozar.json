@@ -165,6 +165,7 @@
     "random-seed": "^0.3.0",
     "request": "^2.75.0",
     "serve-favicon": "^2.3.2",
+    "shepherd.js": "^6.0.2",
     "sortablejs": "^1.10.0-rc2",
     "stream-buffers": "0.2.x",
     "string_score": "^0.1.20",
