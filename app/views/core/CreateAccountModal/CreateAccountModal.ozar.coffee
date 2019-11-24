@@ -63,6 +63,7 @@ module.exports = class CreateAccountModal extends ModalView
 
   events:
     'click .login-link': 'onClickLoginLink'
+    'click .button.close': 'onClickDismiss'
 
   initialize: (options={}) ->
     classCode = utils.getQueryVariable('_cc', undefined)
@@ -214,6 +215,11 @@ module.exports = class CreateAccountModal extends ModalView
       subview: @signupState.get('path') || "choosetype"
     window.tracker?.trackEvent('Log in from CreateAccount', properties)
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))
+
+  onClickDismiss: ->
+    # Force back to root (in case url changed) or reload to avoid issues with sign up state and CTA's for signing up on the home page:
+    application.router.navigate('/', {trigger: true})
+    window.location.reload()
 
   segmentCheckRequiredInCountry: ->
     return true unless me.get('country')
