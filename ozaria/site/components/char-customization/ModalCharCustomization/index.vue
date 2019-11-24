@@ -288,14 +288,22 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-3 col-xs-push-9">
+      <div
+        v-if="loaded"
+        class="row"
+      >
+        <div class="button-area">
           <button
-            v-if="loaded"
-            @click="handleSubmit"
-            id="next-button"
+            @click="$emit('close')"
+            class="char-button cancel-button"
           >
-            {{ this.$t('common.next') }}
+            {{ this.$t('common.cancel') }}
+          </button>
+          <button
+            @click="handleSubmit"
+            class="char-button done-button"
+          >
+            {{ this.$t('play_level.done') }}
           </button>
         </div>
       </div>
@@ -304,6 +312,40 @@
 </template>
 
 <style scoped lang="sass">
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/common/common.scss"
+
+.button-area
+  float: right
+  display: flex
+  margin-bottom: 25px
+  margin-right: 20px
+
+// TODO: Refactor these out to be a standard button across the codebase:
+.char-button
+  text-shadow: unset
+  font-family: "Open Sans", sans-serif
+  font-size: 14px
+  letter-spacing: 0.71px
+  line-height: 24px
+  min-height: 45px
+  min-width: 168px
+  margin-left: 5px
+  margin-right: 5px
+
+.done-button
+  color: $mist
+  background-image: unset
+  background-color: $teal
+  border: unset
+
+.cancel-button
+  color: $teal
+  background-image: unset
+  background-color: $white
+  border: 2px solid $teal
+
 .container
   background-color: white
   position: relative
@@ -345,16 +387,4 @@
 
 .character-display-area
   height: 50vh
-
-#next-button
-  background-color: #4B90E2
-  color: white
-  width: 150px
-  height: 40px
-  border: unset
-  margin: 0 40px 40px
-
-  &:hover
-    background-color: #3b80d2
-
 </style>

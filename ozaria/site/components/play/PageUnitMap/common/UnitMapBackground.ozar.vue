@@ -99,6 +99,9 @@
         this.showCharCx = false
         this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
       },
+      onCharCxClose () {
+        this.showCharCx = false
+      },
       clickPageNav (page) {
         if (page !== this.campaignPage) {
           const url = urls.courseWorldMap({
@@ -185,6 +188,7 @@
       v-if="showCharCx"
       class="char-cx-modal"
       @saved="onCharCxSaved"
+      @close="onCharCxClose"
     />
   </div>
 </template>
