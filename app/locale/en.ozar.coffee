@@ -1114,7 +1114,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     optional_parameters: "Optional Parameters"
     returns: "Returns"
     granted_by: "Granted by"
-    still_undocumented: "Still undocumented, sorry."
+    description_coming_soon: "Description coming soon"
 
   save_load:
     granularity_saved_games: "Saved"
