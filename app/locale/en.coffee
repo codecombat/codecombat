@@ -379,7 +379,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_have_account1: "Already have a CodeCombat Teacher or Student account?"
     already_have_account2: "You can sign into Ozaria.com using that account."
     sign_into_ozaria: "Sign Into Ozaria.com"
-
+    individual_users_not_supported; "Individual users are not supported on Ozaria.  Please visit CodeCombat to continue playing!"
 
   signup:
     complete_subscription: "Complete Subscription"
