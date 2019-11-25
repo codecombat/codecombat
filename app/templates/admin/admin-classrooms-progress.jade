@@ -121,7 +121,7 @@ block content
                     - var courseCellWidth = (data.index - (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index : -1)) / totalLevels * 100;
                     span.course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
                       if view.latestCourseMap[data.courseId]
-                        .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                        .course-cell-text #{(view.courseNameMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
                       else
                         - console.log('no course?', data);
                   - var missingCourseLastIndex = licenseData.levels.length;
@@ -129,7 +129,7 @@ block content
                     - var courseCellOffest = (missingCourseLastIndex) / totalLevels * 100;
                     - var courseCellWidth = data.levels.length / totalLevels * 100;
                     span.missing-course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
-                      .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                      .course-cell-text #{(view.courseNameMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
                     each levelOriginal, index in data.levels
                       span.level-cell(style="left:#{index * levelCellWidth + courseCellOffest}%; width:#{levelCellWidth}%", title="#{index + 1}. #{view.latestLevelSlugMap[levelOriginal] || levelOriginal}")
                     - missingCourseLastIndex += data.levels.length;
@@ -164,7 +164,7 @@ block content
                         - endDate = new Date();
                       - var width = (endDate.getTime() - startDate.getTime()) / view.totalTime * 100;
                       - var left = (startDate.getTime() - view.startTime) / view.totalTime * 100;
-                      - var title = view.courseAcronymMap[data.id] + "\n";
+                      - var title = view.courseNameMap[data.id] + "\n";
                       - for (target in data.dates)
                         - title += target + "% on " + data.dates[target] + "\n";
                       span.timeline-course-section(style="width:#{width}%;left:#{left}%;", title="#{title}")= view.courseAcronymMap[data.id]
@@ -177,7 +177,7 @@ block content
                         if prevDate
                           - var width = (date.getTime() - prevDate.getTime()) / view.totalTime * 100;
                           - var left = (prevDate.getTime() - view.startTime) / view.totalTime * 100;
-                          span.timeline-course-target(style="opacity:#{opacity};background-color:#{bgColor};width:#{width}%;left:#{left}%;", title="#{view.courseAcronymMap[data.id]} #{target}% complete on #{date.toISOString()}")
+                          span.timeline-course-target(style="opacity:#{opacity};background-color:#{bgColor};width:#{width}%;left:#{left}%;", title="#{view.courseNameMap[data.id]} #{target}% complete on #{date.toISOString()}")
                         - prevDate = date;
                         - prevTarget = target;
                         - opacity += 0.1;

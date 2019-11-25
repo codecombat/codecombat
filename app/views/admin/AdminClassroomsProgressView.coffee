@@ -30,8 +30,8 @@ module.exports = class AdminClassroomsProgressView extends RootView
     return super() unless me.isAdmin()
     @licenseEndMonths = utils.getQueryVariable('licenseEndMonths', 12)
     @licenseLimit = utils.getQueryVariable('licenseLimit')
-    @startDay = utils.getQueryVariable('startDay', '2017-08-01')
-    @endDay = utils.getQueryVariable('endDay', '2018-08-01')
+    @startDay = utils.getQueryVariable('startDay', '2019-08-01')
+    @endDay = utils.getQueryVariable('endDay', '2019-12-31')
     startDate = new Date(@startDay)
     @startTime = startDate.getTime()
     endDate = new Date(@endDay)
@@ -41,6 +41,7 @@ module.exports = class AdminClassroomsProgressView extends RootView
       m[c] = colors[i % colors.length]
       return m
     , {}
+    @courseNameMap = {}
     @buildProgressData(@licenseEndMonths)
     @loadingMessage = "Loading.."
     super()
@@ -57,12 +58,13 @@ module.exports = class AdminClassroomsProgressView extends RootView
     .then (results) =>
       [courses, campaigns, {@classrooms, prepaids, teachers}] = results
       courses = courses.filter((c) => c.releasePhase is 'released')
-      excludedCourseIds = (course._id for course in courses.filter((c) => c.free or c.releasePhase isnt 'released'))
+      courses.forEach((c) => @courseNameMap[c._id] = c.name)
+      excludedCourseIds = (course._id for course in courses.filter((c) => c.releasePhase isnt 'released'))
       # console.log 'excludedCourseIds', excludedCourseIds, @classrooms[0].courses
       utils.sortCourses(courses)
       licenses = prepaids.filter((p) => p.redeemers?.length > 0)
 
-      # @classrooms = [@classrooms.find((c) => c._id is '59b0560484a9f600264fd6aa')]
+      # @classrooms = [@classrooms.find((c) => c._id is '5d9f5c3be4f171002975f327')]
 
       adminMap = {}
       adminMap[teacher._id.toString()] = true for teacher in teachers when 'admin' in (teacher.permissions or [])
@@ -136,7 +138,7 @@ module.exports = class AdminClassroomsProgressView extends RootView
 
         # Build classroom/license/course/level progress
         @classroomProgress = []
-        for classroomId, licensesCourseLevelMap of classroomLicenseCourseLevelMap #when classroomId is '573ac4b48edc9c1f009cd6be'
+        for classroomId, licensesCourseLevelMap of classroomLicenseCourseLevelMap #when classroomId is '5d8e78879d631500344dda0c'
           classroom = _.find(@classrooms, (c) -> c._id is classroomId)
           classroomLicenses = []
 
@@ -342,6 +344,8 @@ module.exports = class AdminClassroomsProgressView extends RootView
         originalSlugMap[levelOriginal] = level.slug
         latestOrderedLevelOriginals.push(levelOriginal)
         courseLevelsMap[course._id].levels.push(levelOriginal)
+    # console.log 'courseLevelsMap', courseLevelsMap
+    # console.log 'originalSlugMap', originalSlugMap
     # console.log 'latestOrderedLevelOriginals', latestOrderedLevelOriginals
     [courseLevelsMap, originalSlugMap, latestOrderedLevelOriginals]
 
