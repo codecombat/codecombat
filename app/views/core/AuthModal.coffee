@@ -104,7 +104,7 @@ module.exports = class AuthModal extends ModalView
 
   onGPlusLoginError: (res) ->
     @$('#unknown-error-alert').addClass('hide')
-    if res.errorID and res.errorID is 'no-individuals'
+    if res.errorID and res.errorID is 'individuals-not-supported'
       forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
       showingError = true
       @$('#unknown-error-alert').removeClass('hide')
@@ -141,7 +141,7 @@ module.exports = class AuthModal extends ModalView
 
   onFacebookLoginError: (res) ->
     @$('#unknown-error-alert').addClass('hide')
-    if res.errorID and res.errorID is 'no-individuals'
+    if res.errorID and res.errorID is 'individuals-not-supported'
       forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
       showingError = true
       @$('#unknown-error-alert').removeClass('hide')
