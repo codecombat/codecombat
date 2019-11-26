@@ -69,7 +69,7 @@ module.exports = class AuthModal extends ModalView
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
           showingError = true
 
-        if errorID is 'no-individuals'
+        if errorID is 'individuals-not-supported'
           forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
           showingError = true
 
@@ -102,7 +102,7 @@ module.exports = class AuthModal extends ModalView
         })
     })
 
-  onGPlusLoginError: res =>
+  onGPlusLoginError: (res) ->
     @$('#unknown-error-alert').addClass('hide')
     if res.errorID and res.errorID is 'no-individuals'
       forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
@@ -139,7 +139,7 @@ module.exports = class AuthModal extends ModalView
         })
     })
 
-  onFacebookLoginError: res =>
+  onFacebookLoginError: (res) ->
     @$('#unknown-error-alert').addClass('hide')
     if res.errorID and res.errorID is 'no-individuals'
       forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
