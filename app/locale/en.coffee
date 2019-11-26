@@ -232,6 +232,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     close: "Close"
     okay: "Okay"
     cancel: "Cancel"
+    try_again: "Try Again"
 
   not_found:
     page_not_found: "Page not found"
