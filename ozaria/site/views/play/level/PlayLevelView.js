@@ -946,6 +946,10 @@ class PlayLevelView extends RootView {
     }
     $(window).trigger('resize')
 
+    if (this.goalManager.goalStates['has-stopped-playing-game']) {
+      this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
+    }
+
     this.tour.start()
     setTimeout(this.tour.cancel, SHEPHERD_TIMEOUT)
   }
@@ -1419,9 +1423,11 @@ class PlayLevelView extends RootView {
     // TODO Improve later with GoalManger reworking
     // Mark the goal completed and prevent the goalmanager destroying
     // The game goal should have the certain name
-    if (this.goalManager.goalStates['has-stopped-playing-game']) {
+    if (!this.updateAetherIsRunning && this.goalManager.goalStates['has-stopped-playing-game']) {
       this.goalManager.setGoalState('has-stopped-playing-game', 'success')
     }
+
+    this.updateAetherIsRunning = false
 
     if (!this.$el.hasClass('real-time')) {
       return
@@ -1587,6 +1593,10 @@ class PlayLevelView extends RootView {
     this.tome.softReloadCapstoneStage(this.capstoneStage)
     Backbone.Mediator.publish('tome:updateAether')
   }
+
+  updateAetherRunning (e) {
+    this.updateAetherIsRunning = true
+  }
 }
 
 PlayLevelView.prototype.id = 'level-view'
@@ -1622,7 +1632,8 @@ PlayLevelView.prototype.subscriptions = {
   'playback:cinematic-playback-started': 'onCinematicPlaybackStarted',
   'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded',
   'store:item-purchased': 'onItemPurchased',
-  'tome:manual-cast': 'onRunCode'
+  'tome:manual-cast': 'onRunCode',
+  'tome:updateAetherRunning': 'updateAetherRunning'
 }
 
 PlayLevelView.prototype.events = {
