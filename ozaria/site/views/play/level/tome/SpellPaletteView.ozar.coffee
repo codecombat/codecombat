@@ -18,7 +18,7 @@ module.exports = class SpellPaletteView extends CocoView
     'level:enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
-    'tome:palette-clicked': 'onPalleteClick'
+    'tome:palette-clicked': 'onPaletteClick'
     'surface:stage-mouse-down': 'closeCommandBank'
 
 
@@ -271,7 +271,7 @@ module.exports = class SpellPaletteView extends CocoView
     @closeRightPanel()
     @$el.removeClass('open')
 
-  onPalleteClick: (e) ->
+  onPaletteClick: (e) ->
     @$el.addClass('expand')
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)
