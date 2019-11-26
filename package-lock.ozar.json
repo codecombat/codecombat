@@ -8467,6 +8467,11 @@
         "locate-path": "^2.0.0"
       }
     },
+    "fitty": {
+      "version": "2.2.6",
+      "resolved": "https://registry.npmjs.org/fitty/-/fitty-2.2.6.tgz",
+      "integrity": "sha512-Y3N3rQ2oWfPXOrSJwAZmBDaWINNpj6O2YQ2NiORk3kXKCw7gwc/cuBZgtYvr9AWpJqVwboyoswocPcqRmoyxEA=="
+    },
     "flat-cache": {
       "version": "2.0.1",
       "resolved": "https://registry.npmjs.org/flat-cache/-/flat-cache-2.0.1.tgz",

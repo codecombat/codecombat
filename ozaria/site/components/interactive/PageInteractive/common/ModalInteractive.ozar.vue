@@ -1,11 +1,13 @@
 <script>
   import BaseModalContainer from '../../../common/BaseModalContainer'
   import BaseSpeechBubble from '../../../common/BaseSpeechBubble'
+  import BaseButton from '../../../common/BaseButton'
 
   export default {
     components: {
       BaseModalContainer,
-      BaseSpeechBubble
+      BaseSpeechBubble,
+      BaseButton
     },
 
     props: {
@@ -50,7 +52,6 @@
   <base-modal-container class="modal">
     <div
       class="interactive-modal-content"
-      @click="$emit('close')"
     >
       <img
         :src="imageUrl"
@@ -58,11 +59,20 @@
         class="hero"
       >
 
-      <base-speech-bubble
-        :class="{ message: true, smallText }"
-      >
-        <slot />
-      </base-speech-bubble>
+      <div class="interactive-modal-right-col">
+        <base-speech-bubble
+                :class="{ message: true, smallText }"
+        >
+          <slot />
+        </base-speech-bubble>
+
+        <base-button
+          class="interactive-modal-close"
+          @click="$emit('close')"
+        >
+          {{ $t('modal.try_again') }}
+        </base-button>
+      </div>
     </div>
   </base-modal-container>
 </template>
@@ -92,8 +102,6 @@
     align-items: center;
     justify-content: space-around;
 
-    cursor: pointer;
-
     .hero {
       max-height: 100%;
 
@@ -102,9 +110,6 @@
     }
 
     .message {
-      flex-grow: 0;
-
-      width: 50%;
       max-height: 50%;
 
       margin-bottom: auto;
@@ -125,6 +130,19 @@
       font-size: 18px;
       line-height: 22px;
       letter-spacing: 0.48px;
+    }
+
+    .interactive-modal-right-col {
+      flex-grow: 0;
+
+      width: 50%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: space-between;
     }
   }
 </style>
