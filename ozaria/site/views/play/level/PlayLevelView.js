@@ -111,7 +111,7 @@ class PlayLevelView extends RootView {
       steps: [{
         id: 'example-step',
         attachTo: {
-          element: '.dialogue-area',
+          element: '#level-dialogue-view',
           on: 'bottom'
         },
         classes: 'hidden-shepherd-box',
