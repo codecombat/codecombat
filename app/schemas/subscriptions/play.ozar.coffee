@@ -171,6 +171,7 @@ module.exports =
         {type: 'string', enum: ['success', 'failure', 'incomplete']}
       ]
     timedOut: {type: 'boolean'}
+    capstoneStage: {type: ['integer', 'undefined']}
 
   'level:hero-config-changed': c.object {}
 

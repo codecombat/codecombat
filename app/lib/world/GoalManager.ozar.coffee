@@ -32,7 +32,10 @@ module.exports = class GoalManager extends CocoClass
     if @options?.session and @options?.additionalGoals
       capstoneStage = @options.capstoneStage || 1 # passed in from PlayLevelView
       stages = _.filter(@options.additionalGoals, (ag) -> ag.stage <= capstoneStage and ag.stage > 0)
-      goals = _.map(stages, (stage) -> stage.goals)
+      goals = _.map(stages, (stage) -> stage.goals.map((goal) ->
+        goal.stage = stage.stage
+        return goal
+      ))
       unwrappedGoals = _.flatten(goals)
       @addGoal goal for goal in unwrappedGoals
 
@@ -144,6 +147,9 @@ module.exports = class GoalManager extends CocoClass
   addGoal: (goal) ->
     goal = $.extend(true, {}, goal)
     goal.id = @nextGoalID++ if not goal.id
+    # The initial goals also need a capstone stage if this is indeed goals for a capstone stage:
+    if !goal.stage && @options?.additionalGoals
+      goal.stage = 1
     return if @goalStates[goal.id]?
     @goals.push(goal)
     goal.isPositive = @goalIsPositive goal.id
@@ -162,6 +168,7 @@ module.exports = class GoalManager extends CocoClass
       goals: @goals
       overallStatus: overallStatus
       timedOut: @world? and (@world.totalFrames is @world.maxTotalFrames and overallStatus not in ['success', 'failure'])
+      capstoneStage: @options?.capstoneStage
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->

@@ -333,7 +333,7 @@ module.exports = class Angel extends CocoClass
     work.world.justBegin = work.justBegin
     work.world.keyValueDb = work.keyValueDb
     if @shared.goalManager
-      goalManager = new GoalManager(work.world)
+      goalManager = new GoalManager(work.world, @shared.goalManager.initialGoals, null, @shared.goalManager.options)
       goalManager.setGoals work.goals
       goalManager.setCode work.userCodeMap
       goalManager.worldGenerationWillBegin()
