@@ -8,6 +8,10 @@ export default {
   namespaced: true,
   state: emptyUser,
   getters: {
+    currentUserId (state) {
+      return state._id
+    },
+
     isAnonymous (state) { return state.anonymous === true },
 
     isStudent (state) {
