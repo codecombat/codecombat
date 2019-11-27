@@ -33,7 +33,7 @@ module.exports = class SoundScriptModule extends ScriptModule
       channel: 'audio/playSound'
       event: {
         track: 'background'
-        src: [ "/file/#{@noteGroup.sound.music.file}.ogg", "/file/#{@noteGroup.sound.music.file}.mp3" ]
+        src: [ "/file#{@noteGroup.sound.music.file}.ogg", "/file#{@noteGroup.sound.music.file}.mp3" ]
         loop: true
       }
 

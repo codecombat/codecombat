@@ -43,11 +43,11 @@ div.popover-header.closeBtn(role="button" dir="ltr")
     span.translated-name (
       =doc.translatedShortName
       | )
-  div.glyphicon.glyphicon-chevron-left(style="float: right; cursor: pointer")
+  div.glyphicon.glyphicon-chevron-left(style="float: right;")
 
 .popover-body
   .short-description.rtl-allowed.rtl-right-aligned(dir="auto")
-    p(dir="auto")!= marked(doc.shortDescription || $.i18n.t("skill_docs.still_undocumented"))
+    p(dir="auto")!= marked(doc.shortDescription || $.i18n.t("skill_docs.description_coming_soon"))
     div.clear(style="clear: both")
 
   if !selectedMethod

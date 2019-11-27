@@ -28,7 +28,7 @@
 @import "ozaria/site/styles/common/variables.scss"
 
 .ozaria-modal
-  /deep/ .modal-container
+  ::v-deep .modal-container
     width: 100%
     height: 100%
 
