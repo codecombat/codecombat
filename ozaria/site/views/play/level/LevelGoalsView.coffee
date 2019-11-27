@@ -21,7 +21,7 @@ module.exports = class LevelGoalsView extends CocoView
   constructor: (options) ->
     super options
     @level = options.level
-    
+
   afterRender: ->
     @levelGoalsComponent = new LevelGoals({
       el: @$('.goals-component')[0],
@@ -30,7 +30,7 @@ module.exports = class LevelGoalsView extends CocoView
     })
 
   onNewGoalStates: (e) ->
-    _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
+    _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates', 'capstoneStage'))
     @levelGoalsComponent.casting = false
 
     @previousGoalStatus ?= {}

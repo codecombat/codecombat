@@ -35,15 +35,16 @@
 
   module.exports = Vue.extend({
     props: ['showStatus']
-    
+
     data: -> {
       overallStatus: ''
       timedOut: false
       goals: [] # TODO: Get goals, goalStates from vuex
       goalStates: {}
+      capstoneStage: null
       casting: false
     }
-    
+
     computed: {
       goalStatus: ->
         goalStatus = 'success' if @overallStatus is 'success'
@@ -53,7 +54,14 @@
         goalStatus = 'running' if @casting
         return goalStatus
       levelGoals: ->
-        @goals.filter((g) => not g.concepts?.length)
+        @goals.filter((g) => not g.concepts?.length).filter((g) =>
+          # For all non-capstone goals, we how all incomplete goals
+          if !@capstoneStage || !g.stage || @goalStates[g.id].status != 'success'
+            return true
+
+          # For the current capstone stage, we show all goals:
+          return @capstoneStage == g.stage
+        )
       conceptGoals: ->
         @goals.filter((g) => g.concepts?.length)
       conceptStatus: ->
