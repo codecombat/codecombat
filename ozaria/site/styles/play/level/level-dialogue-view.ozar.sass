@@ -3,6 +3,10 @@
 @import "ozaria/site/styles/play/variables"
 @import "ozaria/site/styles/common/variables"
 
+// For use with fitty library
+.fit
+  display: inline-block
+
 #level-dialogue-view
   display: none
   position: absolute
@@ -36,8 +40,10 @@
       font-family: $body-font-style
       font-size: 18px
       letter-spacing: 0.71px
-      line-height: 24px
       margin: 0 20px 0 22%
+
+    .vega-dialogue.wide
+      margin: 0 20px 0 20px
 
     .continue
       position: absolute
