@@ -619,9 +619,12 @@ module.exports = class User extends CocoModel
   # Block access to paid campaigns(any campaign other than 1FH) for anonymous users + non-admin, non-internal individual users.
   hasCampaignAccess: (campaignData) ->
     return true if utils.freeCampaignIds.includes(campaignData._id)
+    return true if @isAdmin()
+
     return false if @isAnonymous()
     return false if @isIndividualUser()
     return false if not @isAdmin() and not @isInternal()
+
     return true
 
 
