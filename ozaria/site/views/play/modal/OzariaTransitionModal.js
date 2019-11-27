@@ -34,7 +34,7 @@ class OzariaTransitionModal extends ModalComponent {
 }
 
 OzariaTransitionModal.prototype.id = 'ozaria-transition-modal'
-OzariaTransitionModal.prototype.template = require('ozaria/site/templates/core/modal-base-flat')
+OzariaTransitionModal.prototype.template = require('ozaria/site/templates/core/modal-empty')
 OzariaTransitionModal.prototype.VueComponent = ModalTransition
 OzariaTransitionModal.prototype.propsData = null
 OzariaTransitionModal.prototype.closesOnClickOutside = false

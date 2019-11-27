@@ -79,7 +79,7 @@
 
 <style lang="scss" scoped>
   .modal {
-    /deep/ .modal-container {
+    ::v-deep .modal-container {
       width: 528px;
       height: 329px;
 

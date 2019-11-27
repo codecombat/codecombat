@@ -15,12 +15,13 @@ module.exports = class ModalComponent extends ModalView
         unless _.isFunction(@vuexModule)
           throw new Error('@vuexModule should be a function')
         store.registerModule('modal', @vuexModule())
-      
+
       @vueComponent = new @VueComponent({
         el: @$el.find('#modal-base-flat')[0]
         propsData: @propsData
         store
       })
+
       super(arguments...)
 
   destroy: ->

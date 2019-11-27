@@ -204,9 +204,4 @@
 </template>
 
 <style lang="sass" scoped>
-.victory-modal
-  position: relative
-  width: 60%
-  margin: auto
-  margin-top: 15%
 </style>

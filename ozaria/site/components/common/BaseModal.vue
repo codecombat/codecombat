@@ -32,35 +32,38 @@
     width: 100%
     height: 100%
 
-    padding: 25px
-    border-radius: 10px
+    ::v-deep .modal-container
+      width: 60%
 
-    // transition: all .3s ease;
+      padding: 25px
+      border-radius: 10px
 
-.ozaria-modal-content
-  width: 100%
-  height: 100%
-  display: flex
-  justify-content: center
-  align-items: center
-  flex-direction: column
+      // transition: all .3s ease;
 
-  .ozaria-modal-header, .ozaria-modal-body, .ozaria-modal-footer
+  .ozaria-modal-content
+    width: 100%
+    height: 100%
     display: flex
     justify-content: center
     align-items: center
-    width: inherit
-    padding: 10px
+    flex-direction: column
 
-  .ozaria-modal-header
-    font-weight: bold
-    font-size: 30px
-    font-family: $title-font-style
+    .ozaria-modal-header, .ozaria-modal-body, .ozaria-modal-footer
+      display: flex
+      justify-content: center
+      align-items: center
+      width: inherit
+      padding: 10px
 
-  .ozaria-modal-body
-    font-size: 20px
-    font-family: $body-font-style
+    .ozaria-modal-header
+      font-weight: bold
+      font-size: 30px
+      font-family: $title-font-style
 
-  .ozaria-modal-footer
-    font-family: $body-font-style
+    .ozaria-modal-body
+      font-size: 20px
+      font-family: $body-font-style
+
+    .ozaria-modal-footer
+      font-family: $body-font-style
 </style>

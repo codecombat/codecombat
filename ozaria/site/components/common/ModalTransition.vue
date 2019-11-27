@@ -299,44 +299,41 @@
 </template>
 
 <style lang="sass" scoped>
-.modal-mask // removing its background since its rendered using backbone ModalComponent which already handles the masking
-  background-color: transparent !important
+  .victory-header
+    all: inherit
+    flex-direction: column
 
-.victory-header
-  all: inherit
-  flex-direction: column
+    .status-text
+      font-weight: normal
+      font-size: 20px
 
-  .status-text
-    font-weight: normal
-    font-size: 20px
+  .learning-goals
+    color: #1fbab4
 
-.learning-goals
-  color: #1fbab4
-
-.share-modal-body
-  display: flex
-  flex-direction: column
-  width: 100%
-  .keep-editing-text
-    font-size: 14px
-    color: #a4a4a4
-  .share-text-box
-    height: 45px
+  .share-modal-body
+    display: flex
+    flex-direction: column
     width: 100%
-    margin-top: 5px
-  .share-buttons
-    width: 100%
-    .copy-url-button
-      margin-top: 10px
-      width: auto
-      float: right
+    .keep-editing-text
+      font-size: 14px
+      color: #a4a4a4
+    .share-text-box
+      height: 45px
+      width: 100%
+      margin-top: 5px
+    .share-buttons
+      width: 100%
+      .copy-url-button
+        margin-top: 10px
+        width: auto
+        float: right
 
-.victory-footer
-  all: inherit
-  justify-content: space-between
-  padding: 0
-  .replay-button
-    width: 182px
-  .next-button
-    width: 182px
+  .victory-footer
+    all: inherit
+    justify-content: space-between
+    padding: 0
+    .replay-button
+      width: 182px
+    .next-button
+      width: 182px
 </style>
