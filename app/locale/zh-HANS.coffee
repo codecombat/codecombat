@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
   ozaria_home:
-    subtitle: "引人入胜的计算机科学教程"
+    subtitle: "引人入胜的计算机科学课程"
     summary: "奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
     value_prop1_h1: "史诗故事，沉浸式体验"
     value_prop1_h2: "激发与学习的紧密联系"
@@ -29,7 +29,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
 
   new_home:
-    title: "奥佳睿 - 引人入胜的计算机科学教程"
+    title: "奥佳睿 - 引人入胜的计算机科学课程"
     meta_description: "奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
@@ -477,7 +477,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
-    default_title: "奥佳睿 - 引人入胜的计算机科学教程"
+    default_title: "奥佳睿 - 引人入胜的计算机科学课程"
     ozaria: "奥佳睿"
     default_meta_description: "奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
     back: "返回" # When used as an action verb, like "Navigate backward"
