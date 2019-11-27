@@ -302,6 +302,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     back_to_dashboard: "Back to Dashboard"
     back_to_ozaria: "Back to ozaria.com"
     customize_hero: "Customize Hero"
+    account_settings: 'Account Settings'
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)

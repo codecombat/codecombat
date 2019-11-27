@@ -4,11 +4,13 @@
   import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
   import { mapGetters } from 'vuex'
   import urls from 'app/core/urls'
+  import UnitMapNav from '../Nav'
 
   export default Vue.extend({
     components: {
       'level-dot': levelDot,
-      'modal-char-customization': ModalCharCustomization
+      'modal-char-customization': ModalCharCustomization,
+      UnitMapNav
     },
     props: {
       campaignData: {
@@ -86,12 +88,6 @@
       this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
     },
     methods: {
-      backButtonClick () {
-        return application.router.navigate(this.backButtonLink, { trigger: true })
-      },
-      settingsButtonClick () {
-        return application.router.navigate('/account/settings', { trigger: true })
-      },
       customizeHero () {
         this.showCharCx = true
       },
@@ -130,46 +126,9 @@
       :course-instance-id="courseInstanceId"
       :code-language="codeLanguage"
     />
-    <button
-      class="ozaria-button ozaria-primary-button back-button"
-      @click="backButtonClick"
-    >
-      <span v-if="isAnonymous"> {{ $t("play.back_to_ozaria") }} </span>
-      <span v-else> {{ $t("play.back_to_dashboard") }} </span>
-    </button>
-    <div
-      class="unit-map-footer"
-    >
-      <span class="hero-name text-capitalize"> {{ heroName }} </span>
-      <a
-        class="customize-link"
-        @click="customizeHero"
-      >
-        ({{ $t("play.customize_hero") }})
-      </a>
-      <div class="footer-buttons">
-        <button
-          v-if="!isAnonymous"
-          class="ozaria-button ozaria-primary-button settings-button"
-          @click="settingsButtonClick"
-        >
-          {{ $t("account.settings_title") }}
-        </button>
-        <button
-          v-if="!isAnonymous"
-          id="logout-button"
-          class="ozaria-button ozaria-primary-button logout-button"
-        >
-          {{ $t("common.logout") }}
-        </button>
-        <button
-          v-if="isAnonymous"
-          class="ozaria-button ozaria-primary-button signup-button"
-        >
-          {{ $t("signup.sign_up") }}
-        </button>
-      </div>
-    </div>
+    <unit-map-nav
+            @customizeHero="customizeHero"
+    />
     <div
       v-if="showNavDots"
       id="dot-nav"
@@ -204,38 +163,6 @@
   background-repeat: no-repeat
   display: flex
   justify-content: center
-
-  .back-button
-    position: absolute
-    margin: 15px
-    z-index: 1
-    left: 0px
-
-  .back-button, .settings-button, .logout-button, .signup-button
-    background-color: #487ec6
-    font-weight: normal
-    font-style: italic
-
-  .unit-map-footer
-    position: absolute
-    bottom: 15px
-    left: 15px
-
-    .hero-name
-      color: $white
-      font-family: $body-font-style
-      font-size: 20px
-
-    .customize-link
-      color: $white
-      text-decoration: underline
-      font-family: $body-font-style
-
-    .footer-buttons
-      margin-top: 5px
-
-      .settings-button, .logout-button, .signup-button
-        font-size: 15px
 
   .char-cx-modal
     position: fixed
