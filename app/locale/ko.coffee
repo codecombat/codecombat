@@ -2,7 +2,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   new_home:
     title: "CodeCombat - Python과 JavaScript를 배울수 있는 코딩 게임"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "프로그래밍 게임을 통해 타이핑된 코드를 배우십시오. 퍼즐을 풀면서 Python, JavaScript 및 HTML을 배우고 자신만의 코딩 게임 및 웹 사이트를 만드는 방법을 배우십시오."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "선생님들의 마음을 생각한 코딩 게임"
     built_for_teachers_blurb: "아이들에게 코드를 가르치는 것은 종종 어렵게 느껴질 수 있습니다. CodeCombat은 모든 교육자가 학생들에게 가장 인기 있는 프로그래밍 언어 중 하나인 JavaScript 또는 Python으로 코드를 짤수있는 방법을 가르칠 수 있도록 도와줍니다. 6개의 컴퓨터 사이언스 유닛과 프로젝트기반 게임 개발 및 웹 개발 유닛들을 통해 학습을 증진시키는 종합적인 교육과정을 통하여, 아이들은 기본 구문을 시작으로 재구성으로의 여정을 진행할 것입니다!"
     built_for_teachers_subtitle1: "컴퓨터 사이언스 (Computer Science)"
