@@ -64,8 +64,13 @@ module.exports = class AuthModal extends ModalView
         if errorID is 'not-found'
           forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.not_found'))
           showingError = true
+
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
+          showingError = true
+
+        if errorID is 'individuals-not-supported'
+          forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
           showingError = true
 
       if not showingError
@@ -97,7 +102,13 @@ module.exports = class AuthModal extends ModalView
         })
     })
 
-  onGPlusLoginError: =>
+  onGPlusLoginError: (res) ->
+    @$('#unknown-error-alert').addClass('hide')
+    if res.errorID and res.errorID is 'individuals-not-supported'
+      forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
+      showingError = true
+      @$('#unknown-error-alert').removeClass('hide')
+
     btn = @$('#gplus-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
@@ -128,7 +139,13 @@ module.exports = class AuthModal extends ModalView
         })
     })
 
-  onFacebookLoginError: =>
+  onFacebookLoginError: (res) ->
+    @$('#unknown-error-alert').addClass('hide')
+    if res.errorID and res.errorID is 'individuals-not-supported'
+      forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
+      showingError = true
+      @$('#unknown-error-alert').removeClass('hide')
+
     btn = @$('#facebook-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_facebook'))
     btn.attr('disabled', false)
