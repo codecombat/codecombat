@@ -25,6 +25,7 @@
     data: () => ({
       levelType: '',
       levelStatus: '',
+      levelStatusText: '',
       levelIcon: {},
       concepts: ''
     }),
@@ -73,9 +74,9 @@
           return `<p>${this.displayName}</p>`
         }
         if ((this.concepts || []).length > 0) {
-          return `<p>${this.displayName}</p><p>${this.levelType}: ${this.concepts}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatus}</p>`
+          return `<p>${this.displayName}</p><p>${this.levelType}: ${this.concepts}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatusText}</p>`
         } else {
-          return `<p>${this.displayName}</p><p>${this.levelType}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatus}</p>`
+          return `<p>${this.displayName}</p><p>${this.levelType}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatusText}</p>`
         }
       }
     },
@@ -122,11 +123,14 @@
       },
       setLevelStatus () {
         if (this.levelData.locked) {
-          this.levelStatus = $.i18n.t('play_level.level_status_locked')
+          this.levelStatus = 'Locked'
+          this.levelStatusText = $.i18n.t('play_level.level_status_locked')
         } else if (this.levelData.next) {
-          this.levelStatus = $.i18n.t('play_level.level_status_in_progress')
+          this.levelStatus = 'In Progress'
+          this.levelStatusText = $.i18n.t('play_level.level_status_in_progress')
         } else {
-          this.levelStatus = $.i18n.t('play_level.level_status_complete')
+          this.levelStatus = 'Complete'
+          this.levelStatusText = $.i18n.t('play_level.level_status_complete')
         }
       },
       setLevelConcepts () {
