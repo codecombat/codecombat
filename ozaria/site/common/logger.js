@@ -8,7 +8,9 @@ const getMsTime = () => ((window.performance || {}).now() || Date.now())
  */
 export const log = (action, options = {}, status = 'info') => {
   if (typeof ((window.DD_LOGS || {}).logger || {}).log !== 'function') {
-    console.debug('DD_LOGS not available. Log: ', action)
+    if(me.useDataDog()){
+      console.debug('DD_LOGS not available. Log: ', action)
+    }
     return
   }
 

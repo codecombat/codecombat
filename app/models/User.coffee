@@ -596,6 +596,7 @@ module.exports = class User extends CocoModel
   hideFooter: -> @isTarena()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and me.get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
+  useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   setTemporaryEnglishLock: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
