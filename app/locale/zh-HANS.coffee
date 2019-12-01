@@ -1,8 +1,10 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
 
   new_home:
-    title: "CodeCombat - 美国大学理事会认证硅谷原版青少年编程平台"
-    meta_description: "CodeCombat（中国官方网址：koudashijie.com）于2013年成立于美国硅谷，是美国大学理事会权威认证的青少年编程学习平台，学习者可以在CodeCombat学习后参加AP计算机考试，拿到美国和世界一流名校如斯坦福大学、哈佛大学、麻省理工学院等学分减免政策，是全球公认的权威计算机编程能力学习平台之一。"
+    title: "CodeCombat - 硅谷原创AP官方权威认证青少年编程平台"
+    meta_keywords: "青少年编程, 少儿编程, CodeCombat, CodeCombat中国, steam教育, python, javascript, 游戏化编程, 美国AP/CSP认证, AI世青赛技术支持平台"
+    meta_description: "CodeCombat（中国官方网址：koudashijie.com）于2013年成立于美国硅谷，是美国大学理事会权威认证的青少年编程学习平台和工信部赛迪人工智能大赛全球独家技术合作平台，学习者可以在CodeCombat学习后参加AP计算机考试，拿到世界一流名校如斯坦福大学、哈佛大学、麻省理工学院等学分减免政策，是全球公认的权威青少年计算机编程学习平台之一。"
+    meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
@@ -200,7 +202,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   modal:
     close: "关闭"
     okay: "是"
-#    cancel: "Cancel"
+    cancel: "取消"
 
   not_found:
     page_not_found: "找不到网页"
@@ -214,12 +216,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "提交“外交官”申请"
 
   play:
-#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
-#    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
+    title: "挑战CodeCombat关卡 - 学习Python，Javascript和C++"
+    meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站，在多人竞技场挑战你的同学们"
+    level_title: "__level__ - 学习Python，Javascript和C++编程"
+    video_title: "__video__ | 观看教学视频"
+    game_development_title: "__level__ | 游戏开发"
+    web_development_title: "__level__ | 网页开发"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -434,8 +436,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
-#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    default_title: "CodeCombat - 在场景化编程中学习Python，Javascript和C++"
+    default_meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站。"
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
     continue: "继续" # When used as an action verb, like "Continue forward"
@@ -467,9 +469,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit_changes: "提交更新"
     save_changes: "保存更新"
     required_field: "必填" # {change}
-#    submit: "Submit"
-#    replay: "Replay"
-#    complete: "Complete"
+    submit: "提交"
+    replay: "重新开始"
+    complete: "完成"
 
   general:
     and: "与"
@@ -1065,8 +1067,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
 
   about:
-#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
-#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
+    title: "关于CodeCombat - 激发学生，赋能老师，释放创造力"
+    meta_description: "我们的愿景是通过基于场景化的学习来提高计算机科学水平，让世界上的每个人都能学习编程。 我们相信编程是充满魔力的，学习者能被赋予纯粹想象的创造力。"
     learn_more: "了解更多"
     main_title: "学习编程需要动手写大量代码"
     main_description: "CodeCombat让你带着微笑学习"
