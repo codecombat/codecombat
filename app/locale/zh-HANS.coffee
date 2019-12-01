@@ -3012,5 +3012,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
   browser_recommendation:
-    title: '请使用 CHROME 浏览器'
-    pitch_body: '为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。点击下方按钮下载 Chrome 浏览器。'
+    pitch_body: '为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。'
+    download: '下载 CHROME 浏览器'
+    cancel: '忽略'
