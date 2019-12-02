@@ -2,7 +2,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "Ohjelmointipeli, joka on rakennettu opettajat mielessä pitäen"
     built_for_teachers_blurb: "Ohjelmoinnin opettaminen lapsille voi usein tuntua ylivoimaiselta. CodeCombat auttaa kaikkia opettajia opettamaan oppilaitaan, miten ohjelmoida joko Javascriptilla tai Pythonilla, kahdella maailman suosituimmista ohjelmointikielistä. Kattava opetussuunnitelma sisältää kuusi tietotekniikan osa-aluetta ja vahvistaa oppimista projektipohjaisten peli- ja web-kehitysosioiden avulla, joten lapset etenevät matkalla perussyntaksista rekursioon saakka!"
     built_for_teachers_subtitle1: "Tietotekniikka"
