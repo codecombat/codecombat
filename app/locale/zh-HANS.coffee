@@ -3014,4 +3014,4 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   browser_recommendation:
     pitch_body: '为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。'
     download: '下载 CHROME 浏览器'
-    cancel: '忽略'
+    ignore: '忽略'
