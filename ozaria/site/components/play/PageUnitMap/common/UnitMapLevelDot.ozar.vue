@@ -22,6 +22,7 @@
         default: undefined
       }
     },
+
     data: () => ({
       levelType: '',
       levelStatus: '',
@@ -29,10 +30,12 @@
       levelIcon: {},
       concepts: ''
     }),
+
     computed: {
       ...mapGetters({
         isTeacher: 'me/isTeacher'
       }),
+
       isCutsceneLevel: function () {
         if (this.levelData.type !== 'intro') {
           return false
@@ -40,6 +43,7 @@
         const introContent = this.levelData.introContent
         return introContent.length === 1 && introContent[0].type === 'cutscene-video'
       },
+
       levelDotPosition: function () {
         let position = {
           left: this.levelData.position.x + '%',
@@ -47,13 +51,14 @@
         }
         return position
       },
+
       levelDotClasses: function () {
         return {
           locked: this.levelData.locked,
           next: this.levelData.next,
-          'has-tooltip': true
         }
       },
+
       playLevelLink: function () {
         if (this.levelData.locked) { return '#' }
 
@@ -66,28 +71,18 @@
         const link = getNextLevelLink(this.levelData, nextLevelOptions)
         return link || '#'
       },
+
       displayName: function () {
         return this.levelData.displayName || this.levelData.name
-      },
-      tooltipText: function () {
-        if (this.levelStatus === 'Locked') {
-          return `<p>${this.displayName}</p>`
-        }
-        if ((this.concepts || []).length > 0) {
-          return `<p>${this.displayName}</p><p>${this.levelType}: ${this.concepts}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatusText}</p>`
-        } else {
-          return `<p>${this.displayName}</p><p>${this.levelType}</p><p>${$.i18n.t("play_level.level_status")}: ${this.levelStatusText}</p>`
-        }
       }
     },
+
     created () {
       this.setLevelTypeAndIcon()
       this.setLevelStatus()
       this.setLevelConcepts()
     },
-    mounted () {
-      $('.level-dot-image.has-tooltip').tooltip({ html: true })
-    },
+
     methods: {
       setLevelTypeAndIcon () {
         let type = this.levelData.ozariaType
@@ -143,56 +138,129 @@
 </script>
 
 <template>
-  <div
-    class="level-dot"
-    :style="levelDotPosition"
-  >
-    <a
-      class="level-dot-link"
-      :href="playLevelLink"
+    <div
+            class="level-dot"
+            :style="levelDotPosition"
     >
-      <img
-        class="level-dot-image"
-        :class="levelDotClasses"
-        :src="levelIcon[levelStatus]"
-        :title="tooltipText"
-      >
-    </a>
-  </div>
+        <v-popover
+                popover-base-class="level-dot-tooltip"
+                trigger="hover"
+                placement="top"
+                offset="10"
+        >
+            <a
+                    class="level-dot-link"
+                    :href="playLevelLink"
+            >
+                <img
+                        class="level-dot-image"
+                        :class="levelDotClasses"
+                        :src="levelIcon[levelStatus]"
+                >
+            </a>
+
+            <template slot="popover">
+                <div class="tooltip-container">
+                    <div class="tooltip-title">
+                        {{ levelType }}
+                    </div>
+                    <div class="tooltip-body">
+                        <div class="level-title">
+                            {{ displayName }}
+                        </div>
+
+                        <div v-if="levelStatus !== 'Locked'" class="level-status">
+                            {{ $t("play_level.level_status") }}: {{levelStatusText}}
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </v-popover>
+    </div>
 </template>
 
 <style lang="sass">
-  .has-tooltip + .tooltip > .tooltip-inner
-    background-color: #fff
-    color: #000
-    width: 150px
-    font-style: italic
-    border-radius: 0
+    .level-dot-tooltip
+        padding: 0
+        box-shadow: 4px 4px 15px 0 rgba(0,0,0,0.5);
 
-  .has-tooltip + .tooltip.top > .tooltip-arrow
-    border-top-color: #fff
+        &:before
+            content: ""
+            position: absolute
+            top: calc(100% - 11px)
+            left: calc(50% - 10px)
+
+            width: 20px
+            height: 20px
+            transform: rotate(45deg)
+
+            background-color: rgba(238,236,237,1)
+            border: 5px solid #401A1A
+            border-top: none
+            border-left: none
+
+            z-index: 2
+
+
+        .tooltip-title
+            background-color: #401A1A
+            padding: 11px 22px
+
+            color: #FFF
+            font-family: "Work Sans"
+            font-size: 14px
+            letter-spacing: 0.23px
+            line-height: 16px
+
+        .tooltip-inner
+            padding: 0
+
+            border: 5px solid #401A1A
+            background-color: rgba(238,236,237,1)
+
+            text-align: center
+
+            .tooltip-body
+                padding: 9px
+
+            .level-title
+                color: #401A1A
+                font-family: "Work Sans"
+                font-size: 17px
+                font-weight: 600
+                letter-spacing: 0.32px
+                line-height: 24px
+
+            .level-status
+                color: #401A1A
+                font-family: "Open Sans"
+                font-size: 14px
+                letter-spacing: 0.48px
+                line-height: 19px
 </style>
 
 <style scoped lang="sass">
+    // TODO calculate level-dot css based on unit map dimensions similar to campaign-view.sass
+    .level-dot
+        position: absolute
+        width: 2%
+        height: 3.0599%
+        margin-left: -1%
+        margin-bottom: -0.45499%
 
-  // TODO calculate level-dot css based on unit map dimensions similar to campaign-view.sass
-  .level-dot
-    position: absolute
-    width: 2%
-    height: 3.0599%
-    margin-left: -1%
-    margin-bottom: -0.45499%
+        .level-dot-link
+            width: 100%
+            height: 100%
+            position: absolute
 
-  .level-dot-link
-    width: 100%
-    height: 100%
-    position: absolute
+        .level-dot-image
+            width: 100%
+            height: 100%
+            position: absolute
 
-  .level-dot-image
-    width: 100%
-    height: 100%
-    position: absolute
+            &:not(.locked):hover
+                border: 2px groove red
 
-    &:not(.locked):hover
-      border: 2px groove red
+        ::v-deep .trigger
+            display: block !important
 </style>
