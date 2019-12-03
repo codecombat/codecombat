@@ -153,14 +153,23 @@ module.exports = class RootView extends CocoView
     $('body').attr('lang', preferred)
 
   addLanguagesToSelect: ($select, initialVal) ->
+    # For now, we only want to support a few languages for Ozaria when launching for HoC 2019:
+    supportedLanguages = ['en-US', 'es-419', 'zh-HANS']
+    filteredLocale = _.pick(locale, supportedLanguages)
+    codes = _.keys(filteredLocale)
+
+    # Because we only support a few languages, we force English as the default here:
     initialVal ?= me.get('preferredLanguage', true)
+    if initialVal not in codes
+      initialVal = supportedLanguages[0]
+
     if $select.is('ul') # base-flat
       @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)
-    codes = _.keys(locale)
+
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
-    for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
+    for code, localeInfo of filteredLocale when (not (code in genericCodes) or code is initialVal)
       if $select.is('ul') # base-flat template
         $select.append(
           $('<li data-code="' + code + '"><a class="language-dropdown-item">' + localeInfo.nativeDescription + '</a></li>'))
@@ -188,9 +197,6 @@ module.exports = class RootView extends CocoView
 
   onLanguageLoaded: ->
     @render()
-    unless me.get('preferredLanguage').split('-')[0] is 'en' or me.hideDiplomatModal()
-      DiplomatModal = require 'views/core/DiplomatSuggestionModal'
-      @openModalView(new DiplomatModal())
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)

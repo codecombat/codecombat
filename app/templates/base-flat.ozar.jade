@@ -72,6 +72,14 @@ mixin accountLinks
                             //- span.text-p= me.broadName()
                         +accountLinks
 
+                ul.nav.navbar-nav
+                  li.dropdown
+                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      //- string replaced in RootView
+                      span.language-dropdown-current Language
+                      span.caret
+                    ul(class="dropdown-menu language-dropdown" class=(!me.isAnonymous() ? "pull-right" : ""))
+
                 ul.nav.navbar-nav.navbar-right
                   if me.isAnonymous()
                     if document.location.href.search('/quote') >= 0
