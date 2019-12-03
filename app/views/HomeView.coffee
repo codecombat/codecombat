@@ -57,11 +57,6 @@ module.exports = class HomeView extends RootView
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
 
-    # Ozaria local setting to force English.
-    # TODO: Remove when user can pick a language.
-    if me.setTemporaryEnglishLock()
-      $.i18n.setLng('en-US', {})
-
     super()
 
   onClickRequestQuote: (e) ->

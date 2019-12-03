@@ -42,7 +42,6 @@ module.exports = class User extends CocoModel
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
-  isIndividualUser: -> not @isStudent() and not @isTeacher()
 
   isInternal: ->
     email = @get('email')
@@ -599,7 +598,6 @@ module.exports = class User extends CocoModel
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
-  setTemporaryEnglishLock: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "5d1a8368abd38e8b5363bad9" # teacher can only access 1FH freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   showForumLink: -> not (features?.china ? false)
