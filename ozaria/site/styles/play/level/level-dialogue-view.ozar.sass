@@ -7,8 +7,17 @@
 .fit
   display: inline-block
 
-#level-dialogue-view
+// TODO: Make this visible again after HoC 2019:
+.hidden-shepherd-box
   display: none
+  visibility: hidden
+
+// Overwrite the default opacity for Shepherd.js:
+.shepherd-modal-overlay-container.shepherd-modal-is-visible
+  opacity: 0.7
+
+#level-dialogue-view
+  display: flex
   position: absolute
   left: 0
   top: 0

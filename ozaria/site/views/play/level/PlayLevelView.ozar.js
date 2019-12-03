@@ -9,8 +9,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 
-import Shepherd from 'shepherd.js'
-
 import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
@@ -67,7 +65,6 @@ require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
 
 const PROFILE_ME = false
-const SHEPHERD_TIMEOUT = 5 * 1000
 
 class PlayLevelView extends RootView {
   // Prototype definitions have been moved to the end.
@@ -103,20 +100,6 @@ class PlayLevelView extends RootView {
 
     // TODO: Replace this with a real implementation and steps after HoC
     // Right now it is only used to highlight the Vega messages and block other input
-    this.tour = new Shepherd.Tour({
-      defaultStepOptions: {
-        scrollTo: true
-      },
-      useModalOverlay: true,
-      steps: [{
-        id: 'example-step',
-        attachTo: {
-          element: '#level-dialogue-view',
-          on: 'bottom'
-        },
-        classes: 'hidden-shepherd-box',
-      }]
-    })
 
     if (this.isEditorPreview) {
       this.supermodel.shouldSaveBackups = (
@@ -647,9 +630,8 @@ class PlayLevelView extends RootView {
     if (!this.level.isType('web-dev')) {
       this.insertSubView(new HUDView({ level: this.level }))
     }
-    this.insertSubView(
-      new LevelDialogueView({ level: this.level, sessionID: this.session.id })
-    )
+    this.dialogueView = new LevelDialogueView({ level: this.level, sessionID: this.session.id })
+    this.insertSubView(this.dialogueView)
     this.insertSubView(
       new ProblemAlertView({
         session: this.session,
@@ -950,8 +932,7 @@ class PlayLevelView extends RootView {
       this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
     }
 
-    this.tour.start()
-    setTimeout(this.tour.cancel, SHEPHERD_TIMEOUT)
+    this.dialogueView.beginDialogue()
   }
 
   onSetVolume (e) {
