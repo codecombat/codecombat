@@ -33,7 +33,7 @@ module.exports = Vue.extend({
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/editor', { trigger: true })
     }
-    console.log(`Got the slug: ${this.cinematicSlug} with type ${typeof this.cinematicSlug}`)
+
     if (this.slug)  {
       this.cinematicSlug = this.slug
     }
@@ -203,7 +203,7 @@ module.exports = Vue.extend({
           <editor-list
             v-for="cinematic in cinematicList"
             :key="cinematic.slug"
-            :text="cinematic.name"
+            :text="cinematic.name + (cinematic.displayName ? `\t\t| ${cinematic.displayName}` : '')"
             :slug="cinematic.slug"
             :id="cinematic._id"
             :clickHandler="() => fetchCinematic(cinematic.slug)"
