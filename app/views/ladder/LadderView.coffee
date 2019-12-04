@@ -48,8 +48,7 @@ module.exports = class LadderView extends RootView
     if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
       @leagueID = @leagueType = null
 
-    if features.china and @levelID == 'magic-rush'
-      @checkForTournamentEnd()
+
 
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
@@ -74,16 +73,24 @@ module.exports = class LadderView extends RootView
     @loadLeague()
     @urls = require('core/urls')
 
-  checkForTournamentEnd: =>
+  checkForTournamentRunning: =>
     return if @destroyed
     return false if me.isAdmin()
+    #TODO: get specific tournament mandate?
     $.get '/db/mandate', (data) =>
       return if @destroyed
-      if data?[0]?.currentTournament isnt 'magic-rush'
+      mandate = data?[0]
+      return unless @level.get('slug') is mandate?.currentTournament
+      return unless @courseInstance.id in (mandate?.courseInstanceIDs || [])
+      currentTime = Date.now() / 1000
+      if mandate.startTime > currentTime or mandate.endTime < currentTime
         @tournamentEnd = true
         @displayTabContent = 'display: none'
+        @render()
       else
-        setTimeout @checkForTournamentEnd, 60 * 1000
+        delta = (mandate.endTime - currentTime)
+        console.log "End time: #{new Date(mandate.endTime * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+        setTimeout @checkForTournamentRunning, 60 * 1000
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'
@@ -111,6 +118,9 @@ module.exports = class LadderView extends RootView
     course = new Course({_id: @courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render
+
+    if features.china
+      @checkForTournamentRunning()
 
   afterRender: ->
     super()
