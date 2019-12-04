@@ -81,9 +81,8 @@ module.exports = class LadderView extends RootView
       return if @destroyed
       mandate = data?[0]
       return unless @level.get('slug') is mandate?.currentTournament
-      return unless @courseInstance.id in (mandate?.courseInstanceIDs || [])
       currentTime = Date.now() / 1000
-      if mandate.startTime > currentTime or mandate.endTime < currentTime
+      unless @courseInstance.id in (mandate.courseInstanceIDs || []) and mandate.startTime <= currentTime and mandate.endTime > currentTime
         @tournamentEnd = true
         @displayTabContent = 'display: none'
         @render()

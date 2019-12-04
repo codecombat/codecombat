@@ -208,9 +208,8 @@ module.exports = class PlayLevelView extends RootView
       return if @destroyed
       mandate = data?[0]
       return unless @levelSlug is mandate?.currentTournament
-      return unless @courseInstanceID in (mandate?.courseInstanceIDs || [])
       currentTime = Date.now() / 1000
-      if mandate.startTime > currentTime or mandate.endTime < currentTime
+      unless @courseInstanceID in (mandate.courseInstanceIDs || []) and mandate.startTime <= currentTime and mandate.endTime > currentTime
         window.location.href = '/play/ladder/'+@levelSlug+'/course/'+@courseInstanceID
       else
         setTimeout @checkForTournamentRunning, 60 * 1000
