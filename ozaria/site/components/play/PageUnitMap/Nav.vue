@@ -48,13 +48,13 @@
 
                 <ul v-if="showAccountDropdown" class="dropdown">
                     <li>
-                        <button @click="onLogout">
-                            {{ $t('common.logout') }}
+                        <button @click="onAccountSettings">
+                            {{ $t('play.account_settings') }}
                         </button>
                     </li>
                     <li>
-                        <button @click="onAccountSettings">
-                            {{ $t('play.account_settings') }}
+                        <button @click="onLogout">
+                            {{ $t('common.logout') }}
                         </button>
                     </li>
                 </ul>
@@ -81,7 +81,8 @@
         left: 0;
         right: 0;
 
-        padding: 10px;
+        padding-top: 10px;
+        padding-left: 30px;
 
         ul.unit-map-navbar {
             display: flex;

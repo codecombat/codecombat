@@ -169,7 +169,7 @@
                             {{ displayName }}
                         </div>
 
-                        <div v-if="levelStatus !== 'Locked'" class="level-status">
+                        <div class="level-status">
                             {{ $t("play_level.level_status") }}: {{levelStatusText}}
                         </div>
                     </div>
@@ -243,8 +243,10 @@
     // TODO calculate level-dot css based on unit map dimensions similar to campaign-view.sass
     .level-dot
         position: absolute
-        width: 2%
-        height: 3.0599%
+        width: 3.5vmin
+        height: 3.5vmin
+        max-width: 30px
+        max-height: 30px
         margin-left: -1%
         margin-bottom: -0.45499%
 
