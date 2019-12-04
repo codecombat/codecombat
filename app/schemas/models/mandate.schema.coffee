@@ -42,6 +42,9 @@ module.exports = MandateSchema = {
       name: 'Current Tournament'
       description: 'The identifier of the current active tournament, if any.'
       type: 'string'
+    courseInstanceIDs: c.array {title: 'Course Instance IDs'}, c.objectId()
+    startTime: 'integer'
+    endTime: 'integer'
 }
 
 c.extendBasicProperties MandateSchema, 'Mandate'

@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   new_home:
     title: "CodeCombat - Codeerspellen om Python en JavaScript te leren"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Leer code typen via een programmeerspel. Leer Python, JavaScript en HTML terwijl je puzzels oplost en leer je eigen coderingsspellen en websites maken."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "Een Codeerspel Gemaakt met Leraren in Gedachten"
     built_for_teachers_blurb: "Kinderen leren programmeren kan vaak overweldigend aanvoelen. CodeCombat helpt alle docenten om leerlingen te leren coderen in JavaScript of Python, twee van de meest populaire programmeertalen. Met een uitgebreid curriculum dat zes computerwetenschap-eenheden omvat en het leren versterkt door projectgebaseerde spelontwikkeling en webontwikkelingsunits, zullen kinderen vooruitgang boeken op een reis van basissyntaxis naar recursie! "
     built_for_teachers_subtitle1: "Computerwetenschap"

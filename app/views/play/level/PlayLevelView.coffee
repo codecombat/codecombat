@@ -197,17 +197,23 @@ module.exports = class PlayLevelView extends RootView
       })
     @setupGod() if @waitingToSetUpGod
 
-    if features.china and e.level.get('slug') is 'magic-rush'
-      @checkForTournamentEnd()
+    if features.china
+      @levelSlug = e.level.get('slug')
+      @courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
+      @checkForTournamentRunning()
 
-  checkForTournamentEnd: =>
+  checkForTournamentRunning: =>
     return if @destroyed
     $.get '/db/mandate', (data) =>
       return if @destroyed
-      if data?[0]?.currentTournament isnt 'magic-rush'
-        window.location.href = '/play/ladder/magic-rush'
+      mandate = data?[0]
+      return unless @levelSlug is mandate?.currentTournament
+      return unless @courseInstanceID in (mandate?.courseInstanceIDs || [])
+      currentTime = Date.now() / 1000
+      if mandate.startTime > currentTime or mandate.endTime < currentTime
+        window.location.href = '/play/ladder/'+@levelSlug+'/course/'+@courseInstanceID
       else
-        setTimeout @checkForTournamentEnd, 60 * 1000
+        setTimeout @checkForTournamentRunning, 60 * 1000
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
