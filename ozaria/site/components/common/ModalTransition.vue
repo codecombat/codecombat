@@ -294,6 +294,9 @@
   <modal-char-customization
     v-else-if="showCharCx"
     class="char-cx-modal"
+
+    :showCancelButton="false"
+
     @saved="onCharCxSaved"
   />
 </template>

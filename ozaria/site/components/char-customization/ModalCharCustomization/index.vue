@@ -42,6 +42,13 @@
       BaseModalContainer
     },
 
+    props: {
+      showCancelButton: {
+        type: Boolean,
+        default: true
+      }
+    },
+
     data: () => ({
       characterName: "",
       loadedThangTypes: {},
@@ -294,6 +301,8 @@
       >
         <div class="button-area">
           <button
+            v-if="showCancelButton"
+
             @click="$emit('close')"
             class="char-button cancel-button"
           >
