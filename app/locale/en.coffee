@@ -1,7 +1,9 @@
 module.exports = nativeDescription: "English", englishDescription: "English", translation:
   new_home:
     title: "CodeCombat - Coding games to learn Python and JavaScript"
+    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Computer Science"
@@ -194,6 +196,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "Parents"
+    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Close"
@@ -2941,7 +2944,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     send: "Send Email"
 
   hoc_2018:
-    banner: "Happy Computer Science Education Week 2018!"
+    banner: "Welcome to Hour of Code 2019!" #
     page_heading: "Your students will learn to code by building their own game!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
@@ -3008,3 +3011,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_again: 'Whoops, try again!'
     select_statement_left: 'Whoops, select a statement from the left before hitting "Submit."'
     fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
+
+  browser_recommendation:
+    title: 'CodeCombat works best on Chrome!'
+    pitch_body: 'For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!'
+    download: 'Download Chrome'
+    ignore: 'Ignore'
