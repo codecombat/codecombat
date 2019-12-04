@@ -129,9 +129,12 @@ _.extend UserSchema.properties,
   testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
+  hourOfCode2019: {type: 'boolean'} # adding for hoc 2019, TODO refactor into a reusable property if needed
   hourOfCodeComplete: {type: 'boolean'}
   hourOfCodeOptions: c.object({title: 'Options useful for hour of code users'}, {
     showCompleteSignupModal: {type: 'boolean', description: 'Whether to show complete signup modal on teacher dashboard - only valid for teachers who signup from hoc signup flow'}
+    showHocProgress: {type: 'boolean', description: 'Set true for students who sign up from hoc save progress modal since they didnt have a class code'}
+    hocCodeLanguage: {type: 'string', description: 'HoC code language played as anonymous student, used to show progress on student dashboard until they have a class code'}
   })
   createdOnHost: { type: 'string' }
 
@@ -319,7 +322,7 @@ _.extend UserSchema.properties,
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher", "hoc player"]}  # unset: home player
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
   verifiedTeacher: { type: 'boolean' }
   birthday: ({ type: 'string', title: "Birthday", description: "Just month and year, stored YYYY-MM"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })

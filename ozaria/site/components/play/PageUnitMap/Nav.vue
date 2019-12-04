@@ -2,6 +2,13 @@
     import { mapGetters } from 'vuex'
 
     export default {
+      props: {
+        backButtonLink: {
+          type: String,
+          required: true
+        }
+      },
+
       data () {
         return {
           showAccountDropdown: false

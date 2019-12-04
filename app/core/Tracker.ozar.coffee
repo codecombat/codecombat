@@ -62,7 +62,9 @@ module.exports = class Tracker extends CocoClass
     @initialized = true
     @trackReferrers()
     if @isProduction and me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
-      @initializeIntercom()
+      @initializeIntercom().then =>
+        @identify()
+        @updateRole() if me.get('role')
       @updateIntercomRegularly()
     @identify() # Needs supermodel to exist first
     @updateRole() if me.get('role')
@@ -87,7 +89,7 @@ module.exports = class Tracker extends CocoClass
 
     traitsToReport = [
       'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
-      'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role'
+      'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'hourOfCode2019'
     ]
 
     if me.isTeacher(true)

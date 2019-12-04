@@ -15,4 +15,11 @@ module.exports = {
     fetchJson("/db/course_instance", {
       data: { ownerID: ownerID }
     })
+
+  # courseInstanceDetails = {classroomID: '', courseID: ''}
+  post: (courseInstanceDetails, options={}) ->
+    fetchJson("/db/course_instance", _.assign({}, options, {
+      method: 'POST'
+      json: courseInstanceDetails
+    }))
 }

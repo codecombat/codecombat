@@ -127,7 +127,8 @@
       :code-language="codeLanguage"
     />
     <unit-map-nav
-            @customizeHero="customizeHero"
+      @customizeHero="customizeHero"
+      :backButtonLink="backButtonLink"
     />
     <div
       v-if="showNavDots"

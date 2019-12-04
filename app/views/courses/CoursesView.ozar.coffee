@@ -21,6 +21,7 @@ ThangType = require 'models/ThangType'
 Mandate = require 'models/Mandate'
 utils = require 'core/utils'
 store = require 'core/store'
+coursesHelper = require 'lib/coursesHelper'
 
 # TODO: Test everything
 
@@ -64,6 +65,19 @@ module.exports = class CoursesView extends RootView
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
     @supermodel.addPromiseResource(store.dispatch('courses/fetch'))
+    @hourOfCodeOptions = utils.hourOfCodeOptions
+    @hocCodeLanguage = (me.get('hourOfCodeOptions') || {}).hocCodeLanguage || 'python'
+    @hocStats = {}
+    @listenTo @classrooms, 'sync', ->
+      if @showHocProgress()
+        campaign = @hourOfCodeOptions.campaignId
+        sessionFetchOptions = {
+          language: @hocCodeLanguage,
+          project: 'state.complete,level.original,playtime,changed'
+        }
+        @supermodel.addPromiseResource(store.dispatch('levelSessions/fetchLevelSessionsForCampaign', {campaignHandle: campaign, options: {data: sessionFetchOptions}}))
+        @campaignLevels = new Levels()
+        @supermodel.trackRequest(@campaignLevels.fetchForCampaign(@hourOfCodeOptions.campaignId, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
     @store = store
     @originalLevelMap = {}
     @urls = require('core/urls')
@@ -116,6 +130,37 @@ module.exports = class CoursesView extends RootView
         else
           @awaitingTournament = true
           @checkForTournamentStart()
+    
+    if @showHocProgress()
+      @calculateHocStats()
+
+  showHocProgress: ->
+    hocClassrooms = @classrooms.models.find((c) =>
+      return c.get('courses').filter((course) => c._id == @hourOfCodeOptions.courseId) && c.get('aceConfig').language == @hocCodeLanguage
+    ) || []
+    # show showHocProgress if student signed up using the end modal, and there are no relevant classrooms
+    if hocClassrooms.length == 0 and (me.get('hourOfCodeOptions') || {}).showHocProgress
+      return true
+
+  calculateHocStats: ->
+    hocCampaignSessions = (store.getters?['levelSessions/getSessionsForCampaign'](@hourOfCodeOptions.campaignId) || {}).sessions || []
+    campaignSessions = _.sortBy(hocCampaignSessions, (s) -> s.changed)
+    levelSessionMap = {}
+    campaignSessions.forEach((s) => levelSessionMap[s.level.original] = s)
+    userLevelStatusMap = {}
+    levelsInCampaign = new Set()
+    @campaignLevels.models.forEach((l) =>
+      if (levelSessionMap[l.get('original')]?.state.complete)
+        userLevelStatusMap[l.get('original')] = true
+      else
+        userLevelStatusMap[l.get('original')] = false
+      levelsInCampaign.add(l.get('original'))
+    )
+    [started, completed, levelsDone] = coursesHelper.hasUserCompletedCourse(userLevelStatusMap, levelsInCampaign)
+    @hocStats = {
+      complete: completed
+      pctDone: (levelsDone / @campaignLevels.models.length * 100).toFixed(1) + '%'
+    }
 
   checkForTournamentStart: =>
     return if @destroyed

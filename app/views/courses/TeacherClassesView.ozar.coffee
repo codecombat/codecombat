@@ -18,6 +18,7 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
+TeacherCompleteSignupModal = require('ozaria/site/components/teacher/modal/TeacherCompleteSignupModal')
 
 helper = require 'lib/coursesHelper'
 
@@ -220,6 +221,9 @@ module.exports = class TeacherClassesView extends RootView
     @calculateQuestCompletion()
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
+    # show complete signup modal for teachers who signed up using hoc user flow ux 2019
+    if me.isTeacher() and me.get('hourOfCode2019') and (me.get('hourOfCodeOptions') || {}).showCompleteSignupModal
+      @openCompleteSignupModal()
     if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
     super()
@@ -233,6 +237,11 @@ module.exports = class TeacherClassesView extends RootView
     @listenToOnce modal, 'hide', ->
       @calculateQuestCompletion()
       @render()
+
+  openCompleteSignupModal: ->
+    return unless me.id is @teacherID # Viewing page as admin
+    modal = new TeacherCompleteSignupModal()
+    @openModalView(modal)
 
   openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin

@@ -84,6 +84,17 @@ module.exports = Vue.extend({
     handleSkip() {
       this.onCompleted()
       throttledCutsceneEvent('Skipped Cutscene')
+    },
+
+    pauseCutscene () {
+      const videoPlayer = this.$refs['china-player'] || this.$refs['vimeo-player'] || this.$refs['cloudflare-player']
+      if (videoPlayer) {
+        if (videoPlayer.$refs['player']) { // for china player and vimeo player
+          videoPlayer.$refs['player'].pause()
+        } else if ($(this.$el) && ($(this.$el).find('stream') || [])[0]) {
+          $(this.$el).find('stream')[0].pause()
+        }
+      }
     }
   }
 })
@@ -92,9 +103,11 @@ module.exports = Vue.extend({
 <template>
   <layout-chrome
     :title="cutscene.displayName || cutscene.name"
+    @pause-cutscene="pauseCutscene"
   >
     <!-- CLOUDFLARE PLAYER -->
     <CloudflareVideoPlayer
+      ref="cloudflare-player"
       v-if="cloudflareID"
 
       :cutscene="cutscene"
@@ -104,6 +117,7 @@ module.exports = Vue.extend({
     />
     <!-- VIMEO PLAYER -->
     <base-video
+      ref="vimeo-player"
       v-if="vimeoId"
 
       id="cutscene-player"
@@ -120,6 +134,7 @@ module.exports = Vue.extend({
       >
         <div class="cutscene">
           <base-video
+            ref="china-player"
             :videoSrc="videoSrc"
             :captions="captions"
 
