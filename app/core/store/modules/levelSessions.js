@@ -20,7 +20,9 @@ export default {
      *     }
      *  }
      */
-    levelSessionsByClassroom: {}
+    levelSessionsByClassroom: {},
+    // level sessions for a campaign in any language depending on whats fetched from fetchLevelSessionsForCampaign
+    levelSessionsByCampaign: {}
   },
 
   mutations: {
@@ -44,6 +46,16 @@ export default {
       })
     },
 
+    initSessionsByCampaignState: (state, campaign) => {
+      if (state.levelSessionsByCampaign[campaign]) {
+        return
+      }
+
+      Vue.set(state.levelSessionsByCampaign, campaign, {
+        sessions: []
+      })
+    },
+
     setSessionsForClassroom: (state, { classroomId, sessions }) => {
       state.levelSessionsByClassroom[classroomId].sessions = sessions
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = {}
@@ -51,9 +63,17 @@ export default {
 
     addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) => {
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = levelCompletionsByUser
+    },
+
+    setSessionsForCampaign: (state, { campaign, sessions }) => {
+      state.levelSessionsByCampaign[campaign].sessions = sessions
     }
   },
-
+  getters: {
+    getSessionsForCampaign: (state) => (campaign) => {
+      return state.levelSessionsByCampaign[campaign]
+    }
+  },
   // TODO add a way to clear out old level session data
   actions: {
     // TODO how do we handle two sets of parallel requests here? (ie user vists page, hits back and then visits again quickly)
@@ -117,6 +137,19 @@ export default {
         classroomId,
         levelCompletionsByUser: Object.freeze(levelCompletionsByUser)
       })
+    },
+
+    async fetchLevelSessionsForCampaign ({ commit }, { campaignHandle, options }) {
+      commit('initSessionsByCampaignState', campaignHandle)
+
+      try {
+        const campaignSessions = await levelSessionsApi.fetchForCampaign(campaignHandle, options)
+        commit('setSessionsForCampaign', { campaign: campaignHandle, sessions: campaignSessions })
+        return campaignSessions
+      } catch (e) {
+        console.error('Error in fetching campaign sessions', e)
+        noty({ text: 'Error in fetching campaign sessions', type: 'error', timeout: 1000 })
+      }
     }
   }
 }

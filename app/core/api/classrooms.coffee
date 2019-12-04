@@ -41,4 +41,12 @@ module.exports = {
     fetchJson("/db/classroom?ownerID=#{ownerId}", {
       method: 'GET'
     })
+
+  # classDetails = { aceConfig: {language: ''}, name: ''}
+  post: (classDetails, options={}) ->
+    fetchJson("/db/classroom",  _.assign({}, options, {
+      method: 'POST'
+      json: classDetails
+    }))
+
 }

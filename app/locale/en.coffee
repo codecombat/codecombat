@@ -2981,6 +2981,31 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
     send: "Send Email"
 
+  hoc_2019:
+    heading: "Hour of Code 2019"
+    start: "Start Your Journey"
+    create_a_class: "Create a class to track your students' progress and ensure their hour of code games are saved!"
+    choose_language: "1. CHOOSE LANGUAGE"
+    programming_language: "Language"
+    sign_up: "2. SIGN UP"
+    already_have_account: "Already have a CodeCombat or Ozaria account? Login."
+    download_lesson_plan: "Download Lesson Plan"
+    try_activity_without_class: "Try activity without creating a class"
+    invite_students: "Invite Students to Your Class By Sending Them"
+    class_code: "CLASS CODE"
+    enter_code: "Students can enter this code at www.ozaria.com/hoc"
+    class_url: "CLASS URL"
+    share_url: "Share URL to have students automatically join your class."
+    start_activity: "Start Activity"
+    save_progress_modal: "Save your progress and keep playing later"
+    want_to_save: "Want to save your Hour of Code progress?"
+    ask_teacher_class_code: "Ask your teacher for your Class Code"
+    dont_have: "I don't have one, but want to Try the Activity!"
+    hoc_activity: 'Hour of Code Activity'
+    save_progress: 'Save Progress'
+    err_google_exists: "An account already exists for the Google account you've selected. Please choose another Google account or sign up with a username and password."
+    err_username_taken: "An account already exists for the username you've entered. Please choose another username."
+
   hoc_2018:
     banner: "Happy Computer Science Education Week 2018!"
     page_heading: "Your students will learn to code by building their own game!"

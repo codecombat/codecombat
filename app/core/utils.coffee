@@ -122,6 +122,21 @@ courseAcronyms = {}
 courseAcronyms[courseIDs.ONE_FREE_HOUR] = 'P'
 courseAcronyms[courseIDs.CHAPTER_ONE] = 'C1'
 
+hourOfCodeOptions = {
+  campaignId: freeCampaignIds[0],
+  courseId: courseIDs.ONE_FREE_HOUR,
+  name: 'Prologue: Sky Mountain',
+  progressModalAfter: 1500000 #25 mins
+}
+
+registerHocProgressModalCheck = ->
+  hocProgressModalCheck = setInterval(() =>
+    if window.sessionStorage?.getItem('hoc_progress_modal_time') < new Date().getTime()
+      window.sessionStorage.setItem('show_hoc_progress_modal', true)
+      window.sessionStorage.removeItem('hoc_progress_modal_time')
+      clearInterval(hocProgressModalCheck)
+  , 60000) # every 1 min
+
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
   '5744e3683af6bf590cd27371' # Cougar
@@ -738,6 +753,7 @@ module.exports = {
   getUTCDay
   grayscale
   hexToHSL
+  hourOfCodeOptions
   hslToHex
   i18n
   injectCSS
@@ -753,6 +769,7 @@ module.exports = {
   objectIdToDate
   orderedCourseIDs
   pathToUrl
+  registerHocProgressModalCheck
   replaceText
   round
   sortCourses

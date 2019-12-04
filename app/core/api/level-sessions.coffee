@@ -37,4 +37,7 @@ module.exports = {
       method: 'PUT'
       json: levelSession
     }))
+  
+  fetchForCampaign: (campaignHandle, options) ->
+    fetchJson("/db/campaign/#{campaignHandle}/sessions", options)
 }

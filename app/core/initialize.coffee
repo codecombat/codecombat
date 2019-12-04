@@ -61,6 +61,7 @@ init = ->
   setUpMoment() # Set up i18n for moment
   installVueI18n()
   checkAndLogBrowserCrash()
+  checkAndRegisterHocModalInterval()
 
 module.exports.init = init
 
@@ -211,6 +212,12 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
       clone[key] = value
   seen = null if root
   clone
+
+# We refresh the browser between levels due to memory leak issues
+# hence should register hoc progress modal check after every refresh if relevant
+checkAndRegisterHocModalInterval = ->
+  if window.sessionStorage?.getItem('hoc_progress_modal_time') # set in unit map
+    utils.registerHocProgressModalCheck()
 
 # Check if the crash happened, and log it on datadog. Note that the application should be initialized before this.
 checkAndLogBrowserCrash = ->

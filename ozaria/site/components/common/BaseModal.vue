@@ -10,6 +10,7 @@
 
 <template>
   <base-modal-container class="ozaria-modal">
+    <slot name="close-icon" />
     <div class="ozaria-modal-content">
       <div class="ozaria-modal-header">
         <slot name="header" />

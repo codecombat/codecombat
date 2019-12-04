@@ -11,13 +11,15 @@
   import UnitMapBackground from './common/UnitMapBackground'
   import AudioPlayer from 'app/lib/AudioPlayer'
   import createjs from 'app/lib/createjs-parts'
+  import HoC2019Modal from './hoc2019modal/index'
 
   export default Vue.extend({
     components: {
       'layout-chrome': LayoutChrome,
       'layout-center-content': LayoutCenterContent,
       'layout-aspect-ratio-container': LayoutAspectRatioContainer,
-      'unit-map-background': UnitMapBackground
+      'unit-map-background': UnitMapBackground,
+      'hoc-2019-modal': HoC2019Modal
     },
 
     props: {
@@ -56,7 +58,9 @@
       levelStatusMap: {},
       dataLoaded: false,
       nextLevelOriginal: '',
-      ambientSound: undefined
+      ambientSound: undefined,
+      hocCourseInstanceId: undefined,
+      openHoC2019Modal: true,
     }),
 
     computed: {
@@ -66,38 +70,75 @@
       }),
 
       computedCodeLanguage: function () {
-        if (me.isStudent()) {
+        if (me.isStudent() && this.classroom) {
           return (this.classroom.aceConfig || {}).language
         }
         return this.codeLanguage || utils.getQueryVariable('codeLanguage') || defaultCodeLanguage
       },
 
       computedCourseInstanceId: function () {
+        if (this.hocActivity && !me.isAnonymous()) {
+          return this.courseInstanceId || utils.getQueryVariable('course-instance') || this.hocCourseInstanceId
+        }
         return this.courseInstanceId || utils.getQueryVariable('course-instance')
       },
 
       computedCourseId: function () {
+        if (this.hocActivity && !me.isAnonymous()) {
+          return this.courseId || utils.getQueryVariable('course') || this.hocCourseId
+        }
         return this.courseId || utils.getQueryVariable('course')
+      },
+
+      hocCourseId: function () {
+        return utils.hourOfCodeOptions.courseId
       },
 
       computedCampaignPage: function () {
         return parseInt(this.campaignPage || utils.getQueryVariable('campaign-page')) || (this.levels[this.nextLevelOriginal] || {}).campaignPage || 1
+      },
+
+      hocActivity: function () {
+        return utils.hourOfCodeOptions.campaignId === this.campaignData._id
+      },
+
+      showHoC2019Modal () {
+        return utils.getQueryVariable('hour_of_code') && this.hocActivity && me.isAnonymous() && this.openHoC2019Modal
+      },
+
+      redirectUrl: function () {
+        if (me.isTeacher() && !this.computedCourseId) {
+          return '/teachers'
+        } else if (me.isStudent() && !this.computedCourseInstanceId && !this.hocActivity) {
+          return '/students'
+        }
+        // For students playing hoc activity(1fh), its possible that they dont have a course-instance
+        // (example, coco students with no oz class/who sign up without class code using hoc save progress modal)
+        // They should be allowed access to unit map, and their 1fh progress from hoc will be shown
+        return null
       }
     },
 
     watch: {
       campaign: async function () {
-        await this.loadUnitMapData()
+        await this.loadCampaign()
+        await this.buildUnitMapData()
       }
     },
 
     async mounted () {
-      if ((me.isStudent() && !this.computedCourseInstanceId)) {
-        return application.router.navigate('/students', { trigger: true })
-      } else if (me.isTeacher() && !this.computedCourseId) {
-        return application.router.navigate('/teachers', { trigger: true })
+      await this.loadCampaign()
+
+      // Fetch the hoc course instance for students playing hoc activity
+      if (me.isStudent() && this.hocActivity && !this.computedCourseInstanceId) {
+        this.hocCourseInstanceId = await me.getHocCourseInstanceId()
       }
-      await this.loadUnitMapData()
+
+      if (this.redirectUrl) {
+        return application.router.navigate(this.redirectUrl, { trigger: true })
+      }
+
+      await this.buildUnitMapData()
       this.playAmbientSound()
     },
 
@@ -151,17 +192,34 @@
         })
       },
 
-      async loadUnitMapData () {
+      // When hoc modal is closed without signing up, this is registered so that progress modal is shown after 25 min
+      registerHocProgressModalCheck () {
+        if ((utils.hourOfCodeOptions || {}).progressModalAfter && me.isAnonymous() && !window.sessionStorage.getItem('hoc_progress_modal_time')) {
+          window.sessionStorage.setItem('hoc_progress_modal_time', new Date().getTime() + utils.hourOfCodeOptions.progressModalAfter)
+          utils.registerHocProgressModalCheck()
+        }
+        // Note: Once the interval is registered and if hoc modal is opened again, or page is refreshed
+        // then, this interval will still keep running -> It might result in some rare edge cases
+      },
+
+      closeHocModal () {
+        this.openHoC2019Modal = false
+        this.registerHocProgressModalCheck()
+      },
+
+      async loadCampaign () {
+        await this.fetchCampaign(this.campaign)
+        this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
+
+        if (!me.hasCampaignAccess(this.campaignData)) {
+          alert('You must obtain a student license to access this page.')
+          return application.router.navigate('/', { trigger: true })
+        }
+      },
+
+      async buildUnitMapData () {
         try {
           this.dataLoaded = false
-          await this.fetchCampaign(this.campaign)
-          this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
-
-          if (!me.hasCampaignAccess(this.campaignData)) {
-            alert('You must obtain a student license to access this page.')
-            return application.router.navigate('/', { trigger: true })
-          }
-
           // Set current campaign id and unit map URL details for acodus chrome
           this.setCurrentCampaignId(this.campaign)
           this.setUnitMapUrlDetails({ courseId: this.computedCourseId, courseInstanceId: this.computedCourseInstanceId })
@@ -171,7 +229,7 @@
           }
           await this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId })
           this.levels = this.currentLevelsList
-          if (!me.isSessionless()) {
+          if (!me.isTeacher()) {
             this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })
             this.createLevelStatusMap()
             this.determineNextLevel()
@@ -213,7 +271,7 @@
               this.levelSessions.splice(this.levelSessions.indexOf(session), 1)
             }
           }
-        } else { // for anon/individual users
+        } else { // for anon/individual/hoc students without 1fh class
           this.levelSessions = this.levelSessions.filter((s) => s.codeLanguage === this.computedCodeLanguage)
         }
         this.levelStatusMap = getLevelStatusMap(this.levelSessions)
@@ -266,6 +324,10 @@
         />
       </layout-aspect-ratio-container>
     </layout-center-content>
+    <hoc-2019-modal
+      v-if="showHoC2019Modal"
+      @closeModal="closeHocModal()"
+    />
   </layout-chrome>
 </template>
 

@@ -149,6 +149,24 @@ module.exports = class User extends CocoModel
 
     return false
 
+  getHocCourseInstanceId: () ->
+    courseInstanceIds = me.get('courseInstances') || []
+    return if courseInstanceIds.length == 0
+    courseInstancePromises = []
+    courseInstanceIds.forEach((id) =>
+      courseInstancePromises.push(api.courseInstances.get({ courseInstanceID: id }))
+    )
+
+    Promise.all(courseInstancePromises)
+    .then (courseInstances) =>
+      courseInstancesHoc = courseInstances.filter((c) => c.courseID == utils.hourOfCodeOptions.courseId)
+      return if (courseInstancesHoc.length == 0)
+      return courseInstancesHoc[0]._id if (courseInstancesHoc.length == 1)
+      # return the latest course instance id if there are multiple
+      courseInstancesHoc = _.sortBy(courseInstancesHoc, (c) -> c._id)
+      return _.last(courseInstancesHoc)._id
+    .catch (err) => console.error("Error in fetching hoc course instance", err)
+
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 

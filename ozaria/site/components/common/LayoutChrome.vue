@@ -1,7 +1,11 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import SignupModal from 'ozaria/site/components/play/PageUnitMap/hoc2019modal'
 
   export default Vue.extend({
+    components: {
+      SignupModal
+    },
     props: {
       title: {
         type: String,
@@ -23,7 +27,9 @@
         default: false
       }
     },
-
+    data: () => ({
+      openSaveProgressModal: false
+    }),
     computed: {
       ...mapGetters({
         soundOn: 'layoutChrome/soundOn',
@@ -43,6 +49,37 @@
           }
         }
         return this.getMapUrl
+      },
+
+      displaySaveProgressButton () {
+        return me.isAnonymous()
+      },
+
+      showSaveProgressModal () {
+        return this.openSaveProgressModal
+      }
+    },
+
+    mounted () {
+      // Check here if `show_hoc_progress_modal` has been set as true to show the progress modal
+      // `hoc_progress_modal_time` is set in the unit map component
+      // and since chrome is mounted before unit map, the condition will be false while on the unit map page
+      // However it will be true if the user navigates to any level from the unit map, since chrome is mounted again on those pages
+      if (window.sessionStorage.getItem('hoc_progress_modal_time') && me.isAnonymous()) {
+        this.showProgressModal = setInterval(() => {
+          if (window.sessionStorage.getItem('show_hoc_progress_modal')) {
+            this.openSaveProgressModal = true
+            this.$emit('pause-cutscene')
+            window.sessionStorage.removeItem('show_hoc_progress_modal')
+            clearInterval(this.showProgressModal)
+          }
+        }, 60000) // every 1 min
+      }
+    },
+
+    beforeDestroy () {
+      if (this.showProgressModal) {
+        clearInterval(this.showProgressModal)
       }
     },
 
@@ -56,7 +93,16 @@
       clickRestart () {
         this.$emit('click-restart')
       },
-      
+
+      closeSaveProgressModal () {
+        this.openSaveProgressModal = false
+      },
+
+      clickSaveProgress () {
+        this.openSaveProgressModal = true
+        this.$emit('pause-cutscene')
+      },
+
       // Inspired from CocoView toggleFullscreen method.
       toggleFullScreen () {
         const full = document.fullscreenElement ||
@@ -157,11 +203,20 @@
           @click="toggleSoundAction" />
       </div>
 
-      <div v-if="title">
-        <div id="text-tab">
-          <div class="text-contents" :class="[ chromeOn ? 'chrome-on' : 'chrome-off']">
-            <span>{{ title }}</span>
-          </div>
+      <div id="text-tab">
+        <div
+          v-if="title"
+          class="text-contents"
+          :class="[ chromeOn ? 'chrome-on' : 'chrome-off']"
+        >
+          <span>{{ title }}</span>
+        </div>
+        <div
+          v-if="displaySaveProgressButton"
+          class="save-progress-div"
+          @click="clickSaveProgress"
+        >
+          <span class="save-progress-text"> {{ $t("hoc_2019.save_progress") }} </span>
         </div>
       </div>
     </div>
@@ -169,6 +224,14 @@
     <div class="background-img">
       <slot />
     </div>
+
+    <signup-modal
+      v-if="showSaveProgressModal"
+      class="save-progress-modal"
+      :save-progress-modal="showSaveProgressModal"
+
+      @closeModal="closeSaveProgressModal"
+    />
   </div>
 </template>
 
@@ -193,6 +256,12 @@
       background-repeat: no-repeat
       width: 100%
       height: 100%
+
+    .save-progress-modal
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
 
   .chrome-border
     $topOffset: 25px
@@ -321,6 +390,28 @@
         line-height: 24px
         text-shadow: 0 2px 4px rgba(51,236,201,0.55)
         min-width: 370px
+
+      .save-progress-div
+        height: 28px
+        width: 158px
+        border-radius: 10px
+        background-color: #231D1D
+        box-shadow: inset 2px 2px 3px 0 rgba(0,0,0,0.5), inset -2px -2px 3px 0 #191213
+        right: 13%
+        top: 1%
+        position: absolute
+        cursor: pointer
+        pointer-events: auto
+
+        .save-progress-text
+          height: 30px
+          width: 128px
+          color: $acodus-glow
+          font-family: "Work Sans"
+          font-size: 18px
+          letter-spacing: 0.36px
+          line-height: 30px
+          text-align: center
 
     #btn-home
       position: fixed

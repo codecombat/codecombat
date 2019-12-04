@@ -2953,6 +2953,29 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     custom_message: "Acabo de enterarme de CodeCombat y creo que sería un gran programa para tu asignatura. Es una plataforma para aprender ciencias de la computación que tiene un plan de estudios que cumple con las normas educativas.\n\nLa alfabetización digital es muy importante, y creo que esta sería una gran forma de hacer que los estudiantes se interesen en aprender a programar."
     send: "Enviar correo"
 
+  hoc_2019:
+    heading: "Hora del Código 2019"
+    start: "Empieza tu camino"
+    create_a_class: "¡Crea una clase para monitorear el progreso de los estudiantes y garantizar el guardado de sus juegos de la Hora del Código!"
+    choose_language: "1. ELEGIR IDIOMA"
+    programming_language: "Idioma"
+    sign_up: "2. REGISTRARSE"
+    already_have_account: "¿Ya tienes una cuenta de CodeCombat o de Ozaria? Inicia sesión."
+    download_lesson_plan: "Descarga el plan de estudios"
+    try_activity_without_class: "Prueba la actividad sin crear una clase"
+    invite_students: "Invita a los estudiantes a unirse a tu clase enviándoles"
+    class_code: "CÓDIGO DE CLASE"
+    enter_code: "Los estudiantes pueden ingresar este código en www.ozaria.com/hoc"
+    class_url: "URL DE CLASE"
+    share_url: "Comparte la URL para que los estudiantes se unan a tu clase automáticamente."
+    start_activity: "Empezar actividad"
+    save_progress_modal: "Guarda tu progreso y continúa jugando más tarde"
+    want_to_save: "¿Quieres guardar tu progreso del Código de Honor?"
+    ask_teacher_class_code: "Pídele a tu maestro tu código de clase"
+    dont_have: "¡No tengo, pero quiero probar la actividad!"
+    hoc_activity: 'Actividad de la Hora del Código'
+    save_progress: 'Guardar progreso'
+
   hoc_2018:
     banner: "¡Feliz semana de la educación en ciencias de la computación de 2018!"
     page_heading: "¡Tus estudiantes aprenderán a programar diseñando su propio juego!"

@@ -154,11 +154,14 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': () ->
+    'hoc': (queryString) ->
+      queryString ?= ''
       # Load the tracking image without it disrupting the page layout.
       hocImg = new Image()
       hocImg.src = 'https://code.org/api/hour/begin_codecombat_ozaria.png'
-      @navigate('/play/prologue-sky-mountain', { trigger: true })
+      if queryString
+        queryString = '&' + queryString
+      @navigate("/play/prologue-sky-mountain?hour_of_code=true#{queryString}", { trigger: true })
 
     'home': go('HomeView')
 
@@ -275,13 +278,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
-    'teachers/hour-of-code': redirect('/teachers/resources/1fhLessonPlan')
+    'teachers/hour-of-code': redirect('/teachers/resources/hoc2019LessonPlan')
     'teachers/licenses': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
     'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
-    'teachers/resources/hoc2019': redirect('/teachers/resources/1fhLessonPlan') # Temporary redirect unitl we finalize the landing page.
+    'teachers/resources/hoc2019': redirect('/teachers/resources/hoc2019LessonPlan') # TODO clarify if this is required
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()

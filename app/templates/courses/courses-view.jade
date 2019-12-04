@@ -78,6 +78,20 @@ block content
             .text-center
               h1(data-i18n="courses.welcome_to_page")
 
+            if view.showHocProgress()
+              div.hoc-progress.rtl-allowed
+                h5(dir="auto")
+                  span.spr(data-i18n="hoc_2019.hoc_activity")
+                .course-instance-entry.rtl-allowed
+                  - var course = view.hourOfCodeOptions.courseId;
+                  - var mapUrl = view.urls.courseWorldMap({courseId: course, campaignId: view.hourOfCodeOptions.campaignId});
+                  h6
+                    span.spr= view.hourOfCodeOptions.name
+                    small
+                      a.view-levels-btn(data-href=mapUrl, data-course-id=course, data-i18n="courses.view_map")
+                  +hoc-progress-body(view.hocStats, mapUrl)
+                  .clearfix
+
             if view.classrooms.size()
               br
               h3(data-i18n="courses.my_classes")
@@ -190,3 +204,23 @@ mixin course-instance-body(courseInstance, stats, nextLevel, mapUrl)
   else
     .progress
       .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone
+
+mixin hoc-progress-body(hocStats, mapUrl)
+  if hocStats.complete
+    .text-success
+      span.glyphicon.glyphicon-ok
+      span.spl(data-i18n="courses.unit_complete")
+      span !
+  .pull-right
+    if hocStats.complete
+      a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
+    else
+      a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=mapUrl, data-event-action="Students Continue Course")
+        span(data-i18n="common.continue")
+
+  .clearfix
+  if hocStats.complete
+    br
+  else
+    .progress
+      .progress-bar(style="width:"+hocStats.pctDone)= hocStats.pctDone
