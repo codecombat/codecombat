@@ -5,15 +5,15 @@ _Prologue: The Sky Mountain_ content is designed to get students excited about t
 
 1. The Sky Mountain will not have summative assessment built in, but the later units will have levels that serve as summative assessment and rubrics for Capstone projects will assess content and skills in a more targeted way.
 1. The Capstone project for The Sky Mountain is more scaffolded, with fewer opportunities for student creativity than future projects given the introductory nature of the module.
-1. There are fewer Interactives (formative assessments) in The Sky Mountain than in later content, as students spend most of their time guided through a Capstone project.
+1. There are fewer Concept Checks (formative assessments) in The Sky Mountain than in later content, as students spend most of their time guided through a Capstone project.
 
 #### **Terminology**
 
 1. _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-1. _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
+1. _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
     1. _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters. 
-    1. Interactive - Formative checks for student understanding presented in varied formats, including drag-and-drop questions and code ordering questions.
-1. _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Cinematics/Interactive flows.
+    1. _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop questions and code ordering questions.
+1. _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Cinematics/Concept Check flows.
 1. _Capstone_ - Projects used to assess students’ knowledge of a Unit’s content and give them opportunities to explore creative design. Students will finish Capstones with a shareable product.
     1. _Stage_ - A single milestone of the Capstone project that helps students reach achievable, chunked goals.
 
@@ -43,7 +43,7 @@ When the Hero uses the artifact, they are sucked into the Spirit Land! In the Sp
 
 **Cinematic: Objects and Avatars** - Vega explains objects, methods, and arguments.
 
-**Interactive: Setting Art** - Students drag and drop parts of a code statement into the correct placement.
+**Concept Check: Setting Art** - Students drag and drop parts of a code statement into the correct placement.
 
 **Cinematic: Properties of Life** - Vega explains the setArt method.
 
@@ -79,7 +79,7 @@ The hero and her dog are suddenly interrupted by the tower shaking in the real w
 
 **Cinematic: Powering Up -** Vega explains the difference between resources and power ups.
 
-**Interactive: Game Tool Definitions** - Students match new vocabulary with definitions.
+**Concept Check: Game Tool Definitions** - Students match new vocabulary with definitions.
 
 **Cinematic: What's for Dinner** - Vega explains how to update resources and power ups.
 
