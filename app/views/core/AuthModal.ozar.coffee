@@ -102,17 +102,15 @@ module.exports = class AuthModal extends ModalView
         })
     })
 
-  onGPlusLoginError: (res) ->
-    @$('#unknown-error-alert').addClass('hide')
-    if res.errorID and res.errorID is 'individuals-not-supported'
+  onGPlusLoginError: (res, jqxhr) ->
+    if jqxhr.status is 401 and jqxhr.responseJSON.errorID and jqxhr.responseJSON.errorID is 'individuals-not-supported'
       forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
-      showingError = true
-      @$('#unknown-error-alert').removeClass('hide')
+    else
+      errors.showNotyNetworkError(arguments...)
 
     btn = @$('#gplus-login-btn')
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
     btn.attr('disabled', false)
-    errors.showNotyNetworkError(arguments...)
 
 
   # Facebook

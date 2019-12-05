@@ -78,6 +78,10 @@ export default {
             forms.setErrorToProperty($('#auth-modal'), 'password', $.i18n.t('account_settings.wrong_password'))
             this.showingError = true
           }
+          if (errorID === 'individuals-not-supported') {
+            forms.setErrorToProperty($('#auth-modal'), 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
+            this.showingError = true
+          }
         }
         if (!this.showingError) {
           $('#unknown-error-alert').removeClass('hide')
@@ -108,7 +112,15 @@ export default {
         await new Promise((resolve, reject) =>
           me.loginGPlusUser(gplusAttrs.gplusID, {
             success: resolve,
-            error: function() { errors.showNotyNetworkError(...arguments); reject(...arguments) }
+            error: function(res, jqxhr) {
+              if (jqxhr.status === 401 && jqxhr.responseJSON.errorID && jqxhr.responseJSON.errorID === 'individuals-not-supported') {
+                forms.setErrorToProperty($('#auth-modal'), 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
+              } else {
+                errors.showNotyNetworkError(...arguments)
+              }
+
+              reject(...arguments)
+            }
           }))
         if (me.isStudent()) {
           await this.finishLogin()
