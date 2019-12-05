@@ -79,6 +79,15 @@
         .then(() => this.loaded = true)
 
       this.setInitialData()
+      window.tracker.trackEvent('Loaded Character Customization',
+        {selectedHeroOriginalId: (this.ozariaHeroes[this.selectedHero] || {}).original},
+        ['Google Analytics'])
+    },
+
+    beforeDestroy () {
+      window.tracker.trackEvent('Unloaded Character Customization',
+        {selectedHeroOriginalId: (this.ozariaHeroes[this.selectedHero] || {}).original},
+        ['Google Analytics'])
     },
 
     computed: {

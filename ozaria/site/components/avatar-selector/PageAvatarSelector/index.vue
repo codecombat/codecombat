@@ -58,7 +58,7 @@ export default Vue.extend({
     BaseButton,
     Surface
   },
-  
+
   data: () => ({
     selected: -1,
     loadedThangTypes: {},
@@ -84,6 +84,14 @@ export default Vue.extend({
     }
 
     this.loaded = true
+    window.tracker.trackEvent('Loaded Avatar Selector', {}, ['Google Analytics'])
+  },
+
+  beforeDestroy () {
+    window.tracker.trackEvent('Unloaded Avatar Selector',
+      {petThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicPetThangId,
+        avatarThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicThangTypeId},
+      ['Google Analytics'])
   },
 
   computed: {
