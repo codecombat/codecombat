@@ -4,9 +4,9 @@
 #### **Terminology**
 
 - _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-- _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
+- _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
     - _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
-    - Interactive - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
+    - _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
 - _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
 - _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
 
@@ -18,7 +18,7 @@
 
 The Hero and Vega have the debugging tool, and Vega explains what bugs and debugging are.
 
-**Interactive: Debugging Definitions**
+**Concept Check: Debugging Definitions**
 
 Students demonstrate knowledge of debugging and programming vocabulary.
 
@@ -26,7 +26,7 @@ Students demonstrate knowledge of debugging and programming vocabulary.
 
 Students learn about logic errors.
 
-**Interactive: Move the Rabbit**
+**Concept Check: Move the Rabbit**
 
 Students modify a code sequence to fix logic errors.
 
@@ -34,7 +34,7 @@ Students modify a code sequence to fix logic errors.
 
 Students are introduced to syntax errors.
 
-**Interactive: Rabbit Syntax Error**
+**Concept Check: Rabbit Syntax Error**
 
 Students modify a code sequence to fix syntax errors.
 
