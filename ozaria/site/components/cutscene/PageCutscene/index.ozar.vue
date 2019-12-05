@@ -10,7 +10,7 @@ import LayoutAspectRatioContainer from '../../common/LayoutAspectRatioContainer'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
 import CloudflareVideoPlayer from '../common/CloudflareVideoPlayer'
 
-const throttledCutsceneEvent = _.once(cutsceneEvent)
+const throttledSkippedCutsceneEvent = _.once(cutsceneEvent)
 
 module.exports = Vue.extend({
   props: {
@@ -38,6 +38,10 @@ module.exports = Vue.extend({
 
   mounted () {
     this.loadCutscene()
+  },
+
+  beforeDestroy () {
+    cutsceneEvent('Unloaded Cutscene', {cutsceneId: this.cutsceneId})
   },
 
   computed: {
@@ -75,15 +79,17 @@ module.exports = Vue.extend({
           src: `/file/${cutscene.i18n[i18nKey].captions.src}`,
           srclang: i18nKey
         }))
+      cutsceneEvent('Loaded Cutscene', {cutsceneId: this.cutsceneId})
     },
 
     onCompleted() {
       this.$emit('completed', this.cutscene)
+      cutsceneEvent('Completed Cutscene', {cutsceneId: this.cutsceneId})
     },
 
     handleSkip() {
       this.onCompleted()
-      throttledCutsceneEvent('Skipped Cutscene')
+      throttledSkippedCutsceneEvent('Skipped Cutscene', {cutsceneId: this.cutsceneId})
     },
 
     pauseCutscene () {

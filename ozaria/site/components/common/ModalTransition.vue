@@ -169,6 +169,11 @@
           this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
           if (this.editCapstoneLevelData && !me.isSessionless()) {
             this.capstoneLevelSession = await this.getLevelSession(this.editCapstoneLevelData.slug)
+            window.tracker.trackEvent('Completed Capstone Level', {
+              category: 'Play Level',
+              levelOriginalId: this.editCapstoneLevelData.original,
+              levelSessionId: (this.capstoneLevelSession || {})._id
+            }, ['Google Analytics'])
           }
         }
       },

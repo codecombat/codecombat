@@ -12,6 +12,7 @@
 import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
+import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
 
 require('app/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
@@ -22,7 +23,6 @@ const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
 const utils = require('core/utils')
 const storage = require('core/storage')
-import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
 
 // tools
 const Surface = require('lib/surface/Surface')
@@ -917,14 +917,29 @@ class PlayLevelView extends RootView {
       this.loadingView = null
     }
     this.playAmbientSound()
-    // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-    if (!this.observing) {
-      trackEvent('Started Level', {
-        category: 'Play Level',
-        label: this.levelID,
-        levelID: this.levelID,
-        ls: this.session != null ? this.session.get('_id') : undefined
-      })
+    if (!this.observing && this.level) {
+      if (this.level.get('ozariaType') === 'capstone') {
+        trackEvent('Loaded Capstone Stage', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+          capstoneStage: this.capstoneStage
+        }, ['Google Analytics'])
+      } else if (this.level.get('ozariaType') === 'challenge') {
+        trackEvent('Loaded Challenge Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      } else {
+        trackEvent('Loaded Practice Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      }
+    } else if (!this.level) {
+      console.error('Expecte this.level to exist in PlayLevelView.startLevel, skipping event logging.')
     }
     $(window).trigger('resize')
 
@@ -1069,6 +1084,7 @@ class PlayLevelView extends RootView {
 
   onShowVictory (e) {
     e = e || {}
+    const currentCapstoneStage = this.capstoneStage // this.capstoneStage updated in showVictory/softReload
     if (
       !this.level.isType(
         'hero',
@@ -1082,33 +1098,51 @@ class PlayLevelView extends RootView {
     ) {
       $('#level-done-button').show()
     }
-    if (e.showModal) {
-      this.showVictory(_.pick(e, 'manual', 'capstoneInProgress'))
-    }
-    if (this.victorySeen && !e.capstoneInProgress) {
-      return
-    }
-    this.victorySeen = true
-    const victoryTime = new Date() - this.loadEndTime
-    if (!this.observing && victoryTime > 10 * 1000) {
-      // Don't track it if we're reloading an already-beaten level
-      trackEvent('Saw Victory', {
-        category: 'Play Level',
-        level: this.level.get('name'),
-        label: this.level.get('name'),
-        levelID: this.levelID,
-        ls: this.session != null ? this.session.get('_id') : undefined,
-        playtime:
-          this.session != null ? this.session.get('playtime') : undefined
-      })
+
+    if (!this.observing) {
+      if (this.level.get('ozariaType') === 'capstone') {
+        if (e.capstoneInProgress) {
+          trackEvent('Completed Capstone Stage', {
+            category: 'Play Level',
+            levelOriginalId: this.level.original || this.level.attributes.original,
+            levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+            playtime: this.session != null ? this.session.get('playtime') : undefined,
+            capstoneStage: currentCapstoneStage || this.capstoneStage
+          }, ['Google Analytics'])
+        } else {
+          trackEvent('Completed Capstone Level', {
+            category: 'Play Level',
+            levelOriginalId: this.level.original || this.level.attributes.original,
+            levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+            playtime: this.session != null ? this.session.get('playtime') : undefined
+          }, ['Google Analytics'])
+        }
+      } else if (this.level.get('ozariaType') === 'challenge') {
+        trackEvent('Completed Challenge Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      } else {
+        trackEvent('Completed Practice Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+          playtime: this.session != null ? this.session.get('playtime') : undefined
+        }, ['Google Analytics'])
+      }
       if (application.tracker) {
         application.tracker.trackTiming(
-          victoryTime,
+          new Date() - this.loadEndTime,
           'Level Victory Time',
           this.levelID,
           this.levelID
         )
       }
+    }
+
+    if (e.showModal) {
+      this.showVictory(_.pick(e, 'manual', 'capstoneInProgress'))
     }
   }
 
@@ -1515,6 +1549,30 @@ class PlayLevelView extends RootView {
         console.profileEnd()
       }
     }
+    if (this.level) {
+      if (this.level.get('ozariaType') === 'capstone') {
+        trackEvent('Unloaded Capstone Stage', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+          capstoneStage: this.capstoneStage
+        }, ['Google Analytics'])
+      } else if (this.level.get('ozariaType') === 'challenge') {
+        trackEvent('Unloaded Challenge Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      } else {
+        trackEvent('Unloaded Practice Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      }
+    } else if (!this.level) {
+      console.error('Expecte this.level to exist in PlayLevelView.destroy, skipping event logging.')
+    }
     return super.destroy()
   }
 
@@ -1566,7 +1624,7 @@ class PlayLevelView extends RootView {
         url += '?capstoneStage=' + this.capstoneStage
       }
 
-      window.history.pushState(null, null, url);
+      window.history.pushState(null, null, url)
     }
 
     this.scriptManager.setScripts(this.level.get('scripts'))

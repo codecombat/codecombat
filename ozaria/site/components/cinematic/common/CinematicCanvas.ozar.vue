@@ -65,7 +65,10 @@ export default {
       handlers: {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
-        onCompletion: () => this.$emit('completed'),
+        onCompletion: () => {
+          this.$emit('completed')
+          window.tracker.trackEvent('Completed Cinematic', {cinematicId: (this.cinematicData || {})._id}, ['Google Analytics'])
+        },
         onLoaded: this.handleCinematicLoad
       }})
 
@@ -100,6 +103,7 @@ export default {
     handleCinematicLoad () {
       this.loaded = true;
       this.userInterruptionEvent();
+      window.tracker.trackEvent('Loaded Cinematic', {cinematicId: (this.cinematicData || {})._id}, ['Google Analytics'])
     },
 
     handleKeyboardCancellation: function(e) {
@@ -135,6 +139,7 @@ export default {
     }
     window.removeEventListener('keypress', this.handleKeyboardCancellation)
     window.removeEventListener('resize', this.onResize)
+    window.tracker.trackEvent('Unloaded Cinematic', {cinematicId: (this.cinematicData || {})._id}, ['Google Analytics'])
   },
 }
 </script>
