@@ -66,8 +66,8 @@ Once they have started in Module 1, students will be able to move through at the
 
 - Have students pause once they reach a new Cutscene, and watch Cutscenes together as a class.
     - When to use this method: When you have students who usually work at roughly the same pace and you want students to be approximately at the same place in the narrative to foster a sense of class community.
-- Have students pause once they reach Interactives.
-    - When to use this method: When you want to leverage Interactives as formative assessment. You can go over the answer to the Interactive as a whole class so students who are having trouble with the concepts can review before moving on.
+- Have students pause once they reach Concept Checks.
+    - When to use this method: When you want to leverage Concept Checks as formative assessment. You can go over the answer to the Concept Chec as a whole class so students who are having trouble with the concepts can review before moving on.
 
 ### Common Student Misconceptions
 
