@@ -4,9 +4,9 @@
 #### **Terminology**
 
 - _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-- _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
+- _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
     - _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
-    - Interactive - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
+    - _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
 - _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
 - _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
 
@@ -26,7 +26,7 @@ Students are introduced to the code editor and typing code to complete simple go
 
 Students learn what algorithms are and why they&#39;re important.
 
-**Interactive: Recipes and Algorithms**
+**Concept Check: Recipes and Algorithms**
 
 Students apply their knowledge of algorithms to a simple everyday task.
 
@@ -34,7 +34,7 @@ Students apply their knowledge of algorithms to a simple everyday task.
 
 Students learn about programming languages.
 
-**Interactive: Travel the Path**
+**Concept Check: Travel the Path**
 
 Students apply their knowledge of sequential programs to get the fox to the end of a path.
 
@@ -42,7 +42,7 @@ Students apply their knowledge of sequential programs to get the fox to the end 
 
 Students learn about syntax rules in programming languages.
 
-**Interactive: Jump and Move**
+**Concept Check: Jump and Move**
 
 Students apply their knowledge of syntax and sequences to complete a simple goal.
 
