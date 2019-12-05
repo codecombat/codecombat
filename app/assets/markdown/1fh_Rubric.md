@@ -1,7 +1,7 @@
 ##### Capstone Rubric: Prologue
 # Sample Rubric: Hungry Hungry Avatars
 
-This sample rubric is designed for you to evaluate your students&#39; progress on their Capstone projects for _Prologue: The Sky Mountain._ It assumes that students completed the Capstone project in the game and that they completed the reflection activity included in the _Prologue: The Sky Mountain_ Lesson Plan [link here]. You should feel free to adapt and expand this rubric as needed for your classroom — keep in mind the learning objectives of this introductory unit:
+This sample rubric is designed for you to evaluate your students&#39; progress on their Capstone projects for _Prologue: The Sky Mountain._ It assumes that students completed the Capstone project in the game and that they completed the reflection activity included in the [Prologue: The Sky Mountain_ Lesson Plan](https://www.ozaria.com/teachers/resources/1fhLessonPlan). You should feel free to adapt and expand this rubric as needed for your classroom — keep in mind the learning objectives of this introductory unit:
 
 - Modify sequences to complete a goal.
 - Distinguish between objects, methods, and arguments.
