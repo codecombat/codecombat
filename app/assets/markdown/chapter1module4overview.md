@@ -3,9 +3,9 @@
 ## **Terminology**
 
 1. _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-1. _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
+1. _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
     1. _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
-    1. _Interactive_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
+    1. _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
 1. _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
 1. _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
 
@@ -17,7 +17,7 @@
 
 The hero and Vega reach Xing&#39;chen, and students learn about Boolean logic.
 
-**Interactive: Cart Comparisons**
+**Concept Check: Cart Comparisons**
 
 Students evaluate whether expressions are true or false.
 
@@ -25,7 +25,7 @@ Students evaluate whether expressions are true or false.
 
 Students learn how to use pseudocode to plan their programs.
 
-**Interactive: Pseudocode Adventures**
+**Concept Check: Pseudocode Adventures**
 
 Students rearrange pseudocode blocks in the correct order.
 
@@ -43,7 +43,7 @@ The hero reaches the Earth Academy, which is the entrance to another Star Well. 
 
 Students learn about if statements.
 
-**Interactive: Feed the Animal**
+**Concept Check: Feed the Animal**
 
 Students apply what they learned about conditionals to complete a code sequence.
 
@@ -61,7 +61,7 @@ Students write code using if statements to help the hero find the earth totems.
 
 Students learn about if/else statements.
 
-**Interactive: If/Else**
+**Concept Check: If/Else**
 
 Students apply what they learned about if/else statements by filling in the statement with the correct syntax.
 
