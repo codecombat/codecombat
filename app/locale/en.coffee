@@ -1143,7 +1143,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     jobs_benefit_4: "Unlimited vacation"
     jobs_benefit_5: "Professional development and continuing education support – free books and games!"
     jobs_benefit_6: "Medical (gold), dental, vision, commuter, 401K"
-    jobs_benefit_7: "Sit-stand desks for all"
     jobs_benefit_9: "10-year option exercise window"
     jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
     jobs_benefit_11: "Paternity leave: 12 weeks paid"
