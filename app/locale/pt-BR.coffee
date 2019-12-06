@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "Um jogo de codificação construído com professores em mente"
     built_for_teachers_blurb: "Ensinar as crianças a codificar muitas vezes pode parecer esmagadora. O CodeCombat ajuda todos os educadores a ensinar os alunos a codificar em JavaScript ou Python, duas das linguagens de programação mais populares. Com um currículo abrangente que inclui seis unidades de ciência da computação e reforça o aprendizado através do desenvolvimento de jogos baseados em projetos e unidades de desenvolvimento web, as crianças progridem em uma jornada da sintaxe básica à recursão!"
     built_for_teachers_subtitle1: "Ciências da Computação"
