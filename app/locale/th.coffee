@@ -2,7 +2,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 
   new_home:
     title: "CodeCombat - เกมเขียนโค้ดเพื่อเรียน Python และ JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "เรียนการเขียนโค้ดผ่านเกมการเขียนโปรแกรม เรียน Python, JavaScript และ HTML เหมือนคุณแก้ปริศนา และเรียนรู้ที่จะสร้างเกมและเว็บไซต์เขียนโปรแกรมของคุณเอง"
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "เกมการเขียนโค้ดที่สร้างขึ้นโดยมีอาจารย์อยู่ในใจ"
     built_for_teachers_blurb: "การสอนเด็กๆ ให้เขียนโค้ดบางครั้งอาจจะเยอะเกินไป CodeCombat ช่วนให้อาจารย์ทุกท่านสอนนักเรียนเขียนโค้ดทั้ง JavaScript หรือ Python ภาษาเขียนโปรแกรมยอดนิยมทั้งสอง ด้วยหลักสูตรที่เข้าใจง่ายซึ่งรวมถึงวิทยาการคอมพิวเตอร์ 6 หน่วย และ เน้นการเรียนรู้ผ่านการพัฒนาเกมตามโครงการและหน่วยพัฒนาเว็บ เด็กๆ จะก้าวหน้าไปกับการเดินทางจากไวยากรณ์ง่ายๆ ซ้ำๆ!"
     built_for_teachers_subtitle1: "วิทยาการคอมพิวเตอร์"
