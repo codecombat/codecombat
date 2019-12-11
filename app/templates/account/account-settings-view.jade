@@ -82,18 +82,19 @@ else
                 label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
                 input#password2.form-control(name="password2", type="password")
 
-      .panel.panel-default
-        .panel-heading
-          .panel-title#delete-account-panel-title(data-i18n="account_settings.delete_account_tab")
-        .panel-body
-          .form#delete-account-form
-            .form-group
-              label.control-label(for="delete-account-email-or-username", data-i18n="account_settings.type_in_email")
-              input#delete-account-email-or-username.form-control(name="emailOrUsername")
-            .form-group
-              label.control-label(for="delete-account-password", data-i18n="account_settings.type_in_password")
-              input#delete-account-password.form-control(name="password", type="password")
-          button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
+      if me.canDeleteAccount()
+        .panel.panel-default
+          .panel-heading
+            .panel-title#delete-account-panel-title(data-i18n="account_settings.delete_account_tab")
+          .panel-body
+            .form#delete-account-form
+              .form-group
+                label.control-label(for="delete-account-email-or-username", data-i18n="account_settings.type_in_email")
+                input#delete-account-email-or-username.form-control(name="emailOrUsername")
+              .form-group
+                label.control-label(for="delete-account-password", data-i18n="account_settings.type_in_password")
+                input#delete-account-password.form-control(name="password", type="password")
+            button#delete-account-btn.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
 
