@@ -197,7 +197,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     resource_hub: "资源中心"
     apcsp: "AP计算机科学原理"
     parent: "家长参与"
-#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
+    browser_recommendation: "推荐使用 chrome 浏览器访问获取最佳体验，点击此处前往下载"
 
   modal:
     close: "关闭"
@@ -3011,7 +3011,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
-
-#  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
-#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+  browser_recommendation:
+    pitch_body: '为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。'
+    download: '下载 CHROME 浏览器'
+    ignore: '忽略'
