@@ -12,6 +12,7 @@ module.exports = {
   'views/admin/CLAsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/CLAsView') },
   'views/admin/AdminClassroomContentView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomContentView') },
   'views/admin/AdminClassroomLevelsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomLevelsView') },
+  'views/admin/PartialUnitReleaseView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/PartialUnitReleaseView') },
   'views/admin/AdminClassroomsProgressView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomsProgressView') },
   'views/admin/FilesView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/FilesView') },
   'views/admin/AnalyticsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AnalyticsView') },
