@@ -250,6 +250,6 @@
   "private": true,
   "engines": {
     "node": "8.15.1",
-    "npm": "^6.4.1"
+    "npm": "6.13.2"
   }
 }
