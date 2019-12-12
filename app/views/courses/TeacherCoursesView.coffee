@@ -3,6 +3,7 @@ CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Courses = require 'collections/Courses'
 Campaigns = require 'collections/Campaigns'
+Campaign = require 'models/Campaign'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 User = require 'models/User'
@@ -13,6 +14,7 @@ template = require 'templates/courses/teacher-courses-view'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
 utils = require 'core/utils'
 api = require 'core/api'
+ozariaUtils = require 'ozaria/site/common/ozariaUtils'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
@@ -44,7 +46,16 @@ module.exports = class TeacherCoursesView extends RootView
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
     @campaignLevelNumberMap = {}
     @courseChangeLog = {}
+    @campaignLevelsModuleMap = {}
+    @moduleNameMap = utils.courseModules
+    @listenTo @campaigns, 'sync', ->
+      @campaigns.models.map((campaign) => Object.assign(@campaignLevelsModuleMap, campaign.getLevelsByModules()))
+      # since intro content data is only needed for display names in the dropdown
+      # do not add it to supermodel.trackRequest which would increase the load time of the page  
+      Campaign.fetchIntroContentDataForLevels(@campaignLevelsModuleMap).then () => @render?()
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
+    @getLevelDisplayNameWithLabel = (level) -> ozariaUtils.getLevelDisplayNameWithLabel(level)
+    @getIntroContentNameWithLabel = (content) -> ozariaUtils.getIntroContentNameWithLabel(content)
 
   onLoaded: ->
     @campaigns.models.forEach (campaign) =>
@@ -76,14 +87,15 @@ module.exports = class TeacherCoursesView extends RootView
 
   onClickPlayLevel: (e) ->
     form = $(e.currentTarget).closest('.play-level-form')
-    levelSlug = form.find('.level-select').val()
+    levelSlug = form.find('.selectpicker').val()
+    introIndex = (form.find('.intro-content:selected').data() || {}).index
     courseID = form.data('course-id')
     language = form.find('.language-select').val() or 'javascript'
     window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
 
     campaignLevels = @campaigns.get(@courses.get(courseID).get('campaignID')).getLevels() || []
     if campaignLevels.find((l) => l.get('slug') == levelSlug)?.get('type') == 'intro'
-      url = "/play/intro/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
+      url = "/play/intro/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}&intro-content=#{introIndex}"
     else
       url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
     application.router.navigate(url, { trigger: true })
@@ -98,16 +110,3 @@ module.exports = class TeacherCoursesView extends RootView
     else
       changeLogText.addClass('hidden')
       showChangeLog.text($.i18n.t('courses.show_change_log'))
-
-  displayName: (level) ->
-    introContent = level.attributes.introContent && level.attributes.introContent[0]
-    # TODO: In the future we can be even more specific here, but to ship Ozaria quickly we are only
-    # making a difference between these 3, and letting "Intro" be very unspecific
-    if (introContent && introContent.type == 'cutscene-video')
-      return 'Cutscene: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))
-    else if (level.attributes.type == 'game-dev')
-      return 'Capstone: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))
-    else if (introContent)
-      return 'Intro: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))
-    else
-      return 'Practice: ' + (utils.i18n(level.attributes, 'displayName')?.replace('Course: ', '') || utils.i18n(level.attributes, 'name')?.replace('Course: ', ''))

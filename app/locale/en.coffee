@@ -806,10 +806,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_type_challenge_level: "Challenge Level"
     level_type_cutscene_level: "Cutscene Level"
     level_type_capstone_level: "Capstone Level"
+    level_type_capstone_project: "Capstone Project"
     level_type_intro_level: "Intro Level"
     content_type_avatar: "Avatar Selection"
     content_type_cinematic: "Cinematic"
-    content_type_interactive: "Interactive"
+    content_type_interactive: "Concept Check" # {change}
 
   apis:
     methods: "Methods"
@@ -2039,7 +2040,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_more: "See all quests"
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
-    view_project_gallery: "View Project Gallery"
+    view_project_gallery: "View Capstone Gallery" # {change}
     office_hours: "Teacher Webinars"
     office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
     office_hours_link: "teacher webinar"
@@ -2052,7 +2053,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     none: "None detected yet"
     explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
     level_label: "Level:"
-    time_played_label: "Time Played:"
+    time_played_label: "Time Spent:" # {change}
     back_to_resource_hub: "Back to Resource Hub"
     back_to_course_guides: "Back to Course Guides"
     print_guide: "Print this guide"
@@ -2071,12 +2072,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     capstone_rubric: "Capstone Rubric"
     prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
     chapter1: "Chapter 1: The Moon Dancers"
-    module1: "Module 1"
-    module2: "Module 2"
-    module3: "Module 3"
-    module4: "Module 4"
-    module5: "Module 5"
-    module6: "Module 6"
+    module1: "Module 1: " # {change}
+    module2: "Module 2: " # {change}
+    module3: "Module 3: " # {change}
+    module4: "Module 4: " # {change}
+    module5: "Module 5: " # {change}
+    module6: "Module 6: " # {change}
     algorithms_and_syntax: "Algorithms and Syntax"
     debugging: "Debugging"
     variables: "Variables"
@@ -2084,7 +2085,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     capstone_intro: "Capstone Intro"
     capstone_project: "Capstone Project"
     level_code: "Level Code"
-
+    review_needed: "Review Needed"
+    review_tooltip_heading: "What does this mean?"
+    review_tooltip_text: "Red flags appear next to Concept Checks where your student(s) attempted to answer the question 3 or more times. In the <strong>Course Overview</strong> section, red flags appear next to Concept Checks if at least 50% of students who have started or completed the concept check attempted it 3 or more times."
+    scroll_to_see_more: "Scroll to see more"
+    click_to_view_concept_check: "Click to view concept check"
+    click_to_view_project_gallery: "Click to view project gallery"
+    review_learning_goal: "Review \"Learning Goal: __learningGoal__\" with students."
+    view_capstone_project: "View Capstone Project"
 
   share_licenses:
     share_licenses: "Share Licenses"

@@ -5,6 +5,7 @@ utils = require '../core/utils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 Level = require 'models/Level'
+api = require 'core/api'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -103,6 +104,29 @@ module.exports = class Classroom extends CocoModel
     if options.assessmentLevels
       levels.remove(levels.filter((level) -> not level.get('assessment')))
     return levels
+
+  getLevelsByModules: ->
+    courseModuleLevelsMap = {}
+    for course in @get('courses')
+      is1FH = course._id == utils.courseIDs.ONE_FREE_HOUR 
+      courseLevels = @getLevels({courseID: course._id}).models
+      courseModuleLevelsMap[course._id] = {
+        modules: utils.buildLevelsListByModule(courseLevels, is1FH)
+      }
+      if capstoneLevel = courseLevels.find((l) => l.isCapstone())
+        courseModuleLevelsMap[course._id].capstone = capstoneLevel
+    return courseModuleLevelsMap
+
+  fetchIntroContentDataForLevels: (courseModuleLevelsMap) ->
+    introLevels = []
+    for course in @get('courses')
+      for moduleNum, levels of courseModuleLevelsMap[course._id].modules
+        introLevels = introLevels.concat(levels.filter((l) => l.get('introContent')))
+    api.levels.fetchIntroContent(introLevels)
+    .then (introLevelContentMap) =>
+      introLevels.forEach((l) =>
+        utils.addIntroLevelContent(l, introLevelContentMap)
+      )
 
   getLadderLevel: (courseID) ->
     Levels = require 'collections/Levels'

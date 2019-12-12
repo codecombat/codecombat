@@ -104,6 +104,20 @@ mixin studentRow(student)
             div.glyphicon.glyphicon-remove
             div(data-i18n='teacher.remove')
 
+//- Students tab progress dots
+mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, courseInstance)
+  //- TODO: Refactor with TeacherClassesView jade
+  //- TODO: Give classes abbreviations instead of using index?
+  - dotClass = progress.completed ? 'green' : (progress.started ? 'blue' : '');
+  - _.assign(progress, { levelsTotal: levelsTotal })
+  if progress.completed
+    a(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + courseInstance.id)
+      .progress-dot.has-tooltip(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+        +progressDotLabel(label)
+  else
+    .progress-dot.has-tooltip(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+      +progressDotLabel(label)
+
 mixin courseProgressTab
   #course-progress-tab.m-t-3
     if view.courses
@@ -120,24 +134,25 @@ mixin courseProgressTab
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
       .col.col-md-2.col-xs-4
-        .progress-dot.forest
+        .progress-dot.green
         .key-text
-          span.small(data-i18n="play_level.level_complete")
+          span(data-i18n="common.complete")
         .clearfix
       .col.col-md-2.col-xs-4
-        .progress-dot.gold
+        .progress-dot.blue
         .key-text
-          span.small(data-i18n="teacher.level_in_progress")
-        .clearfix
-      .col.col-md-2.col-xs-4
-        .progress-dot.navy
-        .key-text
-          span.small(data-i18n="teacher.project_or_arena")
+          span(data-i18n="teacher.in_progress")
         .clearfix
       .col.col-md-2.col-xs-4
         .progress-dot
         .key-text
-          span.small(data-i18n="teacher.level_not_started")
+          span(data-i18n="teacher.not_started")
+        .clearfix
+      .col.col-md-2.col-xs-4.flag-label.has-tooltip(data-title=view.reviewNeededTooltipHtml())
+        .progress-dot.flag
+        .key-text
+          span(data-i18n="teacher.review_needed")
+          span.glyphicon.glyphicon-question-sign.spr
         .clearfix
     - var course = state.get('selectedCourse');
     - var courseInstance = state.get('selectedCourseInstance');
@@ -176,132 +191,181 @@ mixin courseProgressTab
                   .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
                     span(data-i18n='teacher.assign_course')
 
+//- Course overview section in unit progress tab
 mixin courseOverview(course)
-  - var levels = view.classroom.getLevels({courseID: course.id}).models
+  - var capstoneLevel = (view.courseModuleLevelsMap[course.id] || {}).capstone
   .course-overview-row
-    .course-title.student-name
-      span= i18n(course.attributes, 'name')
-      span= ': '
-      span(data-i18n='teacher.course_overview')
+    .course-title.container
+      .row
+        .course-name.row-title.col-sm-6
+          span= i18n(course.attributes, 'name')
+          span= ' | '
+          span(data-i18n='teacher.course_overview')
+        .col-sm-2.capstone-project-container
+          if capstoneLevel && state.get('progressData')
+            - var capstoneProgress = state.get('progressData').get({ classroom: view.classroom, course: course, level: capstoneLevel })
+            +viewCapstoneProjectButton(capstoneLevel, capstoneProgress)
     .course-overview-progress
-      if state.get('progressData')
-        each level, index in levels
-          - if (level.get('assessment')) continue;
-          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
-          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-          +allStudentsLevelProgressDot(progress, level, levelNumber)
+      +courseProgressRow(course)
 
+//- Each student section in unit progress tab
 mixin studentLevelsRow(student)
+  - var course = state.get('selectedCourse')
+  - var capstoneLevel = (view.courseModuleLevelsMap[course.id] || {}).capstone
   .student-levels-row.alternating-background
-    div.student-info
-      div.student-name= student.broadName()
-      div.student-email.small-details= student.get('email') || student.get('name')
+    .row
+      .student-info.col-sm-6
+        span.student-name.row-title= student.broadName()
+        span= ' '
+        span.student-email.small-details= student.get('email') || student.get('name')
+      .col-sm-2.capstone-project-container
+        if capstoneLevel && state.get('progressData')
+          - var capstoneProgress = state.get('progressData').get({ classroom: view.classroom, course: course, level: capstoneLevel, user: student })
+          +viewCapstoneProjectButton(capstoneLevel, capstoneProgress, true)
     .row
       div.student-levels-progress.col.col-xs-12
-        - var course = state.get('selectedCourse')
-        - var levels = view.classroom.getLevels({courseID: course.id}).models
-        - var courseFinished = false;
-        if state.get('progressData')
+        +courseProgressRow(course, student)
+
+//- Module-wise progress dots in course overview and student section in unit progress tab
+mixin courseProgressRow(course, student)
+  - var courseModuleLevelsMap = (view.courseModuleLevelsMap[course.id] || {}).modules || {}
+  if state.get('progressData')
+    for levels, moduleNum in courseModuleLevelsMap
+      .module-container
+        .module-container-label
+          span(data-i18n='teacher.module'+moduleNum)
+          span=view.moduleNameMap[course.id][moduleNum]
+        .scroll-arrow
+          span.glyphicon.glyphicon-chevron-right
+        .module-content
           each level, index in levels
-            - if (level.get('assessment')) continue;
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-            - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-            - if (!level.get('practice'))
-              - courseFinished = progress.completed;
-            +studentLevelProgressDot(progress, level, levelNumber, student)
+            - var contentType = level.getDisplayContentType()
+            //- Special flow for 1FH, done in mixin capstoneFlow below
+            - if (contentType == 'intro' && course.is1FHCourse()) break
+            +studentsLevelProgressDot(progress, level, contentType, student)
+          if course.is1FHCourse()
+            +capstoneFlow(levels, course, student)
+          //- Adding an emtpy div at the end because scroll arrow and fade is not hiding on some devices inconsistently
+          .empty-div.progress-dot(style="background: transparent")
 
-mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, courseInstance)
-  //- TODO: Refactor with TeacherClassesView jade
-  //- TODO: Give classes abbreviations instead of using index?
-  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  - _.assign(progress, { levelsTotal: levelsTotal })
-  if progress.completed
-    a(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + courseInstance.id)
-      .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
-        +progressDotLabel(label)
-  else
-    .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
-      +progressDotLabel(label)
+//- Special capstone flow for 1FH with capstone header label over all intro levels
+mixin capstoneFlow(levels, course, student)
+  - var startCapstoneFlow = false
+  .capstone-flow
+    each level, index in levels
+      - var contentType = level.getDisplayContentType()
+      - if (contentType != 'intro' && !startCapstoneFlow) continue
+      - startCapstoneFlow = true
+      - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student})
+      +studentsLevelProgressDot(progress, level, contentType, student, 'special-capstone-intro-flow')
+    .capstone-label
+      - var capstoneLevel = (view.courseModuleLevelsMap[course.id] || {}).capstone
+      span=view.getLevelDisplayNameWithLabel(capstoneLevel)
 
-mixin allStudentsLevelProgressDot(progress, level, levelNumber)
-  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  - levelName = i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
-  - link = null;
-  - labelText = levelNumber;
-  - var courseInstance = state.get('selectedCourseInstance');
-  if level.isLadder()
-    if courseInstance
-      - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
-      - labelText = translate('teacher.view_arena_ladder');
-    else
-      - labelText = translate('courses.arena');
-    - dotClass = 'navy progress-dot-lg';
-  else if level.isProject()
-    if courseInstance
-      - link = view.urls.courseProjectGallery({courseInstance: courseInstance})
-    - labelText = translate('teacher.view_project_gallery')
-    - dotClass += ' progress-dot-lg';
-  else if level.get('practice')
-    if !(progress.completed || progress.started)
-      - labelText = ''
-      - dotClass += ' practice'
+//- Unit progress tab progress dots
+mixin studentsLevelProgressDot(progress, level, contentType, student, specialClass)
+  - dotClass = progress.completed ? 'green' : (progress.started ? 'blue' : '')
+  - labelText = i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')
+  - var context = _.merge(progress, {label: view.getLevelDisplayNameWithLabel(level), type: contentType, moment: moment, numStudents: view.students.length})
+  - var link = null
+  - var courseId = state.get('selectedCourse').id
+  
+  if contentType == 'capstone' || contentType == 'practice' || contentType == 'challenge'
+    - context.showSessionData = true
+    if dotClass && student 
+      - link = '/teachers/classes/' + view.classroom.id + '/' + student.id + '#' + level.get('slug')
+      - context.showStudentCodeLink = true
 
-  if link
+
+  //- Group intro content progress dots
+  if contentType == 'intro'
+    .progress-dot.course-tab.intro-level-progress-dot
+      - content = level.get('introContent') || {}
+      each c, index in content
+        - if (c.type == 'avatarSelectionScreen') continue
+        - context.type = c.type
+        - context.label = view.getIntroContentNameWithLabel(c)
+        - context.learningGoal = c.learningGoals
+        - labelText = c.displayName
+        if c.type == 'interactive'
+          - var interactiveProgress = {}
+          - var classLanguage = (view.classroom.get('aceConfig') || {}).language || 'python'
+          - var interactiveId = (c.contentId || {})[classLanguage] || c.contentId
+          - context.showSessionData = true
+          if dotClass
+            - link = `/play/intro/${level.get('slug')}?course=${courseId}&codeLanguage=${classLanguage}&intro-content=${index}`
+          if state.get('interactiveProgressData')
+            - interactiveProgress = state.get('interactiveProgressData').get({classroom: view.classroom, interactiveId: interactiveId}) || {}
+            if student
+              - context.session = (interactiveProgress[student.id] || {}).session || {}
+              - context.needsReview = (interactiveProgress.flaggedStudents || []).includes(student.id)
+            else
+              - context.needsReview = interactiveProgress.needsReview
+          +levelProgressDotWithTooltip(dotClass, context, link, c.type, labelText, student, specialClass)
+        else
+          - context.needsReview = false
+          - context.session = null
+          - context.showSessionData = false
+          - link = null
+          +levelProgressDotWithTooltip(dotClass, context, link, c.type, labelText, student, specialClass)
+      +introLevelLabel(view.getLevelDisplayNameWithLabel(level), dotClass)   
+  else if link
     if state.get('readOnly')
       - link = link.replace('/teachers/classes/', '/school-administrator/teacher/' + view.classroom.get('ownerID') + '/classroom/')
-    a.progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context), href=link)
-      +progressDotLabel(labelText)
+    +levelProgressDotWithTooltip(dotClass, context, link, contentType, labelText, student)
   else
-    .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
-      +progressDotLabel(labelText)
+    +levelProgressDotWithTooltip(dotClass, context, link, contentType, labelText, student)
 
-
-mixin studentLevelProgressDot(progress, level, levelNumber, student)
-  //- TODO: Refactor with TeacherClassesView jade
-  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
-  - levelName = i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
-  - var link = null;
-  if dotClass
-    //- TODO: these anchor links do not navigate to the anchor in destination page
-    - link = '/teachers/classes/' + view.classroom.id + '/' + student.id + '#' + level.get('slug');
-  - labelText = levelNumber;
-  if level.isLadder()
-    - labelText = translate('courses.arena');
-    - dotClass += ' progress-dot-lg';
-  else if level.isProject()
-    if progress.started
-      - link = view.urls.playDevLevel({level: level, session: progress.session, course: state.get('selectedCourse')});
-      - labelText = translate('teacher.view_project');
-      if progress.completed && !progress.session.published
-        - labelText += " " + translate('teacher.unpublished')
-      - dotClass = progress.completed ? 'navy' : (progress.started ? 'gold' : '');
-    else
-      - labelText = translate('teacher.project');
-    - dotClass += ' progress-dot-lg';
-  else if level.get('practice')
-    if !(progress.completed || progress.started)
-      - labelText = ''
-      - dotClass += ' practice'
-
-
+mixin levelProgressDotWithTooltip(dotClass, context, link, type, labelText, student, specialClass)
+  - var dataTitle = view.allStudentsLevelProgressDotTemplate
+  if student
+    - dataTitle = view.singleStudentLevelProgressDotTemplate
+  
   if link
-    if state.get('readOnly')
-      - link = link.replace('/teachers/classes/', '/school-administrator/teacher/' + view.classroom.get('ownerID') + '/classroom/')
-    a.progress-dot.level-progress-dot.student-level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link, data-student-id=student.id, data-level-slug=level.get('slug'), data-level-progress=(progress.completed ? 'complete' : progress.started ? 'started' : 'not started'), data-course-id=view.state.get('selectedCourse').id)
+    - var target = "_self"
+    if type == "interactive"
+      - target = "_blank"
+    a.progress-dot.course-tab.has-tooltip(class=[dotClass, specialClass], data-html='true', data-title=dataTitle(context), href=link, target=target)
+      +progressDotIcon(type, context.needsReview)
       +progressDotLabel(labelText)
   else
-    .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
+    .progress-dot.course-tab.has-tooltip(class=[dotClass, specialClass], data-html='true', data-title=dataTitle(context))
+      +progressDotIcon(type, context.needsReview)
       +progressDotLabel(labelText)
-  if topScore && topScore.thresholdAchieved
-    br
-    img.threshold-icon.over-progress-bubble(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
+
+mixin introLevelLabel(label, dotClass)
+  .dot-label.text-center.intro-level-label(class=dotClass)
+    .dot-label-inner.text-capitalize.intro-level-label-inner
+      = label
 
 mixin progressDotLabel(label)
   .dot-label.text-center
-    .dot-label-inner
+    .dot-label-inner.text-capitalize
       = label
+
+mixin progressDotIcon(contentType, needsReview)
+  if needsReview
+    img.dot-icon(src="/images/ozaria/teachers/content-icons/"+contentType+"-review.png")
+  else
+    img.dot-icon(src="/images/ozaria/teachers/content-icons/"+contentType+".png")
+
+mixin viewCapstoneProjectButton(level, progress, singleStudent)
+  - levelName = i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')
+  - var context = _.merge(progress, {label: view.getLevelDisplayNameWithLabel(level), type: 'capstone project', moment: moment, numStudents: view.students.length, showSessionData: true, showStudentCodeLink:false})
+  if singleStudent
+    if progress.session && level
+      - projectLink = view.urls.playDevLevel({level: level, session: progress.session, course: state.get('selectedCourse')})
+      a.view-capstone-project.has-tooltip(data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=projectLink, target="_blank")
+        span(data-i18n='teacher.view_capstone_project')
+    else
+      .view-capstone-project.has-tooltip.inactive(data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
+        span(data-i18n='teacher.view_capstone_project')
+  else
+    if state.get('selectedCourseInstance')
+      - projectGalleryLink = view.urls.courseProjectGallery({courseInstance: state.get('selectedCourseInstance')})
+      a.view-capstone-project.has-tooltip(data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context) href=projectGalleryLink)
+        span(data-i18n='teacher.view_project_gallery')
 
 mixin copyCodes
   div.copy-button-group.form-inline.m-b-3
@@ -561,23 +625,20 @@ if classroom.loaded
         if !state.get('readOnly')
           +addStudentsButton
 
-    if view.students.length > 0
+  if view.students.length > 0
+    .container.main-container(dir="auto")
       ul.nav.nav-tabs.m-t-5(role='tablist')
         - var activeTab = state.get('activeTab');
         li(class=(activeTab === "#students-tab" ? 'active' : ''))
-          a.students-tab-btn(href='#students-tab')
+          a.nav-tab-btn.students-tab-btn(href='#students-tab')
             .small-details.text-center(data-i18n='courses.students')
         .tab-spacer
         li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
-          a.course-progress-tab-btn(href='#course-progress-tab')
+          a.nav-tab-btn.course-progress-tab-btn(href='#course-progress-tab')
             .small-details.text-center(data-i18n='teacher.unit_progress')
         .tab-spacer
-        li(class=(activeTab === "#assessments-tab" ? 'active' : ''))
-          a.assessments-tab-btn(href='#assessments-tab')
-            .small-details.text-center(data-i18n='teacher.assessments')
-        .tab-spacer
         li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
-          a.course-progress-tab-btn(href='#license-status-tab')
+          a.nav-tab-btn.license-status-tab-btn(href='#license-status-tab')
             .small-details.text-center(data-i18n='teacher.license_status')
         .tab-filler
 
@@ -586,14 +647,12 @@ if classroom.loaded
           +studentsTab
         else if activeTab === '#course-progress-tab'
           +courseProgressTab
-        else if activeTab === '#assessments-tab'
-          +assessmentsTab
         else if activeTab === '#license-status-tab'
           +enrollmentStatusTab
 
-    else
-      .text-center.m-t-5.m-b-5
-        .text-h2
-          span(data-i18n="teacher.no_students_yet")
-        .text-h4
-          span(data-i18n="teacher.try_refreshing")
+  else
+    .text-center.m-t-5.m-b-5
+      .text-h2
+        span(data-i18n="teacher.no_students_yet")
+      .text-h4
+        span(data-i18n="teacher.try_refreshing")

@@ -156,23 +156,24 @@ mixin breadcrumbs
   .playtime-charts
     | Updated Student Profiles coming soon!
 
-  .student-progress-section
-    h4(data-i18n="teacher.unit_progress")
-    .small(data-i18n="teacher.click_student_code")
-    .student-progress-section-progress
-      each versionedCourse in (view.classroom.getSortedCourses()|| [])
-        - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
-        if !course
-          - continue;
-        - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
-        - if (instance && instance.hasMember(view.user))
-          .course-row.alternating-background
-            .course-info= course.getTranslatedName()
-            - var levels = view.classroom.getLevels({courseID: course.id}).models
-            each level, index in levels
-              - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
-              - var levelProgress = view.levelProgressMap[level.get('original')];
-              +studentLevelProgressDot(levelProgress, level, levelNumber, course)
+  //- Hiding student progress section until its updated as per the new design on teacher-class-view
+  //- .student-progress-section
+  //-   h4(data-i18n="teacher.unit_progress")
+  //-   .small(data-i18n="teacher.click_student_code")
+  //-   .student-progress-section-progress
+  //-     each versionedCourse in (view.classroom.getSortedCourses()|| [])
+  //-       - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+  //-       if !course
+  //-         - continue;
+  //-       - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+  //-       - if (instance && instance.hasMember(view.user))
+  //-         .course-row.alternating-background
+  //-           .course-info= course.getTranslatedName()
+  //-           - var levels = view.classroom.getLevels({courseID: course.id}).models
+  //-           each level, index in levels
+  //-             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
+  //-             - var levelProgress = view.levelProgressMap[level.get('original')];
+  //-             +studentLevelProgressDot(levelProgress, level, levelNumber, course)
 
   .student-progress-section
     a(name="backtotop")

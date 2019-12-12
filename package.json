@@ -103,6 +103,7 @@
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "3.3.7",
+    "bootstrap-select": "^1.13.12",
     "chalk": "^1.1.3",
     "cheerio": "^0.22.0",
     "chunk-splitting-plugin": "^2.4.0",

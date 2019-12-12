@@ -41,13 +41,20 @@ block content
                 label.control-label
                   span(data-i18n="courses.select_level")
                   | :
-                  select.level-select.form-control
+                  select.level-select.form-control.selectpicker
                     if view.campaigns.loaded
                       - var campaign = view.campaigns.get(course.get('campaignID'))
-                      if campaign && view.campaignLevelNumberMap[campaign.id]
-                        each level, levelIndex in campaign.getLevels().models
-                          option(value=level.get('slug'))
-                            = view.displayName(level)
+                      if campaign && view.campaignLevelsModuleMap[campaign.id]
+                        each levels, moduleNum in view.campaignLevelsModuleMap[campaign.id].modules
+                          optgroup.module-label(label='Module ' + moduleNum + ': ' + view.moduleNameMap[course.id][moduleNum])
+                            each level, levelIndex in levels
+                              option.level-content(value=level.get('slug'))
+                                = view.getLevelDisplayNameWithLabel(level)
+                              if level.getDisplayContentType() == 'intro'
+                                each content, index in level.get('introContent')
+                                  - if (content.type == 'avatarSelectionScreen') continue
+                                  option.intro-content(data-index=index, value=level.get("slug"))
+                                    = view.getIntroContentNameWithLabel(content)
                 - var disablePlayButtons = !view.paidTeacher && features.china && !(me.canAccessCampaignFreelyFromChina(course.get('campaignID')))
                 a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
                   span(data-i18n="courses.play_level")

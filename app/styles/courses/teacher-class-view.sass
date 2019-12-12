@@ -1,6 +1,7 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
+@import "ozaria/site/styles/common/common.scss"
 
 .nowrap
   white-space: nowrap
@@ -24,6 +25,10 @@
     color: black
     text-decoration: underline
 
+  .main-container
+    margin: 0px 30px
+    width: auto
+
   .classroom-details
     .small-details
       margin-bottom: 4px
@@ -33,10 +38,6 @@
 
   .classroom-info-row[dir="rtl"] > div
     float: right
-
-  .student-code
-    font-weight: bold
-    font-style: italic
 
   .concept
     & span
@@ -147,6 +148,11 @@
     li:not(:last-child):after
       content: ', '
 
+  .small-details
+    @include font-p-3-paragraph-small-gray
+  .smallest-details
+    @include font-p-4-paragraph-smallest-gray
+
   .student-info
     max-width: 200px
     line-height: 20px
@@ -167,6 +173,7 @@
     background: none
     font-weight: bold
     text-decoration: underline
+    color: #0170E9
 
   .edit-student-button
     color: black
@@ -207,6 +214,11 @@
       div
         display: inline-block
 
+  .nav-tab-btn
+    .small-details
+      line-height: 26px
+      text-align: center
+
   // Reusable Progress Dot key
 
   #progress-color-key-row
@@ -216,6 +228,10 @@
         width: 34px
       .progress-dot
         padding-top: 5px
+        margin-right: 6px
+        width: 34px
+        height: 34px
+        padding: 0 5px
       .progress-dot, svg
         position: absolute
         top: 0
@@ -224,42 +240,81 @@
           margin-left: 26px
           margin-top: 14px
       .key-text
-        line-height: 18px
+        height: 24px
+        width: 160px
         margin-top: 9px
         margin-left: 50px
+        @include font-p-2-paragraph-medium-gray
+        .glyphicon
+          padding-left: 5px
+
+  // Student tab
+  
+  #students-tab
+    .progress-dot
+      margin-right: 6px
+      width: 34px
+      height: 34px
+      border-radius: 16px
+      padding: 0 5px
+      .dot-label
+        padding-top: 10px
+        width: 100%
+        position: relative
+        .dot-label-inner
+          width: auto
 
   // Course Progress tab
 
-  #course-progress-tab, #student-projects-tab
+  #course-progress-tab
+
+    // Header of each row
+    .row-title
+      width: 45%
+      @include font-h-2-subtitle-black-24
+    .capstone-project-container
+      width: 17%
+      .view-capstone-project
+        height: 40px
+        width: 231px
+        border-radius: 1px
+        background-color: #F7D047
+        display: inline-block
+        text-align: center
+        padding: 5px
+        span
+          @include font-p-3-small-button-text-black
+      .view-capstone-project.inactive
+        background-color: #6D8392
+        color: $white
 
     .course-overview-row
       margin-top: 50px
-      border: thin solid gray
-      border-radius: 8px
+      .course-title
+        margin: 0px
+        width: 100%
 
     .student-levels-table
       margin-top: 80px
 
       .sort-buttons
-        padding-left: 75px
+        padding-left: 24px
         margin-bottom: 5px
 
+    .student-info
+      max-width: unset
+
     .student-levels-row, .course-overview-row
-      padding-left: 75px
+      padding-left: 24px
       padding-top: 15px
       padding-bottom: 30px
 
     .student-levels-progress, .course-overview-progress
-      max-width: 880px
-      margin: -5px
       margin-top: 5px
 
     .student-levels-progress
       // Make sure certificates are on the side and not below
       min-height: 53px
-
-    .progress-dot
-      margin: 5px
 
     .unassigned-students
       margin-top: 75px
@@ -280,19 +335,78 @@
         margin-top: 6.5px
         margin-bottom: 6.5px
 
-  #student-projects-tab
-    .student-levels-table
-      margin-top: 0px
+    .module-container
+      border: 2px solid $color-module-color-slate
+      margin: 10px
+      position: relative
+      height: 138px
+      width: auto
+      &:after
+        content: ""
+        position: absolute
+        top: 0
+        right: 0
+        bottom: 0
+        pointer-events: none
+        background: linear-gradient(270deg, #FFFFFF 0%, rgba(255,255,255,0.92) 33.02%, rgba(255,255,255,0) 100%)
+        width: 7%
+      .module-content
+        position: absolute
+        height: 100%
+        left: 10%
+        width: 90%
+        overflow-x: auto
+        overflow-y: hidden
+        white-space: nowrap
+      .module-container-label
+        display: flex
+        flex-direction: column
+        justify-content: center
+        width: 10%
+        height: 100%
+        position: absolute
+        background-color: $color-module-color-slate
+        border: 2px solid $color-module-color-slate
+        box-shadow: -1px -1px 4px 0 rgba(0,0,0,0.13), 1px 1px 4px 0 rgba(0,0,0,0.33)
+        span
+          @include font-h-4-uppercase-white-left-align
+      .scroll-arrow
+        display: inline-block
+        position: absolute
+        z-index: 1
+        height: 100%
+        cursor: pointer
+        right: 0
+        width: 5%
+        .glyphicon
+          position: absolute
+          top: 45%
+          right: 30%
+    .hide-fade:after
+      display: none
 
-    .student-info
-      margin-top: 5px
+  // 1FH capstone flow header
 
-    .student-levels-row
-      padding-top: 10px
-      padding-bottom: 15px
-
-    .btn-view-project-level
-      margin-left: 15px
+  .capstone-flow
+    display: inline-block
+    position: relative
+    height: 100%
+    .capstone-label
+      @include font-p-3-paragraph-small-white
+      height: 34px
+      position: absolute
+      top: 0px
+      width: 99.8%
+      background-color: $color-module-color-slate
+      text-align: left
+      font-weight: 600
+      margin-left: 1.5px
+      padding: 6px 11px
+    .intro-level-progress-dot .progress-dot
+      .dot-label
+        padding-top: 65px
+    .special-capstone-intro-flow
+      height: 74%
 
   // Checkboxes
   .checkbox-flat
@@ -312,64 +426,94 @@
       &:hover
         text-decoration: none
 
+  // Progress dots
+
   .progress-dot
     display: inline-block
-    margin-right: 6px
-    min-width: 34px
-    height: 34px
-    border-radius: 16px
-    padding: 0 5px
-    // margin-top: 23px
-    // margin-bottom: 23px
-    background: $gray-light
+    width: 59px
+    height: 100%
+    margin: 0 1.5px
+    background: $color-progress-status-not-started
     position: relative
     text-decoration: none
-
+    .dot-icon
+      position: absolute
+      height: 30px
+      width: 30px
+      left: 50%
+      top: 55%
+      transform: translate(-50%, -70%)
     .dot-label
-      padding-top: 2px
+      padding-top: 90px
+      position: absolute
       .dot-label-inner
-        font-size: 11px
-        font-weight: bold
-        color: white
+        @include font-p-6-condensed-captioning
+        width: 58.1px
+        color: $gray
+        text-align: center
+        white-space: normal
+  
+  .progress-dot.green
+    background: $color-progress-status-complete
 
-  .progress-dot-lg .dot-label .dot-label-inner
-    font-size: 13px
+  .progress-dot.blue
+    background: $color-progress-status-in-progress
 
-  .progress-dot.forest
-    background: $forest
-    .tooltip-inner
-      color: $forest
-      border-color: $forest
-    .tooltip-arrow
-      border-top-color: $forest
+  .progress-dot.flag
+    background: none
+    background-image: url(/images/ozaria/teachers/flag_warn.png)
+    background-size: 100%
+  
+  .intro-level-progress-dot
+    width: auto
+    top: -1px
+    .progress-dot
+      margin: 0px
+    .intro-level-label
+      padding: 5px
+      top: 0px
+      width: 100%
+      height: 30px
+      background: $color-intro-title-bar-not-started
+      .intro-level-label-inner
+        @include font-p-3-small-button-text-black
+        width: 100%
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        font-size: 13px
+        padding: 1px
+    .intro-level-label.green
+      background: $color-intro-title-bar-complete
+    .intro-level-label.blue
+      background: $color-intro-title-bar-in-progress
 
-  .progress-dot.gold
-    background: $gold
-    .tooltip-inner
-      color: $navy
-      border-color: $navy
-    .tooltip-arrow
-      border-top-color: $navy
-
-  .progress-dot.navy
-    background: $navy
-    .tooltip-inner
-      color: $navy
-      border-color: $navy
-    .tooltip-arrow
-      border-top-color: $navy
-
-  .progress-dot.practice
-    background: $gray-light
-    height: 12px
-    position: relative
-    top: 6px
-    min-width: 12px
-    border-radius: 6px
-
-    .dot-label
-      .dot-label-inner
-        color: $gray-light
+  // Tooltips
+  
+  .tooltip > .tooltip-inner
+    box-shadow: -3px -2px 5px 0 rgba(0,0,0,0.23), 3px 11px 20px 0 rgba(0,0,0,0.5)
+    border-radius: 0
+    border: none
+    text-align: left
+    max-width: 450px
+    img
+      width: 30px
+      height: 30px
+      margin-right: 5px
+  .tooltip-label-text
+    @include font-p-3-tooltip-title-black
+    padding-bottom: 8px
+  .link-to-view
+    @include font-p-3-paragraph-small-blue-link
+    padding: 7px 0px
+    text-decoration: none
+    color: #0170E9
+  .review-learning-goal
+    @include font-p-7-tooltip-flag-red
+    color: $color-concept-flag-color
+    padding-top: 8px
+  .review-tooltip-details
+    padding: 10px 0px
 
   // Code copying buttons
 

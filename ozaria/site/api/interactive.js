@@ -93,3 +93,20 @@ export const putSession = (idOrSlug, options = {}) => {
     ...options
   })
 }
+
+export const fetchInteractiveSessionForAllClassroomMembers = (classroom, options = {}) => {
+  const limit = 10
+  let skip = 0
+  const size = _.size(classroom.get('members'))
+  options.data = options.data || {}
+  options.data.memberLimit = limit
+  options.remove = false
+  const jqxhrs = []
+  while (skip < size) {
+    options = _.cloneDeep(options)
+    options.data.memberSkip = skip
+    jqxhrs.push(fetchJson(`/db/classroom/${classroom.id}/member-interactive-sessions`, options))
+    skip += limit
+  }
+  return jqxhrs
+}

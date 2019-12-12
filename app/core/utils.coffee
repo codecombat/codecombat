@@ -137,6 +137,21 @@ registerHocProgressModalCheck = ->
       clearInterval(hocProgressModalCheck)
   , 60000) # every 1 min
 
+# Harcoding module names for simplicity
+# Use db to store these later when we add sophisticated module functionality, right now its only used for UI
+courseModules = {}
+courseModules[courseIDs.ONE_FREE_HOUR] = {
+  '1': 'Objects and Methods'
+}
+courseModules[courseIDs.CHAPTER_ONE] = {
+  '1': 'Algorithms and Syntax',
+  '2': 'Debugging',
+  '3': 'Variables',
+  '4': 'Conditionals',
+  '5': 'Capstone Intro',
+  '6': 'Capstone Project'
+}
+
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
   '5744e3683af6bf590cd27371' # Cougar
@@ -157,6 +172,50 @@ premiumContent =
   totalHeroesCount: '16'
   premiumLevelsCount: '330'
   freeLevelsCount: '100'
+
+# group course/campaign levels by module number
+buildLevelsListByModule = (levels, is1FH=false) ->
+  Level = require('models/Level')
+  levelsModuleMap = {}
+  # Find the intro before the last capstone stage for 1FH
+  # since 1fh capstone needs to be placed after that in the levels list 
+  if is1FH && levels.find((l) => l.isCapstone())
+    capstoneOriginal = levels.find((l) => l.isCapstone()).get('original')
+    totalCapstoneStages = 10 # Hardcoding the num of stages since its not available in level data, TODO refactor later
+    if capstoneOriginal
+      introBeforeLastCapstoneStage = levels.find((l) => 
+        nextLevel = Object.values(l.get('nextLevels') || {})[0] || {}
+        return nextLevel.original == capstoneOriginal && nextLevel.nextLevelStage == totalCapstoneStages
+      )
+      introBeforeLastCapstoneStageOriginal = introBeforeLastCapstoneStage?.get('original')
+  capstoneLevel = {}
+  levels.forEach((l) =>
+    moduleNumber = l.get('moduleNum') || 1
+    if is1FH && l.isCapstone()
+      capstoneLevel = new Level(l.attributes)
+    else
+      levelsModuleMap[moduleNumber] ?= []
+      levelsModuleMap[moduleNumber].push(l)
+      if is1FH && introBeforeLastCapstoneStageOriginal && l.get('original') == introBeforeLastCapstoneStageOriginal
+        levelsModuleMap[moduleNumber].push(capstoneLevel)
+  )
+  return levelsModuleMap
+
+# adds displayName and learning goals from intro levels content to the intro level given
+addIntroLevelContent = (introLevel, introLevelsContent) ->
+  if introLevel.get('type') == 'intro' && (introLevel.get('introContent') || []).length > 0 && introLevelsContent
+    introLevel.get('introContent').forEach((c) => 
+      return if c.type == 'avatarSelectionScreen'
+      if typeof c.contentId is 'object' # contentId can be an object if interactive is different for python/js
+        # for simplicity, assuming that the display name/learning goals will be same for a given interactive in python/js
+        introLevelData = introLevelsContent[c.contentId.python] || {}
+      else
+        introLevelData = introLevelsContent[c.contentId] || {}
+      c.displayName = introLevelData.displayName || introLevelData.name
+      learningGoals = ((introLevelData.documentation || {}).specificArticles || []).find((a) => a.name == 'Learning Goals')
+      if learningGoals
+        c.learningGoals = i18n(learningGoals, 'body')
+    )
 
 normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
@@ -725,13 +784,16 @@ videoLevels = {
 }
 
 module.exports = {
+  addIntroLevelContent
   ageOfConsent
+  buildLevelsListByModule
   capitalLanguages
   clone
   combineAncestralObject
   countries
   courseAcronyms
   courseIDs
+  courseModules
   createLevelNumberMap
   extractPlayerCodeTag
   filterMarkdownCodeLanguages
