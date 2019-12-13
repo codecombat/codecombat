@@ -154,6 +154,11 @@ block content
       a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
         span(data-i18n="play.spectate") Spectate
 
+    if me.isAdmin()
+      .spectate-button-container
+        a.simulate-all-button.btn.btn-illustrated.btn-info.center
+          span(data-i18n="play.simulate_all")
+
   ul.nav.nav-pills
     li.active
       a(href="#ladder", data-toggle="tab", data-i18n="general.ladder") Ladder
