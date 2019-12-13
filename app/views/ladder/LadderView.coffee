@@ -90,6 +90,11 @@ module.exports = class LadderView extends RootView
       t.courseInstanceID is courseInstanceID and t.level is levelSlug
     if tournament
       currentTime = Date.now() / 1000
+      if currentTime < tournament.startAt
+        delta = tournament.startAt - currentTime
+        console.log "Tournament start time: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      else if currentTime > tournament.endAt
+        console.log "Tournament ended at: #{new Date(tournament.endAt * 1000)}"
       return true unless tournament.startAt <= currentTime and tournament.endAt >= currentTime
       delta = tournament.endAt - currentTime
       console.log "Tournament end time: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
