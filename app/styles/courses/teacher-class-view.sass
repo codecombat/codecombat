@@ -348,8 +348,18 @@
         right: 0
         bottom: 0
         pointer-events: none
-        background: linear-gradient(270deg, #FFFFFF 0%, rgba(255,255,255,0.92) 33.02%, rgba(255,255,255,0) 100%)
+        background: linear-gradient(270deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.81) 43%, rgba(255,255,255,0) 100%)
         width: 7%
+      &:before
+        content: ""
+        position: absolute
+        top: 0
+        left: 10%
+        bottom: 0
+        pointer-events: none
+        background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.81) 43%, rgba(255,255,255,0) 100%)
+        width: 7%
+        z-index: 1
       .module-content
         position: absolute
         height: 100%
@@ -358,6 +368,9 @@
         overflow-x: auto
         overflow-y: hidden
         white-space: nowrap
+        & > .progress-dot:last-child
+          margin-right: 0
+
       .module-container-label
         display: flex
         flex-direction: column
@@ -370,7 +383,7 @@
         box-shadow: -1px -1px 4px 0 rgba(0,0,0,0.13), 1px 1px 4px 0 rgba(0,0,0,0.33)
         span
           @include font-h-4-uppercase-white-left-align
-      .scroll-arrow
+      .scroll-arrow-right
         display: inline-block
         position: absolute
         z-index: 1
@@ -382,7 +395,21 @@
           position: absolute
           top: 45%
           right: 30%
-    .hide-fade:after
+      .scroll-arrow-left
+        display: inline-block
+        position: absolute
+        z-index: 1
+        height: 100%
+        cursor: pointer
+        left: 10% // The width of the module header
+        width: 5%
+        .glyphicon
+          position: absolute
+          top: 45%
+          left: 30%
+    .hide-fade-right:after
+      display: none
+    .hide-fade-left:before
       display: none
 
   // 1FH capstone flow header
@@ -397,6 +424,7 @@
       position: absolute
       top: 0px
       width: 99.8%
+      width: calc(100% - 1.5px)
       background-color: $color-module-color-slate
       text-align: left
       font-weight: 600
@@ -405,6 +433,9 @@
     .intro-level-progress-dot .progress-dot
       .dot-label
         padding-top: 65px
+    & > .progress-dot:nth-last-child(2)
+      margin-right: 0
+
     .special-capstone-intro-flow
       height: 74%
 
@@ -504,10 +535,9 @@
     @include font-p-3-tooltip-title-black
     padding-bottom: 8px
   .link-to-view
-    @include font-p-3-paragraph-small-blue-link
+    @include font-p-3-paragraph-small-gray
     padding: 7px 0px
     text-decoration: none
-    color: #0170E9
   .review-learning-goal
     @include font-p-7-tooltip-flag-red
     color: $color-concept-flag-color

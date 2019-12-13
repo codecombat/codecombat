@@ -231,11 +231,13 @@ mixin courseProgressRow(course, student)
   - var courseModuleLevelsMap = (view.courseModuleLevelsMap[course.id] || {}).modules || {}
   if state.get('progressData')
     for levels, moduleNum in courseModuleLevelsMap
-      .module-container
+      .module-container.hide-fade-left
         .module-container-label
           span(data-i18n='teacher.module'+moduleNum)
           span=view.moduleNameMap[course.id][moduleNum]
-        .scroll-arrow
+        .scroll-arrow-left.hide
+          span.glyphicon.glyphicon-chevron-left
+        .scroll-arrow-right
           span.glyphicon.glyphicon-chevron-right
         .module-content
           each level, index in levels
@@ -246,8 +248,6 @@ mixin courseProgressRow(course, student)
             +studentsLevelProgressDot(progress, level, contentType, student)
           if course.is1FHCourse()
             +capstoneFlow(levels, course, student)
-          //- Adding an emtpy div at the end because scroll arrow and fade is not hiding on some devices inconsistently
-          .empty-div.progress-dot(style="background: transparent")
 
 //- Special capstone flow for 1FH with capstone header label over all intro levels
 mixin capstoneFlow(levels, course, student)

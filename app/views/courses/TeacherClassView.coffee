@@ -64,7 +64,9 @@ module.exports = class TeacherClassView extends RootView
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
     'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
-    'click .scroll-arrow': 'onClickScroll'
+    'click .scroll-arrow-right': 'onClickScrollRight'
+    'click .scroll-arrow-left': 'onClickScrollLeft'
+    'mouseover .module-content': 'focusModuleContent'
 
   getInitialState: ->
     {
@@ -337,15 +339,31 @@ module.exports = class TeacherClassView extends RootView
       @toggleModuleContainerFade?($(el))
   
   toggleModuleContainerFade: (elem) ->
-    if (elem[0].scrollWidth - elem.scrollLeft() == elem.outerWidth())
-      elem.closest('.module-container').addClass('hide-fade');
-      elem.closest('.module-container').find('.scroll-arrow')?.addClass('hide')
+    # Make room for floating point imprecision
+    delta = 1.5
+    if Math.abs(elem[0].scrollWidth - elem.scrollLeft() - elem.outerWidth()) < delta
+      elem.closest('.module-container').addClass('hide-fade-right');
+      elem.closest('.module-container').find('.scroll-arrow-right')?.addClass('hide')
     else
-      elem.closest('.module-container').removeClass('hide-fade');
-      elem.closest('.module-container').find('.scroll-arrow')?.removeClass('hide')
+      elem.closest('.module-container').removeClass('hide-fade-right');
+      elem.closest('.module-container').find('.scroll-arrow-right')?.removeClass('hide')
 
-  onClickScroll: (e) ->
+    if elem.scrollLeft() < delta
+      elem.closest('.module-container').addClass('hide-fade-left');
+      elem.closest('.module-container').find('.scroll-arrow-left')?.addClass('hide')
+    else
+      elem.closest('.module-container').removeClass('hide-fade-left');
+      elem.closest('.module-container').find('.scroll-arrow-left')?.removeClass('hide')
+
+
+  focusModuleContent: (event) ->
+    event?.currentTarget?.focus()
+
+  onClickScrollRight: (e) ->
     $(e.currentTarget).closest('.module-container').find('.module-content').animate?({scrollLeft: '+=200px'}, 'slow')
+
+  onClickScrollLeft: (e) ->
+    $(e.currentTarget).closest('.module-container').find('.module-content').animate?({scrollLeft: '-=200px'}, 'slow')
 
   reviewNeededTooltipHtml: ->
     tooltipHtml = """
