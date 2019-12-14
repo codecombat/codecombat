@@ -199,7 +199,6 @@ module.exports = class PlayLevelView extends RootView
 
     if features.china
       @levelSlug = e.level.get('slug')
-      @courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
       @setupMandateCheck()
 
   setupMandateCheck: =>
