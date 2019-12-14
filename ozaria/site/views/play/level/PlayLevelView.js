@@ -1169,7 +1169,7 @@ class PlayLevelView extends RootView {
     if (options == null) {
       options = {}
     }
-    if (this.level.hasLocalChanges()) {
+    if (!this.level.isCapstone() && this.level.hasLocalChanges()) {
       return
     } // Don't award achievements when beating level changed in level editor
 
@@ -1511,7 +1511,7 @@ class PlayLevelView extends RootView {
     Backbone.Mediator.publish('level:set-time', { ratio: 1 })
 
     // Don't award achievements when beating level changed in level editor
-    if (this.level.hasLocalChanges()) {
+    if (!this.level.isCapstone() && this.level.hasLocalChanges()) {
       return
     }
 
