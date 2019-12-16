@@ -32,6 +32,9 @@ require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
 
 require('imports-loader?this=>window!npm-modernizr');
 
+import 'node_modules/bootstrap-select/dist/css/bootstrap-select.min.css'
+import 'node_modules/bootstrap-select/dist/js/bootstrap-select.min.js'
+
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
 window.Vuex = require('vuex').default
 

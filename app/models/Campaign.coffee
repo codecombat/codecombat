@@ -4,6 +4,7 @@ Level = require 'models/Level'
 Levels = require 'collections/Levels'
 CocoCollection = require 'collections/CocoCollection'
 utils = require '../core/utils'
+api = require 'core/api'
 
 module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
@@ -30,6 +31,27 @@ module.exports = class Campaign extends CocoModel
 
   getLevels: ->
     return new Levels(Campaign.getLevels(@toJSON()))
+
+  getLevelsByModules: ->
+    campaignId = @get('_id')
+    is1FH = utils.freeCampaignIds.includes(campaignId)
+    levels = @getLevels().models
+    campaignLevels = {}
+    campaignLevels[campaignId] = {
+      modules: utils.buildLevelsListByModule(levels, is1FH)
+    }
+    return campaignLevels
+
+  @fetchIntroContentDataForLevels: (campaignLevelsModuleMap) ->
+    introLevels = []
+    for campaignId, campaignModules of campaignLevelsModuleMap
+      for moduleNum, levels of campaignModules.modules
+        introLevels = introLevels.concat(levels.filter((l) => l.get('introContent')))
+    api.levels.fetchIntroContent(introLevels)
+    .then (introLevelContentMap) =>
+      introLevels.forEach((l) =>
+        utils.addIntroLevelContent(l, introLevelContentMap)
+      )
 
   getNonLadderLevels: ->
     levels = new Levels(_.values(@get('levels')))

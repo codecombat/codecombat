@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 State = require 'models/State'
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
+ozariaUtils = require 'ozaria/site/common/ozariaUtils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
@@ -32,6 +33,7 @@ window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format ch
 TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
+{ fetchInteractiveSessionForAllClassroomMembers } = require('ozaria/site/api/interactive.js')
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -62,6 +64,9 @@ module.exports = class TeacherClassView extends RootView
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
     'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
+    'click .scroll-arrow-right': 'onClickScrollRight'
+    'click .scroll-arrow-left': 'onClickScrollLeft'
+    'mouseover .module-content': 'focusModuleContent'
 
   getInitialState: ->
     {
@@ -127,9 +132,16 @@ module.exports = class TeacherClassView extends RootView
 
     @students = new Users()
     @classroom.sessions = new LevelSessions()
+
+    @moduleNameMap = utils.courseModules
+    @courseModuleLevelsMap = {}
+    @interactiveSessions = []
     @listenTo @classroom, 'sync', ->
       @fetchStudents()
       @fetchSessions()
+      @courseModuleLevelsMap = @classroom.getLevelsByModules() # build levels without intro content data
+      @classroom.fetchIntroContentDataForLevels(@courseModuleLevelsMap).then(() => @debouncedRender?()) # fetch intro content data
+      @fetchInteractiveSessions()
 
     @students.comparator = (student1, student2) =>
       dir = @state.get('sortDirection')
@@ -162,7 +174,11 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals,displayName'}})
     me.getClientCreatorPermissions()?.then(() => @debouncedRender?())
     @attachMediatorEvents()
+    @getLevelDisplayNameWithLabel = (level) -> ozariaUtils.getLevelDisplayNameWithLabel(level)
+    @getIntroContentNameWithLabel = (content) -> ozariaUtils.getIntroContentNameWithLabel(content)
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    @onWindowResize = _.debounce @onWindowResize, 100
+    $(window).on 'resize', @onWindowResize
 
   fetchStudents: ->
     Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
@@ -179,6 +195,19 @@ module.exports = class TeacherClassView extends RootView
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
       @debouncedRender?()
+
+  fetchInteractiveSessions: ->
+    introLevelsContent = _.flatten(@classroom.getLevels().models.filter((l) => l.get('introContent')).map((l) => l.get('introContent')))
+    language = @classroom.get('aceConfig')?.language || 'python'
+    interactiveIds = introLevelsContent.filter((c) => c.type == 'interactive').map((c) => (c.contentId || {})[language] || c.contentId) || []
+    if interactiveIds.length > 0
+      interactivesSessionsFetch = fetchInteractiveSessionForAllClassroomMembers(@classroom, {data: {interactiveIds: interactiveIds}})
+      Promise.all(interactivesSessionsFetch)
+      .then (interactiveSessions) =>
+        return if @destroyed
+        @interactiveSessions = interactiveSessions.flat()
+        @calculateInteractiveProgress()
+        @debouncedRender?()
 
   attachMediatorEvents: () ->
     # Model/Collection events
@@ -292,12 +321,63 @@ module.exports = class TeacherClassView extends RootView
           opacity: 1
         }
       })
-    $('.progress-dot, .btn-view-project-level').each (i, el) ->
-      dot = $(el)
-      dot.tooltip({
-        html: true
-      }).delegate '.tooltip', 'mousemove', ->
-        dot.tooltip('hide')
+    $('.has-tooltip').mouseenter () ->
+      if $(this).hasClass('course-tab')
+        options = {
+          html: true
+          container: $(this).closest('.module-container')
+        }
+      else
+        options = { html: true }
+      $(this).tooltip(options)
+      $(this).tooltip('show')
+    $('.module-content').scroll (e) => @toggleModuleContainerFade?($(e.currentTarget))
+    @onWindowResize()
+
+  onWindowResize: =>
+    $('.module-content').each (i,el) =>
+      @toggleModuleContainerFade?($(el))
+  
+  toggleModuleContainerFade: (elem) ->
+    # Make room for floating point imprecision
+    delta = 1.5
+    if Math.abs(elem[0].scrollWidth - elem.scrollLeft() - elem.outerWidth()) < delta
+      elem.closest('.module-container').addClass('hide-fade-right');
+      elem.closest('.module-container').find('.scroll-arrow-right')?.addClass('hide')
+    else
+      elem.closest('.module-container').removeClass('hide-fade-right');
+      elem.closest('.module-container').find('.scroll-arrow-right')?.removeClass('hide')
+
+    if elem.scrollLeft() < delta
+      elem.closest('.module-container').addClass('hide-fade-left');
+      elem.closest('.module-container').find('.scroll-arrow-left')?.addClass('hide')
+    else
+      elem.closest('.module-container').removeClass('hide-fade-left');
+      elem.closest('.module-container').find('.scroll-arrow-left')?.removeClass('hide')
+
+
+  focusModuleContent: (event) ->
+    event?.currentTarget?.focus()
+
+  onClickScrollRight: (e) ->
+    $(e.currentTarget).closest('.module-container').find('.module-content').animate?({scrollLeft: '+=200px'}, 'slow')
+
+  onClickScrollLeft: (e) ->
+    $(e.currentTarget).closest('.module-container').find('.module-content').animate?({scrollLeft: '-=200px'}, 'slow')
+
+  reviewNeededTooltipHtml: ->
+    tooltipHtml = """
+    <div>
+      <img src='/images/ozaria/teachers/content-icons/interactive-review.png'/>
+      <span class='tooltip-label-text'>
+        #{$.i18n.t('teacher.review_tooltip_heading')}
+      </span>
+      <div class='smallest-details review-tooltip-details'>
+        #{$.i18n.t('teacher.review_tooltip_text')}
+      </div>
+    </div>
+    """
+    return tooltipHtml
 
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
@@ -329,6 +409,16 @@ module.exports = class TeacherClassView extends RootView
       progressData
       classStats: @calculateClassStats()
     }
+
+  calculateInteractiveProgress: ->
+    interactiveProgressData = helper.calculateAllProgressInteractives(new Classrooms([ @classroom ]), @interactiveSessions)
+    @state.set {
+      interactiveProgressData
+    }
+  
+  destroy: ->
+    $(window).off 'resize', @onWindowResize
+    super()
 
   getCourseAssessmentPairs: () ->
     @courseAssessmentPairs = []

@@ -57,6 +57,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/clas': go('admin/CLAsView')
     'admin/classroom-content': go('admin/AdminClassroomContentView')
     'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
+    'admin/partial-unit-release': () ->
+      @routeDirectly('views/admin/PartialUnitReleaseView', [], { vueRoute: true, baseTemplate: 'base-empty' })
     'admin/classrooms-progress': go('admin/AdminClassroomsProgressView')
     'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')
@@ -224,7 +226,7 @@ module.exports = class CocoRouter extends Backbone.Router
     #   @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     # 'play/spectate/:levelID': go('play/SpectateView')
     # 'play/:map': go('play/CampaignView')
-    
+
     # These are admin-only routes since they are only used internally for testing -> interactive/, cinematic/, cutscene/, ozaria/avatar-selector
     'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->
       props = {

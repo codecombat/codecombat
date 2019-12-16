@@ -343,4 +343,17 @@ module.exports = class Level extends CocoModel
 
   isCapstone: -> @get('ozariaType') == 'capstone'
 
+  isChallenge: -> @get('ozariaType') == 'challenge'
+
+  getDisplayContentType: ->
+    return 'capstone' if @isCapstone()
+    return 'challenge' if @isChallenge()
+    if @get('type') == 'intro'
+      introContent = @get('introContent') || []
+      if (introContent.length == 1 && introContent[0].type == 'cutscene-video')
+        return 'cutscene'
+      else
+        return 'intro'
+    return 'practice'
+
 _.assign(Level, LevelLib)

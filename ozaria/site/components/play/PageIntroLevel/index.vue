@@ -95,8 +95,17 @@
           noty({ text: 'Error in creating data for intro level', type: 'error', timeout: 2000 })
           return
         }
-        // Assign first content in the sequence to this.currentContent
-        this.currentIndex = 0
+        if (me.isSessionless()) {
+          this.currentIndex = parseInt(utils.getQueryVariable('intro-content')) || 0
+          if (this.currentIndex >= this.introContent.length) {
+            console.error('Invalid content index')
+            // TODO handle_error_ozaria
+            noty({ text: 'Error in creating data for intro level', type: 'error', timeout: 2000 })
+            return
+          }
+        } else { // Assign first content in the sequence to this.currentContent
+          this.currentIndex = 0
+        }
         this.currentContent = this.introContent[this.currentIndex]
         this.setCurrentContentId(this.currentContent)
         this.dataLoaded = true

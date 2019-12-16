@@ -63,6 +63,13 @@ export default {
     onCompleted() {
       this.$emit('completed')
     },
+
+    pauseVideo() {
+      const video = this.$refs["cloudflareVideo"];
+      if (video && typeof video.pause === 'function') {
+        video.pause()
+      }
+    }
   }
 }
 </script>
