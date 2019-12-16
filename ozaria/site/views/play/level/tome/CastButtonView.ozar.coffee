@@ -133,8 +133,11 @@ module.exports = class CastButtonView extends CocoView
 
   onNewGoalStates: (e) ->
     @winnable = e.overallStatus is 'success'
-    # Changing an img's src in CSS is poorly supported in browsers so we're doing it manually here:
-    @$el.find('#next > .active-button').attr('src', '/images/ozaria/level/Button_' + (if @winnable then 'Active.png' else 'Inactive.png'))
+
+    if @winnable
+      @$el.find('#next').removeClass('inactive')
+    else
+      @$el.find('#next').addClass('inactive')
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.

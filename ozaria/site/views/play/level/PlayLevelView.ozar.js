@@ -87,10 +87,7 @@ class PlayLevelView extends RootView {
     this.sessionID = utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
     this.opponentSessionID = utils.getQueryVariable('opponent') || this.options.opponent
-    this.capstoneStage = parseInt(
-      utils.getQueryVariable('capstoneStage') ||
-      utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
-      this.options.capstoneStage, 10) || 1
+    this.capstoneStage = this.getCapstoneStageFromArguments() || 1
     this.continueEditing = utils.getQueryVariable('continueEditing') || false
 
     this.gameUIState = new GameUIState()
@@ -399,17 +396,39 @@ class PlayLevelView extends RootView {
 
   updateCapstoneStage () {
     if (!me.isSessionless() && this.session) {
-      this.capstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
+      // As a player, we always want to get it from the session, which is undefined on stage 1:
+      this.capstoneStage = (this.session.get('state') || {}).capstoneStage || 1
 
       if (!this.level) {
         return
       }
+
       // We don't want to overshoot the capstoneStage, as it causes problems with nextLevels lookups and share modals
       const maxCapstoneStage = GoalManager.maxCapstoneStage(this.level.attributes.additionalGoals)
       if (this.capstoneStage > maxCapstoneStage) {
         this.capstoneStage = maxCapstoneStage
       }
     }
+
+
+    // We don't have a capstoneStage somehow, then it should begin at 1
+    if (!this.capstoneStage) {
+      this.capstoneStage = 1
+    }
+
+    // We have capstone jumping powers so we can set it any time we want
+    // As long as it's not trying to set it back to the default of 1
+    const capstoneStageFromArguments = this.getCapstoneStageFromArguments()
+    if ((me.isAdmin() || me.isTeacher()) && capstoneStageFromArguments) {
+      this.capstoneStage = capstoneStageFromArguments
+    }
+  }
+
+  getCapstoneStageFromArguments () {
+    return parseInt(
+      utils.getQueryVariable('capstoneStage') ||
+      utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
+      this.options.capstoneStage, 10)
   }
 
   onWorldLoadProgressChanged (e) {

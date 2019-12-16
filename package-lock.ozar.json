@@ -4706,6 +4706,11 @@
       "resolved": "https://registry.npmjs.org/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz",
       "integrity": "sha1-ZZbHq0D2Y3OTMjqwvIDQZPxjBJg="
     },
+    "bootstrap-select": {
+      "version": "1.13.12",
+      "resolved": "https://registry.npmjs.org/bootstrap-select/-/bootstrap-select-1.13.12.tgz",
+      "integrity": "sha512-epsPt6WpgmL9Q9Y22JFntajdhhqvCwV/JKiBZF3YFvMHK9YzzDPQft/Cjqvsgq0bhF32BlvG03Qs3qA/pVRAqQ=="
+    },
     "bower": {
       "version": "1.8.8",
       "resolved": "https://registry.npmjs.org/bower/-/bower-1.8.8.tgz",

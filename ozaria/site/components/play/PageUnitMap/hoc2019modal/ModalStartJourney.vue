@@ -61,14 +61,14 @@ export default {
   color: $gray;
   text-shadow: unset;
   font-weight: bold;
-  @include font-button-text-black;
+  @include font-h-5-button-text-black;
   min-width: 260px;
   padding: 15px 0;
   background-image: unset;
   margin: 0 15px;
 
   &:hover {
-    @include font-button-text-white;
+    @include font-h-5-button-text-white;
     background-color: $goldenlight;
     transition: background-color .35s;
   }

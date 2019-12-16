@@ -1,4 +1,5 @@
 import { merge } from 'lodash'
+import { i18n } from 'app/core/utils'
 
 /**
  Utility functions for ozaria
@@ -272,7 +273,7 @@ export function tryCopy () {
   }
 }
 
-export function internationalizeLevelType(type, withLevelSuffix){
+export function internationalizeLevelType(type, withLevelSuffix, withProjectSuffix){
   if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1){
     type = 'practice'
   }
@@ -280,12 +281,17 @@ export function internationalizeLevelType(type, withLevelSuffix){
   if (withLevelSuffix){
     key += '_level'
   }
+  if (withProjectSuffix){
+    key += '_project'
+  }
   return $.i18n.t(key)
 }
 
 export function internationalizeContentType(type){
   switch (type) {
     case 'cutscene-video':
+      return $.i18n.t('play_level.level_type_cutscene')
+    case 'cutscene':
       return $.i18n.t('play_level.level_type_cutscene')
     case 'avatarSelectionScreen':
       return $.i18n.t('play_level.content_type_avatar')
@@ -295,5 +301,34 @@ export function internationalizeContentType(type){
       return $.i18n.t('play_level.content_type_interactive')
     default:
       return this.currentContent.contentType
+  }
+}
+
+// Returns the display label for levels of type practice/challenge/intro/cutscene/capstone
+// For cutscene levels, its name is determined from introContent which should contain the cutscene name.
+export function getLevelDisplayNameWithLabel (level) {
+  if (!level) {
+    return
+  }
+  const contentType = level.getDisplayContentType()
+  let levelName = i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')
+  if (contentType === 'cutscene' && (level.get('introContent') || [])[0]) {
+    levelName = level.get('introContent')[0].displayName || levelName
+  }
+
+  if (contentType === 'capstone') {
+    return internationalizeLevelType(contentType, false, true) + ': ' + levelName
+  }
+  return internationalizeLevelType(contentType) + ': ' + levelName
+}
+
+// Only for cinematics/interactives
+export function getIntroContentNameWithLabel (introContent) {
+  if (!introContent) {
+    return
+  }
+  const displayName = introContent.displayName || '...'
+  if (introContent.type) {
+    return internationalizeContentType(introContent.type) + ': ' + displayName
   }
 }

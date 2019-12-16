@@ -1,4 +1,5 @@
 @import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/common/variables"
 
 #teacher-courses-view
   //TODO: Refactor colors into .style-flat?
@@ -70,3 +71,34 @@
 
   .guide-btn
     margin: 5px
+
+  .control-label
+    display: block
+    .level-select
+      span.text
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        display: block
+      .dropdown-header.module-label
+        @include font-h-4-uppercase-white-left-align
+        background: $color-module-color-slate
+        height: 37px
+        padding: 5px 15px
+      .dropdown-menu
+        padding-top: 0px
+        box-shadow: 4px 4px 15px 0 rgba(0,0,0,0.5)
+        border-radius: 8px
+        max-width: 319px
+        z-index: 1040 // more than the top main-nav bar of the website
+      .level-content, .dropdown-menu, .dropdown-menu > li > a
+        @include font-p-3-paragraph-small-gray
+        .intro-content
+          margin-left: 20px
+      .dropdown-menu > li > a
+        padding-left: 1.25em
+      .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > li > a:hover 
+        background: #0170E9
+        color: $white
+    .level-select > .dropdown-toggle:hover, .open .btn-default.dropdown-toggle
+      background-color: unset

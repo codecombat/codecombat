@@ -88,6 +88,7 @@ module.exports = Vue.extend({
     },
 
     handleSkip() {
+      this.pauseCutscene()
       this.onCompleted()
       throttledSkippedCutsceneEvent('Skipped Cutscene', {cutsceneId: this.cutsceneId})
     },
@@ -95,10 +96,10 @@ module.exports = Vue.extend({
     pauseCutscene () {
       const videoPlayer = this.$refs['china-player'] || this.$refs['vimeo-player'] || this.$refs['cloudflare-player']
       if (videoPlayer) {
-        if (videoPlayer.$refs['player']) { // for china player and vimeo player
+        if (this.cloudflareID && videoPlayer && typeof videoPlayer.pauseVideo === 'function') {
+          videoPlayer.pauseVideo()
+        } else if (videoPlayer.$refs['player']) { // for china player and vimeo player
           videoPlayer.$refs['player'].pause()
-        } else if ($(this.$el) && ($(this.$el).find('stream') || [])[0]) {
-          $(this.$el).find('stream')[0].pause()
         }
       }
     }
