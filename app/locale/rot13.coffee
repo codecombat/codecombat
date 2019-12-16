@@ -3015,3 +3015,5 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   browser_recommendation:
     title: 'PbqrPbzong jbexf orfg ba Puebzr!'
     pitch_body: 'Sbe gur orfg PbqrPbzong rkcrevrapr jr erpbzzraq hfvat gur yngrfg irefvba bs Puebzr. Qbjaybnq gur yngrfg irefvba bs puebzr ol pyvpxvat gur ohggba orybj!'
+    download: 'Qbjaybnq Puebzr'
+    ignore: 'Vtaber'
