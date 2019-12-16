@@ -1652,10 +1652,6 @@ class PlayLevelView extends RootView {
     this.tome.softReloadCapstoneStage(this.capstoneStage)
     Backbone.Mediator.publish('tome:updateAether')
   }
-
-  updateAetherRunning (e) {
-    this.updateAetherIsRunning = true
-  }
 }
 
 PlayLevelView.prototype.id = 'level-view'
@@ -1691,8 +1687,7 @@ PlayLevelView.prototype.subscriptions = {
   'playback:cinematic-playback-started': 'onCinematicPlaybackStarted',
   'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded',
   'store:item-purchased': 'onItemPurchased',
-  'tome:manual-cast': 'onRunCode',
-  'tome:updateAetherRunning': 'updateAetherRunning'
+  'tome:manual-cast': 'onRunCode'
 }
 
 PlayLevelView.prototype.events = {
