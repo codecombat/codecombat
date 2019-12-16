@@ -3015,3 +3015,5 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"
