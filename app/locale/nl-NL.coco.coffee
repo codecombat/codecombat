@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     point4: "✓ Projectgebaseerde lessen"
     point5: "✓ Leerling-volgsysteem"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

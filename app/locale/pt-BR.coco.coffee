@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Bem Vindo ao Code Combat!"
+    welcome: "Bem Vindo ao Code Combat!" # {change}
     educator: "Eu sou um educador"
     show_resources: "Me mostre os recursos do professor!"
     student: "Eu sou um aluno"
