@@ -2944,7 +2944,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2018:
-    banner: "Jrypbzr gb Ubhe bs Pbqr 2019!" #
+    banner: "Jrypbzr gb Ubhe bs Pbqr 2019!"
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    title: "UBHE BS PBQR 2018"
+    title: "UBHE BS PBQR 2019" # {punatr}
     acronym: "UBP"
 
   hoc_2018_interstitial:
-    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2018!"
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2019!" # {punatr}
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"

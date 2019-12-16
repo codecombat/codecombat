@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     point4: "✓ プロジェクトのためのコース"
     point5: "✓ 生徒のプログレスがわかる"
     point6: "✓ 全てのコンセプトを教えてくれる"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
