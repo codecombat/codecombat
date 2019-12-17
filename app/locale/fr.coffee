@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     point4: "✓ Cours par projet"
     point5: "✓ Suivi des étudiants"
     point6: "✓ Plans de cours complets"
-    title: "HEURE DU CODE 2018"
+    title: "HEURE DU CODE 2018" # {change}
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
     educator: "Je suis un éducateur"
     show_resources: "Montrez-moi les ressources pédagogiques !"
     student: "Je suis étudiant"
