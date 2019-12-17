@@ -281,7 +281,6 @@ module.exports = class SpellView extends CocoView
           @lastBackspace = nowDate
           @ace.remove "left"
 
-
   hookACECustomBehavior: ->
     aceConfig = me.get('aceConfig') ? {}
     @ace.commands.on 'exec', (e) =>
@@ -594,7 +593,6 @@ module.exports = class SpellView extends CocoView
 
   setThang: (thang) ->
     @focus()
-    @lastScreenLineCount = null
     @updateLines()
     return if thang.id is @thang?.id
     @thang = thang
@@ -627,39 +625,20 @@ module.exports = class SpellView extends CocoView
     return if @destroyed
     lineCount = @aceDoc.getLength()
     lastLine = @aceDoc.$lines[lineCount - 1]
+    cursorPosition = @ace.getCursorPosition()
     if /\S/.test lastLine
-      cursorPosition = @ace.getCursorPosition()
       wasAtEnd = cursorPosition.row is lineCount - 1 and cursorPosition.column is lastLine.length
       @aceDoc.insertNewLine row: lineCount, column: 0  #lastLine.length
       @ace.navigateLeft(1) if wasAtEnd
       ++lineCount
       # Force the popup back
       @ace?.completer?.showPopup(@ace)
-    screenLineCount = @aceSession.getScreenLength()
-    if screenLineCount isnt @lastScreenLineCount
-      @lastScreenLineCount = screenLineCount
-      lineHeight = @ace.renderer.lineHeight or 20
-      tomeHeight = $('#tome-view').innerHeight()
-      spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
-      spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      @spellPaletteHeight ?= 75
-      spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-      maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
-      minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
-      linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight)
-      # 2 lines buffer is nice
-      @ace.setOptions minLines: lines, maxLines: lines
-      # Move spell palette up, slightly overlapping us.
-      newTop = 185 + lineHeight * lines
-      #spellPaletteView.css('top', newTop)
-      # Expand it to bottom of tome if too short.
-      #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
-      #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+    # Ensure current user code line visible and not truncated at bottom of editor
+    if cursorPosition.row >= lineCount - 2
+      @ace.scrollToLine lineCount, true, true
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
       @ace.scrollToLine @firstEntryToScrollLine, true, true
       @firstEntryToScrollLine = undefined
-
 
   hideProblemAlert: ->
     return if @destroyed
@@ -857,6 +836,7 @@ module.exports = class SpellView extends CocoView
     isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
     annotations = @aceSession.getAnnotations()
 
+    # NOTE: this has crazy side-effects via new Problem()
     newProblems = @convertAetherProblems(aether, aether.getAllProblems(), isCast)
     annotations.push problem.annotation for problem in newProblems when problem.annotation
     if isCast
@@ -1238,7 +1218,6 @@ module.exports = class SpellView extends CocoView
 
   resize: ->
     @ace?.resize true
-    @lastScreenLineCount = null
     @updateLines()
 
   onChangeEditorConfig: (e) ->
