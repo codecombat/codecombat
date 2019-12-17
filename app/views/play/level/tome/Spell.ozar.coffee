@@ -1,4 +1,4 @@
-SpellView = require './SpellView'
+SpellView = require 'ozaria/site/views/play/level/tome/SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
 {createAetherOptions} = require 'lib/aether_utils'

@@ -1108,7 +1108,6 @@ module.exports = class SpellView extends CocoView
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
-    @highlightEntryPoints() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
     return unless flow and @thang
     executed = []
@@ -1192,75 +1191,6 @@ module.exports = class SpellView extends CocoView
 
     @debugView?.setVariableStates {} unless gotVariableStates
     null
-
-  highlightEntryPoints: ->
-    # Put a yellow arrow in the gutter pointing to each place we expect them to put in code.
-    # Usually, this is indicated by a blank line after a comment line, except for the first comment lines.
-    # If we need to indicate an entry point on a line that has code, we use ∆ in a comment on that line.
-    # If the entry point line has been changed (beyond the most basic shifted lines), we don't point it out.
-    lines = @aceDoc.$lines
-    originalLines = @spell.originalSource.split '\n'
-    session = @aceSession
-    commentStart = commentStarts[@spell.language] or '//'
-    seenAnEntryPoint = false
-    previousLine = null
-    previousLineHadComment = false
-    previousLineHadCode = false
-    previousLineWasBlank = false
-    pastIntroComments = false
-    for line, index in lines
-      session.removeGutterDecoration index, 'entry-point'
-      session.removeGutterDecoration index, 'next-entry-point'
-      session.removeGutterDecoration index, "entry-point-indent-#{i}" for i in [0, 4, 8, 12, 16]
-
-      lineHasComment = @singleLineCommentRegex().test line
-      lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
-      lineIsBlank = /^[ \t]*$/.test line
-      lineHasExplicitMarker = line.indexOf('∆') isnt -1
-
-      originalLine = originalLines[index]
-      lineHasChanged = line isnt originalLine
-
-      isEntryPoint = lineIsBlank and previousLineHadComment and not previousLineHadCode and pastIntroComments
-      if isEntryPoint and lineHasChanged
-        # It might just be that the line was shifted around by the player inserting more code.
-        # We also look for the unchanged comment line in a new position to find what line we're really on.
-        movedIndex = originalLines.indexOf previousLine
-        if movedIndex isnt -1 and line is originalLines[movedIndex + 1]
-          lineHasChanged = false
-        else
-          isEntryPoint = false
-
-      if lineHasExplicitMarker
-        if lineHasChanged
-          if originalLines.indexOf(line) isnt -1
-            lineHasChanged = false
-            isEntryPoint = true
-        else
-          isEntryPoint = true
-
-      if isEntryPoint
-        session.addGutterDecoration index, 'entry-point'
-        unless seenAnEntryPoint
-          session.addGutterDecoration index, 'next-entry-point'
-          seenAnEntryPoint = true
-          unless @hasSetInitialCursor
-            @hasSetInitialCursor = true
-            @ace.navigateTo index, line.match(/\S/)?.index ? line.length
-            @firstEntryToScrollLine = index
-
-        # Shift pointer right based on current indentation
-        # TODO: tabs probably need different horizontal offsets than spaces
-        indent = 0
-        indent++ while /\s/.test(line[indent])
-        indent = Math.min(16, Math.floor(indent / 4) * 4)
-        session.addGutterDecoration index, "entry-point-indent-#{indent}"
-
-      previousLine = line
-      previousLineHadComment = lineHasComment
-      previousLineHadCode = lineHasCode
-      previousLineWasBlank = lineIsBlank
-      pastIntroComments ||= lineHasCode or previousLineWasBlank
 
   onAnnotationClick: ->
     # @ is the gutter element
