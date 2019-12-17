@@ -123,6 +123,10 @@
                     text-transform: uppercase;
 
                     padding: 0;
+
+                    &:focus {
+                        outline: none;
+                    }
                 }
             }
 
