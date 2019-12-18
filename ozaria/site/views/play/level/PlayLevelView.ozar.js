@@ -1647,7 +1647,8 @@ class PlayLevelView extends RootView {
     }
 
     this.scriptManager.setScripts(this.level.get('scripts'))
-    this.updateGoals(this.level.get('goals'))
+    this.goalManager.destroy()
+    this.initGoalManager()
     this.tome.softReloadCapstoneStage(this.capstoneStage)
     Backbone.Mediator.publish('tome:updateAether')
   }
