@@ -1,7 +1,8 @@
 block content
-  #model
-    div
-      p(style="color:white") 正在跳转中，请稍后。。。
+  if value > 0
+    #model
+      div
+        p(style="color:white") 自动跳转中，请稍后。。。
   .container-fluid.con
     .header.row
       a.navbar-brand(href="/home")

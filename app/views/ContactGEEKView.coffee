@@ -12,14 +12,26 @@ module.exports = class ContactGEEKView extends RootView
     'click .two': 'onClickTwo'
 
   initialize: (options) ->
+
+  afterInsert: ->
     value = @getCookie("name");
-#    console.log $('#model').css 'display'
-    if value = 1
-      $('#model').css 'display', 'block'
-#      setTimeout(window.location.href = 'https://koudashijie.com/',5000 );
+    console.log value
+    if value == 1
+      this.render()
+      f = ->
+        window.location.href = 'https://koudashijie.com/'
+      setTimeout f, 5000
     else
-      $('#model').css 'display', 'block'
-#      setTimeout(window.location.href = 'https://codecombat.163.com/#/',5000 );
+      this.render()
+      f = ->
+        window.location.href = 'https://codecombat.163.com/#/'
+      setTimeout f, 5000
+
+
+  getRenderData: ->
+    c = super(arguments...)
+    c.value = @getCookie("name");
+    c
 
   onClickOne: (e) ->
     console.log e
@@ -33,7 +45,7 @@ module.exports = class ContactGEEKView extends RootView
     Days = 30;
     exp = new Date();
     exp.setTime(exp.getTime() + Days*24*60*60*1000);
-    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    document.cookie = name + "="+  (value) + ";expires=" + exp.toGMTString();
 
   getCookie:(name) ->
     arr
