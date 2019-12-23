@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    title: "UBHE BS PBQR 2019" # {punatr}
+    title: "UBHE BS PBQR 2019"
     acronym: "UBP"
 
   hoc_2018_interstitial:
-    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2019!" # {punatr}
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2019!"
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"
