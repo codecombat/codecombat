@@ -1,6 +1,7 @@
 require('app/styles/contact-geek.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/contact-geek-view'
+TrialRequests = require 'collections/TrialRequests'
 
 
 module.exports = class ContactGEEKView extends RootView
@@ -11,21 +12,39 @@ module.exports = class ContactGEEKView extends RootView
     'click .one': 'onClickOne'
     'click .two': 'onClickTwo'
 
-  initialize: (options) ->
+  initialize: (options,@redirect) ->
+    super(options)
+    @redi = ''
+    if (@redirect)
+      redirects = @redirect.split("=")
+      if (redirects[0] == 'redirect')
+        @redi = redirects[1]
 
   afterInsert: ->
     value = @getCookie("name");
-    console.log value
-    if value == 1
-      this.render()
-      f = ->
-        window.location.href = 'https://koudashijie.com/'
-      setTimeout f, 5000
+    type = @redi
+    if (type != '')
+      if parseInt(value) == 1
+        this.render()
+        f = ->
+          window.location.href = 'https://koudashijie.com?redirect=' + type
+        setTimeout f, 5000
+      else
+        this.render()
+        f = ->
+          window.location.href = 'https://codecombat.163.com/#/?redirect=' + type
+        setTimeout f, 5000
     else
-      this.render()
-      f = ->
-        window.location.href = 'https://codecombat.163.com/#/'
-      setTimeout f, 5000
+      if parseInt(value) == 1
+        this.render()
+        f = ->
+          window.location.href = 'https://koudashijie.com/'
+        setTimeout f, 5000
+      else
+        this.render()
+        f = ->
+          window.location.href = 'https://codecombat.163.com/#/'
+        setTimeout f, 5000
 
 
   getRenderData: ->
@@ -36,10 +55,20 @@ module.exports = class ContactGEEKView extends RootView
   onClickOne: (e) ->
     console.log e
     @setCookie("name","1");
+    types = @redi
+    if (types != '')
+        window.location.href = 'https://koudashijie.com?redirect=' + types
+    else
+        window.location.href = 'https://koudashijie.com/'
 
   onClickTwo: (e) ->
     console.log e
     @setCookie("name","2");
+    types = @redi
+    if (types != '')
+      window.location.href = 'https://codecombat.163.com/#/?redirect=' + types
+    else
+      window.location.href = 'https://codecombat.163.com/#/'
 
   setCookie:(name,value) ->
     Days = 30;
