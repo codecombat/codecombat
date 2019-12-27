@@ -3012,8 +3012,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
-#  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
-#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
-#    ignore: "Ignore"
+  browser_recommendation:
+    title: "CodeCombat лучше всего работает в Chrome!"
+    pitch_body: "Для лучшей работы CodeCombat мы рекомендуем использовать последнюю версию Chrome. Загрузите последнюю версию Chrome, нажав кнопку ниже!"
+    download: "Скачайте Chrome"
+    ignore: "Игнорировать"
