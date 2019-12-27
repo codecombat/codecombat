@@ -3006,11 +3006,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
 
-#  interactives:
-#    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
-#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+  interactives:
+    phenomenal_job: "Феноменальная работа!"
+    try_again: "Ой! Попробуй ещё раз!"
+    select_statement_left: "Ой! Выбери утверждение слева перед нажатием \"Отправить.\""
+    fill_boxes: "Ой! Проверь, что заполнил все поля перед нажатием \"Отправить.\""
 
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
