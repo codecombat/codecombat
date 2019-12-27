@@ -227,6 +227,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     faq: "FAQ"
     return_coco: "Return to CodeCombat"
     classes: "Classes"
+    term_of_service: "Terms of Service"
+    privacy: "Privacy"
 
   modal:
     close: "Close"

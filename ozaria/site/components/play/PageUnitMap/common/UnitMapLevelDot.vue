@@ -2,6 +2,7 @@
   import { getNextLevelLink } from 'ozaria/site/common/ozariaUtils'
   import { mapGetters } from 'vuex'
   import { internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
+  import utils from 'core/utils'
 
   export default Vue.extend({
     props: {
@@ -73,7 +74,7 @@
       },
 
       displayName: function () {
-        return this.levelData.displayName || this.levelData.name
+        return utils.i18n(this.levelData, 'displayName') || utils.i18n(this.levelData, 'name')
       }
     },
 

@@ -2,6 +2,7 @@
   import InteractiveTitle from './InteractiveTitle'
   import LayoutAspectRatioContainer from '../../../common/LayoutAspectRatioContainer'
   import LayoutChrome from '../../../common/LayoutChrome'
+  import utils from 'core/utils'
 
   export default {
     components: {
@@ -20,13 +21,18 @@
         type: String,
         default: undefined
       }
+    },
+    computed:{
+      title(){
+        return utils.i18n(this.interactive, 'displayName') || utils.i18n(this.interactive, 'name')
+      }
     }
   }
 </script>
 
 <template>
   <LayoutChrome
-    :title="interactive.displayName || interactive.name"
+    :title="title"
   >
     <div class="interactive-page">
       <LayoutAspectRatioContainer

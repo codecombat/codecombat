@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
-
+import utils from 'core/utils'
 import LayoutChrome from '../../common/LayoutChrome'
 import BaseVideo from '../common/BaseVideo'
 import { getCutscene } from '../../../api/cutscene'
@@ -48,6 +48,9 @@ module.exports = Vue.extend({
     ...mapGetters({
       soundOn: 'layoutChrome/soundOn'
     }),
+    title(){
+      return utils.i18n(this.cutscene, 'displayName') || utils.i18n(this.cutscene, 'name')
+    }
   },
 
   methods: {
@@ -109,8 +112,8 @@ module.exports = Vue.extend({
 
 <template>
   <layout-chrome
-    :title="cutscene.displayName || cutscene.name"
-    @pause-cutscene="pauseCutscene"
+      :title="title"
+      @pause-cutscene="pauseCutscene"
   >
     <!-- CLOUDFLARE PLAYER -->
     <CloudflareVideoPlayer

@@ -60,7 +60,8 @@
     }),
     computed: {
       ...mapGetters({
-        levelsList: 'unitMap/getCurrentLevelsList'
+        levelsList: 'unitMap/getCurrentLevelsList',
+        userLocale: 'me/preferredLocale'
       }),
       shareModal () {
         return !me.isSessionless() && (this.showShareModal || this.editCapstoneLevelData)
@@ -72,7 +73,7 @@
         return this.currentIntroContent || this.currentLevel.attributes || this.currentLevel || {}
       },
       contentName () {
-        return this.currentContent.displayName || this.currentContent.name
+        return utils.i18n(this.currentContent,'displayName') || utils.i18n(this.currentContent,'name')
       },
       contentType () {
         if (this.currentContent.ozariaType) {
@@ -86,7 +87,7 @@
         const learningGoals = _.find(specificArticles, { name: 'Learning Goals' })
         let learningGoalsText
         if (learningGoals) {
-          learningGoalsText = internationalizeConfig(learningGoals).body
+          learningGoalsText = internationalizeConfig(learningGoals, this.userLocale).body
         }
         return learningGoalsText
       },

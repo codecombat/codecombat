@@ -29,6 +29,7 @@
   import LayoutChrome from 'ozaria/site/components/common/LayoutChrome'
   import LayoutCenterContent from '../../common/LayoutCenterContent'
   import store from 'core/store'
+  import utils from 'core/utils'
 
   module.exports = Vue.extend({
     components: {
@@ -64,7 +65,8 @@
     },
     computed: {
       title () {
-        return (store.state.game.level || {}).displayName || (store.state.game.level || {}).name
+        let levelData = store.state.game.level || {}
+        return utils.i18n(levelData, "displayName") || utils.i18n(levelData, "name")
       },
       isChromeOn () {
         return (store.state.game.level || {}).ozariaType === 'capstone'
