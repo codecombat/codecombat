@@ -2979,15 +2979,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    student: "I'm a student"
 #    ready_to_code: "I'm ready to code!"
 
-#  hoc_2018_completion:
-#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
-#    send: "Send your Hour of Code game to friends and family!"
-#    copy: "Copy URL"
-#    get_certificate: "Get a certificate of completion to celebrate with your class!"
-#    get_cert_btn: "Get Certificate"
-#    first_name: "First Name"
-#    last_initial: "Last Initial"
-#    teacher_email: "Teacher's email address"
+  hoc_2018_completion:
+    congratulations: "Поздравляем с заполнением <b>Кодируй, Играй, Делись!</b>"
+    send: "Отправь свой «Час кода» друзьям и близким!"
+    copy: "Копируй URL"
+    get_certificate: "Получи сертификат об окончании, чтобы отпраздновать с классом!"
+    get_cert_btn: "Получить Сертификат"
+    first_name: "Имя"
+    last_initial: "Первая буква фамилии"
+    teacher_email: "Email учителя"
 
   school_administrator:
     title: "Панель администратора школы"
