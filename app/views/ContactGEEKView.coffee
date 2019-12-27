@@ -14,11 +14,16 @@ module.exports = class ContactGEEKView extends RootView
 
   initialize: (options,@redirect) ->
     super(options)
+    @history = @getCookie("name");
     @redi = ''
     if (@redirect)
       redirects = @redirect.split("=")
       if (redirects[0] == 'redirect')
         @redi = redirects[1]
+
+
+  onLoaded: ->
+
 
   afterInsert: ->
     value = @getCookie("name");
@@ -29,7 +34,7 @@ module.exports = class ContactGEEKView extends RootView
         f = ->
           window.location.href = 'https://koudashijie.com?redirect=' + type
         setTimeout f, 5000
-      else
+      else if parseInt(value) == 2
         this.render()
         f = ->
           window.location.href = 'https://codecombat.163.com/#/?redirect=' + type
@@ -40,12 +45,11 @@ module.exports = class ContactGEEKView extends RootView
         f = ->
           window.location.href = 'https://koudashijie.com/'
         setTimeout f, 5000
-      else
+      else if parseInt(value) == 2
         this.render()
         f = ->
           window.location.href = 'https://codecombat.163.com/#/'
         setTimeout f, 5000
-
 
   getRenderData: ->
     c = super(arguments...)
