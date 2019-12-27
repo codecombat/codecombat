@@ -116,6 +116,9 @@
         // (example, coco students with no oz class/who sign up without class code using hoc save progress modal)
         // They should be allowed access to unit map, and their 1fh progress from hoc will be shown
         return null
+      },
+      title: function () {
+        return utils.i18n(this.campaignData, 'name')
       }
     },
 
@@ -306,7 +309,7 @@
 
 <template>
   <layout-chrome
-    :title="campaignData.name"
+    :title="title"
   >
     <layout-center-content>
       <layout-aspect-ratio-container
