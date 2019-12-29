@@ -1,7 +1,8 @@
 require('app/styles/contact-geek.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/contact-geek-view'
-TrialRequests = require 'collections/TrialRequests'
+utils = require 'core/utils'
+storage = require 'core/storage'
 
 
 module.exports = class ContactGEEKView extends RootView
@@ -12,78 +13,27 @@ module.exports = class ContactGEEKView extends RootView
     'click .one': 'onClickOne'
     'click .two': 'onClickTwo'
 
-  initialize: (options,@redirect) ->
+  initialize: (options) ->
     super(options)
-    @history = @getCookie("name");
-    @redi = ''
-    if (@redirect)
-      redirects = @redirect.split("=")
-      if (redirects[0] == 'redirect')
-        @redi = redirects[1]
+    @history = @getRedirect()
+    console.log @history
+    if @history
+      setTimeout @goRedirect, 5000
 
+  goRedirect: (value) ->
+    @redirect = utils.getQueryVariable 'redirect'
+    url = if parseInt(value||@getRedirect) == 1 then 'https://koudashijie.com' else 'https://codecombat.163.com/#/'
+    if @redirect
+      url += '?redirect='+@redirect
+    window.location.href = url
 
-  onLoaded: ->
-
-
-  afterInsert: ->
-    value = @getCookie("name");
-    type = @redi
-    if (type != '')
-      if parseInt(value) == 1
-        this.render()
-        f = ->
-          window.location.href = 'https://koudashijie.com?redirect=' + type
-        setTimeout f, 5000
-      else if parseInt(value) == 2
-        this.render()
-        f = ->
-          window.location.href = 'https://codecombat.163.com/#/?redirect=' + type
-        setTimeout f, 5000
-    else
-      if parseInt(value) == 1
-        this.render()
-        f = ->
-          window.location.href = 'https://koudashijie.com/'
-        setTimeout f, 5000
-      else if parseInt(value) == 2
-        this.render()
-        f = ->
-          window.location.href = 'https://codecombat.163.com/#/'
-        setTimeout f, 5000
-
-  getRenderData: ->
-    c = super(arguments...)
-    c.value = @getCookie("name");
-    c
+  setRedirect: (redirect) -> storage.save('redirect', redirect)
+  getRedirect: -> storage.load('redirect')
 
   onClickOne: (e) ->
-    console.log e
-    @setCookie("name","1");
-    types = @redi
-    if (types != '')
-        window.location.href = 'https://koudashijie.com?redirect=' + types
-    else
-        window.location.href = 'https://koudashijie.com/'
+    @setRedirect("1");
+    @goRedirect("1")
 
   onClickTwo: (e) ->
-    console.log e
-    @setCookie("name","2");
-    types = @redi
-    if (types != '')
-      window.location.href = 'https://codecombat.163.com/#/?redirect=' + types
-    else
-      window.location.href = 'https://codecombat.163.com/#/'
-
-  setCookie:(name,value) ->
-    Days = 30;
-    exp = new Date();
-    exp.setTime(exp.getTime() + Days*24*60*60*1000);
-    document.cookie = name + "="+  (value) + ";expires=" + exp.toGMTString();
-
-  getCookie:(name) ->
-    arr
-    reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-    if(arr=document.cookie.match(reg))
-      return unescape(arr[2]);
-    else
-      return null;
+    @setRedirect("2");
+    @goRedirect("2")
