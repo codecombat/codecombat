@@ -1,0 +1,79 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#contact-geek-view
+
+  overflow: hidden
+
+  #model
+    position: absolute
+    z-index: 100
+    top: 45%
+    left: 41%
+    display: flex
+
+    div
+      background-color: #4a5259
+      display: flex
+      align-items: center
+      justify-content: center
+      opacity: 0.5
+      width: 310px
+      padding: 70px 70px 60px 70px
+      border-radius: 10px
+
+  .header
+    padding: 0
+    background-color: white
+    .navbar-brand
+      padding: 14px 0 16px 70px
+      #logo-img
+        height: 40px
+
+  .con
+    background-color: white
+    height: 100vh
+    .center
+      display: flex
+      align-items: center
+      justify-content: center
+      .card
+        padding: 35px 30px 35px 40px
+        width: 60%
+        border-radius: 10px
+        .use
+          font-size: 18px
+        .photo
+          width: 200px
+          height: auto
+        button:focus
+          outline: 0
+        .btn-primary
+          padding: 10px 30px
+          font-size: 10px
+        .btn-success
+          padding: 7px 27px
+          font-size: 10px
+          border-radius: 5px
+          border: 2px solid black
+        .btn-success:hover
+          border: 3px solid black
+    .left
+      background-color: #004d66
+      height: 92vh
+      .card:hover
+        border: 15px solid white
+      .card
+        background-color: white
+        border: 10px solid white
+        .one
+          border-radius: 20px
+    .right
+      background-color: #ffcc00
+      height: 92vh
+      .card:hover
+        border: 15px solid black
+      .card
+        background-color: #c2c2a3
+        border: 10px solid black
