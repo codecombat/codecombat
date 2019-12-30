@@ -1,6 +1,6 @@
-require('app/styles/contact-geek.sass')
+require('app/styles/china-bridge.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/contact-geek-view'
+template = require 'templates/china-bridge-view'
 utils = require 'core/utils'
 storage = require 'core/storage'
 
@@ -34,5 +34,5 @@ module.exports = class ContactGEEKView extends RootView
     @goRedirect("koudashijie")
 
   onClickTwo: (e) ->
-    @setRedirect("codecombat");
-    @goRedirect("codecombat")
+    @setRedirect("netease");
+    @goRedirect("netease")
