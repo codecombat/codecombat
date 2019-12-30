@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_not_found: "Guru tidak ditemukan. Harap pastikan guru ini telah membuat Akun Guru."
     teacher_not_valid: "Ini bukan Akun Guru yang valid. Hanya akun guru yang bisa membagikan lisensi."
     already_shared: "Anda telah membagikan lisensi dengan guru tersebut."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Guru yang dapat mengakses lisensi ini:"
     footer: "Ketika guru mencabut lisensi dari siswa, lisensi akan dikembalikan ke kumpulan lisensi untuk digunakan oleh guru lainnya di dalam grup."
     you: "(Kamu)"
