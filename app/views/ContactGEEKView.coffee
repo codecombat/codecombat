@@ -16,24 +16,23 @@ module.exports = class ContactGEEKView extends RootView
   initialize: (options) ->
     super(options)
     @history = @getRedirect()
-    console.log @history
     if @history
       setTimeout @goRedirect, 5000
 
-  goRedirect: (value) ->
-    @redirect = utils.getQueryVariable 'redirect'
-    url = if parseInt(value||@getRedirect) == 1 then 'https://koudashijie.com' else 'https://codecombat.163.com/#/'
-    if @redirect
-      url += '?redirect='+@redirect
+  goRedirect: (value) =>
+    redirectURL = utils.getQueryVariable 'redirect'
+    url = if (value or @history) == 'koudashijie' then 'https://koudashijie.com' else 'https://codecombat.163.com'
+    if redirectURL
+      url += redirectURL
     window.location.href = url
 
   setRedirect: (redirect) -> storage.save('redirect', redirect)
   getRedirect: -> storage.load('redirect')
 
   onClickOne: (e) ->
-    @setRedirect("1");
-    @goRedirect("1")
+    @setRedirect("koudashijie");
+    @goRedirect("koudashijie")
 
   onClickTwo: (e) ->
-    @setRedirect("2");
-    @goRedirect("2")
+    @setRedirect("codecombat");
+    @goRedirect("codecombat")
