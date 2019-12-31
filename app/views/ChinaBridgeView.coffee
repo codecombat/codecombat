@@ -24,7 +24,7 @@ module.exports = class ContactGEEKView extends RootView
     url = if (value or @history) == 'koudashijie' then 'https://koudashijie.com' else 'https://codecombat.163.com'
     if redirectURL
       url += redirectURL
-#    window.location.href = url
+    window.location.href = url
 
   setRedirect: (redirect) -> storage.save('redirect', redirect)
   getRedirect: -> storage.load('redirect')

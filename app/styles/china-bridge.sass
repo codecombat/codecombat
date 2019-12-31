@@ -39,6 +39,9 @@
       align-items: center
       justify-content: center
       .card
+        display: flex
+        align-items: center
+        justify-content: center
         .use
           font-size: 18px
         .photo
@@ -46,49 +49,49 @@
           height: auto
         button:focus
           outline: 0
-        .btn-primary
+        .one
           padding: 10px 50px
           font-size: 16px
-        .btn-success
+          background: #00BDB5
+          color: white
+        .two
           padding: 7px 45px
           font-size: 16px
           border-radius: 5px
           border: 2px solid black
-        .btn-success:hover
-          border: 3px solid black
+          background: #00A650
+          color: white
+        .one:hover
+          background: #14B0A9
+        .two:hover
+          border-left: 2.5px solid black
+          border-right: 2.5px solid black
+          background: #007E3D
     .left
       background-color: #104C60
       height: 92vh
       .card:hover
         width: 756px
         height: 324px
-        padding: 80px 70px 72px 70px
         box-shadow: 0 0 20px #979797
       .card
         width: 716px
         height: 284px
         background-color: white
         border: 10px solid white
-        padding: 52px 30px 35px 40px
         border-radius: 10px
         .one
           border-radius: 20px
     .right
       background-color: #FFCE1C
       height: 92vh
-      .right-card
-        padding: 38px 30px 35px 88px
       .card:hover
         width: 848px
-        height: 386px
+        height: 346px
         background-image: url("https://assets.koudashijie.com/images/personal.png")
         background-size: cover
-        .right-card
-        padding: 22px 30px 35px 45px
       .card
         width: 778px
-        height: 306px
+        height: 316px
         background-image: url("https://assets.koudashijie.com/images/personal.png")
         background-size: cover
-        .photo
-          margin-top: 36px
