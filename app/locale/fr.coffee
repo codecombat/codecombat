@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_not_found: "Enseignant introuvable. Veuillez vous assurer que cet enseignant a déjà créé un compte enseignant."
     teacher_not_valid: "Ce n'est pas un compte d'enseignant valide. Seuls les comptes enseignants peuvent partager des licences."
     already_shared: "Vous avez déjà partagé ces licences avec ce Professeur."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Les enseignants qui peuvent accéder à ces licences :"
     footer: "Lorsque les enseignants révoquent les licences des élèves, les licences seront retournées au pool partagé pour que les autres enseignants de ce groupe puissent les utiliser."
     you: "(vous)"
