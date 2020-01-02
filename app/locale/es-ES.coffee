@@ -740,7 +740,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    vega_character: "Vega Character"
     click_to_continue: "Click para continuar"
 
-#  apis:
+  apis:
     methods: "Métodos"
     events: "Eventos"
     handlers: "Manipuladores"
@@ -1010,7 +1010,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     level_to_unlock: "Nivel para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Solo ciertos héroes pueden jugar este nivel."
 
-#  char_customization_modal:
+  char_customization_modal:
     heading: "Personalizar tu héroe"
     body: "Cuerpo"
     name_label: "Nombre del héroe"
