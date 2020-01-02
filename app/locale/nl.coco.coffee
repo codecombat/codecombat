@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_not_found: "Docent niet gevonden. Zorg ervoor dat deze docent al een Docentenaccount heeft aangemaakt."
     teacher_not_valid: "Dit is geen geldig Docentenaccount. Alleen docenten met een account kunnen licenties delen."
     already_shared: "Je hebt deze licenties al met deze docent gedeeld."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Docenten die beschikking hebben over de licenties:"
     footer: "Wanneer docenten licenties intrekken van leerling, kunnen de licenties weer gebruikt worden door andere docenten die beschikking hebben over de licenties."
     you: "(jij)"
