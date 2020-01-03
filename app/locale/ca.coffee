@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     teacher_not_found: "No s'ha trobat el professor. Assegureu-vos que aquest professor ja ha creat un compte de professor."
     teacher_not_valid: "Aquest no és un compte de professor vàlid. Només els comptes de professors poden compartir llicències."
     already_shared: "Ja heu compartit aquestes llicències amb aquest professor."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Professors que poden accedir a aquestes llicències:"
     footer: "Quan els professors revocuen llicències dels estudiants, les llicències es retornaran al grup compartit d'altres professors d'aquest grup per utilitzar-les."
     you: "(tu)"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     point4: "✓ Cursos basats en Projectes"
     point5: "✓ Seguiment de l'Alumnat"
     point6: "✓ Planificació de Lliçons complertes"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

@@ -2,7 +2,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   new_home:
     title: "CodeCombat - Python과 JavaScript를 배울수 있는 코딩 게임"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "프로그래밍 게임을 통해 타이핑된 코드를 배우십시오. 퍼즐을 풀면서 Python, JavaScript 및 HTML을 배우고 자신만의 코딩 게임 및 웹 사이트를 만드는 방법을 배우십시오."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "선생님들의 마음을 생각한 코딩 게임"
     built_for_teachers_blurb: "아이들에게 코드를 가르치는 것은 종종 어렵게 느껴질 수 있습니다. CodeCombat은 모든 교육자가 학생들에게 가장 인기 있는 프로그래밍 언어 중 하나인 JavaScript 또는 Python으로 코드를 짤수있는 방법을 가르칠 수 있도록 도와줍니다. 6개의 컴퓨터 사이언스 유닛과 프로젝트기반 게임 개발 및 웹 개발 유닛들을 통해 학습을 증진시키는 종합적인 교육과정을 통하여, 아이들은 기본 구문을 시작으로 재구성으로의 여정을 진행할 것입니다!"
     built_for_teachers_subtitle1: "컴퓨터 사이언스 (Computer Science)"
@@ -1120,7 +1122,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     community_description_link_2: "커뮤니티 프로젝트입니다"
     community_description_1: "수백 명의 플레이어가 자발적으로 레벨을 만들고, 기능을 추가하고, 버그를 수정하고, 게임플레이를 테스트를 하며 CodeCombat을 지금까지 50개 언어로 번역하는 데 기여하고 있습니다. 직원, 기여자 및 사이트는 일반적으로 오픈 소스 커뮤니티와 마찬가지로 아이디어를 공유하고 노력을 기울임으로써 정보를 얻을 수 있습니다. 이 사이트는 수많은 오픈 소스 프로젝트를 기반으로 구축되어 있으며, 커뮤니티에 반환하고 코드가 궁금한 분들을 대상으로 탐색 및 실험할 수 있는 익숙한 프로젝트를 제공할 수 있도록 오픈 소스화되어 있습니다. 누구나 CodeCombat 커뮤니티에 가입할 수 있습니다! 더 많은 정보를 위한"
     community_description_link: "contribute 페이지"
-    community_description_2: "" #'Check out our' This phrase does not conform to Korean grammar.
+    community_description_2: "for more info."
     number_contributors: "450명이 넘는 contributor들이 이 프로젝트를 위해 아낌없는 지원과 시간을 내주시고 있습니다."
     story_title: "지금까지 우리의 이야기"
     story_subtitle: "2013년부터 CodeCombat은 단순한 스케치에서 성장하는 게임으로 성장했습니다."
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
 #    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
 #    already_shared: "You've already shared these licenses with that teacher."
+#    have_not_shared: "You've not shared these licenses with that teacher."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

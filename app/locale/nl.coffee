@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   new_home:
     title: "CodeCombat - Codeerspellen om Python en JavaScript te leren"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Leer code typen via een programmeerspel. Leer Python, JavaScript en HTML terwijl je puzzels oplost en leer je eigen coderingsspellen en websites maken."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "Een Codeerspel Gemaakt met Leraren in Gedachten"
     built_for_teachers_blurb: "Kinderen leren programmeren kan vaak overweldigend aanvoelen. CodeCombat helpt alle docenten om leerlingen te leren coderen in JavaScript of Python, twee van de meest populaire programmeertalen. Met een uitgebreid curriculum dat zes computerwetenschap-eenheden omvat en het leren versterkt door projectgebaseerde spelontwikkeling en webontwikkelingsunits, zullen kinderen vooruitgang boeken op een reis van basissyntaxis naar recursie! "
     built_for_teachers_subtitle1: "Computerwetenschap"
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_not_found: "Docent niet gevonden. Zorg ervoor dat deze docent al een Docentenaccount heeft aangemaakt."
     teacher_not_valid: "Dit is geen geldig Docentenaccount. Alleen docenten met een account kunnen licenties delen."
     already_shared: "Je hebt deze licenties al met deze docent gedeeld."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Docenten die beschikking hebben over de licenties:"
     footer: "Wanneer docenten licenties intrekken van leerling, kunnen de licenties weer gebruikt worden door andere docenten die beschikking hebben over de licenties."
     you: "(jij)"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     point4: "✓ Project-gebaseerde cursussen"
     point5: "✓ Leerlingentracking"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Welkom bij CodeCombat's Hour of Code 2018!"
+    welcome: "Welkom bij CodeCombat's Hour of Code 2018!" # {change}
     educator: "Ik ben een onderwijzer"
     show_resources: "Laat me de leraren-informatie zien!"
     student: "Ik ben een student"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"
