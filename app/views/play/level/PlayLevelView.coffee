@@ -199,20 +199,30 @@ module.exports = class PlayLevelView extends RootView
 
     if features.china
       @levelSlug = e.level.get('slug')
-      @courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
-      @checkForTournamentRunning()
+      @setupMandateCheck()
 
-  checkForTournamentRunning: =>
+  setupMandateCheck: =>
     return if @destroyed
     $.get '/db/mandate', (data) =>
       return if @destroyed
-      mandate = data?[0]
-      return unless @levelSlug is mandate?.currentTournament
+      courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
+      if @isTournamentBlocked data?[0], courseInstanceID, @levelSlug
+        unless me.isAdmin()
+          window.location.href = '/play/ladder/'+@levelSlug+(if courseInstanceID then '/course/'+courseInstanceID else "")
+      setTimeout @setupMandateCheck, 60 * 1000
+
+  isTournamentBlocked: (mandate, courseInstanceID, levelSlug) =>
+    return unless mandate
+    tournament = _.find mandate?.currentTournament or [], (t) =>
+      t.courseInstanceID is courseInstanceID and t.level is levelSlug
+    if tournament
       currentTime = Date.now() / 1000
-      unless @courseInstanceID in (mandate.courseInstanceIDs || []) and mandate.startTime <= currentTime and mandate.endTime > currentTime
-        window.location.href = '/play/ladder/'+@levelSlug+'/course/'+@courseInstanceID
-      else
-        setTimeout @checkForTournamentRunning, 60 * 1000
+      return true unless tournament.startAt <= currentTime and tournament.endAt >= currentTime
+      delta = tournament.endAt - currentTime
+      console.log "Tournament end time: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+    else
+      return true if levelSlug in (mandate?.tournamentOnlyLevels or [])
+    return false
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview

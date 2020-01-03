@@ -41,6 +41,7 @@ module.exports = class LadderView extends RootView
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
+    'click .simulate-all-button': 'onClickSimulateAllButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
@@ -73,23 +74,35 @@ module.exports = class LadderView extends RootView
     @loadLeague()
     @urls = require('core/urls')
 
-  checkForTournamentRunning: =>
+  setupMandateCheck: =>
     return if @destroyed
-    return false if me.isAdmin()
-    #TODO: get specific tournament mandate?
     $.get '/db/mandate', (data) =>
       return if @destroyed
-      mandate = data?[0]
-      return unless @level.get('slug') is mandate?.currentTournament
-      currentTime = Date.now() / 1000
-      unless @courseInstance.id in (mandate.courseInstanceIDs || []) and mandate.startTime <= currentTime and mandate.endTime > currentTime
-        @tournamentEnd = true
-        @displayTabContent = 'display: none'
-        @render()
+      if @isTournamentBlocked data?[0], @courseInstance?.id, @level.get('slug')
+        unless me.isAdmin()
+          @tournamentEnd = true
+          @render()
       else
-        delta = (mandate.endTime - currentTime)
-        console.log "End time: #{new Date(mandate.endTime * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
-        setTimeout @checkForTournamentRunning, 60 * 1000
+        setTimeout @setupMandateCheck, 60 * 1000
+
+  isTournamentBlocked: (mandate, courseInstanceID, levelSlug) =>
+    return unless mandate
+    tournament = _.find mandate?.currentTournament or [], (t) =>
+      t.courseInstanceID is courseInstanceID and t.level is levelSlug
+    if tournament
+      currentTime = Date.now() / 1000
+      if currentTime < tournament.startAt
+        delta = tournament.startAt - currentTime
+        console.log "Tournament start time: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      else if currentTime > tournament.endAt
+        console.log "Tournament ended at: #{new Date(tournament.endAt * 1000)}"
+      return true unless tournament.startAt <= currentTime and tournament.endAt >= currentTime
+      delta = tournament.endAt - currentTime
+      console.log "Tournament end time: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+    else
+      return true if levelSlug in (mandate?.tournamentOnlyLevels or [])
+    return false
+
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'
@@ -99,7 +112,10 @@ module.exports = class LadderView extends RootView
 
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
-    return unless @leagueID
+    unless @leagueID
+      if features.china
+        @setupMandateCheck()
+      return
     modelClass = if @leagueType is 'clan' then Clan else CourseInstance
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model
     if @leagueType is 'course'
@@ -119,7 +135,7 @@ module.exports = class LadderView extends RootView
     @listenToOnce @course, 'sync', @render
 
     if features.china
-      @checkForTournamentRunning()
+      @setupMandateCheck()
 
   afterRender: ->
     super()
@@ -167,6 +183,20 @@ module.exports = class LadderView extends RootView
     url += '&autoplay=false' if key.command
     window.open url, if key.command then '_blank' else 'spectate'  # New tab for spectating specific matches
     #Backbone.Mediator.publish 'router:navigate', route: url
+
+  onClickSimulateAllButton: (e) ->
+    $.ajax
+      url: '/queue/scoring/loadTournamentSimulationTasks'
+      data:
+        originalLevelID: @level.get('original'),
+        levelMajorVersion: 0,
+        leagueID: @leagueID
+      type: 'POST'
+      parse: true
+      success: (res)->
+        console.log res
+      error: (err) ->
+        console.error err
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]

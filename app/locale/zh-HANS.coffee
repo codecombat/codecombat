@@ -234,6 +234,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     request_licenses: "联系我们获取详细信息"
     compete: "开战！" # Course details page
     spectate: "旁观他人的游戏" # Ladder page
+    simulate_all: "创建全部对局" # Ladder page
     players: "玩家" # Hover over a level on /play
     hours_played: "游戏时长" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
@@ -3011,7 +3012,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
   browser_recommendation:
-    pitch_body: '为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。'
-    download: '下载 CHROME 浏览器'
-    ignore: '忽略'
+#    title: "CodeCombat works best on Chrome!"
+    pitch_body: "为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。"
+    download: "下载 CHROME 浏览器"
+    ignore: "忽略"
