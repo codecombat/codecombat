@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     point4: "✓ Project-gebaseerde cursussen"
     point5: "✓ Leerlingentracking"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Welkom bij CodeCombat's Hour of Code 2018!"
+    welcome: "Welkom bij CodeCombat's Hour of Code 2018!" # {change}
     educator: "Ik ben een onderwijzer"
     show_resources: "Laat me de leraren-informatie zien!"
     student: "Ik ben een student"
@@ -3015,3 +3015,5 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

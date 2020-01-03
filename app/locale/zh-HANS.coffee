@@ -2,8 +2,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   new_home:
     title: "CodeCombat - 硅谷原创AP官方权威认证青少年编程平台"
-    meta_description: "CodeCombat中国官方教学版，美国大学理事会认证，国际等级证书，AI世青赛全球独家技术伙伴。"
     meta_keywords: "青少年编程, 少儿编程, CodeCombat, CodeCombat中国, steam教育, python, javascript, 游戏化编程, 美国AP/CSP认证, AI世青赛技术支持平台"
+    meta_description: "CodeCombat中国官方教学版，美国大学理事会认证，国际等级证书，AI世青赛全球独家技术伙伴。"
     meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
@@ -2969,11 +2969,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     point4: "✓ 基于项目的课程"
     point5: "✓ 学生追踪"
     point6: "✓ 全部课程计划"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
