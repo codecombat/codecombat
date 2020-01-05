@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_not_found: "Lehrer nicht gefunden. Bitte überprüfe, ob dieser Lehrer schon einen Lehrerkonto eingerichtet hat."
     teacher_not_valid: "Dies ist kein gültiges Lehrerkonto. Nur Lehrerkonten können Lizenzen gemeinsam nutzen."
     already_shared: "Du nutzt diese Lizenzen bereit mit diesem Lehrer gemeinsam."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Lehrer, die diese Lizenzen nutzen können:"
     footer: "Wenn Lehrer einem Schüler die Lizenz entziehen, so geht diese zurück in den gemeinsamen Pool, den andere Lehrer in dieser Gruppe nutzen können."
     you: "(du)"

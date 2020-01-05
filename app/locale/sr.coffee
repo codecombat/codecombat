@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     teacher_not_found: "Наставник није пронађен. Постарајте се да овај наставник направи наставнички налог."
     teacher_not_valid: "Ово није правилан наставнички налог. Само наставнички налози могу да деле лиценце."
     already_shared: "Већ си поделио ове лциенце са тим наставником."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Наставници који могу да приступе овим лиценцама:"
     footer: "Када наставници повуку лиценце од ученика, лиценце ће се вратити у дељене како би други наставници у овој групи могли да их користе."
     you: "(ти)"
