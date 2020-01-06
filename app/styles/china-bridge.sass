@@ -39,41 +39,71 @@
       align-items: center
       justify-content: center
       .card
-        padding: 35px 30px 35px 40px
-        width: 60%
-        border-radius: 10px
+        display: flex
+        align-items: center
+        justify-content: center
         .use
           font-size: 18px
         .photo
-          width: 200px
+          width: 248px
+          max-width: 248px
           height: auto
         button:focus
           outline: 0
-        .btn-primary
-          padding: 10px 30px
-          font-size: 10px
-        .btn-success
-          padding: 7px 27px
-          font-size: 10px
+        .one
+          padding: 10px 50px
+          font-size: 16px
+          background: #00BDB5
+          color: white
+        .two
+          padding: 7px 45px
+          font-size: 16px
           border-radius: 5px
           border: 2px solid black
-        .btn-success:hover
-          border: 3px solid black
+          background: #00A650
+          color: white
+        .one:hover
+          background: #14B0A9
+        .two:hover
+          border-left: 2.5px solid black
+          border-right: 2.5px solid black
+          background: #007E3D
     .left
-      background-color: #004d66
+      background-color: #104C60
       height: 92vh
       .card:hover
-        border: 15px solid white
+        width: 95%
+        height: 75%
+        max-width: 756px
+        max-height: 324px
+        box-shadow: 0 0 20px #979797
       .card
+        width: 90%
+        height: 70%
+        max-width: 716px
+        max-height: 284px
         background-color: white
         border: 10px solid white
+        border-radius: 10px
         .one
           border-radius: 20px
     .right
-      background-color: #ffcc00
+      background-color: #FFCE1C
       height: 92vh
       .card:hover
-        border: 15px solid black
+        width: 95%
+        height: 75%
+        max-width: 756px
+        max-height: 324px
+        background-image: url("https://assets.koudashijie.com/images/personal.png")
+        background-repeat: no-repeat
+        background-size: 100% 100%
       .card
-        background-color: #c2c2a3
-        border: 10px solid black
+        padding: 5%
+        width: 90%
+        height: 70%
+        max-width: 716px
+        max-height: 284px
+        background-image: url("https://assets.koudashijie.com/images/personal.png")
+        background-repeat: no-repeat
+        background-size: 100% 100%
