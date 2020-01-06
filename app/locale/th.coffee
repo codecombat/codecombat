@@ -172,12 +172,12 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     legal: "กฎหมาย"
     privacy: "การแจ้งความเป็นส่วนตัว"
     about: "เกี่ยวกับเรา"
-#    impact: "Impact"
+    impact: "ผลกระทบ"
     contact: "ติดต่อเรา"
     twitter_follow: "ติดตามพวกเรา!"
     my_classrooms: "ห้องเรียนของฉัน"
     my_courses: "หลักสูตรของฉัน"
-#    my_teachers: "My Teachers"
+    my_teachers: "อาจารย์ของฉัน"
     careers: "งาน"
     facebook: "เฟสบุ๊ค"
     twitter: "ทวิตเตอร์"
@@ -244,19 +244,19 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     available: "ใช้งานได้"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
+    achievements: "ความสำเร็จ" # Tooltip on achievement list button from /play
+    settings: "ตั้งค่า" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "ต่อไป" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero: "สลับผู้กล้า" # Go back from choose inventory to choose hero
+    change_hero_or_language: "สลับผู้กล้าหรือภาษา"
     buy_gems: "ซื้อ Gems"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscribers_only: "สำหรับสมาชิกเท่านั้น!"
+    subscribe_unlock: "สมัครสมาชิกเพื่อปลดล็อค!"
+    subscriber_heroes: "สมัครสมาชิกวันนี้เพื่อปลดล๊อก Amara, Hushbaum, และ Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
-#    anonymous: "Anonymous Player"
-#    level_difficulty: "Difficulty: "
+    anonymous: "ผู้เล่นนิรนาม"
+    level_difficulty: "ระดับความยาก: "
 #    awaiting_levels_adventurer_prefix: "We release new levels every week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
