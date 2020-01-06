@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     teacher_not_found: "No s'ha trobat el professor. Assegureu-vos que aquest professor ja ha creat un compte de professor."
     teacher_not_valid: "Aquest no és un compte de professor vàlid. Només els comptes de professors poden compartir llicències."
     already_shared: "Ja heu compartit aquestes llicències amb aquest professor."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Professors que poden accedir a aquestes llicències:"
     footer: "Quan els professors revocuen llicències dels estudiants, les llicències es retornaran al grup compartit d'altres professors d'aquest grup per utilitzar-les."
     you: "(tu)"

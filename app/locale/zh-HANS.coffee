@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_not_found: "没有找到教室。请确保教室已经创建了一个教师账户。"
     teacher_not_valid: "该教师账户无效，只有教师账户可以分享许可证。"
     already_shared: "成功分享许可证给教师。"
+#    have_not_shared: "You've not shared these licenses with that teacher."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
     you: "（您）"
