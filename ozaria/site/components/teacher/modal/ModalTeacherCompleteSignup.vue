@@ -24,10 +24,6 @@
         showRequired: false
       })
     },
-    async mounted () {
-      // do not need to show this modal if seen once
-      await this.saveMe({ hourOfCodeOptions: { showCompleteSignupModal: false } })
-    },
     methods: {
       ...mapMutations({
         updateTrialRequestProperties: 'modal/updateTrialRequestProperties'
@@ -94,6 +90,7 @@
         this.updateTrialRequestProperties(attrs)
         try {
           await this.updateAccount()
+          await this.saveMe({ hourOfCodeOptions: { showCompleteSignupModal: false } })
           window.$('.modal').modal('hide')
           noty({ text: 'Account details updated', layout: 'topCenter', type: 'success', timeout: 2000 })
         } catch (err) {
