@@ -1,6 +1,6 @@
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
-translatejs2cpp = (jsCode) ->
+translatejs2cpp = (jsCode, fullCode=true) ->
   matchBrackets = (str, startIndex) ->
     cc = 0
     i = startIndex
@@ -27,24 +27,33 @@ translatejs2cpp = (jsCode) ->
   jsCodes = splitFunctions jsCode
   len = jsCodes.length
   lines = jsCodes[len-1].split '\n'
-  jsCodes[len-1] = """
-    void main() {
-    #{(lines.map (line) -> '    ' + line).join '\n'}
-    }
-  """
+  if fullCode
+    jsCodes[len-1] = """
+      void main() {
+      #{(lines.map (line) -> '    ' + line).join '\n'}
+      }
+    """
+  else
+    jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')
   for i in [0..jsCodes.length-1]
     if jsCodes[i].startsWith('function')
       variables = jsCodes[i].match(/function.*\((.*)\)/)[1]
       v = ''
       v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
       jsCodes[i] = jsCodes[i].replace(/function(.*)\((.*)\)/, 'auto$1(' + v + ')')
-  cppCode = jsCodes.join '\n'
-  cppCode = cppCode.replace new RegExp('var x', 'g'), 'float x'
-  cppCode = cppCode.replace new RegExp('var y', 'g'), 'float y'
-  cppCode = cppCode.replace new RegExp('===', 'g'), '=='
-  cppCode = cppCode.replace new RegExp('!==', 'g'), '!='
-  cppCode = cppCode.replace new RegExp(' var ', 'g'), ' auto '
-  cppCodes = cppCode.split '\n'
+    jsCodes[i] = jsCodes[i].replace new RegExp('var x', 'g'), 'float x'
+    jsCodes[i] = jsCodes[i].replace new RegExp('var y', 'g'), 'float y'
+    jsCodes[i] = jsCodes[i].replace new RegExp(' === ', 'g'), ' == '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' !== ', 'g'), ' != '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' and ', 'g'), ' && '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' or ', 'g'), ' || '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' not ', 'g'), ' !'
+    jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
+  unless fullCode
+    lines = jsCodes[len-1].split '\n'
+    jsCodes[len-1] = (lines.map (line) -> line[1..line.length-1]).join('\n')
+
+  cppCodes = jsCodes.join('\n').split('\n')
   for i in [1..cppCodes.length-1]
     if cppCodes[i].match(/^\s*else/) and cppCodes[i-1].match("//")
       tmp = cppCodes[i]
@@ -511,7 +520,7 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], currentLanguage
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then 'javascript' else currentLanguage
   # Exclude language-specific code blocks like ```python (... code ...)``
   # ` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
@@ -539,6 +548,13 @@ filterMarkdownCodeLanguages = (text, language) ->
       text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
     if not startsWithVowel(from) and startsWithVowel(to)
       text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
+  if currentLanguage == 'cpp'
+    jsRegex = new RegExp "```javascript\n([^`]+)```", 'gm'
+    text = text.replace jsRegex, (a, l) =>
+      """```cpp
+        #{@translatejs2cpp a[13..a.length-4], false}
+      ```"""
+    # text = text.replace(jsRegex, cppCode)
 
   return text
 
