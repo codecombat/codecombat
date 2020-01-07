@@ -372,6 +372,11 @@ export const getText = dialogNode => (dialogNode || {}).text
 
 /**
  * @param {DialogNode} dialogNode
+ * @returns {number|undefined}
+ */
+export const getTextWidth = dialogNode => (dialogNode || {}).widthOverride
+/**
+ * @param {DialogNode} dialogNode
  * @returns  {'left'|'right'|'both'|undefined}
  */
 export const getExitCharacter = dialogNode => (dialogNode || {}).exitCharacter

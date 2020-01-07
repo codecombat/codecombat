@@ -5,7 +5,8 @@ import {
   getTextPosition,
   getSpeaker,
   getTextAnimationLength,
-  getCamera
+  getCamera,
+  getTextWidth
 } from '../../../../app/schemas/models/selectors/cinematic'
 import { processText, getDefaultTextPosition } from './helper'
 import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
@@ -62,6 +63,7 @@ export default class DialogSystem {
       // Use the camera setting from the shotSetup.
       const { zoom } = getCamera(shot)
       const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom)
+      const width = getTextWidth(dialogNode)
       commands.push((new SpeechBubble({
         div: this.div,
         htmlString: text,
@@ -70,7 +72,8 @@ export default class DialogSystem {
         shownDialogBubbles: this.shownDialogBubbles,
         side,
         textDuration: getTextAnimationLength(dialogNode),
-        zoom
+        zoom,
+        width
       })).createBubbleCommand())
     }
     return commands
@@ -102,7 +105,8 @@ class SpeechBubble {
     shownDialogBubbles,
     side,
     textDuration,
-    zoom
+    zoom,
+    width
   }) {
     this.id = `speech-${_id++}`
     const parser = new DOMParser()
@@ -113,7 +117,13 @@ class SpeechBubble {
 
     speechBubbleDiv.style.display = 'inline-block'
     speechBubbleDiv.style.position = 'absolute'
-    speechBubbleDiv.style.maxWidth = zoom === 2 ? SPEECH_BUBBLE_ZOOMED_MAX_WIDTH : SPEECH_BUBBLE_MAX_WIDTH
+
+    if (typeof width === 'number') {
+      speechBubbleDiv.style.maxWidth = `${width}vmin`
+    } else {
+      speechBubbleDiv.style.maxWidth = zoom === 2 ? SPEECH_BUBBLE_ZOOMED_MAX_WIDTH : SPEECH_BUBBLE_MAX_WIDTH
+    }
+
     speechBubbleDiv.id = this.id
     speechBubbleDiv.className = `cinematic-speech-bubble-${side}`
     speechBubbleDiv.style.opacity = 0
