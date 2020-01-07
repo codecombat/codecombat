@@ -77,12 +77,12 @@ const ShotSetup = c.object({
       c.object(
         { title: 'Music' },
         {
-        files: c.sound(),
-        loop: { type: 'boolean', default: false }
-      }),
+          files: c.sound(),
+          loop: { type: 'boolean', default: false }
+        }),
 
       // Legacy sound schema.  Present for backwards compatibility.
-      c.sound(),
+      c.sound()
     ]
   }
 })
@@ -93,6 +93,7 @@ const DialogNode = c.object({
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
+  widthOverride: c.int({ title: 'Text Width(%)', description: 'The percent width of the text dialogue box based on the users screen size. Default is 31.' }),
   textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate in.' }),
   speakingAnimationAction: c.shortString({ title: 'Speaking Animation', description: 'The animation to play on the lank while the text is being animated.' }),
   i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this cinematic dialogNode.' },
