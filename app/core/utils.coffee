@@ -1,5 +1,57 @@
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
+translatejs2cpp = (jsCode) ->
+  matchBrackets = (str, startIndex) ->
+    cc = 0
+    i = startIndex
+    while i < str.length
+      cc += 1 if str[i] == '{'
+      if str[i] == '}'
+        cc -= 1
+        return i+1 unless cc
+      i += 1
+  splitFunctions = (str) ->
+    reg = new RegExp '\nfunction ', 'gi'
+    indices = []
+    while (result = reg.exec(str))
+      indices.push result.index+1
+    split = []
+    end = 0
+    split.push {s: 0, e: indices[0]} if indices.length
+    for i in indices
+      end = matchBrackets str, i
+      split.push {s: i, e: end}
+    split.push {s: end, e: str.length}
+    split.map (s) -> str[s.s..s.e-1]
+
+  jsCodes = splitFunctions jsCode
+  len = jsCodes.length
+  lines = jsCodes[len-1].split '\n'
+  jsCodes[len-1] = """
+    void main() {
+    #{(lines.map (line) -> '    ' + line).join '\n'}
+    }
+  """
+  for i in [0..jsCodes.length-1]
+    if jsCodes[i].startsWith('function')
+      variables = jsCodes[i].match(/function.*\((.*)\)/)[1]
+      v = ''
+      v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
+      jsCodes[i] = jsCodes[i].replace(/function(.*)\((.*)\)/, 'auto$1(' + v + ')')
+  cppCode = jsCodes.join '\n'
+  cppCode = cppCode.replace new RegExp('var x', 'g'), 'float x'
+  cppCode = cppCode.replace new RegExp('var y', 'g'), 'float y'
+  cppCode = cppCode.replace new RegExp('===', 'g'), '=='
+  cppCode = cppCode.replace new RegExp('!==', 'g'), '!='
+  cppCode = cppCode.replace new RegExp(' var ', 'g'), ' auto '
+  cppCodes = cppCode.split '\n'
+  for i in [1..cppCodes.length-1]
+    if cppCodes[i].match(/^\s*else/) and cppCodes[i-1].match("//")
+      tmp = cppCodes[i]
+      cppCodes[i] = cppCodes[i-1]
+      cppCodes[i-1] = tmp
+  cppCodes.join '\n'
+
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -796,4 +848,5 @@ module.exports = {
   videoLevels
   ozariaCourseIDs
   addressesIncludeAdministrativeRegion
+  translatejs2cpp
 }
