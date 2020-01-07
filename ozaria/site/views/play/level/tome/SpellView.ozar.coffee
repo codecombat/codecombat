@@ -723,9 +723,9 @@ module.exports = class SpellView extends CocoView
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
       _.throttle @hideProblemAlert, 500
+      _.throttle @clearAetherDisplay.bind(@), 250
     ]
-    unless @options.level.get('ozariaType') == 'capstone'
-      onAnyChange.push(_.debounce(@updateAether, 500))
+
     onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
     onAnyChange.push _.throttle @updateHTML, 10 if @options.level.isType('web-dev')
