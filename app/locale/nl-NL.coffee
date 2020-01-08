@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     teacher_not_found: "Docent niet gevonden. Zorg ervoor dat deze docent al een Docentenaccount heeft aangemaakt."
     teacher_not_valid: "Dit is geen geldig Docentenaccount. Alleen docenten met een account kunnen licenties delen."
     already_shared: "Je hebt deze licenties al met deze docent gedeeld."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Docenten die beschikking hebben over de licenties:"
     footer: "Wanneer docenten licenties intrekken van leerlingen, kunnen de licenties weer gebruikt worden door andere docenten die beschikking hebben over de licenties."
     you: "(jij)"
@@ -2969,11 +2970,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     point4: "✓ Projectgebaseerde lessen"
     point5: "✓ Leerling-volgsysteem"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

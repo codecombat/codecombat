@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     teacher_not_found: "No s'ha trobat el professor. Assegureu-vos que aquest professor ja ha creat un compte de professor."
     teacher_not_valid: "Aquest no és un compte de professor vàlid. Només els comptes de professors poden compartir llicències."
     already_shared: "Ja heu compartit aquestes llicències amb aquest professor."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Professors que poden accedir a aquestes llicències:"
     footer: "Quan els professors revocuen llicències dels estudiants, les llicències es retornaran al grup compartit d'altres professors d'aquest grup per utilitzar-les."
     you: "(tu)"
@@ -2969,11 +2970,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     point4: "✓ Cursos basats en Projectes"
     point5: "✓ Seguiment de l'Alumnat"
     point6: "✓ Planificació de Lliçons complertes"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

@@ -2010,6 +2010,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
     teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
     already_shared: "You've already shared these licenses with that teacher."
+    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Teachers who can access these licenses:"
     footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
     you: "(you)"
@@ -2945,7 +2946,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     send: "Send Email"
 
   hoc_2018:
-    banner: "Welcome to Hour of Code 2019!" #
+    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Your students will learn to code by building their own game!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
@@ -2970,11 +2971,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    title: "HOUR OF CODE 2018"
+    title: "HOUR OF CODE 2019"
     acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
     educator: "I'm an educator"
     show_resources: "Show me teacher resources!"
     student: "I'm a student"

@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_not_found: "Guru tidak ditemukan. Harap pastikan guru ini telah membuat Akun Guru."
     teacher_not_valid: "Ini bukan Akun Guru yang valid. Hanya akun guru yang bisa membagikan lisensi."
     already_shared: "Anda telah membagikan lisensi dengan guru tersebut."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Guru yang dapat mengakses lisensi ini:"
     footer: "Ketika guru mencabut lisensi dari siswa, lisensi akan dikembalikan ke kumpulan lisensi untuk digunakan oleh guru lainnya di dalam grup."
     you: "(Kamu)"
@@ -2969,11 +2970,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

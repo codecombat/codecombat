@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_not_found: "המורה לא נמצא. נא לוודא שמורה זה כבר יצר חשבון מורה."
     teacher_not_valid: "חשבון זה אינו חשבון מורה תקף. רק חשבונות מורה יכולים לשתף רישיונות."
     already_shared: "כבר שיתפתם רישיונות אלה עם מורה זה."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "מורים שיכולים לגשת אל רישיונות אלה:"
     footer: "כאשר מורים שוללים רישיונות מתלמידים, הרישיונות חוזרים אל המאגר המשותף, לשימושם של מורים אחרים בקבוצה זו."
     you: "(אתם)"
@@ -2969,11 +2970,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

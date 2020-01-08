@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_not_found: "Enseignant introuvable. Veuillez vous assurer que cet enseignant a déjà créé un compte enseignant."
     teacher_not_valid: "Ce n'est pas un compte d'enseignant valide. Seuls les comptes enseignants peuvent partager des licences."
     already_shared: "Vous avez déjà partagé ces licences avec ce Professeur."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Les enseignants qui peuvent accéder à ces licences :"
     footer: "Lorsque les enseignants révoquent les licences des élèves, les licences seront retournées au pool partagé pour que les autres enseignants de ce groupe puissent les utiliser."
     you: "(vous)"
@@ -2969,11 +2970,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     point4: "✓ Cours par projet"
     point5: "✓ Suivi des étudiants"
     point6: "✓ Plans de cours complets"
-    title: "HEURE DU CODE 2018"
+    title: "HEURE DU CODE 2018" # {change}
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
     educator: "Je suis un éducateur"
     show_resources: "Montrez-moi les ressources pédagogiques !"
     student: "Je suis étudiant"

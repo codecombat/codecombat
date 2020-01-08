@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     teacher_not_found: "Наставник није пронађен. Постарајте се да овај наставник направи наставнички налог."
     teacher_not_valid: "Ово није правилан наставнички налог. Само наставнички налози могу да деле лиценце."
     already_shared: "Већ си поделио ове лциенце са тим наставником."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Наставници који могу да приступе овим лиценцама:"
     footer: "Када наставници повуку лиценце од ученика, лиценце ће се вратити у дељене како би други наставници у овој групи могли да их користе."
     you: "(ти)"
@@ -2969,11 +2970,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

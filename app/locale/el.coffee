@@ -2009,6 +2009,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teacher_not_found: "Ο Εκπαιδευτικός δεν βρέθηκε. Βεβαιωθείτε ότι αυτό ο εκπαιδευτικός έχει Λογαριασμό Δασκάλου.."
     teacher_not_valid: "Αυτός δεν είναι ένας έγκυρος Λογαριασμός Δασκάλου. Μόνο οι λογαριασμοί δασκάλων μπορούν να μοιράσουν άδειες."
     already_shared: "Έχετε ήδη μοιραστεί αυτές τις άδειες με αυτόν το δάσκαλο."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Εκπαιδευτικοί που έχουν πρόσβαση σε αυτές τις άδειες:"
     footer: "Όταν οι εκπαιδευτικοί ανακαλούν τις άδειες από τους μαθητές, οι άδειες θα επιστραφούν στην κοινόχρηστη ομάδα για να τις χρησιμοποιήσουν άλλοι εκπαιδευτικοί της ομάδας αυτής."
     you: "(εσύ)"
@@ -2969,11 +2970,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
