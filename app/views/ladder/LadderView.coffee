@@ -41,7 +41,6 @@ module.exports = class LadderView extends RootView
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
-    'click .simulate-all-button': 'onClickSimulateAllButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
@@ -190,20 +189,6 @@ module.exports = class LadderView extends RootView
     url += '&autoplay=false' if key.command
     window.open url, if key.command then '_blank' else 'spectate'  # New tab for spectating specific matches
     #Backbone.Mediator.publish 'router:navigate', route: url
-
-  onClickSimulateAllButton: (e) ->
-    $.ajax
-      url: '/queue/scoring/loadTournamentSimulationTasks'
-      data:
-        originalLevelID: @level.get('original'),
-        levelMajorVersion: 0,
-        leagueID: @leagueID
-      type: 'POST'
-      parse: true
-      success: (res)->
-        console.log res
-      error: (err) ->
-        console.error err
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]

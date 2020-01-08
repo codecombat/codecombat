@@ -45,6 +45,7 @@ module.exports = MandateSchema = {
         courseInstanceID: c.objectId(),
         startAt: 'integer',
         endAt: 'integer',
+        name: 'string'
     tournamentOnlyLevels: c.array { description: 'levels only accessible during tournament and specific course instance id'}, 'string'
 }
 
