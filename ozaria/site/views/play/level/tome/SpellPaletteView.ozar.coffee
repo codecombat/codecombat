@@ -217,15 +217,19 @@ module.exports = class SpellPaletteView extends CocoView
     @render()
 
   checkCommandBankClickedTab: (e) ->
-    rightBorderWidth = parseInt(@$el.css('borderRightWidth'))
-    leftPanelWidth = parseInt(@$el.find('.left').css('width'))
-    rightPanelWidth = parseInt(@$el.find('.right').css('width'))
-    viewWidth = parseInt(@$el.css('width'))
+    # These numbers assume that the css returned is in pixels.
+    rightBorderWidth = parseFloat(@$el.css('borderRightWidth'))
+    leftPanelWidth = parseFloat(@$el.find('.left').css('width'))
+    rightPanelWidth = parseFloat(@$el.find('.right').css('width'))
+    viewWidth = parseFloat(@$el.css('width'))
     viewWidthOpen = rightBorderWidth + leftPanelWidth # when only left panel is open
     viewWidthExpanded = rightBorderWidth + leftPanelWidth + rightPanelWidth # when completely open with left and right panel
-    if viewWidth == rightBorderWidth
+    # When zooming the browser we get numbers that are approximate and not equal.
+    # Using a huge epsilon of 1 ensures correct behavior when comparing the px numbers.
+    tolerance = 1
+    if Math.abs(viewWidth - rightBorderWidth) <= tolerance
       clickedHalfOpenTab = true
-    else if (viewWidth == viewWidthOpen && e.offsetX > leftPanelWidth) || (viewWidth == viewWidthExpanded && e.offsetX > leftPanelWidth + rightPanelWidth)
+    else if (Math.abs(viewWidth - viewWidthOpen) <= tolerance && e.offsetX > leftPanelWidth) || (Math.abs(viewWidth - viewWidthExpanded) <= tolerance && e.offsetX > leftPanelWidth + rightPanelWidth)
       clickedFullOpenTab = true
     {clickedHalfOpenTab, clickedFullOpenTab}
 
