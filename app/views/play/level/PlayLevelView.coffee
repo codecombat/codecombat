@@ -62,6 +62,14 @@ window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
 
 PROFILE_ME = false
 
+STOP_CHECK_TOURNAMENT_CLOSE = 0  # tournament ended
+KEEP_CHECK_TOURNAMENT_CLOSE = 1  # tournament not begin
+STOP_CHECK_TOURNAMENT_OPEN = 2  # none tournament only level
+KEEP_CHECK_TOURNAMENT_OPEN = 3  # tournament running
+
+TOURNAMENT_OPEN = [2, 3]
+STOP_CHECK_TOURNAMENT = [0, 2]
+
 module.exports = class PlayLevelView extends RootView
   id: 'level-view'
   template: template
@@ -152,9 +160,7 @@ module.exports = class PlayLevelView extends RootView
     @mandate = @supermodel.loadModel(new Mandate()).model
 
     if features.china
-      setTimeout =>
-        @checkTournamentEndInterval = setInterval @checkTournamentEnd(), 10000
-      , 1000
+      @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
 
   getMeta: ->
     link: [
@@ -207,31 +213,26 @@ module.exports = class PlayLevelView extends RootView
     @setupGod() if @waitingToSetUpGod
     @levelSlug = e.level.get('slug')
 
-  checkTournamentEnd: =>
-    return unless @timeOff
+  checkTournamentEnd: ->
+    return unless @timeOffset
     return unless @mandate.loaded
     return unless @levelSlug
     courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
     mandate = @mandate.get('0')
 
-    tournamentState = 1
-    #        tournamentState table
-    #  ladder\checkTournamentEnd   keep    stop
-    #  open                         3       2
-    #  close                        1       0
+    tournamentState = STOP_CHECK_TOURNAMENT_OPEN
     if mandate
-      tournamentState = @getTournamentState mandate, courseInstanceID, @levelSlug, @timeOff
-      unless @tournamentEnd or me.isAdmin() or tournamentState > 1
+      tournamentState = @getTournamentState mandate, courseInstanceID, @levelSlug, @timeOffset
+      unless me.isAdmin() or tournamentState in TOURNAMENT_OPEN
         window.location.href = '/play/ladder/'+@levelSlug+(if courseInstanceID then '/course/'+courseInstanceID else "")
-    if tournamentState % 2 == 0
+    if tournamentState in STOP_CHECK_TOURNAMENT
       clearInterval @checkTournamentEndInterval
-    return @checkTournamentEnd
 
-  getTournamentState: (mandate, courseInstanceID, levelSlug, timeOff) ->
-    tournament = _.find mandate.currentTournament or [], (t) =>
+  getTournamentState: (mandate, courseInstanceID, levelSlug, timeOffset) ->
+    tournament = _.find mandate.currentTournament or [], (t) ->
       t.courseInstanceID is courseInstanceID and t.level is levelSlug
     if tournament
-      currentTime = (Date.now() + timeOff) / 1000
+      currentTime = (Date.now() + timeOffset) / 1000
       console.log "Current time:", new Date(currentTime * 1000)
       if currentTime < tournament.startAt
         delta = tournament.startAt - currentTime
@@ -251,7 +252,7 @@ module.exports = class PlayLevelView extends RootView
     $.ajax
       type: 'HEAD'
       success: (result, status, xhr) =>
-        @timeOff = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
+        @timeOffset = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
