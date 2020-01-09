@@ -237,16 +237,16 @@ module.exports = class PlayLevelView extends RootView
       if currentTime < tournament.startAt
         delta = tournament.startAt - currentTime
         console.log "Tournament will start at: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
-        return 1
+        return KEEP_CHECK_TOURNAMENT_CLOSE
       else if currentTime > tournament.endAt
         console.log "Tournament ended at: #{new Date(tournament.endAt * 1000)}"
-        return 0
+        return STOP_CHECK_TOURNAMENT_CLOSE
       delta = tournament.endAt - currentTime
       console.log "Tournament will end at: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
-      return 3
+      return KEEP_CHECK_TOURNAMENT_OPEN
     else
-      # 0 tournamentOnlyLevels; 2 normal ladder
-      return if levelSlug in (mandate.tournamentOnlyLevels or []) then 0 else 2
+# 0 tournamentOnlyLevels; 2 normal ladder
+      return if levelSlug in (mandate.tournamentOnlyLevels or []) then STOP_CHECK_TOURNAMENT_CLOSE else STOP_CHECK_TOURNAMENT_OPEN
 
   calcTimeOffset: ->
     $.ajax
