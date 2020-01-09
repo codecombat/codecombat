@@ -216,13 +216,23 @@ module.exports = class PlayLevelView extends RootView
     tournament = _.find mandate?.currentTournament or [], (t) =>
       t.courseInstanceID is courseInstanceID and t.level is levelSlug
     if tournament
-      currentTime = Date.now() / 1000
+      currentTime = @getCurrentDate() / 1000
       return true unless tournament.startAt <= currentTime and tournament.endAt >= currentTime
       delta = tournament.endAt - currentTime
       console.log "Tournament end time: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
     else
       return true if levelSlug in (mandate?.tournamentOnlyLevels or [])
     return false
+
+
+  getServerDate: ->
+    res = $.ajax {async: false}
+    new Date(res.getResponseHeader("Date")).getTime()
+
+  getCurrentDate: =>
+    unless @timeoff
+      @timeoff = @getServerDate() - Date.now()
+    Date.now() + @timeoff
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
