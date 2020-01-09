@@ -131,7 +131,6 @@ module.exports = class LadderView extends RootView
       console.log "Tournament will end at: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
       return KEEP_CHECK_TOURNAMENT_OPEN
     else
-      # 0 tournamentOnlyLevels; 2 normal ladder
       return if levelSlug in (mandate.tournamentOnlyLevels or []) then STOP_CHECK_TOURNAMENT_CLOSE else STOP_CHECK_TOURNAMENT_OPEN
 
   getMeta: ->
