@@ -49,8 +49,6 @@ module.exports = class LadderView extends RootView
     if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
       @leagueID = @leagueType = null
 
-
-
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
       @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
@@ -90,7 +88,7 @@ module.exports = class LadderView extends RootView
     tournament = _.find mandate?.currentTournament or [], (t) =>
       t.courseInstanceID is courseInstanceID and t.level is levelSlug
     if tournament
-      currentTime = Date.now() / 1000
+      currentTime = @getCurrentDate() / 1000
       if currentTime < tournament.startAt
         delta = tournament.startAt - currentTime
         console.log "Tournament start time: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
@@ -102,6 +100,15 @@ module.exports = class LadderView extends RootView
     else
       return true if levelSlug in (mandate?.tournamentOnlyLevels or [])
     return false
+
+  getServerDate: ->
+    res = $.ajax {async: false}
+    new Date(res.getResponseHeader("Date")).getTime()
+
+  getCurrentDate: =>
+    unless @timeoff
+      @timeoff = @getServerDate() - Date.now()
+    Date.now() + @timeoff
 
 
   getMeta: ->
