@@ -46,7 +46,7 @@ module.exports = MandateSchema = {
         startAt: 'integer',
         endAt: 'integer',
         name: 'string'
-    tournamentOnlyLevels: c.array { description: 'levels only accessible during tournament and specific course instance id'}, 'string'
+    tournamentOnlyLevels: c.array { description: 'levels only accessible during tournament with specific course instance id'}, 'string'
 }
 
 c.extendBasicProperties MandateSchema, 'Mandate'

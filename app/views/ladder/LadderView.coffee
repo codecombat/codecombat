@@ -18,6 +18,7 @@ CocoClass = require 'core/CocoClass'
 Clan = require 'models/Clan'
 CourseInstance = require 'models/CourseInstance'
 Course = require 'models/Course'
+Mandate = require 'models/Mandate'
 
 HIGHEST_SCORE = 1000000
 
@@ -68,47 +69,68 @@ module.exports = class LadderView extends RootView
 
     @displayTabContent = 'display: block'
 
+    @calcTimeOffset()
+    @mandate = @supermodel.loadModel(new Mandate()).model
+
     @loadLeague()
     @urls = require('core/urls')
 
-  setupMandateCheck: =>
-    return if @destroyed
-    $.get '/db/mandate', (data) =>
-      return if @destroyed
-      if @isTournamentBlocked data?[0], @courseInstance?.id, @level.get('slug')
-        unless me.isAdmin()
-          @tournamentEnd = true
+    if features.china
+      setTimeout =>
+        @checkTournamentEndInterval = setInterval @checkTournamentEnd(), 10000
+      , 1000
+
+  calcTimeOffset: ->
+    $.ajax
+      type: 'HEAD'
+      success: (result, status, xhr) =>
+        @timeOff = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
+
+  checkTournamentEnd: =>
+    return unless @timeOff
+    return unless @mandate.loaded
+    return unless @level.loaded
+    return if (@leagueID and not @league.loaded)
+    mandate = @mandate.get('0')
+
+    tournamentState = 1
+    #        tournamentState table
+    #  ladder\checkTournamentEnd   keep    stop
+    #  open                         3       2
+    #  close                        1       0
+    if mandate
+      tournamentState = @getTournamentState mandate, @courseInstance?.id, @level.get('slug'), @timeOff
+      if tournamentState > 1
+        if @tournamentEnd
+          @tournamentEnd = false
           @render()
       else
-        setTimeout @setupMandateCheck, 60 * 1000
+        unless @tournamentEnd or me.isAdmin()
+            @tournamentEnd = true
+            @render()
+    if tournamentState % 2 == 0
+      clearInterval @checkTournamentEndInterval
+    return @checkTournamentEnd
 
-  isTournamentBlocked: (mandate, courseInstanceID, levelSlug) =>
-    return unless mandate
-    tournament = _.find mandate?.currentTournament or [], (t) =>
+  getTournamentState: (mandate, courseInstanceID, levelSlug, timeOff) ->
+    tournament = _.find mandate.currentTournament or [], (t) =>
       t.courseInstanceID is courseInstanceID and t.level is levelSlug
     if tournament
-      currentTime = @getCurrentDate() / 1000
+      currentTime = (Date.now() + timeOff) / 1000
+      console.log "Current time:", new Date(currentTime * 1000)
       if currentTime < tournament.startAt
         delta = tournament.startAt - currentTime
-        console.log "Tournament start time: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+        console.log "Tournament will start at: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+        return 1
       else if currentTime > tournament.endAt
         console.log "Tournament ended at: #{new Date(tournament.endAt * 1000)}"
-      return true unless tournament.startAt <= currentTime and tournament.endAt >= currentTime
+        return 0
       delta = tournament.endAt - currentTime
-      console.log "Tournament end time: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      console.log "Tournament will end at: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      return 3
     else
-      return true if levelSlug in (mandate?.tournamentOnlyLevels or [])
-    return false
-
-  getServerDate: ->
-    res = $.ajax {async: false}
-    new Date(res.getResponseHeader("Date")).getTime()
-
-  getCurrentDate: =>
-    unless @timeoff
-      @timeoff = @getServerDate() - Date.now()
-    Date.now() + @timeoff
-
+      # 0 tournamentOnlyLevels; 2 normal ladder
+      return if levelSlug in (mandate.tournamentOnlyLevels or []) then 0 else 2
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'
@@ -118,10 +140,7 @@ module.exports = class LadderView extends RootView
 
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
-    unless @leagueID
-      if features.china
-        @setupMandateCheck()
-      return
+    return unless @leagueID
     modelClass = if @leagueType is 'clan' then Clan else CourseInstance
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model
     if @leagueType is 'course'
@@ -139,9 +158,6 @@ module.exports = class LadderView extends RootView
     course = new Course({_id: @courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render
-
-    if features.china
-      @setupMandateCheck()
 
   afterRender: ->
     super()
@@ -206,4 +222,6 @@ module.exports = class LadderView extends RootView
 
   destroy: ->
     clearInterval @refreshInterval
+    if @checkTournamentEndInterval
+      clearInterval @checkTournamentEndInterval
     super()

@@ -21,6 +21,7 @@ LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
+Mandate = require 'models/Mandate'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 Simulator = require 'lib/simulator/Simulator'
@@ -147,6 +148,14 @@ module.exports = class PlayLevelView extends RootView
       @load()
       application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID unless @observing
 
+    @calcTimeOffset()
+    @mandate = @supermodel.loadModel(new Mandate()).model
+
+    if features.china
+      setTimeout =>
+        @checkTournamentEndInterval = setInterval @checkTournamentEnd(), 10000
+      , 1000
+
   getMeta: ->
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
@@ -196,43 +205,53 @@ module.exports = class PlayLevelView extends RootView
         indefiniteLength: e.level.isType('game-dev')
       })
     @setupGod() if @waitingToSetUpGod
+    @levelSlug = e.level.get('slug')
 
-    if features.china
-      @levelSlug = e.level.get('slug')
-      @setupMandateCheck()
+  checkTournamentEnd: =>
+    return unless @timeOff
+    return unless @mandate.loaded
+    return unless @levelSlug
+    courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
+    mandate = @mandate.get('0')
 
-  setupMandateCheck: =>
-    return if @destroyed
-    $.get '/db/mandate', (data) =>
-      return if @destroyed
-      courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
-      if @isTournamentBlocked data?[0], courseInstanceID, @levelSlug
-        unless me.isAdmin()
-          window.location.href = '/play/ladder/'+@levelSlug+(if courseInstanceID then '/course/'+courseInstanceID else "")
-      setTimeout @setupMandateCheck, 60 * 1000
+    tournamentState = 1
+    #        tournamentState table
+    #  ladder\checkTournamentEnd   keep    stop
+    #  open                         3       2
+    #  close                        1       0
+    if mandate
+      tournamentState = @getTournamentState mandate, courseInstanceID, @levelSlug, @timeOff
+      unless @tournamentEnd or me.isAdmin() or tournamentState > 1
+        window.location.href = '/play/ladder/'+@levelSlug+(if courseInstanceID then '/course/'+courseInstanceID else "")
+    if tournamentState % 2 == 0
+      clearInterval @checkTournamentEndInterval
+    return @checkTournamentEnd
 
-  isTournamentBlocked: (mandate, courseInstanceID, levelSlug) =>
-    return unless mandate
-    tournament = _.find mandate?.currentTournament or [], (t) =>
+  getTournamentState: (mandate, courseInstanceID, levelSlug, timeOff) ->
+    tournament = _.find mandate.currentTournament or [], (t) =>
       t.courseInstanceID is courseInstanceID and t.level is levelSlug
     if tournament
-      currentTime = @getCurrentDate() / 1000
-      return true unless tournament.startAt <= currentTime and tournament.endAt >= currentTime
+      currentTime = (Date.now() + timeOff) / 1000
+      console.log "Current time:", new Date(currentTime * 1000)
+      if currentTime < tournament.startAt
+        delta = tournament.startAt - currentTime
+        console.log "Tournament will start at: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+        return 1
+      else if currentTime > tournament.endAt
+        console.log "Tournament ended at: #{new Date(tournament.endAt * 1000)}"
+        return 0
       delta = tournament.endAt - currentTime
-      console.log "Tournament end time: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      console.log "Tournament will end at: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      return 3
     else
-      return true if levelSlug in (mandate?.tournamentOnlyLevels or [])
-    return false
+      # 0 tournamentOnlyLevels; 2 normal ladder
+      return if levelSlug in (mandate.tournamentOnlyLevels or []) then 0 else 2
 
-
-  getServerDate: ->
-    res = $.ajax {async: false}
-    new Date(res.getResponseHeader("Date")).getTime()
-
-  getCurrentDate: =>
-    unless @timeoff
-      @timeoff = @getServerDate() - Date.now()
-    Date.now() + @timeoff
+  calcTimeOffset: ->
+    $.ajax
+      type: 'HEAD'
+      success: (result, status, xhr) =>
+        @timeOff = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
@@ -871,6 +890,8 @@ module.exports = class PlayLevelView extends RootView
     #@instance.save() unless @instance.loading
     delete window.nextURL
     console.profileEnd?() if PROFILE_ME
+    if @checkTournamentEndInterval
+      clearInterval @checkTournamentEndInterval
     super()
 
   onIPadMemoryWarning: (e) ->
