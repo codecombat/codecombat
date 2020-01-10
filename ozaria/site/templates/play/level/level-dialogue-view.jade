@@ -1,9 +1,19 @@
 .dialogue-area
   //- Hide Vega until introduced in cutscene
-  if ['5d1a998157b3ed00300e64b0', '5cd0cc1c4bc4450030336cee', '5cd0cc4d4bc4450030336d00', '5cd0cc66f4227b002facba95', '5cd0cc804bc4450030336d23'].indexOf(view.level.get('original')) != -1
-    .vega-dialogue.wide.fit(dir="auto")
-  else
+  if (!view.character || view.character === 'vega')
     img.vega-narrator(src="/images/ozaria/level/vega_headshot_gray.png", alt=$.i18n.t('play_level.vega_character'))
     .vega-dialogue.fit(dir="auto")
+  else if (view.character === 'capella')
+    img.vega-narrator(src="/images/ozaria/level/Wise_Capella_Headshot.png", alt=$.i18n.t('play_level.capella_character'))
+    .vega-dialogue.fit(dir="auto")
+  else if (view.character === 'octans')
+    img.vega-narrator(src="/images/ozaria/level/Octans_Headshot.png", alt=$.i18n.t('play_level.octans_character'))
+    .vega-dialogue.fit(dir="auto")
+  else if (view.character === 'blank')
+    .vega-dialogue.wide.fit(dir="auto")
+  else
+    //- This means we have a new character that we don't have code for yet! :O
+    - console.log('Missing dialogue character')
+    .vega-dialogue.wide.fit(dir="auto")
   p.continue(data-i18n="play_level.click_to_continue")
 
