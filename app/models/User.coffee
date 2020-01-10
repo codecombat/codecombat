@@ -620,6 +620,8 @@ module.exports = class User extends CocoModel
   hideDiplomatModal: -> features?.china ? false
   showChinaRemindToast: -> features?.china ? false
   showOpenResourceLink: -> not (features?.china ? false)
+  useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
+  canDeleteAccount: -> not (features?.china ? false)
 
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()

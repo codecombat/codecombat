@@ -2,7 +2,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "Ohjelmointipeli, joka on rakennettu opettajat mielessä pitäen"
     built_for_teachers_blurb: "Ohjelmoinnin opettaminen lapsille voi usein tuntua ylivoimaiselta. CodeCombat auttaa kaikkia opettajia opettamaan oppilaitaan, miten ohjelmoida joko Javascriptilla tai Pythonilla, kahdella maailman suosituimmista ohjelmointikielistä. Kattava opetussuunnitelma sisältää kuusi tietotekniikan osa-aluetta ja vahvistaa oppimista projektipohjaisten peli- ja web-kehitysosioiden avulla, joten lapset etenevät matkalla perussyntaksista rekursioon saakka!"
     built_for_teachers_subtitle1: "Tietotekniikka"
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
 #    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
 #    already_shared: "You've already shared these licenses with that teacher."
+#    have_not_shared: "You've not shared these licenses with that teacher."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

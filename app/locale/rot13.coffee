@@ -1,7 +1,9 @@
 module.exports = nativeDescription: "rot13", englishDescription: "English with the letters jumbled", translation:
   new_home:
     title: "PbqrPbzong - Pbqvat tnzrf gb yrnea Clguba naq WninFpevcg"
+    meta_keywords: "PbqrPbzong, clguba, wninfpevcg, Pbqvat Tnzrf"
     meta_description: "Yrnea glcrq pbqr guebhtu n cebtenzzvat tnzr. Yrnea Clguba, WninFpevcg, naq UGZY nf lbh fbyir chmmyrf naq yrnea gb znxr lbhe bja pbqvat tnzrf naq jrofvgrf."
+    meta_og_url: "uggcf://pbqrpbzong.pbz"
     built_for_teachers_title: "N Pbqvat Tnzr Ohvyg jvgu Grnpuref va Zvaq"
     built_for_teachers_blurb: "Grnpuvat xvqf gb pbqr pna bsgra srry birejuryzvat. PbqrPbzong urycf nyy rqhpngbef grnpu fghqragf ubj gb pbqr va rvgure WninFpevcg be Clguba, gjb bs gur zbfg cbchyne cebtenzzvat ynathntrf. Jvgu n pbzcerurafvir pheevphyhz gung vapyhqrf fvk pbzchgre fpvrapr havgf naq ervasbeprf yrneavat guebhtu cebwrpg-onfrq tnzr qrirybczrag naq jro qrirybczrag havgf, xvqf jvyy cebterff ba n wbhearl sebz onfvp flagnk gb erphefvba!"
     built_for_teachers_subtitle1: "Pbzchgre Fpvrapr"
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_not_found: "Grnpure abg sbhaq. Cyrnfr znxr fher guvf grnpure unf nyernql perngrq n Grnpure Nppbhag."
     teacher_not_valid: "Guvf vf abg n inyvq Grnpure Nppbhag. Bayl grnpure nppbhagf pna funer yvprafrf."
     already_shared: "Lbh'ir nyernql funerq gurfr yvprafrf jvgu gung grnpure."
+    have_not_shared: "Lbh'ir abg funerq gurfr yvprafrf jvgu gung grnpure."
     teachers_using_these: "Grnpuref jub pna npprff gurfr yvprafrf:"
     footer: "Jura grnpuref eribxr yvprafrf sebz fghqragf, gur yvprafrf jvyy or erghearq gb gur funerq cbby sbe bgure grnpuref va guvf tebhc gb hfr."
     you: "(lbh)"
@@ -2942,7 +2945,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2018:
-    banner: "Jrypbzr gb Ubhe bs Pbqr 2019!" #
+    banner: "Jrypbzr gb Ubhe bs Pbqr 2019!"
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    title: "UBHE BS PBQR 2018"
+    title: "UBHE BS PBQR 2019"
     acronym: "UBP"
 
   hoc_2018_interstitial:
-    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2018!"
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2019!"
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   browser_recommendation:
     title: 'PbqrPbzong jbexf orfg ba Puebzr!'
     pitch_body: 'Sbe gur orfg PbqrPbzong rkcrevrapr jr erpbzzraq hfvat gur yngrfg irefvba bs Puebzr. Qbjaybnq gur yngrfg irefvba bs puebzr ol pyvpxvat gur ohggba orybj!'
+    download: 'Qbjaybnq Puebzr'
+    ignore: 'Vtaber'

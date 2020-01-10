@@ -2,7 +2,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 
   new_home:
     title: "CodeCombat - เกมเขียนโค้ดเพื่อเรียน Python และ JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "เรียนการเขียนโค้ดผ่านเกมการเขียนโปรแกรม เรียน Python, JavaScript และ HTML เหมือนคุณแก้ปริศนา และเรียนรู้ที่จะสร้างเกมและเว็บไซต์เขียนโปรแกรมของคุณเอง"
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "เกมการเขียนโค้ดที่สร้างขึ้นโดยมีอาจารย์อยู่ในใจ"
     built_for_teachers_blurb: "การสอนเด็กๆ ให้เขียนโค้ดบางครั้งอาจจะเยอะเกินไป CodeCombat ช่วนให้อาจารย์ทุกท่านสอนนักเรียนเขียนโค้ดทั้ง JavaScript หรือ Python ภาษาเขียนโปรแกรมยอดนิยมทั้งสอง ด้วยหลักสูตรที่เข้าใจง่ายซึ่งรวมถึงวิทยาการคอมพิวเตอร์ 6 หน่วย และ เน้นการเรียนรู้ผ่านการพัฒนาเกมตามโครงการและหน่วยพัฒนาเว็บ เด็กๆ จะก้าวหน้าไปกับการเดินทางจากไวยากรณ์ง่ายๆ ซ้ำๆ!"
     built_for_teachers_subtitle1: "วิทยาการคอมพิวเตอร์"
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
 #    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
 #    already_shared: "You've already shared these licenses with that teacher."
+#    have_not_shared: "You've not shared these licenses with that teacher."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

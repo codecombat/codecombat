@@ -1,0 +1,109 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+#contact-geek-view
+
+  overflow: hidden
+
+  #model
+    position: absolute
+    z-index: 100
+    top: 45%
+    left: 41%
+    display: flex
+
+    div
+      background-color: #4a5259
+      display: flex
+      align-items: center
+      justify-content: center
+      opacity: 0.5
+      width: 310px
+      padding: 70px 70px 60px 70px
+      border-radius: 10px
+
+  .header
+    padding: 0
+    background-color: white
+    .navbar-brand
+      padding: 14px 0 16px 70px
+      #logo-img
+        height: 40px
+
+  .con
+    background-color: white
+    height: 100vh
+    .center
+      display: flex
+      align-items: center
+      justify-content: center
+      .card
+        display: flex
+        align-items: center
+        justify-content: center
+        .use
+          font-size: 18px
+        .photo
+          width: 248px
+          max-width: 248px
+          height: auto
+        button:focus
+          outline: 0
+        .one
+          padding: 10px 50px
+          font-size: 16px
+          background: #00BDB5
+          color: white
+        .two
+          padding: 7px 45px
+          font-size: 16px
+          border-radius: 5px
+          border: 2px solid black
+          background: #00A650
+          color: white
+        .one:hover
+          background: #14B0A9
+        .two:hover
+          border-left: 2.5px solid black
+          border-right: 2.5px solid black
+          background: #007E3D
+    .left
+      background-color: #104C60
+      height: 92vh
+      .card:hover
+        width: 95%
+        height: 75%
+        max-width: 756px
+        max-height: 324px
+        box-shadow: 0 0 20px #979797
+      .card
+        width: 90%
+        height: 70%
+        max-width: 716px
+        max-height: 284px
+        background-color: white
+        border: 10px solid white
+        border-radius: 10px
+        .one
+          border-radius: 20px
+    .right
+      background-color: #FFCE1C
+      height: 92vh
+      .card:hover
+        width: 95%
+        height: 75%
+        max-width: 756px
+        max-height: 324px
+        background-image: url("https://assets.koudashijie.com/images/personal.png")
+        background-repeat: no-repeat
+        background-size: 100% 100%
+      .card
+        padding: 5%
+        width: 90%
+        height: 70%
+        max-width: 716px
+        max-height: 284px
+        background-image: url("https://assets.koudashijie.com/images/personal.png")
+        background-repeat: no-repeat
+        background-size: 100% 100%

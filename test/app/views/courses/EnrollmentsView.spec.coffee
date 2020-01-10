@@ -64,6 +64,7 @@ describe 'EnrollmentsView', ->
       leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'low' })})
 
     describe 'shows the starter license upsell', ->
+      return if features.chinaInfra
       it 'when only subscription prepaids exist', ->
         @view.prepaids.set([])
         @view.prepaids.add(factories.makePrepaid({

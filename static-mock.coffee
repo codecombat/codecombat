@@ -41,6 +41,7 @@ exports.me =
   hideDiplomatModal: -> false
   showOpenResourceLink: -> true
   useSnowPlow: -> true
+  useStripe: -> true
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'

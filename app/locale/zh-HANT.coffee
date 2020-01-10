@@ -2,7 +2,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   new_home:
     title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "一個由教師建構的編碼遊戲"
     built_for_teachers_blurb: "教孩子們編寫代碼往往會令人感到招架不住。 透過 CodeCombat 可以幫助所有教育工作者教授學生如何使用 JavaScript 或 Python（兩種最流行的編程語言）進行編碼。 透過包含六個計算機科學的綜合課程，以及遊戲開發和 Web 開發專題來進行加強學習，孩子們將在從基本語法往遞迴程式設計中前進！"
     built_for_teachers_subtitle1: "電腦科學"
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
 #    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
 #    already_shared: "You've already shared these licenses with that teacher."
+#    have_not_shared: "You've not shared these licenses with that teacher."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

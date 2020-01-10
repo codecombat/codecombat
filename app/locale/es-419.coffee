@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   new_home:
     title: "CodeCombat - Juegos de Programación para aprender Python y JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Aprende a esciribir código a través de un juego de programación. Aprende Python, JavaScript y HTML mientras resuelves rompecabezas y aprendes a hacer tus propios juegos de código y páginas web."
+#    meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "Un Juego de programación construido teniendo en cuenta a los maestros."
     built_for_teachers_blurb: "Enseñar a los niños a programar puede ser abrumador. CodeCombat ayuda a todos los educadores a enseñar a los estudiantes cómo programar en JavaScript o Python, dos de los lenguajes de programación más populares. Con un plan de estudios comprensivo que incluye seis unidades de Ciencias de la Computación, y refuerza el aprendizaje a través de unidades en el desarrollo de juegos y desarrollo web basados en proyectos, los niños progresarán en un viaje desde la sintaxis básica hasta la recursión!"
     built_for_teachers_subtitle1: "Ciencias de la Computación"
@@ -2007,6 +2009,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
 #    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
 #    already_shared: "You've already shared these licenses with that teacher."
+#    have_not_shared: "You've not shared these licenses with that teacher."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
@@ -2967,11 +2970,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3013,3 +3016,5 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"
