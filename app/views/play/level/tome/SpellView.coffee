@@ -505,7 +505,7 @@ module.exports = class SpellView extends CocoView
       autoLineEndings:
         javascript: ';'
         java: ';'
-        cpp: ';'
+        c_cpp: ';' # Match ace editor language mode
       popupFontSizePx: popupFontSizePx
       popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380

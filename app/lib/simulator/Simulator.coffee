@@ -412,7 +412,7 @@ class SimulationTask
   constructor: (@rawData) ->
 
   getLevelName: ->
-    levelName = @rawData.sessions?[0]?.levelID
+    levelName = @rawData.sessions?[0]?.levelID or @rawData.sessions?[1]?.levelID
     return levelName if levelName?
     @throwMalformedTaskError 'The level name couldn\'t be deduced from the task.'
 
