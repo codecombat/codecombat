@@ -1098,7 +1098,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     shan_title: "首席营销官，CodeCombat 大中华区"
     run_title: "首席运营官，CodeCombat 大中华区"
     lance_title: "研发负责人，CodeCombat 大中华区"
-    zhiran_title: "科研负责人，CodeCombat 大中华区"
+    zhiran_title: "课研负责人，CodeCombat 大中华区"
     yuqiang_title: "创新负责人，CodeCombat 大中华区"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
