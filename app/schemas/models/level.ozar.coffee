@@ -94,7 +94,7 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
     responses: c.array {title: 'Buttons', description: 'An array of buttons to include with the dialogue, with which the user can respond.'}, ResponseSchema
     character: c.shortString(
       title: 'Character'
-      description: 'The character portrait to use for the say message. Not setting this, or choosing the default, will use the Vega character.'
+      description: 'The character portrait to use for the say message. Currently doesn\'t do anything. Use "Character Portrait" in the settings.'
       enum: ['vega', 'blank', 'capella']
       default: 'vega'
     )
@@ -326,6 +326,13 @@ _.extend LevelSchema.properties,
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
   assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.' }
   assessmentPlacement: { type: 'string', enum: ['middle', 'end'] }
+
+  characterPortrait: c.shortString(
+    title: 'Character Portrait'
+    description: 'The character portrait to use for the say messages.'
+    enum: ['vega', 'blank', 'capella', 'octans']
+    default: 'vega'
+  )
 
   primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.' }
   shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable (false), shareable (true), or a sharing-encouraged project level ("project"). Make sure to use "project" for project levels so they show up correctly in the Teacher Dashboard.' }

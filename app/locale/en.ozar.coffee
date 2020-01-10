@@ -791,6 +791,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     learning_goals: "Learning Goals"
     start: "Start"
     vega_character: "Vega Character"
+    capella_character: "Capella Character"
+    octans_character: "Octans Character"
     click_to_continue: "Click to Continue"
     share_your_project: "Share Your Project"
     keep_editing_your_project: "You can always keep editing your project, even after sharing it."

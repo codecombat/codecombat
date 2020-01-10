@@ -66,6 +66,9 @@ module.exports = class LevelDialogueView extends CocoView
     @onWindowResize = _.debounce(@onWindowResize, 100)
     $(window).on('resize', @onWindowResize)
 
+    # Set the initial speaking character.
+    @character = @level.get('characterPortrait') or 'vega'
+
   destroy: ->
     clearInterval(@messageInterval)
     @messageInterval = null
