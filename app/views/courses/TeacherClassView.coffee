@@ -88,6 +88,7 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+    @utils = utils
 
     if (options.renderOnlyContent)
       @template = viewContentTemplate
