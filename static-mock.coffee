@@ -47,4 +47,5 @@ exports.view =
   isMobile: () -> false
   showAds: () -> false
   isOldBrowser: () -> false
+  isChinaOldBrowser: () -> false
   isIPadBrowser: () -> false
