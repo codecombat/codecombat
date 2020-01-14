@@ -431,7 +431,7 @@ module.exports = class CampaignView extends RootView
           @openModalView new CodePlayCreateAccountModal()
       else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
-      not storage.load('sent-parent-email') and not me.isPremium()
+      not storage.load('sent-parent-email') and not (me.isPremium() or me.isStudent() or me.isTeacher())
         @openModalView new ShareProgressModal()
     else
       @maybeShowPendingAnnouncement()
