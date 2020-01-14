@@ -1098,6 +1098,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     shan_title: "파트너쉽 개발 팀장, 중국"
     run_title: "사업 본부장, 중국"
     lance_title: "프로그래머 인턴, 중국"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
     matias_title: "소프트웨어 엔지니어 팀장"
     ryan_title: "고객 지원"
     maya_title: "커리큘럼 개발 팀장"
