@@ -36,6 +36,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @supermodel.trackRequest(@course.fetch())
       @levels = new Levels([], { url: "/db/course/#{@courseID}/level-solutions"})
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
+
       @levelNumberMap = {}
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
