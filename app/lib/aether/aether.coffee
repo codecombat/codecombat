@@ -14,6 +14,8 @@ optionsValidator = require './validators/options'
 languages = require './languages/languages'
 interpreter = require './interpreter'
 
+{ Unibabel } = require 'unibabel'
+
 module.exports = class Aether
   @execution: execution
   @addGlobal: protectBuiltins.addGlobal  # Call instance method version after instance creation to update existing global list
@@ -119,7 +121,7 @@ module.exports = class Aether
     @reset()
     rawCode = @raw
     if /^\u56E7[a-zA-Z0-9+/=]+\f$/.test rawCode
-      token = JSON.parse atob(rawCode.substr(1, rawCode.length-2))
+      token = JSON.parse Unibabel.base64ToUtf8(rawCode.substr(1, rawCode.length-2))
       @raw = token.src
       if token.error
         error = new SyntaxError(token.error.message, '', token.error.data.line)
