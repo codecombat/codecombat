@@ -12,13 +12,13 @@
     </div>
     <div class="modal-body">
       <div class="narrative-row row">
-        <div class="vega-face" v-if="showVega">
+        <div class="portrait" v-if="characterPortrait !== 'blank'">
           <img
-            class="vega-face-image"
-            src="/images/ozaria/level/vega_headshot_transparent.png"
+            class="portrait-image"
+            :src="characterURL"
           >
         </div>
-        <div class="narrative-div" v-bind:style="{ top: showVega ? undefined : '0px' }">
+        <div class="narrative-div" v-bind:style="{ top: characterPortrait !== 'blank' ? undefined : '0px' }">
           <div class="narrative-speech-bubble">
             <span class="narrative-text"> {{ narrative }} </span>
           </div>
@@ -49,10 +49,6 @@
         type: String,
         required: true
       },
-      levelOriginal: {
-        type: String,
-        required: true
-      },
       levelType: {
         type: String,
         required: true
@@ -68,15 +64,28 @@
       onStart: {
         type: Function,
         required: true
+      },
+      characterPortrait: {
+        type: String,
+        required: true
       }
     },
     computed: {
-      showVega: function () {
-        //- Hide Vega until introduced in cutscene
-        return ['5d1a998157b3ed00300e64b0', '5cd0cc1c4bc4450030336cee', '5cd0cc4d4bc4450030336d00', '5cd0cc66f4227b002facba95', '5cd0cc804bc4450030336d23'].indexOf(this.levelOriginal) < 0
+      characterURL () {
+        if (this.characterPortrait === 'vega') {
+          return '/images/ozaria/level/vega_headshot_transparent.png'
+        } else if (this.characterPortrait === 'capella') {
+          return '/images/ozaria/level/Wise_Capella_Headshot_Transparent.png'
+        } else if (this.characterPortrait === 'octans') {
+          return '/images/ozaria/level/Octans_Headshot_Transparent.png'
+        }
+        console.error('There is no character portrait for ' + this.characterPortrait)
+        // Use Vega as fallback
+        return '/images/ozaria/level/vega_headshot_transparent.png'
       },
-      title: function () {
-        return this.levelType +': ' + this.levelName
+
+      title () {
+        return this.levelType + ': ' + this.levelName
       }
     }
   })
@@ -107,13 +116,13 @@
     padding: 0px 35px
     height: 246px
 
-    .vega-face
+    .portrait
       position: relative
       top: 100px
       left: -10px
       width: 17%
 
-      .vega-face-image
+      .portrait-image
         width: 100%
         height: 100%
 
