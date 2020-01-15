@@ -12,9 +12,14 @@ translatejs2cpp = (jsCode, fullCode=true) ->
       i += 1
   splitFunctions = (str) ->
     creg = new RegExp '\n[ \t]*[^/]'
-    codeIndex = creg.exec(str).index+1
-    startComments = str.slice 0, codeIndex
-    str = str.slice codeIndex
+    codeIndex = creg.exec(str)
+    if codeIndex
+      codeIndex = codeIndex.index + 1
+      startComments = str.slice 0, codeIndex
+      str = str.slice codeIndex
+    else
+      return [str, '']
+
     reg = new RegExp '\nfunction ', 'gi'
     indices = []
     while (result = reg.exec(str))
@@ -26,7 +31,7 @@ translatejs2cpp = (jsCode, fullCode=true) ->
       end = matchBrackets str, i
       split.push {s: i, e: end}
     split.push {s: end, e: str.length}
-    [startComments].concat split.map (s) -> str[s.s..s.e-1]
+    return [startComments].concat split.map (s) -> str[s.s..s.e-1]
 
   jsCodes = splitFunctions jsCode
   len = jsCodes.length
