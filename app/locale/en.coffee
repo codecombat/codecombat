@@ -1109,7 +1109,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chelsea_title: "Operations Manager"
     claire_title: "Executive Assistant"
     bobby_title: "Game Designer"
-    brian_title: "Lead Game Designer"
+    brian_title: "Senior Game Design Manager" # {change}
     andrew_title: "Software Engineer"
     stephanie_title: "Customer Support Specialist"
     rob_title: "Sales Development Representative"
