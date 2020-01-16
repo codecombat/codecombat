@@ -95,7 +95,7 @@ const DialogNode = c.object({
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
   widthOverride: c.int({ title: 'Text Width(%)', description: 'The percent width of the text dialogue box based on the users screen size. Default is 31.' }),
   textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate in.' }),
-  speakingAnimationAction: c.shortString({ title: 'Speaking Animation', description: 'The animation to play on the lank while the text is being animated.' }),
+  speakingAnimationAction: c.shortString({ title: 'Speaking Animation', description: 'The animation to play on the lank while the text is being animated. If not set will default to "talkNeutral"' }),
   i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this cinematic dialogNode.' },
   waitUserInput: { type: 'boolean', title: 'User Input?', description: 'Whether or not user input is required to continue to the next dialog node or shot setup. Defaults to true.' },
   textLocation: c.object({ title: 'Text Location', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y'] }, {
