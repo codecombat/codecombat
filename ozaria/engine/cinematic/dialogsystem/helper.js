@@ -53,10 +53,10 @@ function decodeHtml (text) {
  */
 export function wrapText (htmlString, wrapLetterString, wrapWordString) {
   if (!wrapLetterString) {
-    wrapLetterString = l => `<span class="letter" style="display: inline-block; opacity:0">${l}</span>`
+    wrapLetterString = l => l ? `<span class="letter" style="display: inline-block; opacity:0">${l}</span>` : ''
   }
   if (!wrapWordString) {
-    wrapWordString = l => `<span class="word" style="display: inline-block; whites-space: nowrap">${l}</span>`
+    wrapWordString = l => l ? `<span class="word" style="display: inline-block; whites-space: nowrap">${l}</span>` : ''
   }
 
   // Method that replaces text content within an html string.

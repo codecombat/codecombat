@@ -44,12 +44,24 @@ describe('processText', () => {
       const name = 'Test User Name'
       const context = ({ name })
       const tests = [
-        [`Hello, {%=o.name%}`, `Hello, ${name}`],
-        [`Hello, {%=o.unfound%}`, `Hello, `]
+        [`Hello, {%=o.name%}`, `<div><p><span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">H</span><span class="letter" style="display: inline-block; opacity:0">e</span><span class="letter" style="display: inline-block; opacity:0">l</span><span class="letter" style="display: inline-block; opacity:0">l</span><span class="letter" style="display: inline-block; opacity:0">o</span><span class="letter" style="display: inline-block; opacity:0">,</span></span> <span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">T</span><span class="letter" style="display: inline-block; opacity:0">e</span><span class="letter" style="display: inline-block; opacity:0">s</span><span class="letter" style="display: inline-block; opacity:0">t</span></span> <span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">U</span><span class="letter" style="display: inline-block; opacity:0">s</span><span class="letter" style="display: inline-block; opacity:0">e</span><span class="letter" style="display: inline-block; opacity:0">r</span></span> <span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">N</span><span class="letter" style="display: inline-block; opacity:0">a</span><span class="letter" style="display: inline-block; opacity:0">m</span><span class="letter" style="display: inline-block; opacity:0">e</span></span></p></div>`],
+        [`Hello, {%=o.unfound%}`, `<div><p><span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">H</span><span class="letter" style="display: inline-block; opacity:0">e</span><span class="letter" style="display: inline-block; opacity:0">l</span><span class="letter" style="display: inline-block; opacity:0">l</span><span class="letter" style="display: inline-block; opacity:0">o</span><span class="letter" style="display: inline-block; opacity:0">,</span></span> </p></div>`]
       ]
 
       for (const [template, expected] of tests) {
-        expect(processText(dialogNode(template), context, false)).toEqual(expected)
+        expect(processText(dialogNode(template), context)).toEqual(expected)
+      }
+    })
+
+    it('handle markdown', () => {
+      const tests = [
+        [`Hey *italic*!`, `<div><p><span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">H</span><span class="letter" style="display: inline-block; opacity:0">e</span><span class="letter" style="display: inline-block; opacity:0">y</span></span> <em><span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">i</span><span class="letter" style="display: inline-block; opacity:0">t</span><span class="letter" style="display: inline-block; opacity:0">a</span><span class="letter" style="display: inline-block; opacity:0">l</span><span class="letter" style="display: inline-block; opacity:0">i</span><span class="letter" style="display: inline-block; opacity:0">c</span></span></em><span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">!</span></span></p></div>`],
+        [`# A heading!!!`, `<div><h1 id="a-heading-"><span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">A</span></span> <span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">h</span><span class="letter" style="display: inline-block; opacity:0">e</span><span class="letter" style="display: inline-block; opacity:0">a</span><span class="letter" style="display: inline-block; opacity:0">d</span><span class="letter" style="display: inline-block; opacity:0">i</span><span class="letter" style="display: inline-block; opacity:0">n</span><span class="letter" style="display: inline-block; opacity:0">g</span><span class="letter" style="display: inline-block; opacity:0">!</span><span class="letter" style="display: inline-block; opacity:0">!</span><span class="letter" style="display: inline-block; opacity:0">!</span></span></h1></div>`],
+        [`**bold**`, `<div><p><strong><span class="word" style="display: inline-block; whites-space: nowrap"><span class="letter" style="display: inline-block; opacity:0">b</span><span class="letter" style="display: inline-block; opacity:0">o</span><span class="letter" style="display: inline-block; opacity:0">l</span><span class="letter" style="display: inline-block; opacity:0">d</span></span></strong></p></div>`]
+      ]
+
+      for (const [template, expected] of tests) {
+        expect(processText(dialogNode(template), {})).toEqual(expected)
       }
     })
   })
