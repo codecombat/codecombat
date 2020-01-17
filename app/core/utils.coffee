@@ -565,7 +565,6 @@ filterMarkdownCodeLanguages = (text, language) ->
       """```cpp
         #{@translatejs2cpp a[13..a.length-4], false}
       ```"""
-    # text = text.replace(jsRegex, cppCode)
 
   return text
 
