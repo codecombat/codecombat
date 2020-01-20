@@ -3,25 +3,26 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 translatejs2cpp = (jsCode, fullCode=true) ->
   matchBrackets = (str, startIndex) ->
     cc = 0
-    i = startIndex
-    while i < str.length
+    for i in [startIndex..str.length-1] by 1
       cc += 1 if str[i] == '{'
       if str[i] == '}'
         cc -= 1
-        return i+1 unless cc
-      i += 1
+        return i+2 unless cc
   splitFunctions = (str) ->
     creg = new RegExp '\n[ \t]*[^/]'
     codeIndex = creg.exec(str)
-    if codeIndex
+    if str and str[0] != '/'
+      startComments = ''
+    else if codeIndex
       codeIndex = codeIndex.index + 1
       startComments = str.slice 0, codeIndex
       str = str.slice codeIndex
     else
       return [str, '']
 
-    reg = new RegExp '\nfunction ', 'gi'
     indices = []
+    reg = new RegExp '\nfunction ', 'gi'
+    indices.push 0 if str.startsWith("function ")
     while (result = reg.exec(str))
       indices.push result.index+1
     split = []
@@ -31,7 +32,8 @@ translatejs2cpp = (jsCode, fullCode=true) ->
       end = matchBrackets str, i
       split.push {s: i, e: end}
     split.push {s: end, e: str.length}
-    return [startComments].concat split.map (s) -> str[s.s..s.e-1]
+    header = if startComments then [startComments] else []
+    return header.concat split.map (s) -> str.slice s.s, s.e
 
   jsCodes = splitFunctions jsCode
   len = jsCodes.length
@@ -44,8 +46,8 @@ translatejs2cpp = (jsCode, fullCode=true) ->
     """
   else
     jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')
-  for i in [0..jsCodes.length-1]
-    if jsCodes[i].startsWith('function')
+  for i in [0..len-1] by 1
+    if /^ ?function/.test(jsCodes[i])
       variables = jsCodes[i].match(/function.*\((.*)\)/)[1]
       v = ''
       v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
@@ -56,14 +58,14 @@ translatejs2cpp = (jsCode, fullCode=true) ->
     jsCodes[i] = jsCodes[i].replace new RegExp(' !== ', 'g'), ' != '
     jsCodes[i] = jsCodes[i].replace new RegExp(' and ', 'g'), ' && '
     jsCodes[i] = jsCodes[i].replace new RegExp(' or ', 'g'), ' || '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' not ', 'g'), ' !'
+    jsCodes[i] = jsCodes[i].replace new RegExp('not ', 'g'), '!'
     jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
   unless fullCode
     lines = jsCodes[len-1].split '\n'
-    jsCodes[len-1] = (lines.map (line) -> line[1..line.length-1]).join('\n')
+    jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')
 
-  cppCodes = jsCodes.join('\n').split('\n')
-  for i in [1..cppCodes.length-1]
+  cppCodes = jsCodes.join('').split('\n')
+  for i in [1..cppCodes.length-1] by 1
     if cppCodes[i].match(/^\s*else/) and cppCodes[i-1].match("//")
       tmp = cppCodes[i]
       cppCodes[i] = cppCodes[i-1]
@@ -563,7 +565,6 @@ filterMarkdownCodeLanguages = (text, language) ->
       """```cpp
         #{@translatejs2cpp a[13..a.length-4], false}
       ```"""
-    # text = text.replace(jsRegex, cppCode)
 
   return text
 
