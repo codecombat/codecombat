@@ -111,31 +111,19 @@ freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # 1FH campaign
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
   CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
+  CHAPTER_TWO: '5e2759cce8919b668b7737b1'
 
 
 orderedCourseIDs = [
   courseIDs.ONE_FREE_HOUR
   courseIDs.CHAPTER_ONE
+  courseIDs.CHAPTER_TWO
 ]
 
 courseAcronyms = {}
 courseAcronyms[courseIDs.ONE_FREE_HOUR] = 'P'
 courseAcronyms[courseIDs.CHAPTER_ONE] = 'C1'
-
-hourOfCodeOptions = {
-  campaignId: freeCampaignIds[0],
-  courseId: courseIDs.ONE_FREE_HOUR,
-  name: 'Prologue: Sky Mountain',
-  progressModalAfter: 1500000 #25 mins
-}
-
-registerHocProgressModalCheck = ->
-  hocProgressModalCheck = setInterval(() =>
-    if window.sessionStorage?.getItem('hoc_progress_modal_time') < new Date().getTime()
-      window.sessionStorage.setItem('show_hoc_progress_modal', true)
-      window.sessionStorage.removeItem('hoc_progress_modal_time')
-      clearInterval(hocProgressModalCheck)
-  , 60000) # every 1 min
+courseAcronyms[courseIDs.CHAPTER_TWO] = 'C2'
 
 # Harcoding module names for simplicity
 # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
@@ -151,6 +139,26 @@ courseModules[courseIDs.CHAPTER_ONE] = {
   '5': 'Capstone Intro',
   '6': 'Capstone Project'
 }
+
+# TODO update module names before shipping 2UP
+courseModules[courseIDs.CHAPTER_TWO] = {
+  '1': 'Temp module'
+}
+
+hourOfCodeOptions = {
+  campaignId: freeCampaignIds[0],
+  courseId: courseIDs.ONE_FREE_HOUR,
+  name: 'Prologue: Sky Mountain',
+  progressModalAfter: 1500000 #25 mins
+}
+
+registerHocProgressModalCheck = ->
+  hocProgressModalCheck = setInterval(() =>
+    if window.sessionStorage?.getItem('hoc_progress_modal_time') < new Date().getTime()
+      window.sessionStorage.setItem('show_hoc_progress_modal', true)
+      window.sessionStorage.removeItem('hoc_progress_modal_time')
+      clearInterval(hocProgressModalCheck)
+  , 60000) # every 1 min
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
