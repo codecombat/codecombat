@@ -154,6 +154,10 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
     music: c.object {title: 'Music', description: 'Control music playing'},
       play: {title: 'Play', type: 'boolean'}
       file: c.shortString(title: 'File', enum: [
+        '/music/OzariaPhoenixLandsMusicLoop4'
+        '/music/OzariaPhoenixLandsMusicLoop3'
+        '/music/OzariaPhoenixLandsMusicLoop2b'
+        '/music/OzariaPhoenixLandsMusicLoop1b'
         '/music/OzariaCarnivalMusicLoop1',
         '/music/OzariaCarnivalMusicLoop2',
         '/music/OzariaCarnivalMusicLoop3',
