@@ -110,8 +110,8 @@ freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # 1FH campaign
 
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
-  CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
-  CHAPTER_TWO: '5e27600d1c9d440000ac3ee7'
+  CHAPTER_ONE: '5d8a70a5a0ce526f27745915'
+  CHAPTER_TWO: '5e2753156e9f9697e09cbd4d'
 
 
 orderedCourseIDs = [
@@ -140,10 +140,12 @@ courseModules[courseIDs.CHAPTER_ONE] = {
   '6': 'Capstone Project'
 }
 
-# TODO update module names before shipping 2UP
 courseModules[courseIDs.CHAPTER_TWO] = {
-  '1': 'Temp Module 1',
-  '2': 'Temp Module 2'
+  '1': 'Review',
+  '2': 'For Loops',
+  '3': 'Nesting',
+  '4': 'While Loops',
+  '5': 'Capstone'
 }
 
 hourOfCodeOptions = {

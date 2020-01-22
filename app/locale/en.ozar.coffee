@@ -2689,6 +2689,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     basic_javascript: "Basic JavaScript"
     basic_event_handling: "Basic Event Handling"
     create_sharable_interactive_web_page: "Create a sharable interactive web page"
+    iteration: "Iteration"
+    nesting: "Nesting"
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
