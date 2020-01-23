@@ -88,6 +88,7 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+    @utils = utils
 
     if (options.renderOnlyContent)
       @template = viewContentTemplate
@@ -128,6 +129,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @classroom, 'sync', ->
       @fetchStudents()
       @fetchSessions()
+      @classroom.language = @classroom.get('aceConfig')?.language
 
     @students.comparator = (student1, student2) =>
       dir = @state.get('sortDirection')
