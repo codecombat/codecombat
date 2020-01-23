@@ -1,77 +1,5 @@
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
-translatejs2cpp = (jsCode, fullCode=true) ->
-  matchBrackets = (str, startIndex) ->
-    cc = 0
-    for i in [startIndex..str.length-1] by 1
-      cc += 1 if str[i] == '{'
-      if str[i] == '}'
-        cc -= 1
-        return i+2 unless cc
-  splitFunctions = (str) ->
-    creg = new RegExp '\n[ \t]*[^/]'
-    codeIndex = creg.exec(str)
-    if str and str[0] != '/'
-      startComments = ''
-    else if codeIndex
-      codeIndex = codeIndex.index + 1
-      startComments = str.slice 0, codeIndex
-      str = str.slice codeIndex
-    else
-      return [str, '']
-
-    indices = []
-    reg = new RegExp '\nfunction ', 'gi'
-    indices.push 0 if str.startsWith("function ")
-    while (result = reg.exec(str))
-      indices.push result.index+1
-    split = []
-    end = 0
-    split.push {s: 0, e: indices[0]} if indices.length
-    for i in indices
-      end = matchBrackets str, i
-      split.push {s: i, e: end}
-    split.push {s: end, e: str.length}
-    header = if startComments then [startComments] else []
-    return header.concat split.map (s) -> str.slice s.s, s.e
-
-  jsCodes = splitFunctions jsCode
-  len = jsCodes.length
-  lines = jsCodes[len-1].split '\n'
-  if fullCode
-    jsCodes[len-1] = """
-      void main() {
-      #{(lines.map (line) -> '    ' + line).join '\n'}
-      }
-    """
-  else
-    jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')
-  for i in [0..len-1] by 1
-    if /^ ?function/.test(jsCodes[i])
-      variables = jsCodes[i].match(/function.*\((.*)\)/)[1]
-      v = ''
-      v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
-      jsCodes[i] = jsCodes[i].replace(/function(.*)\((.*)\)/, 'auto$1(' + v + ')')
-    jsCodes[i] = jsCodes[i].replace new RegExp('var x', 'g'), 'float x'
-    jsCodes[i] = jsCodes[i].replace new RegExp('var y', 'g'), 'float y'
-    jsCodes[i] = jsCodes[i].replace new RegExp(' === ', 'g'), ' == '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' !== ', 'g'), ' != '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' and ', 'g'), ' && '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' or ', 'g'), ' || '
-    jsCodes[i] = jsCodes[i].replace new RegExp('not ', 'g'), '!'
-    jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
-  unless fullCode
-    lines = jsCodes[len-1].split '\n'
-    jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')
-
-  cppCodes = jsCodes.join('').split('\n')
-  for i in [1..cppCodes.length-1] by 1
-    if cppCodes[i].match(/^\s*else/) and cppCodes[i-1].match("//")
-      tmp = cppCodes[i]
-      cppCodes[i] = cppCodes[i-1]
-      cppCodes[i-1] = tmp
-  cppCodes.join '\n'
-
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -531,7 +459,7 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then 'javascript' else currentLanguage
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], currentLanguage
   # Exclude language-specific code blocks like ```python (... code ...)``
   # ` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
@@ -559,12 +487,6 @@ filterMarkdownCodeLanguages = (text, language) ->
       text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
     if not startsWithVowel(from) and startsWithVowel(to)
       text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
-  if currentLanguage == 'cpp'
-    jsRegex = new RegExp "```javascript\n([^`]+)```", 'gm'
-    text = text.replace jsRegex, (a, l) =>
-      """```cpp
-        #{@translatejs2cpp a[13..a.length-4], false}
-      ```"""
 
   return text
 
@@ -874,5 +796,4 @@ module.exports = {
   videoLevels
   ozariaCourseIDs
   addressesIncludeAdministrativeRegion
-  translatejs2cpp
 }

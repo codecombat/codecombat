@@ -612,7 +612,6 @@ module.exports = class User extends CocoModel
   useChinaHomeView: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
   showCourseProgressControl: -> features?.china ? false
-  enableCpp: -> features?.china ? false
 
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
