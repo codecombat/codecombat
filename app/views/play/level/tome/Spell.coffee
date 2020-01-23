@@ -82,20 +82,7 @@ module.exports = class Spell
         }
       """
     if @language is 'cpp' and not @languages[@language]
-      # TODO: do more transforms here to handle most common sample code differences between JavaScript and C++
-      lines = (@languages.javascript ? '').split '\n'
-      lines.push '' if lines[lines.length - 1] isnt ''
-      code = """
-        void main() {
-        #{(lines.map ((line) -> '    ' + line)).join('\n')}
-        }
-      """
-      code = code.replace new RegExp('var i =', 'g'), 'int i ='
-      code = code.replace new RegExp('    var x', 'g'), '    float x'
-      code = code.replace new RegExp('    var y', 'g'), '    float y'
-      code = code.replace new RegExp('    var dist', 'g'), '    float dist'
-      code = code.replace new RegExp('    var ', 'g'), '    auto '
-      @languages.cpp = code
+      @languages.cpp = utils.translatejs2cpp @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
