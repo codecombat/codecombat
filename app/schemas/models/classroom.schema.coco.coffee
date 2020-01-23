@@ -12,7 +12,7 @@ _.extend ClassroomSchema.properties,
   code: c.shortString(title: "Unique code to redeem")
   codeCamel: c.shortString(title: "UpperCamelCase version of code for display purposes")
   aceConfig:
-    language: {type: 'string', 'enum': ['python', 'javascript', 'cpp']}
+    language: {type: 'string', 'enum': ['python', 'javascript']}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
@@ -32,7 +32,7 @@ _.extend ClassroomSchema.properties,
       assessmentPlacement: { type: 'string' }
       practice: {type: 'boolean'}
       practiceThresholdMinutes: {type: 'number'}
-      primerLanguage: { type: 'string', enum: ['javascript', 'python', 'cpp'] }
+      primerLanguage: { type: 'string', enum: ['javascript', 'python'] }
       shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
       type: c.shortString()
       original: c.objectId()
