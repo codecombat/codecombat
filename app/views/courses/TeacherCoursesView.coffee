@@ -30,7 +30,6 @@ module.exports = class TeacherCoursesView extends RootView
     super(options)
     application.setHocCampaign('') # teachers playing levels from here return here
     @utils = require 'core/utils'
-    @enableCpp = me.enableCpp()
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
