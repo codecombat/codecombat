@@ -1,6 +1,5 @@
 FacebookHandler = require 'core/social-handlers/FacebookHandler'
 GPlusHandler = require 'core/social-handlers/GPlusHandler'
-GitHubHandler = require 'core/social-handlers/GitHubHandler'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 storage = require 'core/storage'
@@ -32,7 +31,8 @@ elementAcceptsKeystrokes = (el) ->
   # not radio, checkbox, range, or color
   return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ['', 'true']) and not (el.readOnly or el.disabled)
 
-COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/popover_background.png', '/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
+# TODO Add common files for ozaria to preload
+COMMON_FILES = []
 preload = (arrayOfImages) ->
   $(arrayOfImages).each ->
     $('<img/>')[0].src = @
@@ -85,7 +85,6 @@ Application = {
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
-      @githubHandler = new GitHubHandler()
     locale.load(me.get('preferredLanguage', true)).then =>
       @tracker.promptForCookieConsent()
     preferredLanguage = me.get('preferredLanguage') or 'en'
