@@ -1,13 +1,9 @@
 var dexecure = {
 	"server": {
-		"codecombat.com": "codecombat.dexecure.net",
-		"www.codecombat.com": "codecombat.dexecure.net",
-		"staging.codecombat.com": "codecombat-staging.dexecure.net"
+		"www.ozaria.com": "ozaria.dexecure.net"
 	},
 	"firstPartyDomain": [
-		"codecombat.com",
-		"www.codecombat.com",
-		"staging.codecombat.com"
+		"www.ozaria.com"
 	],
 	"optimisationsEnabled": true,
 	"debugMode": false,
