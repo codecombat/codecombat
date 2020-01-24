@@ -4,16 +4,16 @@
 
 **Learning Objectives**
 
-    - Identify and fix code errors and logic problems.
-    - Explain the difference between the basic data types.
-    - Differentiate between objects, methods, and arguments.
-    - Update the value of variables using basic operations.
+   - Identify and fix code errors and logic problems.
+   - Explain the difference between the basic data types.
+   - Differentiate between objects, methods, and arguments.
+   - Update the value of variables using basic operations.
 
 **Standards**
 
 This module was designed to align to the following standards:
 
-    - CSTA Standards
+   - CSTA Standards
         - 1B-AP-09: Create programs that use variables to store and modify data.
         - 2-AP-11: Create clearly named variables that represent different data types and perform operations on their values.
         - 1A-AP-14: Debug (identify and fix) errors in an algorithm or program that includes sequences and simple loops.
