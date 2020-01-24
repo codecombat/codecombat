@@ -4,22 +4,22 @@
 
 **Learning Objectives**
 
-    - Simplify code using for loops for repeated actions.
-    - Update the values of variables within loops.
-    - Include loops in sequence with other types of code statements.
+   - Simplify code using for loops for repeated actions.
+   - Update the values of variables within loops.
+   - Include loops in sequence with other types of code statements.
 
 **Standards**
 
 This module was designed to align to the following standards:
 
-    - CSTA Standards
+   - CSTA Standards
         - 1A-AP-10: Develop programs with sequences and simple loops, to express ideas or address a problem.
         - 1A-AP-11: Decompose (break down) the steps needed to solve a problem into a precise sequence of instructions.
         - 1B-AP-10: Create programs that include sequences, events, loops, and conditionals.
 
 # Materials
 
-- Module Overview
+- [Module Overview](http://localhost:3000/teachers/resources/chapter2module2overview)
 - Teacher Guide to Systems (coming soon)
     - See the Prologue Lesson Plan for an explanation of important in-game student supports.
 - Solutions: To view solutions for levels, navigate to the Unit Guides tab and click on the &quot;Level Overviews and Solutions — Module 2&quot; link under Chapter 2.
