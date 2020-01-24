@@ -21,7 +21,7 @@ This module was designed to align to the following standards:
 
 # Materials
 
-- Module Overview
+- [Module Overview](http://localhost:3000/teachers/resources/chapter2module1overview)
 - Teacher Guide to Systems (coming soon)
     - See the Prologue Lesson Plan for an explanation of important in-game student supports.
 - Solutions: To view solutions for levels, navigate to the Unit Guides tab and click on the &quot;Level Overviews and Solutions — Module 1&quot; link under Chapter 2.
