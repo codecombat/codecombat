@@ -2099,6 +2099,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     click_to_view_project_gallery: "Click to view project gallery"
     review_learning_goal: "Review \"Learning Goal: __learningGoal__\" with students."
     view_capstone_project: "View Capstone Project"
+    chapter2: "Chapter 2: The Phoenix Lands"
+    review: "Review"
+    for_loops: "For Loops"
 
   share_licenses:
     share_licenses: "Share Licenses"
