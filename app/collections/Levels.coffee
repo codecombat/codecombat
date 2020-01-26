@@ -22,9 +22,13 @@ module.exports = class LevelCollection extends CocoCollection
     @models.reduce((map, level) =>
       targetLangs = if level.get('primerLanguage') then [level.get('primerLanguage')] else languages
       solutions = level.getSolutions()
-        .filter((s) => s.language in targetLangs)
+        .filter((s) => s.language in targetLangsor ('cpp' in targetLangs and s.language == 'javascript'))
         .filter((s) => not s.testOnly)
-
+      if 'cpp' in targetLangs
+        solutions?.forEach (s) =>
+          return unless s.language is 'javascript'
+          s.language = 'cpp'
+          s.source = utils.translatejs2cpp(s.source)
       if 'html' in targetLangs
         solutions?.forEach (s) =>
           return unless s.language is 'html'

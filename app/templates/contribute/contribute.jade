@@ -32,7 +32,7 @@ block content
         p(data-i18n="classes.artisan_summary")
           | Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program.
 
-  if !me.isOnPremiumServer()
+  if window && window.features && !window.features.chinaUx
     a(href="/contribute/adventurer")
       div.class_tile
         img.tile-img(src="/images/pages/contribute/tile_adventurer.png", alt="")
