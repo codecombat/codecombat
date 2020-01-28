@@ -23,6 +23,7 @@ import {
   getLanguageFilter,
   getHeroPet
 } from '../../../app/schemas/models/selectors/cinematic'
+import Cinematic from 'ozaria/site/models/Cinematic'
 
 /**
  * This data can be used to check that none of the selectors that match
@@ -42,6 +43,33 @@ const invalidThangTypesSetupData = [
 ]
 
 describe('Cinematic', () => {
+  describe('Model methods', () => {
+    it('find dialogue nodes', () => {
+      const c = (new Cinematic()).set('shots', [shotFixture1])
+      const result = Cinematic.findDialogTextPath(c, 'hello, world')
+      expect(result).toEqual([[0, 0]])
+
+      const c2 = (new Cinematic()).set('shots', [shotFixture2, shotFixture1])
+      const result2 = Cinematic.findDialogTextPath(c2, 'hello, world')
+      expect(result2).toEqual([[1, 0]])
+
+      const result3 = Cinematic.findDialogTextPath(c2, 'More spoken text')
+      expect(result3).toEqual([[0, 1]])
+    })
+
+    it('find multiple dialogue nodes', () => {
+      const c = (new Cinematic()).set('shots', [shotFixture1, shotFixture2, shotFixture1])
+      const result = Cinematic.findDialogTextPath(c, 'hello, world')
+      expect(result).toEqual([ [ 0, 0 ], [ 2, 0 ] ])
+    })
+
+    it('handle missing dialogue node', () => {
+      const c = (new Cinematic()).set('shots', [shotFixture1])
+      const result = Cinematic.findDialogTextPath(c, 'This text doesn\'t exist.')
+      expect(result).toEqual([])
+    })
+  })
+
   describe('Selectors', () => {
     getCharacterThangTypeSlugTest(getLeftCharacterThangTypeSlug, 'getLeftCharacterThangTypeSlug', invalidThangTypesSetupData, 'leftThangType')
     getCharacterThangTypeSlugTest(getRightCharacterThangTypeSlug, 'getRightCharacterThangTypeSlug', invalidThangTypesSetupData, 'rightThangType')
@@ -184,7 +212,7 @@ describe('Cinematic', () => {
       expect(result).toEqual('talkyAnimation')
 
       const result2 = getSpeakingAnimationAction(shotFixture2.dialogNodes[0])
-      expect(result2).toBeUndefined()
+      expect(result2).toEqual('talkNeutral')
     })
 
     it('getSoundEffects', () => {
@@ -197,7 +225,7 @@ describe('Cinematic', () => {
 
     it('getSetupMusic', () => {
       const result = getSetupMusic(shotFixture1)
-      expect(result).toEqual({ ogg: 'path/music', mp3: 'path/music/mp3' })
+      expect(result).toEqual({ files: { ogg: 'path/music', mp3: 'path/music/mp3' }, loop: false })
 
       const result2 = getSetupMusic(shotFixture2)
       expect(result2).toBeUndefined()
@@ -368,6 +396,9 @@ var shotFixture2 = {
         x: 40,
         y: 10
       }
+    },
+    {
+      text: 'More spoken text'
     }
   ]
 }
