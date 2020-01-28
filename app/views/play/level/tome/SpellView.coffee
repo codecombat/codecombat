@@ -808,7 +808,7 @@ module.exports = class SpellView extends CocoView
         needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
         return if not needsUpdate and aether is @displayedAether
         castAether = @spellThang.castAether
-        codeIsAsCast = castAether and source is castAether.raw
+        codeIsAsCast = (castAether and source is castAether.raw) or @spell.language in ['java', 'cpp']
         aether = castAether if codeIsAsCast
         return if not needsUpdate and aether is @displayedAether
 
