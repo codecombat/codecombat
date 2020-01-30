@@ -29,8 +29,8 @@ module.exports = class VerifierView extends RootView
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
 
-    defaultCores = 2
-    @cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
+    defaultCores = 1
+    @cores = Math.max(defaultCores) # 1 or 2 cores is more stable which is why we're not using `window.navigator.hardwareConcurrency`
     @careAboutFrames = true
 
     if @levelID
@@ -93,7 +93,7 @@ module.exports = class VerifierView extends RootView
       else
         @listenToOnce @supermodel.loadModel(level).model, 'sync', @onLevelLoaded
 
-  onLevelLoaded: (level) ->
+  onLevelLoaded: () ->
     if --@levelsToLoad is 0
       @onTestLevelsLoaded()
     else
@@ -109,9 +109,17 @@ module.exports = class VerifierView extends RootView
       level = @supermodel.getModel(Level, levelID)
       for codeLanguage in @testLanguages
         solutions = _.filter level?.getSolutions() ? [], language: codeLanguage
+        if codeLanguage is 'cpp'
+          transpiledSolutions = _.filter level?.getSolutions() ? [], language: 'javascript'
+          transpiledSolutions.forEach((s) =>
+            console.log('Transpiling a solution from javascript to C++')
+            s.language = 'cpp'
+            s.source = utils.translatejs2cpp(s.source)
+          )
+          solutions = solutions.concat(transpiledSolutions)
         if solutions.length
-          for solution, solutionIndex in solutions
-            @tasksList.push level: levelID, language: codeLanguage, solutionIndex: solutionIndex
+          for solution in solutions
+            @tasksList.push level: levelID, language: codeLanguage, solution: solution
         else
           @tasksList.push level: levelID, language: codeLanguage
 
@@ -143,7 +151,7 @@ module.exports = class VerifierView extends RootView
                 ++@problem
 
               next()
-          , chunkSupermodel, task.language, {solutionIndex: task.solutionIndex}
+          , chunkSupermodel, task.language, { solution: task.solution }
           @tests.unshift test
           @render()
         , => @render()
