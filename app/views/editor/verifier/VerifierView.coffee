@@ -109,14 +109,14 @@ module.exports = class VerifierView extends RootView
       level = @supermodel.getModel(Level, levelID)
       for codeLanguage in @testLanguages
         solutions = _.filter level?.getSolutions() ? [], language: codeLanguage
-        if codeLanguage is 'cpp'
+        # If there are no C++ solutions yet, generate them from JavaScript.
+        if codeLanguage is 'cpp' and solutions.length is 0
           transpiledSolutions = _.filter level?.getSolutions() ? [], language: 'javascript'
           transpiledSolutions.forEach((s) =>
-            console.log('Transpiling a solution from javascript to C++')
             s.language = 'cpp'
             s.source = utils.translatejs2cpp(s.source)
           )
-          solutions = solutions.concat(transpiledSolutions)
+          solutions = transpiledSolutions
         if solutions.length
           for solution in solutions
             @tasksList.push level: levelID, language: codeLanguage, solution: solution
