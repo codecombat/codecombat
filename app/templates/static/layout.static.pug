@@ -77,7 +77,10 @@ html(lang='en')
         }
       });
 
-    script(src='https://checkout.stripe.com/checkout.js')
+    //- Removing this since stripe is not used for Ozaria currently
+    //- This will help save some bandwidth and load time
+    //- When required, please load stripe only on the relevant pages/scenarios instead of always for all users
+    //- script(src='https://checkout.stripe.com/checkout.js')
     // CodePlay Tags Header
 
     // Webpack-inserted CSS:
