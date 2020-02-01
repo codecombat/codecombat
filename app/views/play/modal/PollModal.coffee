@@ -133,3 +133,4 @@ commentStarts =
   coffeescript: '# '
   lua: '-- '
   java: '// '
+  cpp: '// '

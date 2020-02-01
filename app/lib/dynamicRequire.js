@@ -1,8 +1,10 @@
 module.exports = {
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },
-	'views/ContactCNView': function () { return import(/* webpackChunkName: "ContactCNView" */ 'views/ContactCNView') },
-	'views/account/OAuthAIYouthView': function () { return import(/* webpackChunkName: "OAuthAIYouthView" */ 'views/account/OAuthAIYouthView') },
+  'views/HomeCNView': function () { return import(/* webpackChunkName: "HomeCNView" */ 'views/HomeCNView') },
+  'views/ContactCNView': function () { return import(/* webpackChunkName: "ContactCNView" */ 'views/ContactCNView') },
+  'views/ChinaBridgeView': function () { return import(/* webpackChunkName: "ContactGEEKView" */ 'views/ChinaBridgeView') },
+  'views/account/OAuthAIYouthView': function () { return import(/* webpackChunkName: "OAuthAIYouthView" */ 'views/account/OAuthAIYouthView') },
   'views/account/MainAccountView': function () { return import(/* webpackChunkName: "account" */ 'views/account/MainAccountView') },
   'views/account/AccountSettingsRootView': function () { return import(/* webpackChunkName: "account" */ 'views/account/AccountSettingsRootView') },
   'views/account/UnsubscribeView': function () { return import(/* webpackChunkName: "account" */ 'views/account/UnsubscribeView') },

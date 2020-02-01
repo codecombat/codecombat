@@ -13,6 +13,8 @@ UserLib = {
   broadName: (user) ->
     return '(deleted)' if user.deleted
     name = _.filter([user.firstName, user.lastName]).join(' ')
+    if features?.china
+      name = user.firstName
     return name if name
     name = user.name
     return name if name
@@ -47,6 +49,7 @@ module.exports = class User extends CocoModel
   broadName: -> User.broadName(@attributes)
 
   inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
+  addressesIncludeAdministrativeRegion: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.addressesIncludeAdministrativeRegion(@get('country'))
 
   getPhotoURL: (size=80) ->
     return '' if application.testing
@@ -419,6 +422,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     _.extend(options.data, {name, email, password})
     options.contentType = 'application/json'
+    options.xhrFields = { withCredentials: true }
     options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
@@ -431,6 +435,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     _.extend(options.data, {name, email, facebookID, facebookAccessToken: application.facebookHandler.token()})
     options.contentType = 'application/json'
+    options.xhrFields = { withCredentials: true }
     options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
@@ -444,6 +449,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     _.extend(options.data, {name, email, gplusID, gplusAccessToken: application.gplusHandler.token()})
     options.contentType = 'application/json'
+    options.xhrFields = { withCredentials: true }
     options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
@@ -460,6 +466,7 @@ module.exports = class User extends CocoModel
   loginGPlusUser: (gplusID, options={}) ->
     options.url = '/auth/login-gplus'
     options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
     options.data ?= {}
     options.data.gplusID = gplusID
     options.data.gplusAccessToken = application.gplusHandler.token()
@@ -474,12 +481,14 @@ module.exports = class User extends CocoModel
   loginFacebookUser: (facebookID, options={}) ->
     options.url = '/auth/login-facebook'
     options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
     options.data ?= {}
     options.data.facebookID = facebookID
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
 
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
+    options.xhrFields = { withCredentials: true }
     options.url = '/auth/login'
     options.type = 'POST'
     options.data ?= {}
@@ -578,7 +587,7 @@ module.exports = class User extends CocoModel
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> not (features?.chinaUx ? false)
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
-  promptForClassroomSignup: -> not (features?.chinaUx ? false or window.serverConfig?.codeNinjas ? false or features?.brainPop ? false)
+  promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
   showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false) and @isStudent()
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
@@ -600,11 +609,19 @@ module.exports = class User extends CocoModel
   showGithubLink: -> not (features?.china ? false)
   showChinaICPinfo: -> features?.china ? false
   showChinaResourceInfo: -> features?.china ? false
+  useChinaHomeView: -> features?.china ? false
+  showChinaRegistration: -> features?.china ? false
+  showCourseProgressControl: -> features?.china ? false
+  enableCpp: -> features?.china ? false
+
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
   showIndividualRegister: -> not (features?.china ? false)
   hideDiplomatModal: -> features?.china ? false
   showChinaRemindToast: -> features?.china ? false
+  showOpenResourceLink: -> not (features?.china ? false)
+  useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
+  canDeleteAccount: -> not (features?.china ? false)
 
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()

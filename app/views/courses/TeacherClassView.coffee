@@ -62,6 +62,7 @@ module.exports = class TeacherClassView extends RootView
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
     'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
+    'change .locked-level-select': 'onChangeLockedLevelSelect'
 
   getInitialState: ->
     {
@@ -87,6 +88,7 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+    @utils = utils
 
     if (options.renderOnlyContent)
       @template = viewContentTemplate
@@ -127,6 +129,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @classroom, 'sync', ->
       @fetchStudents()
       @fetchSessions()
+      @classroom.language = @classroom.get('aceConfig')?.language
 
     @students.comparator = (student1, student2) =>
       dir = @state.get('sortDirection')
@@ -151,6 +154,8 @@ module.exports = class TeacherClassView extends RootView
 
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch()
+
+    @campaignLevelNumberMap = {}
 
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
@@ -210,6 +215,8 @@ module.exports = class TeacherClassView extends RootView
       @state.set students: @students
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
       @state.set selectedCourse: selectedCourse
+    @listenTo @, 'locked-level-select:change', ({ selectedLevel }) ->
+      @setSelectedCourseLockedLevel(selectedLevel)
     @listenTo @state, 'change:selectedCourse', (e) ->
       @setSelectedCourseInstance()
 
@@ -225,6 +232,18 @@ module.exports = class TeacherClassView extends RootView
       @state.set 'selectedCourseInstance', @courseInstances.findWhere courseID: selectedCourse.id, classroomID: @classroom.id
     else if @state.get 'selectedCourseInstance'
       @state.set 'selectedCourseInstance', null
+
+  getSelectedCourseInstance: ->
+    unless @state.get 'selectedCourseInstance'
+      @setSelectedCourseInstance()
+    return @state.get 'selectedCourseInstance'
+
+  setSelectedCourseLockedLevel: (level) ->
+    return unless me.showCourseProgressControl()
+    courseInstance = @getSelectedCourseInstance()
+    if courseInstance and level
+      courseInstance.set 'startLockedLevel', level
+      courseInstance.save()
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
@@ -242,6 +261,11 @@ module.exports = class TeacherClassView extends RootView
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
     @getCourseAssessmentPairs()
+
+    @courses.models.forEach (course) =>
+      levels = @classroom.getLevels({courseID: course.id}).models.map (level) =>
+        key: level.get('original'), practice: level.get('practice') ? false, assessment: level.get('assessment') ? false
+      @campaignLevelNumberMap[course.get('campaignID')] = utils.createLevelNumberMap(levels)
     super()
 
   afterRender: ->
@@ -423,6 +447,9 @@ module.exports = class TeacherClassView extends RootView
 
   onChangeCourseSelect: (e) ->
     @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
+
+  onChangeLockedLevelSelect: (e) ->
+    @trigger 'locked-level-select:change', { selectedLevel: $(e.currentTarget).val() }
 
   getSelectedStudentIDs: ->
     Object.keys(_.pick @state.get('checkboxStates'), (checked) -> checked)

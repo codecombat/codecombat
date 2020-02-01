@@ -55,7 +55,7 @@ jobs:
             git push origin $BRANCH_NAME
 
             # TODO remove reviewer after we're confident in script runs
-            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer AndrewJakubowicz
+            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer codeluggage
 
 
 workflows:

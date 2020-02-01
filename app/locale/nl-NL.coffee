@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -195,6 +197,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     resource_hub: "Hulpmiddelen"
     apcsp: "AP CS Principes"
     parent: "Ouders"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Sluiten"
@@ -981,6 +984,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     coffeescript_blurb: "JavaScript, met betere syntax."
     lua_blurb: "Game scripting taal."
     java_blurb: "(Alleen voor abonnees) Android en enterprise."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Wapens"
     weapons_warrior: "Zwaarden - Korte afstand, geen tovenarij"
@@ -1091,26 +1095,28 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    sean_title: "Senior Account Executive"
 #    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
-#    shan_title: "Partnership Development Lead, China"
-#    run_title: "Head of Operations, China"
-#    lance_title: "Software Engineer Intern, China"
+#    shan_title: "Head of Marketing, CodeCombat Greater China"
+#    run_title: "Head of Operations, CodeCombat Greater China"
+#    lance_title: "Head of Technology, CodeCombat Greater China"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
 #    maya_title: "Senior Curriculum Developer"
-#    bill_title: "General Manager, China"
+#    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
-#    brian_title: "Lead Game Designer"
+#    brian_title: "Senior Game Design Manager"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Speldesigner" # {change}
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
+    bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
@@ -1252,6 +1258,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     referrer_web: "Google"
     referrer_other: "Anders"
     anything_else: "Is er verder nog iets dat we moeten weten?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Bedankt voor je demo-aanvraag!"
     thanks_sub_header: "Bedankt voor je interesse in CodeCombat."
     thanks_p: "Wij zullen spoedig contact met u opnemen. Vragen? Mail ons:" # {change}
@@ -1374,7 +1381,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     social_discource: "Doe mee aan discussies op ons Discourse forum"
     social_facebook: "Like CodeCombat op Facebook"
     social_twitter: "Volg CodeCombat op Twitter"
-    social_gplus: "Volg CodeCombat op Google+"
     social_slack: "Chat met ons in het openbare CodeCombat Slack kanaal"
     contribute_to_the_project: "Help mee met het project"
 
@@ -1640,6 +1646,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1980,6 +1989,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     combo_explanation: "leerlingen komen doorCombo challenge levels door in ieder geval één van de genoemde concepten te gebruiken. Bekijk de code van de leerling door op 'vooruitgang'te klikken."
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -1990,6 +2011,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     teacher_not_found: "Docent niet gevonden. Zorg ervoor dat deze docent al een Docentenaccount heeft aangemaakt."
     teacher_not_valid: "Dit is geen geldig Docentenaccount. Alleen docenten met een account kunnen licenties delen."
     already_shared: "Je hebt deze licenties al met deze docent gedeeld."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Docenten die beschikking hebben over de licenties:"
     footer: "Wanneer docenten licenties intrekken van leerlingen, kunnen de licenties weer gebruikt worden door andere docenten die beschikking hebben over de licenties."
     you: "(jij)"
@@ -2430,8 +2452,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    fav_features: "Favorite Features"
 #    responsive_support: "Responsive Support"
 #    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the \t    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
 #    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
 #    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
 #    quote_attribution: "Scott Baily, Technology Teacher"
@@ -2469,6 +2491,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     unauthorized: "Je moet ingelogd zijn. Heb je de cookies uitgeschakeld?"
     forbidden: "Je hebt hier geen toestemming voor." # {change}
     forbidden_desc: "Oh nee, er is niets dat we je hier kunnen laten zien. Zorg dat je bent ingelogd op de juiste account, of klik op een van de volgende links om verder te gaan met programmeren!"
+#    user_not_found: "User Not Found"
     not_found: "Niet gevonden." # {change}
     not_found_desc: "Hm, hier is niets. Klik op een van de volgende links om verder te gaan met programmeren!"
     not_allowed: "Methode niet toegestaan."
@@ -2924,7 +2947,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     send: "Verzend e-mail"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -2949,11 +2972,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     point4: "✓ Projectgebaseerde lessen"
     point5: "✓ Leerling-volgsysteem"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -2991,3 +3014,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

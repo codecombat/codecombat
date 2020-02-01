@@ -22,7 +22,6 @@ ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
-CourseInstance = require 'models/CourseInstance'
 AnnouncementModal = require 'views/play/modal/AnnouncementModal'
 codePlay = require('lib/code-play')
 MineModal = require 'views/core/MineModal' # Minecraft modal
@@ -41,6 +40,7 @@ BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 ContactModal = require 'views/core/ContactModal'
 AnonymousTeacherModal = require 'views/core/AnonymousTeacherModal'
 AmazonHocModal = require 'views/play/modal/AmazonHocModal'
+PromotionModal = require 'views/play/modal/PromotionModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
@@ -102,6 +102,7 @@ module.exports = class CampaignView extends RootView
     'click .poll': 'showPoll'
     'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton'
     'click .premium-menu-icon': 'onClickPremiumButton'
+    'click [data-toggle="coco-modal"][data-target="play/modal/PromotionModal"]': 'openPromotionModal'
     'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal'
     'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal'
     'click [data-toggle="coco-modal"][data-target="play/modal/PlayAchievementsModal"]': 'openPlayAchievementsModal'
@@ -327,6 +328,10 @@ module.exports = class CampaignView extends RootView
     unless @campaign
       @$el.find('.game-controls, .user-status').removeClass 'hidden'
 
+  openPromotionModal: (e) ->
+    window.tracker?.trackEvent 'Click Promotion Modal Button' if e
+    @openModalView new PromotionModal()
+
   openPlayItemsModal: (e) ->
     e.stopPropagation()
     @openModalView new PlayItemsModal()
@@ -394,6 +399,11 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
+    if @isOldBrowser()
+      unless storage.load('hideBrowserRecommendation')
+        BrowserRecommendationModal = require 'views/core/BrowserRecommendationModal'
+        @openModalView(new BrowserRecommendationModal())
+
     if @isClassroom()
       @updateClassroomSessions()
     else
@@ -421,7 +431,7 @@ module.exports = class CampaignView extends RootView
           @openModalView new CodePlayCreateAccountModal()
       else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
-      not storage.load('sent-parent-email') and not me.isPremium()
+      not storage.load('sent-parent-email') and not (me.isPremium() or me.isStudent() or me.isTeacher())
         @openModalView new ShareProgressModal()
     else
       @maybeShowPendingAnnouncement()
@@ -603,7 +613,16 @@ module.exports = class CampaignView extends RootView
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       @createLines() if @editorMode
-      @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true  # Testing
+      if @options.showLeaderboard
+        @showLeaderboard @options.justBeatLevel?.get('slug')
+      else if @shouldShow 'promotion'
+        timesPointedOutPromotion = storage.load("pointed-out-promotion") or 0
+        unless timesPointedOutPromotion
+          @openPromotionModal()
+          storage.save "pointed-out-promotion", timesPointedOutPromotion + 1
+        else if timesPointedOutPromotion < 5
+          @$el.find('button.promotion-menu-icon').addClass('highlighted').tooltip 'show'
+          storage.save "pointed-out-promotion", timesPointedOutPromotion + 1
     @applyCampaignStyles()
     @testParticles()
 
@@ -1242,6 +1261,7 @@ module.exports = class CampaignView extends RootView
     onPollSync.call @ if @poll.loaded
 
   activatePoll: ->
+    return if @shouldShow 'promotion'
     pollTitle = utils.i18n @poll.attributes, 'name'
     $pollButton = @$el.find('button.poll').removeClass('hidden').addClass('highlighted').attr(title: pollTitle).addClass('has-tooltip').tooltip title: pollTitle
     if me.get('lastLevel') is 'shadow-guard'
@@ -1361,6 +1381,7 @@ module.exports = class CampaignView extends RootView
     found = false
     prev = null
     lastNormalLevel = null
+    lockedByTeacher = false
     for level, levelIndex in courseOrder
       playerState = @levelStatusMap[level.slug]
       level.color = 'rgb(255, 80, 60)'
@@ -1393,6 +1414,12 @@ module.exports = class CampaignView extends RootView
           level.hidden = false
 
       level.noFlag = !level.next
+
+      if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
+        lockedByTeacher = true
+      if lockedByTeacher and me.showCourseProgressControl()
+        level.locked = true
+
       if level.locked
         level.color = 'rgb(193, 193, 193)'
       else if level.practice
@@ -1406,6 +1433,7 @@ module.exports = class CampaignView extends RootView
       prev = level
       if not @campaign.levelIsPractice(level) and not @campaign.levelIsAssessment(level)
         lastNormalLevel = level
+
     return true
 
   shouldShow: (what) ->
@@ -1426,6 +1454,9 @@ module.exports = class CampaignView extends RootView
     if what is 'codeplay-ads'
       return !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds && me.get('role') isnt 'student'
 
+    if what is 'promotion'
+      return me.finishedAnyLevels() and not features.noAds and not isStudentOrTeacher and me.get('country') is 'united-states' and me.get('preferredLanguage', true) is 'en-US' and new Date() < new Date(2019, 11, 20)
+
     if what in ['status-line']
       return me.showGemsAndXp() or !isStudentOrTeacher
 
@@ -1435,7 +1466,7 @@ module.exports = class CampaignView extends RootView
     if what in ['level', 'xp']
       return me.showGemsAndXp() or !isStudentOrTeacher
 
-    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans', 'poll']
+    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
       return !isStudentOrTeacher
 
     if what in ['back-to-classroom']
@@ -1451,7 +1482,7 @@ module.exports = class CampaignView extends RootView
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
 
     if what is 'anonymous-classroom-signup'
-      return me.isAnonymous() and me.level() < 8 and me.promptForClassroomSignup()
+      return me.isAnonymous() and me.level() < 8 and me.promptForClassroomSignup() and not @editorMode
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'

@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -195,11 +197,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     resource_hub: "Resource Hub"
     apcsp: "AP CS Prinzipien"
     parent: "Eltern"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Schließen"
     okay: "Okay"
-#    cancel: "Cancel"
+    cancel: "Abbrechen"
 
   not_found:
     page_not_found: "Tut uns leid! Wir haben die Seite nicht gefunden"
@@ -633,7 +636,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
     hints: "Tipps"
-#    videos: "Videos"
+    videos: "Videos"
     hints_title: "Tipp {{number}}"
     code_saved: "Code gespeichert"
     skip_tutorial: "Überspringen (Esc)"
@@ -981,6 +984,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     coffeescript_blurb: "Schönere JavaScript Syntax."
     lua_blurb: "Skriptsprache für Spiele."
     java_blurb: "(Nur Abonenten) Android und Unternehmen."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Waffen"
     weapons_warrior: "Schwerter - Kurze Reichweite, Keine Zauber"
@@ -1091,26 +1095,28 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    sean_title: "Senior Account Executive"
 #    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
-#    shan_title: "Partnership Development Lead, China"
-#    run_title: "Head of Operations, China"
-#    lance_title: "Software Engineer Intern, China"
+#    shan_title: "Head of Marketing, CodeCombat Greater China"
+#    run_title: "Head of Operations, CodeCombat Greater China"
+#    lance_title: "Head of Technology, CodeCombat Greater China"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
 #    maya_title: "Senior Curriculum Developer"
-#    bill_title: "General Manager, China"
+#    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
-#    brian_title: "Lead Game Designer"
+#    brian_title: "Senior Game Design Manager"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Game Designer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
+    bryukh_title: "Game Designer"
     bryukh_blurb: "Rätselkonstruktör" # {change}
     community_title: "...und unsere Open-Source Community"
     community_subtitle: "Mehr als 500 Unterstützer haben mitgeholfen, CodeCombat zu erstellen, und es werden jede Woche mehr!"
@@ -1252,6 +1258,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     referrer_web: "Google"
     referrer_other: "Andere"
     anything_else: "Weitere Dinge die wir wissen sollten?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Anforderung erhalten!"
     thanks_sub_header: "Vielen Dank für dein Interesse an CodeCombat für deine Schule."
     thanks_p: "Wir melden uns bald. Fragen? Schreibe uns eine E-Mail:"
@@ -1374,7 +1381,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     social_discource: "Schließe dich den Diskussionen in unserem Discourse Forum an"
     social_facebook: "Like CodeCombat auf Facebook"
     social_twitter: "Folge CodeCombat auf Twitter"
-    social_gplus: "Schließe dich CodeCombat bei Google+ an"
     social_slack: "Im öffentlichen Slack-Channel von CodeCombat kannst du mit uns chatten"
     contribute_to_the_project: "Trage zu diesem Projekt bei"
 
@@ -1640,6 +1646,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -1980,6 +1989,18 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Konzept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Gemeinsam genutzte Lizenzen"
@@ -1990,6 +2011,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_not_found: "Lehrer nicht gefunden. Bitte überprüfe, ob dieser Lehrer schon einen Lehrerkonto eingerichtet hat."
     teacher_not_valid: "Dies ist kein gültiges Lehrerkonto. Nur Lehrerkonten können Lizenzen gemeinsam nutzen."
     already_shared: "Du nutzt diese Lizenzen bereit mit diesem Lehrer gemeinsam."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Lehrer, die diese Lizenzen nutzen können:"
     footer: "Wenn Lehrer einem Schüler die Lizenz entziehen, so geht diese zurück in den gemeinsamen Pool, den andere Lehrer in dieser Gruppe nutzen können."
     you: "(du)"
@@ -2430,8 +2452,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    fav_features: "Favorite Features"
 #    responsive_support: "Responsive Support"
 #    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the \t    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
 #    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
 #    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
 #    quote_attribution: "Scott Baily, Technology Teacher"
@@ -2469,6 +2491,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unauthorized: "Du musst angemeldet sein. Hast du möglicherweise Cookies ausgeschaltet?"
     forbidden: "Unzulässig"
     forbidden_desc: "Oh nein, hier ist nichts was wir dir zeigen können! Stelle sicher, dass du mit dem korrekten Account angemeldet bist oder besuche einen der folgenden Links um zurück zum Programmieren zu kommen!"
+#    user_not_found: "User Not Found"
     not_found: "Nicht gefunden"
     not_found_desc: "Hm, hier ist nichts. Schaue dir einige der folgenden Links an um zurück zum Programmieren zu kommen!"
     not_allowed: "Methode nicht erlaubt."
@@ -2924,7 +2947,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     send: "Email senden"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -2949,11 +2972,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     point4: "✓ Projekt-basierte Kurse"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -2991,3 +3014,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

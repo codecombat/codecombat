@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -195,6 +197,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     resource_hub: "Pusat Sumber Daya"
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Tutup"
@@ -981,6 +984,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     coffeescript_blurb: "Sintaksis Javascript yang lebih bagus"
     lua_blurb: "Bahasa untuk Skrip Permainan"
     java_blurb: "(Hanya Pelanggan) Android dan perusahaan."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Senjata"
     weapons_warrior: "Pedang - Jarak Dekat, Tanpa Sihir"
@@ -1091,26 +1095,28 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    sean_title: "Senior Account Executive"
 #    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
-#    shan_title: "Partnership Development Lead, China"
-#    run_title: "Head of Operations, China"
-#    lance_title: "Software Engineer Intern, China"
+#    shan_title: "Head of Marketing, CodeCombat Greater China"
+#    run_title: "Head of Operations, CodeCombat Greater China"
+#    lance_title: "Head of Technology, CodeCombat Greater China"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
 #    maya_title: "Senior Curriculum Developer"
-#    bill_title: "General Manager, China"
+#    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
-#    brian_title: "Lead Game Designer"
+#    brian_title: "Senior Game Design Manager"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Perancang Permainan" # {change}
     retrostyle_title: "Ilustrasi"
     retrostyle_blurb: "Permainan RetroStyle"
+    bryukh_title: "Perancang Permainan" # {change}
     bryukh_blurb: "Merancang teka-teki"
     community_title: "...dan komunitas sumber terbuka kami"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
@@ -1252,6 +1258,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     referrer_web: "Google"
     referrer_other: "Lainnya"
     anything_else: "Kelas yang seperti apa yang kamu perkirakan untuk menggunakan CodeCombat?"
+#    anything_else_helper: ""
     thanks_header: "Permintaan Diterima!"
     thanks_sub_header: "Terima kasih telah menyatakan ketertarikan dalam CodeCombat untuk sekolahmu."
     thanks_p: "Kamu akan menghubungi segera! Jika kamu membutuhkan kontak, kamu bisa menghubungi di:"
@@ -1374,7 +1381,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     social_discource: "Bergabung dalam diskusi di forum Discourse kami"
     social_facebook: "Like CodeCombat di Facebook"
     social_twitter: "Follow CodeCombat di Twitter"
-    social_gplus: "Bergabung CodeCombat di Google+"
     social_slack: "Mengobrol bersama kami di channel publik Slack CodeCombat"
     contribute_to_the_project: "Berkontribusi pada proyek"
 
@@ -1640,6 +1646,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -1980,6 +1989,18 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     combo_explanation: "Siswa melewati tantangan level Combo dengan menggunakan salah satu konsep yang terdaftar. Tinjau kode siswa dengan mengklik titik perkembangan."
     concept: "Konsep"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Bagikan Lisensi"
@@ -1990,6 +2011,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_not_found: "Guru tidak ditemukan. Harap pastikan guru ini telah membuat Akun Guru."
     teacher_not_valid: "Ini bukan Akun Guru yang valid. Hanya akun guru yang bisa membagikan lisensi."
     already_shared: "Anda telah membagikan lisensi dengan guru tersebut."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Guru yang dapat mengakses lisensi ini:"
     footer: "Ketika guru mencabut lisensi dari siswa, lisensi akan dikembalikan ke kumpulan lisensi untuk digunakan oleh guru lainnya di dalam grup."
     you: "(Kamu)"
@@ -2430,8 +2452,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    fav_features: "Favorite Features"
 #    responsive_support: "Responsive Support"
 #    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the \t    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
 #    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
 #    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
 #    quote_attribution: "Scott Baily, Technology Teacher"
@@ -2469,6 +2491,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     unauthorized: "Anda harus masuk. Apakah anda menonaktifkan cookies?"
     forbidden: "Terlarang"
     forbidden_desc: "Oh tidak, tidak ada yang kami bisa tunjukkan kepadamu di sini! Pastikan kamu masuk menggunakan akun yang benar, atau kunjungi salah satu tautan dibawah untuk kembali ke pemrograman!"
+#    user_not_found: "User Not Found"
     not_found: "Tidak Ditemukan"
     not_found_desc: "Hm, tidak ada apa-apa di sini. Kunjungi salah satu tautan berikut untuk kembali ke pemrograman!"
     not_allowed: "Metode tidak diijinkan."
@@ -2924,7 +2947,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -2949,11 +2972,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -2991,3 +3014,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

@@ -183,7 +183,7 @@ _.extend UserSchema.properties,
     })
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp']}
     keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}  # Deprecated 2016-05-30; now we just always give them 'default'.
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }
@@ -198,6 +198,8 @@ _.extend UserSchema.properties,
       id: { type: 'string' }
       name: { type: 'string' }
       importedToCoco: { type: 'boolean', default: false }
+      importedToOzaria: { type: 'boolean', default: false }
+      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' }
 
   importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
 

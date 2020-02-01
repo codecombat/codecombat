@@ -43,6 +43,12 @@ mixin accountLinks
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
 
+            if view.isOldBrowser()
+              .navbar-browser-recommendation.navbar-header
+                .nav-spacer
+                  .navbar-nav
+                    a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/", data-i18n="nav.browser_recommendation")
+
             if !serverConfig.static
               #navbar-collapse.collapse.navbar-collapse
                 .nav-spacer
@@ -148,8 +154,9 @@ mixin accountLinks
                           a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                       li
                         a(href="/parents", data-i18n="nav.parent")
-                      li
-                        a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                      if me.showOpenResourceLink()
+                        li
+                          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                       if me.showChinaICPinfo()
                         li
                           a(href="http://beian.miit.gov.cn/") 京ICP备19012263号
@@ -177,8 +184,9 @@ mixin accountLinks
                   .col-lg-3
                     h3(data-i18n="nav.get_involved")
                     ul.list-unstyled
-                      li
-                        a(href='/community', data-i18n="nav.community")
+                      if me.showOpenResourceLink()
+                        li
+                          a(href='/community', data-i18n="nav.community")
                       li
                         a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
                       if me.showGithubLink()
@@ -202,6 +210,10 @@ mixin accountLinks
                       ul.list-unstyled
                         li
                           a(href="https://codecombat.163.com") 极客战记（个人版）
+                        li
+                          a(href="http://aiyouth.ccidtraining.org.cn") 赛迪人工智能大赛 - AI世青赛
+                        li
+                          a(href="http://ccidtraining.org.cn") 工信部赛迪研究院培训中心
 
       #final-footer(dir="ltr")
         img(src="/images/pages/base/logo.png" alt="CodeCombat")

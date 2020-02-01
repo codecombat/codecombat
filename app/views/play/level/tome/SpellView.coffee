@@ -247,7 +247,7 @@ module.exports = class SpellView extends CocoView
         disableSpaces = @options.level.get('disableSpaces') or false
         aceConfig = me.get('aceConfig') ? {}
         disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
-        disableSpaces = false if @spell.language in ['lua', 'java', 'coffeescript', 'html']  # Don't disable for more advanced/experimental languages
+        disableSpaces = false if @spell.language in ['lua', 'java', 'cpp', 'coffeescript', 'html']  # Don't disable for more advanced/experimental languages
         if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
@@ -505,6 +505,7 @@ module.exports = class SpellView extends CocoView
       autoLineEndings:
         javascript: ';'
         java: ';'
+        c_cpp: ';' # Match ace editor language mode
       popupFontSizePx: popupFontSizePx
       popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
@@ -783,7 +784,7 @@ module.exports = class SpellView extends CocoView
   # - Problem alerts and ranges will only show on fully cast worlds. Annotations will show continually.
 
   fetchToken: (source, language) =>
-    if language not in ['java']
+    if language not in ['java', 'cpp']
       return Promise.resolve(source)
 
     headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
@@ -1004,7 +1005,7 @@ module.exports = class SpellView extends CocoView
     @_singleLineCommentOnlyRegex
 
   commentOutMyCode: ->
-    prefix = if @spell.language in ['javascript', 'java'] then 'return;  ' else 'return  '
+    prefix = if @spell.language in ['javascript', 'java', 'cpp'] then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
 
   preload: ->
@@ -1414,5 +1415,6 @@ commentStarts =
   coffeescript: '#'
   lua: '--'
   java: '//'
+  cpp: '//'
   html: '<!--'
   css: '/\\*'

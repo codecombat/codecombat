@@ -2,7 +2,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -195,6 +197,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     resource_hub: "Κέντρο Υλικού"
     apcsp: "Αρχές Πληροφορικής AP"
 #    parent: "Parents"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Κλείσιμο"
@@ -981,6 +984,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     coffeescript_blurb: "Καλύτερη JavaScript σύνταξη."
     lua_blurb: "Γλώσσα παιχνιδιών με σενάρια."
     java_blurb: "(Συνδρομητής μόνο) Android και επιχείρηση."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Κατάσταση"
     weapons: "Όπλα"
     weapons_warrior: "Σπαθιά - Μικρή Εμβέλεια, Χωρίς Μαγεία"
@@ -1091,26 +1095,28 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    sean_title: "Senior Account Executive"
 #    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
-#    shan_title: "Partnership Development Lead, China"
-#    run_title: "Head of Operations, China"
-#    lance_title: "Software Engineer Intern, China"
+#    shan_title: "Head of Marketing, CodeCombat Greater China"
+#    run_title: "Head of Operations, CodeCombat Greater China"
+#    lance_title: "Head of Technology, CodeCombat Greater China"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
 #    maya_title: "Senior Curriculum Developer"
-#    bill_title: "General Manager, China"
+#    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
-#    brian_title: "Lead Game Designer"
+#    brian_title: "Senior Game Design Manager"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     retrostyle_title: "Εικονογράφηση"
     retrostyle_blurb: "Ρετρό Παιχνίδια"
+    bryukh_title: "Σχεδιαστής Παιχνιδιού" # {change}
     bryukh_blurb: "Δημιουργός Γρίφων"
     community_title: "...και η κοινότητά μας του ανοικτού κώδικα"
     community_subtitle: "Περισσότεροι από 500 συνεισφέροντες βοήθησαν στην οικοδόμηση του CodeCombat, με περισσότερες συμμετοχές κάθε εβδομάδα!"
@@ -1252,6 +1258,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     referrer_web: "Google"
     referrer_other: "Άλλο"
     anything_else: "Τι είδους τάξη ενδιαφέρεστε να χρησιμοποιήσετε στο CodeCombat;"
+#    anything_else_helper: ""
     thanks_header: "Το Αίτημα Ελήφθη!"
     thanks_sub_header: "Ευχαριστώ που εκφράσατε ενδιαφέρον για το CodeCombat για το σχολείο σας."
     thanks_p: "Θα είμαστε σε επαφή σύντομα! Αν χρειαστεί να έρθετε σε επαφή, μπορείτε να επικοινωνήσετε μαζί μας στη διεύθυνση:"
@@ -1374,7 +1381,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     social_discource: "Μπείτε στη συζήτηση στο φόρουμ μας που είναι βασισμένο στο Discourse"
     social_facebook: "Κάντε Like στο CodeCombat στο Facebook"
     social_twitter: "Ακολουθείστε το CodeCombat στο Twitter"
-    social_gplus: "Συνδεθείτε με το CodeCombat στο Google+"
     social_slack: "Συζητήστε μαζί μας στο δημόσιο κανάλι του CodeCombat στο Slack"
     contribute_to_the_project: "Συμβάλλετε στο έργο"
 
@@ -1640,6 +1646,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    classes: "Classes"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Set start locked level"
+#    no_level_limit: "No limit"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -1980,6 +1989,18 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     combo_explanation: "Οι μαθητές περνούν τα επίπεδα συνδυαστικής πρόκλησης χρησιμοποιώντας τουλάχιστον μία εισηγμένη έννοια. Ελέγξτε τον κώδικα των μαθητών κάνοντας κλικ στην κουκκίδα προόδου."
     concept: "Έννοια"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
   share_licenses:
     share_licenses: "Μοίρασμα Αδειών"
@@ -1990,6 +2011,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teacher_not_found: "Ο Εκπαιδευτικός δεν βρέθηκε. Βεβαιωθείτε ότι αυτό ο εκπαιδευτικός έχει Λογαριασμό Δασκάλου.."
     teacher_not_valid: "Αυτός δεν είναι ένας έγκυρος Λογαριασμός Δασκάλου. Μόνο οι λογαριασμοί δασκάλων μπορούν να μοιράσουν άδειες."
     already_shared: "Έχετε ήδη μοιραστεί αυτές τις άδειες με αυτόν το δάσκαλο."
+#    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Εκπαιδευτικοί που έχουν πρόσβαση σε αυτές τις άδειες:"
     footer: "Όταν οι εκπαιδευτικοί ανακαλούν τις άδειες από τους μαθητές, οι άδειες θα επιστραφούν στην κοινόχρηστη ομάδα για να τις χρησιμοποιήσουν άλλοι εκπαιδευτικοί της ομάδας αυτής."
     you: "(εσύ)"
@@ -2430,8 +2452,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    fav_features: "Favorite Features"
 #    responsive_support: "Responsive Support"
 #    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the \t    Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners , the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
 #    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
 #    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
 #    quote_attribution: "Scott Baily, Technology Teacher"
@@ -2469,6 +2491,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     unauthorized: "Πρέπει να είσαι συνδεδεμένος. Μήπως έχεις απενεργοποιήσει τα cookies;"
     forbidden: "Απαγορευμένο"
     forbidden_desc: "Άχου, δεν υπάρχει τίποτα να σας δείξουμε εδώ! Βεβαιωθείτε ότι έχετε συνδεθεί στον σωστό λογαριασμό ή επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!"
+#    user_not_found: "User Not Found"
     not_found: "Δε Βρέθηκε"
     not_found_desc: "Χμμ, δεν υπάρχει τίποτα εδώ. Επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!"
     not_allowed: "Η μέθοδος δεν επιτρέπεται."
@@ -2924,7 +2947,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -2949,11 +2972,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -2991,3 +3014,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    try_again: "Whoops, try again!"
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"
