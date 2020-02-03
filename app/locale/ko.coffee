@@ -1109,7 +1109,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     chelsea_title: "작업 관리자"
     claire_title: "비서"
     bobby_title: "게임 디자이너"
-    brian_title: "게임 디자이너 리더"
+    brian_title: "게임 디자이너 리더" # {change}
     andrew_title: "소프트웨어 엔지니어"
     stephanie_title: "고객 지원"
     rob_title: "판매 개발 대표"
