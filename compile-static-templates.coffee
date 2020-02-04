@@ -76,16 +76,6 @@ compile = (contents, locals, filename, cb) ->
     else
       i.text(t.text)
 
-  # Modify img URLs to serve from dexecure if its enabled for the env.
-  # This is needed so that static pages do not spend bandwidth
-  # to request large images from servers before the dexecure service worker is installed.
-  if locals.dexecureURL
-    imgs = c('img')
-    imgs.each (i, e) ->
-      i = c(@)
-      src = i.attr("src")
-      i.attr("src", locals.dexecureURL+src)
-
   deps = ['static-mock.coffee'].concat(out.dependencies)
   # console.log "Wrote to #{outFile}", deps
 
