@@ -782,7 +782,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     goal_survive_time: "生存 __seconds__ 秒。"
     goal_defeat: "击败所有怪物。"
     goal_defeat_amount: "击败 __amount__ 个怪物。"
-    goal_move: "移动的所有的红X标记。"
+    goal_move: "移动到所有红X标记。"
     goal_collect: "收集所有物品。"
     goal_collect_amount: "收集 __amount__ 个物品。"
 
