@@ -340,6 +340,13 @@ _.extend LevelSessionSchema.properties,
     title: 'Key Value DB'
     description: 'Simplified key-value database for game-dev levels'
 
+  contentPlaytimes:
+    c.array {description: 'List of content playtimes, similar to intro level content lists'},
+      c.object {},
+        type: {type: 'string', description: 'Content type'}
+        contentId: c.stringID(title: 'Content id for same language as level session codeLanguage')
+        playtime: {type: 'number', description: 'Total seconds of playtime for this piece of content'}
+
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
