@@ -8,6 +8,7 @@
   import utils from 'core/utils'
   import modalTransition from 'ozaria/site/components/common/ModalTransition'
   import { mapMutations } from 'vuex'
+  import { log } from 'ozaria/site/common/logger'
 
   export default Vue.extend({
     components: {
@@ -57,6 +58,14 @@
     },
     async created () {
       await this.loadIntroLevel()
+      if (!me.isSessionless()) this.sessionPlaytimeIntervalId = setInterval(this.updateContentPlaytime, 1000)
+    },
+    async beforeDestroy () {
+      if (this.sessionPlaytimeIntervalId) {
+        clearInterval(this.sessionPlaytimeIntervalId)
+        this.sessionPlaytimeIntervalId = null
+      }
+      await this.saveLevelSession()
     },
     methods: {
       ...mapMutations({
@@ -74,6 +83,7 @@
         try {
           this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
           if (me.isSessionless()) { // not saving progress/session for teachers
+            // TODO: why do we need this.language, instead of setting this.codeLanguage to default if necessary?
             this.language = this.codeLanguage || defaultCodeLanguage
           } else {
             const sessionOptions = {
@@ -120,21 +130,32 @@
 
         if (this.currentContent.type === 'avatarSelectionScreen') {
           // Skip the modal for avatar selector
-          return this.goToNextContent()
+          await this.goToNextContent()
+        } else {
+          this.showVictoryModal = true
         }
-
-        this.showVictoryModal = true
       },
       onReplayVictoryModal: function (data) {
         this.showVictoryModal = false
         this.setCurrentContentId(this.currentContent)
       },
-      goToNextContent: function () {
+      goToNextContent: async function () {
         this.showVictoryModal = false
         this.currentIndex++
         if (this.currentIndex < this.introContent.length) { // increment current content
           this.currentContent = this.introContent[this.currentIndex]
           this.setCurrentContentId(this.currentContent)
+        }
+        await this.saveLevelSession() // Save latest content playtime data
+      },
+      saveLevelSession: async function () {
+        if (me.isSessionless() || !this.introLevelSession) return // not saving progress/session for teachers
+        try {
+          await api.levelSessions.update(this.introLevelSession)
+        } catch (err) {
+          log(`Error saving intro level session ${this.introLevelSession._id}`, err, 'error')
+          // TODO handle_error_ozaria
+          return noty({ text: 'Error in saving intro level session', type: 'error', timeout: 2000 })
         }
       },
       setCurrentContentId: function (content) {
@@ -157,15 +178,31 @@
         this.reloadKey[content.type]++
       },
       setIntroLevelComplete: async function () {
-        if (!me.isSessionless()) { // not saving progress/session for teachers
-          try {
-            this.introLevelSession.state.complete = true
-            await api.levelSessions.update(this.introLevelSession)
-          } catch (err) {
-            console.error('Error in saving intro level session', err)
-            // TODO handle_error_ozaria
-            return noty({ text: 'Error in saving intro level session', type: 'error', timeout: 2000 })
+        if (this.introLevelSession) {
+          this.introLevelSession.state = this.introLevelSession.state || {}
+          this.introLevelSession.state.complete = true
+        }
+        await this.saveLevelSession()
+      },
+      updateContentPlaytime: function () {
+        // Add 1 second to current content intro level session playtime count
+        if (me.isSessionless()) return
+        if (this.currentContent && this.introLevelSession) {
+          // NOTE: character customization playtime currently added to content that launches it (e.g. 1st cutscene in 1fh)
+          const contentId = _.isObject(this.currentContent.contentId) ? this.currentContent.contentId[this.language] : this.currentContent.contentId
+          const type = this.currentContent.type
+          this.introLevelSession.contentPlaytimes = this.introLevelSession.contentPlaytimes || []
+          const currentPlaytime = this.introLevelSession.contentPlaytimes.find((cp) => {
+            return contentId === cp.contentId && type === cp.type
+          }) || { contentId, type }
+          if (currentPlaytime.playtime) {
+            currentPlaytime.playtime++
+          } else {
+            currentPlaytime.playtime = 1
+            this.introLevelSession.contentPlaytimes.push(currentPlaytime)
           }
+        } else {
+          log(`No current content or levelSession for intro level ${this.introLevelIdOrSlug}`, { currentContent: this.currentContent, introLevelSession: this.introLevelSession }, 'error')
         }
       }
     }
