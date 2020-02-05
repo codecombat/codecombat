@@ -83,6 +83,7 @@ module.exports = class LevelDialogueView extends CocoView
       @fitty = runFitty(@currentMessage.length)
 
   onSpriteDialogue: (e) ->
+    console.log('in LevelDialogueView.coffee:onSpriteDialogue with e: ', e)
     if e.message
       message = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
       if message != @currentMessage

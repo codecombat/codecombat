@@ -13,8 +13,11 @@ module.exports = class SpritesScriptModule extends ScriptModule
     for sprite in @noteGroup.sprites or []
       notes.push(@spriteMoveNote sprite) if sprite.move?
     for sprite in @noteGroup.sprites or []
+      console.log('in SpriteScriptModule.coffee:startNotes, looping with sprite: ', sprite)
       notes.push(@spriteSayNote(sprite, @noteGroup.script)) if sprite.say?
       notes.push(@spriteSelectNote sprite) if sprite.select?
+
+    console.log('in SpriteScriptModule.coffee:startNotes with all pushed notes: ', notes)
     return (n for n in notes when n)
 
   spriteMoveNote: (sprite, instant=false) ->
@@ -32,6 +35,9 @@ module.exports = class SpritesScriptModule extends ScriptModule
     return note
 
   spriteSayNote: (sprite, script) ->
+    console.log('in SpriteScriptModule.coffee:spriteSayNote with sprite and script:')
+    console.log(sprite)
+    console.log(script)
     return if @speakingSprites[sprite.id]
     responses = sprite.say.responses
     responses = [] unless script.skippable or responses
