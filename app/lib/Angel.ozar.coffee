@@ -7,6 +7,7 @@ CocoClass = require 'core/CocoClass'
 GoalManager = require 'lib/world/GoalManager'
 {sendContactMessage} = require 'core/contact'
 errors = require 'core/errors'
+utils = require 'core/utils'
 
 reportedLoadErrorAlready = false
 
@@ -33,6 +34,14 @@ module.exports = class Angel extends CocoClass
       @infiniteLoopIntervalDuration *= 10
       @infiniteLoopTimeoutDuration *= 10
       @abortTimeoutDuration *= 10
+
+    if utils.getQueryVariable('dev')
+      # Set a very long timeout so that debugging can be done without infinite loop detection
+      # breaking the debugger.
+      @infiniteLoopIntervalDuration *= 100000
+      @infiniteLoopTimeoutDuration *= 100000
+      @abortTimeoutDuration *= 100000
+
     @initialized = false
     @running = false
     @allLogs = []
