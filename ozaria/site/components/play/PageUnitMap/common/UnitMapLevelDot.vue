@@ -261,8 +261,8 @@
             height: 100%
             position: absolute
 
-            &:not(.locked):hover
-                border: 2px groove red
+            &.locked
+                cursor: auto
 
         ::v-deep .trigger
             display: block !important
