@@ -79,6 +79,13 @@ mixin price(name, p)
                     button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
                       span.buy-now-text(data-i18n="subscribe.buy_now")
                       span.buy-lock-icon &#x1F512;
+              else if view.yearlyProduct
+                .option-col(class=secondRowClass)
+                  +price("subscribe.year_price", view.yearlyProduct)
+                  .option-header.price-subtext.text-center(data-i18n="subscribe.year_subscription")
+                  button.btn.btn-lg.btn-illustrated.purchase-yearly-button
+                    span.buy-now-text(data-i18n="subscribe.buy_now")
+                    span.buy-lock-icon &#x1F512;
 
         else
           //- lifetime-only modal

@@ -19,6 +19,7 @@ module.exports = class SubscribeModal extends ModalView
   events:
     'click #close-modal': 'hide'
     'click .purchase-button': 'onClickPurchaseButton'
+    'click .purchase-yearly-button': 'onClickPurchaseYearlyButton'
     'click .stripe-lifetime-button': 'onClickStripeLifetimeButton'
     'click .back-to-products': 'onClickBackToProducts'
 
@@ -59,6 +60,7 @@ module.exports = class SubscribeModal extends ModalView
         me.getSubModalGroup()
     else
       @subType = utils.getQueryVariable('subtype', me.getSubModalGroup())
+    @yearlyProduct = @products.getYearSubscriptionForUser(me)
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
       # Use PayPal for international users with regional pricing
@@ -94,7 +96,10 @@ module.exports = class SubscribeModal extends ModalView
     super()
     # TODO: does this work?
     @playSound 'game-menu-open'
-    if @basicProduct and @subModalContinue
+    if @yearlyProduct and @subModalContinue is 'yearly'
+      @subModalContinue = null
+      @onClickPurchaseYearlyButton()
+    else if @basicProduct and @subModalContinue
       if @subModalContinue is 'monthly'
         @subModalContinue = null
         @onClickPurchaseButton()
@@ -123,6 +128,16 @@ module.exports = class SubscribeModal extends ModalView
     # else
     #   @startStripeSubscribe()
     @startStripeSubscribe() # Always use Stripe
+
+  # For yearly subs
+  onClickPurchaseYearlyButton: (e) ->
+    return unless @yearlyProduct
+    @playSound 'menu-button-click'
+    if me.get('anonymous')
+      service = 'stripe'
+      application.tracker?.trackEvent 'Started Signup from buy yearly', {service}
+      return @openModalView new CreateAccountModal({startOnPath: 'individual', subModalContinue: 'yearly'})
+    @startStripeYearlySubscribe() # Always use Stripe
 
   startPayPalSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }
@@ -230,6 +245,33 @@ module.exports = class SubscribeModal extends ModalView
     .catch (jqxhr) =>
       return unless jqxhr # in case of cancellations
       @onSubscriptionError(jqxhr, failureMessage)
+
+  startStripeYearlySubscribe: ->
+    application.tracker?.trackEvent 'Started subscription purchase', { service: 'stripe' }
+    options = @stripeOptions {
+      description: $.i18n.t('subscribe.stripe_description')
+      amount: @yearlyProduct.adjustedPrice()
+    }
+
+    @purchasedAmount = options.amount
+    stripeHandler.makeNewInstance().openAsync(options)
+      .then ({token}) =>
+    @state = 'purchasing'
+    @render()
+    jqxhr = if @yearlyProduct?.code
+      me.subscribe(token, {couponID: @yearlyProduct.code})
+    else
+      me.subscribe(token)
+    return Promise.resolve(jqxhr)
+      .then =>
+    application.tracker?.trackEvent 'Finished subscription purchase', { value: @purchasedAmount, service: 'stripe' }
+    @onSubscriptionSuccess()
+      .catch (jqxhr) =>
+    return unless jqxhr # in case of cancellations
+    stripe = me.get('stripe') ? {}
+    delete stripe.token
+    delete stripe.planID # TODO: What to use for planID? Cut because it is a one time purchase?
+    @onSubscriptionError(jqxhr, 'Failed to finish subscription purchase')
 
   onSubscriptionSuccess: ->
     @playSound 'victory'
