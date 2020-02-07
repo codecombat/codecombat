@@ -17,6 +17,9 @@ module.exports = class Products extends CocoCollection
     return countrySpecificProduct or @findWhere({ name: 'basic_subscription' })
 
   getLifetimeSubscriptionForUser: (user) ->
+    if user?.get('country') == "hong-kong"
+      return null
+
     coupon = user?.get('stripe')?.couponID
     if coupon
       countrySpecificProduct = @findWhere { name: "#{coupon}_lifetime_subscription" }
