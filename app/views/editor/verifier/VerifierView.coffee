@@ -29,8 +29,7 @@ module.exports = class VerifierView extends RootView
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
 
-    defaultCores = 1
-    @cores = Math.max(defaultCores) # 1 or 2 cores is more stable which is why we're not using `window.navigator.hardwareConcurrency`
+    @cores = 1 # 1 or 2 cores is more stable which is why we're not using `window.navigator.hardwareConcurrency`
     @careAboutFrames = true
 
     if @levelID

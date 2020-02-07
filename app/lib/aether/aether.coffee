@@ -132,8 +132,8 @@ module.exports = class Aether
         @pure = token.src
         @ast = token.ast
     else
-      if @language.id in ['cpp', 'java']
-        console.error('C++ code cannot be transpiled client side.')
+      if @language.id in ['cpp']
+        throw new Error('C++ code cannot be transpiled client side.')
       @problems = @lint rawCode
       @pure = @purifyCode rawCode
     @pure
