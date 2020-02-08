@@ -225,6 +225,12 @@ export default Vue.extend({
 .avatar-selector {
   background-color: white;
   height: 100%;
+  @media screen and (max-width: 1008px) {
+    height: unset;
+  }
+  @media screen and (max-width: 652px) {
+    white-space: nowrap;
+  }
   padding: 30px 60px;
 
   display: flex;
