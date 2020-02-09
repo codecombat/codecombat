@@ -9,6 +9,10 @@ SuperModel = require 'models/SuperModel'
 Campaigns = require 'collections/Campaigns'
 Level = require 'models/Level'
 
+CocoLegacyCampaigns = ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
+         'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano', 'campaign-game-dev-1',
+         'campaign-game-dev-2', 'campaign-game-dev-3', 'hoc-2018']
+
 module.exports = class VerifierView extends RootView
   className: 'style-flat'
   template: template
@@ -54,7 +58,7 @@ module.exports = class VerifierView extends RootView
 
   filterCampaigns: ->
     @levelsByCampaign = {}
-    for campaign in @campaigns.models when campaign.get('type') in ['course', 'hero', 'hoc'] and campaign.get('slug') not in ['picoctf', 'game-dev-1', 'game-dev-2', 'game-dev-3', 'web-dev-1', 'web-dev-2', 'web-dev-3', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-web-dev-3']
+    for campaign in @campaigns.models when campaign.get('type') in ['course', 'hero', 'hoc'] and campaign.get('slug') not in ['picoctf', 'game-dev-1', 'game-dev-2', 'game-dev-3', 'web-dev-1', 'web-dev-2', 'web-dev-3', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-web-dev-3'].concat(CocoLegacyCampaigns)
       @levelsByCampaign[campaign.get('slug')] ?= {levels: [], checked: campaign.get('slug') in ['intro']}
       campaignInfo = @levelsByCampaign[campaign.get('slug')]
       for levelID, level of campaign.get('levels') when level.type not in ['hero-ladder', 'course-ladder', 'web-dev']  # Would use isType, but it's not a Level model
