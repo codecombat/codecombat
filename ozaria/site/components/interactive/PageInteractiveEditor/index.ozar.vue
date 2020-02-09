@@ -104,7 +104,7 @@
         const data = this.treema.data
         this.valid = ajv.validate(Interactive.schema, data)
         if (this.valid) {
-          this.interactive.set(data)
+          this.interactive = new Interactive(data)
         } else {
           console.error('Schema validation error', ajv.errors)
           noty({
