@@ -40,11 +40,22 @@ module.exports = class VerifierTest extends CocoClass
     me.team = @team = 'humans'
     @setupGod()
     @initGoalManager()
-    @register()
+    @fetchToken(@solution.source, @language)
+      .then((token) => @register(token))
+
+  fetchToken: (source, language) =>
+    if language not in ['java', 'cpp']
+      return Promise.resolve(source)
+
+    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+    .then (x) => x.json()
+    .then (x) => x.token
 
   configureSession: (session, level) =>
     try
-      session.solution = _.filter(level.getSolutions(), language: session.get('codeLanguage'))[@options.solutionIndex]
       session.solution ?= @solution
       session.set 'heroConfig', session.solution.heroConfig
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
@@ -76,11 +87,11 @@ module.exports = class VerifierTest extends CocoClass
     @goalManager = new GoalManager(@world, @level.get('goals'), @team)
     @god.setGoalManager @goalManager
 
-  register: ->
+  register: (tokenSource) ->
     @listenToOnce @god, 'infinite-loop', @fail
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld {spells: aetherUtils.generateSpellsObject {levelSession: @session}}
+    @god.createWorld {spells: aetherUtils.generateSpellsObject {levelSession: @session, token: tokenSource}}
     @state = 'running'
     @reportResults()
 
