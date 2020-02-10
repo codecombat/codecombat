@@ -659,7 +659,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_toggle_play: "用 Ctrl+P 来暂停或继续"
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。"
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
-    tip_open_source: "「CodeCombat」是100%开源的！" # {change}
+    tip_open_source: "「CodeCombat」青少年编程领导品牌！" # {change}
     tip_tell_friends: "喜欢Codecombat？那就赶快把它安利给朋友！"
     tip_beta_launch: "CodeCombat开始于2013的10月份。"
     tip_think_solution: "思考如何解决, 而不是思考问题。"
@@ -782,7 +782,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     goal_survive_time: "生存 __seconds__ 秒。"
     goal_defeat: "击败所有怪物。"
     goal_defeat_amount: "击败 __amount__ 个怪物。"
-    goal_move: "移动的所有的红X标记。"
+    goal_move: "移动到所有红X标记。"
     goal_collect: "收集所有物品。"
     goal_collect_amount: "收集 __amount__ 个物品。"
 
@@ -1109,7 +1109,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    chelsea_title: "Operations Manager"
 #    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
-#    brian_title: "Lead Game Designer"
+#    brian_title: "Senior Game Design Manager"
 #    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
