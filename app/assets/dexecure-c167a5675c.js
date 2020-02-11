@@ -14,7 +14,7 @@ var dexecure = {
 	"optimisationsEnabled": true,
 	"debugMode": false,
 	"imageMatchRegex": "\\.jpe?g|\\.png|\\.js(\\?.*)?(#.*)?$|\\.css",
-	"ignoreRegex": "(ozariaPlay|play|aether-app).*\.bundle\.js(\\?.*)?(#.*)?$", // Ignore URLs that start a new web worker
+	"ignoreRegex": "(ozariaPlay|play|aether-app).*\.bundle\.js(\\?.*)?(#.*)?$|(aether_worker|worker_world.js)", // Ignore URLs that start a new web worker
 	"pagesEnabled": [
 		""
 	]
