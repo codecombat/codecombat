@@ -11,6 +11,8 @@ const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
 const Camera = require('lib/surface/Camera')
 
+const CINEMATIC_SPRITE_RESOLUTION_FACTOR = 1
+
 /**
  * Takes a reference of the canvas and uses this to set up all the systems.
  * The canvasDiv will be used by the dialogSystem in order to attach the html dialog div
@@ -49,7 +51,9 @@ export class CinematicController {
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
 
     this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
+    this.layerAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
     this.backgroundAdapter = new LayerAdapter({ name: 'Background', webGL: true, camera: camera })
+    this.backgroundAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
     this.stage.addChild(this.backgroundAdapter.container)
     this.stage.addChild(this.layerAdapter.container)
 
