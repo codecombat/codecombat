@@ -1,6 +1,7 @@
 ScriptModule = require './ScriptModule'
 {me} = require 'core/auth'
 utils = require 'core/utils'
+store = require('core/store')
 
 module.exports = class SpritesScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->
@@ -17,6 +18,7 @@ module.exports = class SpritesScriptModule extends ScriptModule
       notes.push(@spriteSayNote(sprite, @noteGroup.script)) if sprite.say?
       notes.push(@spriteSelectNote sprite) if sprite.select?
 
+    store.dispatch('tutorial/buildTutorialFromSprites', @noteGroup.sprites)
     console.log('in SpriteScriptModule.coffee:startNotes with all pushed notes: ', notes)
     return (n for n in notes when n)
 
