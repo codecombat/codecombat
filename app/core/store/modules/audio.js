@@ -62,7 +62,7 @@ export default {
       if (sound) {
         return true
       }
-      
+
       return false
     },
 
