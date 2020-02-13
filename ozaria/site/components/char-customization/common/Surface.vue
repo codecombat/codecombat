@@ -5,6 +5,8 @@
   const Camera = require('lib/surface/Camera')
   const Lank = require('lib/surface/Lank')
 
+  const SURFACE_SPRITE_RESOLUTION_FACTOR = 1
+
   export default {
     props: {
       loadedThangTypes: {
@@ -50,13 +52,15 @@
       this.stage = new createjs.StageGL(canvas)
 
       this.defaultLayer = new LayerAdapter({
-        name:  'Default',
+        name: 'Default',
         webGL: true,
         camera: camera
       })
 
+      this.defaultLayer.resolutionFactor = SURFACE_SPRITE_RESOLUTION_FACTOR
+
       this.layerBackground = new LayerAdapter({
-        name:  'Ground',
+        name: 'Ground',
         webGL: true,
         camera: camera
       })

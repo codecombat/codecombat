@@ -70,9 +70,8 @@ module.exports = class LevelDialogueView extends CocoView
     @character = @level.get('characterPortrait') or 'vega'
 
   destroy: ->
-    clearInterval(@messageInterval)
-    @messageInterval = null
-    @resetFitty
+    @clearAsyncTimers()
+    @resetFitty()
     super()
 
   onClick: (e) ->
@@ -126,12 +125,12 @@ module.exports = class LevelDialogueView extends CocoView
   # before the message exists. We cover for this both in the stopFitting() function which runs after
   # the text has been properly fitted and is ready to be animated, and here when the dialog starts.
   beginDialogue: (runShepherd = true) =>
-    clearInterval(@messageInterval)
-    @messageInterval = null
+    @clearAsyncTimers()
+
     if @animator
       delete @animator
 
-    setTimeout(=>
+    @messageTimeout = setTimeout(=>
       @animator = new DialogueAnimator(marked(@currentMessage), $('.vega-dialogue'))
       @messageInterval = setInterval(=>
         if not @animator
@@ -171,6 +170,12 @@ module.exports = class LevelDialogueView extends CocoView
   resetFitty: ->
     @fitty?.element.removeEventListener('fit', @adjustText)
     @fitty?.unsubscribe()
+
+  clearAsyncTimers: ->
+    clearInterval(@messageInterval)
+    clearTimeout(@messageTimeout)
+    @messageInterval = null
+    @messageTimeout = null
 
   isFullScreen: ->
     document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen

@@ -1,7 +1,6 @@
 <script>
-  import { getNextLevelLink } from 'ozaria/site/common/ozariaUtils'
+  import { getNextLevelLink, internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
   import { mapGetters } from 'vuex'
-  import { internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
   import utils from 'core/utils'
 
   export default Vue.extend({
@@ -56,7 +55,7 @@
       levelDotClasses: function () {
         return {
           locked: this.levelData.locked,
-          next: this.levelData.next,
+          next: this.levelData.next
         }
       },
 
@@ -139,45 +138,45 @@
 </script>
 
 <template>
-    <div
-            class="level-dot"
-            :style="levelDotPosition"
+  <div
+    class="level-dot"
+    :style="levelDotPosition"
+  >
+    <v-popover
+      popover-base-class="level-dot-tooltip"
+      trigger="hover"
+      placement="top"
+      offset="10"
     >
-        <v-popover
-                popover-base-class="level-dot-tooltip"
-                trigger="hover"
-                placement="top"
-                offset="10"
+      <a
+        class="level-dot-link"
+        :href="playLevelLink"
+      >
+        <img
+          class="level-dot-image"
+          :class="levelDotClasses"
+          :src="levelIcon[levelStatus]"
         >
-            <a
-                    class="level-dot-link"
-                    :href="playLevelLink"
-            >
-                <img
-                        class="level-dot-image"
-                        :class="levelDotClasses"
-                        :src="levelIcon[levelStatus]"
-                >
-            </a>
+      </a>
 
-            <template slot="popover">
-                <div class="tooltip-container">
-                    <div class="tooltip-title">
-                        {{ levelType }}
-                    </div>
-                    <div class="tooltip-body">
-                        <div class="level-title">
-                            {{ displayName }}
-                        </div>
+      <template slot="popover">
+        <div class="tooltip-container">
+          <div class="tooltip-title">
+            {{ levelType }}
+          </div>
+          <div class="tooltip-body">
+            <div class="level-title">
+              {{ displayName }}
+            </div>
 
-                        <div class="level-status">
-                            {{ $t("play_level.level_status") }}: {{levelStatusText}}
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </v-popover>
-    </div>
+            <div class="level-status">
+              {{ $t("play_level.level_status") }}: {{levelStatusText}}
+            </div>
+          </div>
+        </div>
+      </template>
+    </v-popover>
+  </div>
 </template>
 
 <style lang="sass">
@@ -201,7 +200,6 @@
             border-left: none
 
             z-index: 2
-
 
         .tooltip-title
             background-color: #401A1A
@@ -261,8 +259,8 @@
             height: 100%
             position: absolute
 
-            &:not(.locked):hover
-                border: 2px groove red
+            &.locked
+                cursor: auto
 
         ::v-deep .trigger
             display: block !important

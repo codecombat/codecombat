@@ -65,14 +65,14 @@ block content
             a.btn.btn-default(data-target='#verifier-test-' + id, data-toggle="collapse") Toggle
 
           if !test.goals
-            h2.test-running= test.level.get('name')
-              small= ' in ' + test.language + ''
+            h2.test-running= test.name
+              small= ' in ' + test.language + ' ' + test.simpleDescription
           else if test.isSuccessful()
-            h2.test-success= test.level.get('name')
-              small= ' in ' + test.language + ''
+            h2.test-success= test.name
+              small= ' in ' + test.language + ' ' + test.simpleDescription
           else
-            h2.test-failed= test.level.get('name')
-              small= ' in ' + test.language + ''
+            h2.test-failed= test.name
+              small= ' in ' + test.language + ' ' + test.simpleDescription
 
           div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
             div.col-xs-8

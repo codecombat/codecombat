@@ -127,8 +127,10 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
 
     menu = $('<div class="dropdown-menu"></div>')
     files = @getFiles()
+    fileExtName = mimetype.replace('audio/', '')
     for file in files
-      continue unless file.get('contentType') in mimetypes
+      # contentType is no longer returned from the API due to s3 migration.
+      continue unless file.get('contentType') in mimetypes or file.get('filename').endsWith(fileExtName)
       path = file.get('metadata').path
       filename = file.get 'filename'
       fullPath = [path, filename].join('/')
