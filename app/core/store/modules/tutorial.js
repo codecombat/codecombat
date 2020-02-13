@@ -21,15 +21,26 @@ export default {
         ...state.tutorial
       ]
     },
-    goToNextStep: (state) => state.currentTutorialIndex++
+    goToNextStep: (state) => {
+      if (state.currentTutorialIndex < state.tutorial.length - 1) {
+        state.currentTutorialIndex++
+      }
+    },
+    goToPreviousStep: (state) => {
+      if (state.currentTutorialIndex > 0) {
+        state.currentTutorialIndex--
+      }
+    }
   },
 
   getters: {
-    getCurrentStep: (state) => ({
+    currentStep: (state) => ({
       index: state.currentTutorialIndex,
       ...state.tutorial[state.currentTutorialIndex]
     }),
-    getAllSteps: (state) => state.tutorial
+    isLastStep: (state) => state.currentTutorialIndex === state.tutorial.length - 1,
+    isFirstStep: (state) => state.currentTutorialIndex === 0,
+    allSteps: (state) => state.tutorial
   },
 
   actions: {
@@ -39,6 +50,10 @@ export default {
 
     goToNextStep({ commit }) {
       commit('goToNextStep')
+    },
+
+    goToPreviousStep({ commit }) {
+      commit('goToPreviousStep')
     },
 
     buildTutorialFromSprites({ commit, rootState }, sprites) {
