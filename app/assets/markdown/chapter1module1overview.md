@@ -14,7 +14,7 @@
 
 ### Cutscene: Searching for Star Wells
 
-The Darkness is destroying the sun, and the Hero has been tasked to stop it and find their missing mother. The Hero met Vega, their mother&#39;s assistant, and they created a game to trap a piece of the Darkness. The evil was weakened, but not destroyed. They need to head
+The Darkness is destroying the sun, and the Hero has been tasked to stop it and find their missing mother. The Hero met Vega, their mother&#39;s assistant, and they created a game to trap a piece of the Darkness. The evil was weakened, but not destroyed. They need to head to the Star Wells to be able to trap the Darkness once and for all.
 
 ### Practice Levels: Down Twice - The Forest of the Fox
 
