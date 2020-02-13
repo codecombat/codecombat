@@ -102,6 +102,31 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
   move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {}, duration: 500}},
     target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
     duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}
+  tutorial: c.object {title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: {targetElement: 'editor', animation: 'Outline'}},
+    targetElement: c.shortString(
+      title: 'Target Element'
+      description: 'What part of the screen to point at, like the editor, code bank or play button'
+      enum: [
+        'Run Button'
+        'Next Button'
+        'Play Button'
+        'Update Button'
+        'Goal List'
+        'Code Bank button'
+        'Code Editor Window'
+        'Intro / Center'
+      ]
+      default: 'Code Editor Window'
+    )
+    animation: c.shortString(
+      title: 'Element Animation'
+      description: 'How to animation the target'
+      enum: [
+        'Shake'
+        'Highlight'
+        'Zoom'
+      ]
+    )
 
 NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes that should be sent out as a result of this script triggering.', displayProperty: 'name'},
   name: {title: 'Name', description: 'Short name describing the script, like \"Anya greets the player\", for your convenience.', type: 'string'}
