@@ -120,10 +120,10 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
     )
     animation: c.shortString(
       title: 'Element Animation'
-      description: 'How to animation the target'
+      description: 'How to animate the target'
       enum: [
+        'Outline'
         'Shake'
-        'Highlight'
         'Zoom'
       ]
     )
