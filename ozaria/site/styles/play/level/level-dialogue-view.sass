@@ -7,10 +7,32 @@
 .fit
   display: inline-block
 
-// TODO: Make this visible again after HoC 2019:
-.hidden-shepherd-box
-  display: none
-  visibility: hidden
+.shepherd-rectangle
+  box-sizing: border-box
+  height: 137px
+  width: 402px
+  background-color: #FFF
+  border: 4px solid #F7D047
+
+  //display: none
+  //visibility: hidden
+
+.shepherd-arrow
+  border: 42px solid transparent
+  border-bottom-color: #F7D047
+
+.tutorial-profile-picture
+  position: absolute
+  top: -30px
+  left: -30px
+  width: 75px
+  z-index: 1000
+
+.shepherd-element
+  border-radius: unset
+
+.shepherd-text
+ padding: 19px 14px 35px 65px
 
 // Overwrite the default opacity for Shepherd.js:
 .shepherd-modal-overlay-container.shepherd-modal-is-visible
