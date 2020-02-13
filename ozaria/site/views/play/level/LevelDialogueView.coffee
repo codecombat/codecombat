@@ -61,7 +61,7 @@ module.exports = class LevelDialogueView extends CocoView
     @sessionID = options.sessionID
     @currentMessage = ''
     @doneAnimating = false
-    @SHEPHERD_TIMEOUT = 5 * 1000
+    @SHEPHERD_TIMEOUT = 25 * 1000
     # Resizing is debounced to avoid performance issues and spamming the text fitting.
     @onWindowResize = _.debounce(@onWindowResize, 100)
     $(window).on('resize', @onWindowResize)
@@ -152,20 +152,50 @@ module.exports = class LevelDialogueView extends CocoView
     if runShepherd
       tour = new Shepherd.Tour({
         defaultStepOptions: {
+          classes: 'shepherd-rectangle',
           scrollTo: true
-        },
-        useModalOverlay: true,
-        steps: [{
-          id: 'example-step',
-          attachTo: {
-            element: '.dialogue-area',
-            on: 'bottom'
-          },
-          classes: 'hidden-shepherd-box',
-        }]
+        }
+        useModalOverlay: true
       })
+
+      Shepherd.on('complete', ->
+        $('#level-dialogue-view').css('display', 'unset')
+      )
+
+      defaultButtons = [{
+        text: 'Next'
+        action: tour.next
+      }]
+
+      tour.addSteps([{
+        id: 'example-step'
+        text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.',
+        attachTo: {
+          element: '#goals-view'
+          on: 'bottom'
+        },
+        buttons: defaultButtons
+      }, {
+        id: 'example-step2'
+        text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element. asdf'
+        attachTo: {
+          element: '#goals-view'
+          on: 'left'
+        }
+        buttons: defaultButtons
+      }])
+
+      $('#level-dialogue-view').css('display', 'none')
+      tour.on('show', ->
+        # TODO: If the new current step is not a Moving Vega step, change the class, change the picture
+        console.log('in shepherd tour show')
+        $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
+      )
+
       tour.start()
-      setTimeout(tour.cancel, @SHEPHERD_TIMEOUT)
+      $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
+
+# setTimeout(tour.cancel, @SHEPHERD_TIMEOUT)
 
   resetFitty: ->
     @fitty?.element.removeEventListener('fit', @adjustText)
