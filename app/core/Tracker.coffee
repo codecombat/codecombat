@@ -64,6 +64,7 @@ module.exports = class Tracker extends CocoClass
     @updateRole() if me.get('role')
     if me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
       @updateIntercomRegularly()
+      drift.load('9h3pui39u2s3')
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
