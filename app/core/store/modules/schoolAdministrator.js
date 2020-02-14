@@ -30,18 +30,35 @@ export default {
 
       commit('toggleLoading', 'teachers')
 
-      return usersApi
-        .fetchByIds({
-          fetchByIds: administratedTeachers,
-          includeTrialRequests: true
-        })
-        .then(res =>  {
-          if (res) {
-            commit('addTeachers', res)
-          } else {
-            throw new Error('Unexpected response from teachers by ID API.')
-          }
-        })
+      const groupSize = 100
+      const groups = Math.ceil(administratedTeachers.length / (groupSize * 1.0))
+      const userPromises = []
+      let lastStartIndex = 0
+
+      for (let i = 0; i < groups; i++) {
+        let endIndex = lastStartIndex + groupSize
+
+        userPromises.push(
+          usersApi
+            .fetchByIds({
+              fetchByIds: administratedTeachers.slice(lastStartIndex, endIndex),
+              includeTrialRequests: true
+            })
+            .then(res => {
+              if (res) {
+                return res
+              } else {
+                throw new Error('Unexpected response from teachers by ID API.')
+              }
+            })
+        )
+
+        lastStartIndex = endIndex
+      }
+
+      return Promise.all(userPromises)
+        .then(groupResults => groupResults.flat())
+        .then(combinedResults => commit('addTeachers', combinedResults))
         .catch((e) => noty({ text: 'Fetch teachers failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoading', 'teachers'))
     },
