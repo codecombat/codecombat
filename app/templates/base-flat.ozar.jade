@@ -52,10 +52,19 @@ mixin accountLinks
                       a.text-p(href="/about", data-i18n="nav.about")
                   if !me.isStudent()
                     li
+                      - var faqURL = "/teachers/resources/faq";
+                      - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                      -     faqURL += "-nl-NL";
+                      - if (me.get('preferredLanguage') == 'he')
+                      -     faqURL += "-HE";
+                      - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                      -     faqURL += "-pt-BR";
+                      - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                      -     faqURL += "-zh-HANS";
                       if document.location.href.search('/faq') >= 0
-                        a.text-p.text-moon(href="/teachers/resources/faq" data-i18n="nav.faq")
+                        a.text-p.text-moon(href=faqURL data-i18n="nav.faq")
                       else
-                        a.text-p(href="/teachers/resources/faq" data-i18n="nav.faq")
+                        a.text-p(href=faqURL data-i18n="nav.faq")
 
                 if !me.isAnonymous()
                   ul.nav.navbar-nav.navbar-right
@@ -134,7 +143,16 @@ mixin accountLinks
                       li
                         a(href="/about", data-i18n="nav.about")
                       li
-                        a(href="/teachers/resources/faq" data-i18n="nav.faq")
+                        - var faqURL = "/teachers/resources/faq";
+                        - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                        -     faqURL += "-nl-NL";
+                        - if (me.get('preferredLanguage') == 'he')
+                        -     faqURL += "-HE";
+                        - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                        -     faqURL += "-pt-BR";
+                        - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                        -     faqURL += "-zh-HANS";
+                        a(href=faqURL data-i18n="nav.faq")
                       li
                         a(href="http://press.ozaria.com" data-i18n="nav.press")
                       //- if !me.isStudent()

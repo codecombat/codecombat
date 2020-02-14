@@ -33,13 +33,13 @@
           li(class= path.indexOf('/teachers/resources/faq') === 0 ? 'active' : '')
             - var faqURL = "/teachers/resources/faq";
             - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-            -     faqURL = "/teachers/resources/faq-nl-NL";
+            -     faqURL += "-nl-NL";
             - if (me.get('preferredLanguage') == 'he')
-            -     faqURL = "/teachers/resources/faq-HE";
+            -     faqURL += "-HE";
             - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-            -     faqURL = "/teachers/resources/faq-pt-BR";
+            -     faqURL += "-pt-BR";
             - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-            -     faqURL = "/teachers/resources/faq-zh-HANS";
+            -     faqURL += "-zh-HANS";
             a(href=faqURL)
               small.label(data-i18n='teacher.educator_faq')
           //- li(class= path.indexOf('TODO') === 0 ? 'active' : '')
