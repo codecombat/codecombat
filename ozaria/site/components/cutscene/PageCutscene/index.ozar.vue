@@ -122,6 +122,7 @@ module.exports = Vue.extend({
 
       :cutscene="cutscene"
       :cloudflareID="cloudflareID"
+      :soundOn="soundOn"
 
       v-on:completed="onCompleted"
     />
