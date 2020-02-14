@@ -30,13 +30,18 @@ export default {
 
       commit('toggleLoading', 'teachers')
 
-      const groups = Math.ceil(administratedTeachers.length / 100.0)
+      const groupSize = 100
+      const groups = Math.ceil(administratedTeachers.length / (groupSize * 1.0))
       const userPromises = []
+      let lastStartIndex = 0
+
       for (let i = 0; i < groups; i++) {
+        let endIndex = lastStartIndex + groupSize
+
         userPromises.push(
           usersApi
             .fetchByIds({
-              fetchByIds: administratedTeachers,
+              fetchByIds: administratedTeachers.slice(lastStartIndex, endIndex),
               includeTrialRequests: true
             })
             .then(res => {
@@ -47,6 +52,8 @@ export default {
               }
             })
         )
+
+        lastStartIndex = endIndex
       }
 
       return Promise.all(userPromises)
