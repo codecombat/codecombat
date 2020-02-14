@@ -17,12 +17,28 @@ export default {
     cloudflareID: {
       type: String,
       required: true
+    },
+
+    soundOn: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
 
   data: () => ({
     cloudflareCaptionUrl: null
   }),
+
+  watch: {
+    soundOn () {
+      const video = this.$refs['cloudflareVideo']
+      if (!video) {
+        return
+      }
+      video.muted = !this.soundOn
+    }
+  },
 
   mounted () {
     const cutscene = this.cutscene
@@ -34,6 +50,7 @@ export default {
     cloudflareScript.defer = true
     cloudflareScript.setAttribute('type', 'text/javascript')
     cloudflareScript.setAttribute('data-cfasync', 'false')
+    cloudflareScript.onload = this.onVideoLoaded
     document.body.appendChild(cloudflareScript)
 
     /**
@@ -52,20 +69,21 @@ export default {
     }
   },
 
-  updated () {
-    const video = this.$refs["cloudflareVideo"];
-    if (video) {
-      video.addEventListener('ended', () => this.onCompleted())
-    }
-  },
-
   methods: {
-    onCompleted() {
+    onVideoLoaded () {
+      const video = this.$refs['cloudflareVideo']
+      if (video) {
+        video.muted = !this.soundOn
+        video.addEventListener('ended', () => this.onCompleted())
+      }
+    },
+
+    onCompleted () {
       this.$emit('completed')
     },
 
-    pauseVideo() {
-      const video = this.$refs["cloudflareVideo"];
+    pauseVideo () {
+      const video = this.$refs['cloudflareVideo']
       if (video && typeof video.pause === 'function') {
         video.pause()
       }
