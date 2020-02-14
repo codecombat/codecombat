@@ -81,7 +81,7 @@ module.exports = class LevelDialogueView extends CocoView
     if @doneAnimating
       @fitty = runFitty(@currentMessage.length)
 
-  onSpriteDialogue: (e) ->
+  setStationaryVegaText: (e) ->
     console.log('in LevelDialogueView.coffee:onSpriteDialogue with e: ', e)
     if e.message
       message = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
@@ -112,7 +112,10 @@ module.exports = class LevelDialogueView extends CocoView
             @beginDialogue(false)
         @fitty.element.addEventListener('fit', stopFitting)
 
-  # To make the text break in a pretty way, we need to force the white-space to normal
+  onSpriteDialogue: (e) ->
+    @beginDialogue(false)
+
+# To make the text break in a pretty way, we need to force the white-space to normal
   # because fitty wants it to expand to the maximum width. This needs to happen after
   # everything is done updating, and 50-100ms seems to work well. Setting it to 100ms
   # to give an extra little bit of time on lower end hardware.
@@ -158,38 +161,99 @@ module.exports = class LevelDialogueView extends CocoView
         useModalOverlay: true
       })
 
-      Shepherd.on('complete', ->
-        $('#level-dialogue-view').css('display', 'unset')
-      )
-
-      defaultButtons = [{
-        text: 'Next'
-        action: tour.next
+      @tutorial = [{
+        message: 'This is the intro message, welcome to Ozaria! :)'
+        targetElement: 'Intro / Center'
+      }, {
+        message: 'This is the goals section!'
+        targetElement: 'Goal List'
+        animation: 'Outline'
+      }, {
+        message: 'This is the code bank!'
+        targetElement: 'Code Bank'
+        animation: 'Outline'
+      }, {
+        message: 'This is a stationary messsage!'
+      }, {
+        message: 'This is another stationary messsage, and the last message!'
       }]
 
-      tour.addSteps([{
-        id: 'example-step'
-        text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.',
-        attachTo: {
-          element: '#goals-view'
-          on: 'bottom'
-        },
-        buttons: defaultButtons
-      }, {
-        id: 'example-step2'
-        text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element. asdf'
-        attachTo: {
-          element: '#goals-view'
-          on: 'left'
-        }
-        buttons: defaultButtons
-      }])
+      previousButton = {
+        text: '<-'
+        action: ->
+          tour.previous()
+          # store.dispatch('tutorial/goToPreviousStep')
+      }
+      nextButton = {
+        text: '->'
+        action: ->
+          tour.next()
+          # store.dispatch('tutorial/goToNextStep')
+      }
 
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+
+      @movingTutorialSteps = @tutorial.filter((s) -> s.targetElement).length
+      console.log('@movingTutorialSteps')
+      console.log(@movingTutorialSteps)
+      debugger
+
+      steps = @tutorial
+        .filter((s) -> s.targetElement)
+        .map((tutorialStep, index) ->
+          defaultButtons = []
+          if index == @movingTutorialSteps
+            defaultButtons.push(previousButton)
+          else if index == 0
+            defaultButtons.push(nextButton)
+          else
+            defaultButtons.push(previousButton)
+            defaultButtons.push(nextButton)
+
+          step = {
+            id: index
+            text: tutorialStep.message
+            buttons: defaultButtons
+          }
+
+          if tutorialStep.targetElement != 'Intro / Center'
+            step['attachOn'] = switch
+              when tutorialStep.targetElement == 'Run Button' then { element: '', on: 'top' }
+              when tutorialStep.targetElement == 'Next Button' then { element: '', on: 'top' }
+              when tutorialStep.targetElement == 'Play Button' then { element: '', on: 'top' }
+              when tutorialStep.targetElement == 'Update Button' then { element: '', on: 'top' }
+              when tutorialStep.targetElement == 'Goal List' then { element: '', on: 'left' }
+              when tutorialStep.targetElement == 'Code Bank button' then { element: '', on: 'right' }
+              when tutorialStep.targetElement == 'Code Editor Window' then { element: '', on: 'left' }
+
+          console.log('step: ')
+          console.log(step)
+          return step
+        )
+
+      console.log('tour: ')
+      console.log(tour)
+
+      tour.addSteps(steps)
+
+      @dialogueViewDisplayCss = $('#level-dialogue-view').css('display')
       $('#level-dialogue-view').css('display', 'none')
-      tour.on('show', ->
+
+      Shepherd.on('complete', =>
+        $('#level-dialogue-view').css('display', @dialogueViewDisplayCss)
+        @setStationaryVegaText(@tutorial[@movingTutorialSteps])
+      )
+
+      tour.on('show', =>
         # TODO: If the new current step is not a Moving Vega step, change the class, change the picture
         console.log('in shepherd tour show')
+
+        # TODO: Make it attach to each separate step - the step that is visible
         $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
+      )
+
+      tour.on('end', =>
+        # TODO: Add remaining stationary steps to regular vega box
       )
 
       tour.start()
