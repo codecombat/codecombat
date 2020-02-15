@@ -157,7 +157,7 @@ module.exports = class LevelDialogueView extends CocoView
 
     Shepherd.on('complete', =>
       $('#level-dialogue-view').css('display', @dialogueViewDisplayCss)
-      @animateMessage(@tutorial[@movingTutorialSteps.length - 1].message, '.dialogue-area')
+      @animateMessage(@tutorial[@movingTutorialSteps - 1].message, '.dialogue-area')
     )
 
     # Receives the current {step, tour}

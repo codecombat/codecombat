@@ -13,13 +13,11 @@ export default {
         return
       }
 
-      state.tutorial.push(step)
-    },
-    setFirstStep: (state, step) => {
-      state.tutorial = [
-        step,
-        ...state.tutorial
-      ]
+      if (step.intro) {
+        state.tutorial = [step, ...state.tutorial]
+      } else {
+        state.tutorial.push(step)
+      }
     },
     goToNextStep: (state) => {
       if (state.currentTutorialIndex < state.tutorial.length - 1) {
