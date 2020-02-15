@@ -3,7 +3,6 @@ CocoView = require 'views/core/CocoView'
 DialogueAnimator = require './DialogueAnimator'
 template = require 'ozaria/site/templates/play/level/level-dialogue-view'
 marked = require 'marked'
-fitty = require('fitty').default
 Shepherd = require('shepherd.js').default
 
 calculateMinSize = (length) ->
@@ -53,7 +52,7 @@ module.exports = class LevelDialogueView extends CocoView
     'sprite:speech-updated': 'onSpriteDialogue'
 
   events:
-    'click': 'onClick'
+    'click .backButton': 'onClickBack'
 
   constructor: (options) ->
     super options
@@ -74,121 +73,64 @@ module.exports = class LevelDialogueView extends CocoView
     @resetFitty()
     super()
 
-  onClick: (e) ->
-    Backbone.Mediator.publish 'script:end-current-script', {}
+  onClickBack: (e) ->
+    @tour.show(@movingTutorialSteps - 1)
 
-  onWindowResize: (e) =>
-    if @doneAnimating
-      @fitty = runFitty(@currentMessage.length)
+  onWindowResize: (e) ->
+    console.log('resizing...')
 
-  setStationaryVegaText: (e) ->
-    console.log('in LevelDialogueView.coffee:onSpriteDialogue with e: ', e)
-    if e.message
-      message = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
-      if message != @currentMessage
-        # This is not the first message, so we need to restart the animator
-        secondRun = @currentMessage.length > 0
-        @currentMessage = message
-
-        # Do initial fit to get font size during animation (fitting looks crazy during animation)
-        @resetFitty()
-        $('.vega-dialogue').css('visibility', 'hidden')
-        $('.vega-dialogue').text(@currentMessage)
-        @fitty = runFitty(@currentMessage.length)
-        @fitty.element.addEventListener('fit', @adjustText)
-
-        # During animation we don't fit, but we want the font size to stay the same
-        stopFitting = (e) =>
-          @fitty.unsubscribe()
-          @fitty.element.removeEventListener('fit', stopFitting)
-          $('.vega-dialogue').css('font-size', e.detail.newValue)
-          $('.vega-dialogue').text('')
-          $('.vega-dialogue').css('visibility', 'visible')
-          @adjustText()
-          # If we are running the second message, we need to start the animator again. However, if we got here
-          # and the animator already runs, then we need to skip over it and start the next message.
-          if secondRun or @animator
-            @doneAnimating = false
-            @beginDialogue(false)
-        @fitty.element.addEventListener('fit', stopFitting)
-
-  onSpriteDialogue: (e) ->
-    @beginDialogue(false)
-
-# To make the text break in a pretty way, we need to force the white-space to normal
-  # because fitty wants it to expand to the maximum width. This needs to happen after
-  # everything is done updating, and 50-100ms seems to work well. Setting it to 100ms
-  # to give an extra little bit of time on lower end hardware.
-  adjustText: (e) ->
-    $('.vega-dialogue').css('white-space', 'normal')
-
-  # I apologize for this function... It fixes a race condition. The following interval clearing and timeouts
-  # are necessary because the PlayLevelView, the loading screen and the backbone event for the dialog system race
-  # against each other.. Essentially, we can get into a situation where the animation tries to begin
-  # before the message exists. We cover for this both in the stopFitting() function which runs after
-  # the text has been properly fitted and is ready to be animated, and here when the dialog starts.
-  beginDialogue: (runShepherd = true) =>
-    @clearAsyncTimers()
-
-    if @animator
-      delete @animator
-
-    @messageTimeout = setTimeout(=>
-      @animator = new DialogueAnimator(marked(@currentMessage), $('.vega-dialogue'))
-      @messageInterval = setInterval(=>
-        if not @animator
-          clearInterval(@messageInterval)
-          @messageInterval = null
-          return
-
-        if @animator.done()
-          clearInterval(@messageInterval)
-          @messageInterval = null
-          delete @animator
-          @doneAnimating = true
-          @fitty = runFitty(@currentMessage.length)
-          return
-        @animator.tick()
-      , @currentMessage.length / @SHEPHERD_TIMEOUT)
-    , 250)
-
+  startTutorial: (runShepherd = true) =>
     if runShepherd
-      tour = new Shepherd.Tour({
+      @tour = new Shepherd.Tour({
         defaultStepOptions: {
-          classes: 'shepherd-rectangle',
+          classes: 'shepherd-rectangle'
+          highlightClass: '.golden-highlight-border'
           scrollTo: true
         }
         useModalOverlay: true
       })
 
       @tutorial = [{
-        message: 'This is the intro message, welcome to Ozaria! :)'
+        message: 'Wordy words about intros and such kind of words that meant to introduce some stuffs.'
         targetElement: 'Intro / Center'
       }, {
-        message: 'This is the goals section!'
+        message: 'Herby der helpful words lookit this list of goals here'
         targetElement: 'Goal List'
         animation: 'Outline'
       }, {
-        message: 'This is the code bank!'
-        targetElement: 'Code Bank'
+        message: "Herby der helpful words lookit this Code Editor Box it's a place for code"
+        targetElement: 'Code Editor Window'
         animation: 'Outline'
       }, {
-        message: 'This is a stationary messsage!'
+        message: 'Herby der helpful words lookit this Run button'
+        targetElement: 'Run Button'
+        animation: 'Outline'
       }, {
-        message: 'This is another stationary messsage, and the last message!'
+        message: 'Herby der helpful words lookit this bank of code here'
+        targetElement: 'Code Bank button'
+        animation: 'Outline'
+      }, {
+        message: "This is where I give you hints and stuff. Aren't you going to read my helpful hints?"
+      }, {
+        message: "Ah, you're reading my hints and stuff!"
+      }, {
+        message: 'What a reader you are. Truly.'
       }]
 
-      previousButton = {
+      backButton = {
         text: '<-'
-        action: ->
-          tour.previous()
+        action: =>
+          @tour.back()
           # store.dispatch('tutorial/goToPreviousStep')
       }
       nextButton = {
         text: '->'
-        action: ->
-          tour.next()
-          # store.dispatch('tutorial/goToNextStep')
+        action: =>
+          if @tour.currentStep.id >= @movingTutorialSteps
+            @tour.hide()
+          else
+            @tour.next()
+            # store.dispatch('tutorial/goToNextStep')
       }
 
       console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
@@ -196,18 +138,17 @@ module.exports = class LevelDialogueView extends CocoView
       @movingTutorialSteps = @tutorial.filter((s) -> s.targetElement).length
       console.log('@movingTutorialSteps')
       console.log(@movingTutorialSteps)
-      debugger
 
       steps = @tutorial
         .filter((s) -> s.targetElement)
         .map((tutorialStep, index) ->
           defaultButtons = []
           if index == @movingTutorialSteps
-            defaultButtons.push(previousButton)
+            defaultButtons.push(backButton)
           else if index == 0
             defaultButtons.push(nextButton)
           else
-            defaultButtons.push(previousButton)
+            defaultButtons.push(backButton)
             defaultButtons.push(nextButton)
 
           step = {
@@ -217,49 +158,49 @@ module.exports = class LevelDialogueView extends CocoView
           }
 
           if tutorialStep.targetElement != 'Intro / Center'
-            step['attachOn'] = switch
-              when tutorialStep.targetElement == 'Run Button' then { element: '', on: 'top' }
-              when tutorialStep.targetElement == 'Next Button' then { element: '', on: 'top' }
-              when tutorialStep.targetElement == 'Play Button' then { element: '', on: 'top' }
-              when tutorialStep.targetElement == 'Update Button' then { element: '', on: 'top' }
-              when tutorialStep.targetElement == 'Goal List' then { element: '', on: 'left' }
-              when tutorialStep.targetElement == 'Code Bank button' then { element: '', on: 'right' }
-              when tutorialStep.targetElement == 'Code Editor Window' then { element: '', on: 'left' }
+            step['attachTo'] = switch
+              when tutorialStep.targetElement == 'Run Button' then { element: '#run', on: 'top' }
+              when tutorialStep.targetElement == 'Next Button' then { element: '#next', on: 'top' }
+              when tutorialStep.targetElement == 'Play Button' then { element: '#run', on: 'top' }
+              when tutorialStep.targetElement == 'Update Button' then { element: '#update-game', on: 'top' }
+              when tutorialStep.targetElement == 'Goal List' then { element: '#goals-view', on: 'left' }
+              when tutorialStep.targetElement == 'Code Bank button' then { element: '.ace_editor', on: 'right' }
+              when tutorialStep.targetElement == 'Code Editor Window' then { element: '#spell-palette-view', on: 'left' }
 
           console.log('step: ')
           console.log(step)
           return step
         )
 
-      console.log('tour: ')
-      console.log(tour)
+      console.log('@tour: ')
+      console.log(@tour)
 
-      tour.addSteps(steps)
+      @tour.addSteps(steps)
 
       @dialogueViewDisplayCss = $('#level-dialogue-view').css('display')
       $('#level-dialogue-view').css('display', 'none')
 
       Shepherd.on('complete', =>
         $('#level-dialogue-view').css('display', @dialogueViewDisplayCss)
-        @setStationaryVegaText(@tutorial[@movingTutorialSteps])
+        e = @tutorial[@movingTutorialSteps]
+
+        message = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
+        $('.vega-dialogue').text(message)
+        @adjustText()
       )
 
-      tour.on('show', =>
+      @tour.on('show', =>
         # TODO: If the new current step is not a Moving Vega step, change the class, change the picture
-        console.log('in shepherd tour show')
-
         # TODO: Make it attach to each separate step - the step that is visible
         $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
       )
 
-      tour.on('end', =>
+      @tour.on('end', =>
         # TODO: Add remaining stationary steps to regular vega box
       )
 
-      tour.start()
+      @tour.start()
       $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
-
-# setTimeout(tour.cancel, @SHEPHERD_TIMEOUT)
 
   resetFitty: ->
     @fitty?.element.removeEventListener('fit', @adjustText)
