@@ -5,6 +5,34 @@ template = require 'ozaria/site/templates/play/level/level-dialogue-view'
 marked = require 'marked'
 Shepherd = require('shepherd.js').default
 
+calculateMinSize = (length) ->
+  innerHeight = window.innerHeight
+  innerWidth = window.innerWidth
+  # Large size with big text
+  if innerHeight >= 600 && innerWidth >= 1000
+    if length < 65
+      return 24
+    else if length < 128
+      return 20
+    else
+      return 14
+# Small size - which is not handled well by our UI now anyway, but we'll do the best we can...
+  else if innerHeight < 500 || innerWidth < 800
+    if length < 65
+      return 8
+    else if length < 128
+      return 6
+    else
+      return 4
+# Any other combination of large/small width/height
+  else
+    if length < 65
+      return 16
+    else if length < 128
+      return 12
+    else
+      return 8
+
 module.exports = class LevelDialogueView extends CocoView
   id: 'level-dialogue-view'
   template: template
@@ -61,13 +89,18 @@ module.exports = class LevelDialogueView extends CocoView
     backButton = {
       text: '<-'
       action: =>
+        console.log('clicked next')
+        @clearAsyncTimers()
         @tour.back()
         # store.dispatch('tutorial/goToPreviousStep')
     }
     nextButton = {
       text: '->'
       action: =>
-        if @tour.currentStep.id >= @movingTutorialSteps
+        console.log('clicked next')
+        $('.shepherd-text').html('')
+#        @clearAsyncTimers()
+        if @tour.currentStep.options.id >= @movingTutorialSteps
           @tour.hide()
         else
           @tour.next()
@@ -84,18 +117,22 @@ module.exports = class LevelDialogueView extends CocoView
       .filter((s) -> s.targetElement)
       .map((tutorialStep, index) ->
         defaultButtons = []
+        # End
         if index == @movingTutorialSteps
           defaultButtons.push(backButton)
+        # Beginning
         else if index == 0
           defaultButtons.push(nextButton)
+        # End
         else
           defaultButtons.push(backButton)
           defaultButtons.push(nextButton)
 
         step = {
           id: index
-          text: tutorialStep.message
+          text: '' # We set the tutorialStep.message with animation later
           buttons: defaultButtons
+          fontSize: calculateMinSize(tutorialStep.message)
         }
 
         if tutorialStep.targetElement != 'Intro / Center'
@@ -107,9 +144,6 @@ module.exports = class LevelDialogueView extends CocoView
             when tutorialStep.targetElement == 'Goal List' then { element: '#goals-view', on: 'left' }
             when tutorialStep.targetElement == 'Code Bank button' then { element: '.ace_editor', on: 'right' }
             when tutorialStep.targetElement == 'Code Editor Window' then { element: '#spell-palette-view', on: 'left' }
-
-        console.log('step: ')
-        console.log(step)
         return step
       )
 
@@ -123,17 +157,17 @@ module.exports = class LevelDialogueView extends CocoView
 
     Shepherd.on('complete', =>
       $('#level-dialogue-view').css('display', @dialogueViewDisplayCss)
-      e = @tutorial[@movingTutorialSteps]
-
-      message = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
-      $('.vega-dialogue').text(message)
-      @adjustText()
+      @animateMessage(@tutorial[@movingTutorialSteps.length - 1].message, '.dialogue-area')
     )
 
-    @tour.on('show', =>
-      # TODO: If the new current step is not a Moving Vega step, change the class, change the picture
+    # Receives the current {step, tour}
+    @tour.on('show', ({ step }) =>
       # TODO: Make it attach to each separate step - the step that is visible
       $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
+      $('.shepherd-text').html(marked(@tutorial[step.options.id].message))
+      console.log('>>>>> in show')
+      console.log(step)
+      @animateMessage(@tutorial[step.options.id].message, '.shepherd-text')
     )
 
     @tour.on('end', =>
@@ -145,3 +179,41 @@ module.exports = class LevelDialogueView extends CocoView
 
   isFullScreen: ->
     document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
+
+  clearAsyncTimers: ->
+    clearInterval(@messageInterval)
+    clearTimeout(@messageTimeout)
+    @messageInterval = null
+    @messageTimeout = null
+
+  animateMessage: (message, targetElement) =>
+    message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
+    console.log('>>> START: ', message)
+    @clearAsyncTimers()
+    if @animator
+      delete @animator
+
+    @messageTimeout = setTimeout(=>
+      console.log('>>> LOOP START: ', message)
+      @animator = new DialogueAnimator(marked(message), $(targetElement))
+      @messageInterval = setInterval(=>
+        console.log('>>> LOOP: ', message)
+        if not @animator
+          clearInterval(@messageInterval)
+          @messageInterval = null
+          console.log('>>> STOPPING because not @animator: ', message)
+          return
+
+        if @animator.done()
+          @tour.currentStep.updateStepOptions({
+            text: message
+          })
+          console.log('>>> STOPPING because @animator.done(): ', message)
+          clearInterval(@messageInterval)
+          @messageInterval = null
+          delete @animator
+#          $(targetElement).html(marked(message))
+          return
+        @animator.tick()
+      , 50)
+    , 250)

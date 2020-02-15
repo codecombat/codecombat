@@ -967,7 +967,6 @@ class PlayLevelView extends RootView {
     }
 
     this.dialogueView.startTutorial()
-    // setTimeout(this.dialogueView.startTutorial, 5000)
   }
 
   onSetVolume (e) {
