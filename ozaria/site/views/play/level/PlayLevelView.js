@@ -9,7 +9,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 
-import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
 import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
@@ -914,14 +913,7 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    if (!this.capstoneStage || this.capstoneStage === 1) {
-      this.openModalView(new LevelIntroModal({
-        level: this.level,
-        onStart: () => this.startLevel()
-      }))
-    } else {
-      this.startLevel()
-    }
+    this.startLevel()
   }
 
   startLevel () {
