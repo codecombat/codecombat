@@ -966,7 +966,8 @@ class PlayLevelView extends RootView {
       this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
     }
 
-    this.dialogueView.beginDialogue()
+    this.dialogueView.startTutorial()
+    // setTimeout(this.dialogueView.startTutorial, 5000)
   }
 
   onSetVolume (e) {

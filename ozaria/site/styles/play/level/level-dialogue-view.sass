@@ -14,11 +14,16 @@
   background-color: #FFF
   border: 4px solid #F7D047
 
-  //display: none
+//display: none
   //visibility: hidden
 
+.golden-highlight-border
+  border: 42px solid #F7D047
+
 .shepherd-arrow
-  border: 42px solid transparent
+  border: 42px solid #F7D047
+  color: #F7D047
+  background-color: #F7D047
   border-bottom-color: #F7D047
 
 .tutorial-profile-picture
@@ -32,7 +37,11 @@
   border-radius: unset
 
 .shepherd-text
- padding: 19px 14px 35px 65px
+   padding: 19px 14px 35px 65px
+   color: #232323
+   font-family: $body-font-style
+   font-size: 18px
+   letter-spacing: 0.71px
 
 // Overwrite the default opacity for Shepherd.js:
 .shepherd-modal-overlay-container.shepherd-modal-is-visible
@@ -60,6 +69,7 @@
     border: 2px solid #1FBAB4
     background-color: #FFFFFF
     box-shadow: 0 0 10px 4px #1FBAB4
+    //white-space: normal
 
     .vega-narrator
       position: absolute
