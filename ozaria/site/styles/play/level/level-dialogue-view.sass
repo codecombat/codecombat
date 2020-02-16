@@ -18,13 +18,38 @@
   //visibility: hidden
 
 .golden-highlight-border
-  border: 42px solid #F7D047
+  border: 4px solid #F7D047
 
-.shepherd-arrow
-  border: 42px solid #F7D047
-  color: #F7D047
-  background-color: #F7D047
+
+.shepherd-element .shepherd-arrow
+  border: 25px solid transparent
+  //border-bottom-style: initial
+
+.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
+  border-left-color: #F7D047
+  transform: translate(115%,-50%)
+.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow
+  border-right-color: #F7D047
+  transform: translate(-115%,-50%)
+.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
   border-bottom-color: #F7D047
+  transform: translate(-50%, -115%)
+.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
+  border-top-color: #F7D047
+  transform: translate(-50%,115%)
+
+//div.shepherd-element:nth-child(9)
+//  left: -10px;
+
+// These are set as important in order to properly cascade for each .shepherd-element box:
+.element-attached-top
+  top: -30px !important
+.element-attached-right
+  left: -30px !important
+.element-attached-bottom
+  top: 30px !important
+.element-attached-left
+  left: 30px !important
 
 .tutorial-profile-picture
   position: absolute

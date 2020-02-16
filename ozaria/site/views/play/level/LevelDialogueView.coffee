@@ -16,7 +16,7 @@ calculateMinSize = (length) ->
       return 20
     else
       return 14
-# Small size - which is not handled well by our UI now anyway, but we'll do the best we can...
+  # Small size - which is not handled well by our UI now anyway, but we'll do the best we can...
   else if innerHeight < 500 || innerWidth < 800
     if length < 65
       return 8
@@ -24,7 +24,7 @@ calculateMinSize = (length) ->
       return 6
     else
       return 4
-# Any other combination of large/small width/height
+  # Any other combination of large/small width/height
   else
     if length < 65
       return 16
@@ -49,11 +49,19 @@ module.exports = class LevelDialogueView extends CocoView
   onClickBack: (e) ->
     @tour.show(@movingTutorialSteps - 1)
 
+  toggleDialogueView: () ->
+    if @dialogueViewDisplayCss
+      $('#level-dialogue-view').css('display', @dialogueViewDisplayCss)
+      @dialogueViewDisplayCss = null
+    else
+      @dialogueViewDisplayCss = $('#level-dialogue-view').css('display')
+      $('#level-dialogue-view').css('display', 'none')
+
   startTutorial: ->
     @tour = new Shepherd.Tour({
       defaultStepOptions: {
         classes: 'shepherd-rectangle'
-        highlightClass: '.golden-highlight-border'
+        highlightClass: 'golden-highlight-border'
         scrollTo: true
       }
       useModalOverlay: true
@@ -97,7 +105,6 @@ module.exports = class LevelDialogueView extends CocoView
     nextButton = {
       text: '->'
       action: =>
-        console.log('clicked next')
         $('.shepherd-text').html('')
 #        @clearAsyncTimers()
         if @tour.currentStep.options.id >= @movingTutorialSteps
@@ -112,6 +119,13 @@ module.exports = class LevelDialogueView extends CocoView
     @movingTutorialSteps = @tutorial.filter((s) -> s.targetElement).length
     console.log('@movingTutorialSteps')
     console.log(@movingTutorialSteps)
+
+    directionOffsets = {
+      top: 'element-attached-top'
+      right: 'element-attached-right'
+      bottom: 'element-attached-bottom'
+      left: 'element-attached-left'
+    }
 
     steps = @tutorial
       .filter((s) -> s.targetElement)
@@ -141,9 +155,14 @@ module.exports = class LevelDialogueView extends CocoView
             when tutorialStep.targetElement == 'Next Button' then { element: '#next', on: 'top' }
             when tutorialStep.targetElement == 'Play Button' then { element: '#run', on: 'top' }
             when tutorialStep.targetElement == 'Update Button' then { element: '#update-game', on: 'top' }
-            when tutorialStep.targetElement == 'Goal List' then { element: '#goals-view', on: 'left' }
+            when tutorialStep.targetElement == 'Goal List' then { element: '#goals-view', on: 'bottom' }
             when tutorialStep.targetElement == 'Code Bank button' then { element: '.ace_editor', on: 'right' }
             when tutorialStep.targetElement == 'Code Editor Window' then { element: '#spell-palette-view', on: 'left' }
+          offset = directionOffsets[step.attachTo.on]
+          console.log('got offset: ')
+          console.log(offset)
+          step.classes = offset
+
         return step
       )
 
@@ -152,19 +171,19 @@ module.exports = class LevelDialogueView extends CocoView
 
     @tour.addSteps(steps)
 
-    @dialogueViewDisplayCss = $('#level-dialogue-view').css('display')
-    $('#level-dialogue-view').css('display', 'none')
+    @toggleDialogueView()
 
     Shepherd.on('complete', =>
-      $('#level-dialogue-view').css('display', @dialogueViewDisplayCss)
+      @toggleDialogueView()
       @animateMessage(@tutorial[@movingTutorialSteps - 1].message, '.dialogue-area')
     )
 
     # Receives the current {step, tour}
     @tour.on('show', ({ step }) =>
       # TODO: Make it attach to each separate step - the step that is visible
-      $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
+      $('.shepherd-content:visible').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
       $('.shepherd-text').html(marked(@tutorial[step.options.id].message))
+
       console.log('>>>>> in show')
       console.log(step)
       @animateMessage(@tutorial[step.options.id].message, '.shepherd-text')
@@ -188,31 +207,25 @@ module.exports = class LevelDialogueView extends CocoView
 
   animateMessage: (message, targetElement) =>
     message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
-    console.log('>>> START: ', message)
     @clearAsyncTimers()
     if @animator
       delete @animator
 
     @messageTimeout = setTimeout(=>
-      console.log('>>> LOOP START: ', message)
       @animator = new DialogueAnimator(marked(message), $(targetElement))
       @messageInterval = setInterval(=>
-        console.log('>>> LOOP: ', message)
         if not @animator
           clearInterval(@messageInterval)
           @messageInterval = null
-          console.log('>>> STOPPING because not @animator: ', message)
           return
 
         if @animator.done()
           @tour.currentStep.updateStepOptions({
             text: message
           })
-          console.log('>>> STOPPING because @animator.done(): ', message)
           clearInterval(@messageInterval)
           @messageInterval = null
           delete @animator
-#          $(targetElement).html(marked(message))
           return
         @animator.tick()
       , 50)
