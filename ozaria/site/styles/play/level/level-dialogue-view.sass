@@ -15,17 +15,77 @@
   border: 4px solid #F7D047
 
 .shepherd-header
-  background-image: url('/images/ozaria/level/vega_headshot_gray.png')
   position: absolute
   left: -50px
   top: -50px
-  width: 75px
-  height: 75px
+  width: 107px
+  height: 107px
   margin: 0
   padding: 0
   z-index: 1000
   background-repeat: no-repeat
   background-size: cover
+
+.filler-button
+  color: transparent
+  background-color: transparent
+  width: 30px
+  height: 30px
+  margin: 0
+  padding: 0
+  cursor: unset
+
+// The shepherd styles are extremely stubborn and we have to unset !important all over the place:
+
+.shepherd-button:not(:disabled):hover
+  background: initial
+  color: initial
+
+.shepherd-footer
+  display: flex
+  align-items: center
+  justify-content: center
+  position: absolute
+  left: 42%
+  bottom: -4%
+
+.shepherd-button
+  width: 30px
+  height: 30px
+  margin: 0
+  padding: 0
+  z-index: 1000
+  //background: unset
+  color: unset !important
+  background-repeat: no-repeat
+  background-size: contain
+  background-color: unset
+
+.shepherd-back-button-active
+  background-image: url('/images/ozaria/level/ActiveL.svg')
+.shepherd-back-button-inactive
+  background-image: url('/images/ozaria/level/InactiveL.svg')
+.shepherd-next-button-active
+  background-image: url('/images/ozaria/level/ActiveR.svg')
+.shepherd-next-button-inactive
+  background-image: url('/images/ozaria/level/InactiveR.svg')
+
+.shepherd-header-moving-capella
+  background-image: url('/images/ozaria/level/Moving_Capella.png')
+.shepherd-header-static-capella
+  background-image: url('/images/ozaria/level/Static_Capella.png')
+.shepherd-header-moving-octans
+  background-image: url('/images/ozaria/level/Moving_Octans.png')
+.shepherd-header-static-octans
+  background-image: url('/images/ozaria/level/Static_Octans.png')
+.shepherd-header-moving-ghostv
+  background-image: url('/images/ozaria/level/Moving_GhostV.png')
+.shepherd-header-static-ghostv
+  background-image: url('/images/ozaria/level/Static_GhostV.png')
+.shepherd-header-moving-vega
+  background-image: url('/images/ozaria/level/Moving_Vega.png')
+.shepherd-header-static-vega
+  background-image: url('/images/ozaria/level/Static_Vega.png')
 
 //display: none
   //visibility: hidden
