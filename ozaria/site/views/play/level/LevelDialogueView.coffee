@@ -4,6 +4,7 @@ DialogueAnimator = require './DialogueAnimator'
 template = require 'ozaria/site/templates/play/level/level-dialogue-view'
 marked = require 'marked'
 Shepherd = require('shepherd.js').default
+store = require('core/store')
 
 calculateMinSize = (length) ->
   innerHeight = window.innerHeight
@@ -37,36 +38,12 @@ module.exports = class LevelDialogueView extends CocoView
   id: 'level-dialogue-view'
   template: template
 
-  events:
-    'click .backButton': 'onClickBack'
-
   constructor: (options) ->
     super options
     @level = options.level
     @sessionID = options.sessionID
     @character = @level.get('characterPortrait') or 'vega'
-
-  onClickBack: (e) ->
-    @tour.show(@movingTutorialSteps - 1)
-
-  toggleDialogueView: () ->
-    if @dialogueViewDisplayCss
-      $('#level-dialogue-view').css('display', @dialogueViewDisplayCss)
-      @dialogueViewDisplayCss = null
-    else
-      @dialogueViewDisplayCss = $('#level-dialogue-view').css('display')
-      $('#level-dialogue-view').css('display', 'none')
-
-  startTutorial: ->
-    @tour = new Shepherd.Tour({
-      defaultStepOptions: {
-        classes: 'shepherd-rectangle'
-        highlightClass: 'golden-highlight-border'
-        scrollTo: true
-      }
-      useModalOverlay: true
-    })
-
+#    @tutorial = store.getters['tutorial/allSteps']
     @tutorial = [{
       message: 'Wordy words about intros and such kind of words that meant to introduce some stuffs.'
       targetElement: 'Intro / Center'
@@ -94,6 +71,16 @@ module.exports = class LevelDialogueView extends CocoView
       message: 'What a reader you are. Truly.'
     }]
 
+  startTutorial: ->
+    @tour = new Shepherd.Tour({
+      defaultStepOptions: {
+        classes: 'shepherd-rectangle'
+        highlightClass: 'golden-highlight-border'
+        scrollTo: true
+      }
+      useModalOverlay: true
+    })
+
     backButton = {
       text: '<-'
       action: =>
@@ -106,19 +93,9 @@ module.exports = class LevelDialogueView extends CocoView
       text: '->'
       action: =>
         $('.shepherd-text').html('')
-#        @clearAsyncTimers()
-        if @tour.currentStep.options.id >= @movingTutorialSteps
-          @tour.hide()
-        else
-          @tour.next()
-          # store.dispatch('tutorial/goToNextStep')
+        @tour.next()
+        # store.dispatch('tutorial/goToNextStep')
     }
-
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-
-    @movingTutorialSteps = @tutorial.filter((s) -> s.targetElement).length
-    console.log('@movingTutorialSteps')
-    console.log(@movingTutorialSteps)
 
     directionOffsets = {
       top: 'element-attached-top'
@@ -127,61 +104,51 @@ module.exports = class LevelDialogueView extends CocoView
       left: 'element-attached-left'
     }
 
-    steps = @tutorial
-      .filter((s) -> s.targetElement)
-      .map((tutorialStep, index) ->
-        defaultButtons = []
-        # End
-        if index == @movingTutorialSteps
-          defaultButtons.push(backButton)
-        # Beginning
-        else if index == 0
-          defaultButtons.push(nextButton)
-        # End
-        else
-          defaultButtons.push(backButton)
-          defaultButtons.push(nextButton)
+    attachToTargets = {
+      # 'Intro / Center' # No targets, stays in the center
+      'Run Button': { element: '#run', on: 'top' }
+      'Next Button': { element: '#next', on: 'top' }
+      'Play Button': { element: '#run', on: 'top' }
+      'Update Button': { element: '#update-game', on: 'top' }
+      'Goal List': { element: '#goals-view', on: 'bottom' }
+      'Code Bank button': { element: '.ace_editor', on: 'right' }
+      'Code Editor Window': { element: '#spell-palette-view', on: 'left' }
+    }
 
-        step = {
-          id: index
-          text: '' # We set the tutorialStep.message with animation later
-          buttons: defaultButtons
-          fontSize: calculateMinSize(tutorialStep.message)
-        }
+    steps = @tutorial.map((step, index) =>
+      attachTo = attachToTargets[step.targetElement]
+      offset = directionOffsets[attachTo?.on]
+      buttons = []
 
-        if tutorialStep.targetElement != 'Intro / Center'
-          step['attachTo'] = switch
-            when tutorialStep.targetElement == 'Run Button' then { element: '#run', on: 'top' }
-            when tutorialStep.targetElement == 'Next Button' then { element: '#next', on: 'top' }
-            when tutorialStep.targetElement == 'Play Button' then { element: '#run', on: 'top' }
-            when tutorialStep.targetElement == 'Update Button' then { element: '#update-game', on: 'top' }
-            when tutorialStep.targetElement == 'Goal List' then { element: '#goals-view', on: 'bottom' }
-            when tutorialStep.targetElement == 'Code Bank button' then { element: '.ace_editor', on: 'right' }
-            when tutorialStep.targetElement == 'Code Editor Window' then { element: '#spell-palette-view', on: 'left' }
-          offset = directionOffsets[step.attachTo.on]
-          console.log('got offset: ')
-          console.log(offset)
-          step.classes = offset
+      # First button
+      if index == 0
+        buttons.push(nextButton)
+      # Last button
+      else if index == @tutorial.length - 1
+        buttons.push(backButton)
+      # Both buttons
+      else
+        buttons.push(backButton)
+        buttons.push(nextButton)
 
-        return step
-      )
+      return {
+        id: index
+        text: '' # We set the message with DialogueAnimator later
+        buttons: buttons
+        fontSize: calculateMinSize(step.message)
+        attachTo: attachTo
+        classes: offset
+      }
+    )
 
     console.log('@tour: ')
     console.log(@tour)
 
     @tour.addSteps(steps)
 
-    @toggleDialogueView()
-
-    Shepherd.on('complete', =>
-      @toggleDialogueView()
-      @animateMessage(@tutorial[@movingTutorialSteps - 1].message, '.dialogue-area')
-    )
-
     # Receives the current {step, tour}
     @tour.on('show', ({ step }) =>
       # TODO: Make it attach to each separate step - the step that is visible
-      $('.shepherd-content:visible').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
       $('.shepherd-text').html(marked(@tutorial[step.options.id].message))
 
       console.log('>>>>> in show')
@@ -194,7 +161,6 @@ module.exports = class LevelDialogueView extends CocoView
     )
 
     @tour.start()
-    $('.shepherd-content').prepend($('<img class="tutorial-profile-picture" src="/images/ozaria/level/vega_headshot_gray.png" alt="Profile picture">'))
 
   isFullScreen: ->
     document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
