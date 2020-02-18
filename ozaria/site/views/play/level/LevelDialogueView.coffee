@@ -4,7 +4,66 @@ DialogueAnimator = require './DialogueAnimator'
 template = require 'ozaria/site/templates/play/level/level-dialogue-view'
 marked = require 'marked'
 Shepherd = require('shepherd.js').default
-store = require('core/store')
+
+
+
+#m3l1l2 = [{
+#  message:
+#}, {
+#  message:
+#}]
+#m3l1l2 = [{
+#  message:
+#}, {
+#  message:
+#}]
+#m3l1l2 = [{
+#  message:
+#}, {
+#  message:
+#}]
+
+# https://next.ozaria.com/play/level/1upm3l1l2?codeLanguage=python
+m3l1l2 = [{
+  message: 'As the carnival packs up, the workers need to return the illusion totems. It’s your job to help.'
+}, {
+  message: 'Like before, you need to put a string into this variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: '`use` the button to open the door to the tent.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: '`say` the person’s name using the variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Put the next person’s name inside the variable. '
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Open the door and say all three worker’s names to finish.'
+}]
+
+# https://next.ozaria.com/play/level/1upm3l2l1?codeLanguage=python
+m3l2l1 = [{
+  message: "The Tengshe are attacking the carnival! And all the illusion totems were lost. You need to find them!"
+}, {
+  message: "The totems are hidden. `findNearestTotem` will find the nearest totem and return its name."
+}, {
+  message: "Because you don’t know the name of the totem at the start, you can put it inside the variable."
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: "Using this variable, you can then `moveTo` the totem and `use` it."
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: "Using `findNearestTotem`, find the next totem and use it to sneak past the Tengshe."
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}]
 
 calculateMinSize = (length) ->
   innerHeight = window.innerHeight
@@ -43,110 +102,6 @@ module.exports = class LevelDialogueView extends CocoView
     @level = options.level
     @sessionID = options.sessionID
     @character = 'ghostv'
-#    @character = @level.get('characterPortrait') or 'ghostv'
-#    @tutorial = store.getters['tutorial/allSteps']
-
-
-#    1UP.M1.L1.L1
-#    Intro Text:
-#    I know you're tired, but we need to find that Star Well so we can stop the Darkness. Let's head down the mountain.
-#
-#    First Moving Vega Message:
-#    Let’s head down the mountain with `hero.moveDown()`.
-#    While this is displayed, Moving Vega should point at the blank line in the text box.
-
-#    1UP.M1.L1.L4
-#    Intro Text:
-#    There's a sign at the end. Let's go read what it says!
-#
-#    First Moving Vega Message:
-#    You know how to walk over to the sign. You do that first.
-#    Default position of Moving Vega.
-#
-#    Second Moving Vega Message:
-#    Then type in the `hero.use(“sign”)` command to read the sign!
-#    While this is displayed, Moving Vega should point at the blank line in the text box.
-#
-#    Last Moving Vega Message:
-#    If you get stuck, use the Code Bank!
-#    While this is displayed, Moving Vega should point at the Code Bank.
-
-#    1UP.M3.L1.L1
-#    Intro Text:
-#    Capella wants you to help the carnival pack up. She ordered you to go to the storage tent where the totems are kept under strict guard.
-#
-#    First Moving Vega Message:
-#    Variables are like boxes. You’ll need to put “butter” in the first variable.
-#    While this is displayed, Moving Vega should point at line #1
-#
-#    Second Moving Vega Message:
-#    Then you can `say` the variable here.
-#    While this is displayed, Moving Vega should point at line #4
-#
-#    Third Moving Vega Message:
-#    To get the second password, you need to hit the RUN button.
-#    While this is displayed, Moving Vega should point at the RUN button.
-#
-#    Last Moving Vega Message:
-#    When Octans tells you the new password, you can put it here.
-#    While this is displayed, Moving Vega should point at line 11.
-
-#    1UP.M3.L1.L2
-#    https://production.ozaria.com/play/level/1upm3l1l2?codeLanguage=python
-#
-#    Intro Text:
-#    As the carnival packs up, the workers need to return the illusion totems. It’s your job to help.
-#
-#    First Moving Vega Message:
-#    Like before, you need to put a string into this variable.
-#    While this is displayed, Moving Vega should point at line #1
-#
-#    Second Moving Vega Message:
-#    The `use` the button to open the door to the tent.
-#    While this is displayed, Moving Vega should point at line #2
-#
-#    Third Moving Vega Message:
-#    Then you `say` the person’s name using the variable.
-#    While this is displayed, Moving Vega should point at line #3
-#
-#    Fourth Moving Vega Message:
-#    Then you put the next person’s name inside the variable.
-#    While this is displayed, Moving Vega should point at line #6
-#
-#    Final Moving Vega Message:
-#    You’ll need to open the door and say all three worker’s names to finish.
-#    Default position of Moving Vega.
-
-
-#    1UP.M3.L2.L1
-#    https://production.ozaria.com/play/level/1upm3l2l1?codeLanguage=python
-#
-#    Intro Text:
-#    The Tengshe are attacking the carnival! And all the illusion totems were lost. You need to find them!
-#
-#    First Moving Vega Message:
-#    The totems are hidden. `findNearestTotem` will find the nearest totem and return its name.
-#    Default position of Moving Vega.
-#
-#    Second Moving Vega Message:
-#    Because you don’t know the name of the totem at the start, you can put it inside the variable.
-#    While this is displayed, Moving Vega should point at line #2
-#
-#    Third Moving Vega Message:
-#    Using this variable, you can then `moveTo` the totem and `use` it.
-#    While this is displayed, Moving Vega should point at line #3
-#
-#    Final Vega Message:
-#    Using `findNearestTotem`, you can then find the next totem and use it to sneak past the Tengshe.
-#    While this is displayed, Moving Vega should point at line #7
-
-#    @characters = {
-#      '1UP.M1.L1.L1': 'ghostv'
-#      '1UP.M1.L1.L4': 'ghostv'
-#      '1UP.M3.L1.L1': 'ghostv'
-#      '1UP.M3.L1.L2': 'ghostv'
-#      '1UP.M3.L2.L1': 'ghostv'
-#    }
 
     @tutorial = [{
       message: 'Wordy words about intros and such kind of words that meant to introduce some stuffs.'
@@ -175,6 +130,26 @@ module.exports = class LevelDialogueView extends CocoView
       message: 'What a reader you are. Truly.'
     }]
 
+    # https://next.ozaria.com/play/level/1upm3l2l1?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm3l2l1") > 0
+      @tutorial = m3l2l1
+
+    # https://next.ozaria.com/play/level/1upm3l1l2?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm3l1l2") > 0
+      @tutorial = m3l1l2
+
+#    @character = @level.get('characterPortrait') or 'ghostv'
+#    @tutorial = store.getters['tutorial/allSteps']
+
+    # Make check lowercase match
+#    @characters = {
+#      '1UP.M1.L1.L1': 'ghostv'
+#      '1UP.M1.L1.L4': 'ghostv'
+#      '1UP.M3.L1.L1': 'ghostv'
+#      '1UP.M3.L1.L2': 'ghostv'
+#      '1UP.M3.L2.L1': 'ghostv'
+#    }
+
   startTutorial: ->
     @tour = new Shepherd.Tour({
       defaultStepOptions: {
@@ -189,10 +164,8 @@ module.exports = class LevelDialogueView extends CocoView
       classes: 'shepherd-back-button-active'
       text: ''
       action: =>
-        console.log('clicked next')
         @clearAsyncTimers()
         @tour.back()
-        # store.dispatch('tutorial/goToPreviousStep')
     }
     nextButton = {
       classes: 'shepherd-next-button-active'
@@ -200,7 +173,20 @@ module.exports = class LevelDialogueView extends CocoView
       action: =>
         $('.shepherd-text').html('')
         @tour.next()
-        # store.dispatch('tutorial/goToNextStep')
+    }
+    startButton = {
+      classes: 'shepherd-start-button'
+      text: ''
+      action: =>
+        $('.shepherd-text').html('')
+        @tour.next()
+    }
+    playButton = {
+      classes: 'shepherd-play-button'
+      text: ''
+      action: =>
+        $('.shepherd-text').html('')
+        @tour.next()
     }
     fillerButton = {
       classes: 'filler-button'
@@ -235,11 +221,11 @@ module.exports = class LevelDialogueView extends CocoView
       # First button
       if index == 0
         buttons.push(fillerButton)
-        buttons.push(nextButton)
+        buttons.push(startButton)
       # Last button
       else if index == @tutorial.length - 1
         buttons.push(backButton)
-        buttons.push(fillerButton)
+        buttons.push(playButton)
       # Both buttons
       else
         buttons.push(backButton)
@@ -293,6 +279,7 @@ module.exports = class LevelDialogueView extends CocoView
 
     @messageTimeout = setTimeout(=>
       @animator = new DialogueAnimator(marked(message), $(targetElement))
+      $('.shepherd-text').html('')
       @messageInterval = setInterval(=>
         if not @animator
           clearInterval(@messageInterval)
@@ -301,7 +288,7 @@ module.exports = class LevelDialogueView extends CocoView
 
         if @animator.done()
           @tour.currentStep.updateStepOptions({
-            text: message
+            text: marked(message)
           })
           clearInterval(@messageInterval)
           @messageInterval = null

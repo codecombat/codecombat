@@ -47,7 +47,37 @@
   justify-content: center
   position: absolute
   left: 42%
-  bottom: -4%
+  bottom: -8%
+
+.shepherd-start-button
+  width: 80px !important
+  height: 40px !important
+  margin: 0 !important
+  padding: 0 !important
+  z-index: 1000 !important
+  //background: unset !important
+  color: unset !important
+  background-repeat: no-repeat !important
+  background-size: contain !important
+  background-color: unset !important
+  background-image: url('/images/ozaria/level/StartButton.svg')
+.shepherd-start-button:not(:disabled):hover
+  background-image: url('/images/ozaria/level/StartButton.svg')
+
+.shepherd-play-button
+  width: 80px !important
+  height: 40px !important
+  margin: 0 !important
+  padding: 0 !important
+  z-index: 1000 !important
+  //background: unset !important
+  color: unset !important
+  background-repeat: no-repeat !important
+  background-size: contain !important
+  background-color: unset !important
+  background-image: url('/images/ozaria/level/PlayButton.svg')
+.shepherd-play-button:not(:disabled):hover
+  background-image: url('/images/ozaria/level/PlayButton.svg')
 
 .shepherd-button
   width: 30px
@@ -57,35 +87,71 @@
   z-index: 1000
   //background: unset
   color: unset !important
-  background-repeat: no-repeat
+  background-repeat: no-repeat !important
   background-size: contain
   background-color: unset
 
 .shepherd-back-button-active
   background-image: url('/images/ozaria/level/ActiveL.svg')
+.shepherd-back-button-active:not(:disabled):hover
+  background-image: url('/images/ozaria/level/ActiveL.svg')
+
 .shepherd-back-button-inactive
   background-image: url('/images/ozaria/level/InactiveL.svg')
+.shepherd-back-button-inactive:not(:disabled):hover
+  background-image: url('/images/ozaria/level/InactiveL.svg')
+
 .shepherd-next-button-active
   background-image: url('/images/ozaria/level/ActiveR.svg')
+.shepherd-next-button-active:not(:disabled):hover
+  background-image: url('/images/ozaria/level/ActiveR.svg')
+
 .shepherd-next-button-inactive
   background-image: url('/images/ozaria/level/InactiveR.svg')
+.shepherd-next-button-inactive:not(:disabled):hover
+  background-image: url('/images/ozaria/level/InactiveR.svg')
+
 
 .shepherd-header-moving-capella
   background-image: url('/images/ozaria/level/Moving_Capella.png')
+.shepherd-header-moving-capella:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_Capella.png')
+
 .shepherd-header-static-capella
   background-image: url('/images/ozaria/level/Static_Capella.png')
+.shepherd-header-static-capella:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_Capella.png')
+
 .shepherd-header-moving-octans
   background-image: url('/images/ozaria/level/Moving_Octans.png')
+.shepherd-header-moving-octans:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_Octans.png')
+
 .shepherd-header-static-octans
   background-image: url('/images/ozaria/level/Static_Octans.png')
+.shepherd-header-static-octans:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_Octans.png')
+
 .shepherd-header-moving-ghostv
   background-image: url('/images/ozaria/level/Moving_GhostV.png')
+.shepherd-header-moving-ghostv:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_GhostV.png')
+
 .shepherd-header-static-ghostv
   background-image: url('/images/ozaria/level/Static_GhostV.png')
+.shepherd-header-static-ghostv:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_GhostV.png')
+
 .shepherd-header-moving-vega
   background-image: url('/images/ozaria/level/Moving_Vega.png')
+.shepherd-header-moving-vega:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_Vega.png')
+
 .shepherd-header-static-vega
   background-image: url('/images/ozaria/level/Static_Vega.png')
+.shepherd-header-static-vega:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_Vega.png')
+
 
 //display: none
   //visibility: hidden
@@ -138,7 +204,7 @@
   padding: 19px 14px 35px 65px
   color: #232323
   font-family: $body-font-style
-  font-size: 18px
+  font-size: 17px
   letter-spacing: 0.71px
 
 // Overwrite the default opacity for Shepherd.js:
