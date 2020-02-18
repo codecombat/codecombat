@@ -126,6 +126,17 @@ module.exports = class LevelDialogueView extends CocoView
   id: 'level-dialogue-view'
   template: template
 
+#  subscriptions:
+#    'sprite:speech-updated': 'onSpriteDialogue'
+#
+#  events:
+#    'click #back-button': 'onClickBack'
+#
+#  onClickBack: ->
+#    if @tutorial.length
+#      $("#level-dialogue-view").css("visibility", "hidden")
+#      @tour.show(@tutorial.length - 1)
+
   constructor: (options) ->
     super options
     @level = options.level
@@ -154,6 +165,7 @@ module.exports = class LevelDialogueView extends CocoView
     if document.URL.indexOf("play/level/1upm3l1l2") > 0
       @tutorial = m3l1l2
 
+
 #    @character = @level.get('characterPortrait') or 'ghostv'
 #    @tutorial = store.getters['tutorial/allSteps']
 
@@ -167,6 +179,7 @@ module.exports = class LevelDialogueView extends CocoView
 #    }
 
   startTutorial: ->
+    $("#level-dialogue-view").css("visibility", "hidden")
     @tour = new Shepherd.Tour({
       defaultStepOptions: {
         classes: 'shepherd-rectangle'
@@ -281,6 +294,11 @@ module.exports = class LevelDialogueView extends CocoView
       console.log(step)
       @animateMessage(tutorialStep.message, '.shepherd-text')
     )
+#
+#    @tour.on('complete', () =>
+#      $("#level-dialogue-view").html(marked(@tutorial[@tutorial.length - 1]))
+#      $("#level-dialogue-view").css("visibility", "visible")
+#    )
 
     @tour.start()
 
