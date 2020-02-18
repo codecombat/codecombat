@@ -3,8 +3,96 @@ CocoView = require 'views/core/CocoView'
 DialogueAnimator = require './DialogueAnimator'
 template = require 'ozaria/site/templates/play/level/level-dialogue-view'
 marked = require 'marked'
-fitty = require('fitty').default
 Shepherd = require('shepherd.js').default
+
+
+
+m1l1l1 = [{
+  message: "I know you're tired, but we need to find that Star Well so we can stop the Darkness. Let's head down the mountain."
+}, {
+  message: 'Let’s head down the mountain with `hero.moveDown()`.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}]
+
+m1l1l4 = [{
+  message: "There's a sign at the end. Let's go read what it says!"
+}, {
+  message: 'You know how to walk over to the sign. You do that first. '
+}, {
+  message: 'Then you can `say` the variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Then type in the `hero.use(“sign”)` command to read the sign!'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'If you get stuck, use the Code Bank!'
+  targetElement: 'Code Bank button'
+  animation: 'Outline'
+}]
+
+m3l1l1 = [{
+  message: 'Capella wants you to help the carnival pack up. She ordered you to go to the storage tent where'
+}, {
+  message: 'Variables are like boxes. Put the value “butter” in the variable called **password**.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Then you can `say` the variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'To get the second password, you need to hit the RUN button. '
+  targetElement: 'Run Button'
+  animation: 'Outline'
+}, {
+  message: 'When Octans tells you the new password, you can replace the variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}]
+
+m3l2l1 = [{
+  message: "The Tengshe are attacking the carnival! And all the illusion totems were lost. You need to find them! "
+}, {
+  message: "The totems are hidden. `findNearestTotem` will find the nearest totem and return its name."
+}, {
+  message: "You'll need to remember the name of this totem, so you can store it in a variable.. "
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: "Then you can `moveTo` and ‘use’ the totem using the variable."
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: "Using `findNearestTotem`, find the next totem and use it to sneak past the Tengshe."
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}]
+
+m3l1l2 = [{
+  message: 'As the carnival packs up, the workers need to return the illusion totems. It’s your job to help. '
+}, {
+  message: 'Like before, you need to put a string into this variable called personName.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Then you can `use` the button to open the door to the tent. '
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Next, `say` the person’s name using the variable. '
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Put the next person’s name inside the variable. '
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Open the door and say all three worker’s names to finish.'
+}]
+
 
 calculateMinSize = (length) ->
   innerHeight = window.innerHeight
@@ -34,141 +122,188 @@ calculateMinSize = (length) ->
     else
       return 8
 
-runFitty = (length) ->
-  if not length
-    return
-
-  return fitty('.fit', {
-    minSize: calculateMinSize(length)
-    maxSize: 24
-    multiLine: true
-  })[0]
-
-
 module.exports = class LevelDialogueView extends CocoView
   id: 'level-dialogue-view'
   template: template
 
-  subscriptions:
-    'sprite:speech-updated': 'onSpriteDialogue'
-
-  events:
-    'click': 'onClick'
+#  subscriptions:
+#    'sprite:speech-updated': 'onSpriteDialogue'
+#
+#  events:
+#    'click #back-button': 'onClickBack'
+#
+#  onClickBack: ->
+#    if @tutorial.length
+#      $("#level-dialogue-view").css("visibility", "hidden")
+#      @tour.show(@tutorial.length - 1)
 
   constructor: (options) ->
     super options
     @level = options.level
     @sessionID = options.sessionID
-    @currentMessage = ''
-    @doneAnimating = false
-    @SHEPHERD_TIMEOUT = 5 * 1000
-    # Resizing is debounced to avoid performance issues and spamming the text fitting.
-    @onWindowResize = _.debounce(@onWindowResize, 100)
-    $(window).on('resize', @onWindowResize)
+    @character = 'ghostv'
 
-    # Set the initial speaking character.
-    @character = @level.get('characterPortrait') or 'vega'
+    @tutorial = []
 
-  destroy: ->
-    @clearAsyncTimers()
-    @resetFitty()
-    super()
+    # https://next.ozaria.com/play/level/1upm1l1l1?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm1l1l1") > 0
+      @tutorial = m1l1l1
 
-  onClick: (e) ->
-    Backbone.Mediator.publish 'script:end-current-script', {}
+    # https://next.ozaria.com/play/level/1upm1l1l4?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm1l1l4") > 0
+      @tutorial = m1l1l4
 
-  onWindowResize: (e) =>
-    if @doneAnimating
-      @fitty = runFitty(@currentMessage.length)
+    # https://next.ozaria.com/play/level/1upm3l1l1?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm3l1l1") > 0
+      @tutorial = m3l1l1
 
-  onSpriteDialogue: (e) ->
-    if e.message
-      message = e.message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
-      if message != @currentMessage
-        # This is not the first message, so we need to restart the animator
-        secondRun = @currentMessage.length > 0
-        @currentMessage = message
+    # https://next.ozaria.com/play/level/1upm3l2l1?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm3l2l1") > 0
+      @tutorial = m3l2l1
 
-        # Do initial fit to get font size during animation (fitting looks crazy during animation)
-        @resetFitty()
-        $('.vega-dialogue').css('visibility', 'hidden')
-        $('.vega-dialogue').text(@currentMessage)
-        @fitty = runFitty(@currentMessage.length)
-        @fitty.element.addEventListener('fit', @adjustText)
+    # https://next.ozaria.com/play/level/1upm3l1l2?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm3l1l2") > 0
+      @tutorial = m3l1l2
 
-        # During animation we don't fit, but we want the font size to stay the same
-        stopFitting = (e) =>
-          @fitty.unsubscribe()
-          @fitty.element.removeEventListener('fit', stopFitting)
-          $('.vega-dialogue').css('font-size', e.detail.newValue)
-          $('.vega-dialogue').text('')
-          $('.vega-dialogue').css('visibility', 'visible')
-          @adjustText()
-          # If we are running the second message, we need to start the animator again. However, if we got here
-          # and the animator already runs, then we need to skip over it and start the next message.
-          if secondRun or @animator
-            @doneAnimating = false
-            @beginDialogue(false)
-        @fitty.element.addEventListener('fit', stopFitting)
 
-  # To make the text break in a pretty way, we need to force the white-space to normal
-  # because fitty wants it to expand to the maximum width. This needs to happen after
-  # everything is done updating, and 50-100ms seems to work well. Setting it to 100ms
-  # to give an extra little bit of time on lower end hardware.
-  adjustText: (e) ->
-    $('.vega-dialogue').css('white-space', 'normal')
+#    @character = @level.get('characterPortrait') or 'ghostv'
+#    @tutorial = store.getters['tutorial/allSteps']
 
-  # I apologize for this function... It fixes a race condition. The following interval clearing and timeouts
-  # are necessary because the PlayLevelView, the loading screen and the backbone event for the dialog system race
-  # against each other.. Essentially, we can get into a situation where the animation tries to begin
-  # before the message exists. We cover for this both in the stopFitting() function which runs after
-  # the text has been properly fitted and is ready to be animated, and here when the dialog starts.
-  beginDialogue: (runShepherd = true) =>
-    @clearAsyncTimers()
+    # Make check lowercase match
+#    @characters = {
+#      '1UP.M1.L1.L1': 'ghostv'
+#      '1UP.M1.L1.L4': 'ghostv'
+#      '1UP.M3.L1.L1': 'ghostv'
+#      '1UP.M3.L1.L2': 'ghostv'
+#      '1UP.M3.L2.L1': 'ghostv'
+#    }
 
-    if @animator
-      delete @animator
+  startTutorial: ->
+    $("#level-dialogue-view").css("visibility", "hidden")
+    @tour = new Shepherd.Tour({
+      defaultStepOptions: {
+        classes: 'shepherd-rectangle'
+        highlightClass: 'golden-highlight-border'
+        scrollTo: true
+      }
+      useModalOverlay: true
+    })
 
-    @messageTimeout = setTimeout(=>
-      @animator = new DialogueAnimator(marked(@currentMessage), $('.vega-dialogue'))
-      @messageInterval = setInterval(=>
-        if not @animator
-          clearInterval(@messageInterval)
-          @messageInterval = null
-          return
+    backButton = {
+      classes: 'shepherd-back-button-active'
+      text: ''
+      action: =>
+        @clearAsyncTimers()
+        @tour.back()
+    }
+    nextButton = {
+      classes: 'shepherd-next-button-active'
+      text: ''
+      action: =>
+        @clearAsyncTimers()
+        $('.shepherd-text').html('')
+        @tour.next()
+    }
+    startButton = {
+      classes: 'shepherd-start-button'
+      text: ''
+      action: =>
+        @clearAsyncTimers()
+        $('.shepherd-text').html('')
+        @tour.next()
+    }
+    playButton = {
+      classes: 'shepherd-play-button'
+      text: ''
+      action: =>
+        @clearAsyncTimers()
+        $('.shepherd-text').html('')
+        @tour.next()
+    }
+    fillerButton = {
+      classes: 'filler-button'
+      text: ''
+      action: ->
+    }
 
-        if @animator.done()
-          clearInterval(@messageInterval)
-          @messageInterval = null
-          delete @animator
-          @doneAnimating = true
-          @fitty = runFitty(@currentMessage.length)
-          return
-        @animator.tick()
-      , @currentMessage.length / @SHEPHERD_TIMEOUT)
-    , 250)
+    directionOffsets = {
+      top: 'element-attached-top'
+      right: 'element-attached-right'
+      bottom: 'element-attached-bottom'
+      left: 'element-attached-left'
+    }
 
-    if runShepherd
-      tour = new Shepherd.Tour({
-        defaultStepOptions: {
-          scrollTo: true
-        },
-        useModalOverlay: true,
-        steps: [{
-          id: 'example-step',
-          attachTo: {
-            element: '.dialogue-area',
-            on: 'bottom'
-          },
-          classes: 'hidden-shepherd-box',
-        }]
-      })
-      tour.start()
-      setTimeout(tour.cancel, @SHEPHERD_TIMEOUT)
+    attachToTargets = {
+      # 'Intro / Center' # No targets, stays in the center
+      'Run Button': { element: '#run', on: 'top' }
+      'Next Button': { element: '#next', on: 'top' }
+      'Play Button': { element: '#run', on: 'top' }
+      'Update Button': { element: '#update-game', on: 'top' }
+      'Goal List': { element: '#goals-view', on: 'bottom' }
+      'Code Bank button': { element: '#spell-palette-view', on: 'right' }
+      'Code Editor Window': { element: '.ace_editor', on: 'left' }
+    }
 
-  resetFitty: ->
-    @fitty?.element.removeEventListener('fit', @adjustText)
-    @fitty?.unsubscribe()
+    # TODO: If last step is moving, add a duplicate stationary step?
+    steps = @tutorial.map((step, index) =>
+      attachTo = attachToTargets[step.targetElement]
+      offset = directionOffsets[attachTo?.on]
+      buttons = []
+
+      # First button
+      if index == 0
+        buttons.push(fillerButton)
+        buttons.push(startButton)
+      # Last button
+      else if index == @tutorial.length - 1
+        buttons.push(backButton)
+        buttons.push(playButton)
+      # Both buttons
+      else
+        buttons.push(backButton)
+        buttons.push(nextButton)
+
+      return {
+        id: index
+        text: '' # We set the message with DialogueAnimator later
+        buttons: buttons
+        fontSize: calculateMinSize(step.message)
+        attachTo: attachTo
+        classes: offset
+      }
+    )
+
+    console.log('@tour: ')
+    console.log(@tour)
+
+    if not steps.length
+      return
+
+    @tour.addSteps(steps)
+
+    # Receives the current {step, tour}
+    @tour.on('show', ({ step }) =>
+      $('.shepherd-text').html(marked(@tutorial[step.options.id].message))
+      tutorialStep = @tutorial[step.options.id]
+      moving = if tutorialStep.targetElement then 'moving' else 'static'
+      setTimeout(=>
+        $('header.shepherd-header:visible').addClass("shepherd-header-#{moving}-#{@character}")
+      , 1)
+
+      console.log('>>>>> in show')
+      console.log(step)
+      @animateMessage(tutorialStep.message, '.shepherd-text')
+    )
+#
+#    @tour.on('complete', () =>
+#      $("#level-dialogue-view").html(marked(@tutorial[@tutorial.length - 1]))
+#      $("#level-dialogue-view").css("visibility", "visible")
+#    )
+
+    @tour.start()
+
+  isFullScreen: ->
+    document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
 
   clearAsyncTimers: ->
     clearInterval(@messageInterval)
@@ -176,5 +311,29 @@ module.exports = class LevelDialogueView extends CocoView
     @messageInterval = null
     @messageTimeout = null
 
-  isFullScreen: ->
-    document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
+  animateMessage: (message, targetElement) =>
+    message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
+    @clearAsyncTimers()
+    if @animator
+      delete @animator
+
+    @messageTimeout = setTimeout(=>
+      @animator = new DialogueAnimator(marked(message), $(targetElement))
+      $('.shepherd-text').html('')
+      @messageInterval = setInterval(=>
+        if not @animator
+          clearInterval(@messageInterval)
+          @messageInterval = null
+          return
+
+        if @animator.done()
+          @tour.currentStep.updateStepOptions({
+            text: marked(message)
+          })
+          clearInterval(@messageInterval)
+          @messageInterval = null
+          delete @animator
+          return
+        @animator.tick()
+      , 50)
+    , 250)

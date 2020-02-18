@@ -36,4 +36,5 @@ module.exports = class ScriptModule extends CocoClass
     Math.max(0, sums...)
 
   maybeApplyDelayToNote: (note) ->
+    console.log('in ScriptModule.coffee:maybeApplyDelayToNote with note: ', note)
     note.delay = (@scrubbingTime + @movementTime) or 0
