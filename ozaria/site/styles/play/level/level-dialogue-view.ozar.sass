@@ -7,10 +7,206 @@
 .fit
   display: inline-block
 
-// TODO: Make this visible again after HoC 2019:
-.hidden-shepherd-box
-  display: none
-  visibility: hidden
+.shepherd-rectangle
+  box-sizing: border-box
+  height: 137px
+  width: 402px
+  background-color: #FFF
+  border: 4px solid #F7D047
+
+.shepherd-header
+  position: absolute
+  left: -50px
+  top: -50px
+  width: 107px
+  height: 107px
+  margin: 0
+  padding: 0
+  z-index: 1000
+  background-repeat: no-repeat
+  background-size: cover
+
+.filler-button
+  color: transparent
+  background-color: transparent
+  width: 30px
+  height: 30px
+  margin: 0
+  padding: 0
+  cursor: unset
+
+// The shepherd styles are extremely stubborn and we have to unset !important all over the place:
+
+.shepherd-button:not(:disabled):hover
+  background: initial
+  color: initial
+
+.shepherd-footer
+  display: flex
+  align-items: center
+  justify-content: center
+  position: absolute
+  left: 42%
+  bottom: -5%
+  height: 30px
+
+.shepherd-start-button
+  width: 80px !important
+  height: 40px !important
+  margin: 0 !important
+  padding: 0 !important
+  z-index: 1000 !important
+  //background: unset !important
+  color: unset !important
+  background-repeat: no-repeat !important
+  background-size: contain !important
+  background-color: unset !important
+  background-image: url('/images/ozaria/level/StartButton.svg')
+.shepherd-start-button:not(:disabled):hover
+  background-image: url('/images/ozaria/level/StartButton.svg')
+
+.shepherd-play-button
+  width: 80px !important
+  height: 40px !important
+  margin: 0 !important
+  padding: 0 !important
+  z-index: 1000 !important
+  //background: unset !important
+  color: unset !important
+  background-repeat: no-repeat !important
+  background-size: contain !important
+  background-color: unset !important
+  background-image: url('/images/ozaria/level/PlayButton.svg')
+.shepherd-play-button:not(:disabled):hover
+  background-image: url('/images/ozaria/level/PlayButton.svg')
+
+.shepherd-button
+  width: 30px
+  height: 30px
+  margin: 0
+  padding: 0
+  z-index: 1000
+  //background: unset
+  color: unset !important
+  background-repeat: no-repeat !important
+  background-size: contain
+  background-color: unset
+
+.shepherd-back-button-active
+  background-image: url('/images/ozaria/level/ActiveL.svg')
+.shepherd-back-button-active:not(:disabled):hover
+  background-image: url('/images/ozaria/level/ActiveL.svg')
+
+.shepherd-back-button-inactive
+  background-image: url('/images/ozaria/level/InactiveL.svg')
+.shepherd-back-button-inactive:not(:disabled):hover
+  background-image: url('/images/ozaria/level/InactiveL.svg')
+
+.shepherd-next-button-active
+  background-image: url('/images/ozaria/level/ActiveR.svg')
+.shepherd-next-button-active:not(:disabled):hover
+  background-image: url('/images/ozaria/level/ActiveR.svg')
+
+.shepherd-next-button-inactive
+  background-image: url('/images/ozaria/level/InactiveR.svg')
+.shepherd-next-button-inactive:not(:disabled):hover
+  background-image: url('/images/ozaria/level/InactiveR.svg')
+
+
+.shepherd-header-moving-capella
+  background-image: url('/images/ozaria/level/Moving_Capella.png')
+.shepherd-header-moving-capella:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_Capella.png')
+
+.shepherd-header-static-capella
+  background-image: url('/images/ozaria/level/Static_Capella.png')
+.shepherd-header-static-capella:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_Capella.png')
+
+.shepherd-header-moving-octans
+  background-image: url('/images/ozaria/level/Moving_Octans.png')
+.shepherd-header-moving-octans:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_Octans.png')
+
+.shepherd-header-static-octans
+  background-image: url('/images/ozaria/level/Static_Octans.png')
+.shepherd-header-static-octans:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_Octans.png')
+
+.shepherd-header-moving-ghostv
+  background-image: url('/images/ozaria/level/Moving_GhostV.png')
+.shepherd-header-moving-ghostv:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_GhostV.png')
+
+.shepherd-header-static-ghostv
+  background-image: url('/images/ozaria/level/Static_GhostV.png')
+.shepherd-header-static-ghostv:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_GhostV.png')
+
+.shepherd-header-moving-vega
+  background-image: url('/images/ozaria/level/Moving_Vega.png')
+.shepherd-header-moving-vega:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Moving_Vega.png')
+
+.shepherd-header-static-vega
+  background-image: url('/images/ozaria/level/Static_Vega.png')
+.shepherd-header-static-vega:not(:disabled):hover
+  background-image: url('/images/ozaria/level/Static_Vega.png')
+
+
+//display: none
+  //visibility: hidden
+
+.golden-highlight-border
+  border: 4px solid #F7D047
+
+
+.shepherd-element .shepherd-arrow
+  border: 25px solid transparent
+  //border-bottom-style: initial
+
+.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
+  border-left-color: #F7D047
+  transform: translate(115%,-50%)
+.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow
+  border-right-color: #F7D047
+  transform: translate(-115%,-50%)
+.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
+  border-bottom-color: #F7D047
+  transform: translate(-50%, -115%)
+.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
+  border-top-color: #F7D047
+  transform: translate(-50%,115%)
+
+//div.shepherd-element:nth-child(9)
+//  left: -10px;
+
+// These are set as important in order to properly cascade for each .shepherd-element box:
+.element-attached-top
+  top: -30px !important
+.element-attached-right
+  left: -30px !important
+.element-attached-bottom
+  top: 30px !important
+.element-attached-left
+  left: 30px !important
+
+.tutorial-profile-picture
+  position: absolute
+  top: -30px
+  left: -30px
+  width: 75px
+  z-index: 1000
+
+.shepherd-element
+  border-radius: unset
+
+.shepherd-text
+  padding: 19px 14px 35px 65px
+  color: #232323
+  font-family: $body-font-style
+  font-size: 17px
+  letter-spacing: 0.71px
 
 // Overwrite the default opacity for Shepherd.js:
 .shepherd-modal-overlay-container.shepherd-modal-is-visible
@@ -35,9 +231,8 @@
     align-items: center
     height: 82%
     width: 92%
-    border: 2px solid #1FBAB4
+    border: 4px solid #F7D047
     background-color: #FFFFFF
-    box-shadow: 0 0 10px 4px #1FBAB4
 
     .vega-narrator
       position: absolute
@@ -53,17 +248,3 @@
 
     .vega-dialogue.wide
       margin: 0 20px 0 20px
-
-    .continue
-      position: absolute
-      height: 17px
-      width: 140px
-      bottom: 1%
-      right: 20px
-      color: #1FBAB4
-      cursor: pointer
-      font-family: $body-font-style
-      font-size: 12px
-      letter-spacing: 0.51px
-      line-height: 17px
-      text-align: right
