@@ -7,35 +7,82 @@ Shepherd = require('shepherd.js').default
 
 
 
-#m3l1l2 = [{
-#  message:
-#}, {
-#  message:
-#}]
-#m3l1l2 = [{
-#  message:
-#}, {
-#  message:
-#}]
-#m3l1l2 = [{
-#  message:
-#}, {
-#  message:
-#}]
+m1l1l1 = [{
+  message: "I know you're tired, but we need to find that Star Well so we can stop the Darkness. Let's head down the mountain."
+}, {
+  message: 'Let’s head down the mountain with `hero.moveDown()`.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}]
 
-# https://next.ozaria.com/play/level/1upm3l1l2?codeLanguage=python
+m1l1l4 = [{
+  message: "There's a sign at the end. Let's go read what it says!"
+}, {
+  message: 'You know how to walk over to the sign. You do that first. '
+}, {
+  message: 'Then you can `say` the variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Then type in the `hero.use(“sign”)` command to read the sign!'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'If you get stuck, use the Code Bank!'
+  targetElement: 'Code Bank button'
+  animation: 'Outline'
+}]
+
+m3l1l1 = [{
+  message: 'Capella wants you to help the carnival pack up. She ordered you to go to the storage tent where'
+}, {
+  message: 'Variables are like boxes. Put the value “butter” in the variable called **password**.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'Then you can `say` the variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: 'To get the second password, you need to hit the RUN button. '
+  targetElement: 'Run Button'
+  animation: 'Outline'
+}, {
+  message: 'When Octans tells you the new password, you can replace the variable.'
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}]
+
+m3l2l1 = [{
+  message: "The Tengshe are attacking the carnival! And all the illusion totems were lost. You need to find them! "
+}, {
+  message: "The totems are hidden. `findNearestTotem` will find the nearest totem and return its name."
+}, {
+  message: "You'll need to remember the name of this totem, so you can store it in a variable.. "
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: "Then you can `moveTo` and ‘use’ the totem using the variable."
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}, {
+  message: "Using `findNearestTotem`, find the next totem and use it to sneak past the Tengshe."
+  targetElement: 'Code Editor Window'
+  animation: 'Outline'
+}]
+
 m3l1l2 = [{
-  message: 'As the carnival packs up, the workers need to return the illusion totems. It’s your job to help.'
+  message: 'As the carnival packs up, the workers need to return the illusion totems. It’s your job to help. '
 }, {
-  message: 'Like before, you need to put a string into this variable.'
+  message: 'Like before, you need to put a string into this variable called personName.'
   targetElement: 'Code Editor Window'
   animation: 'Outline'
 }, {
-  message: '`use` the button to open the door to the tent.'
+  message: 'Then you can `use` the button to open the door to the tent. '
   targetElement: 'Code Editor Window'
   animation: 'Outline'
 }, {
-  message: '`say` the person’s name using the variable.'
+  message: 'Next, `say` the person’s name using the variable. '
   targetElement: 'Code Editor Window'
   animation: 'Outline'
 }, {
@@ -46,24 +93,6 @@ m3l1l2 = [{
   message: 'Open the door and say all three worker’s names to finish.'
 }]
 
-# https://next.ozaria.com/play/level/1upm3l2l1?codeLanguage=python
-m3l2l1 = [{
-  message: "The Tengshe are attacking the carnival! And all the illusion totems were lost. You need to find them!"
-}, {
-  message: "The totems are hidden. `findNearestTotem` will find the nearest totem and return its name."
-}, {
-  message: "Because you don’t know the name of the totem at the start, you can put it inside the variable."
-  targetElement: 'Code Editor Window'
-  animation: 'Outline'
-}, {
-  message: "Using this variable, you can then `moveTo` the totem and `use` it."
-  targetElement: 'Code Editor Window'
-  animation: 'Outline'
-}, {
-  message: "Using `findNearestTotem`, find the next totem and use it to sneak past the Tengshe."
-  targetElement: 'Code Editor Window'
-  animation: 'Outline'
-}]
 
 calculateMinSize = (length) ->
   innerHeight = window.innerHeight
@@ -103,32 +132,19 @@ module.exports = class LevelDialogueView extends CocoView
     @sessionID = options.sessionID
     @character = 'ghostv'
 
-    @tutorial = [{
-      message: 'Wordy words about intros and such kind of words that meant to introduce some stuffs.'
-      targetElement: 'Intro / Center'
-    }, {
-      message: 'Herby der helpful words lookit this list of goals here'
-      targetElement: 'Goal List'
-      animation: 'Outline'
-    }, {
-      message: "Herby der helpful words lookit this Code Editor Box it's a place for code"
-      targetElement: 'Code Editor Window'
-      animation: 'Outline'
-    }, {
-      message: 'Herby der helpful words lookit this Run button'
-      targetElement: 'Run Button'
-      animation: 'Outline'
-    }, {
-      message: 'Herby der helpful words lookit this bank of code here'
-      targetElement: 'Code Bank button'
-      animation: 'Outline'
-    }, {
-      message: "This is where I give you hints and stuff. Aren't you going to read my helpful hints?"
-    }, {
-      message: "Ah, you're reading my hints and stuff!"
-    }, {
-      message: 'What a reader you are. Truly.'
-    }]
+    @tutorial = []
+
+    # https://next.ozaria.com/play/level/1upm1l1l1?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm1l1l1") > 0
+      @tutorial = m1l1l1
+
+    # https://next.ozaria.com/play/level/1upm1l1l4?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm1l1l4") > 0
+      @tutorial = m1l1l4
+
+    # https://next.ozaria.com/play/level/1upm3l1l1?codeLanguage=python
+    if document.URL.indexOf("play/level/1upm3l1l1") > 0
+      @tutorial = m3l1l1
 
     # https://next.ozaria.com/play/level/1upm3l2l1?codeLanguage=python
     if document.URL.indexOf("play/level/1upm3l2l1") > 0
@@ -171,6 +187,7 @@ module.exports = class LevelDialogueView extends CocoView
       classes: 'shepherd-next-button-active'
       text: ''
       action: =>
+        @clearAsyncTimers()
         $('.shepherd-text').html('')
         @tour.next()
     }
@@ -178,6 +195,7 @@ module.exports = class LevelDialogueView extends CocoView
       classes: 'shepherd-start-button'
       text: ''
       action: =>
+        @clearAsyncTimers()
         $('.shepherd-text').html('')
         @tour.next()
     }
@@ -185,6 +203,7 @@ module.exports = class LevelDialogueView extends CocoView
       classes: 'shepherd-play-button'
       text: ''
       action: =>
+        @clearAsyncTimers()
         $('.shepherd-text').html('')
         @tour.next()
     }
@@ -208,8 +227,8 @@ module.exports = class LevelDialogueView extends CocoView
       'Play Button': { element: '#run', on: 'top' }
       'Update Button': { element: '#update-game', on: 'top' }
       'Goal List': { element: '#goals-view', on: 'bottom' }
-      'Code Bank button': { element: '.ace_editor', on: 'right' }
-      'Code Editor Window': { element: '#spell-palette-view', on: 'left' }
+      'Code Bank button': { element: '#spell-palette-view', on: 'right' }
+      'Code Editor Window': { element: '.ace_editor', on: 'left' }
     }
 
     # TODO: If last step is moving, add a duplicate stationary step?
@@ -243,6 +262,9 @@ module.exports = class LevelDialogueView extends CocoView
 
     console.log('@tour: ')
     console.log(@tour)
+
+    if not steps.length
+      return
 
     @tour.addSteps(steps)
 
