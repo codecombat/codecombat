@@ -222,7 +222,7 @@ addIntroLevelContent = (introLevel, introLevelsContent) ->
         introLevelData = introLevelsContent[c.contentId.python] || {}
       else
         introLevelData = introLevelsContent[c.contentId] || {}
-      c.displayName = introLevelData.displayName || introLevelData.name
+      c.displayName = i18n(introLevelData, 'displayName') || i18n(introLevelData, 'name')
       learningGoals = ((introLevelData.documentation || {}).specificArticles || []).find((a) => a.name == 'Learning Goals')
       if learningGoals
         c.learningGoals = i18n(learningGoals, 'body')
