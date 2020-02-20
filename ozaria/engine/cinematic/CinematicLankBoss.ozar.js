@@ -42,11 +42,13 @@ const BACKGROUND = 'BACKGROUND'
 // Backgrounds
 const DEFAULT_LAYER = 'Default'
 const BACKGROUND_LAYER = 'Background'
+const BACKGROUND_OBJECT_LAYER = 'Background Object'
 
 // Lank to Background mapping. If not set, will default to 'Default' layer.
 const lankLayer = new Map([
   [ BACKGROUND, BACKGROUND_LAYER ],
-  [ HERO_PET, BACKGROUND_LAYER ]
+  [ BACKGROUND_OBJECT, BACKGROUND_OBJECT_LAYER ],
+  [ HERO_PET, BACKGROUND_OBJECT_LAYER ]
 ])
 
 // Thang rotation constants
@@ -66,12 +68,22 @@ const LEFT = 0
  * @implements {System}
  */
 export default class CinematicLankBoss {
-  constructor ({ groundLayer, layerAdapter, backgroundAdapter, camera, loader }) {
+  constructor ({ groundLayer, layerAdapter, backgroundObjectAdapter, backgroundAdapter, camera, loader }) {
     this.groundLayer = groundLayer
+    this.lankCache = {}
     this.layerAdapters = {
       [DEFAULT_LAYER]: layerAdapter,
-      [BACKGROUND_LAYER]: backgroundAdapter
+      [BACKGROUND_LAYER]: backgroundAdapter,
+      [BACKGROUND_OBJECT_LAYER]: backgroundObjectAdapter
     }
+
+    // Layers are preloaded if nothing has been added to them.
+    this.preLoadedLayers = {
+      [DEFAULT_LAYER]: true,
+      [BACKGROUND_LAYER]: true,
+      [BACKGROUND_OBJECT_LAYER]: true
+    }
+
     this.camera = camera
     this.loader = loader
     this.lanks = {}
@@ -93,6 +105,65 @@ export default class CinematicLankBoss {
   }
 
   /**
+   * This method is used to preload and pre-rasterize lanks.
+   * This is achieved by adding lanks to the layers and then saving the rendered lank
+   * for use later.
+   * Then when the cinematic uses the lank, it is retrieved from the cache pool
+   * and shown. When the cinematic removes the lank, it is hidden and returned to
+   * the cache.
+   * In doing so we no longer need to rasterize during the playback of a cinematic.
+   */
+  preRasterLank (resource, thang, layer) {
+    const thangType = this.loader.getThangType(resource)
+    if (this.lankCache[thangType.id]) {
+      return
+    }
+    const lank = new Lank(thangType, {
+      preloadSounds: false,
+      thang: thang || {
+        pos: {
+          x: 0,
+          y: 0
+        }
+      },
+      camera: this.camera,
+      groundLayer: this.groundLayer,
+      isCinematic: true
+    })
+    this.layerAdapters[layer || DEFAULT_LAYER].addLank(lank)
+    this.lankCache[lank.thangType.id] = lank
+    if (this.preLoadedLayers[layer || DEFAULT_LAYER] === true) {
+      this.preLoadedLayers[layer || DEFAULT_LAYER] = new Promise((resolve, reject) => {
+        const unblockTimeout = setTimeout(() => {
+          console.error('Cinematic hit render timelimit of 40 seconds')
+          resolve()
+        }, 40000)
+        this.layerAdapters[layer || DEFAULT_LAYER].once('new-spritesheet', () => {
+          clearTimeout(unblockTimeout)
+          resolve()
+        })
+      })
+    }
+  }
+
+  // This method waits for all layers to be preloaded.
+  preloaded () {
+    const layerLoadPromises = [...Object.values(this.preLoadedLayers)].map(b => b === true ? Promise.resolve() : b)
+    let barLengthAlreadyLoaded = 66 // loaded in cinematic loader during network loading
+    const layerLoadAmt = 34 / layerLoadPromises.length
+    layerLoadPromises.forEach((p) => {
+      p.then(() => {
+        barLengthAlreadyLoaded += layerLoadAmt
+        const bar = $('.progress-bar.progress-bar-success')
+        if (bar) {
+          bar.css('width', `${Math.min(barLengthAlreadyLoaded, 100)}%`)
+        }
+      })
+    })
+    return Promise.all(layerLoadPromises)
+  }
+
+  /**
    * Returns a list of commands that correctly set up the shot.
    * @param {Shot} shot - the cinematic shot data.
    */
@@ -110,6 +181,7 @@ export default class CinematicLankBoss {
     const background = getBackground(shot)
     if (background) {
       commands.push(this.setBackgroundCommand(background))
+      this.preRasterLank(background.slug, background.thang, BACKGROUND_LAYER)
     }
 
     const lHero = getLeftHero(shot)
@@ -130,32 +202,36 @@ export default class CinematicLankBoss {
         thang,
         ms: 0
       })
+      this.preRasterLank((rHero || {}).type !== 'avatar' ? slug : avatarPet, thang, lankLayer[HERO_PET])
       commands.push(placePet)
     }
 
     if (lHero) {
       const { enterOnStart, thang, type } = lHero
       addMoveCharacterCommand(LEFT_LANK_KEY, type === 'hero' ? original : avatar, enterOnStart, thang)
+      this.preRasterLank(type === 'hero' ? original : avatar)
     }
 
     if (rHero) {
       const { enterOnStart, thang, type } = rHero
       addMoveCharacterCommand(RIGHT_LANK_KEY, type === 'hero' ? original : avatar, enterOnStart, thang)
+      this.preRasterLank(type === 'hero' ? original : avatar)
     }
 
     const leftCharSlug = getLeftCharacterThangTypeSlug(shot)
     if (leftCharSlug) {
       const { slug, enterOnStart, thang } = leftCharSlug
       addMoveCharacterCommand(LEFT_LANK_KEY, slug, enterOnStart, thang)
+      this.preRasterLank(slug, thang)
     }
 
     const rightCharSlug = getRightCharacterThangTypeSlug(shot)
     if (rightCharSlug) {
       // Remove the hero pet if not a hero being added to the right.
       commands.push(new SyncFunction(() => this.removeLank(HERO_PET)))
-
       const { slug, enterOnStart, thang } = rightCharSlug
       addMoveCharacterCommand(RIGHT_LANK_KEY, slug, enterOnStart, thang)
+      this.preRasterLank(slug, thang)
     }
 
     return commands
@@ -199,7 +275,7 @@ export default class CinematicLankBoss {
         stateChanged: true
       }
       const delay = getBackgroundObjectDelay(dialogNode)
-
+      this.preRasterLank(slug, thangOptions, lankLayer[BACKGROUND_OBJECT])
       commands.push(new SequentialCommands([
         new Sleep(delay),
         this.moveLankCommand({
@@ -223,6 +299,11 @@ export default class CinematicLankBoss {
 
     const text = getText(dialogNode)
     const animation = getSpeakingAnimationAction(dialogNode)
+    for (const cachedLank of Object.values(this.lankCache)) {
+      if ([...Object.keys(cachedLank.thangType.getActions())].indexOf(animation) !== -1) {
+        cachedLank.queueAction(animation)
+      }
+    }
     if (text && animation) {
       let textLength = getTextAnimationLength(dialogNode)
       if (textLength === undefined) {
@@ -403,9 +484,9 @@ export default class CinematicLankBoss {
   removeLank (key) {
     const lank = this.lanks[key]
     if (!lank) { return }
-    lank.layer.removeLank(lank)
+    this.lankCache[lank.thangType.id] = lank
+    lank.hide()
     delete this.lanks[key]
-    lank.destroy()
   }
 
   cleanup () {
@@ -428,6 +509,8 @@ export default class CinematicLankBoss {
    */
   addLank (key, thangType, thang = {}) {
     // Handle a duplicate thangType with the same key.
+    let lank = null
+    let useCache = false
     if (this.lanks[key] && this.lanks[key].thangType) {
       const original = this.lanks[key].thangType.get('original')
       if (thangType.get('original') === original) {
@@ -437,6 +520,12 @@ export default class CinematicLankBoss {
         // It's a lank we want to replace.
         this.removeLank(key)
       }
+    }
+
+    // Use a cached lank
+    if (this.lankCache[thangType.id]) {
+      lank = this.lankCache[thangType.id]
+      useCache = true
     }
 
     // Initial coordinates for thangs being created offscreen.
@@ -471,16 +560,19 @@ export default class CinematicLankBoss {
       }
     }
 
-    const lank = new Lank(thangType, {
+    lank = lank || new Lank(thangType, {
       preloadSounds: false,
       thang,
       camera: this.camera,
       groundLayer: this.groundLayer,
       isCinematic: true
     })
-
-    const layer = lankLayer.get(key) || DEFAULT_LAYER
-    this.layerAdapters[layer].addLank(lank)
+    lank.setThang(thang)
+    lank.show()
+    if (!useCache) {
+      const layer = lankLayer.get(key) || DEFAULT_LAYER
+      this.layerAdapters[layer].addLank(lank)
+    }
     this.lanks[key] = lank
   }
 }
