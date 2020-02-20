@@ -150,10 +150,21 @@ export default class Loader {
    * Ensure all ThangTypes in `loadingThangTypes` complete loading.
    */
   async load () {
+    let loadingTotal = 0
+    let loaded = 0
     // Need at least one promise in loadingPromises to prevent empty array Promise bug.
     const loadingPromises = [Promise.resolve()]
     this.loadingThangTypes.forEach((value) => {
-      loadingPromises.push(value)
+      loadingTotal++
+      loadingPromises.push(value.then(() => {
+        loaded++
+        const bar = $('.progress-bar.progress-bar-success')
+        if (bar) {
+          // We measure network loading in first 2/3 of bar, leaving other third
+          // of loading to be taken by layer adapater.
+          bar.css('width', `${loaded / loadingTotal * 66}%`)
+        }
+      }))
     })
     await Promise.all(loadingPromises)
     this.loadingThangTypes = new Map()

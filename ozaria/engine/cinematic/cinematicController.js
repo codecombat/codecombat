@@ -12,7 +12,7 @@ const LayerAdapter = require('lib/surface/LayerAdapter')
 const Camera = require('lib/surface/Camera')
 
 const CINEMATIC_SPRITE_RESOLUTION_FACTOR = 1
-
+const CINEMATIC_BACKGROUND_OBJECT_RESOLUTION_FACTOR = 3
 /**
  * Takes a reference of the canvas and uses this to set up all the systems.
  * The canvasDiv will be used by the dialogSystem in order to attach the html dialog div
@@ -51,10 +51,13 @@ export class CinematicController {
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
 
     this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
-    this.layerAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
+    this.backgroundObjectAdapter = new LayerAdapter({ name: 'Background Object', webGL: true, camera: camera })
     this.backgroundAdapter = new LayerAdapter({ name: 'Background', webGL: true, camera: camera })
+    this.layerAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
     this.backgroundAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
+    this.backgroundObjectAdapter.resolutionFactor = CINEMATIC_BACKGROUND_OBJECT_RESOLUTION_FACTOR
     this.stage.addChild(this.backgroundAdapter.container)
+    this.stage.addChild(this.backgroundObjectAdapter.container)
     this.stage.addChild(this.layerAdapter.container)
 
     this.systems.cameraSystem = new CameraSystem(camera)
@@ -75,6 +78,7 @@ export class CinematicController {
       groundLayer: this.stubRequiredLayer,
       layerAdapter: this.layerAdapter,
       backgroundAdapter: this.backgroundAdapter,
+      backgroundObjectAdapter: this.backgroundObjectAdapter,
       camera: camera,
       loader: this.systems.loader
     })
@@ -101,7 +105,16 @@ export class CinematicController {
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
     this.commands = commands
-    this.onLoaded()
+
+    await this.systems.cinematicLankBoss.preloaded()
+    for (const preloadedLank of Object.values(this.systems.cinematicLankBoss.lankCache)) {
+      preloadedLank.hide()
+    }
+
+    // Provide time for the loaded lanks to be hidden. Otherwise there can be a disruptive flash.
+    setTimeout(() => {
+      this.onLoaded()
+    }, 100)
   }
 
   /**
