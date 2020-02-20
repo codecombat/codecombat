@@ -4,6 +4,8 @@
   import NcesSearchInput from 'app/views/core/CreateAccountModal/teacher/NcesSearchInput'
   const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
   const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
+  const countryList = require('country-list')()
+  const UsaStates = require('usa-states').UsaStates
 
   export default Vue.extend({
     components: {
@@ -21,7 +23,10 @@
       formData = _.pick(this.$store.state.modal.trialRequestProperties, ncesKeys.concat([ 'organization', 'district', 'city', 'state', 'country', 'role' ]))
 
       return _.assign(ncesData, formData, {
-        showRequired: false
+        showRequired: false,
+        countries: countryList.getNames(),
+        usaStates: new UsaStates().states,
+        usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
       })
     },
     methods: {
@@ -68,12 +73,17 @@
         } else {
           NCES_KEYS = DISTRICT_NCES_KEYS
         }
-        this.country = 'USA'
+        this.country = 'United States'
         this.clearSchoolNcesValues()
         this.clearDistrictNcesValues()
         NCES_KEYS.forEach(key => {
           this['nces_' + key] = suggestion[key]
         })
+      },
+
+      onChangeCountry () {
+        if (this.country == 'United States' && !this.usaStatesAbbreviations.includes(this.state))
+          this.state = ''
       },
 
       async clickSave () {
@@ -149,14 +159,21 @@
                   | {{ $t("teachers_quote.state") }}
                   =" "
                   strong(v-if="showRequired && !state") {{ $t("common.required_field") }}
-                input.form-control(name="state", v-model="state")
+                select.form-control(name="state", v-model="state", v-if="country == 'United States'")
+                  option(v-for="state in usaStates" v-bind:value="state.abbreviation")
+                    | {{ state.abbreviation }}
+                    = ", "
+                    | {{ state.name }}
+                input.form-control(name="state", v-model="state", v-else)
             .col-xs-4
               .form-group(v-bind:class="{ 'has-error': showRequired && !country }")
                 span.control-label
                   | {{ $t("teachers_quote.country") }}
                   =" "
                   strong(v-if="showRequired && !country") {{ $t("common.required_field") }}
-                input.form-control(name="country", v-model="country")
+                select.form-control(name="country", v-model="country", @change="onChangeCountry")
+                  option(v-for="country in countries" v-bind:value="country")
+                    | {{ country }}
           .row.m-y-2
             .col-xs-offset-2.col-xs-8
               .form-group(v-bind:class="{ 'has-error': showRequired && !role }")

@@ -119,15 +119,23 @@ block content
               input.form-control(name="city")
 
           .col-md-4.col-sm-6
-            .form-group
+            .form-group.state
               span.control-label(data-i18n="teachers_quote.state")
-              input.form-control(name="state")
+              - var stateValue = view.state.get('stateValue')
+              if view.state.get('showUsaStateDropdown')
+                select.form-control(name="state")
+                  for state in view.usaStates
+                    option(value = state.abbreviation, selected=(state.abbreviation == stateValue)) #{state.abbreviation}, #{state.name}
+              else
+                input.form-control(name="state", value=stateValue)
 
         .row.m-y-2
           .col-md-offset-2.col-md-4.col-sm-6
             .form-group
               span.control-labelspan.control-label(data-i18n="teachers_quote.country")
-              input.form-control(name="country")
+              select.form-control(name="country")
+                for country in view.countries
+                  option(value = country, selected=(country == "United States")) #{country}
 
       #form-students-info
         .row
