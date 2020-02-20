@@ -10,6 +10,8 @@ User = require 'models/User'
 algolia = require 'core/services/algolia'
 State = require 'models/State'
 parseFullName = require('parse-full-name').parseFullName
+countryList = require('country-list')()
+UsaStates = require('usa-states').UsaStates
 
 SIGNUP_REDIRECT = '/teachers'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
@@ -25,8 +27,9 @@ module.exports = class RequestQuoteView extends RootView
     'submit #request-form': 'onSubmitRequestForm'
     'change input[name="city"]': 'invalidateNCES'
     'change input[name="state"]': 'invalidateNCES'
+    'change select[name="state"]': 'invalidateNCES'
     'change input[name="district"]': 'invalidateNCES'
-    'change input[name="country"]': 'invalidateNCES'
+    'change select[name="country"]': 'onChangeCountry'
     'click #email-exists-login-link': 'onClickEmailExistsLoginLink'
     'submit #signup-form': 'onSubmitSignupForm'
     'click #logout-link': -> me.logout()
@@ -54,10 +57,17 @@ module.exports = class RequestQuoteView extends RootView
       checkNameValue: null
       checkNamePromise: null
       authModalInitialValues: {}
+      showUsaStateDropdown: true
+      stateValue: null
     }
+    @countries = countryList.getNames()
+    @usaStates = new UsaStates().states
+    @usaStatesAbbreviations = new UsaStates().arrayOf('abbreviations')
     @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
     @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
+    @listenTo @state, 'change:showUsaStateDropdown', -> @renderSelectors('.state')
+    @listenTo @state, 'change:stateValue', -> @renderSelectors('.state')
 
   onLeaveMessage: ->
     if @formChanged
@@ -76,6 +86,22 @@ module.exports = class RequestQuoteView extends RootView
   invalidateNCES: ->
     for key in SCHOOL_NCES_KEYS
       @$('input[name="nces_' + key + '"]').val ''
+
+  onChangeCountry: (e) ->
+    @invalidateNCES()
+
+    stateElem = @$('select[name="state"]')
+    if @$('[name="state"]').prop('nodeName') == 'INPUT'
+      stateElem = @$('input[name="state"]')
+    stateVal = stateElem.val()
+    @state.set({stateValue: stateVal})
+
+    if e.target.value == 'United States' 
+      @state.set({showUsaStateDropdown: true})
+      if !@usaStatesAbbreviations.includes(stateVal)
+        @state.set({stateValue: ''})
+    else
+      @state.set({showUsaStateDropdown: false})
 
   afterRender: ->
     super()
@@ -102,7 +128,10 @@ module.exports = class RequestQuoteView extends RootView
       @$('input[name="district"]').val suggestion.district
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
-      @$('input[name="country"]').val 'USA'
+      @$('select[name="state"]').val suggestion.state
+      @$('select[name="country"]').val 'United States'
+      @state.set({showUsaStateDropdown: true})
+      @state.set({stateValue: suggestion.state})
       for key in SCHOOL_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeRequestForm()
@@ -123,7 +152,10 @@ module.exports = class RequestQuoteView extends RootView
       @$('input[name="organization"]').val '' # TODO: does not persist on tabbing: back to school, back to district
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
-      @$('input[name="country"]').val 'USA'
+      @$('select[name="state"]').val suggestion.state
+      @$('select[name="country"]').val 'United States'
+      @state.set({showUsaStateDropdown: true})
+      @state.set({stateValue: suggestion.state})
       for key in DISTRICT_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeRequestForm()
