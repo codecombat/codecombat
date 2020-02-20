@@ -167,7 +167,7 @@ module.exports = class TeacherClassView extends RootView
     me.getClientCreatorPermissions()?.then(() => @debouncedRender?())
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
-    @timeSpentOnUnitProgress = 0
+    @timeSpentOnUnitProgress = null
 
   fetchStudents: ->
     Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
@@ -385,7 +385,7 @@ module.exports = class TeacherClassView extends RootView
       @startTimeOnUnitProgress = new Date()
     else if @startTimeOnUnitProgress
       @timeSpentOnUnitProgress = new Date() - @startTimeOnUnitProgress
-      @startTimeOnUnitProgress = ''
+      @startTimeOnUnitProgress = null
       @trackTimeSpentOnUnitProgress()
 
   trackClickEvent: (e) ->
