@@ -65,8 +65,6 @@ html(lang='en')
         s.parentNode.insertBefore(hm, s);
         })();
 
-    if me.useEasemob()
-      script(async src="//kefu.easemob.com/webim/easemob.js?configId=164d5e28-69d7-47b0-ae42-38d863e2b037")
 
     script(type='text/javascript').
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
@@ -110,6 +108,10 @@ html(lang='en')
           } catch (error) { }
         }
   body.clearfix(onload='onLoad();')
+
+    if me.useEasemob()
+      script(src="//kefu.easemob.com/webim/easemob.js?configId=164d5e28-69d7-47b0-ae42-38d863e2b037")
+
     #fb-root
     block content
     #modal-wrapper.modal-content.hide
