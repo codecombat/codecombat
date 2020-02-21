@@ -67,6 +67,9 @@ module.exports = class TeacherClassView extends RootView
     'click .scroll-arrow-right': 'onClickScrollRight'
     'click .scroll-arrow-left': 'onClickScrollLeft'
     'mouseover .module-content': 'focusModuleContent'
+    'click .flagged-dot': 'onClickFlaggedDot'
+    'click .view-capstone-project': 'trackClickEvent'
+    'click .student-details-row': 'trackClickEvent'
 
   getInitialState: ->
     {
@@ -179,6 +182,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @onWindowResize = _.debounce @onWindowResize, 100
     $(window).on 'resize', @onWindowResize
+    @timeSpentOnUnitProgress = null
 
   fetchStudents: ->
     Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
@@ -418,7 +422,15 @@ module.exports = class TeacherClassView extends RootView
   
   destroy: ->
     $(window).off 'resize', @onWindowResize
+    @trackTimeSpentOnUnitProgress()
     super()
+
+  trackTimeSpentOnUnitProgress: ->
+    if @startTimeOnUnitProgress and !@timeSpentOnUnitProgress
+      @timeSpentOnUnitProgress = new Date() - @startTimeOnUnitProgress
+    if @timeSpentOnUnitProgress
+      application.tracker?.trackTiming @timeSpentOnUnitProgress, 'Teachers Time Spent', 'Unit Progress Tab', me.id
+      @timeSpentOnUnitProgress = ''
 
   getCourseAssessmentPairs: () ->
     @courseAssessmentPairs = []
@@ -433,13 +445,27 @@ module.exports = class TeacherClassView extends RootView
     hash = $(e.target).closest('a').attr('href')
     if hash isnt window.location.hash
       tab = hash.slice(1)
-      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab }, ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab, label: tab }, ['Mixpanel']
     @updateHash(hash)
     @state.set activeTab: hash
 
   updateHash: (hash) ->
     return if application.testing
     window.location.hash = hash
+    if hash == '#course-progress-tab' and !@startTimeOnUnitProgress
+      @startTimeOnUnitProgress = new Date()
+    else if @startTimeOnUnitProgress
+      @timeSpentOnUnitProgress = new Date() - @startTimeOnUnitProgress
+      @startTimeOnUnitProgress = null
+      @trackTimeSpentOnUnitProgress()
+
+  onClickFlaggedDot: ->
+    window.tracker?.trackEvent 'Teachers Click Concept check flag', { category: 'Teachers', label: @classroom.id }
+
+  trackClickEvent: (e) ->
+    eventAction = $(e.currentTarget).data('event-action')
+    if eventAction
+      window.tracker?.trackEvent eventAction, { category: 'Teachers', label: @classroom.id }
 
   onClickCopyCodeButton: ->
     window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']

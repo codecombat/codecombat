@@ -15,12 +15,16 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   events:
     'click .nav-link': 'onClickSolutionTab'
+    'click .print-btn': 'onClickPrint'
 
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
     solutionIndex = link.data('solution-index')
     tracker.trackEvent('Click Teacher Course Solution Tab', {levelSlug, solutionIndex})
+
+  onClickPrint: ->
+    window.tracker?.trackEvent 'Teachers Click Print Solution', { category: 'Teachers', label: @courseID + "/" + @language }
 
   getTitle: ->
     title = $.i18n.t('teacher.course_solution')
