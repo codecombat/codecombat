@@ -38,6 +38,7 @@ module.exports = class TeacherStudentView extends RootView
     @state = new State({
       'renderOnlyContent': options.renderOnlyContent
     })
+    @startTime = new Date()
 
     if (options.renderOnlyContent)
       @template = viewTemplate
@@ -88,6 +89,12 @@ module.exports = class TeacherStudentView extends RootView
       @updateSelectedCourseProgress(levelSlug)
       window.location.href = window.location.href 
 
+  destroy: ->
+    if @startTime
+      timeSpent = new Date() - @startTime
+      application.tracker?.trackTiming timeSpent, 'Teachers Time Spent',  'Student Profile Page', me.id
+    super()
+  
   afterRender: ->
     super(arguments...)
     @$('.progress-dot, .btn-view-project-level').each (i, el) ->
