@@ -62,9 +62,9 @@ mixin accountLinks
                       - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
                       -     faqURL += "-zh-HANS";
                       if document.location.href.search('/faq') >= 0
-                        a.text-p.text-moon(href=faqURL data-i18n="nav.faq")
+                        a.text-p.text-moon.faq-link(href=faqURL data-i18n="nav.faq")
                       else
-                        a.text-p(href=faqURL data-i18n="nav.faq")
+                        a.text-p.faq-link(href=faqURL data-i18n="nav.faq")
 
                 if !me.isAnonymous()
                   ul.nav.navbar-nav.navbar-right

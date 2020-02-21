@@ -11,7 +11,7 @@ block page_nav
     if view.paidTeacher || view.course.get('free')
       .print
         .btn.btn-md.btn-navy
-          a(href='javascript:window.print()')
+          a.print-btn(href='javascript:window.print()')
             span.glyphicon.glyphicon-print &#160;
             span(data-i18n="teacher.print_guide")
 
