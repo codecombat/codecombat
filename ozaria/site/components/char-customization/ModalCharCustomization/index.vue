@@ -179,14 +179,21 @@
       },
 
       handleSubmit () {
-        const valid = this.$refs['name-form'].reportValidity()
+        let valid = null
+        try {
+          valid = this.$refs['name-form'].reportValidity()
+        } catch (_e) {
+          // If there is an error, default to true because not all browsers support this method.
+          // We still check the contents of the input in the next check,
+          valid = true
+        }
         const name = this.characterName.trim()
         if (!valid) {
           return
         }
         if (name === '') {
           // TODO: handle_error_ozaria
-          return noty({ text:"Invalid Name", layout: 'topCenter', type: 'error' })
+          return noty({ text: 'Invalid Name', layout: 'topCenter', type: 'error', timeout: 8000 })
         }
 
         const ozariaConfig = me.get('ozariaUserOptions') || {}
