@@ -244,25 +244,41 @@ export default class CinematicLankBoss {
     //       Currently characters start 8 meters off the respective side of the camera bounds.
     const char = getExitCharacter(dialogNode)
     if (char === LEFT_LANK_KEY || char === 'both') {
-      commands.push(this.moveLankCommand({
-        key: LEFT_LANK_KEY,
-        thang: {
-          pos: {
-            x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET
+      commands.push(new SequentialCommands([
+        this.moveLankCommand({
+          key: LEFT_LANK_KEY,
+          thang: {
+            pos: {
+              x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET
+            }
+          },
+          ms: 800
+        }),
+        new SyncFunction(() => {
+          if (this.lanks[LEFT_LANK_KEY]) {
+            this.removeLank(LEFT_LANK_KEY)
           }
-        },
-        ms: 800 }))
+        })
+      ]))
     }
 
     if (char === RIGHT_LANK_KEY || char === 'both') {
-      commands.push(this.moveLankCommand({
-        key: RIGHT_LANK_KEY,
-        thang: {
-          pos: {
-            x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET
+      commands.push(new SequentialCommands([
+        this.moveLankCommand({
+          key: RIGHT_LANK_KEY,
+          thang: {
+            pos: {
+              x: this.stageBounds.bottomRight.x + OFF_CAMERA_OFFSET
+            }
+          },
+          ms: 800
+        }),
+        new SyncFunction(() => {
+          if (this.lanks[RIGHT_LANK_KEY]) {
+            this.removeLank(RIGHT_LANK_KEY)
           }
-        },
-        ms: 800 }))
+        })
+      ]))
     }
 
     const bgObject = getBackgroundObject(dialogNode)
@@ -461,6 +477,10 @@ export default class CinematicLankBoss {
    * character if it exists, by updating the hero pet thang.
    */
   updateHeroPetPosition () {
+    if (this.lanks[HERO_PET] && !this.lanks[RIGHT_LANK_KEY]) {
+      this.removeLank(HERO_PET)
+    }
+
     if (!(this.lanks[HERO_PET] && this.lanks[RIGHT_LANK_KEY])) {
       return
     }
