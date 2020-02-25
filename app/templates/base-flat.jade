@@ -241,7 +241,7 @@ mixin accountLinks
                           li
                             a(href=view.forumLink(), data-i18n="nav.forum")
                     .col-lg-3
-                      if !me.showingStaticPagesWhileLoading()
+                      if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
                         h3(data-i18n="nav.follow_us")
                         div.social-buttons
                           a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
@@ -257,6 +257,7 @@ mixin accountLinks
           if me.showChinaResourceInfo()
             - var {COCO_CHINA_CONST} = require('core/constants')
             span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
+            span.contact= "业务咨询："+COCO_CHINA_CONST.CONTACT_PHONE
           span(data-i18n="nav.copyright_prefix")
           span= ' ©2019 CodeCombat Inc. '
           span.spl(data-i18n="nav.copyright_suffix")
