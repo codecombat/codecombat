@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription: "German (Germany)", translation:
 
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    title: "CodeCombat - Spielend programmieren und Python und JavaScript lernen"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    meta_og_url: "https://codecombat.com"
@@ -135,13 +135,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     get_started_title: "Erstellen Sie noch heute ihre Klasse"
     get_started_subtitle: "Erstellen Sie eine Klasse, fügen Sie Schüler hinzu und verfolgen Sie ihren Fortschritt während sie Informatik lernen."
     request_demo: "Demo anfragen"
-    request_quote: "Zitat anfragen"
+    request_quote: "Preise anfragen"
     setup_a_class: "Eine Klasse erstellen"
     have_an_account: "Account vorhanden?"
     logged_in_as: "Sie sind zurzeit eingeloggt als"
     computer_science: "Informatikkurse für alle Altersgruppen" # {change}
     ffa: "Kostenlos für alle Schüler"
-    coming_soon: "Coming soon!"
+    coming_soon: "Bald verfügbar!"
     courses_available_in: "Kurse sind verfügbar in JavaScript und Python. Web-Entwicklungs-Kurse mit HTML, CSS, jQuery, and Bootstrap" # {change}
     boast: "Bietet Rätsel die komplex genug sind um Spieler und Programmiere zu faszinieren."
     winning: "Eine gewinnbringende Kombination aus RPG-Gameplay und Programmierhausaufgaben die aufgeht und kindgerechte Bildung berechtigterweise unterhaltsam macht."
@@ -172,7 +172,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     legal: "Rechtliches"
     privacy: "Datenschutz"
     about: "Über"
-#    impact: "Impact"
+#    impact: "Lerneffekt"
     contact: "Kontakt"
     twitter_follow: "Folge uns auf Twitter"
     my_classrooms: "Meine Klassen"
