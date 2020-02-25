@@ -58,7 +58,7 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
     locals.me.useStripe = -> not (locals.chinaInfra ? false)
     # customer IM service
-    locals.me.useEasemob = -> locals.chinaInfra ? false
+    locals.me.useQiyukf = -> locals.chinaInfra ? false
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath
