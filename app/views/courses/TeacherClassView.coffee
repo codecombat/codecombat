@@ -312,12 +312,14 @@ module.exports = class TeacherClassView extends RootView
           opacity: 1
         }
       })
-    $('.progress-dot, .btn-view-project-level').each (i, el) ->
-      dot = $(el)
-      dot.tooltip({
+
+    $('.has-tooltip').off('mouseenter')
+    $('.has-tooltip').mouseenter () ->
+      $(this).tooltip({
         html: true
-      }).delegate '.tooltip', 'mousemove', ->
-        dot.tooltip('hide')
+      })
+      $(this).tooltip('show')
+
 
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
