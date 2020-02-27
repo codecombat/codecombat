@@ -23,8 +23,6 @@ module.exports = class Tracker extends CocoClass
     @trackReferrers()
     @identify() # Needs supermodel to exist first
     @updateRole() if me.get('role')
-    if me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
-      @updateIntercomRegularly()
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -63,7 +61,9 @@ module.exports = class Tracker extends CocoClass
 
     if me.isTeacher(true) and @segmentLoaded and not me.get('unsubscribedFromMarketingEmails')
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
-      analytics.identify me.id, traits
+
+      # TODO remove intercom config once it's disabled in segment
+      analytics.identify me.id, traits, { Intercom: { hideDefaultLauncher: true } }
 
   trackPageView: (includeIntegrations=[]) ->
     name = Backbone.history.getFragment()
@@ -85,6 +85,10 @@ module.exports = class Tracker extends CocoClass
         options.integrations = All: false
         for integration in includeIntegrations
           options.integrations[integration] = true
+
+      # TODO remove config once it's disabled in segment
+      options.Intercom = { hideDefaultLauncher: true }
+
       analytics.page url, {}, options
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
@@ -195,19 +199,6 @@ module.exports = class Tracker extends CocoClass
     console.log 'Would track timing event:', arguments if debugAnalytics
     if @shouldTrackExternalEvents()
       ga? 'send', 'timing', category, variable, duration, label
-
-  updateIntercomRegularly: ->
-    return if @shouldBlockAllTracking() or application.testing or not @isProduction
-    timesChecked = 0
-    updateIntercom = =>
-      # Check for new Intercom messages!
-      # Intercom only allows 10 updates for free per page refresh; then 1 per 30min
-      # https://developers.intercom.com/docs/intercom-javascript#section-intercomupdate
-      window.Intercom?('update')
-      timesChecked += 1
-      timeUntilNext = (if timesChecked < 10 then 5*60*1000 else 30*60*1000)
-      setTimeout(updateIntercom, timeUntilNext)
-    setTimeout(updateIntercom, 5*60*1000)
 
   updateRole: ->
     return if me.isAdmin() or @shouldBlockAllTracking()
