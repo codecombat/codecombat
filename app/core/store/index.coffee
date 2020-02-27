@@ -17,6 +17,11 @@ store = new Vuex.Store({
     updateFeatures: (state, features) -> state.features = features
   }
 
+  getters: {
+    localeLoaded: (state) => (locale) =>
+      return state.localesLoaded[locale] == true
+  }
+
   modules: {
     me: require('./modules/me').default,
     courses: require('./modules/courses'),
