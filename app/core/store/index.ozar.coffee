@@ -32,7 +32,6 @@ store = new Vuex.Store({
     layoutChrome: require('./modules/layoutChrome').default
     unitMap: require('./modules/unitMap').default
     audio: require('./modules/audio').default
-    tutorial: require('./modules/tutorial').default
   }
 })
 

@@ -60,9 +60,6 @@ module.exports = class SpellView extends CocoView
     'level:show-victory': 'onShowVictory'
     'web-dev:error': 'onWebDevError'
     'tome:updateAether': 'onUpdateAether'
-    'tome:scroll-to-top': 'onScrollToTop'
-    'tome:remove-all-markers': 'onRemoveAllMarkers'
-
 
   events:
     'mouseout': 'onMouseOut'
@@ -567,24 +564,10 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
     @updateHTML create: true if @options.level.isType('web-dev')
 
-
   onUpdateAether: ->
     @spell.transpile()
     @updateAether false, false
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
-
-  onScrollToTop: (callback) ->
-#    @ace.scrollToLine(0, false, true, callback)
-    @ace.scrollToLine(0, false, false)
-
-  onRemoveAllMarkers: ->
-    Object.values(@aceSession.getMarkers())
-      .forEach((m) => @aceSession.removeMarker(m.id))
-
-    for row in [0 ... @aceSession.getLength()]
-      @aceSession.removeGutterDecoration row, 'executing'
-      @aceSession.removeGutterDecoration row, 'executed'
-      @decoratedGutter[row] = ''
 
   createDebugView: ->
     return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
