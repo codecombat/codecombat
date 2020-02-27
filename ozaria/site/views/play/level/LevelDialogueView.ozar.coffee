@@ -131,6 +131,14 @@ m3l2l1 = [{
   position: 'Auto'
 }]
 
+
+
+
+
+
+
+
+
 testAll = [{
   message: "Intro message"
 }, {
@@ -142,7 +150,7 @@ testAll = [{
 
   message: 'Code Bank button'
   targetElement: 'Code Bank button'
-  animation: 'Outline'
+  animation: 'Shake'
   position: 'Auto'
 }, {
 
@@ -406,13 +414,6 @@ module.exports = class LevelDialogueView extends CocoView
       if step.animation == 'Wiggle'
         details.highlightClass = 'wiggle'
 
-      if step.animation == 'Wiggle'
-        details.highlightClass = 'wiggle'
-
-      if step.targetElement == 'Code Bank button'
-        # The code bank IS a border, and thus we have to use this to get some sort of "border" around it
-        details.highlightClass = 'golden-highlight-outline'
-
       return _.assign(details, {
         id: index
         text: '' # We set the message with DialogueAnimator later
@@ -464,7 +465,13 @@ module.exports = class LevelDialogueView extends CocoView
         if step.options.attachTo?.on == 'right'
           $('header.shepherd-header:visible').addClass('shepherd-header-right')
           $('.shepherd-text:visible').addClass('shepherd-text-right')
-          $('.shepherd-arrow:visible').addClass('shake-horizontally-left')
+
+        if tutorialStep.targetElement == 'Code Bank button'
+          $(step.options.attachTo?.targetElement).addClass('golden-highlight-outline') # temp hack
+        if tutorialStep.targetElement == 'Run Button'
+          @tour.options.useModalOverlay = false
+        else
+          @tour.options.useModalOverlay = true
       , 1)
 
       @animateMessage(tutorialStep.message, '.shepherd-text')

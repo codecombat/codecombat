@@ -247,32 +247,35 @@
   background-repeat: no-repeat
   background-size: cover
   border-color: transparent !important
-  top: unset !important
-  left: unset !important
 
 .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
   background-image: url("/images/ozaria/level/PointerR_top.svg")
-  transform: translate(85%, -24%)
+  transform: unset !important
+  top: -15.5%
+  left: 97%
 .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow
-  background-image: url("/images/ozaria/level/PointerR_top.svg")
-  rotate: 180deg
-  transform: translate(85%, -75%)
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
-  background-image: url("/images/ozaria/level/PointerR_bottom.svg")
-  rotate: -90deg
-  transform: translate(88%, 369%)
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
   background-image: url("/images/ozaria/level/PointerL_bottom.svg")
-  rotate: 270deg
-  transform: translate(-87%, 369%)
+  transform: unset !important
+  top: 37%
+  left: -17%
+.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
+  background-image: url(/images/ozaria/level/PointerL_bottom.svg)
+  transform: unset !important
+  top: -69%
+  left: 84.7%
+.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
+  background-image: url(/images/ozaria/level/PointerR_top.svg)
+  transform: unset !important
+  top: 89%
+  left: -5%
 
 // These are set as important in order to properly cascade for each .shepherd-element box:
 .element-attached-top
-  top: -55px !important
+  top: -75px !important
 .element-attached-right
   left: 55px !important
 .element-attached-bottom
-  top: 55px !important
+  top: 75px !important
 .element-attached-left
   left: -55px !important
 
@@ -292,7 +295,7 @@
 .shepherd-text
   padding: 19px 14px 35px 65px
   color: #232323
-  font-family: $body-font-style
+    font-family: $body-font-style
   font-size: 17px
   letter-spacing: 0.71px
 
