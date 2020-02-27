@@ -9,9 +9,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 
+import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
-import { getNextLevelForLevel, internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
+import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
 
 require('app/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
@@ -225,27 +226,6 @@ class PlayLevelView extends RootView {
     if (this.waitingToSetUpGod) {
       return this.setupGod()
     }
-
-    // Construct intro tutorial message from learning goals:
-    const specificArticles = (e.level.get('documentation') || {}).specificArticles || []
-    const narrative = _.find(specificArticles, { name: 'Intro' })
-    const learningGoals = _.find(specificArticles, { name: 'Learning Goals' })
-    let narrativeText = 'Placeholder narrative text'
-    let learningGoalsText = 'Placeholder learning goals'
-    if (narrative) {
-      narrativeText = utils.i18n(narrative, 'body')
-    }
-    if (learningGoals) {
-      learningGoalsText = utils.i18n(learningGoals, 'body')
-    }
-    let levelTypeText = internationalizeLevelType(e.level.get('ozariaType'), true)
-    let levelName = utils.i18n(e.level.attributes, 'displayName') || utils.i18n(e.level.attributes, 'name')
-    const message = `${levelTypeText} :  ${levelName}\n${narrativeText}\n${ $.i18n.t("play_level.learning_goals") }:\n${learningGoalsText}`
-
-    store.commit('tutorial/addStep', {
-      message,
-      intro: true
-    })
   }
 
   trackLevelLoadEnd () {
@@ -934,7 +914,14 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    this.startLevel()
+    if (!this.capstoneStage || this.capstoneStage === 1) {
+      this.openModalView(new LevelIntroModal({
+        level: this.level,
+        onStart: () => this.startLevel()
+      }))
+    } else {
+      this.startLevel()
+    }
   }
 
   startLevel () {
@@ -979,7 +966,7 @@ class PlayLevelView extends RootView {
       this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
     }
 
-    this.dialogueView.startTutorial()
+    this.dialogueView.beginDialogue()
   }
 
   onSetVolume (e) {

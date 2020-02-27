@@ -676,14 +676,12 @@ module.exports = Lank = class Lank extends CocoClass
     e.sprite = @
     e.blurb ?= '...'
     e.thang = @thang
-    console.log('in Lank.coffee:notifySpeechUpdated, about to publish sprite:speech-updated event with e: ', e)
     Backbone.Mediator.publish 'sprite:speech-updated', e
 
   isTalking: ->
     Boolean @labels.dialogue?.text or @labels.say?.text
 
   onDialogue: (e) ->
-    console.log('in Lank.coffee:onDialogue with e: ', e)
     return unless @thang?.id is e.spriteID
     unless @thang?.id is 'Hero Placeholder'  # Don't show these for heroes, because they aren't actually first-person, just LevelDialogueView narration
       label = @addLabel 'dialogue', Label.STYLE_DIALOGUE

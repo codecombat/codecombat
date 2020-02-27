@@ -3,335 +3,18 @@
 @import "ozaria/site/styles/play/variables"
 @import "ozaria/site/styles/common/variables"
 
-// The shepherd styles are extremely stubborn and we have to unset !important all over the place:
-// Lots of unsetting and overwriting for these styles in order to
-// truly overwrite the core styles and not make the hover look weird
+// For use with fitty library
+.fit
+  display: inline-block
 
-.golden-highlight-border
-  border: 4px solid #F7D047
-
-.golden-highlight-outline
-  outline: 4px solid #F7D047
-
-.full-gold-highlight
-  background-color: #F7D047
-
-@keyframes wiggle-animation
-  0%
-    transform: rotate(0deg)
-  60%
-    transform: rotate(0deg)
-  75%
-    transform: rotate(7deg)
-  90%
-    transform: rotate(-7deg)
-  100%
-    transform: rotate(0deg)
-
-.wiggle
-  animation: wiggle-animation 2.5s infinite
-
-@keyframes shake-vertically-animation
-  0%
-    transform: translate(0px)
-  10%
-    transform: translate(0px, 7px)
-  15%
-    transform: translate(0px, -7px)
-  30%
-    transform: translate(0px)
-  100%
-    transform: translate(0px)
-
-.shake-vertically
-  animation: shake-vertically-animation 2.5s infinite
-
-@keyframes shake-horizontally-animation-left
-  0%
-    transform: translate(85%, -75%)
-  5%
-    transform: translate(85% + 5%, -75%)
-  30%
-    transform: translate(85% -5%, -75%)
-  50%
-    transform: translate(85%, -75%)
-  100%
-    transform: translate(85%, -75%)
-
-.shake-horizontally-left
-  animation: shake-horizontally-animation-left 2.5s infinite
-
-@keyframes button-glow-animation
-  0%
-    box-shadow: 0 0 10px -10px #00f3ca
-  100%
-    box-shadow: 0 0 10px 10px #00f3ca
-
-.button-glow
-  animation: button-glow-animation 1s infinite alternate
-
-.shepherd-rectangle
-  box-sizing: border-box
-  height: 137px
-  width: 402px
-  background-color: #FFF
-  border: 4px solid #F7D047
-
-.filler-button
-  color: transparent
-  background-color: transparent
-  width: 30px
-  height: 30px
-  margin: 0
-  padding: 0
-  cursor: unset
-
-.shepherd-header
-  position: absolute
-  left: -50px
-  top: -50px
-  width: 107px
-  height: 107px
-  margin: 0
-  padding: 0
-  z-index: 1000
-  background-repeat: no-repeat
-  background-size: cover
-
-.shepherd-header-right
-  left: unset
-  right: -50px
-
-.shepherd-footer
-  display: flex
-  align-items: center
-  justify-content: center
-  position: absolute
-  left: 42%
-  bottom: -2%
-  height: 30px
-
-.shepherd-button
-  width: 30px
-  height: 30px
-  margin: 0
-  padding: 0
-  z-index: 1000
-  color: unset !important
-  background-repeat: no-repeat !important
-  background-size: contain
-  background-color: unset
-
-.shepherd-button:hover
-  background-color: transparent
-  color: transparent
-  background-image: unset
-
-.shepherd-button:not(:disabled):hover
-  background: unset
-  background-color: transparent
-  color: transparent
-  background-image: unset
-
-.shepherd-start-button
-  position: absolute
-  top: 38px
-  left: 130px
-  width: 100px !important
-  height: 60px !important
-  margin: 0 !important
-  padding: 0 !important
-  z-index: 1000 !important
-  color: unset !important
-  background-repeat: no-repeat !important
-  background-size: contain !important
-  background-color: unset !important
-  background: url('/images/ozaria/level/StartButton.svg')
-  background-image: url('/images/ozaria/level/StartButton.svg')
-.shepherd-start-button:not(:disabled):hover
-  background: url('/images/ozaria/level/StartButton.svg')
-  background-image: url('/images/ozaria/level/StartButton.svg')
-
-.shepherd-play-button
-  position: absolute
-  top: 38px
-  left: 130px
-  width: 100px !important
-  height: 60px !important
-  margin: 0 !important
-  padding: 0 !important
-  z-index: 1000 !important
-  color: unset !important
-  background-repeat: no-repeat !important
-  background-size: contain !important
-  background-color: unset !important
-  background: url('/images/ozaria/level/PlayButton.svg')
-  background-image: url('/images/ozaria/level/PlayButton.svg')
-.shepherd-play-button:not(:disabled):hover
-  background: url('/images/ozaria/level/PlayButton.svg')
-  background-image: url('/images/ozaria/level/PlayButton.svg')
-
-.shepherd-back-button-active
-  background: url('/images/ozaria/level/ActiveL.svg')
-  background-image: url('/images/ozaria/level/ActiveL.svg')
-.shepherd-back-button-active:not(:disabled):hover
-  background: url('/images/ozaria/level/ActiveL.svg')
-  background-image: url('/images/ozaria/level/ActiveL.svg')
-
-.shepherd-back-button-inactive
-  background: url('/images/ozaria/level/InactiveL.svg')
-  background-image: url('/images/ozaria/level/InactiveL.svg')
-.shepherd-back-button-inactive:not(:disabled):hover
-  background: url('/images/ozaria/level/InactiveL.svg')
-  background-image: url('/images/ozaria/level/InactiveL.svg')
-
-.shepherd-next-button-active
-  background: url('/images/ozaria/level/ActiveR.svg')
-  background-image: url('/images/ozaria/level/ActiveR.svg')
-.shepherd-next-button-active:not(:disabled):hover
-  background: url('/images/ozaria/level/ActiveR.svg')
-  background-image: url('/images/ozaria/level/ActiveR.svg')
-
-.shepherd-next-button-inactive
-  background: url('/images/ozaria/level/InactiveR.svg')
-  background-image: url('/images/ozaria/level/InactiveR.svg')
-.shepherd-next-button-inactive:not(:disabled):hover
-  background: url('/images/ozaria/level/InactiveR.svg')
-  background-image: url('/images/ozaria/level/InactiveR.svg')
-
-
-.shepherd-header-moving-capella
-  background-image: url('/images/ozaria/level/Moving_Capella.png')
-.shepherd-header-moving-capella:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Moving_Capella.png')
-.shepherd-header-stationary-capella
-  background-image: url('/images/ozaria/level/Static_Capella.png')
-.shepherd-header-stationary-capella:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Static_Capella.png')
-
-.shepherd-header-moving-octans
-  background-image: url('/images/ozaria/level/Moving_Octans.png')
-.shepherd-header-moving-octans:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Moving_Octans.png')
-.shepherd-header-stationary-octans
-  background-image: url('/images/ozaria/level/Static_Octans.png')
-.shepherd-header-stationary-octans:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Static_Octans.png')
-
-.shepherd-header-moving-ghostv
-  background-image: url('/images/ozaria/level/Moving_GhostV.png')
-.shepherd-header-moving-ghostv:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Moving_GhostV.png')
-.shepherd-header-stationary-ghostv
-  background-image: url('/images/ozaria/level/Static_GhostV.png')
-.shepherd-header-stationary-ghostv:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Static_GhostV.png')
-
-.shepherd-header-moving-vega
-  background-image: url('/images/ozaria/level/Moving_Vega.png')
-.shepherd-header-moving-vega:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Moving_Vega.png')
-.shepherd-header-stationary-vega
-  background-image: url('/images/ozaria/level/Static_Vega.png')
-.shepherd-header-stationary-vega:not(:disabled):hover
-  background-image: url('/images/ozaria/level/Static_Vega.png')
-
-.shepherd-element .shepherd-arrow
-  border-bottom-style: initial !important
-  position: absolute
-  width: 80px
-  height: 85px
-  margin: 0
-  padding: 0
-  z-index: 1000
-  background-repeat: no-repeat
-  background-size: cover
-  border-color: transparent !important
-  top: unset !important
-  left: unset !important
-
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
-  background-image: url("/images/ozaria/level/PointerR_top.svg")
-  transform: translate(85%, -24%)
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow
-  background-image: url("/images/ozaria/level/PointerR_top.svg")
-  rotate: 180deg
-  transform: translate(85%, -75%)
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
-  background-image: url("/images/ozaria/level/PointerR_bottom.svg")
-  rotate: -90deg
-  transform: translate(88%, 369%)
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
-  background-image: url("/images/ozaria/level/PointerL_bottom.svg")
-  rotate: 270deg
-  transform: translate(-87%, 369%)
-
-// These are set as important in order to properly cascade for each .shepherd-element box:
-.element-attached-top
-  top: -55px !important
-.element-attached-right
-  left: 55px !important
-.element-attached-bottom
-  top: 55px !important
-.element-attached-left
-  left: -55px !important
-
-.invisible-tour
-  visibility: hidden !important
-
-.tutorial-profile-picture
-  position: absolute
-  top: -30px
-  left: -30px
-  width: 75px
-  z-index: 1000
-
-.shepherd-element
-  border-radius: unset
-
-.shepherd-text
-  padding: 19px 14px 35px 65px
-  color: #232323
-  font-family: $body-font-style
-  font-size: 17px
-  letter-spacing: 0.71px
-
-.shepherd-text-right
-  // Always invert margin left with margin right for .shepherd-text
-  // Can probably be done better with a different kind of toggle
-  padding-right: 65px
-  padding-left: 35px
+// TODO: Make this visible again after HoC 2019:
+.hidden-shepherd-box
+  display: none
+  visibility: hidden
 
 // Overwrite the default opacity for Shepherd.js:
 .shepherd-modal-overlay-container.shepherd-modal-is-visible
   opacity: 0.7
-
-.stationary-tutorial
-  position: absolute
-  display: flex
-  justify-content: center
-  align-items: center
-  transform: unset !important
-
-.stationary-tutorial-buttons
-  position: absolute
-  display: flex
-  align-content: center
-  align-items: center
-  justify-content: center
-  width: 40px
-  height: 20px
-  bottom: 4px
-
-.only-back-tutorial-button
-  position: absolute
-  display: flex
-  align-content: center
-  align-items: center
-  justify-content: center
-  width: 40px
-  height: 20px
-  left: 85px
 
 #level-dialogue-view
   display: flex
@@ -344,31 +27,43 @@
   z-index: 2
   justify-content: center
   align-items: center
-  visibility: hidden // Only shown when moving vega tutorials are done
 
   .dialogue-area
     display: flex
-    flex-direction: column
     position: relative
     justify-content: center
     align-items: center
-    border: 4px solid #F7D047
+    height: 82%
+    width: 92%
+    border: 2px solid #1FBAB4
     background-color: #FFFFFF
-    margin: 1% 1% 1% 8%
-    width: 100%
-    height: 94%
+    box-shadow: 0 0 10px 4px #1FBAB4
 
     .vega-narrator
       position: absolute
-      left: -9%
-      height: 95%
+      left: 0
+      height: 100%
 
     .vega-dialogue
       color: #232323
       font-family: $body-font-style
-      font-size: 14px
+      font-size: 18px
       letter-spacing: 0.71px
-      margin: 0 8px 0 14%
+      margin: 0 20px 0 22%
 
     .vega-dialogue.wide
       margin: 0 20px 0 20px
+
+    .continue
+      position: absolute
+      height: 17px
+      width: 140px
+      bottom: 1%
+      right: 20px
+      color: #1FBAB4
+      cursor: pointer
+      font-family: $body-font-style
+      font-size: 12px
+      letter-spacing: 0.51px
+      line-height: 17px
+      text-align: right
