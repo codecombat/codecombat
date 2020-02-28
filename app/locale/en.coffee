@@ -2697,6 +2697,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     iteration: "Iteration"
     nesting: "Nesting"
     data_types: "Data Types"
+    objects: "Objects"
+    methods: "Methods"
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
