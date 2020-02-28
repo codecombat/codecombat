@@ -1,6 +1,10 @@
 # NOTE: 'automatic' is whether rob's auto-tagger can find it.
 
 concepts = [
+  # Ozaria 1FH
+  {concept: 'objects', name: 'Objects', description: '', automatic: false}
+  {concept: 'methods', name: 'Methods', description: '', automatic: false}
+
   # Ozaria 1UP
   {concept: 'basic_syntax', name: 'Basic Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'}
   {concept: 'variables', name: 'Variables', description: 'Storing and updating data in variables.', automatic: true, tagger: 'VariableDeclaration'}
