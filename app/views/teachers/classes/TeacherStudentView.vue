@@ -23,6 +23,7 @@
   import LoadingProgress from 'views/core/LoadingProgress'
   import BackboneViewHarness from 'views/common/BackboneViewHarness'
   import Breadcrumbs from '../../common/BreadcrumbComponent'
+  import User from '../../../models/User'
 
   export default {
     components: {
@@ -69,12 +70,12 @@
             i18n: 'school_administrator.my_teachers'
           }, {
             href: `/school-administrator/teacher/${this.$route.params.teacherId}`,
-            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
+            text: User.broadName(this.teacher)
           }, {
             href: `/school-administrator/teacher/${this.$route.params.teacherId}/classroom/${this.$route.params.classroomId}`,
             text: this.classroom.name
           }, {
-            text: this.student.firstName ? `${this.student.firstName} ${this.student.lastName}` : this.student.name
+            text: User.broadName(this.student)
           }]
         },
 
