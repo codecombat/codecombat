@@ -169,8 +169,9 @@ extractTranspileErrorDetails = (options) ->
         console.error "Jaba error with no location information:", error
       options.hint = error.message
     when 'cpp'
+      alert(JSON.stringify(error))
       if error.location
-        options.range = [error.location.start.offset, error.location.end.offset]
+        options.range = [ranges.offsetToPos(error.location.start.offset, code, codePrefix), ranges.offsetToPos(error.location.end.offset, code, codePrefix)]
       else
         console.error "C++ error with no location information:", error
       #options.hint = error.message
