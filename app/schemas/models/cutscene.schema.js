@@ -21,7 +21,7 @@ const CutsceneSchema = schema.object({
     src: { type: 'string', title: 'Caption file', format: 'vtt-file', description: "If this vtt file doesn't upload you may need to use a different browser like Firefox." },
     label: schema.shortString({ title: 'Language Label' })
   }),
-  i18n: { type: 'object', format: 'i18n', props: ['name', 'captions'], description: 'This cutscene translation required srt files.' },
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'captions', 'displayName'], description: 'This cutscene translation required srt files.' },
   displayName: schema.shortString({ title: 'Display Name' })
 })
 
