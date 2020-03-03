@@ -1992,7 +1992,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
 
   teacher_ozaria_encouragement_modal:
-    title: "学习计算机科学技能，拯救奥佳睿"
+    title: "学习计算机科学技能，拯救奥佳睿世界"
     sub_title: "邀请您体验 CodeCombat 出品的最新冒险编程产品"
     cancel: "返回 CodeCombat"
     accept: "免费试用序章"
