@@ -1989,18 +1989,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     combo_explanation: "学生至少使用一个列出的概念组合来挑战关卡，点击进度点查看学生代码。"
     concept: "概念"
     sync_google_classroom: "同步谷歌教室"
-#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+    try_ozaria_footer: "试试我们的新产品：奥佳睿！"
 
-#  teacher_ozaria_encouragement_modal:
-#    title: "Build Computer Science Skills to Save Ozaria"
-#    sub_title: "You are invited to try the new adventure game from CodeCombat"
-#    cancel: "Back to CodeCombat"
-#    accept: "Try First Unit Free"
-#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
-#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
-#    bullet3: "Unlock creativity through capstone projects"
-#    bullet4: "Support instructions through dedicated curriculum resources"
-#    you_can_return: "You can always return to CodeCombat"
+  teacher_ozaria_encouragement_modal:
+    title: "学习计算机科学技能，拯救奥佳睿世界"
+    sub_title: "邀请您体验 CodeCombat 出品的最新冒险编程产品"
+    cancel: "返回 CodeCombat"
+    accept: "免费试用序章"
+    bullet1: "通过宏大故事和沉浸式游戏加深学生与学习的联系"
+    bullet2: "教授计算机科学的基本概念，Python 或者 JavaScript，以及 21 世纪所需的技能"
+    bullet3: "在顶点项目释放创意"
+    bullet4: "提供教研资料指导"
+    you_can_return: "您可以随时回到 CodeCombat"
 
   share_licenses:
     share_licenses: "分配许可"
