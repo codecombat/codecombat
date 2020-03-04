@@ -1,3 +1,5 @@
+_Time: 60-90 in-game minutes_
+
 ##### Chapter 1: Module 1 Lesson Plan
 # Module 1: Algorithms and Syntax
 
