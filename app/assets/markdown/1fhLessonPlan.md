@@ -1,4 +1,5 @@
-##### Unit Lesson Plan
+_Time: 60 in-game minutes, 60 in-class activity minutes_
+
 # Prologue: The Sky Mountain
 
 ## Overview
