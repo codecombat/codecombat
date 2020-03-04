@@ -1,3 +1,5 @@
+_Time: 75-90 in-game minutes_
+
 # Chapter 2: Module 2 Lesson Plan
 
 # Overview
