@@ -1,3 +1,5 @@
+_Time: 60-90 in-game minutes_
+
 ##### Chapter 1: Module 2 Lesson Plan
 # Module 2: Debugging
 
