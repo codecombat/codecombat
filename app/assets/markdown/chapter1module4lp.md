@@ -1,3 +1,6 @@
+_Time: 75-120 in-game minutes_
+
+
 # Chapter 1: Module 4 Lesson Plan
 
 # Overview
