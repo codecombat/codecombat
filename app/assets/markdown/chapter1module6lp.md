@@ -1,3 +1,6 @@
+_Time: 90-120 minutes_
+
+
 # **Chapter 1 Capstone Lesson Plan**
 
 # Overview
