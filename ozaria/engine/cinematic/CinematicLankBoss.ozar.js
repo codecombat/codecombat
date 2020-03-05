@@ -428,7 +428,6 @@ export default class CinematicLankBoss {
         y: pos.y,
         duration: ms,
         autoplay: false,
-        delay: 500, // Hack to provide some time for lank to load.
         easing: 'easeInOutQuart',
         // Inform update engine to render thang at new position.
         update: lankStateChanged,
