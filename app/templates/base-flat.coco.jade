@@ -140,73 +140,46 @@ mixin accountLinks
         #footer.small
           .container
             .row
-              .col-lg-12
-                .row
-                  .col-lg-3
-                    h3(data-i18n="nav.general")
-                    ul.list-unstyled
-                      li
-                        a(href="/about", data-i18n="nav.about")
-                      li
-                        a(href="/about#careers", data-i18n="nav.careers")
-                      if !me.isStudent()
-                        li
-                          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                      li
-                        a(href="/parents", data-i18n="nav.parent")
-                      if me.showOpenResourceLink()
-                        li
-                          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-                      if me.showChinaICPinfo()
-                        li
-                          a(href="http://beian.miit.gov.cn/") 京ICP备19012263号
-                  .col-lg-3
-                    if !me.isStudent()
-                      h3(data-i18n="nav.educators")
+              if me.showChinaResourceInfo()
+                .col-lg-12
+                  .row
+                    .col-lg-3
+                      h3(data-i18n="nav.general")
                       ul.list-unstyled
                         li
-                          - var faqURL = "/teachers/resources/faq";
-                          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-                          -     faqURL = "/teachers/resources/faq-nl-NL";
-                          - if (me.get('preferredLanguage') == 'he')
-                          -     faqURL = "/teachers/resources/faq-HE";
-                          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-                          -     faqURL = "/teachers/resources/faq-pt-BR";
-                          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-                          -     faqURL = "/teachers/resources/faq-zh-HANS";
-                          a(href=faqURL, data-i18n="teacher.educator_faq")
+                          a(href="/about", data-i18n="nav.about")
                         li
-                          a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          a(href="/about#careers", data-i18n="nav.careers")
+                        if !me.isStudent()
+                          li
+                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                         li
-                          a(href="/apcsp", data-i18n="nav.apcsp")
+                          a(href="/parents", data-i18n="nav.parent")
                         li
-                          a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                  .col-lg-3
-                    h3(data-i18n="nav.get_involved")
-                    ul.list-unstyled
-                      if me.showOpenResourceLink()
-                        li
-                          a(href='/community', data-i18n="nav.community")
-                      li
-                        a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
-                      if me.showGithubLink()
-                        li
-                          a(href="https://github.com/codecombat/codecombat") GitHub
-                      if !me.isStudent() && me.showForumLink()
-                        li
-                          a(href=view.forumLink(), data-i18n="nav.forum")
-                  .col-lg-3
-                    if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
-                      h3(data-i18n="nav.follow_us")
-                      div.social-buttons
-                        a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
-                          img(src="/images/pages/base/youtube_symbol_button.png", width="40")
-                        a(href="https://twitter.com/codecombat", target="_blank")
-                          img(src="/images/pages/base/twitter_logo_btn.png", width="40")
-                        a(href="https://www.facebook.com/codecombat", target="_blank")
-                          img(src="/images/pages/base/facebook_logo_btn.png", width="40")
-                    if me.showChinaResourceInfo()
-                      h3 友情链接
+                          a(href="http://beian.miit.gov.cn/") 京ICP备19012263号
+                    .col-lg-3
+                      if !me.isStudent()
+                        h3(data-i18n="nav.educators")
+                        ul.list-unstyled
+                          li
+                            - var faqURL = "/teachers/resources/faq";
+                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                            -     faqURL = "/teachers/resources/faq-nl-NL";
+                            - if (me.get('preferredLanguage') == 'he')
+                            -     faqURL = "/teachers/resources/faq-HE";
+                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                            -     faqURL = "/teachers/resources/faq-pt-BR";
+                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                            -     faqURL = "/teachers/resources/faq-zh-HANS";
+                            a(href=faqURL, data-i18n="teacher.educator_faq")
+                          li
+                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          li
+                            a(href="/apcsp", data-i18n="nav.apcsp")
+                          li
+                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    .col-lg-3
+                      h3 相关链接
                       ul.list-unstyled
                         li
                           a(href="https://codecombat.163.com") 极客战记（个人版）
@@ -214,6 +187,69 @@ mixin accountLinks
                           a(href="http://aiyouth.ccidtraining.org.cn") 赛迪人工智能大赛 - AI世青赛
                         li
                           a(href="http://ccidtraining.org.cn") 工信部赛迪研究院培训中心
+                    .col-lg-3
+                      h3(data-i18n="nav.follow_us")
+                      img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+              else
+                .col-lg-12
+                  .row
+                    .col-lg-3
+                      h3(data-i18n="nav.general")
+                      ul.list-unstyled
+                        li
+                          a(href="/about", data-i18n="nav.about")
+                        li
+                          a(href="/about#careers", data-i18n="nav.careers")
+                        if !me.isStudent()
+                          li
+                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                        li
+                          a(href="/parents", data-i18n="nav.parent")
+                        li
+                          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                    .col-lg-3
+                      if !me.isStudent()
+                        h3(data-i18n="nav.educators")
+                        ul.list-unstyled
+                          li
+                            - var faqURL = "/teachers/resources/faq";
+                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                            -     faqURL = "/teachers/resources/faq-nl-NL";
+                            - if (me.get('preferredLanguage') == 'he')
+                            -     faqURL = "/teachers/resources/faq-HE";
+                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                            -     faqURL = "/teachers/resources/faq-pt-BR";
+                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                            -     faqURL = "/teachers/resources/faq-zh-HANS";
+                            a(href=faqURL, data-i18n="teacher.educator_faq")
+                          li
+                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          li
+                            a(href="/apcsp", data-i18n="nav.apcsp")
+                          li
+                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    .col-lg-3
+                      h3(data-i18n="nav.get_involved")
+                      ul.list-unstyled
+                        li
+                          a(href='/community', data-i18n="nav.community")
+                        li
+                          a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
+                        li
+                          a(href="https://github.com/codecombat/codecombat") GitHub
+                        if !me.isStudent() && me.showForumLink()
+                          li
+                            a(href=view.forumLink(), data-i18n="nav.forum")
+                    .col-lg-3
+                      if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
+                        h3(data-i18n="nav.follow_us")
+                        div.social-buttons
+                          a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
+                            img(src="/images/pages/base/youtube_symbol_button.png", width="40")
+                          a(href="https://twitter.com/codecombat", target="_blank")
+                            img(src="/images/pages/base/twitter_logo_btn.png", width="40")
+                          a(href="https://www.facebook.com/codecombat", target="_blank")
+                            img(src="/images/pages/base/facebook_logo_btn.png", width="40")
 
       #final-footer(dir="ltr")
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
