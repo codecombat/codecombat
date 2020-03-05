@@ -26,6 +26,7 @@ const CutsceneSchema = schema.object({
 })
 
 schema.extendBasicProperties(CutsceneSchema, 'cutscene')
+schema.extendTranslationCoverageProperties(CutsceneSchema)
 schema.extendNamedProperties(CutsceneSchema)
 
 module.exports = CutsceneSchema

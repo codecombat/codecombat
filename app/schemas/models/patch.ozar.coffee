@@ -13,6 +13,7 @@ patchables = [
   'thang_type'
   'interactive'
   'cinematic'
+  'cutscene'
 ]
 
 PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMessage']}, {
