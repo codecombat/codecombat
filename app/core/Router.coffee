@@ -179,6 +179,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/product/:handle': go('i18n/I18NEditProductView')
     'i18n/article/:handle': go('i18n/I18NEditArticleView')
     'i18n/interactive/:handle': go('i18n/I18NEditInteractiveView')
+    'i18n/cutscene/:handle': go('i18n/I18NEditCutsceneView')
 
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
