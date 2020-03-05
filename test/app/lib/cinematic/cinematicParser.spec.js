@@ -61,7 +61,7 @@ describe('parseShot', () => {
     expect(systems[0].parseDialogNode.calls.all().map(o => o.args))
       .toEqual([ [ 'DialogNode1', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ], [ 'DialogNode2', { setupShot: 'Example setup shot', dialogNodes: [ 'DialogNode1', 'DialogNode2' ] } ] ])
     expect(systems[0].parseSetupShot).toHaveBeenCalledWith(shot)
-    expect(JSON.stringify(results)).toEqual('[["setup commands",{"commands":["dialog commands"]}],[{"commands":["dialog commands"]}]]')
+    expect(JSON.stringify(results)).toEqual('[["setup commands",{}],[{"commands":["dialog commands"]}],[{"commands":["dialog commands"]}]]')
   })
 
   it('parseSetupShot must return array or error is thrown', () => {

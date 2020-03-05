@@ -44,6 +44,7 @@
  */
 import { CinematicController } from '../../../../engine/cinematic/cinematicController'
 import { WIDTH, HEIGHT, CINEMATIC_ASPECT_RATIO} from '../../../../engine/cinematic/constants'
+import _ from 'lodash'
 
 export default {
   props: {
@@ -104,7 +105,7 @@ export default {
       this.controller && this.controller.runShot()
     },
 
-    userInterruptionEvent: function() {
+    userInterruptionEvent: _.throttle(function() {
       if (!this.loaded) { return }
 
       if (this.cinematicPlaying) {
@@ -112,7 +113,7 @@ export default {
       } else {
         this.playNextShot()
       }
-    },
+    }, 500),
 
     handleCinematicLoad () {
       this.loaded = true

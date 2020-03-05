@@ -123,7 +123,6 @@ export class CinematicController {
   cancelShot () {
     if (!this.runner) return
     this.runner.cancel()
-    this.cleanupRunShot()
   }
 
   /**
