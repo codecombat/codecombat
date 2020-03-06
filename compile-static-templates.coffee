@@ -57,7 +57,7 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
     locals.me.useStripe = -> not (locals.chinaInfra ? false)
-    # customer IM service
+    # Netease Qiyu Customer IM service
     locals.me.useQiyukf = -> locals.chinaInfra ? false
     str = outFn(locals)
   catch e
