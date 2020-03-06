@@ -606,14 +606,13 @@ module.exports = class User extends CocoModel
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   showForumLink: -> not (features?.china ? false)
-  showGithubLink: -> not (features?.china ? false)
-  showChinaICPinfo: -> features?.china ? false
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
   showCourseProgressControl: -> features?.china ? false
   enableCpp: -> features?.china ? false
   useQiyukf: -> features?.china ? false
+  useChinaOzaria: -> features?.china ? false
 
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
