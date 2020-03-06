@@ -61,10 +61,9 @@ html(lang='en')
         (function() {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?ffc38c02cf8f484ab8f785b58dfa8b6e";
-        var s = document.getElementsByTagName("script")[0]; 
+        var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
         })();
-
 
     script(type='text/javascript').
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
@@ -108,11 +107,19 @@ html(lang='en')
           } catch (error) { }
         }
   body.clearfix(onload='onLoad();')
-
-    if me.useEasemob()
-      script(src="//kefu.easemob.com/webim/easemob.js?configId=164d5e28-69d7-47b0-ae42-38d863e2b037")
-
     #fb-root
     block content
     #modal-wrapper.modal-content.hide
     // CodePlay Tags Footer
+
+  if me.useQiyukf()
+    script.
+      (function (w, d, n, a, j) {
+        w[n] = w[n] || function () {
+          (w[n].a = w[n].a || []).push(arguments);
+        };
+        j = d.createElement('script');
+        j.async = true;
+        j.src = 'https://qiyukf.com/script/417b0e66819a980076108e0dac606b50.js';
+        d.body.appendChild(j);
+      })(window, document, 'ysf');
