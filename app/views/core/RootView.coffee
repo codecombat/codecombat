@@ -36,6 +36,7 @@ module.exports = class RootView extends CocoView
     'click .login-button': 'onClickLoginButton'
     'treema-error': 'onTreemaError'
     'click [data-i18n]': 'onClickTranslatedElement'
+    'click .track-click-event': 'onTrackClickEvent'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
@@ -114,6 +115,11 @@ module.exports = class RootView extends CocoView
         _.extend(properties, { trackABResult: true })
       window.tracker?.trackEvent(eventAction, properties, []) if eventAction
     @openModalView new AuthModal()
+
+  onTrackClickEvent: (e) ->
+    eventAction = $(e.target)?.closest('a')?.data('event-action')
+    if eventAction
+      window.tracker?.trackEvent eventAction, { category: 'Teachers' }
 
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')

@@ -163,6 +163,7 @@
     "tv4": "~1.0.16",
     "underscore.string": "~2.3.3",
     "unibabel": "^2.1.8",
+    "usa-states": "0.0.5",
     "v-tooltip": "^2.0.2",
     "vue": "^2.6.10",
     "vue-codemirror": "^4.0.6",
