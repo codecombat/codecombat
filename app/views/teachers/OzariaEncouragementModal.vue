@@ -15,6 +15,16 @@
         BaseModal
       },
 
+      computed: {
+        tryOzariaLink () {
+          if (me.useChinaOzaria()) {
+            return "https://aojiarui.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
+          } else {
+            return "https://www.ozaria.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
+          }
+        }
+      },
+
       methods: {
         async startPlay () {
           if (this.hasPlayed) {
@@ -99,7 +109,7 @@
                     </a>
 
                     <a
-                            href="https://www.ozaria.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
+                            :href="tryOzariaLink"
                             class="try-ozaria"
                             @click="tryOzariaEvent"
                     >
