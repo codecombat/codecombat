@@ -54,6 +54,7 @@ const CharacterSchema = (title) => c.object({
 const ShotSetup = c.object({
   title: 'ShotSetup'
 }, {
+  shotContentType: c.shortString({ title: 'Content Type', description: 'Sets flag that all following shots are marked with, until this setting is used again. No runtime impact.', enum: ['story', 'education'], default: 'story' }),
   rightThangType: CharacterSchema('Right Character'),
   leftThangType: CharacterSchema('Left Character'),
   heroPetThangType: ThangTypeSchema('Hero Pet', 'The position property will be used to place the dog at an offset on the right lank.'),
