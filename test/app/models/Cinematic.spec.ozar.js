@@ -21,7 +21,8 @@ import {
   getSoundEffects,
   getWaitUserInput,
   getLanguageFilter,
-  getHeroPet
+  getHeroPet,
+  getPlayThangAnimations
 } from '../../../app/schemas/models/selectors/cinematic'
 import Cinematic from 'ozaria/site/models/Cinematic'
 
@@ -252,6 +253,33 @@ describe('Cinematic', () => {
       const result2 = getHeroPet(shotFixture2)
       expect(result2).toBeUndefined()
     })
+
+    it('getPlayThangAnimations', () => {
+      const result = getPlayThangAnimations(shotFixture1.dialogNodes[0])
+      expect(result).toEqual([
+        {
+          delay: 0,
+          duration: 1000,
+          animation: 'test',
+          lankTarget: 'left'
+        }
+      ])
+
+      const result2 = getPlayThangAnimations(shotFixture1.dialogNodes[1])
+      expect(result2).toEqual([])
+    })
+
+    it('getPlayThangAnimations fills in default delay', () => {
+      const result = getPlayThangAnimations(shotFixture2.dialogNodes[0])
+      expect(result).toEqual([
+        {
+          delay: 0,
+          duration: 1001,
+          animation: 'test2',
+          lankTarget: 'right'
+        }
+      ])
+    })
   })
 })
 
@@ -346,6 +374,14 @@ var shotFixture1 = {
               mp3: 'path/music'
             }
           }
+        ],
+        playThangAnimations: [
+          {
+            delay: 0,
+            duration: 1000,
+            animation: 'test',
+            lankTarget: 'left'
+          }
         ]
       }
     },
@@ -389,6 +425,13 @@ var shotFixture2 = {
               mp3: 'path/music'
             },
             triggerStart: 30
+          }
+        ],
+        playThangAnimations: [
+          {
+            duration: 1001,
+            animation: 'test2',
+            lankTarget: 'right'
           }
         ]
       },
