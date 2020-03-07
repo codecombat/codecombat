@@ -472,6 +472,25 @@ const soundEffects = triggers => {
     })
 }
 
+const playThangAnimations = triggers => {
+  if (!(triggers || {}).playThangAnimations) {
+    return []
+  }
+  const { playThangAnimations } = triggers
+  if (!Array.isArray(playThangAnimations)) {
+    throw new Error('Expected playThangAnimations to be an array')
+  }
+  for (const playThangAnimation of playThangAnimations) {
+    if (playThangAnimation.delay === undefined) {
+      playThangAnimation.delay = 0
+    }
+    if (!playThangAnimation.animation) {
+      throw new Error('Require animation')
+    }
+  }
+  return playThangAnimations
+}
+
 /**
  * Returns if left hero character
  * @param {Shot} shot
@@ -553,6 +572,12 @@ export const getSetupMusic = compose(shotSetup, setupMusic)
  * @returns {SoundEffect[] | undefined}
  */
 export const getSoundEffects = compose(triggers, soundEffects)
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {Object[]}
+ */
+export const getPlayThangAnimations = compose(triggers, playThangAnimations)
 
 /**
  * @param {DialogNode} dialogNode

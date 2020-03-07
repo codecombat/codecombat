@@ -1,4 +1,5 @@
 const c = require('./../schemas')
+const { LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT } = require('./../../../ozaria/engine/cinematic/constants')
 
 const ThangTypeSchema = (title, description) => c.object({
   title,
@@ -138,6 +139,18 @@ const DialogNode = c.object({
     }, {
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until background object is cleared' })
     }),
+    playThangAnimations: c.array({
+      title: 'Thang Animation triggers'
+    }, c.object({
+      title: 'Trigger Thang Action',
+      description: 'Triggers an animation to play after a duration for a given time.',
+      required: ['duration', 'animation', 'lankTarget']
+    }, {
+      delay: c.int({ title: 'Delay(ms)' }),
+      duration: c.int({ title: 'Duration(ms)' }),
+      animation: c.shortString({ title: 'Animation', description: 'Animation to trigger on the ThangType' }),
+      lankTarget: c.shortString({ title: 'Thang', description: 'Thang on stage to play animation on', enum: [ LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT ] })
+    })),
     soundFxTriggers: c.array({
       title: 'SoundFX triggers',
       description: 'A list of sound effects that we can play. Unlike music they will overlap and wont prevent other sounds playing.'

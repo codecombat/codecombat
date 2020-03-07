@@ -16,9 +16,11 @@ import {
   getSpeakingAnimationAction,
   getSpeaker,
   getHeroPet,
-  getChangeDefaultIdles
+  getChangeDefaultIdles,
+  getPlayThangAnimations
 } from '../../../app/schemas/models/selectors/cinematic'
-import { LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID, PET_AVATAR_THANG_ID } from './constants'
+import { LETTER_ANIMATE_TIME, HERO_THANG_ID, AVATAR_THANG_ID, PET_AVATAR_THANG_ID,
+  LEFT_LANK_KEY, RIGHT_LANK_KEY, HERO_PET, BACKGROUND_OBJECT, BACKGROUND } from './constants'
 
 const store = require('core/store')
 
@@ -31,13 +33,6 @@ const Lank = require('lib/surface/Lank')
 Promise.config({
   cancellation: true
 })
-
-// Key constants for special lank types
-const LEFT_LANK_KEY = 'left'
-const RIGHT_LANK_KEY = 'right'
-const HERO_PET = 'HERO_PET'
-const BACKGROUND_OBJECT = 'BACKGROUND_OBJECT'
-const BACKGROUND = 'BACKGROUND'
 
 // Backgrounds
 const DEFAULT_LAYER = 'Default'
@@ -161,6 +156,23 @@ export default class CinematicLankBoss {
       })
     })
     return Promise.all(layerLoadPromises)
+  }
+
+  /**
+   * Adds an action to preload on the lank.
+   * This will rasterize the action in the preload cinematic step thus avoiding
+   * gray blobs during the cinematic.
+   *
+   * We currently preload the used actions on all lanks.
+   *
+   * @param {string} actionName - name of the action to queue on the lank.
+   */
+  cacheActionOnLanks (actionName) {
+    for (const cachedLank of Object.values(this.lankCache)) {
+      if ([...Object.keys(cachedLank.thangType.getActions())].indexOf(actionName) !== -1) {
+        cachedLank.queueAction(actionName)
+      }
+    }
   }
 
   /**
@@ -315,11 +327,7 @@ export default class CinematicLankBoss {
 
     const text = getText(dialogNode)
     const animation = getSpeakingAnimationAction(dialogNode)
-    for (const cachedLank of Object.values(this.lankCache)) {
-      if ([...Object.keys(cachedLank.thangType.getActions())].indexOf(animation) !== -1) {
-        cachedLank.queueAction(animation)
-      }
-    }
+    this.cacheActionOnLanks(animation)
     if (text && animation) {
       let textLength = getTextAnimationLength(dialogNode)
       if (textLength === undefined) {
@@ -346,8 +354,29 @@ export default class CinematicLankBoss {
       if (!character || !newIdleAction) {
         console.warn(`Can't set new idle action for '${character}' to '${newIdleAction}'`)
       }
+      this.cacheActionOnLanks(newIdleAction)
 
       commands.push(new SyncFunction(() => { this.runTimeState.idleAnimation[character] = newIdleAction }))
+    })
+
+    getPlayThangAnimations(dialogNode).forEach(({
+      delay,
+      duration,
+      animation,
+      lankTarget
+    }) => {
+      this.cacheActionOnLanks(animation)
+
+      commands.push(new SequentialCommands([
+        new Sleep(delay),
+        new SyncFunction(() => {
+          this.playActionOnLank(lankTarget, animation)
+        }),
+        new Sleep(duration),
+        new SyncFunction(() => {
+          this.playActionOnLank(lankTarget, this.runTimeState.idleAnimation[lankTarget] || 'idle')
+        })
+      ]))
     })
 
     return commands
