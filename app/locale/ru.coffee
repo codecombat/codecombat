@@ -2,11 +2,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   new_home:
     title: "CodeCombat - Игры с програмированнием для изучения Python и Java Script"
-#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    meta_og_url: "https://codecombat.com"
-#    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
-#    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
+    meta_keywords: "CodeCombat, питон, джаваскрипт, Coding Games"
+    meta_description: "Изучи написание кода программируя в игре. Изучай Python, JavaScript и HTML, решая головоломки, и учись создавать собственные игры и сайты."
+    meta_og_url: "https://codecombat.com"
+    built_for_teachers_title: "Игровой процесс обучения программированию построен от лица преподавателя"
+    built_for_teachers_blurb: "Обучение детей программированию часто представляется как трудозатратное занятие. CodeCombat помогает всем преподавателям учить студентов программировать на JavaScript или Python, двух самых популярных языках программирования. Благодаря всеобъемлющему учебному плану, который включает в себя шесть блоков информатики и способствует обучению посредством проектно-ориентированных блоков разработки игр и веб-разработки, в которых дети будут продвигаться по пути от основного синтаксиса к рекурсии!"
     built_for_teachers_subtitle1: "Информатика"
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
     built_for_teachers_subtitle2: "Разработка игр"
