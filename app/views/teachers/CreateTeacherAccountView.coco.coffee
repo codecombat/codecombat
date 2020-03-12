@@ -291,7 +291,29 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestIdentifyData.educationLevel_middle = _.contains @trialRequest.attributes.properties.educationLevel, "Middle"
       trialRequestIdentifyData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
       trialRequestIdentifyData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
-      application.tracker.identify trialRequestIdentifyData
+
+      return window.application.tracker.identify trialRequestIdentifyData
+
+    .then =>
+      trackerCalls = []
+
+      loginMethod = 'CodeCombat'
+      if @gplusAttrs
+        loginMethod = 'GPlus'
+        trackerCalls.push(
+          window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
+        )
+      else if @facebookAttrs
+        loginMethod = 'Facebook'
+        trackerCalls.push(
+          window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
+        )
+
+      trackerCalls.push(
+        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+      )
+
+      return Promise.all(trackerCalls)
 
     .then =>
       application.router.navigate(SIGNUP_REDIRECT, { trigger: true })

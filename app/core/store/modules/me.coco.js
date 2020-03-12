@@ -7,7 +7,8 @@ const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, 
 
 export default {
   namespaced: true,
-  state: emptyUser,
+  state: _.cloneDeep(emptyUser),
+
   getters: {
     isAnonymous (state) { return state.anonymous === true },
 
@@ -81,6 +82,10 @@ export default {
       commit('updateUser', { ozariaUserOptions:
         { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId } }
       })
+    },
+
+    authenticated ({ commit }, user) {
+      commit('updateUser', user)
     }
   }
 }
