@@ -60,7 +60,6 @@ module.exports = class CreateTeacherAccountView extends RootView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @state, 'change:showUsaStateDropdown', -> @renderSelectors('.state')
     @listenTo @state, 'change:stateValue', -> @renderSelectors('.state')
-#    loadSegment() unless @segmentLoaded
 
   onLeaveMessage: ->
     if @formChanged

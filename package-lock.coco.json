@@ -10263,11 +10263,6 @@
         }
       }
     },
-    "htmlencode": {
-      "version": "0.0.4",
-      "resolved": "https://registry.npmjs.org/htmlencode/-/htmlencode-0.0.4.tgz",
-      "integrity": "sha1-9+LWr74YqHp45jujMI51N2Z0Dj8="
-    },
     "htmlparser2": {
       "version": "3.10.1",
       "resolved": "https://registry.npmjs.org/htmlparser2/-/htmlparser2-3.10.1.tgz",
@@ -10762,17 +10757,6 @@
             "ansi-regex": "^4.1.0"
           }
         }
-      }
-    },
-    "intercom-client": {
-      "version": "2.10.4",
-      "resolved": "https://registry.npmjs.org/intercom-client/-/intercom-client-2.10.4.tgz",
-      "integrity": "sha1-4N/RFJ6H1/YEM6uFdcozLUd3eho=",
-      "requires": {
-        "bluebird": "^3.3.4",
-        "htmlencode": "^0.0.4",
-        "lodash.merge": "^4.6.1",
-        "request": "^2.83.0"
       }
     },
     "interpret": {

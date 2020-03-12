@@ -3,6 +3,7 @@ import CookieConsentTracker from './CookieConsentTracker'
 import LegacyTracker from './LegacyTracker'
 import BaseTracker from './BaseTracker'
 import GoogleAnalyticsTracker from './GoogleAnalyticsTracker'
+import DriftTracker from './DriftTracker'
 
 /**
  * Top level application tracker that handles sub tracker initialization and
@@ -20,10 +21,12 @@ export default class Tracker2 extends BaseTracker {
     this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
     this.segmentTracker = new SegmentTracker()
     this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
+    this.driftTracker = new DriftTracker(this.store)
 
     this.trackers = [
       this.legacyTracker,
       this.googleAnalyticsTracker,
+      this.driftTracker,
 
       // Segment tracking is currently handled by the legacy tracker
       // this.segmentTracker,
@@ -74,5 +77,9 @@ export default class Tracker2 extends BaseTracker {
     await Promise.all(
       this.trackers.map(t => t.trackTiming(duration, category, variable, label))
     )
+  }
+
+  get drift () {
+    return this.driftTracker.drift
   }
 }
