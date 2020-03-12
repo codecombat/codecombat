@@ -1442,7 +1442,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     maximize_editor: "Maximize/minimize code editor."
 
   cinematic:
-    click_anywhere_continue: "click anywhere to continue"
+    click_anywhere_continue: "Click to Continue" # {change}
 
   community:
     main_title: "CodeCombat Community"

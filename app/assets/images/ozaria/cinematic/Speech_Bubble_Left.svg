@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="207.0569451642177" width="263.11389032843533" vector-effect="non-scaling-stroke">
+  <defs>
+    <rect id="rect-2" opacity="1" x="12.294038854466248" y="0" width="243.76290630975143" height="177"/>
+    <mask id="mask-3" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0">
+      <rect opacity="1" x="0" y="0" width="263.11389032843533" height="207.0569451642177" fill="black"/>
+      <use xlink:href="#rect-2" fill="white"/>
+    </mask>
+  </defs>
+  <g opacity="1">
+    <g opacity="1">
+      <path vector-effect="non-scaling-stroke" fill-opacity="0" stroke="rgb(247,208,71)" stroke-opacity="1" stroke-width="4px" stroke-linecap="butt" stroke-linejoin="miter" opacity="1" fill-rule="evenodd" d="M256.05694516421767 184L40.86000443764024 184L7.056945164217681 200L14.19843656001118 184"/>
+    </g>
+    <g opacity="1">
+      <use xlink:href="#rect-2" vector-effect="non-scaling-stroke" fill="rgb(255,255,255)" fill-opacity="1"/>
+      <use xlink:href="#rect-2" vector-effect="non-scaling-stroke" fill-opacity="0" stroke="rgb(247,208,71)" stroke-opacity="1" stroke-width="12px" stroke-linecap="butt" stroke-linejoin="miter" mask="url(#mask-3)"/>
+    </g>
+  </g>
+</svg>
