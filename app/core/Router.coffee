@@ -230,7 +230,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
-    
+
     # Adding this route to test interactives until we have the intro levels implemented
     # TODO: remove this route when intro level is ready to test the interactives.
     'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->

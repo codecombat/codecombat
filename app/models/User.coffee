@@ -174,7 +174,7 @@ module.exports = class User extends CocoModel
     return if oldRole is role or (oldRole and not force)
     @set 'role', role
     @patch()
-    application.tracker?.updateRole()
+    application.tracker.identify()
     return @get 'role'
 
   a = 5
