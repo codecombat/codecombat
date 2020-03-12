@@ -14,47 +14,8 @@ module.exports = class Tracker extends CocoClass
   cookies: {required: false, answered: false, consented: false, declined: false}
   constructor: ->
     super()
-    if window.tracker
-      console.error 'Overwrote our Tracker!', window.tracker
-    window.tracker = @
     @supermodel = new SuperModel()
     @isProduction = document.location.href.search('codecombat.com') isnt -1
-    @promptForCookieConsent()  # Will call finishInitialization
-
-  promptForCookieConsent: ->
-    return unless $.i18n.lng()  # Will initialize once we finish initializing translations
-    return @finishInitialization() unless me.get('country') and me.inEU()
-    @cookies.required = true
-    @cookiePopup?.close()
-    window.cookieconsent.hasTransition = false
-    window.cookieconsent.initialise
-      onPopupOpen: ->
-        window.tracker.cookiePopup = @
-      onInitialise: (status) ->
-        window.tracker.cookiePopup = @
-        window.tracker.cookies.answered = status in ['allow', 'dismiss', 'deny']
-        window.tracker.cookies.consented = status in ['allow', 'dismiss']
-        window.tracker.cookies.declined = status is 'deny'
-        console.log 'Initial cookie consent status:', status, window.tracker.cookies if debugAnalytics
-        window.tracker.finishInitialization()
-      onStatusChange: (status) ->
-        window.tracker.cookies.answered = status in ['allow', 'dismiss', 'deny']
-        window.tracker.cookies.consented = status in ['allow', 'dismiss']
-        window.tracker.cookies.declined = status is 'deny'
-        console.log 'Cookie consent status change:', status, window.tracker.cookies if debugAnalytics
-      container: document.getElementById('#page-container')
-      palette: {popup: {background: "#000"}, button: {background: "#f1d600"}}
-      hasTransition: false
-      revokable: true
-      law: false
-      location: false
-      type: 'opt-out'
-      content:
-        message: $.i18n.t 'legal.cookies_message'
-        dismiss: $.i18n.t 'general.accept'
-        deny: $.i18n.t 'legal.cookies_deny'
-        link: $.i18n.t 'nav.privacy'
-        href: '/privacy'
 
   finishInitialization: ->
     return if @initialized

@@ -98,6 +98,7 @@
     "connect-timeout": "^1.9.0",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^1.2.0",
+    "cookieconsent": "^3.1.1",
     "core-js": "^3.6.4",
     "country-list": "0.0.3",
     "css-loader": "^0.25.0",
