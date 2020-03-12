@@ -36,6 +36,7 @@ store = new Vuex.Store({
     tints: require('./modules/tints').default
     layoutChrome: require('./modules/layoutChrome').default
     unitMap: require('./modules/unitMap').default
+    tracker: require('./modules/tracker').default
   }
 })
 

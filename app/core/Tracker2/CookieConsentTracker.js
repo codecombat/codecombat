@@ -13,7 +13,6 @@ export default class CookieConsentTracker extends BaseTracker {
     super()
 
     this.store = store
-    this.loadStatus(undefined)
   }
 
   /**
@@ -41,21 +40,8 @@ export default class CookieConsentTracker extends BaseTracker {
     this.onInitializeSuccess()
   }
 
-  getStatus () {
-    return this.status
-  }
-
-  loadStatus (status) {
-    this.status = {
-      answered: typeof status === 'string',
-      consented: status === 'allow' || status === 'dismiss',
-      declined: status === 'deny'
-    }
-  }
-
   onStatusChange (status) {
-    this.loadStatus(status)
-    this.emit('change', this.getStatus())
+    this.store.dispatch('tracker/cookieConsentStatusChange', status)
   }
 
   onPreferredLocaleChanged () {

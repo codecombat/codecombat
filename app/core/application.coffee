@@ -83,6 +83,7 @@ Application = {
     window.tracker = @tracker
     locale.load(me.get('preferredLanguage', true))
       .then => @tracker.initialize()
+      .catch((e) => console.error('Tracker initialization failed', e))
 
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
