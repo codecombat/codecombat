@@ -245,18 +245,18 @@ export default {
   position: absolute
 
 .cinematic-speech-bubble-right
-  border-image: url('/images/ozaria/cinematic/bubble_right_slice.png')
+  border-image: url('/images/ozaria/cinematic/Speech_Bubble_Right.svg')
   background-color: white
-  border-image-slice: 50 100 50 50 fill
-  border-image-width: 40px 80px 40px 40px
-  border-image-outset: 10px 58px 15px 15px
+  border-image-slice: 40 40 40 40 fill
+  border-image-width: 4rem
+  border-image-outset: 20px 30px 45px 30px
 
 .cinematic-speech-bubble-left
-  border-image: url('/images/ozaria/cinematic/bubble_left_slice.png')
+  border-image: url('/images/ozaria/cinematic/Speech_Bubble_Left.svg')
   background-color: white
-  border-image-slice: 50 50 50 100 fill
-  border-image-width: 40px 40px 40px 80px
-  border-image-outset: 10px 15px 15px 58px
+  border-image-slice: 40 40 40 40 fill
+  border-image-width: 4rem
+  border-image-outset: 20px 30px 45px 30px
 
 .cinematic-speech-bubble-click-continue
   text-align: center

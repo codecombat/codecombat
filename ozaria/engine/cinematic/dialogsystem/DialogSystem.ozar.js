@@ -131,6 +131,8 @@ class SpeechBubble {
     speechBubbleDiv.appendChild(textDiv)
 
     const clickToContinue = document.createElement('div')
+    clickToContinue.style.textAlign = `right`
+    clickToContinue.style.marginBottom = `-10px`
     clickToContinue.className = `cinematic-speech-bubble-click-continue`
     clickToContinue.innerHTML = `<span>${window.i18n.t('cinematic.click_anywhere_continue')}</span>`
     clickToContinue.style.opacity = 0
