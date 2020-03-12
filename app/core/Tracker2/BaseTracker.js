@@ -1,5 +1,3 @@
-import EventEmitter from 'events'
-
 /**
  * A baseline tracker that:
  *   1. Defines a standard initialization flow for all trackers
@@ -13,10 +11,8 @@ import EventEmitter from 'events'
  * initialization process has been completed (or failed).  The initializationComplete
  * promise should _never_ be overwritten as other external components can depend on it.
  */
-export default class BaseTracker extends EventEmitter {
+export default class BaseTracker {
   constructor () {
-    super()
-
     this.initializing = false
     this.initialized = false
 
@@ -32,6 +28,15 @@ export default class BaseTracker extends EventEmitter {
   async trackEvent (action, properties = {}, includeIntegrations = {}) {}
 
   async trackTiming (duration, category, variable, label) {}
+
+  watchForCookieConsentChanges (store) {
+    this.cookieConsentDeclined = store.getters['tracker/cookieConsentDeclined']
+
+    store.watch(
+      (state, getters) => getters['tracker/cookieConsentDeclined'],
+      (result) => { this.cookieConsentDeclined = result }
+    )
+  }
 
   get isInitialized () {
     return this.initialized

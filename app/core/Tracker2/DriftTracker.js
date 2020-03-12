@@ -55,6 +55,8 @@ export default class DriftTracker extends BaseTracker {
       this.onInitializeSuccess()
     })
 
+    this.watchForCookieConsentChanges(this.store)
+
     await this.initializationComplete
 
     const retries = await getPageUnloadRetriesForNamespace('drift')
@@ -76,6 +78,10 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async identify (traits = {}) {
+    if (this.cookieConsentDeclined) {
+      return
+    }
+
     await this.initializationComplete
 
     const { me } = this.store.state
@@ -106,6 +112,10 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackPageView (includeIntegrations = {}) {
+    if (this.cookieConsentDeclined) {
+      return
+    }
+
     await this.initializationComplete
 
     const url = `/${Backbone.history.getFragment()}`
@@ -113,6 +123,10 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackEvent (action, properties = {}) {
+    if (this.cookieConsentDeclined) {
+      return
+    }
+
     await this.initializationComplete
 
     await window.drift.track(action, properties)

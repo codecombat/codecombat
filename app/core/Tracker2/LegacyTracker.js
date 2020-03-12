@@ -20,12 +20,12 @@ export default class LegacyTracker extends BaseTracker {
   async _initializeTracker () {
     this.legacyTracker = new CocoLegacyTracker()
 
-    this.cookieConsent.on('change', () => {
-      this.legacyTracker.cookies = this.cookieConsent.getStatus()
-    })
-
+    this.legacyTracker.cookies = this.store.state.tracker.cookieConsent
+    this.store.watch(
+      (state) => state.tracker.cookieConsent,
+      (status) => this.legacyTracker.cookies = status
+    )
     this.legacyTracker.finishInitialization()
-
     this.onInitializeSuccess()
   }
 
