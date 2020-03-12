@@ -25,6 +25,8 @@ export default class BaseTracker extends EventEmitter {
 
   async identify (traits = {}) {}
 
+  async resetIdentity () {}
+
   async trackPageView (includeIntegrations = {}) {}
 
   async trackEvent (action, properties = {}, includeIntegrations = {}) {}

@@ -1,4 +1,5 @@
 import BaseTracker from './BaseTracker'
+import { getPageUnloadRetriesForNamespace, retryOnPageUnload } from './pageUnload'
 
 function loadDrift () {
   /* eslint-disable */
@@ -28,6 +29,11 @@ function loadDrift () {
   drift.load('9h3pui39u2s3');
 }
 
+const DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES = [
+  'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role'
+]
+
 export default class DriftTracker extends BaseTracker {
   constructor (store) {
     super()
@@ -48,6 +54,13 @@ export default class DriftTracker extends BaseTracker {
       this.initDriftOnLoad()
       this.onInitializeSuccess()
     })
+
+    await this.initializationComplete
+
+    const retries = await getPageUnloadRetriesForNamespace('drift')
+    for (const retry of retries) {
+      this[retry.identifier](...retry.args)
+    }
   }
 
   initDriftOnLoad () {
@@ -65,24 +78,31 @@ export default class DriftTracker extends BaseTracker {
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (this.store.getters['me/isAnonymous']) {
-      return
-    }
-
     const { me } = this.store.state
 
     const {
-      id,
+      _id,
       ...meAttrs
     } = me
 
-    await window.drift.identify(
-      me._id.toString(),
-      {
-        ...meAttrs,
-        ...traits
-      }
-    )
+    const filteredMeAttributes = Object.keys(meAttrs)
+      .reduce((obj, key) => {
+        if (DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES.includes(key) && meAttrs[key] !== null) {
+          obj[key] = meAttrs[key]
+        }
+
+        return obj
+      }, {})
+
+    retryOnPageUnload('drift', 'identify', [ traits ], () => {
+      window.drift.identify(
+        _id.toString(),
+        {
+          ...filteredMeAttributes,
+          ...traits
+        }
+      )
+    })
   }
 
   async trackPageView (includeIntegrations = {}) {
