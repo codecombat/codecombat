@@ -11,6 +11,13 @@ concepts = [
   {concept: 'algorithms', name: 'Algorithms', description: 'Writing sequences of code.', automatic: false}
   {concept: 'conditionals', name: 'Conditionals', description: 'Writing programs with branched logic.', automatic: false}
   {concept: 'debugging', name: 'Debugging', description: 'Finding and fixing code errors.', automatic: false}
+  {concept: 'syntax', name: 'Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'}
+  {concept: 'sequences_algorithms', name: 'Sequences And Algorithms', description: '', automatic: false}
+
+  # Ozaria 2UP
+  {concept: 'iteration', name: 'Iteration', description: '', automatic: false}
+  {concept: 'nesting', name: 'Nesting', description: '', automatic: false}
+  {concept: 'data_types', name: 'Data Types', description: '', automatic: false}
 
   # Deprecated
   {concept: 'advanced_strings', name: '', description: '', automatic: '??', deprecated: true}
