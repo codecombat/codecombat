@@ -53,6 +53,17 @@ html(lang='en')
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'AW-811324643');
+    else
+      // Baidu Analytics
+      script.
+        console.log('use baidu analytics')
+        var _hmt = _hmt || [];
+        (function () {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?fd876f45e00409837a7a2619b2ce1709";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
 
     // Datadog logging
     if me.useDataDog()
