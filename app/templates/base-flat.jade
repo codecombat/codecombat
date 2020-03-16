@@ -148,13 +148,15 @@ mixin accountLinks
                       ul.list-unstyled
                         li
                           a(href="/about", data-i18n="nav.about")
-                        li
-                          a(href="/about#careers", data-i18n="nav.careers")
+                        //li
+                        //  a(href="/about#careers", data-i18n="nav.careers")
                         if !me.isStudent()
                           li
-                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                            a(href="/contact-cn", data-i18n="nav.contact")
                         li
                           a(href="/parents", data-i18n="nav.parent")
+                        li
+                          a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
                         li
                           a(href="http://beian.miit.gov.cn/") 京ICP备19012263号
                     .col-lg-3
@@ -187,6 +189,10 @@ mixin accountLinks
                           a(href="http://aiyouth.ccidtraining.org.cn") 赛迪人工智能大赛 - AI世青赛
                         li
                           a(href="http://ccidtraining.org.cn") 工信部赛迪研究院培训中心
+                        li
+                          a(href="https://aojiarui.com") CodeCombat原创 - 奥佳睿
+                        li
+                          a(href="https://codecombat.com") CodeCombat国际版
                     .col-lg-3
                       h3(data-i18n="nav.follow_us")
                       img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
