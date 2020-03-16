@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     third_party_description: "CodeCombat користи следеће услуге других лица (између осталих):"
     cookies_message: "CodeCombat користи неколико основних и не-основних колачића."
     cookies_deny: "Одбиј не-основне колачиће"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Турнирске награде" # This section was for an old tournament and doesn't need new translations now.

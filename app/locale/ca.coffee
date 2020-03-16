@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     third_party_description: "CodeCombat usa els següents serveis de tercers (entre d'altres):"
     cookies_message: "CodeCombat utilitza unes quantes galetes essencials i no essencials."
     cookies_deny: "Declareu les galetes no essencials"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Premis del torneig" # This section was for an old tournament and doesn't need new translations now.
