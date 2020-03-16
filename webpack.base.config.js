@@ -50,6 +50,7 @@ module.exports = (env) => {
         ], (regex) => { return regex.test(name) })
       },
       rules: [
+        { test: require.resolve('cookieconsent'), use: 'exports-loader?cookieconsent' },
         { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
         { test: /\.js$/,
