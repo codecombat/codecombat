@@ -181,6 +181,7 @@ _.extend ThangTypeSchema.properties,
   shortName: { type: 'string', title: 'Short Hero Name', description: 'The short form of the hero\'s name. Ex.: "Anya".' }
   unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
+  preLoadActions: c.array({title: 'Preload Actions', description: 'List of actions that should be rasterized immediately'}, c.shortString({ minLength: 1 }))
   prerenderedSpriteSheetData: c.array {title: 'Prerendered SpriteSheet Data'},
     c.object {title: 'SpriteSheet'},
       actionNames: { type: 'array' }
