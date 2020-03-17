@@ -103,6 +103,19 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
     target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
     duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}
   tutorial: c.object {title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: {targetElement: 'editor', animation: 'Outline'}},
+    position: c.shortString(
+      title: 'Dialog Position'
+      description: 'What side (or no side with "stationary") of the target element to move the tutorial modal to'
+      enum: [
+        'smart'
+        'stationary'
+        'left'
+        'top'
+        'right'
+        'down'
+      ]
+      default: 'smart'
+    )
     targetElement: c.shortString(
       title: 'Target Element'
       description: 'What part of the screen to point at, like the editor, code bank or play button'
@@ -112,9 +125,8 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
         'Play Button'
         'Update Button'
         'Goal List'
-        'Code Bank button'
+        'Code Bank Button'
         'Code Editor Window'
-        'Intro / Center'
       ]
       default: 'Code Editor Window'
     )
@@ -127,6 +139,13 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
         'Zoom'
       ]
     )
+    targetLine: {title: 'Target Line', description: 'Highlight a specific line in the code editor', type: 'number'}
+    grayOverlay: {
+      title: 'Gray Overlay'
+      description: 'Fade out the rest of the website, except the message itself and the targetElement (if you set one).'
+      type: 'boolean'
+      default: true
+    }
 
 NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes that should be sent out as a result of this script triggering.', displayProperty: 'name'},
   name: {title: 'Name', description: 'Short name describing the script, like \"Anya greets the player\", for your convenience.', type: 'string'}
