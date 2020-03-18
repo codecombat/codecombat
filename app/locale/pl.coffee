@@ -349,7 +349,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     sign_in_to_continue: "zaloguj się  lub utwórz konto, aby kontynuować."
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Tworzenie konta..."
-    sign_up: "Zarejestruj się"
+    sign_up: "Rejestracja"
     log_in: "Zaloguj się używając hasła"
     login: "Login"
     required: "Musisz się zalogować zanim przejdziesz dalej."
@@ -532,8 +532,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     close_window: "Zamknij okno"
     learn_more: "Dowiedz się więcej"
     more: "Więcej"
-#    fewer: "Fewer"
-#    with: "with"
+    fewer: "Mniej"
+    with: "z"
 
   units:
     second: "sekunda"
