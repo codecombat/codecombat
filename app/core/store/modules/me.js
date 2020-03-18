@@ -3,7 +3,7 @@ const userSchema = require('schemas/models/user')
 const api = require('core/api')
 const utils = require('core/utils')
 
-const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, userSchema.default[key] || null])))
+const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, null])))
 
 export default {
   namespaced: true,
