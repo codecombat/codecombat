@@ -43,7 +43,7 @@ export default {
     },
 
     preferredLocale (state) {
-      return state.preferredLanguage
+      return state.preferredLanguage || 'en-US'
     },
 
     inEU (state) {
