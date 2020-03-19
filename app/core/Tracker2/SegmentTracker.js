@@ -122,7 +122,7 @@ export default class SegmentTracker extends BaseTracker {
     )
 
     if (this.store.getters['me/isTeacher']) {
-      loadSegment()
+      this.onIsTeacherChanged(true)
       window.analytics.ready(this.onInitializeSuccess)
     } else {
       this.onInitializeSuccess()
@@ -170,8 +170,6 @@ export default class SegmentTracker extends BaseTracker {
       }, {})
 
     const options = { ...DEFAULT_SEGMENT_OPTIONS }
-    this.addIntegrationsToSegmentOptions(options, includeIntegrations)
-
     return new Promise((resolve) => {
       window.analytics.identify(
         this.store.state.me._id,
