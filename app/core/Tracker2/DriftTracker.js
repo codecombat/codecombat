@@ -55,7 +55,7 @@ export default class DriftTracker extends BaseTracker {
       this.onInitializeSuccess()
     })
 
-    this.watchForCookieConsentChanges(this.store)
+    this.watchForDisableAllTrackingChanges(this.store)
 
     await this.initializationComplete
 
@@ -78,7 +78,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async identify (traits = {}) {
-    if (this.cookieConsentDeclined) {
+    if (this.disableAllTracking) {
       return
     }
 
@@ -112,7 +112,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackPageView (includeIntegrations = {}) {
-    if (this.cookieConsentDeclined) {
+    if (this.disableAllTracking) {
       return
     }
 
@@ -123,7 +123,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackEvent (action, properties = {}) {
-    if (this.cookieConsentDeclined) {
+    if (this.disableAllTracking) {
       return
     }
 
