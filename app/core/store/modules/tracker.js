@@ -2,6 +2,8 @@ export default {
   namespaced: true,
 
   state: {
+    doNotTrack: window.navigator && window.navigator.doNotTrack === "1",
+
     cookieConsent: {
       answered: false,
       consented: false,
@@ -16,8 +18,8 @@ export default {
   },
 
   getters: {
-    cookieConsentDeclined (state) {
-      return state.cookieConsent.declined === true
+    disableAllTracking (state) {
+      return state.cookieConsent.declined || state.doNotTrack
     }
   },
 
