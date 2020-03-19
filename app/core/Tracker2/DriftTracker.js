@@ -31,7 +31,7 @@ function loadDrift () {
 
 const DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES = [
   'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
-  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role'
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName'
 ]
 
 export default class DriftTracker extends BaseTracker {
