@@ -198,6 +198,10 @@ export default class SegmentTracker extends BaseTracker {
     })
   }
 
+  async resetIdentity () {
+    window.analytics.reset();
+  }
+
   onIsTeacherChanged (isTeacher) {
     if (this.enabled) {
       return

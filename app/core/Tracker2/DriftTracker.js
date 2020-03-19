@@ -131,5 +131,9 @@ export default class DriftTracker extends BaseTracker {
 
     await window.drift.track(action, properties)
   }
+
+  async resetIdentity () {
+    window.drift.reset()
+  }
 }
 
