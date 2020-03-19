@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    third_party_description: "CodeCombat uses the following third party services (among others):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Premii Turnee" # This section was for an old tournament and doesn't need new translations now.
