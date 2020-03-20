@@ -33,7 +33,7 @@ export default class LegacyTracker extends BaseTracker {
     this.legacyTracker.identify(traits)
   }
 
-  async trackPageView (includeIntegrations = {}) {
+  async trackPageView (includeIntegrations = []) {
     this.legacyTracker.trackPageView(includeIntegrations)
   }
 

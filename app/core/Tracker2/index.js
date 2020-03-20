@@ -22,7 +22,7 @@ export default class Tracker2 extends BaseTracker {
 
     this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
     this.segmentTracker = new SegmentTracker(this.store)
-    this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
+    // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
     this.driftTracker = new DriftTracker(this.store)
 
     this.trackers = [

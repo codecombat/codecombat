@@ -183,7 +183,7 @@ export default class SegmentTracker extends BaseTracker {
     })
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = {}) {
+  async trackEvent (action, properties = {}, includeIntegrations = []) {
     await this.initializationComplete
 
     if (!this.enabled || this.disableAllTracking) {
