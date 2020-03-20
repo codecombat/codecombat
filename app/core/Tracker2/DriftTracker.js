@@ -91,14 +91,14 @@ export default class DriftTracker extends BaseTracker {
       ...meAttrs
     } = me
 
-    const filteredMeAttributes = Object.keys(meAttrs)
-      .reduce((obj, key) => {
-        if (DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES.includes(key) && meAttrs[key] !== null) {
-          obj[key] = meAttrs[key]
-        }
+    const filteredMeAttributes = DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES.reduce((obj, key) => {
+      const meAttr = meAttrs[key]
+      if (typeof meAttr !== 'undefined' && meAttr !== null) {
+        obj[key] = meAttr
+      }
 
-        return obj
-      }, {})
+      return obj;
+    }, {})
 
     retryOnPageUnload('drift', 'identify', [ traits ], () => {
       window.drift.identify(

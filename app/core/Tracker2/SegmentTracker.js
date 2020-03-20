@@ -145,7 +145,6 @@ export default class SegmentTracker extends BaseTracker {
     })
   }
 
-  // TODO legacy tracker filtered out identify calls when me.get('unsubscribedFromMarketingEmails') is true
   async identify (traits = {}) {
     await this.initializationComplete
 
@@ -160,19 +159,19 @@ export default class SegmentTracker extends BaseTracker {
       ...meAttrs
     } = me
 
-    const filteredMeAttributes = Object.keys(meAttrs)
-      .reduce((obj, key) => {
-        if (DEFAULT_SEGMENT_TRAITS_TO_REPORT.includes(key) && meAttrs[key] !== null) {
-          obj[key] = meAttrs[key]
-        }
+    const filteredMeAttributes = DEFAULT_SEGMENT_TRAITS_TO_REPORT.reduce((obj, key) => {
+      const meAttr = meAttrs[key]
+      if (typeof meAttr !== 'undefined' && meAttr !== null) {
+        obj[key] = meAttr
+      }
 
-        return obj
-      }, {})
+      return obj;
+    }, {})
 
     const options = { ...DEFAULT_SEGMENT_OPTIONS }
     return new Promise((resolve) => {
       window.analytics.identify(
-        this.store.state.me._id,
+        _id,
         {
           ...filteredMeAttributes,
           ...traits

@@ -57,8 +57,7 @@ module.exports = class Tracker extends CocoClass
     @trackEventInternal('Identify', {id: me.id, traits})
     return unless @shouldTrackExternalEvents()
 
-  trackPageView: (includeIntegrations
-  =[]) ->
+  trackPageView: (includeIntegrations = []) ->
     name = Backbone.history.getFragment()
     url = "/#{name}"
 
