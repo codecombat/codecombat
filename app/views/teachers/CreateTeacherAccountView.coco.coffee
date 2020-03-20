@@ -292,6 +292,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestIdentifyData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
       trialRequestIdentifyData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
 
+      application.tracker.identifyAfterNextPageLoad()
       return window.application.tracker.identify trialRequestIdentifyData
 
     .then =>

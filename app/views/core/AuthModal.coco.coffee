@@ -58,6 +58,7 @@ module.exports = class AuthModal extends ModalView
       return application.tracker.identify()
     )
     .then(=>
+      application.tracker.identifyAfterNextPageLoad()
       if window.nextURL
         window.location.href = window.nextURL
       else
@@ -96,6 +97,7 @@ module.exports = class AuthModal extends ModalView
               success: =>
                 me.loginGPlusUser(gplusAttrs.gplusID, {
                   success: =>
+                    application.tracker.identifyAfterNextPageLoad()
                     application.tracker.identify().then(=>
                       loginNavigate(@subModalContinue)
                     )
@@ -130,6 +132,7 @@ module.exports = class AuthModal extends ModalView
               success: =>
                 me.loginFacebookUser(facebookAttrs.facebookID, {
                   success: =>
+                    application.tracker.identifyAfterNextPageLoad()
                     application.tracker.identify().then(=>
                       loginNavigate(@subModalContinue)
                     )

@@ -99,6 +99,7 @@ module.exports = TeacherSignupStoreModule = {
         trialRequestIdentifyData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
         trialRequestIdentifyData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
 
+        application.tracker.identifyAfterNextPageLoad()
         return application.tracker.identify trialRequestIdentifyData unless User.isSmokeTestUser({ email: state.signupForm.email })
 
       .then =>
