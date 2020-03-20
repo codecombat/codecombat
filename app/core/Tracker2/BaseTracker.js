@@ -29,12 +29,12 @@ export default class BaseTracker {
 
   async trackTiming (duration, category, variable, label) {}
 
-  watchForCookieConsentChanges (store) {
-    this.cookieConsentDeclined = store.getters['tracker/cookieConsentDeclined']
+  watchForDisableAllTrackingChanges (store) {
+    this.disableAllTracking = store.getters['tracker/disableAllTracking']
 
     store.watch(
-      (state, getters) => getters['tracker/cookieConsentDeclined'],
-      (result) => { this.cookieConsentDeclined = result }
+      (state, getters) => getters['tracker/disableAllTracking'],
+      (result) => { this.disableAllTracking = result }
     )
   }
 
