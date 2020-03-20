@@ -1096,19 +1096,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sean_title: "Senior Account Executive"
     liz_title: "Senior Account Executive"
     jane_title: "Account Executive"
-    shan_title: "Partnership Development Lead, China"
-    run_title: "Head of Operations, China"
-    lance_title: "Software Engineer Intern, China"
+    shan_title: "Head of Marketing, CodeCombat Greater China"
+    run_title: "Head of Operations, CodeCombat Greater China"
+    lance_title: "Head of Technology, CodeCombat Greater China"
+    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
     matias_title: "Senior Software Engineer"
     ryan_title: "Customer Support Specialist"
     maya_title: "Senior Curriculum Developer"
-    bill_title: "General Manager, China"
+    bill_title: "General Manager, CodeCombat Greater China"
     shasha_title: "Product and Visual Designer"
     daniela_title: "Marketing Manager"
     chelsea_title: "Operations Manager"
     claire_title: "Executive Assistant"
     bobby_title: "Game Designer"
-    brian_title: "Lead Game Designer"
+    brian_title: "Senior Game Design Manager"
     andrew_title: "Software Engineer"
     stephanie_title: "Customer Support Specialist"
     rob_title: "Sales Development Representative"
@@ -2010,6 +2012,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
     teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
     already_shared: "You've already shared these licenses with that teacher."
+    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Teachers who can access these licenses:"
     footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
     you: "(you)"
@@ -2719,6 +2722,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     third_party_description: "CodeCombat uses the following third party services (among others):"
     cookies_message: 'CodeCombat uses a few essential and non-essential cookies.'
     cookies_deny: 'Decline non-essential cookies'
+    cookies_allow: 'Allow cookies' # {change}
 
   ladder_prizes:
     title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.
@@ -2945,7 +2949,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     send: "Send Email"
 
   hoc_2018:
-    banner: "Welcome to Hour of Code 2019!" #
+    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Your students will learn to code by building their own game!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
@@ -2970,11 +2974,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    title: "HOUR OF CODE 2018"
+    title: "HOUR OF CODE 2019"
     acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
     educator: "I'm an educator"
     show_resources: "Show me teacher resources!"
     student: "I'm a student"

@@ -18,6 +18,7 @@ Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
 utils = require 'core/utils'
+Aether = require 'lib/aether/aether'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -505,7 +506,7 @@ module.exports = class SpellView extends CocoView
       autoLineEndings:
         javascript: ';'
         java: ';'
-        cpp: ';'
+        c_cpp: ';' # Match ace editor language mode
       popupFontSizePx: popupFontSizePx
       popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
@@ -711,7 +712,8 @@ module.exports = class SpellView extends CocoView
 
   recompile: (cast=true, realTime=false, cinematic=false) ->
     @fetchTokenForSource().then (source) =>
-      hasChanged = @spell.source isnt source
+      readableSource = Aether.getTokenSource(source)
+      hasChanged = @spell.source isnt readableSource
       if hasChanged
         @spell.transpile source
         @updateAether true, false
@@ -803,12 +805,13 @@ module.exports = class SpellView extends CocoView
     # to a new spellThang, we may want to refresh our Aether display.
     return unless aether = @spellThang?.aether
     @fetchTokenForSource().then (source) =>
+      readableSource = Aether.getTokenSource(source)
       @spell.hasChangedSignificantly source, aether.raw, (hasChanged) =>
         codeHasChangedSignificantly = force or hasChanged
         needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
         return if not needsUpdate and aether is @displayedAether
         castAether = @spellThang.castAether
-        codeIsAsCast = castAether and source is castAether.raw
+        codeIsAsCast = castAether and readableSource is castAether.raw
         aether = castAether if codeIsAsCast
         return if not needsUpdate and aether is @displayedAether
 
@@ -833,7 +836,7 @@ module.exports = class SpellView extends CocoView
               if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
                 @worker.removeEventListener 'message', arguments.callee, false
                 aether.problems = workerData.problems
-                aether.raw = source
+                aether.raw = readableSource
                 finishUpdatingAether(aether)
             @worker.postMessage JSON.stringify(workerMessage)
           else

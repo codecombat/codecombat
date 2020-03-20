@@ -246,11 +246,10 @@ module.exports = class CocoView extends Backbone.View
     if me.isStudent()
       console.error("Student clicked contact modal.")
       return
+
     if me.isTeacher(true)
       if application.isProduction()
-        window.Intercom?('show')
-      else
-        alert('Teachers, Intercom widget only available in production.')
+        application.tracker.drift.sidebar.open()
     else
       ContactModal = require 'views/core/ContactModal'
       @openModalView(new ContactModal())
