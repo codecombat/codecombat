@@ -595,7 +595,8 @@ api = require 'core/api'
 describe 'CreateAccountModal Vue Store', ->
   describe 'actions.createAccount', ->
     beforeEach ->
-      spyOn(window, 'fetch')
+      spyOn(window, 'fetch').and.callFake ->
+        throw "This shouldn't be called!"
       spyOn(api.users, 'signupWithGPlus').and.returnValue(Promise.resolve())
       spyOn(api.users, 'signupWithFacebook').and.returnValue(Promise.resolve())
       spyOn(api.users, 'signupWithPassword').and.returnValue(Promise.resolve())
