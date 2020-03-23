@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     third_party_description: "A CodeCombat az alábbiak között a következő harmadik fél által nyújtott szolgáltatásokat használja:"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Bajnoksági díjak" # This section was for an old tournament and doesn't need new translations now.

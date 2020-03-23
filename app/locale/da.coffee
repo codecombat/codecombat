@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     third_party_description: "CodeCombat bruger følgende tredjeparts-tjenester (blandt andre):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Turneringspræmier" # This section was for an old tournament and doesn't need new translations now.

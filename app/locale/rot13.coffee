@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     third_party_description: "PbqrPbzong hfrf gur sbyybjvat guveq cnegl freivprf (nzbat bguref):"
     cookies_message: 'PbqrPbzong hfrf n srj rffragvny naq aba-rffragvny pbbxvrf.'
     cookies_deny: 'Qrpyvar aba-rffragvny pbbxvrf'
+    cookies_allow: 'Nyybj pbbxvrf' # {punatr}
 
   ladder_prizes:
     title: "Gbheanzrag Cevmrf"  # Guvf frpgvba jnf sbe na byq gbheanzrag naq qbrfa'g arrq arj genafyngvbaf abj.

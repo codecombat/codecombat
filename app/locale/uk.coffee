@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     third_party_description: "CodeCombat використовує наступні сервіси сторонніх розробників (серед інших):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Нагороди за турнір" # This section was for an old tournament and doesn't need new translations now.
