@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     third_party_description: "CodeCombat משתמש בשירותי הצד השלישי שלהלן (בין השאר):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "פרסי טורניר" # This section was for an old tournament and doesn't need new translations now.

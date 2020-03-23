@@ -31,7 +31,7 @@ function loadDrift () {
 
 const DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES = [
   'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
-  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role'
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName'
 ]
 
 export default class DriftTracker extends BaseTracker {
@@ -91,14 +91,14 @@ export default class DriftTracker extends BaseTracker {
       ...meAttrs
     } = me
 
-    const filteredMeAttributes = Object.keys(meAttrs)
-      .reduce((obj, key) => {
-        if (DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES.includes(key) && meAttrs[key] !== null) {
-          obj[key] = meAttrs[key]
-        }
+    const filteredMeAttributes = DEFAULT_DRIFT_IDENTIFY_USER_PROPERTIES.reduce((obj, key) => {
+      const meAttr = meAttrs[key]
+      if (typeof meAttr !== 'undefined' && meAttr !== null) {
+        obj[key] = meAttr
+      }
 
-        return obj
-      }, {})
+      return obj;
+    }, {})
 
     retryOnPageUnload('drift', 'identify', [ traits ], () => {
       window.drift.identify(
@@ -111,7 +111,7 @@ export default class DriftTracker extends BaseTracker {
     })
   }
 
-  async trackPageView (includeIntegrations = {}) {
+  async trackPageView (includeIntegrations = []) {
     if (this.disableAllTracking) {
       return
     }
@@ -130,6 +130,10 @@ export default class DriftTracker extends BaseTracker {
     await this.initializationComplete
 
     await window.drift.track(action, properties)
+  }
+
+  async resetIdentity () {
+    window.drift.reset()
   }
 }
 

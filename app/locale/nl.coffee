@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     third_party_description: "CodeCombat gebruikt onder andere de volgende diensten van derden:"
     cookies_message: "CodeCombat gebruikt een aantal essentiële en niet-essentiële cookies"
     cookies_deny: "Wijs niet-essentiële cookies af"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Toernooiprijzen" # This section was for an old tournament and doesn't need new translations now.

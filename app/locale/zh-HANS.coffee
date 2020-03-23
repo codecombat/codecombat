@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
 
   new_home:
-    title: "CodeCombat官方｜信息学奥赛｜AI世青赛｜编程等级认证"
-    meta_keywords: "青少年编程, 少儿编程, CodeCombat, CodeCombat中国, steam教育, python, javascript, 游戏化编程, 美国AP/CSP认证,AI世青赛,信息学奥赛"
+    title: "CodeCombat官方｜信息学奥赛｜AI世青赛｜少儿编程等级认证"
+    meta_keywords: "青少年编程, 少儿编程, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat地牢"
     meta_description: "CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "一个以教师为中心的课程体系"
@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     third_party_description: "CodeCombat使用了下列第三方服务（除了别的以外）："
     cookies_message: "CodeCombat使用了必要和非必要的cookies."
     cookies_deny: "禁用非必要的cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.

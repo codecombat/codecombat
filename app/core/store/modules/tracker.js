@@ -3,6 +3,7 @@ export default {
 
   state: {
     doNotTrack: window.navigator && window.navigator.doNotTrack === "1",
+    spying: window.serverSession && typeof window.serverSession.amActually !== 'undefined',
 
     cookieConsent: {
       answered: false,
@@ -18,8 +19,8 @@ export default {
   },
 
   getters: {
-    disableAllTracking (state) {
-      return state.cookieConsent.declined || state.doNotTrack
+    disableAllTracking (state, getters, rootState, rootGetters) {
+      return state.cookieConsent.declined || state.doNotTrack || rootGetters['me/isSmokeTestUser'] || state.spying
     }
   },
 
