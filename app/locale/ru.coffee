@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     third_party_description: "CodeCombat использует следующие сторонние сервисы (среди прочих):"
     cookies_message: "CodeCombat использует постоянные и сеансовые куки."
     cookies_deny: "Отказаться от использования сеансовых куки"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Турнирные призы" # This section was for an old tournament and doesn't need new translations now.

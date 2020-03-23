@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     third_party_description: "CodeCombat sử dụng những dịch vụ bên thứ ba sau (và một số dịch vụ khác nữa):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Các giải thưởng của cuộc thi" # This section was for an old tournament and doesn't need new translations now.
