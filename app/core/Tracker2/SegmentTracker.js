@@ -94,6 +94,17 @@ export function loadSegment () {
   // analytics.page();
 }
 
+const DEFAULT_SEGMENT_OPTIONS = {
+  // TODO remove after intercom disabled in segment
+  Intercom: { hideDefaultLauncher: true }
+}
+
+const DEFAULT_SEGMENT_TRAITS_TO_REPORT = [
+  'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName',
+  'dateCreated'
+]
+
 export default class SegmentTracker extends BaseTracker {
   constructor (store) {
     super()
@@ -103,49 +114,91 @@ export default class SegmentTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
+    this.watchForDisableAllTrackingChanges(this.store)
+
     this.store.watch(
       (state, getters) => getters['me/isTeacher'],
-      this.onIsTeacherChanged.bind(this)
+      () => this.onIsTeacherChanged()
     )
 
     if (this.store.getters['me/isTeacher']) {
-      loadSegment()
+      this.onIsTeacherChanged(true)
       window.analytics.ready(this.onInitializeSuccess)
     } else {
       this.onInitializeSuccess()
     }
   }
 
-  async trackPageView (includeIntegrations = {}) {
+  async trackPageView (includeIntegrations = []) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
+    const options = { ...DEFAULT_SEGMENT_OPTIONS }
+    this.addIntegrationsToSegmentOptions(options, includeIntegrations)
+
     const url = `/${Backbone.history.getFragment()}`
-    window.analytics.page(url, {}, {
-      integrations: {
-        All: false,
-        'Google Analytics': false
-      }
+    return new Promise((resolve) => {
+      window.analytics.page(undefined, url, {}, options, resolve)
     })
   }
 
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
+
+    const { me } = this.store.state
+
+    const {
+      _id,
+      ...meAttrs
+    } = me
+
+    const filteredMeAttributes = DEFAULT_SEGMENT_TRAITS_TO_REPORT.reduce((obj, key) => {
+      const meAttr = meAttrs[key]
+      if (typeof meAttr !== 'undefined' && meAttr !== null) {
+        obj[key] = meAttr
+      }
+
+      return obj;
+    }, {})
+
+    const options = { ...DEFAULT_SEGMENT_OPTIONS }
+    return new Promise((resolve) => {
+      window.analytics.identify(
+        _id,
+        {
+          ...filteredMeAttributes,
+          ...traits
+        },
+        options,
+        resolve
+      )
+    })
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = {}) {
+  async trackEvent (action, properties = {}, includeIntegrations = []) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
+
+    const options = { ...DEFAULT_SEGMENT_OPTIONS }
+    this.addIntegrationsToSegmentOptions(options, includeIntegrations)
+
+    return new Promise((resolve) => {
+      window.analytics.track(action, properties, options, resolve)
+    })
+  }
+
+  async resetIdentity () {
+    window.analytics.reset();
   }
 
   onIsTeacherChanged (isTeacher) {
@@ -157,5 +210,16 @@ export default class SegmentTracker extends BaseTracker {
       this.enabled = true
       loadSegment()
     }
+  }
+
+  addIntegrationsToSegmentOptions (options = {}, includeIntegrations = []) {
+    if (includeIntegrations.length > 0) {
+      options.integrations = includeIntegrations.reduce((integrations, integration) => {
+        integrations[integration] = true;
+        return integrations;
+      }, { All: false });
+    }
+
+    return options;
   }
 }
