@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     third_party_description: "CodeCombat utiliza los siguientes servicios de terceros (entre otros):"
     cookies_message: "CodeCombat utiliza algunas cookies esenciales y no esenciales."
     cookies_deny: "Rechazar las cookies no esenciales"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Premios de Torneos" # This section was for an old tournament and doesn't need new translations now.
