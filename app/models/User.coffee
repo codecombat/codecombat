@@ -410,6 +410,7 @@ module.exports = class User extends CocoModel
     FB?.logout?()
     options.success ?= ->
       window.application.tracker.resetIdentity().then =>
+        window.application.tracker.identifyAfterNextPageLoad()
         location = _.result(window.currentView, 'logoutRedirectURL')
         if location
           window.location = location

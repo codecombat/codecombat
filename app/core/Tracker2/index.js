@@ -18,21 +18,18 @@ export default class Tracker2 extends BaseTracker {
 
     this.store = store
 
-    // TODO consent status needs to be propagated to other trackers
     this.cookieConsentTracker = new CookieConsentTracker(this.store)
 
     this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
-    this.segmentTracker = new SegmentTracker()
-    this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
+    this.segmentTracker = new SegmentTracker(this.store)
+    // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
     this.driftTracker = new DriftTracker(this.store)
 
     this.trackers = [
       this.legacyTracker,
-      this.googleAnalyticsTracker,
+      // this.googleAnalyticsTracker,
       this.driftTracker,
-
-      // Segment tracking is currently handled by the legacy tracker
-      // this.segmentTracker,
+      this.segmentTracker,
     ]
   }
 

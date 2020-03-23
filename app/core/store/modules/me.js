@@ -52,6 +52,10 @@ export default {
       }
 
       return utils.inEU(state.country)
+    },
+
+    isSmokeTestUser (state) {
+      return utils.isSmokeTestEmail(state.email)
     }
   },
 
