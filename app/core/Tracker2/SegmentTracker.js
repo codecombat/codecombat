@@ -198,6 +198,12 @@ export default class SegmentTracker extends BaseTracker {
   }
 
   async resetIdentity () {
+    await this.initializationComplete
+
+    if (!this.enabled || this.disableAllTracking) {
+      return
+    }
+
     window.analytics.reset();
   }
 
