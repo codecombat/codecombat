@@ -24,7 +24,7 @@
           }
         },
         showChinaVideo () {
-            return me.useChinaVideo();
+            return me.showChinaVideo()
         }
       },
 
