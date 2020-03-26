@@ -1,5 +1,3 @@
-import UndoSystemSingleton from '../UndoSystem'
-
 // Throws an error if `import ... from ..` syntax.
 const Promise = require('bluebird')
 
@@ -12,7 +10,6 @@ Promise.config({
  */
 export const run = Symbol('private run method')
 export const cancel = Symbol('cancellation symbol')
-export const undo = Symbol('undo')
 
 /**
  * AbstractCommand is the abstract base class for objects that can be run in the CommandRunner.
@@ -51,7 +48,6 @@ export default class AbstractCommand {
    */
   [run] () {
     this.promise = this.run()
-    this[undo]()
     if (!this.promise) {
       throw new Error('Must return a promise from "run()" method.')
     }
@@ -77,14 +73,6 @@ export default class AbstractCommand {
     return this.cancel(this.promise)
   }
 
-  [undo] () {
-    const undoCommand = this.undoCommandFactory()
-    if (undoCommand === undefined) {
-      return
-    }
-    UndoSystemSingleton.pushUndoCommand(undoCommand)
-  }
-
   /**
    * Runs a command returning a cancellable promise.
    * `CinematicRunner` waits until this Promise has resolved or rejected before moving on.
@@ -108,12 +96,5 @@ export default class AbstractCommand {
   cancel (promise) {
     promise.cancel()
     return Promise.resolve()
-  }
-
-  /**
-   * @returns {AbstractCommand | undefined} Ran at runtime when run is called.
-   */
-  undoCommandFactory () {
-    return undefined
   }
 }

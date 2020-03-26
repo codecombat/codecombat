@@ -14,18 +14,8 @@ export class CameraSystem {
   }
 
   zoomToCommand ({ x, y }, zoom) {
-    const lastPosition = this.lastCameraMove
     this.lastCameraMove = { pos: { x, y }, zoom }
-    const cameraZoomCommand = new SyncFunction(() => this.camera.zoomTo({ x, y }, zoom, 0))
-    cameraZoomCommand.undoCommandFactory = () => {
-      if (lastPosition) {
-        return new SyncFunction(() => {
-          const { pos: { x, y }, zoom } = lastPosition
-          this.camera.zoomTo({ x, y }, zoom, 0)
-        })
-      }
-    }
-    return cameraZoomCommand
+    return new SyncFunction(() => this.camera.zoomTo({ x, y }, zoom, 0))
   }
 
   /**

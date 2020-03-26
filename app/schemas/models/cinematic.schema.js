@@ -192,8 +192,7 @@ const CinematicSchema = c.object({
     title: 'Shots',
     description: 'Ordered list of shots that make up a cinematic'
   }, Shot),
-  displayName: c.shortString({ title: 'Display Name' }),
-  showInstructionalTooltip: { title: 'Show Instructional Tooltip', description: 'Trigger instructions on how to navigate cinematics for users', type: 'boolean', default: true }
+  displayName: c.shortString({ title: 'Display Name' })
 })
 
 c.extendBasicProperties(CinematicSchema, 'cinematic')

@@ -7,12 +7,18 @@ import { SyncFunction, Sleep, SequentialCommands } from './commands/commands'
 
 import store from 'app/core/store'
 
-export class SoundSystem {
-  constructor () {
-    this.undoSystemState = {
-      lastBackgroundMusic: null
-    }
+/**
+ * @param {import('../../../app/schemas/models/selectors/cinematic').Sound} music
+ */
+const getMusicKey = (music) => {
+  const key = music.mp3 || music.ogg
+  if (!key) {
+    throw new Error('Invalid music object')
   }
+  return key
+}
+
+export class SoundSystem {
   /**
    * System interface method that CinematicParser calls with
    * each shot.
@@ -22,10 +28,9 @@ export class SoundSystem {
   parseSetupShot (shot) {
     const commands = []
     const music = getSetupMusic(shot)
+
     if (music) {
-      const lastBackgroundMusic = this.undoSystemState.lastBackgroundMusic
-      this.undoSystemState.lastBackgroundMusic = _.cloneDeep(music)
-      const musicCommand = new SyncFunction(async () => {
+      commands.push(new SyncFunction(async () => {
         await store.dispatch('audio/stopTrack', 'background')
 
         await store.dispatch('audio/playSound', {
@@ -33,22 +38,7 @@ export class SoundSystem {
           src: Object.values(music.files).map(f => `/file/${f}`),
           loop: music.loop
         })
-      })
-      musicCommand.undoCommandFactory = () => {
-        if (lastBackgroundMusic) {
-          return new SyncFunction(async () => {
-            await store.dispatch('audio/stopTrack', 'background')
-            await store.dispatch('audio/playSound', {
-              track: 'background',
-              src: Object.values(lastBackgroundMusic.files).map(f => `/file/${f}`),
-              loop: lastBackgroundMusic.loop
-            })
-          })
-        } else {
-          return new SyncFunction(() => store.dispatch('audio/stopTrack', 'background'))
-        }
-      }
-      commands.push(musicCommand)
+      }))
     }
     return commands
   }
