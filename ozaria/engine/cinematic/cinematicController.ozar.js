@@ -6,19 +6,13 @@ import DialogSystem from './dialogsystem/DialogSystem'
 import { CameraSystem } from './CameraSystem'
 import { SoundSystem } from './SoundSystem'
 import Autoplay from './systems/autoplay'
-import UndoSystem from './UndoSystem'
-import { SyncFunction } from './commands/commands'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
 const Camera = require('lib/surface/Camera')
 
-const UNDO_MODE = Symbol('undo')
-const FORWARD_MODE = Symbol('forward')
-
 const CINEMATIC_SPRITE_RESOLUTION_FACTOR = 1
 const CINEMATIC_BACKGROUND_OBJECT_RESOLUTION_FACTOR = 3
-
 /**
  * Takes a reference of the canvas and uses this to set up all the systems.
  * The canvasDiv will be used by the dialogSystem in order to attach the html dialog div
@@ -89,33 +83,14 @@ export class CinematicController {
       loader: this.systems.loader
     })
 
-    // This is a singleton. Used so commands can hook into the undo system
-    // via dependency injection. Because this is a singleton we need to clear it
-    // at the start of every cinematic or the commands will persist between
-    // cinematics.
-    this.undoCommands = UndoSystem
-    this.undoCommands.reset()
-
     this.commands = []
-    this.mode = FORWARD_MODE
-    this.wasCancelled = false
 
     this.startUp()
   }
 
-  get hasActiveRunner () {
-    const hasRunner = !!this.runner
-    // Defensive in order to avoid a bad state.
-    if (!hasRunner) {
-      console.warn(`cinematicController: 'wasCancelled' state unexpected.`)
-      this.wasCancelled = false
-    }
-
-    return hasRunner
-  }
-
   /**
    * Method that loads and initializes the cinematic.
+   *
    *
    * Finally we run the cinematic runner.
    */
@@ -146,60 +121,24 @@ export class CinematicController {
    * Used to cancel the current shot.
    */
   cancelShot () {
-    if (!this.hasActiveRunner) return
+    if (!this.runner) return
     this.runner.cancel()
-    this.wasCancelled = true
   }
 
   /**
    * Runs the next shot, mutating `this.commands`.
    */
-  runShot (autoplaying = false) {
-    if (this.hasActiveRunner) return
+  runShot () {
+    if (this.runner) return
+    this.onPlay()
 
     if (!Array.isArray(this.commands) || this.commands.length === 0) {
       this.systems.sound.stopAllSounds()
       return
     }
-    this.onPlay()
-
-    this.undoCommands.ignoreUndoCommands = false
-    this.mode = FORWARD_MODE
-
-    if (autoplaying) {
-      // If this shot is being played from an autoplay node, we need to ensure we
-      // autoplay back through the undo.
-      this.undoCommands.pushUndoCommand(new SyncFunction(() => {
-        this.systems.autoplay.autoplay = true
-      }))
-    }
 
     const currentShot = this.commands.shift()
-    this.undoCommands.pushUsedForwardCommands([...currentShot])
-
     this._runShot(currentShot)
-
-    if (this.wasCancelled) {
-      this.cancelShot()
-    }
-  }
-
-  undoShot () {
-    if (this.hasActiveRunner) return
-
-    if (!this.undoCommands.canUndo) {
-      return
-    }
-    this.mode = UNDO_MODE
-    this.undoCommands.ignoreUndoCommands = true
-
-    this.onPlay()
-
-    const { forwardCommands, undoCommands } = this.undoCommands.popUndoCommands()
-    this.commands.unshift(forwardCommands)
-
-    // Run side effects that would undo the shot.
-    this._runShot(undoCommands)
   }
 
   /**
@@ -207,13 +146,12 @@ export class CinematicController {
    * playing and calls `onPause` on the conclusion of the shot.
    * @param {AbstractCommand[]} commands - List of commands. When user cancels it runs to the end of the list.
    */
-  async _runShot (shotCommands) {
-    if (!Array.isArray(shotCommands) || shotCommands.length === 0) {
-      this.onPause()
+  async _runShot (currentShot) {
+    if (!Array.isArray(currentShot) || currentShot.length === 0) {
       return
     }
 
-    const [runner, runningCommands] = runCommands(shotCommands)
+    const [runner, runningCommands] = runCommands(currentShot)
     this.runner = runner
 
     // Block on running commands
@@ -227,33 +165,16 @@ export class CinematicController {
    * If the entire cinematic has completed we call the `onCompletion`.
    */
   cleanupRunShot () {
-    if (!this.hasActiveRunner) return
+    if (!this.runner) return
     this.runner = null
 
     if (Array.isArray(this.commands) && this.commands.length === 0) {
       this.onCompletion()
     }
 
-    // TODO: Do we undo again (autoplay situation???)
-    if (this.mode === FORWARD_MODE) {
-      this.undoCommands.endPlayingShot()
-    }
-
-    if (this.systems.autoplay.autoplay && this.mode === UNDO_MODE) {
-      this.systems.autoplay.autoplay = false
-      return this.undoShot()
-    }
-
     if (this.systems.autoplay.autoplay) {
       this.systems.autoplay.autoplay = false
-      return this.runShot(true)
-    }
-
-    this.undoCommands.tryMarkFirstStoppingPoint()
-
-    if (this.wasCancelled) {
-      this.wasCancelled = false
-      return this.runShot(false)
+      return this.runShot()
     }
 
     this.onPause()

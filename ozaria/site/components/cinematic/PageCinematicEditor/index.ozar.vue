@@ -185,7 +185,7 @@
       runCinematic () {
         this.rerenderKey += 1
         this.rawData = this.rawData || {}
-        this.rawData = JSON.parse(JSON.stringify(this.treema.data))
+        this.rawData.shots = JSON.parse(JSON.stringify(this.treema.data.shots))
       },
 
       navigateToList () {

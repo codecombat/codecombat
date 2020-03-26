@@ -1443,7 +1443,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   cinematic:
     click_anywhere_continue: "Click to Continue" # {change}
-    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same."
 
   community:
     main_title: "CodeCombat Community"
