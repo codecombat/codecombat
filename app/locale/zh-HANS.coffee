@@ -2722,6 +2722,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     third_party_description: "CodeCombat使用了下列第三方服务（除了别的以外）："
     cookies_message: "CodeCombat使用了必要和非必要的cookies."
     cookies_deny: "禁用非必要的cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.
