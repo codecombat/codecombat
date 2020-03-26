@@ -90,6 +90,12 @@ export default class CinematicLankBoss {
         [RIGHT_LANK_KEY]: 'idle'
       }
     }
+
+    // Used to set up undo commands
+    this.commandParsingState = {
+      idleAnimation: _.cloneDeep(this.runTimeState.idleAnimation),
+      lanks: {}
+    }
   }
 
   get stageBounds () {
@@ -183,16 +189,34 @@ export default class CinematicLankBoss {
     const commands = []
 
     const addMoveCharacterCommand = (side, resource, enterOnStart, thang) => {
-      if (enterOnStart) {
-        commands.push(this.moveLankCommand({ key: side, resource, thang, ms: 1000 }))
-      } else {
-        commands.push(this.moveLankCommand({ key: side, resource, thang, ms: 0 }))
+      const characterMoveTime = enterOnStart ? 1000 : 0
+
+      const lastResource = this.commandParsingState.lanks[side]
+
+      const moveLank = this.moveLankCommand({ key: side, resource, thang, ms: characterMoveTime })
+      moveLank.undoCommandFactory = () => {
+        if (lastResource) {
+          return this.moveLankCommand({ key: side, resource: lastResource.slug, thang: lastResource.thang, ms: 0 })
+        }
+        // There was nothing before this so remove last moved.
+        return new SyncFunction(() => this.removeLankResource(resource))
       }
+
+      commands.push(moveLank)
     }
 
     const background = getBackground(shot)
     if (background) {
-      commands.push(this.setBackgroundCommand(background))
+      const lastResource = _.cloneDeep(this.commandParsingState.lanks[BACKGROUND])
+      const backgroundCommand = this.setBackgroundCommand(background)
+
+      backgroundCommand.undoCommandFactory = () => {
+        if (lastResource) {
+          return this.setBackgroundCommand(lastResource)
+        }
+      }
+
+      commands.push(backgroundCommand)
       this.preRasterLank(background.slug, background.thang, BACKGROUND_LAYER)
     }
 
@@ -204,16 +228,27 @@ export default class CinematicLankBoss {
     const avatarPet = (store.getters['me/get1fhAvatar'] || {}).cinematicPetThangId || PET_AVATAR_THANG_ID
 
     const heroPet = getHeroPet(shot)
-    if (heroPet) {
+    // We tie the pet to the right hand hero, and therefore only create the command
+    // if there is a right hero command as well.
+    if (heroPet && rHero) {
       const { slug, thang } = heroPet
       thang.rotation = RIGHT
       this.heroPetOffset = thang.pos
+      const lastResource = _.cloneDeep(this.commandParsingState.lanks[HERO_PET])
       const placePet = this.moveLankCommand({
         key: HERO_PET,
         resource: (rHero || {}).type !== 'avatar' ? slug : avatarPet,
         thang,
         ms: 0
       })
+
+      placePet.undoCommandFactory = () => {
+        if (lastResource) {
+          return this.moveLankCommand({ key: HERO_PET, resource: lastResource.slug, thang: lastResource.thang, ms: 0 })
+        }
+        return new SyncFunction(() => this.removeLankResource((rHero || {}).type !== 'avatar' ? slug : avatarPet))
+      }
+
       this.preRasterLank((rHero || {}).type !== 'avatar' ? slug : avatarPet, thang, lankLayer[HERO_PET])
       commands.push(placePet)
     }
@@ -256,25 +291,58 @@ export default class CinematicLankBoss {
     //       Currently characters start 8 meters off the respective side of the camera bounds.
     const char = getExitCharacter(dialogNode)
     if (char === LEFT_LANK_KEY || char === 'both') {
-      commands.push(new SequentialCommands([
-        this.moveLankCommand({
-          key: LEFT_LANK_KEY,
-          thang: {
-            pos: {
-              x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET
-            }
-          },
-          ms: 800
-        }),
-        new SyncFunction(() => {
-          if (this.lanks[LEFT_LANK_KEY]) {
-            this.removeLank(LEFT_LANK_KEY)
-          }
-        })
-      ]))
+      const lastResource = _.cloneDeep(this.commandParsingState.lanks[LEFT_LANK_KEY])
+
+      const leaveCommand = new SyncFunction(() => {
+        if (this.lanks[LEFT_LANK_KEY]) {
+          this.removeLank(LEFT_LANK_KEY)
+        }
+      })
+
+      delete this.commandParsingState.lanks[LEFT_LANK_KEY]
+
+      if (lastResource) {
+        leaveCommand.undoCommandFactory = () => {
+          return this.moveLankCommand({
+            key: LEFT_LANK_KEY, resource: lastResource.slug, thang: lastResource.thang, ms: 0
+          })
+        }
+      }
+
+      commands.push(
+        new SequentialCommands([
+          this.moveLankCommand({
+            key: LEFT_LANK_KEY,
+            thang: {
+              pos: {
+                x: this.stageBounds.topLeft.x - OFF_CAMERA_OFFSET
+              }
+            },
+            ms: 800
+          }),
+          leaveCommand
+        ]))
     }
 
     if (char === RIGHT_LANK_KEY || char === 'both') {
+      const lastResource = _.cloneDeep(this.commandParsingState.lanks[RIGHT_LANK_KEY])
+
+      const leaveCommand = new SyncFunction(() => {
+        if (this.lanks[RIGHT_LANK_KEY]) {
+          this.removeLank(RIGHT_LANK_KEY)
+        }
+      })
+
+      delete this.commandParsingState.lanks[RIGHT_LANK_KEY]
+
+      leaveCommand.undoCommandFactory = () => {
+        if (lastResource) {
+          return this.moveLankCommand({
+            key: RIGHT_LANK_KEY, resource: lastResource.slug, thang: lastResource.thang, ms: 0
+          })
+        }
+      }
+
       commands.push(new SequentialCommands([
         this.moveLankCommand({
           key: RIGHT_LANK_KEY,
@@ -285,11 +353,28 @@ export default class CinematicLankBoss {
           },
           ms: 800
         }),
-        new SyncFunction(() => {
-          if (this.lanks[RIGHT_LANK_KEY]) {
-            this.removeLank(RIGHT_LANK_KEY)
-          }
-        })
+        leaveCommand
+      ]))
+    }
+
+    const removeBgDelay = getClearBackgroundObject(dialogNode)
+    if (typeof removeBgDelay === 'number') {
+      const lastResource = _.cloneDeep(this.commandParsingState.lanks[BACKGROUND_OBJECT])
+      delete this.commandParsingState.lanks[BACKGROUND_OBJECT]
+
+      const removeBgObjCommand = new SyncFunction(() => {
+        this.removeLank(BACKGROUND_OBJECT)
+      })
+
+      if (lastResource) {
+        removeBgObjCommand.undoCommandFactory = () => {
+          return this.moveLankCommand({ key: BACKGROUND_OBJECT, resource: lastResource.slug, thang: lastResource.thang, ms: 0 })
+        }
+      }
+
+      commands.push(new SequentialCommands([
+        new Sleep(removeBgDelay),
+        removeBgObjCommand
       ]))
     }
 
@@ -304,24 +389,26 @@ export default class CinematicLankBoss {
       }
       const delay = getBackgroundObjectDelay(dialogNode)
       this.preRasterLank(slug, thangOptions, lankLayer[BACKGROUND_OBJECT])
+
+      const lastResource = _.cloneDeep(this.commandParsingState.lanks[BACKGROUND_OBJECT])
+
+      const addBackgroundCommand = this.moveLankCommand({
+        key: BACKGROUND_OBJECT,
+        resource: slug,
+        thang: thangOptions,
+        ms: 0
+      })
+
+      addBackgroundCommand.undoCommandFactory = () => {
+        if (lastResource) {
+          return this.moveLankCommand({ key: BACKGROUND_OBJECT, resource: lastResource.slug, thang: lastResource.thang, ms: 0 })
+        }
+        return new SyncFunction(() => this.removeLankResource(slug))
+      }
+
       commands.push(new SequentialCommands([
         new Sleep(delay),
-        this.moveLankCommand({
-          key: BACKGROUND_OBJECT,
-          resource: slug,
-          thang: thangOptions,
-          ms: 0
-        })
-      ]))
-    }
-
-    const removeBgDelay = getClearBackgroundObject(dialogNode)
-    if (typeof removeBgDelay === 'number') {
-      commands.push(new SequentialCommands([
-        new Sleep(removeBgDelay),
-        new SyncFunction(() => {
-          this.removeLank(BACKGROUND_OBJECT)
-        })
+        addBackgroundCommand
       ]))
     }
 
@@ -330,7 +417,8 @@ export default class CinematicLankBoss {
     this.cacheActionOnLanks(animation)
     if (text && animation) {
       let textLength = getTextAnimationLength(dialogNode)
-      if (textLength === undefined) {
+      // FIXME: For testing on next. Revert before merging into production.
+      if (true || textLength === undefined) {
         textLength = text.length * LETTER_ANIMATE_TIME
       }
       const speaker = getSpeaker(dialogNode)
@@ -356,7 +444,15 @@ export default class CinematicLankBoss {
       }
       this.cacheActionOnLanks(newIdleAction)
 
-      commands.push(new SyncFunction(() => { this.runTimeState.idleAnimation[character] = newIdleAction }))
+      const lastIdleAnimation = this.commandParsingState.idleAnimation[character] || 'idle'
+      this.commandParsingState.idleAnimation[character] = this.runTimeState.idleAnimation[character] || 'idle'
+      const changeIdleCommand = new SyncFunction(() => { this.runTimeState.idleAnimation[character] = newIdleAction })
+      changeIdleCommand.undoCommandFactory = () => new SyncFunction(() => {
+        this.runTimeState.idleAnimation[character] = lastIdleAnimation
+        this.playActionOnLank(character, this.runTimeState.idleAnimation[character])
+      })
+
+      commands.push(changeIdleCommand)
     })
 
     getPlayThangAnimations(dialogNode).forEach(({
@@ -421,6 +517,11 @@ export default class CinematicLankBoss {
     } = {},
     ms = 1000
   }) {
+    // Make sure we can undo the lank by tracing state during command creation.
+    if (resource) {
+      this.commandParsingState.lanks[key] = { slug: resource, thang: thang }
+    }
+
     if (ms === 0) {
       return new SyncFunction(() => {
         if (resource) {
@@ -537,6 +638,14 @@ export default class CinematicLankBoss {
     delete this.lanks[key]
   }
 
+  // Hides the lank directly by resource. Assumes all characters in a cinematic
+  // are unique.
+  removeLankResource (resource) {
+    const lank = this.lankCache[this.loader.getThangType(resource).id]
+    if (!lank) { return }
+    lank.hide()
+  }
+
   cleanup () {
     for (const key in this.lanks) {
       this.removeLank(key)
@@ -562,7 +671,9 @@ export default class CinematicLankBoss {
     if (this.lanks[key] && this.lanks[key].thangType) {
       const original = this.lanks[key].thangType.get('original')
       if (thangType.get('original') === original) {
-        // It's the same thangType. Don't add a new Lank.
+        // It's the same thangType. Don't add a new Lank, but make sure it is shown.
+        lank = this.lankCache[thangType.id]
+        lank.show()
         return
       } else {
         // It's a lank we want to replace.
