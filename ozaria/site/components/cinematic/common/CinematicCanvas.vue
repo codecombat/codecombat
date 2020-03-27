@@ -119,10 +119,14 @@ export default {
       this.loaded = true
       this.userInterruptionEvent()
       const loadingTimeSec = Math.floor((Date.now() - this.initialTime) / 1000)
+      const cinematicId = (this.cinematicData || {})._id
       window.tracker.trackEvent('Loaded Cinematic', {
-        cinematicId: (this.cinematicData || {})._id,
+        cinematicId,
         loadingTimeSec
       })
+      if (application.tracker) {
+        application.tracker.trackTiming(loadingTimeSec, 'Cinematic Load Time', cinematicId, cinematicId)
+      }
     },
 
     handleKeyboardCancellation: function(e) {
