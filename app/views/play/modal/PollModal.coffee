@@ -77,7 +77,20 @@ module.exports = class PollModal extends ModalView
     pollVotes[@poll.id] = $selectedAnswer.data('answer').toString()
     @userPollsRecord.set 'polls', pollVotes
     @updateAnswers true
-    @userPollsRecord.save {polls: pollVotes}, {success: => @awardRandomGems?()}
+    @userPollsRecord.save {polls: pollVotes}, {success: => 
+      @awardRandomGems?()
+
+      myAnswer = (@userPollsRecord.get('polls') ? {})[@poll.id]
+      answerObj = _.find(@poll.get('answers'), (answer) => answer.key == myAnswer) or {}
+      nextPollId = answerObj.nextPoll
+      if nextPollId
+        btn = @$el.find('.btn.btn-illustrated.btn-lg.done-button')
+        btn.text('Next')
+        btn.one('click', ()=>
+          btn.prop('disabled', true);
+          @trigger('trigger-next-poll', nextPollId)
+        )
+    }
 
   awardRandomGems: ->
     return unless reward = (@userPollsRecord.get('rewards') ? {})[@poll.id]
