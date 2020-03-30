@@ -7,9 +7,36 @@
     <div
       id="cinematic-div"
       ref="cinematic-div"
-      v-on:click="userInterruptionEvent"
       :style="{ width: width+'px', height: height+'px' }"
     >
+      <div
+        id="cinematic-nav"
+        :class="{ hiding: showInstructionalTooltip && loaded }"
+      >
+        <div v-if="showInstructionalTooltip && loaded" id="cinematic-instruction-tooltip">
+          <div class="close-btn"
+            @click="() => { this.showInstructionalTooltip = false }"
+          ></div>
+          <span>
+            {{ $t('cinematic.instructional_tooltip') }}
+          </span>
+          <img src="/images/ozaria/cinematic/navigation/Keyboard.svg" alt="Keyboard showing cinematic navigation with left and right keys"/>
+        </div>
+        <div id="cinematic-backer" v-if="loaded">
+          <div
+            id="back-btn"
+            :class="{ disabled: !canUndo }"
+            @click="() => userAction('backInteraction')"
+          ></div>
+          <div
+            id="forward-btn"
+            @click="() => {
+              this.showInstructionalTooltip = false
+              this.userAction('forwardInteraction')
+            }"
+          ></div>
+        </div>
+      </div>
       <canvas
         id="cinematic-canvas"
         ref="cinematic-canvas"
@@ -43,8 +70,11 @@
  * CinematicController.
  */
 import { CinematicController } from '../../../../engine/cinematic/cinematicController'
-import { WIDTH, HEIGHT, CINEMATIC_ASPECT_RATIO} from '../../../../engine/cinematic/constants'
+import { WIDTH, HEIGHT, CINEMATIC_ASPECT_RATIO } from '../../../../engine/cinematic/constants'
 import _ from 'lodash'
+
+const BACK_INTERACTION = 'backInteraction'
+const FORWARD_INTERACTION = 'forwardInteraction'
 
 export default {
   props: {
@@ -65,13 +95,19 @@ export default {
     width: WIDTH,
     height: HEIGHT,
     loaded: false,
-    initialTime: null
+    initialTime: null,
+    cinematicCompleted: false,
+    showInstructionalTooltip: false
   }),
 
   mounted () {
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']
     this.initialTime = Date.now()
+    if (this.cinematicData.showInstructionalTooltip) {
+      this.showInstructionalTooltip = true
+    }
+
     this.controller = new CinematicController({
       canvas,
       canvasDiv,
@@ -82,17 +118,29 @@ export default {
         onPause: this.handleWait,
         onCompletion: () => {
           this.$emit('completed')
-          window.tracker.trackEvent('Completed Cinematic', {cinematicId: (this.cinematicData || {})._id}, ['Google Analytics'])
+          this.cinematicCompleted = true
+          window.tracker.trackEvent('Completed Cinematic', { cinematicId: (this.cinematicData || {})._id }, ['Google Analytics'])
         },
         onLoaded: this.handleCinematicLoad
       }})
-
-    window.addEventListener('keypress', this.handleKeyboardCancellation)
     window.addEventListener('resize', this.onResize)
     this.onResize()
   },
 
+  computed: {
+    canUndo () {
+      if (!this.controller) {
+        return false
+      }
+      if (this.cinematicPlaying) {
+        return false
+      }
+      return this.controller.undoCommands.canUndo
+    }
+  },
+
   methods: {
+    // Note: This is called between dialogue nodes when autoplay system is used.
     handlePlay: function() {
       this.cinematicPlaying = true
     },
@@ -105,20 +153,51 @@ export default {
       this.controller && this.controller.runShot()
     },
 
-    userInterruptionEvent: _.throttle(function() {
+    userAction: _.throttle(function (interactionType) {
+      if (this.cinematicCompleted) {
+        // Ignore user interaction when cinematic completion modal showing.
+        return
+      }
+      if (!interactionType || interactionType === FORWARD_INTERACTION) {
+        this.userInterruptionEvent()
+      } else if (interactionType === BACK_INTERACTION) {
+        this.pressBackwardsNavigation()
+      } else {
+        throw new Error('cant handle interaction')
+      }
+    }, 500),
+
+    pressBackwardsNavigation: function () {
+      if (this.canUndo && this.controller) {
+        this.controller.undoShot()
+      }
+    },
+
+    userInterruptionEvent: function (e) {
       if (!this.loaded) { return }
+      if (e && e.preventDefault) {
+        e.preventDefault()
+      }
+
+      // When a user prompts to play the cinematic we ensure the cinematic
+      // state is correct. This defends against a devastating bug where the
+      // user cannot progress because the view has incorrect state.
+      if (!this.controller.hasActiveRunner) {
+        this.handleWait()
+      }
 
       if (this.cinematicPlaying) {
         this.controller.cancelShot()
       } else {
         this.playNextShot()
       }
-    }, 500),
+    },
 
     handleCinematicLoad () {
       this.loaded = true
-      this.userInterruptionEvent()
+      window.addEventListener('keydown', this.handleKeyboard)
       const loadingTimeSec = Math.floor((Date.now() - this.initialTime) / 1000)
+      this.userAction(FORWARD_INTERACTION)
       const cinematicId = (this.cinematicData || {})._id
       window.tracker.trackEvent('Loaded Cinematic', {
         cinematicId,
@@ -129,14 +208,16 @@ export default {
       }
     },
 
-    handleKeyboardCancellation: function(e) {
+    handleKeyboard: function (e) {
       const code = e.code || e.key
-      if (code === "Enter") {
-        this.userInterruptionEvent()
+      if (code === 'Enter' || code === 'ArrowRight') {
+        this.userAction(FORWARD_INTERACTION)
+      } else if (code === 'ArrowLeft') {
+        this.userAction(BACK_INTERACTION)
       }
     },
 
-    onResize: _.debounce(function(e) {
+    onResize: _.debounce(function (e) {
       let parentWidth, parentHeight
       const parent = this.$refs['cinematic-canvas-el'].parentElement
       const boundingRect = parent.getBoundingClientRect()
@@ -156,14 +237,14 @@ export default {
     }, 250)
   },
 
-  beforeDestroy: function()  {
+  beforeDestroy: function () {
     if (this.controller) {
       this.controller.destroy()
     }
-    window.removeEventListener('keypress', this.handleKeyboardCancellation)
+    window.removeEventListener('keydown', this.handleKeyboard)
     window.removeEventListener('resize', this.onResize)
     window.tracker.trackEvent('Unloaded Cinematic', {cinematicId: (this.cinematicData || {})._id}, ['Google Analytics'])
-  },
+  }
 }
 </script>
 
@@ -176,10 +257,99 @@ export default {
 #cinematic-div
   position: relative
   .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
-    font-size: 24px
-    font-size: 3.2vmin
+    font-family: "Work Sans"
+    font-size: 3vmin
     line-height: 1.42
     color: #0e1111
+    min-width: 4rem
+
+    @media screen and (min-width: 1366px) and (min-height: 768px)
+      font-size: 24px
+
+  #cinematic-nav
+    width: 100%
+    height: 100%
+    position: absolute
+    z-index: 1
+
+    display: flex
+    justify-content: center
+    align-items: flex-end
+    transition: background-color 0.3s ease
+
+    &.hiding
+      background-color: rgba(0,0,0,0.7)
+
+    #cinematic-backer
+      background-image: url('/images/ozaria/cinematic/navigation/Backer.svg')
+      background-repeat: no-repeat
+      width: 23%
+      height: 9%
+      padding: 0 18px
+
+      display: flex
+      align-items: center
+      justify-content: space-around
+
+      transform: translateY(2px)
+    #back-btn, #forward-btn
+      width: 16%
+      height: 60%
+      cursor: pointer
+
+      background-repeat: no-repeat
+      background-size: contain
+
+    #back-btn
+      background-image: url('/images/ozaria/cinematic/navigation/ActiveL.svg')
+
+      &.disabled
+        background-image: url('/images/ozaria/cinematic/navigation/InactiveL.svg')
+        cursor: unset
+
+      &:hover:not(.disabled)
+        background-image: url('/images/ozaria/cinematic/navigation/HoverL.svg')
+
+    #forward-btn
+      background-image: url('/images/ozaria/cinematic/navigation/ActiveR.svg')
+
+      &:hover
+        background-image: url('/images/ozaria/cinematic/navigation/HoverR.svg')
+
+    #cinematic-instruction-tooltip
+      position: absolute
+      width: 440px
+      height: 140px
+      background-image: url('/images/ozaria/cinematic/navigation/TooltipBacker.svg')
+      z-index: 1
+      background-position: center
+      background-repeat: no-repeat
+      bottom: 10%
+
+      display: flex
+      flex-direction: row
+      align-items: center
+      padding: 0 20px 20px
+
+      span
+        font-family: Work Sans
+        font-style: normal
+        font-weight: normal
+        font-size: 16px
+        line-height: 22px
+
+      .close-btn
+        background-image: url('/images/ozaria/cinematic/navigation/CloseButton.svg')
+        background-repeat: no-repeat
+
+        cursor: pointer
+
+        position: absolute
+        right: 10px
+        top: 9px
+
+        width: 23px
+        height: 21px
 
 #cinematic-loading-pane
   position: absolute
@@ -261,15 +431,5 @@ export default {
   border-image-slice: 40 40 40 40 fill
   border-image-width: 4rem
   border-image-outset: 20px 30px 45px 30px
-
-.cinematic-speech-bubble-click-continue
-  text-align: center
-  color: #1FBAB4
-  font-family: "Open Sans"
-  font-size: 12px
-  font-size: 1.6vmin
-  letter-spacing: 0.51px
-  line-height: 3.2vmin
-  font-style: italic
 
 </style>
