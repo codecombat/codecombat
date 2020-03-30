@@ -80,12 +80,32 @@ export default class DialogSystem {
   }
 
   /**
+   * Creates a command that clears prior text bubbles.
+   * The bubbles cleared are tracked so we can undo the command
+   * thus supporting navigating backwards.
    * @returns {AbstractCommand}
    */
   clearShownDialogBubbles () {
-    return new SyncFunction(() => {
-      this.shownDialogBubbles.forEach(el => { el.style.display = 'none' })
+    let scopedArrayOfHiddenElements = null
+    const hideDialogueBubbleCommand = new SyncFunction(() => {
+      scopedArrayOfHiddenElements = []
+      this.shownDialogBubbles.forEach(el => {
+        if (el.style.display === `inline-block`) {
+          scopedArrayOfHiddenElements.push(el)
+          el.style.display = 'none'
+        }
+      })
     })
+
+    hideDialogueBubbleCommand.undoCommandFactory = () => {
+      return new SyncFunction(() => {
+        scopedArrayOfHiddenElements.forEach(el => {
+          el.style.display = 'inline-block'
+        })
+      })
+    }
+
+    return hideDialogueBubbleCommand
   }
 }
 
@@ -126,18 +146,8 @@ class SpeechBubble {
 
     speechBubbleDiv.id = this.id
     speechBubbleDiv.className = `cinematic-speech-bubble-${side}`
-    speechBubbleDiv.style.opacity = 0
 
     speechBubbleDiv.appendChild(textDiv)
-
-    const clickToContinue = document.createElement('div')
-    clickToContinue.style.textAlign = `right`
-    clickToContinue.style.marginBottom = `-10px`
-    clickToContinue.className = `cinematic-speech-bubble-click-continue`
-    clickToContinue.innerHTML = `<span>${window.i18n.t('cinematic.click_anywhere_continue')}</span>`
-    clickToContinue.style.opacity = 0
-
-    speechBubbleDiv.appendChild(clickToContinue)
     div.appendChild(speechBubbleDiv)
 
     // Calculate bounding box
@@ -160,12 +170,22 @@ class SpeechBubble {
       textDuration = letters * LETTER_ANIMATE_TIME
     }
 
-    speechBubbleDiv.style.display = 'none'
+    this.resetSpeechBubble = () => {
+      speechBubbleDiv.style.opacity = 0
+      speechBubbleDiv.style.display = 'none'
+      document.querySelectorAll(`#${this.id} .letter`)
+        .forEach(letter => {
+          letter.style.opacity = 0
+        })
+    }
+
     // We set up the animation but don't play it yet.
     // On completion we attach html node to the `shownDialogBubbles`
     // array for future cleanup.
+    this.resetSpeechBubble()
     this.animationFn = () => {
       shownDialogBubbles.push(speechBubbleDiv)
+      this.resetSpeechBubble()
       return anime
         .timeline({
           autoplay: false
@@ -186,11 +206,6 @@ class SpeechBubble {
           delay: anime.stagger(textDuration / letters, { easing: 'linear' }),
           easing: 'easeOutQuad'
         })
-        .add({
-          targets: `#${this.id} .cinematic-speech-bubble-click-continue`,
-          opacity: 1,
-          duration: 100
-        })
     }
   }
 
@@ -198,6 +213,11 @@ class SpeechBubble {
    * @returns {AbstractCommand} command to play the animation revealing the speech bubble.
    */
   createBubbleCommand () {
-    return new AnimeCommand(this.animationFn)
+    const animBubbleCommand = new AnimeCommand(this.animationFn)
+    animBubbleCommand.undoCommandFactory = () => {
+      return new SyncFunction(() => this.resetSpeechBubble())
+    }
+
+    return animBubbleCommand
   }
 }
