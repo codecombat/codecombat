@@ -43,7 +43,7 @@ module.exports = class PollEditView extends RootView
     super()
 
     if @poll.get('answers') == undefined
-      @poll.set('draft', true)
+      @poll.set('hidden', true)
 
     @buildTreema()
     @listenTo @poll, 'change', =>

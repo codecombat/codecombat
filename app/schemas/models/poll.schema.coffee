@@ -4,7 +4,7 @@ PollSchema = c.object {title: 'Poll'}
 c.extendNamedProperties PollSchema  # name first
 
 _.extend PollSchema.properties,
-  draft: {type: 'boolean', description: 'Prevents poll from being displayed to users.'}
+  hidden: {type: 'boolean', description: 'Prevents poll from being displayed to users. Useful for a multi-poll or stopping a poll from showing up without deleting.'}
   description: {type: 'string', title: 'Description', description: 'Optional: extra context or explanation', format: 'markdown' }
   answers: c.array {title: 'Answers'},
     c.object {required: ['key', 'text', 'i18n', 'votes']},
