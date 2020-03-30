@@ -204,7 +204,7 @@ export default {
         loadingTimeSec
       })
       if (application.tracker) {
-        application.tracker.trackTiming(loadingTimeSec, 'Cinematic Load Time', cinematicId, cinematicId)
+        application.tracker.trackTiming(Date.now() - this.initialTime, 'Cinematic Load Time', cinematicId, cinematicId)
       }
     },
 
