@@ -2,7 +2,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   new_home:
     title: "扣哒世界|CodeCombat中国|AI世青赛|少儿编程等级认证"
-    meta_keywords: "扣哒世界, 青少年编程, 少儿编程, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat中国"
+    meta_keywords: "扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat中国"
     meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "一个以教师为中心的课程体系"
