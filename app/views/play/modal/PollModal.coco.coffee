@@ -77,7 +77,25 @@ module.exports = class PollModal extends ModalView
     pollVotes[@poll.id] = $selectedAnswer.data('answer').toString()
     @userPollsRecord.set 'polls', pollVotes
     @updateAnswers true
-    @userPollsRecord.save {polls: pollVotes}, {success: => @awardRandomGems?()}
+    @userPollsRecord.save {polls: pollVotes}, {success: => 
+      @awardRandomGems?()
+
+      myAnswer = (@userPollsRecord.get('polls') ? {})[@poll.id]
+      answerObj = _.find(@poll.get('answers'), (answer) => answer.key == myAnswer) or {}
+      nextPollId = answerObj.nextPoll
+      
+      # The following block allows for the user to be indecisive with their answer, updating UI accordingly.
+      btn = @$el.find('.btn.btn-illustrated.btn-lg.done-button')
+      if nextPollId
+        btn.text(i18n.t('common.next'))
+        btn.one('click', ()=>
+          btn.prop('disabled', true);
+          @trigger('trigger-next-poll', nextPollId)
+        )
+      else
+        btn.text(i18n.t('play_level.done'))
+        btn.off('click')
+    }
 
   awardRandomGems: ->
     return unless reward = (@userPollsRecord.get('rewards') ? {})[@poll.id]
