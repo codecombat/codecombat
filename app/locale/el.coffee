@@ -2721,6 +2721,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     third_party_description: "Το CodeCombat χρησιμοποιεί τις ακόλουθες υπηρεσίες τρίτων (μεταξύ άλλων):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Βραβεία Τουρνουά" # This section was for an old tournament and doesn't need new translations now.
