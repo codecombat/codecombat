@@ -1,9 +1,9 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
 
   new_home:
-    title: "CodeCombat官方｜信息学奥赛｜AI世青赛｜少儿编程等级认证"
-    meta_keywords: "青少年编程, 少儿编程, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat地牢"
-    meta_description: "CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
+    title: "扣哒世界|CodeCombat中国|AI世青赛|少儿编程等级认证"
+    meta_keywords: "扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat中国"
+    meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
@@ -437,7 +437,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
-    default_title: "CodeCombat - 在场景化编程中学习Python，Javascript和C++"
+    default_title: "扣哒世界 - 在场景化编程中学习Python，Javascript和C++"
     default_meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站。"
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
