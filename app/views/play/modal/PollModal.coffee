@@ -87,7 +87,6 @@ module.exports = class PollModal extends ModalView
       # The following block allows for the user to be indecisive with their answer, updating UI accordingly.
       btn = @$el.find('.btn.btn-illustrated.btn-lg.done-button')
       if nextPollId
-        btn = @$el.find('.btn.btn-illustrated.btn-lg.done-button')
         btn.text(i18n.t('common.next'))
         btn.one('click', ()=>
           btn.prop('disabled', true);
