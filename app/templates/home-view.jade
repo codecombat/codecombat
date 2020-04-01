@@ -35,7 +35,12 @@ block content
                   if me.isAnonymous()
                     button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Try CodeCombat CTA", data-i18n="new_home.try_codecombat")
                   else
-                    a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA #2", data-i18n="new_home.go_to_my_classes")
+                    if me.isTeacher()
+                      a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA #2", data-i18n="new_home.go_to_my_classes")
+                    else if me.isStudent()
+                      a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA #2", data-i18n="new_home.go_to_courses")
+                    else
+                      a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA #2", data-i18n="courses.continue_playing")
               .col-lg-6
                 .tile-shadow
                   img(src="/images/pages/home/ozaria_acodus.png")
