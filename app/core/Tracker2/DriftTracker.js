@@ -55,20 +55,9 @@ export default class DriftTracker extends BaseTracker {
       this.onInitializeSuccess()
     })
 
-    this.store.watch(
-      (state) => state.route,
-      () => this.routeUpdated()
-    )
-
-    this.store.watch(
-      (state) => state.me.role,
-      () => this.userRoleUpdated()
-    )
-
     this.watchForDisableAllTrackingChanges(this.store)
 
     await this.initializationComplete
-    this.updateDriftConfiguration()
 
     const retries = await getPageUnloadRetriesForNamespace('drift')
     for (const retry of retries) {
@@ -83,37 +72,8 @@ export default class DriftTracker extends BaseTracker {
     // Show when a message is received
     window.drift.on('message', (e) => {
       if (!e.data.sidebarOpen) {
-        if (this.isChatEnabled) {
-          this.driftApi.widget.show()
-        }
+        this.driftApi.widget.show()
       }
-    })
-  }
-
-  routeUpdated () {
-    this.updateDriftConfiguration()
-  }
-
-  userRoleUpdated () {
-    this.updateDriftConfiguration()
-  }
-
-  get onPlayPage () {
-    const { route } = this.store.state
-    return (route.path || '').indexOf('/play/') === 0
-  }
-
-  get isChatEnabled () {
-    return !this.onPlayPage && !this.store.getters['me/isStudent']
-  }
-
-  updateDriftConfiguration () {
-    const chatEnabled = this.isChatEnabled
-
-    window.drift.config({
-      enableWelcomeMessage: chatEnabled,
-      enableCampaigns: chatEnabled,
-      enableChatTargeting: chatEnabled,
     })
   }
 
