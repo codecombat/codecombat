@@ -4,21 +4,21 @@
 
 **Learning Objectives**
 
-    - Nest conditionals within loops.
-    - Use nested structures to accomplish a given task.
+   - Nest conditionals within loops.
+   - Use nested structures to accomplish a given task.
 
 **Standards**
 
 This module was designed to align to the following standards:
 
-    - CSTA Standards
-        - 1A-AP-10: Develop programs with sequences and simple loops, to express ideas or address a problem.
-        - 1B-AP-10: Create programs that include sequences, events, loops, and conditionals.
-        - 2-AP-12: Design and iteratively develop programs that combine control structures, including nested loops and compound conditionals.
+   - CSTA Standards
+       - 1A-AP-10: Develop programs with sequences and simple loops, to express ideas or address a problem.
+       - 1B-AP-10: Create programs that include sequences, events, loops, and conditionals.
+       - 2-AP-12: Design and iteratively develop programs that combine control structures, including nested loops and compound conditionals.
 
 # Materials
 
-- Module Overview
+- [Module Overview](https://www.ozaria.com/teachers/resources/chapter2module3overview)
 - Teacher Guide to Systems (coming soon)
     - See the Prologue Lesson Plan for an explanation of important in-game student supports.
 - Solutions: To view solutions for levels, navigate to the Unit Guides tab and click on the &quot;Level Overviews and Solutions&quot; link under Chapter 2. From there, the Module 3 solutions start at &quot;For Mouse.&quot;
@@ -27,8 +27,8 @@ This module was designed to align to the following standards:
 
 - Key Terms
     - **Nesting:** Placing one programming construct inside of another.
-        - **Nested for loop**: When a for loop is placed inside of another structure (for example another for loop).
-        - **Nested conditional**: When a conditional is placed inside of another structure (for example a for loop).
+      - **Nested for loop**: When a for loop is placed inside of another structure (for example another for loop).
+      - **Nested conditional**: When a conditional is placed inside of another structure (for example a for loop).
 - Explanation of instructional pathway
     - The third module of Chapter 2 introduces nested structures. This comes before a module about while loops and after the module introducing for loops.
 
