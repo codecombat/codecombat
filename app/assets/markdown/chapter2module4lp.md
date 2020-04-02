@@ -1,4 +1,4 @@
-# Chapter 2: Module 3 Lesson Plan
+# Chapter 2: Module 4 Lesson Plan
 
 # Overview
 
