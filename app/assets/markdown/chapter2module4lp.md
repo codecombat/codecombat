@@ -4,22 +4,22 @@
 
 **Learning Objectives**
 
-    - Trace updating of a variable within a while loop.
-    - Determine whether it is best to use a for loops or a while loop for a given puzzle.
-    - Use while loops to condense code.
+   - Trace updating of a variable within a while loop.
+   - Determine whether it is best to use a for loops or a while loop for a given puzzle.
+   - Use while loops to condense code.
 
 **Standards**
 
 This module was designed to align to the following standards:
 
-    - CSTA Standards
-        - 1A-AP-09: Model the way programs store and manipulate data by using numbers or other symbols to represent information.
-        - 1B-AP-09: Compare and refine multiple algorithms for the same task and determine which is the most appropriate.
-        - 1B-AP-11: Decompose (break down) problems into smaller, manageable subproblems to facilitate the program development process.
+   - CSTA Standards
+       - 1A-AP-09: Model the way programs store and manipulate data by using numbers or other symbols to represent information.
+       - 1B-AP-09: Compare and refine multiple algorithms for the same task and determine which is the most appropriate.
+       - 1B-AP-11: Decompose (break down) problems into smaller, manageable subproblems to facilitate the program development process.
 
 # Materials
 
-- Module Overview
+- [Module Overview](https://www.ozaria.com/teachers/resources/chapter2module4overview)
 - Teacher Guide to Systems (coming soon)
     - See the Prologue Lesson Plan for an explanation of important in-game student supports.
 - Solutions: To view solutions for levels, navigate to the Unit Guides tab and click on the &quot;Level Overviews and Solutions&quot; link under Chapter 2. From there, the Module 4 solutions start at &quot;Right Door.&quot;
@@ -45,5 +45,5 @@ The hero and Mouse venture into Haven even though the ruler, Yug, has exiled all
 
 **Differentiation**
 
-- Have students who finish early play [] to prepare and get ideas for the Capstone project they will be completing in Module 5.
+- Have students who finish early look up Runner Games to prepare and get ideas for the Capstone project they will be completing in Module 5.
 - Have students who are struggling re-watch relevant cinematics and take notes on the examples given of simple while loops and while loops with counter variables/nested loops. They can use these examples as the basis for their solutions in the levels.
