@@ -22,18 +22,31 @@ block content
               else
                 a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
 
-    .row#game-based.vertical-align
-        .col-md-5
-          .game-based-blurb
-            h3.text-navy(data-i18n="new_home.game_based_blurb")
-            if me.isAnonymous()
-              br
-              p
-                a.btn.btn-lg.btn-primary.play-btn(href="/play", data-event-action="Homepage Try The Game CTA", data-i18n="new_home.try_the_game")
-        .col-md-7
-          .game-based-image
-            img(src="/images/pages/home/type_real_code_logo.gif"
-              alt="CodeCombat character Anya follows typed code block to reach chest of gems")
+    .row.text-center#game-based
+        .col-md-12
+          h1.text-navy(data-i18n="new_home.our_coding_programs")
+          .container
+            .row
+              .col-lg-6.col-md-12.game-based-col
+                .tile-shadow
+                  img(src="/images/pages/home/type_real_code.png")
+                  h2.text-teal(data-i18n="new_home.codecombat")
+                  p.text-left.text-navy(data-i18n="new_home.codecombat_blurb")
+                  if me.isAnonymous()
+                    button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Try CodeCombat CTA", data-i18n="new_home.try_codecombat")
+                  else
+                    if me.isTeacher()
+                      a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA #2", data-i18n="new_home.go_to_my_classes")
+                    else if me.isStudent()
+                      a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA #2", data-i18n="new_home.go_to_courses")
+                    else
+                      a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA #2", data-i18n="courses.continue_playing")
+              .col-lg-6.col-md-12.game-based-col
+                .tile-shadow
+                  img(src="/images/pages/home/ozaria_acodus.png")
+                  h2.text-teal(data-i18n="new_home.ozaria")
+                  p.text-left.text-navy(data-i18n="new_home.ozaria_blurb")
+                  a.btn.btn-lg.btn-primary.try-ozaria(href="https://ozaria.com", data-event-action="Homepage Click Try Ozaria CTA", data-i18n="new_home.try_ozaria")
 
     if !me.showingStaticPagesWhileLoading()
       .row.row-dark#classroom-in-box-row
