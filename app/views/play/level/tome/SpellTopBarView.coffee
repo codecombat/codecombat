@@ -26,12 +26,15 @@ module.exports = class SpellTopBarView extends CocoView
     'click .hints-button': 'onClickHintsButton'
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
+    'click .finish-tournament': 'onClickFinishTournament'
 
   constructor: (options) ->
     @hintsState = options.hintsState
     @spell = options.spell
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
+
+    console.log "@$location.search()", options
     super(options)
 
   getRenderData: (context={}) ->
@@ -122,6 +125,9 @@ module.exports = class SpellTopBarView extends CocoView
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
       $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
+
+  onClickFinishTournament: =>
+    myId = me.get('id')
 
   destroy: ->
     super()
