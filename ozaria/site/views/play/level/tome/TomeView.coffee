@@ -229,7 +229,16 @@ module.exports = class TomeView extends CocoView
     if utils.getQueryVariable 'dev'
       @options.playLevelView.spellPaletteView.destroy()
       @updateSpellPalette @spellView.thang, @spellView.spell
-    spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
+    for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
+      maxStage = Math.max((@options.level.get('additionalGoals') || []).map((g) -> g.stage)...)
+      if @options.level.get('ozariaType') == 'capstone' and @options?.capstoneStage == maxStage and @options.level.get('creativeMode') == true
+        # CreativeMode capstones restart to the students own goal directed code that was saved earlier.
+        priorStructuredCode = @options.session.get('code')['saved-capstone-normal-code']?.plan
+        if priorStructuredCode
+          spell.originalSource = priorStructuredCode
+        else
+          console.error('creativeMode failed to reset code due to missing prior code')
+      spell.view.reloadCode false 
     @cast false, false
 
   updateLanguageForAllSpells: (e) ->
