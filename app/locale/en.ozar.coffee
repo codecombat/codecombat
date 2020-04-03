@@ -2647,6 +2647,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     math_operations: "Math Library Operations"
     math_proportions: "Proportion Math"
     math_trigonometry: "Trigonometry"
+    nesting: "Nested Loops and Conditionals"
     object_literals: "Object Literals"
     parameters: "Parameters"
     programs: "Programs"
