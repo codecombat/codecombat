@@ -395,6 +395,7 @@ class PlayLevelView extends RootView {
   }
 
   updateCapstoneStage () {
+    const maxCapstoneStage = GoalManager.maxCapstoneStage(((this.level || {}).attributes || {}).additionalGoals)
     if (!me.isSessionless() && this.session) {
       // As a player, we always want to get it from the session, which is undefined on stage 1:
       this.capstoneStage = (this.session.get('state') || {}).capstoneStage || 1
@@ -404,12 +405,10 @@ class PlayLevelView extends RootView {
       }
 
       // We don't want to overshoot the capstoneStage, as it causes problems with nextLevels lookups and share modals
-      const maxCapstoneStage = GoalManager.maxCapstoneStage(this.level.attributes.additionalGoals)
       if (this.capstoneStage > maxCapstoneStage) {
         this.capstoneStage = maxCapstoneStage
       }
     }
-
 
     // We don't have a capstoneStage somehow, then it should begin at 1
     if (!this.capstoneStage) {
@@ -421,6 +420,15 @@ class PlayLevelView extends RootView {
     const capstoneStageFromArguments = this.getCapstoneStageFromArguments()
     if ((me.isAdmin() || me.isTeacher()) && capstoneStageFromArguments) {
       this.capstoneStage = capstoneStageFromArguments
+    }
+    // Save student goal directed code into another field if student has entered creativeMode at end of capstone.
+    if (this.session && this.capstoneStage === maxCapstoneStage && this.level.get('creativeMode') === true) {
+      const code = this.session.get('code') || {}
+      if (!code['saved-capstone-normal-code'] && code['hero-placeholder']) {
+        code['saved-capstone-normal-code'] = _.cloneDeep(code['hero-placeholder'])
+        this.session.set('code', code)
+        this.session.save()
+      }
     }
   }
 
@@ -538,7 +546,8 @@ class PlayLevelView extends RootView {
     const options = {
       additionalGoals: this.level.get('additionalGoals'),
       session: this.session,
-      capstoneStage: this.capstoneStage
+      capstoneStage: this.capstoneStage,
+      creativeMode: this.level.get('creativeMode') || false
     }
     if (this.level.get('assessment') === 'cumulative') {
       options.minGoalsToComplete = 1
@@ -1235,13 +1244,23 @@ class PlayLevelView extends RootView {
 
   onRestartLevel () {
     this.tome.reloadAllCode()
-
     if (me.isAdmin() && this.level.get('ozariaType') === 'capstone') {
-      const state = this.session.get('state')
-      if (state) {
-        state.capstoneStage = 1
-        this.session.set('state', state)
-        this.session.save(null, { success: () => { console.log('Reset capstoneStage to 1 for admin user') } })
+      const shouldResetCapstone = window.confirm('Do you want to restart capstone stage progress to 1?')
+      if (shouldResetCapstone) {
+        const code = this.session.get('code') || {}
+        if (code['saved-capstone-normal-code']) {
+          delete code['saved-capstone-normal-code']
+          this.session.set('code', code)
+        }
+        const state = this.session.get('state')
+        if (state) {
+          state.capstoneStage = 1
+          this.session.set('state', state)
+        }
+        this.session.save(null, { success: () => {
+          console.log('Reset capstoneStage to 1 for admin user')
+          application.router.reload()
+        } })
       }
     }
 
@@ -1253,10 +1272,6 @@ class PlayLevelView extends RootView {
         level: this.level.get('name'),
         label: this.level.get('name')
       })
-    }
-
-    if (me.isAdmin() && this.level.get('ozariaType') === 'capstone') {
-      application.router.reload()
     }
   }
 

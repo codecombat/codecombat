@@ -474,6 +474,7 @@ _.extend LevelSchema.properties,
     type: 'array',
     items: IntroContentObject
   }
+  creativeMode: { title: 'Creative Mode', type: 'boolean', description: 'Only changes behavior of capstone levels. Treats the last stage of capstones as a creative mode, where goals are turned off. This also saves the students prior code created in prior stages. A teacher is able to see both normal code and creative code. Finally when student restarts level they start from their normal code written before creative mode.'}
   additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
     title: 'Goals',
     description: 'Goals for this stage',
