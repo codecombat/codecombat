@@ -121,12 +121,7 @@ export default class CinematicLankBoss {
     }
     const lank = new Lank(thangType, {
       preloadSounds: false,
-      thang: thang || {
-        pos: {
-          x: 0,
-          y: 0
-        }
-      },
+      thang: createThang(thang),
       camera: this.camera,
       groundLayer: this.groundLayer,
       isCinematic: true
@@ -770,7 +765,7 @@ export const createThang = thang => {
       return options
     }
   }
-  return _.cloneDeep(_.merge(defaults, thang))
+  return _.cloneDeep(_.merge(defaults, thang || {}))
 }
 
 /**
