@@ -192,11 +192,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     faqs: "FAQs常見問題"
 #    copyright_prefix: "Copyright"
 #    copyright_suffix: "All Rights Reserved."
-    help_pref: "需要協助嗎? 寫封Email給我們"
+    help_pref: "需要協助嗎? 寫封電郵給我們"
     help_suff: "然後我們會與您接觸!"
     resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
-    parent: "雙親"
+    parent: "家長"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
