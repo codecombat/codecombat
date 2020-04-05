@@ -12,8 +12,9 @@ if showAmazonLogo
 .spell-tool-buttons
 
 
-  .btn.btn-small.btn-illustrated.finish-tournament
-    span 提前交卷
+  if view.showFinishTournament
+    .btn.btn-small.btn-illustrated.finish-tournament
+      span 提前交卷
 
   .btn.btn-small.btn-illustrated.btn-warning.reload-code(data-i18n="[title]play_level.tome_reload_method")
     .glyphicon.glyphicon-repeat
