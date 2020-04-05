@@ -5,6 +5,7 @@ CocoView = require 'views/core/CocoView'
 ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 utils = require 'core/utils'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
+fetchJson = require 'core/api/fetch-json'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -26,12 +27,14 @@ module.exports = class SpellTopBarView extends CocoView
     'click .hints-button': 'onClickHintsButton'
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
+    'click .finish-tournament': 'onClickFinishTournament'
 
   constructor: (options) ->
     @hintsState = options.hintsState
     @spell = options.spell
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
+    @showFinishTournament = options.level.get('slug') is 'sky-span-tournament'
     super(options)
 
   getRenderData: (context={}) ->
@@ -122,6 +125,19 @@ module.exports = class SpellTopBarView extends CocoView
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
       $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
+
+  onClickFinishTournament: =>
+    aiyouthPrefix = process.env.AIYOUTH_URL or 'http://localhost:8000'
+    fetchJson(aiyouthPrefix + "/api/classroom/finish/#{me.id}", {
+      method: 'POST',
+    }).then (res) =>
+      console.log "res", res
+      if res.code == 200
+        time = res.data.finished_at
+        noty text: "于#{time}成功交卷；如果需要继续修改代码，请保持打开腾讯会议，并在修改完毕之后再点击【提前交卷】按钮；如果不需要修改代码，请先关闭浏览器，然后退出腾讯会议", layout: 'center', type: 'warning', killer: false, timeout: 60000
+    .catch (err) =>
+      console.error err
+      noty text: "交卷失败，请稍后再试", layout: 'center', type: 'warning', killer: false, timeout: 60000
 
   destroy: ->
     super()

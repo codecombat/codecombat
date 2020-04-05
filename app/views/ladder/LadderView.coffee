@@ -50,6 +50,7 @@ module.exports = class LadderView extends RootView
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
+    'click .simulate-all-button': 'onClickSimulateAllButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
