@@ -49,17 +49,17 @@
     justify-content: space-around
 
     &.active-button-text
-      color: #215055
-      font-family: "Work Sans"
-      font-size: 17px
+      color: #FFFFFF
+      font-family: "Roboto Mono"
+      font-size: 18px
       font-weight: bold
-      letter-spacing: 0.77px
-      line-height: 20px
+      letter-spacing: 0.71px
+      line-height: 21px
 
       background-position: center
-      background-size: contain
+      background-size: 100% 100%
       background-repeat: no-repeat
-      background-image: url(/images/ozaria/level/Button.svg)
+      background-image: url(/images/ozaria/level/Button_Active.png)
 
       display: flex
       flex-direction: column
@@ -74,17 +74,13 @@
       & > span
         padding: 0 20px
 
+      &.inactive
+        background-image: url(/images/ozaria/level/Button_Inactive.png)
+    
       &#next:not(.inactive)
         animation: glowing 1500ms infinite
         animation-timing-function: ease-in-out
         border-radius: 14px
-
-    &:hover:not(:disabled):not(.inactive)
-      background-image: url('/images/ozaria/level/ButtonHover.svg')
-
-    &.inactive
-      background-image: url('/images/ozaria/level/ButtonInactive.svg')
-      cursor: default
 
   #reload-code
     display: flex
@@ -207,4 +203,4 @@ html.no-borderimage #cast-button-view
         &:active
           border: 0
           background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
-
+          
