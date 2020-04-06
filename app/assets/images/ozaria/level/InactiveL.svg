@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 19 19" style="enable-background:new 0 0 19 19;" xml:space="preserve">
+<style type="text/css">
+	.st0{filter:url(#Adobe_OpacityMaskFilter);}
+	.st1{fill:#FFFFFF;}
+	.st2{mask:url(#mask-2_1_);}
+	.st3{fill:#D0DAD9;}
+	.st4{fill-opacity:0;stroke:#B3BDBC;stroke-width:3;}
+	.st5{filter:url(#Adobe_OpacityMaskFilter_1_);}
+	.st6{mask:url(#mask-3_1_);}
+	.st7{fill-rule:evenodd;clip-rule:evenodd;fill-opacity:0;stroke:#B3BDBC;stroke-width:3;}
+</style>
+<g transform="translate(9.5, 9.625) scale(-1, 1) translate(-9.5, -9.625)">
+	<defs>
+		<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse">
+			<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+		</filter>
+	</defs>
+	<mask maskUnits="userSpaceOnUse" id="mask-2_1_">
+		<rect y="19.1" class="st0" width="19" height="-19.2"/>
+		<g>
+			<ellipse id="ellipse-1_1_" class="st1" cx="9.5" cy="9.5" rx="9.5" ry="-9.6"/>
+		</g>
+	</mask>
+	<g class="st2">
+		<g>
+			<ellipse class="st3" cx="9.5" cy="9.5" rx="9.5" ry="-9.6"/>
+		</g>
+		<g>
+			<ellipse class="st4" cx="9.5" cy="9.5" rx="9.5" ry="-9.5"/>
+		</g>
+	</g>
+	<defs>
+		<filter id="Adobe_OpacityMaskFilter_1_" filterUnits="userSpaceOnUse">
+			<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+		</filter>
+	</defs>
+	<mask maskUnits="userSpaceOnUse" id="mask-3_1_">
+		<rect y="19.1" class="st5" width="19" height="-19.2"/>
+		<g>
+			<ellipse class="st1" cx="9.5" cy="9.5" rx="9.5" ry="-9.6"/>
+		</g>
+	</mask>
+	<g class="st6">
+		<g>
+			<path class="st7" d="M0.9-2.6l12,11.9l-12,11.9"/>
+		</g>
+	</g>
+</g>
+</svg>
