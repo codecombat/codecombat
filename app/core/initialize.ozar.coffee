@@ -9,6 +9,7 @@ Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
+VueShepherd = require 'vue-shepherd'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
@@ -16,6 +17,7 @@ Vue.use(VueMoment.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
+Vue.use(VueShepherd);
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -183,6 +185,7 @@ setUpIOSLogging = ->
 loadOfflineFonts = ->
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSansCondensed.css">'
   $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/openSans.css">'
+  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/workSans.css">'
 
 # This is so hacky... hopefully it's restrictive enough to not be slow.
 # We could also keep a list of events we are actually subscribed for and only try to send those over.

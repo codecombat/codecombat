@@ -9,7 +9,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 
-import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
 import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
@@ -60,6 +59,7 @@ const WebSurfaceView = require('./WebSurfaceView')
 const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
 const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
+const TutorialPlayView = require('./TutorialPlayView').default
 
 require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -94,9 +94,6 @@ class PlayLevelView extends RootView {
 
     $('flying-focus').remove() // Causes problems, so yank it out for play view.
     $(window).on('resize', this.onWindowResize)
-
-    // TODO: Replace this with a real implementation and steps after HoC
-    // Right now it is only used to highlight the Vega messages and block other input
 
     if (this.isEditorPreview) {
       this.supermodel.shouldSaveBackups = (
@@ -137,6 +134,8 @@ class PlayLevelView extends RootView {
   }
 
   setLevel (level, givenSupermodel) {
+    store.dispatch('game/resetTutorial')
+
     this.level = level
     this.supermodel.models = givenSupermodel.models
     this.supermodel.collections = givenSupermodel.collections
@@ -658,8 +657,9 @@ class PlayLevelView extends RootView {
     if (!this.level.isType('web-dev')) {
       this.insertSubView(new HUDView({ level: this.level }))
     }
-    this.dialogueView = new LevelDialogueView({ level: this.level, sessionID: this.session.id })
-    this.insertSubView(this.dialogueView)
+    this.insertSubView(new TutorialPlayView({
+      level: this.level
+    }))
     this.insertSubView(
       new ProblemAlertView({
         session: this.session,
@@ -913,9 +913,11 @@ class PlayLevelView extends RootView {
       this.surface.showLevel()
     }
     Backbone.Mediator.publish('level:set-time', { time: 0 })
-    return this.scriptManager != null
-      ? this.scriptManager.initializeCamera()
-      : undefined
+    if (this.scriptManager != null) {
+      this.scriptManager.initializeCamera()
+    }
+
+    store.dispatch('game/setTutorialActive', true)
   }
 
   onLoadingViewUnveiling (e) {
@@ -923,14 +925,7 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    if (!this.capstoneStage || this.capstoneStage === 1) {
-      this.openModalView(new LevelIntroModal({
-        level: this.level,
-        onStart: () => this.startLevel()
-      }))
-    } else {
-      this.startLevel()
-    }
+    this.startLevel()
   }
 
   startLevel () {
@@ -974,8 +969,6 @@ class PlayLevelView extends RootView {
     if (this.goalManager.goalStates['has-stopped-playing-game']) {
       this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
     }
-
-    this.dialogueView.beginDialogue()
   }
 
   onSetVolume (e) {
@@ -1272,6 +1265,12 @@ class PlayLevelView extends RootView {
         level: this.level.get('name'),
         label: this.level.get('name')
       })
+    }
+
+    store.dispatch('game/restartTutorial')
+
+    if (me.isAdmin() && this.level.get('ozariaType') === 'capstone') {
+      application.router.reload()
     }
   }
 

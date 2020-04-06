@@ -48,6 +48,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @levelID = options.levelID
     @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
     @initProperties()
+    @saveSayEventsToStore()
     @addScriptSubscriptions()
     @beginTicking()
 
@@ -83,6 +84,34 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       callback = makeCallback(script.channel) # curry in the channel argument
       @addNewSubscription(script.channel, callback)
 
+  extractSayEvents: (script) ->
+    sayEvents = []
+    script?.noteChain?.forEach((note) ->
+      note?.sprites?.forEach((sprites) ->
+        if sprites?.say?.text
+          sayEvents.push(sprites)
+      )
+    )
+    return sayEvents
+
+  # All say events that are valid need to be added to the tutorial as the
+  # script manager starts up. Future say events will be added to the tutorial
+  # as they become valid and are published.
+  saveSayEventsToStore: ->
+    sayEvents = []
+
+    @scripts.forEach((script) =>
+      if not @scriptPrereqsSatisfied(script)
+        return
+      if script.eventPrereqs
+        return
+
+      sayEvents = sayEvents.concat(@extractSayEvents(script))
+    )
+
+    if sayEvents.length
+      store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+
   beginTicking: ->
     @tickInterval = setInterval @tick, 5000
 
@@ -114,10 +143,12 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return unless scripts?.currentScript
     script = _.find @scripts, {id: scripts.currentScript}
     return unless script
-    @triggered.push(script.id)
+    canSkipScript = @extractSayEvents(script).length == 0 # say events are reset each new run
+    if canSkipScript
+      @triggered.push(script.id)
     noteChain = @processScript(script)
     return unless noteChain
-    if scripts.currentScriptOffset
+    if scripts.currentScriptOffset and canSkipScript
       noteGroup.skipMe = true for noteGroup in noteChain[..scripts.currentScriptOffset-1]
     @addNoteChain(noteChain, false)
 
@@ -133,11 +164,14 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
         continue
       continue if script.repeats # repeating scripts are not 'rerun'
-      @triggered.push(scriptID)
-      @ended.push(scriptID)
+      canSkipScript = @extractSayEvents(script).length == 0 # say events are reset each new run
+      if canSkipScript
+        @triggered.push(scriptID)
+        @ended.push(scriptID)
       noteChain = @processScript(script)
       return unless noteChain
-      noteGroup.skipMe = true for noteGroup in noteChain
+      if canSkipScript
+        noteGroup.skipMe = true for noteGroup in noteChain
       @addNoteChain(noteChain, false)
 
   setWorldLoading: (@worldLoading) ->
@@ -184,6 +218,13 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       script.lastTriggered = new Date().getTime()
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
+
+      # There may have been new conditions that are met so we are now in a
+      # position to add new say events to the tutorial. Duplicates are ignored.
+      sayEvents = @extractSayEvents(script)
+      if sayEvents.length
+        store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+
       if not noteChain then return @trackScriptCompletions (script.id)
       @addNoteChain(noteChain)
       @run()
@@ -279,6 +320,18 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
+    # At the time when we are ready to publish a note, a new condition for a triggered say event may
+    # have been met. We have to look up the text of the note being published and check if this is a
+    # say even we need to publish, and then add it to the tutorial.
+    @scripts.forEach((script) =>
+      script?.noteChain?.forEach((noteChain) ->
+        noteChain?.sprites?.forEach((sprite) ->
+          if sprite?.say?.text == note?.event?.message
+            store.dispatch('game/addTutorialStepsFromSayEvents', [sprite])
+        )
+      )
+    )
+
     if note.vuex
       store.dispatch(
         note.channel,
