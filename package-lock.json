@@ -20757,14 +20757,6 @@
       "resolved": "https://registry.npmjs.org/vue-router/-/vue-router-3.0.6.tgz",
       "integrity": "sha512-Ox0ciFLswtSGRTHYhGvx2L44sVbTPNS+uD2kRISuo8B39Y79rOo0Kw0hzupTmiVtftQYCZl87mwldhh2L9Aquw=="
     },
-    "vue-shepherd": {
-      "version": "0.0.1",
-      "resolved": "https://registry.npmjs.org/vue-shepherd/-/vue-shepherd-0.0.1.tgz",
-      "integrity": "sha512-l7V2VQXu731WfAC7TbVFzhwgoF8H8RUlne6LZ8T0Htr/rKqqwiTfm3eTa2oT+clveRWxnaPx4WT+CjoSSiEhsA==",
-      "requires": {
-        "shepherd.js": "^6.0.2"
-      }
-    },
     "vue-style-loader": {
       "version": "4.1.2",
       "resolved": "https://registry.npmjs.org/vue-style-loader/-/vue-style-loader-4.1.2.tgz",

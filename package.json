@@ -188,7 +188,6 @@
     "vue-meta": "^1.6.0",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.2",
-    "vue-shepherd": "0.0.1",
     "vuedraggable": "^2.21.0",
     "vuex": "^2.4.0",
     "webpack": "git://github.com/codecombat/webpack.git#webpack-3",

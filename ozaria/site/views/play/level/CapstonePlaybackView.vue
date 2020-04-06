@@ -111,24 +111,21 @@ module.exports = Vue.extend({
   text-align: center;
 
   button {
-    background-image: url("/images/ozaria/level/Button.svg");
+    background-image: url("/images/ozaria/level/Button_Active.png");
+    color: white;
     text-align: center;
     background-position: center;
     margin: 1% 0;
-    padding: 9px 36px;
+    padding: 9px 26px;
     background-size: contain;
     background-color: black;
     background-repeat: no-repeat;
     border: none;
-    font-family: "Work Sans";
-    font-size: 17px;
+    font-family: "Roboto Mono";
+    font-size: 18px;
     font-weight: bold;
-    letter-spacing: 0.77px;
-    line-height: 20px;
-
-    &:hover:not(:disabled) {
-      background-image: url("/images/ozaria/level/ButtonHover.svg");
-    }
+    letter-spacing: 0.71px;
+    line-height: 21px;
   }
 }
 </style>

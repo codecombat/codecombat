@@ -7,7 +7,6 @@ LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
-store = require 'core/store'
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
@@ -29,7 +28,6 @@ module.exports = class SpellPaletteView extends CocoView
     'click .sub-section-header': 'onSubSectionHeaderClick'
     'click': 'onClick'
     'mousemove': 'onMouseMove'
-    'transitionend': 'onTransitionEnd'
 
   initialize: (options) ->
     {@level, @session, @thang, @useHero} = options
@@ -92,7 +90,7 @@ module.exports = class SpellPaletteView extends CocoView
         allDocs['__' + doc.name].push docCopy
 
     methodsBankList = @options.level.get('methodsBankList') || []
-
+    
     if methodsBankList.length == 0
       console.log("Methods Bank list is empty!!")
     else
@@ -292,9 +290,6 @@ module.exports = class SpellPaletteView extends CocoView
       aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditor.renderer.setShowGutter true
       aceEditors.push aceEditor
-
-  onTransitionEnd: (e) ->
-    store.dispatch('game/toggleCodeBank')
 
   destroy: ->
     entry.destroy() for entry in @entries
