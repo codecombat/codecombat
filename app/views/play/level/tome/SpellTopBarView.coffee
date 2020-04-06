@@ -35,6 +35,7 @@ module.exports = class SpellTopBarView extends CocoView
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
     @showFinishTournament = options.level.get('slug') is 'sky-span-tournament'
+    console.log "env", window.location.hostname
     super(options)
 
   getRenderData: (context={}) ->
@@ -127,8 +128,11 @@ module.exports = class SpellTopBarView extends CocoView
       $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
 
   onClickFinishTournament: =>
-    aiyouthPrefix = process.env.AIYOUTH_URL or 'http://localhost:8000'
-    fetchJson(aiyouthPrefix + "/api/classroom/finish/#{me.id}", {
+    apiPrefix = switch (window.location.hostname)
+      when 'koudashijie.com' then 'http://api-aiyouth.koudashijie.com'
+      when 'staging.koudashijie.com' then 'http://api.test-aiyouth.koudashijie.com'
+      else 'http://localhost:8000'
+    fetchJson(apiPrefix + "/api/classroom/finish/#{me.id}", {
       method: 'POST',
     }).then (res) =>
       console.log "res", res
