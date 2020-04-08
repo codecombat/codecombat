@@ -153,6 +153,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     want_coco: "Vols CodeCombat al teu centre?"
 #    educator: "Educator"
 #    student: "Student"
+#    our_coding_programs: "Our Coding Programs"
+#    codecombat: "CodeCombat"
+#    ozaria: "Ozaria"
+#    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
+#    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    try_codecombat: "Try CodeCombat"
+#    try_ozaria: "Try Ozaria"
 
   nav:
 #    educators: "Educators"
