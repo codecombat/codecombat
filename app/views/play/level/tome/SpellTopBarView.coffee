@@ -140,7 +140,7 @@ module.exports = class SpellTopBarView extends CocoView
 
   finishTournament: ->
     apiPrefix = switch (window.location.hostname)
-      when 'koudashijie.com' then 'http://api-aiyouth.koudashijie.com'
+      when 'koudashijie.com' then 'https://api-aiyouth.koudashijie.com'
       else 'http://api.test-aiyouth.koudashijie.com'
     $.ajax
       url: apiPrefix + "/api/classroom/finish/#{me.id}"
