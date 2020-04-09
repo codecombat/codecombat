@@ -38,7 +38,7 @@ module.exports = class SpellTopBarView extends CocoView
     console.log "env", window.location.hostname
     super(options)
 
-  getRenderData: (context={}) ->
+  getRenderData: (context = {}) ->
     context = super context
     ctrl = if @isMac() then 'Cmd' else 'Ctrl'
     shift = $.i18n.t 'keyboard_shortcuts.shift'
@@ -65,7 +65,8 @@ module.exports = class SpellTopBarView extends CocoView
   onClickHintsButton: ->
     return unless @hintsState?
     @hintsState.set('hidden', not @hintsState.get('hidden'))
-    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, []
+    window.tracker?.trackEvent 'Hints Clicked',
+      category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, []
 
   onClickVideosButton: ->
     @openModalView new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @courseID})
@@ -115,10 +116,10 @@ module.exports = class SpellTopBarView extends CocoView
     transitionListener = ''
     testEl = document.createElement 'fakeelement'
     transitions =
-      'transition':'transitionend'
-      'OTransition':'oTransitionEnd'
-      'MozTransition':'transitionend'
-      'WebkitTransition':'webkitTransitionEnd'
+      'transition': 'transitionend'
+      'OTransition': 'oTransitionEnd'
+      'MozTransition': 'transitionend'
+      'WebkitTransition': 'webkitTransitionEnd'
     for transition, transitionEvent of transitions
       unless testEl.style[transition] is undefined
         transitionListener = transitionEvent
@@ -128,6 +129,16 @@ module.exports = class SpellTopBarView extends CocoView
       $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
 
   onClickFinishTournament: =>
+    modal = new ConfirmModal({
+      title: '确认提前交卷'
+      body: "<p>点击确认将自动关闭本页面，无法重新进入竞技场修改代码，交卷后可以退出腾讯会议</p><p>如果要继续修改代码，请点击取消。</p>"
+      confirm: '确认'
+      decline: '取消'
+    })
+    @openModalView(modal)
+    modal.once 'confirm', @finishTournament, @
+
+  finishTournament: ->
     apiPrefix = switch (window.location.hostname)
       when 'koudashijie.com' then 'http://api-aiyouth.koudashijie.com'
       else 'http://api.test-aiyouth.koudashijie.com'
