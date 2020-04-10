@@ -427,6 +427,7 @@ class PlayLevelView extends RootView {
       if (!code['saved-capstone-normal-code'] && code['hero-placeholder']) {
         code['saved-capstone-normal-code'] = _.cloneDeep(code['hero-placeholder'])
         this.session.set('code', code)
+        this.session.set('published', true)
         this.session.save()
       }
     }

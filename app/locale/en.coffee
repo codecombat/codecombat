@@ -815,6 +815,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content_type_avatar: "Avatar Selection"
     content_type_cinematic: "Cinematic"
     content_type_interactive: "Concept Check" # {change}
+    feedback: "Feedback"
 
   apis:
     methods: "Methods"
@@ -1757,6 +1758,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
     solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
     solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Resource Hub for information on how to evaluate these projects."
+    feedback_capstone: 'The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a <a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1itB0vY6WphjINQYJ9NHkILATcLLlYD3GDSg6FJg55OQ">Peer Feedback Template</a> that you can share with your students.'
     students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"

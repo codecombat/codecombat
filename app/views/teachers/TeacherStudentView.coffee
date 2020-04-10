@@ -48,6 +48,7 @@ module.exports = class TeacherStudentView extends RootView
     @classroom = new Classroom({_id: classroomID})
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())
+    @isCreativeLevelMap = {}
 
     if @studentID
       @user = new User({ _id: @studentID })
@@ -61,7 +62,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,displayName,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,displayName,creativeMode,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
     @urls = require('core/urls')
 
     # wrap templates so they translate when called
@@ -70,6 +71,11 @@ module.exports = class TeacherStudentView extends RootView
     @levelProgressMap = {}
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
+
+  getRenderData: ->
+    c = super(arguments...)
+    c.isCreativeMode = (l) => @isCreativeMode(l)
+    c
 
   onLoaded: ->
     @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
@@ -131,11 +137,18 @@ module.exports = class TeacherStudentView extends RootView
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
     @levelSolutionsMap = @levels.getSolutionsMap([@classroom.get('aceConfig')?.language, 'html'])
     @levelStudentCodeMap = {}
+    @capstoneGuidedCode = {}
     for session in @sessions.models when session.get('creator') is @studentID
       # Normal level
       @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
       # Arena level
       @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
+      # Capstone with saved code level
+      if (session.get('code')?['saved-capstone-normal-code']?['plan'])
+        @capstoneGuidedCode[session.get('level').original] = session.get('code')['saved-capstone-normal-code']['plan']
+
+  isCreativeMode: (levelOriginal) ->
+    return @isCreativeLevelMap && @isCreativeLevelMap[levelOriginal]
 
   updateSelectedCourseProgress: (levelSlug) ->
     return unless levelSlug
@@ -352,6 +365,10 @@ module.exports = class TeacherStudentView extends RootView
 
     # Find level for this level session, for it's name
     level = @levels.findWhere({original: session.get('level').original})
+    @levels.forEach((level) =>
+      if (level.get('creativeMode'))
+        @isCreativeLevelMap[level.get('original')] = true
+    )
 
     # extra vars for display
     @lastPlayedCourse = course
