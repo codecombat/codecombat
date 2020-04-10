@@ -303,15 +303,26 @@ mixin breadcrumbs
                             td
                               if view.levelStudentCodeMap[level.get('original')]
                                 if view.levelProgressMap[level.get('original')] === 'complete'
-                                  pre
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                  if (view.capstoneGuidedCode[level.get('original')])
+                                    pre
+                                      code(class=langClass)= view.capstoneGuidedCode[level.get('original')]
+                                  else
+                                    pre
+                                      code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
                                 else
                                   pre.incomplete-code
                                     code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
                               else
                                 i.small(data-i18n="teacher.no_code_yet")
                             td.project-blurb
-                              i.small(data-i18n="teacher.solution_project_blurb")
+                              if isCreativeMode(level.get('original'))
+                                i.small(data-i18n="[html]teacher.feedback_capstone") The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a Peer Feedback Template that you can share with your students.
+                                if (solutions.length > 0)
+                                  - var solution = solutions[0]
+                                  pre
+                                    code(class=langClass)= solution.source
+                              else
+                                i.small(data-i18n="teacher.solution_project_blurb")
                     each solution, index in solutions
                       - var target = level.get('original') + index;
                       div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
@@ -324,6 +335,15 @@ mixin breadcrumbs
                             td
                               if view.levelStudentCodeMap[level.get('original')]
                                 if view.levelProgressMap[level.get('original')] === 'complete'
+                                  if isCreativeMode(level.get('original'))
+                                    .small
+                                      span= level.get('displayName') || level.get('name')
+                                      =" "
+                                      span (
+                                      span(data-i18n="play_level.feedback") Feedback
+                                      =" "
+                                      span(data-i18n="play_level.level")
+                                      span )
                                   pre
                                     code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
                                 else
@@ -333,6 +353,15 @@ mixin breadcrumbs
                                 i.small(data-i18n="teacher.no_code_yet")
                             td
                               if solutions.length === 1
+                                if isCreativeMode(level.get('original'))
+                                  .small
+                                    span= level.get('displayName') || level.get('name')
+                                    =" "
+                                    span (
+                                    span(data-i18n="play_level.feedback") Feedback
+                                    =" "
+                                    span(data-i18n="play_level.level")
+                                    span )
                                 pre
                                   code(class=langClass)= solution.source
                               else if solutions.length > 0
