@@ -20837,6 +20837,11 @@
       "resolved": "https://registry.npmjs.org/vuex/-/vuex-2.5.0.tgz",
       "integrity": "sha512-5oJPOJySBgSgSzoeO+gZB/BbN/XsapgIF6tz34UwJqnGZMQurzIO3B4KIBf862gfc9ya+oduY5sSkq+5/oOilQ=="
     },
+    "vuex-router-sync": {
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/vuex-router-sync/-/vuex-router-sync-5.0.0.tgz",
+      "integrity": "sha512-Mry2sO4kiAG64714X1CFpTA/shUH1DmkZ26DFDtwoM/yyx6OtMrc+MxrU+7vvbNLO9LSpgwkiJ8W+rlmRtsM+w=="
+    },
     "warning": {
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/warning/-/warning-3.0.0.tgz",
