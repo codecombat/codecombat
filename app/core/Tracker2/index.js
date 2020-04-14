@@ -23,12 +23,12 @@ export default class Tracker2 extends BaseTracker {
     this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
     this.segmentTracker = new SegmentTracker(this.store)
     // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
-    this.driftTracker = new DriftTracker(this.store)
+    // this.driftTracker = new DriftTracker(this.store)
 
     this.trackers = [
       this.legacyTracker,
       // this.googleAnalyticsTracker,
-      this.driftTracker,
+      // this.driftTracker,
       this.segmentTracker,
     ]
   }
@@ -112,7 +112,7 @@ export default class Tracker2 extends BaseTracker {
   }
 
   get drift () {
-    return this.driftTracker.drift
+    // return this.driftTracker.drift
   }
 
   identifyAfterNextPageLoad () {
