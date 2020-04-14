@@ -65,6 +65,12 @@ _.extend LevelSessionSchema.properties,
   state: c.object {},
     complete:
       type: 'boolean'
+    introContentSessionComplete:
+      type: 'object'
+      description: 'Key is the content _id allowing for quick lookup.'
+      additionalProperties: c.object {},
+        contentType: c.shortString { enum: ['cinematic', 'cutscene-video', 'interactive'] }
+        complete: { type: 'boolean' }
     scripts: c.object {},
       ended:
         type: 'object'

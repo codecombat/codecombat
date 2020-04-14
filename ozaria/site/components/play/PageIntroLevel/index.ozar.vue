@@ -125,7 +125,12 @@
         this.currentContentData.contentType = this.currentContent.type
         if (this.currentIndex + 1 === this.introContent.length) {
           this.introLevelComplete = true
+          this.setContentSessionComplete()
           await this.setIntroLevelComplete()
+        } else {
+          if (this.setContentSessionComplete()) {
+            await this.saveLevelSession()
+          }
         }
 
         if (this.currentContent.type === 'avatarSelectionScreen') {
@@ -156,6 +161,26 @@
           log(`Error saving intro level session ${this.introLevelSession._id}`, err, 'error')
           // TODO handle_error_ozaria
           return noty({ text: 'Error in saving intro level session', type: 'error', timeout: 2000 })
+        }
+      },
+      // Sets individual content pieces completion.
+      // Needs to filter out types such as the avatar selection page.
+      // Returns true if a change was made to the session.
+      setContentSessionComplete () {
+        if (this.introLevelSession) {
+          const { contentId, type } = this.currentContent
+          if (!['cinematic', 'cutscene-video', 'interactive'].includes(type)) {
+            return
+          }
+          this.introLevelSession.state = this.introLevelSession.state || {}
+          this.introLevelSession.state.introContentSessionComplete = this.introLevelSession.state.introContentSessionComplete || {}
+          const introContentSessionComplete = this.introLevelSession.state.introContentSessionComplete
+          if (introContentSessionComplete[contentId] && introContentSessionComplete[contentId].complete) {
+            // Don't save if content already completed
+            return
+          }
+          introContentSessionComplete[contentId] = { contentType: type, complete: true }
+          return true
         }
       },
       setCurrentContentId: function (content) {
