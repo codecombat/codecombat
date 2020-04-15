@@ -2107,6 +2107,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chapter2: "Chapter 2: The Phoenix Lands"
     review: "Review"
     for_loops: "For Loops"
+    peer_feedback: "Peer Feedback Form"
+    presentation_checklist: "Presentation Checklist"
 
   share_licenses:
     share_licenses: "Share Licenses"
