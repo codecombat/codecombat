@@ -116,7 +116,7 @@ const DialogNode = c.object({
       title: 'Change Idle Action',
       description: 'Setting this will update the default idle action for the rest of the cinematic. The default value is \'idle\'.'
     }, {
-      character: c.shortString({ title: 'Character', description: 'Which character has default idle action updated', enum: ['left', 'right'] }),
+      character: c.shortString({ title: 'Character', description: 'Which character has default idle action updated', enum: [LEFT_LANK_KEY, RIGHT_LANK_KEY, BACKGROUND_OBJECT] }),
       newIdleAction: c.shortString({ title: 'New Idle Action' })
     })
     )
