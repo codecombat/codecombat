@@ -87,7 +87,8 @@ export default class CinematicLankBoss {
     this.runTimeState = {
       idleAnimation: {
         [LEFT_LANK_KEY]: 'idle',
-        [RIGHT_LANK_KEY]: 'idle'
+        [RIGHT_LANK_KEY]: 'idle',
+        [BACKGROUND_OBJECT]: 'idle'
       }
     }
 
@@ -440,7 +441,14 @@ export default class CinematicLankBoss {
 
       const lastIdleAnimation = this.commandParsingState.idleAnimation[character] || 'idle'
       this.commandParsingState.idleAnimation[character] = this.runTimeState.idleAnimation[character] || 'idle'
-      const changeIdleCommand = new SyncFunction(() => { this.runTimeState.idleAnimation[character] = newIdleAction })
+      const changeIdleCommand = new SyncFunction(() => {
+        this.runTimeState.idleAnimation[character] = newIdleAction
+        if (character === BACKGROUND_OBJECT) {
+          // Need to trigger the background object action exclusively, as left and right
+          // characters handle their own idle actions after finishing their speaking animation.
+          this.playActionOnLank(character, newIdleAction)
+        }
+      })
       changeIdleCommand.undoCommandFactory = () => new SyncFunction(() => {
         this.runTimeState.idleAnimation[character] = lastIdleAnimation
         this.playActionOnLank(character, this.runTimeState.idleAnimation[character])
@@ -711,6 +719,8 @@ export default class CinematicLankBoss {
         x: this.stageBounds.bottomRight.x * 10,
         y: this.stageBounds.bottomRight.y * 10
       }
+    } else if (key === BACKGROUND_OBJECT) {
+      thang.action = this.runTimeState.idleAnimation[key] || 'idle'
     }
 
     lank = lank || new Lank(thangType, {
