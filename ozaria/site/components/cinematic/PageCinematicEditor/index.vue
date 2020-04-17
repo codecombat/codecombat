@@ -3,6 +3,8 @@
   import Cinematic from '../../../models/Cinematic'
   import CinematicCanvas from '../common/CinematicCanvas'
   import CocoCollection from 'app/collections/CocoCollection'
+  import LayoutCenterContent from '../../common/LayoutCenterContent'
+
   const FlexSearch = require('flexsearch')
   const api = require('core/api')
 
@@ -10,7 +12,8 @@
 
   module.exports = Vue.extend({
     components: {
-      'cinematic-canvas': CinematicCanvas
+      'cinematic-canvas': CinematicCanvas,
+      'layout-center-content': LayoutCenterContent
     },
 
     props: {
@@ -274,9 +277,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12" v-if="rawData" style="width:1366px; height:768px;">
+        <layout-center-content v-if="rawData">
           <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" :userOptions="{ programmingLanguage }" />
-        </div>
+        </layout-center-content>
       </div>
     </div>
   </div>
@@ -287,6 +290,7 @@
     margin-top: 30px;
     background-color: white;
     padding: 20px;
+    width: 98%;
   }
 
   button {

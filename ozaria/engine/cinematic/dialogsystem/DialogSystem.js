@@ -12,8 +12,8 @@ import { processText, getDefaultTextPosition } from './helper'
 import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
 
 const BUBBLE_PADDING = 10
-const SPEECH_BUBBLE_MAX_WIDTH = `31vmin`
-const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `50vmin`
+const SPEECH_BUBBLE_MAX_WIDTH = `37vmin`
+const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `68vmin`
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
@@ -22,6 +22,12 @@ const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `50vmin`
 export default class DialogSystem {
   constructor ({ canvasDiv }) {
     const div = this.div = document.createElement('div')
+
+    div.style.position = `absolute`
+    div.style.width = `100%`
+    div.style.height = `100%`
+    div.style.zIndex = `20`
+    div.style.pointerEvents = `none`
 
     canvasDiv.appendChild(div)
 

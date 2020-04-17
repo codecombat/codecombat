@@ -1,0 +1,153 @@
+<script>
+  import store from 'app/core/store'
+  import { mapState } from 'vuex'
+  import marked from 'marked'
+  import visualChalkboardModule from './visualChalkboardModule'
+
+  /**
+   * Converts a string such as "3 &lt; 2" into "3 < 2".
+   * Reference: https://stackoverflow.com/a/7394787
+   * @param {string} text
+   * @returns {string} Text with escaped values decoded
+   */
+  function decodeHtml (text) {
+    const txt = document.createElement('textarea')
+    txt.innerHTML = text
+    return txt.value
+  }
+
+  export default {
+    computed: {
+      ...mapState({
+        markdown: state => (state.visualChalkboard || {}).chalkboardMarkdown || '',
+        chalkboardWidth: state => (state.visualChalkboard || {}).width || 45,
+        chalkboardHeight: state => (state.visualChalkboard || {}).height || 80,
+        xOffset: state => {
+          // This getter returns either the onscreen xOffset or the value xOffsetHiddenOverride
+          // that triggers the chalkboard to move off the screen.
+          const xOffset = (state.visualChalkboard || {}).xOffset || 0
+          const xOffsetHiddenOverride = (state.visualChalkboard || {}).xOffsetHiddenOverride || 0
+          if (xOffsetHiddenOverride !== 0) {
+            return xOffsetHiddenOverride
+          } else {
+            return xOffset
+          }
+        },
+        yOffset: state => (state.visualChalkboard || {}).yOffset,
+        transitionTime: state => (state.visualChalkboard || {}).transitionTime || 0
+      }),
+
+      compiledMarkdown () {
+        return decodeHtml(marked(this.markdown))
+      }
+    },
+    mounted () {
+      store.registerModule('visualChalkboard', visualChalkboardModule)
+    },
+
+    beforeDestroy () {
+      store.unregisterModule('visualChalkboard')
+    }
+  }
+</script>
+
+<template>
+  <div id="cinematic-chalkboard-container">
+    <!-- TODO: Refactored to use vue transitions? -->
+    <div
+      id="chalkboard-modal"
+      :style="{
+        width: `${chalkboardWidth}%`,
+        height: `${chalkboardHeight}%`,
+        transform: `translateX(${xOffset}%) translateY(${yOffset}%)`,
+        transition: `transform ${transitionTime}s`
+      }"
+    >
+      <div id="chalkboard">
+        <div class="chalkboard-decoration-container">
+          <div class="chalkboard-decoration" />
+        </div>
+        <div
+          id="markdown-contents"
+          v-html="compiledMarkdown"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss">
+#chalkboard-modal img {
+  max-width: 80%;
+  height: auto;
+}
+</style>
+
+<style lang="scss" scoped>
+#cinematic-chalkboard-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+
+  #chalkboard-modal {
+    width: 45%;
+    height: 80%;
+
+    display: flex;
+    flex-direction: column;
+
+    transition: transform 1s ease-in-out;
+  }
+
+  #markdown-contents {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #chalkboard {
+    position: relative;
+    min-height: 70%;
+    width: 100%;
+
+    border-image: url('/images/ozaria/cinematic/CN_Acodus.png');
+    background-color: white;
+    border-image-slice: 200 183 170 151 fill;
+    border-image-width: 5rem 5.5rem 5rem 4.5rem;
+    border-image-outset: 2.7rem 4.7rem 3rem 3rem;
+    border-image-repeat: repeat;
+
+    .chalkboard-decoration-container {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      transform: translateX(4.4rem);
+
+      .chalkboard-decoration {
+        background-image: url('/images/ozaria/cinematic/CN_Acodus_Sticker.png');
+        width: 4rem;
+        height: 8rem;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+
+  }
+}
+</style>

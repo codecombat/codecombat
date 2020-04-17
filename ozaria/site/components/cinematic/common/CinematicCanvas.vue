@@ -37,6 +37,7 @@
           ></div>
         </div>
       </div>
+      <chalkboard />
       <canvas
         id="cinematic-canvas"
         ref="cinematic-canvas"
@@ -71,12 +72,17 @@
  */
 import { CinematicController } from '../../../../engine/cinematic/cinematicController'
 import { WIDTH, HEIGHT, CINEMATIC_ASPECT_RATIO } from '../../../../engine/cinematic/constants'
+import Chalkboard from './Chalkboard'
 import _ from 'lodash'
 
 const BACK_INTERACTION = 'backInteraction'
 const FORWARD_INTERACTION = 'forwardInteraction'
 
 export default {
+  components: {
+    Chalkboard
+  },
+
   props: {
     cinematicData: {
       type: Object,
@@ -270,7 +276,7 @@ export default {
     width: 100%
     height: 100%
     position: absolute
-    z-index: 1
+    z-index: 10
 
     display: flex
     justify-content: center
