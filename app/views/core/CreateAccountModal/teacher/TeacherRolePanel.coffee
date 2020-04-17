@@ -19,7 +19,7 @@ TeacherRolePanel = Vue.extend
     _.assign({},
       Vuex.mapGetters(trialReqProps: 'modal/getTrialRequestProperties'),
       askForPhoneNumber: ->
-        return this.trialReqProps.country == 'United States' or me.showChinaRegistration()
+        return me.showChinaRegistration() or this.trialReqProps.country == 'United States'
       phoneNumberRequired: ->
         return me.showChinaRegistration()
       validPhoneNumber: ->
