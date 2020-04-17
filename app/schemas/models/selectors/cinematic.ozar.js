@@ -113,7 +113,7 @@ const setCharacterDefaults = ({ pos: { x, y }, scaleX, scaleY }) =>
  * @returns {Object|undefined} leftCharacter with default values set on thang.
  */
 const setLeftCharacterDefaults = setCharacterDefaults({
-  pos: { x: -30, y: -72 },
+  pos: { x: -37, y: -73 },
   scaleX: 1.2,
   scaleY: 1.2
 })
@@ -124,7 +124,7 @@ const setLeftCharacterDefaults = setCharacterDefaults({
  * @returns {Object|undefined} rightCharacter with default values set on thang.
  */
 const setRightCharacterDefaults = setCharacterDefaults({
-  pos: { x: 30, y: -72 },
+  pos: { x: 37, y: -73 },
   scaleX: 1.2,
   scaleY: 1.2
 })
@@ -598,7 +598,20 @@ export const getWaitUserInput = dialogNode => {
 export const getLanguageFilter = dialogNode => (dialogNode || {}).programmingLanguageFilter
 
 /**
+ * Return the chalkboard data or an empty object.
+ * @param {DialogNode} shot
+ * @returns {Object|undefined}
+ */
+export const getVisualChalkBoardData = dialogNode => (dialogNode || {}).visualChalkBoardData
+
+/**
  * @param {DialogNode} dialogNode
  * @returns {Array<Object>} Returns list of default idle action change objects or an empty array.
  */
 export const getChangeDefaultIdles = dialogNode => ((dialogNode || {}).mutators || {}).changeDefaultIdles || []
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {boolean|undefined} Returns list of default idle action change objects or an empty array.
+ */
+export const getShowVisualChalkboard = dialogNode => ((dialogNode || {}).mutators || {}).showVisualChalkboard

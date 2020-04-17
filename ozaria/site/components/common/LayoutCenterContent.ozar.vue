@@ -18,5 +18,3 @@
   justify-content: center
 
 </style>
-
-

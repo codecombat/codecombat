@@ -8,6 +8,7 @@ import { SoundSystem } from './SoundSystem'
 import Autoplay from './systems/autoplay'
 import UndoSystem from './UndoSystem'
 import { SyncFunction } from './commands/commands'
+import VisualChalkboard from './systems/visualChalkboard'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -70,6 +71,7 @@ export class CinematicController {
     this.systems.loader = new Loader({ data: cinematicData })
     this.systems.sound = new SoundSystem()
     this.systems.autoplay = new Autoplay()
+    this.systems.visualChalkboard = new VisualChalkboard()
 
     this.systems.dialogSystem = new DialogSystem({
       canvasDiv,

@@ -104,6 +104,15 @@ const DialogNode = c.object({
     x: { title: 'x', description: 'The x coordinate.', type: 'number', 'default': 0 },
     y: { title: 'y', description: 'The y coordinate.', type: 'number', 'default': 0 } }),
   programmingLanguageFilter: c.shortString({ enum: ['python', 'javascript'], title: 'Programming Language Filter', description: 'If set, this node is only shown if the user is using the programming language selected.' }),
+  visualChalkBoardData: c.object({
+    title: 'Visual Chalkboard Data'
+  }, {
+    chalkboardContent: { title: 'Content', type: 'string', maxLength: 400, description: 'Content to place in the chalkboard', format: 'markdown' },
+    width: { title: 'width (%)', description: 'The chalkboard width.', type: 'number', 'default': 45 },
+    height: { title: 'height (%)', type: 'number', 'default': 75 },
+    xOffset: { title: 'X offset (%)', description: 'An offset from the center along x', type: 'number', 'default': 46 },
+    yOffset: { title: 'Y offset (%)', description: 'An offset from the center along y', type: 'number', 'default': 26 }
+  }),
   mutators: c.object({
     title: 'Mutators',
     description: 'Properties that change cinematic going forward'
@@ -119,7 +128,13 @@ const DialogNode = c.object({
       character: c.shortString({ title: 'Character', description: 'Which character has default idle action updated', enum: [LEFT_LANK_KEY, RIGHT_LANK_KEY, BACKGROUND_OBJECT] }),
       newIdleAction: c.shortString({ title: 'New Idle Action' })
     })
-    )
+    ),
+    showVisualChalkboard: {
+      title: 'Show Visual Chalkboard',
+      type: 'boolean',
+      description: 'Show the visual chalkboard',
+      default: true
+    }
   }),
   triggers: c.object({
     title: 'Triggers',
