@@ -9,7 +9,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 
-import LevelIntroModal from './modal/LevelIntroModal'
 import OzariaTransitionModal from '../modal/OzariaTransitionModal'
 import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
 import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
@@ -60,6 +59,7 @@ const WebSurfaceView = require('./WebSurfaceView')
 const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
 const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
+const TutorialPlayView = require('./TutorialPlayView').default
 
 require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -94,9 +94,6 @@ class PlayLevelView extends RootView {
 
     $('flying-focus').remove() // Causes problems, so yank it out for play view.
     $(window).on('resize', this.onWindowResize)
-
-    // TODO: Replace this with a real implementation and steps after HoC
-    // Right now it is only used to highlight the Vega messages and block other input
 
     if (this.isEditorPreview) {
       this.supermodel.shouldSaveBackups = (
@@ -310,6 +307,7 @@ class PlayLevelView extends RootView {
   onWorldNecessitiesLoaded () {
     console.debug('PlayLevelView: world necessities loaded')
     // Called when we have enough to build the world, but not everything is loaded
+    store.dispatch('game/resetTutorial')
     this.grabLevelLoaderData()
     const randomTeam = this.world && this.world.teamForPlayer() // If no team is set, then we will want to equally distribute players to teams
     const team = utils.getQueryVariable('team') || this.session.get('team') || randomTeam || 'humans'
@@ -659,8 +657,9 @@ class PlayLevelView extends RootView {
     if (!this.level.isType('web-dev')) {
       this.insertSubView(new HUDView({ level: this.level }))
     }
-    this.dialogueView = new LevelDialogueView({ level: this.level, sessionID: this.session.id })
-    this.insertSubView(this.dialogueView)
+    this.insertSubView(new TutorialPlayView({
+      level: this.level
+    }))
     this.insertSubView(
       new ProblemAlertView({
         session: this.session,
@@ -914,9 +913,11 @@ class PlayLevelView extends RootView {
       this.surface.showLevel()
     }
     Backbone.Mediator.publish('level:set-time', { time: 0 })
-    return this.scriptManager != null
-      ? this.scriptManager.initializeCamera()
-      : undefined
+    if (this.scriptManager != null) {
+      this.scriptManager.initializeCamera()
+    }
+
+    store.dispatch('game/setTutorialActive', true)
   }
 
   onLoadingViewUnveiling (e) {
@@ -924,14 +925,7 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    if (!this.capstoneStage || this.capstoneStage === 1) {
-      this.openModalView(new LevelIntroModal({
-        level: this.level,
-        onStart: () => this.startLevel()
-      }))
-    } else {
-      this.startLevel()
-    }
+    this.startLevel()
   }
 
   startLevel () {
@@ -975,8 +969,6 @@ class PlayLevelView extends RootView {
     if (this.goalManager.goalStates['has-stopped-playing-game']) {
       this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
     }
-
-    this.dialogueView.beginDialogue()
   }
 
   onSetVolume (e) {
@@ -1258,10 +1250,7 @@ class PlayLevelView extends RootView {
           state.capstoneStage = 1
           this.session.set('state', state)
         }
-        this.session.save(null, { success: () => {
-          console.log('Reset capstoneStage to 1 for admin user')
-          application.router.reload()
-        } })
+        this.session.save()
       }
     }
 
@@ -1274,6 +1263,10 @@ class PlayLevelView extends RootView {
         label: this.level.get('name')
       })
     }
+
+    store.dispatch('game/resetTutorial')
+    this.scriptManager.setScripts(this.level.get('scripts'))
+    store.dispatch('game/setTutorialActive', true)
   }
 
   onInfiniteLoop (e) {
@@ -1419,8 +1412,10 @@ class PlayLevelView extends RootView {
       AudioPlayer.preloadSoundReference(sound)
     }
     if (this.level.isType('game-dev')) {
-      return this.session.updateKeyValueDb(e.keyValueDb)
+      this.session.updateKeyValueDb(e.keyValueDb)
     }
+
+    this.loadScriptsForCapstoneStage(scripts, this.capstoneStage)
   }
 
   // Real-time playback
@@ -1662,15 +1657,39 @@ class PlayLevelView extends RootView {
       window.history.pushState(null, null, url)
     }
 
+
+    store.dispatch('game/resetTutorial', {
+      keepIntro: true
+    })
     this.scriptManager.setScripts(this.level.get('scripts'))
     this.goalManager.destroy()
     this.initGoalManager()
     this.tome.softReloadCapstoneStage(this.capstoneStage)
     Backbone.Mediator.publish('tome:updateAether')
+
+    this.loadScriptsForCapstoneStage(this.world.scripts, this.capstoneStage)
+    store.dispatch('game/setTutorialActive', true)
   }
 
   updateAetherRunning (e) {
     this.updateAetherIsRunning = true
+  }
+
+  loadScriptsForCapstoneStage (scripts, capstoneStage) {
+    if (!scripts) {
+      console.error('Tried to loadScriptsForCapstoneStage but scripts was empty')
+      return
+    }
+
+    const matchesCapstoneStage = { eventProps: ['god', 'capstoneStage'], equalTo: capstoneStage }
+    scripts
+      .filter(script => (script.eventPrereqs || []).find(e => _.isEqual(e, matchesCapstoneStage)))
+      .forEach(script => {
+        const sayEvents = ScriptManager.extractSayEvents(script)
+        if (sayEvents.length) {
+          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+        }
+      })
   }
 }
 

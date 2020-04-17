@@ -23,13 +23,25 @@
     @include box-shadow(0px 0px 8px #333)
     color: white
 
-@keyframes glowing
+@keyframes bounce-animation
   0%
-    box-shadow: 0 0 10px 10px rgba(78, 240, 212, 0.5), inset 0 0 3px 3px rgba(78, 240, 212, 0.5)
+    transform: translate(0px)
+  10%
+    transform: translate(0px, 5px)
+  20%
+    transform: translate(0px, -5px)
+  30%
+    transform: translate(0px)
   50%
-    box-shadow: 0 0 1px 1px rgba(78, 240, 212, 0.3), inset 0 0 1px 1px rgba(78, 240, 212, 0.3)
+    transform: translate(0px)
+  60%
+    transform: translate(0px, 5px)
+  70%
+    transform: translate(0px, -5px)
+  80%
+    transform: translate(0px)
   100%
-    box-shadow: 0 0 10px 10px rgba(78, 240, 212, 0.5), inset 0 0 3px 3px rgba(78, 240, 212, 0.5)
+    transform: translate(0px)
 
 #cast-button-view
   display: flex
@@ -47,19 +59,20 @@
     display: flex
     flex-direction: row
     justify-content: space-around
+    text-transform: uppercase
 
     &.active-button-text
-      color: #FFFFFF
-      font-family: "Roboto Mono"
-      font-size: 18px
+      color: #215055
+      font-family: "Work Sans"
+      font-size: 17px
       font-weight: bold
-      letter-spacing: 0.71px
-      line-height: 21px
+      letter-spacing: 0.77px
+      line-height: 20px
 
       background-position: center
-      background-size: 100% 100%
+      background-size: contain
       background-repeat: no-repeat
-      background-image: url(/images/ozaria/level/Button_Active.png)
+      background-image: url(/images/ozaria/level/Button.svg)
 
       display: flex
       flex-direction: column
@@ -74,13 +87,15 @@
       & > span
         padding: 0 20px
 
-      &.inactive
-        background-image: url(/images/ozaria/level/Button_Inactive.png)
-    
       &#next:not(.inactive)
-        animation: glowing 1500ms infinite
-        animation-timing-function: ease-in-out
-        border-radius: 14px
+        animation: bounce-animation 2.5s infinite
+
+    &:hover:not(:disabled):not(.inactive)
+      background-image: url('/images/ozaria/level/ButtonHover.svg')
+
+    &.inactive
+      background-image: url('/images/ozaria/level/ButtonInactive.svg')
+      cursor: default
 
   #reload-code
     display: flex
@@ -203,4 +218,4 @@ html.no-borderimage #cast-button-view
         &:active
           border: 0
           background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
-          
+
