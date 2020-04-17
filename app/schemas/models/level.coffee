@@ -102,12 +102,14 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
   move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {}, duration: 500}},
     target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
     duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}
-  tutorial: c.object {title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: {targetElement: 'editor', animation: 'Outline'}},
+  tutorial: c.object {title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: {internalRelease: true}},
+    internalRelease: {title: 'Internal Release', description: 'Only show this step to admins or accounts with @codecombat emails', type: 'boolean'}
     position: c.shortString(
       title: 'Dialog Position'
       description: 'What side (or no side with "stationary") of the target element to move the tutorial modal to'
       enum: [
         'smart'
+        'center'
         'stationary'
         'left'
         'top'
@@ -139,13 +141,14 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
         'Zoom'
       ]
     )
-    targetLine: {title: 'Target Line', description: 'Highlight a specific line in the code editor', type: 'number'}
+    targetLine: {title: 'Target Line', description: 'Highlight a specific line in the code editor', type: 'number', default: 1}
     grayOverlay: {
       title: 'Gray Overlay'
       description: 'Fade out the rest of the website, except the message itself and the targetElement (if you set one).'
       type: 'boolean'
       default: true
     }
+    advanceOnTarget: {title: 'Advance On Target', description: 'Go to next step when clicking the target element (requires Target Element to be set)', type: 'boolean'}
 
 NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes that should be sent out as a result of this script triggering.', displayProperty: 'name'},
   name: {title: 'Name', description: 'Short name describing the script, like \"Anya greets the player\", for your convenience.', type: 'string'}
