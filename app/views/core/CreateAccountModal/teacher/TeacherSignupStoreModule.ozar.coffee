@@ -46,6 +46,10 @@ module.exports = TeacherSignupStoreModule = {
     isHourOfCode: false
     classLanguage: '' # for HoC
   }
+  getters: {
+    getTrialRequestProperties: (state) ->
+      return state.trialRequestProperties
+  }
   mutations: {
     updateTrialRequestProperties: (state, updates) ->
       _.assign(state.trialRequestProperties, updates)
