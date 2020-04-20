@@ -79,17 +79,17 @@ module.exports = class ThangType extends CocoModel
   loadRasterImage: ->
     return if @loadingRaster or @loadedRaster
     return unless raster = @get('raster')
-    # IE11 does not support CORS for images in the canvas element
-    # https://caniuse.com/#feat=cors
-    @rasterImage = if utils.isIE() then $("<img src='/file/#{raster}' />")
-    else $("<img crossOrigin='Anonymous', src='/file/#{raster}' />")
+    @rasterImage = $("<img crossOrigin='Anonymous' src='/file/#{raster}' />")
     @loadingRaster = true
     @rasterImage.one('load', =>
       @loadingRaster = false
       @loadedRaster = true
       @trigger('raster-image-loaded', @))
-    @rasterImage.one('error', =>
+    @rasterImage.one('error', (error) =>
+      if (error)
+        console.log('Raster image error', error)
       @loadingRaster = false
+      console.log('Raster image error', @)
       @trigger('raster-image-load-errored', @)
     )
 
