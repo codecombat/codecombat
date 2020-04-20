@@ -29,6 +29,19 @@ div.school-info-panel.text-left
           option 1000+
         strong.help-block(v-if="showRequired && !numStudents") {{ $t("common.required_field") }}
 
+      .form-group(v-if="askForPhoneNumber" v-bind:class="{ 'has-error': (phoneNumberRequired && showRequired && (!phoneNumber || !validPhoneNumber)) || (phoneNumber && !validPhoneNumber) }")
+        span.control-label
+          | {{ $t("teachers_quote.phone_number") }}
+          =" "
+          span(v-if="phoneNumberRequired")
+            strong(v-if="showRequired && !phoneNumber") {{ $t("common.required_field") }}
+          span.spl.text-muted.optional-text(v-else) {{ $t("signup.optional") }}
+        input.form-control(
+          v-bind:placeholder="$t('teachers_quote.phone_number_help')"
+          v-model="phoneNumber"
+          name="phoneNumber"
+        )
+
       .form-group
         span.control-label
           span {{ $t("teachers_quote.referrer") }}
