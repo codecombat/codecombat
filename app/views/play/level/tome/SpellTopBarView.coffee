@@ -5,7 +5,6 @@ CocoView = require 'views/core/CocoView'
 ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 utils = require 'core/utils'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
-ConfirmModal = require 'views/core/ConfirmModal'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -27,18 +26,15 @@ module.exports = class SpellTopBarView extends CocoView
     'click .hints-button': 'onClickHintsButton'
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
-    'click .finish-tournament': 'onClickFinishTournament'
 
   constructor: (options) ->
     @hintsState = options.hintsState
     @spell = options.spell
     @courseInstanceID = options.courseInstanceID
     @courseID = options.courseID
-    @showFinishTournament = options.level.get('slug') is 'sky-span-tournament'
-    console.log "env", window.location.hostname
     super(options)
 
-  getRenderData: (context = {}) ->
+  getRenderData: (context={}) ->
     context = super context
     ctrl = if @isMac() then 'Cmd' else 'Ctrl'
     shift = $.i18n.t 'keyboard_shortcuts.shift'
@@ -127,34 +123,6 @@ module.exports = class SpellTopBarView extends CocoView
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
       $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
-
-  onClickFinishTournament: =>
-    modal = new ConfirmModal({
-      title: '确认提前交卷'
-      body: "<p>点击确认将自动关闭本页面，无法重新进入竞技场修改代码，交卷后可以退出腾讯会议</p><p>如果要继续修改代码，请点击取消。</p>"
-      confirm: '确认'
-      decline: '取消'
-    })
-    @openModalView(modal)
-    modal.once 'confirm', @finishTournament, @
-
-  finishTournament: ->
-    apiPrefix = switch (window.location.hostname)
-      when 'koudashijie.com' then 'https://api-aiyouth.koudashijie.com'
-      else 'http://api.test-aiyouth.koudashijie.com'
-    $.ajax
-      url: apiPrefix + "/api/classroom/finish/#{me.id}"
-      type: 'POST'
-      success: (res)->
-        if res.code == 200
-          time = res.data.finished_at
-          noty text: "于#{time}成功交卷；页面将于10秒后自动关闭", layout: 'center', type: 'warning', killer: false, timeout: 10000
-          setTimeout ->
-            window.open("about:blank", "_self").close()
-          , 10000
-      error: (err) ->
-        console.error err
-        noty text: "交卷失败，请稍后再试", layout: 'center', type: 'warning', killer: false, timeout: 60000
 
   destroy: ->
     super()
