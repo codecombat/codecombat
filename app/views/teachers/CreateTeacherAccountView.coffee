@@ -355,7 +355,7 @@ module.exports = class CreateTeacherAccountView extends RootView
             application.gplusHandler.loadPerson({
               success: (@gplusAttrs) =>
                 existingUser = new User()
-                existingUser.fetchGPlusUser(@gplusAttrs.gplusID, {
+                existingUser.fetchGPlusUser(@gplusAttrs.gplusID, @gplusAttrs.email, {
                   error: (user, jqxhr) =>
                     if jqxhr.status is 404
                       @onGPlusConnected()
