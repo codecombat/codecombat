@@ -235,7 +235,7 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
         }).attributes
         return {
           isError: true,
-          errorID: 'google-id-exists',
+          errorID: 'student-account-exists',
           error: user
         }
       })
@@ -269,7 +269,7 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
         }).attributes
         return {
           isError: true,
-          errorID: 'google-id-exists',
+          errorID: 'student-account-exists',
           error: user
         }
       })

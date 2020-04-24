@@ -478,10 +478,11 @@ module.exports = class User extends CocoModel
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
     return jqxhr
 
-  fetchGPlusUser: (gplusID, options={}) ->
+  fetchGPlusUser: (gplusID, email, options={}) ->
     options.data ?= {}
     options.data.gplusID = gplusID
     options.data.gplusAccessToken = application.gplusHandler.token()
+    options.data.email = email
     @fetch(options)
 
   loginGPlusUser: (gplusID, options={}) ->

@@ -104,7 +104,7 @@ export default {
 
         const existingUser = new User()
         await new Promise((resolve, reject) =>
-          existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
+          existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
             success: resolve,
             error: function() { errors.showNotyNetworkError(...arguments); reject(...arguments) }
           }))

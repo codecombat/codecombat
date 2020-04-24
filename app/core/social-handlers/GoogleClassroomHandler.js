@@ -114,8 +114,8 @@ module.exports = {
       const signupStudentsResult = await Promise.all(promises.map((p) => p.catch((err) => { err.isError=true; return err })))
       
       const createdStudents = signupStudentsResult.filter((s) => !s.isError)
-      const signupErrors = signupStudentsResult.filter((s) => s.isError && s.errorID != 'google-id-exists')
-      const existingStudentsWithGoogleId = signupStudentsResult.filter((s) => s.errorID == 'google-id-exists').map((s) => s.error)  // error contains the user object here
+      const signupErrors = signupStudentsResult.filter((s) => s.isError && s.errorID != 'student-account-exists')
+      const existingStudents = signupStudentsResult.filter((s) => s.errorID == 'student-account-exists').map((s) => s.error)  // error contains the user object here
 
       console.debug("Students created:", createdStudents)
         
@@ -124,7 +124,7 @@ module.exports = {
         console.error("Error in creating some students:", signupErrors)
 
       //Students to add in classroom = created students + existing students that are not already part of the classroom
-      const classroomNewMembers = createdStudents.concat(existingStudentsWithGoogleId.filter((s) => !cocoClassroom.get("members").includes(s._id)))
+      const classroomNewMembers = createdStudents.concat(existingStudents.filter((s) => !cocoClassroom.get("members").includes(s._id)))
       
       if (classroomNewMembers.length > 0){
         await api.classrooms.addMembers({ classroomID: cocoClassroom.get("_id"), members: classroomNewMembers })
