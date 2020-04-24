@@ -1244,7 +1244,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     school_name: "学校或机构名称"
     city: "市（直辖市可填无）"
     state: "省/直辖市" # {change}
-    country: "国家"
+    country: "国家/地区"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
     education_level_label: "学生的教育程度"
