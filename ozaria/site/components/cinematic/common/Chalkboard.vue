@@ -42,7 +42,7 @@
       }
     },
     mounted () {
-      store.registerModule('visualChalkboard', visualChalkboardModule)
+      store.registerModule('visualChalkboard', visualChalkboardModule())
     },
 
     beforeDestroy () {

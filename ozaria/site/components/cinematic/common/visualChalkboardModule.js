@@ -1,7 +1,9 @@
 // Fixed value. Can be set dynamically by content in the future if required.
 const X_OFFSET_HIDDEN = 200
 
-export default {
+// Wrap in a function so importing this chalkboard always gives you correct initial state.
+// If not created from function, state will carry between cinematics.
+export default () => ({
   namespaced: true,
 
   state: {
@@ -80,4 +82,4 @@ export default {
       window.requestAnimationFrame(() => commit('setTransitionTime', 1))
     }
   }
-}
+})
