@@ -91,7 +91,7 @@ module.exports = class AuthModal extends ModalView
           context: @
           success: (gplusAttrs) ->
             existingUser = new User()
-            existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
+            existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
               success: =>
                 me.loginGPlusUser(gplusAttrs.gplusID, {
                   success: => loginNavigate(@subModalContinue)
