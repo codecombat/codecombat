@@ -36,9 +36,6 @@
 * [Do you have any free units for educators to try before they make their purchasing decision?](#do-you-have-any-free-units-for-educators-to-try-before-they-make-their-purchasing-decision)
 * [What if I need licenses that only last a semester instead of a full year?](#what-if-i-need-licenses-that-only-last-a-semester-instead-of-a-full-year)
 * [Do we link to Google Classroom?](#do-we-link-to-google-classroom)
-* [If a teacher already uses Google Sign In for Ozaria, how do they integrate with Google Classroom?](#if-a-teacher-already-uses-google-sign-in-for-ozaria-how-do-they-integrate-with-google-classroom)
-* [What if a teacher already has a Ozaria account but they aren't using Google Sign In?](#what-if-a-teacher-already-has-a-ozaria-account-but-they-aren39t-using-google-sign-in)
-* [What if a teacher already uses their Google email address to log in, but doesn't use the Google Sign In button?](#what-if-a-teacher-already-uses-their-google-email-address-to-log-in-but-doesn39t-use-the-google-sign-in-button)
 * [What if a student already has a Ozaria account but they aren't using Google Sign In?](#what-if-a-student-already-has-a-ozaria-account-but-they-aren39t-using-google-sign-in)
 * [What happens if a student is deleted from the Ozaria classroom?](#what-happens-if-a-student-is-deleted-from-a-google-classroom-linked-ozaria-classroom)
 * [Can a teacher view progress in Ozaria via Google Classroom?](#can-a-teacher-view-progress-in-ozaria-via-google-classroom)
@@ -206,16 +203,9 @@ You can only add teachers in your organization that have already created a Teach
 When a license has been used, it is not available to be used by another teacher until that teacher revokes the license from the student (see [How to Transfer a License](#how-do-i-transfer-a-license-from-one-student-to-another)). -->
  
 ### Do we link to Google Classroom?
-Yes! Teachers must sign up for Ozaria using Google Sign In. If they sign in using their email address (even if the email address is the one they use for their Google Classroom), they will not be able to use our Google Classroom Integration. Teacher must create a Google Classroom first before they create their Ozaria classroom in order to link the two classrooms and use Rostering.
- 
-### If a teacher already uses Google Sign In for Ozaria, how do they integrate with Google Classroom?
-If a teacher is already signing in with Google Sign In, they will be able to select "Link Google Classroom" in the Create Class modal the next time they create a class.
- 
-### What if a teacher already has a Ozaria account but they aren't using Google Sign In?
-We currently don't support the ability for a teacher to link their existing Ozaria account to a Google account. For the time being, we'd recommend that they sign up for a new teacher account using their Google account (see instructions above) in order to use Google Classroom.
- 
-### What if a teacher already uses their Google email address to log in, but doesn't use the Google Sign In button?
-Unfortunately, we don't support converting their account from using email address to log in to using Google Sign In to log in. They would have to first delete their original teacher account, then create a new account using Google Sign In.
+Yes! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time.
+
+Note: You must use Google SSO to sign up or log-in at least once in order to see the Google Classroom integration option.
  
 ### What if a student already has a Ozaria account but they aren't using Google Sign In?
 **Student with Ozaria account that they use Google SSO with:**
@@ -226,7 +216,7 @@ If a student already has a Ozaria account and they use their username or email a
 1. They can join their teacher's class using the Class Code that the teacher can provide.
 2. They can sign in with their Google SSO instead, but they will not have any saved progress from their existing account.
  
-However, if their email address that they have on their existing Ozaria account is the same as the email address of their Google SSO account, the student will NOT be added to the classroom automatically. These students can join the class by signing in with their email address and using the Class Code from the classroom. If the teacher requires the student to use their Google SSO to sign in, the student will first need to delete their account, then create a new account using Google SSO.
+Finally, if their email address that they have on their existing Ozaria account is the same as the email address of their Google SSO account, the student will be added to the classroom automatically.
  
 ### What happens if a student is deleted from a Google Classroom-linked Ozaria classroom?
 If a student is deleted from the Ozaria classroom, they will not be deleted from the respective Google classroom. If the teacher uses the "Sync Google Classroom" button, the student will be re-added to the Ozaria classroom unless the teacher has also removed that student from the Google Classroom.
