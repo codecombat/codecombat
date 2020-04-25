@@ -3028,3 +3028,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+inventory:
+    should_equip: "(двойной клик, чтобы взять)"
+    equip: "Взять"  
+  
+  
