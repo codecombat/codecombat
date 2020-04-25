@@ -1243,7 +1243,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     school_name: "Fpubby Anzr"
     city: "Pvgl"
     state: "Fgngr / Ertvba"
-    country: "Pbhagel"
+    country: "Pbhagel / Ertvba"
     num_students_help: "Ubj znal fghqragf jvyy hfr PbqrPbzong?"
     num_students_default: "Fryrpg Enatr"
     education_level_label: "Rqhpngvba Yriry bs Fghqragf"
