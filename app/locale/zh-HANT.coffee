@@ -1283,7 +1283,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    school_name: "School Name"
     city: "城市"
     state: "州" # {change}
-    country: "國家"
+    country: "國家/地區"
     num_students_help: "您預估將有多少人加入CodeCombat?" # {change}
     num_students_default: "選擇範圍"
     education_level_label: "學生們的教育程度"
