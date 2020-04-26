@@ -28,6 +28,10 @@ SchoolInfoPanel =
       countries: countryList.getNames()
       usaStates: new UsaStates().states
       usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
+      countryMap:
+        "Hong Kong": "Hong Kong, China",
+        "Macao": "Macao, China",
+        "Taiwan, Province of China": "Taiwan, China"
     })
 
   components:
