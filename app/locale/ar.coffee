@@ -1243,7 +1243,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    school_name: "School Name"
 #    city: "City"
 #    state: "State / Region"
-#    country: "Country"
+#    country: "Country / Region"
 #    num_students_help: "How many students will use CodeCombat?"
 #    num_students_default: "Select Range"
 #    education_level_label: "Education Level of Students"
