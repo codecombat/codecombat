@@ -1654,7 +1654,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_btn_print: "Print"
     certificate_btn_toggle: "Toggle"
     ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-    set_start_locked_level: "Set start locked level"
+    set_start_locked_level: "Assign up to level" # {change}
     no_level_limit: "No limit"
 
   project_gallery:
