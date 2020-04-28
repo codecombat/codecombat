@@ -1421,7 +1421,7 @@ module.exports = class CampaignView extends RootView
 
       if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
         lockedByTeacher = true
-      if lockedByTeacher and me.showCourseProgressControl()
+      if lockedByTeacher
         level.locked = true
 
       if level.locked
