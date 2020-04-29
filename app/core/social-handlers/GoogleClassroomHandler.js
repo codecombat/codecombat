@@ -25,7 +25,7 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
       })
   }
 
-  loadStudentsFromAPI (googleClassroomId, nextPageToken) {
+  loadStudentsFromAPI (googleClassroomId, nextPageToken='') {
     return new Promise((resolve, reject) => {
       gapi.client.load ('classroom', 'v1', () => {
         gapi.client.classroom.courses.students.list({access_token: application.gplusHandler.token(), courseId: googleClassroomId, pageToken: nextPageToken})
