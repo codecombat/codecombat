@@ -186,7 +186,7 @@ const gcStudents = [
 describe('importStudentsToClassroom(cocoClassroom)', () => {
   beforeEach((done) => {
     me.set(factories.makeUser({role: 'teacher'}).attributes)
-    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve(gcStudents)) 
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve({students: gcStudents})) 
     done()
   })
 
@@ -293,5 +293,39 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
         done.fail(new Error("This should not have been called"))
       }
     })
+  })
+})
+
+describe('importStudentsToClassroom(cocoClassroom)', () => {
+  it('calls `loadStudentsFromAPI` multiple times until previous api call returns nextPageToken', async function(done) {
+    me.set(factories.makeUser({role: 'teacher'}).attributes)
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValues(Promise.resolve({students: gcStudents[0], nextPageToken: 'abcd'}), Promise.resolve({students: gcStudents[1]})) 
+    
+    const users = gcStudents.map((s) => {
+      return factories.makeUser({
+        gplusID: s.userId,
+        firstName: s.profile.givenName,
+        lastName: s.profile.familyName,
+        email: s.profile.emailAddress,
+        role: 'student'
+      })
+    })
+    spyOn(api.users, 'signupFromGoogleClassroom').and.callFake(function(attrs) {
+      return Promise.resolve(users.find((u) => u.get('gplusID')==attrs.gplusID))
+    })
+
+    const classroomWithNewMembers = factories.makeClassroom({googleClassroomId: "id1", members: users.map((u) => u._id)})
+    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers)) 
+    
+    try {
+      const cocoClassroom = factories.makeClassroom({googleClassroomId: "id1"})
+      const classroomNewMembers = await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)
+      expect(GoogleClassroomHandler.gcApiHandler.loadStudentsFromAPI.calls.count()).toEqual(2)
+      expect(classroomNewMembers.length).toEqual(gcStudents.length)
+      done()
+    }
+    catch (err) {
+      done.fail(new Error("This should not have been called"))
+    }
   })
 })
