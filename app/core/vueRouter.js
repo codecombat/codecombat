@@ -16,6 +16,12 @@ import PageInteractiveEditor from '../../ozaria/site/components/interactive/Page
 
 import CinematicPlaceholder from '../../ozaria/site/components/cinematic/CinematicPlaceholder'
 
+import BaseTeacherDashboard from '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue'
+import BaseMyClasses from '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue'
+import BaseStudentProjects from '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'
+import BaseTeacherLicenses from '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue'
+import BaseResourceHub from '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue'
+
 let vueRouter
 
 export default function getVueRouter () {
@@ -58,6 +64,17 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId', component: SchoolAdminTeacherView },
             { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: TeacherStudentView }
+          ]
+        },
+        {
+          path: '/teachers',
+          component: BaseTeacherDashboard,
+          children: [
+            { path: '', component: BaseMyClasses },
+            { path: 'classes', component: BaseMyClasses },
+            { path: 'projects', component: BaseStudentProjects },
+            { path: 'licenses', component: BaseTeacherLicenses },
+            { path: 'resources', component: BaseResourceHub }
           ]
         },
         {

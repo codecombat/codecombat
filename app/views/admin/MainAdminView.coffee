@@ -26,6 +26,7 @@ module.exports = class MainAdminView extends RootView
     'submit #user-search-form': 'onSubmitUserSearchForm'
     'click #stop-spying-btn': 'onClickStopSpyingButton'
     'click #increment-button': 'incrementUserAttribute'
+    'click #teacher-dasboard-feature': 'activateTeacherDashboard'
     'click .user-spy-button': 'onClickUserSpyButton'
     'click .teacher-dashboard-button': 'onClickTeacherDashboardButton'
     'click #user-search-result': 'onClickUserSearchResult'
@@ -218,6 +219,10 @@ module.exports = class MainAdminView extends RootView
     super()
     @$el.find('.search-help-toggle').click () =>
       @$el.find('.search-help').toggle()
+
+  activateTeacherDashboard: ->
+    sessionStorage.setItem('newTeacherDashboardActive', 'active')
+    noty({ text: 'New Teacher Dashboard Active for tab', type: 'information', timeout: 10000 })
 
   onClickExportProgress: ->
     $('.classroom-progress-csv').prop('disabled', true)
