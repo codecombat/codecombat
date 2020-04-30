@@ -23,7 +23,7 @@ export const getInteractive = idOrSlug => {
  * Returns a list of all interactives in the database.
  * @returns {Promise<InteractiveList[]>} - List of interactives
  */
-export const getAllInteractives = () => fetchJson('/db/interactives')
+export const getAllInteractives = () => fetchJson('/db/interactives?limit=1000')
 
 /**
  * Updates an interactive in the database.

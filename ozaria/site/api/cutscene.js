@@ -18,7 +18,7 @@ export const getCutscene = slugOrId => {
  * @async
  * @returns {Promise<Object[]>}
  */
-export const getAllCutscenes = () => fetchJson('/db/cutscene?project=slug,name')
+export const getAllCutscenes = () => fetchJson('/db/cutscene?project=slug,name&limit=1000')
 
 /**
  * Updates a cutscene in the database.
