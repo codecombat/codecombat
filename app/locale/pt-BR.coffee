@@ -1654,8 +1654,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Set start locked level"
-#    no_level_limit: "No limit"
+#    set_start_locked_level: "Assign up to level"
+#    no_level_limit: "--"
 
   project_gallery:
     no_projects_published: "Seja o primeiro a publicar um projeto neste curso!"
