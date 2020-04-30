@@ -3,6 +3,14 @@ locale = require 'locale/locale'
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
+# This can be wrapped around existing route functions, and will proxy the route
+# to the vue router if the new teacher dashboard session is set.
+# Admins can activate this from the /admin route.
+teacherProxyRoute = (originalRoute) -> ->
+  if me.isAdmin() and sessionStorage.getItem('newTeacherDashboardActive') == 'active'
+    return go('core/SingletonAppVueComponentView').apply(@, arguments)
+  originalRoute.apply(@, arguments)
+
 redirect = (path) -> ->
   delete window.alreadyLoadedView
   @navigate(path + document.location.search, { trigger: true, replace: true })
@@ -272,8 +280,10 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
 
-    'teachers': redirect('/teachers/classes')
-    'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
+    'teachers': teacherProxyRoute(redirect('/teachers/classes'))
+    'teachers/classes': teacherProxyRoute(go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true }))
+    # Added for new teacher dashboard. Can be changed.
+    'teachers/projects': go('core/SingletonAppVueComponentView')
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
     'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
     'teachers/courses': redirect('/teachers/units') # Redirected 8/20/2019
@@ -282,10 +292,10 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
     'teachers/hour-of-code': redirect('/teachers/resources/hoc2019LessonPlan')
-    'teachers/licenses': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
+    'teachers/licenses': teacherProxyRoute(go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true }))
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
-    'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources': teacherProxyRoute(go('teachers/ResourceHubView', { redirectStudents: true }))
     'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/hoc2019': redirect('/teachers/resources/hoc2019LessonPlan') # TODO clarify if this is required
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
