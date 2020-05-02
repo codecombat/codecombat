@@ -4,7 +4,7 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
-  if me.isAnonymous() || (!me.isTeacher() && !view.classrooms.size())
+  if me.isAnonymous() || (!me.isAdmin() && !me.isTeacher() && !view.classrooms.size())
     .container(dir="auto")
       .access-restricted.container.text-center.m-y-3
         h5(data-i18n='teacher.access_restricted')
@@ -56,16 +56,47 @@ block content
 
     .container.m-t-5(dir="auto")
       h3(data-i18n='teacher.enrollments')
-      h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")  
+      h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")
       - var available = view.state.get('prepaidGroups').available
       - var pending = view.state.get('prepaidGroups').pending
       - var empty = view.state.get('prepaidGroups').empty
       - var anyPrepaids = available || pending ||  empty
-      
+      - var uniqueStudentsPerYear = view.state.get('uniqueStudentsPerYear')
+      - var administeredPrepaids = view.state.get('administeredPrepaids')
+
       .text-center.m-t-3
         span.glyphicon.glyphicon-question-sign
         =' '
         a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
+
+      .row.m-t-3
+        #prepaids-col.col-md-9.rtl-allowed
+          if _.size(administeredPrepaids) > 0
+            h5.m-b-1 TEST IS STARTING HERE
+            .row
+              for prepaid in administeredPrepaids
+                .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
+                  +prepaidCard(prepaid)
+
+          if _.size(uniqueStudentsPerYear) > 0
+            h5.m-b-1 TEST2 IS STARTING HERE
+            .row
+              for year in Object.keys(uniqueStudentsPerYear)
+                span "#{year}: #{uniqueStudentsPerYear.size}"
+
+          if _.size(pending) > 0
+            h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
+            .row
+              for prepaid in pending
+                .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
+                  +prepaidCard(prepaid, 'pending-prepaid-card')
+
+          if _.size(empty) > 0
+            h5.m-b-1(data-i18n="teacher.empty_credits")
+            .row
+              for prepaid in empty
+                .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
+                  +prepaidCard(prepaid, 'empty-prepaid-card')
 
       .row.m-t-3
         if anyPrepaids
