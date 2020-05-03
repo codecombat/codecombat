@@ -61,39 +61,12 @@ module.exports = class EnrollmentsView extends RootView
     @members = new Users()
     @classrooms = new Classrooms()
     @classrooms.comparator = '_id'
-    @listenTo @classrooms, 'sync', @classroomsSync
+    @listenTo @classrooms, 'sync', @onceClassroomsSync
     @prepaids = new Prepaids()
     @supermodel.trackRequest @classrooms.fetchMine()
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
 
-    # fake school admin as administrator:
-    if me.isAdmin()
-      teachers = [
-        "5c66e696c1a1c100358b868a",
-        "5c66e82787c58e00235097d8",
-        "5c66e89c234afb002994e8c6",
-        "5c66ea2d234afb002994ed6f",
-        "5c66ea666d0f5f002f4a3d45",
-        "5c66eaa687c58e0023509fc7",
-        "5c66eb776d0f5f002f4a4224",
-        "5c66ec9b234afb002994f310",
-        "5c66ed02c1a1c100358b96c0",
-        "5c66ed4f6d0f5f002f4a4879",
-        "5c66ed9a87c58e002350a78a"
-#        ObjectId("5c66e696c1a1c100358b868a"),
-#        ObjectId("5c66e82787c58e00235097d8"),
-#        ObjectId("5c66e89c234afb002994e8c6"),
-#        ObjectId("5c66ea2d234afb002994ed6f"),
-#        ObjectId("5c66ea666d0f5f002f4a3d45"),
-#        ObjectId("5c66eaa687c58e0023509fc7"),
-#        ObjectId("5c66eb776d0f5f002f4a4224"),
-#        ObjectId("5c66ec9b234afb002994f310"),
-#        ObjectId("5c66ed02c1a1c100358b96c0"),
-#        ObjectId("5c66ed4f6d0f5f002f4a4879"),
-#        ObjectId("5c66ed9a87c58e002350a78a")
-      ]
-
-      @administeredMembers = new Users() # Used once classrooms are done loading
+    if me.isSchoolAdmin()
       @administeredClassrooms = new Classrooms()
       @listenTo @administeredClassrooms, 'sync', @administeredClassroomsSync
       @administeredPrepaids = new Prepaids()
@@ -106,20 +79,11 @@ module.exports = class EnrollmentsView extends RootView
         @supermodel.trackRequest @administeredPrepaids.fetchByCreator(teacher)
       )
 
-#    if me.isSchoolAdmin()
-#      teachers = me.get('administratedTeachers')
-#      teachers.forEach((teacher) =>
-#        @supermodel.trackRequest @classrooms.fetchByOwner(teacher)
-#        @supermodel.trackRequest @prepaids.fetchByCreator(teacher)
-#      )
-#      debugger
-
     @listenTo @prepaids, 'sync', @onPrepaidsSync
     @debouncedRender = _.debounce @render, 0
     @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
 
-    # TODO: Change this?
     me.getClientCreatorPermissions()?.then(() => @render?())
 
     leadPriorityRequest = me.getLeadPriority()
@@ -134,20 +98,15 @@ module.exports = class EnrollmentsView extends RootView
     starterLicenseCourseList.push($.t('general.and') + ' ' + starterLicenseCourseList.pop())
     starterLicenseCourseList.join(', ')
 
-  classroomsSync: ->
-    console.log('in onceClassroomsSync, model length is ', @classrooms.models.length)
+  onceClassroomsSync: ->
     for classroom in @classrooms.models
       @supermodel.trackRequests @members.fetchForClassroom(classroom, {remove: false, removeDeleted: true})
 
   administeredClassroomsSync: ->
     if --@totalAdministeredTeachers < 0
-      console.error('Got more completed requests for administered teachers than expected')
       @totalAdministeredTeachers = 0
 
     if @totalAdministeredTeachers is 0
-      debugger
-      console.log('in allAdministeredClassroomsLoaded, model length is ', @administeredClassrooms.models.length)
-      debugger
       allClassrooms = @administeredClassrooms
         .models.map((c) -> c.attributes)
         .filter((c) -> c.courses.length > 1 or (c.courses.length == 0 and c.courses[0]._id != '560f1a9f22961295f9427742'))
@@ -166,6 +125,8 @@ module.exports = class EnrollmentsView extends RootView
       years = {}
       unknownDate = 'No start and no end date'
 
+      # Count total students in classrooms (both active and archived) created between
+      # July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
       allClassrooms.forEach((classroom) ->
         start = new Date(classroom.classDateStart) if classroom.classDateStart
         end = new Date(classroom.classDateEnd) if classroom.classDateEnd
@@ -197,25 +158,18 @@ module.exports = class EnrollmentsView extends RootView
           if end > start
             console.error('Start date is after end date: ', classroom.id, start, end)
           else
-# TODO: Handle multiple years:
-#              difference = end.getFullYear() - start.getFullYear()
-#              if difference > 1
-#                for i in [0..difference]
-#                  years[relativeToYear()]
+            firstYear = start.getFullYear()
+            lastYear = end.getFullYear()
+            # This means a class has lasted multiple years, which is not the norm. We handle it
+            # by adding the students to each year within the time between the years.
+            if lastYear - firstYear > 1
+              for i in [firstYear..lastYear]
+                year = "#{i}-7-1 to #{i + 1}-6-30"
+                if not years[year]
+                  years[year] = new Set(classroom.members)
+                else
+                  classroom.members.forEach(years[year].add, years[year])
       )
-
-
-      # uniqueStudentsPerYear = allClassrooms.map
-
-#      # Count total students in classrooms (both active and archived) created between
-#      # July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
-#      currentSemester =
-#      uniqueMembers = allClassrooms.map().filter()
-
-#      for classroom in @administeredClassrooms.models
-#        @supermodel.trackRequests @administeredMembers.fetchForClassroom(classroom, {remove: false, removeDeleted: true})
-
-
 
       @state.set('uniqueStudentsPerYear', years)
 
