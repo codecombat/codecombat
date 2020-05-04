@@ -61,9 +61,9 @@ module.exports = class EnrollmentsView extends RootView
     @members = new Users()
     @classrooms = new Classrooms()
     @classrooms.comparator = '_id'
-    @listenTo @classrooms, 'sync', @onceClassroomsSync
-    @prepaids = new Prepaids()
+    @listenToOnce @classrooms, 'sync', @onceClassroomsSync
     @supermodel.trackRequest @classrooms.fetchMine()
+    @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @listenTo @prepaids, 'sync', @onPrepaidsSync
     @debouncedRender = _.debounce @render, 0
