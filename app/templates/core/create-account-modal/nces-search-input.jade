@@ -3,8 +3,10 @@
     | {{ label }}
     =" "
     strong(v-if="showRequired && !value") {{ $t("common.required_field") }}
+  span.control-label.optional-text(v-if="isOptional") !{' '}({{ $t("signup.optional") }})
   input.form-control(
     v-bind:name="name"
+    v-bind:placeholder="placeholder"
     v-model="value"
     v-on:keyup.up="navSearchUp"
     v-on:keyup.down="navSearchDown"

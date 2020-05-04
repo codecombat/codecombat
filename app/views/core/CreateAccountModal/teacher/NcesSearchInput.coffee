@@ -28,6 +28,12 @@ NcesSearchInput = Vue.extend
     name:
       type: String
       default: ''
+    placeholder:
+      type: String
+      default: ''
+    isOptional:
+      type: Boolean
+      default: false
     showRequired:
       type: Boolean
       default: false

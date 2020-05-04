@@ -312,6 +312,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView')
     'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView')
 
+    'sign-up/educator': go('core/SingletonAppVueComponentView')
+
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')

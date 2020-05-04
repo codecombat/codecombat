@@ -10,6 +10,7 @@ VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
 VueShepherd = require 'vue-shepherd'
+{ VueMaskDirective } = require 'v-mask'
 
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
@@ -18,6 +19,7 @@ Vue.use(VueMoment.default)
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 Vue.use(VueShepherd);
+Vue.directive('mask', VueMaskDirective)
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'

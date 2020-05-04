@@ -467,6 +467,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
     educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
     looking_for_classroom: "Looking for classroom..."
+    create_your_educator_account: "Create your educator account"
+    educator_signup_list_1_title: "See what your students see:"
+    educator_signup_list_1_desc: "Demo each game level in the first unit"
+    educator_signup_list_2_title: "See teacher resources:"
+    educator_signup_list_2_desc: "Access scope and sequence, lessons, and more"
+    educator_signup_list_3_title: "See your students thrive:"
+    educator_signup_list_3_desc: "Try the first unit with your class for free"
+    signup_with_email: "Sign up with Email"
+    already_have_account: "Already have a CodeCombat or Ozaria account"
+    select_your_role: "Select your role"
+    select_your_state: "Select your state"
+
+  form_validation_errors:
+    required: 'Field is required'
+    invalidEmail: 'Invalid email'
+    invalidPhone: 'Invalid phone number'
+    emailExists: 'Email already exists'
 
   recover:
     recover_account_title: "Recover Account"
@@ -523,6 +540,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     continue_editing: "Continue Editing"
     logout: "Logout"
     empty: "Empty"
+    done: "Done"
 
   general:
     and: "and"
@@ -1299,6 +1317,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     role_default: "Select Role"
     primary_role_default: "Select Primary Role"
     purchaser_role_default: "Select Purchaser Role"
+    teacher: "Teacher"
     tech_coordinator: "Technology coordinator"
     advisor: "Curriculum Specialist/Advisor"
     principal: "Principal"

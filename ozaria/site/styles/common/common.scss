@@ -127,4 +127,46 @@
   &.modal-content {
     border-radius: 5px;
   }
+
+  &.educator-sign-up {
+    .form-container {
+      .form-control {
+        border-radius: 0px;
+        border: 1px solid #379B8D;
+        background: #FFFFFF;
+        &.placeholder-text {
+          color: #ADADAD
+        }
+      }
+    
+      .control-label {
+        @include font-p-3-small-button-text-black;
+        font-weight: normal;
+      }
+
+      .form-group {
+        &.has-error {
+          .form-error {
+            display: inline-block;
+            color: red;
+          }
+        }
+      }
+
+      .form-error {
+        display: none;
+      }
+
+      .ozaria-primary-button {
+        color: #000000;
+      }
+
+      .form-checkbox-input {
+        @include font-p-4-paragraph-smallest-gray;
+        input {
+          width: 6%
+        }
+      }
+    }
+  }
 }

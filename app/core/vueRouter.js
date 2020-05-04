@@ -21,6 +21,7 @@ import BaseMyClasses from '../../ozaria/site/components/teacher-dashboard/BaseMy
 import BaseStudentProjects from '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'
 import BaseTeacherLicenses from '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue'
 import BaseResourceHub from '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue'
+import PageEducatorSignup from '../../ozaria/site/components/sign-up/PageEducatorSignup/index.vue'
 
 let vueRouter
 
@@ -85,6 +86,10 @@ export default function getVueRouter () {
               levelSlug: route.params.levelSlug
             }
           }
+        },
+        {
+          path: '/sign-up/educator',
+          component: PageEducatorSignup
         }
       ]
     })

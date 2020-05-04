@@ -5,9 +5,8 @@ ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
 require('core/services/segment')()
 User = require('models/User')
 
-module.exports = TeacherSignupStoreModule = {
-  namespaced: true
-  state: {
+getDefaultState = () =>
+  return {
     trialRequestProperties: _.assign(ncesData, {
       organization: ''
       district: ''
@@ -45,10 +44,17 @@ module.exports = TeacherSignupStoreModule = {
     ssoUsed: '' # 'gplus', or 'facebook'
     isHourOfCode: false
     classLanguage: '' # for HoC
+    marketingConsent: undefined
   }
+
+module.exports = TeacherSignupStoreModule = {
+  namespaced: true
+  state: getDefaultState()
   getters: {
     getTrialRequestProperties: (state) ->
       return state.trialRequestProperties
+    getSsoUsed: (state) ->
+      return state.ssoUsed
   }
   mutations: {
     updateTrialRequestProperties: (state, updates) ->
@@ -62,6 +68,10 @@ module.exports = TeacherSignupStoreModule = {
       state.classLanguage = language
     setHourOfCode: (state) ->
       state.isHourOfCode = true
+    setMarketingConsent: (state, { marketingConsent }) ->
+      state.marketingConsent = marketingConsent
+    resetState: (state) ->
+      _.assign(state, getDefaultState())
   }
   actions: {
     createAccount: ({state, commit, dispatch, rootState}) ->
@@ -111,6 +121,26 @@ module.exports = TeacherSignupStoreModule = {
           return api.users.signupWithFacebook(attrs)
         else
           return api.users.signupWithPassword(attrs)
+
+      .then =>
+        userUpdate = {}
+        if (typeof state.marketingConsent == "boolean")
+          emails = _.assign({}, me.get('emails'))
+          emails.generalNews ?= {}
+          emails.teacherNews ?= {}
+          emails.generalNews.enabled = state.marketingConsent
+          emails.teacherNews.enabled = state.marketingConsent
+          userUpdate.emails = emails
+          if (!state.marketingConsent)
+            userUpdate.unsubscribedFromMarketingEmails = true
+        if (state.trialRequestProperties.firstName)
+          userUpdate.firstName = state.trialRequestProperties.firstName
+        if (state.trialRequestProperties.lastName)
+          userUpdate.lastName = state.trialRequestProperties.lastName
+        if (Object.keys(userUpdate).length > 0)
+          return dispatch('me/save', userUpdate, {
+            root: true
+          })
 
   updateAccount: ({state, commit, dispatch, rootState}) ->
     return api.trialRequests.getOwn()
