@@ -56,16 +56,31 @@ block content
 
     .container.m-t-5(dir="auto")
       h3(data-i18n='teacher.enrollments')
-      h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")  
+      h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")
       - var available = view.state.get('prepaidGroups').available
       - var pending = view.state.get('prepaidGroups').pending
       - var empty = view.state.get('prepaidGroups').empty
       - var anyPrepaids = available || pending ||  empty
-      
+      - var uniqueStudentsPerYear = view.state.get('uniqueStudentsPerYear')
+
       .text-center.m-t-3
-        span.glyphicon.glyphicon-question-sign
-        =' '
         a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
+
+      .row.m-t-3
+        #prepaids-col.col-md-9.rtl-allowed
+          if _.size(pending) > 0
+            h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
+            .row
+              for prepaid in pending
+                .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
+                  +prepaidCard(prepaid, 'pending-prepaid-card')
+
+          if _.size(empty) > 0
+            h5.m-b-1(data-i18n="teacher.empty_credits")
+            .row
+              for prepaid in empty
+                .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
+                  +prepaidCard(prepaid, 'empty-prepaid-card')
 
       .row.m-t-3
         if anyPrepaids
@@ -98,6 +113,21 @@ block content
           // no prepaids
           .col-sm-6.col-sm-offset-3.col-lg-4.col-lg-offset-4
             +addCredits
+
+      if _.size(uniqueStudentsPerYear) > 0
+        - var e1 = $.i18n.t('teacher.enrollment_explanation_1')
+        - var e2 = $.i18n.t('teacher.enrollment_explanation_2')
+        - var e3 = $.i18n.t('teacher.enrollment_explanation_3')
+        - var e4 = $.i18n.t('teacher.enrollment_explanation_4')
+        - var e5 = $.i18n.t('teacher.enrollment_explanation_5')
+        - var enrollmentExplanation = "<p>" + e1 + " <b>" + e2 + "</b> " + e3 + "</p><p><b>" + e4 + ":</b> " + e5 + "</p>"
+        b.small-details(data-i18n="teacher.student_enrollment_history")
+        =' '
+        span.glyphicon.glyphicon-question-sign(data-toggle="tooltip" title="#{enrollmentExplanation}")
+        .small-details.unique-students
+          for year in Object.keys(uniqueStudentsPerYear)
+            | #{year}: #{uniqueStudentsPerYear[year].size} #{$.i18n.t('courses.students').toLowerCase()}
+            br
 
 mixin prepaidCard(prepaid, className)
   .prepaid-card.bg-navy.text-center.p-a-2.rtl-allowed(class=className)

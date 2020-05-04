@@ -1793,6 +1793,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     empty_credits: "Exhausted Licenses"
     license_remaining: "license remaining"
     licenses_remaining: "licenses remaining"
+    student_enrollment_history: "Student enrollment history"
+    enrollment_explanation_1: "The"
+    enrollment_explanation_2: "Student Enrollment History"
+    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+    enrollment_explanation_4: "Remember"
+    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1 out of __totalLicenses__ licenses has been used"
     num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
     starter_licenses: "starter licenses"
@@ -3016,6 +3022,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
     project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
     no_teachers: 'You are not administrating any teachers.'
+    totals_calculated: 'How are these totals calculated?'
+    totals_explanation_1: 'How are these totals calculated?'
+    totals_explanation_2: 'Licenses used'
+    totals_explanation_3: 'Counts total licenses applied to students out of total licenses available.'
+    totals_explanation_4: 'Total students'
+    totals_explanation_5: 'Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page.'
+    totals_explanation_6: 'Active students'
+    totals_explanation_7: 'Counts all students who were active within the past 60 days.'
+    totals_explanation_8: 'Projects created'
+    totals_explanation_9: 'Counts total games and web pages created.'
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'
