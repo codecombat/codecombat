@@ -1,0 +1,230 @@
+<script>
+  import { mapActions, mapGetters } from 'vuex'
+  import PageStartSignup from './PageStartSignup'
+  import PageBasicInfo from './PageBasicInfo'
+  import PageRoleInfo from './PageRoleInfo'
+  import PageSchoolInfo from './PageSchoolInfo/index'
+  import ModalSignIn from 'ozaria/site/components/play/PageUnitMap/hoc2019modal/ModalSignIn' // TODO move to components/sign-in and update design
+  import TeacherSignupStoreModule from 'app/views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
+
+  import VueScrollTo from 'vue-scrollto'
+
+  const STARTSIGNUP = 'PageStartSignup'
+  const BASICINFO = 'PageBasicInfo'
+  const ROLEINFO = 'PageRoleInfo'
+  const SCHOOLINFO = 'PageSchoolInfo'
+
+  const viewData = {
+    [STARTSIGNUP]: {
+      kind: STARTSIGNUP,
+      id: 'start-signup-component'
+    },
+    [BASICINFO]: {
+      kind: BASICINFO,
+      id: 'basic-info-component'
+    },
+    [ROLEINFO]: {
+      kind: ROLEINFO,
+      id: 'role-info-component'
+    },
+    [SCHOOLINFO]: {
+      kind: SCHOOLINFO,
+      id: 'school-info-component'
+    }
+  }
+
+  export default {
+    components: {
+      PageStartSignup,
+      PageBasicInfo,
+      PageRoleInfo,
+      PageSchoolInfo,
+      ModalSignIn
+    },
+
+    data: () => ({
+      visibleViews: [],
+      childFormsValid: false,
+      signInModal: false
+    }),
+
+    computed: {
+      ...mapGetters({
+        trialReqProps: 'teacherSignup/getTrialRequestProperties'
+      }),
+      currentView () {
+        return _.last(this.visibleViews)
+      },
+      firstView () {
+        if (me.showChinaRegistration()) {
+          return BASICINFO
+        } else {
+          return STARTSIGNUP
+        }
+      }
+    },
+
+    mounted () {
+      // TODO remove test env check when ready for production
+      const isTestEnv = document.location.href.search('staging|next|localhost') >= 0
+      if (!me.isAnonymous() || !isTestEnv) {
+        alert('Can access this page only in the test environment, as an anonymous user')
+        return application.router.navigate('/', { trigger: true })
+      }
+      this.$store.registerModule('teacherSignup', TeacherSignupStoreModule)
+      this.navigateToView(this.firstView)
+    },
+
+    updated () {
+      this.$nextTick(function () {
+        if (this.currentView && !this.signInModal) {
+          const id = viewData[this.currentView].id
+          this.$scrollTo(`#${id}`, 500, { cancelable: false })
+        }
+      })
+    },
+
+    destroyed () {
+      if (this.$store.state.teacherSignup) {
+        this.$store.unregisterModule('teacherSignup')
+      }
+    },
+
+    methods: {
+      ...mapActions({
+        createAccount: 'teacherSignup/createAccount'
+      }),
+
+      async goToNextView (view) {
+        if (!Object.keys(viewData).includes(view)) {
+          throw new Error(`View '${view}' isn't registered or doesn't exist.`)
+        }
+        if (view === BASICINFO) {
+          this.navigateToView(ROLEINFO)
+        } else if (view === ROLEINFO) {
+          this.navigateToView(SCHOOLINFO)
+        } else if (view === SCHOOLINFO) {
+          await this.completeSignup()
+        }
+      },
+
+      navigateToView (view) {
+        if (!Object.keys(viewData).includes(view)) {
+          throw new Error(`View '${view}' isn't registered or doesn't exist.`)
+        }
+        if (!this.visibleViews.includes(view)) {
+          this.visibleViews.push(view) // this is scrolled-to after dom is re-rendered (in updated method)
+        } else {
+          const id = viewData[view].id
+          this.$scrollTo(`#${id}`, 500, { cancelable: false })
+        }
+      },
+
+      startSignup (signUpMethod) {
+        if (signUpMethod === 'email') {
+          this.clearVisibleViews()
+          this.$nextTick(function () { // re-render the forms when signup method is changed
+            this.navigateToView(BASICINFO)
+          })
+        } else if (signUpMethod === 'gplus') {
+          this.clearVisibleViews()
+          this.$nextTick(function () { // re-render the forms when signup method is changed
+            this.navigateToView(ROLEINFO)
+          })
+        }
+      },
+
+      clearVisibleViews () {
+        this.visibleViews.splice(1)
+      },
+
+      childFormValidityChange (val) {
+        this.childFormsValid = val
+      },
+
+      async completeSignup () {
+        if (!this.childFormsValid) {
+          noty({ text: 'Correct the errors in signup form', type: 'error', layout: 'center', timeout: 2000 })
+          return
+        }
+        try {
+          await this.createAccount()
+          this.finishLogin()
+        } catch (err) {
+          console.error('Error in teacher signup', err)
+          noty({ text: err.message || 'Error during signup', type: 'error', layout: 'center', timeout: 2000 })
+        }
+      },
+
+      finishLogin () {
+        application.router.navigate('/teachers/classes', { trigger: true })
+        window.location.reload()
+      },
+
+      isSchoolInfoForm (view) {
+        return view === SCHOOLINFO
+      },
+
+      openSignInModal () {
+        this.signInModal = true
+      },
+
+      closeSignInModal () {
+        this.signInModal = false
+      }
+    }
+  }
+</script>
+
+<template lang="pug">
+  .style-ozaria.educator-sign-up.container
+    .row
+      .left-div.col-xs-5
+        img.sign-up-image(src="/images/ozaria/common/cinematic_characters_signup.png")
+      .right-div.col-xs-7
+        div(v-for="view of visibleViews")
+          component(
+            v-if="isSchoolInfoForm(view)"
+            :key="trialReqProps.role+'-'+trialReqProps.country"
+            :is="view"
+            @goToNext="goToNextView(view)"
+            @startSignup="startSignup"
+            @signIn="openSignInModal"
+            @validityChange="childFormValidityChange"
+          )
+          component(
+            v-else
+            :is="view"
+            @goToNext="goToNextView(view)"
+            @startSignup="startSignup"
+            @signIn="openSignInModal"
+            @validityChange="childFormValidityChange"
+          )
+    ModalSignIn.sign-in-modal(v-if="signInModal" @switchToSignup="closeSignInModal" @done="finishLogin")
+</template>
+
+<style lang="sass" scoped>
+.educator-sign-up
+  width: 100vw
+  margin-bottom: -50px
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(179.37deg, #D1B147 -40.3%, #D1B147 -4.7%, #74C6DF 102.07%, #74C6DF 137.66%)
+  background-attachment: fixed
+  .left-div
+    position: sticky
+    top: 26%
+    display: flex
+    height: 100%
+    align-items: center
+    justify-content: flex-end
+  .right-div
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: flex-start
+  .sign-in-modal
+    position: absolute
+    width: 100%
+    height: 100%
+    margin: auto
+    top: 10%
+</style>
