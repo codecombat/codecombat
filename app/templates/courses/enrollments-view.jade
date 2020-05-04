@@ -4,7 +4,7 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
-  if me.isAnonymous() || (!me.isAdmin() && !me.isTeacher() && !view.classrooms.size())
+  if me.isAnonymous() || (!me.isTeacher() && !view.classrooms.size())
     .container(dir="auto")
       .access-restricted.container.text-center.m-y-3
         h5(data-i18n='teacher.access_restricted')
