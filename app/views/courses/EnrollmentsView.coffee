@@ -65,30 +65,29 @@ module.exports = class EnrollmentsView extends RootView
     @prepaids = new Prepaids()
     @supermodel.trackRequest @classrooms.fetchMine()
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
-
-    if me.isSchoolAdmin()
-      @administeredClassrooms = new Classrooms()
-      @listenTo @administeredClassrooms, 'sync', @administeredClassroomsSync
-      @administeredPrepaids = new Prepaids()
-      @listenTo @prepaids, 'sync', @onAdministeredPrepaidsSync
-
-      @totalAdministeredTeachers = teachers.length
-      @totalAdministeredPrepaids = teachers.length
-      teachers.forEach((teacher) =>
-        @supermodel.trackRequest @administeredClassrooms.fetchByOwner(teacher)
-        @supermodel.trackRequest @administeredPrepaids.fetchByCreator(teacher)
-      )
-
     @listenTo @prepaids, 'sync', @onPrepaidsSync
     @debouncedRender = _.debounce @render, 0
     @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
+
+    if me.isSchoolAdmin()
+      @administeredClassrooms = new Classrooms()
+      @listenTo @administeredClassrooms, 'sync', @administeredClassroomsSync
+      teachers = me.get('administratedTeachers')
+      @totalAdministeredTeachers = teachers.length
+      teachers.forEach((teacher) =>
+        @supermodel.trackRequest @administeredClassrooms.fetchByOwner(teacher)
+      )
 
     me.getClientCreatorPermissions()?.then(() => @render?())
 
     leadPriorityRequest = me.getLeadPriority()
     @supermodel.trackRequest leadPriorityRequest
     leadPriorityRequest.then (r) => @onLeadPriorityResponse(r)
+
+  afterRender: ->
+    super()
+    @$('[data-toggle="tooltip"]').tooltip(placement: 'right', html: true, animation: false, container: '#site-content-area')
 
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
@@ -112,18 +111,19 @@ module.exports = class EnrollmentsView extends RootView
         .filter((c) -> c.courses.length > 1 or (c.courses.length == 0 and c.courses[0]._id != '560f1a9f22961295f9427742'))
 
       relativeToYear = (year, date) ->
+        shortYear = year - 2000 # This will only work for the next 80 years :)
         start = new Date("#{year}-7-1")
         end = new Date("#{year + 1}-6-30")
         # TODO: Are the dates inclusive or exclusive?
         if date < start
-          return "#{year - 1}-7-1 to #{year}-6-30"
+          return "7/1/#{shortYear - 1} thru 6/30/#{year}"
         else if date > end
-          return "#{year + 1}-7-1 to #{year + 2}-6-30"
+          return "7/1/#{shortYear + 1} thru 6/30/#{year + 2}"
         else
-          return "#{year}-7-1 to #{year + 1}-6-30"
+          return "7/1/#{shortYear} thru 6/30/#{year + 1}"
 
       years = {}
-      unknownDate = 'No start and no end date'
+      unknownDate = 'No date'
 
       # Count total students in classrooms (both active and archived) created between
       # July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
@@ -179,7 +179,6 @@ module.exports = class EnrollmentsView extends RootView
     super()
 
   onPrepaidsSync: ->
-    console.log('in onPrepaidsSync:', @prepaids)
     @prepaids.each (prepaid) =>
       prepaid.creator = new User()
       # We never need this information if the user would be `me`
@@ -187,21 +186,6 @@ module.exports = class EnrollmentsView extends RootView
         @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
 
     @decideUpsell()
-
-  onAdministeredPrepaidsSync: ->
-    if --@totalAdministeredPrepaids is 0
-      console.error('Got more completed requests for prepaids than expected')
-      @totalAdministeredPrepaids = 0
-
-    if --@totalAdministeredPrepaids is 0
-      console.log('in onAdministeredPrepaidsSync, model length is ', @administeredPrepaids.models.length)
-#      @administeredPrepaids.each (prepaid) =>
-#        prepaid.creator = new User()
-        # We never need this information if the user would be `me`
-      debugger
-      @state.set('administeredClassrooms', @administeredPrepaids.models)
-#        if prepaid.get('creator') isnt me.id
-#          @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
 
   onLeadPriorityResponse: ({ priority }) ->
     @state.set({ leadPriority: priority })
