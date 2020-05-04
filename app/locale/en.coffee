@@ -3022,6 +3022,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
     project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
     no_teachers: 'You are not administrating any teachers.'
+    totals_calculated: 'How are these totals calculated?'
+    totals_explanation_1: 'How are these totals calculated?'
+    totals_explanation_2: 'Licenses used'
+    totals_explanation_3: 'Counts total licenses applied to students out of total licenses available.'
+    totals_explanation_4: 'Total students'
+    totals_explanation_5: 'Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page.'
+    totals_explanation_6: 'Active students'
+    totals_explanation_7: 'Counts all students who were active within the past 60 days.'
+    totals_explanation_8: 'Projects created'
+    totals_explanation_9: 'Counts total games and web pages created.'
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'
