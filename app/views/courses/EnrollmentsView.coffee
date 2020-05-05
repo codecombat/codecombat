@@ -102,25 +102,28 @@ module.exports = class EnrollmentsView extends RootView
       @supermodel.trackRequests @members.fetchForClassroom(classroom, {remove: false, removeDeleted: true})
 
   administeredClassroomsSync: ->
-    if --@totalAdministeredTeachers < 0
-      @totalAdministeredTeachers = 0
-
+    @totalAdministeredTeachers -= 1
     if @totalAdministeredTeachers is 0
       allClassrooms = @administeredClassrooms
         .models.map((c) -> c.attributes)
-        .filter((c) -> c.courses.length > 1 or (c.courses.length == 0 and c.courses[0]._id != '560f1a9f22961295f9427742'))
+        .filter((c) -> c.courses.length > 1 or (c.courses.length == 1 and c.courses[0]._id != utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE))
 
-      relativeToYear = (year, date) ->
-        shortYear = year - 2000 # This will only work for the next 80 years :)
-        start = new Date("#{year}-7-1")
-        end = new Date("#{year + 1}-6-30")
+      relativeToYear = (dateString) ->
+        year = dateString.substr(0, 4)
+        shortYear = dateString.substr(2, 2)
+        start = "#{year}-7-1"
+        end = "#{year + 1}-6-30"
         # TODO: Are the dates inclusive or exclusive?
-        if date < start
-          return "7/1/#{shortYear - 1} thru 6/30/#{year}"
-        else if date > end
-          return "7/1/#{shortYear + 1} thru 6/30/#{year + 2}"
-        else
-          return "7/1/#{shortYear} thru 6/30/#{year + 1}"
+        if moment(dateString).isBetween(start, end)
+          startDateRange = "7/1/#{shortYear}"
+          endDateRange = "6/30/#{year + 1}"
+        else if moment(dateString).isBefore(start)
+          startDateRange = "7/1/#{shortYear - 1}"
+          endDateRange = "6/30/#{year}"
+        else if moment(dateString).isAfter(end)
+          startDateRange = "7/1/#{shortYear + 1}"
+          endDateRange = "6/30/#{year + 2}"
+        return $.i18n.t('school_administrator.date_thru_date', {startDateRange, endDateRange})
 
       years = {}
       unknownDate = 'No date'
@@ -128,8 +131,8 @@ module.exports = class EnrollmentsView extends RootView
       # Count total students in classrooms (both active and archived) created between
       # July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
       allClassrooms.forEach((classroom) ->
-        start = new Date(classroom.classDateStart) if classroom.classDateStart
-        end = new Date(classroom.classDateEnd) if classroom.classDateEnd
+        start = classroom.classDateStart if classroom.classDateStart
+        end = classroom.classDateEnd if classroom.classDateEnd
         startYear = null
         endYear = null
 
@@ -140,14 +143,14 @@ module.exports = class EnrollmentsView extends RootView
             classroom.members.forEach(years[unknownDate].add, years[unknownDate])
 
         if start
-          startYear = relativeToYear(start.getFullYear(), start)
+          startYear = relativeToYear(start)
           if not years[startYear]
             years[startYear] = new Set(classroom.members)
           else
             classroom.members.forEach(years[startYear].add, years[startYear])
 
         if end
-          endYear = relativeToYear(end.getFullYear(), end)
+          endYear = relativeToYear(end)
           if startYear != endYear
             if not years[endYear]
               years[endYear] = new Set(classroom.members)
@@ -263,3 +266,9 @@ module.exports = class EnrollmentsView extends RootView
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
     @openModalView(@shareLicensesModal)
+
+  getEnrollmentExplanation: ->
+    t = {}
+    for i in [1..5]
+      t[i] = $.i18n.t("teacher.enrollment_explanation__#{i}")
+    return "<p>#{t[1]} <b>#{t[2]}</b> #{t[3]}</p><p><b>#{t[4]}:</b> #{t[5]}</p>"

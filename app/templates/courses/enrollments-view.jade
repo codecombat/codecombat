@@ -115,17 +115,11 @@ block content
             +addCredits
 
       if _.size(uniqueStudentsPerYear) > 0
-        - var e1 = $.i18n.t('teacher.enrollment_explanation_1')
-        - var e2 = $.i18n.t('teacher.enrollment_explanation_2')
-        - var e3 = $.i18n.t('teacher.enrollment_explanation_3')
-        - var e4 = $.i18n.t('teacher.enrollment_explanation_4')
-        - var e5 = $.i18n.t('teacher.enrollment_explanation_5')
-        - var enrollmentExplanation = "<p>" + e1 + " <b>" + e2 + "</b> " + e3 + "</p><p><b>" + e4 + ":</b> " + e5 + "</p>"
         b.small-details(data-i18n="teacher.student_enrollment_history")
         =' '
-        span.glyphicon.glyphicon-question-sign(data-toggle="tooltip" title="#{enrollmentExplanation}")
+        span.glyphicon.glyphicon-question-sign(data-toggle="tooltip" title="#{view.getEnrollmentExplanation()}")
         .small-details.unique-students
-          for year in Object.keys(uniqueStudentsPerYear)
+          each year in Object.keys(uniqueStudentsPerYear)
             | #{year}: #{uniqueStudentsPerYear[year].size} #{$.i18n.t('courses.students').toLowerCase()}
             br
 
