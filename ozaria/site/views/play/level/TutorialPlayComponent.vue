@@ -717,6 +717,7 @@
       background-position: center
       background-size: cover
       background-repeat: no-repeat
+      background-size: 100% 100%
       width: 100%
       height: 100%
 
