@@ -1,6 +1,4 @@
 <script>
-
-  import store from 'core/store'
   import { mapGetters } from 'vuex'
   import DialogueAnimator from 'ozaria/site/views/play/level/DialogueAnimator'
 
@@ -420,7 +418,7 @@
       delayedLineHighlight (targetLine) {
         setTimeout(() => {
           $(`div.ace_line_group:nth-child(${targetLine})`).addClass('full-gold-highlight')
-        } , 10)
+        }, 10)
       },
 
       adjustFooter (footerElement, startButton, textLength) {
@@ -472,6 +470,7 @@
             this.adjustFooter(footerElement, $('.shepherd-start-button'), tutorialStep.intro.learningGoals.length)
             shepherdElement.addClass(tutorialStep.message.length > 253 ? 'shepherd-element-intro-expanded' : 'shepherd-element-intro')
           } else if (tutorialStep.position === 'stationary') {
+            $(`.shepherd-content`).addClass(`shepherd-content-stationary`)
             headerClasses.push(`shepherd-header-stationary-${this.characterPortrait}`)
             headerClasses.push('shepherd-header-stationary')
             closeButtonClasses.push('shepherd-close-button-stationary')
@@ -572,9 +571,6 @@
     }
   })
 </script>
-
-<template>
-</template>
 
 <style lang="sass">
   @import "app/styles/mixins"
@@ -678,7 +674,7 @@
     padding: 0
     cursor: unset
 
-  .shepherd-header-portrait
+  .shepherd-content:not(.shepherd-content-stationary) .shepherd-header-portrait
     position: absolute
     left: -50px
     top: -50px
@@ -700,7 +696,35 @@
     left: -75px
     top: -75px
 
-  .shepherd-header-stationary
+  .shepherd-content-stationary
+    display: flex
+    flex-direction: row
+
+    justify-content: space-between
+    align-items: center
+
+    width: 100%
+    height: 100%
+
+    .shepherd-header
+      height: 84% !important
+      width: 17% !important
+      margin-right: -7.5%
+      padding: 0
+      transform: translateX(-50%)
+
+    .shepherd-header-portrait
+      background-position: center
+      background-size: cover
+      background-repeat: no-repeat
+      width: 100%
+      height: 100%
+
+    .shepherd-text
+      width: 100%
+      padding: 10px 14px 39px 14px
+
+  .shepherd-content:not(.shepherd-content-stationary) .shepherd-header-stationary
     top: 9% !important
     width: 16% !important
     height: 82% !important
@@ -974,8 +998,10 @@
     min-height: 308px
     min-width: 580px
 
-  .shepherd-text
+  .shepherd-content:not(.shepherd-content-stationary) .shepherd-text
     padding: 19px 14px 38px 65px
+
+  .shepherd-text
     color: #232323
     font-family: 'Works Sans', sans-serif
     font-size: 17px
