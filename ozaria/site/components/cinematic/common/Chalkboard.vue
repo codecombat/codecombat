@@ -83,6 +83,17 @@
 }
 </style>
 
+<style lang="scss">
+  #markdown-contents {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: normal;
+    p {
+      margin-bottom: 0;
+    }
+  }
+</style>
+
 <style lang="scss" scoped>
 #cinematic-chalkboard-container {
   width: 100%;
