@@ -82,10 +82,16 @@ module.exports = class God extends CocoClass
     @lastDifficulty = e.difficulty
     @createWorld e
 
-  createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous}) ->
+  createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous, spellJustLoaded}) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
-
+    if spellJustLoaded and not justBegin
+      # If spellJustLoaded it signals that this is the first world after the level
+      # was created. We want no user code to run on loading and no errors to show up.
+      # Thus we unassign the user's code.
+      # `justBegin` is set if the level is game-dev or capstone.
+      # We have to do this because it appears the capstone breaks if the code is cleared.
+      userCodeMap = {}
     # We only want one world being simulated, so we abort other angels, unless we had one preloading this very code.
     hadPreloader = false
     for angel in @angelsShare.busyAngels.slice()

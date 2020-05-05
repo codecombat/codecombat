@@ -160,13 +160,13 @@ module.exports = class TomeView extends CocoView
     for spellID, spell of @spells
       return unless spell.loaded
     justBegin = @options.level.isType('game-dev')
-    @cast false, false, justBegin
+    @cast false, false, justBegin, false, true
 
   onCastSpell: (e) ->
     # A single spell is cast.
     @cast e?.preload, e?.realTime, e?.justBegin, e?.cinematic
 
-  cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
+  cast: (preload=false, realTime=false, justBegin=false, cinematic=false, spellJustLoaded=false) ->
     return if @options.level.isType('web-dev')
     sessionState = @options.session.get('state') ? {}
     if realTime
@@ -191,6 +191,7 @@ module.exports = class TomeView extends CocoView
       god: @options.god,
       fixedSeed: @options.fixedSeed,
       keyValueDb: @options.session.get('keyValueDb') ? {}
+      spellJustLoaded
     }
 
   onClick: (e) ->
