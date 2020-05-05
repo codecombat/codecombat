@@ -22,6 +22,7 @@ module.exports =
     justBegin: {type: 'boolean'}
     cinematic: {type: 'boolean'}
     keyValueDb: {type: 'object'}
+    spellJustLoaded: {type: 'boolean'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
