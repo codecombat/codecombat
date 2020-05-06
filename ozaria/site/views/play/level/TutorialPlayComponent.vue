@@ -196,7 +196,6 @@
             classes: 'shepherd-back-button shepherd-back-button-active',
             text: '',
             action: () => {
-              this.cleanUpRendering()
               this.tour.back()
             }
           }
@@ -209,7 +208,6 @@
             classes: 'shepherd-next-button shepherd-next-button-active',
             text: '',
             action: () => {
-              this.cleanUpRendering()
               this.tour.next()
             }
           }
@@ -222,7 +220,6 @@
             classes: 'shepherd-start-button',
             text: '',
             action: () => {
-              this.cleanUpRendering()
               this.tour.next()
             }
           }
@@ -269,13 +266,7 @@
                   id: index + 1,
                   text: this.defaultStep.message,
                   fontSize: 19,
-                  buttons: [backButton, inactiveNextButton],
-                  beforeShowPromise: () => {
-                    return new Promise((resolve) => {
-                      $('.shepherd-stationary-text').css('visibility', 'visible')
-                      resolve()
-                    })
-                  }
+                  buttons: [backButton, inactiveNextButton]
                 }
               }
             } else {
@@ -311,15 +302,7 @@
               text: '', // Text is animated with DialogueAnimator when the step is shown
               textIdentifier: tutorialStep.message,
               buttons: buttons,
-              fontSize: 19,
-              beforeShowPromise: () => {
-                return new Promise((resolve) => {
-                  // The Shepherd library does not recognize this altered message, so it does not hide it
-                  // when the step is done. We have to keep track of it and hide it ourselves
-                  $(".shepherd-stationary-text").css('visibility', 'hidden')
-                  resolve()
-                })
-              }
+              fontSize: 19
             }
           }).filter((s, i) => !this.tutorialSteps[i].internalRelease || canSeeComplexSteps)
 
@@ -409,6 +392,7 @@
 
         const alreadySeen = this.seenMessages.has(step.options.id)
 
+        this.cleanUpRendering()
         this.delayedRenderTrigger(step, tutorialStep, alreadySeen)
 
         if (!alreadySeen) {
