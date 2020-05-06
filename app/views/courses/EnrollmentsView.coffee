@@ -71,12 +71,13 @@ module.exports = class EnrollmentsView extends RootView
     @listenTo(@state, 'all', @debouncedRender)
 
     if me.isSchoolAdmin()
-      @administeredClassrooms = new Classrooms()
-      @listenTo @administeredClassrooms, 'sync', @administeredClassroomsSync
+      @newAdministeredClassrooms = new Classrooms()
+      @allAdministeredClassrooms = []
+      @listenTo @newAdministeredClassrooms, 'sync', @newAdministeredClassroomsSync
       teachers = me.get('administratedTeachers')
       @totalAdministeredTeachers = teachers.length
       teachers.forEach((teacher) =>
-        @supermodel.trackRequest @administeredClassrooms.fetchByOwner(teacher)
+        @supermodel.trackRequest @newAdministeredClassrooms.fetchByOwner(teacher)
       )
 
     me.getClientCreatorPermissions()?.then(() => @render?())
@@ -101,77 +102,58 @@ module.exports = class EnrollmentsView extends RootView
     for classroom in @classrooms.models
       @supermodel.trackRequests @members.fetchForClassroom(classroom, {remove: false, removeDeleted: true})
 
-  administeredClassroomsSync: ->
-    if --@totalAdministeredTeachers < 0
-      @totalAdministeredTeachers = 0
+  newAdministeredClassroomsSync: ->
+    @allAdministeredClassrooms.push(
+      @newAdministeredClassrooms
+        .models
+        .map((c) -> c.attributes)
+        .filter((c) -> c.courses.length > 1 or (c.courses.length == 1 and c.courses[0]._id != utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE))
+    )
 
+    @totalAdministeredTeachers -= 1
     if @totalAdministeredTeachers is 0
-      allClassrooms = @administeredClassrooms
-        .models.map((c) -> c.attributes)
-        .filter((c) -> c.courses.length > 1 or (c.courses.length == 0 and c.courses[0]._id != '560f1a9f22961295f9427742'))
+      students = @uniqueStudentsPerYear(_.flatten(@allAdministeredClassrooms))
+      @state.set('uniqueStudentsPerYear', students)
 
-      relativeToYear = (year, date) ->
-        shortYear = year - 2000 # This will only work for the next 80 years :)
-        start = new Date("#{year}-7-1")
-        end = new Date("#{year + 1}-6-30")
-        # TODO: Are the dates inclusive or exclusive?
-        if date < start
-          return "7/1/#{shortYear - 1} thru 6/30/#{year}"
-        else if date > end
-          return "7/1/#{shortYear + 1} thru 6/30/#{year + 2}"
-        else
-          return "7/1/#{shortYear} thru 6/30/#{year + 1}"
 
-      years = {}
-      unknownDate = 'No date'
+  relativeToYear: (momentDate) ->
+    year = momentDate.year()
+    shortYear = year - 2000
+    start = "#{year}-06-30" # One day earlier to ease comparison
+    end = "#{year + 1}-07-01" # One day later to ease comparison
+    if moment(momentDate).isBetween(start, end)
+      displayStartDate = "7/1/#{shortYear}"
+      displayEndDate = "6/30/#{year + 1}"
+    else if moment(momentDate).isBefore(start)
+      displayStartDate = "7/1/#{shortYear - 1}"
+      displayEndDate = "6/30/#{year}"
+    else if moment(momentDate).isAfter(end)
+      displayStartDate = "7/1/#{shortYear + 1}"
+      displayEndDate = "6/30/#{year + 2}"
 
-      # Count total students in classrooms (both active and archived) created between
-      # July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
-      allClassrooms.forEach((classroom) ->
-        start = new Date(classroom.classDateStart) if classroom.classDateStart
-        end = new Date(classroom.classDateEnd) if classroom.classDateEnd
-        startYear = null
-        endYear = null
+    return $.i18n.t('school_administrator.date_thru_date', {
+      startDateRange: displayStartDate
+      endDateRange: displayEndDate
+    })
 
-        if not start and not end
-          if not years[unknownDate]
-            years[unknownDate] = new Set(classroom.members)
-          else
-            classroom.members.forEach(years[unknownDate].add, years[unknownDate])
+  # Count total students in classrooms (both active and archived) created between
+  # July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
+  uniqueStudentsPerYear: (allClassrooms) =>
+    dateFromObjectId = (objectId) ->
+      return new Date(parseInt(objectId.substring(0, 8), 16) * 1000)
 
-        if start
-          startYear = relativeToYear(start.getFullYear(), start)
-          if not years[startYear]
-            years[startYear] = new Set(classroom.members)
-          else
-            classroom.members.forEach(years[startYear].add, years[startYear])
+    years = {}
+    for classroom in allClassrooms
+      { _id, members } = classroom
+      creationDate = moment(dateFromObjectId(_id))
+      year = @relativeToYear(creationDate)
+      if not years[year]
+        years[year] = new Set(members)
+      else
+        yearSet = years[year]
+        members.forEach(yearSet.add, yearSet)
 
-        if end
-          endYear = relativeToYear(end.getFullYear(), end)
-          if startYear != endYear
-            if not years[endYear]
-              years[endYear] = new Set(classroom.members)
-            else
-              classroom.members.forEach(years[endYear].add, years[endYear])
-
-        if start and end and startYear != endYear
-          if end > start
-            console.error('Start date is after end date: ', classroom.id, start, end)
-          else
-            firstYear = start.getFullYear()
-            lastYear = end.getFullYear()
-            # This means a class has lasted multiple years, which is not the norm. We handle it
-            # by adding the students to each year within the time between the years.
-            if lastYear - firstYear > 1
-              for i in [firstYear..lastYear]
-                year = "#{i}-7-1 to #{i + 1}-6-30"
-                if not years[year]
-                  years[year] = new Set(classroom.members)
-                else
-                  classroom.members.forEach(years[year].add, years[year])
-      )
-
-      @state.set('uniqueStudentsPerYear', years)
+    return years
 
   onLoaded: ->
     @calculateEnrollmentStats()
@@ -263,3 +245,9 @@ module.exports = class EnrollmentsView extends RootView
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
     @openModalView(@shareLicensesModal)
+
+  getEnrollmentExplanation: ->
+    t = {}
+    for i in [1..5]
+      t[i] = $.i18n.t("teacher.enrollment_explanation__#{i}")
+    return "<p>#{t[1]} <b>#{t[2]}</b> #{t[3]}</p><p><b>#{t[4]}:</b> #{t[5]}</p>"
