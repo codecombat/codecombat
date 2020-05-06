@@ -3032,6 +3032,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     totals_explanation_7: 'Counts all students who were active within the past 60 days.'
     totals_explanation_8: 'Projects created'
     totals_explanation_9: 'Counts total games and web pages created.'
+    date_thru_date: '__startDateRange__ thru __endDateRange__'
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'
