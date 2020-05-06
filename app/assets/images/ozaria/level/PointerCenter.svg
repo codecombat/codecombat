@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="34.14728249979407" width="98.94474333982362">
+  <defs>
+    <path id="path-1" opacity="1" fill-rule="evenodd" d="M32.39873042001512 66.54601291980876C32.39873042001512 66.54601291980876 32.398730420014886 -32.39873042001463 32.398730420014886 -32.39873042001463L66.54601291980885 17.296012919808987C66.54601291980885 17.296012919808987 32.39873042001512 66.54601291980876 32.39873042001512 66.54601291980876Z"/>
+    <mask id="mask-2" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0">
+      <rect opacity="1" x="0" y="0" width="98.94474333982362" height="34.14728249979407" fill="black"/>
+      <use xlink:href="#path-1" fill="white"/>
+    </mask>
+    <path id="path-3" opacity="1" fill-rule="evenodd" d="M37.228836174815655 45.14517234963114C37.228836174815655 45.14517234963114 37.228836174815456 -21.228836174815115 37.228836174815456 -21.228836174815115L61.145172349631025 12.107339216829587C61.145172349631025 12.107339216829587 37.228836174815655 45.14517234963114 37.228836174815655 45.14517234963114Z"/>
+    <mask id="mask-4" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0">
+      <rect opacity="1" x="0" y="0" width="98.94474333982362" height="34.14728249979407" fill="black"/>
+      <use xlink:href="#path-3" fill="white"/>
+    </mask>
+  </defs>
+  <g opacity="1">
+    <g transform="translate(49.472371669911865, 17.073641249897065) rotate(90.00003218077504) translate(-49.472371669911865, -17.073641249897065)" opacity="1">
+      <use xlink:href="#path-1" fill-opacity="0" stroke="rgb(247,208,71)" stroke-opacity="1" stroke-width="8" stroke-linecap="butt" stroke-linejoin="miter" mask="url(#mask-2)"/>
+    </g>
+    <g transform="translate(49.18700426222324, 11.958168087408012) rotate(90.00003218077504) translate(-49.18700426222324, -11.958168087408012)" opacity="1">
+      <use xlink:href="#path-3" fill-opacity="0" stroke="rgb(247,208,71)" stroke-opacity="1" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" mask="url(#mask-4)"/>
+    </g>
+  </g>
+</svg>

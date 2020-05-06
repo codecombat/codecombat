@@ -935,35 +935,32 @@
   .shepherd-element .shepherd-arrow
     border-bottom-style: initial !important
     position: absolute
-    width: 80px
-    height: 85px
+    width: 86px
+    height: 52px
     margin: 0
     padding: 0
     z-index: 1000
     background-repeat: no-repeat
     background-size: cover
     border-color: transparent !important
+    background-image: url("/images/ozaria/level/PointerCenter.svg")
 
   .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
-    background-image: url("/images/ozaria/level/PointerR_top.svg")
-    transform: unset !important
-    top: -15.5%
-    left: 97%
+    transform: rotate(270deg)
+    top: 46%
+    left: 91.8%
   .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow
-    background-image: url("/images/ozaria/level/PointerL_bottom.svg")
-    transform: unset !important
-    top: 37%
-    left: -17%
+    transform: rotate(90deg)
+    top: 16%
+    left: -13.4%
   .shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
-    background-image: url(/images/ozaria/level/PointerL_bottom.svg)
-    transform: unset !important
-    top: -69%
-    left: 84.7%
+    transform: rotate(180deg)
+    top: -28%
+    left: 46.6%
   .shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
-    background-image: url(/images/ozaria/level/PointerR_top.svg)
-    transform: unset !important
-    top: 89%
-    left: -5%
+    transform: rotate(0deg)
+    top: 87%
+    left: 35.6%
 
   // These are set as important in order to properly cascade for each .shepherd-element box:
   .element-attached-top
