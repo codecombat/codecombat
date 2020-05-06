@@ -237,7 +237,7 @@
             const details = buildStepPositionalDetails(tutorialStep)
             const buttons = []
 
-            if (index === 0) {
+            if (index === 0 && (tutorialStep.intro || index !== this.tutorialSteps.length - 1)) {
               if (tutorialStep.intro) {
                 // Button for the intro
                 buttons.push(startButton)
@@ -249,8 +249,13 @@
             } else if (index === this.tutorialSteps.length - 1) {
               const unusualLastStep = tutorialStep.position !== 'stationary' || details.attachTo
 
-              // Button for the final step
-              buttons.push(backButton)
+              // Button for final step. Handle if this is the first item in the tour.
+              if (index === 0) {
+                buttons.push(inactiveBackButton)
+              } else {
+                buttons.push(backButton)
+              }
+
               if (!unusualLastStep) {
                 buttons.push(inactiveNextButton)
               } else {
