@@ -778,6 +778,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     future_eng_4: "Amazon Future Engineer"
     future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
+  live_class:
+    title: "Thank you!"
+    content: "Amazing! We just launched live online classes."
+    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "Created by {{name}}"
     created_during_hoc: "Created during Hour of Code"
