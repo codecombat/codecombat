@@ -5,6 +5,7 @@ import {
 } from '../../../../app/schemas/models/selectors/cinematic'
 import { SyncFunction } from '../commands/commands'
 import _ from 'lodash'
+import { defaultWidth, defaultHeight, defaultXoffset, defaultYoffset } from '../../../site/components/cinematic/common/visualChalkboardModule'
 
 export default class VisualChalkboard {
   constructor () {
@@ -21,8 +22,16 @@ export default class VisualChalkboard {
       let priorChalkboard = null
       if (this.lastChalkboardData !== null) {
         priorChalkboard = _.cloneDeep(this.lastChalkboardData)
+      } else {
+        // Ensures we can undo to default values.
+        this.lastChalkboardData = {
+          width: defaultWidth,
+          height: defaultHeight,
+          xOffset: defaultXoffset,
+          yOffset: defaultYoffset
+        }
       }
-      this.lastChalkboardData = _.merge(this.lastChalkboardData || {}, visualChalboardData)
+      this.lastChalkboardData = _.merge(this.lastChalkboardData, visualChalboardData)
       const commandDataChalkboard = new SyncFunction(() =>
         store.dispatch('visualChalkboard/changeChalkboardContents', {
           markdown: chalkboardContent,
