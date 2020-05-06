@@ -1,6 +1,11 @@
 // Fixed value. Can be set dynamically by content in the future if required.
 const X_OFFSET_HIDDEN = 200
 
+export const defaultWidth = 45
+export const defaultHeight = 75
+export const defaultXoffset = 46
+export const defaultYoffset = 26
+
 // Wrap in a function so importing this chalkboard always gives you correct initial state.
 // If not created from function, state will carry between cinematics.
 export default () => ({
@@ -9,10 +14,10 @@ export default () => ({
   state: {
     chalkboardMarkdown: 'Temporary Text',
     // Starting defaults chosen by content team.
-    width: 45,
-    height: 75,
-    xOffset: 46,
-    yOffset: 26,
+    width: defaultWidth,
+    height: defaultHeight,
+    xOffset: defaultXoffset,
+    yOffset: defaultYoffset,
     xOffsetHiddenOverride: X_OFFSET_HIDDEN, // Used to animate chalkboard on and off the screen
     transitionTime: 1
   },
