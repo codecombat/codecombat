@@ -90,7 +90,12 @@ module.exports = class PollModal extends ModalView
         btn.text(i18n.t('common.next'))
         btn.one('click', ()=>
           btn.prop('disabled', true);
-          @trigger('trigger-next-poll', nextPollId)
+
+          # Show live Class Modal
+          if @poll.id is "5e84c7a519cb270028516687"
+            @trigger('trigger-show-live-classes')
+          else
+            @trigger('trigger-next-poll', nextPollId)
         )
       else
         btn.text(i18n.t('play_level.done'))
