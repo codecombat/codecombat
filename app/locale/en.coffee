@@ -2089,8 +2089,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Concept"
     sync_google_classroom: "Sync Google Classroom"
-    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
-    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
     prologue: "Prologue: The Sky Mountain"
     unit_overview: "Unit Overview"
     module_overview: "Module Overview"

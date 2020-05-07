@@ -8,9 +8,6 @@ resources =
   'getting-started':
     url: '/teachers/resources/getting-started'
     i18nCoverage: ['zh-HANS']
-  'implementation-guide':
-    url: '/teachers/resources/implementation-guide'
-    i18nCoverage: ['zh-HANS']
   '1fhUnitOverview':
     url: '/teachers/resources/1fhUnitOverview'
     i18nCoverage: ['zh-HANS']
