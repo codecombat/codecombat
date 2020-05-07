@@ -388,7 +388,6 @@
         }
         $(".full-gold-highlight").removeClass("full-gold-highlight")
         $('.button-glow').removeClass('button-glow')
-        $('#spell-palette-view').removeClass('golden-highlight-outline')
 
         const alreadySeen = this.seenMessages.has(step.options.id)
 
@@ -499,12 +498,6 @@
             overlayElement.css('display', 'block')
           }
 
-          // The code bank is actually a border itself, so we add an outline instead of a border in order
-          // to give it a little bit of the look that the other elements get with the golden-highlight-border
-          if (tutorialStep.targetElement === 'Code Bank Button') {
-            $(attachTo.element).addClass('golden-highlight-outline')
-          }
-
           if (tutorialStep.animation === 'Glow') {
             $(attachTo.element).addClass('button-glow')
           }
@@ -578,9 +571,6 @@
 
   .golden-highlight-border
     border: 4px solid #F7D047
-
-  .golden-highlight-outline
-    outline: 4px solid #F7D047
 
   .full-gold-highlight
     background-color: #F7D047
@@ -680,8 +670,8 @@
     background-size: cover
 
   .shepherd-header-portrait-right
-    left: unset
-    right: -50px
+    left: unset !important
+    right: -50px !important
 
   .shepherd-header-intro
     width: 150px
@@ -939,7 +929,7 @@
   .shepherd-element .shepherd-arrow
     border-bottom-style: initial !important
     position: absolute
-    width: 86px
+    width: 114px
     height: 52px
     margin: 0
     padding: 0
@@ -951,20 +941,20 @@
 
   .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
     transform: rotate(270deg)
-    top: 46%
-    left: 91.8%
+    top: 40.5%
+    left: 87.9%
   .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow
     transform: rotate(90deg)
-    top: 16%
-    left: -13.4%
+    top: 22%
+    left: -17.4%
   .shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow
     transform: rotate(180deg)
     top: -28%
     left: 46.6%
   .shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow
     transform: rotate(0deg)
-    top: 87%
-    left: 35.6%
+    top: 88%
+    left: 34.6%
 
   // These are set as important in order to properly cascade for each .shepherd-element box:
   .element-attached-top
@@ -1002,8 +992,8 @@
   .shepherd-text-right
     // Always invert margin left with margin right for .shepherd-text
     // Can probably be done better with a different kind of toggle
-    padding-right: 65px
-    padding-left: 35px
+    padding-right: 58px !important
+    padding-left: 35px !important
 
   .shepherd-text-intro
     padding-right: 15px
