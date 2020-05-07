@@ -107,22 +107,25 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return defaultIfUnknown
 
 freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # 1FH campaign
+internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # 1UP playtest
 
 courseIDs =
   ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
   CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
+  CHAPTER_ONE_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
   CHAPTER_TWO: '5e27600d1c9d440000ac3ee7'
-
 
 orderedCourseIDs = [
   courseIDs.ONE_FREE_HOUR
   courseIDs.CHAPTER_ONE
+  courseIDs.CHAPTER_ONE_PLAYTEST
   courseIDs.CHAPTER_TWO
 ]
 
 courseAcronyms = {}
 courseAcronyms[courseIDs.ONE_FREE_HOUR] = 'P'
 courseAcronyms[courseIDs.CHAPTER_ONE] = 'C1'
+courseAcronyms[courseIDs.CHAPTER_ONE_PLAYTEST] = 'C1P'
 courseAcronyms[courseIDs.CHAPTER_TWO] = 'C2'
 
 # Harcoding module names for simplicity
@@ -139,7 +142,14 @@ courseModules[courseIDs.CHAPTER_ONE] = {
   '5': 'Capstone Intro',
   '6': 'Capstone Project'
 }
-
+courseModules[courseIDs.CHAPTER_ONE_PLAYTEST] = {
+  '1': 'Algorithms and Syntax',
+  '2': 'Debugging',
+  '3': 'Variables',
+  '4': 'Conditionals',
+  '5': 'Capstone Intro',
+  '6': 'Capstone Project'
+}
 courseModules[courseIDs.CHAPTER_TWO] = {
   '1': 'Review',
   '2': 'For Loops',
@@ -830,6 +840,7 @@ module.exports = {
   hslToHex
   i18n
   injectCSS
+  internalCampaignIds
   inEU
   isID
   isIE
