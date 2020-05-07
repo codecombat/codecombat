@@ -15,17 +15,11 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
-    'click .continue-playing-btn': 'onClickTrackEvent'
-    'click .play-btn': 'onClickTrackEvent'
-    'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
     'click .request-quote': 'onClickRequestQuote'
     'click .logout-btn': 'logoutAccount'
-    'click .profile-btn': 'onClickTrackEvent'
     'click .setup-class-btn': 'onClickSetupClass'
-    'click .my-classes-btn': 'onClickTrackEvent'
-    'click .my-courses-btn': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
     'click #jumbotron-down-arrow': 'onClickJumbotronDownArrow'
 
@@ -75,52 +69,45 @@ module.exports = class HomeView extends RootView
 
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')
-    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
     @homePageEvent('Started Signup')
-    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-
-  onClickTrackEvent: (e) ->
-    if $(e.target)?.hasClass('track-ab-result')
-      properties = {trackABResult: true}
-    @homePageEvent($(e.target).data('event-action'), properties || {})
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+  homePageEvent: (action, extraproperties={}) ->
+    action = action or 'unknown'
     defaults =
-      category: 'Homepage'
+      category: 'Home'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
 
     window.tracker?.trackEvent(
         action,
-        properties,
-        includeIntegrations )
+        properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
-    # Track an event with action of the English version of the link text
-    translationKey = $(anchor).attr('data-i18n')
-    translationKey ?= $(anchor).children('[data-i18n]').attr('data-i18n')
-    if translationKey
-      anchorText = $.i18n.t(translationKey, {lng: 'en-US'})
-    else
-      anchorText = anchor.text
+    anchorEventAction = $(anchor).data('event-action')
+    unless anchorEventAction
+      # Track an event with action of the English version of the link text
+      translationKey = $(anchor).data('i18n')
+      translationKey ?= $(anchor).children('[data-i18n]').data('i18n')
+      anchorEventAction = if translationKey then $.i18n.t(translationKey, {lng: 'en-US'}) else anchor.text
+      anchorEventAction = "Click: #{anchorEventAction or 'unknown'}"
 
     if $(e.target)?.hasClass('track-ab-result')
       properties = {trackABResult: true}
 
-    if anchorText
-      @homePageEvent("Link: #{anchorText}", properties || {}, ['Google Analytics'])
+    if anchorEventAction
+      @homePageEvent(anchorEventAction, properties)
     else
       _.extend(properties || {}, {
         clicked: e?.currentTarget?.host or "unknown"
       })
-      @homePageEvent("Link:", properties, ['Google Analytics'])
+      @homePageEvent('Click: unknown', properties)
 
   afterRender: ->
     if me.isAnonymous()
