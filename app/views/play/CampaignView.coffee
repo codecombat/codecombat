@@ -23,6 +23,7 @@ UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 AnnouncementModal = require 'views/play/modal/AnnouncementModal'
+LiveClassroomModal = require 'views/play/modal/LiveClassroomModal'
 codePlay = require('lib/code-play')
 MineModal = require 'views/core/MineModal' # Minecraft modal
 CodePlayCreateAccountModal = require 'views/play/modal/CodePlayCreateAccountModal'
@@ -1280,6 +1281,8 @@ module.exports = class CampaignView extends RootView
       $pollButton.removeClass('highlighted').tooltip 'hide'
     pollModal.once 'trigger-next-poll', (nextPollId) =>
       @loadPoll('/db/poll/' + nextPollId, true)
+    pollModal.once 'trigger-show-live-classes', () =>
+      @openModalView new LiveClassroomModal
 
   onClickPremiumButton: (e) ->
     @openModalView new SubscribeModal()

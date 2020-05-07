@@ -778,6 +778,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     future_eng_4: "Amazon Future Engineer"
     future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
+  live_class:
+    title: "Thank you!"
+    content: "Amazing! We just launched live online classes."
+    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "Created by {{name}}"
     created_during_hoc: "Created during Hour of Code"
@@ -1793,7 +1798,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     empty_credits: "Exhausted Licenses"
     license_remaining: "license remaining"
     licenses_remaining: "licenses remaining"
-    student_enrollment_history: "Student enrollment history"
+    student_enrollment_history: "Student Enrollment History"
     enrollment_explanation_1: "The"
     enrollment_explanation_2: "Student Enrollment History"
     enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
