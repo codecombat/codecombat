@@ -155,7 +155,7 @@ export default {
     .socialSignOn(v-if="useSocialSignOn")
       .auth-network-logins()
         a#gplus-login-btn(:disabled="!gplusLoaded" @click="onClickGPlusLoginButton")
-          img(src="/images/ozaria/common/log-in-google-sso.png" draggable="false")
+          img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
           .gplus-login-wrapper
             .gplus-login-button
       .row.or-row
