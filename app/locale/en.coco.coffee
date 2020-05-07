@@ -1798,7 +1798,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     empty_credits: "Exhausted Licenses"
     license_remaining: "license remaining"
     licenses_remaining: "licenses remaining"
-    student_enrollment_history: "Student enrollment history"
+    student_enrollment_history: "Student Enrollment History"
     enrollment_explanation_1: "The"
     enrollment_explanation_2: "Student Enrollment History"
     enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
