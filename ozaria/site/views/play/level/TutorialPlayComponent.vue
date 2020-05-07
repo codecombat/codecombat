@@ -471,6 +471,10 @@
               textElement.css('font-size', calculateMinSize(tutorialStep.message.length))
             }
             stationaryTextElement.appendTo('#level-dialogue-view')
+            // Move the inline svg overlay to be in the same z-index stacking context.
+            // Ref: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+            const tempOverlay = overlayElement.detach()
+            $('.chrome-container').prepend(tempOverlay)
             stationaryTextElement.css('visibility', 'visible')
           } else {
             headerClasses.push(`shepherd-header-moving-${this.characterPortrait}`)
@@ -1026,7 +1030,7 @@
     width: $game-view-width
     height: $goals-vega-height
     background: #000000
-    z-index: 2
+    z-index: 10000 // Must be a larger z-index than svg overlay.
     justify-content: center
     align-items: center
 
