@@ -115,7 +115,6 @@ module.exports = class EnrollmentsView extends RootView
       students = @uniqueStudentsPerYear(_.flatten(@allAdministeredClassrooms))
       @state.set('uniqueStudentsPerYear', students)
 
-
   relativeToYear: (momentDate) ->
     year = momentDate.year()
     shortYear = year - 2000
