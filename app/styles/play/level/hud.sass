@@ -63,22 +63,22 @@
       position: relative
       border-radius: 4px
       @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
-  
+
       &.team-humans
         border-color: darkred
         @include gradient-radial-custom-stops(hsla(4,80%,74%,1), 20%, hsla(4,80%,51%,1), 70%)
-  
+
       &.team-ogres
         border-color: darkblue
         @include gradient-radial-custom-stops(hsla(205,100%,74%,1), 20%, hsla(205,100%,31%,1), 70%)
-  
+
       &.team-allies, &.team-minions
         border-color: darkgreen
         @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
-  
+
       .thang-canvas
         width: 100%
-  
+
       .avatar-frame
         position: absolute
         left: -18%
@@ -206,16 +206,3 @@
           display: table-cell
           vertical-align: middle
           font-size: 20px
-
-  &.code-play
-    .avatar-wrapper-container
-      left: calc(50% - (560px - 100px) / 2 - 10px + 50px)
-
-    .center .thang-name
-      margin-left: 45px
-
-    .center .thang-props .prop[name="health"]
-      right: 90px
-      .prop-value.bar-prop
-        width: 100px
-        
