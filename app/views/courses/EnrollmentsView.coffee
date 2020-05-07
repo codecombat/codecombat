@@ -88,7 +88,7 @@ module.exports = class EnrollmentsView extends RootView
 
   afterRender: ->
     super()
-    @$('[data-toggle="tooltip"]').tooltip(placement: 'left', html: true, animation: false, container: '#site-content-area')
+    @$('[data-toggle="tooltip"]').tooltip(placement: 'top', html: true, animation: false, container: '#site-content-area')
 
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
