@@ -147,15 +147,15 @@
 
     <loading-progress :loading-status="teachersLoading">
       <div class="content">
-        <div class="class-calculation-description">
+        <div class="class-calculation-description"
+           v-tooltip="{
+            content: tooltipHtml(),
+            placement: 'top',
+            classes: 'school-admin-tooltip',
+          }"
+        >
           {{ $t("school_administrator.totals_calculated") }}
-          <span class="glyphicon glyphicon-question-sign"
-            v-tooltip="{
-              content: tooltipHtml(),
-              placement: 'top',
-              classes: 'school-admin-tooltip',
-            }"
-          />
+          <span class="glyphicon glyphicon-question-sign"/>
         </div>
         <ul
           v-for="(teachers, groupName) of groupedTeachers"
