@@ -144,13 +144,14 @@ module.exports = class EnrollmentsView extends RootView
     years = {}
     for classroom in allClassrooms
       { _id, members } = classroom
-      creationDate = moment(dateFromObjectId(_id))
-      year = @relativeToYear(creationDate)
-      if not years[year]
-        years[year] = new Set(members)
-      else
-        yearSet = years[year]
-        members.forEach(yearSet.add, yearSet)
+      if members?.length > 0
+        creationDate = moment(dateFromObjectId(_id))
+        year = @relativeToYear(creationDate)
+        if not years[year]
+          years[year] = new Set(members)
+        else
+          yearSet = years[year]
+          members.forEach(yearSet.add, yearSet)
 
     return years
 
