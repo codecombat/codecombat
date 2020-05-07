@@ -198,7 +198,7 @@ describe 'Utility library', ->
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '1a', '1b', '1c', '2', '2a', '2b', '3', '4', '4a', '5'])
 
   describe 'findNextLevel and findNextAssessmentForLevel', ->
-    # r=required p=practice c=complete *=current a=assessment
+    # r=required p=practice c=complete *=current a=assessment l=locked
     # utils.findNextLevel returns next level 0-based index
     # utils.findNextAssessmentForLevel returns next level 0-based index
 
@@ -431,6 +431,16 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc* rcl p r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
 
     describe 'when needs practice', ->
       needsPractice = true
@@ -746,3 +756,34 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 5, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 5, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc* rcl p r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc rcl* p r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc rcl pc* r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: true}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
+

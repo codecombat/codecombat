@@ -598,15 +598,19 @@ createLevelNumberMap = (levels) ->
 
 findNextLevel = (levels, currentIndex, needsPractice) ->
   # Find next available incomplete level, depending on whether practice is needed
-  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false, locked: true/false}]
   # Skip over assessment levels
+  # return -1 if at or beyond locked level
+  return -1 for i in [0..currentIndex] when levels[i].locked
   index = currentIndex
   index++
   if needsPractice
     if levels[currentIndex].practice or index < levels.length and levels[index].practice
       # Needs practice, current level is practice or next is practice; return the next incomplete practice-or-normal level
       # May leave earlier practice levels incomplete and reach end of course
-      index++ while index < levels.length and (levels[index].complete or levels[index].assessment)
+      while index < levels.length and (levels[index].complete or levels[index].assessment)
+        return -1 if levels[index].locked
+        index++ 
     else
       # Needs practice, current level is required, next level is required or assessment; return the first incomplete level of previous practice chain
       index--
@@ -620,17 +624,21 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
             return index
       # Last set of practice levels is complete; return the next incomplete normal level instead.
       index = currentIndex + 1
-      index++ while index < levels.length and (levels[index].complete or levels[index].assessment)
+      while index < levels.length and (levels[index].complete or levels[index].assessment)
+        return -1 if levels[index].locked
+        index++ 
   else
     # No practice needed; return the next required incomplete level
-    index++ while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
+    while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
+      return -1 if levels[index].locked
+      index++
   index
 
 findNextAssessmentForLevel = (levels, currentIndex, needsPractice) ->
   # Find assessment level immediately after current level (and its practice levels)
   # Only return assessment if it's the next level
   # Skip over practice levels unless practice neeeded
-  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false, locked: true/false}]
   # eg: l*,p,p,a*,a',l,...
   # given index l*, return index a*
   # given index a*, return index a'
