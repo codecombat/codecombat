@@ -14,10 +14,10 @@ block content
           else if me.isStudent()
             a.btn.btn-primary.btn-large.btn-moon(href="/students", data-i18n="new_home.go_to_my_dashboard")
           else
-            a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" data-event-action="Homepage Ozaria Click Educator Button #1 CTA")
-            a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="ozaria_home.im_a_student" data-event-action="Homepage Ozaria Click Student Button CTA")
+            a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" data-event-action="Click: I'm an Educator")
+            a.btn.btn-primary.btn-large.btn-moon.student-btn(data-i18n="ozaria_home.im_a_student" data-event-action="Click: I'm a Student")
 
-        a#jumbotron-down-arrow
+        a#jumbotron-down-arrow(data-event-action="Click: Jumbotron Down Arrow")
           img.top-arrow(src="/images/ozaria/home/yellow-arrow-down.png")
 
     .row.width-container#ozaria-summary
@@ -91,7 +91,7 @@ block content
               h1.text-twilight(data-i18n="ozaria_home.value_prop3_h1")
               p.large-twilight(data-i18n="ozaria_home.value_prop3_p")
             .col-md-3.col-xs-6
-              a.btn.btn-primary.btn-large.btn-moon.signup-button.signup-home-btn(data-event-action="Ozaria Homepage Sign Up #2 CTA" data-i18n="ozaria_home.sign_up" )
+              a.btn.btn-primary.btn-large.btn-moon.signup-button.signup-home-btn(data-event-action="Click: Sign Up" data-i18n="ozaria_home.sign_up")
 
 
     .row.text-center#global
@@ -117,4 +117,4 @@ block content
             p.large-gray(data-i18n="ozaria_home.global_subtitle4")
       .row.quote-call-to-action
         .col-lg-12
-          a.btn.btn-primary.btn-lg.ozaria-secondary-btn(data-i18n="ozaria_home.request_demo" href="/teachers/quote")
+          a.btn.btn-primary.btn-lg.ozaria-secondary-btn(data-event-action="Click: Request a Demo" data-i18n="ozaria_home.request_demo" href="/teachers/quote")
