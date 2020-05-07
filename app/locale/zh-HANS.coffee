@@ -778,6 +778,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     future_eng_4: "亚马逊未来的工程师"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "由 {{name}} 创建"
     created_during_hoc: "在“编程一小时”中创建。"
@@ -1793,6 +1798,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     empty_credits: "许可已用完"
     license_remaining: "剩余许可证"
     licenses_remaining: "剩余许可证"
+#    student_enrollment_history: "Student enrollment history"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1个许可证已被使用" # {change}
     num_licenses_used: "__numLicensesUsed__个许可证已被使用" # {change}
     starter_licenses: "开始使用许可证"
@@ -3016,6 +3027,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     active_students_stat_description: "活跃学生数是在过去60天登录CodeCombat的学生人数。"
     project_stat_description: "学生作品数是学生已经创建的游戏开发和网页开发作品的总数。"
     no_teachers: "你目前没有管理其他老师。"
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"

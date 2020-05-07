@@ -778,6 +778,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     future_eng_4: "Nznmba Shgher Ratvarre"
     future_eng_5: "cebtenz juvpu perngrf yrneavat naq jbex bccbeghavgvrf sbe nyy X-12 fghqragf va gur Havgrq Fgngrf jub jvfu gb chefhr pbzchgre fpvrapr."
 
+  live_class:
+    title: "Gunax lbh!"
+    content: "Nznmvat! Jr whfg ynhapurq yvir bayvar pynffrf."
+    link: "Ernql gb trg nurnq ba lbhe pbqvat?"
+
   play_game_dev_level:
     created_by: "Perngrq ol {{anzr}}"
     created_during_hoc: "Perngrq qhevat Ubhe bs Pbqr"
@@ -1793,6 +1798,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     empty_credits: "Rkunhfgrq Yvprafrf"
     license_remaining: "yvprafr erznvavat"
     licenses_remaining: "yvprafrf erznvavat"
+    student_enrollment_history: "Fghqrag raebyyzrag uvfgbel"
+    enrollment_explanation_1: "Gur"
+    enrollment_explanation_2: "Fghqrag Raebyyzrag Uvfgbel"
+    enrollment_explanation_3: "qvfcynlf gur gbgny ahzore bs havdhr fghqragf jub jrer raebyyrq npebff nyy grnpuref naq pynffebbzf nqqrq gb lbhe qnfuobneq. Guvf vapyhqrf fghqragf va obgu nepuvirq naq hanepuvirq pynffebbzf jvgu n pynff perngvba qngr orgjrra Whyl 1- Whar 30 bs rnpu erfcrpgvir fpubby lrne."
+    enrollment_explanation_4: "Erzrzore"
+    enrollment_explanation_5: "pynffrf znl or nepuvirq naq yvprafrf znl or erhfrq guebhtubhg gur fpubby lrne, fb guvf ivrj nyybjf nqzvavfgengbef gb haqrefgnaq ubj znal fghqragf gehyl cnegvpvcngrq va gur cebtenz birenyy."
     one_license_used: "1 bhg bs __gbgnyYvprafrf__ yvprafrf unf orra hfrq"
     num_licenses_used: "__ahzYvprafrfHfrq__ bhg bs __gbgnyYvprafrf__ yvprafrf unir orra hfrq"
     starter_licenses: "fgnegre yvprafrf"
@@ -3016,6 +3027,17 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     active_students_stat_description: 'Npgvir fghqragf pbhagf gur ahzore bs fghqragf gung unir ybttrq vagb PbqrPbzong va gur ynfg 60 qnlf.'
     project_stat_description: 'Cebwrpgf perngrq pbhagf gur gbgny ahzore bs Tnzr naq Jro qrirybczrag cebwrpgf gung unir orra perngrq.'
     no_teachers: 'Lbh ner abg nqzvavfgengvat nal grnpuref.'
+    totals_calculated: 'Ubj ner gurfr gbgnyf pnyphyngrq?'
+    totals_explanation_1: 'Ubj ner gurfr gbgnyf pnyphyngrq?'
+    totals_explanation_2: 'Yvprafrf hfrq'
+    totals_explanation_3: 'Pbhagf gbgny yvprafrf nccyvrq gb fghqragf bhg bs gbgny yvprafrf ninvynoyr.'
+    totals_explanation_4: 'Gbgny fghqragf'
+    totals_explanation_5: 'Pbhagf grnpure’f fghqragf npebff nyy bs gurve npgvir pynffebbzf. Gb frr gbgny fghqragf raebyyrq va obgu npgvir naq nepuvirq pynffebbzf, tb gb gur Fghqrag Yvprafrf cntr.'
+    totals_explanation_6: 'Npgvir fghqragf'
+    totals_explanation_7: 'Pbhagf nyy fghqragf jub jrer npgvir jvguva gur cnfg 60 qnlf.'
+    totals_explanation_8: 'Cebwrpgf perngrq'
+    totals_explanation_9: 'Pbhagf gbgny tnzrf naq jro cntrf perngrq.'
+    date_thru_date: '__fgnegQngrEnatr__ gueh __raqQngrEnatr__'
 
   interactives:
     phenomenal_job: 'Curabzrany Wbo!'
