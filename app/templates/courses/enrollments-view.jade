@@ -61,13 +61,12 @@ block content
       - var pending = view.state.get('prepaidGroups').pending
       - var empty = view.state.get('prepaidGroups').empty
       - var anyPrepaids = available || pending ||  empty
-      - var uniqueStudentsPerYear = view.state.get('uniqueStudentsPerYear')
 
       .text-center.m-t-3
         a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
 
       .row.m-t-3
-        #prepaids-col.col-md-9.rtl-allowed
+        #prepaids-col.col-md-8.rtl-allowed
           if _.size(pending) > 0
             h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
             .row
@@ -84,7 +83,7 @@ block content
 
       .row.m-t-3
         if anyPrepaids
-          #prepaids-col.col-md-9.rtl-allowed
+          #prepaids-col.col-md-8.rtl-allowed
             if _.size(available) > 0
               h5.m-b-1(data-i18n="teacher.available_credits")
               .row
@@ -106,22 +105,13 @@ block content
                   .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
                     +prepaidCard(prepaid, 'empty-prepaid-card')
 
-          #actions-col.col-md-3
+          #actions-col.col-md-4
             +addCredits
 
         else
           // no prepaids
           .col-sm-6.col-sm-offset-3.col-lg-4.col-lg-offset-4
             +addCredits
-
-      if _.size(uniqueStudentsPerYear) > 0
-        b.small-details(data-i18n="teacher.student_enrollment_history")
-        =' '
-        span.glyphicon.glyphicon-question-sign(data-toggle="tooltip" title="#{view.getEnrollmentExplanation()}")
-        .small-details.unique-students
-          each year in Object.keys(uniqueStudentsPerYear)
-            | #{year}: #{uniqueStudentsPerYear[year].size} #{$.i18n.t('courses.students').toLowerCase()}
-            br
 
 mixin prepaidCard(prepaid, className)
   .prepaid-card.bg-navy.text-center.p-a-2.rtl-allowed(class=className)
@@ -174,3 +164,15 @@ mixin addCredits
         p= "电话："+COCO_CHINA_CONST.CONTACT_PHONE
       else
         button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
+        br
+
+  - var uniqueStudentsPerYear = view.state.get('uniqueStudentsPerYear')
+    if _.size(uniqueStudentsPerYear) > 0
+      h5.text-center(data-toggle="tooltip" title="#{view.getEnrollmentExplanation()}")
+        span(data-i18n="teacher.student_enrollment_history")
+        =' '
+        span.glyphicon.glyphicon-question-sign
+      p.m-y-2.unique-students
+        each year in Object.keys(uniqueStudentsPerYear)
+          | #{year}: #{uniqueStudentsPerYear[year].size} #{$.i18n.t('courses.students').toLowerCase()}
+          br

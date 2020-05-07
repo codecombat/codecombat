@@ -88,7 +88,7 @@ module.exports = class EnrollmentsView extends RootView
 
   afterRender: ->
     super()
-    @$('[data-toggle="tooltip"]').tooltip(placement: 'right', html: true, animation: false, container: '#site-content-area')
+    @$('[data-toggle="tooltip"]').tooltip(placement: 'left', html: true, animation: false, container: '#site-content-area')
 
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
@@ -248,5 +248,5 @@ module.exports = class EnrollmentsView extends RootView
   getEnrollmentExplanation: ->
     t = {}
     for i in [1..5]
-      t[i] = $.i18n.t("teacher.enrollment_explanation__#{i}")
+      t[i] = $.i18n.t("teacher.enrollment_explanation_#{i}")
     return "<p>#{t[1]} <b>#{t[2]}</b> #{t[3]}</p><p><b>#{t[4]}:</b> #{t[5]}</p>"
