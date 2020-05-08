@@ -146,6 +146,15 @@
   overflow: hidden;
 }
 
+#covid19-banner {
+  &.row {
+    padding: 10px 0px;
+    text-align: center
+  }
+  a {
+    margin-left: 10px
+  }
+}
 
 #jumbotron-container-fluid {
   &.row {
