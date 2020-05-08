@@ -147,12 +147,16 @@
 }
 
 #covid19-banner {
+  background-color: #355EA0;
+  color: #FFFFFF;
   &.row {
     padding: 10px 0px;
-    text-align: center
+    text-align: center;
   }
   a {
-    margin-left: 10px
+    margin-left: 10px;
+    color: #F7D047;
+    text-decoration: underline;
   }
 }
 
