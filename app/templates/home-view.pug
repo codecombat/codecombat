@@ -2,6 +2,11 @@ extends /templates/base-flat.jade
 
 block content
   .container-fluid#home-page.style-ozaria
+    .row#covid19-banner
+      .row.width-container
+        .col-xs-12
+          span(data-i18n="new_home.covid19_banner_blurb")
+          a(href="https://blog.codecombat.com/free-full-access-to-codecombat-during-school-closures-to-support-distance-learning", data-i18n="new_home.learn_more_caps", data-event-action="Click: Covid19 Banner")
     .row#jumbotron-container-fluid
       img.img-responsive(src="/images/ozaria/home/jumbotron.png")
       .header-contents
