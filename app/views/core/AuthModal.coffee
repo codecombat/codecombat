@@ -103,7 +103,24 @@ module.exports = class AuthModal extends ModalView
                     )
                   error: @onGPlusLoginError
                 })
-              error: @onGPlusLoginError
+              error: (res, jqxhr) =>
+                if jqxhr.status is 409 and jqxhr.responseJSON.errorID and jqxhr.responseJSON.errorID is 'account-with-email-exists'
+                  noty({ text: $.i18n.t('login.accounts_merge_confirmation'), layout: 'topCenter', type: 'info', buttons: [
+                    { text: 'Yes', onClick: ($noty) ->
+                      $noty.close()
+                      me.loginGPlusUser(gplusAttrs.gplusID, {
+                        data: { merge: true, email: gplusAttrs.email }
+                        success: =>
+                          application.tracker.identifyAfterNextPageLoad()
+                          application.tracker.identify().then(=>
+                            loginNavigate(@subModalContinue)
+                          )
+                        error: @onGPlusLoginError
+                      })
+                    }, { text: 'No', onClick: ($noty) -> $noty.close() }]
+                  })
+                else
+                  @onGPlusLoginError(res, jqxhr)
             })
         })
     })
