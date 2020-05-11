@@ -384,6 +384,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_have_account2: "You can sign into Ozaria.com using that account."
     sign_into_ozaria: "Sign Into Ozaria.com"
     individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!"
+    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Complete Subscription"

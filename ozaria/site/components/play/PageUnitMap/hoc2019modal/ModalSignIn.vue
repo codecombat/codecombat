@@ -103,14 +103,34 @@ export default {
           }))
 
         const existingUser = new User()
+        let loginOptions = {}
         await new Promise((resolve, reject) =>
           existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
             success: resolve,
-            error: function() { errors.showNotyNetworkError(...arguments); reject(...arguments) }
+            error: function (user, jqxhr) {
+              if (jqxhr.status === 409 && jqxhr.responseJSON.errorID && jqxhr.responseJSON.errorID === 'account-with-email-exists') {
+                noty({ text: $.i18n.t('login.accounts_merge_confirmation'), layout: 'topCenter', type: 'info', buttons: [
+                  { text: 'Yes', onClick: ($noty) => {
+                      $noty.close()
+                      loginOptions = { merge: true, email: gplusAttrs.email }
+                      resolve()
+                    }
+                  }, { text: 'No', onClick: ($noty) => {
+                      $noty.close()
+                      reject(...arguments)
+                    }
+                  }]
+                })
+              } else {
+                errors.showNotyNetworkError(...arguments);
+                reject(...arguments) 
+              }
+            }
           }))
         
         await new Promise((resolve, reject) =>
           me.loginGPlusUser(gplusAttrs.gplusID, {
+            data: loginOptions,
             success: resolve,
             error: function(res, jqxhr) {
               if (jqxhr.status === 401 && jqxhr.responseJSON.errorID && jqxhr.responseJSON.errorID === 'individuals-not-supported') {
