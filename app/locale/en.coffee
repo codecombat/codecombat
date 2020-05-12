@@ -347,6 +347,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sign_in_with_facebook: "Sign in with Facebook"
     sign_in_with_gplus: "Sign in with Google"
     signup_switch: "Want to create an account?"
+    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Complete Subscription"
