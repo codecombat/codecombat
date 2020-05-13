@@ -285,7 +285,7 @@ module.exports = class CocoRouter extends Backbone.Router
     # Added for new teacher dashboard. Can be changed.
     'teachers/projects': go('core/SingletonAppVueComponentView')
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
-    'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
+    'teachers/classes/:classroomID': teacherProxyRoute(go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true }))
     'teachers/courses': redirect('/teachers/units') # Redirected 8/20/2019
     'teachers/units': go('courses/TeacherCoursesView', { redirectStudents: true })
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
