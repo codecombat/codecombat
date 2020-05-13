@@ -1,5 +1,5 @@
 <script>
-  import PrimaryButton from '../common/PrimaryButton'
+  import PrimaryButton from '../common/buttons/PrimaryButton'
   import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
   import LicensesComponent from '../common/LicensesComponent'
   import NavSelectUnit from '../common/NavSelectUnit'

@@ -18,6 +18,7 @@ import CinematicPlaceholder from '../../ozaria/site/components/cinematic/Cinemat
 
 import BaseTeacherDashboard from '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue'
 import BaseMyClasses from '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue'
+import BaseSingleClass from '../../ozaria/site/components/teacher-dashboard/BaseSingleClass/index.vue'
 import BaseStudentProjects from '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'
 import BaseTeacherLicenses from '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue'
 import BaseResourceHub from '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue'
@@ -73,6 +74,7 @@ export default function getVueRouter () {
           children: [
             { path: '', component: BaseMyClasses },
             { path: 'classes', component: BaseMyClasses },
+            { path: 'classes/:classroomId', component: BaseSingleClass },
             { path: 'projects', component: BaseStudentProjects },
             { path: 'licenses', component: BaseTeacherLicenses },
             { path: 'resources', component: BaseResourceHub }
