@@ -6,7 +6,9 @@ export default class ProofTracker extends BaseTracker {
     super()
 
     this.store = store
-    this.enabled = window.location.hostname.startsWith('next.');
+
+    this.enabled = window.location.hostname.startsWith('next.')
+    console.log('decided on enabled', this.enabled, window.location.hostname, window.location.hostname.startsWith('next.'))
   }
 
   async _initializeTracker () {
