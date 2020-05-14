@@ -32,6 +32,7 @@ export default class Tracker2 extends BaseTracker {
       // this.googleAnalyticsTracker,
       this.driftTracker,
       this.segmentTracker,
+      this.proofTracker
     ]
   }
 

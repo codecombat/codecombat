@@ -6,21 +6,19 @@ export default class ProofTracker extends BaseTracker {
     super()
 
     this.store = store
-
     this.enabled = window.location.hostname.startsWith('next.')
-    console.log('decided on enabled', this.enabled, window.location.hostname, window.location.hostname.startsWith('next.'))
   }
 
   async _initializeTracker () {
     if (!this.enabled) {
-      return this.onInitializeSuccess();
+      return this.onInitializeSuccess()
     }
 
     // TODO Proof recommends this is loaded directly into the page head.  It's loaded here
     //      so that we can test on next.  Load properly for production release.
     const proofScript = document.createElement('script')
     proofScript.type = 'text/javascript'
-    proofScript.src = 'https://cdn.proof-x.com/proofx.js?px_wid=-M-RGUfR3QToJiCIwXw7';
+    proofScript.src = 'https://cdn.proof-x.com/proofx.js?px_wid=-M-RGUfR3QToJiCIwXw7'
     proofScript.onload = this.onInitializeSuccess
     proofScript.onerror = this.onInitializeFail
 
