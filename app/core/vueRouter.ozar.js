@@ -75,7 +75,7 @@ export default function getVueRouter () {
             { path: '', component: BaseMyClasses },
             { path: 'classes', component: BaseMyClasses },
             { path: 'classes/:classroomId', component: BaseSingleClass },
-            { path: 'projects', component: BaseStudentProjects },
+            { path: 'projects/:classroomId', component: BaseStudentProjects },
             { path: 'licenses', component: BaseTeacherLicenses },
             { path: 'resources', component: BaseResourceHub }
           ]

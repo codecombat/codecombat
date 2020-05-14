@@ -5,4 +5,6 @@ module.exports = {
     fetchJson("/db/campaign", options)
   get: ({ campaignHandle }, options={}) ->
     fetchJson("/db/campaign/#{campaignHandle}", options)
+  fetchGameContent: (campaignHandle, options={}) ->
+    fetchJson("/db/campaign/#{campaignHandle}/game-content", options)
 }

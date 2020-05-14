@@ -7,6 +7,14 @@ module.exports = {
   getAll: (options={}) ->
     fetchJson("/db/course", options)
 
+  getReleased: (options={}) ->
+    options.data ?= {}
+    if me.isInternal()
+      options.data.fetchInternal = true # will fetch 'released' and 'internalRelease' courses
+    else
+      options.data.releasePhase = 'released'
+    fetchJson("/db/course", options)
+
   fetchChangeLog: (options = {}) ->
     fetchJson("/db/course/change-log", options)
 
