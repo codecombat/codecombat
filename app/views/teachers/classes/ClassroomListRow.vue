@@ -106,7 +106,7 @@
 
   export default {
     created() {
-      this.fetchLevelSessionsForClassroom(this.$props.classroom)
+      this.fetchLevelSessionsForClassroom({ classroom: this.$props.classroom })
         .then(() => this.computeLevelCompletionsByUserForClassroom(this.$props.classroom._id))
     },
 

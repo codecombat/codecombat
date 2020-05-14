@@ -77,7 +77,7 @@ export default {
   // TODO add a way to clear out old level session data
   actions: {
     // TODO how do we handle two sets of parallel requests here? (ie user vists page, hits back and then visits again quickly)
-    fetchForClassroomMembers: ({ commit }, classroom) => {
+    fetchForClassroomMembers: ({ commit }, { classroom, options = {} }) => {
       commit('toggleClassroomLoading', classroom._id)
       commit('initSessionsByClassroomState', classroom._id)
 
@@ -91,7 +91,7 @@ export default {
           data: {
             memberLimit: SESSIONS_PER_REQUEST,
             memberSkip: i * SESSIONS_PER_REQUEST,
-            project: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
+            project: options.project || 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
           }
         })
       )

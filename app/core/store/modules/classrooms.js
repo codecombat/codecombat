@@ -59,6 +59,12 @@ export default {
     }
   },
 
+  getters: {
+    getClassroomsByTeacher: (state, _getters, _rootState) => (id) => {
+      return state.classrooms.byTeacher[id]
+    }
+  },
+
   actions: {
     fetchClassroomsForTeacher: ({ commit }, teacherId) => {
       commit('toggleLoadingForTeacher', teacherId)
@@ -74,7 +80,7 @@ export default {
             throw new Error('Unexpected response from fetch classrooms API.')
           }
         })
-        .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error' }))
+        .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
     fetchClassroomForId: ({ commit }, classroomID) => {
@@ -91,7 +97,7 @@ export default {
             throw new Error('Unexpected response from get classroom API.')
           }
         })
-        .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error' }))
+        .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForClassroom', classroomID))
     }
   }

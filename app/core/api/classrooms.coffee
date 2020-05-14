@@ -49,4 +49,7 @@ module.exports = {
       json: classDetails
     }))
 
+  fetchGameContent: (classroomID, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/game-content", options)
+
 }

@@ -160,6 +160,7 @@
     "node-force-domain": "~0.1.0",
     "node-statsd": "^0.1.1",
     "npm-modernizr": "~2.8.3",
+    "nprogress": "^0.2.0",
     "parse-full-name": "^1.2.3",
     "passport": "0.1.x",
     "passport-local": "0.1.x",

@@ -11,6 +11,14 @@ export default {
     courseInstancesByTeacher: {}
   },
 
+  getters: {
+    // to get cis for a particluar class of the teacher
+    getCourseInstancesForClass: (state) => (teacherId, classroomId) => {
+      const cis = state.courseInstancesByTeacher[teacherId] || []
+      return cis.filter((ci) => ci.classroomID == classroomId)
+    }
+  },
+
   mutations: {
     toggleTeacherLoading: (state, teacherId) => {
       let loading = true
@@ -41,7 +49,7 @@ export default {
             throw new Error('Unexpected response from course instances by owner API.')
           }
         })
-        .catch((e) => noty({ text: 'Fetch course instances failure: ' + e, type: 'error' }))
+        .catch((e) => noty({ text: 'Fetch course instances failure: ' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleTeacherLoading', teacherId))
     },
   }

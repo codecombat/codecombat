@@ -1,5 +1,11 @@
 <script>
   export default {
+    props: {
+      classrooms: {
+        type: Array,
+        default: () => []
+      }
+    },
     computed: {
       classesTabSelected () {
         return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
@@ -45,8 +51,18 @@
         aria-labelledby="ClassesDropdown"
       >
         <li><router-link tag="a" to="/teachers" class="dropdown-item underline-item">ALL CLASSES</router-link></li>
-        <li><router-link tag="a" to="/teachers" class="dropdown-item">Example Placeholder Class</router-link></li>
-        <li><router-link tag="a" to="/teachers" class="dropdown-item">Example Placeholder Class 2</router-link></li>
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+        >
+          <router-link
+            tag="a"
+            :to="`/teachers/classes/${classroom._id}`"
+            class="dropdown-item"
+          >
+            {{ classroom.name }}
+          </router-link>
+        </li>
       </ul>
     </li>
     <li
@@ -70,8 +86,17 @@
         class="dropdown-menu"
         aria-labelledby="ProjectsDropdown"
       >
-        <li><router-link to="/teachers/projects" class="dropdown-item">Example Placeholder Class</router-link></li>
-        <li><router-link to="/teachers/projects" class="dropdown-item">Example Placeholder Class 2</router-link></li>
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+        >
+          <router-link
+            :to="`/teachers/projects/${classroom._id}`"
+            class="dropdown-item"
+          >
+            {{ classroom.name }}
+          </router-link>
+        </li>
       </ul>
     </li>
     <li><router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected }"><div id="IconLicense" />My Licenses</router-link></li>

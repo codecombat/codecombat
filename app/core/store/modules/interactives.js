@@ -1,4 +1,4 @@
-import { getInteractive, getSession } from 'ozaria/site/api/interactive'
+import { getInteractive, getSession, fetchInteractiveSessionForAllClassroomMembers } from 'ozaria/site/api/interactive'
 
 export default {
   namespaced: true,
@@ -6,11 +6,13 @@ export default {
   state: {
     loading: {
       interactive: false,
-      session: false
+      session: false,
+      byClassroom: {}
     },
 
     interactive: undefined,
-    interactiveSession: undefined
+    interactiveSession: undefined,
+    interactiveSessionsByClassroom: {}
   },
 
   mutations: {
@@ -22,12 +24,25 @@ export default {
       state.loading.session = !state.loading.session
     },
 
+    toggleLoadingForClassroom: (state, classroomId) => {
+      let loading = true
+      if (state.loading.byClassroom[classroomId]) {
+        loading = false
+      }
+
+      Vue.set(state.loading.byClassroom, classroomId, loading)
+    },
+
     addInteractive (state, interactive) {
       state.interactive = interactive
     },
 
     addInteractiveSession (state, interactiveSession) {
       state.interactiveSession = interactiveSession
+    },
+
+    addinteractiveSessionsForClassroom (state, { classroomId, sessions }) {
+      Vue.set(state.interactiveSessionsByClassroom, classroomId, sessions)
     }
   },
 
@@ -95,6 +110,22 @@ export default {
         throw new Error('Failed to load interactive session')
       } finally {
         commit('toggleInteractiveSessionLoading')
+      }
+    },
+
+    async fetchSessionsForClassroomMembers ({ commit }, classroom) {
+      commit('toggleLoadingForClassroom', classroom._id)
+
+      try {
+        const interactiveSessions = await fetchInteractiveSessionForAllClassroomMembers(classroom)
+        if (!interactiveSessions) {
+          throw new Error('Unexpected response returned from user API')
+        }
+        commit('addinteractiveSessionsForClassroom', { classroomId: classroom._id, sessions: interactiveSessions })
+      } catch (e) {
+        throw new Error('Failed to load interactive session:' + e)
+      } finally {
+        commit('toggleLoadingForClassroom', classroom._id)
       }
     }
   }
