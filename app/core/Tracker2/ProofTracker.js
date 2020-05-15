@@ -1,6 +1,20 @@
 import CocoLegacyTracker from '../Tracker'
 import BaseTracker from './BaseTracker'
 
+export function loadProof () {
+  /* eslint-disable */
+
+  const styleTag = document.createElement('style')
+  styleTag.type = 'text/css'
+  styleTag.innerHTML = '.proofx-hidden{visibility:hidden}'
+  document.head.appendChild(styleTag)
+
+  !function(c,s,e){if("function"==typeof document.querySelector){if(e){document.querySelector("html").classList.add("proofx-hidden")};var proofx=c.proofx=c.proofx||[];if(!proofx.initialized)if(proofx.invoked)c.console&&console.error&&console.error("ProofX snippet included twice.");else{proofx.invoked=!0;proofx.methods=["identify","watchIdentity","reset","track","page","watchInput","setInputValue","unwatchInput","watchInputs","unwatchInputs","init"];proofx.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);proofx.push(e);return proofx}};for(var t=0;t<proofx.methods.length;t++){var o=proofx.methods[t];proofx[o]=proofx.factory(o)}proofx.load=function(e,t){var o=t&&t.timeout?t.timeout:2e3;c.setTimeout(function(){var e=s.getElementsByClassName("proofx-hidden");for(var i = 0;i<e.length;i++)e[i].className=e[i].className.replace(/proofx-hidden/g,"")},o);var n=Date.now(),r=document.createElement("link");r.href="https://cdn.proof-x.com/proofx.js?ver="+n;r.rel="preload";r.as="script";document.head.appendChild(r);var a=s.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);var i=s.createElement("script");i.type="text/javascript";i.async=!0;i.src="https://cdn.proof-x.com/proofx.js?ver="+n;a.parentNode.insertBefore(i,a);proofx.init(e,t)};
+    proofx.load("-M-RGUfR3QToJiCIwXw7", { timeout: 2000 });
+    proofx.page();
+  }}}(window,document,false);
+}
+
 export default class ProofTracker extends BaseTracker {
   constructor (store) {
     super()
@@ -14,15 +28,8 @@ export default class ProofTracker extends BaseTracker {
       return this.onInitializeSuccess()
     }
 
-    // TODO Proof recommends this is loaded directly into the page head.  It's loaded here
-    //      so that we can test on next.  Load properly for production release.
-    const proofScript = document.createElement('script')
-    proofScript.type = 'text/javascript'
-    proofScript.src = 'https://cdn.proof-x.com/proofx.js?px_wid=-M-RGUfR3QToJiCIwXw7'
-    proofScript.onload = this.onInitializeSuccess
-    proofScript.onerror = this.onInitializeFail
-
-    document.head.appendChild(proofScript);
+    loadProof()
+    this.onInitializeSuccess()
   }
 
   async identify (traits = {}) {
@@ -42,5 +49,9 @@ export default class ProofTracker extends BaseTracker {
 
   async trackEvent (action, properties = {}) {
     proofx.track(action, properties)
+  }
+
+  async resetIdentity () {
+    proofx.reset()
   }
 }
