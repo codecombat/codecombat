@@ -31,6 +31,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     classroom_in_box_blurb1: "讓每個學生都參與進來，讓他們相信編碼是為了他們自己。"
     classroom_in_box_blurb2: "讓每位老師在授課時更有自信。"
     classroom_in_box_blurb3: "激勵更多的學校來創造出世界一流的電腦科學課程。"
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
     creativity_rigor_title: "創造力與邏輯相遇的地方"
     creativity_rigor_subtitle1: "讓編碼變得有趣並學習到現實世界共通的技能"
     creativity_rigor_blurb1: "學生在玩遊戲時學會輸入真正的 Python 和 JavaScript 代碼，鼓勵反複試驗、批判性思考和創造力。然後讓學生通過在專題課程中開發自己的遊戲和網站，應用他們學到的編碼技能。"
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     im_a_teacher: "我是老師"
     im_a_student: "我是學生"
     learn_more: "了解更多"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "教授電腦科學的迷你教室。"
     codecombat_is: "CodeCombat是一個讓<strong>學生</strong>透過進行遊戲來學習計算機科學的平台。"
     our_courses: "我們的課程經過特別的遊戲測試來<strong>超越教室教學</strong>，甚至是超越一些先前沒有編程經驗的老師。"
@@ -346,6 +348,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sign_in_with_facebook: "使用 Facebook 登入"
     sign_in_with_gplus: "使用 Google+ 登入"
     signup_switch: "建立一個帳號"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "完成訂閱"
@@ -777,6 +780,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
 
   play_game_dev_level:
     created_by: "由{{name}}創建"
@@ -1793,6 +1801,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
 #    one_license_used: "1 out of __totalLicenses__ licenses has been used"
 #    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
     starter_licenses: "起始註冊碼"
@@ -3016,6 +3030,17 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
