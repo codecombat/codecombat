@@ -3,13 +3,15 @@
   import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
   import LicensesComponent from '../common/LicensesComponent'
   import NavSelectUnit from '../common/NavSelectUnit'
+  import ClassInfoRow from './ClassInfoRow'
 
   export default {
     components: {
       'primary-button': PrimaryButton,
       'button-curriculum-guide': ButtonCurriculumGuide,
       'licenses-component': LicensesComponent,
-      'nav-select-unit': NavSelectUnit
+      'nav-select-unit': NavSelectUnit,
+      'class-info-row': ClassInfoRow
     },
     props: {
       title: {
@@ -28,18 +30,7 @@
   <div class="teacher-title-bar">
     <div class="sub-nav">
       <h1>{{ title }}</h1>
-      <div v-if="showClassInfo" class="stats-tab">
-        <img src="/images/ozaria/teachers/dashboard/png_icons/Python.png" />
-        <span>Python</span>
-      </div>
-      <div v-if="showClassInfo" class="stats-tab">
-        <img src="/images/ozaria/teachers/dashboard/png_icons/MultipleUsers.png" />
-        <span>13 Students</span>
-      </div>
-      <div v-if="showClassInfo" class="stats-tab">
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/calendar.svg" />
-        <span>August 15, 2019</span>
-      </div>
+      <class-info-row v-if="showClassInfo" />
     </div>
     <div class="sub-nav">
       <licenses-component class="btn-margins-height" />
@@ -54,17 +45,6 @@
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-
-.stats-tab {
-  img {
-    height: 15px;
-    width: auto;
-    transform: translateY(-1px);
-  }
-
-  margin: 0 7.5px;
-  @include font-p-4-paragraph-smallest-gray;
-}
 
 .btn-title-padding {
   padding: 8px 22px;
