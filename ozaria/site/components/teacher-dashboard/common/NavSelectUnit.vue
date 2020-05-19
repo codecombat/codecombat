@@ -1,9 +1,36 @@
+<script>
+  export default {
+    props: {
+      courses: {
+        type: Array,
+        default: () => []
+      },
+      selectedCourseId: {
+        type: String,
+        default: ''
+      }
+    },
+
+    methods: {
+      onChange (event) {
+        this.$emit('change-course', event.target.value)
+      }
+    }
+  }
+</script>
+
 <template>
   <div>
     <label>Select Unit</label>
-    <select>
-      <option>Placeholder 1</option>
-      <option>Placeholder 2</option>
+    <select @change="onChange($event)">
+      <option
+        v-for="course in courses"
+        :key="course._id"
+        :value="course._id"
+        :selected="course._id == selectedCourseId"
+      >
+        {{ course.name }}
+      </option>
     </select>
   </div>
 </template>

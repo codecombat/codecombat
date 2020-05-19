@@ -44,6 +44,12 @@ export default {
     }
   },
 
+  getters: {
+    getClassroomMembers: (state) => (classroom) => {
+      return state.users.byClassroom[classroom]
+    }
+  },
+
   actions: {
     fetchUserById: ({ commit }, userId) => {
       commit('toggleLoadingForId', userId)

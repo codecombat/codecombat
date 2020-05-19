@@ -1,5 +1,5 @@
 <script>
-  import Dropdown from './Dropdown'
+  import Dropdown from '../common/Dropdown'
   import PrimaryButton from '../common/buttons/PrimaryButton'
 
   export default {

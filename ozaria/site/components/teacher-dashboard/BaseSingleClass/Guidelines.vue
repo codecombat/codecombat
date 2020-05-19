@@ -1,5 +1,9 @@
 <script>
+  import ProgressLabels from '../common/progress/progressLabels'
   export default {
+    components: {
+      'progress-labels': ProgressLabels
+    },
     props: {
       visible: {
         type: Boolean,
@@ -20,33 +24,7 @@
       <div class="title-card">
         <span>Color Code</span>
       </div>
-      <div class="spacer">
-        <div class="img-subtext">
-          <div class="dot-border"><div class="dot green-dot"></div></div>
-          <span>Complete</span>
-        </div>
-        <div class="img-subtext">
-          <div class="dot-border"><div class="dot teal-dot"></div></div>
-          <span>In Progress</span>
-        </div>
-        <div class="img-subtext">
-          <div class="dot-border"><div class="dot assigned-dot"></div></div>
-          <span>Assigned</span>
-        </div>
-        <div class="img-subtext">
-          <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
-          <span>Concept Flag</span>
-        </div>
-        <div class="img-subtext">
-          <div class="dot-border time-flag-border"><div class="dot green-dot"></div></div>
-          <span>Time Spent Flag</span>
-        </div>
-        <div>
-          <div class="question-mark">
-            <span>?</span>
-          </div>
-        </div>
-      </div>
+      <progress-labels :show-review-labels="true" />
       <div class="title-card">
         <span style="width: 59px">Content Guide</span>
       </div>
@@ -246,60 +224,6 @@
     background: #eeeced;
     box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 5px 10px rgba(0, 0, 0, 0.15);
   }
-}
-
-.dot-border {
-  width: 22px;
-  height: 22px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 3px;
-}
-
-.concept-flag-border {
-  border: 1px solid #eb003b;
-}
-
-.time-flag-border {
-  border: 1px solid #828282;
-}
-
-.dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-}
-
-.green-dot {
-  background-color: #2dcd38;
-}
-
-.teal-dot {
-  background-color: #1ad0ff;
-}
-
-.assigned-dot {
-  border: 1.5px solid #c8cdcc;
-}
-
-.question-mark {
-  width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  background-color: #476fb1;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  @include font-p-4-paragraph-smallest-gray;
-  font-weight: bold;
-  line-height: 14px;
-  color: $moon;
 }
 
 .fade-leave-active {
