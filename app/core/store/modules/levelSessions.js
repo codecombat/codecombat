@@ -17,6 +17,11 @@ export default {
      *    sessions: [],
      *    levelCompletionsByUser: {
      *       LEVEL_ID: true / false
+     *     },
+     *    levelSessionsMapByUser: {
+     *      USER_ID: {
+     *        LEVEL_ORIGINAL: {}
+     *       } 
      *     }
      *  }
      */
@@ -42,7 +47,8 @@ export default {
 
       Vue.set(state.levelSessionsByClassroom, classroomId, {
         sessions: [],
-        levelCompletionsByUser: {}
+        levelCompletionsByUser: {},
+        levelSessionMapByUser: {}
       })
     },
 
@@ -59,10 +65,15 @@ export default {
     setSessionsForClassroom: (state, { classroomId, sessions }) => {
       state.levelSessionsByClassroom[classroomId].sessions = sessions
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = {}
+      state.levelSessionsByClassroom[classroomId].levelSessionMapByUser = {}
     },
 
     addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) => {
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = levelCompletionsByUser
+    },
+
+    addLevelSessionMapForClassroom: (state, { classroomId, levelSessionMapByUser }) => {
+      state.levelSessionsByClassroom[classroomId].levelSessionMapByUser = levelSessionMapByUser
     },
 
     setSessionsForCampaign: (state, { campaign, sessions }) => {
@@ -72,12 +83,15 @@ export default {
   getters: {
     getSessionsForCampaign: (state) => (campaign) => {
       return state.levelSessionsByCampaign[campaign]
+    },
+    getSessionsMapForClassroom: (state) => (classroom) => {
+      return (state.levelSessionsByClassroom[classroom] || {}).levelSessionMapByUser
     }
   },
   // TODO add a way to clear out old level session data
   actions: {
     // TODO how do we handle two sets of parallel requests here? (ie user vists page, hits back and then visits again quickly)
-    fetchForClassroomMembers: ({ commit }, { classroom, options = {} }) => {
+    fetchForClassroomMembers: ({ commit, dispatch }, { classroom, options = {} }) => {
       commit('toggleClassroomLoading', classroom._id)
       commit('initSessionsByClassroomState', classroom._id)
 
@@ -113,6 +127,8 @@ export default {
             classroomId: classroom._id,
             sessions: Object.freeze(sessions)
           })
+
+          dispatch('computeLevelSessionMapForClassroom', classroom._id)
         })
         .catch((e) => noty({ text: 'Fetch level sessions failure' + e, type: 'error' }))
         .finally(() => commit('toggleClassroomLoading', classroom._id))
@@ -136,6 +152,30 @@ export default {
       commit('addLevelCompletionsByUserForClassroom', {
         classroomId,
         levelCompletionsByUser: Object.freeze(levelCompletionsByUser)
+      })
+    },
+
+    computeLevelSessionMapForClassroom ({ commit, state }, classroomId) {
+      if (!state.levelSessionsByClassroom[classroomId] || !state.levelSessionsByClassroom[classroomId].sessions) {
+        throw new Error('Sessions not loaded')
+      }
+
+      const classroomSessions = _.sortBy(state.levelSessionsByClassroom[classroomId].sessions || [], (s) => (s || {}).changed);
+
+      const levelSessionMapByUser = {} // levelsessions grouped by user and level.original
+
+      for (const session of classroomSessions) {
+        const user = session.creator
+        const levelOriginal = (session.level || {}).original
+        if (levelOriginal) {
+          levelSessionMapByUser[user] = levelSessionMapByUser[user] || {}
+          levelSessionMapByUser[user][levelOriginal] = session
+        }
+      }
+
+      commit('addLevelSessionMapForClassroom', {
+        classroomId,
+        levelSessionMapByUser
       })
     },
 

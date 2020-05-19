@@ -4,6 +4,10 @@
       labelText: {
         required: true,
         type: String
+      },
+      options: {
+        type: Array,
+        default: () => []
       }
     }
   }
@@ -12,8 +16,12 @@
   <div>
     <label>{{ labelText }}</label>
     <select>
-      <option>Placeholder 1</option>
-      <option>Placeholder 2</option>
+      <option
+        v-for="option in options"
+        :key="option"
+      >
+        {{ option }}
+      </option>
     </select>
   </div>
 </template>

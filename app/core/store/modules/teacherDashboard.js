@@ -6,6 +6,7 @@ export default {
 
   state: {
     teacherId: '',
+    selectedCourseIdForClassroom: {},
     loading: false
   },
 
@@ -23,12 +24,18 @@ export default {
     },
     resetLoadingState (state) {
       state.loading = false
+    },
+    setSelectedCourseIdForClassroom (state, { classroomId, courseId }) {
+      Vue.set(state.selectedCourseIdForClassroom, classroomId, courseId)
     }
   },
 
   getters: {
     getLoadingState (state, _getters, _rootState) {
       return state.loading
+    },
+    getSelectedCourseIdForClassroom: (state) => (classroomId) => {
+      return state.selectedCourseIdForClassroom[classroomId]
     }
   },
 

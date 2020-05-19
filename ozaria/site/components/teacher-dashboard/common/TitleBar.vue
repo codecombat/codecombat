@@ -4,6 +4,7 @@
   import LicensesComponent from '../common/LicensesComponent'
   import NavSelectUnit from '../common/NavSelectUnit'
   import ClassInfoRow from './ClassInfoRow'
+  import moment from 'moment'
 
   export default {
     components: {
@@ -21,6 +22,34 @@
       showClassInfo: {
         type: Boolean,
         default: false
+      },
+      classroom: {
+        type: Object,
+        default: () => {}
+      },
+      selectedCourseId: {
+        type: String,
+        default: ''
+      },
+      courses: {
+        type: Array,
+        default: () => []
+      }
+    },
+
+    computed: {
+      classroomCreationDate () {
+        if ((this.classroom || {})._id) {
+          return moment(parseInt(this.classroom._id.substring(0, 8), 16) * 1000).format('ll')
+        } else {
+          return ''
+        }
+      },
+      classroomLanguage () {
+        return (this.classroom.aceConfig || {}).language
+      },
+      classroomStudentsLength () {
+        return (this.classroom.members || []).length
       }
     }
   }
@@ -30,11 +59,22 @@
   <div class="teacher-title-bar">
     <div class="sub-nav">
       <h1>{{ title }}</h1>
-      <class-info-row v-if="showClassInfo" />
+      <class-info-row
+        v-if="showClassInfo"
+        :language="classroomLanguage"
+        :num-students="classroomStudentsLength"
+        :date-created="classroomCreationDate"
+      />
     </div>
     <div class="sub-nav">
       <licenses-component class="btn-margins-height" />
-      <nav-select-unit v-if="showClassInfo" class="btn-margins-height" />
+      <nav-select-unit
+        v-if="showClassInfo"
+        class="btn-margins-height"
+        :courses="courses"
+        :selected-course-id="selectedCourseId"
+        @change-course=" (courseId) => $emit('change-course', courseId)"
+      />
       <primary-button v-if="!showClassInfo" class="btn-title-padding btn-margins-height">Add New Class</primary-button>
       <button-curriculum-guide class="btn-margins-height" />
     </div>
