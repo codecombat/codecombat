@@ -20,7 +20,7 @@
         details.attachTo.on = undefined
       }
     } else if (position === 'smart') {
-      details.classes = directionOffsets[(details.attachTo || {}).on]
+      details.classes = directionOffsets[details?.attachTo?.on]
     } else {
       if (details.attachTo) {
         details.attachTo.on = position
@@ -134,7 +134,7 @@
       codeBankOpen () {
         // Force redrawing of current step to adjust to position of the code bank:
         const { options } = this.tour.getCurrentStep()
-        if ((options.attachTo || {}).element === defaultPositionTargets['Code Bank Button'].element) {
+        if (options?.attachTo?.element === defaultPositionTargets['Code Bank Button'].element) {
           this.tour.show(options.id)
         }
       }
@@ -228,7 +228,7 @@
           // if the last step has animation or a target element or fading out the other elements, it would be
           // pointless to keep that as the final step because it would obstruct the rest of the level.
           let complexLastStep
-          const canSeeComplexSteps = me.isAdmin() || (me.emailLower || '').endsWith('@codecombat.com')
+          const canSeeComplexSteps = me.isAdmin() || me?.emailLower?.endsWith('@codecombat.com')
 
           const steps = this.tutorialSteps.map((tutorialStep, index) => {
             const details = buildStepPositionalDetails(tutorialStep)
