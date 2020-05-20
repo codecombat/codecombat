@@ -31,39 +31,6 @@
     return details
   }
 
-  function calculateMinSize (length) {
-    const innerHeight = window.innerHeight;
-    const innerWidth = window.innerWidth;
-    // Large size with big text
-    if (innerHeight >= 600 && innerWidth >= 1000) {
-      if (length < 86) {
-        return 19;
-      } else if (length < 128) {
-        return 17;
-      } else {
-        return 14;
-      }
-      // Small size - which is not handled well by our UI now anyway, but we'll do the best we can...
-    } else if (innerHeight < 500 || innerWidth < 800) {
-      if (length < 65) {
-        return 14;
-      } else if (length < 128) {
-        return 12;
-      } else {
-        return 10;
-      }
-    } else {
-      // Any other combination of large/small width/height
-      if (length < 65) {
-        return 16;
-      } else if (length < 128) {
-        return 14;
-      } else {
-        return 10;
-      }
-    }
-  }
-
   const defaultPositionTargets = {
     'Run Button': { element: '#run', on: 'top' },
     'Next Button': { element: '#next', on: 'top' },
@@ -456,7 +423,7 @@
             footerElement.addClass('shepherd-footer-learning-goals')
             footerElement.append(`<div class="shepherd-footer-learning-goals-body"><span class="shepherd-footer-learning-goals-title">${this.$t('play_level.learning_goals')}: </span><span class="shepherd-footer-learning-goals-description">${tutorialStep.intro.learningGoals}</span></div>`)
             this.adjustFooter(footerElement, $('.shepherd-start-button'), tutorialStep.intro.learningGoals.length)
-            shepherdElement.addClass(tutorialStep.message.length > 253 ? 'shepherd-element-intro-expanded' : 'shepherd-element-intro')
+            shepherdElement.addClass('shepherd-element-intro')
           } else if (tutorialStep.position === 'stationary') {
             $(`.shepherd-content`).addClass(`shepherd-content-stationary`)
             headerClasses.push(`shepherd-header-stationary-${this.characterPortrait}`)
@@ -466,8 +433,6 @@
             if (isDefaultStep) {
               textElement.addClass('shepherd-text-default-stationary')
               this.clearAsyncTimers()
-            } else {
-              textElement.css('font-size', calculateMinSize(tutorialStep.message.length))
             }
             stationaryTextElement.appendTo('#level-dialogue-view')
             // Move the inline svg overlay to be in the same z-index stacking context.
@@ -476,6 +441,7 @@
             $('.chrome-container').prepend(tempOverlay)
             stationaryTextElement.css('visibility', 'visible')
           } else {
+            $(`.shepherd-rectangle`).addClass('shepherd-rectangle-expanding')
             headerClasses.push(`shepherd-header-moving-${this.characterPortrait}`)
             closeButtonClasses.push('shepherd-close-button-moving')
             footerElement.addClass('shepherd-footer-moving')
@@ -643,10 +609,13 @@
 
   .shepherd-rectangle
     box-sizing: border-box
-    height: 137px
     width: 402px
     background-color: #FFF
     border: 4px solid #F7D047
+
+  .shepherd-rectangle-expanding
+    height: unset !important
+    min-height: 137px
 
   .shepherd-filler-button
     color: transparent
@@ -974,11 +943,6 @@
     min-height: 227px
     min-width: 507px
 
-  .shepherd-element-intro-expanded
-    left: -62px !important // TODO: More exact adjustment to center of screen since we are making the dialogue larger
-    min-height: 308px
-    min-width: 580px
-
   .shepherd-content:not(.shepherd-content-stationary) .shepherd-text
     padding: 19px 14px 38px 65px
 
@@ -998,6 +962,7 @@
   .shepherd-text-intro
     padding-right: 15px
     padding-left: 80px
+    padding-bottom: 50px
 
   .shepherd-text-default-stationary
     padding: unset !important
