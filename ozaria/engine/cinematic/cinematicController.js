@@ -133,7 +133,7 @@ export class CinematicController {
 
     this.commands = commands
 
-    await this.systems.cinematicLankBoss.preloaded()
+    await this.systems.cinematicLankBoss.preloaded() // NOTE: This will always complete after about ~2.5 minutes. It has a failsafe.
     for (const preloadedLank of Object.values(this.systems.cinematicLankBoss.lankCache)) {
       preloadedLank.hide()
     }

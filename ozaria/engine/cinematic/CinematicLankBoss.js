@@ -132,9 +132,9 @@ export default class CinematicLankBoss {
     if (this.preLoadedLayers[layer || DEFAULT_LAYER] === true) {
       this.preLoadedLayers[layer || DEFAULT_LAYER] = new Promise((resolve, reject) => {
         const unblockTimeout = setTimeout(() => {
-          console.error('Cinematic hit render timelimit of 40 seconds')
+          console.error('Cinematic hit render timelimit of 150 seconds')
           resolve()
-        }, 40000)
+        }, 150000)
         this.layerAdapters[layer || DEFAULT_LAYER].once('new-spritesheet', () => {
           clearTimeout(unblockTimeout)
           resolve()
