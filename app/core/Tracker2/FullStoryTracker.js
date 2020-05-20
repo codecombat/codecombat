@@ -41,11 +41,11 @@ export default class ProofTracker extends BaseTracker {
 
   async _initializeTracker () {
     window['_fs_ready'] = () => {
-      if (!this.enableDecisionMade) {
+      if ((new URLSearchParams(window.location.search)).has('fullstory_enable')) {
+        this.enabled = true
+      } else if (!this.enableDecisionMade) {
         this.enabled = this.decideEnabled()
       }
-
-      this.enabled = true
 
       if (this.enabled) {
         this.enable()
@@ -79,14 +79,11 @@ export default class ProofTracker extends BaseTracker {
     const { me } = this.store.state
 
     if (me.anonymous && Math.random() < 0.5) {
-      console.log('anon enable')
       return true
     } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.5) {
-      console.log('teacher enable')
       return true
     }
 
-    console.log(disable)
     return false
   }
 
