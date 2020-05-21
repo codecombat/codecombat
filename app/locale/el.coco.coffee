@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     im_a_teacher: "Είμαι Δάσκαλος"
     im_a_student: "Είμαι Μαθητής"
     learn_more: "Μάθε περισσότερα"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Μια τάξη σε ένα κουτί για τη διδασκαλία της επιστήμης των υπολογιστών."
     codecombat_is: "Το CodeCombat είναι μια πλατφόρμα <strong>για μαθητές</strong> για να μάθουν την επιστήμη των υπολογιστών ενώ παίζουν ένα πραγματικό παιχνίδι."
     our_courses: "Οι σειρές μαθημάτων μας έχουν δοκιμαστεί ειδικά <strong>για να ταιριάζουν απόλυτα στην τάξη</strong>, ακόμη και για τους εκπαιδευτικούς με ελάχιστη ή μη προηγούμενη εμπειρία στον προγραμματισμό."
@@ -346,6 +348,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     sign_in_with_facebook: "Σύνδεση μέσω Facebook"
     sign_in_with_gplus: "Σύνδεση μέσω G+"
     signup_switch: "Δεν έχεις λογαριασμό;"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Ολοκλήρωση Συνδρομής"
@@ -777,6 +780,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     future_eng_3: "(δεν απαιτείται συσκευή). Αυτή η δραστηριότητα της Alexa σας εντάσσει στο πρόγραμμα"
     future_eng_4: "Μηχανικού του Μέλλοντος της Amazon"
     future_eng_5: "το οποίο δημιουργεί ευκαιρίες μάθησης και εργασίας για όλους τους φοιτητές K-12 των Ηνωμένων Πολιτειών που επιθυμούν να ακολουθήσουν την επιστήμη των υπολογιστών."
+
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
 
   play_game_dev_level:
     created_by: "Δημιουργήθηκε από {{name}}"
@@ -1793,6 +1801,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     empty_credits: "Εξαντλημένες Άδειες"
     license_remaining: "εναπομείναν άδεια"
     licenses_remaining: "εναπομείναντες άδειες"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1 άδεια έχει χρησιμοποιηθεί" # {change}
     num_licenses_used: "__numLicensesUsed__ άδεις έχουν χρησιμοποιηθεί" # {change}
     starter_licenses: "άδειες εκκίνησης"
@@ -3016,6 +3030,17 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
