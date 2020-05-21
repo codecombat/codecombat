@@ -642,6 +642,7 @@ module.exports = class User extends CocoModel
   #   - Free campaigns
   #   - Student with full license
   #   - Teacher
+  # Update in server/models/User also, if updated here.
   hasCampaignAccess: (campaignData) ->
     return true if utils.freeCampaignIds.includes(campaignData._id)
     return true if @isAdmin() or @isInternal()
