@@ -1,4 +1,4 @@
-import BaseTracker from './BaseTracker'
+import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 export function loadProof () {
   /* eslint-disable */
@@ -47,8 +47,7 @@ export default class ProofTracker extends BaseTracker {
 
     const { me } = this.store.state
 
-    // TODO determine what traits we want to send for all user types
-    proofx.identify(me._id)
+    proofx.identify(me._id, extractDefaultUserTraits(me))
   }
 
   async trackPageView (includeIntegrations = []) {

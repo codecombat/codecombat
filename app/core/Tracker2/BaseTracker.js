@@ -1,3 +1,20 @@
+export const DEFAULT_USER_TRAITS_TO_REPORT = [
+  'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName',
+  'dateCreated'
+]
+
+export function extractDefaultUserTraits(me) {
+  return DEFAULT_USER_TRAITS_TO_REPORT.reduce((obj, key) => {
+    const meAttr = me[key]
+    if (typeof meAttr !== 'undefined' && meAttr !== null) {
+      obj[key] = meAttr
+    }
+
+    return obj;
+  }, {})
+}
+
 /**
  * A baseline tracker that:
  *   1. Defines a standard initialization flow for all trackers

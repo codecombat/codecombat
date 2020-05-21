@@ -1,4 +1,4 @@
-import BaseTracker from './BaseTracker'
+import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 const FULLSTORY_SESSION_TRACKING_ENALBED_KEY = 'coco.tracker.fullstory.enabled'
 
@@ -101,8 +101,7 @@ export default class ProofTracker extends BaseTracker {
     //      maybe when a user logs in we reset the recording decision logic?
     FS.identify(me._id)
 
-    // TODO determine what traits we want to send for all user types
-    FS.setUserVars({})
+    FS.setUserVars(extractDefaultUserTraits(me))
   }
 
   async trackPageView (includeIntegrations = []) {
