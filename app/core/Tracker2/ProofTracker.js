@@ -30,6 +30,8 @@ export default class ProofTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
+    this.watchForDisableAllTrackingChanges(this.store)
+
     if (!this.enabled) {
       return this.onInitializeSuccess()
     }
@@ -41,7 +43,7 @@ export default class ProofTracker extends BaseTracker {
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -53,7 +55,7 @@ export default class ProofTracker extends BaseTracker {
   async trackPageView (includeIntegrations = []) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -63,7 +65,7 @@ export default class ProofTracker extends BaseTracker {
   async trackEvent (action, properties = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -73,7 +75,7 @@ export default class ProofTracker extends BaseTracker {
   async resetIdentity () {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 

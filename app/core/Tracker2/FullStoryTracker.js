@@ -1,6 +1,7 @@
 import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 const FULLSTORY_SESSION_TRACKING_ENALBED_KEY = 'coco.tracker.fullstory.enabled'
+const FULLSTORY_ENABLE_QUERY_PARAM = 'fullstory_enable'
 
 export function loadFullStory() {
   /* eslint-disable */
@@ -40,8 +41,11 @@ export default class ProofTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
+    this.watchForDisableAllTrackingChanges(this.store)
+
+    // TODO handle disable all tracking
     window['_fs_ready'] = () => {
-      if ((new URLSearchParams(window.location.search)).has('fullstory_enable')) {
+      if ((new URLSearchParams(window.location.search)).has(FULLSTORY_ENABLE_QUERY_PARAM)) {
         this.enabled = true
       } else if (!this.enableDecisionMade) {
         this.enabled = this.decideEnabled()
@@ -90,7 +94,7 @@ export default class ProofTracker extends BaseTracker {
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -107,7 +111,7 @@ export default class ProofTracker extends BaseTracker {
   async trackPageView (includeIntegrations = []) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -118,7 +122,7 @@ export default class ProofTracker extends BaseTracker {
   async trackEvent (action, properties = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -128,7 +132,7 @@ export default class ProofTracker extends BaseTracker {
   async resetIdentity () {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
