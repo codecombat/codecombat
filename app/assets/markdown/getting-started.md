@@ -141,28 +141,6 @@ _Navigate to the "Unit Progress" tab to view more detailed information of studen
 
 If you want to see how your students are doing within a unit, click on the "Unit Progress” tab. You’ll be able to view how much progress a student has made in a specific unit. A gray circle means a level has not been started, a yellow circle indicates a level has been started but not completed, and a green circle means a level has been completed. By moving your mouse pointer over the circle for a level, you can see information about when they completed the level, as well as a rough estimate of how long the level took to complete.
 
-<!-- ##### STEP 6
-## Licensing Students
-
-Students are required to have a license to access any content after the first unit, *Prologue: The Sky Mountain*. When you assign a new course, a license will automatically be applied to the student. By default, all licenses expire one year from when they are granted. A single license allows a single student access to all of the units available.
-
-Initially, for those starting out in Ozaria, once available content has been completed students will be able to use the same license to play CodeCombat content. This will be a temporary process while we continue to develop more of Ozaria.
-
-<!-- To manually assign a license to a student, click on the *License Status* tab while viewing a class and use the "Assign License" button. -->
-
-<!-- ### How do I get Licenses for my students?
-
-If you would like to purchase licenses, reach out to [schools@ozaria.com](schools@ozaria.com). -->
-
-<!-- ##### STEP 7
-## Assigning Units
-
-<img src="/images/pages/teachers/resources/markdown/getting-started/bulk-assign.png" title="Bulk Assign Courses" alt="bulk-assign" width="400px"/>
-
-Once a student is enrolled, you’ll be able to assign additional units to them. We recommend not assigning students to more than one course ahead of where they currently are. You can assign a course to multiple students at a time by selecting students using checkboxes on the left-hand side (or the “Select All” checkbox), then choosing the appropriate course from the dropdown menu, and then clicking “Assign Course.”
-
-You’ll initially see the first unit to assign (Prologue: The Sky Mountain) and later the first chapter, and so on. You’ll have plenty of options on how to [transition your class into CodeCombat](/teachers/resources/implementation-guide) to continue reinforcing fundamental programming concepts or expanding into new skills, while Ozaria is still in development. -->
-
 ##### STEP 6
 ## Start Teaching!
 There are great supplemental materials for teachers available on our [Unit Guides](/teachers/units/) and [Resource Hub](/teachers/resources). If you're new to teaching computer science, we highly recommend checking these out -- we've built these with first-time teachers in mind. 
