@@ -209,7 +209,7 @@ mixin accountLinks
                           a(href="/about", data-i18n="nav.about")
                         li
                           a(href="/about#careers", data-i18n="nav.careers")
-                        if !me.isStudent()
+                        if me.isTeacher(true)
                           li
                             a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                         li

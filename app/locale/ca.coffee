@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     im_a_teacher: "Sóc Docent"
     im_a_student: "Sóc Alumna/e"
     learn_more: "Aprén més"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Una aula preparada per a l'ensenyament de la informàtica."
     codecombat_is: "CodeCombat és una plataforma <strong> per als estudiants </ strong> per aprendre ciències de la computació mentre es juga a través d'un veritable joc."
     our_courses: "Els nostres cursos han estat específicament provats <strong> de manera excel·lent a l'aula </ strong>, fins i tot per a professorat amb poca o cap experiència prèvia de programació."
@@ -346,6 +348,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     sign_in_with_facebook: "Inicia amb Facebook"
     sign_in_with_gplus: "Inicia amb G+"
     signup_switch: "Vols crear-te un compte?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Subscripció completa"
@@ -777,6 +780,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     future_eng_3: "(no es requereix dispositiu). Aquesta activitat Alexa és presentada pel programa"
     future_eng_4: "Amazon Future Engineer"
     future_eng_5: "que crea oportunitats d'aprenentatge i treball per a tots els estudiants de K-12 als Estats Units que vulguin cursar informàtica."
+
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
 
   play_game_dev_level:
     created_by: "Creat per {{name}}"
@@ -1793,6 +1801,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     empty_credits: "Llicències gastades"
     license_remaining: "llicència restant"
     licenses_remaining: "llicències restants"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1 llicència s'ha usat"
     num_licenses_used: "__numLicensesUsed__ llicències s'han usat"
     starter_licenses: "llicències inicials"
@@ -3016,6 +3030,17 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
