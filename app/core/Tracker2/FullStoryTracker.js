@@ -29,11 +29,12 @@ export function loadFullStory() {
   })(window,document,window['_fs_namespace'],'script','user');
 }
 
-export default class ProofTracker extends BaseTracker {
-  constructor (store) {
+export default class FullstoryTracker extends BaseTracker {
+  constructor (store, globalTracker) {
     super()
 
     this.store = store
+    this.globalTracker = globalTracker
 
     const sessionEnabled = window.sessionStorage.getItem(FULLSTORY_SESSION_TRACKING_ENALBED_KEY)
     this.enableDecisionMade = (sessionEnabled !== null)
@@ -49,6 +50,9 @@ export default class ProofTracker extends BaseTracker {
         this.enabled = true
       } else if (!this.enableDecisionMade) {
         this.enabled = this.decideEnabled()
+        if (this.enabled) {
+          this.globalTracker.trackEvent('FullStory Tracking Enabled')
+        }
       }
 
       if (this.enabled) {
@@ -82,9 +86,9 @@ export default class ProofTracker extends BaseTracker {
 
     const { me } = this.store.state
 
-    if (me.anonymous && Math.random() < 0.5) {
+    if (me.anonymous && Math.random() < 0.02) {
       return true
-    } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.5) {
+    } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.02) {
       return true
     }
 
