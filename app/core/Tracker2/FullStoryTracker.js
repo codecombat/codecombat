@@ -1,6 +1,7 @@
 import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 const FULLSTORY_SESSION_TRACKING_ENALBED_KEY = 'coco.tracker.fullstory.enabled'
+const FULLSTORY_LAST_USER_ID_KEY = 'coco.tracker.fullstory.lastUserId'
 const FULLSTORY_ENABLE_QUERY_PARAM = 'fullstory_enable'
 
 export function loadFullStory() {
@@ -98,17 +99,27 @@ export default class FullstoryTracker extends BaseTracker {
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (!this.enabled || this.disableAllTracking) {
+    if (this.disableAllTracking) {
       return
     }
 
+    // When identify() is called it's possible that the user has changed, so check if the user
+    // has changed and if so run the decision logic again
     const { me } = this.store.state
+    const lastUserId = window.sessionStorage.getItem(FULLSTORY_LAST_USER_ID_KEY)
+    if (lastUserId !== me._id) {
+      this.enabled = this.decideEnabled()
+      if (this.enabled) {
+        this.enable()
+      }
+    }
 
-    // TODO when a user transitions from anon to logged in we'll end up recording two different sessions
-    //      is this ok? using window.session to enable full story doesn't make sense in this case?
-    //      maybe when a user logs in we reset the recording decision logic?
+    if (!this.enabled) {
+      return
+    }
+
+    window.sessionStorage.setItem(FULLSTORY_LAST_USER_ID_KEY, me._id)
     FS.identify(me._id)
-
     FS.setUserVars(extractDefaultUserTraits(me))
   }
 
@@ -136,6 +147,7 @@ export default class FullstoryTracker extends BaseTracker {
   async resetIdentity () {
     await this.initializationComplete
 
+    window.sessionStorage.removeItem(FULLSTORY_LAST_USER_ID_KEY)
     if (!this.enabled || this.disableAllTracking) {
       return
     }
