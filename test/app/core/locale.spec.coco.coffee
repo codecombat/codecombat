@@ -33,8 +33,7 @@ describe 'esper error messages', ->
                 To match English placeholders: [#{englishPlaceholders}] (#{englishEsper[key]})
               """
 
-# TODO: temporarily disabling to unblock build.
-xdescribe 'Check keys', ->
+describe 'Check keys', ->
   langs.forEach (language) =>
     describe "when language is #{language.englishDescription}", ->
       en = english.translation
@@ -47,4 +46,5 @@ xdescribe 'Check keys', ->
                 This can occur when:
                   * Parent key for '#{keyChild}' is accidentally commented.
                   * English translation for '#{key}.#{keyChild}' has been deleted.
+                You may need to run copy-i18n-tags.js
               """
