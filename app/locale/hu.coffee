@@ -1098,17 +1098,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     team_values: "A nyitott párbeszédben, az egymás iránti tiszteletben hiszünk, ahol a legjobb ötlet a nyerő. A döntéseink piackutatáson alapulnak, a folyamataink kialakítása pedig a kézzelfogható eredmények létrehozását célozza meg. Mindenki együttműködő és az ügyvezetőtől a GitHub fejlesztőkig mindenki aktívan részt vesz a munkában. Nagyrértékeljük a növekedést és készek vagyunk tanulni egymástól."
     nick_title: "Programozó" # {change}
     matt_title: "Programozó" # {change}
-    cat_title: "Játéktervező"
-    scott_title: "Programozó" # {change}
-    maka_title: "Az ügyfelek őrangyala"
-    robin_title: "UX-tervező és -fejlesztő" # {change}
-    nolan_title: "Territory Manager" # {change}
-#    david_title: "Marketing Lead"
-    titles_csm: "Ügyfél sikermenedzser"
-#    titles_territory_manager: "Territory Manager"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1121,18 +1111,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Gameplay Developer"
-#    bryukh_blurb: "Constructs puzzles"
     community_title: "...és a nyílt támogatói közösségünk"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"

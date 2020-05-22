@@ -1098,17 +1098,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
     nick_title: "Programmeur" # {change}
     matt_title: "Programmeur" # {change}
-    cat_title: "Hoofd Ambachtsman" # {change}
-    scott_title: "Programmeur" # {change}
-    maka_title: "Klanten Ombudsman"
-    robin_title: "UX Design & Onderzoek" # {change}
-    nolan_title: "Regio-manager" # {change}
-    david_title: "Manager Marketing"
-#    titles_csm: "Customer Success Manager"
-    titles_territory_manager: "Regiomanager"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1121,18 +1111,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    bryukh_title: "Speldesigner" # {change}
-    bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"

@@ -1098,17 +1098,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     team_values: "Chúng tôi chân trọng những cuộc đối thoại mở và có sự tôn trọng lẫn nhau, nơi mà những ý tưởng tốt nhất giành chiến thắng. Những quyết định của chúng tôi được đưa ra hoàn toàn dựa trên những báo cáo nghiên cứu ý kiến khách hàng và quy trình của chúng tôi chú trọng vào mục tiêu đưa đến những giá trị hữu hình cho cho khách hàng. Mọi người đều có vai trò của mình, từ CEO của chúng tôi cho đến những người tham gia công đồng trên Github, bởi vì chúng tôi chân trọng sự phát triển và học hỏi của từng thành viên trong nhóm."
     nick_title: "Đồng Sáng Lập, CEO" # {change}
     matt_title: "Đồng Sáng Lập, CTO" # {change}
-    cat_title: "Game Designer"
-    scott_title: "Đồng Sáng Lập, Kĩ Sư Phần Mềm" # {change}
-    maka_title: "Chăm Sóc Khách Hàng"
-    robin_title: "Thiết Kế UX & Nghiên Cứu" # {change}
-    nolan_title: "Giám Đốc Khu Vực" # {change}
-#    david_title: "Marketing Lead"
-    titles_csm: "Quản lý thành công khách hàng"
-    titles_territory_manager: "Giám Đốc Khu Vực"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1121,18 +1111,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Gameplay Developer"
-#    bryukh_blurb: "Constructs puzzles"
     community_title: "...và cộng đồng mã nguồn mở của chúng tôi"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"

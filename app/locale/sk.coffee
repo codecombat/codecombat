@@ -1098,17 +1098,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     team_values: "Ceníme si otvorený a zdvorilý dialóg, v ktorom vyhrá najlepšia myšlienka. Naše rozhodnutia sú založené na prieskume užívateľov. Všetci sú zainteresovaní na výsledku, od výkonného riaditeľa až po prispievateľov na  GitHube."
     nick_title: "Spoluzakladateľ" # {change}
     matt_title: "Programátor" # {change}
-    cat_title: "Najvyššia remeselníčka" # {change}
-    scott_title: "Spoluzakladateľ" # {change}
-    maka_title: "Pomocník pre užívateľov"
-    robin_title: "Produktový manažér" # {change}
-    nolan_title: "Oblastný manažér" # {change}
-#    david_title: "Marketing Lead"
-    titles_csm: "Správca úspechu zákazníka"
-    titles_territory_manager: "Oblastný manažér"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1121,18 +1111,13 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Ilustrácia"
     retrostyle_blurb: "Retro hry"
-#    bryukh_title: "Gameplay Developer"
-#    bryukh_blurb: "Constructs puzzles"
     community_title: "...a naša komunita open-source"
     community_subtitle: "Vyše  500 spolupracovníkov pomohlo s tvorbou CodeCombatu. Každý týždeň pribúdajú ďalší."
     community_description_3: "CodeCombat je"

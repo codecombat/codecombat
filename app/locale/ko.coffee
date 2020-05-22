@@ -1098,17 +1098,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     team_values: "우리는 최고의 아이디어가 승리하는 개방적이고 서로 존중하는 대화를 중요시합니다. 우리의 결정은 고객 조사에 기초하고 있으며, 우리의 프로세스는 고객들에게 가시적인 결과를 제공하는 데 초점이 맞춰져 있습니다. CEO부터 GitHub 기여자까지 모두가 직접 참여합니다. 우리는 우리 팀의 성장과 학습을 중요시하기 때문입니다."
     nick_title: "프로그래머" # {change}
     matt_title: "프로그래머" # {change}
-    cat_title: "게임 디자이너"
-    scott_title: "프로그래머" # {change}
-    maka_title: "고객 지원"
-    robin_title: "UX 디자인 & 연구원" # {change}
-    nolan_title: "영업직"
-    david_title: "마케팅 리더"
-    titles_csm: "고객 성공 관리자"
-    titles_territory_manager: "특정 지역 영업직"
     lawrence_title: "고객 성공 관리자"
-    sean_title: "광고기획팀장"
-    liz_title: "광고기획팀장"
     jane_title: "광고기획자"
     shan_title: "파트너쉽 개발 팀장, 중국"
     run_title: "사업 본부장, 중국"
@@ -1121,18 +1111,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     bill_title: "사업 부장, 중국"
     shasha_title: "제품 비쥬얼 디자이너"
     daniela_title: "마케팅 매니저"
-    chelsea_title: "작업 관리자"
-    claire_title: "비서"
     bobby_title: "게임 디자이너"
     brian_title: "게임 디자이너 리더" # {change}
-    andrew_title: "소프트웨어 엔지니어"
     stephanie_title: "고객 지원"
     rob_title: "판매 개발 대표"
     shubhangi_title: "소프트웨어 엔지니어 팀장"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
-    bryukh_title: "게임플레이 개발자"
-    bryukh_blurb: "퍼즐 구성자"
     community_title: "...그리고 저희의 오픈소스 커뮤니티"
     community_subtitle: "500명이 넘는 Contributor분들이 CodeCombat 개발을 도와주고 계십니다, 매주 새로운 분들이 저희 프로젝트에 참여해주시고 계십니다!!"
     community_description_3: "CodeCombat 은"
