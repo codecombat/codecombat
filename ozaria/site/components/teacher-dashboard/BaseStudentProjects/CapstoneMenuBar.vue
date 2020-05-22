@@ -13,17 +13,23 @@
       courseName: {
         type: String,
         default: ''
+      },
+      exemplarProjectUrl: {
+        type: String,
+        default: ''
       }
     },
     methods: {
       openProjectRubric () {
-        console.log('open project rubric')
+        console.log('open project rubric') // TODO
       },
       openExemplarCode () {
-        console.log('open exemplar code')
+        console.log('open exemplar code') // TODO
       },
       openExemplarProject () {
-        console.log('open exemplar project')
+        if (this.exemplarProjectUrl) {
+          window.open(this.exemplarProjectUrl, '_blank')
+        }
       }
     }
   }
@@ -43,7 +49,7 @@
           @click="openExemplarCode"
         />
         <icon-button
-          icon-name="IconViewProject"
+          icon-name="IconViewProject_Black"
           @click="openExemplarProject"
         />
       </div>

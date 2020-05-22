@@ -9,7 +9,8 @@
   import CapstoneSessionsContainer from './CapstoneSessionsContainer'
 
   const projectionData = {
-    levelSessions: 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code'
+    levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage',
+    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation'
   }
 
   export default {
@@ -63,6 +64,10 @@
       },
       classroomMembers () {
         return this.members(this.classroomId) || []
+      },
+      exemplarProjectUrl () {
+        return ''
+        // return this.capstoneLevel.exemplarProjectUrl // TODO update after schema is updated
       }
     },
 
@@ -117,23 +122,30 @@
     <capstone-menu-bar
       :title="capstoneLevel.displayName"
       :course-name="selectedCourse.name"
+      :exemplar-project-url="exemplarProjectUrl"
     />
     <div
       class="container"
     >
       <capstone-details-container
         :key="selectedCourseId+'-capstone-details'"
-        class="col-md-6"
+        class="col-md-5"
         :capstone-level="capstoneLevel"
         :course="selectedCourse"
       />
       <capstone-sessions-container
         :key="selectedCourseId+'-capstone-sessions'"
-        class="col-md-6"
+        class="col-md-7"
         :capstone-level="capstoneLevel"
-        :level-sessions="levelSessionsMapByUser"
+        :level-sessions-by-user="levelSessionsMapByUser"
         :members="classroomMembers"
       />
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.container {
+  width: 100%;
+}
+</style>
