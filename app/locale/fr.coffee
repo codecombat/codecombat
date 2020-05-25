@@ -31,6 +31,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     im_a_teacher: "Je suis un enseignant"
     im_a_student: "Je suis un étudiant"
     learn_more: "Apprenez-en plus"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Une salle de classe sur mesure pour enseigner l'informatique."
     codecombat_is: "CodeCombat est une plateforme <strong>pour les étudiants</strong> afin d'apprendre à programmer tout en jouant."
     our_courses: "Nos cours ont été testés spécifiquement pour <strong>exceller en classe</strong>, même pour les enseignants peu ou pas expérimentés en programmation."
@@ -153,6 +155,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     want_coco: "Voulez-vous CodeCombat à votre école?"
 #    educator: "Educator"
 #    student: "Student"
+#    our_coding_programs: "Our Coding Programs"
+#    codecombat: "CodeCombat"
+#    ozaria: "Ozaria"
+#    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
+#    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    try_codecombat: "Try CodeCombat"
+#    try_ozaria: "Try Ozaria"
 
   nav:
 #    educators: "Educators"
@@ -339,6 +348,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     sign_in_with_facebook: "S'inscrire avec Facebook"
     sign_in_with_gplus: "S'inscrire avec Google"
     signup_switch: "Voulez-vous créer un compte ?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Abonnement complet"
@@ -771,6 +781,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     future_eng_4: "Future Ingénieur Amazon"
     future_eng_5: "programme qui crée des opportunités d'apprentissage et de travail pour tous les étudiants jusqu'au baccalauréat au États-Unis qui veulent poursuivre des études d'informatique."
 
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "Crée par {{name}}"
     created_during_hoc: "Crée durant l'Heure de Code"
@@ -1083,17 +1098,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     team_values: "Nous valorisons l'ouverture et un dialogue respectueux, où les meilleures idées triomphent. Nos décisions sont fondées sur des recherches liées aux clients et notre processus est focalisé à fournir des résultats tangibles pour eux. Tout le monde est impliqué, de notre patron aux contributeurs Github, parce que nous valorisons le développement et l'apprentissage dans notre équipe."
     nick_title: "Cofondateur, CEO"
     matt_title: "Cofondateur, CTO"
-    cat_title: "Chef Artisan" # {change}
-    scott_title: "Cofondateur, Programmeur"
-    maka_title: "Responsable clientèle"
-    robin_title: "Chef de Produit" # {change}
-    nolan_title: "Directeur des Ventes"
-    david_title: "Directeur Marketing"
-    titles_csm: "Responsable de la réussite client"
-    titles_territory_manager: "Directrice régional"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1106,18 +1111,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Jeux RetroStyle"
-    bryukh_title: "Designer de jeux" # {change}
-    bryukh_blurb: "Construuit des puzzles"
     community_title: "... et notre communité open-source"
     community_subtitle: "Plus de 500 contributeurs ont aidé à construire CodeCombat, et de plus en plus nous rejoignent chaque semaine !"
     community_description_3: "CodeCombat est un"
@@ -1647,8 +1647,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Set start locked level"
-#    no_level_limit: "No limit"
+#    set_start_locked_level: "Assign up to level"
+#    no_level_limit: "--"
 
   project_gallery:
     no_projects_published: "Soyez le premier à publier un projet dans ce cours !"
@@ -1786,6 +1786,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     empty_credits: "Licences épuisées"
     license_remaining: "licence restante"
     licenses_remaining: "licences restantes"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
 #    one_license_used: "1 out of __totalLicenses__ licenses has been used"
 #    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
     starter_licenses: "licences de démarrage"
@@ -3009,6 +3015,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"

@@ -1,9 +1,9 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
 
   new_home:
-    title: "CodeCombat官方｜信息学奥赛｜AI世青赛｜少儿编程等级认证"
-    meta_keywords: "青少年编程, 少儿编程, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat地牢"
-    meta_description: "CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
+    title: "扣哒世界|CodeCombat中国|AI世青赛|少儿编程等级认证"
+    meta_keywords: "扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat中国"
+    meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
@@ -31,6 +31,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_in_box_blurb1: "让每个学生有机会学习编程"
     classroom_in_box_blurb2: "让每位老师在授课时更有自信"
     classroom_in_box_blurb3: "赋能更多的学校创建世界一流的计算机科学课程"
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
     creativity_rigor_title: "当创意与逻辑相遇"
     creativity_rigor_subtitle1: "传授实用编程技能，让编写代码变得有趣"
     creativity_rigor_blurb1: "学生在闯关游戏时输入真实的 Python 和 JavaScript 代码，整个过程鼓励试错 (Trail and Error)、逻辑思辨思维和创新。继而应用所学的编程知识在项目式学习 (Project Based Learning) 课程中开发自己的游戏和网站。"
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     im_a_teacher: "我是老师"
     im_a_student: "我是学生"
     learn_more: "了解更多"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "讲授计算机科学的一站式课堂。"
     codecombat_is: "CodeCombat 是一个让<strong>学生</strong>通过与游戏互动学习计算机科学的平台。"
     our_courses: "我们的编程课程体系尤其<strong>适用于教室教学的需求</strong>。无编程经验的教师也可轻松授课。"
@@ -153,6 +155,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     want_coco: "把 CodeCombat 带到您的学校？"
 #    educator: "Educator"
 #    student: "Student"
+#    our_coding_programs: "Our Coding Programs"
+#    codecombat: "CodeCombat"
+#    ozaria: "Ozaria"
+#    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
+#    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    try_codecombat: "Try CodeCombat"
+#    try_ozaria: "Try Ozaria"
 
   nav:
     educators: "教育者"
@@ -339,6 +348,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sign_in_with_facebook: "Facebook账号登录"
     sign_in_with_gplus: " Google+ 账号登录"
     signup_switch: "是否创建新账户?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "完整订阅"
@@ -436,7 +446,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
-    default_title: "CodeCombat - 在场景化编程中学习Python，Javascript和C++"
+    default_title: "扣哒世界 - 在场景化编程中学习Python，Javascript和C++"
     default_meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站。"
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
@@ -771,6 +781,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     future_eng_4: "亚马逊未来的工程师"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "由 {{name}} 创建"
     created_during_hoc: "在“编程一小时”中创建。"
@@ -1083,17 +1098,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲力亲为，因为在团队中我们收获了成长与经验。"
 #    nick_title: "Cofounder, CEO"
 #    matt_title: "Cofounder, CTO"
-#    cat_title: "Game Designer"
-#    scott_title: "Cofounder, Software Engineer"
-#    maka_title: "Customer Advocate"
-#    robin_title: "Senior Product Manager"
-#    nolan_title: "Sales Manager"
-#    david_title: "Marketing Lead"
-#    titles_csm: "Customer Success Manager"
-#    titles_territory_manager: "Territory Manager"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
     shan_title: "首席营销官，CodeCombat 大中华区"
     run_title: "首席运营官，CodeCombat 大中华区"
@@ -1106,18 +1111,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     bill_title: "首席执行官，CodeCombat 大中华区"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
-#    bryukh_title: "Gameplay Developer"
-    bryukh_blurb: "构建拼图"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
@@ -1219,9 +1219,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     role_default: "选择职业"
     primary_role_default: "（请选择）"
     purchaser_role_default: "（请选择）"
-    tech_coordinator: "技术负责人"
+    tech_coordinator: "其它"
     advisor: "顾问" # {change}
-    principal: "校长"
+    principal: "学校/机构"
     superintendent: "主管"
     parent: "家长"
     purchaser_role_label: "您的采购员角色"
@@ -1236,7 +1236,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     school_name: "学校或机构名称"
     city: "市（直辖市可填无）"
     state: "省/直辖市" # {change}
-    country: "国家"
+    country: "国家/地区"
     num_students_help: "您估计有多少学生加入CodeCombat？" # {change}
     num_students_default: "选择数量范围"
     education_level_label: "学生的教育程度"
@@ -1249,13 +1249,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     referrer: "您是怎么知道我们的？"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     referrer_default: "选择一个"
-#    referrer_conference: "Conference (e.g. ISTE)"
-    referrer_hoc: "Code.org/Hour of Code"
+    referrer_conference: "展会"
+    referrer_hoc: "比赛"
     referrer_teacher: "老师"
-    referrer_admin: "管理员"
+    referrer_admin: "百度"
     referrer_student: "学生"
-    referrer_pd: "专业培训/讲习班"
-    referrer_web: "Google"
+    referrer_pd: "知乎"
+    referrer_web: "家长"
     referrer_other: "其他"
     anything_else: "您还有什么建议？" # {change}
     anything_else_helper: "也可留下您的微信号，我们会为您提供更多帮助"
@@ -1647,8 +1647,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     certificate_btn_print: "打印"
     certificate_btn_toggle: "中英切换"
     ask_next_course: "想继续学习下一个课程？请联系老师或家长获取帮助"
-    set_start_locked_level: "设置要锁定的起始关卡"
-    no_level_limit: "无限制"
+    set_start_locked_level: "设置要锁定的起始关卡" # {change}
+    no_level_limit: "无限制" # {change}
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
@@ -1786,6 +1786,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     empty_credits: "许可已用完"
     license_remaining: "剩余许可证"
     licenses_remaining: "剩余许可证"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1个许可证已被使用" # {change}
     num_licenses_used: "__numLicensesUsed__个许可证已被使用" # {change}
     starter_licenses: "开始使用许可证"
@@ -3009,6 +3015,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     active_students_stat_description: "活跃学生数是在过去60天登录CodeCombat的学生人数。"
     project_stat_description: "学生作品数是学生已经创建的游戏开发和网页开发作品的总数。"
     no_teachers: "你目前没有管理其他老师。"
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
