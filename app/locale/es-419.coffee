@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classroom_in_box_blurb1: "Involucre a todos los estudiantes para que confíen que la programación es para ellos."
     classroom_in_box_blurb2: "Apoderar a cualquier educador para que se sienta seguro al enseñar programación."
     classroom_in_box_blurb3: "Inspirar a todos los líderes escolares para crear un programa de Ciencias de la Computación de clase mundial."
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
     creativity_rigor_title: "Donde la creatividad alcanza el rigor"
     creativity_rigor_subtitle1: "Haga que la programación sea divertida y enseñe habilidades del mundo real"
     creativity_rigor_blurb1: "Los estudiantes escriben Python y JavaScript real mientras juegan juegos que fomentan el ensayo y error, el pensamiento crítico y la creatividad. Luego, los estudiantes aplican las habilidades de programación que han aprendido al desarrollar sus propios juegos y sitios web en cursos basados en proyectos."
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     im_a_teacher: "Soy un Maestro"
     im_a_student: "Soy un Estudiante"
     learn_more: "Aprender más"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Un aula prediseñada para enseñar Ciencias de la Computación."
     codecombat_is: "CodeCombat es una plataforma para que los estudiantes aprendan Ciencias de la Computación mientras están jugando un juego de verdad." # {change}
     our_courses: "Nuestros cursos fueron probados especificamente para destacarse en el aula, incluso con maestros con poca o ninguna experiencia previa en programación." # {change}
@@ -346,6 +348,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sign_in_with_facebook: "Registrarse con Facebook"
     sign_in_with_gplus: "Registrarse con G+"
     signup_switch: "¿Quieres crear una cuenta?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Completa Suscripción"
@@ -778,6 +781,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     future_eng_4: "Amazon Future Engineer"
     future_eng_5: "programa que crea oportunidades de aprendizaje y trabajo para todos los estudiantes de K-12 en los Estados Unidos que desean dedicarse a Ciencias de la Computación."
 
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "Creado por {{name}}"
     created_during_hoc: "Creado durante Hora de Código"
@@ -1090,17 +1098,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     team_values: "Valoramos el diálogo abierto y respetuoso, donde gana la mejor idea. Nuestras decisiones se basan en la investigación del cliente y nuestro método se centra en obtener resultados tangibles para ellas. Todos están echando una mano, desde nuestro CEO hasta nuestros contribuidores en GitHub, porque en nuestro equipo valoramos el crecimiento y el aprendizaje. "
     nick_title: "Cofundador, CEO"
     matt_title: "Cofundador, CTO"
-    cat_title: "Diseñadora de Juegos"
-    scott_title: "Cofundador, Ingeniero de Software"
-    maka_title: "Defensor del Consumidor"
-    robin_title: "Diseñadora de UX & Investigadora" # {change}
-    nolan_title: "Administrador de territorio" # {change}
-    david_title: "Director de Marketing"
-    titles_csm: "Gerente de éxito del cliente"
-    titles_territory_manager: "Administrador de territorio"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1113,18 +1111,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
-    bryukh_title: "Desarrollador de Juego"
-    bryukh_blurb: "Construye Rompecabezas"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
     community_description_3: "CodeCombat es un"
@@ -1654,8 +1647,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Set start locked level"
-#    no_level_limit: "No limit"
+#    set_start_locked_level: "Assign up to level"
+#    no_level_limit: "--"
 
   project_gallery:
     no_projects_published: "¡Sé el primero en publicar un proyecto en este curso!"
@@ -1793,6 +1786,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
 #    one_license_used: "1 out of __totalLicenses__ licenses has been used"
 #    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
@@ -3016,6 +3015,17 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"

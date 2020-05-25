@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     im_a_teacher: "Aku seorang guru"
     im_a_student: "Aku seorang siswa"
     learn_more: "Pelajari lebih lanjut"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Sebuah ruangan kelas di-dalam-kotak untuk belajar ilmu komputer."
     codecombat_is: "CodeCombat adalah sebuah wadah <strong>untuk para siswa<strong> untuk belajar ilmu komputer sambil bermain permainan yang sesungguhnya."
     our_courses: "Kursus kami telah di uji melalui para pemain secara khusus untuk <strong>menjadi lebih baik di ruang kelas</strong>, bahkan oleh para guru yang mempunyai sedikit atau tanpa pengalaman pemrograman sebelumnya."
@@ -346,6 +348,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     sign_in_with_facebook: "Masuk dengan Facebook"
     sign_in_with_gplus: "Masuk dengan Google"
     signup_switch: "Ingin membuat akun?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Berlanggangan Penuh"
@@ -778,6 +781,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "Dibuat oleh {{name}}"
     created_during_hoc: "Dibuat ketika Hour of Code"
@@ -1090,17 +1098,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     team_values: "Kami menghargai dialog terbuka dan sopan, dimana ide terbaiklah yang menang. Keputusan kami didasari dari riset pelanggan dan proses kami berfokus pada penyerahan hasil yang jelas kepada mereka. Semuanya turut serta mulai dari CEO sampai ke kontributor Github, karena kami menghargai perkembangan dan pembelajaran dalam tim kami."
     nick_title: "Cofounder, CEO"
     matt_title: "Cofounder, CTO"
-    cat_title: "Perancang Permainan"
-    scott_title: "Cofounder, Pengembang Perangkat Lunak"
-    maka_title: "Penasihat Pelanggan"
-    robin_title: "Manajer Produk" # {change}
-    nolan_title: "Manajer Penjualan"
-    david_title: "Pemimpin Pemasaran"
-    titles_csm: "Manajer Sukses Pelanggan"
-    titles_territory_manager: "Manajer Wilayah"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1113,18 +1111,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Ilustrasi"
     retrostyle_blurb: "Permainan RetroStyle"
-    bryukh_title: "Perancang Permainan" # {change}
-    bryukh_blurb: "Merancang teka-teki"
     community_title: "...dan komunitas sumber terbuka kami"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"
@@ -1654,8 +1647,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Set start locked level"
-#    no_level_limit: "No limit"
+#    set_start_locked_level: "Assign up to level"
+#    no_level_limit: "--"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -1793,6 +1786,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     empty_credits: "Lisensi Habis"
     license_remaining: "lisensi yang tersisa"
     licenses_remaining: "lisensi yang tersisa"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1 lisensi telah dipakai" # {change}
     num_licenses_used: "__numLicensesUsed__ lisensi telah terpakai" # {change}
     starter_licenses: "lisensi awal"
@@ -3016,6 +3015,17 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"

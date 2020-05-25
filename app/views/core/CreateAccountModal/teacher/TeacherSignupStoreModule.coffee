@@ -44,6 +44,10 @@ module.exports = TeacherSignupStoreModule = {
     }
     ssoUsed: '' # 'gplus', or 'facebook'
   }
+  getters: {
+    getTrialRequestProperties: (state) ->
+      return state.trialRequestProperties
+  }
   mutations: {
     updateTrialRequestProperties: (state, updates) ->
       _.assign(state.trialRequestProperties, updates)
