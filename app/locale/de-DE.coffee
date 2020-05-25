@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     im_a_teacher: "Ich bin eine Lehrkraft"
     im_a_student: "Ich bin ein Schüler"
     learn_more: "Mehr lernen"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Ein Klassenraum in-einer-Box um Informatik zu lehren."
     codecombat_is: "CodeCombat ist eine Plattform für <strong>Schüler</strong>, um Informatik zu lernen während sie ein echtes Spiel spielen."
     our_courses: "Unsere Kurse wurden genau getestet um im <strong>Klassenraum</strong> zu bestehen, auch bei Lehrkräften mit wenig bis keiner Programmiererfahrung."
@@ -346,6 +348,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     sign_in_with_facebook: "Melde dich mit Facebook an"
     sign_in_with_gplus: "Melde dich mit Google+ an"
     signup_switch: "Willst du einen Account erstellen?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Schließe die Anmeldung ab"
@@ -778,6 +781,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "Erstellt von {{name}}"
     created_during_hoc: "Während Hour of Code erstellt"
@@ -1090,17 +1098,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     team_values: "Wir legen Wert auf einen offenen und respektvollen Dialog, wo die besten Ideen gewinnen. Unsere Entscheidungen basieren auf Benutzerforschung und unser Fortschritt richtet sich danach ihnen handfeste Resultate zu liefern. Jeder packt mit an von unserem Geschäftsführer bis hin zu unseren  Github-Unterstützern, weil wir Wert auf Zuwachs und Lernen in unserem Team legen."
     nick_title: "Mitbegründer, Geschäftsführer"
     matt_title: "Mitbegründer, Technischer Leiter"
-    cat_title: "Game Designerin"
-    scott_title: "Mitbegründer, Software Ingeneur"
-    maka_title: "Kundenabteilung"
-    robin_title: "Produktmanager" # {change}
-    nolan_title: "Territorialmanager" # {change}
-    david_title: "Leitung Marketing"
-    titles_csm: "Kundenerfolgsmanager"
-    titles_territory_manager: "Territorialmanager"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1113,18 +1111,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
-    bryukh_title: "Game Designer"
-    bryukh_blurb: "Rätselkonstruktör" # {change}
     community_title: "...und unsere Open-Source Community"
     community_subtitle: "Mehr als 500 Unterstützer haben mitgeholfen, CodeCombat zu erstellen, und es werden jede Woche mehr!"
     community_description_3: "CodeCombat ist ein"
@@ -1654,8 +1647,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Set start locked level"
-#    no_level_limit: "No limit"
+#    set_start_locked_level: "Assign up to level"
+#    no_level_limit: "--"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -1793,6 +1786,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     empty_credits: "Verbrauchte Lizenzen"
     license_remaining: "Lizenz übrig"
     licenses_remaining: "Lizenzen übrig"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1 Lizenz wurde verwendet" # {change}
     num_licenses_used: "__numLicensesUsed__ Lizenzen wurden verwendet" # {change}
     starter_licenses: "Starterlizenzen"
@@ -3016,6 +3015,17 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
 #    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
