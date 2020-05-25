@@ -247,7 +247,11 @@ module.exports = class CocoView extends Backbone.View
       console.error("Student clicked contact modal.")
       return
 
-    unless me.isTeacher(true)
+    if me.isTeacher(true)
+      if application.isProduction()
+#        application.tracker.drift.sidebar.open()
+        console.log("drift removed in China")
+    else
       ContactModal = require 'views/core/ContactModal'
       @openModalView(new ContactModal())
 
