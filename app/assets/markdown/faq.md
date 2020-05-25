@@ -31,6 +31,10 @@
 * [What is the difference between the two Challenge Level types?](#what-is-the-difference-between-the-two-challenge-level-types)
 * [How do I review my students’ level code?](#how-do-i-review-my-students-level-code)
 * [Where can I find the solutions to all levels?](#where-can-i-find-the-solutions-to-all-levels)
+* [Do we link to Google Classroom?](#do-we-link-to-google-classroom)
+* [What if a student already has a Ozaria account but they aren't using Google Sign In?](#what-if-a-student-already-has-a-ozaria-account-but-they-aren39t-using-google-sign-in)
+* [What happens if a student is deleted from the Ozaria classroom?](#what-happens-if-a-student-is-deleted-from-a-google-classroom-linked-ozaria-classroom)
+* [Can a teacher view progress in Ozaria via Google Classroom?](#can-a-teacher-view-progress-in-ozaria-via-google-classroom)
 
 
 ### What is CodeCombat?
@@ -171,5 +175,29 @@ Teachers can compare each student’s level code to CodeCombat’s solution code
 Solutions to each level (including Challenge Levels) can be found in the [Course Guides](/teachers/courses) page -- to view the solutions, navigate to a course, then click the Level Solutions guide for either JavaScript or Python (or HTML in the case of Web Development). 
 
 All teachers have access to solutions for Introduction to Computer Science. Teachers who have paid student licenses have access to solutions for all courses. 
+
+### Do we link to Google Classroom?
+Yes! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time.
+
+Note: You must use Google SSO to sign up or log-in at least once in order to see the Google Classroom integration option.
+ 
+### What if a student already has a Ozaria account but they aren't using Google Sign In?
+**Student with Ozaria account that they use Google SSO with:**
+If they are added to the teacher's google classroom using the same google account, and the teacher has imported the classroom to Ozaria, then the student on Ozaria will automatically have this new classroom added to their account.
+ 
+**Student with Ozaria account that they don't use Google SSO with:**
+If a student already has a Ozaria account and they use their username or email address to sign in (and it's not the same email address as their Google SSO), then they have two options:
+1. They can join their teacher's class using the Class Code that the teacher can provide.
+2. They can sign in with their Google SSO instead, but they will not have any saved progress from their existing account.
+ 
+Finally, if their email address that they have on their existing Ozaria account is the same as the email address of their Google SSO account, the student will be added to the classroom automatically.
+ 
+### What happens if a student is deleted from a Google Classroom-linked Ozaria classroom?
+If a student is deleted from the Ozaria classroom, they will not be deleted from the respective Google classroom. If the teacher uses the "Sync Google Classroom" button, the student will be re-added to the Ozaria classroom unless the teacher has also removed that student from the Google Classroom.
+ 
+Similarly, if a student is removed from the Google Classroom after it has been imported to Ozaria, they will not be removed from the Ozaria class automatically. The teacher will need to remove the student via Ozaria UI.
+ 
+### Can a teacher view progress in Ozaria via Google Classroom?
+We don't currently support Assignments or any Google Classroom Stream functionality (which would allow activity from Ozaria to show up in Google Classroom, or to allow teachers to assign courses directly from Google Classroom).
 
 [Back to Top](#site-content-area)
