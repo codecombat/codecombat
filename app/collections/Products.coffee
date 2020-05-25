@@ -5,7 +5,7 @@ utils = require 'core/utils'
 module.exports = class Products extends CocoCollection
   model: Product
   url: '/db/products'
-  
+
   getByName: (name) -> @findWhere { name: name }
 
   getBasicSubscriptionForUser: (user) ->
@@ -17,7 +17,8 @@ module.exports = class Products extends CocoCollection
     return countrySpecificProduct or @findWhere({ name: 'basic_subscription' })
 
   getLifetimeSubscriptionForUser: (user) ->
-    if user?.get('country') == "hong-kong"
+    country = (user?.get('country') or '').toLowerCase()
+    if country == "hong-kong" or country == "taiwan"
       return null
 
     coupon = user?.get('stripe')?.couponID

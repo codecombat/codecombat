@@ -5,6 +5,18 @@
   import DashboardTeacherRow from './SchoolAdminTeacherListRow'
 
   export default {
+    data () {
+      return {
+        tooltipHtml: () => {
+          const t = {}
+          for (let i = 1; i < 10; i++) {
+            t[i] = $.i18n.t(`school_administrator.totals_explanation_${i}`)
+          }
+          return `<p><b>${t[1]}</b></p><br><p><b>${t[2]}: </b>${t[3]}</p><br><p><b>${t[4]}: </b>${t[5]}</p><br><p><b>${t[6]}: </b>${t[7]}</p><p><b>${t[8]}: </b>${t[9]}</p>`
+        }
+      }
+    },
+
     components: {
       'loading-progress': LoadingProgress,
       'teacher-row': DashboardTeacherRow
@@ -71,6 +83,62 @@
         padding: 50px;
         text-align: center;
     }
+
+    .class-calculation-description {
+      float: right;
+    }
+</style>
+
+<style lang="sass">
+  .tooltip.school-admin-tooltip
+    display: block !important
+    z-index: 10000
+    font-family: 'Open Sans', serif
+    font-size: 16px
+    border: solid 1px black
+
+    .tooltip-inner
+      background: white
+      color: black
+      border-radius: 1px
+      padding: 5px 10px 4px
+      min-width: 500px
+
+    &[aria-hidden='true']
+      visibility: hidden
+      opacity: 0
+      transition: opacity .15s, visibility .15s
+
+    &[aria-hidden='false']
+      visibility: visible
+      opacity: 1
+      transition: opacity .15s
+
+    &[x-placement^="top"]
+      margin-bottom: 5px
+
+      .tooltip-arrow
+        border-width: 5px 5px 0 5px
+        border-left-color: transparent !important
+        border-right-color: transparent !important
+        border-bottom-color: transparent !important
+        bottom: -5px
+        left: calc(50% - 5px)
+        margin-top: 0
+        margin-bottom: 0
+
+    &[x-placement^="bottom"]
+      margin-top: 5px
+
+      .tooltip-arrow
+        border-width: 0 5px 5px 5px
+        border-left-color: transparent !important
+        border-right-color: transparent !important
+        border-top-color: transparent !important
+        top: -5px
+        left: calc(50% - 5px)
+        margin-top: 0
+        margin-bottom: 0
 </style>
 
 <template>
@@ -79,6 +147,16 @@
 
     <loading-progress :loading-status="teachersLoading">
       <div class="content">
+        <div class="class-calculation-description"
+           v-tooltip="{
+            content: tooltipHtml(),
+            placement: 'top',
+            classes: 'school-admin-tooltip',
+          }"
+        >
+          {{ $t("school_administrator.totals_calculated") }}
+          <span class="glyphicon glyphicon-question-sign"/>
+        </div>
         <ul
           v-for="(teachers, groupName) of groupedTeachers"
           :key="groupName"
@@ -110,14 +188,8 @@
 
       <div class="school-admin-details">
         {{ $t('school_administrator.add_additional_teacher') }}
-
-        <p />
-
-        {{ $t('school_administrator.license_stat_description') }} <br>
-        {{ $t('school_administrator.students_stat_description') }} <br>
-        {{ $t('school_administrator.active_students_stat_description') }} <br>
-        {{ $t('school_administrator.project_stat_description') }}
       </div>
     </loading-progress>
   </div>
 </template>
+

@@ -31,6 +31,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_in_box_blurb1: "Elke student erbij te betrekken zodat ze geloven dat coderen voor hen is. "
     classroom_in_box_blurb2: "Elke leraar in staat te stellen zich zeker van zichzelf te voelen wanneer ze lesgeven in programmeren."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
     creativity_rigor_title: "Waar Creativiteit en Structuur Samenkomen"
     creativity_rigor_subtitle1: "Programmeren leuk te maken en real-world-skills te leren"
     creativity_rigor_blurb1: "Studenten typen echte Python en JavaScript terwijl ze games spelen die trial-en-error aanmoedigen, kritisch denken, en creativiteit. Studenten passen dan de programmeerskills toe die ze hebben geleerd, door hun eigen games en websites te ontwerpen in projectgebaseerde cursussen."
@@ -95,6 +96,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
     learn_more: "Lees verder"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Kant-en-klare programmeerlessen."
     codecombat_is: "CodeCombat is een platform waarmee leerlingen spelenderwijs leren programmeren."
     our_courses: "Onze lessen zijn ontwikkeld voor een klasomgeving en kan meteen worden gebruikt, zelfs door leraren zonder programmeerervaring."
@@ -153,6 +155,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     want_coco: "Wil je CodeCombat op jouw school?"
     educator: "Onderwijzer"
     student: "Student"
+#    our_coding_programs: "Our Coding Programs"
+#    codecombat: "CodeCombat"
+#    ozaria: "Ozaria"
+#    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
+#    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    try_codecombat: "Try CodeCombat"
+#    try_ozaria: "Try Ozaria"
 
   nav:
     educators: "Onderwijzers"
@@ -339,6 +348,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sign_in_with_facebook: "Inloggen met Facebook"
     sign_in_with_gplus: "Inloggen met G+"
     signup_switch: "Wil je een account maken?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Maak de inschrijving compleet"
@@ -771,6 +781,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    future_eng_4: "Amazon Future Engineer"
     future_eng_5: "programma wat leer-en werkmogelijkheden creëert voor alle K-12 leerlingen in de Verenigde Staten die verder willen gaan in computer science."
 
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
+
   play_game_dev_level:
     created_by: "Gemaakt door {{name}}"
     created_during_hoc: "Gemaakt tijdens Hour of Code"
@@ -1083,17 +1098,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
     nick_title: "Programmeur" # {change}
     matt_title: "Programmeur" # {change}
-    cat_title: "Hoofd Ambachtsman" # {change}
-    scott_title: "Programmeur" # {change}
-    maka_title: "Klanten Ombudsman"
-    robin_title: "UX Design & Onderzoek" # {change}
-    nolan_title: "Regio-manager" # {change}
-    david_title: "Manager Marketing"
-#    titles_csm: "Customer Success Manager"
-    titles_territory_manager: "Regiomanager"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
@@ -1106,18 +1111,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
-#    andrew_title: "Software Engineer"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    bryukh_title: "Speldesigner" # {change}
-    bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
@@ -1647,8 +1647,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Set start locked level"
-#    no_level_limit: "No limit"
+#    set_start_locked_level: "Assign up to level"
+#    no_level_limit: "--"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1786,6 +1786,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     empty_credits: "Licenties in gebruik"
     license_remaining: "licentie over"
     licenses_remaining: "licenties over"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "er is 1 licentie gebruikt" # {change}
     num_licenses_used: "__numLicensesUsed__ licenties zijn gebruikt" # {change}
     starter_licenses: "starterslicenties"
@@ -3009,6 +3015,17 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     active_students_stat_description: "Actieve studenten telt het aantal studenten dat zich de afgelopen 60 dagen heeft aangemeld bij CodeCombat. "
     project_stat_description: "Aangemaakte projecten telt het totale aantal gecreëerde projecten voor Game en Web. "
     no_teachers: "U beheert geen leraren."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
   interactives:
     phenomenal_job: "Geweldig gedaan!"

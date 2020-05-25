@@ -1,19 +1,5 @@
 import VueRouter from 'vue-router'
 
-import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministratorComponent'
-import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/teachers/SchoolAdminTeacherListView'
-import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView'
-
-import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
-import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
-
-import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
-import PageCutsceneEditorList from '../../ozaria/site/components/cutscene/PageCutsceneEditorList'
-import PageCutsceneEditor from '../../ozaria/site/components/cutscene/PageCutsceneEditor'
-import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
-
-import CinematicPlaceholder from '../../ozaria/site/components/cinematic/CinematicPlaceholder'
-
 let vueRouter
 
 export default function getVueRouter () {
@@ -27,36 +13,36 @@ export default function getVueRouter () {
           // TODO: The cinematic editor route should use vue guards to check for admin access.
           // TODO: Once we have a base editor component, use the nested route structure.
           path: '/editor/cinematic/:slug?',
-          component: PageCinematicEditor,
+          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cinematic/PageCinematicEditor'),
           props: true
         },
         {
           path: '/editor/cutscene',
-          component: PageCutsceneEditorList
+          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cutscene/PageCutsceneEditorList')
         },
         {
           path: '/editor/cutscene/:slugOrId',
-          component: PageCutsceneEditor,
+          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cutscene/PageCutsceneEditor'),
           props: true
         },
         {
           path: '/editor/interactive/:slug?',
-          component: PageInteractiveEditor,
+          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/interactive/PageInteractiveEditor'),
           props: true
         },
         {
           path: '/school-administrator',
-          component: SchoolAdminDashboard,
+          component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/SchoolAdministratorComponent'),
           children: [
-            { path: '', component: SchoolAdminDashboardTeacherListView },
-            { path: 'teacher/:teacherId', component: SchoolAdminTeacherView },
-            { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
-            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: TeacherStudentView }
+            { path: '', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/teachers/SchoolAdminTeacherListView') },
+            { path: 'teacher/:teacherId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView') },
+            { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassView.vue') },
+            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
           ]
         },
         {
           path: '/cinematicplaceholder/:levelSlug?',
-          component: CinematicPlaceholder,
+          component: () => import(/* webpackChunkName: "play" */ '../../ozaria/site/components/cinematic/CinematicPlaceholder'),
           props: (route) => {
             return {
               levelSlug: route.params.levelSlug

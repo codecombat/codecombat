@@ -218,8 +218,6 @@ module.exports = class TeacherClassView extends RootView
       @state.set students: @students
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
       @state.set selectedCourse: selectedCourse
-    @listenTo @, 'locked-level-select:change', ({ selectedLevel }) ->
-      @setSelectedCourseLockedLevel(selectedLevel)
     @listenTo @state, 'change:selectedCourse', (e) ->
       @setSelectedCourseInstance()
 
@@ -241,17 +239,10 @@ module.exports = class TeacherClassView extends RootView
       @setSelectedCourseInstance()
     return @state.get 'selectedCourseInstance'
 
-  setSelectedCourseLockedLevel: (level) ->
-    return unless me.showCourseProgressControl()
-    courseInstance = @getSelectedCourseInstance()
-    if courseInstance and level
-      courseInstance.set 'startLockedLevel', level
-      courseInstance.save()
-
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
     @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
-    @latestReleasedCourses = utils.sortCoursesByAcronyms(@latestReleasedCourses)
+    @latestReleasedCourses = utils.sortCourses(@latestReleasedCourses)
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
@@ -476,7 +467,11 @@ module.exports = class TeacherClassView extends RootView
     @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
 
   onChangeLockedLevelSelect: (e) ->
-    @trigger 'locked-level-select:change', { selectedLevel: $(e.currentTarget).val() }
+    level = $(e.currentTarget).val()
+    courseInstance = @getSelectedCourseInstance()
+    if courseInstance and level
+      courseInstance.set 'startLockedLevel', level
+      courseInstance.save()
 
   getSelectedStudentIDs: ->
     Object.keys(_.pick @state.get('checkboxStates'), (checked) -> checked)
