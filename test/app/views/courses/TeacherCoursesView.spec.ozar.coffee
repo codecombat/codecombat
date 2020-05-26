@@ -25,8 +25,8 @@ describe 'TeacherCoursesView', ->
       view.courses.fakeRequests[0].respondWith({ status: 200, responseText: courses.stringify() })
       view.onLoaded()
       done()
-
-    it 'opens HeroSelectModal for the first level of the first course', (done) ->
+    # Not used in Ozaria
+    xit 'opens HeroSelectModal for the first level of the first course', (done) ->
       spyOn(view, 'openModalView').and.callFake (modal) -> modal
       spyOn(application.router, 'navigate')
       view.$('.play-level-button').first().click()
@@ -42,8 +42,8 @@ describe 'TeacherCoursesView', ->
       _.defer ->
         expect(application.router.navigate).toHaveBeenCalled()
         done()
-
-    it "doesn't open HeroSelectModal for other levels", ->
+    # Not used in Ozaria
+    xit "doesn't open HeroSelectModal for other levels", ->
       spyOn(view, 'openModalView')
       spyOn(application.router, 'navigate')
       secondLevelSlug = view.$('.level-select:first option:nth-child(2)').val()
@@ -51,7 +51,7 @@ describe 'TeacherCoursesView', ->
       view.$('.play-level-button').first().click()
       expect(view.openModalView).not.toHaveBeenCalled()
       expect(application.router.navigate).toHaveBeenCalled()
-
+    # Not used in Ozaria
     xit "doesn't open HeroSelectModal for other courses", ->
       spyOn(view, 'openModalView')
       spyOn(application.router, 'navigate')

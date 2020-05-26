@@ -1,5 +1,7 @@
 store = new Vuex.Store({
-  strict: not application.isProduction()
+  # Strict in local development preventing accidental store mutations.
+  # Strict mode false for testing allows jasmine mocks in the store.
+  strict: !application.isProduction() && !application.testing
 
   state: {
     pageErrors: []
