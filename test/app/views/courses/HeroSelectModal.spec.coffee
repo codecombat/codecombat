@@ -2,7 +2,8 @@ HeroSelectModal = require 'views/courses/HeroSelectModal'
 factories = require 'test/app/factories'
 api = require 'core/api'
 
-describe 'HeroSelectModal', ->
+# Not used in Ozaria
+xdescribe 'HeroSelectModal', ->
 
   modal = null
   coursesView = null

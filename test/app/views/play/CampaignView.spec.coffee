@@ -2,7 +2,7 @@ factories = require 'test/app/factories'
 CampaignView = require 'views/play/CampaignView'
 Levels = require 'collections/Levels'
 
-describe 'CampaignView', ->
+xdescribe 'CampaignView', ->
 
   describe 'when 4 earned levels', ->
     beforeEach ->

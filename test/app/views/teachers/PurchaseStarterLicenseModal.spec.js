@@ -3,7 +3,7 @@ const factories = require('test/app/factories');
 const PurchaseStarterLicenseModal = require('views/teachers/PurchaseStarterLicensesModal');
 const Product = require('models/Product');
 
-describe('PurchaseStarterLicenseModal', () => {
+xdescribe('PurchaseStarterLicenseModal', () => {
     it('initializes state properly', () => {
         const view = new PurchaseStarterLicenseModal();
         const state = view.state;

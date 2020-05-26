@@ -1,6 +1,6 @@
 factories = require 'test/app/factories'
 
-describe('GoalManager', ->
+xdescribe('GoalManager', ->
   GoalManager = require 'lib/world/GoalManager'
 
   killGoal = {name: 'Kill Guy', killThangs: ['Guy1', 'Guy2'], id: 'killguy'}
