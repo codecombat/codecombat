@@ -8,8 +8,12 @@
       ClassChapterSummaries
     },
     props: {
-      classroom: {
+      classroomStats: {
         type: Object,
+        required: true
+      },
+      chapterStats: {
+        type: Array,
         required: true
       }
     }
@@ -19,12 +23,12 @@
 <template>
   <div class="class-component">
     <class-summary-row
-      :classroom-name="classroom.name"
-      :language="classroom.language"
-      :num-students="classroom.numberOfStudents"
-      :date-created="classroom.classroomCreated"
+      :classroom-name="classroomStats.name"
+      :language="classroomStats.language"
+      :num-students="classroomStats.numberOfStudents"
+      :date-created="classroomStats.classroomCreated"
     />
-    <class-chapter-summaries :chapter-progress="classroom.chapters" />
+    <class-chapter-summaries :chapter-progress="chapterStats" />
   </div>
 </template>
 

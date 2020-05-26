@@ -1,0 +1,107 @@
+<script>
+  /** Given a class id, generates and populates the stats for the class component */
+  import { mapGetters } from 'vuex'
+  import ClassComponent from '../ClassComponent'
+
+  export default {
+    components: {
+      ClassComponent
+    },
+
+    props: {
+      classroomState: {
+        type: Object,
+        required: true
+      }
+    },
+
+    data: () => ({
+      // Maps the course Id to the levels associated.
+      courseLevelsMap: new Map()
+    }),
+
+    computed: {
+      ...mapGetters({
+        levelSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
+        sortedCourses: 'courses/sorted'
+      }),
+
+      levelSessionsMapByUser () {
+        return this.levelSessionsMapForClassroom(this.classroomState._id) || {}
+      },
+
+      classroomCreationDate () {
+        return moment(parseInt(this.classroomState._id.substring(0, 8), 16) * 1000).format('MMMM Do, YYYY')
+      },
+
+      classroomStatsFromClassroom () {
+        return {
+          name: this.classroomState.name,
+          language: this.classroomState.aceConfig.language || 'python',
+          numberOfStudents: this.classroomState.members.length || 0,
+          classroomCreated: this.classroomCreationDate
+        }
+      },
+      /**
+       * TODO: Migrate this to be a background stats calculation.
+       * Returns an array of chapter stats objects with the following shape:
+      {
+        name: String
+        assigned: Integer - number of members,
+        progress: Float between 0 and 1.
+      }
+      */
+      chapterStatsAdapter () {
+        return this.sortedCourses
+          .filter((course) => me.hasCampaignAccess(course))
+          .map((course) => {
+            const result = {
+              name: course.name,
+              assigned: false,
+              progress: 0
+            }
+
+            // If we have assigned this course then calculate the progress.
+            if (this.courseLevelsMap.has(course._id)) {
+              result.assigned = true
+              const levels = this.courseLevelsMap.get(course._id).levels
+              const levelSetInCourse = new Set(levels.map((l) => l.original))
+
+              let progress = 0
+              // Fallback to 1 to prevent division by 0 error in an empty class.
+              const totalProgress = this.classroomState.members.length * levels.length || 1
+
+              for (const memberId of this.classroomState.members) {
+                for (const [levelOriginal, sessionData] of Object.entries(this.levelSessionsMapByUser[memberId] || [])) {
+                  if (!levelSetInCourse.has(levelOriginal)) {
+                    continue
+                  }
+
+                  if (sessionData.state.complete) {
+                    progress += 1
+                  }
+                }
+              }
+
+              result.progress = progress / totalProgress
+            }
+
+            return result
+          })
+      }
+    },
+
+    created () {
+      for (const course of this.classroomState.courses) {
+        this.courseLevelsMap.set(course._id, { levels: course.levels })
+      }
+    }
+  }
+</script>
+
+<template>
+  <ClassComponent
+    :classroom-stats="classroomStatsFromClassroom"
+    :chapter-stats="chapterStatsAdapter"
+  />
+</template>
