@@ -361,6 +361,7 @@ class LevelsNode extends TreemaObjectNode
   childSource: (req, res) =>
     s = new Backbone.Collection([], {model:Level})
     s.url = '/db/level'
+    s.url += '?archived=false'
     s.fetch({data: {term:req.term, project: Campaign.denormalizedLevelProperties.join(',')}})
     s.once 'sync', (collection) =>
       for level in collection.models

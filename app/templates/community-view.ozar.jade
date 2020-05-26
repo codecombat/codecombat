@@ -6,6 +6,19 @@ block content
 
   p(data-i18n="community.introduction")
 
+  if me.isAdmin()
+    div
+      .community-columns
+        a(href="/editor/archived-elements")
+          img(src="/images/pages/parents/anya_reading.png")
+        h2
+          a(href="/editor/archived-elements") Archive game elements (NEW!)
+        p
+          span.spl With this editor, you can hide levels, thangs and components from other editors.
+          span.spl This makes editing faster, lighter and easier. Archive something annoying, today! :)
+
+    .clearfix
+
   div
 
     .community-columns

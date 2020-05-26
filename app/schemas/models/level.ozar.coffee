@@ -497,6 +497,7 @@ _.extend LevelSchema.properties,
       componentName: c.shortString(title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation'),
     }
   }
+  archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

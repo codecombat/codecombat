@@ -195,6 +195,7 @@ _.extend LevelComponentSchema.properties,
     format: 'i18n',
     props: ['context'], description: 'Help translate the code context'
   }
+  archived: { type: 'integer', description: 'Marks this component to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
 
 c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema

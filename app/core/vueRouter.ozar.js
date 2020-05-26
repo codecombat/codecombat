@@ -14,6 +14,8 @@ import PageCutsceneEditorList from '../../ozaria/site/components/cutscene/PageCu
 import PageCutsceneEditor from '../../ozaria/site/components/cutscene/PageCutsceneEditor'
 import PageInteractiveEditor from '../../ozaria/site/components/interactive/PageInteractiveEditor'
 
+import ArchivedElementsEditor from '../../ozaria/site/components/archived-elements/ArchivedElementsEditor'
+
 import CinematicPlaceholder from '../../ozaria/site/components/cinematic/CinematicPlaceholder'
 
 import BaseTeacherDashboard from '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue'
@@ -57,6 +59,16 @@ export default function getVueRouter () {
           path: '/editor/interactive/:slug?',
           component: PageInteractiveEditor,
           props: true
+        },
+        {
+          path: '/editor/archived-elements',
+          component: ArchivedElementsEditor,
+          beforeEnter: (to, from, next) => {
+            // TODO: Fix /editor redirect. The documentation says next('/editor') would redirect to /editor,
+            // but it is not working as intended. Perhaps something to do with our use of Backbone and Vue together.
+            // https://router.vuejs.org/guide/advanced/navigation-guards.html#per-route-guard
+            next(me.isAdmin() ? true : '/editor')
+          }
         },
         {
           path: '/school-administrator',
