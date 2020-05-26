@@ -1,5 +1,6 @@
 levelSchema = require('schemas/models/level')
 api = require('core/api')
+utils = require('core/utils')
 
 # TODO: Be explicit about the properties being stored
 emptyLevel = _.zipObject(([key, null] for key in _.keys(levelSchema.properties)))
@@ -72,8 +73,13 @@ module.exports = {
     addTutorialStepsFromSayEvents: ({ commit, rootState }, sayEvents) ->
       sayEvents.forEach((sayEvent) ->
         { say, tutorial } = sayEvent
+        if say.i18n
+          text = utils.i18n(say, 'text')
+        if not text
+          text = say.text
+
         commit('addTutorialStep', {
-          message: say.text
+          message: text
           # To stay backwards compatible with old Vega messages,
           # they are turned into stationary Vega messages with no other qualities:
           position: tutorial?.position or 'stationary'
