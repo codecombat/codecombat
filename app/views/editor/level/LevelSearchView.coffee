@@ -8,6 +8,7 @@ module.exports = class LevelSearchView extends SearchView
   tableTemplate: require 'templates/editor/level/table'
   projection: ['slug', 'name', 'description', 'version', 'watchers', 'creator']
   page: 'level'
+  archived: false
 
   getRenderData: ->
     context = super()

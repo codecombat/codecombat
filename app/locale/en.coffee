@@ -607,6 +607,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     more: "More"
     fewer: "Fewer"
     with: "with"
+    archived: "Archived"
 
   units:
     second: "second"

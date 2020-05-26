@@ -24,6 +24,7 @@ module.exports = class ComponentsDocumentationView extends CocoView
   constructor: (options) ->
     super(options)
     @componentDocs = new ComponentDocsCollection()
+    @componentDocs.url += '&archived=false'
     @loadDocs() unless options.lazy
 
   loadDocs: ->

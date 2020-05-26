@@ -9,6 +9,7 @@ module.exports = class ThangTypeSearchView extends SearchView
   tableTemplate: require 'templates/editor/thang/table'
   projection: ['original', 'name', 'version', 'description', 'slug', 'kind', 'rasterIcon', 'tasks']
   page: 'thang'
+  archived: false
 
   getRenderData: ->
     context = super()

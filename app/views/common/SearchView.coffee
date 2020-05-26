@@ -31,6 +31,7 @@ module.exports = class SearchView extends RootView
   tableTemplate: null # require 'templates/editor/article/table'
   projected: null # ['name', 'description', 'version'] or null for default
   canMakeNew: true
+  archived: true # Include archived game elements
 
   events:
     'change input#search': 'runSearch'
@@ -60,6 +61,8 @@ module.exports = class SearchView extends RootView
 
     @collection = new SearchCollection(@modelURL, @model, term, @projection)
     @collection.term = term # needed?
+    if not @archived
+      @collection.url += '&archived=false'
     @listenTo(@collection, 'sync', @onSearchChange)
     @showLoading(@$el.find('.results'))
 

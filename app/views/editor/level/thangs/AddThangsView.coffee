@@ -27,6 +27,7 @@ module.exports = class AddThangsView extends CocoView
 
     @thangTypes = new Backbone.Collection()
     thangTypeCollection = new ThangTypeSearchCollection([])
+    thangTypeCollection.url += '&archived=false'
     thangTypeCollection.fetch({data: {limit: PAGE_SIZE}})
     thangTypeCollection.skip = 0
     # should load depended-on Components, too

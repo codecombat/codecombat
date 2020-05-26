@@ -91,6 +91,7 @@ module.exports = class ThangsTabView extends CocoView
 
     @thangTypes = new Backbone.Collection()
     thangTypeCollection = new ThangTypeSearchCollection([])
+    thangTypeCollection.url += '&archived=false'
     thangTypeCollection.fetch({data: {limit: PAGE_SIZE}})
     thangTypeCollection.skip = 0
     # should load depended-on Components, too
@@ -99,6 +100,7 @@ module.exports = class ThangsTabView extends CocoView
 
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
     @componentCollection = new LevelComponents([], {saveBackups: true})
+    @componentCollection.url += '?archived=false'
     @supermodel.trackRequest(@componentCollection.fetch())
     @listenToOnce(@componentCollection, 'sync', ->
       for component in @componentCollection.models

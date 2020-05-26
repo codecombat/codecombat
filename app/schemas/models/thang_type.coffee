@@ -228,6 +228,7 @@ _.extend ThangTypeSchema.properties,
   releasePhase: { enum: ['beta', 'released'], description: "How far along the ThangType's development is, determining who sees it." }
   gender: { enum: ['female', 'male'], type: 'string', title: 'Hero Gender', description: 'Affects which paper doll image set and language pronouns to use.' }
   ozaria: { type: 'boolean', description: 'Marks this thang as an Ozaria only type. Used to prevent Ozaria hero\'s from appearing in CodeCombat hero selector.'}
+  archived: { type: 'integer', description: 'Marks this thang to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
 
 ThangTypeSchema.required = []
 
