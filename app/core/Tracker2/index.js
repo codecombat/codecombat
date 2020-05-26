@@ -27,7 +27,7 @@ export default class Tracker2 extends BaseTracker {
     // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
     this.driftTracker = new DriftTracker(this.store)
     this.proofTracker = new ProofTracker(this.store)
-    this.fullStoryTracker = new FullStoryTracker(this.store)
+    this.fullStoryTracker = new FullStoryTracker(this.store, this)
 
     this.trackers = [
       this.legacyTracker,

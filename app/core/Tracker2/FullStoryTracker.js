@@ -39,7 +39,10 @@ export default class FullstoryTracker extends BaseTracker {
 
     const sessionEnabled = window.sessionStorage.getItem(FULLSTORY_SESSION_TRACKING_ENALBED_KEY)
     this.enableDecisionMade = (sessionEnabled !== null)
-    this.enabled = (sessionEnabled === true)
+    this.enabled = (sessionEnabled === 'true')
+
+    this.log('initialized enabled', this.enabled)
+    this.log('initialized enable decision made', this.enabled)
   }
 
   async _initializeTracker () {
@@ -47,22 +50,32 @@ export default class FullstoryTracker extends BaseTracker {
 
     // TODO handle disable all tracking
     window['_fs_ready'] = () => {
-      if ((new URLSearchParams(window.location.search)).has(FULLSTORY_ENABLE_QUERY_PARAM)) {
-        this.enabled = true
-      } else if (!this.enableDecisionMade) {
-        this.enabled = this.decideEnabled()
-        if (this.enabled) {
-          this.globalTracker.trackEvent('FullStory Tracking Enabled')
+      try {
+        this.log('ready')
+        if ((new URLSearchParams(window.location.search)).has(FULLSTORY_ENABLE_QUERY_PARAM)) {
+          this.enabled = true
+          this.log('query param force enable')
+        } else if (!this.enableDecisionMade) {
+          this.log('deciding on enabled')
+          this.enabled = this.decideEnabled()
+          if (this.enabled) {
+            this.globalTracker.trackEvent('FullStory Tracking Enabled')
+          }
         }
-      }
 
-      if (this.enabled) {
-        this.enable()
-      } else {
-        this.disable()
-      }
+        if (this.enabled) {
+          this.log('enabling from init')
+          this.enable()
+        } else {
+          this.log('disabling from init')
+          this.disable()
+        }
 
-      this.onInitializeSuccess()
+        this.onInitializeSuccess()
+      } catch (e) {
+        this.onInitializeFail(e)
+        throw e
+      }
     }
 
     loadFullStory()
@@ -72,53 +85,58 @@ export default class FullstoryTracker extends BaseTracker {
     this.enabled = true
     window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENALBED_KEY, 'true')
     FS.restart()
+    this.log('enabled')
   }
 
   disable () {
     this.enabled = false
     window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENALBED_KEY, 'false')
     FS.shutdown()
+    this.log('disabled')
   }
 
   decideEnabled () {
-    if (this.enabled) {
-      return true
-    }
-
     const { me } = this.store.state
 
-    if (me.anonymous && Math.random() < 0.02) {
+    if (this.disableAllTracking) {
+      this.log('decide enabled', 'disable all tracking')
+      return false
+    } else if (me.anonymous && Math.random() < 0.02) {
+      this.log('decide enabled', 'anon user')
       return true
     } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.02) {
+      this.log('decide enabled', 'non parent teacher')
       return true
     }
 
+    this.log('decide enabled', 'not enabled')
     return false
   }
 
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (this.disableAllTracking) {
-      return
-    }
-
     // When identify() is called it's possible that the user has changed, so check if the user
     // has changed and if so run the decision logic again
     const { me } = this.store.state
     const lastUserId = window.sessionStorage.getItem(FULLSTORY_LAST_USER_ID_KEY)
     if (lastUserId !== me._id) {
+      this.log('identify', 'new user')
       this.enabled = this.decideEnabled()
       if (this.enabled) {
+        this.log('identify', 'enabling')
         this.enable()
+      } else {
+        this.log('identify', 'disabling')
+        this.disable()
       }
     }
 
+    window.sessionStorage.setItem(FULLSTORY_LAST_USER_ID_KEY, me._id)
     if (!this.enabled) {
       return
     }
 
-    window.sessionStorage.setItem(FULLSTORY_LAST_USER_ID_KEY, me._id)
     FS.identify(me._id)
     FS.setUserVars(extractDefaultUserTraits(me))
   }
@@ -126,7 +144,7 @@ export default class FullstoryTracker extends BaseTracker {
   async trackPageView (includeIntegrations = []) {
     await this.initializationComplete
 
-    if (!this.enabled || this.disableAllTracking) {
+    if (!this.enabled) {
       return
     }
 
@@ -137,7 +155,7 @@ export default class FullstoryTracker extends BaseTracker {
   async trackEvent (action, properties = {}) {
     await this.initializationComplete
 
-    if (!this.enabled || this.disableAllTracking) {
+    if (!this.enabled) {
       return
     }
 
@@ -148,7 +166,7 @@ export default class FullstoryTracker extends BaseTracker {
     await this.initializationComplete
 
     window.sessionStorage.removeItem(FULLSTORY_LAST_USER_ID_KEY)
-    if (!this.enabled || this.disableAllTracking) {
+    if (!this.enabled) {
       return
     }
 
