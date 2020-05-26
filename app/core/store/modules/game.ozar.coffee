@@ -73,13 +73,8 @@ module.exports = {
     addTutorialStepsFromSayEvents: ({ commit, rootState }, sayEvents) ->
       sayEvents.forEach((sayEvent) ->
         { say, tutorial } = sayEvent
-        if say.i18n
-          text = utils.i18n(say, 'text')
-        if not text
-          text = say.text
-
         commit('addTutorialStep', {
-          message: text
+          message: utils.i18n(say, 'text')
           # To stay backwards compatible with old Vega messages,
           # they are turned into stationary Vega messages with no other qualities:
           position: tutorial?.position or 'stationary'
