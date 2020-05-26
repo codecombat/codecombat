@@ -60,6 +60,10 @@
     padding-right: 24px;
   }
 
+  #class-summary-row {
+    background-color: white;
+  }
+
   #class-header {
     border: 0.5px solid #d8d8d8;
     height: 46px;

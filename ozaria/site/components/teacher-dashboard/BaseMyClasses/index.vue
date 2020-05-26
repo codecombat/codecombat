@@ -4,33 +4,7 @@
   import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
   import TitleBar from '../common/TitleBar'
   import LoadingBar from '../common/LoadingBar'
-  import ClassComponent from './ClassComponent'
-
-  function getRandomIntInclusive (min, max) {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min
-  }
-
-  const generateChapterStats = (idx) => {
-    const chapterStats = {
-      name: `Chapter ${idx}`,
-      assigned: [true][Math.floor(Math.random() * 4)],
-      progress: getRandomIntInclusive(0, 5) / 5
-    }
-    if (!chapterStats.assigned) {
-      chapterStats.progress = 0
-    }
-    return chapterStats
-  }
-
-  const generateClassStats = (name) => ({
-    name,
-    chapters: Array.from(new Array(12)).map((_, idx) => generateChapterStats(idx)),
-    language: ['javascript', 'python'][Math.floor(Math.random() * 2)],
-    numberOfStudents: getRandomIntInclusive(10, 20),
-    classroomCreated: moment(getRandomIntInclusive(new Date(2018, 0, 0).getTime(), Date.now())).format('MMMM Do, YYYY')
-  })
+  import ClassStatCalculator from './components/ClassStatCalculator'
 
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_ALL,
@@ -38,17 +12,8 @@
       'secondary-teacher-navigation': SecondaryTeacherNavigation,
       'title-bar': TitleBar,
       'loading-bar': LoadingBar,
-      ClassComponent
+      ClassStatCalculator
     },
-    data: () => ({
-      classes: [
-        generateClassStats('intro to cs'),
-        generateClassStats('TECH 101'),
-        generateClassStats('Class 3'),
-        generateClassStats('More classes 502'),
-        generateClassStats('Tech class 404')
-      ]
-    }),
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
@@ -58,7 +23,11 @@
         return me.get('_id')
       },
       activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active
+        return this.classroomsByTeacher(this.teacherId)?.active
+      },
+
+      archivedClassrooms () {
+        return this.classroomsByTeacher(this.teacherId)?.archived
       }
     },
 
@@ -94,10 +63,53 @@
       :loading="loading"
     />
 
-    <class-component
-      v-for="clas in classes"
-      :key="clas.name"
-      :classroom="clas"
+    <class-stat-calculator
+      v-for="clas in activeClassrooms"
+      :key="clas._id"
+      :classroom-state="clas"
     />
+
+    <div id="archived-area">
+      <div class="archived-title">
+        <h1>{{ $t('teacher.archived_classes') }}</h1>
+      </div>
+
+      <class-stat-calculator
+        v-for="clas in archivedClassrooms"
+        :key="clas._id"
+        :classroom-state="clas"
+      />
+    </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+  @import "app/styles/bootstrap/variables";
+  @import "ozaria/site/styles/common/variables.scss";
+  @import "app/styles/ozaria/_ozaria-style-params.scss";
+
+  .archived-title {
+    height: 50px;
+    width: 100%;
+    background: #f2f2f2;
+    border: 0.5px solid #adadad;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
+
+    display: flex;
+    align-items: center;
+
+    margin-top: 100px;
+
+    h1 {
+      @include font-h-4-nav-uppercase-black;
+      color: #545b64;
+      padding: 10px 31px;
+    }
+  }
+
+  #archived-area {
+    background-color: #d8d8d8;
+    margin-bottom: -50px;
+    padding-bottom: 50px;
+  }
+</style>
