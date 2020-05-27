@@ -4,6 +4,12 @@ const DEFAULT_TRACKING_DOMAINS = [
 
 const COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM = 'coco_tracking'
 
+let hasTrackingOverrideQueryParameter = false
+try {
+  hasTrackingOverrideQueryParameter = (new URLSearchParams(window.location.search))
+    .has(COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM)
+} catch (e) {}
+
 export default {
   namespaced: true,
 
@@ -12,8 +18,7 @@ export default {
     spying: window.serverSession && typeof window.serverSession.amActually !== 'undefined',
     trackingEnabledForEnvironment: DEFAULT_TRACKING_DOMAINS.includes(window.location.hostname),
 
-    enableTrackingOverride: (new URLSearchParams(window.location.search))
-      .has(COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM),
+    enableTrackingOverride: hasTrackingOverrideQueryParameter,
 
     cookieConsent: {
       answered: false,

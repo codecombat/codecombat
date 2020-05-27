@@ -37,7 +37,10 @@ export default class BaseTracker {
 
     this.setupInitialization()
 
-    this.loggineEnabled = (new URLSearchParams(window.location.search)).has(TRACKER_LOGGING_ENABLED_QUERY_PARAM);
+    this.loggingEnabled = false
+    try {
+      this.loggingEnabled = (new URLSearchParams(window.location.search)).has(TRACKER_LOGGING_ENABLED_QUERY_PARAM)
+    } catch (e) {}
   }
 
   async identify (traits = {}) {}
@@ -135,7 +138,7 @@ export default class BaseTracker {
   }
 
   log (...args) {
-    if (!this.loggineEnabled) {
+    if (!this.loggingEnabled) {
       return
     }
 

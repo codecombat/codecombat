@@ -50,9 +50,14 @@ export default class FullstoryTracker extends BaseTracker {
 
     // TODO handle disable all tracking
     window['_fs_ready'] = () => {
+      let hasFullstoryEnableQueryParam = false
+      try {
+        hasFullstoryEnableQueryParam = (new URLSearchParams(window.location.search)).has(FULLSTORY_ENABLE_QUERY_PARAM)
+      } catch (e) {}
+
       try {
         this.log('ready')
-        if ((new URLSearchParams(window.location.search)).has(FULLSTORY_ENABLE_QUERY_PARAM)) {
+        if (hasFullstoryEnableQueryParam) {
           this.enabled = true
           this.log('query param force enable')
         } else if (!this.enableDecisionMade) {
@@ -101,7 +106,7 @@ export default class FullstoryTracker extends BaseTracker {
     if (this.disableAllTracking) {
       this.log('decide enabled', 'disable all tracking')
       return false
-    } else if (me.anonymous && Math.random() < 0.02) {
+    } else if (me.anonymous && Math.random() < 0.0025) {
       this.log('decide enabled', 'anon user')
       return true
     } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.02) {
