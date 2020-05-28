@@ -1,3 +1,22 @@
+export const TRACKER_LOGGING_ENABLED_QUERY_PARAM = 'tracker_logging';
+
+export const DEFAULT_USER_TRAITS_TO_REPORT = [
+  'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName',
+  'dateCreated'
+]
+
+export function extractDefaultUserTraits(me) {
+  return DEFAULT_USER_TRAITS_TO_REPORT.reduce((obj, key) => {
+    const meAttr = me[key]
+    if (typeof meAttr !== 'undefined' && meAttr !== null) {
+      obj[key] = meAttr
+    }
+
+    return obj;
+  }, {})
+}
+
 /**
  * A baseline tracker that:
  *   1. Defines a standard initialization flow for all trackers
@@ -17,6 +36,11 @@ export default class BaseTracker {
     this.initialized = false
 
     this.setupInitialization()
+
+    this.loggingEnabled = false
+    try {
+      this.loggingEnabled = (new URLSearchParams(window.location.search)).has(TRACKER_LOGGING_ENABLED_QUERY_PARAM)
+    } catch (e) {}
   }
 
   async identify (traits = {}) {}
@@ -111,5 +135,13 @@ export default class BaseTracker {
         finishInitialization(false)
       }
     })
+  }
+
+  log (...args) {
+    if (!this.loggingEnabled) {
+      return
+    }
+
+    console.info(`[tracker] [${this.constructor.name}]`, ...args)
   }
 }
