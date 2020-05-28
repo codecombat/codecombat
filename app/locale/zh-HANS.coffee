@@ -6,7 +6,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "赋能非专业编程教师课程体系"
-    built_for_teachers_blurb: "扣哒世界提供专业、丰富的编程教案和教学活动设计、大数据教学管理平台和学生知识评估体系，可以帮助无计算机专业背景的教师轻松掌握Python, C++, JavaScript等代码编程入门和进阶阶段教学。扣哒世界国科大STEAM教师培训中心以及派森社共同设置“扣哒名师奖”，培养中小学阶段编程和人工智能专业师资。"
+    built_for_teachers_blurb: "扣哒世界提供专业、丰富的编程教案和教学活动设计、大数据教学管理平台和学生知识评估体系，可以帮助无计算机专业背景的教师轻松掌握Python, C++, JavaScript等代码编程入门和进阶阶段教学。扣哒世界和国科大STEAM教师培训中心以及派森社共同设置“扣哒名师奖”，培养中小学阶段编程和人工智能专业师资。"
     built_for_teachers_subtitle1: "计算机科学"
     built_for_teachers_subblurb1: "从我们免费的计算机科学入门课程开始，学生将掌握基础核心编程概念，例如 while/for 循环，函数和算法。"
     built_for_teachers_subtitle2: "游戏开发"
@@ -39,7 +39,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     creativity_rigor_subtitle2: "智能匹配，因材施教"
     creativity_rigor_blurb2: "扣哒世界每个关卡都是依据权威标准(CSTA/CCSS/AP等)并根据数百万用户学习反馈数据搭建，并不断优化迭代，个性化呈现每一个学习者的状况便于制定个性化教学方案。"
     creativity_rigor_subtitle3: "支持青少年编程竞赛"
-    creativity_rigor_blurb3: "扣哒世界自带竞赛系统(多人算法编程个竞技场和创意编程顶峰项目)。已被中国、美国、新加坡、以色列等多个国家采用，是多个知名青少年编程竞赛指定平台。"
+    creativity_rigor_blurb3: "扣哒世界自带竞赛系统(多人算法编程竞技场和创意编程顶峰项目)。已被中国、美国、新加坡、以色列等多个国家采用，是多个知名青少年编程竞赛指定平台。"
     featured_partners_title1: "媒体报道"
     featured_partners_title2: "荣誉及合作伙伴"
     featured_partners_blurb1: "美国大学理事会认证"
@@ -68,7 +68,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_teachers_subblurb3: "个性化教学，确保学生通过全面具体的评估来理解核心概念。"
     for_teachers_subtitle4: "智能配置"
     for_teachers_subblurb4: "智能化配置每个学生的练习关卡，让不同水平的学生都能参与的多元化课程学习。"
-    game_based_blurb: "扣哒世界 (CodeCombat) 是全球最受欢迎的青少年人工智能代码编程学习平台，以PBL场景化和游戏化为特色。平台有6个等级和11个学习模块(含国际等级证书) ，支持Python, C++、JavaScript等程序语言教学和学习。美国大学理事会AP权威认证， AI世青赛全球编程挑战活动指定竞赛平台。"
+    game_based_blurb: "扣哒世界 (CodeCombat) 是全球广受欢迎的青少年人工智能代码编程学习平台，以PBL场景化和游戏化为特色。平台有6个等级和11个学习模块(含国际等级证书) ，支持Python, C++、JavaScript等程序语言教学和学习。美国大学理事会AP权威认证， AI世青赛全球编程挑战活动指定竞赛平台。"
     get_started: "开启编程"
     global_title: "加入我们的全球学习者和教育者社区"
     global_subtitle1: "学习者"
@@ -1212,7 +1212,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "将扣哒世界带到您的班级、兴趣班、学校和省市" # {change}
+    subtitle: "在您的机构、学校和班级开展编程和人工智能课程" # {change}
     email_exists: "使用该账号的电子邮箱"
     phone_number: "手机号码"
     phone_number_help: "工作日我们如何找到您？"
@@ -2905,9 +2905,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     refer_teacher: "扣哒学堂"
     focus_quote: "成就孩子的未来"
     value_head1: "学习真实代码最互动的方式"
-    value_copy1: "扣哒世界把孩子们引入了计算机世界，和中小学阶段计算机课程标准接轨，你的孩子讲学习编程、算法、数学和英语，开发网站和游戏程序。"
+    value_copy1: "扣哒世界把孩子们引入了计算机世界，和中小学阶段计算机课程标准接轨，你的孩子将学习编程、算法、数学和英语，开发网站和游戏程序。"
     value_head2: "掌握21世纪必备技能"
-    value_copy2: "扣哒世界帮助孩子们提高逻辑思维能力、应变能力和动手能力，教会你的孩子如何扣开计算机技术世界的钥匙。"
+    value_copy2: "扣哒世界帮助孩子们提高逻辑思维能力、应变能力和动手能力，教会你的孩子如何打开计算机技术世界的钥匙。"
     value_head3: "孩子们喜欢的卡通人物"
     value_copy3: "知之者不如好之者，好之者不如乐之者。寓教于乐和及时奖励对初学者非常重要，所以我们尽可能把知识融入到孩子们喜欢的沉浸式互动游戏环境中。"
     dive_head1: "不仅仅是成为软件工程师"
