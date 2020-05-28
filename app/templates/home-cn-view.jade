@@ -23,7 +23,7 @@ block content
                 a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
       .col-lg-6.aiyouth
         h1.gradient-title 奥佳睿-Ozaria
-        .subtitle 邀请您体验最新冒险编程课程
+        .subtitle 体验科幻冒险编程
         a.btn.btn-lg.btn-primary.aiyouth-btn(href="https://aojiarui.com") 进入官网
 
     .row#game-based.vertical-align
@@ -46,10 +46,10 @@ block content
             .row
               .col-lg-7.col-md-12
                 .video-iframe
-                  video(controls width="640" height="350" poster="/images/pages/home/video_thumb.png" preload="metadata")
-                    source(src="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4" type="video/mp4")
-                    a(href="https://assets.koudashijie.com/CoCo%E7%AE%80%E4%BB%8B.mp4")
-                      img(src="/images/pages/home/video_thumb.png" style="width: 640px; height:350px")
+                  video(controls width="640" height="350" poster="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/video_thumb.png" preload="metadata")
+                    source(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/%E6%96%AF%E5%9D%A6%E7%A6%8F%E6%AF%94%E8%B5%9B.mp4" type="video/mp4")
+                    a(href="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/%E6%96%AF%E5%9D%A6%E7%A6%8F%E6%AF%94%E8%B5%9B.mp4")
+                      img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/video_thumb.png" style="width: 640px; height:350px")
               .col-lg-5.col-md-12
                 h2(data-i18n="new_home.classroom_in_box_title")
                 img(src="/images/pages/home/pink_rectangle.png"
@@ -61,6 +61,8 @@ block content
                     span.text-p(data-i18n="new_home.classroom_in_box_blurb2")
                   li
                     span.text-p(data-i18n="new_home.classroom_in_box_blurb3")
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb4")
             if me.isAnonymous()
               .row.signup_btn
                 button.btn.btn-lg.btn-primary.signup-button.signup-home-btn(data-event-action="Homepage Sign Up #2 CTA", data-i18n="signup.sign_up")
@@ -71,7 +73,7 @@ block content
         .container
           .row
             .col-lg-4
-              img(src="/images/pages/home/creativity_rigor1.png", width="363", height="204"
+              img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/creativity_rigor1.jpg", width="363", height="204"
                   alt="Girl plays CodeCombat on a computer while smiling")
               .tile-shadow
                 h3.text-teal(data-i18n="new_home.creativity_rigor_subtitle1")
@@ -83,7 +85,7 @@ block content
                 h3.text-teal(data-i18n="new_home.creativity_rigor_subtitle2")
                 p.text-navy(data-i18n="new_home.creativity_rigor_blurb2")
             .col-lg-4
-              img(src="/images/pages/home/creativity_rigor3.png", width="363", height="204"
+              img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/creativity_rigor3.jpg", width="363", height="204"
                   alt-="Smiling professional teacher")
               .tile-shadow
                 h3.text-teal(data-i18n="new_home.creativity_rigor_subtitle3")
@@ -301,10 +303,10 @@ block content
                       div
                         .thumbnail
                           span
-                            img(src="/images/pages/home/quotes_carousel1.png", style="border: #F2BE19 3px solid; border-radius: 50%")
+                            img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/quotes_carousel1.png", style="border: #F2BE19 3px solid; border-radius: 50%")
                           span.quote-user-info
-                            h3.text-teal Scott Baily
-                            p.text-white Bobby Duke Middle School, California
+                            h3.text-teal 魏文斌老师
+                            p.text-white 华中师大一附中
                   .item
                     .text-center
                       h4.text-white(data-i18n="new_home.quotes_quote2")
@@ -366,7 +368,7 @@ block content
                         br
                         img(src="/images/pages/home/teal_quote.png")
                         h4.text-white(data-i18n="new_home.century_skills_quote1")
-                        h3.text-teal Isaiah, 7th Grade
+                        h3.text-teal 隋顺意，六年级
                     .col-lg-4
                       h3.text-teal(data-i18n="new_home.century_skills_subtitle1")
                       br
