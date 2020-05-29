@@ -8,7 +8,14 @@
   import ViewAndMange from './ViewAndManage'
   import TableClassFrame from './table/TableClassFrame'
 
+  import utils from 'app/core/utils'
+
   import _ from 'lodash'
+
+  const projectionData = {
+    levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage,introContentSessionComplete',
+    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation'
+  }
 
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_SINGLE,
@@ -28,7 +35,12 @@
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher'
+        classroomsByTeacher: 'classrooms/getClassroomsByTeacher',
+        courses: 'courses/sorted',
+        getSelectedCourseId: 'teacherDashboard/getSelectedCourseIdForClassroom',
+        gameContent: 'gameContent/getContentForClassroom',
+        levelSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
+        members: 'users/getClassroomMembers'
       }),
       teacherId () {
         return me.get('_id')
@@ -37,19 +49,129 @@
         return this.$route.params.classroomId
       },
       activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active
+        return (this.classroomsByTeacher(this.teacherId) || {}).active || []
+      },
+      classroom () {
+        return this.activeClassrooms.find((c) => c._id === this.classroomId) || {}
+      },
+      classroomCourses () {
+        const classroomCourseIds = (this.classroom.courses || []).map((c) => c._id) || []
+        return (this.courses || []).filter((c) => classroomCourseIds.includes(c._id))
+      },
+      selectedCourseId () {
+        return this.getSelectedCourseId(this.classroomId) || (this.classroomCourses[0] || {})._id // TODO default should be last assigned course
+      },
+      selectedCourse () {
+        return this.classroomCourses.find((c) => c._id === this.selectedCourseId) || {}
+      },
+
+      modules () {
+        const modules = ((this.gameContent(this.classroomId) || {})[this.selectedCourseId] || {}).modules
+
+        if (modules === undefined) {
+          return []
+        }
+
+        const modulesForTable = []
+
+        // Get the name and content list of a module.
+        for (const [moduleNum, moduleContent] of Object.entries(modules)) {
+          const moduleStatsForTable = {
+            displayName: `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId][moduleNum]}`,
+            contentList: moduleContent.map(({ displayName, type, _id, name }) => {
+              let normalizedType = type
+              // TODO: What/how do we detect a 'challengelvl'?
+              if (type === 'game-dev') {
+                normalizedType = 'capstone'
+              } else if (type === undefined) {
+                normalizedType = 'practicelvl'
+              } else if (type === 'course') {
+                normalizedType = 'practicelvl'
+              }
+              return ({
+                displayName: displayName || name,
+                type: normalizedType,
+                _id,
+                description: '' // TODO: Where do we store this?
+              })
+            }),
+            studentSessions: {},
+            classSummaryProgress: []
+          }
+
+          const classSummaryProgressMap = new Map(moduleContent.map((content) => {
+            return [content._id, 'assigned']
+          }))
+
+          for (const student of this.students) {
+            const studentSessions = this.levelSessionsMapByUser[student._id]
+            moduleStatsForTable.studentSessions[student.displayName] = moduleContent.map((content) => {
+              const { original, fromIntroLevelOriginal } = content
+              let normalizedOriginal = original || fromIntroLevelOriginal
+              let status = 'assigned'
+              if (studentSessions === undefined) {
+                return {
+                  status: 'assigned'
+                }
+              }
+              if (normalizedOriginal) {
+                if (!studentSessions[normalizedOriginal]) {
+                  status = 'assigned'
+                } else if (studentSessions[normalizedOriginal].state.complete === true) {
+                  status = 'complete'
+                  classSummaryProgressMap.set(content._id, status)
+                } else {
+                  status = 'progress'
+                  if (classSummaryProgressMap.get(content._id) !== 'complete') {
+                    classSummaryProgressMap.set(content._id, status)
+                  }
+                }
+              } else {
+                console.error(`Invariant violated: Content has neither original nor _id: ${content}`)
+              }
+              return {
+                status
+              }
+            })
+          }
+
+          moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values()).map((status) => ({ status }))
+          modulesForTable.push(moduleStatsForTable)
+        }
+
+        return modulesForTable
+      },
+
+      levelSessionsMapByUser () {
+        return this.levelSessionsMapForClassroom(this.classroomId) || {}
+      },
+
+      classroomMembers () {
+        return this.members(this.classroomId) || []
+      },
+
+      students () {
+        if (!this.classroomMembers || this.classroomMembers.length === 0) {
+          return []
+        }
+
+        return this.classroomMembers.map(({ name, _id }) => ({
+          displayName: name,
+          _id,
+          checked: false
+        }))
       }
     },
 
     watch: {
       classroomId () {
-        this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId } })
+        this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId, data: projectionData } })
       }
     },
 
     mounted () {
       this.setTeacherId(me.get('_id'))
-      this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId } })
+      this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId, data: projectionData } })
     },
 
     destroyed () {
@@ -62,8 +184,13 @@
       }),
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
-        setTeacherId: 'teacherDashboard/setTeacherId'
+        setTeacherId: 'teacherDashboard/setTeacherId',
+        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdForClassroom'
       }),
+      onChangeCourse (courseId) {
+        this.setSelectedCourseId({ classroomId: this.classroomId, courseId: courseId })
+        console.log('selected course: ', this.selectedCourse)
+      },
       clickGuidelineArrow: _.throttle(function () {
         this.isGuidelinesVisible = !this.isGuidelinesVisible
       }, 300)
@@ -76,7 +203,14 @@
     <secondary-teacher-navigation
       :classrooms="activeClassrooms"
     />
-    <title-bar title="Intro to CS" :showClassInfo="true" />
+    <title-bar
+      :title="classroom.name || ''"
+      :show-class-info="true"
+      :classroom="classroom"
+      :courses="classroomCourses"
+      :selected-course-id="selectedCourseId"
+      @change-course="onChangeCourse"
+    />
     <loading-bar
       :key="loading"
       :loading="loading"
@@ -84,6 +218,10 @@
     <guidelines :visible="isGuidelinesVisible" v-on:click-arrow="clickGuidelineArrow" />
     <view-and-manage :arrow-visible="!isGuidelinesVisible" v-on:click-arrow="clickGuidelineArrow" />
 
-    <table-class-frame />
+    <table-class-frame
+      v-if="modules && students"
+      :students="students"
+      :modules="modules"
+    />
   </div>
 </template>

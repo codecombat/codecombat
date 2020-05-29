@@ -3,7 +3,8 @@
     props: {
       language: {
         type: String,
-        required: true
+        required: false,
+        default: 'javascript'
       },
       numStudents: {
         type: Number,
