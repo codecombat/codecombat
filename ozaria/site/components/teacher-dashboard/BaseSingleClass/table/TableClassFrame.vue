@@ -9,75 +9,6 @@
   import TableStudentList from './TableStudentList'
   import ScrollArrow from '../customButtons/ScrollArrow'
 
-  // --REMOVE_MOCK START
-  const mockGenerateStudentSessions = (length) => {
-    const sessions = []
-    let completed = 3
-    for (let i = 0; i < length; i++) {
-      const mockSession = {}
-      if (completed === 3) {
-        mockSession.status = 'complete'
-      } else if (completed === 2) {
-        mockSession.status = 'progress'
-      } else {
-        mockSession.status = 'assigned'
-      }
-      if (Math.random() < 0.1) {
-        completed--
-      }
-
-      if (Math.random() < 0.03 && mockSession.status === 'complete') {
-        if (Math.random() < 0.5) {
-          mockSession.flag = 'concept'
-        } else {
-          mockSession.flag = 'time'
-        }
-      }
-      sessions.push(mockSession)
-    }
-    return sessions
-  }
-
-  const mockGenerateContentTypes = (length) => {
-    const contentList = []
-    for (let i = 0; i < length; i++) {
-      const contentType = {
-        type: ['cutscene', 'cinematic', 'capstone', 'practicelvl', 'challengelvl', 'interactive'][Math.floor(Math.random() * 6)]
-      }
-      contentType.displayName = `${contentType.type}: Display Name`
-      contentType.description = `Description of ${contentType.type}. Some more description`
-      contentList.push(contentType)
-    }
-    return contentList
-  }
-
-  const NUM_STUDENTS = 60
-
-  const mockGenerateModule = (length, name) => {
-    const MOCK_DATA = {
-      displayName: name,
-      contentList: mockGenerateContentTypes(length),
-      studentSessions: {},
-      classSummaryProgress: mockGenerateStudentSessions(length) // This will need to be crunched from the student sessions in Vuex.
-    }
-    for (let i = 1; i <= NUM_STUDENTS; i++) {
-      MOCK_DATA.studentSessions[`Student ${i}`] = mockGenerateStudentSessions(length)
-    }
-    return MOCK_DATA
-  }
-
-  const mockGenerateStudentNames = () => {
-    const STUDENT_NAMES = []
-    for (let i = 1; i <= NUM_STUDENTS; i++) {
-      STUDENT_NAMES.push({
-        displayName: `Student ${i}`,
-        checked: false
-      })
-    }
-    return STUDENT_NAMES
-  }
-  // --REMOVE_MOCK END
-
   export default {
     components: {
       'table-module-header': TableModuleHeader,
@@ -85,15 +16,17 @@
       'table-student-list': TableStudentList,
       ScrollArrow
     },
-    data: () => ({
-      students: mockGenerateStudentNames(),
-      modules: [
-        mockGenerateModule(19, 'Module 1: Algorithms & Syntax'),
-        mockGenerateModule(15, 'Module 2: Debugging'),
-        mockGenerateModule(30, 'Module 3: Loops'),
-        mockGenerateModule(23, 'Module 4: Debugging and Loops')
-      ]
-    }),
+    props: {
+      // Order that students appear in the table.
+      students: {
+        type: Array,
+        required: true
+      },
+      modules: {
+        type: Array,
+        required: true
+      }
+    },
 
     methods: {
       scrollRight () {

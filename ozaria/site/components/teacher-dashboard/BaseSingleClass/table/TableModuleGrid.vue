@@ -17,7 +17,7 @@
     },
     computed: {
       cols () {
-        return Object.values(this.studentSessions)[0].length || 0
+        return Object.values(this.studentSessions)[0]?.length || 0
       },
 
       cssVariables () {
