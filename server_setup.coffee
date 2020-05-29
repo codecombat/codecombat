@@ -332,8 +332,11 @@ setupProxyMiddleware = (app) ->
   return unless config.proxy
   httpProxy = require 'http-proxy'
 
-  target = 'https://very.direct.codecombat.com'
-  headers = {}
+#  target = 'https://very.direct.codecombat.com'
+  target = 'https://koudashijie.com'
+  headers = {
+    'Host': 'koudashijie.com'
+  }
 
   if (process.env.COCO_PROXY_NEXT)
     target = 'https://next.codecombat.com'
