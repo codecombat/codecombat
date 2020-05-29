@@ -42,7 +42,7 @@ export default class FullstoryTracker extends BaseTracker {
     this.enabled = (sessionEnabled === 'true')
 
     this.log('initialized enabled', this.enabled)
-    this.log('initialized enable decision made', this.enabled)
+    this.log('initialized enable decision made', this.enableDecisionMade)
   }
 
   async _initializeTracker () {
