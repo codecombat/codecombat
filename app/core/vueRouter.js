@@ -10,25 +10,8 @@ export default function getVueRouter () {
 
       routes: [
         {
-          // TODO: The cinematic editor route should use vue guards to check for admin access.
-          // TODO: Once we have a base editor component, use the nested route structure.
-          path: '/editor/cinematic/:slug?',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cinematic/PageCinematicEditor'),
-          props: true
-        },
-        {
-          path: '/editor/cutscene',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cutscene/PageCutsceneEditorList')
-        },
-        {
-          path: '/editor/cutscene/:slugOrId',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cutscene/PageCutsceneEditor'),
-          props: true
-        },
-        {
-          path: '/editor/interactive/:slug?',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/interactive/PageInteractiveEditor'),
-          props: true
+          path: '/parents-v2',
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/PageParents')
         },
         {
           path: '/school-administrator',
@@ -39,15 +22,6 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassView.vue') },
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
           ]
-        },
-        {
-          path: '/cinematicplaceholder/:levelSlug?',
-          component: () => import(/* webpackChunkName: "play" */ '../../ozaria/site/components/cinematic/CinematicPlaceholder'),
-          props: (route) => {
-            return {
-              levelSlug: route.params.levelSlug
-            }
-          }
         }
       ]
     })
