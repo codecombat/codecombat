@@ -1,5 +1,4 @@
 <template>
-    <div></div>
 </template>
 
 <script>
@@ -71,8 +70,10 @@
           return
         }
 
-        this.modalViewInstance.destroy()
+        const viewInstance = this.modalViewInstance
+
         this.cleanupModal()
+        viewInstance.destroy()
       },
 
       cleanupModal () {
