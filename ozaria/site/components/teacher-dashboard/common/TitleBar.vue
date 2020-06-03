@@ -75,7 +75,13 @@
         :selected-course-id="selectedCourseId"
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />
-      <primary-button v-if="!showClassInfo" class="btn-title-padding btn-margins-height">Add New Class</primary-button>
+      <primary-button
+        v-if="!showClassInfo"
+        class="btn-title-padding btn-margins-height"
+        @click="$emit('newClass')"
+      >
+        Add New Class
+      </primary-button>
       <button-curriculum-guide class="btn-margins-height" />
     </div>
   </div>

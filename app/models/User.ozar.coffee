@@ -636,6 +636,10 @@ module.exports = class User extends CocoModel
   hasCutsceneEditorAccess: -> @isAdmin()
   hasInteractiveEditorAccess: -> @isAdmin()
 
+  # google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled 
+  showGoogleClassroom: -> not (features?.chinaUx ? false)
+  googleClassroomEnabled: -> me.get('gplusID')?
+
   # Block access to paid campaigns(any campaign other than 1FH) for anonymous users + non-admin, non-internal individual users.
   # Scenarios where a user has access to a campaign:
   #   - Admin or internal user

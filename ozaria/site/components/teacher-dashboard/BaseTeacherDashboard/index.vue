@@ -1,8 +1,15 @@
 <script>
   import Panel from '../Panel/index.vue'
+  import ModalNewClass from '../modals/ModalNewClass/index'
   export default {
     components: {
-      Panel
+      Panel,
+      ModalNewClass
+    },
+    data () {
+      return {
+        showNewClassModal: false
+      }
     },
     metaInfo () {
       return {
@@ -15,6 +22,10 @@
 <template>
   <div>
     <panel />
-    <router-view></router-view>
+    <router-view @newClass="showNewClassModal = true" />
+    <modal-new-class
+      v-if="showNewClassModal"
+      @close="showNewClassModal = false"
+    />
   </div>
 </template>
