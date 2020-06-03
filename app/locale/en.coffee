@@ -1253,6 +1253,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   teachers:
     licenses_needed: "Licenses needed"
+    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO"
+    select_class: "Select class"
+    programming_language: "Programming language"
+    class_name: "Class Name"
+    grades: "Grades"
+    select_all_that_apply: "Select all that apply"
+    class_info_modal_sub_title: "Invite students to join your class by sending them:"
+    class_url: "Class Url"
+    class_url_desc: "Share URL to have students join your class after signing up"
+    class_code: "Class Code"
+    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
+    invite_by_email: "Invite by Email"
+    invite_modal_sub_title: "Separate each email address by a line break or commas"
 
   special_offer:
     special_offer: "Special Offer"

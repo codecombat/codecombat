@@ -128,7 +128,7 @@
     border-radius: 5px;
   }
 
-  &.educator-sign-up {
+  &.educator-sign-up, &.teacher-form {
     .form-container {
       .form-control {
         border-radius: 0px;
@@ -139,9 +139,14 @@
         }
       }
     
-      .control-label {
+      .control-label, .control-label-desc {
         @include font-p-3-small-button-text-black;
         font-weight: normal;
+      }
+      
+      .control-label-desc {
+        font-size: 12px;
+        line-height: 14px;
       }
 
       .form-group {

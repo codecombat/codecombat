@@ -54,6 +54,26 @@ export default {
       Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
     },
 
+    addNewClassroomForTeacher: (state, { teacherId, classroom }) => {
+      const teacherClassroomsState = {
+        active: state.classrooms.byTeacher[teacherId].active || [],
+        archived: state.classrooms.byTeacher[teacherId].archived || []
+      }
+
+      // return if classroom already present
+      if (teacherClassroomsState.active.find((c) => c._id === classroom._id) || teacherClassroomsState.archived.find((c) => c._id === classroom._id)) {
+        return
+      }
+
+      if (classroom.archived) {
+        teacherClassroomsState.archived.push(classroom)
+      } else {
+        teacherClassroomsState.active.push(classroom)
+      }
+
+      Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
+    },
+
     addClassroomForId: (state, { classroomID, classroom }) => {
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     }
@@ -99,7 +119,20 @@ export default {
         })
         .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForClassroom', classroomID))
+    },
+    createClassroom: ({ commit }, options) => {
+      return classroomsApi.post(options)
+        .then(res => {
+          if (res) {
+            commit('addNewClassroomForTeacher', {
+              teacherId: res.ownerID,
+              classroom: res
+            })
+            return res
+          } else {
+            throw new Error('Unexpected response from create classroom API.')
+          }
+        })
     }
   }
 }
-

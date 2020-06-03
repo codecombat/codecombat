@@ -20,6 +20,7 @@ button {
   &:hover {
     background-color: $goldenlight;
     transition: background-color .35s;
+    color: #ffffff;
   }
 }
 </style>
