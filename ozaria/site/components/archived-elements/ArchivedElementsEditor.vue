@@ -1,6 +1,45 @@
 <template>
   <div>
     <div id="type-select">
+      <label>
+      </label>
+
+      <div class="form-group">
+        <label>Show archived</label>
+        <div class="radio-inline">
+          <label>
+            Only unarchived
+            <input
+                type="radio"
+                name="displayArchived"
+                value="none"
+                :checked="displayArchived === 'none'"
+                @change="setDisplayArchived('none')"
+            />
+          </label>
+          <label>
+            Both
+            <input
+                type="radio"
+                name="displayArchived"
+                value="both"
+                :checked="displayArchived === 'both'"
+                @change="setDisplayArchived('both')"
+            />
+          </label>
+          <label>
+            Only archived
+            <input
+                type="radio"
+                name="displayArchived"
+                value="only"
+                :checked="displayArchived === 'only'"
+                @change="setDisplayArchived('only')"
+            />
+          </label>
+        </div>
+      </div>
+
       <button @click="changeType('ThangType')" :class="elementType === 'ThangType' ? 'selected' : ''">ThangTypes</button>
       <button @click="changeType('Level')" :class="elementType === 'Level' ? 'selected' : ''">Levels</button>
       <button @click="changeType('LevelComponent')" :class="elementType === 'LevelComponent' ? 'selected' : ''">Components</button>
@@ -14,6 +53,7 @@
       :model-u-r-l="viewMap[elementType].modelURL"
       :projection="viewMap[elementType].projection"
       :rows="viewMap[elementType].rows"
+      :display-archived="displayArchived"
     />
   </div>
 </template>
@@ -57,14 +97,18 @@
       }
     }),
     computed: mapState('archivedElements', {
-      elementType: (s) => s.elementType
+      elementType: (s) => s.elementType,
+      displayArchived: (s) => s.displayArchived
     }),
     methods: {
-      ...mapActions('archivedElements', ['setSearchTerm', 'setElementType']),
+      ...mapActions('archivedElements', ['setSearchTerm', 'setElementType', 'setDisplayArchived']),
       changeType (elementType) {
         this.searchingFor = ''
         this.setElementType(elementType)
-      }
+      },
+      // updateDisplayArchived (displayArchived) {
+      //   this.setDisplayArchived(displayArchived)
+      // }
     }
   }
 </script>

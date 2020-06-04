@@ -3,17 +3,21 @@ export default {
 
   state: {
     searchTerm: '',
-    elementType: 'ThangType'
+    elementType: 'ThangType',
+    displayArchived: 'none' // none, only, both
   },
 
   getters: {
     searchTerm: (state) => state.searchTerm,
-    elementType: (state) => state.elementType
+    elementType: (state) => state.elementType,
+    displayArchived: (state) => state.displayArchived
   },
 
   mutations: {
     setSearchTerm: (state, searchTerm) => state.searchTerm = searchTerm,
-    setElementType: (state, elementType) => state.elementType = elementType
+    setElementType: (state, elementType) => state.elementType = elementType,
+    // none, only, both
+    setDisplayArchived: (state, displayArchived) => state.displayArchived = displayArchived
   },
 
   actions: {
@@ -22,6 +26,10 @@ export default {
     },
     setElementType: ({ commit, rootState }, elementType) => {
       commit('setElementType', elementType)
+    },
+    // none, only, both
+    setDisplayArchived: ({ commit, rootState }, displayArchived) => {
+      commit('setDisplayArchived', displayArchived)
     }
   }
 }
