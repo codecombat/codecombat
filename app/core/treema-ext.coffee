@@ -21,6 +21,16 @@ class VersionTreema extends TreemaNode
   buildValueForDisplay: (valEl, data) ->
     @buildValueForDisplaySimply(valEl, "#{data.major}.#{data.minor}")
 
+class CinematicDialogTreema extends TreemaObjectNode
+  buildValueForDisplay: (valEl, data) ->
+    if data?.programmingLanguageFilter == 'javascript'
+      valEl.css('border', 'solid 4px yellow')
+    else if data?.programmingLanguageFilter == 'python'
+      valEl.css('border', 'solid 4px blue')
+
+    # Calling method on parent class: https://stackoverflow.com/a/11520286
+    super(valEl, data)
+
 class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   valueClass: 'treema-markdown treema-multiline treema-ace'
 
@@ -598,4 +608,5 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass 'task', TaskTreema
   TreemaNode.setNodeSubclass('js-file', JavaScriptFileTreema)
   TreemaNode.setNodeSubclass('vtt-file', VttFileTreema)
+  TreemaNode.setNodeSubclass('cinematic-dialog', CinematicDialogTreema)
   #TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema

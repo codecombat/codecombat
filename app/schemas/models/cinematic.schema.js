@@ -91,7 +91,8 @@ const ShotSetup = c.object({
 
 const DialogNode = c.object({
   title: 'Dialog Node',
-  description: 'A node of a shot. Contains dialog instructions.'
+  description: 'A node of a shot. Contains dialog instructions.',
+  format: 'cinematic-dialog'
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
