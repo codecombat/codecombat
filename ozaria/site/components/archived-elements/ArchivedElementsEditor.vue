@@ -1,5 +1,5 @@
 <template>
-  <div id="archived-elements">
+  <div>
     <div id="type-select">
       <button @click="changeType('ThangType')" :class="elementType === 'ThangType' ? 'selected' : ''">ThangTypes</button>
       <button @click="changeType('Level')" :class="elementType === 'Level' ? 'selected' : ''">Levels</button>
