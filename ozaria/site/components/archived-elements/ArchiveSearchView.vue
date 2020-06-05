@@ -55,6 +55,10 @@
         type: Array, // Like ['Archived', 'Name', 'Description', 'Version']
         required: true,
         default: []
+      },
+      displayArchived: {
+        type: String, // none, only, both
+        required: true
       }
     },
 
@@ -81,6 +85,12 @@
         this.$nextTick(() => {
           this.search('')
         })
+      },
+      displayArchived () {
+        this.documents = []
+        this.$nextTick(() => {
+          this.search(this.searchTerm)
+        })
       }
     },
 
@@ -95,6 +105,11 @@
 
         this.collection = new SearchCollection(this.modelURL, this.model, searchTerm, this.projection)
         this.collection.term = searchTerm // needed?
+        if (this.displayArchived === 'none') {
+          this.collection.url += '&archived=false'
+        } else if (this.displayArchived === 'only') {
+          this.collection.url += '&archived=true'
+        }
         this.collection.fetch({
           success: () => {
             this.collection.sort()
