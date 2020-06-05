@@ -1,10 +1,12 @@
+const displayArchivedTypes = ['none', 'only', 'both']
+
 export default {
   namespaced: true,
 
   state: {
     searchTerm: '',
     elementType: 'ThangType',
-    displayArchived: 'none' // none, only, both
+    displayArchived: 'none'
   },
 
   getters: {
@@ -16,8 +18,12 @@ export default {
   mutations: {
     setSearchTerm: (state, searchTerm) => state.searchTerm = searchTerm,
     setElementType: (state, elementType) => state.elementType = elementType,
-    // none, only, both
-    setDisplayArchived: (state, displayArchived) => state.displayArchived = displayArchived
+    setDisplayArchived: (state, displayArchived) => {
+      if (displayArchivedTypes.indexOf(displayArchived) === -1) {
+        throw new Error(`Cannot mutate displayedArchive to ${displayArchived}`)
+      }
+      state.displayArchived = displayArchived
+    }
   },
 
   actions: {
@@ -27,7 +33,6 @@ export default {
     setElementType: ({ commit, rootState }, elementType) => {
       commit('setElementType', elementType)
     },
-    // none, only, both
     setDisplayArchived: ({ commit, rootState }, displayArchived) => {
       commit('setDisplayArchived', displayArchived)
     }
