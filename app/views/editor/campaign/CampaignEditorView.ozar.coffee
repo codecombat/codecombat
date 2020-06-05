@@ -251,7 +251,7 @@ module.exports = class CampaignEditorView extends RootView
       nodeClasses:
         levels: LevelsNode
         level: LevelNode
-        nextLevel: NextLevelNode 
+        nextLevel: NextLevelNode
         campaigns: CampaignsNode
         campaign: CampaignNode
         achievement: AchievementNode
@@ -351,7 +351,20 @@ module.exports = class CampaignEditorView extends RootView
 class LevelsNode extends TreemaObjectNode
   valueClass: 'treema-levels'
   @levels: {}
+  @mapped: []
   ordered: true
+
+  constructor: (args...) ->
+    super(args...)
+    s = new Backbone.Collection([], {model:Level})
+    s.url = '/db/level'
+    s.url += '?archived=false'
+    s.fetch({data: {project: Campaign.denormalizedLevelProperties.join(',')}})
+    s.once 'sync', (collection) =>
+      for level in collection.models
+        LevelsNode.levels[level.get('original')] = level
+        @settings.supermodel.registerModel level
+      @mapped = ({label: r.get('name'), value: r.get('original')} for r in collection.models)
 
   buildValueForDisplay: (valEl, data) ->
     @buildValueForDisplaySimply valEl, ''+_.size(data)
@@ -359,25 +372,13 @@ class LevelsNode extends TreemaObjectNode
   childPropertiesAvailable: -> @childSource
 
   childSource: (req, res) =>
-    s = new Backbone.Collection([], {model:Level})
-    s.url = '/db/level'
-    s.url += '?archived=false'
-    s.fetch({data: {term:req.term, project: Campaign.denormalizedLevelProperties.join(',')}})
-    s.once 'sync', (collection) =>
-      for level in collection.models
-        LevelsNode.levels[level.get('original')] = level
-        @settings.supermodel.registerModel level
-      mapped = ({label: r.get('name'), value: r.get('original')} for r in collection.models)
+    # Sort the results. Prioritize names that start with the search term, then contain the search term.
+    lowerTerm = req.term.toLowerCase()
+    sorted = _.filter(@mapped, (item) -> _.string.contains(item.label.toLowerCase(), lowerTerm))
+    startsWithTerm = _.filter(sorted, (item) -> _.string.startsWith(item.label.toLowerCase(), lowerTerm))
+    _.pull(sorted, startsWithTerm...)
+    res(_.flatten([startsWithTerm, sorted]))
 
-      # Sort the results. Prioritize names that start with the search term, then contain the search term.
-      lowerPriority = _.clone(mapped)
-      lowerTerm = req.term.toLowerCase()
-      startsWithTerm = _.filter(lowerPriority, (item) -> _.string.startsWith(item.label.toLowerCase(), lowerTerm))
-      _.pull(lowerPriority, startsWithTerm...)
-      hasTerm = _.filter(lowerPriority, (item) -> _.string.contains(item.label.toLowerCase(), lowerTerm))
-      _.pull(lowerPriority, hasTerm...)
-      sorted = _.flatten([startsWithTerm, hasTerm, lowerPriority])
-      res(sorted)
 
 class LevelNode extends TreemaObjectNode
   valueClass: 'treema-level'
@@ -419,6 +420,16 @@ class NextLevelNode extends LevelNode
 class CampaignsNode extends TreemaObjectNode
   valueClass: 'treema-campaigns'
   @campaigns: {}
+  @mapped = []
+
+  constructor: (args...) ->
+    super(args...)
+    s = new Backbone.Collection([], {model:Campaign})
+    s.url = '/db/campaign'
+    s.fetch({data: {project: Campaign.denormalizedCampaignProperties}})
+    s.once 'sync', (collection) ->
+      CampaignsNode.campaigns[campaign.id] = campaign for campaign in collection.models
+      @mapped = ({label: r.get('name'), value: r.id} for r in collection.models)
 
   buildValueForDisplay: (valEl, data) ->
     @buildValueForDisplaySimply valEl, ''+_.size(data)
@@ -426,13 +437,12 @@ class CampaignsNode extends TreemaObjectNode
   childPropertiesAvailable: -> @childSource
 
   childSource: (req, res) =>
-    s = new Backbone.Collection([], {model:Campaign})
-    s.url = '/db/campaign'
-    s.fetch({data: {term:req.term, project: Campaign.denormalizedCampaignProperties}})
-    s.once 'sync', (collection) ->
-      CampaignsNode.campaigns[campaign.id] = campaign for campaign in collection.models
-      mapped = ({label: r.get('name'), value: r.id} for r in collection.models)
-      res(mapped)
+    # Sort the results. Prioritize names that start with the search term, then contain the search term.
+    lowerTerm = req.term.toLowerCase()
+    sorted = _.filter(@mapped, (item) -> _.string.contains(item.label.toLowerCase(), lowerTerm))
+    startsWithTerm = _.filter(sorted, (item) -> _.string.startsWith(item.label.toLowerCase(), lowerTerm))
+    _.pull(sorted, startsWithTerm...)
+    res(_.flatten([startsWithTerm, sorted]))
 
 
 class CampaignNode extends TreemaObjectNode
