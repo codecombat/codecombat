@@ -1,5 +1,5 @@
 <script>
-  import TeacherDashboardPanel, { CAPSTONE_LEVEL, DRAGGABLE_ORDERING } from '../../../store/TeacherDashboardPanel'
+  import TeacherDashboardPanel from '../../../store/TeacherDashboardPanel'
   import { mapState, mapMutations } from 'vuex'
 
   import StudentInfo from './components/StudentInfo'
@@ -67,23 +67,23 @@
         :concept-check="conceptCheck"
       />
       <practice-level
-        v-if="panelSessionContent.type === 'PRACTICE_LEVEL'"
+        v-if="panelSessionContent && panelSessionContent.type === 'PRACTICE_LEVEL'"
         :panel-session-content="panelSessionContent"
       />
       <capstone-level
-        v-if="panelSessionContent.type === 'CAPSTONE_LEVEL'"
+        v-if="panelSessionContent && panelSessionContent.type === 'CAPSTONE_LEVEL'"
         :panel-session-content="panelSessionContent"
       />
       <draggable-ordering
-        v-if="panelSessionContent.type === 'DRAGGABLE_ORDERING'"
+        v-if="panelSessionContent && panelSessionContent.type === 'DRAGGABLE_ORDERING'"
         :panel-session-content="panelSessionContent"
       />
       <draggable-statement-completion
-        v-if="panelSessionContent.type === 'DRAGGABLE_STATEMENT_COMPLETION'"
+        v-if="panelSessionContent && panelSessionContent.type === 'DRAGGABLE_STATEMENT_COMPLETION'"
         :panel-session-content="panelSessionContent"
       />
       <insert-code
-        v-if="panelSessionContent.type === 'INSERT_CODE'"
+        v-if="panelSessionContent && panelSessionContent.type === 'INSERT_CODE'"
         :panel-session-content="panelSessionContent"
       />
     </div>
@@ -145,6 +145,8 @@
     flex: 1 1 0px;
 
     overflow-y: scroll;
+
+    max-width: 660px;
   }
 
   .footer {

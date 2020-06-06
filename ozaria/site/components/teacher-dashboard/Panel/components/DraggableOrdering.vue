@@ -5,12 +5,20 @@
         type: Object,
         required: true
       }
+    },
+
+    computed: {
+      cssVariables () {
+        return {
+          '--cols': `${this.panelSessionContent.solutionText?.length || 0}`
+        }
+      }
     }
   }
 </script>
 
 <template>
-  <div class="draggable-ordering">
+  <div class="draggable-ordering" :style="cssVariables">
     <div class="prompt">
       <h4>Prompt: {{ ` ${panelSessionContent.prompt}` }}</h4>
     </div>
@@ -66,7 +74,7 @@
   .grid-wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto repeat(4, 1fr);
+    grid-template-rows: auto repeat(var(--cols), 1fr);
     grid-auto-flow: column;
     grid-gap: 10px 20px;
     width: 630px;

@@ -55,8 +55,8 @@
 <template>
   <div class="moduleGrid" :style="cssVariables">
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
-    <div :class="cellClass(index)" v-for="({ status, flag }, index) of allStudentSessionsLinear" :key="`${index}-${status}-${flag}`">
-      <ProgressDot :status="status" :border="getFlag(flag)" />
+    <div :class="cellClass(index)" v-for="({ status, flag, clickHandler, selectedKey }, index) of allStudentSessionsLinear" :key="selectedKey">
+      <ProgressDot :status="status" :border="getFlag(flag)" :click-progress-handler="clickHandler" :selectedKey="selectedKey" />
     </div>
   </div>
 </template>
@@ -67,7 +67,7 @@
     grid-template-columns: repeat(var(--cols), 28px);
     grid-template-rows: repeat(auto, 38px);
 
-    border-right: 1px solid #d8d8d8;
+    border-right: 2px solid #d8d8d8;
   }
 
   .gray-backer {

@@ -34,14 +34,15 @@
 </template>
 
 <style lang="scss" scoped>
+@import "ozaria/site/styles/common/variables.scss";
 
 #studentList {
   position: sticky;
   position: -webkit-sticky; /* Safari */
 
   left: 0;
-  max-width: 190px;
-  width: 190px;
+  max-width: $studentNameWidth;
+  width: $studentNameWidth;
 
   text-align: right;
 }

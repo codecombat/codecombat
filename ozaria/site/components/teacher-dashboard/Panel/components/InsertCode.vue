@@ -1,5 +1,6 @@
 <script>
   import CodeArea from '../../common/CodeArea'
+  import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
 
   export default {
     components: {
@@ -10,6 +11,12 @@
       panelSessionContent: {
         type: Object,
         required: true
+      }
+    },
+
+    computed: {
+      ozariaAssetUrl () {
+        return `url("${getOzariaAssetUrl(this.panelSessionContent.interactiveArt)}")`
       }
     }
   }
@@ -22,7 +29,10 @@
     </div>
     <div class="insert-code">
       <div class="flex-row">
-        <div class="img">IMG PLACEHOLDER</div>
+        <div
+          :style="{ backgroundImage: ozariaAssetUrl }"
+          class="img"
+        />
         <div class="flex-col">
           <code-area :code="panelSessionContent.code" language="javascript" />
           <h4>Options</h4>
@@ -104,6 +114,10 @@
 
     .img {
       flex: 1 1 0px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin-right: 14px;
     }
   }
 

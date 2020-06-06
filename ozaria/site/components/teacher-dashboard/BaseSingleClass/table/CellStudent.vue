@@ -57,6 +57,9 @@
 
       @include font-p-4-paragraph-smallest-gray;
       color: black;
+
+      max-width: 125px;
+      overflow-x: scroll;
     }
   }
 
@@ -67,8 +70,8 @@
     justify-content: space-between;
     align-items: center;
 
-    max-width: 190px;
-    width: 190px;
+    max-width: $studentNameWidth;
+    width: $studentNameWidth;
     height: 29px;
 
     padding: 0 13px 0 30px;

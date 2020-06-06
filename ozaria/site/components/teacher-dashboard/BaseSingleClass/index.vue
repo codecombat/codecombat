@@ -11,10 +11,13 @@
   import utils from 'app/core/utils'
 
   import _ from 'lodash'
+  import TableStudentListVue from './table/TableStudentList.vue'
 
+  // TODO: Ensure download size isn't too big.
   const projectionData = {
-    levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage,introContentSessionComplete',
-    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation'
+    interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation,draggableOrderingData,insertCodeData,draggableStatementCompletionData,defaultArtAsset,promptText',
+    levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage,introContentSessionComplete,playtime',
+    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,thangs'
   }
 
   export default {
@@ -29,7 +32,8 @@
     },
 
     data: () => ({
-      isGuidelinesVisible: true
+      isGuidelinesVisible: true,
+      sortMethod: 'Name'
     }),
 
     computed: {
@@ -40,7 +44,8 @@
         getSelectedCourseId: 'teacherDashboard/getSelectedCourseIdForClassroom',
         gameContent: 'gameContent/getContentForClassroom',
         levelSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
-        members: 'users/getClassroomMembers'
+        members: 'users/getClassroomMembers',
+        interactiveSessionsForClass: 'interactives/getInteractiveSessionsForClass'
       }),
       teacherId () {
         return me.get('_id')
@@ -76,8 +81,9 @@
 
         // Get the name and content list of a module.
         for (const [moduleNum, moduleContent] of Object.entries(modules)) {
+          const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId][moduleNum]}`
           const moduleStatsForTable = {
-            displayName: `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId][moduleNum]}`,
+            displayName: moduleDisplayName,
             contentList: moduleContent.map(({ displayName, type, _id, name }) => {
               let normalizedType = type
               // TODO: What/how do we detect a 'challengelvl'?
@@ -103,35 +109,59 @@
             return [content._id, 'assigned']
           }))
 
+          // Iterate over all the students and all the sessions for the student.
           for (const student of this.students) {
             const studentSessions = this.levelSessionsMapByUser[student._id]
             moduleStatsForTable.studentSessions[student.displayName] = moduleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
               let normalizedOriginal = original || fromIntroLevelOriginal
-              let status = 'assigned'
-              if (studentSessions === undefined) {
-                return {
-                  status: 'assigned'
-                }
+              const defaultProgressDot = {
+                status: 'assigned',
+                normalizedType: content.type
               }
+
+              if (content.type === 'game-dev') {
+                defaultProgressDot.normalizedType = 'capstone'
+              } else if (content.type === undefined) {
+                defaultProgressDot.normalizedType = 'practicelvl'
+              } else if (content.type === 'course') {
+                defaultProgressDot.normalizedType = 'practicelvl'
+              }
+
+              if (studentSessions === undefined) {
+                return defaultProgressDot
+              }
+
               if (normalizedOriginal) {
                 if (!studentSessions[normalizedOriginal]) {
-                  status = 'assigned'
+                  return defaultProgressDot
                 } else if (studentSessions[normalizedOriginal].state.complete === true) {
-                  status = 'complete'
-                  classSummaryProgressMap.set(content._id, status)
+                  defaultProgressDot.status = 'complete'
+                  classSummaryProgressMap.set(content._id, defaultProgressDot.status)
                 } else {
-                  status = 'progress'
+                  defaultProgressDot.status = 'progress'
                   if (classSummaryProgressMap.get(content._id) !== 'complete') {
-                    classSummaryProgressMap.set(content._id, status)
+                    classSummaryProgressMap.set(content._id, defaultProgressDot.status)
                   }
+                }
+
+                // Level types that teacher can open TeacherDashboardPanel on.
+                if (['practicelvl', 'capstone', 'interactive'].includes(defaultProgressDot.normalizedType)) {
+                  defaultProgressDot.clickHandler = () => {
+                    this.showPanelSessionContent({
+                      student: student,
+                      classroomId: this.classroomId,
+                      selectedCourseId: this.selectedCourseId,
+                      moduleNum: moduleNum,
+                      contentId: content._id
+                    })
+                  }
+                  defaultProgressDot.selectedKey = `${student._id}_${content._id}`
                 }
               } else {
                 console.error(`Invariant violated: Content has neither original nor _id: ${content}`)
               }
-              return {
-                status
-              }
+              return defaultProgressDot
             })
           }
 
@@ -155,11 +185,47 @@
           return []
         }
 
-        return this.classroomMembers.map(({ name, _id }) => ({
+        const modules = ((this.gameContent(this.classroomId) || {})[this.selectedCourseId] || {}).modules
+        if (!modules) {
+          return []
+        }
+
+        const students = this.classroomMembers.map(({ name, _id }) => ({
           displayName: name,
           _id,
           checked: false
         }))
+        
+        // Sort based on table view options.
+        // We count the number of completed sessions here before using the student list elsewhere.
+        // The student array is a dependency for other functions, and needs to be ordered prior
+        // to other calculations occuring.
+        if (this.sortMethod === 'Name') {
+          return students
+        } else {
+          const originalsInModule = Object.values(modules).flat().map(({ fromIntroLevelOriginal, original }) => fromIntroLevelOriginal || original)
+          const studentProgression = new Map(students.map(({ _id }) => ([_id, 0])))
+
+          for (const { _id } of students) {
+            let completedCount = 0;
+            for (const original of originalsInModule) {
+              if (this.levelSessionsMapByUser[_id]?.[original]?.state.complete === true) {
+                completedCount ++;
+              }
+            }
+            studentProgression.set(_id, completedCount)
+          }
+
+          students.sort((a, b) => {
+            return studentProgression.get(b._id) - studentProgression.get(a._id)
+          })
+          if (this.sortMethod === 'Progress (reversed)') {
+            students.reverse()
+          }
+
+          return students
+        }
+        return []
       }
     },
 
@@ -174,23 +240,42 @@
       this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId, data: projectionData } })
     },
 
+    beforeRouteUpdate (to, from, next) {
+      this.closePanel()
+      next()
+    },
+
+    beforeRouteLeave (to, from, next) {
+      this.closePanel()
+      next()
+    },
+
     destroyed () {
       this.resetLoadingState()
     },
 
     methods: {
       ...mapActions({
-        fetchData: 'teacherDashboard/fetchData'
+        fetchData: 'teacherDashboard/fetchData',
+        setPanelSessionContent: 'teacherDashboardPanel/setPanelSessionContent',
+        showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent'
       }),
+
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
         setTeacherId: 'teacherDashboard/setTeacherId',
-        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdForClassroom'
+        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdForClassroom',
+        closePanel: 'teacherDashboardPanel/closePanel'
       }),
+
       onChangeCourse (courseId) {
         this.setSelectedCourseId({ classroomId: this.classroomId, courseId: courseId })
-        console.log('selected course: ', this.selectedCourse)
       },
+
+      onChangeStudentSort (sortMethod) {
+        this.sortMethod = sortMethod
+      },
+
       clickGuidelineArrow: _.throttle(function () {
         this.isGuidelinesVisible = !this.isGuidelinesVisible
       }, 300)
@@ -216,7 +301,12 @@
       :loading="loading"
     />
     <guidelines :visible="isGuidelinesVisible" v-on:click-arrow="clickGuidelineArrow" />
-    <view-and-manage :arrow-visible="!isGuidelinesVisible" v-on:click-arrow="clickGuidelineArrow" />
+    <view-and-manage
+      :arrow-visible="!isGuidelinesVisible"
+
+      @change-sort-by="onChangeStudentSort"
+      @click-arrow="clickGuidelineArrow"
+    />
 
     <table-class-frame
       v-if="modules && students"
