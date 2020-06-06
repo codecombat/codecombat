@@ -36,6 +36,8 @@
       code (val, oldVal) {
         if (val !== oldVal && this.codeEditor) {
           this.codeEditor.setValue(this.trimmedCode)
+          // Clear the selection that occurs after value changes.
+          this.codeEditor.clearSelection()
         }
       }
     },
@@ -44,6 +46,10 @@
       this.codeEditor = this.createAceEditor(this.$refs['code'])
       this.codeEditor.setValue(this.trimmedCode)
       this.codeEditor.clearSelection()
+    },
+
+    beforeDestroy () {
+      this.codeEditor.destroy()
     },
 
     methods: {

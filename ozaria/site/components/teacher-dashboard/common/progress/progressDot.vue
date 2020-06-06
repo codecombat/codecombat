@@ -1,21 +1,45 @@
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     props: {
       status: {
         type: String,
         default: 'assigned'
       },
+
       border: {
         type: String,
         default: ''
       },
+
       clickState: {
         type: Boolean,
         default: false
+      },
+
+      clickProgressHandler: {
+        type: Function,
+        required: false,
+        default: undefined
+      },
+
+      selectedKey: {
+        type: String,
+        required: false,
+        default: undefined
       }
     },
 
     computed: {
+      ...mapGetters({
+        selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey'
+      }),
+
+      isClicked () {
+        return (this.selectedProgressKey && this.selectedProgressKey === this.selectedKey) || this.clickState
+      },
+
       dotClass () {
         return {
           dot: true,
@@ -33,15 +57,26 @@
         }
       },
 
-      isClicked () {
-        return { 'clicked': this.clickState, 'progress-dot': true }
+      isClickedClasses () {
+        return { 'clicked': this.isClicked, 'progress-dot': true, 'clickable': typeof this.clickProgressHandler === 'function' }
+      }
+    },
+
+    methods: {
+      clickHandler () {
+        if (typeof this.clickProgressHandler === 'function') {
+          this.clickProgressHandler()
+        }
       }
     }
   }
 </script>
 
 <template>
-  <div :class="isClicked">
+  <div
+    :class="isClickedClasses"
+    @click="clickHandler"
+    >
     <div :class="dotBorder">
       <div :class="dotClass"></div>
     </div>
@@ -63,6 +98,10 @@
   width: 16px;
   height: 16px;
   border-radius: 8px;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 .green-dot {

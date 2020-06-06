@@ -1,4 +1,6 @@
 import moment from 'moment'
+import utils from 'app/core/utils'
+import Level from '../../../app/models/Level.coffee'
 
 export const PRACTICE_LEVEL = 'PRACTICE_LEVEL'
 export const CAPSTONE_LEVEL = 'CAPSTONE_LEVEL'
@@ -9,7 +11,7 @@ export const DRAGGABLE_STATEMENT_COMPLETION = 'DRAGGABLE_STATEMENT_COMPLETION'
 /**
  * Payload for practiceLevelData for displaying on the teacher dashboard panel.
  */
-function practiceLevelData ({
+export function practiceLevelData ({
   starterCode,
   studentCode,
   solutionCode,
@@ -26,7 +28,7 @@ function practiceLevelData ({
 /**
  * Payload for practiceLevelData for displaying on the teacher dashboard panel.
  */
-function capstoneLevelData ({
+export function capstoneLevelData ({
   studentCode,
   gameGoals,
   language
@@ -39,7 +41,7 @@ function capstoneLevelData ({
   }
 }
 
-function draggableOrderingData ({
+export function draggableOrderingData ({
   prompt,
   submissionText,
   solutionText,
@@ -54,7 +56,7 @@ function draggableOrderingData ({
   }
 }
 
-function draggableStatementCompletionData ({
+export function draggableStatementCompletionData ({
   prompt,
   submissionText,
   solutionText,
@@ -68,12 +70,13 @@ function draggableStatementCompletionData ({
     labels
   }
 }
-function insertCodeData ({
+export function insertCodeData ({
   prompt,
   code,
   studentSubmission,
   solution,
-  options
+  options,
+  interactiveArt
 }) {
   return {
     type: INSERT_CODE,
@@ -81,25 +84,26 @@ function insertCodeData ({
     code,
     studentSubmission,
     solution,
-    options
+    options,
+    interactiveArt
   }
 }
 
 export default {
   namespaced: true,
   state: {
-    // TODO: Temporary to keep panel open while working. Should start false.
-    open: true,
+    open: false,
     panelHeader: 'Module 1 | Hard Coded',
     studentInfo: {
       name: 'Student Name',
       completedContent: moment().format('MMM D, YYYY H:mm A')
     },
+    selectedProgressKey: undefined,
     conceptCheck: {
-      learningGoal: 'Lorem Ipsum',
-      totalSubmissions: 0,
+      learningGoal: undefined,
+      totalSubmissions: -1,
       timeSpent: -1,
-      classAverage: -1
+      classAverage: -1 // TODO: Punt this temporarily.
     },
     //     panelSessionContent: practiceLevelData({
     //       starterCode: `var name = hero.length('codestatement');`,
@@ -180,34 +184,234 @@ export default {
     //     { text: 'argument' }
     //   ]
     // })
-    panelSessionContent: insertCodeData({
-      prompt: 'Add the line of code to call Capella\'s name.',
-      code: `var character_name = thisis.veryLong(codestatement);\ncode.statement(example);\ncode.statement(example)\n//answer goes here\ncharacter_name = very.short(code)`,
-      studentSubmission: {
-        text: 'code.statement(example)',
-        correct: false
-      },
-      solution: {
-        text: 'correct.statement(example)'
-      },
-      options: [
-        { text: 'code.statement(example)' },
-        { text: 'code.statement(example2)' },
-        { text: 'code.statement(example3)' },
-        { text: 'code.statement(example4)' }
-      ]
-    })
+    //   panelSessionContent: insertCodeData({
+    //     prompt: 'Add the line of code to call Capella\'s name.',
+    //     code: `var character_name = thisis.veryLong(codestatement);\ncode.statement(example);\ncode.statement(example)\n//answer goes here\ncharacter_name = very.short(code)`,
+    //     studentSubmission: {
+    //       text: 'code.statement(example)',
+    //       correct: false
+    //     },
+    //     solution: {
+    //       text: 'correct.statement(example)'
+    //     },
+    //     options: [
+    //       { text: 'code.statement(example)' },
+    //       { text: 'code.statement(example2)' },
+    //       { text: 'code.statement(example3)' },
+    //       { text: 'code.statement(example4)' }
+    //     ]
+    //   })
+    panelSessionContent: undefined
   },
 
   mutations: {
     togglePanel (state) {
       state.open = !state.open
     },
+    openPanel (state) {
+      state.open = true
+    },
+    closePanel (state) {
+      state.open = false
+    },
     setPanelHeader (state, header) {
       state.panelHeader = header
     },
     setStudentInfo (state, { name, completedContent }) {
       state.studentInfo = { name, completedContent }
+    },
+    setPanelSessionContent (state, sessionContentObject) {
+      state.panelSessionContent = sessionContentObject
+    },
+    setLearningGoal (state, learningGoal) {
+      state.conceptCheck.learningGoal = learningGoal
+    },
+    setSelectedProgressKey (state, key) {
+      state.selectedProgressKey = key
+    },
+    setTimeSpent (state, timeSpent) {
+      state.conceptCheck.timeSpent = timeSpent
+    },
+    setTotalSubmissions (state, totalSubmissions) {
+      state.conceptCheck.totalSubmissions = totalSubmissions
+    },
+    resetState (state) {
+      state.conceptCheck.learningGoal = ''
+      state.conceptCheck.totalSubmissions = -1
+      state.conceptCheck.timeSpent = -1
+      state.conceptCheck.classAverage = -1
+      state.selectedProgressKey = undefined
+    }
+  },
+
+  getters: {
+    selectedProgressKey: state => {
+      if (!state.open) {
+        return undefined
+      }
+      return state.selectedProgressKey
+    }
+  },
+
+  actions: {
+    // Action that acquires already loaded data and populates the TeacherDashboardPanel.
+    showPanelSessionContent ({ commit, dispatch, rootGetters }, { student, classroomId, selectedCourseId, moduleNum, contentId }) {
+      const levelSessionsMapByUser = rootGetters['levelSessions/getSessionsMapForClassroom'](classroomId)
+      const studentSessions = levelSessionsMapByUser[student._id]
+      const modules = rootGetters['gameContent/getContentForClassroom'](classroomId)?.[selectedCourseId]?.modules
+      const moduleContent = modules[moduleNum]
+
+      const content = moduleContent.find(({ _id }) => _id === contentId);
+
+      const { original, fromIntroLevelOriginal } = content
+      let normalizedOriginal = original || fromIntroLevelOriginal
+
+      const moduleDisplayName = `${$.i18n.t(`teacher.module${moduleNum}`)}${utils.courseModules[selectedCourseId][moduleNum]}`
+      if (content === undefined) {
+        throw new Error(`Couldn't find module content.`)
+      }
+
+      commit('resetState')
+      commit('setSelectedProgressKey', `${student._id}_${content._id}`)
+      commit('setLearningGoal', (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || '')
+
+      if (['hero', 'course', undefined].includes(content.type)) {
+        // For practice levels and challenge levels
+        const level = new Level(content)
+        const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
+        console.log('student session for level:', studentSessions[normalizedOriginal])
+        console.log('learninggoal', level)
+
+        commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
+
+        const solutionCode = level.getSolutions()
+          .filter((s) => s.language === language)
+          .find((s) => !s.testOnly)
+
+          dispatch('setPanelSessionContent', {
+          header: moduleDisplayName,
+          studentName: student.displayName,
+          dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
+          sessionContentObject: practiceLevelData({
+            starterCode: level.getSampleCode()?.[language] || '',
+            studentCode: studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || '',
+            solutionCode: solutionCode.source || '',
+            language: language
+          })
+        })
+      } else if (content.type === 'game-dev') {
+        const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
+        const gameGoals = [
+            ...(content.goals || []), ...(content.additionalGoals || []).map(({goals}) => goals).flat()
+        ]
+
+        commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
+
+        const studentSolved = new Set(Object.entries(studentSessions[normalizedOriginal]?.state?.goalStates || {})
+          .filter(([_, {status}]) => status === 'success')
+          .map(([goalId, _]) => goalId) || [])
+
+        dispatch('setPanelSessionContent', {
+          header: moduleDisplayName,
+          studentName: student.displayName,
+          dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
+          sessionContentObject: capstoneLevelData({
+            studentCode: studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || '',
+            gameGoals: gameGoals.map((result) => {
+              return {
+                description: result.name,
+                completed: studentSolved.has(result.id)
+              }
+            }),
+            language
+          })
+        })
+      } else if (content.type === 'interactive') {
+        const firstSolution = rootGetters['interactives/getInteractiveSessionsForClass'](classroomId)?.[student._id]?.[contentId]
+
+        commit('setTotalSubmissions', firstSolution.submissionCount || 0)
+
+        if (content.interactiveType === "draggable-statement-completion") {
+          const elementsMap = new Map(content.draggableStatementCompletionData.elements.map((element) => [element.elementId, element]))
+
+          dispatch('setPanelSessionContent', {
+            header: moduleDisplayName,
+            studentName: student.displayName,
+            dateFirstCompleted: firstSolution.dateFirstCompleted,
+            sessionContentObject: draggableStatementCompletionData({
+              prompt: content.promptText,
+              submissionText: firstSolution.submissions[0].submittedSolution.map((id, idx) => {
+                return {
+                  text: utils.i18n(elementsMap.get(id), 'text'),
+                  correct: content.draggableStatementCompletionData.solution[idx] === id
+                }
+              }),
+              solutionText: content.draggableStatementCompletionData.solution.map((id) => ({
+                text: utils.i18n(elementsMap.get(id), 'text')
+              })),
+              labels: content.draggableStatementCompletionData.labels.map((label) => ({
+                text: utils.i18n(label, 'text')
+              }))
+            })
+          })
+        } else if (content.interactiveType === 'draggable-ordering') {
+          const interactiveData = content.draggableOrderingData
+          const elementsMap = new Map(interactiveData.elements.map((element) => [element.elementId, element]))
+
+          dispatch('setPanelSessionContent', {
+            header: moduleDisplayName,
+            studentName: student.displayName,
+            dateFirstCompleted: firstSolution.dateFirstCompleted,
+            sessionContentObject: draggableOrderingData({
+              prompt: content.promptText,
+              submissionText: firstSolution.submissions[0].submittedSolution.map((id, idx) => {
+                return {
+                  text: utils.i18n(elementsMap.get(id), 'text'),
+                  correct: interactiveData.solution[idx] === id
+                }
+              }),
+              solutionText: interactiveData.solution.map((id) => ({
+                text: utils.i18n(elementsMap.get(id), 'text')
+              })),
+              lastColText: interactiveData.labels.map((label) => ({
+                text: utils.i18n(label, 'text')
+              }))
+            })
+          })
+        } else if (content.interactiveType === 'insert-code') {
+          const interactiveData = content.insertCodeData
+
+          const elementsMap = new Map(interactiveData.choices.map((element) => [element.choiceId, element]))
+
+          dispatch('setPanelSessionContent', {
+            header: moduleDisplayName,
+            studentName: student.displayName,
+            dateFirstCompleted: firstSolution.dateFirstCompleted,
+            sessionContentObject: insertCodeData({
+              prompt: content.promptText,
+              code: interactiveData.starterCode,
+              studentSubmission: {
+                text: utils.i18n(elementsMap.get(firstSolution.submissions[0].submittedSolution), 'text'),
+                correct: firstSolution.submissions[0].correct
+              },
+              solution: { text: utils.i18n(elementsMap.get(interactiveData.solution), 'text') },
+              options: interactiveData.choices.map(element => ({
+                text: utils.i18n(element, 'text')
+              })),
+              interactiveArt: content.defaultArtAsset
+            })
+          })
+        } else {
+          console.error(`Unhandled interactive type in TeacherDashboardPanel: '${content.interactiveType}'`)
+        }
+      }
+    },
+
+    setPanelSessionContent ({ commit }, { sessionContentObject, header, studentName, dateFirstCompleted }) {
+      commit('setPanelSessionContent', sessionContentObject)
+      commit('setPanelHeader', header)
+      commit('setStudentInfo', { name: studentName, completedContent: moment(dateFirstCompleted).format('lll') })
+      commit('openPanel')
     }
   }
 }

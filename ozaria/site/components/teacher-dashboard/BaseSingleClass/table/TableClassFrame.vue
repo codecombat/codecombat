@@ -135,8 +135,8 @@
   }
 
   .leftOfHeader {
-    width: 190px;
-    min-width: 190px;
+    width: $studentNameWidth;
+    min-width: $studentNameWidth;
     height: 116px;
 
     position: sticky;
@@ -156,8 +156,8 @@
     display: flex;
     flex-direction: row;
 
-    width: 190px;
-    min-width: 190px;
+    width: $studentNameWidth;
+    min-width: $studentNameWidth;
     height: 38px;
     margin-bottom: 1px;
 

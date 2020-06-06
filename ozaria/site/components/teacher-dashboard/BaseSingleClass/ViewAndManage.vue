@@ -18,6 +18,14 @@
         if (this.arrowVisible) {
           this.$emit('click-arrow')
         }
+      },
+
+      changeSortBy (event) {
+        // Will emit one of:
+        // 'Name'
+        // 'Progress'
+        // 'Progress (reversed)'
+        this.$emit('change-sort-by', event.target.value)
       }
     }
   }
@@ -29,9 +37,15 @@
       <span>View Options</span>
     </div>
     <div class="spacer">
-      <dropdown label-text="View By" class="dropdowns" />
-      <dropdown label-text="Sort By" class="dropdowns" />
-      <dropdown label-text="Go To" class="dropdowns" />
+      <dropdown
+        label-text="Sort By"
+        class="dropdowns"
+        :options="['Name', 'Progress', 'Progress (reversed)']"
+
+        @change="changeSortBy"
+      />
+      <!-- TODO - enable and use jQuery to scroll. -->
+      <!-- <dropdown label-text="Go To" class="dropdowns" /> -->
     </div>
     <div class="title-card">
       <span style="width: 59px">Manage Class</span>

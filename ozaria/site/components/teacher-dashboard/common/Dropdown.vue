@@ -15,7 +15,7 @@
 <template>
   <div>
     <label>{{ labelText }}</label>
-    <select>
+    <select @change="$emit('change', $event)">
       <option
         v-for="option in options"
         :key="option"
