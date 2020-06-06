@@ -1081,7 +1081,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-#   about:
+#  about:
 #    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
 #    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
 #    learn_more: "Learn More"

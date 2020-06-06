@@ -24,7 +24,12 @@ export default class SingletonAppVueComponentView extends VueComponentView {
       store,
       router: this.router,
 
-      render: (h) => h(Root)
+      render: (h) => h(Root),
+
+      provide: {
+        openLegacyModal: this.openModalView.bind(this),
+        legacyModalClosed: this.modalClosed.bind(this)
+      }
     })
   }
 }

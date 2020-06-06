@@ -37,6 +37,7 @@ store = new Vuex.Store({
     layoutChrome: require('./modules/layoutChrome').default
     unitMap: require('./modules/unitMap').default
     tracker: require('./modules/tracker').default
+    products: require('./modules/products').default
   }
 })
 

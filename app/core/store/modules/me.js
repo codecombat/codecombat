@@ -20,6 +20,10 @@ export default {
       return (state != null ? state.role : undefined) === 'teacher'
     },
 
+    isParent (state) {
+      return (state != null ? state.role : undefined) === 'parent'
+    },
+
     forumLink (state) {
       let link = 'http://discourse.codecombat.com/'
       const lang = (state.preferredLanguage || 'en-US').split('-')[0]
