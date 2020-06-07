@@ -41,7 +41,7 @@ mixin accountLinks
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
               else if me.showChinaResourceInfo()
                 a.navbar-brand(href="/home")
-                  img#logo-img(src="/images/pages/base/logo-en+cn+aiyouth.png")
+                  img#logo-img(src="/images/pages/base/logo-en+cn.png")
               else
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
@@ -58,6 +58,8 @@ mixin accountLinks
                 if !me.hideTopRightNav()
                   ul.nav.navbar-nav
                     if me.showChinaResourceInfo()
+                      li
+                        a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
                       li
                         a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
                       li
@@ -192,6 +194,8 @@ mixin accountLinks
                           a(href="https://aojiarui.com") 奥佳睿 - CodeCombat原创新作
                         li
                           a(href="https://codecombat.com") CodeCombat全球官网
+                        li
+                          a(href="http://aiyouth.koudashijie.com") AI世青赛
 
                     .col-lg-3
                       h3(data-i18n="nav.follow_us")

@@ -165,6 +165,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    try_ozaria: "Try Ozaria"
 
   nav:
+    aiyouth: "AI世青赛"
     educators: "教育者"
     follow_us: "关注我们"
     general: "简介"
