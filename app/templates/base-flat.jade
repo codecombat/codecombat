@@ -41,7 +41,7 @@ mixin accountLinks
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
               else if me.showChinaResourceInfo()
                 a.navbar-brand(href="/home")
-                  img#logo-img(src="/images/pages/base/logo-en+cn.png")
+                  img#logo-img(src="/images/pages/base/logo-en+cn+aiyouth.png")
               else
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
@@ -162,8 +162,6 @@ mixin accountLinks
                           a(href="/parents", data-i18n="nav.parent")
                         li
                           a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
-                        li
-                          a(href="http://beian.miit.gov.cn/") 京ICP备19012263号
                     .col-lg-3
                       if !me.isStudent()
                         h3(data-i18n="nav.educators")
@@ -265,9 +263,14 @@ mixin accountLinks
           if me.showChinaResourceInfo()
             - var {COCO_CHINA_CONST} = require('core/constants')
             span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
-            span.contact= "业务咨询："+COCO_CHINA_CONST.CONTACT_PHONE
           span(data-i18n="nav.copyright_prefix")
           span= ' ©2019 CodeCombat Inc. '
           span.spl(data-i18n="nav.copyright_suffix")
+          if me.showChinaResourceInfo()
+            a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
+            a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
+              img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+              京公网安备 11010802031936号
+
           a.small(href="/legal") Terms of Service
           a.small(href="/privacy") Privacy
