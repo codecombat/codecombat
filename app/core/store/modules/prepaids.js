@@ -51,6 +51,7 @@ export default {
   },
 
   actions: {
+    // TODO: Does this also require using the `fetchMineAndShared` api call?
     fetchPrepaidsForTeacher: ({ commit }, teacherId) => {
       commit('toggleLoadingForTeacher', teacherId)
 

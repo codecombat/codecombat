@@ -51,7 +51,12 @@
       <span style="width: 59px">Manage Class</span>
     </div>
     <div class="spacer">
-      <primary-button class="primary-btn">Assign Content</primary-button>
+      <primary-button
+        class="primary-btn"
+        @click="$emit('assignContent')"
+      >
+        Assign Content
+      </primary-button>
       <div class="aside-icon">
         <img src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents.svg">
         <span>Add Students</span>
