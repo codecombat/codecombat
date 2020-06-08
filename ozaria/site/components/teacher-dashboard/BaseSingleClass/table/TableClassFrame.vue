@@ -7,7 +7,7 @@
   import TableModuleHeader from './TableModuleHeader'
   import TableModuleGrid from './TableModuleGrid'
   import TableStudentList from './TableStudentList'
-  import ScrollArrow from '../customButtons/ScrollArrow'
+  import ScrollArrow from '../../common/buttons/ScrollArrow'
 
   export default {
     components: {

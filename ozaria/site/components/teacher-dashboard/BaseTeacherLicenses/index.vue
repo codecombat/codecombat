@@ -4,13 +4,15 @@
   import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
   import TitleBar from '../common/TitleBar'
   import LoadingBar from '../common/LoadingBar'
+  import PageNoLicenses from './PageNoLicenses'
 
   export default {
     name: COMPONENT_NAMES.MY_LICENSES,
     components: {
       'secondary-teacher-navigation': SecondaryTeacherNavigation,
       'title-bar': TitleBar,
-      'loading-bar': LoadingBar
+      'loading-bar': LoadingBar,
+      'page-no-licenses': PageNoLicenses
     },
 
     computed: {
@@ -57,8 +59,6 @@
       :key="loading"
       :loading="loading"
     />
-    <br /><br /><br /><br /><br /><br />
-    <span>PLACEHOLDER: BASE TEACHER LICENSES COMPONENT GOES HERE</span>
-    <br /><br /><br /><br /><br /><br />
+    <page-no-licenses />
   </div>
 </template>

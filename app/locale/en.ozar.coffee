@@ -1267,6 +1267,26 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     invite_by_email: "Invite by Email"
     invite_modal_sub_title: "Separate each email address by a line break or commas"
 
+  no_licenses_page:
+    are_your_students_ready: "Are your students excited and ready to learn more?"
+    once_students_have_completed: "Once students have completed Chapter 1, they will need licenses in order to continue their journey through the next chapter and beyond."
+    get_licenses: "Get Licenses"
+    get_full_access_to_ozaria: "Get Full Access to Ozaria"
+    unlock_all: "Unlock all the above plus all the teacher support you need"
+    comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
+    lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
+    dedicated_customer_success_manager: "A dedicated customer success manager"
+    automatic_access: "Automatic access to new content and features"
+    license_quote: "\"In my opinion as a 26 year veteran middle school educator, there is no more engaging resource for teaching coding.\""
+    join_our_community: "Join our community"
+    join_our_community_desc: "Over 12 million people have learned to write Python and JavaScript using CodeCombat. Now, we welcome you to join our community of over 82,000 educators and 25,000 schools with Ozaria, designed for educators who want to inspire a new generation of students to learn Computer Science."
+    teach_real_typed_code: "Teach Real, Typed Code"
+    teach_real_typed_code_desc: "Students learn Python and JavaScript, the two most popular coding languages, and build 21st century skills that will prepare them for any career."
+    support_student_progress: "Support Student Progress"
+    support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
+    creative_projects: "Creative Projects"
+    creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
+
   special_offer:
     special_offer: "Special Offer"
     project_based_title: "Project-Based Courses"
