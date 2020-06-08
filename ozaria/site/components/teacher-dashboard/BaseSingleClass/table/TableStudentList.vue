@@ -1,9 +1,12 @@
 <script>
+  import { mapGetters, mapActions } from 'vuex'
+
   import CellStudent from './CellStudent'
   export default {
     components: {
       CellStudent
     },
+
     props: {
       students: {
         type: Array,
@@ -11,10 +14,19 @@
       }
     },
 
+    computed: {
+      ...mapGetters({
+        isStudentSelected: 'baseSingleClass/isStudentSelected'
+      })
+    },
+
     methods: {
-      changeCheckbox (displayName) {
-        // TODO hook this up to Vuex to change checkbox state.
-        console.log('Toggled Checkbox for:', displayName)
+      ...mapActions({
+        toggleStudentSelectedId: 'baseSingleClass/toggleStudentSelectedId'
+      }),
+
+      changeCheckbox (id) {
+        this.toggleStudentSelectedId({ studentId: id })
       }
     }
   }
@@ -22,13 +34,14 @@
 <template>
   <div id="studentList">
     <CellStudent
-      v-for="{ displayName, checked } of students"
-      :key="displayName"
+      v-for="{ displayName, _id } of students"
+      :key="_id"
 
+      :student-id="_id"
       :student-name="displayName"
-      :checked="checked"
+      :checked="isStudentSelected(_id)"
 
-      @change="changeCheckbox(displayName)"
+      @change="changeCheckbox(_id)"
     />
   </div>
 </template>

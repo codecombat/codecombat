@@ -13,13 +13,6 @@
   import _ from 'lodash'
   import TableStudentListVue from './table/TableStudentList.vue'
 
-  // TODO: Ensure download size isn't too big.
-  const projectionData = {
-    interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation,draggableOrderingData,insertCodeData,draggableStatementCompletionData,defaultArtAsset,promptText',
-    levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage,introContentSessionComplete,playtime',
-    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,thangs'
-  }
-
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_SINGLE,
     components: {
@@ -192,8 +185,7 @@
 
         const students = this.classroomMembers.map(({ name, _id }) => ({
           displayName: name,
-          _id,
-          checked: false
+          _id
         }))
         
         // Sort based on table view options.
@@ -231,17 +223,18 @@
 
     watch: {
       classroomId () {
-        this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId, data: projectionData } })
+        this.fetchData({ classroomId: this.classroomId })
       }
     },
 
     mounted () {
       this.setTeacherId(me.get('_id'))
-      this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId, data: projectionData } })
+      this.fetchData({ classroomId: this.classroomId })
     },
 
     beforeRouteUpdate (to, from, next) {
       this.closePanel()
+      this.clearSelectedStudents()
       next()
     },
 
@@ -256,9 +249,11 @@
 
     methods: {
       ...mapActions({
-        fetchData: 'teacherDashboard/fetchData',
+        fetchData: 'baseSingleClass/fetchData',
         setPanelSessionContent: 'teacherDashboardPanel/setPanelSessionContent',
-        showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent'
+        showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent',
+        clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
+        addStudentSelectedId: 'baseSingleClass/addStudentSelectedId'
       }),
 
       ...mapMutations({
@@ -278,7 +273,17 @@
 
       clickGuidelineArrow: _.throttle(function () {
         this.isGuidelinesVisible = !this.isGuidelinesVisible
-      }, 300)
+      }, 300),
+
+      toggleAllStudents (event) {
+        if (event.target.checked) {
+          for (const { _id } of this.students) {
+            this.addStudentSelectedId({ studentId: _id })
+          }
+        } else {
+          this.clearSelectedStudents()
+        }
+      }
     }
   }
 </script>
@@ -306,12 +311,15 @@
 
       @change-sort-by="onChangeStudentSort"
       @click-arrow="clickGuidelineArrow"
+      @assignContent="$emit('assignContent')"
     />
 
     <table-class-frame
       v-if="modules && students"
       :students="students"
       :modules="modules"
+
+      @toggle-all-students="toggleAllStudents"
     />
   </div>
 </template>

@@ -9,6 +9,10 @@
         type: String,
         required: true
       },
+      studentId: {
+        type: String,
+        required: true
+      },
       checked: {
         type: Boolean,
         required: true

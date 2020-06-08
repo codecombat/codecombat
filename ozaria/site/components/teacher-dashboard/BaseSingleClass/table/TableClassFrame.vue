@@ -47,7 +47,11 @@
           <div class="leftOfHeader">
             <scroll-arrow :face-left="true" @click="scrollLeft()" />
             <div class="allStudents">
-              <input type="checkbox">
+              <input
+                type="checkbox"
+
+                @change="e => $emit('toggle-all-students', e)"
+              >
               <p>All Students</p>
             </div>
           </div>
