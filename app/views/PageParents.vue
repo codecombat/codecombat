@@ -188,7 +188,7 @@
             <div class="row title-row">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>Not sure if CodeCombat is right for your kid?  Ask them!</h1>
+                        <h2>Not sure if CodeCombat is right for your kid?  Ask them!</h2>
                     </div>
                 </div>
                 <div class="row">
@@ -219,7 +219,7 @@
 
         <div class="container-fluid gray-2-background">
             <div class="container">
-                <div class="row">
+                <div class="row title-row">
                     <div class="col-lg-12">
                         <h1>Why Kids Love CodeCombat</h1>
                     </div>
@@ -230,21 +230,21 @@
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/learning_through_play.svg" />
                             <h3>Learning Through Play</h3>
-                            <div>Students grow their coding skills, and also use problem-solving skills to progress through levels and power up their heroes.</div>
+                            <div class="description">Students grow their coding skills, and also use problem-solving skills to progress through levels and power up their heroes.</div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/skills_they_can_share.svg" />
                             <h3>Skills They Can Share</h3>
-                            <div>Students build real-world skills and create projects they can share with friends and family</div>
+                            <div class="description">Students build real-world skills and create projects they can share with friends and family</div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/help_when_needed.svg" />
                             <h3>Help When They Need It</h3>
-                            <div>Using data, entry level has been built to be challenging, but never discouraging.  Students are supported with hints when they get stuck.</div>
+                            <div class="description">Using data, entry level has been built to be challenging, but never discouraging.  Students are supported with hints when they get stuck.</div>
                         </div>
                     </div>
                 </div>
@@ -259,7 +259,7 @@
 
         <div class="container-fluid gray-1-background">
             <div class="container">
-                <div class="row">
+                <div class="title-row">
                     <div class="col-lg-12">
                         <h1>Why Parents Love CodeCombat</h1>
                     </div>
@@ -269,22 +269,28 @@
                     <div class="col-lg-4">
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
-                            <h3>The most engaging way to learn typed code</h3>
-                            <div>Your child will have everything they need at the tip of their fingers to program algorithms in Python or JavaScript, build websites and even design their own games, while learning material aligned with national curriculum standards.</div>
+                            <div class="description">
+                                <h3>The most engaging way to learn typed code</h3>
+                                Your child will have everything they need at the tip of their fingers to program algorithms in Python or JavaScript, build websites and even design their own games, while learning material aligned with national curriculum standards.
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
-                            <h3>Building critical skills for the 21st centry</h3>
-                            <div>Your child will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking, creativity, and resilience, empowering them with the skills they need for any industry.</div>
+                            <div class="description">
+                                <h3>Building critical skills for the 21st centry</h3>
+                                Your child will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking, creativity, and resilience, empowering them with the skills they need for any industry.
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" />
-                            <h3>Supported by parents like you</h3>
-                            <div>At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do.</div>
+                            <div class="description">
+                                <h3>Supported by parents like you</h3>
+                                At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -297,17 +303,19 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
+        <div class="container concepts">
+            <div class="row title-row">
                 <div class="col-lg-12">
-                    <h1>Everything they need to just start typing code on their own</h1>
+                    <h2>Everything they need to just start typing code on their own</h2>
                 </div>
             </div>
 
             <div class="row equal-height">
                 <div class="col-lg-4">
                     <div class="concept-overview">
-                        <img src="/images/pages/parents/beginner_concepts.svg" />
+                        <div class="image-container">
+                            <img src="/images/pages/parents/beginner_concepts.svg" />
+                        </div>
                         <h3>Beginner Concepts</h3>
                         <ul>
                             <li>Basic syntax</li>
@@ -321,7 +329,9 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="concept-overview">
-                        <img src="/images/pages/parents/intermediate_concepts.svg" />
+                        <div class="image-container">
+                            <img src="/images/pages/parents/intermediate_concepts.svg" />
+                        </div>
                         <h3>Intermediate Concepts</h3>
                         <ul>
                             <li>If statements</li>
@@ -335,7 +345,9 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="concept-overview">
-                        <img src="/images/pages/parents/advanced_concepts.svg" />
+                        <div class="image-container">
+                            <img src="/images/pages/parents/advanced_concepts.svg" />
+                        </div>
                         <h3>Advanced Concepts</h3>
                         <ul>
                             <li>Event handling</li>
@@ -357,12 +369,12 @@
             </div>
         </div>
 
-        <div class="container-fluid gray-2-background">
+        <div class="container-fluid gray-2-background testimonials">
             <div class="container">
                 <div class="row title-row">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1>What parents and kids are saying about CodeCombat</h1>
+                            <h2>What parents and kids are saying about CodeCombat</h2>
                         </div>
                     </div>
                     <div class="row">
@@ -372,7 +384,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row equal-height">
                     <div class="col-lg-6">
                         <div class="quote">"This is next level coding for kids and it’s pretty fun. I am going to learn a thing or two from this too."</div>
                         <div class="name">Francisco Navarro</div>
@@ -384,7 +396,8 @@
                         <div class="details">Student, Grade 8</div>
                     </div>
                 </div>
-                <div class="row">
+
+                <div class="row equal-height">
                     <div class="col-lg-6">
                         <div class="quote">“Oliver’s Python is coming along. He’s using CodeCombat to make his own video games. He challenges me to play his games, then laughs when I lose.” </div>
                         <div class="name">Alex Bain</div>
@@ -576,6 +589,10 @@
 
     .gray-2-background {
         background-color: #EAEEEE;
+    }
+
+    .gray-2-background .title-row h1, .gray-2-background .title-row h2 {
+        color: #1FBAB4;
     }
 
     .title-row {
@@ -842,6 +859,8 @@
     }
 
     .kid-reason-why {
+        margin-top: 40px;
+
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -849,38 +868,143 @@
         align-items: center;
     }
 
+    .kid-reason-why h3 {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 30px;
+
+        color: #1FBAB4;
+    }
+
     .kid-reason-why img {
         width: 100%;
         max-width: 255px;
+
+        margin-bottom: 20px;
+    }
+
+    .kid-reason-why .description {
+        margin-top: 10px;
+
+        font-style: normal;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 25px;
+
+        color: #0E4C60;
     }
 
     .buy-now-row {
+        margin-top: 40px;
+        margin-bottom: 60px;
         text-align: center;
     }
 
     .parent-reason-why {
+        margin: 40px auto 0;
+
         width: 100%;
         height: 100%;
 
         max-width: 362px;
         box-shadow: 2px 2px 6px rgba(155, 155, 155, 0.510671);
 
-        margin: 0 auto;
     }
 
     .parent-reason-why img {
         width: 100%;
     }
 
+    .parent-reason-why .description {
+        padding: 20px;
+
+        font-style: normal;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 25px;
+
+        color: #0E4C60;
+    }
+
+    .parent-reason-why h3 {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 30px;
+
+        color: #1FBAB4;
+    }
+
+    .concepts {
+        padding-top: 60px;
+    }
+
     .concept-overview {
-        margin: 0 auto;
+        margin: 40px auto 0;
+
         width: 100%;
         max-width: 310px;
     }
 
-    .concept-overview img {
-        display: block;
-        width: 150px;
-        margin: 0 auto;
+    .concept-overview .image-container {
+        position: relative;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 190px;
+    }
+
+    .concept-overview h3 {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 30px;
+
+        color: #1FBAB4;
+
+        margin-top: 30px;
+        margin-bottom: 18px;
+    }
+
+    .testimonials {
+        padding-bottom: 70px;
+
+        /* Remove margin added by footer */
+        margin-bottom: -50px;
+    }
+
+    .testimonials .quote {
+        margin-top: 60px;
+
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 25px;
+
+        color: #0E4C60;
+    }
+
+    .testimonials .name {
+        margin-top: 10px;
+
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 25px;
+
+        color: #1FBAB4;
+    }
+
+    .testimonials .details {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 19px;
+
+        color: #1FBAB4;
     }
 </style>
