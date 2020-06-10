@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div class="jumbotron">
             <div class="row">
                 <div class="col-lg-4 col-md-6">
@@ -20,105 +19,107 @@
         </div>
 
         <div class="container-fluid gray-1-background">
-            <div class="row title-row">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Live Online Classes</h1>
+            <div class="container">
+                <div class="row title-row">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>Live Online Classes</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Learn with an instructor</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs.</h4>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-lg-12">
-                        <hr />
+                    <div class="col-lg-6 device-image">
+                        <img src="/images/pages/parents/device.svg" />
+                    </div>
+                    <div class="col-lg-6">
+                        <ul>
+                            <li>Small group or private lessons</li>
+                            <li>JavaScript and Python coding, plus core Computer Science concepts</li>
+                            <li>Taught by expert coding instructors</li>
+                            <li>Individualized and instant feedback</li>
+                            <li>Curriculum trusted by 80,000+ educators</li>
+                        </ul>
+
+                        <button class="default-top-spacing" @click="openDriftWelcomeCallPlaybook">Try a free 60 minute class</button>
                     </div>
                 </div>
-                <div class="row">
+
+                <div class="row title-row add-spacing">
                     <div class="col-lg-12">
-                        <h3>Learn with an instructor</h3>
+                        <h2>Pricing Plans</h2>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs.</h4>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-6 device-image">
-                    <img src="/images/pages/parents/device.svg" />
-                </div>
-                <div class="col-lg-6">
-                    <ul>
-                        <li>Small group or private lessons</li>
-                        <li>JavaScript and Python coding, plus core Computer Science concepts</li>
-                        <li>Taught by expert coding instructors</li>
-                        <li>Individualized and instant feedback</li>
-                        <li>Curriculum trusted by 80,000+ educators</li>
-                    </ul>
+                <div class="row equal-height">
+                    <div class="col-lg-6">
+                        <div class="pricing-pane">
+                            <div class="pricing-pane-content">
+                                <h3>Small group Coding Classes</h3>
+                                <h4>4 Group Sessions / Mo.</h4>
 
-                    <button class="default-top-spacing" @click="openDriftWelcomeCallPlaybook">Try a free 60 minute class</button>
-                </div>
-            </div>
-
-            <div class="row title-row add-spacing">
-                <div class="col-lg-12">
-                    <h2>Pricing Plans</h2>
-                </div>
-            </div>
-
-            <div class="row equal-height">
-                <div class="col-lg-4 col-lg-offset-2 col-md-6">
-                    <div class="pricing-pane">
-                        <div class="pricing-pane-content">
-                            <h3>Small group Coding Classes</h3>
-                            <h4>4 Group Sessions / Mo.</h4>
-
-                            <div>
-                                <div class="price">
-                                    $159/mo
+                                <div>
+                                    <div class="price">
+                                        $159/mo
+                                    </div>
+                                    <div class="per-student-label">per student</div>
                                 </div>
-                                <div class="per-student-label">per student</div>
+
+                                <button @click="openDriftWelcomeCallPlaybook">Choose Plan</button>
+
+                                <ul>
+                                    <li>4:1 student to instructor ratio</li>
+                                    <li>60 minute classes</li>
+                                    <li>Build projects and give feedback to other students</li>
+                                    <li>Screen sharing to get live feedback on coding and debugging</li>
+                                </ul>
                             </div>
-
-                            <button @click="openDriftWelcomeCallPlaybook">Choose Plan</button>
-
-                            <ul>
-                                <li>4:1 student to instructor ratio</li>
-                                <li>60 minute classes</li>
-                                <li>Build projects and give feedback to other students</li>
-                                <li>Screen sharing to get live feedback on coding and debugging</li>
-                            </ul>
-                        </div>
-                        <div class="discount">
-                            15% Sibling Discount!
+                            <div class="discount">
+                                15% Sibling Discount!
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6">
-                    <div class="pricing-pane">
-                        <div class="pricing-pane-content">
-                            <h3>Private Coding Classes</h3>
-                            <h4>4 or 8 Private Sessions / Mo.</h4>
+                    <div class="col-lg-6">
+                        <div class="pricing-pane">
+                            <div class="pricing-pane-content">
+                                <h3>Private Coding Classes</h3>
+                                <h4>4 or 8 Private Sessions / Mo.</h4>
 
-                            <div>
-                                <div class="price">
-                                    $219/mo or $399/mo
+                                <div>
+                                    <div class="price">
+                                        $219/mo or $399/mo
+                                    </div>
+                                    <div class="per-student-label">per student</div>
                                 </div>
-                                <div class="per-student-label">per student</div>
+
+                                <button @click="openDriftWelcomeCallPlaybook">Choose Plan</button>
+
+                                <ul>
+                                    <li>1:1 student to instructor ratio</li>
+                                    <li>60 minute classes</li>
+                                    <li>Flexible schedule tailored to your needs</li>
+                                    <li>Lesson plans and live feedback tailored to students' learning style, pace, and ability level</li>
+                                </ul>
                             </div>
-
-                            <button @click="openDriftWelcomeCallPlaybook">Choose Plan</button>
-
-                            <ul>
-                                <li>1:1 student to instructor ratio</li>
-                                <li>60 minute classes</li>
-                                <li>Flexible schedule tailored to your needs</li>
-                                <li>Lesson plans and live feedback tailored to students' learning style, pace, and ability level</li>
-                            </ul>
-                        </div>
-                        <div class="discount">
-                            15% Sibling Discount!
+                            <div class="discount">
+                                15% Sibling Discount!
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -126,62 +127,64 @@
         </div>
 
         <div class="container-fluid coco-premium">
-            <div class="row title-row">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>CodeCombat Premium</h1>
+            <div class="container">
+                <div class="row title-row">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>CodeCombat Premium</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Learn at Your Own Pace</h3>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-lg-12">
-                        <hr />
+                    <div class="col-lg-12 character-images">
+                        <img src="/images/pages/parents/characters.svg" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3>Learn at Your Own Pace</h3>
+
+                <div class="row premium-pricing">
+                    <div class="col-lg-3 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
+                        <h5>${{ basicSubAmount }}/mo</h5>
+                        <h6>Monthly Subscription</h6>
+
+                        <button @click="openPremiumSubscribeModal">Buy now</button>
+                    </div>
+                    <div class="col-lg-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
+                        <h5>${{ lifetimeSubAmount }}/mo</h5>
+                        <h6>Lifetime Access</h6>
+
+                        <button @click="openPremiumSubscribeModal">Buy now</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-12 character-images">
-                    <img src="/images/pages/parents/characters.svg" />
-                </div>
-            </div>
+                <div class="row premium-details">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <h5>Great for self-driven learners who thrive with complete autonomy.</h5>
+                        <ul>
+                            <li>Access to subscriber-only heroes, pets and skills</li>
+                            <li>Receive bonus gems to buy gear, pets and more heroes</li>
+                            <li>Unlock a deeper understanding of core concepts and skills like web and game development</li>
+                            <li>Premium support for subscribers</li>
+                            <li>Create private clans to invite friends and compete on a group leaderboard</li>
+                        </ul>
 
-            <div class="row premium-pricing">
-                <div class="col-lg-3 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                    <h5>${{ basicSubAmount }}/mo</h5>
-                    <h6>Monthly Subscription</h6>
-
-                    <button @click="openPremiumSubscribeModal">Buy now</button>
-                </div>
-                <div class="col-lg-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                    <h5>${{ lifetimeSubAmount }}/mo</h5>
-                    <h6>Lifetime Access</h6>
-
-                    <button @click="openPremiumSubscribeModal">Buy now</button>
-                </div>
-            </div>
-
-            <div class="row premium-details">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h5>Great for self-driven learners who thrive with complete autonomy.</h5>
-                    <ul>
-                        <li>Access to subscriber-only heroes, pets and skills</li>
-                        <li>Receive bonus gems to buy gear, pets and more heroes</li>
-                        <li>Unlock a deeper understanding of core concepts and skills like web and game development</li>
-                        <li>Premium support for subscribers</li>
-                        <li>Create private clans to invite friends and compete on a group leaderboard</li>
-                    </ul>
-
-                    <div class="buy-now-note">Need help or prefer Paypal? Email support@codecombat.com</div>
+                        <div class="buy-now-note">Need help or prefer Paypal? Email support@codecombat.com</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="container-fluid">
+        <div class="container trailer">
             <div class="row title-row">
                 <div class="row">
                     <div class="col-lg-12">
@@ -214,83 +217,87 @@
             </div>
         </div>
 
-        <div class="conatiner-fluid gray-2-background">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>Why Kids Love CodeCombat</h1>
+        <div class="container-fluid gray-2-background">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Why Kids Love CodeCombat</h1>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row equal-height">
-                <div class="col-lg-4">
-                    <div class="kid-reason-why">
-                        <img src="/images/pages/parents/learning_through_play.svg" />
-                        <h3>Learning Through Play</h3>
-                        <div>Students grow their coding skills, and also use problem-solving skills to progress through levels and power up their heroes.</div>
+                <div class="row equal-height">
+                    <div class="col-lg-4">
+                        <div class="kid-reason-why">
+                            <img src="/images/pages/parents/learning_through_play.svg" />
+                            <h3>Learning Through Play</h3>
+                            <div>Students grow their coding skills, and also use problem-solving skills to progress through levels and power up their heroes.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="kid-reason-why">
+                            <img src="/images/pages/parents/skills_they_can_share.svg" />
+                            <h3>Skills They Can Share</h3>
+                            <div>Students build real-world skills and create projects they can share with friends and family</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="kid-reason-why">
+                            <img src="/images/pages/parents/help_when_needed.svg" />
+                            <h3>Help When They Need It</h3>
+                            <div>Using data, entry level has been built to be challenging, but never discouraging.  Students are supported with hints when they get stuck.</div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="kid-reason-why">
-                        <img src="/images/pages/parents/skills_they_can_share.svg" />
-                        <h3>Skills They Can Share</h3>
-                        <div>Students build real-world skills and create projects they can share with friends and family</div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="kid-reason-why">
-                        <img src="/images/pages/parents/help_when_needed.svg" />
-                        <h3>Help When They Need It</h3>
-                        <div>Using data, entry level has been built to be challenging, but never discouraging.  Students are supported with hints when they get stuck.</div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-12 buy-now-row">
-                    <button @click="openDriftWelcomeCallPlaybook">Book your first class</button>
+                <div class="row">
+                    <div class="col-lg-12 buy-now-row">
+                        <button @click="openDriftWelcomeCallPlaybook">Book your first class</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="container-fluid gray-1-background">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>Why Parents Love CodeCombat</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Why Parents Love CodeCombat</h1>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row equal-height">
-                <div class="col-lg-4">
-                    <div class="parent-reason-why">
-                        <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
-                        <h3>The most engaging way to learn typed code</h3>
-                        <div>Your child will have everything they need at the tip of their fingers to program algorithms in Python or JavaScript, build websites and even design their own games, while learning material aligned with national curriculum standards.</div>
+                <div class="row equal-height">
+                    <div class="col-lg-4">
+                        <div class="parent-reason-why">
+                            <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
+                            <h3>The most engaging way to learn typed code</h3>
+                            <div>Your child will have everything they need at the tip of their fingers to program algorithms in Python or JavaScript, build websites and even design their own games, while learning material aligned with national curriculum standards.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="parent-reason-why">
+                            <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
+                            <h3>Building critical skills for the 21st centry</h3>
+                            <div>Your child will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking, creativity, and resilience, empowering them with the skills they need for any industry.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="parent-reason-why">
+                            <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" />
+                            <h3>Supported by parents like you</h3>
+                            <div>At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do.</div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="parent-reason-why">
-                        <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
-                        <h3>Building critical skills for the 21st centry</h3>
-                        <div>Your child will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking, creativity, and resilience, empowering them with the skills they need for any industry.</div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="parent-reason-why">
-                        <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" />
-                        <h3>Supported by parents like you</h3>
-                        <div>At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do.</div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-12 buy-now-row">
-                    <button @click="openDriftWelcomeCallPlaybook">Book your first class</button>
+                <div class="row">
+                    <div class="col-lg-12 buy-now-row">
+                        <button @click="openDriftWelcomeCallPlaybook">Book your first class</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Everything they need to just start typing code on their own</h1>
@@ -351,41 +358,43 @@
         </div>
 
         <div class="container-fluid gray-2-background">
-            <div class="row title-row">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>What parents and kids are saying about CodeCombat</h1>
+            <div class="container">
+                <div class="row title-row">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>What parents and kids are saying about CodeCombat</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr />
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <hr />
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="quote">"This is next level coding for kids and it’s pretty fun. I am going to learn a thing or two from this too."</div>
-                    <div class="name">Francisco Navarro</div>
-                    <div class="details">Parent, Chicago, IL</div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="quote">"This is next level coding for kids and it’s pretty fun. I am going to learn a thing or two from this too."</div>
+                        <div class="name">Francisco Navarro</div>
+                        <div class="details">Parent, Chicago, IL</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="quote">"I liked learning a new skill that I haven’t done before. I liked that when I was struggling, I could find the goals. I also liked that you could see the code work correctly."</div>
+                        <div class="name">Avery</div>
+                        <div class="details">Student, Grade 8</div>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="quote">"I liked learning a new skill that I haven’t done before. I liked that when I was struggling, I could find the goals. I also liked that you could see the code work correctly."</div>
-                    <div class="name">Avery</div>
-                    <div class="details">Student, Grade 8</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="quote">“Oliver’s Python is coming along. He’s using CodeCombat to make his own video games. He challenges me to play his games, then laughs when I lose.” </div>
-                    <div class="name">Alex Bain</div>
-                    <div class="details">Parent, Chicago, IL</div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="quote">“This is one of my favorite things to do. Every morning I wake up and play CodeCombat. If I had to give CodeCombat a rating from 1 to 10, I would give it a 10!”</div>
-                    <div class="name">Caleb S.</div>
-                    <div class="details">Student, Grade 7</div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="quote">“Oliver’s Python is coming along. He’s using CodeCombat to make his own video games. He challenges me to play his games, then laughs when I lose.” </div>
+                        <div class="name">Alex Bain</div>
+                        <div class="details">Parent, Chicago, IL</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="quote">“This is one of my favorite things to do. Every morning I wake up and play CodeCombat. If I had to give CodeCombat a rating from 1 to 10, I would give it a 10!”</div>
+                        <div class="name">Caleb S.</div>
+                        <div class="details">Student, Grade 7</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -804,6 +813,10 @@
         text-align: center;
 
         color: #FFFFFF;
+    }
+
+    .trailer {
+        padding-top: 60px;
     }
 
     .video-col {
