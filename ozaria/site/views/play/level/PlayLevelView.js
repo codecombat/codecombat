@@ -1250,7 +1250,9 @@ class PlayLevelView extends RootView {
           state.capstoneStage = 1
           this.session.set('state', state)
         }
-        this.session.save()
+        this.session.save(null, {
+          success: () => setTimeout(application.router.reload, 3000) // Give settings time to propagate before reloading the page
+        })
       }
     }
 
