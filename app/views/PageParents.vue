@@ -76,8 +76,8 @@
                                 <h4>{{ $t('parents_landing_2.small_group_classes_detail') }}</h4>
 
                                 <div>
-                                    <div class="price">{{ $t('parents_landing_2.small_group_classes_price') }}}</div>
-                                    <div class="per-student-label">{{ $t('parents_landing_2.per_student')}}</div>
+                                    <div class="price">{{ $t('parents_landing_2.small_group_classes_price') }}</div>
+                                    <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                                 </div>
 
                                 <button @click="openDriftWelcomeCallPlaybook">
@@ -158,13 +158,13 @@
                         <h5>${{ basicSubAmount }}{{ $t('parents_landing_2.per_month') }}</h5>
                         <h6>{{ $t('parents_landing_2.monthly_sub') }}</h6>
 
-                        <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.buy_now') }}</button>
+                        <button @click="subscribeBasic">{{ $t('parents_landing_2.buy_now') }}</button>
                     </div>
                     <div class="col-lg-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
                         <h5>${{ lifetimeSubAmount }}</h5>
                         <h6>{{ $t('parents_landing_2.lifetime_access') }}</h6>
 
-                        <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.buy_now') }}</button>
+                        <button @click="subscribeLifetime">{{ $t('parents_landing_2.buy_now') }}</button>
                     </div>
                 </div>
 
@@ -417,7 +417,12 @@
             </div>
         </div>
 
-        <backbone-modal-harness :modal-view="SubscribeModal" :open="subscribeModalOpen" @close="subscribeModalClosed" />
+        <backbone-modal-harness
+                ref="subscribeModal"
+                :modal-view="SubscribeModal"
+                :open="subscribeModalOpen"
+                @close="subscribeModalClosed"
+        />
     </div>
 </template>
 
@@ -451,7 +456,6 @@
 
       basicSubAmount () {
         const sub = this.basicSubscriptionForCurrentUser
-        console.log(sub)
         return (sub) ? sub.amount / 100 : 0
       },
 
@@ -476,7 +480,25 @@
 
       openPremiumSubscribeModal () {
         this.subscribeModalOpen = true
-      }
+      },
+
+      subscribeBasic () {
+        this.$refs.subscribeModal.$once('shown', () => {
+          const modal = this.$refs.subscribeModal.$data.modalViewInstance
+          modal.onClickPurchaseButton()
+        })
+
+        this.openPremiumSubscribeModal()
+      },
+
+      subscribeLifetime () {
+        this.$refs.subscribeModal.$once('shown', () => {
+          const modal = this.$refs.subscribeModal.$data.modalViewInstance
+          modal.onClickStripeLifetimeButton()
+        })
+
+        this.openPremiumSubscribeModal()
+      },
     },
 
     mounted () {

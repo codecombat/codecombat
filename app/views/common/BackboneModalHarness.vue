@@ -53,6 +53,7 @@
           ...this.$props.modalArgs,
         )
 
+        this.modalViewInstance.on('shown', this.emitShownEvent)
         this.modalViewInstance.on('loading:show', this.showLoadingEvent)
         this.modalViewInstance.on('loading:hide', this.hideLoadingEvent)
         this.modalViewInstance.on('loading:progress', this.updateLoadingProgressEvent)
@@ -77,6 +78,7 @@
       },
 
       cleanupModal () {
+        this.modalViewInstance.off('shown', this.emitShownEvent)
         this.modalViewInstance.off('loading:show', this.showLoadingEvent)
         this.modalViewInstance.off('loading:hide', this.hideLoadingEvent)
         this.modalViewInstance.off('loading:progress', this.updateLoadingProgressEvent)
@@ -111,6 +113,10 @@
       modalHideEvent: function () {
         this.$emit('close')
         this.cleanupModal()
+      },
+
+      emitShownEvent: function () {
+        this.$emit('shown')
       }
     },
 
