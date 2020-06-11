@@ -158,11 +158,16 @@ mixin accountLinks
                       //- if !me.isStudent()
                       //-   li
                       //-     a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                      li
-                        a(href="https://codecombat.com" data-i18n="nav.return_coco" data-event-action="Click: Footer Return to CodeCombat")
-                      if me.showChinaICPinfo()
+                      if me.showChinaResourceInfo()
+                        li
+                          a(href="https://ozaria.com") 奥佳睿全球官网
+                        li
+                          a(href="https://koudashijie.com" data-i18n="nav.return_coco" data-event-action="Click: Footer Return to CodeCombat")
                         li
                           a(href="http://beian.miit.gov.cn/") 京ICP备19012263号-7
+                      else
+                        li
+                          a(href="https://codecombat.com" data-i18n="nav.return_coco" data-event-action="Click: Footer Return to CodeCombat")
 
                   .col-md-4.col-sm-12
                     if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()

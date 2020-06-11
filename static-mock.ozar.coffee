@@ -36,7 +36,6 @@ exports.me =
   getHomePageTestGroup: -> undefined
   showForumLink: -> true
   showGithubLink: -> true
-  showChinaICPinfo: -> false
   showChinaResourceInfo: -> false
   hideDiplomatModal: -> false
 

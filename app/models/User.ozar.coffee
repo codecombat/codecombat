@@ -622,7 +622,6 @@ module.exports = class User extends CocoModel
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   showForumLink: -> not (features?.china ? false)
   showGithubLink: -> not (features?.china ? false)
-  showChinaICPinfo: -> features?.china ? false
   showChinaResourceInfo: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
   # Special flag to detect whether we're temporarily showing static html while loading full site
