@@ -30,6 +30,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   new_home:
     title: "Ozaria - Computer science that captivates"
+    meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
     meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
