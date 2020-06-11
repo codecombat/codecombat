@@ -8,12 +8,16 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-4">
-                    <button class="full-width" @click="openDriftWelcomeCallPlaybook">{{ $t('parents_landing_2.learn_with_instructor') }}</button>
+                    <a href="#" class="full-width button" @click="openDriftWelcomeCallPlaybook">
+                        {{ $t('parents_landing_2.learn_with_instructor') }}
+                    </a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-4">
-                    <button class="full-width" @click="openDriftWelcomeCallPlaybook">{{ $t('parents_landing_2.learn_at_own_pace') }}</button>
+                    <a href="#premium" class="full-width button">
+                        {{ $t('parents_landing_2.learn_at_own_pace') }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -127,7 +131,7 @@
             </div>
         </div>
 
-        <div class="container-fluid coco-premium">
+        <section id="premium" class="container-fluid coco-premium">
             <div class="container">
                 <div class="row title-row">
                     <div class="row">
@@ -169,7 +173,7 @@
                 </div>
 
                 <div class="row premium-details">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-10 col-lg-offset-1">
                         <h5>{{ $t('parents_landing_2.premium_details_title') }}</h5>
                         <ul>
                             <li>{{ $t('parents_landing_2.premium_details_1') }}</li>
@@ -183,7 +187,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="container trailer">
             <div class="row title-row">
@@ -466,7 +470,8 @@
     },
 
     methods: {
-      openDriftWelcomeCallPlaybook () {
+      openDriftWelcomeCallPlaybook (e) {
+        e.preventDefault();
         window.drift.api.startInteraction({ interactionId: 161673 });
       },
 
@@ -517,8 +522,10 @@
         color: #0E4C60;
     }
 
-    button {
+    button, .button {
         padding: 13px;
+
+        display: block;
 
         text-transform: uppercase;
         border-radius: 4px;
@@ -529,10 +536,20 @@
         font-style: normal;
         font-weight: bold;
 
-        border: 2px solid #1FBAB4;
+        text-align: center;
+
+        border: 0 none;
     }
 
-    button.full-width {
+    button:hover, .button:hover {
+        background-color: #2DCEC8;
+        transition: background-color .35s;
+
+        text-decoration: none;
+        border: 0 none;
+    }
+
+    button.full-width, .button.full-width {
         width: 100%;
     }
 
@@ -583,11 +600,11 @@
     }
 
     .jumbotron h1 {
-        margin-bottom: 40px;
+        margin-bottom: 10px;
     }
 
-    .jumbotron button {
-        margin-bottom: 30px;
+    .jumbotron .button {
+        margin-top: 30px;
     }
 
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -928,6 +945,13 @@
         text-align: center;
     }
 
+    .buy-now-row button {
+        width: 100%;
+        max-width: 247px;
+
+        margin: 0 auto;
+    }
+
     .parent-reason-why {
         margin: 40px auto 0;
 
@@ -961,6 +985,7 @@
         line-height: 30px;
 
         color: #1FBAB4;
+        margin-bottom: 10px;
     }
 
     .concepts {
@@ -995,6 +1020,8 @@
 
         margin-top: 30px;
         margin-bottom: 18px;
+
+        text-align: center;
     }
 
     .testimonials {
