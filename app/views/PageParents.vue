@@ -3,17 +3,17 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="col-lg-4 col-md-6">
-                    <h1>Discover the magic of coding at home.</h1>
+                    <h1>{{ $t('parents_landing_2.splash_title') }}</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-4">
-                    <button class="full-width" @click="openDriftWelcomeCallPlaybook">Learn with an instructor</button>
+                    <button class="full-width" @click="openDriftWelcomeCallPlaybook">{{ $t('parents_landing_2.learn_with_instructor') }}</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-4">
-                    <button class="full-width" @click="openDriftWelcomeCallPlaybook">Learn at your own pace</button>
+                    <button class="full-width" @click="openDriftWelcomeCallPlaybook">{{ $t('parents_landing_2.learn_at_own_pace') }}</button>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <div class="row title-row">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1>Live Online Classes</h1>
+                            <h1>{{ $t('parents_landing_2.live_classes') }}</h1>
                         </div>
                     </div>
                     <div class="row">
@@ -33,12 +33,12 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h3>Learn with an instructor</h3>
+                            <h3>{{ $t('parents_landing_2.learn_with_instructor') }}</h3>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4>CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs.</h4>
+                            <h4>{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
                         </div>
                     </div>
                 </div>
@@ -49,20 +49,22 @@
                     </div>
                     <div class="col-lg-6">
                         <ul>
-                            <li>Small group or private lessons</li>
-                            <li>JavaScript and Python coding, plus core Computer Science concepts</li>
-                            <li>Taught by expert coding instructors</li>
-                            <li>Individualized and instant feedback</li>
-                            <li>Curriculum trusted by 80,000+ educators</li>
+                            <li>{{ $t('parents_landing_2.live_class_details_1') }}</li>
+                            <li>{{ $t('parents_landing_2.live_class_details_2') }}</li>
+                            <li>{{ $t('parents_landing_2.live_class_details_3') }}</li>
+                            <li>{{ $t('parents_landing_2.live_class_details_4') }}</li>
+                            <li>{{ $t('parents_landing_2.live_class_details_5') }}</li>
                         </ul>
 
-                        <button class="default-top-spacing" @click="openDriftWelcomeCallPlaybook">Try a free 60 minute class</button>
+                        <button class="default-top-spacing" @click="openDriftWelcomeCallPlaybook">
+                            {{ $t('parents_landing_2.try_free_class') }}
+                        </button>
                     </div>
                 </div>
 
                 <div class="row title-row add-spacing">
                     <div class="col-lg-12">
-                        <h2>Pricing Plans</h2>
+                        <h2>{{ $t('parents_landing_2.pricing_plans') }}</h2>
                     </div>
                 </div>
 
@@ -70,55 +72,54 @@
                     <div class="col-lg-6">
                         <div class="pricing-pane">
                             <div class="pricing-pane-content">
-                                <h3>Small group Coding Classes</h3>
-                                <h4>4 Group Sessions / Mo.</h4>
+                                <h3>{{ $t('parents_landing_2.small_group_classes') }}</h3>
+                                <h4>{{ $t('parents_landing_2.small_group_classes_detail') }}</h4>
 
                                 <div>
-                                    <div class="price">
-                                        $159/mo
-                                    </div>
-                                    <div class="per-student-label">per student</div>
+                                    <div class="price">{{ $t('parents_landing_2.small_group_classes_price') }}}</div>
+                                    <div class="per-student-label">{{ $t('parents_landing_2.per_student')}}</div>
                                 </div>
 
-                                <button @click="openDriftWelcomeCallPlaybook">Choose Plan</button>
+                                <button @click="openDriftWelcomeCallPlaybook">
+                                    {{ $t('parents_landing_2.choose_plan') }}
+                                </button>
 
                                 <ul>
-                                    <li>4:1 student to instructor ratio</li>
-                                    <li>60 minute classes</li>
-                                    <li>Build projects and give feedback to other students</li>
-                                    <li>Screen sharing to get live feedback on coding and debugging</li>
+                                    <li>{{ $t('parents_landing_2.small_group_classes_detail_1') }}</li>
+                                    <li>{{ $t('parents_landing_2.small_group_classes_detail_2') }}</li>
+                                    <li>{{ $t('parents_landing_2.small_group_classes_detail_3') }}</li>
+                                    <li>{{ $t('parents_landing_2.small_group_classes_detail_4') }}</li>
                                 </ul>
                             </div>
-                            <div class="discount">
-                                15% Sibling Discount!
-                            </div>
+                            <div class="discount">{{ $t('parents_landing_2.sibling_discount') }}</div>
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="pricing-pane">
                             <div class="pricing-pane-content">
-                                <h3>Private Coding Classes</h3>
-                                <h4>4 or 8 Private Sessions / Mo.</h4>
+                                <h3>{{ $t('parents_landing_2.private_classes') }}</h3>
+                                <h4>{{ $t('parents_landing_2.private_classes_detail') }}</h4>
 
                                 <div>
-                                    <div class="price">
-                                        $219/mo or $399/mo
-                                    </div>
-                                    <div class="per-student-label">per student</div>
+                                    <div class="price">{{ $t('parents_landing_2.private_classes_price') }}</div>
+                                    <div class="per-student-label">{{ $t('parents_landing_2.per_student')}}</div>
                                 </div>
 
-                                <button @click="openDriftWelcomeCallPlaybook">Choose Plan</button>
+
+                                <button @click="openDriftWelcomeCallPlaybook">
+                                    {{ $t('parents_landing_2.choose_plan') }}
+                                </button>
 
                                 <ul>
-                                    <li>1:1 student to instructor ratio</li>
-                                    <li>60 minute classes</li>
-                                    <li>Flexible schedule tailored to your needs</li>
-                                    <li>Lesson plans and live feedback tailored to students' learning style, pace, and ability level</li>
+                                    <li>{{ $t('parents_landing_2.private_classes_detail_1') }}</li>
+                                    <li>{{ $t('parents_landing_2.private_classes_detail_2') }}</li>
+                                    <li>{{ $t('parents_landing_2.private_classes_detail_3') }}</li>
+                                    <li>{{ $t('parents_landing_2.private_classes_detail_4') }}</li>
                                 </ul>
                             </div>
                             <div class="discount">
-                                15% Sibling Discount!
+                                <div class="discount">{{ $t('parents_landing_2.sibling_discount') }}</div>
                             </div>
                         </div>
                     </div>
@@ -131,7 +132,7 @@
                 <div class="row title-row">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1>CodeCombat Premium</h1>
+                            <h1>{{ $t('parents_landing_2.codecombat_premium') }}</h1>
                         </div>
                     </div>
                     <div class="row">
@@ -141,7 +142,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h3>Learn at Your Own Pace</h3>
+                            <h3>{{ $t('parents_landing_2.learn_at_own_pace') }}</h3>
                         </div>
                     </div>
                 </div>
@@ -154,31 +155,31 @@
 
                 <div class="row premium-pricing">
                     <div class="col-lg-3 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ basicSubAmount }}/mo</h5>
-                        <h6>Monthly Subscription</h6>
+                        <h5>${{ basicSubAmount }}{{ $t('parents_landing_2.per_month') }}</h5>
+                        <h6>{{ $t('parents_landing_2.monthly_sub') }}</h6>
 
-                        <button @click="openPremiumSubscribeModal">Buy now</button>
+                        <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.buy_now') }}</button>
                     </div>
                     <div class="col-lg-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ lifetimeSubAmount }}/mo</h5>
-                        <h6>Lifetime Access</h6>
+                        <h5>${{ lifetimeSubAmount }}</h5>
+                        <h6>{{ $t('parents_landing_2.lifetime_access') }}</h6>
 
-                        <button @click="openPremiumSubscribeModal">Buy now</button>
+                        <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.buy_now') }}</button>
                     </div>
                 </div>
 
                 <div class="row premium-details">
                     <div class="col-lg-8 col-lg-offset-2">
-                        <h5>Great for self-driven learners who thrive with complete autonomy.</h5>
+                        <h5>{{ $t('parents_landing_2.premium_details_title') }}</h5>
                         <ul>
-                            <li>Access to subscriber-only heroes, pets and skills</li>
-                            <li>Receive bonus gems to buy gear, pets and more heroes</li>
-                            <li>Unlock a deeper understanding of core concepts and skills like web and game development</li>
-                            <li>Premium support for subscribers</li>
-                            <li>Create private clans to invite friends and compete on a group leaderboard</li>
+                            <li>{{ $t('parents_landing_2.premium_details_1') }}</li>
+                            <li>{{ $t('parents_landing_2.premium_details_2') }}</li>
+                            <li>{{ $t('parents_landing_2.premium_details_3') }}</li>
+                            <li>{{ $t('parents_landing_2.premium_details_4') }}</li>
+                            <li>{{ $t('parents_landing_2.premium_details_5') }}</li>
                         </ul>
 
-                        <div class="buy-now-note">Need help or prefer Paypal? Email support@codecombat.com</div>
+                        <div class="buy-now-note">{{ $t('parents_landing_2.premium_need_help') }}</div>
                     </div>
                 </div>
             </div>
@@ -188,7 +189,7 @@
             <div class="row title-row">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Not sure if CodeCombat is right for your kid?  Ask them!</h2>
+                        <h2>{{ $t('parents_landing_2.not_sure_kid') }}</h2>
                     </div>
                 </div>
                 <div class="row">
@@ -198,7 +199,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3>Share our game trailer with your kid and have them create an account to get started.</h3>
+                        <h3>{{ $t('parents_landing_2.share_trailer') }}</h3>
                     </div>
                 </div>
             </div>
@@ -221,7 +222,7 @@
             <div class="container">
                 <div class="row title-row">
                     <div class="col-lg-12">
-                        <h1>Why Kids Love CodeCombat</h1>
+                        <h1>{{ $t('parents_landing_2.why_kids_love') }}</h1>
                     </div>
                 </div>
 
@@ -229,29 +230,31 @@
                     <div class="col-lg-4">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/learning_through_play.svg" />
-                            <h3>Learning Through Play</h3>
-                            <div class="description">Students grow their coding skills, and also use problem-solving skills to progress through levels and power up their heroes.</div>
+                            <h3>{{ $t('parents_landing_2.learn_through_play') }}</h3>
+                            <div class="description">{{ $t('parents_landing_2.learn_through_play_detail') }}</div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/skills_they_can_share.svg" />
-                            <h3>Skills They Can Share</h3>
-                            <div class="description">Students build real-world skills and create projects they can share with friends and family</div>
+                            <h3>{{ $t('parents_landing_2.skills_they_can_share' )}}</h3>
+                            <div class="description">{{ $t('parents_landing_2.skills_they_can_share_details') }}</div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/help_when_needed.svg" />
-                            <h3>Help When They Need It</h3>
-                            <div class="description">Using data, entry level has been built to be challenging, but never discouraging.  Students are supported with hints when they get stuck.</div>
+                            <h3>{{ $t('parents_landing_2.help_when_needed') }}</h3>
+                            <div class="description">{{ $t('parents_landing_2.help_when_needed_detail') }}</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-12 buy-now-row">
-                        <button @click="openDriftWelcomeCallPlaybook">Book your first class</button>
+                        <button @click="openDriftWelcomeCallPlaybook">
+                            {{ $t('parents_landing_2.book_first_class') }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -261,7 +264,7 @@
             <div class="container">
                 <div class="title-row">
                     <div class="col-lg-12">
-                        <h1>Why Parents Love CodeCombat</h1>
+                        <h1>{{ $t('parents_landing_2.why_parents_love') }}</h1>
                     </div>
                 </div>
 
@@ -270,8 +273,8 @@
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
                             <div class="description">
-                                <h3>The most engaging way to learn typed code</h3>
-                                Your child will have everything they need at the tip of their fingers to program algorithms in Python or JavaScript, build websites and even design their own games, while learning material aligned with national curriculum standards.
+                                <h3>{{ $t('parents_landing_2.most_engaging') }}</h3>
+                                {{ $t('parents_landing_2.most_engaging_detail') }}
                             </div>
                         </div>
                     </div>
@@ -279,8 +282,8 @@
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
                             <div class="description">
-                                <h3>Building critical skills for the 21st centry</h3>
-                                Your child will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking, creativity, and resilience, empowering them with the skills they need for any industry.
+                                <h3>{{ $t('parents_landing_2.critical_skills') }}</h3>
+                                {{ $t('parents_landing_2.critical_skills_detail') }}
                             </div>
                         </div>
                     </div>
@@ -288,8 +291,8 @@
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" />
                             <div class="description">
-                                <h3>Supported by parents like you</h3>
-                                At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do.
+                                <h3>{{ $t('parents_landing_2.parent_support') }}</h3>
+                                {{ $t('parents_landing_2.parent_support_detail') }}
                             </div>
                         </div>
                     </div>
@@ -297,7 +300,9 @@
 
                 <div class="row">
                     <div class="col-lg-12 buy-now-row">
-                        <button @click="openDriftWelcomeCallPlaybook">Book your first class</button>
+                        <button @click="openDriftWelcomeCallPlaybook">
+                            {{ $t('parents_landing_2.book_first_class')}}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -306,7 +311,7 @@
         <div class="container concepts">
             <div class="row title-row">
                 <div class="col-lg-12">
-                    <h2>Everything they need to just start typing code on their own</h2>
+                    <h2>{{ $t('parents_landing_2.everything_they_need' )}}</h2>
                 </div>
             </div>
 
@@ -316,14 +321,14 @@
                         <div class="image-container">
                             <img src="/images/pages/parents/beginner_concepts.svg" />
                         </div>
-                        <h3>Beginner Concepts</h3>
+                        <h3>{{ $t('parents_landing_2.beginner_concepts') }}</h3>
                         <ul>
-                            <li>Basic syntax</li>
-                            <li>While loops</li>
-                            <li>Arguments</li>
-                            <li>Strings</li>
-                            <li>Variables</li>
-                            <li>Algorithms</li>
+                            <li>{{ $t('parents_landing_2.beginner_concepts_1') }}</li>
+                            <li>{{ $t('parents_landing_2.beginner_concepts_2') }}</li>
+                            <li>{{ $t('parents_landing_2.beginner_concepts_3') }}</li>
+                            <li>{{ $t('parents_landing_2.beginner_concepts_4') }}</li>
+                            <li>{{ $t('parents_landing_2.beginner_concepts_5') }}</li>
+                            <li>{{ $t('parents_landing_2.beginner_concepts_6') }}</li>
                         </ul>
                     </div>
                 </div>
@@ -332,14 +337,14 @@
                         <div class="image-container">
                             <img src="/images/pages/parents/intermediate_concepts.svg" />
                         </div>
-                        <h3>Intermediate Concepts</h3>
+                        <h3>{{ $t('parents_landing_2.intermediate_concepts') }}</h3>
                         <ul>
-                            <li>If statements</li>
-                            <li>Boolean comparisons</li>
-                            <li>Nested conditionals</li>
-                            <li>Functions</li>
-                            <li>Basic input handling</li>
-                            <li>Basic game artificial intelligence</li>
+                            <li>{{ $t('parents_landing_2.intermediate_concepts_1') }}</li>
+                            <li>{{ $t('parents_landing_2.intermediate_concepts_2') }}</li>
+                            <li>{{ $t('parents_landing_2.intermediate_concepts_3') }}</li>
+                            <li>{{ $t('parents_landing_2.intermediate_concepts_4') }}</li>
+                            <li>{{ $t('parents_landing_2.intermediate_concepts_5') }}</li>
+                            <li>{{ $t('parents_landing_2.intermediate_concepts_6') }}</li>
                         </ul>
                     </div>
                 </div>
@@ -348,15 +353,15 @@
                         <div class="image-container">
                             <img src="/images/pages/parents/advanced_concepts.svg" />
                         </div>
-                        <h3>Advanced Concepts</h3>
+                        <h3>{{ $t('parents_landing_2.advanced_concepts' )}}</h3>
                         <ul>
-                            <li>Event handling</li>
-                            <li>Conditional while loops</li>
-                            <li>Object Literals</li>
-                            <li>Parameters</li>
-                            <li>Vectors</li>
-                            <li>Math Library jOperations</li>
-                            <li>Recursion</li>
+                            <li>{{ $t('parents_landing_2.advanced_concepts_1') }}</li>
+                            <li>{{ $t('parents_landing_2.advanced_concepts_2') }}</li>
+                            <li>{{ $t('parents_landing_2.advanced_concepts_3') }}</li>
+                            <li>{{ $t('parents_landing_2.advanced_concepts_4') }}</li>
+                            <li>{{ $t('parents_landing_2.advanced_concepts_5') }}</li>
+                            <li>{{ $t('parents_landing_2.advanced_concepts_6') }}</li>
+                            <li>{{ $t('parents_landing_2.advanced_concepts_7') }}</li>
                         </ul>
                     </div>
                 </div>
@@ -364,7 +369,7 @@
 
             <div class="row">
                 <div class="col-lg-12 buy-now-row">
-                    <button @click="openPremiumSubscribeModal">Get Started</button>
+                    <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.get_started') }}</button>
                 </div>
             </div>
         </div>
@@ -374,7 +379,7 @@
                 <div class="row title-row">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h2>What parents and kids are saying about CodeCombat</h2>
+                            <h2>{{ $t('parents_landing_2.quotes_title') }}</h2>
                         </div>
                     </div>
                     <div class="row">
@@ -386,27 +391,27 @@
 
                 <div class="row equal-height">
                     <div class="col-lg-6">
-                        <div class="quote">"This is next level coding for kids and it’s pretty fun. I am going to learn a thing or two from this too."</div>
+                        <div class="quote">{{ $t('parents_landing_2.quote_1') }}</div>
                         <div class="name">Francisco Navarro</div>
-                        <div class="details">Parent, Chicago, IL</div>
+                        <div class="details">{{ $t('parents_landing_2.parent') }}, Chicago, IL</div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="quote">"I liked learning a new skill that I haven’t done before. I liked that when I was struggling, I could find the goals. I also liked that you could see the code work correctly."</div>
+                        <div class="quote">{{ $t('parents_landing_2.quote_2') }}</div>
                         <div class="name">Avery</div>
-                        <div class="details">Student, Grade 8</div>
+                        <div class="details">{{ $t('parents_landing_2.student') }}, {{ $t('parents_landing_2.grade') }} 8</div>
                     </div>
                 </div>
 
                 <div class="row equal-height">
                     <div class="col-lg-6">
-                        <div class="quote">“Oliver’s Python is coming along. He’s using CodeCombat to make his own video games. He challenges me to play his games, then laughs when I lose.” </div>
+                        <div class="quote">{{ $t('parents_landing_2.quote_3') }}</div>
                         <div class="name">Alex Bain</div>
                         <div class="details">Parent, Chicago, IL</div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="quote">“This is one of my favorite things to do. Every morning I wake up and play CodeCombat. If I had to give CodeCombat a rating from 1 to 10, I would give it a 10!”</div>
+                        <div class="quote">{{ $t('parents_landing_2.quote_4') }}</div>
                         <div class="name">Caleb S.</div>
-                        <div class="details">Student, Grade 7</div>
+                        <div class="details">{{ $t('parents_landing_2.parent') }}, {{ $t('parents_landing_2.grade') }} 7</div>
                     </div>
                 </div>
             </div>
