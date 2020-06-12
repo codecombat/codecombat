@@ -42,7 +42,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4>{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
+                            <h4 class="no-margin">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     <div class="col-lg-6 device-image">
                         <img src="/images/pages/parents/device.svg" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 live-class-details">
                         <ul>
                             <li>{{ $t('parents_landing_2.live_class_details_1') }}</li>
                             <li>{{ $t('parents_landing_2.live_class_details_2') }}</li>
@@ -436,7 +436,11 @@
   import BackboneModalHarness from './common/BackboneModalHarness'
 
   export default {
-    inject: ['openLegacyModal'],
+    metaInfo: {
+      meta: [
+        // { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+      ]
+    },
 
     components: {
       BackboneModalHarness,
@@ -656,6 +660,10 @@
         border: 0 none;
     }
 
+    .title-row .no-margin {
+        margin: 0;
+    }
+
     .title-row h2 {
         font-family: Arvo, serif;
         font-style: normal;
@@ -684,12 +692,17 @@
     }
 
     .device-image {
+        margin-top: 30px;
         text-align: center;
     }
 
     .device-image img {
         width: 100%;
         max-width: 655px
+    }
+
+    .live-class-details {
+        margin-top: 30px;
     }
 
     .pricing-pane {
