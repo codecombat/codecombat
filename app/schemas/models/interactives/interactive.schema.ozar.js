@@ -21,6 +21,7 @@ const interactiveSchema = {
       title: 'Type of interactive'
     },
     displayName: schema.shortString({ title: 'Display Name' }),
+    description: { type: 'string', title: 'Description', description: 'Relevant for teacher dashboard' },
     promptText: { type: 'string', title: 'Prompt text' },
     draggableOrderingData: interactiveTypeSchema.interactiveDraggableOrderingSchema,
     insertCodeData: interactiveTypeSchema.interactiveInsertCodeSchema,

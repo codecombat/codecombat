@@ -22,7 +22,8 @@ const CutsceneSchema = schema.object({
     label: schema.shortString({ title: 'Language Label' })
   }),
   i18n: { type: 'object', format: 'i18n', props: ['name', 'captions', 'displayName'], description: 'This cutscene translation required srt files.' },
-  displayName: schema.shortString({ title: 'Display Name' })
+  displayName: schema.shortString({ title: 'Display Name' }),
+  description: { type: 'string', title: 'Description', description: 'Relevant for teacher dashboard' }
 })
 
 schema.extendBasicProperties(CutsceneSchema, 'cutscene')
