@@ -2,19 +2,19 @@
     <div>
         <div class="jumbotron">
             <div class="row">
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-5 col-md-6">
                     <h1>{{ $t('parents_landing_2.splash_title') }}</h1>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-4">
+                <div class="col-lg-4 col-md-5">
                     <a href="#" class="full-width button" @click="openDriftWelcomeCallPlaybook">
                         {{ $t('parents_landing_2.learn_with_instructor') }}
                     </a>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-4">
+                <div class="col-lg-4 col-md-5">
                     <a href="#premium" class="full-width button">
                         {{ $t('parents_landing_2.learn_at_own_pace') }}
                     </a>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="row equal-height">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="pricing-pane">
                             <div class="pricing-pane-content">
                                 <h3>{{ $t('parents_landing_2.small_group_classes') }}</h3>
@@ -99,7 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="pricing-pane">
                             <div class="pricing-pane-content">
                                 <h3>{{ $t('parents_landing_2.private_classes') }}</h3>
@@ -229,21 +229,21 @@
                 </div>
 
                 <div class="row equal-height">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/learning_through_play.svg" />
                             <h3>{{ $t('parents_landing_2.learn_through_play') }}</h3>
                             <div class="description">{{ $t('parents_landing_2.learn_through_play_detail') }}</div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/skills_they_can_share.svg" />
                             <h3>{{ $t('parents_landing_2.skills_they_can_share' )}}</h3>
                             <div class="description">{{ $t('parents_landing_2.skills_they_can_share_details') }}</div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="kid-reason-why">
                             <img src="/images/pages/parents/help_when_needed.svg" />
                             <h3>{{ $t('parents_landing_2.help_when_needed') }}</h3>
@@ -271,7 +271,7 @@
                 </div>
 
                 <div class="row equal-height">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
                             <div class="description">
@@ -280,7 +280,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
                             <div class="description">
@@ -289,7 +289,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="parent-reason-why">
                             <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" />
                             <div class="description">
@@ -318,7 +318,7 @@
             </div>
 
             <div class="row equal-height">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="concept-overview">
                         <div class="image-container">
                             <img src="/images/pages/parents/beginner_concepts.svg" />
@@ -334,7 +334,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="concept-overview">
                         <div class="image-container">
                             <img src="/images/pages/parents/intermediate_concepts.svg" />
@@ -350,7 +350,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-4">
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="concept-overview">
                         <div class="image-container">
                             <img src="/images/pages/parents/advanced_concepts.svg" />
@@ -369,8 +370,8 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12 buy-now-row">
+            <div class="row buy-now-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.get_started') }}</button>
                 </div>
             </div>
@@ -603,6 +604,7 @@
 
     .jumbotron .button {
         margin-top: 30px;
+        max-width: 320px;
     }
 
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -901,7 +903,10 @@
     }
 
     .kid-reason-why {
-        margin-top: 40px;
+        width: 100%;
+        max-width: 255px;
+
+        margin: 40px auto 0;
 
         height: 100%;
         display: flex;
@@ -921,7 +926,6 @@
 
     .kid-reason-why img {
         width: 100%;
-        max-width: 255px;
 
         margin-bottom: 20px;
     }
