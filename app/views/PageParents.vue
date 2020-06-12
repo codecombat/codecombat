@@ -49,7 +49,11 @@
 
                 <div class="row">
                     <div class="col-lg-6 device-image">
-                        <img src="/images/pages/parents/device.svg" />
+                        <img srcset="/images/pages/parents/device@1x.png 1x,
+                                     /images/pages/parents/device@2x.png 2x,
+                                     /images/pages/parents/device@3x.png 3x"
+                             src="/images/pages/parents/device@1x.png"
+                        />
                     </div>
                     <div class="col-lg-6 live-class-details">
                         <ul>
@@ -151,7 +155,11 @@
 
                 <div class="row">
                     <div class="col-lg-12 character-images">
-                        <img src="/images/pages/parents/characters.svg" />
+                        <img srcset="/images/pages/parents/characters@1x.png 1x,
+                                     /images/pages/parents/characters@2x.png 2x,
+                                     /images/pages/parents/characters@3x.png 3x"
+                             src="/images/pages/parents/characters@1x.png"
+                        />
                     </div>
                 </div>
 
@@ -231,21 +239,33 @@
                 <div class="row equal-height">
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="kid-reason-why">
-                            <img src="/images/pages/parents/learning_through_play.svg" />
+                            <img srcset="/images/pages/parents/learning_through_play@1x.png 1x,
+                                         /images/pages/parents/learning_through_play@2x.png 2x,
+                                         /images/pages/parents/learning_through_play@3x.png 3x"
+                                 src="/images/pages/parents/learning_through_play@1x.png"
+                            />
                             <h3>{{ $t('parents_landing_2.learn_through_play') }}</h3>
                             <div class="description">{{ $t('parents_landing_2.learn_through_play_detail') }}</div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="kid-reason-why">
-                            <img src="/images/pages/parents/skills_they_can_share.svg" />
+                            <img srcset="/images/pages/parents/skills_they_can_share@1x.png 1x,
+                                         /images/pages/parents/skills_they_can_share@2x.png 2x,
+                                         /images/pages/parents/skills_they_can_share@3x.png 3x"
+                                 src="/images/pages/parents/skills_they_can_share@1x.png"
+                            />
                             <h3>{{ $t('parents_landing_2.skills_they_can_share' )}}</h3>
                             <div class="description">{{ $t('parents_landing_2.skills_they_can_share_details') }}</div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="kid-reason-why">
-                            <img src="/images/pages/parents/help_when_needed.svg" />
+                            <img srcset="/images/pages/parents/help_when_needed@1x.png 1x,
+                                         /images/pages/parents/help_when_needed@2x.png 2x,
+                                         /images/pages/parents/help_when_needed@3x.png 3x"
+                                 src="/images/pages/parents/help_when_needed@1x.png"
+                            />
                             <h3>{{ $t('parents_landing_2.help_when_needed') }}</h3>
                             <div class="description">{{ $t('parents_landing_2.help_when_needed_detail') }}</div>
                         </div>
@@ -273,7 +293,11 @@
                 <div class="row equal-height">
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="parent-reason-why">
-                            <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
+                            <img srcset="/images/pages/parents/parent_1@1x.png 1x,
+                                         /images/pages/parents/parent_1@2x.png 2x,
+                                         /images/pages/parents/parent_1@3x.png 3x"
+                                 src="/images/pages/parents/parent_3@1x.png"
+                            />
                             <div class="description">
                                 <h3>{{ $t('parents_landing_2.most_engaging') }}</h3>
                                 {{ $t('parents_landing_2.most_engaging_detail') }}
@@ -282,7 +306,11 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="parent-reason-why">
-                            <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" src="/images/pages/parents/parent_3@1x.png" />
+                            <img srcset="/images/pages/parents/parent_2@1x.png 1x,
+                                         /images/pages/parents/parent_2@2x.png 2x,
+                                         /images/pages/parents/parent_2@3x.png 3x"
+                                 src="/images/pages/parents/parent_2@1x.png"
+                            />
                             <div class="description">
                                 <h3>{{ $t('parents_landing_2.critical_skills') }}</h3>
                                 {{ $t('parents_landing_2.critical_skills_detail') }}
@@ -291,7 +319,11 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="parent-reason-why">
-                            <img srcset="/images/pages/parents/parent_3@1x.png 1x, /images/pages/parents/parent_3@2x.png 2x, /images/pages/parents/parent_3@3x.png 3x" />
+                            <img srcset="/images/pages/parents/parent_3@1x.png 1x,
+                                         /images/pages/parents/parent_3@2x.png 2x,
+                                         /images/pages/parents/parent_3@3x.png 3x"
+                                 src="/images/pages/parents/parent_3@1x.png"
+                            />
                             <div class="description">
                                 <h3>{{ $t('parents_landing_2.parent_support') }}</h3>
                                 {{ $t('parents_landing_2.parent_support_detail') }}
@@ -321,7 +353,11 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="concept-overview">
                         <div class="image-container">
-                            <img src="/images/pages/parents/beginner_concepts.svg" />
+                            <img srcset="/images/pages/parents/beginner_concepts@1x.png 1x,
+                                         /images/pages/parents/beginner_concepts@2x.png 2x,
+                                         /images/pages/parents/beginner_concepts@3x.png 3x"
+                                 src="/images/pages/parents/beginner_concepts@1x.png"
+                            />
                         </div>
                         <h3>{{ $t('parents_landing_2.beginner_concepts') }}</h3>
                         <ul>
@@ -337,7 +373,11 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="concept-overview">
                         <div class="image-container">
-                            <img src="/images/pages/parents/intermediate_concepts.svg" />
+                            <img srcset="/images/pages/parents/intermediate_concepts@1x.png 1x,
+                                         /images/pages/parents/intermediate_concepts@2x.png 2x,
+                                         /images/pages/parents/intermediate_concepts@3x.png 3x"
+                                 src="/images/pages/parents/intermediate_concepts@1x.png"
+                            />
                         </div>
                         <h3>{{ $t('parents_landing_2.intermediate_concepts') }}</h3>
                         <ul>
@@ -354,7 +394,11 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="concept-overview">
                         <div class="image-container">
-                            <img src="/images/pages/parents/advanced_concepts.svg" />
+                            <img srcset="/images/pages/parents/advanced_concepts@1x.png 1x,
+                                         /images/pages/parents/advanced_concepts@2x.png 2x,
+                                         /images/pages/parents/advanced_concepts@3x.png 3x"
+                                 src="/images/pages/parents/advanced_concepts@1x.png"
+                            />
                         </div>
                         <h3>{{ $t('parents_landing_2.advanced_concepts' )}}</h3>
                         <ul>
