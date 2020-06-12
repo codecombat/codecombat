@@ -70,10 +70,10 @@ export default {
   },
 
   getters: {
-    getContentForClassroom: (state, _getters, _rootState) => (id) => {
+    getContentForClassroom: (state) => (id) => {
       return state.gameContent.byClassroom[id]
     },
-    getContentForCampaign: (state, _getters, _rootState) => (id) => {
+    getContentForCampaign: (state) => (id) => {
       return state.gameContent.byCampaign[id]
     }
   },

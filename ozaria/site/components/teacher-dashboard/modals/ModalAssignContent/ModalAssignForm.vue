@@ -34,7 +34,7 @@
         return this.$route.params.classroomId
       },
       classroomMembers () {
-        return this.members(this.classroomId) || []
+        return this.members(this.classroom) || []
       },
       activeClassrooms () {
         return (this.classroomsByTeacher(this.teacherId) || {}).active || []

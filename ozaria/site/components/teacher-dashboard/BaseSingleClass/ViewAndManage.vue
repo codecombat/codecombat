@@ -1,11 +1,13 @@
 <script>
   import Dropdown from '../common/Dropdown'
   import PrimaryButton from '../common/buttons/PrimaryButton'
+  import IconButtonWithText from '../common/buttons/IconButtonWithText'
 
   export default {
     components: {
       'dropdown': Dropdown,
-      'primary-button': PrimaryButton
+      'primary-button': PrimaryButton,
+      'icon-button-with-text': IconButtonWithText
     },
     props: {
       arrowVisible: {
@@ -57,22 +59,26 @@
       >
         Assign Content
       </primary-button>
-      <div class="aside-icon">
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents.svg">
-        <span>Add Students</span>
-      </div>
-      <div class="aside-icon">
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconRemoveStudents.svg">
-        <span>Remove Students</span>
-      </div>
-      <div class="aside-icon">
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconRemoveStudents.svg">
-        <span>Apply Licenses</span>
-      </div>
-      <div class="aside-icon">
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconRemoveStudents.svg">
-        <span>Revoke Licenses</span>
-      </div>
+      <icon-button-with-text
+        icon-name="IconAddStudents"
+        text="Add Students"
+        @click="$emit('addStudents')"
+      />
+      <icon-button-with-text
+        icon-name="IconRemoveStudents"
+        text="Remove Students"
+        @click="$emit('removeStudents')"
+      />
+      <icon-button-with-text
+        icon-name="IconRemoveStudents"
+        text="Apply Licenses"
+        @click="$emit('applyLicenses')"
+      />
+      <icon-button-with-text
+        icon-name="IconRemoveStudents"
+        text="Revoke Licenses"
+        @click="$emit('revokeLicenses')"
+      />
     </div>
     <div :class="[arrowVisible ? 'arrow-toggle' : 'arrow-disabled']" @click="clickArrow">
       <transition name="arrow-fade">
@@ -162,26 +168,6 @@
 
   .primary-btn {
     padding: 6px 12px;
-  }
-
-  .aside-icon {
-    display: flex;
-    align-items: center;
-
-    img {
-      width: 18px;
-      height: 18px;
-      margin: 0 4px;
-    }
-
-    span {
-      @include font-p-3-small-button-text-dusk-dark;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 12px;
-      margin: 0 4px;
-      text-align: left;
-    }
   }
 
   .arrow-fade-enter-active {

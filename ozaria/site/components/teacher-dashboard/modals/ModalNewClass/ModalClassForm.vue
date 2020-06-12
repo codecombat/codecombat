@@ -1,7 +1,7 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, requiredIf } from 'vuelidate/lib/validators'
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 
@@ -42,6 +42,9 @@
       }
     },
     computed: {
+      ...mapGetters({
+        courses: 'courses/sorted'
+      }),
       isFormValid () {
         return !this.$v.$invalid
       },
@@ -51,7 +54,8 @@
     },
     methods: {
       ...mapActions({
-        createClassroom: 'classrooms/createClassroom'
+        createClassroom: 'classrooms/createClassroom',
+        createFreeCourseInstances: 'courseInstances/createFreeCourseInstances'
       }),
       updateGrades (event) {
         const grade = event.target.name
@@ -77,8 +81,18 @@
           }
           try {
             const classroom = await this.createClassroom(classOptions)
+            await this.createFreeCourseInstances({ classroom: classroom, courses: this.courses })
             if (this.isGoogleClassroomForm) {
               await GoogleClassroomHandler.markAsImported(this.googleClassId)
+              GoogleClassroomHandler.importStudentsToClassroom(classroom)
+                .then((importedMembers) => {
+                  if (importedMembers.length > 0) {
+                    console.debug('Students imported to classroom:', importedMembers)
+                  }
+                })
+                .catch((e) => {
+                  noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
+                })
             }
             this.$emit('done', classroom)
           } catch (e) {
@@ -120,6 +134,7 @@
     >
       <button-google-classroom
         :inactive="googleClassroomDisabled"
+        text="Link Google Classroom"
         @click="linkGoogleClassroom"
       />
       <modal-divider />

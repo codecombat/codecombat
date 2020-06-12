@@ -54,7 +54,7 @@
     <secondary-teacher-navigation
       :classrooms="activeClassrooms"
     />
-    <title-bar title="My Licenses" />
+    <title-bar title="My Licenses" @newClass="$emit('newClass')" />
     <loading-bar
       :key="loading"
       :loading="loading"

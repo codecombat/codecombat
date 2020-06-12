@@ -98,8 +98,10 @@ module.exports = {
   
   // Imports students from google classroom, create their account on coco and add to the coco classroom
   importStudentsToClassroom: async function (cocoClassroom) {
+    const store = require('core/store')
     try {
-      const googleClassroomId = cocoClassroom.get("googleClassroomId")
+      cocoClassroom = cocoClassroom.attributes || cocoClassroom
+      const googleClassroomId = cocoClassroom.googleClassroomId
       
       let importedStudents = []
       let importStudentsResult = await this.gcApiHandler.loadStudentsFromAPI(googleClassroomId)
@@ -133,10 +135,10 @@ module.exports = {
         console.error("Error in creating some students:", signupErrors)
 
       //Students to add in classroom = created students + existing students that are not already part of the classroom
-      const classroomNewMembers = createdStudents.concat(existingStudents.filter((s) => !cocoClassroom.get("members").includes(s._id)))
+      const classroomNewMembers = createdStudents.concat(existingStudents.filter((s) => !cocoClassroom.members.includes(s._id)))
       
       if (classroomNewMembers.length > 0){
-        await api.classrooms.addMembers({ classroomID: cocoClassroom.get("_id"), members: classroomNewMembers })
+        await store.dispatch('classrooms/addMembersToClassroom', { classroom: cocoClassroom, members: classroomNewMembers })
         noty ( {text: classroomNewMembers.length+' Students imported.', layout: 'topCenter', timeout: 3000, type: 'success' })
         return classroomNewMembers
       }

@@ -1,7 +1,7 @@
 <script>
   import BaseModalTeacherDashboard from '../BaseModalTeacherDashboard'
   import ModalClassForm from './ModalClassForm'
-  import ModalClassInfo from './ModalClassInfo'
+  import ModalClassInfo from '../ModalClassInfo'
   import ModalInviteStudents from '../ModalInviteStudents'
 
   export default Vue.extend({

@@ -63,7 +63,7 @@
         return this.levelSessionsMapForClassroom(this.classroomId) || {}
       },
       classroomMembers () {
-        return this.members(this.classroomId) || []
+        return this.members(this.classroom) || []
       },
       exemplarProjectUrl () {
         return ''

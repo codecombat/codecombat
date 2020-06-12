@@ -45,7 +45,7 @@ export default {
   },
 
   getters: {
-    getPrepaidsByTeacher: (state, _getters, _rootState) => (id) => {
+    getPrepaidsByTeacher: (state) => (id) => {
       return state.prepaids.byTeacher[id]
     }
   },
