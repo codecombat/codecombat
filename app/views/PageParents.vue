@@ -587,7 +587,7 @@
     }
 
     .jumbotron {
-        padding: 110px;
+        padding: 70px;
         margin-bottom: 0;
         min-height: 580px;
 
