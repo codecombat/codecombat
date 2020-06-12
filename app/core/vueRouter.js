@@ -10,7 +10,7 @@ export default function getVueRouter () {
 
       routes: [
         {
-          path: '/parents-v2',
+          path: '/parents',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/PageParents')
         },
         {
