@@ -545,6 +545,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     logout: "Logout"
     empty: "Empty"
     done: "Done"
+    remove: "Remove"
 
   general:
     and: "and"

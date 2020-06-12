@@ -5,6 +5,11 @@
       inactive: {
         type: Boolean,
         default: false
+      },
+      text: {
+        type: String,
+        required: true,
+        default: 'Link Google Classroom'
       }
     },
     methods: {
@@ -32,7 +37,7 @@
         v-else
         src="/images/ozaria/teachers/dashboard/svg_icons/IconGoogleClassroom.svg"
       >
-      <span class="google-classroom-text"> {{ $t("courses.link_google_classroom") }} </span>
+      <span class="google-classroom-text"> {{ text }} </span>
     </div>
     <span
       v-if="inactive"

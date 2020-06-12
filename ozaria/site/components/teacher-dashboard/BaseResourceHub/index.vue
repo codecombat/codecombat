@@ -52,7 +52,7 @@
     <secondary-teacher-navigation
       :classrooms="activeClassrooms"
     />
-    <title-bar title="Resource Hub" />
+    <title-bar title="Resource Hub"  @newClass="$emit('newClass')" />
     <loading-bar
       :key="loading"
       :loading="loading"

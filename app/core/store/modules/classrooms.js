@@ -1,4 +1,5 @@
 import classroomsApi from 'core/api/classrooms'
+import courseInstancesApi from 'core/api/course-instances'
 
 export default {
   namespaced: true,
@@ -16,7 +17,7 @@ export default {
       //     active: [],
       //     archived: []
       //  }
-      byTeacher: {}
+      byTeacher: {} // used for teacher dashboard, TODO combine byClassroom/byTeacher?
     }
   },
 
@@ -76,11 +77,37 @@ export default {
 
     addClassroomForId: (state, { classroomID, classroom }) => {
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
+    },
+
+    addMembersForClassroom: (state, { teacherId, classroomId, memberIds }) => {
+      if (!state.classrooms.byTeacher[teacherId]) {
+        return
+      }
+      const teacherClassroomsState = {
+        active: state.classrooms.byTeacher[teacherId].active || [],
+        archived: state.classrooms.byTeacher[teacherId].archived || []
+      }
+      const classroom = teacherClassroomsState.active.find((c) => c._id === classroomId)
+      classroom.members = (classroom.members || []).concat(memberIds)
+      Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
+    },
+
+    removeMembersForClassroom: (state, { teacherId, classroomId, memberIds }) => {
+      if (!state.classrooms.byTeacher[teacherId]) {
+        return
+      }
+      const teacherClassroomsState = {
+        active: state.classrooms.byTeacher[teacherId].active || [],
+        archived: state.classrooms.byTeacher[teacherId].archived || []
+      }
+      const classroom = teacherClassroomsState.active.find((c) => c._id === classroomId)
+      classroom.members = (classroom.members || []).filter((m) => !memberIds.includes(m))
+      Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
     }
   },
 
   getters: {
-    getClassroomsByTeacher: (state, _getters, _rootState) => (id) => {
+    getClassroomsByTeacher: (state) => (id) => {
       return state.classrooms.byTeacher[id]
     }
   },
@@ -133,6 +160,39 @@ export default {
             throw new Error('Unexpected response from create classroom API.')
           }
         })
+    },
+    // Removes members from classroom and updates the vuex state for classroom
+    removeMembersFromClassroom: ({ rootGetters, commit, dispatch }, options) => {
+      const memberIds = options.memberIds
+      const classroom = options.classroom
+      const courseInstances = rootGetters['courseInstances/getCourseInstancesForClass'](classroom.ownerID, classroom._id) || []
+
+      const removePromises = []
+      memberIds.forEach((mId) => {
+        const ciId = (courseInstances.filter((ci) => ci.members.includes(mId)) || []).map((ci) => ci._id)
+        if (ciId.length > 0) {
+          removePromises.push(courseInstancesApi.removeMember(ciId, { memberId: mId }).then(() => {
+            classroomsApi.removeMember({ classroomID: classroom._id, userId: mId }).then(() => {
+              dispatch('fetchClassroomsForTeacher', classroom.ownerID)
+              commit('removeMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: [mId] })
+            })
+          }))
+        } else {
+          removePromises.push(classroomsApi.removeMember({ classroomID: classroom._id, userId: mId }).then(() => {
+            dispatch('fetchClassroomsForTeacher', classroom.ownerID)
+            commit('removeMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: [mId] })
+          }))
+        }
+      })
+      return Promise.all(removePromises)
+    },
+    // Adds members to classroom and updates the vuex state for classroom
+    addMembersToClassroom: async ({ commit }, options) => {
+      const members = options.members || []
+      const memberIds = members.map((m) => m._id)
+      const classroom = options.classroom
+      await classroomsApi.addMembers({ classroomID: classroom._id, members: members })
+      commit('addMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: memberIds })
     }
   }
 }

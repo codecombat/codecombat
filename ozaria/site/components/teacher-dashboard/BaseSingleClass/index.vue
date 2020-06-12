@@ -170,7 +170,7 @@
       },
 
       classroomMembers () {
-        return this.members(this.classroomId) || []
+        return this.members(this.classroom) || []
       },
 
       students () {
@@ -312,6 +312,8 @@
       @change-sort-by="onChangeStudentSort"
       @click-arrow="clickGuidelineArrow"
       @assignContent="$emit('assignContent')"
+      @addStudents="$emit('addStudents')"
+      @removeStudents="$emit('removeStudents')"
     />
 
     <table-class-frame

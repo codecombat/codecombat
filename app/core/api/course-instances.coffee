@@ -22,4 +22,12 @@ module.exports = {
       method: 'POST'
       json: courseInstanceDetails
     }))
+
+  removeMember: (courseInstanceID, options={}) ->
+    fetchJson("/db/course_instance/#{courseInstanceID}/members", _.assign({}, options, {
+      method: 'DELETE'
+      json: {
+        userID: options.memberId
+      }
+    }))
 }

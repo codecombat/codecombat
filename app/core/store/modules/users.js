@@ -6,13 +6,11 @@ export default {
 
   state: {
     loading: {
-      byId: {},
-      byClassroom: {}
+      byId: {}
     },
 
     users: {
-      byId: {},
-      byClassroom: {}
+      byId: {}
     }
   },
 
@@ -26,27 +24,29 @@ export default {
       Vue.set(state.loading.byId, userId, loading)
     },
 
-    toggleLoadingForClassroom: (state, classroomId) => {
-      let loading = true
-      if (state.loading.byClassroom[classroomId]) {
-        loading = false
-      }
-
-      Vue.set(state.loading.byClassroom, classroomId, loading)
-    },
-
     addUser: (state, user) => {
       Vue.set(state.users.byId, user._id, user)
     },
 
-    addMembersForClassroom: (state, { classroomId, members }) => {
-      Vue.set(state.users.byClassroom, classroomId, members)
+    setUsers: (state, users) => {
+      users.forEach((user) => {
+        Vue.set(state.users.byId, user._id, user)
+      })
     }
   },
 
   getters: {
+    // Get user data for classroom members
     getClassroomMembers: (state) => (classroom) => {
-      return state.users.byClassroom[classroom]
+      const members = []
+      if (classroom.members) {
+        classroom.members.forEach((m) => {
+          if (state.users.byId[m]) {
+            members.push(state.users.byId[m])
+          }
+        })
+      }
+      return members
     }
   },
 
@@ -68,20 +68,17 @@ export default {
     },
 
     fetchClassroomMembers: ({ commit }, { classroom, options = {} }) => {
-      commit('toggleLoadingForClassroom', classroom._id)
-
       return classroomsApi
-        .getMembers({ classroom }, { 
+        .getMembers({ classroom }, {
           removeDeleted: true,
           data: { project: options.project || 'firstName,lastName,name,email,coursePrepaid,deleted' }
         })
-        .then(res =>  {
+        .then(res => {
           if (res && res.length > 0) {
-            commit('addMembersForClassroom', { classroomId: classroom._id, members: res })
+            commit('setUsers', res)
           }
         })
         .catch((e) => noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
-        .finally(() => commit('toggleLoadingForClassroom', classroom._id))
     }
   }
 }

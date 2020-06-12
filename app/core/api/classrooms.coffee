@@ -60,4 +60,9 @@ module.exports = {
       method: 'POST'
     }))
 
+  removeMember: ({classroomID, userId}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/members/#{userId}",  _.assign({}, options, {
+      method: 'DELETE'
+    }))
+
 }

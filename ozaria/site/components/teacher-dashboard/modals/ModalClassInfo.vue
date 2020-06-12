@@ -1,18 +1,31 @@
 <script>
-  import PrimaryButton from '../../common/buttons/PrimaryButton'
-  import SecondaryButton from '../../common/buttons/SecondaryButton'
+  import PrimaryButton from '../common/buttons/PrimaryButton'
+  import SecondaryButton from '../common/buttons/SecondaryButton'
   import { tryCopy } from 'ozaria/site/common/ozariaUtils'
+
+  import ButtonGoogleClassroom from './common/ButtonGoogleClassroom'
+  import ModalDivider from './common/ModalDivider'
 
   export default Vue.extend({
     components: {
       PrimaryButton,
-      SecondaryButton
+      SecondaryButton,
+      ButtonGoogleClassroom,
+      ModalDivider
     },
     props: {
       classroomCode: {
         type: String,
         default: '',
         required: true
+      },
+      classroom: {
+        type: Object,
+        default: () => {}
+      },
+      showGoogleClassroom: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -37,6 +50,16 @@
 
 <template>
   <div class="style-ozaria teacher-form">
+    <div
+      v-if="showGoogleClassroom"
+      class="google-classroom-div"
+    >
+      <button-google-classroom
+        text="Sync Google Classroom"
+        @click="$emit('syncGoogleClassroom')"
+      />
+      <modal-divider />
+    </div>
     <div class="form-container">
       <span class="sub-title"> {{ $t("teachers.class_info_modal_sub_title") }} </span>
       <div class="class-code">
@@ -102,6 +125,13 @@
 }
 .form-container {
   margin-bottom: 170px;
+}
+
+.google-classroom-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .sub-title {

@@ -33,8 +33,14 @@ export default {
       Vue.set(state.loading.byTeacher, teacherId, loading)
     },
 
-    addCourseInstancesForTeacher: (state, { teacherId, instances }) =>
+    setCourseInstancesForTeacher: (state, { teacherId, instances }) => {
       Vue.set(state.courseInstancesByTeacher, teacherId, instances)
+    },
+
+    addCourseInstancesForTeacher: (state, { teacherId, instances }) => {
+      const cis = (state.courseInstancesByTeacher[teacherId] || []).concat(instances)
+      Vue.set(state.courseInstancesByTeacher, teacherId, cis)
+    }
   },
 
   actions: {
@@ -45,7 +51,7 @@ export default {
         .fetchByOwner(teacherId)
         .then(res =>  {
           if (res) {
-            commit('addCourseInstancesForTeacher', {
+            commit('setCourseInstancesForTeacher', {
               teacherId,
               instances: res
             })
@@ -192,6 +198,22 @@ export default {
         ]
         noty({ text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000 })
       }
+    },
+
+    // creates free course instances for a new classroom, so that when students join the classroom they are assigned the free courses
+    // TODO move to server in the classroom creation flow
+    async createFreeCourseInstances ({ state, commit }, { classroom, courses }) {
+      const freeCourses = courses.filter((c) => c.free === true)
+      const courseInstancePromises = []
+      freeCourses.forEach((c) => {
+        courseInstancePromises.push(courseInstancesApi.post({ classroomID: classroom._id, courseID: c._id }).then((ci) => {
+          commit('addCourseInstancesForTeacher', { // update course-instance state
+            teacherId: classroom.ownerID,
+            instances: [ci]
+          })
+        }))
+      })
+      await Promise.all(courseInstancePromises)
     }
   }
 }
