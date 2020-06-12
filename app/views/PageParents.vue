@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="container-fluid gray-1-background">
+        <div class="container-background gray-1-background">
             <div class="container">
                 <div class="row title-row">
                     <div class="row">
@@ -129,7 +129,7 @@
             </div>
         </div>
 
-        <section id="premium" class="container-fluid coco-premium">
+        <section id="premium" class="container-background coco-premium">
             <div class="container">
                 <div class="row title-row">
                     <div class="row">
@@ -220,7 +220,7 @@
             </div>
         </div>
 
-        <div class="container-fluid gray-2-background">
+        <div class="container-background gray-2-background">
             <div class="container">
                 <div class="row title-row">
                     <div class="col-lg-12">
@@ -262,7 +262,7 @@
             </div>
         </div>
 
-        <div class="container-fluid gray-1-background">
+        <div class="container-background gray-1-background">
             <div class="container">
                 <div class="title-row">
                     <div class="col-lg-12">
@@ -377,7 +377,7 @@
             </div>
         </div>
 
-        <div class="container-fluid gray-2-background testimonials">
+        <div class="container-background gray-2-background testimonials">
             <div class="container">
                 <div class="row title-row">
                     <div class="row">
@@ -438,7 +438,7 @@
   export default {
     metaInfo: {
       meta: [
-        // { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
       ]
     },
 
@@ -582,17 +582,13 @@
         margin-right: 10px
     }
 
-    .jumbotron, .container-fluid {
-        padding: 0 70px;
-        margin-bottom: 0;
-    }
-
-    .container-fluid {
+    .container-background {
         padding-top: 60px;
     }
 
     .jumbotron {
         padding: 110px;
+        margin-bottom: 0;
         min-height: 580px;
 
         background-image: url("/images/pages/parents/jumbotron@1x.png");
