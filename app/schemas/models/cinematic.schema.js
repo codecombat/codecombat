@@ -209,6 +209,7 @@ const CinematicSchema = c.object({
     description: 'Ordered list of shots that make up a cinematic'
   }, Shot),
   displayName: c.shortString({ title: 'Display Name' }),
+  description: { type: 'string', title: 'Description', description: 'Relevant for teacher dashboard' },
   showInstructionalTooltip: { title: 'Show Instructional Tooltip', description: 'Trigger instructions on how to navigate cinematics for users', type: 'boolean', default: true }
 })
 

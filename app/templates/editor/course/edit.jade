@@ -17,7 +17,8 @@ block content
     span
      |: "#{view.course.attributes.name}"
     
-  .alert.alert-warning Can only edit translations currently
+  - if (!me.isAdmin())
+    .alert.alert-warning Can only edit translations currently
     
   #course-treema
 

@@ -344,6 +344,7 @@ _.extend LevelSchema.properties,
         i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint'}
       }
     }
+  screenshot: { type: 'string', format: 'image-file', title: 'Screenshot', description: 'Relevant for teacher dashboard' }
   nextLevel: {
     type: 'object',
     links: [{rel: 'extra', href: '/db/level/{($)}'}, {rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}],
