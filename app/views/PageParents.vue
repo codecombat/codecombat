@@ -122,9 +122,7 @@
                                     <li>{{ $t('parents_landing_2.private_classes_detail_4') }}</li>
                                 </ul>
                             </div>
-                            <div class="discount">
-                                <div class="discount">{{ $t('parents_landing_2.sibling_discount') }}</div>
-                            </div>
+                            <div class="discount">{{ $t('parents_landing_2.sibling_discount') }}</div>
                         </div>
                     </div>
                 </div>
