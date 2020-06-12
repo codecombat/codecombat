@@ -436,12 +436,6 @@
   import BackboneModalHarness from './common/BackboneModalHarness'
 
   export default {
-    metaInfo: {
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
-      ]
-    },
-
     components: {
       BackboneModalHarness,
     },
