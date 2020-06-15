@@ -94,7 +94,7 @@ export default function getVueRouter () {
           beforeEnter: (_to, _from, next) => {
             // Prevent users with an active vue router from accessing the new teacher
             // teacher dashboard.
-            if (window.me.isAdmin() && window.sessionStorage.getItem('newTeacherDashboardActive') === 'active') {
+            if (window.sessionStorage.getItem('newTeacherDashboardActive') === 'active') {
               next()
             } else {
               // Cancel navigation.
