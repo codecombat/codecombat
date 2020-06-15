@@ -23,47 +23,29 @@
       'capstone-details-container': CapstoneDetailsContainer,
       'capstone-sessions-container': CapstoneSessionsContainer
     },
-
+    props: {
+      classroomId: {
+        type: String,
+        default: '',
+        required: true
+      }
+    },
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher',
-        courses: 'courses/sorted',
-        getSelectedCourseId: 'teacherDashboard/getSelectedCourseIdForClassroom',
-        gameContent: 'gameContent/getContentForClassroom',
-        levelSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
-        members: 'users/getClassroomMembers'
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+        classroom: 'teacherDashboard/getCurrentClassroom',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+        selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+        levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
+        classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
+        gameContent: 'teacherDashboard/getGameContentCurrentClassroom'
       }),
-      teacherId () {
-        return me.get('_id')
-      },
-      classroomId () {
-        return this.$route.params.classroomId
-      },
-      activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active || []
-      },
-      classroom () {
-        return this.activeClassrooms.find((c) => c._id === this.classroomId) || {}
-      },
-      classroomCourses () {
-        const classroomCourseIds = (this.classroom.courses || []).map((c) => c._id) || []
-        return (this.courses || []).filter((c) => classroomCourseIds.includes(c._id))
-      },
-      selectedCourseId () {
-        return this.getSelectedCourseId(this.classroomId) || (this.classroomCourses[0] || {})._id // TODO default should be last assigned course
-      },
       selectedCourse () {
         return this.classroomCourses.find((c) => c._id === this.selectedCourseId) || {}
       },
       capstoneLevel () {
-        return ((this.gameContent(this.classroomId) || {})[this.selectedCourseId] || {}).capstone || {}
-      },
-      levelSessionsMapByUser () {
-        return this.levelSessionsMapForClassroom(this.classroomId) || {}
-      },
-      classroomMembers () {
-        return this.members(this.classroom) || []
+        return (this.gameContent[this.selectedCourseId] || {}).capstone || {}
       },
       exemplarProjectUrl () {
         return ''
@@ -72,14 +54,16 @@
     },
 
     watch: {
-      classroomId () {
-        this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId, data: projectionData } })
+      classroomId (newId) {
+        this.setClassroomId(newId)
+        this.fetchData({ componentName: this.$options.name, options: { data: projectionData } })
       }
     },
 
     mounted () {
       this.setTeacherId(me.get('_id'))
-      this.fetchData({ componentName: this.$options.name, options: { classroomId: this.classroomId, data: projectionData } })
+      this.setClassroomId(this.classroomId)
+      this.fetchData({ componentName: this.$options.name, options: { data: projectionData } })
     },
 
     destroyed () {
@@ -93,10 +77,11 @@
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
         setTeacherId: 'teacherDashboard/setTeacherId',
-        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdForClassroom'
+        setClassroomId: 'teacherDashboard/setClassroomId',
+        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom'
       }),
       onChangeCourse (courseId) {
-        this.setSelectedCourseId({ classroomId: this.classroomId, courseId: courseId })
+        this.setSelectedCourseId({ courseId: courseId })
       }
     }
   }

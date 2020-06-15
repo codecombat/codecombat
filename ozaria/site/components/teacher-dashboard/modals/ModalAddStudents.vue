@@ -18,23 +18,9 @@
     },
     computed: {
       ...mapGetters({
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher',
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-        courses: 'courses/sorted'
+        classroom: 'teacherDashboard/getCurrentClassroom',
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds'
       }),
-
-      teacherId () {
-        return me.get('_id')
-      },
-      classroomId () {
-        return this.$route.params.classroomId
-      },
-      activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active || []
-      },
-      classroom () {
-        return this.activeClassrooms.find((c) => c._id === this.classroomId) || {}
-      },
       showClassInfoModal () {
         return !this.showInviteStudentsModal
       },
@@ -47,6 +33,12 @@
         } else {
           return 'Add Students to Class'
         }
+      }
+    },
+    created () {
+      if (!this.classroom) {
+        console.error('Classroom not set')
+        this.$emit('close')
       }
     },
     methods: {

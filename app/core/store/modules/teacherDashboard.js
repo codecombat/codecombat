@@ -6,7 +6,8 @@ export default {
 
   state: {
     teacherId: '',
-    selectedCourseIdForClassroom: {},
+    classroomId: '', // current classrom id for single class page and projects page
+    selectedCourseIdForClassroom: {}, // selectedCourse for each classroomId across single class and student projects page
     loading: false
   },
 
@@ -25,24 +26,85 @@ export default {
     resetLoadingState (state) {
       state.loading = false
     },
-    setSelectedCourseIdForClassroom (state, { classroomId, courseId }) {
-      Vue.set(state.selectedCourseIdForClassroom, classroomId, courseId)
+    setClassroomId (state, classroomId) {
+      state.classroomId = classroomId
+    },
+    setSelectedCourseIdCurrentClassroom (state, { courseId }) {
+      if (state.classroomId) {
+        Vue.set(state.selectedCourseIdForClassroom, state.classroomId, courseId)
+      }
     }
   },
 
   getters: {
-    getLoadingState (state, _getters, _rootState) {
+    getLoadingState (state) {
       return state.loading
     },
-    getSelectedCourseIdForClassroom: (state) => (classroomId) => {
-      return state.selectedCourseIdForClassroom[classroomId]
+    getActiveClassrooms (state, _getters, _rootState, rootGetters) {
+      if (state.teacherId) {
+        return rootGetters['classrooms/getActiveClassroomsByTeacher'](state.teacherId) || []
+      } else {
+        return []
+      }
+    },
+    getArchivedClassrooms (state, _getters, _rootState, rootGetters) {
+      if (state.teacherId) {
+        return rootGetters['classrooms/getArchivedClassroomsByTeacher'](state.teacherId) || []
+      } else {
+        return []
+      }
+    },
+    getCurrentClassroom (state, _getters, _rootState, rootGetters) {
+      if (state.teacherId && state.classroomId) {
+        const classrooms = rootGetters['classrooms/getActiveClassroomsByTeacher'](state.teacherId) || []
+        return classrooms.find((c) => c._id === state.classroomId) || {}
+      } else {
+        return {}
+      }
+    },
+    getCoursesCurrentClassroom (state, getters, _rootState, rootGetters) {
+      if (state.classroomId) {
+        const classroom = getters['getCurrentClassroom']
+        const classroomCourseIds = (classroom.courses || []).map((c) => c._id) || []
+        const courses = rootGetters['courses/sorted'] || []
+        return courses.filter((c) => classroomCourseIds.includes(c._id))
+      }
+      return []
+    },
+    getSelectedCourseIdCurrentClassroom (state, getters) {
+      if (state.classroomId && state.selectedCourseIdForClassroom[state.classroomId]) {
+        return state.selectedCourseIdForClassroom[state.classroomId]
+      } else { // TODO default should be last assigned course
+        const classroomCourses = getters['getCoursesCurrentClassroom'] || []
+        if (classroomCourses.length > 0) {
+          return (classroomCourses[0] || {})._id
+        }
+      }
+    },
+    getMembersCurrentClassroom (state, getters, _rootState, rootGetters) {
+      if (state.classroomId) {
+        const classroom = getters['getCurrentClassroom']
+        return rootGetters['users/getClassroomMembers'](classroom) || []
+      }
+      return []
+    },
+    getLevelSessionsMapCurrentClassroom (state, _getters, _rootState, rootGetters) {
+      if (state.classroomId) {
+        return rootGetters['levelSessions/getSessionsMapForClassroom'](state.classroomId) || {}
+      }
+      return {}
+    },
+    getGameContentCurrentClassroom (state, _getters, _rootState, rootGetters) {
+      if (state.classroomId) {
+        return rootGetters['gameContent/getContentForClassroom'](state.classroomId) || {}
+      }
+      return {}
     }
   },
 
   actions: {
     // componentName = name of the vue component -> used to fetch relevant data for the respective page
-    // options = { classroomId: '', data: {} }
-    // options.classroomId = '' -> needed for single class page and students projects page
+    // options = { data: {} }
     // options.data = {} -> contains specific properties to fetch (or `project`) for an object as a string, eg: {users: 'firstName,lastName,email', levelSessions: 'state.complete,level,creator,changed'}
     async fetchData ({ state, dispatch, commit }, { componentName, options = {} }) {
       if (!state.teacherId) {
@@ -110,17 +172,18 @@ export default {
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
       await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
 
-      if (!options.classroomId) {
-        console.log('classroomId not defined')
+      if (!state.classroomId) {
+        console.error('Error in fetching data: classroomId is not set')
+        noty({ text: 'Error in fetching data', type: 'error', layout: 'center', timeout: 2000 })
         return
       }
       const gameContentOptions = {
         project: _.pick(options.data || {}, 'cinematics', 'interactives', 'cutscenes', 'levels')
       }
-      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: options.classroomId, options: gameContentOptions }, { root: true }))
+      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId, options: gameContentOptions }, { root: true }))
 
       const teacherClassrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
-      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === options.classroomId)
+      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === state.classroomId)
       if (classroom) {
         const userOptions = {
           project: (options.data || {}).users
@@ -145,18 +208,19 @@ export default {
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
       await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
 
-      if (!options.classroomId) {
-        console.log('classroomId not defined')
+      if (!state.classroomId) {
+        console.error('Error in fetching data: classroomId is not set')
+        noty({ text: 'Error in fetching data', type: 'error', layout: 'center', timeout: 2000 })
         return
       }
 
       const gameContentOptions = {
         project: _.pick(options.data || {}, 'cinematics', 'interactives', 'cutscenes', 'levels')
       }
-      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: options.classroomId, options: gameContentOptions }, { root: true }))
+      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId, options: gameContentOptions }, { root: true }))
 
       const teacherClassrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
-      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === options.classroomId)
+      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === state.classroomId)
       if (classroom) {
         const userOptions = {
           project: (options.data || {}).users

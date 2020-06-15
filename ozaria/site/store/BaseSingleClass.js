@@ -63,8 +63,8 @@ export default {
       commit('clearSelectedStudents')
     },
 
-    fetchData ({ dispatch }, { classroomId }) {
-      dispatch('teacherDashboard/fetchData', { componentName: COMPONENT_NAMES.MY_CLASSES_SINGLE, options: { classroomId: classroomId, data: projectionData } }, { root: true })
+    fetchData ({ dispatch }) {
+      dispatch('teacherDashboard/fetchData', { componentName: COMPONENT_NAMES.MY_CLASSES_SINGLE, options: { data: projectionData } }, { root: true })
     }
   }
 }

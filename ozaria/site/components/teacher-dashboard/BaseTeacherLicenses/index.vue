@@ -18,14 +18,8 @@
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher'
-      }),
-      teacherId () {
-        return me.get('_id')
-      },
-      activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active
-      }
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms'
+      })
     },
 
     mounted () {

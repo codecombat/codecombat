@@ -13,27 +13,18 @@
 
     computed: {
       ...mapGetters({
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher',
+        classroom: 'teacherDashboard/getCurrentClassroom',
         selectedStudentIds: 'baseSingleClass/selectedStudentIds'
-      }),
-
-      teacherId () {
-        return me.get('_id')
-      },
-      classroomId () {
-        return this.$route.params.classroomId
-      },
-      activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active || []
-      },
-      classroom () {
-        return this.activeClassrooms.find((c) => c._id === this.classroomId) || {}
-      }
+      })
     },
 
     created () {
       if (!Array.isArray(this.selectedStudentIds) || this.selectedStudentIds.length === 0) {
         noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        this.$emit('close')
+      }
+      if (!this.classroom) {
+        console.error('Classroom not set')
         this.$emit('close')
       }
     },

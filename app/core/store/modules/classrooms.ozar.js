@@ -109,6 +109,12 @@ export default {
   getters: {
     getClassroomsByTeacher: (state) => (id) => {
       return state.classrooms.byTeacher[id]
+    },
+    getActiveClassroomsByTeacher: (state) => (id) => {
+      return (state.classrooms.byTeacher[id] || {}).active
+    },
+    getArchivedClassroomsByTeacher: (state) => (id) => {
+      return (state.classrooms.byTeacher[id] || {}).archived
     }
   },
 
