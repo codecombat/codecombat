@@ -7,7 +7,7 @@ go = (path, options) -> -> @routeDirectly path, arguments, options
 # to the vue router if the new teacher dashboard session is set.
 # Admins can activate this from the /admin route.
 teacherProxyRoute = (originalRoute) -> ->
-  if me.isAdmin() and sessionStorage.getItem('newTeacherDashboardActive') == 'active'
+  if sessionStorage.getItem('newTeacherDashboardActive') == 'active'
     return go('core/SingletonAppVueComponentView').apply(@, arguments)
   originalRoute.apply(@, arguments)
 
