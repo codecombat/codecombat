@@ -6,14 +6,19 @@
   import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 
   import BaseSingleClass from '../../../store/BaseSingleClass'
+  import BaseCurriculumGuide from '../BaseCurriculumGuide'
+  import BaseCurriculumGuideModule from '../../../store/BaseCurriculumGuide'
+
   export default {
     components: {
       Panel,
       ModalNewClass,
       ModalAssignContent,
       ModalAddStudents,
-      ModalRemoveStudents
+      ModalRemoveStudents,
+      BaseCurriculumGuide
     },
+
     data () {
       // TODO: move the logic to open/close modals to teacherDashboard store instead of driving by events,
       // as it might grow a lot and become hard to maintain.
@@ -24,12 +29,17 @@
         showRemoveStudentsModal: false
       }
     },
+
     beforeCreate () {
       this.$store.registerModule('baseSingleClass', BaseSingleClass)
+      this.$store.registerModule('baseCurriculumGuide', BaseCurriculumGuideModule)
     },
+
     destroyed () {
       this.$store.unregisterModule('baseSingleClass')
+      this.$store.unregisterModule('baseCurriculumGuide')
     },
+
     metaInfo () {
       return {
         title: 'ADMIN ONLY - Teacher Dashboard'
@@ -40,6 +50,7 @@
 
 <template>
   <div>
+    <base-curriculum-guide />
     <panel />
     <router-view
       @newClass="showNewClassModal = true"

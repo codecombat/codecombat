@@ -6,6 +6,8 @@
   import ClassInfoRow from './ClassInfoRow'
   import moment from 'moment'
 
+  import { mapActions } from 'vuex'
+
   export default {
     components: {
       'primary-button': PrimaryButton,
@@ -14,6 +16,7 @@
       'nav-select-unit': NavSelectUnit,
       'class-info-row': ClassInfoRow
     },
+
     props: {
       title: {
         type: String,
@@ -51,6 +54,12 @@
       classroomStudentsLength () {
         return (this.classroom.members || []).length
       }
+    },
+
+    methods: {
+      ...mapActions({
+        toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
+      })
     }
   }
 </script>
@@ -82,7 +91,11 @@
       >
         Add New Class
       </primary-button>
-      <button-curriculum-guide class="btn-margins-height" />
+      <button-curriculum-guide
+        class="btn-margins-height"
+
+        @click="toggleCurriculumGuide"
+      />
     </div>
   </div>
 </template>

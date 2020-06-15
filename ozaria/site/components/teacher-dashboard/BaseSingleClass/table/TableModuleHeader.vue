@@ -3,23 +3,13 @@
  * Creates the module heading for the all students table.
  */
 
-  import IconCutscene from '../../common/icons/IconCutscene'
-  import IconCapstone from '../../common/icons/IconCapstone'
-  import IconCinematic from '../../common/icons/IconCinematic'
-  import IconInteractive from '../../common/icons/IconInteractive'
-  import IconPracticeLevel from '../../common/icons/IconPracticeLevel'
-  import IconChallengeLevel from '../../common/icons/IconChallengeLevel'
+  import ContentIcon from '../../common/icons/ContentIcon'
 
   import ProgressDot from '../../common/progress/progressDot'
 
   export default {
     components: {
-      IconCutscene,
-      IconCinematic,
-      IconCapstone,
-      IconPracticeLevel,
-      IconChallengeLevel,
-      IconInteractive,
+      ContentIcon,
       ProgressDot
     },
     props: {
@@ -53,12 +43,7 @@
       <h3>{{ moduleHeading }}</h3>
     </div>
     <div class="content-icons" v-for="({type}, idx) of listOfContent" :key="`${idx}-${type}`">
-      <IconCutscene v-if="type=='cutscene'" />
-      <IconCinematic v-if="type=='cinematic'" />
-      <IconCapstone v-if="type=='capstone'" />
-      <IconInteractive v-if="type=='interactive'" />
-      <IconPracticeLevel v-if="type=='practicelvl'" />
-      <IconChallengeLevel v-if="type=='challengelvl'" />
+      <ContentIcon :icon="type" />
     </div>
     <div class="golden-backer" v-for="({ status }, idx) of classSummaryProgress" :key="idx">
       <ProgressDot :status="status" />
