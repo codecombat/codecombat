@@ -183,7 +183,11 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     super(valEl, data)
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
-    autocompleteValues = []
+    # The note system adds a 'codeLanguage' property to any events
+    # triggered by the level. This provides an additional way to filter
+    # scripts. This property is not part of the events schema as events
+    # only gain this property through the script/note system.
+    autocompleteValues = ['codeLanguage']
     autocompleteValues.push key for key, val of channelSchema?.properties
     valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true).autocomplete('search')
     valEl
@@ -203,6 +207,7 @@ class EventPrereqsNode extends TreemaNode.nodeMap.array
 
 class EventPrereqNode extends TreemaNode.nodeMap.object
   buildValueForDisplay: (valEl, data) ->
+    console.log('[z] building:', data)
     eventProp = (data.eventProps or []).join('.')
     eventProp = '(unset)' unless eventProp.length
     statements = []
