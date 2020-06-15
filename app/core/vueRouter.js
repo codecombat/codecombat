@@ -86,8 +86,8 @@ export default function getVueRouter () {
           children: [
             { path: '', component: BaseMyClasses },
             { path: 'classes', component: BaseMyClasses },
-            { path: 'classes/:classroomId', component: BaseSingleClass },
-            { path: 'projects/:classroomId', component: BaseStudentProjects },
+            { path: 'classes/:classroomId', component: BaseSingleClass, props: true },
+            { path: 'projects/:classroomId', component: BaseStudentProjects, props: true },
             { path: 'licenses', component: BaseTeacherLicenses },
             { path: 'resources', component: BaseResourceHub }
           ],

@@ -17,18 +17,9 @@
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher'
-      }),
-      teacherId () {
-        return me.get('_id')
-      },
-      activeClassrooms () {
-        return this.classroomsByTeacher(this.teacherId)?.active
-      },
-
-      archivedClassrooms () {
-        return this.classroomsByTeacher(this.teacherId)?.archived
-      }
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+        archivedClassrooms: 'teacherDashboard/getArchivedClassrooms'
+      })
     },
 
     mounted () {

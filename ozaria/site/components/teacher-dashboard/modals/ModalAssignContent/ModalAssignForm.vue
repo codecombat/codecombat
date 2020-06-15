@@ -3,8 +3,6 @@
   import SecondaryButton from '../../common/buttons/SecondaryButton'
   import TertiaryButton from '../../common/buttons/TertiaryButton'
 
-  import utils from 'app/core/utils'
-
   export default {
     components: {
       SecondaryButton,
@@ -20,31 +18,11 @@
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher',
-        courses: 'courses/sorted',
-        getSelectedCourseId: 'teacherDashboard/getSelectedCourseIdForClassroom',
-        members: 'users/getClassroomMembers',
+        classroom: 'teacherDashboard/getCurrentClassroom',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+        classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
         selectedStudentIds: 'baseSingleClass/selectedStudentIds'
-      }),
-
-      teacherId () {
-        return me.get('_id')
-      },
-      classroomId () {
-        return this.$route.params.classroomId
-      },
-      classroomMembers () {
-        return this.members(this.classroom) || []
-      },
-      activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active || []
-      },
-      classroom () {
-        return this.activeClassrooms.find((c) => c._id === this.classroomId) || {}
-      },
-      filteredCourses () {
-        return this.courses.filter(({ campaignID }) => !utils.freeCampaignIds.includes(campaignID))
-      }
+      })
     },
 
     created () {
@@ -65,10 +43,10 @@
         if (!this.selected) {
           return
         }
-        const course = this.courses.find((v) => v.name === this.selected)
+        const course = this.classroomCourses.find((v) => v.name === this.selected)
 
         await this.assignCourse({ classroom: this.classroom, course, members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)) })
-        this.fetchData({ classroomId: this.classroomId })
+        this.fetchData()
         this.$emit('close')
       },
 
@@ -76,10 +54,10 @@
         if (!this.selected) {
           return
         }
-        const course = this.courses.find((v) => v.name === this.selected)
+        const course = this.classroomCourses.find((v) => v.name === this.selected)
 
         await this.removeCourse({ course, members: this.selectedStudentIds, classroom: this.classroom })
-        this.fetchData({ classroomId: this.classroomId })
+        this.fetchData()
         this.$emit('close')
       }
     }
@@ -110,7 +88,7 @@
               Click to Select from Dropdown
             </option>
             <option
-              v-for="course in filteredCourses"
+              v-for="course in classroomCourses"
               :key="course._id"
               :value="course.name"
             >

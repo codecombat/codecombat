@@ -23,6 +23,13 @@
       'table-class-frame': TableClassFrame,
       'loading-bar': LoadingBar
     },
+    props: {
+      classroomId: {
+        type: String,
+        default: '',
+        required: true
+      }
+    },
 
     data: () => ({
       isGuidelinesVisible: true,
@@ -32,39 +39,17 @@
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        classroomsByTeacher: 'classrooms/getClassroomsByTeacher',
-        courses: 'courses/sorted',
-        getSelectedCourseId: 'teacherDashboard/getSelectedCourseIdForClassroom',
-        gameContent: 'gameContent/getContentForClassroom',
-        levelSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
-        members: 'users/getClassroomMembers',
-        interactiveSessionsForClass: 'interactives/getInteractiveSessionsForClass'
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+        classroom: 'teacherDashboard/getCurrentClassroom',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+        selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+        levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
+        classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
+        gameContent: 'teacherDashboard/getGameContentCurrentClassroom'
       }),
-      teacherId () {
-        return me.get('_id')
-      },
-      classroomId () {
-        return this.$route.params.classroomId
-      },
-      activeClassrooms () {
-        return (this.classroomsByTeacher(this.teacherId) || {}).active || []
-      },
-      classroom () {
-        return this.activeClassrooms.find((c) => c._id === this.classroomId) || {}
-      },
-      classroomCourses () {
-        const classroomCourseIds = (this.classroom.courses || []).map((c) => c._id) || []
-        return (this.courses || []).filter((c) => classroomCourseIds.includes(c._id))
-      },
-      selectedCourseId () {
-        return this.getSelectedCourseId(this.classroomId) || (this.classroomCourses[0] || {})._id // TODO default should be last assigned course
-      },
-      selectedCourse () {
-        return this.classroomCourses.find((c) => c._id === this.selectedCourseId) || {}
-      },
 
       modules () {
-        const modules = ((this.gameContent(this.classroomId) || {})[this.selectedCourseId] || {}).modules
+        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
 
         if (modules === undefined) {
           return []
@@ -143,7 +128,7 @@
                   defaultProgressDot.clickHandler = () => {
                     this.showPanelSessionContent({
                       student: student,
-                      classroomId: this.classroomId,
+                      classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
                       selectedCourseId: this.selectedCourseId,
                       moduleNum: moduleNum,
                       contentId: content._id
@@ -165,20 +150,12 @@
         return modulesForTable
       },
 
-      levelSessionsMapByUser () {
-        return this.levelSessionsMapForClassroom(this.classroomId) || {}
-      },
-
-      classroomMembers () {
-        return this.members(this.classroom) || []
-      },
-
       students () {
         if (!this.classroomMembers || this.classroomMembers.length === 0) {
           return []
         }
 
-        const modules = ((this.gameContent(this.classroomId) || {})[this.selectedCourseId] || {}).modules
+        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
         if (!modules) {
           return []
         }
@@ -222,14 +199,16 @@
     },
 
     watch: {
-      classroomId () {
-        this.fetchData({ classroomId: this.classroomId })
+      classroomId (newId) {
+        this.setClassroomId(newId)
+        this.fetchData()
       }
     },
 
     mounted () {
       this.setTeacherId(me.get('_id'))
-      this.fetchData({ classroomId: this.classroomId })
+      this.setClassroomId(this.classroomId)
+      this.fetchData()
     },
 
     beforeRouteUpdate (to, from, next) {
@@ -259,12 +238,13 @@
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
         setTeacherId: 'teacherDashboard/setTeacherId',
-        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdForClassroom',
+        setClassroomId: 'teacherDashboard/setClassroomId',
+        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
         closePanel: 'teacherDashboardPanel/closePanel'
       }),
 
       onChangeCourse (courseId) {
-        this.setSelectedCourseId({ classroomId: this.classroomId, courseId: courseId })
+        this.setSelectedCourseId({ courseId: courseId })
       },
 
       onChangeStudentSort (sortMethod) {
