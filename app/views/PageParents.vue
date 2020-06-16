@@ -528,6 +528,16 @@
         this.subscribeModalOpen = true
       },
 
+      /**
+       * This method references the SubscribeModal instance via the backbone modal
+       * harness component.  This is a hack to manually advance the modal to the next step
+       * so that the user does not need to click subscribe twice.
+       *
+       * The modal fires a "shown" event when it is visible, at which point it is ready to
+       * be used.  Once it is ready to be used we manually trigger the proper subscribe flow
+       * by grabbing a reference to the SubscribeModal instance and calling the method that
+       * is normally called by the onclick listener.
+       */
       subscribeBasic () {
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
@@ -537,6 +547,9 @@
         this.openPremiumSubscribeModal()
       },
 
+      /**
+       * See subscribeBasic comments
+       */
       subscribeLifetime () {
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
