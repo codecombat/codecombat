@@ -49,7 +49,7 @@ This allows them to have the same form-handling logic, but different templates.
 # "Teacher signup started" event for reaching the Create Teacher form.
 startSignupTracking = ->
   properties =
-    category: 'Homepage'
+    category: 'Home'
     user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
   window.tracker?.trackEvent(
     'Teacher signup started',
@@ -211,7 +211,7 @@ module.exports = class CreateAccountModal extends ModalView
 
   onClickLoginLink: ->
     properties =
-      category: 'Homepage'
+      category: 'Home'
       subview: @signupState.get('path') || "choosetype"
     window.tracker?.trackEvent('Log in from CreateAccount', properties)
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))

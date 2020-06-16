@@ -176,7 +176,6 @@ module.exports = class AccountSettingsView extends RootView
         _.delay ->
           window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
           Backbone.Mediator.publish("auth:logging-out", {})
-          window.tracker?.trackEvent 'Log Out', category:'Homepage' if @id is 'home-view'
           logoutUser()
         , 500
       error: (jqXHR, status, error) ->

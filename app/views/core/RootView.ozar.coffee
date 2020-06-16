@@ -36,7 +36,6 @@ module.exports = class RootView extends CocoView
     'click .login-button': 'onClickLoginButton'
     'treema-error': 'onTreemaError'
     'click [data-i18n]': 'onClickTranslatedElement'
-    'click .faq-link': 'onClickFaqLink'
     'click .track-click-event': 'onTrackClickEvent'
 
   subscriptions:
@@ -74,7 +73,7 @@ module.exports = class RootView extends CocoView
   logoutAccount: ->
     window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
-    window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
+    window.tracker?.trackEvent 'Log Out', category:'Home' if @id is 'home-view'
     if me.isTarena()
       logoutUser({
         success: ->
@@ -94,12 +93,8 @@ module.exports = class RootView extends CocoView
     CreateAccountModal = require 'views/core/CreateAccountModal'
     switch @id
       when 'home-view'
-        properties = {
-          category: 'Homepage'
-        }
+        properties = { category: 'Home' }
         window.tracker?.trackEvent('Started Signup', properties, [])
-        eventAction = $(e.target)?.data('event-action')
-        window.tracker?.trackEvent(eventAction, properties, []) if eventAction
       when 'world-map-view'
         # TODO: add campaign data
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
@@ -109,18 +104,7 @@ module.exports = class RootView extends CocoView
 
   onClickLoginButton: (e) ->
     AuthModal = require 'views/core/AuthModal'
-    if @id is 'home-view'
-      properties = { category: 'Homepage' }
-      window.tracker?.trackEvent 'Login', properties, ['Google Analytics']
-
-      eventAction = $(e.target)?.data('event-action')
-      if $(e.target)?.hasClass('track-ab-result')
-        _.extend(properties, { trackABResult: true })
-      window.tracker?.trackEvent(eventAction, properties, []) if eventAction
     @openModalView new AuthModal()
-
-  onClickFaqLink: ->
-    window.tracker?.trackEvent 'Click main nav FAQ', { category: 'Homepage', label: @id }
 
   onTrackClickEvent: (e) ->
     eventAction = $(e.target)?.closest('a')?.data('event-action')

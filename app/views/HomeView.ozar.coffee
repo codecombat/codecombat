@@ -98,16 +98,13 @@ module.exports = class HomeView extends RootView
       anchorEventAction = if translationKey then $.i18n.t(translationKey, {lng: 'en-US'}) else anchor.text
       anchorEventAction = "Click: #{anchorEventAction or 'unknown'}"
 
-    if $(e.target)?.hasClass('track-ab-result')
-      properties = {trackABResult: true}
-
     if anchorEventAction
-      @homePageEvent(anchorEventAction, properties)
+      @homePageEvent(anchorEventAction)
     else
       _.extend(properties || {}, {
         clicked: e?.currentTarget?.host or "unknown"
       })
-      @homePageEvent('Click: unknown', properties)
+      @homePageEvent('Click: unknown')
 
   afterRender: ->
     if me.isAnonymous()

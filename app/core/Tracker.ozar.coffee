@@ -177,7 +177,7 @@ module.exports = class Tracker extends CocoClass
     ]
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
-    if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
+    if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Change Hero']
       delete properties.label
 
     if event is 'View Load' # TODO: Update snowplow schema to include these
