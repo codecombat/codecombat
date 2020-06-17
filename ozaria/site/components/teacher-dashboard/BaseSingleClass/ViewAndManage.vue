@@ -3,6 +3,8 @@
   import PrimaryButton from '../common/buttons/PrimaryButton'
   import IconButtonWithText from '../common/buttons/IconButtonWithText'
 
+  import { mapActions } from 'vuex'
+
   export default {
     components: {
       'dropdown': Dropdown,
@@ -16,6 +18,11 @@
       }
     },
     methods: {
+      ...mapActions({
+        applyLicenses: 'baseSingleClass/applyLicenses',
+        revokeLicenses: 'baseSingleClass/revokeLicenses'
+      }),
+
       clickArrow () {
         if (this.arrowVisible) {
           this.$emit('click-arrow')
@@ -72,12 +79,12 @@
       <icon-button-with-text
         icon-name="IconRemoveStudents"
         text="Apply Licenses"
-        @click="$emit('applyLicenses')"
+        @click="applyLicenses"
       />
       <icon-button-with-text
         icon-name="IconRemoveStudents"
         text="Revoke Licenses"
-        @click="$emit('revokeLicenses')"
+        @click="revokeLicenses"
       />
     </div>
     <div :class="[arrowVisible ? 'arrow-toggle' : 'arrow-disabled']" @click="clickArrow">

@@ -9,6 +9,7 @@
   import TableClassFrame from './table/TableClassFrame'
 
   import utils from 'app/core/utils'
+  import User from 'models/User'
 
   import _ from 'lodash'
   import TableStudentListVue from './table/TableStudentList.vue'
@@ -160,10 +161,14 @@
           return []
         }
 
-        const students = this.classroomMembers.map(({ name, _id }) => ({
-          displayName: name,
-          _id
-        }))
+        const students = this.classroomMembers.map(userObj => {
+          const isEnrolled = (new User(userObj)).isEnrolled()
+          return {
+            displayName: userObj.name,
+            _id: userObj._id,
+            isEnrolled
+          }
+        })
         
         // Sort based on table view options.
         // We count the number of completed sessions here before using the student list elsewhere.

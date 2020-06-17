@@ -34,11 +34,13 @@
 <template>
   <div id="studentList">
     <CellStudent
-      v-for="{ displayName, _id } of students"
+      v-for="{ displayName, _id, isEnrolled } of students"
       :key="_id"
 
       :student-id="_id"
       :student-name="displayName"
+      :is-enrolled="isEnrolled"
+
       :checked="isStudentSelected(_id)"
 
       @change="changeCheckbox(_id)"

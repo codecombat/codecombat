@@ -13,8 +13,13 @@ export default {
 
   mutations: {
     setTeacherId (state, teacherId) {
-      if (!state.teacherId) {
+      if (state.teacherId !== teacherId) {
         state.teacherId = teacherId
+      }
+    },
+    setClassroomId (state, classroomId) {
+      if (state.classroomId !== classroomId) {
+        state.classroomId = classroomId
       }
     },
     startLoading (state) {
@@ -26,9 +31,6 @@ export default {
     resetLoadingState (state) {
       state.loading = false
     },
-    setClassroomId (state, classroomId) {
-      state.classroomId = classroomId
-    },
     setSelectedCourseIdCurrentClassroom (state, { courseId }) {
       if (state.classroomId) {
         Vue.set(state.selectedCourseIdForClassroom, state.classroomId, courseId)
@@ -37,6 +39,12 @@ export default {
   },
 
   getters: {
+    teacherId (state) {
+      return state.teacherId
+    },
+    classroom (state, getters) {
+      return getters.getActiveClassrooms.find((c) => c._id === state.classroomId) || {}
+    },
     getLoadingState (state) {
       return state.loading
     },
