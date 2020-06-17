@@ -416,7 +416,7 @@
 
             <div class="row buy-now-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.get_started') }}</button>
+                    <button @click="openDriftWelcomeCallPlaybook">{{ $t('parents_landing_2.get_started') }}</button>
                 </div>
             </div>
         </div>
