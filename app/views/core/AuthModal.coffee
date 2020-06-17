@@ -54,16 +54,6 @@ module.exports = class AuthModal extends ModalView
     res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
-    .then(=>
-      return application.tracker.identify()
-    )
-    .then(=>
-      application.tracker.identifyAfterNextPageLoad()
-      if window.nextURL
-        window.location.href = window.nextURL
-      else
-        loginNavigate(@subModalContinue)
-    )
     .catch((jqxhr) =>
       showingError = false
       if jqxhr.status is 401
@@ -77,6 +67,20 @@ module.exports = class AuthModal extends ModalView
 
       if not showingError
         @$('#unknown-error-alert').removeClass('hide')
+    )
+    .then(=>
+      console.log('identify')
+      application.tracker.identifyAfterNextPageLoad()
+      return application.tracker.identify().then(->
+        console.log('test out oidentify')
+      )
+    )
+    .finally(=>
+      console.log('finally redirect')
+      if window.nextURL
+        window.location.href = window.nextURL
+      else
+        loginNavigate(@subModalContinue)
     )
 
 
@@ -98,7 +102,7 @@ module.exports = class AuthModal extends ModalView
                 me.loginGPlusUser(gplusAttrs.gplusID, {
                   success: =>
                     application.tracker.identifyAfterNextPageLoad()
-                    application.tracker.identify().then(=>
+                    application.tracker.identify().finally(=>
                       loginNavigate(@subModalContinue)
                     )
                   error: @onGPlusLoginError
@@ -112,7 +116,7 @@ module.exports = class AuthModal extends ModalView
                         data: { merge: true, email: gplusAttrs.email }
                         success: =>
                           application.tracker.identifyAfterNextPageLoad()
-                          application.tracker.identify().then(=>
+                          application.tracker.identify().finally(=>
                             loginNavigate(@subModalContinue)
                           )
                         error: @onGPlusLoginError

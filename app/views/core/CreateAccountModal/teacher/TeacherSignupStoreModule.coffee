@@ -104,7 +104,8 @@ module.exports = TeacherSignupStoreModule = {
         trialRequestIdentifyData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
 
         application.tracker.identifyAfterNextPageLoad()
-        return application.tracker.identify trialRequestIdentifyData unless User.isSmokeTestUser({ email: state.signupForm.email })
+        unless User.isSmokeTestUser({ email: state.signupForm.email })
+          return application.tracker.identify(trialRequestIdentifyData).catch(->)
 
       .then =>
         trackerCalls = []
@@ -125,7 +126,7 @@ module.exports = TeacherSignupStoreModule = {
           window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
         )
 
-        return Promise.all(trackerCalls)
+        return Promise.all(trackerCalls).catch(->)
   }
 }
 
