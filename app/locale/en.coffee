@@ -30,7 +30,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
     classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
     classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
+    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!" # {change}
     creativity_rigor_title: "Where Creativity Meets Rigor"
     creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
     creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
