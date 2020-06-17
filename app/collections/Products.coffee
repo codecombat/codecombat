@@ -2,6 +2,9 @@ CocoCollection = require './CocoCollection'
 Product = require 'models/Product'
 utils = require 'core/utils'
 
+# This collection is also used by the Vuex products module, ideally we would
+# transfer the logic in this collection to the Vuex module but we're not doing
+# active work on this product so leaving as is for now.
 module.exports = class Products extends CocoCollection
   model: Product
   url: '/db/products'
