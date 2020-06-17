@@ -42,7 +42,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="no-margin">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
+                            <h4 class="live-classes-offered">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
                         </div>
                     </div>
                 </div>
@@ -748,10 +748,6 @@
         border: 0 none;
     }
 
-    .title-row .no-margin {
-        margin: 0;
-    }
-
     .title-row h2 {
         font-family: Arvo, serif;
         font-style: normal;
@@ -789,7 +785,7 @@
         max-width: 655px
     }
 
-    .live-class-details {
+    .live-class-details, .live-classes-offered {
         margin-top: 30px;
     }
 
@@ -961,6 +957,10 @@
         margin-top: 15px;
         width: 100%;
         margin-bottom: 52px;
+    }
+
+    .coco-premium .premium-details h5 {
+        margin-bottom: 10px;
     }
 
     .coco-premium .buy-now-note {
