@@ -3036,6 +3036,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     parent: "Parent"
     student: "Student"
     grade: "Grade"
+    subscribe_error_user_type: "Your user type cannot subscribe to a premium Home version"
+    subscribe_error_already_subscribed: "You're already a premium home user!"
 
   parent_modal:
     refer_teacher: "Refer Teacher"

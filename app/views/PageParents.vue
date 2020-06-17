@@ -499,6 +499,13 @@
         'lifetimeSubscriptionForCurrentUser'
       ]),
 
+      ...mapGetters('me', [
+        'isAdmin',
+        'isTeacher',
+        'isStudent',
+        'isPremium'
+      ]),
+
       basicSubAmount () {
         const sub = this.basicSubscriptionForCurrentUser
         return (sub) ? sub.amount / 100 : 0
@@ -528,6 +535,32 @@
         this.subscribeModalOpen = true
       },
 
+      checkSubscribeAndShowError () {
+        if (this.isTeacher || this.isStudent || this.isAdmin) {
+          noty({
+            text: this.$t('parents_landing_2.subscribe_error_user_type'),
+            layout: 'top',
+            type: 'warning',
+            timeout: 10000
+          })
+
+          return false
+        }
+
+        if (this.isPremium) {
+          noty({
+            text: this.$t('parents_landing_2.subscribe_error_already_subscribed'),
+            layout: 'top',
+            type: 'warning',
+            timeout: 10000
+          })
+
+          return false
+        }
+
+        return true
+      },
+
       /**
        * This method references the SubscribeModal instance via the backbone modal
        * harness component.  This is a hack to manually advance the modal to the next step
@@ -539,6 +572,10 @@
        * is normally called by the onclick listener.
        */
       subscribeBasic () {
+        if (!this.checkSubscribeAndShowError()) {
+          return
+        }
+
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
           modal.onClickPurchaseButton()
@@ -551,6 +588,10 @@
        * See subscribeBasic comments
        */
       subscribeLifetime () {
+        if (!this.checkSubscribeAndShowError()) {
+          return
+        }
+
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
           modal.onClickStripeLifetimeButton()
