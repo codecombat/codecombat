@@ -1,9 +1,39 @@
+<script>
+  import { mapGetters } from 'vuex'
+  export default {
+    computed: {
+      ...mapGetters({
+        getLicensesStatsByTeacher: 'prepaids/getLicensesStatsByTeacher'
+      }),
+
+      teacherId () {
+        return me.get('_id')
+      },
+
+      totalUsedLicenses () {
+        return this.getLicensesStatsByTeacher(this.teacherId).usedLicenses
+      },
+
+      totalSpots () {
+        return this.getLicensesStatsByTeacher(this.teacherId).totalSpots
+      }
+    }
+  }
+</script>
+
 <template>
   <div id="licenses-component">
     <div id="Licenses" />
-    <div id="license-text">
+    <div
+      v-if="totalSpots === 0"
+      id="license-text"
+    >
       <span>No licenses yet</span>
       <a>Request Licenses</a>
+    </div>
+    <div v-else id="license-text">
+      <span>{{ totalUsedLicenses }} out of {{ totalSpots }}</span>
+      <span class="licenses-applied">Licenses Applied</span>
     </div>
   </div>
 </template>
@@ -34,7 +64,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: normal;
 
   span {
     @include font-p-4-paragraph-smallest-gray;
@@ -45,6 +75,10 @@
     @include font-p-4-paragraph-smallest-gray;
     font-size: 12px;
     text-decoration: underline;
+  }
+
+  .licenses-applied {
+    font-weight: normal;
   }
 }
 </style>

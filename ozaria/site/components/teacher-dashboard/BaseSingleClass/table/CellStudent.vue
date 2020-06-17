@@ -16,6 +16,10 @@
       checked: {
         type: Boolean,
         required: true
+      },
+      isEnrolled: {
+        type: Boolean,
+        default: false
       }
     }
   }
@@ -31,6 +35,10 @@
       >
       <p>{{ studentName }}</p>
     </div>
+    <img
+      v-if="isEnrolled"
+      src="/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg"
+    >
     <div
       class="student-details-btn"
       @click="$emit('click')"
@@ -78,7 +86,7 @@
     width: $studentNameWidth;
     height: 29px;
 
-    padding: 0 13px 0 30px;
+    padding: 0 13px 0 20px;
 
     border-right: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;

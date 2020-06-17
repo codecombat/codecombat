@@ -165,7 +165,7 @@
     height: 38px;
     margin-bottom: 1px;
 
-    padding: 0 0 0 30px;
+    padding: 0 0 0 20px;
     background-color: #fff9e3;
     border: 1px solid #c2a957;
 

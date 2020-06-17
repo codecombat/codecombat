@@ -9,6 +9,8 @@
   import BaseCurriculumGuide from '../BaseCurriculumGuide'
   import BaseCurriculumGuideModule from '../../../store/BaseCurriculumGuide'
 
+  import { mapMutations } from 'vuex'
+
   export default {
     components: {
       Panel,
@@ -30,9 +32,21 @@
       }
     },
 
+    watch: {
+      $route (to, from) {
+        if (to.params.classroomId !== from.params.classroomId && to.params.classroomId) {
+          this.updateStoreOnNavigation()
+        }
+      }
+    },
+
     beforeCreate () {
       this.$store.registerModule('baseSingleClass', BaseSingleClass)
       this.$store.registerModule('baseCurriculumGuide', BaseCurriculumGuideModule)
+    },
+
+    created () {
+      this.updateStoreOnNavigation()
     },
 
     destroyed () {
@@ -43,6 +57,20 @@
     metaInfo () {
       return {
         title: 'ADMIN ONLY - Teacher Dashboard'
+      }
+    },
+
+    methods: {
+      ...mapMutations({
+        setClassroomId: 'teacherDashboard/setClassroomId',
+        setTeacherId: 'teacherDashboard/setTeacherId'
+      }),
+
+      updateStoreOnNavigation () {
+        if (this.$route.params.classroomId) {
+          this.setClassroomId(this.$route.params.classroomId)
+        }
+        this.setTeacherId(me.get('_id'))
       }
     }
   }
