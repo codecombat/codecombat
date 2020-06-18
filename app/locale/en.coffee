@@ -3036,8 +3036,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     parent: "Parent"
     student: "Student"
     grade: "Grade"
-    subscribe_error_user_type: "Your user type cannot subscribe to a premium Home version"
-    subscribe_error_already_subscribed: "You're already a premium home user!"
+    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
+    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
 
   parent_modal:
     refer_teacher: "Refer Teacher"
