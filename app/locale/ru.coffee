@@ -28,7 +28,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     century_skills_subtitle4: "Коммуникация"
     century_skills_subblurb4: "Программирование требует от детей практиковать новые формы общения, включая общение с самим компьютером и передачу своих идей с использованием наиболее эффективного кода."
     classroom_in_box_title: "Мы стремимся:"
-    classroom_in_box_blurb1: "Вовлеките каждого ученика, чтобы он поверил, что программирование для них."
+    classroom_in_box_blurb1: "Вовлеките каждого ученика, чтобы он поверил, что программирование им по зубам."
     classroom_in_box_blurb2: "Дайте возможность любому преподавателю чувствовать себя уверенно при обучении программированию."
     classroom_in_box_blurb3: "Вдохновите всех школьных лидеров создать программу компьютерных наук мирового класса."
 #    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
@@ -3053,7 +3053,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     step_3: "Шаг 3: Скачай план урока"
 #    try_activity: "Try Activity"
     download_pdf: "Скачать PDF"
-    teacher_signup_heading: "Преварти Час кода в Год кода"
+    teacher_signup_heading: "Преврати Час кода в Год кода"
     teacher_signup_blurb: "Всё, что тебе нужно — изучать компьютерные науки, предшествующий опыт не нужен."
     teacher_signup_input_blurb: "Получи первый курс бесплатно:"
     teacher_signup_input_placeholder: "Email учителя"
@@ -3084,12 +3084,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  hoc_2018_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
-#    copy: "Copy URL"
+    copy: "Копировать URL"
 #    get_certificate: "Get a certificate of completion to celebrate with your class!"
 #    get_cert_btn: "Get Certificate"
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
-#    teacher_email: "Teacher's email address"
+    teacher_email: "Email учителя"
 
 #  school_administrator:
 #    title: "School Administrator Dashboard"
@@ -3126,7 +3126,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
 #  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
+    title: "CodeCombat наилучшим образом работает через Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
+#    download: "Скачать Chrome"
 #    ignore: "Ignore"
