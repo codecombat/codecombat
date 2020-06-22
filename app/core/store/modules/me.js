@@ -11,21 +11,21 @@ export default {
 
   getters: {
     isInGodMode (state) {
-      return ((state != null ? state.permissions : undefined) || []).indexOf('godmode') > -1
+      return ((state || {}).permissions || []).indexOf('godmode') > -1
     },
 
     isAnonymous (state) { return state.anonymous === true },
 
     isStudent (state) {
-      return (state != null ? state.role : undefined) === 'student'
+      return (state || {}).role === 'student'
     },
 
     isTeacher (state) {
-      return (state != null ? state.role : undefined) === 'teacher'
+      return (state || {}).role === 'teacher'
     },
 
     isParent (state) {
-      return (state != null ? state.role : undefined) === 'parent'
+      return (state || {}).role === 'parent'
     },
 
     forumLink (state) {
