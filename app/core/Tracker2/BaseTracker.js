@@ -132,6 +132,10 @@ export default class BaseTracker {
     const finishInitialization = (result) => {
       this.isInitialized = result
 
+      // We only want to resolve / reject the init promise once during the initialization flow.  Because some trackers
+      // do not support reporting "failures" we need to support timeouts that can result in race conditions in some
+      // situations.  In these situations we use the first success / fail callback to determine the tracker state and
+      // we change the callbacks to noops to prevent later calls from changing the init state.
       this.onInitializeSuccess = () => {}
       this.onInitializeFail = () => {}
     }

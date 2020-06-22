@@ -105,6 +105,9 @@ module.exports = TeacherSignupStoreModule = {
 
         application.tracker.identifyAfterNextPageLoad()
         unless User.isSmokeTestUser({ email: state.signupForm.email })
+          # Delay auth flow until tracker call resolves so that we ensure any callbacks are fired but swallow errors
+          # so that we prevent the auth redirect from happning (we don't want to block auth because of tracking
+          # failures)
           return application.tracker.identify(trialRequestIdentifyData).catch(->)
 
       .then =>

@@ -69,14 +69,10 @@ module.exports = class AuthModal extends ModalView
         @$('#unknown-error-alert').removeClass('hide')
     )
     .then(=>
-      console.log('identify')
       application.tracker.identifyAfterNextPageLoad()
-      return application.tracker.identify().then(->
-        console.log('test out oidentify')
-      )
+      return application.tracker.identify()
     )
     .finally(=>
-      console.log('finally redirect')
       if window.nextURL
         window.location.href = window.nextURL
       else
