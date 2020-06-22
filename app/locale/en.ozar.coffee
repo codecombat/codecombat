@@ -1258,6 +1258,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     google_classroom_disabled_text: "To link Google Classroom, login using Google SSO"
     select_class: "Select class"
     programming_language: "Programming language"
+    programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students."
     class_name: "Class Name"
     grades: "Grades"
     select_all_that_apply: "Select all that apply"

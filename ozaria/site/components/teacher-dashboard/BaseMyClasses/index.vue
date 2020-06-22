@@ -5,6 +5,7 @@
   import TitleBar from '../common/TitleBar'
   import LoadingBar from '../common/LoadingBar'
   import ClassStatCalculator from './components/ClassStatCalculator'
+  import ModalEditClass from '../modals/ModalEditClass'
 
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_ALL,
@@ -12,8 +13,17 @@
       'secondary-teacher-navigation': SecondaryTeacherNavigation,
       'title-bar': TitleBar,
       'loading-bar': LoadingBar,
-      ClassStatCalculator
+      ClassStatCalculator,
+      ModalEditClass
     },
+
+    data: () => {
+      return {
+        showEditClassModal: false,
+        editClassroomObject: {}
+      }
+    },
+
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
@@ -38,7 +48,11 @@
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
         setTeacherId: 'teacherDashboard/setTeacherId'
-      })
+      }),
+      openEditModal (classroom) {
+        this.showEditClassModal = true
+        this.editClassroomObject = classroom
+      }
     }
   }
 </script>
@@ -58,6 +72,7 @@
       v-for="clas in activeClassrooms"
       :key="clas._id"
       :classroom-state="clas"
+      @clickTeacherArchiveModalButton="openEditModal(clas)"
     />
 
     <div id="archived-area">
@@ -69,8 +84,15 @@
         v-for="clas in archivedClassrooms"
         :key="clas._id"
         :classroom-state="clas"
+        @clickTeacherArchiveModalButton="openEditModal(clas)"
       />
     </div>
+
+    <modal-edit-class
+      v-if="showEditClassModal"
+      :classroom="editClassroomObject"
+      @close="showEditClassModal = false"
+    />
   </div>
 </template>
 

@@ -27,6 +27,7 @@
       :language="classroomStats.language"
       :num-students="classroomStats.numberOfStudents"
       :date-created="classroomStats.classroomCreated"
+      @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
     />
     <class-chapter-summaries :chapter-progress="chapterStats" />
   </div>

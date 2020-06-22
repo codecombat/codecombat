@@ -43,6 +43,7 @@
       </div>
       <div
         class="btn-ellipse"
+        @click="$emit('clickTeacherArchiveModalButton')"
       >
         <icon-ellipsis />
       </div>
