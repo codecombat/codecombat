@@ -103,6 +103,37 @@ export default {
       const classroom = teacherClassroomsState.active.find((c) => c._id === classroomId)
       classroom.members = (classroom.members || []).filter((m) => !memberIds.includes(m))
       Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
+    },
+    // update a property in classroom / archive or un-archive a classroom
+    updateClassroom: (state, { teacherId, classroomId, updates }) => {
+      if (!state.classrooms.byTeacher[teacherId]) {
+        return
+      }
+      const teacherClassroomsState = {
+        active: state.classrooms.byTeacher[teacherId].active || [],
+        archived: state.classrooms.byTeacher[teacherId].archived || []
+      }
+
+      const classroom = teacherClassroomsState.active.find((c) => c._id === classroomId) || teacherClassroomsState.archived.find((c) => c._id === classroomId)
+
+      for (const key in updates) {
+        classroom[key] = updates[key]
+      }
+
+      if (typeof updates.archived === 'boolean') {
+        if (updates.archived === true) {
+          teacherClassroomsState.active = teacherClassroomsState.active.filter((c) => c._id !== classroomId)
+          if (!teacherClassroomsState.archived.includes(classroom)) {
+            teacherClassroomsState.archived.push(classroom)
+          }
+        } else if (updates.archived === false) {
+          teacherClassroomsState.archived = teacherClassroomsState.archived.filter((c) => c._id !== classroomId)
+          if (!teacherClassroomsState.active.includes(classroom)) {
+            teacherClassroomsState.active.push(classroom)
+          }
+        }
+      }
+      Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
     }
   },
 
@@ -199,6 +230,12 @@ export default {
       const classroom = options.classroom
       await classroomsApi.addMembers({ classroomID: classroom._id, members: members })
       commit('addMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: memberIds })
+    },
+    // Updates the classroom and its vuex state
+    updateClassroom: async ({ commit }, options) => {
+      const classroom = options.classroom
+      await classroomsApi.update({ classroomID: classroom._id, updates: options.updates })
+      commit('updateClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, updates: options.updates })
     }
   }
 }

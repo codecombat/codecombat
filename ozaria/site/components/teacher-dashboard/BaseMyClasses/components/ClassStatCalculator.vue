@@ -103,5 +103,6 @@
   <ClassComponent
     :classroom-stats="classroomStatsFromClassroom"
     :chapter-stats="chapterStatsAdapter"
+    @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
   />
 </template>

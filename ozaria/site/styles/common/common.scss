@@ -137,6 +137,10 @@
         &.placeholder-text {
           color: #ADADAD
         }
+        &.disabled-input {
+          background: #F2F2F2;
+          color: #ADADAD;
+        }
       }
     
       .control-label, .control-label-desc {

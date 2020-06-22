@@ -65,4 +65,11 @@ module.exports = {
       method: 'DELETE'
     }))
 
+  # updates = { archived: '', name: ''}
+  update: ({classroomID, updates}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}",  _.assign({}, options, {
+      method: 'PUT'
+      json: updates
+    }))
+
 }
