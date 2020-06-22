@@ -189,7 +189,7 @@
                             <li>{{ $t('parents_landing_2.premium_details_5') }}</li>
                         </ul>
 
-                        <div class="buy-now-note">{{ $t('parents_landing_2.premium_need_help') }}</div>
+                        <div class="buy-now-note" v-html="$t('parents_landing_2.premium_need_help')"></div>
                     </div>
                 </div>
             </div>
@@ -975,6 +975,15 @@
         text-align: center;
 
         color: #FFFFFF;
+    }
+
+    .buy-now-note >>> a {
+        color: #FFF;
+        text-decoration: none;
+    }
+
+    .buy-now-note >>> a:hover {
+        text-decoration: none;
     }
 
     .trailer {
