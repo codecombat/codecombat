@@ -42,7 +42,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="no-margin">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
+                            <h4 class="live-classes-offered">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
                         </div>
                     </div>
                 </div>
@@ -189,7 +189,7 @@
                             <li>{{ $t('parents_landing_2.premium_details_5') }}</li>
                         </ul>
 
-                        <div class="buy-now-note">{{ $t('parents_landing_2.premium_need_help') }}</div>
+                        <div class="buy-now-note" v-html="$t('parents_landing_2.premium_need_help')"></div>
                     </div>
                 </div>
             </div>
@@ -416,7 +416,7 @@
 
             <div class="row buy-now-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.get_started') }}</button>
+                    <button @click="openDriftWelcomeCallPlaybook">{{ $t('parents_landing_2.get_started') }}</button>
                 </div>
             </div>
         </div>
@@ -499,6 +499,13 @@
         'lifetimeSubscriptionForCurrentUser'
       ]),
 
+      ...mapGetters('me', [
+        'isAdmin',
+        'isTeacher',
+        'isStudent',
+        'isPremium'
+      ]),
+
       basicSubAmount () {
         const sub = this.basicSubscriptionForCurrentUser
         return (sub) ? sub.amount / 100 : 0
@@ -528,6 +535,32 @@
         this.subscribeModalOpen = true
       },
 
+      checkSubscribeAndShowError () {
+        if (this.isTeacher || this.isStudent || this.isAdmin) {
+          noty({
+            text: this.$t('parents_landing_2.subscribe_error_user_type'),
+            layout: 'top',
+            type: 'warning',
+            timeout: 10000
+          })
+
+          return false
+        }
+
+        if (this.isPremium) {
+          noty({
+            text: this.$t('parents_landing_2.subscribe_error_already_subscribed'),
+            layout: 'top',
+            type: 'warning',
+            timeout: 10000
+          })
+
+          return false
+        }
+
+        return true
+      },
+
       /**
        * This method references the SubscribeModal instance via the backbone modal
        * harness component.  This is a hack to manually advance the modal to the next step
@@ -539,6 +572,10 @@
        * is normally called by the onclick listener.
        */
       subscribeBasic () {
+        if (!this.checkSubscribeAndShowError()) {
+          return
+        }
+
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
           modal.onClickPurchaseButton()
@@ -551,6 +588,10 @@
        * See subscribeBasic comments
        */
       subscribeLifetime () {
+        if (!this.checkSubscribeAndShowError()) {
+          return
+        }
+
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
           modal.onClickStripeLifetimeButton()
@@ -707,10 +748,6 @@
         border: 0 none;
     }
 
-    .title-row .no-margin {
-        margin: 0;
-    }
-
     .title-row h2 {
         font-family: Arvo, serif;
         font-style: normal;
@@ -748,7 +785,7 @@
         max-width: 655px
     }
 
-    .live-class-details {
+    .live-class-details, .live-classes-offered {
         margin-top: 30px;
     }
 
@@ -922,6 +959,10 @@
         margin-bottom: 52px;
     }
 
+    .coco-premium .premium-details h5 {
+        margin-bottom: 10px;
+    }
+
     .coco-premium .buy-now-note {
         margin-top: 35px;
         margin-bottom: 60px;
@@ -934,6 +975,15 @@
         text-align: center;
 
         color: #FFFFFF;
+    }
+
+    .buy-now-note >>> a {
+        color: #FFF;
+        text-decoration: none;
+    }
+
+    .buy-now-note >>> a:hover {
+        text-decoration: none;
     }
 
     .trailer {
