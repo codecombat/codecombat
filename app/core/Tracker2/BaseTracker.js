@@ -6,7 +6,7 @@ export const DEFAULT_USER_TRAITS_TO_REPORT = [
   'dateCreated'
 ]
 
-export const DEFAULT_TRACKER_INIT_TIMEOUT = 8000;
+export const DEFAULT_TRACKER_INIT_TIMEOUT = 12000;
 
 export function extractDefaultUserTraits(me) {
   return DEFAULT_USER_TRAITS_TO_REPORT.reduce((obj, key) => {
@@ -100,13 +100,13 @@ export default class BaseTracker {
     this.isInitializing = true
 
     const initTimeout = new Promise((resolve, reject) => {
-      setTimeout(reject('Tracker init timeout'), this.trackerInitTimeout)
+      setTimeout(() => reject('Tracker init timeout'), this.trackerInitTimeout)
     })
 
     try {
       await Promise.race([initTimeout, this._initializeTracker()])
     } catch (e) {
-      this.onInitializeFail()
+      this.onInitializeFail(e)
     }
 
     return this.initializationComplete
