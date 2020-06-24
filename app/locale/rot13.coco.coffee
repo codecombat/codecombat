@@ -30,7 +30,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     classroom_in_box_blurb1: "Ratntr rirel fghqrag fb gung gurl oryvrir pbqvat vf sbe gurz."
     classroom_in_box_blurb2: "Rzcbjre nal rqhpngbe gb srry pbasvqrag jura grnpuvat pbqvat."
     classroom_in_box_blurb3: "Vafcver nyy fpubby yrnqref gb perngr n jbeyq-pynff pbzchgre fpvrapr cebtenz."
-    covid19_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!" # {punatr}
+    covid19_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!"
     creativity_rigor_title: "Jurer Perngvivgl Zrrgf Evtbe"
     creativity_rigor_subtitle1: "Znxr pbqvat sha naq grnpu erny-jbeyq fxvyyf"
     creativity_rigor_blurb1: "Fghqragf glcr erny Clguba naq WninFpevcg juvyr cynlvat tnzrf gung rapbhentr gevny-naq-reebe, pevgvpny guvaxvat, naq perngvivgl. Fghqragf gura nccyl gur pbqvat fxvyyf gurl’ir yrnearq ol qrirybcvat gurve bja tnzrf naq jrofvgrf va cebwrpg-onfrq pbhefrf."
