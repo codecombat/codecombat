@@ -42,7 +42,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     featured_partners_title1: "특집 기사"
     featured_partners_title2: "수상 & 파트너"
     featured_partners_blurb1: "CollegeBoard Endorsed Provider"
-    featured_partners_blurb2: "Best Creativity Tool for Students"
+    featured_partners_blurb2: "학생들을 위한 가장 좋은 창의력 도구"
     featured_partners_blurb3: "Top Pick for Learning"
     featured_partners_blurb4: "Code.org Official Partner"
     featured_partners_blurb5: "CSforAll Official Member"
