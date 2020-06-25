@@ -2431,7 +2431,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   ozaria_chrome:
     sound_off: "Вимкнути звук"
     sound_on: "Увімкнути звук"
-    back_to_map: "Повернутись до мапи"
+    back_to_map: "Повернутись до карти"
     level_options: "Налаштування рівня"
     restart_level: "Перезавантажити рівень"
 
