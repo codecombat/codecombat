@@ -21,6 +21,7 @@ LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
+Mandate = require 'models/Mandate'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 Simulator = require 'lib/simulator/Simulator'
@@ -60,6 +61,14 @@ require 'lib/game-libraries'
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
 
 PROFILE_ME = false
+
+STOP_CHECK_TOURNAMENT_CLOSE = 0  # tournament ended
+KEEP_CHECK_TOURNAMENT_CLOSE = 1  # tournament not begin
+STOP_CHECK_TOURNAMENT_OPEN = 2  # none tournament only level
+KEEP_CHECK_TOURNAMENT_OPEN = 3  # tournament running
+
+TOURNAMENT_OPEN = [2, 3]
+STOP_CHECK_TOURNAMENT = [0, 2]
 
 module.exports = class PlayLevelView extends RootView
   id: 'level-view'
@@ -147,6 +156,12 @@ module.exports = class PlayLevelView extends RootView
       @load()
       application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID unless @observing
 
+    @calcTimeOffset()
+    @mandate = @supermodel.loadModel(new Mandate()).model
+
+    if features.china
+      @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
+
   getMeta: ->
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
@@ -196,18 +211,47 @@ module.exports = class PlayLevelView extends RootView
         indefiniteLength: e.level.isType('game-dev')
       })
     @setupGod() if @waitingToSetUpGod
+    @levelSlug = e.level.get('slug')
 
-    if features.china and e.level.get('slug') is 'magic-rush'
-      @checkForTournamentEnd()
+  checkTournamentEnd: ->
+    return unless @timeOffset
+    return unless @mandate.loaded
+    return unless @levelSlug
+    courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
+    mandate = @mandate.get('0')
 
-  checkForTournamentEnd: =>
-    return if @destroyed
-    $.get '/db/mandate', (data) =>
-      return if @destroyed
-      if data?[0]?.currentTournament isnt 'magic-rush'
-        window.location.href = '/play/ladder/magic-rush'
-      else
-        setTimeout @checkForTournamentEnd, 60 * 1000
+    tournamentState = STOP_CHECK_TOURNAMENT_OPEN
+    if mandate
+      tournamentState = @getTournamentState mandate, courseInstanceID, @levelSlug, @timeOffset
+      unless me.isAdmin() or tournamentState in TOURNAMENT_OPEN
+        window.location.href = '/play/ladder/'+@levelSlug+(if courseInstanceID then '/course/'+courseInstanceID else "")
+    if tournamentState in STOP_CHECK_TOURNAMENT
+      clearInterval @checkTournamentEndInterval
+
+  getTournamentState: (mandate, courseInstanceID, levelSlug, timeOffset) ->
+    tournament = _.find mandate.currentTournament or [], (t) ->
+      t.courseInstanceID is courseInstanceID and t.level is levelSlug
+    if tournament
+      currentTime = (Date.now() + timeOffset) / 1000
+      console.log "Current time:", new Date(currentTime * 1000)
+      if currentTime < tournament.startAt
+        delta = tournament.startAt - currentTime
+        console.log "Tournament will start at: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+        return KEEP_CHECK_TOURNAMENT_CLOSE
+      else if currentTime > tournament.endAt
+        console.log "Tournament ended at: #{new Date(tournament.endAt * 1000)}"
+        return STOP_CHECK_TOURNAMENT_CLOSE
+      delta = tournament.endAt - currentTime
+      console.log "Tournament will end at: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      return KEEP_CHECK_TOURNAMENT_OPEN
+    else
+      return if levelSlug in (mandate.tournamentOnlyLevels or []) then STOP_CHECK_TOURNAMENT_CLOSE else STOP_CHECK_TOURNAMENT_OPEN
+
+  calcTimeOffset: ->
+    $.ajax
+      type: 'HEAD'
+      success: (result, status, xhr) =>
+        @timeOffset = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
@@ -346,6 +390,14 @@ module.exports = class PlayLevelView extends RootView
 
   initGoalManager: ->
     options = {}
+
+    # Add two lines to handle `void main() {}` in C++ for the linesOfCode goal.
+    if ((@session?.get('codeLanguage') is 'cpp' or me.get('aceConfig')?.language is 'cpp') and Array.isArray(@level.get('goals')))
+      @level.get('goals').forEach((goal) =>
+        if goal?.linesOfCode?.humans and typeof goal.linesOfCode.humans == 'number'
+          goal.linesOfCode.humans += 2
+      )
+
     if @level.get('assessment') is 'cumulative'
       options.minGoalsToComplete = 1
     @goalManager = new GoalManager(@world, @level.get('goals'), @team, options)
@@ -846,6 +898,8 @@ module.exports = class PlayLevelView extends RootView
     #@instance.save() unless @instance.loading
     delete window.nextURL
     console.profileEnd?() if PROFILE_ME
+    if @checkTournamentEndInterval
+      clearInterval @checkTournamentEndInterval
     super()
 
   onIPadMemoryWarning: (e) ->

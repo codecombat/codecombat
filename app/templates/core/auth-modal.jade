@@ -62,13 +62,10 @@
       //  btn.btn.btn-sm.github-login-button#github-login-button
       //    img(src="/images/pages/modal/auth/github_icon.png")
       //    | GitHub
-      button#facebook-login-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=true)
-        img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
-        span.sign-in-blurb#facebook-blurb(data-i18n="login.sign_in_with_facebook")
-      button#gplus-login-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=true)
-        span.sign-in-blurb#google-blurb(data-i18n="login.sign_in_with_gplus")
-        .gplus-login-wrapper
-          .gplus-login-button
+      a#facebook-login-btn.network-login(disabled=true)
+        img.fb-login-img(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+      a#gplus-login-btn.network-login(disabled=true)
+        img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
 
   .extra-pane
     .switch-explanation(data-i18n="login.signup_switch")

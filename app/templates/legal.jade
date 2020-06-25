@@ -7,16 +7,17 @@ block content
   
   hr
 
-  p(data-i18n="legal.opensource_introduction").lead
+  if me.showOpenResourceLink()
+    p(data-i18n="legal.opensource_introduction").lead
 
-  p
-    span(data-i18n="legal.opensource_description_prefix")
-    a(href="https://github.com/codecombat/codecombat", data-i18n="legal.github_url")
-    span , 
-    span(data-i18n="legal.opensource_description_center")
-    a(href="https://github.com/codecombat/codecombat/wiki/Archmage-Home", data-i18n="legal.archmage_wiki_url")
-    span.spl(data-i18n="legal.opensource_description_suffix")
-  hr
+    p
+      span(data-i18n="legal.opensource_description_prefix")
+      a(href="https://github.com/codecombat/codecombat", data-i18n="legal.github_url")
+      span , 
+      span(data-i18n="legal.opensource_description_center")
+      a(href="https://github.com/codecombat/codecombat/wiki/Archmage-Home", data-i18n="legal.archmage_wiki_url")
+      span.spl(data-i18n="legal.opensource_description_suffix")
+    hr
 
   div.aside.well
     h3(data-i18n="legal.practices_title")
@@ -37,13 +38,14 @@ block content
     
   h2(data-i18n="legal.copyrights_title")
   
-  h3(data-i18n="legal.contributor_title")
+  if me.showOpenResourceLink()
+    h3(data-i18n="legal.contributor_title")
   
-  p
-    span.spr(data-i18n="legal.contributor_description_prefix")
-    a(href="/cla", data-i18n="legal.cla_url")
-    span , 
-    span(data-i18n="legal.contributor_description_suffix")
+    p
+      span.spr(data-i18n="legal.contributor_description_prefix")
+      a(href="/cla", data-i18n="legal.cla_url")
+      span , 
+      span(data-i18n="legal.contributor_description_suffix")
   
   h3(data-i18n="legal.code_title")
   

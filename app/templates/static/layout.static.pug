@@ -5,9 +5,11 @@ html(lang='en')
     meta(charset='utf-8')
     meta(name='viewport', content='width=1024')
     meta(http-equiv='Accept-CH', content='Viewport-Width')
-    title CodeCombat - Learn how to code by playing a game
-    meta(property='og:title', content='CodeCombat: Learn to Code by Playing a Game')
-    meta(property='og:url', content='http://codecombat.com')
+    title(data-i18n="new_home.title")
+    meta(name="keywords", data-i18n="[content]new_home.meta_keywords")
+    meta(name="description", data-i18n="[content]new_home.meta_description")
+    meta(property='og:title', data-i18n="[content]new_home.title")
+    meta(property='og:url', data-i18n="[content]new_home.meta_og_url")
     meta(property='og:type', content='game')
     meta(property='og:image', content='http://codecombat.com/images/pages/home/play_img.png')
     meta(property='og:site_name', content='CodeCombat')
@@ -59,7 +61,7 @@ html(lang='en')
         (function() {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?ffc38c02cf8f484ab8f785b58dfa8b6e";
-        var s = document.getElementsByTagName("script")[0]; 
+        var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
         })();
 
@@ -76,8 +78,8 @@ html(lang='en')
           performanceTiming: true
         }
       });
-
-    script(src='https://checkout.stripe.com/checkout.js')
+    if me.useStripe()
+      script(src='https://checkout.stripe.com/checkout.js')
     // CodePlay Tags Header
 
     // Webpack-inserted CSS:
@@ -109,3 +111,15 @@ html(lang='en')
     block content
     #modal-wrapper.modal-content.hide
     // CodePlay Tags Footer
+
+  if me.useQiyukf()
+    script.
+      (function (w, d, n, a, j) {
+        w[n] = w[n] || function () {
+          (w[n].a = w[n].a || []).push(arguments);
+        };
+        j = d.createElement('script');
+        j.async = true;
+        j.src = 'https://qiyukf.com/script/417b0e66819a980076108e0dac606b50.js';
+        d.body.appendChild(j);
+      })(window, document, 'ysf');

@@ -37,7 +37,7 @@ module.exports = class CertificatesView extends RootView
       @supermodel.trackModel @user
       @listenToOnce @user, 'sync', => @setHero?()
       @user.fetchNameForClassmate success: (data) =>
-        @studentName = if data.firstName then "#{data.firstName} #{data.lastName}" else data.name
+        @studentName = User.broadName(data)
         @render?()
     if classroomID = utils.getQueryVariable 'class'
       @classroom = new Classroom _id: classroomID
@@ -86,7 +86,7 @@ module.exports = class CertificatesView extends RootView
     else
       teacherUser = new User _id: @classroom.get('ownerID')
       teacherUser.fetchNameForClassmate success: (data) =>
-        @teacherName = if data.firstName then "#{data.firstName} #{data.lastName}" else data.name
+        @teacherName = User.broadName(data)
         @render?()
 
   getCodeLanguageName: ->

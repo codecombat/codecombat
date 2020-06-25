@@ -1,5 +1,3 @@
-require 'newrelic' if process.env.NEW_RELIC_LICENSE_KEY?
-
 do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
@@ -20,7 +18,7 @@ module.exports.startServer = (done) ->
   {app, httpServer}
 
 createAndConfigureApp = module.exports.createAndConfigureApp = ->
-  
+
   app = express()
   if config.forceCompression
     compression = require('compression')
