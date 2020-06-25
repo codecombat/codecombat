@@ -3042,7 +3042,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    refer_teacher: "Refer Teacher"
     name: "Ваше ім'я"
     parent_email: "Ваш E-mail"
-#    teacher_email: "Teacher's Email"
+    teacher_email: "E-mail вчителя"
     message: "Повідомлення"
 #    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
     send: "Надіслати E-mail"
