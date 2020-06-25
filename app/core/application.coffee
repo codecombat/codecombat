@@ -4,7 +4,7 @@ GitHubHandler = require 'core/social-handlers/GitHubHandler'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 storage = require 'core/storage'
-Tracker = require 'core/Tracker'
+Tracker = require('core/Tracker2').default
 CocoModel = require 'models/CocoModel'
 api = require 'core/api'
 
@@ -55,6 +55,11 @@ Application = {
 
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
+
+    routerSync = require('vuex-router-sync')
+    vueRouter = require('app/core/vueRouter').default()
+    routerSync.sync(store, vueRouter)
+
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
@@ -78,14 +83,17 @@ Application = {
     $('body').addClass 'picoctf' if window.serverConfig.picoCTF
     if $.browser.msie and parseInt($.browser.version) is 10
       $("html").addClass("ie10")
-    @tracker = new Tracker()
+
+    @tracker = new Tracker(store)
+    window.tracker = @tracker
+    locale.load(me.get('preferredLanguage', true))
+      .then => @tracker.initialize()
+      .catch((e) => console.error('Tracker initialization failed', e))
+
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
       @githubHandler = new GitHubHandler()
-    locale.load(me.get('preferredLanguage', true)).then =>
-      @tracker.promptForCookieConsent()
-    preferredLanguage = me.get('preferredLanguage') or 'en'
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'

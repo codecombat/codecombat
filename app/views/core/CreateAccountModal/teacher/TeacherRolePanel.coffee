@@ -9,17 +9,29 @@ TeacherRolePanel = Vue.extend
       'numStudents'
       'notes'
       'referrer'
+      'phoneNumber'
     ])
     return _.assign(formData, {
       showRequired: false
     })
 
+  computed:
+    _.assign({},
+      Vuex.mapGetters(trialReqProps: 'modal/getTrialRequestProperties'),
+      askForPhoneNumber: ->
+        return me.showChinaRegistration() or this.trialReqProps.country == 'United States'
+      phoneNumberRequired: ->
+        return me.showChinaRegistration()
+      validPhoneNumber: ->
+        return !@phoneNumber or forms.validatePhoneNumber(@phoneNumber)
+    )
+
   methods:
     clickContinue: ->
       # Make sure to add conditions if we change this to be used on non-teacher path
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Clicked', category: 'Teachers'
-      requiredAttrs = _.pick(@, 'role', 'numStudents')
-      unless _.all(requiredAttrs)
+      requiredAttrs = _.pick(@, ['role','numStudents'].concat(if this.phoneNumberRequired then ['phoneNumber'] else []))
+      unless _.all(requiredAttrs) and @validPhoneNumber
         @showRequired = true
         return
       @commitValues()
@@ -29,14 +41,14 @@ TeacherRolePanel = Vue.extend
       # Google AdWord teacher conversion.
       gtag?('event', 'conversion', {'send_to': 'AW-811324643/8dp2CJK6_5QBEOOp74ID'});
       @$emit('continue')
-      
+
     clickBack: ->
       @commitValues()
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Back Clicked', category: 'Teachers'
       @$emit('back')
 
     commitValues: ->
-      attrs = _.pick(@, 'role', 'numStudents', 'notes', 'referrer')
+      attrs = _.pick(@, 'role', 'numStudents', 'notes', 'referrer', 'phoneNumber')
       @$store.commit('modal/updateTrialRequestProperties', attrs)
 
   mounted: ->

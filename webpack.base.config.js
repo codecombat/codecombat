@@ -50,6 +50,7 @@ module.exports = (env) => {
         ], (regex) => { return regex.test(name) })
       },
       rules: [
+        { test: require.resolve('cookieconsent'), use: 'exports-loader?cookieconsent' },
         { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
         { test: /\.js$/,
@@ -182,6 +183,9 @@ module.exports = (env) => {
         }, {
           from: 'vendor/esper-plugin-lang-java-modern.js',
           to: 'javascripts/app/vendor/aether-java.modern.js'
+        }, {
+          from: 'vendor/esper-plugin-lang-cpp-modern.js',
+          to: 'javascripts/app/vendor/aether-cpp.modern.js'
         }
       ]),
       new CompileStaticTemplatesPlugin({

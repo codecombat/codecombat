@@ -146,8 +146,6 @@ module.exports = class CampaignEditorView extends RootView
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
       campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero' or @campaign.get('isOzaria')
-      # Save campaign index to level if it's a course campaign, since we show linear level order numbers for course levels.
-      campaignLevel.campaignIndex = (@levels.models.length - levelIndex - 1) if @campaign.get('type', true) is 'course'
       campaignLevels[levelOriginal] = campaignLevel
 
     @campaign.set('levels', campaignLevels)

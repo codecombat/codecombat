@@ -2,7 +2,10 @@ extends /templates/core/modal-base-flat.jade
 
 block modal-header-content
   //- TODO: only load this once, probably in the services/google
-  script(src='https://www.google.com/recaptcha/api.js')
+  if me.useChinaServices()
+    script(src='https://www.recaptcha.net/recaptcha/api.js')
+  else
+    script(src='https://www.google.com/recaptcha/api.js')
 
 block modal-body-content
   h3(data-i18n="courses.option1_header")

@@ -4,6 +4,9 @@ algolia = require 'core/services/algolia'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
 # NOTE: Phone number in algolia search results is for a school, not a district
+{ countries } = require 'core/utils';
+countryList = require('country-list')()
+UsaStates = require('usa-states').UsaStates
 
 SchoolInfoPanel =
   name: 'school-info-panel'
@@ -23,6 +26,13 @@ SchoolInfoPanel =
 
     return _.assign(ncesData, formData, {
       showRequired: false
+      countriesList: countryList.getNames()
+      usaStates: new UsaStates().states
+      usaStatesAbbreviations: new UsaStates().arrayOf('abbreviations')
+      countryMap:
+        "Hong Kong": "Hong Kong, China",
+        "Macao": "Macao, China",
+        "Taiwan, Province of China": "Taiwan, China"
     })
 
   components:
@@ -51,13 +61,17 @@ SchoolInfoPanel =
       _.assign(@, _.pick(suggestion, 'district', 'city', 'state'))
       if displayKey is 'name'
         @organization = suggestion.name
-      @country = 'USA'
+      @country = 'United States'
       @clearSchoolNcesValues()
       @clearDistrictNcesValues()
       NCES_KEYS = if displayKey is 'name' then SCHOOL_NCES_KEYS else DISTRICT_NCES_KEYS
       for key in NCES_KEYS
         @['nces_'+key] = suggestion[key]
     
+    onChangeCountry: ->
+      if @['country'] == 'United States' && !@usaStatesAbbreviations.includes(@['state'])
+        @['state'] = ''
+
     commitValues: ->
       attrs = _.pick(@, 'organization', 'district', 'city', 'state', 'country')
       for key in SCHOOL_NCES_KEYS
@@ -83,5 +97,17 @@ SchoolInfoPanel =
 
   mounted: ->
     $("input[name*='organization']").focus()
+
+    if me.showChinaRegistration()
+      @country = 'China'
+    else
+      if me.get('country') and !!_.find(countries, (c) => c.country is _.string.slugify(me.get('country')))
+        @country = _.string.titleize(_.string.humanize(me.get('country')))
+      else
+        @country = 'United States'
+
+    if !me.addressesIncludeAdministrativeRegion()
+      @state = ' '
+
 
 module.exports = SchoolInfoPanel

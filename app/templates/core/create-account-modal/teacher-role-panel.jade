@@ -9,12 +9,13 @@ div.school-info-panel.text-left
           strong(v-if="showRequired && !role") {{ $t("common.required_field") }}
         select.form-control(v-model="role", name="role", ref='focus')
           option(value='') {{ $t("teachers_quote.primary_role_default") }}
-          option(value="Teacher") {{ $t("courses.teacher") }}
-          option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
-          option(value="Advisor") {{ $t("teachers_quote.advisor") }}
           option(value="Principal") {{ $t("teachers_quote.principal") }}
-          option(value="Superintendent") {{ $t("teachers_quote.superintendent") }}
           option(value="Parent") {{ $t("teachers_quote.parent") }}
+          option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
+          if !me.showChinaRegistration()
+            option(value="Teacher") {{ $t("courses.teacher") }}
+            option(value="Advisor") {{ $t("teachers_quote.advisor") }}
+            option(value="Superintendent") {{ $t("teachers_quote.superintendent") }}
 
       .form-group(v-bind:class="{ 'has-error': showRequired && !numStudents }")
         span.control-label {{ $t("teachers_quote.num_students_help") }}
@@ -28,6 +29,19 @@ div.school-info-panel.text-left
           option 501-1000
           option 1000+
         strong.help-block(v-if="showRequired && !numStudents") {{ $t("common.required_field") }}
+
+      .form-group(v-if="askForPhoneNumber" v-bind:class="{ 'has-error': (phoneNumberRequired && showRequired && (!phoneNumber || !validPhoneNumber)) || (phoneNumber && !validPhoneNumber) }")
+        span.control-label
+          | {{ $t("teachers_quote.phone_number") }}
+          =" "
+          span(v-if="phoneNumberRequired")
+            strong(v-if="showRequired && !phoneNumber") {{ $t("common.required_field") }}
+          span.spl.text-muted.optional-text(v-else) {{ $t("signup.optional") }}
+        input.form-control(
+          v-bind:placeholder="$t('teachers_quote.phone_number_help')"
+          v-model="phoneNumber"
+          name="phoneNumber"
+        )
 
       .form-group
         span.control-label
@@ -47,7 +61,7 @@ div.school-info-panel.text-left
       span.control-label
         span {{ $t("teachers_quote.anything_else") }}
         span.spl.text-muted.optional-text {{ $t("signup.optional") }}
-      textarea.form-control.m-b-2(rows=2, v-model="notes", name="notes")
+      textarea.form-control.m-b-2(rows=2, v-model="notes", name="notes", v-bind:placeholder="$t('teachers_quote.anything_else_helper')")
 
   // In reverse order for tabbing purposes
   .history-nav-buttons

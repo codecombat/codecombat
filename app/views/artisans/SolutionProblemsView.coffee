@@ -45,11 +45,11 @@ module.exports = class SolutionProblemsView extends RootView
     'goals'
   ]
   includedLanguages = [
-    'python', 'javascript', 'java', 'lua', 'coffeescript'
+    'python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'
   ]
   # TODO: Phase the following out:
   excludedLanguages = [
-    'java', 'lua', 'coffeescript'
+    'lua', 'coffeescript'
   ]
   excludedLevelSnippets = [
     'treasure', 'brawl', 'siege'
@@ -60,6 +60,7 @@ module.exports = class SolutionProblemsView extends RootView
   loadedLevels: {}
   parsedLevels: []
   problemCount: 0
+  levelsWithSolutionsCount: 0
 
   initialize: ->
     @campaigns = new Campaigns([])
@@ -127,10 +128,13 @@ module.exports = class SolutionProblemsView extends RootView
           problems = problems.concat(@findPass solution)
           problems = problems.concat(@findIdenticalToSource solution, plan)
           problems = problems.concat(@findTemplateProblems solution, plan)
+          problems = problems.concat(@findSolutionTemplateProblems solution, plan)
       @problemCount += problems.length
+      @levelsWithSolutionsCount++ if solutions.length
       @parsedLevels.push
         level: level
         problems: problems
+        solutions: solutions
 
     @renderSelectors '#level-table'
 
@@ -165,6 +169,11 @@ module.exports = class SolutionProblemsView extends RootView
 
   findIdenticalToSource: (solution, plan) ->
     problems = []
+    if not plan.languages
+      problems.push
+        type: 'Plan has no languages'
+        value: plan
+      return problems
     source = if solution.lang is 'javascript' then plan.source else plan.languages[solution.language]
     if solution.source is source
       problems.push
@@ -174,13 +183,30 @@ module.exports = class SolutionProblemsView extends RootView
 
   findTemplateProblems: (solution, plan) ->
     problems = []
+    if not plan.languages
+      return problems
     source = if solution.lang is 'javascript' then plan.source else plan.languages[solution.language]
     context = plan.context
     try
-      _.template(source, context)
+      _.template(source)(context)
+    catch error
+      console.log source, context, error
+      problems.push
+        type: 'Plan template syntax error'
+        value: error.message
+    problems
+
+  findSolutionTemplateProblems: (solution, plan) ->
+    problems = []
+    if not plan.languages
+      return problems
+    context = plan.context
+    try
+      renderedSource = _.template(solution.source)(context)
     catch error
       console.log source, context, error
       problems.push
         type: 'Solution template syntax error'
         value: error.message
+    solution.renderedSource = renderedSource or solution.source
     problems

@@ -8,22 +8,23 @@ form#basic-info-form.modal-body.basic-info
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
-          .col-xs-offset-3(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-5'))
+          .col-xs-offset-3(class=(path === 'teacher' && !me.showChinaRegistration() ? 'col-xs-3' : 'col-xs-5'))
             .form-group
               label.control-label(for="first-name-input")
                 span(data-i18n="general.first_name")
               input#first-name-input.form-control.input-lg(name="firstName" value=view.signupState.get('signupForm').firstName dir="auto")
-          div(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-4'))
-            if view.signupState.get('path') === 'teacher'
-              .last-name.form-group
-                label.control-label(for="last-name-input")
-                  span(data-i18n="general.last_name")
-                input#last-name-input.form-control.input-lg(name="lastName" value=view.signupState.get('signupForm').lastName dir="auto")
-            else
-              .last-initial.form-group
-                label.control-label(for="last-name-input")
-                  span(data-i18n="general.last_initial")
-                input#last-name-input.form-control.input-lg(name="lastName" maxlength="1" value=view.signupState.get('signupForm').lastName dir="auto")
+          if !me.showChinaRegistration()
+            div(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-4'))
+              if view.signupState.get('path') === 'teacher'
+                .last-name.form-group
+                  label.control-label(for="last-name-input")
+                    span(data-i18n="general.last_name")
+                  input#last-name-input.form-control.input-lg(name="lastName" value=view.signupState.get('signupForm').lastName dir="auto")
+              else
+                .last-initial.form-group
+                  label.control-label(for="last-name-input")
+                    span(data-i18n="general.last_initial")
+                  input#last-name-input.form-control.input-lg(name="lastName" maxlength="1" value=view.signupState.get('signupForm').lastName dir="auto")
       .form-group
         .row.rtl-allowed
           .col-xs-5.col-xs-offset-3.rtl-allowed
@@ -95,7 +96,7 @@ form#basic-info-form.modal-body.basic-info
       .auth-network-logins.text-center
         .gplus-login
           a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
+            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
         .facebook-login
           a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
             img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")

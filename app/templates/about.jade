@@ -22,9 +22,10 @@ block content
             li
               a(href="#team")#team-link
                 small.label(data-i18n="about.team_link")
-            li
-              a(href="#community")#community-link
-                small.label(data-i18n="nav.community")
+            if me.showOpenResourceLink()
+              li
+                a(href="#community")#community-link
+                  small.label(data-i18n="nav.community")
             li
               a(href="#story")#story-link
                 small.label(data-i18n="about.story_link")
@@ -76,24 +77,13 @@ block content
 
           li
             .profile-pic
-              a(href="http://robinyang.com/" rel="external")
-                img(src="/images/pages/about/team-avatars/robin-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/robin-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="http://robinyang.com/" rel="external") Robin Yang
-              small(data-i18n="about.robin_title")
-              br
-
-          li
-            .profile-pic
               a(href="http://bryukh.com" rel="external")
                 img(src="/images/pages/about/team-avatars/bryukh-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/bryukh-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
                 a(href="http://bryukh.com" rel="external") Valentin Bryukhanov
-              small(data-i18n="about.bryukh_title")
+              small Senior Gameplay Developer
               br
 
           li
@@ -102,7 +92,7 @@ block content
               img(src="/images/pages/about/team-headshots/sean-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Sean McNulty
-              small(data-i18n="about.sean_title")
+              small Inside Sales Manager
               br
 
           li
@@ -111,7 +101,7 @@ block content
               img(src="/images/pages/about/team-headshots/liz-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Liz Coluni
-              small(data-i18n="about.liz_title")
+              small Inside Sales Manager
               br
 
           li
@@ -122,16 +112,7 @@ block content
             .team-bio
               h6.label.team-name
                 a(href="https://www.linkedin.com/in/jane-park-90bb11b/" rel="external") Jane Park
-              small(data-i18n="about.jane_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/dchase-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/dchase-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name David Chase
-              small(data-i18n="about.david_title")
+              small Associate Product Manager
               br
 
           li
@@ -149,7 +130,7 @@ block content
               img(src="/images/pages/about/team-headshots/robarev-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Rob Arevalo
-              small(data-i18n="about.rob_title")
+              small Account Executive
               br
 
           li
@@ -174,13 +155,13 @@ block content
 
           li
             .profile-pic
-              a(href="https://andrewjakubowicz.github.io/" rel="external")
+              a(href="https://andrewjakubowicz.me" rel="external")
                 img(src="/images/pages/about/team-avatars/andrew-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/andrew-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
-                a(href="https://andrewjakubowicz.github.io/" rel="external") Andrew Jakubowicz
-              small(data-i18n="about.andrew_title")
+                a(href="https://andrewjakubowicz.me" rel="external") Andrew Jakubowicz
+              small Senior Software Engineer
               br
 
           li
@@ -209,7 +190,7 @@ block content
               img(src="/images/pages/about/team-headshots/claire-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Claire Armstrong
-              small(data-i18n="about.claire_title")
+              small Executive Assistant / Operations Manager
               br
 
           li
@@ -218,7 +199,7 @@ block content
               img(src="/images/pages/about/team-headshots/chelsea-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Chelsea Johnson
-              small(data-i18n="about.chelsea_title")
+              small Senior Operations Manager
               br
 
           li
@@ -252,15 +233,6 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-avatars/maya-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/maya-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Maya McCoy
-              small(data-i18n="about.maya_title")
-              br
-
-          li
-            .profile-pic
               img(src="/images/pages/about/team-avatars/shan-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/shan-headshot.jpg").img-thumbnail.headshot
             .team-bio
@@ -279,17 +251,17 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-headshots/lance-headshot.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/lance-headshot.png").img-thumbnail.headshot
+              img(src="/images/pages/about/team-avatars/maya-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/maya-headshot.jpg").img-thumbnail.headshot
             .team-bio
-              h6.label.team-name Lance Wu
-              small(data-i18n="about.lance_title")
+              h6.label.team-name Maya McCoy
+              small(data-i18n="about.maya_title")
               br
 
           li
             .profile-pic
               img(src="/images/pages/about/team-avatars/matias-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/matias-headshot.jpeg").img-thumbnail.headshot
+              img(src="/images/pages/about/team-headshots/matias-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Matias Forbord
               small(data-i18n="about.matias_title")
@@ -303,6 +275,132 @@ block content
               h6.label.team-name Ryan Bousquet
               small(data-i18n="about.ryan_title")
               br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/jonathan-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/jonathan-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Jonathan Timmmons
+              small Director of Inside Sales
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-headshots/yuqiang-headshot.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/yuqiang-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Yuqiang Tong
+              small(data-i18n="about.yuqiang_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-headshots/zhiran-headshot.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/zhiran-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Zhiran Chen
+              small(data-i18n="about.zhiran_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-headshots/lance-headshot.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/lance-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Lance Wu
+              small(data-i18n="about.lance_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/ashley-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/ashley-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Ashley Stoddard
+              small Senior Artist
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/lizb-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/lizb-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Liz Bush
+              small Sales Development Representative
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/emilia-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/emilia-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Emilia Pasquetti
+              small Senior Account Executive
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/becky-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/becky-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Becky Haghighi
+              small Senior Account Executive
+              br
+
+          //- li
+          //-   .profile-pic
+          //-     img(src="/images/pages/about/team-avatars/heather-avatar.png").img-thumbnail.avatar
+          //-     img(src="/images/pages/about/team-headshots/heather-headshot.jpg").img-thumbnail.headshot
+          //-   .team-bio
+          //-     h6.label.team-name Heather Fish
+          //-     small Sales Development Representative
+          //-     br
+
+          //- li
+          //-   .profile-pic
+          //-     img(src="/images/pages/about/team-avatars/steven-avatar.png").img-thumbnail.avatar
+          //-     img(src="/images/pages/about/team-headshots/steven-headshot.jpg").img-thumbnail.headshot
+          //-   .team-bio
+          //-     h6.label.team-name Steven Adkins
+          //-     small Sales Development Representative
+          //-     br
+
+          //- li
+          //-   .profile-pic
+          //-     img(src="/images/pages/about/team-avatars/lynn-avatar.png").img-thumbnail.avatar
+          //-     img(src="/images/pages/about/team-headshots/lynn-headshot.jpg").img-thumbnail.headshot
+          //-   .team-bio
+          //-     h6.label.team-name Lynn Owens
+          //-     small Sales Development Representative
+          //-     br
+
+          //- li
+          //-   .profile-pic
+          //-     img(src="/images/pages/about/team-avatars/brandon-avatar.png").img-thumbnail.avatar
+          //-     img(src="/images/pages/about/team-headshots/brandon-headshot.jpg").img-thumbnail.headshot
+          //-   .team-bio
+          //-     h6.label.team-name Brandon Esse
+          //-     small Account Executive
+          //-     br
+
+          //- li
+          //-   .profile-pic
+          //-     img(src="/images/pages/about/team-avatars/shannon-avatar.png").img-thumbnail.avatar
+          //-     img(src="/images/pages/about/team-headshots/shannon-headshot.jpg").img-thumbnail.headshot
+          //-   .team-bio
+          //-     h6.label.team-name Shannon Alves
+          //-     small Senior Account Executive
+          //-     br
+
+          //- li
+          //-   .profile-pic
+          //-     img(src="/images/pages/about/team-avatars/juan-avatar.png").img-thumbnail.avatar
+          //-     img(src="/images/pages/about/team-headshots/juan-headshot.jpg").img-thumbnail.headshot
+          //-   .team-bio
+          //-     h6.label.team-name Juan Benitez
+          //-     small Account Executive
+          //-     br
 
         ul
           li
@@ -323,29 +421,30 @@ block content
               small(data-i18n="about.retrostyle_title")
               small(data-i18n="about.retrostyle_blurb")
 
-      #community.anchor
-        #community-row-1.row.text-center
-          .col-sm-12
-          .text-center
-            h3(data-i18n="about.community_title")
-            h4(data-i18n="about.community_subtitle")
-            img(src="/images/pages/about/github_avatars.png")#community-avatars
+      if me.showOpenResourceLink()
+        #community.anchor
+          #community-row-1.row.text-center
+            .col-sm-12
+            .text-center
+              h3(data-i18n="about.community_title")
+              h4(data-i18n="about.community_subtitle")
+              img(src="/images/pages/about/github_avatars.png")#community-avatars
 
-        #community-row-2.row
-          .col-sm-5
-            p.responsive-side-margins
-              span.spr(data-i18n="about.community_description_3")
-              a(href="/community")
-                span(data-i18n="about.community_description_link_2")
-              span ,
-              span.spr(data-i18n="about.community_description_1")
-              a(href="/contribute")
-                span(data-i18n="about.community_description_link")
-              span.spl(data-i18n="about.community_description_2")
-          .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
-            h2(data-i18n="about.number_contributors")
-            img(src="/images/pages/about/github.png")
-            #community-graphic-filler
+          #community-row-2.row
+            .col-sm-5
+              p.responsive-side-margins
+                span.spr(data-i18n="about.community_description_3")
+                a(href="/community")
+                  span(data-i18n="about.community_description_link_2")
+                span ,
+                span.spr(data-i18n="about.community_description_1")
+                a(href="/contribute")
+                  span(data-i18n="about.community_description_link")
+                span.spl(data-i18n="about.community_description_2")
+            .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
+              h2(data-i18n="about.number_contributors")
+              img(src="/images/pages/about/github.png")
+              #community-graphic-filler
 
       #story.anchor
         .text-center
@@ -414,22 +513,11 @@ block content
                 li.small(data-i18n="about.jobs_benefit_11")
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
-                li.small(data-i18n="about.jobs_benefit_7")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Software Engineer (China)
-                .text-center
-                  small.label
-                    | Beijing • Full-time
-                p.small Want to make a difference on a global scale?
-                p.small CodeCombat is looking for an experienced software engineer to support the education platform of the future.
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/623b1bba-5686-4112-86ff-f99add32e8f3" rel="external" target="_blank")
-                  span(data-i18n="about.learn_more")
 
-          //.col-sm-6.col-md-5.col-lg-4
-          //  .job-listing
-          //    h5 (No Open Roles)
-          //    p.small Check back later for updates on new positions at CodeCombat.
+          .col-sm-6.col-md-5.col-lg-4
+            .job-listing
+              h5 (No Open Roles)
+              p.small Check back later for updates on new positions at CodeCombat.
 
       #contact.anchor
         .text-center

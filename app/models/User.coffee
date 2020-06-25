@@ -13,6 +13,8 @@ UserLib = {
   broadName: (user) ->
     return '(deleted)' if user.deleted
     name = _.filter([user.firstName, user.lastName]).join(' ')
+    if features?.china
+      name = user.firstName
     return name if name
     name = user.name
     return name if name
@@ -47,6 +49,7 @@ module.exports = class User extends CocoModel
   broadName: -> User.broadName(@attributes)
 
   inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
+  addressesIncludeAdministrativeRegion: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.addressesIncludeAdministrativeRegion(@get('country'))
 
   getPhotoURL: (size=80) ->
     return '' if application.testing
@@ -171,7 +174,7 @@ module.exports = class User extends CocoModel
     return if oldRole is role or (oldRole and not force)
     @set 'role', role
     @patch()
-    application.tracker?.updateRole()
+    application.tracker.identify()
     return @get 'role'
 
   a = 5
@@ -406,11 +409,14 @@ module.exports = class User extends CocoModel
     options.url = '/auth/logout'
     FB?.logout?()
     options.success ?= ->
-      location = _.result(window.currentView, 'logoutRedirectURL')
-      if location
-        window.location = location
-      else
-        window.location.reload()
+      window.application.tracker.identifyAfterNextPageLoad()
+      window.application.tracker.resetIdentity().finally =>
+        location = _.result(window.currentView, 'logoutRedirectURL')
+        if location
+          window.location = location
+        else
+          window.location.reload()
+
     @fetch(options)
 
   signupWithPassword: (name, email, password, options={}) ->
@@ -454,10 +460,11 @@ module.exports = class User extends CocoModel
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
     return jqxhr
 
-  fetchGPlusUser: (gplusID, options={}) ->
+  fetchGPlusUser: (gplusID, email, options={}) ->
     options.data ?= {}
     options.data.gplusID = gplusID
     options.data.gplusAccessToken = application.gplusHandler.token()
+    options.data.email = email
     @fetch(options)
 
   loginGPlusUser: (gplusID, options={}) ->
@@ -584,7 +591,7 @@ module.exports = class User extends CocoModel
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> not (features?.chinaUx ? false)
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
-  promptForClassroomSignup: -> not (features?.chinaUx ? false or window.serverConfig?.codeNinjas ? false or features?.brainPop ? false)
+  promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
   showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false) and @isStudent()
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
@@ -603,16 +610,22 @@ module.exports = class User extends CocoModel
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   showForumLink: -> not (features?.china ? false)
-  showGithubLink: -> not (features?.china ? false)
-  showChinaICPinfo: -> features?.china ? false
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
+  showChinaRegistration: -> features?.china ? false
+  enableCpp: -> features?.china ? false
+  useQiyukf: -> features?.china ? false
+  useChinaServices: -> features?.china ? false
+  useGeneralArticle: -> not (features?.china ? false)
 
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
   showIndividualRegister: -> not (features?.china ? false)
   hideDiplomatModal: -> features?.china ? false
   showChinaRemindToast: -> features?.china ? false
+  showOpenResourceLink: -> not (features?.china ? false)
+  useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
+  canDeleteAccount: -> not (features?.china ? false)
 
   # Ozaria flags
   showOzariaCampaign: -> @isAdmin()

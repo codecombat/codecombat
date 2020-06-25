@@ -18,7 +18,7 @@ loadAetherLanguage = (language) -> new Promise (accept, reject) ->
   if language in ['javascript']
     return accept()
 
-  if language in ['python', 'coffeescript', 'lua', 'java']
+  if language in ['python', 'coffeescript', 'lua', 'java', 'cpp']
     try
       eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });")
       console.log("Modern plugin chosen for: '#{language}'")

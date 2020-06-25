@@ -41,6 +41,9 @@ NcesSearchInput = Vue.extend
       @searchNces(value)
 
     searchNces: (term) ->
+      return if me.get('country') and me.get('country') isnt 'united-states'
+      # don't do any of the NCES-based autocomplete stuff
+      # unless the user manually specifies "United States" as the country, then turn it back on
       @suggestions = []
       @filledSuggestion = ''
       algolia.schoolsIndex.search(term, { hitsPerPage: 5, aroundLatLngViaIP: false })

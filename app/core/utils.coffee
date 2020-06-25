@@ -1,5 +1,77 @@
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
+translatejs2cpp = (jsCode, fullCode=true) ->
+  matchBrackets = (str, startIndex) ->
+    cc = 0
+    for i in [startIndex..str.length-1] by 1
+      cc += 1 if str[i] == '{'
+      if str[i] == '}'
+        cc -= 1
+        return i+2 unless cc
+  splitFunctions = (str) ->
+    creg = new RegExp '\n[ \t]*[^/]'
+    codeIndex = creg.exec(str)
+    if str and str[0] != '/'
+      startComments = ''
+    else if codeIndex
+      codeIndex = codeIndex.index + 1
+      startComments = str.slice 0, codeIndex
+      str = str.slice codeIndex
+    else
+      return [str, '']
+
+    indices = []
+    reg = new RegExp '\nfunction ', 'gi'
+    indices.push 0 if str.startsWith("function ")
+    while (result = reg.exec(str))
+      indices.push result.index+1
+    split = []
+    end = 0
+    split.push {s: 0, e: indices[0]} if indices.length
+    for i in indices
+      end = matchBrackets str, i
+      split.push {s: i, e: end}
+    split.push {s: end, e: str.length}
+    header = if startComments then [startComments] else []
+    return header.concat split.map (s) -> str.slice s.s, s.e
+
+  jsCodes = splitFunctions jsCode
+  len = jsCodes.length
+  lines = jsCodes[len-1].split '\n'
+  if fullCode
+    jsCodes[len-1] = """
+      void main() {
+      #{(lines.map (line) -> '    ' + line).join '\n'}
+      }
+    """
+  else
+    jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')
+  for i in [0..len-1] by 1
+    if /^ ?function/.test(jsCodes[i])
+      variables = jsCodes[i].match(/function.*\((.*)\)/)[1]
+      v = ''
+      v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
+      jsCodes[i] = jsCodes[i].replace(/function(.*)\((.*)\)/, 'auto$1(' + v + ')')
+    jsCodes[i] = jsCodes[i].replace new RegExp('var x', 'g'), 'float x'
+    jsCodes[i] = jsCodes[i].replace new RegExp('var y', 'g'), 'float y'
+    jsCodes[i] = jsCodes[i].replace new RegExp(' === ', 'g'), ' == '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' !== ', 'g'), ' != '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' and ', 'g'), ' && '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' or ', 'g'), ' || '
+    jsCodes[i] = jsCodes[i].replace new RegExp('not ', 'g'), '!'
+    jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
+  unless fullCode
+    lines = jsCodes[len-1].split '\n'
+    jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')
+
+  cppCodes = jsCodes.join('').split('\n')
+  for i in [1..cppCodes.length-1] by 1
+    if cppCodes[i].match(/^\s*else/) and cppCodes[i-1].match("//")
+      tmp = cppCodes[i]
+      cppCodes[i] = cppCodes[i-1]
+      cppCodes[i-1] = tmp
+  cppCodes.join '\n'
+
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -21,16 +93,16 @@ combineAncestralObject = (obj, propertyName) ->
   combined
 
 countries = [
-  {country: 'united-states', countryCode: 'US', ageOfConsent: 13}
-  {country: 'china', countryCode: 'CN'}
+  {country: 'united-states', countryCode: 'US', ageOfConsent: 13, addressesIncludeAdministrativeRegion:true}
+  {country: 'china', countryCode: 'CN', addressesIncludeAdministrativeRegion:true}
   {country: 'brazil', countryCode: 'BR'}
 
   # Loosely ordered by decreasing traffic as measured 2016-09-01 - 2016-11-07
   # TODO: switch to alphabetical ordering
   {country: 'united-kingdom', countryCode: 'GB', inEU: true, ageOfConsent: 13}
   {country: 'russia', countryCode: 'RU'}
-  {country: 'australia', countryCode: 'AU'}
-  {country: 'canada', countryCode: 'CA'}
+  {country: 'australia', countryCode: 'AU', addressesIncludeAdministrativeRegion:true}
+  {country: 'canada', countryCode: 'CA', addressesIncludeAdministrativeRegion:true}
   {country: 'france', countryCode: 'FR', inEU: true, ageOfConsent: 15}
   {country: 'taiwan', countryCode: 'TW'}
   {country: 'ukraine', countryCode: 'UA'}
@@ -46,25 +118,25 @@ countries = [
   {country: 'new-zealand', countryCode: 'NZ'}
   {country: 'finland', countryCode: 'FI', inEU: true, ageOfConsent: 13}
   {country: 'south-korea', countryCode: 'KR'}
-  {country: 'mexico', countryCode: 'MX'}
+  {country: 'mexico', countryCode: 'MX', addressesIncludeAdministrativeRegion:true}
   {country: 'vietnam', countryCode: 'VN'}
   {country: 'singapore', countryCode: 'SG'}
   {country: 'colombia', countryCode: 'CO'}
-  {country: 'india', countryCode: 'IN'}
+  {country: 'india', countryCode: 'IN', addressesIncludeAdministrativeRegion:true}
   {country: 'thailand', countryCode: 'TH'}
   {country: 'belgium', countryCode: 'BE', inEU: true, ageOfConsent: 13}
   {country: 'sweden', countryCode: 'SE', inEU: true, ageOfConsent: 13}
   {country: 'denmark', countryCode: 'DK', inEU: true, ageOfConsent: 13}
   {country: 'czech-republic', countryCode: 'CZ', inEU: true, ageOfConsent: 15}
   {country: 'hong-kong', countryCode: 'HK'}
-  {country: 'italy', countryCode: 'IT', inEU: true, ageOfConsent: 16}
+  {country: 'italy', countryCode: 'IT', inEU: true, ageOfConsent: 16, addressesIncludeAdministrativeRegion:true}
   {country: 'romania', countryCode: 'RO', inEU: true, ageOfConsent: 16}
   {country: 'belarus', countryCode: 'BY'}
   {country: 'norway', countryCode: 'NO', inEU: true, ageOfConsent: 13}  # GDPR applies to EFTA
   {country: 'philippines', countryCode: 'PH'}
   {country: 'lithuania', countryCode: 'LT', inEU: true, ageOfConsent: 16}
   {country: 'argentina', countryCode: 'AR'}
-  {country: 'malaysia', countryCode: 'MY'}
+  {country: 'malaysia', countryCode: 'MY', addressesIncludeAdministrativeRegion:true}
   {country: 'pakistan', countryCode: 'PK'}
   {country: 'serbia', countryCode: 'RS'}
   {country: 'greece', countryCode: 'GR', inEU: true, ageOfConsent: 15}
@@ -98,6 +170,8 @@ countries = [
 
 inEU = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.inEU
 
+addressesIncludeAdministrativeRegion = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.addressesIncludeAdministrativeRegion
+
 ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return defaultIfUnknown unless countryName
   country = _.find(countries, (c) => c.country is slugify(countryName))
@@ -119,7 +193,7 @@ courseIDs =
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
   COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
-# TODO add when final courses content created for ozaria 
+# TODO add when final courses content created for ozaria
 ozariaCourseIDs = []
 
 orderedCourseIDs = [
@@ -457,8 +531,9 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io', 'html'], currentLanguage
-  # Exclude language-specific code blocks like ```python (... code ...)``` for each non-target language.
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then 'javascript' else currentLanguage
+  # Exclude language-specific code blocks like ```python (... code ...)``
+  # ` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
   # Exclude language-specific images like ![python - image description](image url) for each non-target language.
   imageExclusionRegex = new RegExp "!\\[(#{excludedLanguages.join('|')}) - .+?\\]\\(.+?\\)\n?", 'gm'
@@ -484,6 +559,12 @@ filterMarkdownCodeLanguages = (text, language) ->
       text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
     if not startsWithVowel(from) and startsWithVowel(to)
       text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
+  if currentLanguage == 'cpp'
+    jsRegex = new RegExp "```javascript\n([^`]+)```", 'gm'
+    text = text.replace jsRegex, (a, l) =>
+      """```cpp
+        #{@translatejs2cpp a[13..a.length-4], false}
+      ```"""
 
   return text
 
@@ -492,6 +573,7 @@ capitalLanguages =
   'coffeescript': 'CoffeeScript'
   'python': 'Python'
   'java': 'Java'
+  'cpp': 'C++'
   'lua': 'Lua'
   'html': 'HTML'
 
@@ -516,15 +598,19 @@ createLevelNumberMap = (levels) ->
 
 findNextLevel = (levels, currentIndex, needsPractice) ->
   # Find next available incomplete level, depending on whether practice is needed
-  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false, locked: true/false}]
   # Skip over assessment levels
+  # return -1 if at or beyond locked level
+  return -1 for i in [0..currentIndex] when levels[i].locked
   index = currentIndex
   index++
   if needsPractice
     if levels[currentIndex].practice or index < levels.length and levels[index].practice
       # Needs practice, current level is practice or next is practice; return the next incomplete practice-or-normal level
       # May leave earlier practice levels incomplete and reach end of course
-      index++ while index < levels.length and (levels[index].complete or levels[index].assessment)
+      while index < levels.length and (levels[index].complete or levels[index].assessment)
+        return -1 if levels[index].locked
+        index++ 
     else
       # Needs practice, current level is required, next level is required or assessment; return the first incomplete level of previous practice chain
       index--
@@ -538,17 +624,21 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
             return index
       # Last set of practice levels is complete; return the next incomplete normal level instead.
       index = currentIndex + 1
-      index++ while index < levels.length and (levels[index].complete or levels[index].assessment)
+      while index < levels.length and (levels[index].complete or levels[index].assessment)
+        return -1 if levels[index].locked
+        index++ 
   else
     # No practice needed; return the next required incomplete level
-    index++ while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
+    while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
+      return -1 if levels[index].locked
+      index++
   index
 
 findNextAssessmentForLevel = (levels, currentIndex, needsPractice) ->
   # Find assessment level immediately after current level (and its practice levels)
   # Only return assessment if it's the next level
   # Skip over practice levels unless practice neeeded
-  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false, locked: true/false}]
   # eg: l*,p,p,a*,a',l,...
   # given index l*, return index a*
   # given index a*, return index a'
@@ -713,7 +803,7 @@ videoLevels = {
     original: "54173c90844506ae0195a0b4",
     thumbnail_locked: "/images/level/videos/basic_syntax_locked.png",
     thumbnail_unlocked: "/images/level/videos/basic_syntax_unlocked.png"
-  }, 
+  },
   # fire dancing
   "55ca293b9bc1892c835b0136": {
     i18name: 'while_loops',
@@ -723,7 +813,7 @@ videoLevels = {
     original: "55ca293b9bc1892c835b0136"
     thumbnail_locked: "/images/level/videos/while_loops_locked.png",
     thumbnail_unlocked: "/images/level/videos/while_loops_unlocked.png"
-  } 
+  }
   # known enemy
   "5452adea57e83800009730ee": {
     i18name: 'variables',
@@ -791,4 +881,6 @@ module.exports = {
   isValidEmail
   videoLevels
   ozariaCourseIDs
+  addressesIncludeAdministrativeRegion
+  translatejs2cpp
 }
