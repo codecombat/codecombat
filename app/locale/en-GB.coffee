@@ -2985,7 +2985,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    premium_details_3: "Unlock a deeper understanding of core concepts and skills like web and game development"
 #    premium_details_4: "Premium support for subscribers"
 #    premium_details_5: "Create private clans to invite friends and compete on a group leaderboard"
-#    premium_need_help: "Need help or prefer Paypal? Email support@codecombat.com"
+#    premium_need_help: "Need help or prefer Paypal? Email <a href=\"mailto:support@codecombat.com\">support@codecombat.com</a>"
 #    not_sure_kid: "Not sure if CodeCombat is right for your kid?  Ask them!"
 #    share_trailer: "Share our game trailer with your kid and have them create an account to get started."
 #    why_kids_love: "Why Kids Love CodeCombat"
@@ -3035,6 +3035,8 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    parent: "Parent"
 #    student: "Student"
 #    grade: "Grade"
+#    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
+#    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
