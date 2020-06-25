@@ -39,6 +39,9 @@ mixin accountLinks
                 a.navbar-brand(href="/home")
                   img#logo-img.powered-by(src="/images/pages/base/logo.png")
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+              else if me.showChinaResourceInfo()
+                a.navbar-brand(href="/home")
+                  img#logo-img(src="/images/pages/base/logo-en+cn.png")
               else
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
@@ -67,6 +70,11 @@ mixin accountLinks
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else
                         a.text-p(href="/about", data-i18n="nav.about")
+                    li
+                      if document.location.href.search('/parents') >= 0
+                        a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
+                      else
+                        a.text-p(href="/parents", data-i18n="nav.parent")
                     li
                       if document.location.href.search('/impact') >= 0
                         a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
