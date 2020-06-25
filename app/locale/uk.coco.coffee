@@ -1478,7 +1478,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     switch_to: "Переключитись на"
     greetings: "Вітання!"
     back_classrooms: "Повернутись до моїх класів"
-#    back_classroom: "Back to classroom"
+    back_classroom: "Повернутися до класу"
     back_courses: "Повернутись до моїх курсів"
     edit_details: "Редагувати деталі класу"
     purchase_enrollments: "Придбати учнівські ліцензії"
