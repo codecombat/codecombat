@@ -2986,7 +2986,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     premium_details_3: "Haybpx n qrrcre haqrefgnaqvat bs pber pbaprcgf naq fxvyyf yvxr jro naq tnzr qrirybczrag"
     premium_details_4: "Cerzvhz fhccbeg sbe fhofpevoref"
     premium_details_5: "Perngr cevingr pynaf gb vaivgr sevraqf naq pbzcrgr ba n tebhc yrnqreobneq"
-    premium_need_help: "Arrq uryc be cersre Cnlcny? Rznvy fhccbeg@pbqrpbzong.pbz"
+    premium_need_help: 'Arrq uryc be cersre Cnlcny? Rznvy <n uers="znvygb:fhccbeg@pbqrpbzong.pbz">fhccbeg@pbqrpbzong.pbz</n>'
     not_sure_kid: "Abg fher vs PbqrPbzong vf evtug sbe lbhe xvq?  Nfx gurz!"
     share_trailer: "Funer bhe tnzr genvyre jvgu lbhe xvq naq unir gurz perngr na nppbhag gb trg fgnegrq."
     why_kids_love: "Jul Xvqf Ybir PbqrPbzong"
@@ -3036,6 +3036,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     parent: "Cnerag"
     student: "Fghqrag"
     grade: "Tenqr"
+    subscribe_error_user_type: "Ybbxf yvxr lbh'ir nyernql fvtarq hc sbe na nppbhag. Vs lbh'er vagrerfgrq va PbqrPbzong Cerzvhz, cyrnfr pbagnpg hf ng grnz@pbqrpbzong.pbz."
+    subscribe_error_already_subscribed: "Lbh'ir nyernql fvtarq hc sbe n Cerzvhz nppbhag."
 
   parent_modal:
     refer_teacher: "Ersre Grnpure"
