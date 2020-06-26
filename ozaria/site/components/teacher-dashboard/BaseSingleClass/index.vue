@@ -45,6 +45,7 @@
         classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
         selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
         levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
+        getInteractiveSessionsForClass: 'interactives/getInteractiveSessionsForClass',
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
         gameContent: 'teacherDashboard/getGameContentCurrentClassroom'
       }),
@@ -136,6 +137,27 @@
                     })
                   }
                   defaultProgressDot.selectedKey = `${student._id}_${content._id}`
+                }
+
+                // Figure out if concept flag needs to be set on the progress dot.
+                // This has been adapted from coursesHelper.
+                if (defaultProgressDot.normalizedType === 'interactive') {
+                  const interactiveSession = this.getInteractiveSessionsForClass(this.classroomId)?.[student._id]?.[content._id]
+                  if (interactiveSession !== undefined) {
+                    const dateFirstCompleted = interactiveSession.dateFirstCompleted || undefined
+                    let submissionsBeforeCompletion = []
+
+                    if (dateFirstCompleted) {
+                      submissionsBeforeCompletion = interactiveSession.submissions.filter((s) => new Date(s.submissionDate).getTime() <= new Date(dateFirstCompleted).getTime()) || []
+                    } else {
+                      submissionsBeforeCompletion = interactiveSession.submissions || []
+                    }
+
+                    if (submissionsBeforeCompletion.length >= 3) {
+                      // Used by TableModuleGrid file to assign a border on the session.
+                      defaultProgressDot.flag = 'concept'
+                    }
+                  }
                 }
               } else {
                 console.error(`Invariant violated: Content has neither original nor _id: ${content}`)
