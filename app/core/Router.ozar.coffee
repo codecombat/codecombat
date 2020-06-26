@@ -87,7 +87,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
 
-    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+    # Removing route, leaving plumbing.  Unclear how much we'd rewrite this, given a new endorsement.
+    # 'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'artisans': go('artisans/ArtisansView')
 
@@ -297,7 +298,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/resources': teacherProxyRoute(go('teachers/ResourceHubView', { redirectStudents: true }))
-    'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
+    # Removing route, leaving plumbing.  Unclear how much we'd rewrite this, given a new endorsement.
+    # 'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/hoc2019': redirect('/teachers/resources/hoc2019LessonPlan') # TODO clarify if this is required
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
