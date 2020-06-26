@@ -32,6 +32,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     title: "Ozaria - Computer science that captivates"
     meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
     meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Computer Science"
@@ -58,6 +59,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
     classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
     classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+    click_here: "Click here"
     covid19_banner_blurb: "Parents, book your child's first live online coding class for free!" # {change}
     creativity_rigor_title: "Where Creativity Meets Rigor"
     creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -115,6 +117,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
+    top_banner_blurb: "New: join our mission!"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
