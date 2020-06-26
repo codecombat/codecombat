@@ -1119,6 +1119,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...and our open-source community"
+    bryukh_title: "Senior Gameplay Developer"
+    bryukh_blurb: "Constructs puzzles"
     community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
     community_description_3: "CodeCombat is a"
     community_description_link_2: "community project"
