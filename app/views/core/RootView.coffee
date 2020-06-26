@@ -36,6 +36,7 @@ module.exports = class RootView extends CocoView
     'click .login-button': 'onClickLoginButton'
     'treema-error': 'onTreemaError'
     'click [data-i18n]': 'onClickTranslatedElement'
+    'click .track-click-event': 'onTrackClickEvent'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
@@ -115,6 +116,11 @@ module.exports = class RootView extends CocoView
       window.tracker?.trackEvent(eventAction, properties, []) if eventAction
     @openModalView new AuthModal()
 
+  onTrackClickEvent: (e) ->
+    eventAction = $(e.target)?.closest('a')?.data('event-action')
+    if eventAction
+      window.tracker?.trackEvent eventAction, { category: 'Teachers' }
+
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')
     super($el)
@@ -182,7 +188,6 @@ module.exports = class RootView extends CocoView
     @saveLanguage(newLang)
     locale.load(me.get('preferredLanguage', true)).then =>
       @onLanguageLoaded()
-      window.tracker.promptForCookieConsent()
 
   onLanguageLoaded: ->
     @render()
@@ -201,10 +206,11 @@ module.exports = class RootView extends CocoView
       #console.log 'Saved language:', newLang
 
   isOldBrowser: ->
-    if $.browser
+    if features.china and $.browser
+      return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
       majorVersion = $.browser.versionNumber
       return true if $.browser.mozilla && majorVersion < 25
-      return true if $.browser.chrome && majorVersion < 31  # Noticed Gems in the Deep not loading with 30
+      return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
       return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
     else
       console.warn 'no more jquery browser version...'

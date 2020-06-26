@@ -135,6 +135,18 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
     .nav-spacer
       height: 12px
 
+    .navbar-browser-recommendation
+      margin-left: 1em
+      padding-top: 15px
+
+      a
+        font-size: 16px
+        padding: 10px 15px
+        float: left
+        &:hover
+          color: $teal
+          text-decoration: none
+
     .login-buttons
       margin: 2px 70px 0px 10px
       @media (max-width: $screen-md-min)
@@ -552,6 +564,7 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       letter-spacing: 0.48px
       line-height: 30px
       margin: 20px auto
+      display: block
 
     li
       font-family: "Open Sans"
@@ -578,6 +591,9 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
 
     .small
       color: rgba(255,255,255,0.8)
+
+    .mpqr
+      width: 95px
 
   #final-footer
     padding: 20px 70px 14px

@@ -34,8 +34,8 @@ describe 'CreateTeacherAccountView', ->
     organization: 'School'
     district: 'District'
     city: 'Springfield'
-    state: 'AA'
-    country: 'asdf'
+    state: 'AL'
+    country: 'United States'
     numStudents: '1-10'
     numStudentsTotal: '1-500'
     educationLevel: ['Middle']
@@ -162,7 +162,7 @@ describe 'CreateTeacherAccountView', ->
         application.gplusHandler.fakeAPI()
         view.$('#gplus-signup-btn').click()
         request = jasmine.Ajax.requests.mostRecent()
-        expect(request.url).toBe('/db/user?gplusID=abcd&gplusAccessToken=1234')
+        expect(request.url).toBe('/db/user?gplusID=abcd&gplusAccessToken=1234&email=some%40email.com')
         expect(request.method).toBe('GET')
 
       describe 'when an associated user already exists', ->

@@ -1,6 +1,45 @@
 describe 'Utility library', ->
   utils = require '../../../app/core/utils'
 
+  describe 'translatejs2cpp(jsCode, fullCode)', ->
+    describe 'do not add void main if fullCode set false', ->
+      it 'if there is no patten need translate', ->
+        expect(utils.translatejs2cpp('hero.moveRight()', false)).toBe('hero.moveRight()')
+      it 'if there is var x or var y', ->
+        expect(utils.translatejs2cpp('var x = 2;\nvar y = 3', false)).toBe('float x = 2;\nfloat y = 3')
+      it 'if there is ===/!==/and/or/not', ->
+        expect(utils.translatejs2cpp('a === 2 and b !== 1 or (not c)', false)).toBe('a == 2 && b != 1 || (!c)')
+      it 'if there is other var', ->
+        expect(utils.translatejs2cpp('var enemy = hero...', false)).toBe('auto enemy = hero...')
+      it 'if there is a function definition', ->
+        expect(utils.translatejs2cpp('function a() {}\n', false)).toBe('auto a() {}\n')
+      it 'if ther is a comment in if..else..', ->
+        expect(utils.translatejs2cpp('if(a){\n}\n//test\nelse{\n}', false)).toBe('if(a){\n}\nelse{\n//test\n}')
+
+    describe 'add void main if fullCode set true', ->
+      it 'if there is no patten need translate', ->
+        expect(utils.translatejs2cpp('hero.moveRight();')).toBe('void main() {\n    hero.moveRight();\n}')
+      it 'if there is var x or var y', ->
+        expect(utils.translatejs2cpp('var x = 2;\nvar y = 3;')).toBe('void main() {\n    float x = 2;\n    float y = 3;\n}')
+      it 'if there is ===/!==/and/or/not', ->
+        expect(utils.translatejs2cpp('a === 2 and b !== 1 or (not c)')).toBe('void main() {\n    a == 2 && b != 1 || (!c)\n}')
+      it 'if there is other var', ->
+        expect(utils.translatejs2cpp('var enemy = hero...')).toBe('void main() {\n    auto enemy = hero...\n}')
+      it 'if there is a function definition', ->
+        expect(utils.translatejs2cpp('function a() {}\n')).toBe('auto a() {}\nvoid main() {\n    \n}')
+      it 'if there is a function definition with parameter', ->
+        expect(utils.translatejs2cpp('function a(b) {}\n')).toBe('auto a(auto b) {}\nvoid main() {\n    \n}')
+      it 'if there is a function definition with parameters', ->
+        expect(utils.translatejs2cpp('function a(b, c) {}\na();')).toBe('auto a(auto b, auto c) {}\nvoid main() {\n    a();\n}')
+
+    describe 'if there are start comments', ->
+      it 'if there is no code', ->
+        expect(utils.translatejs2cpp('//abc\n//def\n')).toBe('//abc\n//def\nvoid main() {\n    \n}')
+      it 'if there is code without function definition', ->
+        expect(utils.translatejs2cpp('//abc\nhero.moveRight()')).toBe('//abc\nvoid main() {\n    hero.moveRight()\n}')
+      it 'if there is code with function definition', ->
+        expect(utils.translatejs2cpp('//abc\nfunction a(b, c) {}\nhero.moveRight()')).toBe('//abc\nauto a(auto b, auto c) {}\nvoid main() {\n    hero.moveRight()\n}')
+
   describe 'getQueryVariable(param, defaultValue)', ->
     beforeEach ->
       spyOn(utils, 'getDocumentSearchString').and.returnValue(
@@ -159,7 +198,7 @@ describe 'Utility library', ->
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '1a', '1b', '1c', '2', '2a', '2b', '3', '4', '4a', '5'])
 
   describe 'findNextLevel and findNextAssessmentForLevel', ->
-    # r=required p=practice c=complete *=current a=assessment
+    # r=required p=practice c=complete *=current a=assessment l=locked
     # utils.findNextLevel returns next level 0-based index
     # utils.findNextAssessmentForLevel returns next level 0-based index
 
@@ -392,6 +431,16 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc* rcl p r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
 
     describe 'when needs practice', ->
       needsPractice = true
@@ -707,3 +756,34 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 5, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 5, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc* rcl p r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc rcl* p r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc rcl pc* r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true, locked: true}
+          {practice: true, complete: true}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(-1)
+        expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
+

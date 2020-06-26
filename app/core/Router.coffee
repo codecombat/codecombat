@@ -46,6 +46,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'about': go('AboutView')
     'contact-cn': go('ContactCNView')
+    'china-bridge': go('ChinaBridgeView')
 
     'account': go('account/MainAccountView')
     'account/oauth-aiyouth': go('account/OAuthAIYouthView')
@@ -137,9 +138,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
-    'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
-    'editor/cutscene(/*subpath)': go('core/SingletonAppVueComponentView')
-    'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
@@ -210,7 +208,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'ozaria/avatar-selector': () ->
       @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
-    'parents': go('ParentsView')
+    'parents': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
@@ -229,27 +227,6 @@ module.exports = class CocoRouter extends Backbone.Router
       @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
-    
-    # Adding this route to test interactives until we have the intro levels implemented
-    # TODO: remove this route when intro level is ready to test the interactives.
-    'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->
-      props = {
-        interactiveIdOrSlug: interactiveIdOrSlug,
-        codeLanguage: codeLanguage # This will also come from intro level page later
-      }
-      @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'cinematic/:cinematicIdOrSlug': (cinematicIdOrSlug) ->
-      props = {
-        cinematicIdOrSlug: cinematicIdOrSlug,
-      }
-      @routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'cutscene/:cutsceneId': (cutsceneId) ->
-      props = {
-        cutsceneId: cutsceneId,
-      }
-      @routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
