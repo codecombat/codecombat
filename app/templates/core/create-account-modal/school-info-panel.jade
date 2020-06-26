@@ -54,7 +54,7 @@ div.school-info-panel
             strong(v-if="showRequired && !country") {{ $t("common.required_field") }}
           select.form-control.country(name="country", v-model="country", @change="onChangeCountry")
             option(v-for="country in countriesList" v-bind:value="country")
-              {{ country }}
+              {{ countryMap[country] ? countryMap[country]: country  }}
 
 
   // In reverse order for tabbing purposes

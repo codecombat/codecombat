@@ -4,9 +4,17 @@ import LegacyTracker from './LegacyTracker'
 import BaseTracker from './BaseTracker'
 import GoogleAnalyticsTracker from './GoogleAnalyticsTracker'
 import DriftTracker from './DriftTracker'
+import ProofTracker from './ProofTracker'
+import FullStoryTracker from './FullStoryTracker'
 
 const SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY = 'coco.tracker.identifiedAtSessionStart'
 const SESSION_STORAGE_IDENTIFY_ON_NEXT_PAGE_LOAD = 'coco.tracker.identifyOnNextPageLoad'
+
+// Promise.all rejects as soon as the first promise rejects, becomes tracker inits can fail intermittently
+// we want to ensure that we give all tracker promise calls time to finish (even if some fail) before we
+// resolve the promise representing the combined tracking call.  We use Promise.allSettled when available
+// and fall back to Promise.all to achieve this
+const allSettled = (Promise.allSettled || Promise.all).bind(Promise)
 
 /**
  * Top level application tracker that handles sub tracker initialization and
@@ -18,38 +26,39 @@ export default class Tracker2 extends BaseTracker {
 
     this.store = store
 
-    // TODO consent status needs to be propagated to other trackers
     this.cookieConsentTracker = new CookieConsentTracker(this.store)
 
     this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
-    this.segmentTracker = new SegmentTracker()
-    this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
+    this.segmentTracker = new SegmentTracker(this.store)
+    // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
     this.driftTracker = new DriftTracker(this.store)
+    this.proofTracker = new ProofTracker(this.store)
+    this.fullStoryTracker = new FullStoryTracker(this.store, this)
 
     this.trackers = [
       this.legacyTracker,
-      this.googleAnalyticsTracker,
+      // this.googleAnalyticsTracker,
       this.driftTracker,
-
-      // Segment tracking is currently handled by the legacy tracker
-      // this.segmentTracker,
+      this.segmentTracker,
+      this.proofTracker,
+      this.fullStoryTracker
     ]
   }
 
   async _initializeTracker () {
     try {
-      await Promise.all([
-        this.cookieConsentTracker.initialize(),
+      const allTrackers = [
+        this.cookieConsentTracker,
+        ...this.trackers
+      ]
 
-        ...this.trackers.map(t => t.initialize())
-      ])
-
-      this.onInitializeSuccess()
+      await allSettled(allTrackers.map(t => t.initialize()))
     } catch (e) {
-      this.onInitializeFail(e)
+      console.error('Tracker init failed', e)
+    } finally {
+      // We always allow the master tracker to continue because some sub trackers may have initialized correctly
+      this.onInitializeSuccess()
     }
-
-    await this.initializationComplete
 
     let callIdentify = false
 
@@ -73,45 +82,65 @@ export default class Tracker2 extends BaseTracker {
 
 
   async identify (traits = {}) {
-    await this.initializationComplete
+    try {
+      await this.initializationComplete
 
-    await Promise.all(
-      this.trackers.map(t => t.identify(traits))
-    )
+      await allSettled(
+        this.trackers.map(t => t.identify(traits))
+      )
+    } catch (e) {
+      this.log('identify call failed', e)
+    }
   }
 
   async resetIdentity () {
-    await this.initializationComplete
+    try  {
+      await this.initializationComplete
 
-    await Promise.all(
-      this.trackers.map(t => t.resetIdentity())
-    )
+      await allSettled(
+        this.trackers.map(t => t.resetIdentity())
+      )
+    } catch (e) {
+      this.log('resetIdentity call failed', e)
+    }
 
     window.sessionStorage.removeItem(SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY)
   }
 
   async trackPageView (includeIntegrations = {}) {
-    await this.initializationComplete
+    try {
+      await this.initializationComplete
 
-    await Promise.all(
-      this.trackers.map(t => t.trackPageView(includeIntegrations))
-    )
+      await allSettled(
+        this.trackers.map(t => t.trackPageView(includeIntegrations))
+      )
+    } catch (e) {
+      this.log('trackPageView call failed', e)
+    }
   }
 
   async trackEvent (action, properties = {}, includeIntegrations = {}) {
-    await this.initializationComplete
+    try {
+      await this.initializationComplete
 
-    await Promise.all(
-      this.trackers.map(t => t.trackEvent(action, properties, includeIntegrations))
-    )
+      await allSettled(
+        this.trackers.map(t => t.trackEvent(action, properties, includeIntegrations))
+      )
+    } catch (e) {
+      this.log('trackEvent call failed', e)
+    }
   }
 
   async trackTiming (duration, category, variable, label) {
-    await this.initializationComplete
+    try {
+      await this.initializationComplete
 
-    await Promise.all(
-      this.trackers.map(t => t.trackTiming(duration, category, variable, label))
-    )
+      await allSettled(
+        this.trackers.map(t => t.trackTiming(duration, category, variable, label))
+      )
+    } catch (e) {
+      this.log('trackTiming call failed', e)
+    }
   }
 
   get drift () {

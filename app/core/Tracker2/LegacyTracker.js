@@ -30,16 +30,10 @@ export default class LegacyTracker extends BaseTracker {
   }
 
   async identify (traits = {}) {
-    // The Tracker.coffee implementation of identify seems to assume that it is called through
-    // other internal methods like updateRole and updateTrialRequestAttributes (or at least
-    // that these other internal methods are called first).  The implementation of updateRole
-    // does some simple filtering, calls segment and then simply calls identify internally
-    // so instead of refactoring the tracker to load segment in identify, we just use this
-    // method in place of identify.
-    this.legacyTracker.updateRole(traits)
+    this.legacyTracker.identify(traits)
   }
 
-  async trackPageView (includeIntegrations = {}) {
+  async trackPageView (includeIntegrations = []) {
     this.legacyTracker.trackPageView(includeIntegrations)
   }
 

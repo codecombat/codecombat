@@ -19,7 +19,7 @@ _.extend CourseInstanceSchema.properties,
     language: {type: 'string', 'enum': ['python', 'javascript', 'cpp']}
   hourOfCode: {type: 'boolean', description: 'Deprecated, do not use.'}
   stats: c.object({additionalProperties: true})
-  startLockedLevel: c.shortString(description: 'Updated by teacher, to lock levels after this one in a course')
+  startLockedLevel: c.shortString(description: 'Updated by teacher, lock this level and all following levels in a course')
 
 c.extendBasicProperties CourseInstanceSchema, 'CourseInstance'
 

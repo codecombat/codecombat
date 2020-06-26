@@ -76,7 +76,7 @@ block footer
 
     #footer-links(class=features.playViewsOnly ? 'hide' : '')
       a(href="/about", data-i18n="nav.about")
-      if !me.isStudent()
+      if me.isTeacher(true)
         a.contact-modal(tabindex=-1, data-i18n="nav.contact")
       if me.showOpenResourceLink()
         a(href='http://blog.codecombat.com/', data-i18n="nav.blog")

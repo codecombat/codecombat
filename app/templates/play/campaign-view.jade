@@ -316,8 +316,8 @@ if showGameDevAlert
             a(href="/account").player-name.spr= me.get('name')
           if !features.codePlay && !me.isStudent()
             button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-          if me.isPremium()
-            button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+          //- if me.isPremium()
+          //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
   button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
     .glyphicon.glyphicon-volume-off

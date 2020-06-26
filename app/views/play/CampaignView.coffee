@@ -23,6 +23,7 @@ UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 AnnouncementModal = require 'views/play/modal/AnnouncementModal'
+LiveClassroomModal = require 'views/play/modal/LiveClassroomModal'
 codePlay = require('lib/code-play')
 MineModal = require 'views/core/MineModal' # Minecraft modal
 CodePlayCreateAccountModal = require 'views/play/modal/CodePlayCreateAccountModal'
@@ -1242,29 +1243,31 @@ module.exports = class CampaignView extends RootView
     @userPollsRecord = @supermodel.loadModel(@userPollsRecord, null, 0).model
     onRecordSync.call @ if @userPollsRecord.loaded
 
-  loadPoll: ->
-    url = "/db/poll/#{@userPollsRecord.id}/next"
-    @poll = new Poll().setURL url
+  loadPoll: (url, forceShowPoll=false) ->
+    url ?= "/db/poll/#{@userPollsRecord.id}/next"
+    tempLoadingPoll = new Poll().setURL url
     onPollSync = ->
       return if @destroyed
-      @poll.url = -> '/db/poll/' + @id
-      _.delay (=> @activatePoll?()), 1000
+      tempLoadingPoll.url = -> '/db/poll/' + @id
+      @poll = tempLoadingPoll
+      _.delay (=> @activatePoll?(forceShowPoll)), 1000
     onPollError = (poll, response, request) ->
       if response.status is 404
         console.log 'There are no more polls left.'
       else
         console.error "Couldn't load poll:", response.status, response.statusText
-      delete @poll
-    @listenToOnce @poll, 'sync', onPollSync
-    @listenToOnce @poll, 'error', onPollError
-    @poll = @supermodel.loadModel(@poll, null, 0).model
-    onPollSync.call @ if @poll.loaded
+      if @poll
+        delete @poll
+    @listenToOnce tempLoadingPoll, 'sync', onPollSync
+    @listenToOnce tempLoadingPoll, 'error', onPollError
+    tempLoadingPoll = @supermodel.loadModel(tempLoadingPoll, null, 0).model
+    onPollSync.call @ if tempLoadingPoll.loaded
 
-  activatePoll: ->
+  activatePoll: (forceShowPoll = false) ->
     return if @shouldShow 'promotion'
     pollTitle = utils.i18n @poll.attributes, 'name'
     $pollButton = @$el.find('button.poll').removeClass('hidden').addClass('highlighted').attr(title: pollTitle).addClass('has-tooltip').tooltip title: pollTitle
-    if me.get('lastLevel') is 'shadow-guard'
+    if me.get('lastLevel') is 'shadow-guard' or forceShowPoll
       @showPoll()
     else
       $pollButton.tooltip 'show'
@@ -1276,6 +1279,10 @@ module.exports = class CampaignView extends RootView
     $pollButton = @$el.find 'button.poll'
     pollModal.on 'vote-updated', ->
       $pollButton.removeClass('highlighted').tooltip 'hide'
+    pollModal.once 'trigger-next-poll', (nextPollId) =>
+      @loadPoll('/db/poll/' + nextPollId, true)
+    pollModal.once 'trigger-show-live-classes', () =>
+      @openModalView new LiveClassroomModal
 
   onClickPremiumButton: (e) ->
     @openModalView new SubscribeModal()
@@ -1417,7 +1424,7 @@ module.exports = class CampaignView extends RootView
 
       if level.slug == @courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
         lockedByTeacher = true
-      if lockedByTeacher and me.showCourseProgressControl()
+      if lockedByTeacher
         level.locked = true
 
       if level.locked

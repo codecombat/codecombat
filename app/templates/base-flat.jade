@@ -39,6 +39,9 @@ mixin accountLinks
                 a.navbar-brand(href="/home")
                   img#logo-img.powered-by(src="/images/pages/base/logo.png")
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+              else if me.showChinaResourceInfo()
+                a.navbar-brand(href="/home")
+                  img#logo-img(src="/images/pages/base/logo-en+cn.png")
               else
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
@@ -56,6 +59,8 @@ mixin accountLinks
                   ul.nav.navbar-nav
                     if me.showChinaResourceInfo()
                       li
+                        a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
+                      li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
                     else if me.isAnonymous() && require('app/core/experiments').getRequestAQuoteGroup(me) === 'request-a-quote-header'
                       li
@@ -65,6 +70,11 @@ mixin accountLinks
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else
                         a.text-p(href="/about", data-i18n="nav.about")
+                    li
+                      if document.location.href.search('/parents') >= 0
+                        a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
+                      else
+                        a.text-p(href="/parents", data-i18n="nav.parent")
                     li
                       if document.location.href.search('/impact') >= 0
                         a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
@@ -148,13 +158,15 @@ mixin accountLinks
                       ul.list-unstyled
                         li
                           a(href="/about", data-i18n="nav.about")
-                        li
-                          a(href="/about#careers", data-i18n="nav.careers")
+                        //li
+                        //  a(href="/about#careers", data-i18n="nav.careers")
                         if !me.isStudent()
                           li
-                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                            a(href="/contact-cn", data-i18n="nav.contact")
                         li
                           a(href="/parents", data-i18n="nav.parent")
+                        li
+                          a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
                         li
                           a(href="http://beian.miit.gov.cn/") 京ICP备19012263号
                     .col-lg-3
@@ -184,9 +196,14 @@ mixin accountLinks
                         li
                           a(href="https://codecombat.163.com") 极客战记（个人版）
                         li
+                          a(href="https://aojiarui.com") 奥佳睿 - CodeCombat原创新作
+                        li
+                          a(href="https://codecombat.com") CodeCombat全球官网
+                        li
                           a(href="http://aiyouth.ccidtraining.org.cn") 赛迪人工智能大赛 - AI世青赛
                         li
                           a(href="http://ccidtraining.org.cn") 工信部赛迪研究院培训中心
+
                     .col-lg-3
                       h3(data-i18n="nav.follow_us")
                       img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
@@ -200,7 +217,7 @@ mixin accountLinks
                           a(href="/about", data-i18n="nav.about")
                         li
                           a(href="/about#careers", data-i18n="nav.careers")
-                        if !me.isStudent()
+                        if me.isTeacher(true)
                           li
                             a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                         li

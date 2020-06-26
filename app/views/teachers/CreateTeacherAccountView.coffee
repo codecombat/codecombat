@@ -292,6 +292,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestIdentifyData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
       trialRequestIdentifyData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
 
+      application.tracker.identifyAfterNextPageLoad()
       return window.application.tracker.identify trialRequestIdentifyData
 
     .then =>
@@ -313,7 +314,7 @@ module.exports = class CreateTeacherAccountView extends RootView
         window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
       )
 
-      return Promise.all(trackerCalls)
+      return Promise.all(trackerCalls).catch(->)
 
     .then =>
       application.router.navigate(SIGNUP_REDIRECT, { trigger: true })
@@ -354,7 +355,7 @@ module.exports = class CreateTeacherAccountView extends RootView
             application.gplusHandler.loadPerson({
               success: (@gplusAttrs) =>
                 existingUser = new User()
-                existingUser.fetchGPlusUser(@gplusAttrs.gplusID, {
+                existingUser.fetchGPlusUser(@gplusAttrs.gplusID, @gplusAttrs.email, {
                   error: (user, jqxhr) =>
                     if jqxhr.status is 404
                       @onGPlusConnected()
