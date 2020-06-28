@@ -189,17 +189,25 @@ mixin accountLinks
                       h3 相关链接
                       ul.list-unstyled
                         li
-                          a(href="https://codecombat.163.com") 极客战记（个人版）
+                          a(href="https:xuetang.koudashijie.com") 扣哒学堂
                         li
-                          a(href="https://aojiarui.com") 奥佳睿 - CodeCombat原创新作
-                        li
-                          a(href="https://codecombat.com") CodeCombat全球官网
+                          a(href="https://aojiarui.com") 奥佳睿
                         li
                           a(href="http://aiyouth.koudashijie.com") AI世青赛
+                        li 
+                          a(href="https://codecombat.163.com") 极客战记(个人版)
+                        li
+                          a(href="https://codecombat.com") CodeCombat全球官网
 
                     .col-lg-3
                       h3(data-i18n="nav.follow_us")
-                      img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                      div.follow_us
+                        .mpqrcode
+                          span='老师请扫'
+                          img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                        .mpqrcode
+                          span='家长请扫'
+                          img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
               else
                 .col-lg-12
                   .row
