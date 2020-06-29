@@ -21,6 +21,9 @@ module.exports = class InvoicesView extends RootView
     @amount = utils.getQueryVariable('a', 0)
     @description = utils.getQueryVariable('d', '')
 
+  getMeta: ->
+    title: $.i18n.t 'account.invoices_title'
+
   onPayButton: ->
     @description = $('#description').val()
 

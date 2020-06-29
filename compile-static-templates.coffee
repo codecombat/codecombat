@@ -2,6 +2,7 @@ pug = require 'pug'
 path = require 'path'
 cheerio = require 'cheerio'
 en = require './app/locale/en'
+zh = require './app/locale/zh-HANS'
 basePath = path.resolve('./app')
 _ = require 'lodash'
 fs = require('fs')
@@ -21,11 +22,18 @@ compile = (contents, locals, filename, cb) ->
     basedir: basePath
   })
 
-  translate = (key) ->
+  translate = (key, chinaInfra) ->
+    type = 'text'
+
     html = /^\[html\]/.test(key)
     key = key.substring(6) if html
+    type = 'html' if html
 
-    t = en.translation
+    content = /^\[content\]/.test(key)
+    key = key.substring(9) if content
+    type = 'content' if content
+
+    t = if chinaInfra then zh.translation else en.translation
     #TODO: Replace with _.property when we get modern lodash
     translationPath = key.split(/[.]/)
     while translationPath.length > 0
@@ -35,7 +43,7 @@ compile = (contents, locals, filename, cb) ->
 
     return out =
       text: t
-      html: html
+      type: type
 
   i18n = (k,v) ->
     return k.i18n.en[a] if 'i18n' in k
@@ -43,11 +51,14 @@ compile = (contents, locals, filename, cb) ->
 
   try
     locals = _.merge({_, i18n}, locals, require './static-mock')
-    # TODO: how do we eventually use dynamic global feature flags here?
-    # TODO: this should use chinaUx feature flag instead, but currently comes from process.env
+    # NOTE: do NOT add more build env-driven feature flags here if at all possible.
+    # NOTE: instead, use showingStaticPagesWhileLoading (in static-mock) to delay/hide UI until features flags loaded
     locals.me.useDexecure = -> not (locals.chinaInfra ? false)
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
+    locals.me.useStripe = -> not (locals.chinaInfra ? false)
+    # Netease Qiyu Live Chat Plugin
+    locals.me.useQiyukf = -> locals.chinaInfra ? false
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath
@@ -59,9 +70,11 @@ compile = (contents, locals, filename, cb) ->
   elms = c('[data-i18n]')
   elms.each (i, e) ->
     i = c(@)
-    t = translate(i.data('i18n'))
-    if t.html
+    t = translate(i.data('i18n'), locals.chinaInfra)
+    if t.type == 'html'
       i.html(t.text)
+    else if t.type == 'content'
+      i.attr("content", t.text)
     else
       i.text(t.text)
 

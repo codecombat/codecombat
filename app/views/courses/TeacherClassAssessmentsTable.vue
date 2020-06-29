@@ -40,7 +40,8 @@
               :courseInstance="courseInstance",
               :course="course",
               :classroom="classroom",
-            ) 
+              :readOnly="readOnly"
+            )
   div(v-else)
     h2.text-center
       i(data-i18n='teacher.no_student_assigned')

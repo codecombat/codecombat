@@ -53,7 +53,6 @@ startSignupTracking = ->
   properties =
     category: 'Homepage'
     user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
-    trackABResult: true
   window.tracker?.trackEvent(
     'Teacher signup started',
     properties)
@@ -96,9 +95,9 @@ module.exports = class CreateAccountModal extends ModalView
         startSignupTracking()
         @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' })
       else
-        if /^\/play/.test(location.pathname)
+        if /^\/play/.test(location.pathname) and me.showIndividualRegister()
           @signupState.set({ path: 'individual', screen: 'segment-check' })
-    if @signupState.get('screen') is 'segment-check' and not @segmentCheckRequiredInCountry()
+    if @signupState.get('screen') is 'segment-check' and not @signupState.get('path') is 'student' and not @segmentCheckRequiredInCountry()
       @signupState.set screen: 'basic-info'
 
     @listenTo @signupState, 'all', _.debounce @render
@@ -226,7 +225,6 @@ module.exports = class CreateAccountModal extends ModalView
     properties =
       category: 'Homepage'
       subview: @signupState.get('path') || "choosetype"
-      trackABResult: true
     window.tracker?.trackEvent('Log in from CreateAccount', properties)
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))
 

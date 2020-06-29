@@ -39,11 +39,18 @@ module.exports = class CocoRouter extends Backbone.Router
       unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
+      if me.useChinaHomeView()
+        delete window.alreadyLoadedView
+        return @routeDirectly('HomeCNView', [])
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
+    'contact-cn': go('ContactCNView')
+    'china-bridge': go('ChinaBridgeView')
 
     'account': go('account/MainAccountView')
+    'account/oauth-aiyouth': go('account/OAuthAIYouthView')
+
     'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
     'account/payments': go('account/PaymentsView')
@@ -95,8 +102,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
-    'cinematic': go('CinematicView')
-
     'cla': go('CLAView')
 
     'clans': go('clans/ClansView')
@@ -144,7 +149,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView')
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
-    'editor/cinematic(/:cinematicSlug)': go('editor/cinematic/CinematicEditorView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -155,7 +159,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'github/*path': 'routeToServer'
 
     'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
-    'home': go('HomeView')
+    'home': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
@@ -171,13 +175,40 @@ module.exports = class CocoRouter extends Backbone.Router
     'identify': go('user/IdentifyView')
     'il-signup': go('account/IsraelSignupView')
 
+    'impact': () ->
+      @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
+
     'legal': go('LegalView')
 
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
+    'ozaria/play/level/:levelID': (levelID) ->
+      props = {
+        levelID: levelID
+      }
+      @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    # TODO move to vue router after support for empty template is added there
+    'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
+      props = {
+        campaign: campaign,
+        courseInstanceId: courseInstanceId
+      }
+      @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
-    'parents': go('ParentsView')
+    'ozaria/play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
+      props = {
+        introLevelIdOrSlug: introLevelIdOrSlug
+      }
+      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+
+    'ozaria/character-customization': () ->
+      @routeDirectly('ozaria/site/characterCustomization', [], { vueRoute: true, baseTemplate: 'base-empty' })
+
+    'ozaria/avatar-selector': () ->
+      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
+
+    'parents': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
@@ -200,13 +231,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
-    'preview': go('HomeView')
+    'preview': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'privacy': go('PrivacyView')
 
-    'schools': go('HomeView')
-    'seen': go('HomeView')
-    'SEEN': go('HomeView')
+    'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
+    'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
+    'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
+
+    'students/ranking/:courseID?:courseInstanceID': go('courses/StudentRankingView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
@@ -242,6 +275,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
     'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView')
+    'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView')
 
     'test(/*subpath)': go('TestView')
 

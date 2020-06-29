@@ -19,7 +19,7 @@ module.exports.formToObject = ($el, options) ->
       if value or (not options.ignoreEmptyString)
         obj[name] = value
   obj
-  
+
 module.exports.objectToForm = ($el, obj, options={}) ->
   options = _.extend({ overwriteExisting: false }, options)
   inputs = $('input, textarea, select', $el)
@@ -46,7 +46,7 @@ module.exports.applyErrorsToForm = (el, errors, warning=false) ->
     if error.code is tv4.errorCodes.OBJECT_REQUIRED
       prop = _.last(_.string.words(error.message)) # hack
       message = $.i18n.t('common.required_field')
-    
+
     else if error.dataPath
       prop = error.dataPath[1..]
       message = error.message
@@ -61,7 +61,7 @@ module.exports.applyErrorsToForm = (el, errors, warning=false) ->
       originalMessage = /Format validation failed \(([^\(\)]+)\)/.exec(message)[1]
       unless _.isEmpty(originalMessage)
         message = originalMessage
-    
+
     if error.code is 409 and error.property is 'email'
       message += ' <a class="login-link">Log in?</a>'
 
@@ -75,7 +75,7 @@ module.exports.setErrorToField = setErrorToField = (el, message, warning=false) 
     return console.error el, " did not contain a form group, so couldn't show message:", message
 
   kind = if warning then 'warning' else 'error'
-  afterEl = $(formGroup.find('.help-block, .form-control, input, select, textarea')[0])
+  afterEl = $(formGroup.find('.help-block, .form-control, input, select, textarea, .control-label')[0])
   formGroup.addClass "has-#{kind}"
   helpBlock = $("<span class='help-block #{kind}-help-block'>#{message}</span>")
   if afterEl.length
@@ -89,7 +89,7 @@ module.exports.setErrorToProperty = setErrorToProperty = (el, property, message,
     return console.error "#{property} not found in", el, "so couldn't show message:", message
 
   setErrorToField input, message, warning
-  
+
 module.exports.scrollToFirstError = ($el=$('body')) ->
   $first = $el.find('.has-error, .alert-danger, .error-help-block, .has-warning, .alert-warning, .warning-help-block').filter(':visible').first()
   if $first.length
@@ -102,12 +102,12 @@ module.exports.clearFormAlerts = (el) ->
   $('.alert.alert-warning', el).remove()
   el.find('.help-block.error-help-block').remove()
   el.find('.help-block.warning-help-block').remove()
-  
+
 module.exports.updateSelects = (el) ->
   el.find('select').each (i, select) ->
     value = $(select).attr('value')
     $(select).val(value)
-  
+
 module.exports.validateEmail = (email) ->
   filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
   return filter.test(email)
@@ -120,7 +120,7 @@ module.exports.disableSubmit = (el, message='...') ->
   $el = $(el)
   $el.data('original-text', $el.text())
   $el.text(message).attr('disabled', true)
-  
+
 module.exports.enableSubmit = (el) ->
   $el = $(el)
   $el.text($el.data('original-text')).attr('disabled', false)

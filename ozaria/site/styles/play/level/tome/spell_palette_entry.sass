@@ -1,0 +1,197 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "app/styles/style-flat-variables"
+@import "ozaria/site/styles/common/variables"
+
+#level-view.hero .spell-palette-entry-view
+  // Not clickable.
+  cursor: default
+
+.spell-palette-entry-view
+  display: block
+  padding: 0px 4px
+  font-family: $code-font-style !important
+  font-size: 16px
+  border: 1px solid transparent
+  cursor: pointer
+  @include user-select(all)
+  line-height: 19px
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+  background-color: #ffffff
+  box-shadow: inset 0 1px 3px 0 rgba(93,115,225,0.5), 2px 2px 2px 0 rgba(93,115,225,0.32)
+  color: $gray
+
+  span
+    cursor: pointer
+    user-select: none
+
+  .blue-glyphicon
+    color: #5d73e1
+
+  &.selected
+    color: white
+    background-color: #5d73e1
+
+    .blue-glyphicon
+      color: #ffffff // change it to white
+
+  &.pinned
+    background-color: darken(#FFFFFF, 25%)
+
+  &.single-entry
+    height: 38px
+    line-height: 38px
+
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
+
+body.dialogue-view-active
+  .spell-palette-popover.popover
+    top: 50px !important
+  
+.spell-palette-popover.popover
+  // Only those popovers which are our direct children (spell documentation)
+  top: 80px !important
+  left: auto !important
+  right: 45%
+  max-width: 600px
+  min-width: 500px
+  padding: 0
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  border-width: 16px 12px
+  @include box-shadow(0 0 0 #000)
+  // Prevent flickering in weird scenarios where popover goes over its own property
+
+  //Fixes punctuation but puts comment marker on right, which is apparently worse.
+  //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+  //  .ace_text-layer .ace_comment
+  //    direction: rtl
+  //    unicode-bidi: embed
+
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
+
+  // Jiggle animation
+  // TODO: consolidate with problem_alert.sass jiggle
+  +keyframes(jiggle)
+    0%
+      transform: rotate(0deg)
+    25%
+      transform: rotate(1deg)
+    50%
+      transform: rotate(0deg)
+    75%
+      transform: rotate(-1deg)
+    100%
+      transform: rotate(0deg)
+
+  &.jiggling
+    @include animation(jiggle .3s infinite)
+
+  &.pinned
+    top: 50px !important
+    right: 45%
+    // bottom: 151px
+    @include user-select(text)
+    // Wish I could set max-width and max-height (and override Bootstrap's stuff)
+    // but without explicitly setting height, child overflow-y: scroll doesn't work
+    min-width: 45%
+    height: 60%
+
+    .arrow
+      display: none
+
+    .close
+      position: absolute
+      top: -7px
+      right: 2px
+      font-size: 28px
+      font-weight: bold
+      @include opacity(0.6)
+      text-shadow: 0 1px 0 white
+
+      &:hover
+        @include opacity(1)
+
+  h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+    font-family: $code-font-style !important
+    font-variant: normal
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: $code-font-style !important
+
+  .popover-title
+    background-color: transparent
+    margin: 0 14px
+    padding: 8px 0
+    border-bottom-color: #ccc
+
+  .popover-content
+    max-height: 100%
+    overflow-y: auto
+    margin-right: 10px
+    img
+      float: right
+
+  &.top .arrow
+    bottom: -2%
+  &.bottom .arrow
+    top: -2%
+  &.left .arrow
+    right: 0%
+  &.right .arrow
+    left: -3%
+
+  .docs-ace-container
+    padding: 2px 4px
+    border-radius: 4px
+
+    &, .docs-ace
+      background-color: #f9f2f4
+      font-size: 12px
+      font-family: $code-font-style !important
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: $code-font-style !important
+
+    .docs-ace
+      .ace_cursor, .ace_bracket
+        display: none
+
+  code
+    color: black
+    font-family: $code-font-style !important
+    font-size: 12px
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: $code-font-style !important
+
+html.no-borderimage
+  .spell-palette-popover.popover
+    background: transparent url(/images/level/popover_background.png)
+    background-size: 100% 100%
+    border: 0
+
+html.fullscreen-editor
+  .spell-palette-popover.popover.pinned
+    min-width: 600px
+    bottom: inherit
+    right: 50%
+    margin-right: -300px
+
+// iPad property docs
+
+.tome-inventory-property-documentation
+  background-color: #e3d39a
+  padding: 10px
+  padding-bottom: 65px
+  width: 320px
+  min-height: 480px
+
+  h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+    font-family: $code-font-style

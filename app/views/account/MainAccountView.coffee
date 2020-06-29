@@ -8,3 +8,6 @@ module.exports = class MainAccountView extends RootView
 
   events:
     'click .logout-btn': 'logoutAccount'
+
+  getMeta: ->
+    title: $.i18n.t 'account.title'

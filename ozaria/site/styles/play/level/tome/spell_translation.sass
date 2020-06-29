@@ -1,0 +1,18 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+.spell-translation-view
+  position: absolute
+  z-index: 9001
+  max-width: 400px
+  pre
+    margin-bottom: 0
+    code
+      white-space: nowrap
+
+html.no-borderimage
+  .spell-translation-view
+    background: transparent url(/images/level/popover_background.png)
+    background-size: 100% 100%
+    border: 0
+      

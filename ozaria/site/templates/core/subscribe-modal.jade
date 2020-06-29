@@ -1,0 +1,129 @@
+mixin price(name, p)
+  - var origPrice = p.priceStringNoSymbol()
+  if origPrice % 1 === 0
+    - origPrice = Math.floor(origPrice);
+  - var salePrice = p.adjustedPriceStringNoSymbol()
+  if salePrice % 1 === 0
+    - salePrice = Math.floor(salePrice);
+  if origPrice == salePrice
+    .price(data-i18n=name, data-i18n-options={price:origPrice})
+  else if view.basicCoupon && view.basicCoupon.duration === 'once'
+    .price.strike-price(data-i18n=name, data-i18n-options={price:origPrice})
+    .new-price(data-i18n="subscribe.first_month_price", data-i18n-options={price:salePrice})
+  else
+    div
+      span.old-price(data-i18n=name, data-i18n-options={price:origPrice})
+      span.price(data-i18n=name, data-i18n-options={price:salePrice})
+
+.modal-dialog
+  .modal-content
+    if view.state === 'purchasing'
+      .alert.alert-info(data-i18n="buy_gems.purchasing")
+
+    else if view.state === 'retrying'
+      #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
+
+    else
+      img#subscribe-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+
+      h1(data-i18n="subscribe.subscribe_modal_title")
+
+      div#close-modal
+        span.glyphicon.glyphicon-remove
+
+      div.paper-area
+        if view.subType === 'both-subs'
+          div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
+
+          .container-fluid
+            .row
+              .col-xs-5.option-col.col-xs-offset-1
+                img(src="/images/pages/play/modal/three-pets.png")
+              .col-xs-6
+                ul.features-list
+                  li(data-i18n="subscribe.feature_level_access")
+                  li(data-i18n="subscribe.feature_heroes")
+                  li(data-i18n="subscribe.feature_learn")
+
+            hr
+
+            if view.lifetimeProduct
+              .short-row.row
+                if view.basicProduct
+                  .col-xs-5.option-col.col-xs-offset-1
+                  .option-col(class='.col-xs-5')
+                    .option-header.best-deal(data-i18n="subscribe.best_deal")
+                else
+                  .option-col(class='.col-xs-12')
+                    .option-header.best-deal(data-i18n="subscribe.best_deal")
+            .row
+              - var secondRowClass = '.col-xs-5'
+              if view.basicProduct
+                .col-xs-5.option-col.col-xs-offset-1
+                  +price("subscribe.month_price", view.basicProduct)
+                  .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
+                  button.btn.btn-lg.btn-illustrated.purchase-button
+                    span.buy-now-text(data-i18n="subscribe.buy_now")
+                    span.buy-lock-icon &#x1F512;
+
+              else
+                - var secondRowClass = '.col-xs-12'
+
+              if view.lifetimeProduct
+                .option-col(class=secondRowClass)
+                  +price("subscribe.lifetime_price", view.lifetimeProduct)
+                  .option-header.price-subtext.text-center(data-i18n="subscribe.lifetime")
+                  if view.paymentProcessor === 'PayPal'
+                    #paypal-button-container
+                  else
+                    button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
+                      span.buy-now-text(data-i18n="subscribe.buy_now")
+                      span.buy-lock-icon &#x1F512;
+
+        else
+          //- lifetime-only modal
+          .container-fluid
+            .row
+              .col-xs-5.text-center
+                img.left-image(src="/images/pages/play/modal/heroes-and-pets.png")
+              .col-xs-7
+                div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
+                ul
+                  li(data-i18n="subscribe.feature_level_access")
+                  li(data-i18n="subscribe.feature_heroes")
+                  li(data-i18n="subscribe.feature_learn")
+                if view.lifetimeProduct
+                  .option-col(class=secondRowClass)
+                    +price("subscribe.lifetime_price", view.lifetimeProduct)
+                    .option-header.text-center(data-i18n="subscribe.lifetime")
+                    if view.paymentProcessor === 'PayPal'
+                      #paypal-button-container
+                    else
+                      button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
+                        span.buy-now-text(data-i18n="subscribe.buy_now")
+                        span.buy-lock-icon &#x1F512;
+
+        div.support-blurb.text-center
+          p
+            span(data-i18n="subscribe.support_part1")
+            =" "
+            a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+
+      if view.state === 'declined'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.declined")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+
+      if view.state === 'error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p= view.stateMessage
+
+      if view.state === 'unknown_error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= view.stateMessage

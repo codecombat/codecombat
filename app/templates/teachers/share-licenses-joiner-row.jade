@@ -1,5 +1,5 @@
 div.row.p-t-1.p-b-1(v-if="joiner")
-  div.col-xs-8
+  div.col-xs-6
     div
       b
         | {{ broadName }}
@@ -14,3 +14,7 @@ div.row.p-t-1.p-b-1(v-if="joiner")
       | {{ $t("share_licenses.one_license_used") }}
     b(v-else)
       | {{ $t("share_licenses.licenses_used", { licensesUsed: joiner.licensesUsed }) }}
+  
+  div.col-xs-2
+    b
+      button.btn.btn-danger(v-if="joiner.email !== me.get('email')" type="button", v-on:click.prevent="revokeTeacher(joiner)") {{$t("editor.delete")}}

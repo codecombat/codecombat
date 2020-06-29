@@ -28,9 +28,12 @@ module.exports = class HomeView extends RootView
     'click .setup-class-btn': 'onClickSetupClass'
     'click .my-classes-btn': 'onClickTrackEvent'
     'click .my-courses-btn': 'onClickTrackEvent'
+    'click .try-ozaria': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
 
   initialize: (options) ->
+    super(options)
+
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetchReleased()
 
@@ -38,6 +41,16 @@ module.exports = class HomeView extends RootView
       @trialRequests = new TrialRequests()
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
+
+  getMeta: ->
+    title: $.i18n.t 'new_home.title'
+    meta: [
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
+    ],
+    link: [
+      { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
+
+    ]
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
@@ -48,7 +61,7 @@ module.exports = class HomeView extends RootView
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
+    @homePageEvent($(e.target).data('event-action'))
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
@@ -59,13 +72,13 @@ module.exports = class HomeView extends RootView
     application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
-    @homePageEvent('Started Signup', {trackABResult: true})
-    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
-    @homePageEvent('Started Signup', {trackABResult: true})
-    @homePageEvent($(e.target).data('event-action'), {trackABResult: true})
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   onClickTrackEvent: (e) ->

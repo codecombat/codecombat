@@ -4,7 +4,7 @@ GitHubHandler = require 'core/social-handlers/GitHubHandler'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 storage = require 'core/storage'
-Tracker = require 'core/Tracker'
+Tracker = require('core/Tracker2').default
 CocoModel = require 'models/CocoModel'
 api = require 'core/api'
 
@@ -49,18 +49,32 @@ Application = {
   initialize: ->
 #    if features.codePlay and me.isAnonymous()
 #      document.location.href = '//lenovogamestate.com/login/'
-
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
 
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
+
+    routerSync = require('vuex-router-sync')
+    vueRouter = require('app/core/vueRouter').default()
+    routerSync.sync(store, vueRouter)
+
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
+    if me.showChinaRemindToast()
+      setInterval ( -> noty {
+        text: '你已经练习了一个小时了，建议休息一会儿哦'
+        layout: 'topRight'
+        type:'warning'
+        killer: false
+        timeout: 5000
+        }), 3600000  # one hour
+
+
     @store = store
     @api = api
 
@@ -69,14 +83,17 @@ Application = {
     $('body').addClass 'picoctf' if window.serverConfig.picoCTF
     if $.browser.msie and parseInt($.browser.version) is 10
       $("html").addClass("ie10")
-    @tracker = new Tracker()
+
+    @tracker = new Tracker(store)
+    window.tracker = @tracker
+    locale.load(me.get('preferredLanguage', true))
+      .then => @tracker.initialize()
+      .catch((e) => console.error('Tracker initialization failed', e))
+
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
       @githubHandler = new GitHubHandler()
-    locale.load(me.get('preferredLanguage', true)).then =>
-      @tracker.promptForCookieConsent()
-    preferredLanguage = me.get('preferredLanguage') or 'en'
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'

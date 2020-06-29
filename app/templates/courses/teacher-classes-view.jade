@@ -57,20 +57,17 @@ block content
             else if view.howManyOfficeHours == 'some' && limited
               a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
-      //- TODO: remove temporary HoC 2018 blurb anytime after 2018-12-14
-      if new Date() >= new Date('2018-11-28') && new Date() <= new Date('2018-12-14')
-        #announcement
-          h3(data-i18n='teacher.hoc_happy_ed_week')
+      //- TODO: remove temporary Teacher appreciation anytime after 2019-05-03
+      if (!view.paidTeacher) && me.get('country') == "united-states" && new Date() >= new Date('2019-04-29') && new Date() <= new Date('2019-05-03')
+        .container
           .row
-            .col-xs-9
-              p
-                span(data-i18n='teacher.hoc_blurb1')
-                strong.spr.spl(data-i18n='teacher.hoc_blurb2')
-                span.spr(data-i18n='teacher.hoc_blurb3')
-            .col-xs-3
-              p.announcement-button
-                a.btn.btn-navy.btn-lg(href="https://codecombat.com/teachers/hour-of-code")
-                  span(data-i18n='teacher.hoc_button_text')
+            .col-xs-12
+              #announcement
+                p(data-i18n='[html]teacher.appreciation_week_blurb1')
+                ul.text-left
+                  li(data-i18n="teacher.appreciation_week_blurb2")
+                  li(data-i18n="teacher.appreciation_week_blurb3")
+                  li(data-i18n="teacher.appreciation_week_blurb4")
 
     .container
       +teacher-quests
@@ -106,6 +103,9 @@ block content
 
 
     +createClassButton
+    .container.try-ozaria
+      a(data-i18n="teacher.try_ozaria_footer")
+
 
   - var archivedClassrooms = view.classrooms.where({archived: true});
   if _.size(archivedClassrooms)

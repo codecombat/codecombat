@@ -1,14 +1,21 @@
 <template>
-    <loading-progress :loading-status="[ backboneLoadProgress ]" :always-render="true">
-        <breadcrumbs v-if="!breadcrumbsLoading" :links="breadcrumbs"></breadcrumbs>
-        <backbone-view-harness
-                :backbone-view="backboneView"
-                :backbone-options="{ renderOnlyContent: true, readOnly: true }"
-                :backbone-args="[ $route.params.classroomId ]"
+  <loading-progress
+    :loading-status="[ backboneLoadProgress ]"
+    :always-render="true"
+  >
+    <breadcrumbs
+      v-if="!breadcrumbsLoading"
+      :links="breadcrumbs"
+    />
 
-                v-on:loading="backboneLoadingEvent"
-        ></backbone-view-harness>
-    </loading-progress>
+    <backbone-view-harness
+      :backbone-view="backboneView"
+      :backbone-options="{ renderOnlyContent: true, readOnly: true }"
+      :backbone-args="[ $route.params.classroomId ]"
+
+      @loading="backboneLoadingEvent"
+    />
+  </loading-progress>
 </template>
 
 <script>
@@ -17,17 +24,13 @@
   import LoadingProgress from 'app/views/core/LoadingProgress'
   import BackboneViewHarness from 'app/views/common/BackboneViewHarness'
   import Breadcrumbs from '../common/BreadcrumbComponent'
+  import User from "../../models/User"
 
   export default {
     components: {
       LoadingProgress,
       BackboneViewHarness,
       Breadcrumbs
-    },
-
-    created() {
-      this.fetchUserById(this.$route.params.teacherId)
-      this.fetchClassroomForId(this.$route.params.classroomId)
     },
 
     data: function () {
@@ -37,7 +40,8 @@
       }
     },
 
-    computed: Object.assign({},
+    computed: Object.assign(
+      {},
       mapState('users', {
         teacherLoading: function (state) {
           return state.loading.byId[this.$route.params.teacherId]
@@ -52,16 +56,16 @@
         },
         classroom: function (state) {
           return state.classrooms.byClassroom[this.$route.params.classroomId]
-        },
+        }
       }),
       {
-        breadcrumbs: function() {
+        breadcrumbs: function () {
           return [{
             href: '/school-administrator',
             i18n: 'school_administrator.my_teachers'
           }, {
             href: `/school-administrator/teacher/${this.$route.params.teacherId}`,
-            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
+            text: User.broadName(this.teacher)
           }, {
             text: this.classroom.name
           }]
@@ -73,7 +77,13 @@
       }
     ),
 
-    methods: Object.assign({},
+    created () {
+      this.fetchUserById(this.$route.params.teacherId)
+      this.fetchClassroomForId(this.$route.params.classroomId)
+    },
+
+    methods: Object.assign(
+      {},
       mapActions({
         fetchUserById: 'users/fetchUserById',
         fetchClassroomForId: 'classrooms/fetchClassroomForId'

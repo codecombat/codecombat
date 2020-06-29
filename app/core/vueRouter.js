@@ -1,15 +1,6 @@
 import VueRouter from 'vue-router'
 
-import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministratorComponent'
-import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/teachers/SchoolAdminTeacherListView'
-import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView'
-
-import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
-import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
-
-Vue.use(VueRouter)
-
-let vueRouter;
+let vueRouter
 
 export default function getVueRouter () {
   if (typeof vueRouter === 'undefined') {
@@ -19,11 +10,17 @@ export default function getVueRouter () {
 
       routes: [
         {
-          path: '/school-administrator', component: SchoolAdminDashboard, children: [
-            { path: '', component: SchoolAdminDashboardTeacherListView },
-            { path: 'teacher/:teacherId', component: SchoolAdminTeacherView },
-            { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
-            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: TeacherStudentView },
+          path: '/parents',
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/PageParents')
+        },
+        {
+          path: '/school-administrator',
+          component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/SchoolAdministratorComponent'),
+          children: [
+            { path: '', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/teachers/SchoolAdminTeacherListView') },
+            { path: 'teacher/:teacherId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView') },
+            { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassView.vue') },
+            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
           ]
         }
       ]

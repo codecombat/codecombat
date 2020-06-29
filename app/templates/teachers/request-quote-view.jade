@@ -32,6 +32,52 @@ block content
                   a(data-i18n="new_home.learn_more" data-toggle="modal" data-target="#learn-more-modal")
 
       #form-teacher-info
+        .row
+          .col-md-offset-2.col-md-4.col-sm-6
+            #full-name.form-group
+              span.control-label(data-i18n="general.name")
+              - var firstName = me.get('firstName') || '';
+              - var lastName = me.get('lastName') || '';
+              - var name = (firstName + ' ' + lastName).trim()
+              input.form-control(name="fullName" value=name, disabled=!!name)
+
+          .col-md-4.col-sm-6
+            #email-form-group.form-group
+              span.control-label(data-i18n="general.email")
+              - var email = me.get('email') || '';
+              span.email-check.fancy-error.pull-right
+                - var checkEmailState = view.state.get('checkEmailState');
+                if checkEmailState === 'checking'
+                  span.small(data-i18n="signup.checking")
+                if checkEmailState === 'exists'
+                  span.small
+                    span(data-i18n="signup.account_exists")
+                    =" "
+                    a#email-exists-login-link.login-link(data-i18n="signup.sign_in")
+
+                if checkEmailState === 'available'
+                  span.small
+                    span(data-i18n="signup.email_good")
+              input.form-control(name="email" type="email", value=email, disabled=!!email)
+
+        .row
+          .col-md-offset-2.col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.phone_number")
+              input.form-control(name="phoneNumber", data-i18n="[placeholder]teachers_quote.phone_number_help")
+
+          .col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.primary_role_label")
+              select.form-control(name="role")
+                option(data-i18n="teachers_quote.primary_role_default", , value='')
+                option(data-i18n="courses.teacher", value="Teacher")
+                option(data-i18n="teachers_quote.tech_coordinator", value="Technology coordinator")
+                option(data-i18n="teachers_quote.advisor", value="Advisor")
+                option(data-i18n="teachers_quote.principal", value="Principal")
+                option(data-i18n="teachers_quote.superintendent", value="Superintendent")
+                option(data-i18n="teachers_quote.parent", value="Parent")
+
         if !me.isAnonymous()
           .row
             .col-md-offset-2.col-md-4.col-sm-6
@@ -52,107 +98,11 @@ block content
                       span(data-i18n="signup.name_available")
                 input.form-control(name="name" value=name, disabled=!!name)
 
-            .col-md-4.col-sm-6
-              .form-group
-                span.control-label(data-i18n="share_progress_modal.form_label")
-                - var email = me.get('email') || '';
-                span.email-check.fancy-error.pull-right
-                  - var checkEmailState = view.state.get('checkEmailState');
-                  if checkEmailState === 'checking'
-                    span.small(data-i18n="signup.checking")
-                  if checkEmailState === 'exists'
-                    span.small
-                      span(data-i18n="signup.account_exists")
-                      =" "
-                      a#email-exists-login-link.login-link(data-i18n="signup.sign_in")
-
-                  if checkEmailState === 'available'
-                    span.small
-                      span(data-i18n="signup.email_good")
-                input.form-control(name="email" value=email, disabled=!!email)
-
-        .row
-          .col-md-offset-2.col-md-4.col-sm-6
-            .form-group
-              span.control-label(data-i18n="general.first_name")
-              - var firstName = me.get('firstName') || '';
-              input.form-control(name="firstName" value=firstName, disabled=!!firstName)
-
-          .col-md-4.col-sm-6
-            .form-group
-              span.control-label(data-i18n="general.last_name")
-              - var lastName = me.get('lastName') || '';
-              input.form-control(name="lastName" value=lastName, disabled=!!lastName)
-
-        if !me.isAnonymous()
-          .row
-            .col-md-offset-2.col-md-4.col-sm-6
-              .form-group
-                span.control-label(data-i18n="teachers_quote.phone_number")
-                span.spl.text-muted(data-i18n="signup.optional")
-                input.form-control(name="phoneNumber", data-i18n="[placeholder]teachers_quote.phone_number_help")
-
-        if me.isAnonymous()
-          .row
-            .col-md-offset-2.col-md-4.col-sm-6
-              #email-form-group.form-group
-                span.control-label(data-i18n="general.email")
-                - var email = me.get('email') || '';
-                span.email-check.fancy-error.pull-right
-                  - var checkEmailState = view.state.get('checkEmailState');
-                  if checkEmailState === 'checking'
-                    span.small(data-i18n="signup.checking")
-                  if checkEmailState === 'exists'
-                    span.small
-                      span(data-i18n="signup.account_exists")
-                      =" "
-                      a#email-exists-login-link.login-link(data-i18n="signup.sign_in")
-
-                  if checkEmailState === 'available'
-                    span.small
-                      span(data-i18n="signup.email_good")
-                input.form-control(name="email" type="email", value=email, disabled=!!email)
-
-            .col-md-4.col-sm-6
-              .form-group
-                span.control-label
-                  span(data-i18n="teachers_quote.phone_number")
-                  span.spl.text-muted(data-i18n="signup.optional")
-                .help-block.small
-                  em.text-info(data-i18n="teachers_quote.phone_number_help")
-                input.form-control(name="phoneNumber")
-
-
-        .row
-          .col-md-offset-2.col-md-4.col-sm-6
-            .form-group
-              span.control-label(data-i18n="teachers_quote.primary_role_label")
-              select.form-control(name="role")
-                option(data-i18n="teachers_quote.primary_role_default", , value='')
-                option(data-i18n="courses.teacher", value="Teacher")
-                option(data-i18n="teachers_quote.tech_coordinator", value="Technology coordinator")
-                option(data-i18n="teachers_quote.advisor", value="Advisor")
-                option(data-i18n="teachers_quote.principal", value="Principal")
-                option(data-i18n="teachers_quote.superintendent", value="Superintendent")
-                option(data-i18n="teachers_quote.parent", value="Parent")
-
-          .col-md-4.col-sm-6
-            .form-group
-              span.control-label(data-i18n="teachers_quote.purchaser_role_label")
-              select.form-control(name="purchaserRole")
-                option(data-i18n="teachers_quote.purchaser_role_default", , value='')
-                option(data-i18n="teachers_quote.influence_advocate", value="Influence/Advocate")
-                option(data-i18n="teachers_quote.evaluate_recommend", value="Evaluate/Recommend")
-                option(data-i18n="teachers_quote.approve_funds", value="Approve Funds")
-                option(data-i18n="teachers_quote.no_purchaser_role", value="No role in purchase decisions")
-
       #form-school-info
         .row.m-y-2
           .col-md-offset-2.col-md-4.col-sm-6
             .form-group
-              span.control-label
-                span(data-i18n="teachers_quote.organization_label")
-                span.spl.text-muted(data-i18n="signup.optional")
+              span.control-label(data-i18n="teachers_quote.organization_label")
               input.form-control#organization-control(name="organization")
 
           .col-md-4.col-sm-6
@@ -169,15 +119,23 @@ block content
               input.form-control(name="city")
 
           .col-md-4.col-sm-6
-            .form-group
+            .form-group.state
               span.control-label(data-i18n="teachers_quote.state")
-              input.form-control(name="state")
+              - var stateValue = view.state.get('stateValue')
+              if view.state.get('showUsaStateDropdown')
+                select.form-control(name="state")
+                  for state in view.usaStates
+                    option(value = state.abbreviation, selected=(state.abbreviation == stateValue)) #{state.abbreviation}, #{state.name}
+              else
+                input.form-control(name="state", value=stateValue)
 
         .row.m-y-2
           .col-md-offset-2.col-md-4.col-sm-6
             .form-group
               span.control-labelspan.control-label(data-i18n="teachers_quote.country")
-              input.form-control(name="country")
+              select.form-control(name="country")
+                for country in view.countries
+                  option(value = country, selected=(country == "United States")) #{country}
 
       #form-students-info
         .row
@@ -207,53 +165,17 @@ block content
                 option 5,000-10,000
                 option 10,000+
 
-        .form-group
-          .row.m-y-2
-            .col-md-offset-2.col-md-4
-              span.control-label(data-i18n="teachers_quote.education_level_label")
-              .help-block.small
-                em.text-info(data-i18n="teachers_quote.education_level_help")
-              .checkbox
-                label
-                  input(type="checkbox" name="educationLevel" value="Elementary")
-                  span(data-i18n="teachers_quote.elementary_school")
-              .checkbox
-                label
-                  input(type="checkbox" name="educationLevel" value="Middle")
-                  span(data-i18n="teachers_quote.middle_school")
-              .checkbox
-                label
-                  input(type="checkbox" name="educationLevel" value="High")
-                  span(data-i18n="teachers_quote.high_school")
-              .checkbox
-                label
-                  input(type="checkbox" name="educationLevel" value="College+")
-                  span(data-i18n="teachers_quote.college_plus")
-              .checkbox
-                label
-                  input#other-education-level-checkbox(type="checkbox")
-                  span(data-i18n="nav.other").spr
-                  span(data-i18n="teachers_quote.please_explain")
-              input#other-education-level-input.form-control
-
-      #anything-else-row.row
-        .col-md-offset-2.col-md-8
-          span.control-label
-            span(data-i18n="teachers_quote.anything_else")
-            span.spl.text-muted(data-i18n="signup.optional")
-
-          textarea.form-control(rows=8, name="notes")
-          input(type="hidden" name="nces_id")
-          input(type="hidden" name="nces_name")
-          input(type="hidden" name="nces_district")
-          input(type="hidden" name="nces_district_id")
-          input(type="hidden" name="nces_district_schools")
-          input(type="hidden" name="nces_district_students")
-          input(type="hidden" name="nces_students")
-          input(type="hidden" name="nces_phone")
+      input(type="hidden" name="nces_id")
+      input(type="hidden" name="nces_name")
+      input(type="hidden" name="nces_district")
+      input(type="hidden" name="nces_district_id")
+      input(type="hidden" name="nces_district_schools")
+      input(type="hidden" name="nces_district_students")
+      input(type="hidden" name="nces_students")
+      input(type="hidden" name="nces_phone")
 
       #buttons-row.row.m-y-2.text-center
-        input#submit-request-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="[value]new_home.request_demo")
+        input#submit-request-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="common.submit" data-event-action="Teachers Request Demo Submit Clicked")
 
     #form-submit-success.text-center(class=showDone ? '' : 'hide')
       h3(data-i18n="teachers_quote.thanks_header")

@@ -63,6 +63,9 @@ module.exports = class SubscriptionView extends RootView
     @products = new Products()
     @supermodel.loadCollection @products
 
+  getMeta: ->
+    title: $.i18n.t 'account.subscription_title'
+
   # Personal Subscriptions
 
   onClickStartSubscription: (e) ->

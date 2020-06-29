@@ -30,12 +30,13 @@ module.exports = class TeacherCoursesView extends RootView
     super(options)
     application.setHocCampaign('') # teachers playing levels from here return here
     @utils = require 'core/utils'
+    @enableCpp = me.enableCpp()
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new Courses()
     @prepaids = new Prepaids()
-    @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
+    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
     if me.isAdmin()
       @supermodel.trackRequest @courses.fetch()
     else

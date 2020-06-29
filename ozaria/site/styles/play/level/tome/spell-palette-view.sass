@@ -1,0 +1,315 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/variables"
+@import "app/styles/style-flat-variables"
+@import "ozaria/site/styles/common/variables"
+
+#spell-palette-view
+  position: absolute
+  left: $spell-pallete-left
+  width: $api-bar-width
+  bottom: 0px
+  max-height: 504px
+  top: 30%
+  z-index: 11
+  @include transition(top 0.25s ease-in-out, width 0.25s ease-in-out)
+  border: solid transparent
+  border-width: 11px 30px 12px 0px
+  border-image: url('/images/ozaria/level/command_bank_background_1.png') 10% fill stretch
+  overflow: hidden
+  #spell-palette-api-bar
+    top: 40px
+  #spell-palette-api-bar[disabled=disabled]
+    pointer-events: none
+    #palette-tab-api-area
+      opacity: 0.6
+  #level-view.real-time &, #level-view.cinematic &
+    display: none
+    visibility: hidden
+  &.open, &.expand
+    border-width: 11px 42px 12px 0px
+    border-image: none
+    background: url('/images/ozaria/level/command_bank_background_1.png') no-repeat
+    background-position: center
+  &.open
+    width: 42px + $spell-pallete-left-width
+    background-size: 376px 108%
+  &.expand
+    width: 42px + $spell-pallete-right-width + $spell-pallete-left-width
+    background-image: url('/images/ozaria/level/command_bank_background_2.png')
+    background-size: 760px 108%
+  .container
+    width: 42px + $spell-pallete-right-width + $spell-pallete-left-width
+    height: 100%
+    position: relative
+    .left
+      position: absolute
+      left: 0
+      top: 0px
+      bottom: 0px
+      height: auto
+      width: $spell-pallete-left-width
+      background-color: #f7f9f9
+      .command-bank-header, .section-header, .sub-section-header
+        display: block
+        color: #000000
+        margin-right: 10px
+        width: $spell-pallete-left-width
+
+        .white-glyphicon
+          color: #ffffff
+
+      .command-bank-header
+        background-color: #b5b4b4
+        height: 44px
+        font-family: $body-font
+        font-size: 20px
+        font-weight: bold
+        letter-spacing: 0.69px
+        line-height: 27px
+        padding: 5px 6px 0px 15px
+      
+      .section-header
+        height: 35px
+        background-color: #d8d8d8
+        box-shadow: 2px 2px 2px 0 rgba(93,115,225,0.32)
+        font-family: $body-font
+        font-size: 16px
+        font-weight: bold
+        letter-spacing: 0.55px
+        line-height: 22px
+        padding: 5px 6px 0px 15px
+
+      .sub-section-header
+        height: 35px
+        background-color: #ffffff
+        box-shadow: inset 0 1px 3px 0 rgba(93,115,225,0.5), 2px 2px 2px 0 rgba(93,115,225,0.32)
+        font-family: $code-font-style !important
+        font-size: 16px
+        line-height: 19px
+        padding: 7px 6px 0px 30px
+
+        .blue-glyphicon
+          color: #5d73e1
+
+        &.selected
+          box-shadow: 2px 2px 2px 0 rgba(93,115,225,0.32)
+          background-color: #e9ebeb
+          border-left: 5px solid #5d73e1
+
+      .spell-palette-thang-entry-view
+        display: inline-block
+        border: 5px solid black
+        border-image: url(/images/level/thang_avatar_frame.png) 20 20 20 20 fill round
+        margin: 1px
+
+        img
+          background-color: black
+          width: 72px
+          height: 72px
+          border: 1px solid transparent
+          cursor: pointer
+        &:hover img
+          border: 1px solid #f3cd90
+        &.selected img
+          border: 1px solid white
+          cursor: auto
+
+      .nano-slider
+        background-color: rgba(243, 169, 49, 0.5)
+    .right
+      position: absolute
+      right: 20px
+      width: $spell-pallete-right-width
+      left: $spell-pallete-left-width
+      top: 0px
+      bottom: 0px
+      background-color: #ffffff
+      //width: calc(100% - #{$api-bar-width + 50px})
+      @include box-shadow(0 0 0 #000)
+      .scrollArea
+        max-height: calc(100% - 20px)
+        width: 100%
+        margin-bottom: 20px
+        position: relative
+        overflow-y: auto
+
+      .always-scroll-y
+        overflow-y: scroll
+        .description
+          img
+            float: left
+
+      .popover-header
+        background-color: #5d73e1
+        height: 44px
+        color: #ffffff
+        font-family: $code-font-style !important
+        font-size: 18px
+        line-height: 21px
+        padding: 11px 6px 0px 15px
+      
+      .popover-body
+        font-family: $body-font
+        color: $gray
+        padding: 5px 6px 0px 14px
+
+        .short-description, .example, .args, .returns
+          font-size: 18px
+          letter-spacing: 0.71px
+          line-height: 24px
+
+        .description
+          font-size: 16px
+          letter-spacing: 0.6px
+          line-height: 20px
+
+
+      h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+        font-family: $code-font-style !important
+        font-variant: normal
+        color: purple
+        text-transform: auto
+
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          font-family: $code-font-style !important
+
+      .popover-title
+        background-color: transparent
+        margin: 0 14px
+        padding: 8px 0
+        border-bottom-color: #ccc
+
+      .popover-content
+        max-height: 100%
+        overflow-y: auto
+        margin-right: 10px
+        img
+          float: right
+
+      &.top .arrow
+        bottom: -2%
+      &.bottom .arrow
+        top: -2%
+      &.left .arrow
+        right: 0%
+      &.right .arrow
+        left: -3%
+
+      .docs-ace-container
+        padding: 2px 4px
+        border: 0.5px solid #979797
+        border-radius: 4px
+        padding: 5px
+
+        &, .docs-ace
+          font-size: 16px
+          line-height: 19px
+          font-family: $code-font-style !important
+
+          body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+            font-family: $code-font-style !important
+
+        .docs-ace
+          .ace_cursor, .ace_bracket
+            display: none
+          .ace_gutter-active-line
+            background: #ffffff
+
+      .ace-tm
+        color: $gray
+
+      .ace-tm .ace_gutter
+        background: #ffffff
+        border-right: 1px solid #979797
+        color: $gray
+
+      code
+        color: black
+        font-family: $code-font-style !important
+        font-size: 12px
+
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          font-family: $code-font-style !important
+
+    h4.tab
+      color: white
+      font-size: 16px
+      line-height: 16px
+      margin: 25px 0 5px 2px
+      font-weight: normal
+      text-transform: uppercase
+
+    .nav > li > a
+      padding: 2px 20px 0px 20px
+      margin-bottom: 3px
+
+    ul.nav.nav-pills
+      margin-top: 3%
+
+      h4
+        margin-top: 2px
+      li.active a
+        background-color: transparent
+      &.multiple-tabs li.active a
+        background-color: darken(rgb(230, 212, 146), 30%)
+      &.multiple-tabs li:not(.active) a
+        cursor: pointer
+
+    &:not(.hero)
+      .tab-content
+        height: 80px
+        .nano-pane
+          width: 7px
+          right: 5px
+
+    //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
+    //  background-color: lighten(rgb(230, 212, 146), 10%)
+
+    .property-entry-column
+      display: inline-block
+      margin-right: 3px
+      vertical-align: top
+
+  #spell-palette-help-button
+    margin: 3% 0px 4px
+
+  &.hero .properties
+    @include flexbox()
+    @include flex-wrap()
+    @include flex-column()
+    @include flex-align-content-start()
+
+    .property-entry-item-group, .property-entry-item-sub-group
+      min-height: 35px
+      width: 212px
+      position: relative
+      background-color: rgb(20, 13, 8)
+
+      img.item-image
+        width: 38px
+        height: 38px
+        position: absolute
+        top: 0px
+
+      &:not(:hover) img.item-image
+        -webkit-filter: contrast(50%) sepia(100%) saturate(500%) hue-rotate(7deg)
+        filter: contrast(50%) sepia(100%) saturate(1000%) hue-rotate(7deg)
+
+  &.shortenize.hero .properties
+    .property-entry-item-group, .property-entry-item-sub-group
+      width: $spell-pallete-left-width
+
+      .spell-palette-entry-view
+        width: 100%
+        height: 35px
+        padding: 5px 6px 0px 45px
+  //Fixes punctuation but puts comment marker on right, which is apparently worse.
+  //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+  //  .ace_text-layer .ace_comment
+  //    direction: rtl
+  //    unicode-bidi: embed
+
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right

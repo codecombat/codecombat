@@ -1,0 +1,65 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header
+  //-
+    This allows for the header color to switch without the subview templates
+    needing to contain the header
+  .modal-header(class=view.signupState.get('path'))
+    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
+    +modal-header-content
+
+mixin modal-header-content
+  h3
+    case view.signupState.get('path')
+      when 'student'
+        span(data-i18n="signup.create_student_header")
+      when 'teacher'
+        span(data-i18n="signup.create_teacher_header")
+      when 'individual'
+        if view.signupState.get('subModalContinue')
+          span(data-i18n="signup.complete_subscription")
+        else
+          span(data-i18n="signup.create_individual_header")
+      default
+        span(data-i18n="login.sign_up")
+
+//-
+  This is where the subviews (screens) are hooked up.
+  Most subview templates have a .modal-body at their root, but this is inconsistent and needs organization.
+block modal-body
+  case view.signupState.get('screen')
+    when 'choose-account-type'
+      #choose-account-type-view
+    when 'segment-check'
+      #segment-check-view
+    when 'eu-confirmation'
+      #eu-confirmation-view
+    when 'basic-info'
+      #basic-info-view
+    when 'coppa-deny'
+      #coppa-deny-view
+    when 'sso-already-exists'
+      #single-sign-on-already-exists-view
+    when 'sso-confirm'
+      #single-sign-on-confirm-view
+    when 'extras'
+      #extras-view
+    when 'confirmation'
+      #confirmation-view
+    when 'teacher-signup-component'
+      #teacher-signup-component
+
+block modal-footer
+  //-
+    This allows for the footer color to switch without the subview templates
+    needing to contain the footer
+  .modal-footer(class=view.signupState.get('path'))
+    +modal-footer-content
+
+mixin modal-footer-content
+  if view.signupState.get('screen') !== 'confirmation'
+    .modal-footer-content
+      .small-details.rtl-allowed
+        span.spr(data-i18n="signup.login_switch")
+        a.login-link
+          span(data-i18n="signup.sign_in")

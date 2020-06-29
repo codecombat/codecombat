@@ -29,8 +29,12 @@ module.exports = class MainUserView extends UserView
 
   onLoaded: ->
     if @user.loaded
+      @setMeta({
+        title: $.i18n.t('user.user_title', { name: @user.broadName() })
+      })
+
       if !@levelSessions
-        @levelSessions = new LevelSessionsCollection @user.getSlugOrID()      
+        @levelSessions = new LevelSessionsCollection @user.getSlugOrID()
         @listenTo @levelSessions, 'sync', =>
           @onSyncLevelSessions @levelSessions?.models
           @render()

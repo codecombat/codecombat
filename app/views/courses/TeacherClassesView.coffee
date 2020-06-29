@@ -18,6 +18,8 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
+OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
+experiments = require('core/experiments')
 
 helper = require 'lib/coursesHelper'
 
@@ -99,8 +101,12 @@ module.exports = class TeacherClassesView extends RootView
     'click .see-all-office-hours': 'onClickSeeAllOfficeHours'
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
+    'click .try-ozaria a': 'tryOzariaLinkClicked'
 
-  getTitle: -> $.i18n.t 'teacher.my_classes'
+  getMeta: ->
+    {
+      title: $.i18n.t 'teacher.my_classes'
+    }
 
   initialize: (options) ->
     super(options)
@@ -127,7 +133,7 @@ module.exports = class TeacherClassesView extends RootView
           @calculateQuestCompletion()
           @render()
 
-    window.tracker?.trackEvent 'Teachers Classes Loaded', { category: 'Teachers', trackABResult: true }, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
 
     @courses = new Courses()
     @courses.fetch()
@@ -156,6 +162,9 @@ module.exports = class TeacherClassesView extends RootView
       req = @administratingTeachers.fetchByIds(administratingTeacherIds)
       @supermodel.trackRequest req
 
+    # TODO: Any reference to paidTeacher can be cleaned up post Teacher Appreciation week (after 2019-05-03)
+    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
+
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
   afterRender: ->
@@ -169,6 +178,15 @@ module.exports = class TeacherClassesView extends RootView
         html: true
         container: dot
       })
+
+  destroy: ->
+    @cleanupEncouragementModal()
+    super()
+
+  cleanupEncouragementModal: ->
+    if @ozariaEncouragementModal
+      @ozariaEncouragementModal.$destroy()
+      @ozariaEncouragementModalContainer.remove()
 
   calculateQuestCompletion: ->
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
@@ -211,9 +229,17 @@ module.exports = class TeacherClassesView extends RootView
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
     @calculateQuestCompletion()
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
-    if me.isTeacher() and not @classrooms.length
+    showOzariaEncouragementModal = window.localStorage.getItem('showOzariaEncouragementModal')
+    if showOzariaEncouragementModal
+      window.localStorage.removeItem('showOzariaEncouragementModal')
+
+    if showOzariaEncouragementModal
+      @openOzariaEncouragementModal()
+    else if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
+
     super()
 
   onClickEditClassroom: (e) ->
@@ -228,7 +254,7 @@ module.exports = class TeacherClassesView extends RootView
 
   openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin
-    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', { category: 'Teachers', trackABResult: true }, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers', ['Mixpanel']
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
@@ -252,6 +278,20 @@ module.exports = class TeacherClassesView extends RootView
       .then () =>
         @calculateQuestCompletion()
         @render()
+
+  tryOzariaLinkClicked: ->
+    window.tracker.trackEvent('Teacher Dashboard Try Ozaria Link Clicked', category: 'Teachers')
+    @openOzariaEncouragementModal()
+
+  openOzariaEncouragementModal: () ->
+    # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
+    if @ozariaEncouragementModalContainer
+      @ozariaEncouragementModalContainer.remove()
+
+    @ozariaEncouragementModalContainer = document.createElement('div')
+    document.body.appendChild(@ozariaEncouragementModalContainer)
+
+    @ozariaEncouragementModal = new OzariaEncouragementModal({ el: @ozariaEncouragementModalContainer })
 
   importStudents: (classroom) ->
     GoogleClassroomHandler.importStudentsToClassroom(classroom)

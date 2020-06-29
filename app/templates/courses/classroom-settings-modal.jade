@@ -44,6 +44,8 @@ block modal-body-content
         option(value="" data-i18n="courses.language_select")
         option(value="python") Python
         option(value="javascript") JavaScript
+        if view.enableCpp
+          option(value="cpp") C++
 
     .form-group
       label

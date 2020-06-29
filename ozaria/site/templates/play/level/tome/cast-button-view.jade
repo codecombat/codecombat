@@ -1,0 +1,11 @@
+if !view.options.level.isType('game-dev')
+  div.play-button#run
+    img.active-button(src="/images/ozaria/level/Button_Active.png", alt=$.i18n.t("play_level.tome_cast_button_run"))
+    div.active-button-text(data-i18n="play_level.tome_cast_button_run")
+else
+  div.play-button#update-game
+    img.active-button(src="/images/ozaria/level/Button_Active.png", alt=$.i18n.t("play_level.tome_cast_button_update"))
+    div.active-button-text(data-i18n="play_level.tome_cast_button_update")
+  div.play-button#next
+    img.active-button(src="/images/ozaria/level/Button_Inactive.png", alt=$.i18n.t("play.next"))
+    div.active-button-text(data-i18n="play.next")

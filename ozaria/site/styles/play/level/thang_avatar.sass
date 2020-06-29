@@ -1,0 +1,74 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+.thang-avatar-view
+
+  &.selected .thang-avatar-wrapper
+    @include box-shadow(0px 0px 10px rgba(79, 79, 213, 1.0))
+
+  .thang-avatar-wrapper
+    width: 100%
+    position: relative
+    @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
+
+    &.team-humans
+      border-color: darkred
+      @include gradient-radial-custom-stops(hsla(4,80%,74%,1), 20%, hsla(4,80%,51%,1), 70%)
+
+    &.team-ogres
+      border-color: darkblue
+      @include gradient-radial-custom-stops(hsla(205,100%,74%,1), 20%, hsla(205,100%,31%,1), 70%)
+
+    &.team-allies, &.team-minions
+      border-color: darkgreen
+      @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
+
+    .avatar
+      width: 100%
+
+    .avatar-frame
+      position: absolute
+      left: -18%
+      top: -19%
+      width: 145%
+
+    .badge
+      $radius: 8px
+      $diameter: 2 * $radius
+      position: absolute
+      top: -0.5 * $radius
+      width: $diameter
+      height: $diameter
+      text-align: center
+      padding: 0
+      color: white
+      text-shadow: 0 1px rgba(0, 0, 0, 0.25)
+      box-sizing: border-box
+
+      border: 1px solid rgba(128, 128, 128, 1)
+      border-radius: $diameter
+      background-color: #aaa
+
+      &.problems
+        left: -0.5 * $radius
+
+        &.error
+          background-color: red
+        &.warning
+          background-color: #f89406
+        &.info
+          background-color: #3a87ad
+
+      &.shared-thangs
+        background-color: blue
+        right: -0.5 * $radius
+
+  .thang-name
+    font-variant: small-caps
+    text-align: center
+    color: #ca8
+    overflow: hidden
+    text-overflow: ellipsis
+    font-size: 13px
+    white-space: nowrap
+    // if it works for Grul'Thock and Arrow Tower, it'll work for the first 56 names I picked

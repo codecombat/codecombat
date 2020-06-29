@@ -12,6 +12,9 @@ TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
 api = require 'core/api'
 
+# TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
+# TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
+
 module.exports = class AdministerUserModal extends ModalView
   id: 'administer-user-modal'
   template: template
@@ -265,6 +268,19 @@ module.exports = class AdministerUserModal extends ModalView
 
   onClickSchoolAdminCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
+    cancelled = false
+    if checked
+      unless window.confirm("ENABLE school administator for #{@user.get('email') || @user.broadName()}?")
+        cancelled = true
+    else
+      unless window.confirm("DISABLE school administator for #{@user.get('email') || @user.broadName()}?")
+        cancelled = true
+    if cancelled
+      e.preventDefault()
+      @userSaveState = null
+      @render()
+      return
+
     @userSaveState = 'saving'
     @render()
     fetchJson("/db/user/#{@user.id}/schoolAdministrator", {
@@ -274,17 +290,7 @@ module.exports = class AdministerUserModal extends ModalView
       }
     }).then (res) =>
       @userSaveState = 'saved'
-      permissions = @user.get('permissions')
-
-      if checked and res.schoolAdministrator == 0
-          permissions.push('schoolAdministrator')
-      else if not checked and res.schoolAdministrator == 1
-        _.remove(permissions, (p) -> p == 'schoolAdministrator')
-      else
-        @userSaveState = 'Checkbox and server state mismatch. Close and open this dialog again to refresh.'
-
-      @user.set('permissions', permissions)
-      @render()
+      @user.fetch({cache: false}).then => @render()
     null
 
   onClickEditSchoolAdmins: (e) ->
@@ -320,13 +326,17 @@ module.exports = class AdministerUserModal extends ModalView
       }
     }).then (res) =>
       @administratedTeachers.push(teacher)
+    .catch (jqxhr) =>
+      errorString = "There was an error adding teacher, see the console"
+      @userSaveState = errorString
+      console.error errorString, jqxhr
+      @render()
+    .finally =>
       @updateAdministratedTeachers()
     null
 
   onClickRemoveAdministeredTeacher: (e) ->
     teacher = $(e.target).closest('tr').data('user-id')
-    @userSaveState = 'removing...'
-
     @render()
 
     fetchJson("/db/user/#{@user.id}/schoolAdministrator/administratedTeacher/#{teacher}", {
@@ -334,8 +344,6 @@ module.exports = class AdministerUserModal extends ModalView
     }).then (res) =>
       @administratedTeachers = @administratedTeachers.filter (t) -> t._id isnt teacher
       @updateAdministratedTeachers()
-      @userSaveState = null
-      @render()
     null
 
   onSearchRequestSuccess: (teachers) =>
@@ -375,6 +383,7 @@ module.exports = class AdministerUserModal extends ModalView
     @$el.find('#teacher-search-result').html('')
 
   onSubmitTeacherSearchForm: (e) ->
+    @userSaveState = null
     e.preventDefault()
     forms.disableSubmit(@$('#teacher-search-button'))
 

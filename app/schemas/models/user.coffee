@@ -55,8 +55,8 @@ _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   emailVerified: { type: 'boolean' }
   iosIdentifierForVendor: c.shortString({format: 'hidden'})
-  firstName: c.shortString({title: 'First Name'})
-  lastName: c.shortString({title: 'Last Name'})
+  firstName: c.shortString({title: 'First Name', not: {pattern: 'Q204384420'}})
+  lastName: c.shortString({title: 'Last Name', not: {pattern: 'Q204384420'}})
   gender: {type: 'string'} # , 'enum': ['male', 'female', 'secret', 'trans', 'other']
   # NOTE: ageRange enum changed on 4/27/16 from ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   ageRange: {type: 'string'}  # 'enum': ['13-15', '16-17', '18-24', '25-34', '35-44', '45-100']
@@ -143,11 +143,47 @@ _.extend UserSchema.properties,
   preferredLanguage: {'enum': [null].concat(c.getLanguageCodeArray())}
 
   signedCLA: c.date({title: 'Date Signed the CLA'})
+
+  # Legacy customizable wizard from a very early version of the game.
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
+  ozariaUserOptions: c.object( # 10/12/2019 Do not alter/remove or use this property on codecombat. Used on Ozaria.
+    {
+      title: 'Player Ozaria Customization',
+      description: 'Player customization options, including hero name, objectId and applied color tints.',
+      # Ensure we can add new properties on the Ozaria server without breaking CodeCombat users.
+      additionalProperties: true
+    }, {
+      cinematicThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type'),
+      playerHeroName: c.shortString({ title: 'Ozaria Hero Name', description: 'The user set name for the ozaria hero. Used in cinematics.' }),
+      tints: c.array(
+        {
+          title: 'Tints',
+          description: 'Array of possible tints'
+        },
+        c.object({
+          title: 'tintGroup',
+          description: 'Duplicate data that would be found in a tint',
+          required: ['slug', 'colorGroups']
+        }, {
+          slug: c.shortString({
+            title: 'Tint Slug',
+          }),
+          colorGroups: c.object({ additionalProperties: c.colorConfig() })
+        }))
+      avatar: c.object({
+        title: '1FH Avatar Choice',
+        description: 'The 1FH avatar that was chosen by the user'
+      }, {
+        cinematicThangTypeId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic ThangType', description: 'The cinematic avatar thangType original Id', format: 'thang-type'),
+        cinematicPetThangId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic Pet ThangType', description: 'The cinematic avatar pet thangType original Id', format: 'thang-type'),
+        avatarCodeString: c.shortString({ title: 'Avatar Capstone String', description: 'The string representation of the avatar for the capstone.' })
+      })
+    })
+
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'java', 'io']}
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp']}
     keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}  # Deprecated 2016-05-30; now we just always give them 'default'.
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }
@@ -162,6 +198,8 @@ _.extend UserSchema.properties,
       id: { type: 'string' }
       name: { type: 'string' }
       importedToCoco: { type: 'boolean', default: false }
+      importedToOzaria: { type: 'boolean', default: false }
+      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' }
 
   importedBy: c.objectId { description: 'User ID of the teacher who imported this user' }
 

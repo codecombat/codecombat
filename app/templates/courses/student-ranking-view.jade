@@ -1,0 +1,135 @@
+  
+extends /templates/base-flat
+
+block content
+  
+  flat-layout
+    .container.m-t-auto
+      #ranking
+        span
+          a(href="/students", data-i18n="courses.back_courses").text-center
+
+        - var meId = view.meId
+        - var rankingData = [];
+        - var courseInstances = view.courseInstances.where({classroomID: view.courseInstance.get('classroomID')});
+        
+        for courseInstance in courseInstances
+          if(courseInstance.get('courseID') === view.courseID)
+            - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
+            div.text-center
+              h3= i18n(course, 'name')
+            br
+        
+        //span= view.students.models.length
+
+        if view.studentsLevelsCompleted.length > 0
+          
+          for student in view.students.models
+            - var i = 0;
+            for student_id in view.studentsID 
+              if student_id === student.id
+                - rankingData.push({id: student.id, name: student.get('name'), email: student.get('email'),points: view.studentsLevelsCompleted[i], avatar: student.getPhotoURL(150), playtime: view.playTime[i]});
+                //- console.log("nome: "+student.get('name')+" pontos: "+view.studentsLevelsCompleted[i])
+              - i++
+
+          +sortRanking(rankingData)
+
+        table.text-center
+            tr 
+              th(data-i18n="courses.ranking_position")
+              th
+              th(data-i18n="courses.ranking_players")
+              th(data-i18n="courses.ranking_completed_leves")
+              
+              each item, index in rankingData
+                if (item.id === meId)
+                  tr.meId
+                    td= index+1
+                    td
+                      img.picture(src="#{item.avatar}" alt="").img-circle.img-circle-small.m-r-1
+                    td.student_ranking= item.name
+                    td= item.points
+                else
+                  tr.line-ranking
+                    td= index+1
+                    td
+                      img.picture(src="#{item.avatar}" alt="").img-circle.img-circle-small.m-r-1
+                    
+                    td.student_ranking
+                      // inappropriate term provided by a student
+                      if (item.name==="20 comer de 4")
+                        Ô Pervertido
+                      else
+                        =item.name
+                    td= item.points
+                  
+
+
+
+mixin sortRanking(arraySort)
+  
+  - var pointsArray = [];
+  - var nameArray = [];
+  - var idArray = [];
+  - var avatarArray = [];
+  - var playtimeArray = [];
+  
+  each item, index in arraySort
+    - pointsArray.push(item.points);
+    - nameArray.push(item.name);
+    - idArray.push(item.id);
+    - avatarArray.push(item.avatar);
+    - playtimeArray.push(item.playtime);
+
+
+  - var resultPointsArray = pointsArray;
+  - var resultNameArray = nameArray;
+  - var resultIdArray = idArray;
+  - var resultAvatarArray = avatarArray;
+  - var resultPlaytimeArray = playtimeArray;
+
+  // ranking by completed levels
+  - for(var i = pointsArray.length - 1; i>=0; i--)
+    - for (var j = 0; j <= i; j++)
+      if resultPointsArray[j-1] < pointsArray[j]
+        - var auxPoints = pointsArray[j];
+        - var auxName = nameArray[j];
+        - var auxId = idArray[j];
+        - var auxAvatar = avatarArray[j];
+        - var auxPlaytime = playtimeArray[j];
+        - resultPointsArray[j] = pointsArray[j-1];
+        - resultPointsArray[j-1] = auxPoints;
+        - resultNameArray[j] = nameArray[j-1];
+        - resultNameArray[j-1] = auxName;
+        - resultIdArray[j] = idArray[j-1];
+        - resultIdArray[j-1] = auxId;
+        - resultAvatarArray[j] = avatarArray[j-1];
+        - resultAvatarArray[j-1] = auxAvatar;
+        - resultPlaytimeArray[j] = playtimeArray[j-1];
+        - resultPlaytimeArray[j-1] = auxPlaytime;
+
+  // tie breaker for the shortest time
+  - for(var i = pointsArray.length - 1; i>=0; i--)
+    - for (var j = 0; j <= i; j++)
+      if resultPointsArray[j-1] === pointsArray[j]
+        if resultPlaytimeArray[j-1] > resultPlaytimeArray[j]
+          - var auxPoints = pointsArray[j];
+          - var auxName = nameArray[j];
+          - var auxId = idArray[j];
+          - var auxAvatar = avatarArray[j];
+          - var auxPlaytime = playtimeArray[j];
+          - resultPointsArray[j] = pointsArray[j-1];
+          - resultPointsArray[j-1] = auxPoints;
+          - resultNameArray[j] = nameArray[j-1];
+          - resultNameArray[j-1] = auxName;
+          - resultIdArray[j] = idArray[j-1];
+          - resultIdArray[j-1] = auxId;
+          - resultAvatarArray[j] = avatarArray[j-1];
+          - resultAvatarArray[j-1] = auxAvatar;
+          - resultPlaytimeArray[j] = playtimeArray[j-1];
+          - resultPlaytimeArray[j-1] = auxPlaytime;
+
+  - rankingData = [];
+
+  - for(var i = 0; i<pointsArray.length; i++)    
+      - rankingData.push({id: resultIdArray[i], name: resultNameArray[i], points: resultPointsArray[i], avatar: resultAvatarArray[i], playtime: resultPlaytimeArray[i]});

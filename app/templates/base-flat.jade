@@ -39,20 +39,47 @@ mixin accountLinks
                 a.navbar-brand(href="/home")
                   img#logo-img.powered-by(src="/images/pages/base/logo.png")
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+              else if me.showChinaResourceInfo()
+                a.navbar-brand(href="/home")
+                  img#logo-img(src="/images/pages/base/logo-en+cn.png")
               else
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
+
+            if view.isOldBrowser()
+              .navbar-browser-recommendation.navbar-header
+                .nav-spacer
+                  .navbar-nav
+                    a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/", data-i18n="nav.browser_recommendation")
 
             if !serverConfig.static
               #navbar-collapse.collapse.navbar-collapse
                 .nav-spacer
                 if !me.hideTopRightNav()
                   ul.nav.navbar-nav
+                    if me.showChinaResourceInfo()
+                      li
+                        a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
+                      li
+                        a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
+                    else if me.isAnonymous() && require('app/core/experiments').getRequestAQuoteGroup(me) === 'request-a-quote-header'
+                      li
+                        a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
                     li
                       if document.location.href.search('/about') >= 0
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else
                         a.text-p(href="/about", data-i18n="nav.about")
+                    li
+                      if document.location.href.search('/parents') >= 0
+                        a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
+                      else
+                        a.text-p(href="/parents", data-i18n="nav.parent")
+                    li
+                      if document.location.href.search('/impact') >= 0
+                        a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
+                      else
+                        a.text-p(href="/impact", data-i18n="nav.impact")
                     if me.isStudent()
                       li
                         if document.location.href.search('/students') >= 0
@@ -71,8 +98,9 @@ mixin accountLinks
                     if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
                       li
                         a.text-p(href="/play", data-i18n="common.play")
-                      li
-                        a.text-p(href=view.forumLink(), data-i18n="nav.forum")
+                      if me.showForumLink()
+                        li
+                          a.text-p(href=view.forumLink(), data-i18n="nav.forum")
 
                 if !me.isAnonymous()
                   ul.nav.navbar-nav
@@ -104,9 +132,9 @@ mixin accountLinks
                 if me.isAnonymous()
                   ul.nav.navbar-nav.text-p.login-buttons
                     li
-                      a#create-account-link.signup-button.track-ab-result(data-event-action="Header Sign Up CTA", data-i18n="signup.sign_up")
+                      a#create-account-link.signup-button(data-event-action="Header Sign Up CTA", data-i18n="signup.sign_up")
                     li
-                      a#login-link.login-button.track-ab-result(data-event-action="Header Login CTA", data-i18n="signup.login")
+                      a#login-link.login-button(data-event-action="Header Login CTA", data-i18n="signup.login")
 
 
   block page_nav
@@ -122,63 +150,131 @@ mixin accountLinks
         #footer.small
           .container
             .row
-              .col-lg-12
-                .row
-                  .col-lg-3
-                    h3(data-i18n="nav.general")
-                    ul.list-unstyled
-                      li
-                        a(href="/about", data-i18n="nav.about")
-                      li
-                        a(href="/about#careers", data-i18n="nav.careers")
-                      if !me.isStudent()
-                        li
-                          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                      li
-                        a(href="/parents", data-i18n="nav.parent")
-                      li
-                        a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-                      if features.china
-                        li
-                          a(href="http://www.miitbeian.gov.cn/") 京ICP备19012263号
-                  .col-lg-3
-                    if !me.isStudent()
-                      h3(data-i18n="nav.educators")
+              if me.showChinaResourceInfo()
+                .col-lg-12
+                  .row
+                    .col-lg-3
+                      h3(data-i18n="nav.general")
                       ul.list-unstyled
                         li
-                          a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
+                          a(href="/about", data-i18n="nav.about")
+                        //li
+                        //  a(href="/about#careers", data-i18n="nav.careers")
+                        if !me.isStudent()
+                          li
+                            a(href="/contact-cn", data-i18n="nav.contact")
                         li
-                          a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          a(href="/parents", data-i18n="nav.parent")
                         li
-                          a(href="/apcsp", data-i18n="nav.apcsp")
+                          a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
                         li
-                          a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                  .col-lg-3
-                    h3(data-i18n="nav.get_involved")
-                    ul.list-unstyled
-                      li
-                        a(href='/community', data-i18n="nav.community")
-                      li
-                        a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
-                      li
-                        a(href="https://github.com/codecombat/codecombat") GitHub
+                          a(href="http://beian.miit.gov.cn/") 京ICP备19012263号
+                    .col-lg-3
                       if !me.isStudent()
+                        h3(data-i18n="nav.educators")
+                        ul.list-unstyled
+                          li
+                            - var faqURL = "/teachers/resources/faq";
+                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                            -     faqURL = "/teachers/resources/faq-nl-NL";
+                            - if (me.get('preferredLanguage') == 'he')
+                            -     faqURL = "/teachers/resources/faq-HE";
+                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                            -     faqURL = "/teachers/resources/faq-pt-BR";
+                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                            -     faqURL = "/teachers/resources/faq-zh-HANS";
+                            a(href=faqURL, data-i18n="teacher.educator_faq")
+                          li
+                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          li
+                            a(href="/apcsp", data-i18n="nav.apcsp")
+                          li
+                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    .col-lg-3
+                      h3 相关链接
+                      ul.list-unstyled
                         li
-                          a(href=view.forumLink(), data-i18n="nav.forum")
-                  .col-lg-3
-                    if me.useSocialSignOn()
+                          a(href="https://codecombat.163.com") 极客战记（个人版）
+                        li
+                          a(href="https://aojiarui.com") 奥佳睿 - CodeCombat原创新作
+                        li
+                          a(href="https://codecombat.com") CodeCombat全球官网
+                        li
+                          a(href="http://aiyouth.ccidtraining.org.cn") 赛迪人工智能大赛 - AI世青赛
+                        li
+                          a(href="http://ccidtraining.org.cn") 工信部赛迪研究院培训中心
+
+                    .col-lg-3
                       h3(data-i18n="nav.follow_us")
-                      div.social-buttons
-                        a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
-                          img(src="/images/pages/base/youtube_symbol_button.png", width="40")
-                        a(href="https://twitter.com/codecombat", target="_blank")
-                          img(src="/images/pages/base/twitter_logo_btn.png", width="40")
-                        a(href="https://www.facebook.com/codecombat", target="_blank")
-                          img(src="/images/pages/base/facebook_logo_btn.png", width="40")
+                      img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+              else
+                .col-lg-12
+                  .row
+                    .col-lg-3
+                      h3(data-i18n="nav.general")
+                      ul.list-unstyled
+                        li
+                          a(href="/about", data-i18n="nav.about")
+                        li
+                          a(href="/about#careers", data-i18n="nav.careers")
+                        if me.isTeacher(true)
+                          li
+                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                        li
+                          a(href="/parents", data-i18n="nav.parent")
+                        li
+                          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                    .col-lg-3
+                      if !me.isStudent()
+                        h3(data-i18n="nav.educators")
+                        ul.list-unstyled
+                          li
+                            - var faqURL = "/teachers/resources/faq";
+                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                            -     faqURL = "/teachers/resources/faq-nl-NL";
+                            - if (me.get('preferredLanguage') == 'he')
+                            -     faqURL = "/teachers/resources/faq-HE";
+                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                            -     faqURL = "/teachers/resources/faq-pt-BR";
+                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                            -     faqURL = "/teachers/resources/faq-zh-HANS";
+                            a(href=faqURL, data-i18n="teacher.educator_faq")
+                          li
+                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          li
+                            a(href="/apcsp", data-i18n="nav.apcsp")
+                          li
+                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    .col-lg-3
+                      h3(data-i18n="nav.get_involved")
+                      ul.list-unstyled
+                        li
+                          a(href='/community', data-i18n="nav.community")
+                        li
+                          a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
+                        li
+                          a(href="https://github.com/codecombat/codecombat") GitHub
+                        if !me.isStudent() && me.showForumLink()
+                          li
+                            a(href=view.forumLink(), data-i18n="nav.forum")
+                    .col-lg-3
+                      if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
+                        h3(data-i18n="nav.follow_us")
+                        div.social-buttons
+                          a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
+                            img(src="/images/pages/base/youtube_symbol_button.png", width="40")
+                          a(href="https://twitter.com/codecombat", target="_blank")
+                            img(src="/images/pages/base/twitter_logo_btn.png", width="40")
+                          a(href="https://www.facebook.com/codecombat", target="_blank")
+                            img(src="/images/pages/base/facebook_logo_btn.png", width="40")
 
       #final-footer(dir="ltr")
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         .float-right
+          if me.showChinaResourceInfo()
+            - var {COCO_CHINA_CONST} = require('core/constants')
+            span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
+            span.contact= "业务咨询："+COCO_CHINA_CONST.CONTACT_PHONE
           span(data-i18n="nav.copyright_prefix")
           span= ' ©2019 CodeCombat Inc. '
           span.spl(data-i18n="nav.copyright_suffix")

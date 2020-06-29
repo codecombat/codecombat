@@ -49,8 +49,7 @@
     "promise-polyfill": "^5.2.1",
     "font-awesome": "fontawesome#^4.7.0",
     "fetch": "^2.0.2",
-    "vimeo-player-js": "^2.1.0",
-    "cookieconsent": "^3.0.6"
+    "vimeo-player-js": "^2.1.0"
   },
   "overrides": {
     "algolia-autocomplete.js": {
@@ -102,8 +101,6 @@
     }
   },
   "devDependencies": {
-    "modernizr-mixin": "~3.0.0",
-    "openSansCondensed": "https://google-fonts.azurewebsites.net/googleFonts/openSansCondensed?family=Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic",
-    "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans:600,700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic"
+    "modernizr-mixin": "~3.0.0"
   }
 }

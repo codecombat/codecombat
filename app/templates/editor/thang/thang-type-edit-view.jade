@@ -70,9 +70,9 @@ block header
               a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
             li
               a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum", target="_blank") Forum
-            if !me.isStudent()
-              li
-                a.contact-modal(data-i18n="nav.contact")
+            //- if !me.isStudent()
+            //-   li
+            //-     a.contact-modal(data-i18n="nav.contact")
 
 block outer_content
   .outer-content
@@ -85,9 +85,12 @@ block outer_content
               img#portrait.img-thumbnail
             .col-sm-9
               div.file-controls
+                button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-info#upload-animate-button
+                  span.glyphicon.glyphicon-upload
+                  span.spl Upload Animate '.js'
                 button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-info#upload-button
                   span.glyphicon.glyphicon-upload
-                  span.spl Upload Animation
+                  span.spl Upload Flash
                 button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-danger#clear-button
                   span.glyphicon.glyphicon-remove
                   span.spl Clear Data
@@ -98,6 +101,7 @@ block outer_content
                   span.glyphicon.glyphicon-export
                   span.spl Export SpriteSheet
                 input#real-upload-button(type="file")
+                input#real-animate-upload-button(type="file")
               #thang-type-file-size= fileSizeString
           div#thang-type-treema
           .clearfix

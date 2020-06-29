@@ -8,6 +8,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
+{ findNextLevelsBySession, getNextLevelForLevel } = require 'ozaria/site/common/ozariaUtils'
 api = require('core/api')
 urls = require 'core/urls'
 store = require 'core/store'
@@ -31,6 +32,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @session = options.session
     @level = options.level
+    @capstoneStage = options.capstoneStage
 
     if @courseInstanceID
       @classroom = new Classroom()
@@ -39,15 +41,17 @@ module.exports = class CourseVictoryModal extends ModalView
     @playSound 'victory'
     @nextLevel = new Level()
     @nextAssessment = new Level()
-    nextLevelPromise = api.levels.fetchNextForCourse({
-      levelOriginalID: @level.get('original')
-      @courseInstanceID
-      @courseID
-      sessionID: @session.id
-    }).then ({ level, assessment }) =>
-      @nextLevel.set(level)
-      @nextAssessment.set(assessment)
-    @supermodel.trackPromise(nextLevelPromise)
+
+    unless utils.ozariaCourseIDs.includes(@courseID)
+      nextLevelPromise = api.levels.fetchNextForCourse({
+        levelOriginalID: @level.get('original')
+        @courseInstanceID
+        @courseID
+        sessionID: @session.id
+      }).then ({ level, assessment }) =>
+        @nextLevel.set(level)
+        @nextAssessment.set(assessment)
+      @supermodel.trackPromise(nextLevelPromise)
 
     @course = options.course
     if @courseID and not @course
@@ -109,6 +113,9 @@ module.exports = class CourseVictoryModal extends ModalView
       # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
+    else if utils.ozariaCourseIDs.includes(@courseID)  # if it is ozaria course and there is no course instance, load campaign so that we can calculate next levels
+      api.campaigns.get({campaignHandle: @course?.get('campaignID')}).then (@campaign) =>
+        @levelSessionsLoaded()
     else
       @levelSessionsLoaded()
 
@@ -117,6 +124,15 @@ module.exports = class CourseVictoryModal extends ModalView
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
 
+    # get next level for ozaria course, no nextAssessment for ozaria courses
+    if utils.ozariaCourseIDs.includes(@courseID) 
+      @getNextLevelOzaria().then (level) => 
+        @nextLevel.set(level)
+        @loadViews()
+    else
+      @loadViews()
+  
+  loadViews: ->
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id
 
@@ -145,6 +161,21 @@ module.exports = class CourseVictoryModal extends ModalView
     else
       @showVictoryComponent()
 
+  getNextLevelOzaria: ->
+    if @classroom and @levelSessions # fetch next level based on sessions and classroom levels
+      classroomLevels = @classroom.get('courses')?.find((c) => c._id == @courseID)?.levels
+      nextLevelOriginal = findNextLevelsBySession(@levelSessions.models, classroomLevels)
+    else if @campaign # fetch next based on course's campaign levels (for teachers)
+      currentLevel = @campaign.levels[@level.get('original')]
+      if (currentLevel.isPlayedInStages && @capstoneStage) # @capstoneStage comes from PlayLevelView's query params
+        currentLevelStage = @capstoneStage
+      nextLevelData = getNextLevelForLevel(currentLevel, currentLevelStage) || {}
+      nextLevelOriginal = nextLevelData.original
+      @nextLevelStage = nextLevelData.nextLevelStage
+    if nextLevelOriginal
+      return api.levels.getByOriginal(nextLevelOriginal)
+    else
+      return Promise.resolve({})  # no next level
 
   afterRender: ->
     super()
@@ -168,6 +199,7 @@ module.exports = class CourseVictoryModal extends ModalView
   showVictoryComponent: ->
     propsData = {
       nextLevel: @nextLevel.toJSON(),
+      nextLevelStage: @nextLevelStage
       nextAssessment: @nextAssessment.toJSON()
       level: @level.toJSON(),
       session: @session.toJSON(),

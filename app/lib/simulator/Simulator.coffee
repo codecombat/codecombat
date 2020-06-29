@@ -238,7 +238,11 @@ module.exports = class Simulator extends CocoClass
     @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: true, sessionless: false}
     @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
-    @god.setGoalManager new GoalManager @world, @level.get('goals'), null, {headless: true}
+    @god.setGoalManager new GoalManager @world, @level.get('goals'), null, {
+      headless: true
+      additionalGoals: @level.additionalGoals
+      session: @session
+    }
     humanFlagHistory = _.filter @session.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@session.get('team') ? 'humans')
     ogreFlagHistory = _.filter @otherSession.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@otherSession.get('team') ? 'ogres')
     @god.lastFlagHistory = humanFlagHistory.concat ogreFlagHistory
@@ -408,7 +412,7 @@ class SimulationTask
   constructor: (@rawData) ->
 
   getLevelName: ->
-    levelName = @rawData.sessions?[0]?.levelID
+    levelName = @rawData.sessions?[0]?.levelID or @rawData.sessions?[1]?.levelID
     return levelName if levelName?
     @throwMalformedTaskError 'The level name couldn\'t be deduced from the task.'
 

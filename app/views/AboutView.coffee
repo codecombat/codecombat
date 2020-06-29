@@ -19,7 +19,11 @@ module.exports = class AboutView extends RootView
     'left': 'onLeftPressed'
     'esc': 'onEscapePressed'
 
-  getTitle: -> return $.i18n.t('nav.about')
+  getMeta: ->
+    title: $.i18n.t 'about.title'
+    meta: [
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'about.meta_description' }
+    ]
 
   afterRender: ->
     super(arguments...)

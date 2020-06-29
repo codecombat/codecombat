@@ -1,0 +1,47 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "app/styles/style-flat-variables"
+
+
+#problem-alert-view.problem-alert
+  z-index: 10
+  position: absolute
+  // Position these at the end of the spell editor, right above the spell toolbar.
+  top: 45px
+  right: 500px
+  background-color: #ffffff
+  padding: 18.5px 13px
+  font-size: 16px
+  font-family: $body-font
+  letter-spacing: 0.63px
+  line-height: 24px
+  text-shadow: none
+  color: $gray
+  word-wrap: break-word
+  max-width: 342px
+
+  &::after
+    content: ' '
+    height: 0
+    position: absolute
+    width: 0
+    right: -20px
+    top: 35px
+    border: 10px solid transparent
+    border-left-color: #ffffff
+
+  // Jiggle animation
+  +keyframes(jiggle)
+    0%
+      transform: rotate(0deg)
+    25%
+      transform: rotate(1deg)
+    50%
+      transform: rotate(0deg)
+    75%
+      transform: rotate(-1deg)
+    100%
+      transform: rotate(0deg)
+
+  &.jiggling
+    @include animation(jiggle .3s infinite)

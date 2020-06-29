@@ -27,7 +27,7 @@ module.exports = (options) ->
         type: 'string'
         description: "Input language"
         minLength:1
-        'enum': ['javascript', 'coffeescript', 'python', 'lua', 'java', 'html']
+        'enum': ['javascript', 'coffeescript', 'python', 'lua', 'java', 'cpp', 'html']
       languageVersion:
         type: ['string', 'null', 'undefined']  # TODO: remove option soon
       problems:

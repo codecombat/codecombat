@@ -37,23 +37,46 @@ block content
 
           else
 
+            if view.showTournament || view.awaitingTournament
+              .tournament-logo
+                img(src="/images/pages/courses/tarena-discovery-cup-tournament-logo.png")
+              .text-center
+                h1#tournament-title(data-i18n="ladder.live_tournament")
+                a#tournament-rules(data-i18n="ladder.tournament_rules")
+                #tournament-rules-content.hide.rtl-allowed
+                  if /^zh/.test(me.get('preferredLanguage', true))
+                    p 欢迎参加童程童美 CodeCombat 现场锦标赛，争夺前全国决赛的席位。
+
+                    p 评分规则如下：你提交的代码将在后台持续与其他玩家对战，每一次对战获得或者失去的积分将会基于贝叶斯定理所预测的获胜概率。当你击败排名比你高的玩家或者被排名比你低的玩家击败时，你会相应地获得或者失去较多的积分。而当你击败排名比你低的玩家或被排名比你高的玩家击败时，你只会获得或失去少量的积分；你应该将你的代码分别提交到红方和蓝方，比赛最终将取较高一方的分数作为最终排名的依据。
+
+                    p 你可以挑选任何玩家来测试你的代码，并改进你的策略直到获胜。但请记住：只有在你点击"为我的游戏评分"按钮之后，你的代码才会自动与其他玩家进行比赛之后，从而开始计算得分。
+                  else
+                    p Welcome to the Tarena CodeCombat live tournament! Compete for a seat in the national finals.
+
+                    p Scoring is as follows: your code will play constantly in the background against other players to determine how strong it is. The number of points you earn for a match are determined by a Bayesian calculation predicting how likely you were to win that match. So if you beat a player ranked more highly than you, you gain more points. Beat a player lower than you, gain fewer points. Lose to a weaker player, lose more points. Lose to a stronger player, lose fewer points. Your code will play on both the red and blue teams, and scoring will be based on your higher score of the two teams.
+
+                    p You can test your code against any player and improve your strategy until you win, but remember: no points are scored until you submit your latest code and it starts to automatically plays matches against other players.
+
+            if view.awaitingTournament
+              .text-center
+                h2(data-i18n="ladder.awaiting_tournament_title")
+                p(data-i18n="ladder.awaiting_tournament_blurb")
+                br
+                br
+            else if view.showTournament
+              for level in view.tournamentArenas()
+                a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, title=level.description)
+                  .level
+                    if level.image
+                      img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
+                    else
+                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
+                      h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
+                    .play-text-container
+                      .overlay-text.play-text(data-i18n="common.play")
+
             .text-center
               h1(data-i18n="courses.welcome_to_page")
-
-            //- TODO: remove temporary HoC 2018 blurb anytime after 2018-12-14
-            if new Date() >= new Date('2018-11-28') && new Date() <= new Date('2018-12-14')
-              #announcement
-                h3.text-center(data-i18n='teacher.hoc_happy_ed_week')
-                .row
-                  .col-xs-9
-                    p
-                      span(data-i18n='courses.hoc_blurb1')
-                      strong.spr.spl(data-i18n='courses.hoc_blurb2')
-                      span.spr(data-i18n='courses.hoc_blurb3')
-                  .col-xs-3
-                    p.announcement-button
-                      a.btn.btn-navy.btn-lg(href="https://codecombat.com/play/hoc-2018")
-                        span(data-i18n='new_home.play_now')
 
             if me.showAvatarOnStudentDashboard()
               .current-hero-container.text-center.row
@@ -73,6 +96,10 @@ block content
               br
               h3(data-i18n="courses.my_classes")
 
+              if view.allCompleted
+                p.alert.alert-success
+                  span(data-i18n="courses.ask_next_course")
+
               for classroom in view.classrooms.models
                 hr.class-break
                 - var justAdded = classroom.id === view.classroomJustAdded;
@@ -84,7 +111,8 @@ block content
                 div(class=classroomClass).rtl-allowed
                   h5(dir="auto")
                     span.spr= classroom.get('name')
-                    span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
+                    - var languageMap = {javascript: 'Javascript', python: 'Python', cpp: 'C++'}
+                    span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
                   p
                     span(data-i18n="courses.teacher")
                     span :
@@ -107,7 +135,10 @@ block content
                             a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
                           if view.showVideosLinkForCourse(course._id)
                             = " "
-                            a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=course.name)
+                            a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
+                          // the ranking will only be visible in this class
+                          if (courseInstance.id=="5cd4352deed476002dd14019" || courseInstance.id=="5cd57c5216f64600245afedd" || courseInstance.id=='5ce01f45da3b2900357d7ed7')
+                            a.view-ranking-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_ranking")
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 
@@ -132,6 +163,7 @@ block content
 mixin course-instance-body(courseInstance, classroom)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
   - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+  - var nextLevel = stats.levels.next;
 
   if stats.courseComplete
     .text-success
@@ -152,14 +184,13 @@ mixin course-instance-body(courseInstance, classroom)
           span(data-i18n="courses.view_project")
       else
         a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
-    else
-      - var next = stats.levels.next;
+    else if nextLevel
       - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
-      if stats.levels.next != stats.levels.first
-        a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Continue Course")
+      if nextLevel != stats.levels.first
+        a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
           span(data-i18n="common.continue")
       else
-        a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Start Course")
+        a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
           span(data-i18n="courses.start")
 
   if stats.courseComplete

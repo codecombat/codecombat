@@ -22,6 +22,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @classroom = options.classroom or new Classroom()
     @googleClassrooms = me.get('googleClassrooms') || []
     @isGoogleClassroom = false
+    @enableCpp = me.enableCpp()
 
   afterRender: ->
     super()
@@ -102,7 +103,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @isGoogleClassroom = true
     GoogleClassroomHandler.importClassrooms()
     .then(() =>
-      @googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToCoco)
+      @googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToCoco && !c.deletedFromGC)
       @render()
       $('.google-class-name').show()
       $('.class-name').hide()

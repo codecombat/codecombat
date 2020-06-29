@@ -1,3 +1,5 @@
+import 'core-js/features/array/flat'
+
 if (!window.Promise) {
   window.Promise = require('promise-polyfill')
 }
@@ -17,8 +19,6 @@ import 'bower_components/treema/treema.css'
 window.moment = require('bower_components/moment/min/moment-with-locales.min.js');
 window.moment.timezone = require('moment-timezone');
 window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
-require('bower_components/cookieconsent/build/cookieconsent.min.js')// TODO webpack: Try to extract this
-import 'bower_components/cookieconsent/build/cookieconsent.min.css'// TODO webpack: Try to extract this
 require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');
@@ -52,6 +52,25 @@ if (!String.prototype.includes) {
   };
 }
 
+// Polyfill for `node.remove` method.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
+// from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('remove')) {
+      return
+    }
+    Object.defineProperty(item, 'remove', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function remove () {
+        this.parentNode.removeChild(this)
+      }
+    })
+  })
+})([Element.prototype, CharacterData.prototype, DocumentType.prototype])
+
 function loadScript (url) {
   var script = document.createElement('script');
   script.src = url;
@@ -62,7 +81,7 @@ try {
   (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
   console.log("Modern javascript detected, aw yeah!");
   loadScript(window.javascriptsPath + 'esper.modern.js')
-  
+
 } catch (e) {
   console.log("Legacy javascript detected, falling back...", e.message);
   loadScript(window.javascriptsPath + 'esper.js');

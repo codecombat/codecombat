@@ -1,0 +1,21 @@
+- var addedClass = style + (locked === true ? ' locked' : '')
+.clearfix.achievement-body(class=addedClass)
+  .achievement-icon
+    .achievement-image
+      img(src=imgURL)
+  .achievement-content
+    .achievement-title= title
+    p.achievement-description= description
+
+    if popup
+      .progress-wrapper
+        span.user-level= level
+        .progress-bar-wrapper
+          .progress
+            - var currentTitle = $.i18n.t('achievements.current_xp_prefix') + currentXP + ' XP' + $.i18n.t('achievements.current_xp_postfix');
+            - var newTitle = $.i18n.t('achievements.new_xp_prefix') + newXP + ' XP' + $.i18n.t('achievements.new_xp_postfix');
+            - var leftTitle = $.i18n.t('achievements.left_xp_prefix') + leftXP + ' XP' + $.i18n.t('achievements.left_xp_infix') + (level+1) + $.i18n.t('achievements.left_xp_postfix');
+            .progress-bar.xp-bar-old(style="width:#{oldXPWidth}%" data-toggle="tooltip" data-placement="top" title="#{currentTitle}")
+            .progress-bar.xp-bar-new(style="width:#{newXPWidth}%" data-toggle="tooltip" title="#{newTitle}")
+            .progress-bar.xp-bar-left(style="width:#{leftXPWidth}%" data-toggle="tooltip" title="#{leftTitle}")
+        .progress-bar-border

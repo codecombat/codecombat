@@ -6,7 +6,7 @@
   </a>
 </div>
 
-[![Build Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
+[![Buildarte Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
 [![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
 
 **NOTE: The process for setting up the dev environment has changed. Please refer to [the docs for details](../../wiki/Dev-Setup:-General-Information).**
@@ -55,7 +55,7 @@ Note: the levels on codecombat.com are [not open source](LICENSE-LEVELS.md).
 ![George Saines](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/George%20Saines/george_small.png "George Saines")
 ![Scott Erickson](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Scott%20Erickson/scott-avatar.png "Scott Erickson")
 ![Matt Lott](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Matt%20Lott/matt-avatar.png "Matt Lott")
-![Catherine Weresow](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Cat%20Weresow/cat-avatar.png "Catherine Weresow")
+![Catherine Weresow](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Cat+Weresow/cat_sync.png "Catherine Weresow")
 ![Maka Gradin](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Maka%20Gradin/maka_gradin_100.png "Maka Gradin")
 ![Rob Blanckaert](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Rob%20Blanckaert/rob_blanckaert_100.png "Rob Blanckaert")
 ![Josh Callebaut](https://s3.amazonaws.com/files.codecombat.com/wiki-images/avatars/Josh%20Callebaut/josh_callebaut_100.png "Josh Callebaut")

@@ -6,7 +6,7 @@ describe 'RequestQuoteView', ->
   view = null
 
   successForm = {
-    firstName: 'A'
+    fullName: 'A B'
     lastName: 'B'
     email: 'C@D.com'
     phoneNumber: '555-555-5555'
@@ -14,12 +14,10 @@ describe 'RequestQuoteView', ->
     organization: 'School'
     district: 'District'
     city: 'Springfield'
-    state: 'AA'
-    country: 'asdf'
+    state: 'AL'
+    country: 'United States'
     numStudents: '1-10'
     numStudentsTotal: '10,000+'
-    purchaserRole: 'Approve Funds'
-    educationLevel: ['Middle']
   }
 
   isSubmitRequest = (r) -> _.string.startsWith(r.url, '/db/trial.request') and r.method is 'POST'
@@ -153,7 +151,7 @@ describe 'RequestQuoteView', ->
         expect(view.$('#email-form-group').hasClass('has-error')).toBe(true)
         expect(view.$('#email-form-group .error-help-block').length).toBe(1)
 
-    describe 'submits the form without school', ->
+    describe 'does not submit the form without school', ->
       beforeEach ->
         view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
         form = view.$('#request-form')
@@ -161,13 +159,8 @@ describe 'RequestQuoteView', ->
         forms.objectToForm(form, formData)
         form.submit()
 
-      it 'submits a trial request, which does not include school setting', ->
-        request = jasmine.Ajax.requests.mostRecent()
-        expect(request.url).toBe('/db/trial.request')
-        expect(request.method).toBe('POST')
-        attrs = JSON.parse(request.params)
-        expect(attrs.properties?.organization).toBeUndefined()
-        expect(attrs.properties?.district).toEqual('District')
+      it 'does not submit form when school is not present', ->
+        expect(view.$('#organization-control').closest('.form-group').hasClass('has-error')).toEqual(true)
 
     describe 'submits the form without district', ->
       beforeEach ->
@@ -185,7 +178,7 @@ describe 'RequestQuoteView', ->
       beforeEach ->
         view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
         form = view.$('#request-form')
-        formData = _.omit(successForm, ['organization'])
+        formData = _.clone(successForm)
         formData.district = 'N/A'
         forms.objectToForm(form, formData)
         form.submit()
@@ -218,6 +211,7 @@ describe 'RequestQuoteView', ->
           responseText: JSON.stringify([{
             _id: '1'
             properties: {
+              fullName: 'First Last'
               firstName: 'First'
               lastName: 'Last'
             }
@@ -226,7 +220,7 @@ describe 'RequestQuoteView', ->
         view.supermodel.once('loaded-all', done)
 
       it 'shows form with data from the most recent request', ->
-        expect(view.$('input[name="firstName"]').val()).toBe('First')
+        expect(view.$('input[name="fullName"]').val()).toBe('First Last')
 
     describe 'has role "student"', ->
       beforeEach (done) ->

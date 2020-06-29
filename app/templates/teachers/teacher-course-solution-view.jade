@@ -11,7 +11,7 @@ block page_nav
     if view.paidTeacher || view.course.get('free')
       .print
         .btn.btn-md.btn-navy
-          a(href='javascript:window.print()')
+          a.print-btn(href='javascript:window.print()')
             span.glyphicon.glyphicon-print &#160;
             span(data-i18n="teacher.print_guide")
 
@@ -84,7 +84,12 @@ block content
                   li.nav-item(class=(index === 0 ? 'active' : ''))
                     - var target = level.get('original') + index;
                     a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
-                      if index === 0
+                      if solution.capstoneStage
+                        .text-center
+                          span(data-i18n="teacher.capstone_solution")
+                          =" "
+                          span= solution.capstoneStage
+                      else if index === 0
                         strong.text-center(data-i18n="teacher.complete_solution")
                       else
                         .text-center

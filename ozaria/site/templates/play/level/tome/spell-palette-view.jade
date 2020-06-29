@@ -1,0 +1,25 @@
+mixin header(label, name)
+  div.section-header.text-capitalize(role="button", id="#palette-header-" + _.string.slugify(label), data-panel="#palette-tab-" + _.string.slugify(label))
+    span= name
+div.container
+  div.left.nano
+    div.command-bank-header
+      span(data-i18n="play_level.command_bank")
+      div.glyphicon.glyphicon-chevron-left.white-glyphicon(style="float: right; padding-top: 3px;")
+    div.nano-content.panel-group#spell-palette-api-bar
+      if entryGroups
+        each entries, group in entryGroups
+          +header(group, group)
+          div.apis.panel-collapse(id="palette-tab-" + _.string.slugify(group))
+            div(class="properties properties-" + _.string.slugify(group))
+
+
+  div.right
+    if isIE
+      .scrollArea.always-scroll-y
+        .scrollableArea
+          .rightContentTarget.content
+    else
+      .scrollArea
+        .scrollableArea
+          .rightContentTarget.content

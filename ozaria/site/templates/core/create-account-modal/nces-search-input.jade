@@ -1,0 +1,32 @@
+.form-group.nces-search-input-component(v-bind:class="{ 'has-error': showRequired && !value }")
+  span.control-label
+    | {{ label }}
+    =" "
+    strong(v-if="showRequired && !value") {{ $t("common.required_field") }}
+  input.form-control(
+    v-bind:name="name"
+    v-model="value"
+    v-on:keyup.up="navSearchUp"
+    v-on:keyup.down="navSearchDown"
+    v-on:keyup.enter="navSearchChoose"
+    v-on:keyup.esc.stop="navSearchClear"
+    v-on:blur="onBlur"
+    v-on:input="onInput"
+    autocomplete="off"
+  )
+  .suggestion-wrapper
+    .list-group
+      .list-group-item(
+        v-for="(suggestion, index) in suggestions"
+        v-bind:class="{ active: index === suggestionIndex }"
+        v-on:mouseover="suggestionHover(index)"
+        v-on:click="navSearchChoose"
+        v-on:mousedown.prevent=""
+      )
+        .school(v-if="displayKey === 'name'" v-html="suggestion._highlightResult.name.value")
+        .district
+          span(v-html="suggestion._highlightResult.district.value") ,
+          =" "
+          span(v-if="suggestion._highlightResult.city", v-html="suggestion._highlightResult.city.value")
+          =" "
+          span(v-html="suggestion._highlightResult.state.value")

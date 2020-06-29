@@ -1,0 +1,24 @@
+.spell-tool-buttons
+  .btn.btn-small.btn-illustrated.btn-warning.reload-code(data-i18n="[title]play_level.tome_reload_method")
+    .glyphicon.glyphicon-repeat
+    span.spl(data-i18n="play_level.restart")
+
+  if view.options.level.get('shareable')
+    - i18nName = view.options.level.isType('game-dev') ? 'sharing.game' : 'sharing.webpage'
+    if view.options.session.isFake()
+      button.btn.btn-small.btn-illustrated(
+        data-i18n=i18nName
+        data-toggle="popover"
+        data-placement="bottom"
+        data-content=translate('sharing.your_students_preview')
+        data-trigger="hover"
+      )
+    else
+      - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id;
+      if view.options.courseID
+        - url += '?course=' + view.options.courseID;
+        if view.options.courseInstanceID
+          - url += '&course-instance=' + view.options.courseInstanceID;
+      a.btn.btn-small.btn-illustrated(href=url, data-i18n=i18nName)
+
+  .clearfix

@@ -1,125 +1,131 @@
 const c = require('./../schemas')
 
+const ThangTypeSchema = (title, description) => c.object({
+  title,
+  description,
+  required: ['type']
+}, {
+  type: {
+    oneOf: [
+      c.shortString({
+        title: 'Hero',
+        description: 'Hero ThangType Id computed at runtime',
+        enum: ['hero', 'avatar']
+      }),
+      c.object({
+        title: 'Character Slug',
+        description: 'The slug of the Character Thangtype.',
+        required: ['slug']
+      }, {
+        slug: c.shortString({
+          title: 'Slug',
+          description: 'The thangType slug of the asset. Only required if this isn\'t the player hero.'
+        })
+      })
+    ]
+  },
+  scaleX: c.float({
+    title: 'scaleX',
+    description: 'The scaling factor along x axis to apply to the ThangType'
+  }),
+  scaleY: c.float({
+    title: 'scaleY',
+    description: 'The scaling factor along y axis to apply to the ThangType'
+  }),
+  pos: c.point2d({
+    title: 'Position',
+    description: 'The position in meters to place the thangType.'
+  })
+})
+
 const CharacterSchema = (title) => c.object({
   title: title,
   description: 'ThangType that will appear on either the left or right side of the screen.',
-  required: ['type']
+  required: ['thangType']
 }, {
-  type: c.shortString({
-    title: 'Type',
-    description: 'Whether this is the player hero, a thangType slug or null.',
-    enum: ['slug', 'hero', 'null'],
-    default: 'null'
-  }),
-  slug: c.shortString({
-    title: 'ThangType Slug',
-    description: 'Required if type is set to `slug`'
-  }),
+  thangType: ThangTypeSchema('Character', 'The thangType to display for this character'),
   enterOnStart: {
     type: 'boolean',
     title: 'Animate in?',
     description: 'If true the character will animate in. Otherwise the character will start simply there.'
-  },
-  position: c.point2d({ title: 'Position', description: 'Where character is located.' })
+  }
 })
 
 const ShotSetup = c.object({
   title: 'ShotSetup'
 }, {
-  cameraType: c.shortString({
-    title: 'Camera Type',
-    description: 'The shot type',
-    enum: ['right-close', 'left-close', 'dual'],
-    default: 'dual'
-  }),
   rightThangType: CharacterSchema('Right Character'),
   leftThangType: CharacterSchema('Left Character'),
-  backgroundArt: c.object({
-    title: 'Background Art',
-    description: 'The art in the background of this shot.'
+  heroPetThangType: ThangTypeSchema('Hero Pet', 'The position property will be used to place the dog at an offset on the right lank.'),
+  backgroundArt: ThangTypeSchema('Background Art', 'The rasterized image to place on the background'),
+  camera: c.object({
+    title: 'Camera placement',
+    description: 'Where to place the camera at the beginning of the shot'
   }, {
-    // TODO: Will rasterized thangTypes work for backgrounds?
-    type: c.shortString({ enum: ['slug'] }),
-    slug: c.shortString({
-      title: 'Background Slug',
-      description: 'The thangType slug of the background asset'
-    })
-  })
-  // TODO: music
+    pos: c.point2d({
+      title: 'Position',
+      description: 'The position of the camera in meters.'
+    }),
+    zoom: {
+      title: 'Zoom',
+      description: 'The zoom level of the camera. A good default is \'2.01\'. There is a bug with the value 2. Recommended you change between 0 and 10.',
+      type: 'number'
+    }
+  }),
+  music: c.sound()
 })
 
 const DialogNode = c.object({
   title: 'Dialog Node',
-  description: 'A node of a shot. Contains dialog instructions.',
-  required: ['dialogClear']
+  description: 'A node of a shot. Contains dialog instructions.'
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
-  // TODO: how to translate and interpolate this? Probably need a neighbouring i18n propert.
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
+  textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate in.' }),
+  speakingAnimationAction: c.shortString({ title: 'Speaking Animation', description: 'The animation to play on the lank while the text is being animated.' }),
+  i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this cinematic dialogNode.' },
+  waitUserInput: { type: 'boolean', title: 'User Input?', description: 'Whether or not user input is required to continue to the next dialog node or shot setup. Defaults to true.' },
   textLocation: c.object({ title: 'Text Location', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y'] }, {
     x: { title: 'x', description: 'The x coordinate.', type: 'number', 'default': 0 },
     y: { title: 'y', description: 'The y coordinate.', type: 'number', 'default': 0 } }),
-  action: c.shortString({ title: 'Action', description: 'The action or animation to play on the speaker.' }),
+  programmingLanguageFilter: c.shortString({ enum: ['python', 'javascript'], title: 'Programming Language Filter', description: 'If set, this node is only shown if the user is using the programming language selected.' }),
   triggers: c.object({
     title: 'Triggers',
     description: 'Events that can occur during the dialogue.'
   }, {
-    changeBackground: c.object({
-      title: 'Change Background',
-      description: 'Change the background image of the cinematic',
-      required: ['art', 'triggerStart']
-    }, {
-      art: c.shortString({ title: 'Art', description: 'The background art path' }),
-      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until the background changes.' })
-    }),
     backgroundObject: c.object({
       title: 'Background Object',
       description: 'Add a background object after given duration',
-      required: ['art', 'triggerStart']
+      required: ['thangType', 'triggerStart']
     }, {
-      thangType: c.shortString({ title: 'Art', description: 'The background image ThangType slug.' }),
+      thangType: ThangTypeSchema('Background Object', 'The image to place'),
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until background image art appears' })
     }),
-    clearObjects: c.object({
-      title: 'Clear Object',
+    clearBackgroundObject: c.object({
+      title: 'Clear Background Object',
       description: 'Clears the background objects from the screen after a given duration'
     }, {
       triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until background object is cleared' })
     }),
-    animationTrigger: c.object({
-      title: 'Animation Trigger',
-      description: 'Trigger to fire an animation on a character.',
-      required: ['character', 'animation', 'triggerStart']
+    soundFxTriggers: c.array({
+      title: 'SoundFX triggers',
+      description: 'A list of sound effects that we can play. Unlike music they will overlap and wont prevent other sounds playing.'
+    },
+    c.object({
+      title: 'Sound Effect',
+      description: 'A sound effect that plays after a delay.',
+      required: ['sound']
     }, {
-      character: c.shortString({ title: 'Character', enum: ['left', 'right', 'background-object'] }),
-      animation: c.shortString({ title: 'Animation', description: 'The action or animation to play on the lank.' }),
-      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until animation plays' })
-    }),
-    soundEffect: c.sound({
-      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of millisecond before sound effect plays' })
-    }),
-    cameraShake: c.object({
-      title: 'Camera shake',
-      description: 'Shakes the camera.',
-      required: ['triggerStart']
-    }, {
-      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until camera shakes' })
-    })
+      sound: c.sound(),
+      triggerStart: c.int({ title: 'Trigger Start(ms)', description: 'The number of milliseconds until the sound effect is played' })
+    }))
   }),
   dialogClear: {
     type: 'boolean',
-    title: 'Dialog Clear on End',
-    description: 'Whether or not all dialog nodes are cleared from screen or left up.'
+    title: 'Clear dialog on screen',
+    description: 'Whether we clear any existing dialog nodes.'
   },
-  exitRightCharacter: { title: 'Exit Right Character', description: 'whether right character exits at dialog node completion', type: 'boolean' },
-  exitLeftCharacter: { title: 'Exit Left Character', description: 'whether left character exits at dialog node completion', type: 'boolean' },
-  filters: c.object({
-    title: 'Filters',
-    description: 'Context specific filters that are checked at runtime.'
-  }, {
-    language: c.shortString({ enum: ['python', 'javascript'], title: 'Language', description: 'If set, this Dialog Node is only shown for the given language.' })
-  }),
-  delay: c.int({ title: 'Delay(ms)', description: 'A delay in ms before anything else happens in this Dialog Node.' })
+  exitCharacter: c.shortString({ title: 'Exit Character', description: 'whether character exits at dialog node completion', enum: ['left', 'right', 'both'] })
 })
 
 const Shot = c.object({

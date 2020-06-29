@@ -1,10 +1,17 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
+import VueMeta from 'vue-meta'
+
 import playLevelVideoComponent from 'views/play/level/PlayLevelVideoComponent'
 import locale from 'locale/locale'
 import utils from 'core/utils'
 
 const createComponent = (values = {}) => {
+  const vue = createLocalVue()
+  vue.use(VueMeta)
+
   return shallowMount(playLevelVideoComponent, {
+    localVue: vue,
+
     propsData: values,
     mocks: {
       $t: (text) => {
@@ -13,7 +20,7 @@ const createComponent = (values = {}) => {
           return locale.en.translation[res[0]][res[1]];
         }
         else {
-          return locale.en.translation[text]; 
+          return locale.en.translation[text];
         }
       }
     }

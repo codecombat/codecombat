@@ -12,7 +12,7 @@ _.extend ClassroomSchema.properties,
   code: c.shortString(title: "Unique code to redeem")
   codeCamel: c.shortString(title: "UpperCamelCase version of code for display purposes")
   aceConfig:
-    language: {type: 'string', 'enum': ['python', 'javascript']}
+    language: {type: 'string', 'enum': ['python', 'javascript', 'cpp']}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
@@ -32,13 +32,33 @@ _.extend ClassroomSchema.properties,
       assessmentPlacement: { type: 'string' }
       practice: {type: 'boolean'}
       practiceThresholdMinutes: {type: 'number'}
-      primerLanguage: { type: 'string', enum: ['javascript', 'python'] }
+      primerLanguage: { type: 'string', enum: ['javascript', 'python', 'cpp'] }
       shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
       type: c.shortString()
       original: c.objectId()
       name: {type: 'string'}
       slug: {type: 'string'}
       position: c.point2d()
+
+      # properties relevant for ozaria campaigns 
+      nextLevels: {
+        type: 'object'
+        description: 'object containing next levels original id and their details'
+        additionalProperties: { # key is the level original id
+          type: 'object'
+          properties: {
+            type: c.shortString()
+            original: c.objectId()
+            name: {type: 'string'}
+            slug: {type: 'string'}
+            nextLevelStage: {type: 'number', title: 'Next Level Stage', description: 'Which capstone stage is unlocked'}
+            conditions: c.object({}, {
+              afterCapstoneStage: {type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level'}
+            })
+          }
+        }
+      }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }

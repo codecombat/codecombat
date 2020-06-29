@@ -1,4 +1,4 @@
-require 'bower_components/aether/build/aether.js'
+require './aether/aether.coffee'
 # require 'esper.js' # TODO Webpack: Get Esper out of the frontpage script
 
 utils = require 'core/utils'
@@ -64,12 +64,12 @@ functionParameters =
 
 # TODO Webpack: test to make sure this refactor works everywhere it's used
 module.exports.generateSpellsObject = (options) ->
-  {level, levelSession} = options
+  {level, levelSession, token} = options
   {createAetherOptions} = require 'lib/aether_utils'
   aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: levelSession.get('codeLanguage'), skipProtectAPI: options.level?.isType('game-dev')
   spellThang = thang: {id: 'Hero Placeholder'}, aether: new Aether aetherOptions
   spells = "hero-placeholder/plan": thang: spellThang, name: 'plan'
-  source = levelSession.get('code')?['hero-placeholder']?.plan ? ''
+  source = token or levelSession.get('code')?['hero-placeholder']?.plan ? ''
   try
     spellThang.aether.transpile source
   catch e

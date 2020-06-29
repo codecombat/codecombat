@@ -37,3 +37,6 @@ module.exports = TeacherSignupComponent = Vue.extend
       modal = $('#create-account-modal').data('bs.modal')
       modal?.options?.keyboard = false
       modal?.escape?()
+
+  mounted: ->
+    window.localStorage.setItem('showOzariaEncouragementModal', true)

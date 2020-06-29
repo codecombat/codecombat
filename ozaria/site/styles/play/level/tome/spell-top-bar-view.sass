@@ -1,0 +1,113 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#spell-top-bar-view
+  $height: 87px
+  $paddingTop: 10px
+  $paddingBottom: 25px
+  $childSize: $height - $paddingTop - $paddingBottom
+  width: 100%
+  height: $height
+  padding: $paddingTop 25px $paddingBottom 25px
+  white-space: nowrap
+  position: relative
+  background: transparent url(/images/level/code_editor_top_bar_wood_background.png)
+  background-size: 100% 100%
+  z-index: 2
+
+  #codeplay-powered-by-banner
+    width: 350px
+    position: relative
+    z-index: 1
+    top: 15px
+
+  .hinge
+    position: absolute
+    top: 0
+    background: transparent url(/images/level/code_editor_top_bar_hinge.png)
+    width: 24px
+    height: 20px
+    background-size: contain
+
+  .hinge-0
+    left: 20%
+  .hinge-1
+    left: 40%
+  .hinge-2
+    left: 60%
+  .hinge-3
+    left: 80%
+
+  &.read-only
+    background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.25) 100%), url(/images/level/code_editor_top_bar_wood_background.png)
+    background-size: 100% 100%
+    > *:not(.spell-tool-buttons)
+      @include opacity(0.5)
+  
+  .btn.btn-small
+    margin-top: 15px
+    margin-right: 0.8vw
+    font-size: 18px
+    
+    &.reload-code
+      margin-right: 1.3vw
+
+    .glyphicon
+      font-size: 16px
+    
+  .btn.btn-small.spell-list-button
+    float: left
+    margin-top: 5px
+
+  .spell-tool-buttons
+    position: absolute
+    right: 0px
+    top: 0px
+    z-index: 3
+
+  .reload-code
+    float: right
+    display: none
+
+  .beautify-code
+    float: right
+
+  .fullscreen-code
+    float: right
+    &:not(.maximized)
+      .glyphicon-resize-small
+        display: none
+    &.maximized
+      .glyphicon-fullscreen
+        display: none
+
+  .hints-button
+    float: right
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 7px 10px 10px 10px
+    color: white
+    &:hover, &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+
+  .videos-button
+    float: right
+    &:hover, &:active
+      border-image: url(/images/common/button-background-success-pressed.png) 14 20 20 20 fill round
+
+
+  .thang-avatar-wrapper
+    border-width: 0
+    
+  #amazon-level-logo
+    height: 60px
+    position: absolute
+    top: 10px
+    left: 30px
+
+//html.no-borderimage 
+//  .spell-top-bar-view
+//    border-width: 0
+//    border-image: none
+//    background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
+//    background-size: 100% 100%

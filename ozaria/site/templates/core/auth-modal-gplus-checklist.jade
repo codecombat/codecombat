@@ -1,0 +1,7 @@
+ul.list-group
+  for step in steps
+    li.list-group-item(class=step.done ? 'list-group-item-success' : 'list-group-item-warning')
+      span(data-i18n=step.i18n)
+      if step.done
+        span.glyphicon.glyphicon-ok.pull-right
+          

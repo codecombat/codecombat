@@ -21,20 +21,25 @@ module.exports = class LevelCollection extends CocoCollection
   getSolutionsMap: (languages) ->
     @models.reduce((map, level) =>
       targetLangs = if level.get('primerLanguage') then [level.get('primerLanguage')] else languages
-      solutions = level.getSolutions().filter((s) => s.language in targetLangs)
+      solutions = level.getSolutions().filter((s) => s.language in targetLangs or ('cpp' in targetLangs and s.language == 'javascript'))
+      if 'cpp' in targetLangs
+        solutions?.forEach (s) =>
+          return unless s.language is 'javascript'
+          s.language = 'cpp'
+          s.source = utils.translatejs2cpp(s.source)
       if 'html' in targetLangs
         solutions?.forEach (s) =>
           return unless s.language is 'html'
           strippedSource = utils.extractPlayerCodeTag(s.source or '')
           s.source = strippedSource if strippedSource
-      map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description})
+      map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description, capstoneStage: s.capstoneStage})
       map
     , {})
 
   fingerprint: (code, language) ->
     # Add a zero-width-space at the end of every comment line
     switch language
-      when 'javascript' then code.replace /^(\/\/.*)/gm, "$1​"
+      when ['javascript', 'java', 'cpp'] then code.replace /^(\/\/.*)/gm, "$1​"
       when 'lua' then code.replace /^(--.*)/gm, "$1​"
       when 'html' then code.replace /^(<!--.*)-->/gm, "$1​-->"
       else code.replace /^(#.*)/gm, "$1​"

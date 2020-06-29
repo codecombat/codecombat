@@ -1,0 +1,152 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#duel-stats-view
+  position: absolute
+  right: calc(45% + 200px)
+  bottom: 133px
+  z-index: 3
+  @include transition(opacity .2s linear)
+  @include user-select(none)
+  padding: 4px 10px 0 4px
+  border-radius: 4px
+
+  width: 500px
+  height: 60px
+  display: none
+  //display: flex  // set if present
+  flex-direction: row
+
+  #level-view.no-api &
+    right: 45%
+
+  &:hover
+    opacity: 0.1
+
+  .duel-stats-background
+    position: absolute
+    width: 100%
+    height: 100%
+    background: transparent url(/images/level/hud_background.png) no-repeat
+    background-size: 100% auto
+    opacity: 0.5
+    z-index: -1
+
+  .player-container
+    width: 50%
+    height: 50px
+    display: flex
+    flex-direction: row
+    align-items: center
+    text-transform: uppercase
+    font-family: $headings-font-family
+    font-weight: bold
+    font-size: 18px
+    color: hsla(4,80%,51%,1)
+    text-shadow: 0px 1px 0px black, 0px -1px 0px black, 1px 0px 0px black, -1px 0px 0px black
+
+    &.team-humans
+      padding-right: 10px
+
+      .player-power, .player-gold
+        margin-right: 5px
+
+    &.team-ogres
+      padding-left: 10px
+      flex-direction: row-reverse
+      color: hsla(205,100%,51%,1)
+
+      .name-and-power
+        flex-direction: row-reverse
+
+        .player-name
+          text-align: right
+
+        .player-power, .player-gold
+          margin-left: 5px
+          flex-direction: row-reverse
+          text-align: right
+
+      .player-health
+        flex-direction: row-reverse
+
+        .health-bar-container .health-bar
+          background: hsla(205,100%,51%,1)
+
+      .thang-avatar-view
+        @include scaleX(-1)
+
+    .name-and-power
+      display: flex
+      flex-direction: row
+
+    .player-portrait
+      margin: 0 12px
+
+      .thang-avatar-view
+        width: 30px
+
+    .player-name
+      height: 50%
+      text-align: left
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      max-width: 130px
+
+    $iconSize: 16px
+    .health-icon, .power-icon, .gold-icon
+      display: inline-block
+      width: $iconSize
+      height: $iconSize
+      background: transparent url(/images/level/hud_info_icons.png) no-repeat
+      background-size: auto $iconSize
+
+    .player-health, .player-power, .player-gold
+      height: 50%
+      display: flex
+      flex-direction: row
+      height: 18px
+
+    .player-health
+      line-height: 16px
+
+      .health-bar-container
+        width: 100px
+        display: inline-block
+        margin: 1px 5px
+        height: 16px
+        background: rgb(32, 27, 21)
+        padding: 4px
+        border-radius: 8px
+        border: 0
+        overflow: hidden
+        
+        .health-bar
+          background: rgb(234, 35, 45)
+          width: 100%
+          height: 8px
+          border-radius: 4px
+
+      .health-value
+        vertical-align: top
+
+    .player-power
+
+      .power-icon
+        margin-top: 4px
+        background-position: (-5 * $iconSize) 0px
+
+      .power-value
+        min-width: 20px
+        margin: 0px 5px
+
+    .player-gold
+
+      .gold-icon
+        margin-top: 4px
+        background-position: (-8 * $iconSize) 0px
+
+      .gold-value
+        min-width: 20px
+        margin: 0px 5px

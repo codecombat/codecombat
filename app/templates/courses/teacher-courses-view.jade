@@ -50,6 +50,9 @@ block content
                         | Python
                       option(value="javascript")
                         | JavaScript
+                      if view.enableCpp && (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
+                        option(value="cpp")
+                          | C++
               .form-group
                 label.control-label
                   span(data-i18n="courses.select_level")
@@ -118,14 +121,17 @@ mixin course-info(course)
         a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Python
+        if view.enableCpp && (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
+          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/cpp") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide C++" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+            span(data-i18n="courses.view_guide_online")
+            |  &mdash; C++
 
     if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
       - var levelNameMap = campaign.getLevelNameMap()
       .row.m-t-3
         each videoLevel, originalId in view.videoLevels
           .col-sm-4
-            span.video-title.semibold.small 
-              | #{videoLevel.title}
+            span.video-title.semibold.small(data-i18n=`courses.${videoLevel.i18name}`)
             img.video-thumbnail(src="#{videoLevel.thumbnail_unlocked}")
             p.video-text.small
               span (

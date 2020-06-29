@@ -14,6 +14,9 @@ module.exports = class UnsubscribeView extends RootView
   events:
     'click #unsubscribe-button': 'onUnsubscribeButtonClicked'
 
+  getMeta: ->
+    title: $.i18n.t 'account.unsubscribe_title'
+
   onUnsubscribeButtonClicked: ->
     @$el.find('#unsubscribe-button').hide()
     @$el.find('.progress').show()

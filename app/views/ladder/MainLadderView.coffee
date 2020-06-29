@@ -17,6 +17,8 @@ module.exports = class MainLadderView extends RootView
   template: template
 
   initialize: ->
+    super()
+
     @levelStatusMap = []
     @levelPlayCountMap = []
     @campaigns = campaigns
@@ -27,6 +29,9 @@ module.exports = class MainLadderView extends RootView
     # TODO: Make sure this is also enabled server side.
     # Disabled due to high load on database.
     # @getLevelPlayCounts()
+
+  getMeta: ->
+    title: $.i18n.t 'ladder.title'
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models

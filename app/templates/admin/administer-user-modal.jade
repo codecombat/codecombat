@@ -70,6 +70,9 @@ block modal-body-content
         .col-sm-1
           button.btn.btn-large#clear-teacher-search-button Clear results
       #teacher-search-result
+    if view.userSaveState
+      br
+      div= view.userSaveState
     br
     h5 Edit teachers
     br

@@ -317,13 +317,14 @@ module.exports = class Angel extends CocoClass
     work.world.flagHistory = work.flagHistory ? []
     work.world.realTimeInputEvents = work.realTimeInputEvents ? []
     work.world.difficulty = work.difficulty ? 0
+    work.world.language = me.get('preferredLanguage', true)
     work.world.loadFromLevel work.level, true
     work.world.preloading = work.preload
     work.world.headless = work.headless
     work.world.realTime = work.realTime
-    work.world.indefiniteLength = work.indefiniteLength;
-    work.world.justBegin = work.justBegin;
-    work.world.keyValueDb = work.keyValueDb;
+    work.world.indefiniteLength = work.indefiniteLength
+    work.world.justBegin = work.justBegin
+    work.world.keyValueDb = work.keyValueDb
     if @shared.goalManager
       goalManager = new GoalManager(work.world)
       goalManager.setGoals work.goals
@@ -387,9 +388,11 @@ module.exports = class Angel extends CocoClass
     console?.profileEnd?() if imitateIE9?
     console.log 'Construction:', (work.t1 - work.t0).toFixed(0), 'ms. Simulation:', (work.t2 - work.t1).toFixed(0), 'ms --', ((work.t2 - work.t1) / work.world.frames.length).toFixed(3), 'ms per frame, profiled.'
 
-    # If performance was really a priority in IE9, we would rework things to be able to skip this step.
-    goalStates = work.world.goalManager?.getGoalStates()
-    work.world.goalManager.worldGenerationEnded() if work.world.ended
+    if work.world.ended
+      work.world.goalManager.worldGenerationEnded()
+      work.world.goalManager.notifyGoalChanges()
+    goalStates = work.world.goalManager.getGoalStates()
+
     @running = false
 
     if work.headless

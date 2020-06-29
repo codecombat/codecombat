@@ -198,8 +198,9 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @saveSession()
 
-  onVictory: ->
+  onVictory: (e) ->
     return unless @onPoint()
+    return if e and e.capstoneInProgress
     state = @session.get('state')
     state.complete = true
     @session.set('state', state)

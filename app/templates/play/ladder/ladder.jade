@@ -1,4 +1,5 @@
 extends /templates/base
+
 block content
   - var base = "/images/pages/play/ladder/prize_";
 
@@ -137,12 +138,16 @@ block content
 
     div#columns.row
       div.column.col-md-2
-      if view.teams
-        for team in view.teams
-          div.column.col-md-4
-            a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
-              span(data-i18n="play.play_as")
-              span.spl= team.displayName
+      if view.tournamentEnd
+        #tournamentend
+          p(data-i18n="ladder.tournament_end_desc")
+      else
+        if view.teams
+          for team in view.teams
+            div.column.col-md-4
+              a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
+                span(data-i18n="play.play_as")
+                span.spl= team.displayName
       div.column.col-md-2
 
     .spectate-button-container
@@ -168,7 +173,8 @@ block content
       li
         a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
-  div.tab-content
+  //don't render when tournament is ended in order to control page height
+  div.tab-content(style=view.displayTabContent)
     .tab-pane.active.well#ladder
       #ladder-tab-view
     .tab-pane.well#my-matches

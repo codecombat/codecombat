@@ -262,6 +262,9 @@ module.exports = class Autocomplete
         doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        if e.language in ['java', 'cpp'] and not doc?.snippets?[e.language] and doc?.snippets?.javascript
+          # These are mostly the same, so use the JavaScript ones if language-specific ones aren't available
+          doc.snippets[e.language] = doc.snippets.javascript
         if doc?.snippets?[e.language]
           name = doc.name
           replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
@@ -269,14 +272,14 @@ module.exports = class Autocomplete
           if /loop/.test(content) and level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
             content = switch e.language
-              when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
-              when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
+              when 'python' then 'while True:\n    hero.moveRight()\n    ${1:}'
+              when 'javascript', 'java', 'cpp' then 'while (true) {\n    hero.moveRight();\n    ${1:}\n}'
               else content
           if /loop/.test(content) and level.isType('course', 'course-ladder')
             # Temporary hackery to make it look like we meant while True: in our loop snippets until we can update everything
             content = switch e.language
               when 'python' then content.replace /loop:/, 'while True:'
-              when 'javascript' then content.replace /loop/, 'while (true)'
+              when 'javascript', 'java', 'cpp' then content.replace /loop/, 'while (true)'
               when 'lua' then content.replace /loop/, 'while true then'
               when 'coffeescript' then content
               else content
@@ -290,6 +293,8 @@ module.exports = class Autocomplete
             thisToken =
               'python': /self/,
               'javascript': /this/,
+              'java': /this/,
+              'cpp': /this/,
               'lua': /self/
             if thisToken[e.language] and thisToken[e.language].test(content)
               content = content.replace thisToken[e.language], 'hero'
@@ -311,7 +316,8 @@ module.exports = class Autocomplete
           if doc.userShouldCaptureReturn
             varName = doc.userShouldCaptureReturn.variableName ? 'result'
             entry.captureReturn = switch e.language
-              when 'javascript' then 'var ' + varName + ' = '
+              when 'javascript', 'java' then 'var ' + varName + ' = '
+              when 'cpp' then 'auto ' + varName + ' = '  # TODO: be smarter about return types when we can?
               #when 'lua' then 'local ' + varName + ' = '  # TODO: should we do this?
               else varName + ' = '
 

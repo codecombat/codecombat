@@ -4,4 +4,5 @@ module.exports =
   python: require './python'
   lua: require './lua'
   java: require './java'
+  cpp: require './cpp'
   html: require './html'

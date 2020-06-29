@@ -1,0 +1,75 @@
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/modal/auth/login-background.png", draggable="false").auth-modal-background
+    h1(data-i18n="login.log_in")
+
+    #close-modal
+      span.glyphicon.glyphicon-remove
+
+  .auth-form-content
+
+    if showRequiredError
+      .alert.alert-success
+        span(data-i18n="signup.required")
+
+    #unknown-error-alert.alert.alert-danger.hide(data-i18n="loading_error.unknown")
+
+    form.form
+      .form-group
+        label.control-label(for="username-or-email-input")
+          span(data-i18n="login.email_or_username")
+          | :
+        if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
+          em.israel-server-hint(dir="rtl")
+            span תלמיד מערכת החינוך?
+            a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
+        .input-border
+          input#username-or-email-input.input-large.form-control(
+            name="emailOrUsername"
+            value=view.previousFormInputs.email
+            dir="auto"
+          )
+      .form-group
+        #recover-account-wrapper
+          a#link-to-recover(
+            data-toggle="coco-modal"
+            data-target="core/RecoverModal"
+            data-i18n="login.forgot_password"
+          )
+        label.control-label(for="password")
+          span(data-i18n="general.password")
+          | :
+        .input-border
+          input#password-input.input-large.form-control(
+            name="password"
+            type="password"
+            value=view.previousFormInputs.password
+            dir="auto"
+          )
+
+      input#login-btn.btn.btn-lg.btn-illustrated.btn-block.btn-success(
+        value=translate("login.log_in")
+        type="submit"
+      )
+
+    .wait.secret
+      h3(data-i18n="login.logging_in")
+
+  if me.useSocialSignOn()
+    .auth-network-logins
+      // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
+      //div.network-login
+      //  btn.btn.btn-sm.github-login-button#github-login-button
+      //    img(src="/images/pages/modal/auth/github_icon.png")
+      //    | GitHub
+      button#facebook-login-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=true)
+        img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
+        span.sign-in-blurb#facebook-blurb(data-i18n="login.sign_in_with_facebook")
+      button#gplus-login-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=true)
+        span.sign-in-blurb#google-blurb(data-i18n="login.sign_in_with_gplus")
+        .gplus-login-wrapper
+          .gplus-login-button
+
+  .extra-pane
+    .switch-explanation(data-i18n="login.signup_switch")
+    .btn.btn-lg.btn-illustrated.btn-warning#switch-to-signup-btn(data-i18n="login.sign_up")

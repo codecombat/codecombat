@@ -345,7 +345,7 @@ Use the following question to encourage reflection on the lesson. You can facili
 **What do you notice about the differences between HTML and CSS?**
 
 Sample Responses:
-> CSS and HTMl have different syntax. Also, in CSS you need to refer to an HTML element or elements.
+> CSS and HTML have different syntax. Also, in CSS you need to refer to an HTML element or elements.
 
 
 ##### Lesson 5

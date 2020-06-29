@@ -11,6 +11,7 @@ exports.features =
   playViewsOnly: false
 
 exports.me =
+  showingStaticPagesWhileLoading: () -> true
   isStudent: () -> false
   isAnonymous: () -> @get('anonymous')
   hasSubscription: () -> false
@@ -33,6 +34,11 @@ exports.me =
   useGoogleAnalytics: -> true
   showChinaVideo: -> false
   getHomePageTestGroup: -> undefined
+  showForumLink: -> true
+  showChinaResourceInfo: -> false
+  hideDiplomatModal: -> false
+  showOpenResourceLink: -> true
+  useStripe: -> true
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'

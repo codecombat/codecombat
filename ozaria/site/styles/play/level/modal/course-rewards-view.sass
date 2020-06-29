@@ -1,0 +1,166 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+  
+#course-rewards-view
+
+  $hero-yellow-text: rgb(252, 201, 53)
+
+  .modal-body
+    padding: 30px 20px 0
+    position: relative
+    top: 80px
+    margin-top: 80px
+    
+  .well-parchment
+    margin-top: 20px
+    
+  .achievement-panel
+    background: transparent url("/images/pages/play/level/modal/victory_modal_shelf.png") no-repeat center 73px
+    width: 824px
+    height: 127px
+    margin: 0px -37px 0px -57px
+    position: relative
+
+    @include transition-duration(1s)
+
+    -webkit-filter: grayscale(100%) brightness(75%)
+    -moz-filter: grayscale(100%) brightness(75%)
+    -o-filter: grayscale(100%) brightness(75%)
+    filter: grayscale(100%) brightness(75%)
+
+    &.earned
+      -webkit-filter: none
+      -moz-filter: none
+      -o-filter: none
+      filter: none
+
+      .achievement-description
+        @include opacity(1)
+
+  .achievement-description
+    @include opacity(0.75)
+    z-index: 1
+    position: absolute
+    text-align: center
+    left: 95px
+    right: 98px
+    top: 86px
+    color: $hero-yellow-text
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .achievement-rewards
+    position: absolute
+    left: 25px
+    right: 23px
+    top: 0
+    @include flexbox()
+    @include flex-justify-center()
+
+  //- Reward panels
+
+  .reward-panel
+    background: url("/images/pages/play/level/modal/reward_plate.png")
+    width: 77px
+    height: 85px
+    float: left
+    margin: 0 1.8px
+    position: relative
+    z-index: 1
+    @include transition(0.25s ease)
+
+    &.xp, &.gems, &.item
+      background: url("/images/pages/play/level/modal/reward_plate_wide.png")
+      width: 120px
+      height: 83px
+      margin-top: 1px
+
+      .reward-image-container
+        left: 33px
+
+    &.item.premium
+      background: none
+
+      .reward-border
+        height: 100%
+        background: url("/images/pages/play/level/modal/reward_plate_wide_premium.png")
+
+      .reward-image-container
+        top: -77px
+        left: 36px
+
+    &.animating
+      @include scale(1.5)
+      z-index: 2
+
+    &.numerical &.animating .reward-text
+    font-size: 18px
+    overflow: visible
+    bottom: 9px
+
+    .reward-image-container
+      top: 8px
+      left: 11px
+      height: 55px
+      width: 56px
+      position: relative
+
+      @include scale(0)
+      @include transition-duration(0.5s)
+
+      &.show
+        @include scale(1)
+
+      &.pending-reward-image
+        img
+          -webkit-filter: brightness(2000%) contrast(25%)
+          -moz-filter: brightness(2000%) contrast(25%)
+          -o-filter: brightness(2000%) contrast(25%)
+          filter: brightness(2000%) contrast(25%)
+
+      img
+        margin: 0
+        position: absolute
+        top: 50%
+        left: 50%
+        margin-right: -50%
+        @include transition-duration(0.5s)
+        @include translate(-50%, -50%)
+        max-width: 56px
+        max-height: 55px
+
+    .reward-text
+      position: absolute
+      bottom: 6px
+      left: 4px
+      right: 3px
+      height: 15px
+      text-align: center
+      color: white
+      font-weight: bold
+      font-size: 12px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+  +keyframes(rewardPulse)
+    from
+      max-width: 56px
+      max-height: 55px
+    50%
+      width: 66px
+      max-width: 66px
+      max-height: 66px
+    to
+      max-width: 56px
+      max-height: 55px
+
+  .xp .pulse
+    @include animation(rewardPulse 0.15s infinite)
+
+  .gems .pulse
+    @include animation(rewardPulse 0.25s infinite)

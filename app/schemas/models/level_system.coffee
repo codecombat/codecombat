@@ -79,5 +79,6 @@ c.extendSearchableProperties LevelSystemSchema
 c.extendVersionedProperties LevelSystemSchema, 'level.system'
 c.extendPermissionsProperties LevelSystemSchema
 c.extendPatchableProperties LevelSystemSchema
+c.extendAlgoliaProperties LevelSystemSchema
 
 module.exports = LevelSystemSchema

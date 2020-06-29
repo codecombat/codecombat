@@ -1,0 +1,124 @@
+mixin argumentEntry(arg)
+  if ['he', 'ar', 'fa', 'ur'].indexOf(me.get('preferredLanguage', true)) == -1
+    div
+      code= arg.name
+      span.spr :
+      code= arg.type
+      if arg.example
+        |  (
+        span(data-i18n="skill_docs.ex") ex
+        span.spr :
+        code= arg.example
+        | )
+      if arg.description
+        div!= marked(arg.description)
+      if arg.default
+        div
+          em
+            span(data-i18n="skill_docs.default_value") Default value
+            span.spr :
+          code= arg.default
+  else
+    div(dir="rtl")
+      code(dir="rtl")= arg.name
+      span(dir="rtl")= ": "
+      code(dir="rtl")= arg.type
+      if arg.example
+        br
+        span(data-i18n="skill_docs.ex", dir="rtl") ex
+        span(dir="rtl")= ": "
+        code(dir="ltr")= arg.example
+      if arg.description
+        div.rtl-right-aligned(dir="auto")!= marked(arg.description)
+      if arg.default
+        div.rtl-allowed
+          em
+            span(data-i18n="skill_docs.default_value") Default value
+            span(dir="rtl")= ": "
+          code(dir="ltr")= arg.default
+
+div.popover-header.closeBtn(role="button" dir="ltr")
+  span.prop-name= doc.shortName
+  if doc.translatedShortName
+    span.translated-name (
+      =doc.translatedShortName
+      | )
+  div.glyphicon.glyphicon-chevron-left(style="float: right;")
+
+.popover-body
+  .short-description.rtl-allowed.rtl-right-aligned(dir="auto")
+    p(dir="auto")!= marked(doc.shortDescription || $.i18n.t("skill_docs.still_undocumented"))
+    div.clear(style="clear: both")
+
+  if !selectedMethod
+    if doc.example
+      p.example
+        strong
+          span(data-i18n="skill_docs.example") Example
+          | :
+        .docs-ace-container
+          .docs-ace= doc.example
+    else if doc.type == 'function' && argumentExamples.length
+      p.example
+        strong
+          span(data-i18n="skill_docs.example") Example
+          | :
+        div
+          .docs-ace-container
+            .docs-ace
+              if language == 'javascript'
+                span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+              else if language == 'coffeescript'
+                span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
+              else if language == 'python'
+                span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
+              else if language == 'clojure'
+                span= '(.' + docName + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
+              else if language == 'lua'
+                span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
+              else if language == 'io'
+                span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
+
+  if doc.description
+    .description.rtl-allowed.rtl-right-aligned(dir="auto")
+      p(dir="auto")!= marked(doc.description)
+      div.clear(style="clear: both")
+
+  //- Args and returns are not there in 1FH/1UP - hence keeping their format and css as it is for now
+
+  if doc.args && doc.args.length
+    - var hasOptionalArguments = _.any(doc.args, function(arg){ return arg.optional })
+    - var hasRequiredArguments = _.any(doc.args, function(arg){ return !arg.optional })
+    if hasRequiredArguments
+      p.args(dir="auto")
+        strong
+          span(data-i18n="skill_docs.required_parameters") Required Parameters
+          span.spr :
+      for arg in doc.args
+        unless arg.optional
+          +argumentEntry(arg)
+    if hasOptionalArguments
+      p.args(dir="auto")
+        strong
+          span(data-i18n="skill_docs.optional_parameters") Optional Parameters
+          span.spr :
+        for arg in doc.args
+          if arg.optional
+            +argumentEntry(arg)
+
+
+  if doc.returns
+    p.returns(dir="auto")
+      strong
+        span(data-i18n="skill_docs.returns") Returns
+        span.spr :
+      div
+        code= doc.returns.type
+        if doc.returns.example
+          |  (
+          span(data-i18n="skill_docs.ex") ex
+          span.spr :
+          code= doc.returns.example
+          | )
+        if doc.returns.description
+          div!= marked(doc.returns.description)

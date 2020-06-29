@@ -71,6 +71,18 @@ module.exports = class Spell
   setLanguage: (@language) ->
     @language = 'html' if @level.isType('web-dev')
     @displayCodeLanguage = utils.capitalLanguages[@language]
+    if @language is 'java' and not @languages[@language]
+      lines = (@languages.javascript ? '').split '\n'
+      lines.push '' if lines[lines.length - 1] isnt ''
+      @languages.java = """
+        public class AI {
+          public static void main(String[] args) {
+        #{(lines.map ((line) -> '    ' + line)).join('\n')}
+          }
+        }
+      """
+    if @language is 'cpp' and not @languages[@language]
+      @languages.cpp = utils.translatejs2cpp @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
@@ -106,7 +118,7 @@ module.exports = class Spell
       # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
       @originalSource = switch @language
         when 'python' then @originalSource.replace /loop:/, 'while True:'
-        when 'javascript' then @originalSource.replace /loop {/, 'while (true) {'
+        when 'javascript', 'java', 'cpp' then @originalSource.replace /loop {/, 'while (true) {'
         when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
         when 'coffeescript' then @originalSource
         else @originalSource

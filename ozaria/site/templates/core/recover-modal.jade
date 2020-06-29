@@ -1,0 +1,17 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="recover.recover_account_title") Recover Account
+
+block modal-body-content
+  .form
+    .form-group
+      label.control-label(for="recover-email", data-i18n="general.email") Email     
+      input#recover-email.input-large.form-control(name="email", type="email")
+
+block modal-body-wait-content
+  h3(data-i18n="common.sending") Sending...
+
+block modal-footer
+  .modal-footer
+    button.btn.btn-primary.btn-large#recover-button(data-i18n="recover.send_password") Send Recovery Password

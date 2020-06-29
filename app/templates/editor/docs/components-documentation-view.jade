@@ -28,10 +28,14 @@
                 li.list-group-item(id="#{component.get('name')}#{doc.name}")
                   | #{doc.name}
                   ul.special-list
-                    if doc.description[codeLanguage]
-                      li!=marked(doc.description[codeLanguage])
-                    else
-                      li!=marked(doc.description)
+                    - let description = doc.description[codeLanguage] || doc.description.javascript || doc.description;
+                    - try {
+                    -   description = marked(description);
+                    - }
+                    - catch(err) {
+                    -   console.error(component.get('name'), doc.name, 'has a problem with its', codeLanguage, 'description when rendering Markdown', description, err);
+                    - }
+                    li!=description
               li.panel-heading
                 a.code-block(data-toggle="collapse" data-parent="##{component.get('name')}" href="##{component.get('name')}Code")
                   | Code

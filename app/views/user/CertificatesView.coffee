@@ -10,6 +10,7 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
+locale = require 'locale/locale'
 
 module.exports = class CertificatesView extends RootView
   id: 'certificates-view'
@@ -17,10 +18,14 @@ module.exports = class CertificatesView extends RootView
 
   events:
     'click .print-btn': 'onClickPrintButton'
+    'click .toggle-btn': 'onClickToggleButton'
 
   getTitle: ->
     return 'Certificate' if @user.broadName() is 'Anonymous'
     "Certificate: #{@user.broadName()}"
+
+  hashString: (str) ->
+    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c
 
   initialize: (options, @userID) ->
     if @userID is me.id
@@ -32,7 +37,7 @@ module.exports = class CertificatesView extends RootView
       @supermodel.trackModel @user
       @listenToOnce @user, 'sync', => @setHero?()
       @user.fetchNameForClassmate success: (data) =>
-        @studentName = if data.firstName then "#{data.firstName} #{data.lastName}" else data.name
+        @studentName = User.broadName(data)
         @render?()
     if classroomID = utils.getQueryVariable 'class'
       @classroom = new Classroom _id: classroomID
@@ -55,6 +60,16 @@ module.exports = class CertificatesView extends RootView
     @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse classroomID, courseID, data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n,thangs.id,thangs.components.config.programmableMethods' }
     @listenToOnce @courseLevels, 'sync', @calculateStats
 
+    tenbillion = 10000000
+    nintybillion = 90000000
+    if features?.chinaUx
+      @certificateNumber =   # keep only 8 digits
+        ((@hashString(@user.id + @courseInstanceID) % nintybillion) + nintybillion) % nintybillion + tenbillion   # 10000000 ~ 99999999
+
+    @currentLang = me.get('preferredLanguage', true)
+    @needLanguageToggle = @currentLang.split('-')[0] != 'en'
+
+
   setHero: (heroOriginal=null) ->
     heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
     @thangType = new ThangType()
@@ -71,7 +86,7 @@ module.exports = class CertificatesView extends RootView
     else
       teacherUser = new User _id: @classroom.get('ownerID')
       teacherUser.fetchNameForClassmate success: (data) =>
-        @teacherName = if data.firstName then "#{data.firstName} #{data.lastName}" else data.name
+        @teacherName = User.broadName(data)
         @render?()
 
   getCodeLanguageName: ->
@@ -96,6 +111,16 @@ module.exports = class CertificatesView extends RootView
 
   onClickPrintButton: ->
     window.print()
+
+  onClickToggleButton: ->
+    newLang = 'en'
+    if @currentLang.split('-')[0] == 'en'
+      newLang = me.get('preferredLanguage', true)
+    @currentLang = newLang
+    $.i18n.setLng(newLang, {})
+    locale.load(newLang).then =>
+      @render()
+
 
   afterRender: ->
     @autoSizeText '.student-name'

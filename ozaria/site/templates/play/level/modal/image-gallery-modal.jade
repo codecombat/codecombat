@@ -1,0 +1,67 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+
+block modal-body-content
+  .row.modal-body-content
+    div.image-list-container.col-sm-7
+      h3
+        ='1. '
+        span(data-i18n="web_dev.select_an_image")
+      ul.image-list
+        for image in view.images
+          - var selectedState = state.get('selectedUrl') === image.portraitURL ? 'selected' : ''
+          li.image-list-item.render(data-portrait-url=image.portraitURL, class=selectedState, selected=selectedState)
+            img(src=image.portraitURL)
+      .small.text-center
+        span(data-i18n="web_dev.scroll_down_for_more_images")
+
+    div.col-sm-5.flex-col.render
+      h3
+        ='2. '
+        span(data-i18n="web_dev.copy_the_url")
+      .text-h3.subtitle(data-i18n="web_dev.copy_the_url_description")
+      .copy-row.m-t-1
+        .copy-textarea-col
+          textarea.image-url.copyable
+            if view.state.get('selectedUrl')
+              = utils.pathToUrl(view.state.get('selectedUrl'))
+        .copy-button-col
+          button.btn.btn-forest.copy-url-button
+            span(data-i18n="web_dev.copy_url")
+
+      .hr-text.m-t-1
+        hr
+        span(data-i18n="general.or")
+
+      h3(data-i18n="web_dev.copy_the_img_tag")
+      .text-h3.subtitle(data-i18n="web_dev.copy_the_img_tag_description")
+      .copy-row.m-t-1
+        .copy-textarea-col
+          textarea.image-tag.copyable
+            if view.state.get('selectedUrl')
+              = '<img src="' + utils.pathToUrl(view.state.get('selectedUrl')) + '"/>'
+        .copy-button-col
+          button.btn.btn-forest.copy-tag-button
+            span(data-i18n="web_dev.copy_img")
+
+      .how-to-copy-paste.m-t-3
+        div.m-b-1.text-center
+          span(data-i18n="web_dev.how_to_copy_paste")
+        .windows-only
+          span(data-i18n="web_dev.copy")
+          | : Control–C
+          br
+          span(data-i18n="web_dev.paste")
+          | : Control–V
+        .mac-only.hidden
+          span(data-i18n="web_dev.copy")
+          | : Command ⌘–C
+          br
+          span(data-i18n="web_dev.paste")
+          | : Command ⌘–V
+
+      .close-button
+        a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="web_dev.back_to_editing").btn.btn-lg.btn-primary
+
+block modal-footer-content

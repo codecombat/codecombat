@@ -10,6 +10,9 @@ module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'
   template: require 'templates/teachers/markdown-resource-view'
 
+  events:
+    'click .print-btn': 'onClickPrint'
+
   initialize: (options, @name) ->
     super(options)
     @content = ''
@@ -35,13 +38,15 @@ module.exports = class MarkdownResourceView extends RootView
           else
             align = if me.get('preferredLanguage') in ['he', 'ar', 'fa', 'ur'] then 'left' else 'right'
             buttonText = $.i18n.t 'teacher.back_to_top'
-            "<a class='pull-#{align} btn btn-md btn-navy back-to-top' href='#logo-img'>#{buttonText}</a></h5"
+            "<a class='pull-#{align} btn btn-md btn-navy back-to-top' href='#top'>#{buttonText}</a></h5"
 
       if @name is 'cs1'
         $('body').append($("<img src='https://code.org/api/hour/begin_code_combat_teacher.png' style='visibility: hidden;'>"))
       @loadingData = false
       @render()
 
+  onClickPrint: ->
+    window.tracker?.trackEvent 'Teachers Click Print Resource', { category: 'Teachers', label: @name }
 
   afterRender: ->
     super()

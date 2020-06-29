@@ -1,0 +1,8 @@
+extends /../ozaria/site/templates/core/modal-base
+
+block modal-body-content
+  p(data-i18n="play_level.restart_really") Are you sure you want to restart the level? You'll loose all the code you've written.
+  
+block modal-footer-content
+  a.button-confirm(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.restart_confirm").btn.btn-primary#restart-level-confirm-button Yes, Restart
+  a.button-cancel(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.cancel").btn Cancel

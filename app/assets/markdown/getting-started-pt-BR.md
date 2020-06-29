@@ -10,7 +10,7 @@ Depois de criar sua conta do Professor, você poderá criar turmas, convidar alu
 
 Selecione a opção **Entrar como Professor** durante a criação da conta para se inscrever como professor.
 
-<img src="http://files.codecombat.com/docs/getting-started/teacher-account.png" title="Create a Teacher Account" alt="create-teacher-account-modal"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/teacher-account.png" title="Create a Teacher Account" alt="create-teacher-account-modal"/>
 
 Depois que sua conta do professor for configurada, você poderá acessar seu [Painel do Professor](/teachers/classes).
 
@@ -32,7 +32,7 @@ Uma vez logado, ou se você clicar no link Professor na barra de navegação, vo
 
 Clique no botão azul "Criar uma nova turma" e escolha um nome de turma que ajudará você e seus alunos a identificar a turma, como "3A-Professor João.”
 
-<img src="http://files.codecombat.com/docs/getting-started/create-new-class-modal.png" title="Create a New Class" alt="create-new-class-modal" width="400px" />
+<img src="/images/pages/teachers/resources/markdown/getting-started/create-new-class-modal.png" title="Create a New Class" alt="create-new-class-modal" width="400px" />
 
 
 
@@ -45,7 +45,7 @@ O JavaScript também funcionará muito bem. É a linguagem da web; usado em todo
 ## Adicionar Alunos
 Depois de criar sua turma, você a verá na lista de turmas atuais. Navegue pela turma na qual você deseja adicionar alunos e escolha uma das três maneiras de adicionar alunos.
 
-<img src="http://files.codecombat.com/docs/getting-started/add-students.png" title="Add Students" alt="add-students" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/add-students.png" title="Add Students" alt="add-students" width="400px"/>
 
 _Use seu código de turma exclusivo, o URL da turma ou convide alunos por e-mail._
 
@@ -57,7 +57,7 @@ Clique no botão azul "Convidar alunos por e-mail", insira os endereços de e-ma
 
 Certifique-se de que eles estão criando uma **Conta de Estudante** e que o nome correto da classe é exibido quando eles criam a conta.
 
-<img src="http://files.codecombat.com/docs/getting-started/test-class.png" title="Create a Student Account" alt="create-student-account" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/test-class.png" title="Create a Student Account" alt="create-student-account" width="400px"/>
 
 _Os alunos devem ver o nome da sua turma no lugar de "Test Class1"._
 
@@ -79,13 +79,13 @@ Depois que os alunos tiverem criado a conta, eles receberão o nome de usuário 
 
 Direcione seus alunos para [CodeCombat](https://codecombat.com) e faça com que eles cliquem em "Criar conta" na barra de navegação superior. Os alunos devem selecionar o botão verde "Inscreva-se como aluno".
 
-<img src="http://files.codecombat.com/docs/getting-started/student-account.png" title="Create a Student Account" alt="create-student-account" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/student-account.png" title="Create a Student Account" alt="create-student-account" width="400px"/>
 
 _Certifique-se de que seus alunos cliquem em "Inscreva-se como aluno" quando solicitado._
 
 O site solicitará o "Código da turma" para sua turma, que pode ser encontrado se você clicar em "Visualizar turma" no painel do professor. Sua sala de aula terá seu próprio código exclusivo de três palavras.
 
-<img src="http://files.codecombat.com/docs/getting-started/class-code-example.png" title="Class Code Example" alt="class-code-example" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/class-code-example.png" title="Class Code Example" alt="class-code-example" width="400px"/>
 
 _Como encontrar seu código de classe como professor: clique em uma de suas turmas e procure o código de turma de três palavras em "Adicionar alunos"._
 
@@ -111,13 +111,13 @@ Depois que os alunos tiverem criado a conta, eles receberão o nome de usuário 
 
 Todos os alunos recebem automaticamente acesso ao primeiro curso do CodeCombat, Introdução à Ciência da Computação. Este é um curso que apresenta aos alunos conceitos como sintaxe básica, variáveis e loops while. Geralmente, este curso leva cerca de 1 a 3 horas para uma turma do ensino médio.
 
-<img src="http://files.codecombat.com/docs/getting-started/course-guides.png" title="Course Guides" alt="course-guides" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/course-guides.png" title="Course Guides" alt="course-guides" width="400px"/>
 
 _Os Guias do curso permitem que você visualize os níveis do curso e visualize as soluções._
 
 Como professor, você pode acessar soluções para cada curso, indo para [Guias dos Cursos](/teachers/courses/) (localizado na barra de navegação azul do professor). Você também pode visualizar todos os níveis usando os seletores suspensos.
 
-<img src="http://files.codecombat.com/docs/getting-started/resource-hub.png" title="Resource Hub" alt="resource-hub" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/resource-hub.png" title="Resource Hub" alt="resource-hub" width="400px"/>
 
 _Os Guias dos Cursos permitem que você visualize os níveis do curso e visualize as soluções._
 
@@ -126,13 +126,13 @@ Se você é iniciante no ensino de informática, também recomendamos dar uma ol
 ##### PASSO 5
 ## Monitorando o Progresso
 
-<img src="http://files.codecombat.com/docs/getting-started/student-overview.png" title="Student Overview" alt="student-overview" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/student-overview.png" title="Student Overview" alt="student-overview" width="400px"/>
 
 _Uma visão de alto nível do progresso do aluno em cada curso é exibida na visualização de classe principal._
 
 Depois que os alunos participarem da aula, você verá o progresso deles nas páginas individuais da sala de aula. Todos os cursos designados e o progresso de cada aluno em cada curso (começando com CS1, Introdução à Ciência da Computação e em diante) são representados por um círculo colorido. Um círculo cinza significa que um aluno não começou nenhum nível nesse curso, o círculo amarelo significa que ele começou a trabalhar nos níveis do curso e um círculo verde significa que eles concluíram todos os níveis do curso.
 
-<img src="http://files.codecombat.com/docs/getting-started/student-progress.png" title="Student Progress" alt="student-progress" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/student-progress.png" title="Student Progress" alt="student-progress" width="400px"/>
 
 _Navegue até a guia "Progresso do Curso" para ver informações mais detalhadas sobre o progresso do aluno em cada curso._
 
@@ -152,7 +152,7 @@ Se você deseja adquirir mais licenças, clique em * Licenças de estudante * na
 ##### PASSO 7
 ## Atribuindo Cursos
 
-<img src="http://files.codecombat.com/docs/getting-started/bulk-assign.png" title="Bulk Assign Courses" alt="bulk-assign" width="400px"/>
+<img src="/images/pages/teachers/resources/markdown/getting-started/bulk-assign.png" title="Bulk Assign Courses" alt="bulk-assign" width="400px"/>
 
 Depois que um aluno for inscrito, você poderá atribuir cursos adicionais a ele. Recomendamos que você não atribua aos alunos mais de um curso por vez. Você pode atribuir um curso a vários alunos de cada vez selecionando alunos usando as caixas de seleção no lado esquerdo (ou a caixa de seleção "Selecionar tudo"), escolhendo o curso apropriado no menu suspenso e clicando em "Atribuir curso".
 

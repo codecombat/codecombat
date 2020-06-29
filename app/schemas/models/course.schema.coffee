@@ -14,9 +14,11 @@ _.extend CourseSchema.properties,
   screenshot: c.path { title: 'URL', description: 'Link to course screenshot.'}
   adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' }
   releasePhase: { enum: ['beta', 'released'], description: "How far along the course's development is, determining who sees it." }
+  isOzaria: { type: 'boolean', description: 'Is this an ozaria course' }
 
 c.extendBasicProperties CourseSchema, 'Course'
 c.extendTranslationCoverageProperties CourseSchema
 c.extendPatchableProperties CourseSchema
+c.extendAlgoliaProperties CourseSchema
 
 module.exports = CourseSchema

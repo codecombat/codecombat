@@ -21,6 +21,12 @@ module.exports = class ClanDetailsView extends RootView
   id: 'clan-details-view'
   template: template
 
+  getMeta: ->
+    title: $.i18n.t 'clans.title'
+    meta: [
+      { vmid: 'meta-description', name: 'description', content: $.i18n.t 'clans.meta_description' }
+    ]
+
   events:
     'change .expand-progress-checkbox': 'onExpandedProgressCheckbox'
     'click .delete-clan-btn': 'onDeleteClan'
@@ -201,6 +207,10 @@ module.exports = class ClanDetailsView extends RootView
     @render?()
 
   onClanSync: ->
+    @setMeta({
+      title: $.i18n.t('clans.clan_title', { clan: @clan.get('name') })
+    })
+
     unless @owner?
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()

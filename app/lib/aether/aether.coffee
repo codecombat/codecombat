@@ -14,6 +14,8 @@ optionsValidator = require './validators/options'
 languages = require './languages/languages'
 interpreter = require './interpreter'
 
+{ Unibabel } = require 'unibabel'
+
 module.exports = class Aether
   @execution: execution
   @addGlobal: protectBuiltins.addGlobal  # Call instance method version after instance creation to update existing global list
@@ -97,6 +99,8 @@ module.exports = class Aether
   # If careAboutLineNumbers, we strip trailing comments and whitespace and compare line count.
   # If careAboutLint, we also lint and make sure lint problems are the same.
   hasChangedSignificantly: (a, b, careAboutLineNumbers=false, careAboutLint=false) ->
+    a = Aether.getTokenSource(a)
+    b = Aether.getTokenSource(b)
     return true unless a? and b?
     return false if a is b
     return true if careAboutLineNumbers and @language.hasChangedLineNumbers a, b
@@ -118,8 +122,22 @@ module.exports = class Aether
   transpile: (@raw) ->
     @reset()
     rawCode = @raw
-    @problems = @lint rawCode
-    @pure = @purifyCode rawCode
+    if /^\u56E7[a-zA-Z0-9+/=]+\f$/.test rawCode
+      token = JSON.parse Unibabel.base64ToUtf8(rawCode.substr(1, rawCode.length-2))
+      @raw = token.src
+      if token.error
+        error = new SyntaxError(token.error.message, '', token.error.data.line)
+        Object.assign(error, token.error.data)
+        problemOptions = error: error, code: token.src, codePrefix: "", reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
+        @addProblem @createUserCodeProblem problemOptions
+      else
+        @pure = token.src
+        @ast = token.ast
+    else
+      if @language.id in ['cpp']
+        throw new Error('C++ code cannot be transpiled client side.')
+      @problems = @lint rawCode
+      @pure = @purifyCode rawCode
     @pure
 
   # Perform some fast static analysis (without transpiling) and find any lint problems.
@@ -233,6 +251,13 @@ module.exports = class Aether
       ]
         ++count
     return count
+
+Aether.getTokenSource = (raw) ->
+  if /^\u56E7[a-zA-Z0-9+/=]+\f$/.test raw
+    token = JSON.parse Unibabel.base64ToUtf8(raw.substr(1, raw.length-2))
+    token.src
+  else
+    raw
 
 self.Aether = Aether if self?
 window.Aether = Aether if window?

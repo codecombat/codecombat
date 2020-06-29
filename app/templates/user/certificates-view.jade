@@ -30,7 +30,9 @@ style.
 
 .style-flat
   .menu
-    .print-btn.btn.btn-success Print
+    .print-btn.btn.btn-success(data-i18n="courses.certificate_btn_print")
+    if view.needLanguageToggle
+      .toggle-btn.btn.btn-success(data-i18n="courses.certificate_btn_toggle")
 
   .certificate
     if view.courseStats
@@ -46,7 +48,7 @@ style.
           h4.course-name
             span(data-i18n="user.certificate_for")
             span= ' '
-            span= i18n(view.course.attributes, 'name')
+            span= i18n(view.course.attributes, 'name', view.currentLang)
           .code-results.outcome-section
             h3.learned-title(data-i18n="user.certificate_stats")
             ul.list-unstyled
@@ -78,6 +80,10 @@ style.
               span(data-i18n="courses.teacher")
               span= ': '
               span= view.teacherName
+          if view.certificateNumber
+            .certificate-number-info
+              span(data-i18n="user.certificate_number")
+              span= ' ' + view.certificateNumber
           if view.thangType && view.thangType.loaded
             .hero-signature
               img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')

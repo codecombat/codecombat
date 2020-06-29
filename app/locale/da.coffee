@@ -1,6 +1,10 @@
 module.exports = nativeDescription: "dansk", englishDescription: "Danish", translation:
 
   new_home:
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+#    meta_og_url: "https://codecombat.com"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -27,6 +31,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -87,9 +92,11 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     classroom_edition: "Klasseværelse Udgave:"
     learn_to_code: "Lær at kode:"
     play_now: "Spil Nu"
+#    im_an_educator: "I'm an Educator"
     im_a_teacher: "Jeg er lærer"
     im_a_student: "Jeg er elev"
     learn_more: "Lær mere"
+#    learn_more_caps: "Learn More"
     classroom_in_a_box: "En klasseværelsespakkeløsning til at undervise datalogi."
     codecombat_is: "CodeCombat er en platform <strong> for studerende </strong> for at lære datalogi mens du nyder et rigtigt spil."
     our_courses: "Vores kurser er spiltestet til at udmærke sig i et klasseværelsesmiljø, selv af lærere med lille eller ingen forudgående programmeringserfaring."
@@ -146,6 +153,15 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    view_progress: "View Progress"
 #    go_to_courses: "Go to My Courses"
     want_coco: "Ønsker du CodeCombat på din skole?"
+#    educator: "Educator"
+#    student: "Student"
+#    our_coding_programs: "Our Coding Programs"
+#    codecombat: "CodeCombat"
+#    ozaria: "Ozaria"
+#    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
+#    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    try_codecombat: "Try CodeCombat"
+#    try_ozaria: "Try Ozaria"
 
   nav:
 #    educators: "Educators"
@@ -165,10 +181,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     legal: "Betingelser"
 #    privacy: "Privacy Notice"
     about: "Om"
+#    impact: "Impact"
     contact: "Kontakt"
     twitter_follow: "Følg"
 #    my_classrooms: "My Classes"
 #    my_courses: "My Courses"
+#    my_teachers: "My Teachers"
     careers: "Karrierer"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -188,10 +206,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
+#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
     close: "Luk"
     okay: "Okay"
+#    cancel: "Cancel"
 
   not_found:
     page_not_found: "Siden blev ikke fundet"
@@ -205,6 +225,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     subscribe_as_diplomat: "Meld dig som Diplomat"
 
   play:
+#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
+#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
+#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+#    video_title: "__video__ | Video Level"
+#    game_development_title: "__level__ | Game Development"
+#    web_development_title: "__level__ | Web Development"
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -322,6 +348,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     sign_in_with_facebook: "Log ind med Facebook"
     sign_in_with_gplus: "Log ind med G+"
     signup_switch: "Vil du oprette en konto?"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
 #    complete_subscription: "Complete Subscription"
@@ -419,6 +446,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     books: "Bøger"
 
   common:
+#    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     back: "Gå tilbage" # When used as an action verb, like "Navigate backward"
 #    coming_soon: "Coming soon!"
     continue: "Fortsæt" # When used as an action verb, like "Continue forward"
@@ -450,6 +479,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     submit_changes: "Indsend ændringer"
     save_changes: "Gem ændringer"
 #    required_field: "required"
+#    submit: "Submit"
+#    replay: "Replay"
+#    complete: "Complete"
 
   general:
     and: "og"
@@ -582,6 +614,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     reload_title: "Genindlæs alt kode?"
     reload_really: "Er du sikker på at du ønsker at genindlæse denne bane helt fra begyndelsen?"
     reload_confirm: "Genindlæs alt"
+#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+#    restart_confirm: "Yes, Restart"
 #    test_level: "Test Level"
     victory: "Sejr"
     victory_title_prefix: ""
@@ -606,6 +640,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     tome_cast_button_run: "Kør"
     tome_cast_button_running: "Kører"
     tome_cast_button_ran: "Kørt"
+#    tome_cast_button_update: "Update"
     tome_submit_button: "Indsend"
     tome_reload_method: "Genindlæs den originale kode til denne metode" # {change}
     tome_available_spells: "Tilgængelige trylleformularer"
@@ -708,6 +743,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    learn_new_concepts: "Learn new concepts"
 #    watch_a_video: "Watch a video on __concept_name__"
 #    concept_unlocked: "Concept Unlocked"
+#    use_at_least_one_concept: "Use at least one concept: "
+#    command_bank: "Command Bank"
+#    learning_goals: "Learning Goals"
+#    start: "Start"
+#    vega_character: "Vega Character"
+#    click_to_continue: "Click to Continue"
 
 #  apis:
 #    methods: "Methods"
@@ -739,6 +780,11 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
+#  live_class:
+#    title: "Thank you!"
+#    content: "Amazing! We just launched live online classes."
+#    link: "Ready to get ahead on your coding?"
 
 #  play_game_dev_level:
 #    created_by: "Created by {{name}}"
@@ -916,6 +962,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
+#  avatar_selection:
+#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -950,6 +999,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     coffeescript_blurb: "Pænere JavaScript-syntaks."
     lua_blurb: "Spil scripting sprog."
 #    java_blurb: "(Subscriber Only) Android and enterprise."
+#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Våben"
     weapons_warrior: "Sværd - Kort afstand, Ingen Magi"
@@ -974,6 +1024,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     available_for_purchase: "Kan nu blive købt" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Level for at låse op:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Kun visse helt kan spille dette level."
+
+#  char_customization_modal:
+#    heading: "Customize Your Hero"
+#    body: "Body"
+#    name_label: "Hero's Name"
+#    hair_label: "Hair Color"
+#    skin_label: "Skin Color"
 
   skill_docs:
 #    function: "function" # skill types
@@ -1003,6 +1060,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    optional_parameters: "Optional Parameters"
     returns: "Returnerer"
     granted_by: "Givet af"
+#    still_undocumented: "Still undocumented, sorry."
 
   save_load:
     granularity_saved_games: "Gemte"
@@ -1024,6 +1082,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     editor_config_behaviors_description: "Autocomplete af parenteser og anførelsestegn."
 
   about:
+#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
+#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
 #    learn_more: "Learn More"
     main_title: "Hvis du vil lære at programmere, skal du skrive (en masse) kode."
     main_description: "Hos CodeCombat er vores opgave at sikre, at du gør det med et smil på læben."
@@ -1038,19 +1098,26 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     team_values: "Vi værdsætter åben og respektfuld dialog, hvor den bedste idé vinder. Vores beslutninger er funderet med undersøgelser af kundernes oplevelser og vores proces er fokuseret på at levere konkrete resultater til dem. Alle er inddraget, fra vores CEO til vores GitHub bidragsydere, fordi vi værdsætter vækst og læring i vores team."
     nick_title: "Medstifter, CEO"
     matt_title: "Medstifter, CTO"
-    cat_title: "Game Designer"
-    scott_title: "Medstifter, Software Engineer"
-    maka_title: "Kundens Talsmand"
-    robin_title: "UX Design & Udvikling" # {change}
-#    nolan_title: "Sales Manager"
-#    lisa_title: "Business Development Manager"
-#    david_title: "Marketing Lead"
-    titles_csm: "Správce úspěšných zákazníků"
-#    titles_territory_manager: "Territory Manager"
+#    lawrence_title: "Customer Success Manager"
+#    jane_title: "Account Executive"
+#    shan_title: "Head of Marketing, CodeCombat Greater China"
+#    run_title: "Head of Operations, CodeCombat Greater China"
+#    lance_title: "Head of Technology, CodeCombat Greater China"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
+#    matias_title: "Senior Software Engineer"
+#    ryan_title: "Customer Support Specialist"
+#    maya_title: "Senior Curriculum Developer"
+#    bill_title: "General Manager, CodeCombat Greater China"
+#    shasha_title: "Product and Visual Designer"
+#    daniela_title: "Marketing Manager"
+#    bobby_title: "Game Designer"
+#    brian_title: "Senior Game Design Manager"
+#    stephanie_title: "Customer Support Specialist"
+#    rob_title: "Sales Development Representative"
+#    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Retro Spil"
-#    bryukh_title: "Gameplay Developer"
-#    bryukh_blurb: "Constructs puzzles"
     community_title: "...og vores open source fællesskab"
     community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1144,7 +1211,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    course_suffix: ""
 
   teachers_quote:
-    subtitle: "Få dine elever startet på mindre end en time. Du vil være i stand til at <strong>oprette en klasse, tilføje elever, og overvåge deres fremgang</strong> mens de lærer datalogi!"
+    subtitle: "Få dine elever startet på mindre end en time. Du vil være i stand til at <strong>oprette en klasse, tilføje elever, og overvåge deres fremgang</strong> mens de lærer datalogi!" # {change}
     email_exists: "En bruger med denne email eksisterer allerede."
     phone_number: "Telefonnummer"
     phone_number_help: "Hvor kan vi få fat i dig i løbet af arbejdsdagen?"
@@ -1168,7 +1235,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     organization_label: "Navn på Skole/Område" # {change}
 #    school_name: "School Name"
     city: "By"
-    state: "Stat"
+    state: "Stat" # {change}
     country: "Land"
     num_students_help: "Hvor mange forventer du at indskrive i CodeCombat?" # {change}
 #    num_students_default: "Select Range"
@@ -1182,6 +1249,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    referrer: "How did you hear about us?"
 #    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    referrer_default: "Select One"
+#    referrer_conference: "Conference (e.g. ISTE)"
 #    referrer_hoc: "Code.org/Hour of Code"
 #    referrer_teacher: "A teacher"
 #    referrer_admin: "An administrator"
@@ -1190,6 +1258,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "Noget andet, vi bør vide?" # {change}
+#    anything_else_helper: ""
     thanks_header: "Tak for at anmode om en demo!" # {change}
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "Vi vil snart tage kontakt. Spørgsmål? Email os:" # {change}
@@ -1204,6 +1273,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
 #    convert_account_title: "Update to Teacher Account"
 #    not: "Not"
+#    full_name_required: "First and last name required"
 
   versions:
     save_version_title: "Gem ny version"
@@ -1293,6 +1363,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     beautify: "Forskøn din kode ved at standardisere dens formattering."
     maximize_editor: "Maksimer/Minimer kodeeditor."
 
+#  cinematic:
+#    click_anywhere_continue: "click anywhere to continue"
+
   community:
     main_title: "CodeCombat Fællesskab"
     introduction: "Tjek nedenfor hvordan du kan blive involveret, og beslut dig for hvad der lyder sjovest. Vi ser frem til at arbejde sammen med dig!"
@@ -1308,11 +1381,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     social_discource: "Deltag i diskussionen på vores Discourse-forum"
     social_facebook: "Like CodeCombat på Facebook"
     social_twitter: "Følg CodeCombat på Twitter"
-    social_gplus: "Følg CodeCombat på Google+"
 #    social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Bidrag til projektet"
 
   clans:
+#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
+#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
+#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
     clan: "Klan"
     clans: "Klaner"
     new_name: "Nyt klannavn"
@@ -1537,6 +1612,10 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
+#    view_ranking: "view ranking"
+#    ranking_position: "Position"
+#    ranking_players: "Players"
+#    ranking_completed_leves: "Completed levels"
 #    challenge: "Challenge:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1564,6 +1643,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    select_your_classroom: "Select Your Classroom"
 #    no_classrooms_found: "No classrooms found"
 #    create_classroom_manually: "Create classroom manually"
+#    classes: "Classes"
+#    certificate_btn_print: "Print"
+#    certificate_btn_toggle: "Toggle"
+#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+#    set_start_locked_level: "Assign up to level"
+#    no_level_limit: "--"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1577,6 +1662,10 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    code: "__name__'s Code"
 #    complete_solution: "Complete Solution"
 #    course_not_started: "Student has not started this course yet."
+#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
+#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
+#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
+#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1585,6 +1674,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    no_code_yet: "Student has not written any code for this level yet."
 #    open_ended_level: "Open-Ended Level"
 #    partial_solution: "Partial Solution"
+#    capstone_solution: "Capstone Solution"
 #    removing_course: "Removing course"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
@@ -1696,6 +1786,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    empty_credits: "Exhausted Licenses"
 #    license_remaining: "license remaining"
 #    licenses_remaining: "licenses remaining"
+#    student_enrollment_history: "Student Enrollment History"
+#    enrollment_explanation_1: "The"
+#    enrollment_explanation_2: "Student Enrollment History"
+#    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+#    enrollment_explanation_4: "Remember"
+#    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
 #    one_license_used: "1 out of __totalLicenses__ licenses has been used"
 #    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
@@ -1778,7 +1874,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
 #    wd1: "Web Development 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"
 #    wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"
@@ -1818,6 +1914,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    starter_license: "Starter License"
 #    trial: "Trial"
 #    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
+#    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
 #    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
@@ -1897,6 +1995,18 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
+#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+
+#  teacher_ozaria_encouragement_modal:
+#    title: "Build Computer Science Skills to Save Ozaria"
+#    sub_title: "You are invited to try the new adventure game from CodeCombat"
+#    cancel: "Back to CodeCombat"
+#    accept: "Try First Unit Free"
+#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
+#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
+#    bullet3: "Unlock creativity through capstone projects"
+#    bullet4: "Support instructions through dedicated curriculum resources"
+#    you_can_return: "You can always return to CodeCombat"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -1907,6 +2017,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
 #    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
 #    already_shared: "You've already shared these licenses with that teacher."
+#    have_not_shared: "You've not shared these licenses with that teacher."
 #    teachers_using_these: "Teachers who can access these licenses:"
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
@@ -2135,6 +2246,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     helpful_ambassadors: "Vores Hjælpsomme Ambassadørere:"
 
   ladder:
+#    title: "Multiplayer Arenas"
+#    arena_title: "__arena__ | Multiplayer Arenas"
     my_matches: "Mine kampe"
     simulate: "Simulér"
     simulation_explanation: "Ved at simulere spil kan du få dit spil rangeret hurtigere!"
@@ -2197,8 +2310,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     wins: "Vundne" # At end of multiplayer match playback
     humans: "Rød" # Ladder page display team name
     ogres: "Blå"
+#    live_tournament: "Live Tournament"
+#    awaiting_tournament_title: "Tournament Inactive"
+#    awaiting_tournament_blurb: "The tournament arena is not currently active."
+#    tournament_end_desc: "The tournament is over, thanks for playing"
 
   user:
+#    user_title: "__name__ - Learn to Code with CodeCombat"
     stats: "Stats"
     singleplayer_title: "Singleplayer Baner"
     multiplayer_title: "Multiplayer Baner"
@@ -2222,6 +2340,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
+#    certificate_number: "No."
 
   achievements:
     last_earned: "Sidst Tjente"
@@ -2236,6 +2355,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     left_xp_postfix: ""
 
   account:
+#    title: "Account"
+#    settings_title: "Account Settings"
+#    unsubscribe_title: "Unsubscribe"
+#    payments_title: "Payments"
+#    subscription_title: "Subscription"
+#    invoices_title: "Invoices"
+#    prepaids_title: "Prepaids"
     payments: "Betalinger"
     prepaid_codes: "Forudbetalte Koder"
     purchased: "Købt"
@@ -2302,6 +2428,66 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     you_can2: "købe en forudbetalt kode"
     you_can3: "der kan anvendes på din egen konto eller gives til andre."
 
+#  ozaria_chrome:
+#    sound_off: "Sound Off"
+#    sound_on: "Sound On"
+#    back_to_map: "Back to Map"
+#    level_options: "Level Options"
+#    restart_level: "Restart Level"
+
+#  impact:
+#    hero_heading: "Building A World-Class Computer Science Program"
+#    hero_subheading: "We Help Empower Educators and Inspire Students Across the Country"
+#    featured_partner_story: "Featured Partner Story"
+#    partner_heading: "Successfully Teaching Coding at a Title I School"
+#    partner_school: "Bobby Duke Middle School"
+#    featured_teacher: "Scott Baily"
+#    teacher_title: "Technology Teacher Coachella, CA"
+#    implementation: "Implementation"
+#    grades_taught: "Grades Taught"
+#    length_use: "Length of Use"
+#    length_use_time: "3 years"
+#    students_enrolled: "Students Enrolled this Year"
+#    students_enrolled_number: "130"
+#    courses_covered: "Courses Covered"
+#    course1: "CompSci 1"
+#    course2: "CompSci 2"
+#    course3: "CompSci 3"
+#    course4: "CompSci 4"
+#    course5: "GameDev 1"
+#    fav_features: "Favorite Features"
+#    responsive_support: "Responsive Support"
+#    immediate_engagement: "Immediate Engagement"
+#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
+#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
+#    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
+#    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
+#    quote_attribution: "Scott Baily, Technology Teacher"
+#    read_full_story: "Read Full Story"
+#    more_stories: "More Partner Stories"
+#    partners_heading_1: "Supporting Multiple CS Pathways in One Class"
+#    partners_school_1: "Preston High School"
+#    partners_heading_2: "Excelling on the AP Exam"
+#    partners_school_2: "River Ridge High School"
+#    partners_heading_3: "Teaching Computer Science Without Prior Experience"
+#    partners_school_3: "Riverdale High School"
+#    download_study: "Download Research Study"
+#    teacher_spotlight: "Teacher & Student Spotlights"
+#    teacher_name_1: "Amanda Henry"
+#    teacher_title_1: "Rehabilitation Instructor"
+#    teacher_location_1: "Morehead, Kentucky"
+#    spotlight_1: "Through her compassion and drive to help those who need second chances, Amanda Henry helped change the lives of students who need positive role models. With no previous computer science experience, Henry led her students to coding success in a regional coding competition."
+#    teacher_name_2: "Kaila, Student"
+#    teacher_title_2: "Maysville Community & Technical College"
+#    teacher_location_2: "Lexington, Kentucky"
+#    spotlight_2: "Kaila was a student who never thought she would be writing lines of code, let alone enrolled in college with a pathway to a bright future."
+#    teacher_name_3: "Susan Jones-Szabo"
+#    teacher_title_3: "Teacher Librarian"
+#    teacher_school_3: "Ruby Bridges Elementary"
+#    teacher_location_3: "Alameda, CA"
+#    spotlight_3: "Susan Jones-Szabo promotes an equitable atmosphere in her class where everyone can find success in their own way. Mistakes and struggles are welcomed because everyone learns from a challenge, even the teacher."
+#    continue_reading_blog: "Continue Reading on Blog..."
+
   loading_error:
     could_not_load: "Fejl ved indlæsning fra server" # {change}
     connection_failure: "Forbindelsen mislykkedes"
@@ -2311,6 +2497,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     unauthorized: "Du skal være logget ind. Har du har blokeret cookies?"
     forbidden: "Ingen Adgang"
     forbidden_desc: "Øv, der er ikke noget, som vi kan vise dig her! Sørg for, at du er logget ind på den rigtige konto, eller besøg en af ​​nedenstående links for at komme tilbage til programmering!"
+#    user_not_found: "User Not Found"
     not_found: "Ikke Fundet"
     not_found_desc: "Øh, der er ikke noget her. Besøg et af følgende links for at komme tilbage til programmering!"
     not_allowed: "Metode ikke tilladt."
@@ -2540,6 +2727,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     third_party_description: "CodeCombat bruger følgende tredjeparts-tjenester (blandt andre):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Turneringspræmier" # This section was for an old tournament and doesn't need new translations now.
@@ -2669,6 +2857,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    your_parentheses_must_match: "Your parentheses must match."
 
 #  apcsp:
+#    title: "AP Computer Science Principals | College Board Endorsed"
+#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -2754,6 +2944,100 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
 #    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
 
+#  parents_landing_2:
+#    splash_title: "Discover the magic of coding at home."
+#    learn_with_instructor: "Learn with an Instructor"
+#    learn_at_own_pace: "Learn at Your Own Pace"
+#    live_classes: "Live Online Classes"
+#    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
+#    live_class_details_1: "Small group or private lessons"
+#    live_class_details_2: "JavaScript and Python coding, plus core Computer Science concepts"
+#    live_class_details_3: "Taught by expert coding instructors"
+#    live_class_details_4: "Individualized and instant feedback"
+#    live_class_details_5: "Curriculum trusted by 80,000+ educators"
+#    try_free_class: "Try a free 60 minute class"
+#    pricing_plans: "Pricing Plans"
+#    choose_plan: "Choose Plan"
+#    per_student: "per student"
+#    sibling_discount: "15% Sibling Discount!"
+#    small_group_classes: "Small Group Coding Classes"
+#    small_group_classes_detail: "4 Group Sessions / Mo."
+#    small_group_classes_price: "$159/mo"
+#    small_group_classes_detail_1: "4:1 student to instructor ratio"
+#    small_group_classes_detail_2: "60 minute classes"
+#    small_group_classes_detail_3: "Build projects and give feedback to other students"
+#    small_group_classes_detail_4: "Screen sharing to get live feedback on coding and debugging"
+#    private_classes: "Private Coding Classes"
+#    private_classes_detail: "4 or 8 Private Sessions / Mo."
+#    private_classes_price: "$219/mo or $399/mo"
+#    private_classes_detail_1: "1:1 student to instructor ratio"
+#    private_classes_detail_2: "60 minute classes"
+#    private_classes_detail_3: "Flexible schedule tailored to your needs"
+#    private_classes_detail_4: "Lesson plans and live feedback tailored to students' learning style, pace, and ability level"
+#    codecombat_premium: "CodeCombat Premium"
+#    monthly_sub: "Monthly Subscription"
+#    buy_now: "Buy now"
+#    per_month: " / mo"
+#    lifetime_access: "Lifetime Access"
+#    premium_details_title: "Great for self-driven learners who thrive with complete autonomy."
+#    premium_details_1: "Access to subscriber-only heroes, pets and skills"
+#    premium_details_2: "Receive bonus gems to buy gear, pets and more heroes"
+#    premium_details_3: "Unlock a deeper understanding of core concepts and skills like web and game development"
+#    premium_details_4: "Premium support for subscribers"
+#    premium_details_5: "Create private clans to invite friends and compete on a group leaderboard"
+#    premium_need_help: "Need help or prefer Paypal? Email <a href=\"mailto:support@codecombat.com\">support@codecombat.com</a>"
+#    not_sure_kid: "Not sure if CodeCombat is right for your kid?  Ask them!"
+#    share_trailer: "Share our game trailer with your kid and have them create an account to get started."
+#    why_kids_love: "Why Kids Love CodeCombat"
+#    learn_through_play: "Learning Through Play"
+#    learn_through_play_detail: "Students grow their coding skills, and also use problem-solving skills to progress through levels and power up their heroes."
+#    skills_they_can_share: "Skills They Can Share"
+#    skills_they_can_share_details: "Students build real-world skills and create projects, such as games and webpages, that they can share with friends and family."
+#    help_when_needed: "Help When They Need It"
+#    help_when_needed_detail: "Using data, every level has been built to be challenging, but never discouraging.  Students are supported with hints when they get stuck."
+#    book_first_class: "Book your first class"
+#    why_parents_love: "Why Parents Love CodeCombat"
+#    most_engaging: "The most engaging way to learn typed code"
+#    most_engaging_detail: "Your child will have everything they need at the tip of their fingers to program algorithms in Python or JavaScript, build websites and even design their own games, while learning material aligned with national curriculum standards."
+#    critical_skills: "Building critical skills for the 21st century"
+#    critical_skills_detail: "Your child will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking, creativity, and resilience, empowering them with the skills they need for any industry."
+#    parent_support: "Supported by parents like you"
+#    parent_support_detail: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+#    everything_they_need: "Everything they need to start typing code on their own"
+#    beginner_concepts: "Beginner Concepts"
+#    beginner_concepts_1: "Basic syntax"
+#    beginner_concepts_2: "While loops"
+#    beginner_concepts_3: "Arguments"
+#    beginner_concepts_4: "Strings"
+#    beginner_concepts_5: "Variables"
+#    beginner_concepts_6: "Algorithms"
+#    intermediate_concepts: "Intermediate Concepts"
+#    intermediate_concepts_1: "If statements"
+#    intermediate_concepts_2: "Boolean comparisons"
+#    intermediate_concepts_3: "Nested conditionals"
+#    intermediate_concepts_4: "Functions"
+#    intermediate_concepts_5: "Basic input handling"
+#    intermediate_concepts_6: "Basic game artificial intelligence"
+#    advanced_concepts: "Advanced Concepts"
+#    advanced_concepts_1: "Event handling"
+#    advanced_concepts_2: "Conditional while loops"
+#    advanced_concepts_3: "Object literals"
+#    advanced_concepts_4: "Parameters"
+#    advanced_concepts_5: "Vectors"
+#    advanced_concepts_6: "Math library operations"
+#    advanced_concepts_7: "Recursion"
+#    get_started: "Get Started"
+#    quotes_title: "What parents and kids are saying about CodeCombat"
+#    quote_1: "\"This is next level coding for kids and it’s pretty fun. I am going to learn a thing or two from this too.\""
+#    quote_2: "\"I liked learning a new skill that I haven’t done before. I liked that when I was struggling, I could find the goals. I also liked that you could see the code work correctly.\""
+#    quote_3: "\"Oliver’s Python is coming along. He’s using CodeCombat to make his own video games. He challenges me to play his games, then laughs when I lose.\""
+#    quote_4: "\"This is one of my favorite things to do. Every morning I wake up and play CodeCombat. If I had to give CodeCombat a rating from 1 to 10, I would give it a 10!\""
+#    parent: "Parent"
+#    student: "Student"
+#    grade: "Grade"
+#    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
+#    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
 #    name: "Your Name"
@@ -2764,7 +3048,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Welcome to Hour of Code 2019!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -2789,11 +3073,11 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -2808,3 +3092,43 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    first_name: "First Name"
 #    last_initial: "Last Initial"
 #    teacher_email: "Teacher's email address"
+
+#  school_administrator:
+#    title: "School Administrator Dashboard"
+#    my_teachers: "My Teachers"
+#    last_login: "Last Login"
+#    licenses_used: "licenses used"
+#    total_students: "total students"
+#    active_students: "active students"
+#    projects_created: "projects created"
+#    other: "Other"
+#    notice: "The following school administrators have view-only access to your classroom data:"
+#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
+#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
+#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
+#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
+#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
+#    no_teachers: "You are not administrating any teachers."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
+
+#  interactives:
+#    phenomenal_job: "Phenomenal Job!"
+#    try_again: "Whoops, try again!"
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
+
+#  browser_recommendation:
+#    title: "CodeCombat works best on Chrome!"
+#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
+#    download: "Download Chrome"
+#    ignore: "Ignore"

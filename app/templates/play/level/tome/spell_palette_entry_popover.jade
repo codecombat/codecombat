@@ -91,12 +91,12 @@ if !selectedMethod
               span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
             else if language == 'python'
               span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
-            else if language == 'clojure'
-              span= '(.' + docName + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
+            else if language == 'java'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+            else if language == 'cpp'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
             else if language == 'lua'
               span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
-            else if language == 'io'
-              span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
 
 if (doc.type != 'function' && doc.type != 'snippet' && doc.type != 'spawnable' && doc.type != 'event' && doc.type != 'handler' && doc.type != 'property' && !_.contains(['HTML', 'CSS', 'WebJavaScript', 'jQuery'], doc.owner)) || doc.name == 'now'
   p.value

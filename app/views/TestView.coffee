@@ -13,7 +13,7 @@ unless application.karmaTest # Karma doesn't use these two libraries, needs them
   require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot')
 require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax')
 
-requireTests = require.context('test/app', true, /.*\.(coffee|js)$/)
+requireTests = require.context('test', true, /.*\.(coffee|js)$/)
 
 TEST_REQUIRE_PREFIX = './'
 TEST_URL_PREFIX = '/test/'
@@ -33,7 +33,7 @@ module.exports = TestView = class TestView extends RootView
   template: template
   reloadOnClose: true
   className: 'style-flat'
-  
+
   events:
     'click #show-demos-btn': 'onClickShowDemosButton'
     'click #hide-demos-btn': 'onClickHideDemosButton'
@@ -87,9 +87,19 @@ module.exports = TestView = class TestView extends RootView
       @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
   @runTests: (specFiles, demosOn=false, view) ->
+    VueTestUtils = require '@vue/test-utils'
+    locale = require 'locale/locale'
+
+    VueTestUtils.config.mocks["$t"] = (text) ->
+      if text.includes('.')
+        res = text.split(".")
+        return locale.en.translation[res[0]][res[1]]
+      else
+        return locale.en.translation[text]
+
     jasmine.getEnv().addReporter({
       suiteStack: []
-      
+
       specDone: (result) ->
         if result.status is 'failed'
           report = {
@@ -99,15 +109,15 @@ module.exports = TestView = class TestView extends RootView
           }
           view?.failureReports.push(report)
           view?.renderSelectors('#failure-reports')
-        
+
       suiteStarted: (result) ->
         @suiteStack.push(result.description)
 
       suiteDone: (result) ->
         @suiteStack.pop()
-        
+
     })
-    
+
     application.testing = true
     specFiles ?= @getAllSpecFiles()
     if demosOn
@@ -127,7 +137,10 @@ module.exports = TestView = class TestView extends RootView
         jasmine.Ajax.requests.reset()
         Backbone.Mediator.init()
         Backbone.Mediator.setValidationEnabled false
-        spyOn(application.tracker, 'trackEvent')
+        spyOn(application.tracker, 'trackEvent').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'trackPageView').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'identify').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'identifyAfterNextPageLoad').and.returnValue(Promise.resolve())
         application.timeoutsToClear = []
         jasmine.addMatchers(customMatchers)
         @notySpy = spyOn(window, 'noty') # mainly to hide them
@@ -135,7 +148,7 @@ module.exports = TestView = class TestView extends RootView
         #   * document.location
         #   * firebase
         #   * all the services that load in main.html
-  
+
       afterEach ->
         jasmine.Ajax.stubs.reset()
         application.timeoutsToClear?.forEach (timeoutID) ->

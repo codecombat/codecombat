@@ -1,0 +1,51 @@
+extends /templates/core/modal-base-flat.jade
+
+block modal-header-content
+  h3.center(data-i18n="new_home.want_coco")
+
+block modal-body-content
+  .row
+    .col-xs-12
+      p.center
+        strong(data-i18n="anonymous_teacher.teachers_section")
+      p
+        button.btn.btn-primary.btn-lg.btn-block#anonymous-teacher-signup-button(data-i18n="anonymous_teacher.create_teacher_account")
+      p(data-i18n="new_home.get_started_subtitle")
+    //.col-xs-1.separator-column
+    //.col-xs-1
+    //.col-xs-5
+    //  p.center
+    //    strong(data-i18n="anonymous_teacher.students_section")
+    //  if view.state.get('sendEmailState') === 'sent'
+    //    p.center(data-i18n="anonymous_teacher.teacher_notified")
+    //  else
+    //    p
+    //      .input-group
+    //        p
+    //          span(data-i18n="anonymous_teacher.enter_student_name")
+    //          input.form-control.input-lg#anonymous-teacher-student-name-input(data-i18n="[placeholder]anonymous_teacher.student_name_placeholder")
+    //          .name-check
+    //            - var checkNameState = view.state.get('checkNameState');
+    //            if checkNameState === 'invalid'
+    //              small.small
+    //                span.text-burgundy.glyphicon.glyphicon-remove-circle
+    //            if checkNameState === 'valid'
+    //              small.small
+    //                span.text-forest.glyphicon.glyphicon-ok-circle
+    //        p
+    //          span(data-i18n="anonymous_teacher.enter_teacher_email")
+    //          input.form-control.input-lg#anonymous-teacher-email-input(data-i18n="[placeholder]anonymous_teacher.teacher_email_placeholder")
+    //          .email-check
+    //            - var checkEmailState = view.state.get('checkEmailState');
+    //            if checkEmailState === 'invalid'
+    //              small.small
+    //                span.text-burgundy.glyphicon.glyphicon-remove-circle
+    //            if checkEmailState === 'valid'
+    //              small.small
+    //                span.text-forest.glyphicon.glyphicon-ok-circle
+    //      br
+    //      p
+    //        button.btn.btn-primary.btn-lg.pull-right#anonymous-teacher-email-send-button(data-i18n="anonymous_teacher.notify_teacher", disabled=view.state.get('checkEmailState') != 'valid' || view.state.get('checkNameState') != 'valid')
+    //      small.small#anonymous-teacher-email-error
+    //        if view.state.get('sendEmailState') == 'error'
+    //          span(data-i18n="signup.parent_email_error")
