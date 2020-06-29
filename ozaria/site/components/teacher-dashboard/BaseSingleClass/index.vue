@@ -64,16 +64,25 @@
           const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId][moduleNum]}`
           const moduleStatsForTable = {
             displayName: moduleDisplayName,
-            contentList: moduleContent.map(({ displayName, type, _id, name }) => {
+            contentList: moduleContent.map(({ displayName, type, _id, name, ozariaType }) => {
               let normalizedType = type
-              // TODO: What/how do we detect a 'challengelvl'?
-              if (type === 'game-dev') {
-                normalizedType = 'capstone'
-              } else if (type === undefined) {
-                normalizedType = 'practicelvl'
-              } else if (type === 'course') {
-                normalizedType = 'practicelvl'
+
+              if (ozariaType) {
+                if (ozariaType === 'challenge') {
+                  normalizedType = 'challengelvl'
+                } else if (ozariaType === 'practice') {
+                  normalizedType = 'practicelvl'
+                } else if (ozariaType === 'capstone') {
+                  normalizedType = 'capstone'
+                }
+              } else {
+                normalizedType = type;
               }
+
+              if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].includes(normalizedType)) {
+                throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
+              }
+
               return ({
                 displayName: displayName || name,
                 type: normalizedType,
