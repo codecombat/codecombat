@@ -5,15 +5,10 @@ block content
     .row#top-banner
       .row.width-container
         .col-xs-12
-          - var bannerSwapDate = new Date('2020-06-29T06:00:00.000-07:00') // 6/29/20 6am PST
-          if new Date() > bannerSwapDate
-            span(data-i18n="new_home.top_banner_blurb")
-            a(href="https://www.seedinvest.com/codecombat?utm_campaign=seedinvestcampaign&utm_medium=landingpage&utm_source=codecombat", data-event-action="Click: SeedInvest Banner")
-              span(data-i18n="new_home.click_here")
-            span.spl(data-i18n="new_home.become_investor")
-          else 
-            span(data-i18n="new_home.covid19_banner_blurb")
-            a(href="https://codecombat.com/parents", data-i18n="new_home.learn_more_caps", data-event-action="Click: School Closure Banner")
+          span(data-i18n="new_home.top_banner_blurb")
+          a(href="https://www.seedinvest.com/codecombat?utm_campaign=seedinvestcampaign&utm_medium=landingpage&utm_source=codecombat", data-event-action="Click: SeedInvest Banner")
+            span(data-i18n="new_home.click_here")
+          span.spl(data-i18n="new_home.become_investor")
     .row#jumbotron-container-fluid
       img.img-responsive(src="/images/ozaria/home/jumbotron.png")
       .header-contents
