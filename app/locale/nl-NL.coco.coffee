@@ -33,7 +33,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
 #    click_here: "Click here"
-#    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -99,7 +98,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
     learn_more: "Lees verder"
-#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Kant-en-klare programmeerlessen."
     codecombat_is: "CodeCombat is een platform waarmee leerlingen spelenderwijs leren programmeren." # {change}
     our_courses: "Onze lessen zijn ontwikkeld voor een klasomgeving en kan meteen worden gebruikt, zelfs door leraren zonder programmeerervaring." # {change}

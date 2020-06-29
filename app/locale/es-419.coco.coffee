@@ -33,7 +33,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classroom_in_box_blurb2: "Apoderar a cualquier educador para que se sienta seguro al enseñar programación."
     classroom_in_box_blurb3: "Inspirar a todos los líderes escolares para crear un programa de Ciencias de la Computación de clase mundial."
 #    click_here: "Click here"
-#    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
     creativity_rigor_title: "Donde la creatividad alcanza el rigor"
     creativity_rigor_subtitle1: "Haga que la programación sea divertida y enseñe habilidades del mundo real"
     creativity_rigor_blurb1: "Los estudiantes escriben Python y JavaScript real mientras juegan juegos que fomentan el ensayo y error, el pensamiento crítico y la creatividad. Luego, los estudiantes aplican las habilidades de programación que han aprendido al desarrollar sus propios juegos y sitios web en cursos basados en proyectos."
@@ -99,7 +98,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     im_a_teacher: "Soy un Maestro"
     im_a_student: "Soy un Estudiante"
     learn_more: "Aprender más"
-#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Un aula prediseñada para enseñar Ciencias de la Computación."
     codecombat_is: "CodeCombat es una plataforma para que los estudiantes aprendan Ciencias de la Computación mientras están jugando un juego de verdad." # {change}
     our_courses: "Nuestros cursos fueron probados especificamente para destacarse en el aula, incluso con maestros con poca o ninguna experiencia previa en programación." # {change}
