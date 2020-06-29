@@ -9,7 +9,7 @@
 [![Buildarte Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
 [![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
 
-**NOTE: The process for setting up the dev environment has changed. Please refer to [the docs for details](../../wiki/Dev-Setup:-General-Information).**
+CodeCombat now runs in Docker! You can easily get up and running with CodeCombat in your local environment by following the [Docker guide](../../wiki/Dev-Setup:-General-Information).
 
 CodeCombat is a multiplayer programming game for learning how to code.
 **See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
@@ -21,14 +21,6 @@ largest open source [CoffeeScript](http://coffeescript.org/) project by lines of
 code, and since it's a game (with [really cool tech](../../wiki/Third-party-software-and-services)),
 it's really fun to hack on. Join us in teaching the world to code! Your
 contribution will go on to show millions of players how cool programming can be.
-
-### [Getting Started](../../wiki/Dev-Setup:-General-Information)
-
-We've made it easy to fork the project, run a simple script that'll install all
-the dependencies, and get a local copy of CodeCombat running right away on
-[Mac](../../wiki/Dev-Setup:-Mac), [Linux](../../wiki/Dev-Setup:-Linux),
-[Windows](../../wiki/Dev-Setup:-Windows), or [Vagrant](../../wiki/Dev-Setup:-Vagrant).
-See [the docs for details](../../wiki/Dev-Setup:-General-Information).
 
 ### [Getting In Touch](../../wiki/Developer-organization)
 

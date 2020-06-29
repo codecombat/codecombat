@@ -21,6 +21,7 @@ module.exports = (env) => {
       }),
       new LiveReloadPlugin({ // Reload the page upon rebuild
         appendScriptTag: true,
+        port: process.env.WEBPACK_LIVE_RELOAD_PORT || 35432
       }),
     ])
   })
