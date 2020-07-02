@@ -5,6 +5,10 @@
   import TitleBar from '../common/TitleBar'
   import LoadingBar from '../common/LoadingBar'
   import PageNoLicenses from './PageNoLicenses'
+  import PageLicenses from './PageLicenses'
+  import ModalGetLicenses from '../modals/ModalGetLicenses'
+  import ModalApplyLicenses from '../modals/ModalApplyLicenses'
+  import ModalShareLicenses from '../modals/ModalShareLicenses/index'
 
   export default {
     name: COMPONENT_NAMES.MY_LICENSES,
@@ -12,14 +16,34 @@
       'secondary-teacher-navigation': SecondaryTeacherNavigation,
       'title-bar': TitleBar,
       'loading-bar': LoadingBar,
-      'page-no-licenses': PageNoLicenses
+      'page-no-licenses': PageNoLicenses,
+      'page-licenses': PageLicenses,
+      ModalGetLicenses,
+      ModalApplyLicenses,
+      ModalShareLicenses
+    },
+
+    data: () => {
+      return {
+        showModalGetLicenses: false,
+        showModalApplyLicenses: false,
+        showModalShareLicenses: false,
+        sharePrepaid: '' // for share licenses modal
+      }
     },
 
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        activeClassrooms: 'teacherDashboard/getActiveClassrooms'
-      })
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+        activeLicenses: 'teacherDashboard/getActiveLicenses',
+        expiredLicenses: 'teacherDashboard/getExpiredLicenses',
+        teacherId: 'teacherDashboard/teacherId'
+      }),
+
+      showLicensesPage () {
+        return this.activeLicenses.length > 0 || this.expiredLicenses.length > 0
+      }
     },
 
     mounted () {
@@ -38,7 +62,17 @@
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
         setTeacherId: 'teacherDashboard/setTeacherId'
-      })
+      }),
+      getLicenses () {
+        this.showModalGetLicenses = true
+      },
+      applyLicenses () {
+        this.showModalApplyLicenses = true
+      },
+      shareLicenses (prepaid) {
+        this.showModalShareLicenses = true
+        this.sharePrepaid = prepaid
+      }
     }
   }
 </script>
@@ -53,6 +87,33 @@
       :key="loading"
       :loading="loading"
     />
-    <page-no-licenses />
+
+    <page-licenses
+      v-if="showLicensesPage"
+      :active-licenses="activeLicenses"
+      :expired-licenses="expiredLicenses"
+      :teacher-id="teacherId"
+      @getLicenses="getLicenses"
+      @apply="applyLicenses"
+      @share="shareLicenses"
+    />
+    <page-no-licenses
+      v-else-if="!loading"
+      @getLicenses="getLicenses"
+    />
+
+    <modal-get-licenses
+      v-if="showModalGetLicenses"
+      @close="showModalGetLicenses = false"
+    />
+    <modal-apply-licenses
+      v-if="showModalApplyLicenses"
+      @close="showModalApplyLicenses = false"
+    />
+    <modal-share-licenses
+      v-if="showModalShareLicenses"
+      :prepaid="sharePrepaid"
+      @close="showModalShareLicenses = false"
+    />
   </div>
 </template>

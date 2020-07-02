@@ -489,6 +489,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     invalidEmail: 'Invalid email'
     invalidPhone: 'Invalid phone number'
     emailExists: 'Email already exists'
+    numberGreaterThanZero: 'Should be a number greater than 0'
 
   recover:
     recover_account_title: "Recover Account"
@@ -2151,6 +2152,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     peer_feedback: "Peer Feedback Form"
     presentation_checklist: "Presentation Checklist"
 
+  teacher_licenses:
+    active_licenses: "Active Licenses"
+    expired_licenses: "Expired Licenses"
+
   share_licenses:
     share_licenses: "Share Licenses"
     shared_by: "Shared By:"
@@ -2165,7 +2170,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you: "(you)"
     one_license_used: "(1 license used)"
     licenses_used: "(__licensesUsed__ licenses used)"
+    licenses_used_no_braces: "__licensesUsed__ licenses used"
     more_info: "More info"
+    shared_pool_label: "Teachers in your shared pool:"
 
   sharing:
     game: "Game"

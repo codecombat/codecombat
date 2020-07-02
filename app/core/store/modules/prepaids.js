@@ -1,4 +1,5 @@
 import prepaidsApi from 'core/api/prepaids'
+import usersApi from 'core/api/users'
 
 const Prepaid = require('models/Prepaid')
 const User = require('models/User')
@@ -13,6 +14,10 @@ export default {
 
     prepaids: {
       byTeacher: {} // grouped by status - expired, pending, empty and available
+    },
+
+    joiners: { // users in the shared pool of a prepaid
+      byPrepaid: {}
     }
   },
 
@@ -44,6 +49,21 @@ export default {
         }
       })
       Vue.set(state.prepaids.byTeacher, teacherId, teacherPrepaids)
+    },
+
+    setJoinersForPrepaid: (state, { prepaidId, joiners }) => {
+      Vue.set(state.joiners.byPrepaid, prepaidId, joiners)
+    },
+
+    addJoinerForPrepaid: (state, { prepaidId, joiner }) => {
+      const joiners = state.joiners.byPrepaid[prepaidId] || []
+      joiners.push({
+        _id: joiner._id,
+        firstName: joiner.firstName,
+        lastName: joiner.lastName,
+        email: joiner.email
+      })
+      Vue.set(state.joiners.byPrepaid, prepaidId, joiners)
     }
   },
 
@@ -61,6 +81,28 @@ export default {
       const totalAvailableSpots = availablePrepaids.reduce((acc, prepaid) => acc + prepaid.openSpots(), 0)
       const totalSpots = availablePrepaids.reduce((acc, prepaid) => acc + prepaid.totalSpots(), 0)
       return { totalAvailableSpots, totalSpots, usedLicenses: totalSpots - totalAvailableSpots }
+    },
+
+    getActiveLicensesForTeacher: (_state, getters) => (id) => {
+      const prepaids = getters.getPrepaidsByTeacher(id)
+      if (!prepaids) {
+        return []
+      }
+      let active = []
+      active = active.concat(prepaids.available).concat(prepaids.empty).concat(prepaids.pending)
+      return active
+    },
+
+    getExpiredLicensesForTeacher: (_state, getters) => (id) => {
+      const prepaids = getters.getPrepaidsByTeacher(id)
+      if (!prepaids) {
+        return []
+      }
+      return prepaids.expired
+    },
+
+    getJoinersForPrepaid: (state) => (id) => {
+      return state.joiners.byPrepaid[id] || []
     }
   },
 
@@ -82,6 +124,35 @@ export default {
         })
         .catch((e) => noty({ text: 'Fetch prepaids failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
+    },
+
+    fetchJoinersForPrepaid: ({ commit }, prepaidId) => {
+      return prepaidsApi.fetchJoiners({ prepaidID: prepaidId })
+        .then(joiners => {
+          if (joiners) {
+            commit('setJoinersForPrepaid', {
+              prepaidId,
+              joiners
+            })
+          } else {
+            throw new Error('Unexpected response from fetch joiners API.')
+          }
+        })
+        .catch((e) => console.error('Error in fetching prepaid joiners:', e))
+    },
+
+    addJoinerForPrepaid: ({ commit }, { prepaidId, email }) => {
+      return usersApi.getByEmail({ email })
+        .then(user => {
+          if (user) {
+            prepaidsApi.addJoiner({ prepaidID: prepaidId, userID: user._id })
+              .then(() => {
+                commit('addJoinerForPrepaid', { prepaidId: prepaidId, joiner: user })
+              })
+              .catch((e) => noty({ text: 'Error:' + e.message, type: 'error', layout: 'topCenter', timeout: 2000 }))
+          }
+        })
+        .catch((e) => console.error('Error in adding prepaid joiner:', e))
     },
 
     async applyLicenses ({ getters }, { members, teacherId }) {

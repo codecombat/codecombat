@@ -11,6 +11,17 @@
         type: String,
         required: true,
         default: ''
+      },
+      inactive: {
+        type: Boolean,
+        default: false
+      }
+    },
+    methods: {
+      onClick () {
+        if (!this.inactive) {
+          this.$emit('click')
+        }
       }
     }
   }
@@ -19,7 +30,9 @@
 <template>
   <div
     class="btn-icon-text"
-    @click="$emit('click')"
+    :class="{ disabled: inactive }"
+    :disabled="inactive"
+    @click="onClick"
   >
     <img :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'">
     <span> {{ text }} </span>
@@ -37,7 +50,7 @@
   cursor: pointer;
 
   img {
-    width: 18px;
+    width: 23px;
     height: 18px;
     margin: 0 4px;
   }
@@ -49,6 +62,13 @@
     line-height: 12px;
     margin: 0 4px;
     text-align: left;
+  }
+
+  &.disabled {
+    cursor: default;
+    span {
+      color: #ADADAD;
+    }
   }
 }
 </style>

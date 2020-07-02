@@ -47,6 +47,9 @@ export default {
         })
       }
       return members
+    },
+    getUserById: (state) => (id) => {
+      return state.users.byId[id]
     }
   },
 
@@ -76,6 +79,17 @@ export default {
         .then(res => {
           if (res && res.length > 0) {
             commit('setUsers', res)
+          }
+        })
+        .catch((e) => noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+    },
+
+    fetchCreatorOfPrepaid: ({ commit }, prepaidId) => {
+      return usersApi
+        .fetchCreatorOfPrepaid({ prepaidId: prepaidId })
+        .then(res => {
+          if (res) {
+            commit('setUsers', [res])
           }
         })
         .catch((e) => noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))

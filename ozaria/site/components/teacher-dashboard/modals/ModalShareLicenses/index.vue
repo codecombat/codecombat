@@ -1,0 +1,226 @@
+<script>
+  import { validationMixin } from 'vuelidate'
+  import { required, email } from 'vuelidate/lib/validators'
+  import BaseModalTeacherDashboard from '../BaseModalTeacherDashboard'
+  import PrimaryButton from '../../common/buttons/PrimaryButton'
+  import SecondaryButton from '../../common/buttons/SecondaryButton'
+  import SharedPoolRow from './SharedPoolRow'
+  import ModalDivider from '../common/ModalDivider'
+  import { mapActions, mapGetters } from 'vuex'
+
+  export default Vue.extend({
+    components: {
+      BaseModalTeacherDashboard,
+      PrimaryButton,
+      SecondaryButton,
+      SharedPoolRow,
+      ModalDivider
+    },
+    mixins: [validationMixin],
+    props: {
+      prepaid: {
+        type: Object,
+        default: () => {},
+        required: true
+      }
+    },
+
+    data: () => ({
+      teacherEmailInput: ''
+    }),
+
+    validations: {
+      teacherEmailInput: {
+        required,
+        email
+      }
+    },
+
+    computed: {
+      ...mapGetters({
+        getJoinersForPrepaid: 'prepaids/getJoinersForPrepaid',
+        getUserById: 'users/getUserById'
+      }),
+
+      sharedPoolForPrepaid () {
+        const owner = this.getUserById(this.prepaid.creator) || {}
+        const joiners = this.getJoinersForPrepaid(this.prepaid._id).concat(owner)
+
+        const licensesUsedMap = {}
+        const redeemers = this.prepaid.redeemers || []
+        redeemers.forEach((r) => {
+          const teacherId = r.teacherID || this.teacherId
+          if (!licensesUsedMap[teacherId]) {
+            licensesUsedMap[teacherId] = 1
+          } else {
+            licensesUsedMap[teacherId] = licensesUsedMap[teacherId] + 1
+          }
+        })
+
+        joiners.forEach((j) => {
+          j.licensesUsed = licensesUsedMap[j._id] || 0
+        })
+
+        joiners.sort((a, b) => (a.licensesUsed > b.licensesUsed) ? -1 : 1) // sort by descending order of licenses used
+
+        return joiners
+      }
+    },
+
+    methods: {
+      ...mapActions({
+        addJoinerForPrepaid: 'prepaids/addJoinerForPrepaid'
+      }),
+      addTeacher () {
+        if (!this.$v.$invalid) {
+          this.addJoinerForPrepaid({ prepaidId: this.prepaid._id, email: this.teacherEmailInput })
+        }
+      }
+    }
+  })
+</script>
+
+<template>
+  <base-modal-teacher-dashboard
+    title="Share Licenses"
+    @close="$emit('close')"
+  >
+    <div class="share-licenses">
+      <div class="share-licenses-info">
+        <span class="sub-title"> You can make your licenses available to other teachers in a shared pool. </span>
+        <ul class="info-list">
+          <li class="list-item"> Each license can only be used for one student at a time. </li>
+          <li class="list-item"> When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use. </li>
+        </ul>
+      </div>
+      <div class="style-ozaria teacher-form">
+        <div class="form-container">
+          <div
+            class="form-group row teacher-email-input"
+            :class="{ 'has-error': $v.teacherEmailInput.$error }"
+          >
+            <div class="col-xs-12">
+              <span class="control-label"> {{ $t("share_licenses.add_teacher_label") }} </span>
+              <input
+                v-model="$v.teacherEmailInput.$model"
+                type="text"
+                class="form-control"
+              >
+              <span
+                v-if="!$v.teacherEmailInput.email"
+                class="form-error"
+              > {{ $t("form_validation_errors.invalidEmail") }} </span>
+            </div>
+          </div>
+          <div class="form-group row add-button">
+            <div class="col-xs-12">
+              <primary-button
+                @click="addTeacher"
+              >
+                {{ $t("share_licenses.add_teacher_button") }}
+              </primary-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <modal-divider
+        :with-or-text="false"
+      />
+      <div class="shared-pool-div">
+        <span class="sub-title"> {{ $t("share_licenses.shared_pool_label") }} </span>
+        <shared-pool-row
+          v-for="teacher in sharedPoolForPrepaid"
+          :key="teacher._id"
+          class="shared-pool-div-row"
+          :name="`${teacher.firstName} ${teacher.lastName}`"
+          :email="teacher.email"
+          :licenses-used="teacher.licensesUsed"
+        />
+      </div>
+      <div class="buttons">
+        <secondary-button
+          @click="$emit('close')"
+        >
+          {{ $t("common.done") }}
+        </secondary-button>
+      </div>
+    </div>
+  </base-modal-teacher-dashboard>
+</template>
+
+<style lang="scss" scoped>
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "ozaria/site/styles/common/variables.scss";
+
+.share-licenses {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  width: 600px;
+}
+
+.sub-title {
+  @include font-p-2-paragraph-medium-gray;
+  font-weight: 600;
+  color: $pitch;
+}
+
+.info-list {
+  margin: 15px -20px;
+}
+
+.list-item {
+  @include font-p-3-paragraph-small-gray;
+  margin: 5px 0px;
+}
+
+.teacher-form {
+  width: 100%;
+}
+
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.teacher-email-input {
+  width: 100%;
+}
+
+.add-button {
+  align-self: flex-start;
+
+  button {
+    width: 200px;
+    height: 35px;
+    margin: 0 10px;
+  }
+}
+
+.shared-pool-div {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.shared-pool-div-row {
+  margin: 10px 0px;
+}
+
+.buttons {
+  align-self: flex-end;
+  display: flex;
+  margin-top: 30px;
+
+  button {
+    width: 200px;
+    height: 35px;
+    margin: 0 10px;
+  }
+}
+
+</style>
