@@ -5,11 +5,6 @@
     components: {
       PrimaryButton,
       LicensesCarouselContainer
-    },
-    methods: {
-      clickGetLicenses () {
-        console.log('get licenses') // TODO
-      }
     }
   }
 </script>
@@ -26,7 +21,7 @@
           </p>
           <primary-button
             class="get-licenses-btn"
-            @click="clickGetLicenses"
+            @click="$emit('getLicenses')"
           >
             {{ $t("no_licenses_page.get_licenses") }}
           </primary-button>
@@ -82,7 +77,7 @@
         <span class="p-medium-text twilight-text text-center"> {{ $t("no_licenses_page.join_our_community_desc") }} </span>
         <primary-button
           class="get-licenses-btn"
-          @click="clickGetLicenses"
+          @click="$emit('getLicenses')"
         >
           {{ $t("no_licenses_page.get_licenses") }}
         </primary-button>

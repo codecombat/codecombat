@@ -100,4 +100,9 @@ module.exports = {
     fetchJson("/db/user/setUserCountryGeo", _.assign({}, options, {
       method: 'PUT'
     }))
+
+  fetchCreatorOfPrepaid: ({prepaidId}, options={}) ->
+    fetchJson("/db/prepaid/#{prepaidId}/creator", _.assign({}, options, {
+      method: 'GET'
+    }))
 }

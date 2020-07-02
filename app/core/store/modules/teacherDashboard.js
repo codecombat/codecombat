@@ -107,6 +107,20 @@ export default {
         return rootGetters['gameContent/getContentForClassroom'](state.classroomId) || {}
       }
       return {}
+    },
+    getActiveLicenses (state, _getters, _rootState, rootGetters) {
+      if (state) {
+        return rootGetters['prepaids/getActiveLicensesForTeacher'](state.teacherId) || []
+      } else {
+        return []
+      }
+    },
+    getExpiredLicenses (state, _getters, _rootState, rootGetters) {
+      if (state.teacherId) {
+        return rootGetters['prepaids/getExpiredLicensesForTeacher'](state.teacherId) || []
+      } else {
+        return []
+      }
     }
   },
 
@@ -122,6 +136,7 @@ export default {
       }
 
       commit('startLoading')
+      // TODO for all pages - refactor the fetching that shouldnt block loading indicator, eg: fetchDataMyLicensesAsync
       try {
         if (componentName === COMPONENT_NAMES.MY_CLASSES_ALL) {
           // My classes page
@@ -135,6 +150,7 @@ export default {
         } else if (componentName === COMPONENT_NAMES.MY_LICENSES) {
           // Teacher licenses page
           await dispatch('fetchDataMyLicenses', options)
+          dispatch('fetchDataMyLicensesAsync', options) // does not block loading indicator
         } else if (componentName === COMPONENT_NAMES.RESOURCE_HUB) {
           // Resource Hub page
           await dispatch('fetchDataResourceHub', options)
@@ -250,6 +266,20 @@ export default {
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
 
+      await Promise.all(fetchPromises)
+    },
+
+    // Teacher licenses page - without blocking loading indicator
+    async fetchDataMyLicensesAsync ({ state, dispatch, getters }, options = {}) {
+      const fetchPromises = []
+
+      const licenses = getters['getActiveLicenses'].concat(getters['getExpiredLicenses'])
+      const licenseIds = (licenses || []).map((l) => l._id)
+
+      licenseIds.forEach((id) => {
+        fetchPromises.push(dispatch('users/fetchCreatorOfPrepaid', id, { root: true }))
+        fetchPromises.push(dispatch('prepaids/fetchJoinersForPrepaid', id, { root: true }))
+      })
       await Promise.all(fetchPromises)
     },
 
