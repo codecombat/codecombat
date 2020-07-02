@@ -166,7 +166,9 @@
 
 #secondaryNav {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-left: 23.5px;
   height: 35px;
   min-height: 35px;
 
