@@ -1,5 +1,5 @@
 <script>
-  import { mapState, mapActions } from 'vuex'
+  import { mapState, mapActions, mapGetters } from 'vuex'
 
   import ChapterNav from './components/ChapterNav'
   import ChapterInfo from './components/ChapterInfo'
@@ -19,7 +19,24 @@
     computed: {
       ...mapState({
         isVisible: state => state.baseCurriculumGuide.visible
-      })
+      }),
+
+      ...mapGetters({
+        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+        getModuleInfo: 'baseCurriculumGuide/getModuleInfo'
+      }),
+
+      conceptsCovered () {
+        return this.getCurrentCourse?.concepts || []
+      },
+
+      cstaStandards () {
+        return this.getCurrentCourse?.cstaStandards || []
+      },
+
+      moduleNumbers () {
+        return Object.keys(this.getModuleInfo || {})
+      }
     },
 
     methods: {
@@ -54,14 +71,11 @@
     <div class="fluid-container">
       <div class="row">
         <div class="col-md-9">
-          <module-content />
-          <module-content />
-          <module-content />
-          <module-content />
+          <module-content :module-num="num" v-for="num in moduleNumbers" :key="num"/>
         </div>
         <div class="col-md-3">
-          <concepts-covered />
-          <csta-standards />
+          <concepts-covered :concept-list="conceptsCovered" />
+          <csta-standards :csta-list="cstaStandards" />
         </div>
       </div>
     </div>

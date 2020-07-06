@@ -1,11 +1,12 @@
 import classroomsApi from 'core/api/classrooms'
 import campaignsApi from 'core/api/campaigns'
 
+// These default projections ensure the curriculum guide has the info it needs, as it is globally available.
 const defaultProjections = {
-  cinematics: '_id,i18n,name,slug,displayName',
+  cinematics: '_id,i18n,name,slug,displayName,description',
   interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation',
-  cutscenes: '_id,i18n,name,slug,displayName',
-  levels: 'original,name,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals'
+  cutscenes: '_id,i18n,name,slug,displayName,description',
+  levels: 'original,name,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,documentation'
 }
 
 export default {
@@ -108,7 +109,7 @@ export default {
     },
 
     fetchGameContentForCampaign: ({ commit, state }, { campaignId, options = {} }) => {
-      if (state.gameContent.byClassroom[campaignId]) {
+      if (state.gameContent.byCampaign[campaignId]) {
         return Promise.resolve()
       }
       commit('toggleLoadingForCampaign', campaignId)

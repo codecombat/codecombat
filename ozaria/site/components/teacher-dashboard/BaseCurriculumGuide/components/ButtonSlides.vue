@@ -1,6 +1,22 @@
+<script>
+  export default {
+    props: {
+      link: {
+        type: String,
+        required: true
+      }
+    }
+  }
+</script>
 <template>
   <div>
-    <img src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg">
+    <a
+      :href="link"
+      target="_blank"
+      rel="noopener"
+    >
+      <img src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg">
+    </a>
   </div>
 </template>
 
