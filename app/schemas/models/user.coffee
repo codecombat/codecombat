@@ -111,6 +111,12 @@ _.extend UserSchema.properties,
         type: c.shortString() # E.g 'share progress modal parent'
         email: c.shortString()
         sent: c.date() # Set when sent
+
+    validations: c.array, { title: 'Sendgrid email validation results' },
+      c.object {},
+        validationDate: c.date()
+        result: c.object({ additionalProperties: true })
+
   unsubscribedFromMarketingEmails: { type: 'boolean' }
 
   consentHistory: c.array {title: 'History of consent actions'},
