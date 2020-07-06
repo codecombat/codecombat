@@ -115,7 +115,7 @@ _.extend UserSchema.properties,
     validations: c.array, { title: 'Sendgrid email validation results' },
       c.object {},
         validationDate: c.date()
-        result: c.object()
+        result: c.object({ additionalProperties: true })
 
   unsubscribedFromMarketingEmails: { type: 'boolean' }
 
