@@ -100,7 +100,13 @@
 
           // Iterate over all the students and all the sessions for the student.
           for (const student of this.students) {
-            const studentSessions = this.levelSessionsMapByUser[student._id]
+            const studentSessions = this.levelSessionsMapByUser[student._id] || {}
+            const levelOriginalCompletionMap = {}
+
+            for (const session of Object.values(studentSessions)) {
+              levelOriginalCompletionMap[session.level.original] = session.state
+            }
+
             moduleStatsForTable.studentSessions[student.displayName] = moduleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
               let normalizedOriginal = original || fromIntroLevelOriginal
@@ -129,32 +135,45 @@
                   classSummaryProgressMap.set(content._id, defaultProgressDot.status)
                 } else {
                   defaultProgressDot.status = 'progress'
+                }
+
+                // Allows for incremental completion of an intro level.
+                // We do not need to check if an interactive is in progress here.
+                if (['interactive', 'cinematic', 'cutscene'].includes(defaultProgressDot.normalizedType)) {
+                  defaultProgressDot.status = 'assigned'
+
+                  if (levelOriginalCompletionMap[fromIntroLevelOriginal]?.introContentSessionComplete?.[content._id]?.complete) {
+                    defaultProgressDot.status = 'complete'
+                    classSummaryProgressMap.set(content._id, defaultProgressDot.status)
+                  }
+
+                  // Preserve backwards compatability if there is no introContentSessionComplete property.
+                  if (
+                    levelOriginalCompletionMap[fromIntroLevelOriginal]?.complete === true
+                    && defaultProgressDot.status !== 'complete'
+                    && (levelOriginalCompletionMap[fromIntroLevelOriginal]?.introContentSessionComplete?.[content._id]) === undefined
+                  ) {
+                    defaultProgressDot.status = 'complete'
+                  }
+
                   if (classSummaryProgressMap.get(content._id) !== 'complete') {
                     classSummaryProgressMap.set(content._id, defaultProgressDot.status)
                   }
                 }
 
-                // Level types that teacher can open TeacherDashboardPanel on.
-                if (['practicelvl', 'capstone', 'interactive'].includes(defaultProgressDot.normalizedType)) {
-                  defaultProgressDot.clickHandler = () => {
-                    this.showPanelSessionContent({
-                      student: student,
-                      classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
-                      selectedCourseId: this.selectedCourseId,
-                      moduleNum: moduleNum,
-                      contentId: content._id
-                    })
-                  }
-                  defaultProgressDot.selectedKey = `${student._id}_${content._id}`
-                }
-
-                // Figure out if concept flag needs to be set on the progress dot.
-                // This has been adapted from coursesHelper.
+                // Figure out if concept flag needs to be set on an interactive,
+                // and whether an interactive is in progress.
                 if (defaultProgressDot.normalizedType === 'interactive') {
                   const interactiveSession = this.getInteractiveSessionsForClass(this.classroomId)?.[student._id]?.[content._id]
                   if (interactiveSession !== undefined) {
                     const dateFirstCompleted = interactiveSession.dateFirstCompleted || undefined
                     let submissionsBeforeCompletion = []
+
+                    // Makes sure to mark interactives for which we have sessions. We would have
+                    // already marked for completion earlier. Here we are checking for progress.
+                    if (defaultProgressDot.status === 'assigned') {
+                      defaultProgressDot.status = 'progress'
+                    }
 
                     if (dateFirstCompleted) {
                       submissionsBeforeCompletion = interactiveSession.submissions.filter((s) => new Date(s.submissionDate).getTime() <= new Date(dateFirstCompleted).getTime()) || []
@@ -166,7 +185,32 @@
                       // Used by TableModuleGrid file to assign a border on the session.
                       defaultProgressDot.flag = 'concept'
                     }
+                  } else {
+                    // If there are no interactive sessions we ensure no progress is shown.
+                    // This check is requires because with backwards compatibility we cannot have
+                    // an interactive without sessions be shown as assigned or complete.
+                    defaultProgressDot.status === 'assigned'
                   }
+                }
+
+                // Level types that teacher can open TeacherDashboardPanel on.
+                // We also need to make sure that teachers can only click if a session exists.
+                if (['practicelvl', 'capstone', 'interactive'].includes(defaultProgressDot.normalizedType) && defaultProgressDot.status !== 'assigned') {
+                  defaultProgressDot.clickHandler = () => {
+                    this.showPanelSessionContent({
+                      student: student,
+                      classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
+                      selectedCourseId: this.selectedCourseId,
+                      moduleNum: moduleNum,
+                      contentId: content._id
+                    })
+                  }
+
+                  if (classSummaryProgressMap.get(content._id) !== 'complete' && defaultProgressDot.status !== 'assigned') {
+                    classSummaryProgressMap.set(content._id, defaultProgressDot.status)
+                  }
+
+                  defaultProgressDot.selectedKey = `${student._id}_${content._id}`
                 }
               } else {
                 console.error(`Invariant violated: Content has neither original nor _id: ${content}`)
