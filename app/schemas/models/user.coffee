@@ -112,7 +112,7 @@ _.extend UserSchema.properties,
         email: c.shortString()
         sent: c.date() # Set when sent
 
-    validations: c.array, { title: 'Sendgrid email validation results'},
+    validations: c.array, { title: 'Sendgrid email validation results' },
       c.object {},
         validationDate: c.date()
         result: c.object()
