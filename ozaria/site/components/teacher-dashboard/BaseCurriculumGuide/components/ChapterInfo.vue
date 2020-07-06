@@ -2,34 +2,82 @@
   import IconHelp from '../../common/icons/IconHelp'
   import ButtonPlayChapter from './ButtonPlayChapter'
   import ButtonSolutionGuide from './ButtonSolutionGuide'
+
+  import { mapGetters } from 'vuex'
+
   export default {
     components: {
       IconHelp,
       ButtonPlayChapter,
       ButtonSolutionGuide
+    },
+
+    computed: {
+      ...mapGetters({
+        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+        getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
+        getCourseUnitMapUrl: 'baseCurriculumGuide/getCourseUnitMapUrl'
+      }),
+
+      courseShortName () {
+        return this.getCurrentCourse?.shortName || this.getCurrentCourse?.name || ''
+      },
+
+      courseDescription () {
+        return this.getCurrentCourse?.description || ''
+      },
+
+      capstoneName () {
+        return this.getCapstoneInfo?.displayName || this.getCapstoneInfo?.name
+      },
+
+      totalCourseDuration () {
+        return this.getCurrentCourse?.duration?.total || 0
+      },
+
+      getCourseThumbnail () {
+        // Use backup image if content screenshot missing.
+        return this.getCurrentCourse?.screenshot || `/images/ozaria/teachers/dashboard/png_img/TempChapter1PlaceholderArt.png`
+      }
+    },
+
+    methods: {
+      clickSolutionGuide () {
+        if (!this.getCurrentCourse) {
+          return
+        }
+
+        const url = `/teachers/course-solution/${this.getCurrentCourse._id}/javascript`
+        application.router.navigate(url, { trigger: true })
+      },
+
+      clickPlayChapter () {
+        if (!this.getCourseUnitMapUrl) {
+          return
+        }
+        application.router.navigate(this.getCourseUnitMapUrl, { trigger: true })
+      }
     }
   }
 </script>
 <template>
   <div id="chapter-info">
     <div class="img-container">
-      <img class="img-responsive" src="/images/ozaria/teachers/dashboard/png_img/TempChapter1PlaceholderArt.png">
+      <img class="img-responsive" :src="getCourseThumbnail">
     </div>
     <div class="info-container">
-      <h3>Chapter 1: Sky Mountain</h3>
+      <h3>{{ courseShortName }}</h3>
       <p class="chapter-summary">
-        Students are introduced to the epic world of Ozaria and their mission:
-        to defeat the impending darkness through different coding challenges.
-        Students sample coding concepts like syntax etc.
+        {{ courseDescription }}
       </p>
       <div class="stats-and-btns">
         <div>
-          <p><b>Capstone Project</b>: Hungry Hungry Avatars</p>
-          <div class="time-row"><p><b>Class Time</b>: 5 hours</p><icon-help /></div>
+          <p><b>Capstone Project</b>: {{ capstoneName }}</p>
+          <div class="time-row" v-if="totalCourseDuration"><p><b>Class Time</b>: {{ totalCourseDuration }} hours</p><icon-help /></div>
         </div>
         <div class="btns">
-          <button-play-chapter />
-          <button-solution-guide />
+          <button-play-chapter @click="clickPlayChapter" />
+          <button-solution-guide @click="clickSolutionGuide" />
         </div>
       </div>
     </div>

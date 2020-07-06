@@ -1,34 +1,30 @@
 <script>
   export default {
     props: {
-      conceptList: {
+      cstaList: {
         type: Array,
         required: false,
-        default: () => ([
-          {
-            standard: '1A-AP-10',
-            description: 'Develop programs with...'
-          },
-          {
-            standard: '1A-AP-14',
-            description: 'Debug (identify and fix) errors in an algorithm or program...'
-          }
-        ])
+        default: () => ([])
+      }
+    },
+    computed: {
+      shouldShow () {
+        return this.cstaList?.length > 0
       }
     }
   }
 </script>
 
 <template>
-  <div>
+  <div v-if="shouldShow">
     <h3>CSTA Standards</h3>
     <p>Designed to align to the following CSTA Standards:</p>
     <ul>
       <li
-        v-for="{ standard, description } in conceptList"
-        :key="standard"
+        v-for="{ name, description } in cstaList"
+        :key="name"
       >
-        <b>{{ standard }}</b>: {{ description }}
+        <b>{{ name }}</b>: {{ description }}
       </li>
     </ul>
   </div>

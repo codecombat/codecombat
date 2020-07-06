@@ -4,26 +4,49 @@
   import ButtonExemplar from './ButtonExemplar'
 
   import IconHelp from '../../common/icons/IconHelp'
-
+  import { mapGetters } from 'vuex'
   export default {
     components: {
       ButtonSlides,
       ButtonProjectReq,
       ButtonExemplar,
       IconHelp
+    },
+    props: {
+      moduleNum: {
+        required: true,
+        type: String
+      }
+    },
+    computed: {
+      ...mapGetters({
+        getCurrentModuleNames: 'baseCurriculumGuide/getCurrentModuleNames',
+        getCurrentModuleHeadingInfo: 'baseCurriculumGuide/getCurrentModuleHeadingInfo'
+      }),
+
+      getModuleInfo () {
+        return this.getCurrentModuleHeadingInfo(this.moduleNum) || {}
+      },
+
+      getModuleTotalTimeInfo () {
+        return this.getModuleInfo?.duration?.total
+      }
     }
   }
 </script>
 <template>
   <div class="header">
     <div class="module-header">
-      <h3>Module 1: Algorithms and Syntax</h3>
-      <div class="time-row"><p>Class Time: 1 hour</p><icon-help /></div>
+      <h3>Module {{ moduleNum }}: {{ getCurrentModuleNames(moduleNum) }}</h3>
+      <div v-if="getModuleTotalTimeInfo !== undefined" class="time-row"><p>Class Time: {{ getModuleTotalTimeInfo }} hour</p>
+        <!-- TODO: With tooltips add time breakdown -->
+        <!-- <icon-help /> -->
+      </div>
     </div>
     <div class="buttons">
-      <button-slides />
-      <button-project-req />
-      <button-exemplar />
+      <button-slides v-if="getModuleInfo.lessonSlidesUrl" :link="getModuleInfo.lessonSlidesUrl" />
+      <button-project-req v-if="getModuleInfo.projectRubricUrl" :link="getModuleInfo.projectRubricUrl" />
+      <button-exemplar v-if="getModuleInfo.exemplarProjectUrl" :link="getModuleInfo.exemplarProjectUrl" />
     </div>
   </div>
 </template>

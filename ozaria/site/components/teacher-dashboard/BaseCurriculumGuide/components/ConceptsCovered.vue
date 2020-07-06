@@ -4,26 +4,25 @@
       conceptList: {
         type: Array,
         required: false,
-        default: () => ([
-          'Sequences & Algorithms',
-          'Syntax',
-          'Debugging',
-          'Variables',
-          'Temporary concept'
-        ])
+        default: () => ([])
+      }
+    },
+    computed: {
+      shouldShow () {
+        return this.conceptList?.length > 0
       }
     }
   }
 </script>
 <template>
-  <div>
+  <div v-if="shouldShow">
     <h3>Concepts Covered</h3>
     <ul>
       <li
         v-for="text in conceptList"
         :key="text"
       >
-        {{ text }}
+        {{ $t(`concepts.${text}`) || text }}
       </li>
     </ul>
   </div>

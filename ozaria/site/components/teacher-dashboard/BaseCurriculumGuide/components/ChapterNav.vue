@@ -1,18 +1,48 @@
+<script>
+  import { mapGetters, mapActions } from 'vuex'
+  export default {
+    computed: {
+      ...mapGetters({
+        chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
+        selectedChapterId: 'baseCurriculumGuide/selectedChapterId'
+      }),
+
+      chapterNav () {
+        return (this.chapterNavBar || []).map(({ campaignID }, idx) => {
+          return ({
+            campaignID,
+            heading: `Chapter ${idx + 1}`
+          })
+        })
+      }
+    },
+
+    methods: {
+      ...mapActions({
+        clickChapterHeading: 'baseCurriculumGuide/setSelectedCampaign'
+      }),
+
+      classForButton (campaignID) {
+        return {
+          selected: this.selectedChapterId === campaignID,
+          'chapter-btn': true
+        }
+      }
+    }
+  }
+</script>
+
 <template>
   <div id="chapter-nav">
-    <div class="chapter-btn selected">
+    <div
+      v-for="{ campaignID, heading } in chapterNav"
+      :key="campaignID"
+      :class="classForButton(campaignID)"
+
+      @click="() => clickChapterHeading(campaignID)"
+    >
       <div class="chapter-pill">
-        <h4>Chapter 1</h4>
-      </div>
-    </div>
-    <div class="chapter-btn">
-      <div class="chapter-pill">
-        <h4>Chapter 2</h4>
-      </div>
-    </div>
-    <div class="chapter-btn">
-      <div class="chapter-pill">
-        <h4>Chapter 3</h4>
+        {{ heading }}
       </div>
     </div>
   </div>
@@ -52,8 +82,11 @@
 
     cursor: pointer;
 
+    transition: border-color 0.2s;
+    border-bottom: 4px solid rgba(71,111,177, 0);
+
     &.selected {
-      border-bottom: 4px solid #476fb1;
+      border-bottom: 4px solid rgba(71,111,177, 1);
     }
   }
 </style>

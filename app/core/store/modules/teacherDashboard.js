@@ -169,7 +169,7 @@ export default {
       const fetchPromises = []
 
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
-      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
 
       await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
@@ -192,7 +192,7 @@ export default {
       const fetchPromises = []
 
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
-      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
       await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
 
@@ -229,7 +229,7 @@ export default {
       const fetchPromises = []
 
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
-      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
 
       if (!state.classroomId) {
@@ -263,6 +263,7 @@ export default {
     async fetchDataMyLicenses ({ state, dispatch }, options = {}) {
       const fetchPromises = []
 
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
 
@@ -285,13 +286,26 @@ export default {
 
     // Resource Hub Page
     async fetchDataResourceHub ({ state, dispatch }, options = {}) {
-      await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
-    }
+      const fetchPromises = []
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
+      await Promise.all(fetchPromises)
+    },
 
-    // TODO use for curriculum guides page
-    // async fetchDataCurriculumGuide ({ state, dispatch }, campaignId) {
-    // TODO send project options
-    //   await dispatch('gameContent/fetchGameContentForCampaign', campaignId, { root: true })
-    // }
+    // Curriculum guides panel
+    async fetchDataCurriculumGuide ({ dispatch, rootGetters }) {
+      let sortedCourses = rootGetters['courses/sorted'] || []
+      if (sortedCourses.length === 0) {
+        await dispatch('courses/fetchReleased', undefined, { root: true })
+      }
+      sortedCourses = rootGetters['courses/sorted'] || []
+      if (sortedCourses[0]) {
+        // After loading ensure that the first course is automatically selected
+        dispatch('baseCurriculumGuide/setSelectedCampaign', sortedCourses[0].campaignID, { root: true })
+      }
+      sortedCourses.forEach(({ campaignID }) => {
+        dispatch('gameContent/fetchGameContentForCampaign', { campaignId: campaignID }, { root: true })
+      })
+    }
   }
 }

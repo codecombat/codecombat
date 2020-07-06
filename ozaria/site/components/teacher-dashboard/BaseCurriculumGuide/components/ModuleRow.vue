@@ -3,14 +3,54 @@
   export default {
     components: {
       ContentIcon
+    },
+
+    props: {
+      iconType: {
+        type: String,
+        required: true,
+        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].indexOf(value) !== -1
+      },
+
+      displayName: {
+        type: String,
+        required: true
+      },
+
+      description: {
+        type: String,
+        required: false,
+        default: ''
+      }
+    },
+
+    computed: {
+      getContentTypeHeader () {
+        switch (this.iconType) {
+        case `cutscene`:
+          return 'Cutscene'
+        case `cinematic`:
+          return `Cinematic`
+        case `capstone`:
+          return `Capstone`
+        case `interactive`:
+          return `Concept Check`
+        case `practicelvl`:
+          return `Practice Level`
+        case `challengelvl`:
+          return `Challenge Level`
+        default:
+          return ``
+        }
+      }
     }
   }
 </script>
 <template>
-  <div class="module-row">
-    <content-icon class="content-icon" :icon="['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'][Math.floor(Math.random() * 6)]" />
-    <p><b>Practice Level: Forest of the Fox</b></p>
-    <p>Practice writing a code sequence including a method with arguments</p>
+  <div class="module-row" @click="$emit('click')">
+    <content-icon class="content-icon" :icon="iconType" />
+    <p><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
+    <p>{{ description }}</p>
   </div>
 </template>
 
@@ -25,6 +65,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    cursor: pointer;
+  }
+
+  .module-row:hover {
+    border: 1px solid #74C6DF;
   }
 
   .content-icon {
