@@ -100,7 +100,6 @@
 
 .licenses-page {
   display: flex;
-  margin-bottom: -50px;
 }
 
 .side-bar {
