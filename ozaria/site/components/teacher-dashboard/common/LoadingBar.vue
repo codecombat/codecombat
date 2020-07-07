@@ -2,6 +2,7 @@
 <script>
   import NProgress from 'nprogress'
   import 'nprogress/nprogress.css'
+  import 'ozaria/site/styles/loading-bar/nprogressOverride.css'
 
   NProgress.configure({ showSpinner: false, parent: '#loading-bar' })
 
@@ -43,6 +44,6 @@
 #loading-bar {
   position: absolute;
   width: 100%;
-  height: 10px;
+  height: 5px;
 }
 </style>
