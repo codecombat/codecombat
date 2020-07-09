@@ -364,6 +364,8 @@ _.extend UserSchema.properties,
   administratedTeachers: c.array {}, c.objectId()
   administratingTeachers: c.array {}, c.objectId()
 
+  seenNewDashboardModal: { type: 'boolean', description: 'Whether the user has seen the new dashboard onboarding modal? Set to true after the modal is seen and closed by the user' }
+
   features:
     type: 'object'
     title: 'Feature Flags'
