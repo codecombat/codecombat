@@ -40,6 +40,7 @@ export default {
     }
   },
 
+  // TODO refactor to use `../../common/BaseCloudflareVideo` component
   mounted () {
     const cutscene = this.cutscene
     /**

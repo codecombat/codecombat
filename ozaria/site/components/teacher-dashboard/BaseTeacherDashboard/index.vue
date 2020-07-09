@@ -4,6 +4,7 @@
   import ModalAssignContent from '../modals/ModalAssignContent/index'
   import ModalAddStudents from '../modals/ModalAddStudents'
   import ModalRemoveStudents from '../modals/ModalRemoveStudents'
+  import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 
   import BaseSingleClass from '../../../store/BaseSingleClass'
   import BaseCurriculumGuide from '../BaseCurriculumGuide'
@@ -18,7 +19,8 @@
       ModalAssignContent,
       ModalAddStudents,
       ModalRemoveStudents,
-      BaseCurriculumGuide
+      BaseCurriculumGuide,
+      ModalOnboardingVideo
     },
 
     data () {
@@ -28,7 +30,8 @@
         showNewClassModal: false,
         showAssignContentModal: false,
         showAddStudentsModal: false,
-        showRemoveStudentsModal: false
+        showRemoveStudentsModal: false,
+        showOnboardingModal: !me.get('seenNewDashboardModal')
       }
     },
 
@@ -71,6 +74,12 @@
           this.setClassroomId(this.$route.params.classroomId)
         }
         this.setTeacherId(me.get('_id'))
+      },
+
+      closeOnboardingModal () {
+        me.set('seenNewDashboardModal', true)
+        me.save()
+        this.showOnboardingModal = false
       }
     }
   }
@@ -85,6 +94,10 @@
       @assignContent="showAssignContentModal = true"
       @addStudents="showAddStudentsModal = true"
       @removeStudents="showRemoveStudentsModal = true"
+    />
+    <modal-onboarding-video
+      v-if="showOnboardingModal"
+      @close="closeOnboardingModal"
     />
     <modal-new-class
       v-if="showNewClassModal"
