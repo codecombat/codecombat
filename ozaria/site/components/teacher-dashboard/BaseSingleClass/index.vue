@@ -97,8 +97,9 @@
             classSummaryProgress: []
           }
 
+          // Track summary stats to display in the header of the table
           const classSummaryProgressMap = new Map(moduleContent.map((content) => {
-            return [content._id, 'assigned']
+            return [content._id, { status: 'assigned', flagCount: 0 }]
           }))
 
           // Iterate over all the students and all the sessions for the student.
@@ -135,7 +136,7 @@
                   return defaultProgressDot
                 } else if (studentSessions[normalizedOriginal].state.complete === true) {
                   defaultProgressDot.status = 'complete'
-                  classSummaryProgressMap.set(content._id, defaultProgressDot.status)
+                  classSummaryProgressMap.get(content._id).status = defaultProgressDot.status
                 } else {
                   defaultProgressDot.status = 'progress'
                 }
@@ -147,7 +148,7 @@
 
                   if (levelOriginalCompletionMap[fromIntroLevelOriginal]?.introContentSessionComplete?.[content._id]?.complete) {
                     defaultProgressDot.status = 'complete'
-                    classSummaryProgressMap.set(content._id, defaultProgressDot.status)
+                    classSummaryProgressMap.get(content._id).status = defaultProgressDot.status
                   }
 
                   // Preserve backwards compatability if there is no introContentSessionComplete property.
@@ -159,8 +160,8 @@
                     defaultProgressDot.status = 'complete'
                   }
 
-                  if (classSummaryProgressMap.get(content._id) !== 'complete') {
-                    classSummaryProgressMap.set(content._id, defaultProgressDot.status)
+                  if (classSummaryProgressMap.get(content._id) !== 'complete' && defaultProgressDot.status !== 'assigned') {
+                    classSummaryProgressMap.get(content._id).status = defaultProgressDot.status
                   }
                 }
 
@@ -187,6 +188,7 @@
                     if (submissionsBeforeCompletion.length >= 3) {
                       // Used by TableModuleGrid file to assign a border on the session.
                       defaultProgressDot.flag = 'concept'
+                      classSummaryProgressMap.get(content._id).flagCount += 1
                     }
                   } else {
                     // If there are no interactive sessions we ensure no progress is shown.
@@ -210,7 +212,7 @@
                   }
 
                   if (classSummaryProgressMap.get(content._id) !== 'complete' && defaultProgressDot.status !== 'assigned') {
-                    classSummaryProgressMap.set(content._id, defaultProgressDot.status)
+                    classSummaryProgressMap.get(content._id).status = defaultProgressDot.status
                   }
 
                   defaultProgressDot.selectedKey = `${student._id}_${content._id}`
@@ -222,7 +224,12 @@
             })
           }
 
-          moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values()).map((status) => ({ status }))
+          moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values())
+            .map(({ status, flagCount }) => ({
+              status,
+              border: flagCount > (this.classroomMembers?.length || 1) / 2 ? 'red' : ''
+            }))
+          
           modulesForTable.push(moduleStatsForTable)
         }
 
