@@ -6,19 +6,19 @@
   import { getSchoolFormFieldsConfig } from '../common/signUpConfig'
   import { validationMixin } from 'vuelidate'
   import { educatorOtherInfoValidations, validationMessages } from '../common/signUpValidations'
-  import utils from 'app/core/utils'
+  import SecondaryButton from '../../../teacher-dashboard/common/buttons/SecondaryButton'
 
   export default {
     components: {
       'united-states-school-form': UnitedStatesSchoolForm,
-      'other-countries-school-form': OtherCountriesSchoolForm
+      'other-countries-school-form': OtherCountriesSchoolForm,
+      SecondaryButton
     },
 
     mixins: [validationMixin],
 
     data: () => ({
       phoneNumber: '',
-      countryPhoneCode: '',
       numStudents: '',
       marketingConsent: !me.inEU(),
       gdprConsent: !me.inEU(),
@@ -71,10 +71,13 @@
       }
     },
 
-    // TODO set phone codes in utils.coffee for each country
     mounted () {
       // default country code
-      this.countryPhoneCode = ((utils.countries || []).find((c) => c.country === this.country.toLowerCase()) || {}).phoneCode || '+1'
+      if (this.isChinaServerSignup) {
+        this.phoneNumber = '+86 '
+      } else {
+        this.phoneNumber = '+1 '
+      }
     },
 
     methods: {
@@ -86,11 +89,7 @@
       onChangeValue (event = {}) {
         const attrs = {}
         if (event.target) {
-          if (event.target.name === 'phoneNumber') {
-            attrs[event.target.name] = event.target.value.replace(/\D/g, '')
-          } else {
-            attrs[event.target.name] = event.target.value
-          }
+          attrs[event.target.name] = event.target.value
         }
         this.updateTrialRequestProperties(attrs)
       },
@@ -114,11 +113,8 @@
         .col-xs-10
           label.control-label {{ $t("teachers_quote.phone_number") }}
           span.control-label.optional-text(v-if="!formFieldConfig.phoneNumber.required") !{' '}({{ $t("signup.optional") }})
-          #phoneNumber-input
-            input.phone-country-code.form-control(name="countryPhoneCode" v-mask="'+###'" v-model="countryPhoneCode")
-            input.phone-input.form-control(name="phoneNumber" v-mask="'(###) ###-####'" v-model="$v.phoneNumber.$model" @change="onChangeValue($event)")
+          input.phone-input.form-control(name="phoneNumber" v-model="$v.phoneNumber.$model" @change="onChangeValue($event)")
           span.form-error(v-if="!$v.phoneNumber.required") {{ $t(validationMessages.errorRequired.i18n) }}
-          span.form-error(v-if="!$v.phoneNumber.requiredLength") {{ $t(validationMessages.errorInvalidPhone.i18n) }}
       .numStudents.form-group.row(v-if="formFieldConfig.numStudents.visible" :class="{ 'has-error': $v.numStudents.$error }")
         .col-xs-10
           label.control-label {{ $t("teachers_quote.num_students_help") }}
@@ -142,9 +138,9 @@
           input#gdprConsent(name="gdprConsent", type="checkbox", v-model="gdprConsent")
           span {{ $t("signup.eu_confirmation") }}!{' '}
             a(href="https://www.ozaria.com/privacy#gdpr" target="_blank") {{ $t("signup.eu_confirmation_place_of_processing") }}
-      .form-group.row
-        .col-xs-offset-9
-          button.next-button.ozaria-primary-button(type="submit", :disabled="doneDisabled") {{ $t("common.done") }}
+      .buttons.form-group.row
+        .col-xs-offset-7
+          secondary-button(type="submit", :inactive="doneDisabled") {{ $t("common.done") }}
 </template>
 
 <style lang="sass" scoped>
@@ -155,10 +151,9 @@
   justify-content: center
   .form-container
     width: 48vw
-  #phoneNumber-input
-    display: flex
-    .phone-country-code
-      width: 12%
-    .phone-input
-      width: 88%
+  .buttons
+    margin-top: 30px
+    button
+      width: 150px
+      height: 35px
 </style>

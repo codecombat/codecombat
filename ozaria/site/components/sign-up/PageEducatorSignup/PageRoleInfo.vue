@@ -5,10 +5,14 @@
   import { getEducatorRoles } from './common/signUpConfig'
   import { SCHOOL_NCES_KEYS } from './common/constants'
   import { validationMessages, roleInfoValidations } from './common/signUpValidations'
+  import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton'
 
   const countryList = require('country-list')()
 
   export default {
+    components: {
+      SecondaryButton
+    },
     mixins: [validationMixin],
     data: () => ({
       countriesList: countryList.getNames(),
@@ -82,21 +86,21 @@
   #role-info-component
     form.form-container(@submit.prevent="onClickNext")
       .country.form-group.row(:class="{ 'has-error': $v.country.$error }")
-        .col-xs-7
+        .col-xs-8
           label.control-label {{ $t("teachers_quote.country") }}
           select#country-input.form-control(name="country", v-model="$v.country.$model", @change="onChangeValue($event)")
             option(v-for="country in countriesList" v-bind:value="country") {{ country }}
           span.form-error(v-if="!$v.country.required") {{ $t(validationMessages.errorRequired.i18n) }}
       .role.form-group.row(:class="{ 'has-error': $v.role.$error }")
-        .col-xs-7
+        .col-xs-8
           label.control-label {{ $t("teachers_quote.primary_role_label") }}
           select#role-input.form-control(name="role", v-model="$v.role.$model", @change="onChangeValue($event)", :class="{ 'placeholder-text': !role }")
             option(disabled selected value="") {{ $t("signup.select_your_role") }}
             option(v-for="role in roleOptions" v-bind:value="role.value") {{ $t(role.i18n) }}
           span.form-error(v-if="!$v.role.required") {{ $t(validationMessages.errorRequired.i18n) }}
-      .form-group.row
-        .col-xs-offset-6
-          button.next-button.ozaria-primary-button(type="submit", :disabled="!isFormValid") {{ $t("common.next") }}
+      .buttons.form-group.row
+        .col-xs-offset-5
+          secondary-button(type="submit", :inactive="!isFormValid") {{ $t("common.next") }}
 </template>
 
 <style lang="sass" scoped>
@@ -107,4 +111,9 @@
   justify-content: center
   .form-container
     width: 48vw
+    .buttons
+      margin-top: 30px
+      button
+        width: 150px
+        height: 35px
 </style>

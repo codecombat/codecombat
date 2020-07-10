@@ -63,8 +63,7 @@ export const educatorOtherInfoValidations = function (country, role, isChinaServ
   const formFieldConfig = getSchoolFormFieldsConfig(country, role, isChinaServer)
   return {
     phoneNumber: {
-      required: requiredIf(() => formFieldConfig.phoneNumber.required),
-      requiredLength: (phone) => !helpers.req(phone) || phone.replace(/\D/g, '').length === 10
+      required: requiredIf(() => formFieldConfig.phoneNumber.required)
     },
     numStudents: {
       required: requiredIf(() => formFieldConfig.numStudents.required)

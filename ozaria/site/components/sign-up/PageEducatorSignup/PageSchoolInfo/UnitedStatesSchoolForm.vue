@@ -5,7 +5,7 @@
   import { DISTRICT_NCES_KEYS, SCHOOL_NCES_KEYS } from '../common/constants'
   import { schoolLocationInfoValidations, validationMessages } from '../common/signUpValidations'
 
-  import NcesSearchInput from 'app/views/core/CreateAccountModal/teacher/NcesSearchInput'
+  import NcesSearchInput from './NcesSearchInput'
   const UsaStates = require('usa-states').UsaStates
 
   export default {
@@ -171,8 +171,6 @@
           option(selected disabled value="") {{ $t("signup.select_your_state") }}
           option(v-for="state in usaStates" v-bind:value="state.abbreviation")
             | {{ state.abbreviation }}
-            = ", "
-            | {{ state.name }}
         span.form-error(v-if="!$v.state.required") {{ $t(validationMessages.errorRequired.i18n) }}
 </template>
 
