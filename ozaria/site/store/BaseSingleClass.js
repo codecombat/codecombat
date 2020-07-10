@@ -14,7 +14,9 @@ const projectionData = {
 export default {
   namespaced: true,
   state: {
-    selectedStudents: {}
+    selectedStudents: {},
+    // This is either the student id being editted, or null.
+    editingStudent: null
   },
 
   getters: {
@@ -24,6 +26,10 @@ export default {
 
     selectedStudentIds (state) {
       return Object.keys(state.selectedStudents || [])
+    },
+
+    currentEditingStudent (state) {
+      return state.editingStudent
     }
   },
 
@@ -34,11 +40,21 @@ export default {
       }
       Vue.set(state.selectedStudents, studentId, true)
     },
+
     removeCheckedStudent (state, { studentId }) {
       Vue.delete(state.selectedStudents, studentId)
     },
+
     clearSelectedStudents (state) {
       state.selectedStudents = {}
+    },
+
+    openModalEditStudent (state, studentId) {
+      state.editingStudent = studentId
+    },
+
+    closeModalEditStudent (state) {
+      state.editingStudent = undefined
     }
   },
 
