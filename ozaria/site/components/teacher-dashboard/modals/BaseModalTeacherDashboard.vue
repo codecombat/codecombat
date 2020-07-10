@@ -33,7 +33,7 @@
   </base-modal>
 </template>
 
-<style>
+<style lang="scss">
 .modal-container {
   border-radius: 10px;
 }

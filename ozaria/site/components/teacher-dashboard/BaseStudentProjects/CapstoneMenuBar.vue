@@ -45,10 +45,19 @@
       <div class="exemplar-div">
         <span class="text-margin"> Exemplar Project </span>
         <icon-button
+          v-tooltip.top="{
+            content: `Annotated solution code for the Exemplar Project`,
+            classes: 'dark-teacher-dashboard'
+          }"
+
           icon-name="IconExemplarCode"
           @click="openExemplarCode"
         />
         <icon-button
+          v-tooltip.top="{
+            content: `View Exemplar Project`,
+            classes: 'dark-teacher-dashboard'
+          }"
           icon-name="IconViewProject_Black"
           @click="openExemplarProject"
         />
@@ -56,6 +65,10 @@
       <div class="project-rubric">
         <span class="text-margin"> Project Rubric </span>
         <icon-button
+          v-tooltip.top="{
+            content: `View Project Rubric`,
+            classes: 'dark-teacher-dashboard'
+          }"
           icon-name="IconRubric"
           class="project-rubric-icon"
           @click="openProjectRubric"

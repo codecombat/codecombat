@@ -31,27 +31,63 @@
       <div class="spacer">
         <div class="grid-container">
           <div class="story-title"><h3>Story</h3></div>
-          <div class="img-subtext cutscene-icon vertical-grid-divider">
+          <div
+            v-tooltip.bottom="{
+              content: `<h3>Cutscene</h3><p>Short videos that explain parts of the epic Ozaria narrative.</p>`,
+              classes: 'teacher-dashboard-tooltip lighter-p'
+            }"
+            class="img-subtext cutscene-icon vertical-grid-divider"
+          >
             <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCutscene.svg">
             <span>Cutscenes</span>
           </div>
-          <div class="img-subtext cinematic-icon">
+          <div
+            v-tooltip.bottom="{
+              content: `<h3>Cinematic</h3><p>Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.</p><p class='small'>Part of an <b>intro</b>, which introduce new concepts in a scaffolded way.</p>`,
+              classes: 'teacher-dashboard-tooltip lighter-p'
+            }"
+            class="img-subtext cinematic-icon"
+          >
             <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCinematic.svg">
             <span>Cinematics</span>
           </div>
-          <div class="img-subtext concept-icon vertical-grid-divider">
+          <div
+            v-tooltip.bottom="{
+              content: `<h3>Concept Check</h3><p>Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.</p><p class='small'>Part of an <b>intro</b>, which introduce new concepts in a scaffolded way.</p>`,
+              classes: 'teacher-dashboard-tooltip lighter-p'
+            }"
+            class="img-subtext concept-icon vertical-grid-divider"
+          >
             <img src="/images/ozaria/teachers/dashboard/svg_icons/IconInteractive.svg">
             <span>Concept Checks</span>
           </div>
-          <div class="img-subtext practice-icon">
+          <div
+            v-tooltip.bottom="{
+              content: `<h3>Practice Level</h3><p>Game-play in which students are practicing concepts while solving puzzles to complete their hero's quest.</p>`,
+              classes: 'teacher-dashboard-tooltip lighter-p'
+            }"
+            class="img-subtext practice-icon"
+          >
             <img src="/images/ozaria/teachers/dashboard/svg_icons/IconPracticeLevel.svg">
             <span>Practice Levels</span>
           </div>
-          <div class="img-subtext challenge-icon vertical-grid-divider">
+          <div
+            v-tooltip.bottom="{
+              content: `<h3>Challenge Level</h3><p>Game-play that combines key concepts students have practiced previously.</p>`,
+              classes: 'teacher-dashboard-tooltip lighter-p'
+            }"
+            class="img-subtext challenge-icon vertical-grid-divider"
+          >
             <img src="/images/ozaria/teachers/dashboard/svg_icons/IconChallengeLevel.svg">
             <span>Challenge Levels</span>
           </div>
-          <div class="img-subtext capstone-icon">
+          <div
+            v-tooltip.bottom="{
+              content: `<h3>Capstone Level</h3><p>Students create games and stories using key concepts they learned from the chapter.</p>`,
+              classes: 'teacher-dashboard-tooltip lighter-p'
+            }"
+            class="img-subtext capstone-icon"
+          >
             <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCapstoneLevel.svg">
             <span>Capstone Levels</span>
           </div>
