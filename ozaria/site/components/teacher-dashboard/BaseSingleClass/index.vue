@@ -227,7 +227,7 @@
           moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values())
             .map(({ status, flagCount }) => ({
               status,
-              border: flagCount > (this.classroomMembers?.length || 1) / 2 ? 'red' : ''
+              border: flagCount >= (this.classroomMembers?.length || 1) / 2 ? 'red' : ''
             }))
           
           modulesForTable.push(moduleStatsForTable)
