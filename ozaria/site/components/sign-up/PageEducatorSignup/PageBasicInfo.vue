@@ -2,8 +2,12 @@
   import { mapMutations } from 'vuex'
   import { validationMixin } from 'vuelidate'
   import { basicInfoValidations, validationMessages } from './common/signUpValidations'
+  import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton'
 
   export default {
+    components: {
+      SecondaryButton
+    },
     mixins: [validationMixin],
     data: () => ({
       firstName: '',
@@ -55,30 +59,30 @@
   #basic-info-component
     form.form-container(@submit.prevent="onClickNext")
       .first-name.form-group.row(:class="{ 'has-error': $v.firstName.$error }")
-        .col-xs-7
+        .col-xs-8
           span.control-label {{ $t("general.first_name") }}
             input#first-name-input.form-control(name="firstName" v-model="$v.firstName.$model" @change="onChangeValue($event)")
             span.form-error(v-if="!$v.firstName.required") {{ $t(validationMessages.errorRequired.i18n) }}
       .last-name.form-group.row(:class="{ 'has-error': $v.lastName.$error }")
-        .col-xs-7
+        .col-xs-8
           span.control-label {{ $t("general.last_name") }}
             input#last-name-input.form-control(name="lastName" v-model="$v.lastName.$model" @change="onChangeValue($event)")
             span.form-error(v-if="!$v.lastName.required") {{ $t(validationMessages.errorRequired.i18n) }}
       .email.form-group.row(:class="{ 'has-error': $v.email.$error }")
-        .col-xs-7
+        .col-xs-8
           span.control-label {{ $t("general.email") }}
             input#email-input.form-control(name="email" v-model="$v.email.$model" type="email" @change="onChangeValue($event)")
             span.form-error(v-if="!$v.email.required") {{ $t(validationMessages.errorRequired.i18n) }}
             span.form-error(v-if="!$v.email.email") {{ $t(validationMessages.errorInvalidEmail.i18n) }}
             span.form-error(v-else-if="!$v.email.uniqueEmail") {{ $t(validationMessages.errorEmailExists.i18n) }}
       .password.form-group.row(:class="{ 'has-error': $v.password.$error }")
-        .col-xs-7
+        .col-xs-8
           span.control-label {{ $t("general.password") }}
             input#password-input.form-control(name="password" v-model="$v.password.$model" type="password" @change="onChangeValue($event)")
             span.form-error(v-if="!$v.password.required") {{ $t(validationMessages.errorRequired.i18n) }}
-      .form-group.row
-        .col-xs-offset-6
-          button.next-button.ozaria-primary-button(type="submit", :disabled="!isFormValid") {{ $t("common.next") }}
+      .buttons.form-group.row
+        .col-xs-offset-5
+          secondary-button(type="submit", :inactive="!isFormValid") {{ $t("common.next") }}
 </template>
 
 <style lang="sass" scoped>
@@ -89,4 +93,9 @@
   justify-content: center
   .form-container
     width: 48vw
+    .buttons
+      margin-top: 30px
+      button
+        width: 150px
+        height: 35px
 </style>

@@ -179,9 +179,7 @@
 <template lang="pug">
   .style-ozaria.educator-sign-up.container
     .row
-      .left-div.col-xs-5
-        img.sign-up-image(src="/images/ozaria/common/cinematic_characters_signup.png")
-      .right-div.col-xs-7
+      .right-div.col-xs-7.col-xs-offset-5
         div(v-for="view of visibleViews")
           component(
             v-if="isSchoolInfoForm(view)"
@@ -207,15 +205,10 @@
 .educator-sign-up
   width: 100vw
   margin-bottom: -50px
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(179.37deg, #D1B147 -40.3%, #D1B147 -4.7%, #74C6DF 102.07%, #74C6DF 137.66%)
+  background-image: url('/images/ozaria/common/signup_background.png')
+  background-repeat: no-repeat
+  background-size: cover
   background-attachment: fixed
-  .left-div
-    position: sticky
-    top: 26%
-    display: flex
-    height: 100%
-    align-items: center
-    justify-content: flex-end
   .right-div
     display: flex
     flex-direction: column
