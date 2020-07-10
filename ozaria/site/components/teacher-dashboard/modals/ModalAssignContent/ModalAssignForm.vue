@@ -77,7 +77,7 @@
           <span class="control-label">Select Chapter</span>
           <select
             class="form-control"
-            name="classLanguage"
+            name="courseList"
             v-model="selected"
           >
             <option

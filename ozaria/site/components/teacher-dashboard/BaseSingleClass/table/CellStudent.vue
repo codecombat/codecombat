@@ -1,9 +1,6 @@
 <script>
-  import IconEllipsis from '../../common/icons/IconEllipsis'
+  import { mapMutations } from 'vuex'
   export default {
-    components: {
-      IconEllipsis
-    },
     props: {
       studentName: {
         type: String,
@@ -21,6 +18,12 @@
         type: Boolean,
         default: false
       }
+    },
+
+    methods: {
+      ...mapMutations({
+        openModalEditStudent: 'baseSingleClass/openModalEditStudent'
+      })
     }
   }
 </script>
@@ -33,18 +36,16 @@
 
         @change="$emit('change')"
       >
-      <p>{{ studentName }}</p>
+      <p
+        @click="() => openModalEditStudent(studentId)"
+      >
+        {{ studentName }}
+      </p>
     </div>
     <img
       v-if="isEnrolled"
       src="/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg"
     >
-    <div
-      class="student-details-btn"
-      @click="$emit('click')"
-    >
-      <IconEllipsis />
-    </div>
   </div>
 </template>
 
@@ -66,12 +67,15 @@
 
     p {
       margin-left: 10px;
+      cursor: pointer;
+      text-decoration: underline;
 
       @include font-p-4-paragraph-smallest-gray;
-      color: black;
+      color: #476fb1;
 
       max-width: 125px;
-      overflow-x: scroll;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
     }
   }
 
@@ -97,17 +101,4 @@
     }
   }
 
-  .student-details-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2px 3px;
-    border-radius: 4px;
-
-    cursor: pointer;
-
-    &:hover {
-      background-color: #d8d8d8;
-    }
-  }
 </style>

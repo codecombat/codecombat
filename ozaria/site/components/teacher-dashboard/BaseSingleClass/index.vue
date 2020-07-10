@@ -7,6 +7,7 @@
   import Guidelines from './Guidelines'
   import ViewAndMange from './ViewAndManage'
   import TableClassFrame from './table/TableClassFrame'
+  import ModalEditStudent from '../modals/ModalEditStudent'
 
   import utils from 'app/core/utils'
   import User from 'models/User'
@@ -22,7 +23,8 @@
       'guidelines': Guidelines,
       'view-and-manage': ViewAndMange,
       'table-class-frame': TableClassFrame,
-      'loading-bar': LoadingBar
+      'loading-bar': LoadingBar,
+      ModalEditStudent
     },
     props: {
       classroomId: {
@@ -47,7 +49,8 @@
         levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
         getInteractiveSessionsForClass: 'interactives/getInteractiveSessionsForClass',
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
-        gameContent: 'teacherDashboard/getGameContentCurrentClassroom'
+        gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
+        editingStudent: 'baseSingleClass/currentEditingStudent'
       }),
 
       modules () {
@@ -383,5 +386,6 @@
 
       @toggle-all-students="toggleAllStudents"
     />
+    <modal-edit-student v-if="editingStudent" />
   </div>
 </template>
