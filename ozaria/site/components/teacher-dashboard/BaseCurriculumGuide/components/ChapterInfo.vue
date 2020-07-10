@@ -56,6 +56,20 @@
           return
         }
         application.router.navigate(this.getCourseUnitMapUrl, { trigger: true })
+      },
+
+      tooltipTimeContent () {
+        const time = []
+
+        if (this.getCurrentCourse?.duration?.inGame) {
+          time.push(`<p><b>Total Class Time:</b> ${this.getCurrentCourse?.duration?.inGame}</p>`)
+        }
+
+        if (this.getCurrentCourse?.duration?.unplugged) {
+          time.push(`<p><b>In-Game Play Time:</b> ${this.getCurrentCourse?.duration?.unplugged}</p>`)
+        }
+
+        return time.join('')
       }
     }
   }
@@ -73,7 +87,21 @@
       <div class="stats-and-btns">
         <div>
           <p><b>Capstone Project</b>: {{ capstoneName }}</p>
-          <div class="time-row" v-if="totalCourseDuration"><p><b>Class Time</b>: {{ totalCourseDuration }} hours</p><icon-help /></div>
+          <div
+            v-if="totalCourseDuration"
+            class="time-row"
+          >
+            <p>
+              <b>Class Time</b>: {{ totalCourseDuration }}
+            </p>
+            <icon-help
+              v-if="tooltipTimeContent()"
+              v-tooltip.top="{
+                content: tooltipTimeContent,
+                classes: 'teacher-dashboard-tooltip'
+              }"
+            />
+          </div>
         </div>
         <div class="btns">
           <button-play-chapter @click="clickPlayChapter" />

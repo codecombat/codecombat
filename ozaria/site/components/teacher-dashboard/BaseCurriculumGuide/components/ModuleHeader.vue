@@ -31,6 +31,22 @@
       getModuleTotalTimeInfo () {
         return this.getModuleInfo?.duration?.total
       }
+    },
+
+    methods: {
+      tooltipTimeContent () {
+        const time = []
+
+        if (this.getModuleInfo?.duration?.inGame) {
+          time.push(`<p><b>Total Class Time:</b> ${this.getModuleInfo?.duration?.inGame}</p>`)
+        }
+
+        if (this.getModuleInfo?.duration?.unplugged) {
+          time.push(`<p><b>In-Game Play Time:</b> ${this.getModuleInfo?.duration?.unplugged}</p>`)
+        }
+
+        return time.join('')
+      }
     }
   }
 </script>
@@ -39,14 +55,41 @@
     <div class="module-header">
       <h3>Module {{ moduleNum }}: {{ getCurrentModuleNames(moduleNum) }}</h3>
       <div v-if="getModuleTotalTimeInfo !== undefined" class="time-row"><p>Class Time: {{ getModuleTotalTimeInfo }} hour</p>
-        <!-- TODO: With tooltips add time breakdown -->
-        <!-- <icon-help /> -->
+        <icon-help
+          v-if="tooltipTimeContent()"
+          v-tooltip.top="{
+            content: tooltipTimeContent,
+            classes: 'teacher-dashboard-tooltip'
+          }"
+        />
       </div>
     </div>
     <div class="buttons">
-      <button-slides v-if="getModuleInfo.lessonSlidesUrl" :link="getModuleInfo.lessonSlidesUrl" />
-      <button-project-req v-if="getModuleInfo.projectRubricUrl" :link="getModuleInfo.projectRubricUrl" />
-      <button-exemplar v-if="getModuleInfo.exemplarProjectUrl" :link="getModuleInfo.exemplarProjectUrl" />
+      <button-slides
+        v-if="getModuleInfo.lessonSlidesUrl"
+        :link="getModuleInfo.lessonSlidesUrl"
+        v-tooltip.top="{
+          content: `<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>`,
+          classes: 'teacher-dashboard-tooltip lighter-p'
+        }"
+      />
+      <button-project-req
+        v-if="getModuleInfo.projectRubricUrl"
+        :link="getModuleInfo.projectRubricUrl"
+        v-tooltip.top="{
+          content: `<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>`,
+          classes: 'teacher-dashboard-tooltip lighter-p'
+        }"
+      />
+      <button-exemplar
+        v-if="getModuleInfo.exemplarProjectUrl"
+        :link="getModuleInfo.exemplarProjectUrl"
+
+        v-tooltip.top="{
+          content: `<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>`,
+          classes: 'teacher-dashboard-tooltip lighter-p'
+        }"
+      />
     </div>
   </div>
 </template>

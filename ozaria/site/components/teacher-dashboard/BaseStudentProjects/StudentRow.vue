@@ -97,6 +97,10 @@
           <span class="margin-right bottom-align"> View Project </span>
         </div>
         <div
+          v-tooltip.top="{
+            content: `See Student Code`,
+            classes: 'dark-teacher-dashboard'
+          }"
           class="arrow-toggle"
           :class="{'inactive': inactiveAccordion}"
           @click="clickArrow"
