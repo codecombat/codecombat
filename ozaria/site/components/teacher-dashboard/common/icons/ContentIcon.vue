@@ -27,7 +27,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="flex-content">
     <IconCutscene v-if="icon=='cutscene'" />
     <IconCinematic v-if="icon=='cinematic'" />
     <IconCapstone v-if="icon=='capstone'" />
@@ -36,3 +36,13 @@
     <IconChallengeLevel v-if="icon=='challengelvl'" />
   </div>
 </template>
+
+<style lang="scss" scoped>
+  /* Allows us to resize this container and keep icons centered */
+  .flex-content {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+  }
+</style>

@@ -43,7 +43,7 @@
       <h3>{{ moduleHeading }}</h3>
     </div>
     <div class="content-icons" v-for="({type}, idx) of listOfContent" :key="`${idx}-${type}`">
-      <ContentIcon :icon="type" />
+      <ContentIcon class="content-icon" :icon="type" />
     </div>
     <div class="golden-backer" v-for="({ status, border }, idx) of classSummaryProgress" :key="idx">
       <ProgressDot :status="status" :border="border" />
@@ -112,6 +112,10 @@
   background-color: #d8d8d8;
   border-top: 1px solid white;
   border-bottom: 1px solid white;
+}
+
+.content-icon {
+  max-width: 18px;
 }
 
 h3 {
