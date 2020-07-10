@@ -45,8 +45,8 @@
     <div class="content-icons" v-for="({type}, idx) of listOfContent" :key="`${idx}-${type}`">
       <ContentIcon :icon="type" />
     </div>
-    <div class="golden-backer" v-for="({ status }, idx) of classSummaryProgress" :key="idx">
-      <ProgressDot :status="status" />
+    <div class="golden-backer" v-for="({ status, border }, idx) of classSummaryProgress" :key="idx">
+      <ProgressDot :status="status" :border="border" />
     </div>
   </div>
 </template>
