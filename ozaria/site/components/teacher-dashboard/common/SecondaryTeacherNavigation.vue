@@ -1,4 +1,6 @@
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     props: {
       classrooms: {
@@ -6,18 +8,38 @@
         default: () => []
       }
     },
+
     computed: {
+      ...mapState('teacherDashboard', {
+        currentSelectedClassroom: state => state.classroomId
+      }),
+
       classesTabSelected () {
         return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
       },
+
       studentProjectsSelected () {
         return this.$route.path.startsWith('/teachers/projects')
       },
+
       licensesSelected () {
         return this.$route.path.startsWith('/teachers/licenses')
       },
+
       resourceHubSelected () {
         return this.$route.path.startsWith('/teachers/resources')
+      },
+
+      // Check for the "All Classes" dropdown menu button in the classesTab.
+      allClassesSelected () {
+        return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
+      },
+
+      classroomSelected () {
+        if (this.allClassesSelected) {
+          return undefined
+        }
+        return this.currentSelectedClassroom
       }
     }
   }
@@ -50,10 +72,13 @@
         class="dropdown-menu"
         aria-labelledby="ClassesDropdown"
       >
-        <li><router-link tag="a" to="/teachers" class="dropdown-item underline-item">ALL CLASSES</router-link></li>
+        <li :class="allClassesSelected ? 'selected': null">
+          <router-link tag="a" to="/teachers" class="dropdown-item underline-item">ALL CLASSES</router-link>
+        </li>
         <li
           v-for="classroom in classrooms"
           :key="classroom._id"
+          :class="classesTabSelected && classroomSelected === classroom._id ? 'selected': null"
         >
           <router-link
             tag="a"
@@ -89,6 +114,7 @@
         <li
           v-for="classroom in classrooms"
           :key="classroom._id"
+          :class="classroomSelected === classroom._id && studentProjectsSelected ? 'selected': null"
         >
           <router-link
             :to="`/teachers/projects/${classroom._id}`"
@@ -225,8 +251,18 @@
       a {
         color: $twilight;
         height: 35px;
+        text-align: left;
+
+        justify-content: start;
+        justify-content: flex-start;
       }
-      padding: 0;
+
+      min-width: 230px;
+      padding: 0 20px;
+    }
+
+    li.selected a {
+      color: #979797
     }
 
     li .underline-item {
