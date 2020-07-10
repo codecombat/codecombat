@@ -94,6 +94,10 @@ export default {
   state: {
     open: false,
     panelHeader: 'Module 1 | Hard Coded',
+    panelFooter: {
+      icon: undefined,
+      url: ''
+    },
     studentInfo: {
       name: 'Student Name',
       completedContent: moment().format('MMM D, YYYY H:mm A')
@@ -224,32 +228,45 @@ export default {
       state.panelSessionContent = sessionContentObject
     },
     setLearningGoal (state, learningGoal) {
-      state.conceptCheck.learningGoal = learningGoal
+      Vue.set(state.conceptCheck, 'learningGoal', learningGoal)
     },
     setSelectedProgressKey (state, key) {
       state.selectedProgressKey = key
     },
     setTimeSpent (state, timeSpent) {
-      state.conceptCheck.timeSpent = timeSpent
+      Vue.set(state.conceptCheck, 'timeSpent', timeSpent)
     },
     setTotalSubmissions (state, totalSubmissions) {
-      state.conceptCheck.totalSubmissions = totalSubmissions
+      Vue.set(state.conceptCheck, 'totalSubmissions', totalSubmissions)
+    },
+    setPanelFooter (state, { icon, url }) {
+      state.panelFooter = {
+        icon,
+        url
+      }
     },
     resetState (state) {
-      state.conceptCheck.learningGoal = ''
-      state.conceptCheck.totalSubmissions = -1
-      state.conceptCheck.timeSpent = -1
-      state.conceptCheck.classAverage = -1
+      Vue.set(state.conceptCheck, 'learningGoal', '')
+      Vue.set(state.conceptCheck, 'totalSubmissions', -1)
+      Vue.set(state.conceptCheck, 'timeSpent', -1)
+      Vue.set(state.conceptCheck, 'classAverage', -1)
       state.selectedProgressKey = undefined
+      state.panelFooter = {
+        icon: undefined,
+        url: ''
+      }
     }
   },
 
   getters: {
-    selectedProgressKey: state => {
+    selectedProgressKey ( state ) {
       if (!state.open) {
         return undefined
       }
       return state.selectedProgressKey
+    },
+    panelFooter ( state ) {
+      return state.panelFooter
     }
   },
 
@@ -258,12 +275,36 @@ export default {
     showPanelSessionContent ({ commit, dispatch, rootGetters }, { student, classroomId, selectedCourseId, moduleNum, contentId }) {
       const levelSessionsMapByUser = rootGetters['levelSessions/getSessionsMapForClassroom'](classroomId)
       const studentSessions = levelSessionsMapByUser[student._id]
+      const classroom = rootGetters['teacherDashboard/classroom']
+      const classroomLanguage = classroom?.aceConfig?.language || 'python'
       const modules = rootGetters['gameContent/getContentForClassroom'](classroomId)?.[selectedCourseId]?.modules
       const moduleContent = modules[moduleNum]
-
       const content = moduleContent.find(({ _id }) => _id === contentId);
 
-      const { original, fromIntroLevelOriginal } = content
+      const { introContent, ozariaType, original, fromIntroLevelOriginal, type, introLevelSlug } = content
+
+      let icon, url
+
+      if (!ozariaType) {
+        icon = type
+        // Bug: Whenever a slug changes which is rare it involves updating existing classrooms to avoid this bug.
+        //      However if a classroom is out of sync with slugs this url can lead to a 404.
+        url = `/play/intro/${introLevelSlug}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}&intro-content=${introContent || 0}`
+      } else if (ozariaType) {
+        if (ozariaType === 'practice') {
+          icon = 'practicelvl'
+        } else if (ozariaType === 'capstone') {
+          icon = 'capstone'
+        } else if (ozariaType === 'challenge') {
+          icon = 'challengelvl'
+        }
+        url = `/play/level/${introLevelSlug}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}`
+      }
+
+      if (!url || !icon) {
+        console.error('missing url or icon in curriculum guide')
+      }
+
       let normalizedOriginal = original || fromIntroLevelOriginal
 
       const moduleDisplayName = `${$.i18n.t(`teacher.module${moduleNum}`)}${utils.courseModules[selectedCourseId][moduleNum]}`
@@ -272,6 +313,7 @@ export default {
       }
 
       commit('resetState')
+      commit('setPanelFooter', { url, icon })
       commit('setSelectedProgressKey', `${student._id}_${content._id}`)
       commit('setLearningGoal', (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || '')
 
@@ -279,8 +321,6 @@ export default {
         // For practice levels and challenge levels
         const level = new Level(content)
         const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
-        console.log('student session for level:', studentSessions[normalizedOriginal])
-        console.log('learninggoal', level)
 
         commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
 

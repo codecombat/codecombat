@@ -90,4 +90,9 @@
     margin-bottom: -3px;
     margin-right: 15px;
   }
+
+  .content-icon {
+    width: 18px;
+    height: 18px;
+  }
 </style>

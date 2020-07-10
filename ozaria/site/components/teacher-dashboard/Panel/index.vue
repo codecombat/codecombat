@@ -1,6 +1,6 @@
 <script>
   import TeacherDashboardPanel from '../../../store/TeacherDashboardPanel'
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapGetters } from 'vuex'
 
   import StudentInfo from './components/StudentInfo'
   import ConceptCheckInfo from './components/ConceptCheckInfo'
@@ -9,6 +9,7 @@
   import DraggableOrdering from './components/DraggableOrdering'
   import InsertCode from './components/InsertCode'
   import DraggableStatementCompletion from './components/DraggableStatementCompletion'
+  import ContentIcon from '../common/icons/ContentIcon'
 
   export default {
     components: {
@@ -18,7 +19,8 @@
       CapstoneLevel,
       DraggableOrdering,
       DraggableStatementCompletion,
-      InsertCode
+      InsertCode,
+      ContentIcon
     },
 
     computed: {
@@ -28,7 +30,30 @@
         studentInfo: state => state.teacherDashboardPanel.studentInfo,
         conceptCheck: state => state.teacherDashboardPanel.conceptCheck,
         panelSessionContent: state => state.teacherDashboardPanel.panelSessionContent
-      })
+      }),
+
+      ...mapGetters({
+        panelFooter: 'teacherDashboardPanel/panelFooter'
+      }),
+
+      footerLinkText () {
+        switch (this.panelFooter.icon) {
+        case `cutscene`:
+          return 'View Cutscene'
+        case `cinematic`:
+          return `View Cinematic`
+        case `capstone`:
+          return `View Capstone`
+        case `interactive`:
+          return `View Concept Check`
+        case `practicelvl`:
+          return `View Practice Level`
+        case `challengelvl`:
+          return `View Challenge Level`
+        default:
+          return ``
+        }
+      }
     },
 
     beforeCreate () {
@@ -42,7 +67,11 @@
     methods: {
       ...mapMutations({
         togglePanel: 'teacherDashboardPanel/togglePanel'
-      })
+      }),
+
+      navigateToContent () {
+        window.application.router.navigate(this.panelFooter.url, { trigger: true })
+      }
     }
   }
 </script>
@@ -88,7 +117,14 @@
       />
     </div>
     <div class="footer">
-      <slot name="footer" />
+      <content-icon
+        v-if="panelFooter.icon"
+        class="content-icon"
+        :icon="panelFooter.icon"
+      />
+      <p @click="navigateToContent">
+        {{ footerLinkText }}
+      </p>
     </div>
   </div>
 </template>
@@ -152,5 +188,27 @@
   .footer {
     height: 45px;
     box-shadow: 0px -4px 4px rgba(0,0,0,0.06);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+      font-family: Work Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.3px;
+
+      color: #413c55;
+      cursor: pointer;
+      margin: 0 0 0 10px;
+    }
+  }
+
+  .content-icon {
+    width: 25px;
+    height: 25px;
   }
 </style>
