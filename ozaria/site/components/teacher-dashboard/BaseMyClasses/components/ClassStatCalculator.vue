@@ -36,10 +36,12 @@
 
       classroomStatsFromClassroom () {
         return {
+          id: this.classroomState._id,
           name: this.classroomState.name,
           language: this.classroomState.aceConfig.language || 'python',
           numberOfStudents: this.classroomState.members.length || 0,
-          classroomCreated: this.classroomCreationDate
+          classroomCreated: this.classroomCreationDate,
+          archived: this.classroomState.archived
         }
       },
       /**

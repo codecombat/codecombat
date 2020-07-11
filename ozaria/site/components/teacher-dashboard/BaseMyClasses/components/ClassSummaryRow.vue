@@ -7,6 +7,10 @@
       IconEllipsis
     },
     props: {
+      classId: {
+        type: String,
+        required: true
+      },
       classroomName: {
         type: String,
         required: true
@@ -22,6 +26,10 @@
       dateCreated: {
         type: String,
         required: true
+      },
+      archived: {
+        type: Boolean,
+        default: false
       }
     }
   }
@@ -33,8 +41,24 @@
       id="class-header"
       class="flex-row"
     >
-      <div class="flex-row">
-        <h2>{{ classroomName }}</h2>
+      <router-link
+        v-if="!archived"
+        tag="a"
+        :to="`/teachers/classes/${classId}`"
+        class="flex-row clickable"
+      >
+        <h2 class="padding-left"> {{ classroomName }} </h2>
+        <class-info-row
+          :language="language"
+          :num-students="numStudents"
+          :date-created="dateCreated"
+        />
+      </router-link>
+      <div
+        v-else
+        class="flex-row"
+      >
+        <h2 class="padding-left"> {{ classroomName }} </h2>
         <class-info-row
           :language="language"
           :num-students="numStudents"
@@ -70,7 +94,6 @@
     height: 46px;
 
     box-shadow: 0px 4px 4px rgba(0,0,0,0.06);
-    padding-left: 30px;
 
     justify-content: space-between;
   }
@@ -79,6 +102,20 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+
+  .clickable {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    &:hover {
+      border: 0.5px solid #74C6DF;
+      cursor: pointer;
+    }
+  }
+
+  .padding-left {
+    padding-left: 30px;
   }
 
   .btn-ellipse {

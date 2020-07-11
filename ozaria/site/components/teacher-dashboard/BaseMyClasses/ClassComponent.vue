@@ -23,10 +23,12 @@
 <template>
   <div class="class-component">
     <class-summary-row
+      :class-id="classroomStats.id"
       :classroom-name="classroomStats.name"
       :language="classroomStats.language"
       :num-students="classroomStats.numberOfStudents"
       :date-created="classroomStats.classroomCreated"
+      :archived="classroomStats.archived"
       @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
     />
     <class-chapter-summaries :chapter-progress="chapterStats" />
