@@ -28,12 +28,46 @@
       }
     },
 
+    data: () => ({
+      isTouchingRight: false
+    }),
+
+    watch: {
+      // Use this to trigger attaching the scroll callback
+      // as the table is changing width.
+      modules (newModules, lastModules) {
+        const table = $('#classTableFrame')
+        table.off('scroll')
+        table.scroll(this.debouncedDetectMaxScrolledRight)
+
+        this.debouncedDetectMaxScrolledRight()
+      }
+    },
+
+    mounted () {
+      this.debouncedDetectMaxScrolledRight = _.debounce(this.detectMaxScrolledRight, 100)
+    },
+
+    beforeDestroy () {
+      $('#classTableFrame').off('scroll')
+    },
+
     methods: {
       scrollRight () {
         $('#classTableFrame').animate({ scrollLeft: '+=400px' })
       },
+
       scrollLeft () {
         $('#classTableFrame').animate({ scrollLeft: '-=400px' })
+      },
+
+      detectMaxScrolledRight () {
+        const table = $('#classTableFrame')
+        if (table.scrollLeft() + table.innerWidth() >= table[0].scrollWidth) {
+          this.isTouchingRight = true
+        } else {
+          this.isTouchingRight = false
+        }
       }
     }
   }
@@ -79,7 +113,7 @@
           />
 
           <!-- Fade on the right to signal more -->
-          <div class="fade-out" />
+          <div class="fade-out" :class="isTouchingRight ? 'hidden' : ''" />
         </div>
       </div>
     </div>
@@ -187,11 +221,17 @@
 
   .fade-out {
     width: 80px;
+    margin-left: -80px; /* Prevents div protruding */
+    opacity: 1;
 
     position: sticky;
     position: -webkit-sticky; /* Safari */
     right: 0;
 
     background: linear-gradient(270deg, rgba(205, 205, 204, 0.79) 0%, rgba(196, 196, 196, 0) 100%);
+  }
+
+  .fade-out.hidden {
+    opacity: 0;
   }
 </style>
