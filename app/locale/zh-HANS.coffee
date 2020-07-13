@@ -2121,7 +2121,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
     chapter1: "第一章: 月光舞者" # {change}
     chapter2: "第二章: 凤凰城" # {change}
-#    chapter3: "Chapter 3: The Phoenix Lands" # {change}
+#    chapter3: "Chapter 3: The Phoenix Lands"
     module1: "模块1：" # {change}
     module2: "模块2：" # {change}
     module3: "模块3：" # {change}

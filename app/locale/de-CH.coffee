@@ -838,7 +838,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    level_type_intro_level: "Intro Level"
 #    content_type_avatar: "Avatar Selection"
 #    content_type_cinematic: "Cinematic"
-#    content_type_interactive: "Concept Check" # {change}
+#    content_type_interactive: "Concept Check"
 #    feedback: "Feedback"
 
 #  apis:
@@ -2120,8 +2120,8 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    capstone_rubric: "Capstone Rubric"
 #    chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
 #    chapter1: "Chapter 1: Up The Mountain"
-#    chapter2: "Chapter 2: The Moon Dancers" # {change}
-#    chapter3: "Chapter 3: The Phoenix Lands" # {change}
+#    chapter2: "Chapter 2: The Moon Dancers"
+#    chapter3: "Chapter 3: The Phoenix Lands"
 #    module1: "Module 1: "
 #    module2: "Module 2: "
 #    module3: "Module 3: "

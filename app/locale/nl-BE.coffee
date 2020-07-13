@@ -838,7 +838,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    level_type_intro_level: "Intro Level"
 #    content_type_avatar: "Avatar Selection"
 #    content_type_cinematic: "Cinematic"
-#    content_type_interactive: "Concept Check" # {change}
+#    content_type_interactive: "Concept Check"
 #    feedback: "Feedback"
 
 #  apis:
@@ -1167,7 +1167,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    editor_config_behaviors_label: "Enable Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-  about:
+#  about:
 #    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
 #    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
 #    learn_more: "Learn More"
@@ -2120,8 +2120,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    capstone_rubric: "Capstone Rubric"
 #    chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
 #    chapter1: "Chapter 1: Up The Mountain"
-#    chapter2: "Chapter 2: The Moon Dancers" # {change}
-#    chapter3: "Chapter 3: The Phoenix Lands" # {change}
+#    chapter2: "Chapter 2: The Moon Dancers"
+#    chapter3: "Chapter 3: The Phoenix Lands"
 #    module1: "Module 1: "
 #    module2: "Module 2: "
 #    module3: "Module 3: "

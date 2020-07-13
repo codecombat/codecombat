@@ -838,7 +838,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    level_type_intro_level: "Intro Level"
 #    content_type_avatar: "Avatar Selection"
 #    content_type_cinematic: "Cinematic"
-#    content_type_interactive: "Concept Check" # {change}
+#    content_type_interactive: "Concept Check"
 #    feedback: "Feedback"
 
   apis:
@@ -2120,8 +2120,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     capstone_rubric: "Guía de evaluación del proyecto final"
 #    chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
     chapter1: "Capítulo 1: Bailarines de la luna" # {change}
-#    chapter2: "Chapter 2: The Moon Dancers" # {change}
-#    chapter3: "Chapter 3: The Phoenix Lands" # {change}
+#    chapter2: "Chapter 2: The Moon Dancers"
+#    chapter3: "Chapter 3: The Phoenix Lands"
     module1: "Módulo 1" # {change}
     module2: "Módulo 2" # {change}
     module3: "Módulo 3" # {change}

@@ -454,7 +454,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     you_can_always_change_your_hero_later: "Lbh pna nyjnlf punatr lbhe ureb yngre."
     finish: "Svavfu"
     teacher_ready_to_create_class: "Lbh'er ernql gb perngr lbhe svefg pynff!"
-    teacher_students_can_start_now: "Lbhe fghqragf jvyy or noyr gb fgneg cynlvat gur svefg havg, Puncgre 1: Hc Gur Zbhagnva, vzzrqvngryl." # {punatr}
+    teacher_students_can_start_now: "Lbhe fghqragf jvyy or noyr gb fgneg cynlvat gur svefg havg, Puncgre 1: Hc Gur Zbhagnva, vzzrqvngryl."
     teacher_list_create_class: "Ba gur arkg fperra lbh jvyy or noyr gb perngr n arj pynff."
     teacher_list_add_students: "Nqq fghqragf gb gur pynff ol pyvpxvat gur Ivrj Pynff yvax, gura fraqvat lbhe fghqragf gur Pynff Pbqr be HEY. Lbh pna nyfb vaivgr gurz ivn rznvy vs gurl unir rznvy nqqerffrf."
     teacher_list_resource_hub_1: "Purpx bhg gur"
@@ -840,7 +840,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     level_type_intro_level: "Vageb Yriry"
     content_type_avatar: "Ningne Fryrpgvba"
     content_type_cinematic: "Pvarzngvp"
-    content_type_interactive: "Pbaprcg Purpx" # {punatr}
+    content_type_interactive: "Pbaprcg Purpx"
     feedback: "Srrqonpx"
 
   apis:
@@ -1201,7 +1201,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     shasha_title: "Cebqhpg naq Ivfhny Qrfvtare"
     daniela_title: "Znexrgvat Znantre"
     bobby_title: "Tnzr Qrfvtare"
-    brian_title: "Fravbe Tnzr Qrfvta Znantre" # {punatr}
+    brian_title: "Fravbe Tnzr Qrfvta Znantre"
     stephanie_title: "Phfgbzre Fhccbeg Fcrpvnyvfg"
     rob_title: "Fnyrf Qrirybczrag Ercerfragngvir"
     shubhangi_title: "Fravbe Fbsgjner Ratvarre"
@@ -1487,7 +1487,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     maximize_editor: "Znkvzvmr/zvavzvmr pbqr rqvgbe."
 
   cinematic:
-    click_anywhere_continue: "Pyvpx gb Pbagvahr" # {punatr}
+    click_anywhere_continue: "Pyvpx gb Pbagvahr"
     instructional_tooltip: "Pyvpx gurfr neebj ohggbaf gb tb onpxjneqf naq sbejneqf. Lbh pna nyfb hfr gur neebj xrlf ba lbhe xrlobneq gb qb gur fnzr."
 
   community:
@@ -2093,7 +2093,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_quest_more: "Frr nyy dhrfgf"
     teacher_quest_less: "Frr srjre dhrfgf"
     refresh_to_update: "(erserfu gur cntr gb frr hcqngrf)"
-    view_project_gallery: "Ivrj Pncfgbar Tnyyrel" # {punatr}
+    view_project_gallery: "Ivrj Pncfgbar Tnyyrel"
     office_hours: "Grnpure Jrovanef"
     office_hours_detail: "Yrnea ubj gb xrrc hc jvgu jvgu lbhe fghqragf nf gurl perngr tnzrf naq rzonex ba gurve pbqvat wbhearl! Pbzr naq nggraq bhe"
     office_hours_link: "grnpure jrovane"
@@ -2106,7 +2106,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     none: "Abar qrgrpgrq lrg"
     explain_open_ended: "Abgr: Fghqragf ner rapbhentrq gb fbyir guvf yriry perngviryl — bar cbffvoyr fbyhgvba vf cebivqrq orybj."
     level_label: "Yriry:"
-    time_played_label: "Gvzr Fcrag:" # {punatr}
+    time_played_label: "Gvzr Fcrag:"
     back_to_resource_hub: "Onpx gb Erfbhepr Uho"
     back_to_course_guides: "Onpx gb Pbhefr Thvqrf"
     print_guide: "Cevag guvf thvqr"
@@ -2121,15 +2121,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     chapter1_lesson_plan_desc: "Qrgnvyrq pynffebbz thvqr vapyhqvat yrneavat bowrpgvirf, PFGN fgnaqneqf, ersyrpgvba npgvivgvrf, snpvyvgngvba gvcf, naq zber."
     capstone_rubric: "Pncfgbar Ehoevp"
     chapter1_capstone_rubric_desc: "Ehoevp sbe rinyhngvat fghqragf' Pncfgbar cebwrpgf naq ersyrpgvba npgvivgvrf ng gur raq bs guvf havg."
-    chapter1: "Puncgre 1: Hc Gur Zbhagnva" # {punatr}
-    chapter2: "Puncgre 2: Gur Zbba Qnapref" # {punatr}
-    chapter3: "Puncgre 3: Gur Cubravk Ynaqf" # {punatr}
-    module1: "Zbqhyr 1: " # {punatr}
-    module2: "Zbqhyr 2: " # {punatr}
-    module3: "Zbqhyr 3: " # {punatr}
-    module4: "Zbqhyr 4: " # {punatr}
-    module5: "Zbqhyr 5: " # {punatr}
-    module6: "Zbqhyr 6: " # {punatr}
+    chapter1: "Puncgre 1: Hc Gur Zbhagnva"
+    chapter2: "Puncgre 2: Gur Zbba Qnapref"
+    chapter3: "Puncgre 3: Gur Cubravk Ynaqf"
+    module1: "Zbqhyr 1: "
+    module2: "Zbqhyr 2: "
+    module3: "Zbqhyr 3: "
+    module4: "Zbqhyr 4: "
+    module5: "Zbqhyr 5: "
+    module6: "Zbqhyr 6: "
     algorithms_and_syntax: "Nytbevguzf naq Flagnk"
     debugging: "Qrohttvat"
     variables: "Inevnoyrf"
