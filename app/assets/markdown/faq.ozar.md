@@ -61,7 +61,7 @@ The Hero lives in a small and peaceful town named River’s End with their mothe
 Yes, you can use the same username, email address or Google Sign-in to sign into both CodeCombat and Ozaria. However, classrooms are specific to each program; if you've created a classroom for your students in CodeCombat, you'll need to create a separate classroom in Ozaria and invite them to that as well. Your students can use their existing account details to log into Ozaria.com.
 
 ### How do I transition back to CodeCombat?
-You have a few options when transitioning back to CodeCombat, depending on how you would like to structure your class. These include exploring computer science concepts in more depth, practicing more with game development, and introducing students to web development. You can read more about these options in the [Ozaria Implementation Options](/teachers/resources/implementation-guide).
+You have a few options when transitioning back to CodeCombat, depending on how you would like to structure your class. These include exploring computer science concepts in more depth, practicing more with game development, and introducing students to web development. You can read more about these options in the [Ozaria Implementation Options](https://docs.google.com/drawings/d/1Py8lBN3uGjrvsHdm_2wnO7T0wLPYEW0PCJ7XsMVHEYo/edit?usp=sharing).
 
 ### Will there be repeated material when I transition back to CodeCombat?
 Fundamental programming concepts that are introduced in Ozaria will be used in CodeCombat, including variables, conditionals, and debugging. Students will be able to practice and expand on these skills with CodeCombat levels that vary in design and gameplay from Ozaria levels.
