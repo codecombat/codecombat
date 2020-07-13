@@ -25,10 +25,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     global_subtitle3: "Maestros"
     global_subtitle4: "Países"
     sign_up: "Registrarse"
+#    learner_number: "12 Million"
+#    code_line_number: "1 Billion"
 
   new_home:
     title: "CodeCombat - Juegos de Programación para aprender Python y JavaScript" # {change}
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
     meta_description: "Aprende a esciribir código a través de un juego de programación. Aprende Python, JavaScript y HTML mientras resuelves rompecabezas y aprendes a hacer tus propios juegos de código y páginas web." # {change}
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Un Juego de programación construido teniendo en cuenta a los maestros."
     built_for_teachers_blurb: "Enseñar a los niños a programar puede ser abrumador. CodeCombat ayuda a todos los educadores a enseñar a los estudiantes cómo programar en JavaScript o Python, dos de los lenguajes de programación más populares. Con un plan de estudios comprensivo que incluye seis unidades de Ciencias de la Computación, y refuerza el aprendizaje a través de unidades en el desarrollo de juegos y desarrollo web basados en proyectos, los niños progresarán en un viaje desde la sintaxis básica hasta la recursión!"
     built_for_teachers_subtitle1: "Ciencias de la Computación"
@@ -55,6 +59,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classroom_in_box_blurb1: "Involucre a todos los estudiantes para que confíen que la programación es para ellos."
     classroom_in_box_blurb2: "Apoderar a cualquier educador para que se sienta seguro al enseñar programación."
     classroom_in_box_blurb3: "Inspirar a todos los líderes escolares para crear un programa de Ciencias de la Computación de clase mundial."
+#    click_here: "Click here"
     creativity_rigor_title: "Donde la creatividad alcanza el rigor"
     creativity_rigor_subtitle1: "Haga que la programación sea divertida y enseñe habilidades del mundo real"
     creativity_rigor_blurb1: "Los estudiantes escriben Python y JavaScript real mientras juegan juegos que fomentan el ensayo y error, el pensamiento crítico y la creatividad. Luego, los estudiantes aplican las habilidades de programación que han aprendido al desarrollar sus propios juegos y sitios web en cursos basados en proyectos."
@@ -111,6 +116,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teachers_love_codecombat_blurb2: "Recomendarían CodeCombat a otros maestros de Ciencias de la Computación"
     teachers_love_codecombat_blurb3: "Dicen que CodeCombat los ayuda a mejorar las habilidades de resolución de problemas de sus estudiantes"
     teachers_love_codecombat_subblurb: "En asociación con McREL International, líder en orientación basada en investigación y evaluaciones de tecnología educativa."
+#    top_banner_blurb: "New: join our mission!"
     try_the_game: "Prueba el juego"
     classroom_edition: "Versión para el aula:"
     learn_to_code: "Aprende a programar:"
@@ -177,6 +183,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     want_coco: "¿Quisiera CodeCombat en su escuela?"
     educator: "Maestro"
     student: "Estudiante"
+#    go_to_my_dashboard: "Go to My Dashboard"
 
   nav:
     educators: "Maestros"
@@ -224,11 +231,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     faq: "Preguntas frecuentes"
     return_coco: "Volver a CodeCombat"
     classes: "Clases"
+#    term_of_service: "Terms of Service"
 
   modal:
     close: "Cerrar"
     okay: "OK"
     cancel: "Cancelar"
+#    try_again: "Try Again"
 
   not_found:
     page_not_found: "Página no encontrada"
@@ -298,6 +307,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     back_to_dashboard: "Volver al panel"
     back_to_ozaria: "Volver a ozaria.com"
     customize_hero: "Personalizar héroe"
+#    account_settings: "Account Settings"
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -374,6 +384,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     already_have_account1: "¿Ya tienes una cuenta de maestro o estudiante de CodeCombat?"
     already_have_account2: "Puedes ingresar a Ozaria.com con esa cuenta."
     sign_into_ozaria: "Ingresa a Ozaria.com"
+#    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Completa Suscripción"
@@ -459,6 +471,24 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     request_class_code: "¡Estudiantes, pídanle un código de clase a su docente para crear una cuenta!"
     educators_create_account: "¡Docentes, creen una cuenta de maestro para acceder a la primera unidad de manera gratuita!"
     looking_for_classroom: "Buscando aulas..."
+#    create_your_educator_account: "Create your educator account"
+#    educator_signup_list_1_title: "See what your students see:"
+#    educator_signup_list_1_desc: "Demo each game level in the first unit"
+#    educator_signup_list_2_title: "See teacher resources:"
+#    educator_signup_list_2_desc: "Access scope and sequence, lessons, and more"
+#    educator_signup_list_3_title: "See your students thrive:"
+#    educator_signup_list_3_desc: "Try the first unit with your class for free"
+#    signup_with_email: "Sign up with Email"
+#    already_have_account: "Already have a CodeCombat or Ozaria account"
+#    select_your_role: "Select your role"
+#    select_your_state: "Select your state"
+
+#  form_validation_errors:
+#    required: "Field is required"
+#    invalidEmail: "Invalid email"
+#    invalidPhone: "Invalid phone number"
+#    emailExists: "Email already exists"
+#    numberGreaterThanZero: "Should be a number greater than 0"
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -514,6 +544,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     complete: "Completado"
     continue_editing: "Continuar editando"
     logout: "Cerrar sesión"
+#    empty: "Empty"
+#    done: "Done"
+#    remove: "Remove"
 
   general:
     and: "y"
@@ -576,6 +609,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     more: "Más"
     fewer: "Menos"
     with: "con"
+#    archived: "Archived"
 
   units:
     second: "segundo"
@@ -781,10 +815,31 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     learning_goals: "Metas de aprendizaje"
     start: "Empezar"
     vega_character: "Personaje Vega"
+#    capella_character: "Capella Character"
+#    octans_character: "Octans Character"
     click_to_continue: "Haz clic para continuar"
     share_your_project: "Comparte tu proyecto"
     keep_editing_your_project: "Siempre puedes seguir editando tu proyecto, incluso después compartirlo."
     copy_url: "Copiar URL"
+#    level_status: "Status"
+#    level_status_locked: "Locked"
+#    level_status_in_progress: "In Progress"
+#    level_status_complete: "Complete"
+#    level_type_practice: "Practice"
+#    level_type_challenge: "Challenge"
+#    level_type_cutscene: "Cutscene"
+#    level_type_capstone: "Capstone"
+#    level_type_intro: "Intro"
+#    level_type_practice_level: "Practice Level"
+#    level_type_challenge_level: "Challenge Level"
+#    level_type_cutscene_level: "Cutscene Level"
+#    level_type_capstone_level: "Capstone Level"
+#    level_type_capstone_project: "Capstone Project"
+#    level_type_intro_level: "Intro Level"
+#    content_type_avatar: "Avatar Selection"
+#    content_type_cinematic: "Cinematic"
+#    content_type_interactive: "Concept Check" # {change}
+#    feedback: "Feedback"
 
   apis:
     methods: "Métodos"
@@ -1091,7 +1146,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     optional_parameters: "Parámetros Opcionales"
     returns: "Devoluciones"
     granted_by: "Concedido por"
-    still_undocumented: "Aún sin documentación, lo lamentamos."
+#    description_coming_soon: "Description coming soon"
 
   save_load:
     granularity_saved_games: "Guardado"
@@ -1131,39 +1186,25 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     team_values: "Valoramos el diálogo abierto y respetuoso, donde gana la mejor idea. Nuestras decisiones se basan en la investigación del cliente y nuestro método se centra en obtener resultados tangibles para ellas. Todos están echando una mano, desde nuestro CEO hasta nuestros contribuidores en GitHub, porque en nuestro equipo valoramos el crecimiento y el aprendizaje. " # {change}
     nick_title: "Cofundador, CEO"
     matt_title: "Cofundador, CTO"
-    cat_title: "Diseñadora de Juegos"
-    scott_title: "Cofundador, Ingeniero de Software"
-    maka_title: "Defensor del Consumidor"
-    robin_title: "Diseñadora de UX & Investigadora" # {change}
-    nolan_title: "Administrador de territorio" # {change}
-    david_title: "Director de Marketing"
-    titles_csm: "Gerente de éxito del cliente"
-    titles_territory_manager: "Administrador de territorio"
     lawrence_title: "Gerente de relaciones comerciales"
-    sean_title: "Ejecutivo de cuentas senior"
-    liz_title: "Ejecutivo de cuentas senior"
-    jane_title: "Ejecutivo de cuentas"
     shan_title: "Encargado principal de establecimiento de asociaciones, China"
     run_title: "Jefe de operaciones, China"
     lance_title: "Pasante de ingeniería de software, China"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
     matias_title: "Ingeniero de software senior"
     ryan_title: "Especialista en atención al cliente"
     maya_title: "Desarrollador de planes de estudio senior"
     bill_title: "Gerente general, China"
     shasha_title: "Diseñador visual y de productos"
     daniela_title: "Gerente de marketing"
-    chelsea_title: "Gerente de operaciones"
-    claire_title: "Asistente ejecutivo"
     bobby_title: "Diseñador de juegos"
-    brian_title: "Diseñador de juegos principal"
-    andrew_title: "Ingeniero de software"
+    brian_title: "Diseñador de juegos principal" # {change}
     stephanie_title: "Especialista en atención al cliente"
     rob_title: "Representante de desarrollo de ventas"
     shubhangi_title: "Ingeniero de software senior"
-    bryukh_title: "Desarrollador de Juego"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
-    bryukh_blurb: "Construye Rompecabezas"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
     community_description_3: "CodeCombat es un"
@@ -1191,7 +1232,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     jobs_benefit_4: "Días personales/enfermo ilimitados" # {change}
     jobs_benefit_5: "Desarrollo profesional y soporte de formación continua" # {change}
     jobs_benefit_6: "Seguro médico/dental/vista" # {change}
-    jobs_benefit_7: "Escritorios para todos"
     jobs_benefit_9: "Ventana opcional de ejercicio por 10 años"
     jobs_benefit_10: "Permiso de maternidad: 12 semanas pagadas, luego 6 @ 55% del salario"
     jobs_benefit_11: "Permiso de paternidad: 12 semanas pagadas"
@@ -1215,6 +1255,40 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   teachers:
     licenses_needed: "Licencias necesarias"
+#    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO"
+#    select_class: "Select class"
+#    programming_language: "Programming language"
+#    programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students."
+#    class_name: "Class Name"
+#    grades: "Grades"
+#    select_all_that_apply: "Select all that apply"
+#    class_info_modal_sub_title: "Invite students to join your class by sending them:"
+#    class_url: "Class Url"
+#    class_url_desc: "Share URL to have students join your class after signing up"
+#    class_code: "Class Code"
+#    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
+#    invite_by_email: "Invite by Email"
+#    invite_modal_sub_title: "Separate each email address by a line break or commas"
+
+#  no_licenses_page:
+#    are_your_students_ready: "Are your students excited and ready to learn more?"
+#    once_students_have_completed: "Once students have completed Chapter 1, they will need licenses in order to continue their journey through the next chapter and beyond."
+#    get_licenses: "Get Licenses"
+#    get_full_access_to_ozaria: "Get Full Access to Ozaria"
+#    unlock_all: "Unlock all the above plus all the teacher support you need"
+#    comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
+#    lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
+#    dedicated_customer_success_manager: "A dedicated customer success manager"
+#    automatic_access: "Automatic access to new content and features"
+#    license_quote: "\"In my opinion as a 26 year veteran middle school educator, there is no more engaging resource for teaching coding.\""
+#    join_our_community: "Join our community"
+#    join_our_community_desc: "Over 12 million people have learned to write Python and JavaScript using CodeCombat. Now, we welcome you to join our community of over 82,000 educators and 25,000 schools with Ozaria, designed for educators who want to inspire a new generation of students to learn Computer Science."
+#    teach_real_typed_code: "Teach Real, Typed Code"
+#    teach_real_typed_code_desc: "Students learn Python and JavaScript, the two most popular coding languages, and build 21st century skills that will prepare them for any career."
+#    support_student_progress: "Support Student Progress"
+#    support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
+#    creative_projects: "Creative Projects"
+#    creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
 
   special_offer:
     special_offer: "Oferta Especial"
@@ -1266,6 +1340,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     role_default: "Seleccione Rol"
     primary_role_default: "Seleccione Rol Primario"
     purchaser_role_default: "Seleccione Rol de Comprador"
+#    teacher: "Teacher"
     tech_coordinator: "Coordinador de tecnología"
     advisor: "Tutor" # {change}
     principal: "Director"
@@ -1410,7 +1485,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     maximize_editor: "Maximizar/minimizar editor de código."
 
   cinematic:
-    click_anywhere_continue: "haz clic en cualquier lado para continuar"
+    click_anywhere_continue: "haz clic en cualquier lado para continuar" # {change}
+#    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same."
 
   community:
     main_title: "Comunidad CodeCombat"
@@ -1707,7 +1783,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     code: "Código de __name__"
     complete_solution: "Solución completa"
     course_not_started: "El estudiante todavía no ha completado este curso."
-    appreciation_week_blurb1: '¡Por la <strong>semana de apreciación al maestro de 2019</strong>, ofrecemos licencias gratuitas de una semana!<br />Debes escribirle a Rob Arevalo (<a href="mailto:robarev@codecombat.com?subject=Teacher Appreciation Week">robarev@codecombat.com</a>) con el asunto "<strong>Semana de apreciación al maestro</strong>" e incluir:'
+    appreciation_week_blurb1: "¡Por la <strong>semana de apreciación al maestro de 2019</strong>, ofrecemos licencias gratuitas de una semana!<br />Debes escribirle a Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) con el asunto \"<strong>Semana de apreciación al maestro</strong>\" e incluir:"
     appreciation_week_blurb2: "la cantidad de licencias de una semana que quieres (una por estudiante)"
     appreciation_week_blurb3: "la dirección de correo electrónico de tu cuenta de maestro de CodeCombat"
     appreciation_week_blurb4: "si quieres licencias para la semana 1 (6 a 10 de mayo) o para la semana 2 (13 a 17 de mayo)"
@@ -1724,6 +1800,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     solution_arena_blurb: "Se alienta a los estudiantes a solucionar los niveles de arena con creatividad. La siguiente solución cumple con los requisitos del nivel."
     solution_challenge_blurb: "Se alienta a los estudiantes a resolver los niveles abiertos con creatividad. La siguiente es una solución posible."
     solution_project_blurb: "Se alienta a los estudiantes a crear un proyecto creativo en este nivel. Consulta las guías curriculares del centro de recursos para más información sobre cómo evaluar estos proyectos."
+#    feedback_capstone: "The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a <a target=\"_blank\" rel=\"noopener\" href=\"https://docs.google.com/document/d/1itB0vY6WphjINQYJ9NHkILATcLLlYD3GDSg6FJg55OQ\">Peer Feedback Template</a> that you can share with your students."
     students_code_blurb: "Cuando corresponde, se ofrece una solución correcta para el nivel. En algunos casos, es posible que el estudiante lo resuelva con un código distinto. No se muestran las soluciones de los niveles que el estudiante no ha comenzado."
     course_solution: "Solución del curso"
     level_overview_solutions: "Resumen del nivel y soluciones"
@@ -2014,7 +2091,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teacher_quest_more: "Ver todas las misiones"
     teacher_quest_less: "Ver menos misiones"
     refresh_to_update: "(actualiza la página para ver actualizaciones)"
-    view_project_gallery: "Ver galería de proyectos"
+    view_project_gallery: "Ver galería de proyectos" # {change}
     office_hours: "Seminarios web para maestros"
     office_hours_detail: "Aprende a seguir el ritmo de tus estudiantes mientras crean juegos y transitan el camino de la programación. Asiste a nuestros"
     office_hours_link: "seminarios web"
@@ -2027,7 +2104,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     none: "Aún sin detectar"
     explain_open_ended: "Nota: Se alienta a los estudiantes a resolver este nivel con creatividad. La siguiente es una solución posible."
     level_label: "Nivel:"
-    time_played_label: "Tiempo jugado:"
+    time_played_label: "Tiempo jugado:" # {change}
     back_to_resource_hub: "Volver al centro de recursos"
     back_to_course_guides: "Volver a las guías de curso"
     print_guide: "Imprimir esta guía"
@@ -2035,29 +2112,47 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     combo_explanation: "Los estudiantes superan los niveles de desafío combo si utilizan al menos uno de los conceptos enumerados. Puedes revisar el código de los estudiantes haciendo clic en el punto de progreso."
     concept: "Concepto"
     sync_google_classroom: "Sincronizar Google Classroom"
-    implementation_guide: "Opciones de implementación - Ozaria y CodeCombat"
-    implementation_guide_desc: "Opciones para conectar el contenido de Ozaria y CodeCombat en función de la estructura y el enfoque de tu aula."
-    prologue: "Prólogo: Montaña del cielo"
     unit_overview: "Resumen de la unidad"
     module_overview: "Resumen del módulo"
-    prologue_unit_overview_desc: "Resumen de la experiencia del estudiante, incluidos escenas de video, niveles de práctica, introducciones y el proyecto final de la unidad prólogo."
+#    chapter1_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in Chapter 1."
     lesson_plan: "Plan de estudios"
-    prologue_lesson_plan_desc: "Guía detallada que incluye objetivos de aprendizaje, normas CSTA, actividades de reflexión, sugerencias de facilitación y más."
+#    chapter1_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
     capstone_rubric: "Guía de evaluación del proyecto final"
-    prologue_capstone_rubric_desc: "Guía para evaluar los proyectos finales y las actividades de reflexión de los estudiantes al final de la unidad."
-    chapter1: "Capítulo 1: Bailarines de la luna"
-    module1: "Módulo 1"
-    module2: "Módulo 2"
-    module3: "Módulo 3"
-    module4: "Módulo 4"
-    module5: "Módulo 5"
-    module6: "Módulo 6"
+#    chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+    chapter1: "Capítulo 1: Bailarines de la luna" # {change}
+#    chapter2: "Chapter 2: The Moon Dancers" # {change}
+#    chapter3: "Chapter 3: The Phoenix Lands" # {change}
+    module1: "Módulo 1" # {change}
+    module2: "Módulo 2" # {change}
+    module3: "Módulo 3" # {change}
+    module4: "Módulo 4" # {change}
+    module5: "Módulo 5" # {change}
+    module6: "Módulo 6" # {change}
     algorithms_and_syntax: "Algoritmos y sintaxis"
     debugging: "Depuración"
     variables: "Variables"
     conditionals: "Condicionales"
     capstone_intro: "Inicio del proyecto final"
     capstone_project: "Proyecto final"
+#    level_code: "Level Code"
+#    review_needed: "Review Needed"
+#    review_tooltip_heading: "What does this mean?"
+#    review_tooltip_text: "Red flags appear next to Concept Checks where your student(s) attempted to answer the question 3 or more times. In the <strong>Course Overview</strong> section, red flags appear next to Concept Checks if at least 50% of students who have started or completed the concept check attempted it 3 or more times."
+#    scroll_to_see_more: "Scroll to see more"
+#    click_to_view_concept_check: "Click to view concept check"
+#    click_to_view_project_gallery: "Click to view project gallery"
+#    review_learning_goal: "Review \"Learning Goal: __learningGoal__\" with students."
+#    view_capstone_project: "View Capstone Project"
+#    ozaria_dashboard_guide: "Teacher Dashboard Guide"
+#    dashboard_guide_desc: "Walkthrough of Ozaria Teacher Dashboard features that will help you view student progress and work."
+#    review: "Review"
+#    for_loops: "For Loops"
+#    peer_feedback: "Peer Feedback Form"
+#    presentation_checklist: "Presentation Checklist"
+
+#  teacher_licenses:
+#    active_licenses: "Active Licenses"
+#    expired_licenses: "Expired Licenses"
 
   share_licenses:
     share_licenses: "Compartir licencias"
@@ -2073,7 +2168,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     you: "(tú)"
     one_license_used: "(1 licencia utilizada)"
     licenses_used: "(__licensesUsed__ licencias utilizadas)"
+#    licenses_used_no_braces: "__licensesUsed__ licenses used"
     more_info: "Más información"
+#    shared_pool_label: "Teachers in your shared pool:"
 
   sharing:
     game: "Juego"
@@ -2600,6 +2697,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     math_operations: "Operaciones Matemáticas"
     math_proportions: "Proporciones Matemáticas"
     math_trigonometry: "Trigonometría"
+#    nesting: "Nesting"
     object_literals: "Objetos Literales"
     parameters: "Parámetros"
     programs: "Programas"
@@ -2648,6 +2746,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     basic_javascript: "JavaScript Básico"
     basic_event_handling: "Manejo de Eventos Básico"
     create_sharable_interactive_web_page: "Crear página web interactiva compartible"
+#    iteration: "Iteration"
+#    data_types: "Data Types"
+#    objects: "Objects"
+#    methods: "Methods"
 
   anonymous_teacher:
     notify_teacher: "Notificar al Maestro"
@@ -2973,8 +3075,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     want_to_save: "¿Quieres guardar tu progreso del Código de Honor?"
     ask_teacher_class_code: "Pídele a tu maestro tu código de clase"
     dont_have: "¡No tengo, pero quiero probar la actividad!"
-    hoc_activity: 'Actividad de la Hora del Código'
-    save_progress: 'Guardar progreso'
+    hoc_activity: "Actividad de la Hora del Código"
+    save_progress: "Guardar progreso"
+#    err_google_exists: "An account already exists for the Google account you've selected. Please choose another Google account or sign up with a username and password."
+#    err_username_taken: "An account already exists for the username you've entered. Please choose another username."
 
   hoc_2018:
     banner: "¡Feliz semana de la educación en ciencias de la computación de 2018!"

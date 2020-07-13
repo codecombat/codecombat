@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
+
   ozaria_home:
     subtitle: "引人入胜的计算机科学课程"
     summary: "奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
@@ -27,11 +28,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     learner_number: "1200万"
     code_line_number: "10亿"
 
-
   new_home:
     title: "奥佳睿 - 引人入胜的计算机科学课程"
     meta_keywords: "CodeCombat,青少年编程,少儿编程,奥佳睿官网,Ozaria,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,Ozaria中文"
     meta_description: "CodeCombat原创作品，支持Python, JavaScript 和编程英语学习，奥佳睿（Ozaria）既是计算机科学程序，扣人心弦的冒险游戏，也是一个让学生们掌握计算机代码魔法来拯救世界的科幻故事。"
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "一个以教师为中心的课程体系"
     built_for_teachers_blurb: "教孩子们写代码往往会觉得无从下手。 CodeCombat 旨在帮助所有的教育工作者传授学生学习和掌握当下最流行的两种计算机语言，JavaScript 和 Python。整个体系包含六门计算机科学课程，以及通过基于项目的游戏开发和网页开发单元巩固学习，教会孩子们一步步从基本语法到高级递归前进！"
     built_for_teachers_subtitle1: "计算机科学"
@@ -58,6 +59,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_in_box_blurb1: "让每个学生有机会学习编程"
     classroom_in_box_blurb2: "让每位老师在授课时更有自信"
     classroom_in_box_blurb3: "赋能更多的学校创建世界一流的计算机科学课程"
+#    click_here: "Click here"
     creativity_rigor_title: "当创意与逻辑相遇"
     creativity_rigor_subtitle1: "传授实用编程技能，让编写代码变得有趣"
     creativity_rigor_blurb1: "学生在闯关游戏时输入真实的 Python 和 JavaScript 代码，整个过程鼓励试错 (Trail and Error)、逻辑思辨思维和创新。继而应用所学的编程知识在项目式学习 (Project Based Learning) 课程中开发自己的游戏和网站。"
@@ -114,6 +116,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb2: "会向其他计算机科学教师推荐 CodeCombat"
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
+#    top_banner_blurb: "New: join our mission!"
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -229,12 +232,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     return_coco: "返回CodeCombat"
     classes: "我的课程"
     term_of_service: "服务条款"
-    privacy: "隐私"
 
   modal:
     close: "关闭"
     okay: "是"
     cancel: "取消"
+#    try_again: "Try Again"
 
   not_found:
     page_not_found: "找不到网页"
@@ -304,6 +307,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back_to_dashboard: "返回我的课程"
     back_to_ozaria: "返回奥佳睿首页"
     customize_hero: "英雄设置"
+#    account_settings: "Account Settings"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -380,6 +384,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     already_have_account1: "已有CodeCombat教师或学生账号？"
     already_have_account2: "你可以直接使用那个账号登录"
     sign_into_ozaria: "登录Ozaria.com"
+#    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "完整订阅"
@@ -465,6 +471,24 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     request_class_code: "我是学生？询问老师获取班级码来创建一个学生账号！"
     educators_create_account: "我是老师？创建一个教师账号来获取免费的第一章！"
     looking_for_classroom: "寻找班级中..."
+#    create_your_educator_account: "Create your educator account"
+#    educator_signup_list_1_title: "See what your students see:"
+#    educator_signup_list_1_desc: "Demo each game level in the first unit"
+#    educator_signup_list_2_title: "See teacher resources:"
+#    educator_signup_list_2_desc: "Access scope and sequence, lessons, and more"
+#    educator_signup_list_3_title: "See your students thrive:"
+#    educator_signup_list_3_desc: "Try the first unit with your class for free"
+#    signup_with_email: "Sign up with Email"
+#    already_have_account: "Already have a CodeCombat or Ozaria account"
+#    select_your_role: "Select your role"
+#    select_your_state: "Select your state"
+
+#  form_validation_errors:
+#    required: "Field is required"
+#    invalidEmail: "Invalid email"
+#    invalidPhone: "Invalid phone number"
+#    emailExists: "Email already exists"
+#    numberGreaterThanZero: "Should be a number greater than 0"
 
   recover:
     recover_account_title: "找回账户"
@@ -520,6 +544,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     complete: "完成"
     continue_editing: "继续编辑"
     logout: "退出登录"
+#    empty: "Empty"
+#    done: "Done"
+#    remove: "Remove"
 
   general:
     and: "与"
@@ -582,6 +609,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more: "更多"
     fewer: "更少"
     with: "和"
+#    archived: "Archived"
 
   units:
     second: "秒"
@@ -787,6 +815,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     learning_goals: "学习目标"
     start: "开始"
     vega_character: "维迦"
+#    capella_character: "Capella Character"
+#    octans_character: "Octans Character"
     click_to_continue: "点击继续"
     share_your_project: "分享你的项目"
     keep_editing_your_project: "即使在分享出去之后，你也一直可以编辑你的项目"
@@ -797,19 +827,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_status_complete: "已完成"
     level_type_practice: "练习"
     level_type_challenge: "挑战"
+    level_type_cutscene: "过场动画"
     level_type_capstone: "顶点"
     level_type_intro: "教学"
-    level_type_level_suffix: "关卡"
-    level_type_cutscene: "过场动画"
     level_type_practice_level: "练习关卡"
     level_type_challenge_level: "挑战关卡"
     level_type_cutscene_level: "过场动画关卡"
     level_type_capstone_level: "顶点关卡"
+#    level_type_capstone_project: "Capstone Project"
     level_type_intro_level: "教学关卡"
     content_type_avatar: "选择阿凡达"
     content_type_cinematic: "剧情"
-    content_type_interactive: "互动"
-
+    content_type_interactive: "互动" # {change}
+#    feedback: "Feedback"
 
   apis:
     methods: "函数"
@@ -847,7 +877,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     created_during_hoc: "在“编程一小时”中创建。"
     restart: "重新开始关卡"
     play: "开始关卡"
-    play_more_codecombat: "玩更多的 CodeCombat 关卡"
+#    learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "单击控制英雄，并取得胜利！"
     goal_survive: "生存。"
     goal_survive_time: "生存 __seconds__ 秒。"
@@ -1116,7 +1146,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     optional_parameters: "可选"
     returns: "返回值"
     granted_by: "技能来自"
-    still_undocumented: "抱歉，暂时还没有说明"
+#    description_coming_soon: "Description coming soon"
 
   save_load:
     granularity_saved_games: "保存"
@@ -1156,18 +1186,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲力亲为，因为在团队中我们收获了成长与经验。"
 #    nick_title: "Cofounder, CEO"
 #    matt_title: "Cofounder, CTO"
-#    cat_title: "Game Designer"
-#    scott_title: "Cofounder, Software Engineer"
-#    maka_title: "Customer Advocate"
-#    robin_title: "Senior Product Manager"
-#    nolan_title: "Sales Manager"
-#    david_title: "Marketing Lead"
-#    titles_csm: "Customer Success Manager"
-#    titles_territory_manager: "Territory Manager"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
-#    jane_title: "Account Executive"
     shan_title: "首席营销官，CodeCombat 大中华区"
     run_title: "首席运营官，CodeCombat 大中华区"
     lance_title: "研发负责人，CodeCombat 大中华区"
@@ -1179,18 +1198,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     bill_title: "首席执行官，CodeCombat 大中华区"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
-#    brian_title: "Lead Game Designer"
-#    andrew_title: "Software Engineer"
+#    brian_title: "Senior Game Design Manager"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-#    bryukh_title: "Gameplay Developer"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
-    bryukh_blurb: "构建拼图"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
@@ -1218,7 +1232,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jobs_benefit_4: "无限制假期"
     jobs_benefit_5: "专业开发以及继续教育的支持 - 免费书籍/游戏！"
     jobs_benefit_6: "医疗 (金), 牙科, 视力，交通费" # {change}
-    jobs_benefit_7: "提供站立式办公桌"
     jobs_benefit_9: "10年公司期权"
     jobs_benefit_10: "产假：10周工资及未来6周55%工资" # {change}
     jobs_benefit_11: "陪产假: 10周工资" # {change}
@@ -1242,6 +1255,40 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   teachers:
     licenses_needed: "需要许可"
+#    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO"
+#    select_class: "Select class"
+#    programming_language: "Programming language"
+#    programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students."
+#    class_name: "Class Name"
+#    grades: "Grades"
+#    select_all_that_apply: "Select all that apply"
+#    class_info_modal_sub_title: "Invite students to join your class by sending them:"
+#    class_url: "Class Url"
+#    class_url_desc: "Share URL to have students join your class after signing up"
+#    class_code: "Class Code"
+#    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
+#    invite_by_email: "Invite by Email"
+#    invite_modal_sub_title: "Separate each email address by a line break or commas"
+
+#  no_licenses_page:
+#    are_your_students_ready: "Are your students excited and ready to learn more?"
+#    once_students_have_completed: "Once students have completed Chapter 1, they will need licenses in order to continue their journey through the next chapter and beyond."
+#    get_licenses: "Get Licenses"
+#    get_full_access_to_ozaria: "Get Full Access to Ozaria"
+#    unlock_all: "Unlock all the above plus all the teacher support you need"
+#    comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
+#    lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
+#    dedicated_customer_success_manager: "A dedicated customer success manager"
+#    automatic_access: "Automatic access to new content and features"
+#    license_quote: "\"In my opinion as a 26 year veteran middle school educator, there is no more engaging resource for teaching coding.\""
+#    join_our_community: "Join our community"
+#    join_our_community_desc: "Over 12 million people have learned to write Python and JavaScript using CodeCombat. Now, we welcome you to join our community of over 82,000 educators and 25,000 schools with Ozaria, designed for educators who want to inspire a new generation of students to learn Computer Science."
+#    teach_real_typed_code: "Teach Real, Typed Code"
+#    teach_real_typed_code_desc: "Students learn Python and JavaScript, the two most popular coding languages, and build 21st century skills that will prepare them for any career."
+#    support_student_progress: "Support Student Progress"
+#    support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
+#    creative_projects: "Creative Projects"
+#    creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
 
   special_offer:
     special_offer: "特别优惠"
@@ -1293,6 +1340,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     role_default: "选择职业"
     primary_role_default: "（请选择）"
     purchaser_role_default: "（请选择）"
+#    teacher: "Teacher"
     tech_coordinator: "技术负责人"
     advisor: "顾问" # {change}
     principal: "校长"
@@ -1437,7 +1485,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     maximize_editor: "最大化/最小化代码编辑器"
 
   cinematic:
-    click_anywhere_continue: "点击任意区域继续"
+    click_anywhere_continue: "点击任意区域继续" # {change}
+#    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same."
 
   community:
     main_title: "CodeCombat社区"
@@ -1751,6 +1800,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
 #    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Resource Hub for information on how to evaluate these projects."
+#    feedback_capstone: "The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a <a target=\"_blank\" rel=\"noopener\" href=\"https://docs.google.com/document/d/1itB0vY6WphjINQYJ9NHkILATcLLlYD3GDSg6FJg55OQ\">Peer Feedback Template</a> that you can share with your students."
     students_code_blurb: "适时显示每个关卡的正确解法.在某些情况下,学生可能使用不同的代码来解决问题,如果没有显示解法说明学生还没有开始该关卡."
     course_solution: "关卡解法"
     level_overview_solutions: "关卡概览和解法"
@@ -2041,7 +2091,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_quest_more: "查看所有任务"
     teacher_quest_less: "查看基础任务"
     refresh_to_update: "(刷新页面查看更新)"
-    view_project_gallery: "查看顶点项目图库"
+    view_project_gallery: "查看顶点项目图库" # {change}
     office_hours: "教师网络研讨会"
     office_hours_detail: "了解如何跟上学生的步伐,创建游戏并开始他们的编程之旅! 快来参加我们的"
     office_hours_link: "教师网络研讨会"
@@ -2054,7 +2104,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     none: "还没有发现"
     explain_open_ended: "注意:鼓励学生创造性地解决这个问题——下面提供了一个可能的解决方法"
     level_label: "级别"
-    time_played_label: "游戏时间："
+    time_played_label: "游戏时间：" # {change}
     back_to_resource_hub: "返回资源仓库"
     back_to_course_guides: "返回课程指导"
     print_guide: "打印指导手册"
@@ -2062,23 +2112,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     combo_explanation: "学生至少使用一个列出的概念组合来挑战关卡，点击进度点查看学生代码。"
     concept: "概念"
     sync_google_classroom: "同步谷歌教室"
-    implementation_guide: "实施方案 - 奥佳睿和CodeCombat"
-    implementation_guide_desc: "教师面板指南"
-    prologue: "序章: 天山"
     unit_overview: "单元概览"
     module_overview: "学习概览"
-    prologue_unit_overview_desc: "本章知识汇总，包括过渡动画视频、代码训练关卡、故事背景介绍、以及序章章节的顶点项目内容。"
+#    chapter1_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in Chapter 1."
     lesson_plan: "教学方案"
-    prologue_lesson_plan_desc: "详细的教学设计指导包括学习目标、CSTA标准、回顾活动、开课技巧以及其它内容。"
+#    chapter1_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
     capstone_rubric: "顶点项目规则说明"
-    prologue_capstone_rubric_desc: "本章顶点项目规则说明，帮助教师评估学生学习情况，以及章节知识点回顾活动设计。"
-    chapter1: "第一章: 月光舞者"
-    module1: "模块1："
-    module2: "模块2："
-    module3: "模块3："
-    module4: "模块4："
-    module5: "模块5："
-    module6: "模块6："
+#    chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+    chapter1: "第一章: 月光舞者" # {change}
+    chapter2: "第二章: 凤凰城" # {change}
+#    chapter3: "Chapter 3: The Phoenix Lands" # {change}
+    module1: "模块1：" # {change}
+    module2: "模块2：" # {change}
+    module3: "模块3：" # {change}
+    module4: "模块4：" # {change}
+    module5: "模块5：" # {change}
+    module6: "模块6：" # {change}
     algorithms_and_syntax: "算法和程序语法"
     debugging: "代码调试"
     variables: "变量"
@@ -2096,9 +2145,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     view_capstone_project: "查看顶点项目"
     ozaria_dashboard_guide: "教师面板指南"
     dashboard_guide_desc: "浏览教师面板功能说明，轻松掌握学生学习进度和程序作品。"
-    chapter2: "第二章: 凤凰城"
     review: "回顾"
     for_loops: "For循环"
+#    peer_feedback: "Peer Feedback Form"
+#    presentation_checklist: "Presentation Checklist"
+
+#  teacher_licenses:
+#    active_licenses: "Active Licenses"
+#    expired_licenses: "Expired Licenses"
 
   share_licenses:
     share_licenses: "分配许可"
@@ -2114,7 +2168,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you: "（您）"
     one_license_used: "（1个许可证被使用）"
     licenses_used: "（__licensesUsed__个许可证被使用）"
+#    licenses_used_no_braces: "__licensesUsed__ licenses used"
     more_info: "更多信息"
+#    shared_pool_label: "Teachers in your shared pool:"
 
   sharing:
     game: "游戏"
@@ -2641,6 +2697,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     math_operations: "数学程序库操作"
 #    math_proportions: "Proportion Math"
 #    math_trigonometry: "Trigonometry"
+    nesting: "嵌套"
     object_literals: "对象字面量"
     parameters: "形参"
     programs: "程序"
@@ -2690,7 +2747,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     basic_event_handling: "基本事件处理"
     create_sharable_interactive_web_page: "创建一个可分享的互动网页"
     iteration: "迭代"
-    nesting: "嵌套"
     data_types: "数据类型"
     objects: "对象"
     methods: "方法"
@@ -2998,6 +3054,31 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     message: "消息"
     custom_message: "我刚刚找到了CodeCombat，我想它对你的教室来说是个很棒的程序!它是一个符合标准课程的计算机科学学习平台。计算机知识是非常重要的，我认为这将是一个让学生学习编码的好方法。"
     send: "发送邮件"
+
+#  hoc_2019:
+#    heading: "Hour of Code 2019"
+#    start: "Start Your Journey"
+#    create_a_class: "Create a class to track your students' progress and ensure their hour of code games are saved!"
+#    choose_language: "1. CHOOSE LANGUAGE"
+#    programming_language: "Language"
+#    sign_up: "2. SIGN UP"
+#    already_have_account: "Already have a CodeCombat or Ozaria account? Login."
+#    download_lesson_plan: "Download Lesson Plan"
+#    try_activity_without_class: "Try activity without creating a class"
+#    invite_students: "Invite Students to Your Class By Sending Them"
+#    class_code: "CLASS CODE"
+#    enter_code: "Students can enter this code at www.ozaria.com/hoc"
+#    class_url: "CLASS URL"
+#    share_url: "Share URL to have students automatically join your class."
+#    start_activity: "Start Activity"
+#    save_progress_modal: "Save your progress and keep playing later"
+#    want_to_save: "Want to save your Hour of Code progress?"
+#    ask_teacher_class_code: "Ask your teacher for your Class Code"
+#    dont_have: "I don't have one, but want to Try the Activity!"
+#    hoc_activity: "Hour of Code Activity"
+#    save_progress: "Save Progress"
+#    err_google_exists: "An account already exists for the Google account you've selected. Please choose another Google account or sign up with a username and password."
+#    err_username_taken: "An account already exists for the username you've entered. Please choose another username."
 
   hoc_2018:
 #    banner: "Happy Computer Science Education Week 2018!"
