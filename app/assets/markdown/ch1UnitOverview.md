@@ -1,11 +1,11 @@
 ##### Unit Overview
-# Prologue: The Sky Mountain
+# Chapter 1: Up The Mountain
 
-_Prologue: The Sky Mountain_ content is designed to get students excited about the world of Ozaria and comfortable writing code in the platform. There are key computer science concepts that are touched on in the first set of content to set students up for more robust lessons later on. There are slight differences in the content and materials between the Prologue and the later content, listed below:
+_Chapter 1: Up The Mountain_ content is designed to get students excited about the world of Ozaria and comfortable writing code in the platform. There are key computer science concepts that are touched on in the first set of content to set students up for more robust lessons later on. There are slight differences in the content and materials between Chapter 1 and the later content, listed below:
 
-1. The Sky Mountain will not have summative assessment built in, but the later units will have levels that serve as summative assessment and rubrics for Capstone projects will assess content and skills in a more targeted way.
-1. The Capstone project for The Sky Mountain is more scaffolded, with fewer opportunities for student creativity than future projects given the introductory nature of the module.
-1. There are fewer Concept Checks (formative assessments) in The Sky Mountain than in later content, as students spend most of their time guided through a Capstone project.
+1. Chapter 1 will not have summative assessment built in, but the later units will have levels that serve as summative assessment and rubrics for Capstone projects will assess content and skills in a more targeted way.
+1. The Capstone project for Chapter 1 is more scaffolded, with fewer opportunities for student creativity than future projects given the introductory nature of the module.
+1. There are fewer Concept Checks (formative assessments) in Chapter 1 than in later chapters, as students spend most of their time guided through a Capstone project.
 
 #### **Terminology**
 

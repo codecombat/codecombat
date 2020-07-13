@@ -213,7 +213,7 @@
         // Add 1 second to current content intro level session playtime count
         if (me.isSessionless()) return
         if (this.currentContent && this.introLevelSession) {
-          // NOTE: character customization playtime currently added to content that launches it (e.g. 1st cutscene in 1fh)
+          // NOTE: character customization playtime currently added to content that launches it (e.g. 1st cutscene in ch1)
           const contentId = _.isObject(this.currentContent.contentId) ? this.currentContent.contentId[this.language] : this.currentContent.contentId
           const type = this.currentContent.type
           this.introLevelSession.contentPlaytimes = this.introLevelSession.contentPlaytimes || []

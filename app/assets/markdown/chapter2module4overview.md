@@ -1,9 +1,9 @@
 # Chapter 2: Module 4 Overview
 
-# **Terminology**
+## **Terminology**
 
 1. _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-1. _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
+1. _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
     1. _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
     1. _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
 1. _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
@@ -11,110 +11,72 @@
 
 # Summaries
 
-## Intro: Haven Lost
+## Intro: Xing&#39;chen
 
-**Cinematic: Haven Lost**
+**Cinematic: Xing&#39;chen**
 
-Capella explains that the hero must sneak into the town to place the Time Totem at the center.
+The hero and Vega reach Xing&#39;chen, and students learn about Boolean logic.
 
-## Practice Levels: Right Door
+**Concept Check: Cart Comparisons**
 
-Students review methods needed to find enemies and get distance.
+Students evaluate whether expressions are true or false.
 
-## Intro: While Loops
+**Cinematic**: **Pseudocode!**
 
-**Cinematic: Whiling Away**
+Students learn how to use pseudocode to plan their programs.
 
-Octans explains what while loops are.
+**Concept Check: Pseudocode Adventures**
 
-**Concept Check: Vocabulary Check**
+Students rearrange pseudocode blocks in the correct order.
 
-Students match key vocabulary with descriptions of coding constructs.
+**Cinematic**: **Wrap it Up**
 
-**Cinematic: These Pseudo Loops**
+Students review what they&#39;ve learned about Boolean logic and pseudocode.
 
-Octans explains while loop logic using pseudocode.
+## Cutscene: The Earth Academy
 
-**Concept Check: Loop Conditions**
+The hero reaches the Earth Academy, which is the entrance to another Star Well. Capella&#39;s brother, Luten, is the leader of the Academy. All the earth totems in the Academy went missing, and Luten blames his sister and the hero. The hero has to use the Acodus to find the earth totems; then, they will be allowed inside to use the Star Well.
 
-Students match true/false values with while loop conditions.
+## Intro: Finding Things
 
-**Cinematic: The One True While Loop**
+**Cinematic: The Earth Totems**
 
-Octans shares an example of a while loop.
+Students learn about if statements.
 
-**Concept Check: While Loop Syntax**
+**Concept Check: Feed the Animal**
 
-Students complete the code snippet with valid while loop syntax.
+Students apply what they learned about conditionals to complete a code sequence.
 
-**Cinematic: Found Again**
+**Cinematic: The Hunt Begins**
 
-Octans explains how to use the hide method.
+Students learn about if statements.
 
-## Practice Levels: Knock Knock - Shadow Behind
+## Practice Levels: Hide and Seek - The Usual Suspects
 
-Students use while loops to complete given challenges.
+Students write code using if statements to help the hero find the earth totems.
 
-## Intro: Lurking Danger
+## Intro: The Other Condition
 
-**Cinematic: Lurking Danger**
+**Cinematic: If / Else**
 
-The hero leaves Mouse behind as they go deeper into the city.
+Students learn about if/else statements.
 
-## Intro: Ifs Within Whiles
+**Concept Check: If/Else**
 
-**Cinematic: Ifs Within Whiles**
+Students apply what they learned about if/else statements by filling in the statement with the correct syntax.
 
-Octans explains using a counter variable in a while loop.
+**Cinematic: Battle Cry**
 
-**Concept Check: Counter Variable Matching**
+The hero learns that they have to get past Tengshe using the skills they just learned.
 
-Students determine the value of a counter variable based on given pseudocode.
+## Practice Levels: Trick or Threat - Fake Targets
 
-**Cinematic: Time to Leave**
+Students write code using if/else statements.
 
-The hero sets off into the city.
+## Challenge Level: Breaking Illusions
 
-## Practice Levels: Be Slow, Be Quick - Charge the Time
+Assesses students on their ability to write programs with conditionals.
 
-Students use counter variables to count their steps in while loops.
+## Intro: The City Saved
 
-## Intro: The Time Totem
-
-**Cinematic: The Time Totem**
-
-The hero puts the Time Totem in the center of the city, and the time storm recedes.
-
-## Intro: Resetting Time
-
-**Cinematic: To the Rescue**
-
-The hero promises Yug that they will come back with the Time Totem to get back everyone who was lost in the Time Storm.
-
-## Practice: Lost in Time
-
-Students review for loops and moving through Time Fog.
-
-## Intro: Counting While Loops
-
-**Cinematic: Counting While Loops**
-
-Octans explains the castTimeReset() method and using conditionals with counter variables in while loops.
-
-**Concept Check: Counter Variable Syntax**
-
-Students increment a counter variable using valid syntax.
-
-**Cinematic: The Hunt Continues**
-
-The hero heads back into danger with their new castTimeReset tool.
-
-## Practice: Time Call - Tempus Impetus
-
-Students use while loops with nested conditionals to complete challenges.
-
-## Intro: Salazar
-
-**Cinematic: Salazar**
-
-Yug lets all the humans back into Haven. Salazar explains that the hero must get to the Palace of the Sun.
+The hero brings the earth totems back to Luten, and he lets them into the Star Well.

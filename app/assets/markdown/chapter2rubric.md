@@ -1,6 +1,6 @@
-# Sample Rubric -  _Chapter 1: The Moon Dancers_
+# Sample Rubric -  _Chapter 2: The Moon Dancers_
 
-This sample rubric is designed for you to evaluate your students&#39; progress on their Capstone projects for _Chapter 1: The Moon Dancers._ You should feel free to adapt and expand this rubric as needed for your classroom.
+This sample rubric is designed for you to evaluate your students&#39; progress on their Capstone projects for _Chapter 2: The Moon Dancers._ You should feel free to adapt and expand this rubric as needed for your classroom.
 
 It is recommended that you use this rubric in conjunction with a writing or oral activity in which students explain the steps they took to create their Capstone projects. Some questions to ask are:
 

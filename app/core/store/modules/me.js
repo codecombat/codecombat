@@ -51,7 +51,7 @@ export default {
     /**
      * @returns {object|undefined} avatar schema object or undefined if not defined.
      */
-    get1fhAvatar (state) {
+    getCh1Avatar (state) {
       return (state.ozariaUserOptions || {}).avatar
     }
   },
@@ -74,7 +74,7 @@ export default {
         })
     },
 
-    set1fhAvatar ({ state, commit }, { cinematicThangTypeId, cinematicPetThangId, avatarCodeString }) {
+    setCh1Avatar ({ state, commit }, { cinematicThangTypeId, cinematicPetThangId, avatarCodeString }) {
       if (!(cinematicThangTypeId && cinematicPetThangId && avatarCodeString)) {
         throw new Error('Require a cinematicThangTypeId, cinematicPetThangId, and avatarCodeString')
       }

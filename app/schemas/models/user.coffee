@@ -184,8 +184,8 @@ _.extend UserSchema.properties,
           colorGroups: c.object({ additionalProperties: c.colorConfig() })
         }))
       avatar: c.object({
-        title: '1FH Avatar Choice',
-        description: 'The 1FH avatar that was chosen by the user'
+        title: 'CH1 Avatar Choice',
+        description: 'The CH1 avatar that was chosen by the user'
       }, {
         cinematicThangTypeId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic ThangType', description: 'The cinematic avatar thangType original Id', format: 'thang-type'),
         cinematicPetThangId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic Pet ThangType', description: 'The cinematic avatar pet thangType original Id', format: 'thang-type'),

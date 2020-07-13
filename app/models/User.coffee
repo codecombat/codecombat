@@ -618,7 +618,7 @@ module.exports = class User extends CocoModel
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
-  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "5d1a8368abd38e8b5363bad9" # teacher can only access 1FH freely in China
+  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "5d1a8368abd38e8b5363bad9" # teacher can only access CH1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   showForumLink: -> not (features?.china ? false)
   showGithubLink: -> not (features?.china ? false)
@@ -635,11 +635,11 @@ module.exports = class User extends CocoModel
   hasCutsceneEditorAccess: -> @isAdmin()
   hasInteractiveEditorAccess: -> @isAdmin()
 
-  # google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled 
+  # google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled
   showGoogleClassroom: -> not (features?.chinaUx ? false)
   googleClassroomEnabled: -> me.get('gplusID')?
 
-  # Block access to paid campaigns(any campaign other than 1FH) for anonymous users + non-admin, non-internal individual users.
+  # Block access to paid campaigns(any campaign other than CH1) for anonymous users + non-admin, non-internal individual users.
   # Scenarios where a user has access to a campaign:
   #   - Admin or internal user
   #   - Free campaigns

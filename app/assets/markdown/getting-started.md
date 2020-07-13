@@ -114,9 +114,9 @@ After students have created their account, they are shown their username and ins
 That’s it! Students can now use their login credentials to start playing Ozaria!
 
 ##### STEP 4
-## Prologue: The Sky Mountain
+## Chapter 1: Up The Mountain
 
-All students are automatically granted access to the first unit for free in Ozaria, *Prologue: The Sky Mountain*. This is a unit that introduces students to concepts such as basic syntax, variables, and while loops. This unit contains about 1-2 hours of content depending on the age and experience level of the class. The first chapter/unit and all subsequent chapters will contain around 7-8 hours of content.
+All students are automatically granted access to the first unit for free in Ozaria, *Chapter 1: Up The Mountain*. This is a unit that introduces students to concepts such as basic syntax, variables, and while loops. This unit contains about 1-2 hours of content depending on the age and experience level of the class. The first chapter/unit and all subsequent chapters will contain around 7-8 hours of content.
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/unit-guides.png" title="Unit Guides" alt="unit-guides" width="400px"/>
 _Unit Guides allow you to preview unit levels and view solutions._
@@ -134,7 +134,7 @@ If you're new to teaching computer science, we also recommend taking a look at t
 <img src="/images/pages/teachers/resources/markdown/getting-started/student-overview-ozaria.png" title="Student Overview" alt="student-overview" width="400px"/>
 _A high-level view of student progress in each unit is displayed in the main class view._
 
-After students join the class, you’ll see their progress appear in the individual classroom pages. Any assigned unit and each student’s progress in each unit (starting with Prologue: The Sky Mountain and onwards) is represented by a colored circle. A grey circle means a student has not begun any levels in that unit, yellow circle means they have started working on the unit's levels, and a green circle means that they’ve completed all of the levels in the unit.
+After students join the class, you’ll see their progress appear in the individual classroom pages. Any assigned unit and each student’s progress in each unit (starting with Chapter 1: Up The Mountain and onwards) is represented by a colored circle. A grey circle means a student has not begun any levels in that unit, yellow circle means they have started working on the unit's levels, and a green circle means that they’ve completed all of the levels in the unit.
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/student-progress-ozaria.png" title="Student Progress" alt="student-progress" width="400px"/>
 _Navigate to the "Unit Progress" tab to view more detailed information of student progress within each unit._

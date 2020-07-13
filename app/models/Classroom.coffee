@@ -114,10 +114,10 @@ module.exports = class Classroom extends CocoModel
   getLevelsByModules: ->
     courseModuleLevelsMap = {}
     for course in @get('courses')
-      is1FH = course._id == utils.courseIDs.ONE_FREE_HOUR 
+      isCh1 = course._id == utils.courseIDs.CHAPTER_ONE
       courseLevels = @getLevels({courseID: course._id}).models
       courseModuleLevelsMap[course._id] = {
-        modules: utils.buildLevelsListByModule(courseLevels, is1FH)
+        modules: utils.buildLevelsListByModule(courseLevels, isCh1)
       }
       if capstoneLevel = courseLevels.find((l) => l.isCapstone())
         courseModuleLevelsMap[course._id].capstone = capstoneLevel

@@ -55,7 +55,7 @@
 
         await CourseInstances.post({
           classroomID: _id,
-          courseID: utils.courseIDs.ONE_FREE_HOUR // TODO use utils.hourOfCodeOptions
+          courseID: utils.courseIDs.CHAPTER_ONE // TODO use utils.hourOfCodeOptions
         })
       },
 

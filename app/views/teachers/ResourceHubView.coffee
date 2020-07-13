@@ -8,56 +8,56 @@ resources =
   'getting-started':
     url: '/teachers/resources/getting-started'
     i18nCoverage: ['zh-HANS']
-  '1fhUnitOverview':
-    url: '/teachers/resources/1fhUnitOverview'
+  'ch1UnitOverview':
+    url: '/teachers/resources/ch1UnitOverview'
     i18nCoverage: ['zh-HANS']
-  '1fhLessonPlan':
-    url: '/teachers/resources/1fhLessonPlan'
+  'ch1LessonPlan':
+    url: '/teachers/resources/ch1LessonPlan'
     i18nCoverage: ['zh-HANS']
-  '1fh_Rubric':
-    url: '/teachers/resources/1fh_Rubric'
+  'ch1_Rubric':
+    url: '/teachers/resources/ch1_Rubric'
     i18nCoverage: ['zh-HANS']
-  'chapter1module1overview':
-    url: '/teachers/resources/chapter1module1overview'
+  'chapter2module1overview':
+    url: '/teachers/resources/chapter2module1overview'
     i18nCoverage: ['zh-HANS']
-  'chapter1module1lp':
-    url: '/teachers/resources/chapter1module1lp'
+  'chapter2module1lp':
+    url: '/teachers/resources/chapter2module1lp'
     i18nCoverage: ['zh-HANS']
-  'chapter1module2overview':
-    url: '/teachers/resources/chapter1module2overview'
+  'chapter2module2overview':
+    url: '/teachers/resources/chapter2module2overview'
     i18nCoverage: ['zh-HANS']
-  'chapter1module2lp':
-    url: '/teachers/resources/chapter1module2lp'
+  'chapter2module2lp':
+    url: '/teachers/resources/chapter2module2lp'
     i18nCoverage: ['zh-HANS']
-  'chapter1module3overview':
-    url: '/teachers/resources/chapter1module3overview'
+  'chapter2module3overview':
+    url: '/teachers/resources/chapter2module3overview'
     i18nCoverage: ['zh-HANS']
-  'chapter1module3lp':
-    url: '/teachers/resources/chapter1module3lp'
+  'chapter2module3lp':
+    url: '/teachers/resources/chapter2module3lp'
     i18nCoverage: ['zh-HANS']
-  'chapter1module4overview':
-    url: '/teachers/resources/chapter1module4overview'
+  'chapter2module4overview':
+    url: '/teachers/resources/chapter2module4overview'
     i18nCoverage: ['zh-HANS']
-  'chapter1module4lp':
-    url: '/teachers/resources/chapter1module4lp'
+  'chapter2module4lp':
+    url: '/teachers/resources/chapter2module4lp'
     i18nCoverage: ['zh-HANS']
-  'chapter1module5overview':
-    url: '/teachers/resources/chapter1module5overview'
+  'chapter2module5overview':
+    url: '/teachers/resources/chapter2module5overview'
     i18nCoverage: ['zh-HANS']
-  'chapter1module5lp':
-    url: '/teachers/resources/chapter1module5lp'
+  'chapter2module5lp':
+    url: '/teachers/resources/chapter2module5lp'
     i18nCoverage: ['zh-HANS']
-  'chapter1module6overview':
-    url: '/teachers/resources/chapter1module6overview'
+  'chapter2module6overview':
+    url: '/teachers/resources/chapter2module6overview'
     i18nCoverage: ['zh-HANS']
-  'chapter1module6lp':
-    url: '/teachers/resources/chapter1module6lp'
+  'chapter2module6lp':
+    url: '/teachers/resources/chapter2module6lp'
     i18nCoverage: ['zh-HANS']
-  'chapter1rubric':
-    url: '/teachers/resources/chapter1rubric'
+  'chapter2rubric':
+    url: '/teachers/resources/chapter2rubric'
     i18nCoverage: ['zh-HANS']
-  'chapter1rubric':
-    url: '/teachers/resources/chapter1rubric'
+  'chapter2rubric':
+    url: '/teachers/resources/chapter2rubric'
     i18nCoverage: ['zh-HANS']
   'dashboardGuide':
     url: 'https://s3.amazonaws.com/files.ozaria.com/Ozaria+Teacher+Dashboard+1.0+Guide+.pdf'

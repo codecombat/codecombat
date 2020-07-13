@@ -113,7 +113,7 @@ export default Vue.extend({
   },
 
   methods: {
-    ...mapActions('me', ['set1fhAvatar', 'save']),
+    ...mapActions('me', ['setCh1Avatar', 'save']),
 
     handleClick (e) {
       const selectedAvatar = parseInt(e.target.dataset.avatar, 10)
@@ -121,7 +121,7 @@ export default Vue.extend({
     },
 
     async handleNext () {
-      this.set1fhAvatar(this.selectedAvatar)
+      this.setCh1Avatar(this.selectedAvatar)
 
       try {
         // TODO handle_error_ozaria - What happens on failure?

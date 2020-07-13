@@ -1,7 +1,7 @@
-##### Prologue Level Solutions
-# Levels: Searching for Mom - The Acodus
+##### Chapter 1 Level Solutions
+# Levels: Following the Signs - Hungry Hungry Avatars
 
-### Practice Level: Searching for Mom
+### Practice Level: Following the Signs
 
 **Python**
 

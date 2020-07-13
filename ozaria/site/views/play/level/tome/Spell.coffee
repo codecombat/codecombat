@@ -72,9 +72,9 @@ module.exports = class Spell
 
     # Translate comments chosen spoken language.
     # TODO: is there a better way than hardcoding this template string.
-    return unless @commentContext or @originalSource.includes('<%= external_1fh_avatar %>')
+    return unless @commentContext or @originalSource.includes('<%= external_ch1_avatar %>')
     context = $.extend true, {}, @commentContext
-    context = _.merge(context, external_1fh_avatar: store.getters['me/get1fhAvatar']?.avatarCodeString || 'crown' )
+    context = _.merge(context, external_ch1_avatar: store.getters['me/getCh1Avatar']?.avatarCodeString || 'crown' )
 
     if @language is 'lua'
       for k,v of context

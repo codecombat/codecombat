@@ -1,7 +1,7 @@
 _Time: 20-30 in-game minutes_
 
 
-# Chapter 1: Module 5 Lesson Plan
+# Chapter 2: Module 5 Lesson Plan
 
 # Overview
 Module 5 consists of all the content from **The Spirit Lands** to **The Trap is Set**.
@@ -15,7 +15,7 @@ Module 5 consists of all the content from **The Spirit Lands** to **The Trap is 
 
 - [Module Overview](https://www.ozaria.com/teachers/resources/chapter1module5overview)
 - Teacher Guide to Systems (coming soon)
-    - See the Prologue Lesson Plan for an explanation of important in-game student supports.
+    - See the Chapter 1 Lesson Plan for an explanation of important in-game student supports.
 
 # Content Background
 

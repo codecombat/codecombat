@@ -78,7 +78,7 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
-    if /Hero Placeholder/.test(levelThang.id) and @get('assessment') isnt 'open-ended' 
+    if /Hero Placeholder/.test(levelThang.id) and @get('assessment') isnt 'open-ended'
       if @isType('hero', 'hero-ladder', 'hero-coop') and !me.isStudent()
         isHero = true
       else if @isType('course') and me.showHeroAndInventoryModalsToStudents() and not @isAssessment()
@@ -297,7 +297,7 @@ module.exports = class Level extends CocoModel
     return [] unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
-      context = _.merge({ external_1fh_avatar: store.getters?['me/get1fhAvatar']?.avatarCodeString || 'crown' }, utils.i18n(plan, 'context') )
+      context = _.merge({ external_ch1_avatar: store.getters?['me/getCh1Avatar']?.avatarCodeString || 'crown' }, utils.i18n(plan, 'context') )
       try
         solution.source = _.template(solution?.source)(context)
       catch e
@@ -311,7 +311,7 @@ module.exports = class Level extends CocoModel
     sampleCode = _.cloneDeep plan.languages ? {}
     sampleCode.javascript = plan.source
     for language, code of sampleCode
-      context = _.merge({ external_1fh_avatar: store.getters?['me/get1fhAvatar']?.avatarCodeString || 'crown' }, plan.context )
+      context = _.merge({ external_ch1_avatar: store.getters?['me/getCh1Avatar']?.avatarCodeString || 'crown' }, plan.context )
       try
         sampleCode[language] = _.template(code)(context)
       catch e

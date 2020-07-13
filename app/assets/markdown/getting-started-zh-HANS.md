@@ -125,7 +125,7 @@ _在“课程进度”选项卡中，可以查看到学生在每一单元中的�
 <!-- ##### STEP 6
 ## Licensing Students
 
-Students are required to have a license to access any content after the first unit, *Prologue: The Sky Mountain*. When you assign a new course, a license will automatically be applied to the student. By default, all licenses expire one year from when they are granted. A single license allows a single student access to all of the units available.
+Students are required to have a license to access any content after the first unit, *Chapter 1: Up The Mountain*. When you assign a new course, a license will automatically be applied to the student. By default, all licenses expire one year from when they are granted. A single license allows a single student access to all of the units available.
 
 Initially, for those starting out in Ozaria, once available content has been completed students will be able to use the same license to play CodeCombat content. This will be a temporary process while we continue to develop more of Ozaria.
 
@@ -142,7 +142,7 @@ If you would like to purchase licenses, reach out to [schools@ozaria.com](school
 
 Once a student is enrolled, you’ll be able to assign additional units to them. We recommend not assigning students to more than one course ahead of where they currently are. You can assign a course to multiple students at a time by selecting students using checkboxes on the left-hand side (or the “Select All” checkbox), then choosing the appropriate course from the dropdown menu, and then clicking “Assign Course.”
 
-You’ll initially see the first unit to assign (Prologue: The Sky Mountain) and later the first chapter, and so on. You’ll have plenty of options on how to [transition your class into CodeCombat](/teachers/resources/implementation-guide) to continue reinforcing fundamental programming concepts or expanding into new skills, while Ozaria is still in development. -->
+You’ll initially see the first unit to assign (Chapter 1: Up The Mountain) and later the first chapter, and so on. You’ll have plenty of options on how to [transition your class into CodeCombat](/teachers/resources/implementation-guide) to continue reinforcing fundamental programming concepts or expanding into new skills, while Ozaria is still in development. -->
 
 ##### 第6步
 ## 开始教学

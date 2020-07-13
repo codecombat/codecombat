@@ -1,7 +1,7 @@
 _Time: 90-120 minutes_
 
 
-# **Chapter 1 Capstone Lesson Plan**
+# **Chapter 2 Capstone Lesson Plan**
 
 # Overview
 Module 6 consists of all the content from **Story Maker** to **The Last One**.

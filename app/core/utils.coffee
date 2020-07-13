@@ -106,51 +106,51 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return 16 if country.inEU
   return defaultIfUnknown
 
-freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # 1FH campaign
-internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # 1UP playtest
+freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # CH1 campaign
+internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # CH2 playtest
 
 courseIDs =
-  ONE_FREE_HOUR: '5d41d731a8d1836b5aa3cba1'
-  CHAPTER_ONE: '5d8a57abe8919b28d5113af1'
-  CHAPTER_ONE_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
-  CHAPTER_TWO: '5e27600d1c9d440000ac3ee7'
+  CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1'
+  CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
+  CHAPTER_TWO_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
+  CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
 
 orderedCourseIDs = [
-  courseIDs.ONE_FREE_HOUR
   courseIDs.CHAPTER_ONE
-  courseIDs.CHAPTER_ONE_PLAYTEST
   courseIDs.CHAPTER_TWO
+  courseIDs.CHAPTER_TWO_PLAYTEST
+  courseIDs.CHAPTER_THREE
 ]
 
 courseAcronyms = {}
-courseAcronyms[courseIDs.ONE_FREE_HOUR] = 'P'
-courseAcronyms[courseIDs.CHAPTER_ONE] = 'C1'
-courseAcronyms[courseIDs.CHAPTER_ONE_PLAYTEST] = 'C1P'
-courseAcronyms[courseIDs.CHAPTER_TWO] = 'C2'
+courseAcronyms[courseIDs.CHAPTER_ONE] = 'CH1'
+courseAcronyms[courseIDs.CHAPTER_TWO] = 'CH2'
+courseAcronyms[courseIDs.CHAPTER_TWO_PLAYTEST] = 'CH2P'
+courseAcronyms[courseIDs.CHAPTER_THREE] = 'CH3'
 
 # Harcoding module names for simplicity
 # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
 courseModules = {}
-courseModules[courseIDs.ONE_FREE_HOUR] = {
+courseModules[courseIDs.CHAPTER_ONE] = {
   '1': 'Objects and Methods'
 }
-courseModules[courseIDs.CHAPTER_ONE] = {
-  '1': 'Algorithms and Syntax',
-  '2': 'Debugging',
-  '3': 'Variables',
-  '4': 'Conditionals',
-  '5': 'Capstone Intro',
-  '6': 'Capstone Project'
-}
-courseModules[courseIDs.CHAPTER_ONE_PLAYTEST] = {
-  '1': 'Algorithms and Syntax',
-  '2': 'Debugging',
-  '3': 'Variables',
-  '4': 'Conditionals',
-  '5': 'Capstone Intro',
-  '6': 'Capstone Project'
-}
 courseModules[courseIDs.CHAPTER_TWO] = {
+  '1': 'Algorithms and Syntax',
+  '2': 'Debugging',
+  '3': 'Variables',
+  '4': 'Conditionals',
+  '5': 'Capstone Intro',
+  '6': 'Capstone Project'
+}
+courseModules[courseIDs.CHAPTER_TWO_PLAYTEST] = {
+  '1': 'Algorithms and Syntax',
+  '2': 'Debugging',
+  '3': 'Variables',
+  '4': 'Conditionals',
+  '5': 'Capstone Intro',
+  '6': 'Capstone Project'
+}
+courseModules[courseIDs.CHAPTER_THREE] = {
   '1': 'Review',
   '2': 'For Loops',
   '3': 'Nesting',
@@ -160,8 +160,8 @@ courseModules[courseIDs.CHAPTER_TWO] = {
 
 hourOfCodeOptions = {
   campaignId: freeCampaignIds[0],
-  courseId: courseIDs.ONE_FREE_HOUR,
-  name: 'Prologue: Sky Mountain',
+  courseId: courseIDs.CHAPTER_ONE,
+  name: 'Chapter 1: Up The Mountain',
   progressModalAfter: 1500000 #25 mins
 }
 
@@ -195,16 +195,16 @@ premiumContent =
   freeLevelsCount: '100'
 
 # group course/campaign levels by module number
-buildLevelsListByModule = (levels, is1FH=false) ->
+buildLevelsListByModule = (levels, isCh1=false) ->
   Level = require('models/Level')
   levelsModuleMap = {}
-  # Find the intro before the last capstone stage for 1FH
-  # since 1fh capstone needs to be placed after that in the levels list 
-  if is1FH && levels.find((l) => l.isCapstone())
+  # Find the intro before the last capstone stage for CH1
+  # since CH1 capstone needs to be placed after that in the levels list
+  if isCh1 && levels.find((l) => l.isCapstone())
     capstoneOriginal = levels.find((l) => l.isCapstone()).get('original')
     totalCapstoneStages = 10 # Hardcoding the num of stages since its not available in level data, TODO refactor later
     if capstoneOriginal
-      introBeforeLastCapstoneStage = levels.find((l) => 
+      introBeforeLastCapstoneStage = levels.find((l) =>
         nextLevel = Object.values(l.get('nextLevels') || {})[0] || {}
         return nextLevel.original == capstoneOriginal && nextLevel.nextLevelStage == totalCapstoneStages
       )
@@ -212,12 +212,12 @@ buildLevelsListByModule = (levels, is1FH=false) ->
   capstoneLevel = {}
   levels.forEach((l) =>
     moduleNumber = l.get('moduleNum') || 1
-    if is1FH && l.isCapstone()
+    if isCh1 && l.isCapstone()
       capstoneLevel = new Level(l.attributes)
     else
       levelsModuleMap[moduleNumber] ?= []
       levelsModuleMap[moduleNumber].push(l)
-      if is1FH && introBeforeLastCapstoneStageOriginal && l.get('original') == introBeforeLastCapstoneStageOriginal
+      if isCh1 && introBeforeLastCapstoneStageOriginal && l.get('original') == introBeforeLastCapstoneStageOriginal
         levelsModuleMap[moduleNumber].push(capstoneLevel)
   )
   return levelsModuleMap
@@ -225,7 +225,7 @@ buildLevelsListByModule = (levels, is1FH=false) ->
 # adds displayName and learning goals from intro levels content to the intro level given
 addIntroLevelContent = (introLevel, introLevelsContent) ->
   if introLevel.get('type') == 'intro' && (introLevel.get('introContent') || []).length > 0 && introLevelsContent
-    introLevel.get('introContent').forEach((c) => 
+    introLevel.get('introContent').forEach((c) =>
       return if c.type == 'avatarSelectionScreen'
       if typeof c.contentId is 'object' # contentId can be an object if interactive is different for python/js
         # for simplicity, assuming that the display name/learning goals will be same for a given interactive in python/js

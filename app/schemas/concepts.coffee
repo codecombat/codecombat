@@ -1,11 +1,11 @@
 # NOTE: 'automatic' is whether rob's auto-tagger can find it.
 
 concepts = [
-  # Ozaria 1FH
+  # Ozaria CH1
   {concept: 'objects', name: 'Objects', description: '', automatic: false}
   {concept: 'methods', name: 'Methods', description: '', automatic: false}
 
-  # Ozaria 1UP
+  # Ozaria CH2
   {concept: 'basic_syntax', name: 'Basic Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'}
   {concept: 'variables', name: 'Variables', description: 'Storing and updating data in variables.', automatic: true, tagger: 'VariableDeclaration'}
   {concept: 'algorithms', name: 'Algorithms', description: 'Writing sequences of code.', automatic: false}
@@ -14,7 +14,7 @@ concepts = [
   {concept: 'syntax', name: 'Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'}
   {concept: 'sequences_algorithms', name: 'Sequences And Algorithms', description: '', automatic: false}
 
-  # Ozaria 2UP
+  # Ozaria CH3
   {concept: 'iteration', name: 'Iteration', description: '', automatic: false}
   {concept: 'nesting', name: 'Nesting', description: '', automatic: false}
   {concept: 'data_types', name: 'Data Types', description: '', automatic: false}
