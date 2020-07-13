@@ -840,7 +840,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_type_intro_level: "Intro Level"
     content_type_avatar: "Avatar Selection"
     content_type_cinematic: "Cinematic"
-    content_type_interactive: "Concept Check" # {change}
+    content_type_interactive: "Concept Check"
     feedback: "Feedback"
 
   apis:
@@ -1201,7 +1201,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     shasha_title: "Product and Visual Designer"
     daniela_title: "Marketing Manager"
     bobby_title: "Game Designer"
-    brian_title: "Senior Game Design Manager" # {change}
+    brian_title: "Senior Game Design Manager"
     stephanie_title: "Customer Support Specialist"
     rob_title: "Sales Development Representative"
     shubhangi_title: "Senior Software Engineer"
@@ -1487,7 +1487,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     maximize_editor: "Maximize/minimize code editor."
 
   cinematic:
-    click_anywhere_continue: "Click to Continue" # {change}
+    click_anywhere_continue: "Click to Continue"
     instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same."
 
   community:
@@ -2093,7 +2093,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_more: "See all quests"
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
-    view_project_gallery: "View Capstone Gallery" # {change}
+    view_project_gallery: "View Capstone Gallery"
     office_hours: "Teacher Webinars"
     office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
     office_hours_link: "teacher webinar"
@@ -2106,7 +2106,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     none: "None detected yet"
     explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
     level_label: "Level:"
-    time_played_label: "Time Spent:" # {change}
+    time_played_label: "Time Spent:"
     back_to_resource_hub: "Back to Resource Hub"
     back_to_course_guides: "Back to Course Guides"
     print_guide: "Print this guide"
@@ -2123,13 +2123,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
     chapter1: "Chapter 1: Up The Mountain"
     chapter2: "Chapter 2: The Moon Dancers"
-    chapter_3: "Chapter 3: The Phoenix Lands"
-    module1: "Module 1: " # {change}
-    module2: "Module 2: " # {change}
-    module3: "Module 3: " # {change}
-    module4: "Module 4: " # {change}
-    module5: "Module 5: " # {change}
-    module6: "Module 6: " # {change}
+    chapter3: "Chapter 3: The Phoenix Lands"
+    module1: "Module 1: "
+    module2: "Module 2: "
+    module3: "Module 3: "
+    module4: "Module 4: "
+    module5: "Module 5: "
+    module6: "Module 6: "
     algorithms_and_syntax: "Algorithms and Syntax"
     debugging: "Debugging"
     variables: "Variables"

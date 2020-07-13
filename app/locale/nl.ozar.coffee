@@ -25,10 +25,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    global_subtitle3: "Teachers"
 #    global_subtitle4: "Countries"
 #    sign_up: "Sign Up"
+#    learner_number: "12 Million"
+#    code_line_number: "1 Billion"
 
   new_home:
 #    title: "Ozaria - Computer science that captivates"
+#    meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
 #    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+#    become_investor: "to become an investor in CodeCombat"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -55,6 +59,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -111,6 +116,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
+#    top_banner_blurb: "New: join our mission!"
 #    try_the_game: "Try the game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -177,6 +183,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     want_coco: "Wil je CodeCombat op jouw school?"
 #    educator: "Educator"
 #    student: "Student"
+#    go_to_my_dashboard: "Go to My Dashboard"
 
   nav:
 #    educators: "Educators"
@@ -224,11 +231,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    faq: "FAQ"
 #    return_coco: "Return to CodeCombat"
 #    classes: "Classes"
+#    term_of_service: "Terms of Service"
 
   modal:
     close: "Sluiten"
     okay: "Oké"
 #    cancel: "Cancel"
+#    try_again: "Try Again"
 
   not_found:
     page_not_found: "Pagina niet gevonden"
@@ -298,6 +307,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    back_to_dashboard: "Back to Dashboard"
 #    back_to_ozaria: "Back to ozaria.com"
 #    customize_hero: "Customize Hero"
+#    account_settings: "Account Settings"
 
   code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -374,6 +384,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    already_have_account1: "Already have a CodeCombat Teacher or Student account?"
 #    already_have_account2: "You can sign into Ozaria.com using that account."
 #    sign_into_ozaria: "Sign Into Ozaria.com"
+#    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!"
+#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
 
   signup:
     complete_subscription: "Maak de inschrijving compleet"
@@ -459,6 +471,24 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    request_class_code: "Students, request a Class Code from your Teacher to create an Account!"
 #    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!"
 #    looking_for_classroom: "Looking for classroom..."
+#    create_your_educator_account: "Create your educator account"
+#    educator_signup_list_1_title: "See what your students see:"
+#    educator_signup_list_1_desc: "Demo each game level in the first unit"
+#    educator_signup_list_2_title: "See teacher resources:"
+#    educator_signup_list_2_desc: "Access scope and sequence, lessons, and more"
+#    educator_signup_list_3_title: "See your students thrive:"
+#    educator_signup_list_3_desc: "Try the first unit with your class for free"
+#    signup_with_email: "Sign up with Email"
+#    already_have_account: "Already have a CodeCombat or Ozaria account"
+#    select_your_role: "Select your role"
+#    select_your_state: "Select your state"
+
+#  form_validation_errors:
+#    required: "Field is required"
+#    invalidEmail: "Invalid email"
+#    invalidPhone: "Invalid phone number"
+#    emailExists: "Email already exists"
+#    numberGreaterThanZero: "Should be a number greater than 0"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -514,6 +544,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    complete: "Complete"
 #    continue_editing: "Continue Editing"
 #    logout: "Logout"
+#    empty: "Empty"
+#    done: "Done"
+#    remove: "Remove"
 
   general:
     and: "en"
@@ -576,6 +609,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     more: "Meer"
     fewer: "Minder"
     with: "met"
+#    archived: "Archived"
 
   units:
     second: "seconde"
@@ -781,10 +815,31 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
+#    capella_character: "Capella Character"
+#    octans_character: "Octans Character"
 #    click_to_continue: "Click to Continue"
 #    share_your_project: "Share Your Project"
 #    keep_editing_your_project: "You can always keep editing your project, even after sharing it."
 #    copy_url: "Copy URL"
+#    level_status: "Status"
+#    level_status_locked: "Locked"
+#    level_status_in_progress: "In Progress"
+#    level_status_complete: "Complete"
+#    level_type_practice: "Practice"
+#    level_type_challenge: "Challenge"
+#    level_type_cutscene: "Cutscene"
+#    level_type_capstone: "Capstone"
+#    level_type_intro: "Intro"
+#    level_type_practice_level: "Practice Level"
+#    level_type_challenge_level: "Challenge Level"
+#    level_type_cutscene_level: "Cutscene Level"
+#    level_type_capstone_level: "Capstone Level"
+#    level_type_capstone_project: "Capstone Project"
+#    level_type_intro_level: "Intro Level"
+#    content_type_avatar: "Avatar Selection"
+#    content_type_cinematic: "Cinematic"
+#    content_type_interactive: "Concept Check" # {change}
+#    feedback: "Feedback"
 
   apis:
     methods: "Methodes"
@@ -1091,7 +1146,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     optional_parameters: "Optionele Parameters"
     returns: "Geeft terug"
     granted_by: "Verleend door"
-#    still_undocumented: "Still undocumented, sorry."
+#    description_coming_soon: "Description coming soon"
 
   save_load:
     granularity_saved_games: "Opgeslagen"
@@ -1131,39 +1186,25 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team." # {change}
     nick_title: "Programmeur" # {change}
     matt_title: "Programmeur" # {change}
-    cat_title: "Hoofd Ambachtsman" # {change}
-    scott_title: "Programmeur" # {change}
-    maka_title: "Klanten Ombudsman"
-    robin_title: "UX Design & Onderzoek" # {change}
-    nolan_title: "Regio-manager" # {change}
-    david_title: "Manager Marketing"
-#    titles_csm: "Customer Success Manager"
-    titles_territory_manager: "Regiomanager"
 #    lawrence_title: "Customer Success Manager"
-#    sean_title: "Senior Account Executive"
-#    liz_title: "Senior Account Executive"
-#    jane_title: "Account Executive"
-#    shan_title: "Partnership Development Lead, China"
-#    run_title: "Head of Operations, China"
-#    lance_title: "Software Engineer Intern, China"
+#    shan_title: "Head of Marketing, CodeCombat Greater China"
+#    run_title: "Head of Operations, CodeCombat Greater China"
+#    lance_title: "Head of Technology, CodeCombat Greater China"
+#    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
+#    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
 #    matias_title: "Senior Software Engineer"
 #    ryan_title: "Customer Support Specialist"
 #    maya_title: "Senior Curriculum Developer"
-#    bill_title: "General Manager, China"
+#    bill_title: "General Manager, CodeCombat Greater China"
 #    shasha_title: "Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
-#    chelsea_title: "Operations Manager"
-#    claire_title: "Executive Assistant"
 #    bobby_title: "Game Designer"
-#    brian_title: "Lead Game Designer"
-#    andrew_title: "Software Engineer"
+#    brian_title: "Senior Game Design Manager"
 #    stephanie_title: "Customer Support Specialist"
 #    rob_title: "Sales Development Representative"
 #    shubhangi_title: "Senior Software Engineer"
-    bryukh_title: "Speldesigner" # {change}
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
@@ -1191,7 +1232,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jobs_benefit_4: "Onbeperkt (ziekte)verlof" # {change}
     jobs_benefit_5: "Professionele ontwikkeling en steun in het voortgezet onderwijs" # {change}
     jobs_benefit_6: "Zorgverzekering" # {change}
-    jobs_benefit_7: "Zit-staan bureau's voor iedereen"
     jobs_benefit_9: "10 jaar aanspraaktijd op aandelen"
     jobs_benefit_10: "Moederschapsverlof: 10 weken betaald, volgende 6 met 55% salaris" # {change}
     jobs_benefit_11: "Vaderschapsverlof: 10 weken betaald" # {change}
@@ -1215,6 +1255,40 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   teachers:
     licenses_needed: "Licentie benodigd"
+#    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO"
+#    select_class: "Select class"
+#    programming_language: "Programming language"
+#    programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students."
+#    class_name: "Class Name"
+#    grades: "Grades"
+#    select_all_that_apply: "Select all that apply"
+#    class_info_modal_sub_title: "Invite students to join your class by sending them:"
+#    class_url: "Class Url"
+#    class_url_desc: "Share URL to have students join your class after signing up"
+#    class_code: "Class Code"
+#    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
+#    invite_by_email: "Invite by Email"
+#    invite_modal_sub_title: "Separate each email address by a line break or commas"
+
+#  no_licenses_page:
+#    are_your_students_ready: "Are your students excited and ready to learn more?"
+#    once_students_have_completed: "Once students have completed Chapter 1, they will need licenses in order to continue their journey through the next chapter and beyond."
+#    get_licenses: "Get Licenses"
+#    get_full_access_to_ozaria: "Get Full Access to Ozaria"
+#    unlock_all: "Unlock all the above plus all the teacher support you need"
+#    comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
+#    lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
+#    dedicated_customer_success_manager: "A dedicated customer success manager"
+#    automatic_access: "Automatic access to new content and features"
+#    license_quote: "\"In my opinion as a 26 year veteran middle school educator, there is no more engaging resource for teaching coding.\""
+#    join_our_community: "Join our community"
+#    join_our_community_desc: "Over 12 million people have learned to write Python and JavaScript using CodeCombat. Now, we welcome you to join our community of over 82,000 educators and 25,000 schools with Ozaria, designed for educators who want to inspire a new generation of students to learn Computer Science."
+#    teach_real_typed_code: "Teach Real, Typed Code"
+#    teach_real_typed_code_desc: "Students learn Python and JavaScript, the two most popular coding languages, and build 21st century skills that will prepare them for any career."
+#    support_student_progress: "Support Student Progress"
+#    support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
+#    creative_projects: "Creative Projects"
+#    creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
 
   special_offer:
     special_offer: "Speciale Aanbieding"
@@ -1266,6 +1340,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     role_default: "Selecteer voornaamste rol"
     primary_role_default: "Selecteer rol"
     purchaser_role_default: "Selecteer rol in besluitvorming"
+#    teacher: "Teacher"
     tech_coordinator: "IT coördinator"
     advisor: "Adviseur" # {change}
     principal: "Schoolhoofd"
@@ -1410,7 +1485,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     maximize_editor: "Maximaliseer/minimaliseer code editor."
 
 #  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+#    click_anywhere_continue: "Click to Continue"
+#    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same."
 
   community:
     main_title: "CodeCombat Gemeenschap"
@@ -1724,6 +1800,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     solution_arena_blurb: "Studenten worden aangemoedigd om arena-levels creatief op te lossen. De onderstaande oplossing voldoet aan de vereisten van het arena-level."
     solution_challenge_blurb: "Studenten worden aangemoedigd om open-ended (met een open einde) challenge levels op een creatieve manier op te lossen. Een mogelijke oplossing wordt hieronder weergegeven."
     solution_project_blurb: "Studenten worden aangemoedigd om een creatief project op dit level te bouwen. Raadpleeg de curriculumhandleidingen in de Resource Hub voor informatie over het evalueren van deze projecten."
+#    feedback_capstone: "The student will create a base project in Part 1. They will make creative updates based on peer feedback in Part 2. Here is a <a target=\"_blank\" rel=\"noopener\" href=\"https://docs.google.com/document/d/1itB0vY6WphjINQYJ9NHkILATcLLlYD3GDSg6FJg55OQ\">Peer Feedback Template</a> that you can share with your students."
     students_code_blurb: "Waar nodig wordt een juiste oplossing voor elk level geboden. In sommige gevallen is het mogelijk dat een student een level oplost met behulp van andere code. Oplossingen worden niet getoond voor levels die de student nog niet is gestart."
     course_solution: "Cursus oplossing"
     level_overview_solutions: "Level-overzicht en oplossingen"
@@ -2014,7 +2091,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_quest_more: "Bekijk alle uitdagingen"
     teacher_quest_less: "Zie minder uitdagingen"
     refresh_to_update: "(ververs de pagina om updates te zien)"
-    view_project_gallery: "Bekijk de Projectgalerij"
+    view_project_gallery: "Bekijk de Projectgalerij" # {change}
     office_hours: "Leraar Webinars"
     office_hours_detail: "Leer hoe je je leerlingen bijhoudt terwijl ze spellen creëren en aan hun programmeerreis beginnen! Kom en woon onze"
     office_hours_link: "leraar-webinar"
@@ -2027,7 +2104,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     none: "Nog niets gedetecteerd"
     explain_open_ended: "N.B.Leerlingen worden aangemoedigd om dit level creatief op te lossen — een mogelijke oplossing wordt hieronder weergegeven."
     level_label: "Level:"
-    time_played_label: "Speeltijd:"
+    time_played_label: "Speeltijd:" # {change}
     back_to_resource_hub: "Terug naar Resource Hub"
     back_to_course_guides: "Terug naar Cursushandleiding"
     print_guide: "Print deze handleiding"
@@ -2035,29 +2112,47 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     combo_explanation: "Leerlingen komen door Combo challenge levels door in ieder geval één van de genoemde concepten te gebruiken. Bekijk de code van de leerling door op 'vooruitgang'te klikken."
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
-#    implementation_guide: "Implementation Options - Ozaria and CodeCombat"
-#    implementation_guide_desc: "Options for bridging Ozaria and CodeCombat content based on the structure and focus of your classroom."
-#    prologue: "Prologue: The Sky Mountain"
 #    unit_overview: "Unit Overview"
 #    module_overview: "Module Overview"
-#    prologue_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in the Prologue Unit."
+#    chapter1_unit_overview_desc: "Summary of student experience, including Cutscenes, Practice Levels, Intros, and the Capstone project in Chapter 1."
 #    lesson_plan: "Lesson Plan"
-#    prologue_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
+#    chapter1_lesson_plan_desc: "Detailed classroom guide including learning objectives, CSTA standards, reflection activities, facilitation tips, and more."
 #    capstone_rubric: "Capstone Rubric"
-#    prologue_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
-#    chapter1: "Chapter 1: The Moon Dancers"
-#    module1: "Module 1"
-#    module2: "Module 2"
-#    module3: "Module 3"
-#    module4: "Module 4"
-#    module5: "Module 5"
-#    module6: "Module 6"
+#    chapter1_capstone_rubric_desc: "Rubric for evaluating students' Capstone projects and reflection activities at the end of this unit."
+#    chapter1: "Chapter 1: Up The Mountain"
+#    chapter2: "Chapter 2: The Moon Dancers" # {change}
+#    chapter3: "Chapter 3: The Phoenix Lands" # {change}
+#    module1: "Module 1: "
+#    module2: "Module 2: "
+#    module3: "Module 3: "
+#    module4: "Module 4: "
+#    module5: "Module 5: "
+#    module6: "Module 6: "
 #    algorithms_and_syntax: "Algorithms and Syntax"
 #    debugging: "Debugging"
 #    variables: "Variables"
 #    conditionals: "Conditionals"
 #    capstone_intro: "Capstone Intro"
 #    capstone_project: "Capstone Project"
+#    level_code: "Level Code"
+#    review_needed: "Review Needed"
+#    review_tooltip_heading: "What does this mean?"
+#    review_tooltip_text: "Red flags appear next to Concept Checks where your student(s) attempted to answer the question 3 or more times. In the <strong>Course Overview</strong> section, red flags appear next to Concept Checks if at least 50% of students who have started or completed the concept check attempted it 3 or more times."
+#    scroll_to_see_more: "Scroll to see more"
+#    click_to_view_concept_check: "Click to view concept check"
+#    click_to_view_project_gallery: "Click to view project gallery"
+#    review_learning_goal: "Review \"Learning Goal: __learningGoal__\" with students."
+#    view_capstone_project: "View Capstone Project"
+#    ozaria_dashboard_guide: "Teacher Dashboard Guide"
+#    dashboard_guide_desc: "Walkthrough of Ozaria Teacher Dashboard features that will help you view student progress and work."
+#    review: "Review"
+#    for_loops: "For Loops"
+#    peer_feedback: "Peer Feedback Form"
+#    presentation_checklist: "Presentation Checklist"
+
+#  teacher_licenses:
+#    active_licenses: "Active Licenses"
+#    expired_licenses: "Expired Licenses"
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2073,7 +2168,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you: "(jij)"
     one_license_used: "(1 licentie gebruikt)"
     licenses_used: "(__licensesUsed__ licenties gebruikt)"
+#    licenses_used_no_braces: "__licensesUsed__ licenses used"
     more_info: "Meer info"
+#    shared_pool_label: "Teachers in your shared pool:"
 
   sharing:
     game: "Spel"
@@ -2600,6 +2697,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     math_operations: "Wiskundige operaties"
     math_proportions: "Wiskundige verhoudingen"
     math_trigonometry: "Trigonometrie"
+#    nesting: "Nesting"
     object_literals: "Letterlijke Objecten"
     parameters: "Parameters"
     programs: "Programma's"
@@ -2648,6 +2746,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     basic_javascript: "Basis JavaScript"
     basic_event_handling: "Basis Event Afhandelen"
     create_sharable_interactive_web_page: "Maak een interactieve webpagina die je kunt delen"
+#    iteration: "Iteration"
+#    data_types: "Data Types"
+#    objects: "Objects"
+#    methods: "Methods"
 
   anonymous_teacher:
     notify_teacher: "Waarschuw leerkracht"
@@ -2952,6 +3054,31 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     message: "Bericht"
     custom_message: "Ik heb net CodeCombat ontdekt en denk dat dit een geschikt programma voor uw klas is! Het is een computerwetenschappelijk leerplatform met een op standaarden afgestemd leerplan.\n\nMediawijsheid is zo belangrijk, en ik denk dat dit een geweldige manier is om leerlingen bezig te houden met leren programmeren."
     send: "Verzend e-mail"
+
+#  hoc_2019:
+#    heading: "Hour of Code 2019"
+#    start: "Start Your Journey"
+#    create_a_class: "Create a class to track your students' progress and ensure their hour of code games are saved!"
+#    choose_language: "1. CHOOSE LANGUAGE"
+#    programming_language: "Language"
+#    sign_up: "2. SIGN UP"
+#    already_have_account: "Already have a CodeCombat or Ozaria account? Login."
+#    download_lesson_plan: "Download Lesson Plan"
+#    try_activity_without_class: "Try activity without creating a class"
+#    invite_students: "Invite Students to Your Class By Sending Them"
+#    class_code: "CLASS CODE"
+#    enter_code: "Students can enter this code at www.ozaria.com/hoc"
+#    class_url: "CLASS URL"
+#    share_url: "Share URL to have students automatically join your class."
+#    start_activity: "Start Activity"
+#    save_progress_modal: "Save your progress and keep playing later"
+#    want_to_save: "Want to save your Hour of Code progress?"
+#    ask_teacher_class_code: "Ask your teacher for your Class Code"
+#    dont_have: "I don't have one, but want to Try the Activity!"
+#    hoc_activity: "Hour of Code Activity"
+#    save_progress: "Save Progress"
+#    err_google_exists: "An account already exists for the Google account you've selected. Please choose another Google account or sign up with a username and password."
+#    err_username_taken: "An account already exists for the username you've entered. Please choose another username."
 
   hoc_2018:
     banner: "Fijne Computer Science Education Week 2018!"
