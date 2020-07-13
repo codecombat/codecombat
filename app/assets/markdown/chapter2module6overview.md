@@ -1,4 +1,4 @@
-# Chapter 1: Module 5 Overview
+# Chapter 2: Module 6 Overview
 
 ## **Terminology**
 
@@ -11,24 +11,24 @@
 
 # Summaries
 
-## Intro: The Spirit Lands
+## Capstone Level: Story Maker
 
-**Cinematic: The Spirit Lands**
+**Stage 1: Create Characters**
 
-Students learn methods they can use to create a storytelling game.
+Students create characters and set a background.
 
-**Concept Check: Create Character**
+**Stage 2: Set the Stage**
 
-Students apply what they learned about the game.createCharacter(&quot;string&quot;) method.
+Students have characters enter and start the dialogue.
 
-**Cinematic: Choice and Consequences**
+**Stage 3: Make Choices**
 
-Students learn about how to set up choices for players of their game.
+Students use if statements to give the player dialogue choices.
 
-**Concept Check: Player Choices**
+## Cutscene: Dangers Unseen
 
-Students apply what they learned about the showChoice method.
+The hero has successfully trapped the Darkness, but there is more that needs to be done before the Darkness is truly defeated.
 
-**Cinematic: The Trap is Set**
+## Cinematic: The Last One
 
-Vega introduces the hero to the Capstone.
+Luten and Capella make amends, and Vega and the hero discuss getting to the next Star Well.

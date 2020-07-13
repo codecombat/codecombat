@@ -49,8 +49,8 @@ export default class Loader {
    */
   loadPlayerThangTypes () {
     const original = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
-    const avatar = (store.getters['me/get1fhAvatar'] || {}).cinematicThangTypeId || AVATAR_THANG_ID
-    const avatarPet = (store.getters['me/get1fhAvatar'] || {}).cinematicPetThangId || AVATAR_THANG_ID
+    const avatar = (store.getters['me/getCh1Avatar'] || {}).cinematicThangTypeId || AVATAR_THANG_ID
+    const avatarPet = (store.getters['me/getCh1Avatar'] || {}).cinematicPetThangId || AVATAR_THANG_ID
 
     this.loadingThangTypes.set(
       original,

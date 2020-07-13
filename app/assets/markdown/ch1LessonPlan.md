@@ -1,10 +1,10 @@
 _Time: 60 in-game minutes, 60 in-class activity minutes_
 
-# Prologue: The Sky Mountain
+# Chapter 1: Up The Mountain
 
 ## Overview
 
-Welcome to Ozaria! This Lesson Plan will help you ensure smooth implementation of this immersive game-based learning experience for your computer science students. _Prologue: The Sky Mountain_ will help your students get familiar with the code editor and build confidence applying coding skills to larger projects.
+Welcome to Ozaria! This Lesson Plan will help you ensure smooth implementation of this immersive game-based learning experience for your computer science students. _Chapter 1: Up The Mountain_ will help your students get familiar with the code editor and build confidence applying coding skills to larger projects.
 
 ### Learning Objectives
 
@@ -30,7 +30,7 @@ This was designed to align to the following K-12 CSTA standards:
 
 For technical prep and classroom setup, see the [Ozaria Getting Started Guide](/teachers/resources/getting-started).
 
-_Prologue: The Sky Mountain_ will introduce the following:
+_Chapter 1: Up The Mountain_ will introduce the following:
 
    - Content Topics:
        - Sequences
@@ -43,9 +43,9 @@ _Prologue: The Sky Mountain_ will introduce the following:
        - Creative Game Design
        - Giving and Receiving Feedback
 
-To prepare to support students as they work through _Prologue: The Sky Mountain_, it is highly recommended that you:
+To prepare to support students as they work through _Chapter 1: Up The Mountain_, it is highly recommended that you:
 
-1. Work through _Prologue: The Sky Mountain_ on your own.
+1. Work through _Chapter 1: Up The Mountain_ on your own.
     - As you’re working through, note down places where you were tripped up or had misunderstandings. These will likely be the same places where students struggle.
     - Get familiar with all the systems within the code editor including:
         - Goals
@@ -67,7 +67,7 @@ To prepare to support students as they work through _Prologue: The Sky Mountain_
 
 Since this is the first unit of Ozaria content, explain to students that they will be trying out a brand-new game designed to help them learn computer science.
 
-Once they have started in _Prologue: The Sky Mountain_, students will be able to move through at their own pace. If you would like to stop students at key checkpoints (refer to the [Prologue Unit Overview](/teachers/resources/1fhUnitOverview) as a roadmap) to make sure the class is on the same page, you could do so in the following ways:
+Once they have started in _Chapter 1: Up The Mountain_, students will be able to move through at their own pace. If you would like to stop students at key checkpoints (refer to the [Chapter 1 Unit Overview](/teachers/resources/ch1UnitOverview) as a roadmap) to make sure the class is on the same page, you could do so in the following ways:
 
 1. Have students pause once they reach a new Cutscene, and watch Cutscenes together as a class.
     - When to use this method: When you have students who usually work at roughly the same pace and you want students to be roughly at the same place in the narrative to foster a sense of class community.

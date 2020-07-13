@@ -1,88 +1,65 @@
-# Chapter 2: Module 2 Overview
+##### Chapter 2: Module 2 Overview
+# Module 2: Debugging
 
-# **Terminology**
+#### **Terminology**
 
-1. _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-1. _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
-    1. _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
-    1. _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
-1. _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
-1. _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
+- _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
+- _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
+    - _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
+    - _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
+- _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
+- _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
 
-# Summaries
+## Summaries
 
-## Intro: Cleaning the Mess
+### Intro: A Bug&#39;s Life
 
-**Cinematic: Gardening**
+**Cinematic: Bugs, Bugs, Bugs**
 
-The hero discusses the effects of the Time Storm with Capella, who has aged. She instructs the hero to help clean up Haven with their totems.
+The Hero and Vega have the debugging tool, and Vega explains what bugs and debugging are.
 
-## Practice Level: Irrigation
+**Concept Check: Debugging Definitions**
 
-Students repeat the same actions multiple times in a program. This builds context for why they may want to use loops in the future.
+Students demonstrate knowledge of debugging and programming vocabulary.
 
-## Intro: For Loops
+**Cinematic: The Library**
 
-**Cinematic: For Loops**
+Students learn about logic errors.
 
-The hero meets Yug, and Capella explains for loops.
+**Concept Check: Move the Rabbit**
 
-**Concept Check: Pseudocode Loops**
+Students modify a code sequence to fix logic errors.
 
-Students arrange pseudocode blocks to repeat the desired actions in sequence.
+**Cinematic: Syntax Bugs**
 
-**Cinematic: Making Things Easier**
+Students are introduced to syntax errors.
 
-Capella explains the syntax and structure of for loops.
+**Concept Check: Rabbit Syntax Error**
 
-## Practice Levels: Race for Water &amp; Water Stairs
+Students modify a code sequence to fix syntax errors.
 
-Students use for loops to simplify repetitive actions.
+**Cinematic: Of Rabbits and Foxes**
 
-## Intro: Changing Variables
+Vega reviews the difference between logic and syntax errors.
 
-**Cinematic: Blue Pies**
+### Practice Levels: Chasing Dinner - Dragon Traps
 
-Capella explains how to use loops to update variables.
+Students fix errors in old code snippets.
 
-**Concept Check: Variables in Loops**
+### Intro: Dark Waters
 
-Students select the correct line of code to update a variable value.
+**Cinematic: Dark Waters**
 
-**Cinematic: Better Tools**
+A virus invades the library, and the Hero has to debug helpers to fix it.
 
-Capella leaves the hero to complete the rest of the tasks.
+### Practice Levels: Lights On - Trio
 
-## Practice Levels: Lighting the Way &amp; Incrementing Paths
+Students debug the code in helpers to defeat the virus of Darkness.
 
-Students use loops to update walk distance variables for movement patterns.
+### Challenge Level: Fading Shadow
 
-## Challenge Level: Spiral Streets
+Students find and fix syntax and logic errors to defeat the virus.
 
-Students are assessed on understanding of variable manipulation within for loops.
+### Ending: A Hero&#39;s Work
 
-## Intro: Inside Out
-
-**Cinematic: Rift Watching**
-
-Capella explains the time totem they need is in the Time Rift, and the hero must go find it. Octans explains how to use for loops in sequence.
-
-**Interactive: Loops in Sequence**
-
-Students insert the correct code statement into a sequence with for loops.
-
-**Cinematic: Onward**
-
-Octans and the hero discuss what&#39;s next.
-
-## Practice Levels: Through Together - Plus Minus Bridges
-
-Students use loops in sequence to complete challenges with the hero and Mouse.
-
-## Challenge Level: Eye of the Storm
-
-Students are assessed on ability to use for loops in sequence with other code statements and for loops.
-
-## Intro: The Eye
-
-The hero makes it to the eye of the Time Rift, and Mouse is missing!
+The Hero gets rid of the virus, and heads off with Vega to find the Spirit Well in Xing&#39;chen.

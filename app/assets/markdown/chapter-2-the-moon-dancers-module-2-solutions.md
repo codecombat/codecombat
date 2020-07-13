@@ -1,4 +1,4 @@
-##### Chapter 1: Module 2 Level Solutions
+##### Chapter 2: Module 2 Level Solutions
 # Levels: Chasing Dinner - Fading Shadows
 
 ### Practice Level: Chasing Dinner

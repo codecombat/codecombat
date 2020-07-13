@@ -1,6 +1,6 @@
 # Overview
 
-Welcome to Ozaria&#39;s Hour of Code, _Prologue: The Sky Mountain!_ This activity will help your students get familiar with the text-based coding and build confidence applying these skills to creating games and projects.
+Welcome to Ozaria&#39;s Hour of Code, _Chapter 1: Up The Mountain!_ This activity will help your students get familiar with the text-based coding and build confidence applying these skills to creating games and projects.
 
 ## Learning Objectives
 
@@ -23,7 +23,7 @@ This activity was designed to align to the following K-12 CSTA standards.
 
 # Background
 
-_Prologue: The Sky Mountain_ will introduce the following:
+_Chapter 1: Up The Mountain_ will introduce the following:
 
 - **Content:** 
     - Sequences
@@ -35,7 +35,7 @@ _Prologue: The Sky Mountain_ will introduce the following:
     - Iterating on Existing Code
     - Creative Game Design
 
-To prepare to support students as they work through _Prologue: The Sky Mountain_, it is highly recommended that you:
+To prepare to support students as they work through _Chapter 1: Up The Mountain_, it is highly recommended that you:
 
 Get familiar with all the systems within the code editor including:
 
@@ -79,7 +79,7 @@ Get familiar with all the systems within the code editor including:
 
 ## Facilitation
 
-Once they have started in _Prologue: The Sky Mountain_, students will be able to move through at their own pace.
+Once they have started in _Chapter 1: Up The Mountain_, students will be able to move through at their own pace.
 
 ## Common Student Misconceptions
 

@@ -112,9 +112,9 @@
         } else if (me.isStudent() && !this.computedCourseInstanceId && !this.hocActivity) {
           return '/students'
         }
-        // For students playing hoc activity(1fh), its possible that they dont have a course-instance
+        // For students playing hoc activity(ch1), its possible that they dont have a course-instance
         // (example, coco students with no oz class/who sign up without class code using hoc save progress modal)
-        // They should be allowed access to unit map, and their 1fh progress from hoc will be shown
+        // They should be allowed access to unit map, and their ch1 progress from hoc will be shown
         return null
       },
       title: function () {
@@ -274,7 +274,7 @@
               this.levelSessions.splice(this.levelSessions.indexOf(session), 1)
             }
           }
-        } else { // for anon/individual/hoc students without 1fh class
+        } else { // for anon/individual/hoc students without ch1 class
           this.levelSessions = this.levelSessions.filter((s) => s.codeLanguage === this.computedCodeLanguage)
         }
         this.levelStatusMap = getLevelStatusMap(this.levelSessions)

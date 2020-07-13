@@ -1,9 +1,9 @@
 # Chapter 2: Module 3 Overview
 
-# **Terminology**
+## **Terminology**
 
 1. _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-1. _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
+1. _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
     1. _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
     1. _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
 1. _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
@@ -11,94 +11,50 @@
 
 # Summaries
 
-## Cutscene: Lost Boy
+## Intro: Moon Dancers
 
-Something has happened to Mouse because of the Time Storm!
+**Cinematic: The Moon Dancers**
 
-## Intro: Into the Storm
+The hero and Vega stumble upon a night carnival. Students are introduced to variables and why they are important.
 
-**Cinematic: Mouse**
+**Concept Check: Variables &amp; Vocabulary**
 
-Octans tells the Hero about the Time Totem that could help save Mouse.
+Students match definitions of key vocabulary.
 
-## Practice Level: For Mouse
+**Cinematic**: **Of Rabbits and Elephants**
 
-Students review the use of for loops.
+Students learn how to use variables to remember and update information.
 
-## Intro: For Within For
+**Concept Check: Name Calling**
 
-**Cinematic: Loops Within Loops**
+Students apply knowledge of updating variables.
 
-Octans explains nesting for loops within for loops.
+**Cinematic**: **Assigning Variabels**
 
-**Concept Check: Nested For Loops**
+The hero is asked by the leader of the Moon Dancers, Capella, to help with inventory in the tent, using variables.
 
-Students match vocabulary labels to a pseudocode example.
+## Practice Levels: Double Security - High Traffic
 
-**Cinematic: Syntax**
+Students use variables to help Capella pack up the carnival.
 
-Octans explains the syntax needed to write nested for loops.
+## Intro: Finishing Up
 
-**Concept Check: Lunch on the Move**
+**Cinematic: Finishing Up**
 
-Students complete a nested for loop using valid syntax.
+Capella thanks the hero for completing the tasks efficiently.
 
-**Cinematic: Back In**
+**Cinematic: Power of Illusions**
 
-The hero heads back into the Time Storm to use nested loops.
+Students learn how to set variables to store values returned by methods.
 
-## Practice Levels: For Inside - Dark Downstairs
+## Practice Levels: Forest of Illusions - Phantom Fire
 
-Students use nested for loops to complete more complex movement patterns.
+Students plan and write programs using a given set of commands.
 
-## Intro: Time Fog
+## Challenge Level: Showtime
 
-**Cinematic: The Storms**
+Assesses students on their ability to write sequential programs.
 
-Octans explains that the time totem should help make the time storm go away.
+## Cincematic: Onward to Xing&#39;chen
 
-## Practice Levels: Blind Steps &amp; A Loop in the Fog
-
-Students are introduced to how the Time Fog makes it difficult to see where they can move.
-
-## Intro: I canMove
-
-**Cinematic: I canMove**
-
-Octans describes a new set of methods (canMove boolean methods).
-
-**Concept Check: Can They Move?**
-
-Students evaluate what will be returned by given boolean methods.
-
-## Practice Levels: Double Choice &amp; Into the Unknown
-
-Students use boolean methods as conditions in conditional statements.
-
-## Intro: Ifs Within Fors
-
-**Cinematic: Ifs Within Fors**
-
-Octans explains nesting of conditionals within for loops.
-
-**Concept Check: Can Move Conditionals**
-
-Students select the correct nested conditional to complete the goal.
-
-**Cinematic: Nested Everything**
-
-Octans explains what the hero should do to get through the Time Fog.
-
-## Practice Levels: Storm Rising &amp; Creeping Through The Tall Grass
-
-Students practice using conditionals nested in for loops.
-
-## Challenge Level: Out of the Loop
-
-Students are assessed on using conditionals nested within for loops.
-
-## Intro: Mouse
-
-**Cinematic: Old Friend**
-
-The hero is reunited with Mouse.
+Capella agrees to take the hero to Xing&#39;chen.

@@ -243,13 +243,13 @@ mixin courseProgressRow(course, student)
           each level, index in levels
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
             - var contentType = level.getDisplayContentType()
-            //- Special flow for 1FH, done in mixin capstoneFlow below
-            - if (contentType == 'intro' && course.is1FHCourse()) break
+            //- Special flow for CH1, done in mixin capstoneFlow below
+            - if (contentType == 'intro' && course.isCh1Course()) break
             +studentsLevelProgressDot(progress, level, contentType, student)
-          if course.is1FHCourse()
+          if course.isCh1Course()
             +capstoneFlow(levels, course, student)
 
-//- Special capstone flow for 1FH with capstone header label over all intro levels
+//- Special capstone flow for CH1 with capstone header label over all intro levels
 mixin capstoneFlow(levels, course, student)
   - var startCapstoneFlow = false
   .capstone-flow
@@ -270,10 +270,10 @@ mixin studentsLevelProgressDot(progress, level, contentType, student, specialCla
   - var context = _.merge(progress, {label: view.getLevelDisplayNameWithLabel(level), type: contentType, moment: moment, numStudents: view.students.length})
   - var link = null
   - var courseId = state.get('selectedCourse').id
-  
+
   if contentType == 'capstone' || contentType == 'practice' || contentType == 'challenge'
     - context.showSessionData = true
-    if dotClass && student 
+    if dotClass && student
       - link = '/teachers/classes/' + view.classroom.id + '/' + student.id + '#' + level.get('slug')
       - context.showStudentCodeLink = true
 
@@ -309,7 +309,7 @@ mixin studentsLevelProgressDot(progress, level, contentType, student, specialCla
           - context.showSessionData = false
           - link = null
           +levelProgressDotWithTooltip(dotClass, context, link, c.type, labelText, student, specialClass)
-      +introLevelLabel(view.getLevelDisplayNameWithLabel(level), dotClass)   
+      +introLevelLabel(view.getLevelDisplayNameWithLabel(level), dotClass)
   else if link
     if state.get('readOnly')
       - link = link.replace('/teachers/classes/', '/school-administrator/teacher/' + view.classroom.get('ownerID') + '/classroom/')
@@ -321,7 +321,7 @@ mixin levelProgressDotWithTooltip(dotClass, context, link, type, labelText, stud
   - var dataTitle = view.allStudentsLevelProgressDotTemplate
   if student
     - dataTitle = view.singleStudentLevelProgressDotTemplate
-  
+
   if context.needsReview
     - var reviewClass = 'flagged-dot'
 

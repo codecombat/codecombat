@@ -33,7 +33,7 @@ module.exports = class TeachersContactModal extends ModalView
     name = if props.firstName and props.lastName then "#{props.firstName} #{props.lastName}" else me.get('name') ? ''
     email = me.get('email') or props.email or ''
     message = """
-        Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 1 and on.
+        Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.
 
         Name of School #{props.nces_name or props.organization or ''}
         Name of District: #{props.nces_district or props.district or ''}

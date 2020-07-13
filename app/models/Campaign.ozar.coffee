@@ -17,7 +17,7 @@ module.exports = class Campaign extends CocoModel
   initialize: (options = {}) ->
     @forceCourseNumbering = options.forceCourseNumbering
     super(arguments...)
-    
+
   @getLevels: (campaign) ->
     levels = campaign.levels
     levels = _.sortBy(levels, 'campaignIndex')
@@ -34,11 +34,11 @@ module.exports = class Campaign extends CocoModel
 
   getLevelsByModules: ->
     campaignId = @get('_id')
-    is1FH = utils.freeCampaignIds.includes(campaignId)
+    isCh1 = utils.freeCampaignIds.includes(campaignId)
     levels = @getLevels().models
     campaignLevels = {}
     campaignLevels[campaignId] = {
-      modules: utils.buildLevelsListByModule(levels, is1FH)
+      modules: utils.buildLevelsListByModule(levels, isCh1)
     }
     return campaignLevels
 
@@ -59,7 +59,7 @@ module.exports = class Campaign extends CocoModel
     levels.comparator = 'campaignIndex'
     levels.sort()
     return levels
-    
+
   @getLevelNumberMap: (campaign, forceCourseNumbering) ->
     levels = []
     for level in @getLevels(campaign)
@@ -77,7 +77,7 @@ module.exports = class Campaign extends CocoModel
   getLevelNumber: (levelID, defaultNumber) ->
     @levelNumberMap ?= Campaign.getLevelNumberMap(@attributes)
     @levelNumberMap[levelID] ? defaultNumber
-    
+
   @levelIsPractice: (level, forceCourseNumbering) ->
     # Migration: in home version, only treat levels explicitly labeled as "Level Name A", "Level Name B", etc. as practice levels
     # See: https://github.com/codecombat/codecombat/commit/296d2c940d8ecd729d098e45e203e2b1182ff86a
@@ -89,12 +89,12 @@ module.exports = class Campaign extends CocoModel
   levelIsPractice: (level) ->
     level = level.attributes if level.attributes
     return Campaign.levelIsPractice(level, @get('type') is 'course' or @forceCourseNumbering)
-  
+
   levelIsAssessment: (level) ->
     level = level.attributes if level.attributes
     return Campaign.levelIsAssessment(level)
-    
+
   @levelIsAssessment: (level) -> level.assessment
-    
+
 
   updateI18NCoverage: -> super(_.omit(@attributes, 'levels'))

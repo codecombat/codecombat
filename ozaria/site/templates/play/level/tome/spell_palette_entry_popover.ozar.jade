@@ -84,7 +84,7 @@ div.popover-header.closeBtn(role="button" dir="ltr")
       p(dir="auto")!= marked(doc.description)
       div.clear(style="clear: both")
 
-  //- Args and returns are not there in 1FH/1UP - hence keeping their format and css as it is for now
+  //- Args and returns are not there in CH1/CH2 - hence keeping their format and css as it is for now
 
   if doc.args && doc.args.length
     - var hasOptionalArguments = _.any(doc.args, function(arg){ return arg.optional })

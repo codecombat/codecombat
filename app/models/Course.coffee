@@ -17,5 +17,5 @@ module.exports = class Course extends CocoModel
   acronym: ->
     utils.courseAcronyms[@get('_id')]
 
-  is1FHCourse: () ->
-    @get('_id') == utils.courseIDs.ONE_FREE_HOUR
+  isCh1Course: () ->
+    @get('_id') == utils.courseIDs.CHAPTER_ONE

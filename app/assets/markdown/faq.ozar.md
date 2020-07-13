@@ -67,7 +67,7 @@ You have a few options when transitioning back to CodeCombat, depending on how y
 Fundamental programming concepts that are introduced in Ozaria will be used in CodeCombat, including variables, conditionals, and debugging. Students will be able to practice and expand on these skills with CodeCombat levels that vary in design and gameplay from Ozaria levels.
 
 ### How much Ozaria content is there?
-We estimate that the Prologue (free unit) will take around 1-2 hours, and that the first chapter (and all subsequent chapters) will take around 7-8 hours.
+We estimate that Chapter 1 (free unit) will take around 1-2 hours, and that all subsequent chapters will take around 7-8 hours.
 
 **For teachers with licenses, once Ozaria content is finished, teachers can create a CodeCombat classroom and have their students continue to learn CS skills using CodeCombat material new Ozaria content is developed.**
 
@@ -105,7 +105,7 @@ JavaScript’s syntax is a little more difficult for beginners than Python, so i
 ### Can I use Ozaria as the class’s main curriculum?
 Absolutely! Ozaria is built by former educators and with feedback from current educators to craft the classroom curriculum and teacher resources. The tools and resources are built for all educators, even those who are using Ozaria without any prior computer science experience themselves.
 
-We’ve published a set of curriculum resources in our [Resource Hub](/teachers/resources), which includes lesson plans, best practices for implementation, and rubrics for projects. In addition, we provide level and interactives solutions for the prologue and every chapter so teachers can help spot and correct errors in student work as they come up.
+We’ve published a set of curriculum resources in our [Resource Hub](/teachers/resources), which includes lesson plans, best practices for implementation, and rubrics for projects. In addition, we provide level and interactives solutions for Chapter 1 and all subsequent chapters so teachers can help spot and correct errors in student work as they come up.
 
 ### What sort of teacher support will be provided in Ozaria?
 Teachers will have lesson plans similar to the curriculum guides for CodeCombat, with less focus on specific concept activities, since students will be learning most of the content inside the game itself. We also aim to create supplemental materials like PowerPoints and additional guides sometime after initial launch.
@@ -132,7 +132,7 @@ These are the formative checks for student knowledge presented in a 'multiple-ch
 Each Ozaria unit/chapter will also conclude with an opportunity for students to create their own project. Since these opportunities will now be built into every chapter, we anticipate that they will do a much better job of demonstrating to students the real-world opportunities that computer science can open up for them. Capstone projects will feature more structural support in the form of the in-game helper and Intros, which will guide the students through high-level steps to complete each project.
 
 ### Will there be Challenge Levels?
-Challenge levels will not be part of the Prologue: The Sky Mountain. However, there will be challenge levels in Chapter One: The Moon Dancers and all subsequent chapters.
+Challenge levels will not be part of the Chapter 1: Up The Mountain. However, there will be challenge levels in Chapter 2: The Moon Dancers and all subsequent chapters.
 
 <!-- Students will know when they are working through a challenge level. The first submission of student code will be taken for assessment to the teacher. This will be stated clearly to students. If their submission is incorrect, they will be able to retry and the number of subsequent submissions will be recorded until they reach the correct level goals. -->
 
@@ -148,9 +148,9 @@ Challenge levels will communicate to teachers how individual students did on giv
 The teacher will receive feedback on whether students reached some or all of these goals.
 
 ### How do I assess my students’ grasp of concepts?
-Challenge levels will be in Chapter One: The Moon Dancers and all subsequent chapters (there are no challenge levels in the Prologue: The Sky Mountain). We'll also be formatively assessing students via Interactives with teacher dashboard support for viewing that data to be developed post-launch. Interactives will provide frequent formative assessments as students will be presented with introductory content and then their understanding will be checked through pop-up windows that they will have to complete before moving onto the level.
+Challenge levels will be in Chapter 2: The Moon Dancers and all subsequent chapters (there are no challenge levels in Chapter 1: Up The Mountain). We'll also be formatively assessing students via Interactives with teacher dashboard support for viewing that data to be developed post-launch. Interactives will provide frequent formative assessments as students will be presented with introductory content and then their understanding will be checked through pop-up windows that they will have to complete before moving onto the level.
 
-Also, we will be providing rubrics for Capstone projects alongside the launch of each chapter. There will be one Capstone project at the end of every chapter, including the Prologue: The Sky Mountain. Capstones will serve as the initial primary summative assessments, and we will support teachers with clear rubrics on assessing student performance for these levels.
+Also, we will be providing rubrics for Capstone projects alongside the launch of each chapter. There will be one Capstone project at the end of every chapter, including the Chapter 1: Up The Mountain. Capstones will serve as the initial primary summative assessments, and we will support teachers with clear rubrics on assessing student performance for these levels.
 
 ### Can students skip earlier levels if they already understand the concepts?
 No. We strongly encourage that all students play every level even if they already know the concepts, so that they can reinforce their knowledge. The levels are carefully planned out to build confidence and progress student’s knowledge of core concepts in a scaffolded way that prepares them for harder, more advanced units.
@@ -166,7 +166,7 @@ Teachers can compare each student’s level code to the Ozaria suggested solutio
 ### Where can I find the solutions to all levels?
 Solutions to each level can be found in the [Unit Guides](/teachers/units) page -- to view the solutions, navigate to a unit, then click the Level Solutions guide for either JavaScript or Python.
 
-All teachers have access to solutions for the Prologue: The Sky Mountain. Teachers who have paid student licenses have access to solutions for all chapters.
+All teachers have access to solutions for Chapter 1: Up The Mountain. Teachers who have paid student licenses have access to solutions for all chapters.
 
 ### How much does it cost to access all of the available units and resources?
 We customize solutions for schools and districts and work with you to understand your use case, context, and budget. Contact schools@ozaria.com for further details!
@@ -175,10 +175,10 @@ We customize solutions for schools and districts and work with you to understand
 No. Teachers can preview and play all game levels by going to the [Unit Guides](/teachers/units) page and selecting a level from the dropdown menus.
 
 ### What does a license provide?
-A license provides a single student access to the entire curriculum beyond the free unit, which is the Prologue: The Sky Mountain. For students starting out in Ozaria, once the Prologue is complete, a license will grant access to the next available chapters and all paid CodeCombat content. As we continue to develop more of Ozaria, it will become the primary content for classrooms that start with Prologue: The Sky Mountain.
+A license provides a single student access to the entire curriculum beyond the free unit, which is Chapter 1: Up The Mountain. For students starting out in Ozaria, once Chapter 1 is complete, a license will grant access to the next available chapters and all paid CodeCombat content. As we continue to develop more of Ozaria, it will become the primary content for classrooms that start with Chapter 1: Up The Mountain.
 
 ### Do you have any free units for educators to try before they make their purchasing decision?
-Yes! The Prologue: The Sky Mountain is free and does not require student licenses. It takes 1-2 hours depending on your students' ages and prior experience. Please feel free to try it out in your school or district. There is no limit to the amount of students who can participate!
+Yes! Chapter 1: Up The Mountain is free and does not require student licenses. It takes 1-2 hours depending on your students' ages and prior experience. Please feel free to try it out in your school or district. There is no limit to the amount of students who can participate!
 
 ### What if I need licenses that only last a semester instead of a full year?
 The standard Student License term is for one year, but it can be broken into semesters as needed. Just talk to one of our [School Specialists](mailto:schools@ozaria.com) to discuss your needs.

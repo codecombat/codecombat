@@ -1,80 +1,63 @@
-# Chapter 2: Module 1 Overview
+##### Chapter 2: Module 1 Overview
+# Module 1: Algorithms and Syntax
 
-# **Terminology**
+#### **Terminology**
 
-1. _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
-1. _Intro_ - These are combinations of Cinematics and Interactives that introduce new concepts in a scaffolded way. 
-    1. _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
-    1. _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
-1. _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
-1. _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
+- _Cutscene_ - Short videos that explain parts of the epic Ozaria narrative.
+- _Intro_ - These are combinations of Cinematics and Concept Checks that introduce new concepts in a scaffolded way. 
+    - _Cinematic_ - Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.
+    - _Concept Check_ - Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.
+- _Practice Level_ - Game-play in which students are practicing concepts that they have been introduced to in Intros.
+- _Challenge Level_ - Game-play in which students are assessed on key concepts they should have mastered in a module.
 
-# Summaries
+## Summaries
 
-## Cutscene: Dangers Unseen
+### Cutscene: Searching for Star Wells
 
-Vega and the hero are traveling across the lands and can see the positive impact of the Darkness being defeated. The crops are regrowing in places, and things seem to be improving until they come to a place of decay. The Darkness is in the Phoenix Lands, and so is the last Star Well. It is dangerous to travel through, but Vega and the hero have no choice and they head in.
+The Darkness is destroying the sun, and the Hero has been tasked to stop it and find their missing mother. The Hero met Vega, their mother&#39;s assistant, and they created a game to trap a piece of the Darkness. The evil was weakened, but not destroyed. They need to head to the Star Wells to be able to trap the Darkness once and for all.
 
-## Intro: The Phoenix Lands
+### Practice Levels: Down Twice - The Forest of the Fox
 
-**Cinematic: The Library Again**
+Students are introduced to the code editor and typing code to complete simple goals.
 
-There&#39;s been another attack on the Library, and the hero has to fix a virus.
+### Intro: Syntax
 
-## Practice Level: Cleaning Light
+**Cinematic: Algorithms and Bears**
 
-Students use their debugging skills to fix logic problems and code errors.
+Students learn what algorithms are and why they&#39;re important.
 
-## Intro: Into Danger
+**Concept Check: Recipes and Algorithms**
 
-**Cinematic: The Palace of the Sun**
+Students apply their knowledge of algorithms to a simple everyday task.
 
-Vega explains that they need to head to the Palace of the Sun where the Star Well is.
+**Cinematic: The Language of Code**
 
-## Practice Levels: Pinefield - A New Companion
+Students learn about programming languages.
 
-Students use skills they learned in Chapter 1 to sneak past Tengshe and travel to the Palace of the Sun.
+**Concept Check: Travel the Path**
 
-## Intro: The Code Bank
+Students apply their knowledge of sequential programs to get the fox to the end of a path.
 
-**Cinematic: Data Types**
+**Cinematic: Setting the Rules**
 
-Vega explains the different data types (strings, numbers/integers and floats, booleans).
+Students learn about syntax rules in programming languages.
 
-**Interactive: Data Types**
+**Concept Check: Jump and Move**
 
-Students apply their understanding of data types.
+Students apply their knowledge of syntax and sequences to complete a simple goal.
 
-**Cinematic: Back to Basics**
+**Cinematic: Down for the Night**
 
-Vega reviews key concepts from Chapter 1, including objects, methods, and arguments.
+Vega explains that they are on a quest to find a tool that can upgrade the Acodus.
 
-**Interactive: Objects and Methods**
+### Practice Levels: Hidden Path - Unexpected Guest
 
-Students differentiate between objects, methods, and arguments.
+Students plan and write programs using a given set of commands.
 
-**Cinematic: Code Bank**
+### Challenge Level: Ninjutsu
 
-Vega explains how to use the Code Bank in the Acodus to help with understanding different objects and methods.
+Assesses students on their ability to write sequential programs.
 
-## Practice Levels: A Dog Named Mouse - Doggie Diversion
+### Ending: The Debugger
 
-Students use methods from the Code Bank to get through the Phoenix Lands.
-
-## Intro: Coding Mysteries
-
-**Cinematic: Adding Those Variables**
-
-Octans explains how to manipulate variables using mathematical operators.
-
-## Practice Levels: Six Minus - Bridges Multiply
-
-Students use variable manipulations to find the hero&#39;s way to Haven.
-
-## Challenge Level: Dreadful Quetzal
-
-Students are assessed on understanding of variable manipulation and use of the Code Bank.
-
-## Intro: New Old Friends
-
-The Hero finds Capella, who has aged because of the time storms.
+The Hero picks up a pendant and encounters a dark figure in the room. The Hero runs for it, and plugs the pendant into their computer, gaining the ability to debug.

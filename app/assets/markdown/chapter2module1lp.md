@@ -1,60 +1,83 @@
-_Time: 75-90 in-game minutes_
+_Time: 60-90 in-game minutes_
 
-# Chapter 2: Module 1 Lesson Plan
+##### Chapter 2: Module 1 Lesson Plan
+# Module 1: Algorithms and Syntax
 
-# Overview
+## Overview
 
-**Learning Objectives**
+Module 1 consists of all the content from the beginning of _Chapter 2: The Moon Dancers_ until **The Debugger**.
 
-   - Identify and fix code errors and logic problems.
-   - Explain the difference between the basic data types.
-   - Differentiate between objects, methods, and arguments.
-   - Update the value of variables using basic operations.
+This Lesson Plan will help you to facilitate Module 1 of _Chapter 2: The Moon Dancers_ in your classroom. Students will get an introductory overview of algorithms and common syntax rules in either JavaScript or Python.
 
-**Standards**
+### Learning Objectives
 
-This module was designed to align to the following standards:
+By the end of this Ozaria module, students will be able to:
 
-   - CSTA Standards
-        - 1B-AP-09: Create programs that use variables to store and modify data.
-        - 2-AP-11: Create clearly named variables that represent different data types and perform operations on their values.
-        - 1A-AP-14: Debug (identify and fix) errors in an algorithm or program that includes sequences and simple loops.
-        - 1A-AP-15: Using correct terminology, describe steps taken and choices made during the iterative process of program development.
+**Sequences and Algorithms**
 
-# Materials
+- Modify sequences to complete a goal.
+- Define the term algorithm.
+- Write  algorithms to complete defined goals.
 
-- [Module Overview](http://localhost:3000/teachers/resources/chapter2module1overview)
-- Teacher Guide to Systems (coming soon)
-    - See the Prologue Lesson Plan for an explanation of important in-game student supports.
-- Solutions: To view solutions for levels, navigate to the Unit Guides tab and click on the &quot;Level Overviews and Solutions — Module 1&quot; link under Chapter 2.
+**Syntax**
 
-# Content Background
+- Explain what syntax is.
+- Identify correct syntax in short code snippets.
 
-- Key Terms
-    - **Variable**: Used to store information that is needed later in a program
-    - **Data Type**: A classification of data that helps the computer process and understand it. Data types covered in Module 1 include:
-        - Integers (Python) - the same as integers in mathematics
-        - Floats (Python) - numbers with decimal values
-        - Numbers (JavaScript) - includes both integers and floats
-        - Strings (Python &amp; JavaScript) - text made up of characters, identified by quotation marks around strings
-        - Booleans (Python &amp; JavaScript) - true and false values
-    - **Object**: In object-oriented programming (not yet explained to students), an object is an instance of a larger class that helps organize code into sets of methods and attributes. In Module 1, students only need to understand that objects have specific methods and properties associated with them and are used to organize their code.
-    - **Method**: An action or function that is associated with an object.
-    - **Argument**: A value that can be input into a method to cause a specific behavior. 
-- Explanation of instructional pathway
-    - The first module of Chapter 2 serves as a review and clarification of concepts in Module 1.
+### CSTA Standards
 
-# **Narrative Background**
+This module was designed to align to the following K-12 CSTA standards:
 
-The hero and Vega have to find another Star Well to defeat the Darkness, and to get to it they have to travel through the Phoenix Lands. In the Phoenix Lands, strange things happen with time. When they arrive, they find Octans and Vega experiences some strange glitches. The hero and Octans head to a safe place called Haven where they won&#39;t be affected by these strange time blips.
+- 1A-AP-10: Develop programs with sequences or simple loops, to express an idea or address a problem.
+- 1A-AP-11: Decompose (break down) the steps needed to solve a problem into a precise sequence of instructions.
+- 1A-AP-15: Using correct terminology, describe steps taken and choices made during the iterative process of program development.
 
-# Instructional Tips
+## Recommended Prep
 
-**Common Student Misconceptions**
+To prepare to support students as they work through Module 1 of _Chapter 2: The Moon Dancers_, it is highly recommended that you:
 
-- Students may be used to having operations happen on the opposite side of the equal sign, like in math (1+1 = 2). Explain that the assignment operator works differently from the equals sign in math, and that the mathematical expression should come after the assignment operator.
+Work through _Chapter 2: The Moon Dancers_ Module 1 on your own.
+- As you’re working through, note down places where you were tripped up or had misunderstandings. These will likely be the same places where students struggle.
+- Get familiar with all the systems within the code editor including:
 
-**Differentiation**
+**Goals**
+![Goals displayed in Level UI in the top-right corner](/images/pages/teachers/resources/markdown/chapter1/goals.png)
+- Check off automatically as students complete various checkpoints in the levels and projects. 
+- Ensure students use these to guide their work on levels and milestones. 
 
-- For students who finish early, you can have them research a different programming language (Python, JavaScript, Java, C++, etc.) and identify the differences each language has in saving/classifying data types.
-- For students who are struggling with the variable operation levels and concepts, have them draw out on paper the paths that they want the hero/Mouse to travel. Have them do this to plan out their code before they write it in the code editor.
+**Code Bank**
+![Code Bank displayed on the left-hand side](/images/pages/teachers/resources/markdown/chapter1/codebank.png)
+- A resource for students to see methods and tools they can use in their programs. This will give them descriptions of each method/tool and examples to work from. 
+- Ensure students look at these before asking about what step they should take next in problem-solving.
+
+**Error Messages**
+![Error message pointing at student code](/images/pages/teachers/resources/markdown/chapter1/errormessages.png)
+- These will pop up automatically when students have errors, either in syntax or logic. 
+- Ensure students read these to understand where in their code something has gone wrong.
+
+**Vega Messages**
+![Vega Messages displayed in top-left corner](/images/pages/teachers/resources/markdown/chapter1/vegamessages.png)
+- Messages that serve as additional hints and support.
+- Both include introductory messages and, in some levels, messages triggered by specific interaction.
+
+## In Classroom
+
+### Lesson Facilitation
+
+Once they have started in Module 1, students will be able to move through at their own pace. If you would like to stop students at key checkpoints (refer to the Module 1 Overview as a roadmap) to make sure the class is on the same page, you could do so in the following ways:
+
+- Have students pause once they reach a new Cutscene, and watch Cutscenes together as a class.
+    - When to use this method: When you have students who usually work at roughly the same pace and you want students to be approximately at the same place in the narrative to foster a sense of class community.
+- Have students pause once they reach Concept Checks.
+    - When to use this method: When you want to leverage Concept Checks as formative assessment. You can go over the answer to the Concept Chec as a whole class so students who are having trouble with the concepts can review before moving on.
+
+### Common Student Misconceptions
+
+- Students, especially those coming from drag-and-drop programming language backgrounds, may struggle with the transition to typed code. If you find that a large number of students are having trouble adjusting to typing in code or understanding the available systems, you can do a demo where you work step-by-step through a level and explain your steps along the way.
+
+### Extensions and Differentiation
+**Extensions for advanced students**
+- Students who finish early can move on to Module 2.
+
+**Differentiation for students who are struggling**
+- Direct students to go back to the map and re-watch the Intro to better retain introduced content.

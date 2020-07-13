@@ -220,8 +220,8 @@ export default class CinematicLankBoss {
     const rHero = getRightHero(shot)
 
     const original = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || HERO_THANG_ID
-    const avatar = (store.getters['me/get1fhAvatar'] || {}).cinematicThangTypeId || AVATAR_THANG_ID
-    const avatarPet = (store.getters['me/get1fhAvatar'] || {}).cinematicPetThangId || PET_AVATAR_THANG_ID
+    const avatar = (store.getters['me/getCh1Avatar'] || {}).cinematicThangTypeId || AVATAR_THANG_ID
+    const avatarPet = (store.getters['me/getCh1Avatar'] || {}).cinematicPetThangId || PET_AVATAR_THANG_ID
 
     const heroPet = getHeroPet(shot)
     // We tie the pet to the right hand hero, and therefore only create the command
