@@ -16,7 +16,8 @@
       ...mapGetters({
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
         getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
-        getCourseUnitMapUrl: 'baseCurriculumGuide/getCourseUnitMapUrl'
+        getCourseUnitMapUrl: 'baseCurriculumGuide/getCourseUnitMapUrl',
+        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage'
       }),
 
       courseShortName () {
@@ -38,26 +39,21 @@
       getCourseThumbnail () {
         // Use backup image if content screenshot missing.
         return this.getCurrentCourse?.screenshot || `/images/ozaria/teachers/dashboard/png_img/TempChapter1PlaceholderArt.png`
+      },
+
+      solutionGuideUrl () {
+        if (!this.getCurrentCourse) {
+          return ''
+        }
+        return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}`
+      },
+
+      playChapterUrl () {
+        return this.getCourseUnitMapUrl || ''
       }
     },
 
     methods: {
-      clickSolutionGuide () {
-        if (!this.getCurrentCourse) {
-          return
-        }
-
-        const url = `/teachers/course-solution/${this.getCurrentCourse._id}/javascript`
-        application.router.navigate(url, { trigger: true })
-      },
-
-      clickPlayChapter () {
-        if (!this.getCourseUnitMapUrl) {
-          return
-        }
-        application.router.navigate(this.getCourseUnitMapUrl, { trigger: true })
-      },
-
       tooltipTimeContent () {
         const time = []
 
@@ -104,8 +100,8 @@
           </div>
         </div>
         <div class="btns">
-          <button-play-chapter @click="clickPlayChapter" />
-          <button-solution-guide @click="clickSolutionGuide" />
+          <a :href="playChapterUrl" target="_blank" rel="noreferrer"> <button-play-chapter /> </a>
+          <a :href="solutionGuideUrl" target="_blank" rel="noreferrer"> <button-solution-guide /> </a>
         </div>
       </div>
     </div>
@@ -186,6 +182,9 @@
     .btns {
       display: flex;
       justify-content: space-around;
+      a {
+        text-decoration: none;
+      }
     }
 
     p {

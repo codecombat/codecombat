@@ -1,5 +1,5 @@
 <script>
-  import { mapState, mapActions, mapGetters } from 'vuex'
+  import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
   import ChapterNav from './components/ChapterNav'
   import ChapterInfo from './components/ChapterInfo'
@@ -23,7 +23,8 @@
 
       ...mapGetters({
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
-        getModuleInfo: 'baseCurriculumGuide/getModuleInfo'
+        getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
+        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage'
       }),
 
       conceptsCovered () {
@@ -42,7 +43,13 @@
     methods: {
       ...mapActions({
         toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
-      })
+      }),
+      ...mapMutations({
+        setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage'
+      }),
+      changeLanguage(e) {
+        this.setSelectedLanguage(e.target.value)
+      }
     }
   }
 </script>
@@ -58,10 +65,20 @@
         <h2>Curriculum Guide</h2>
       </div>
       <div
-        class="close-btn"
-        @click="toggleCurriculumGuide"
+        class="header-right"
       >
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg">
+        <div class="code-language-dropdown">
+          <span class="select-language"> Select Language </span>
+          <select @change="changeLanguage">
+            <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
+            <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> Javascript </option>
+          </select>
+        </div>
+        <img
+          class="close-btn"
+          @click="toggleCurriculumGuide"
+          src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg"
+        >
       </div>
     </div>
 
@@ -134,13 +151,41 @@
       letter-spacing: 0.56px;
     }
 
-    .close-btn {
-      cursor: pointer;
-
-      width: 58px;
+    .header-right {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .code-language-dropdown {
+      select {
+        background: $twilight;
+        border: 1.5px solid #355EA0;
+        border-radius: 4px;
+        color: $moon;
+        width: 150px;
+        padding: 8px 5px;
+        font-family: Work Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+
+    .select-language {
+      font-family: Work Sans;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      color: #545B64;
+      padding: 8px;
+    }
+
+    .close-btn {
+      cursor: pointer;
+      margin-left: 30px;
+      padding: 10px;
     }
   }
 </style>

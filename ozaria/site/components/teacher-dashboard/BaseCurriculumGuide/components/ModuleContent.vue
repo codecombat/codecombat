@@ -20,7 +20,8 @@
       ...mapGetters({
         getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
-        getContentDescription: 'baseCurriculumGuide/getContentDescription'
+        getContentDescription: 'baseCurriculumGuide/getContentDescription',
+        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage'
       }),
 
       getContentTypes () {
@@ -39,7 +40,7 @@
           // TODO: Where is the language chosen in the curriculum guide?
           if (!ozariaType) {
             icon = type
-            url = `/play/intro/${introLevelSlug}?course=${this.getCurrentCourse._id}&codeLanguage=python&intro-content=${introContent || 0}`
+            url = `/play/intro/${introLevelSlug}?course=${this.getCurrentCourse._id}&codeLanguage=${this.getSelectedLanguage}&intro-content=${introContent || 0}`
           } else if (ozariaType) {
             if (ozariaType === 'practice') {
               icon = 'practicelvl'
@@ -48,7 +49,7 @@
             } else if (ozariaType === 'challenge') {
               icon = 'challengelvl'
             }
-            url = `/play/level/${slug}?course=${this.getCurrentCourse._id}&codeLanguage=python`
+            url = `/play/level/${slug}?course=${this.getCurrentCourse._id}&codeLanguage=${this.getSelectedLanguage}`
           }
 
           if (!url || !icon) {
@@ -64,12 +65,6 @@
           }
         })
       }
-    },
-    methods: {
-      navigateToContent (url) {
-        // TODO: Why does this take so long?
-        application.router.navigate(url, { trigger: true })
-      }
     }
   }
 </script>
@@ -78,12 +73,19 @@
     <module-header :module-num="moduleNum" />
 
     <div class="content-rows">
-      <module-row v-for="{ icon, name, _id, url, description } in getContentTypes" :key="_id"
-        :icon-type="icon"
-        :display-name="name"
-        :description="description"
-        @click="() => navigateToContent(url)"
-      />
+      <a
+        v-for="{ icon, name, _id, url, description } in getContentTypes"
+        :key="_id"
+        :href="url"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <module-row
+          :icon-type="icon"
+          :display-name="name"
+          :description="description"
+        />
+      </a>
     </div>
   </div>
 </template>
@@ -95,8 +97,13 @@
 
     margin-bottom: 29px;
 
-    & div:nth-child(odd) {
+    & a:nth-child(odd) {
       background-color: #f2f2f2;
+    }
+
+    a {
+      display: block;
+      text-decoration: none;
     }
   }
 </style>

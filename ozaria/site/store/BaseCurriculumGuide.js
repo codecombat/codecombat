@@ -6,7 +6,8 @@ export default {
 
   state: () => ({
     visible: false,
-    selectedCampaignId: undefined
+    selectedCampaignId: undefined,
+    selectedLanguage: 'python'
   }),
 
   mutations: {
@@ -20,6 +21,10 @@ export default {
 
     setSelectedCampaignId (state, campaignID) {
       state.selectedCampaignId = campaignID
+    },
+
+    setSelectedLanguage (state, language) {
+      state.selectedLanguage = language
     }
   },
 
@@ -73,7 +78,7 @@ export default {
       }
     },
 
-    getCourseUnitMapUrl (_state, getters, _rootState) {
+    getCourseUnitMapUrl (state, getters, _rootState) {
       if (!getters.getCurrentCourse) {
         return
       }
@@ -81,7 +86,7 @@ export default {
       return urls.courseWorldMap({
         courseId: getters.getCurrentCourse._id,
         campaignId: getters.selectedChapterId,
-        codeLanguage: utils.getQueryVariable('codeLanguage') || 'python'
+        codeLanguage: state.selectedLanguage
       })
     },
 
@@ -96,6 +101,10 @@ export default {
         }
         return content?.description || (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || ''
       }
+    },
+
+    getSelectedLanguage (state, language) {
+      return state.selectedLanguage
     }
   },
 
