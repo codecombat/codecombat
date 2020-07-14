@@ -4,13 +4,36 @@
       faceLeft: {
         type: Boolean,
         default: false
+      },
+      inactive: {
+        type: Boolean,
+        default: false
+      }
+    },
+
+    computed: {
+      imgSrc () {
+        return this.inactive
+          ? '/images/ozaria/teachers/dashboard/png_icons/Arrow_Left_Inactive.png'
+          : '/images/ozaria/teachers/dashboard/png_icons/Arrow_Left.png'
+      },
+      imgClass () {
+        return {
+          flip: !this.faceLeft,
+          inactive: this.inactive
+        }
       }
     }
   }
 </script>
 
 <template>
-  <img @click="$emit('click')" :class="faceLeft ? '' : 'flip'" src="/images/ozaria/teachers/dashboard/png_icons/Arrow_Left.png">
+  <img
+    :class="imgClass"
+    :src="imgSrc"
+
+    @click="$emit('click')"
+  >
 </template>
 
 <style lang="scss" scoped>
@@ -18,7 +41,9 @@ img {
   width: 40px;
   height: 40px;
 
-  cursor: pointer;
+  &:not(.inactive) {
+    cursor: pointer;
+  }
 
   &.flip {
     transform: rotateY(180deg);

@@ -95,13 +95,17 @@
 }
 
 .dot {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 8px;
 }
 
 .clickable {
   cursor: pointer;
+
+  &:hover:not(.clicked) {
+    background-color: #d8d8d8;
+  }
 }
 
 .green-dot {
