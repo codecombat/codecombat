@@ -9,24 +9,57 @@
   }
 </script>
 <template>
-  <div>
-    <a
-      :href="link"
-      target="_blank"
-      rel="noopener"
-    >
-      <img src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg">
-    </a>
-  </div>
+  <a
+    :href="link"
+    target="_blank"
+    rel="noopener"
+  >
+    <button>
+      <div id="IconLessonSlides" /><span>Lesson Slides</span>
+    </button>
+  </a>
 </template>
 
 <style lang="scss" scoped>
-  div {
-    display: inline-block;
-    padding: 0px 5px;
-    margin-right: 10px;
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
 
-    border-radius: 4px;
-    background-color: #5db9ac;
+a {
+  text-decoration: none;
+  display: inline-block
+}
+
+button {
+  background-color: $dusk;
+  border-radius: 4px;
+  border-width: 0;
+  @include font-p-3-small-button-text-black;
+  color: $pitch;
+  font-size: 14px;
+  line-height: 16px;
+
+  &:hover {
+    background-color: $dusk-dark;
+    transition: background-color .35s;
   }
+
+  display: flex;
+  height: 35px;
+  padding: 0 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+#IconLessonSlides {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg);
+  height: 23px;
+  width: 18px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  margin-right: 7px;
+}
 </style>

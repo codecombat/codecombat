@@ -24,7 +24,7 @@
   div {
     display: inline-block;
     padding: 0px 1px;
-    margin: 0 10px;
+    margin: 0 15px;
 
     border-radius: 4px;
     background-color: #f7d047;

@@ -116,6 +116,8 @@
     }
     .buttons {
       flex: 2 2 auto;
+      display: flex;
+      align-items: center;
     }
   }
 
