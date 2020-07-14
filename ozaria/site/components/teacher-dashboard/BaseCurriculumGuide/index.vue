@@ -118,6 +118,7 @@
     overflow-y: scroll;
 
     background-color: white;
+    box-shadow: -8px 4px 20px rgba(0, 0, 0, 0.25);
   }
 
   .fluid-container {
