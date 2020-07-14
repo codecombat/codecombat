@@ -307,7 +307,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back_to_dashboard: "返回我的课程"
     back_to_ozaria: "返回奥佳睿首页"
     customize_hero: "英雄设置"
-#    account_settings: "Account Settings"
+    account_settings: "账户设置"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -1486,7 +1486,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   cinematic:
     click_anywhere_continue: "点击任意区域继续" # {change}
-#    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same."
+    instructional_tooltip: "点击这些方向键来前进或后退，你也可以使用键盘上的方向键来实现同样的效果。"
 
   community:
     main_title: "CodeCombat社区"
