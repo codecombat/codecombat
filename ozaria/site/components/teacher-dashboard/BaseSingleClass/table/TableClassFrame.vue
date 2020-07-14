@@ -29,7 +29,8 @@
     },
 
     data: () => ({
-      isTouchingRight: false
+      isTouchingRight: false,
+      isTouchingLeft: false
     }),
 
     watch: {
@@ -63,11 +64,8 @@
 
       detectMaxScrolledRight () {
         const table = $('#classTableFrame')
-        if (table.scrollLeft() + table.innerWidth() >= table[0].scrollWidth) {
-          this.isTouchingRight = true
-        } else {
-          this.isTouchingRight = false
-        }
+        this.isTouchingRight = table.scrollLeft() + table.innerWidth() >= table[0].scrollWidth
+        this.isTouchingLeft = table.scrollLeft() <= 0.1
       }
     }
   }
@@ -79,7 +77,12 @@
       <div id="stickyHeader">
         <div class="flex-container">
           <div class="leftOfHeader">
-            <scroll-arrow :face-left="true" @click="scrollLeft()" />
+            <scroll-arrow
+              :face-left="true"
+              :inactive="isTouchingLeft"
+
+              @click="scrollLeft()"
+            />
             <div class="allStudents">
               <input
                 type="checkbox"
@@ -117,7 +120,12 @@
         </div>
       </div>
     </div>
-    <scroll-arrow class="arrow" @click="scrollRight()" />
+    <scroll-arrow
+      class="arrow"
+      :inactive="isTouchingRight"
+
+      @click="scrollRight()"
+    />
   </div>
 </template>
 

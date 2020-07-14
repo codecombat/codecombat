@@ -78,6 +78,13 @@
 
   background-color: #413c55;
   border-bottom: 1px solid white;
+
+  padding: 0 12px;
+
+  h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .golden-backer {
@@ -121,6 +128,6 @@
 h3 {
   @include font-p-4-paragraph-smallest-gray;
   color: white;
-  padding-left: 12px;
+  font-weight: 600;
 }
 </style>
