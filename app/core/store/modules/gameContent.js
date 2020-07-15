@@ -1,12 +1,15 @@
 import classroomsApi from 'core/api/classrooms'
 import campaignsApi from 'core/api/campaigns'
 
-// These default projections ensure the curriculum guide has the info it needs, as it is globally available.
+// These default projections ensure that all the pages of the teacher dashboard that need gameContent data have all the info they need,
+// since gameContent is static in nature and we dont want to fetch it over and over again on every page
+// Currently used for single class page, student projects, and curriculum guide.
+// Therefore use these defaultProjections for any additional data needed for any of the teacher dashboard pages
 const defaultProjections = {
   cinematics: '_id,i18n,name,slug,displayName,description',
-  interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation',
+  interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation,draggableOrderingData,insertCodeData,draggableStatementCompletionData,defaultArtAsset,promptText',
   cutscenes: '_id,i18n,name,slug,displayName,description',
-  levels: 'original,name,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,documentation'
+  levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,thangs,screenshot'
 }
 
 export default {
