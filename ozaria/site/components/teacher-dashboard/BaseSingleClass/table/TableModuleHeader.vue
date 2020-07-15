@@ -4,7 +4,6 @@
  */
 
   import ContentIcon from '../../common/icons/ContentIcon'
-
   import ProgressDot from '../../common/progress/progressDot'
 
   export default {
@@ -17,10 +16,12 @@
         type: String,
         required: true
       },
+
       listOfContent: {
         type: Array,
         required: true
       },
+
       classSummaryProgress: {
         type: Array,
         required: true
@@ -122,7 +123,7 @@
 }
 
 .content-icon {
-  max-width: 18px;
+  max-width: 20px;
 }
 
 h3 {

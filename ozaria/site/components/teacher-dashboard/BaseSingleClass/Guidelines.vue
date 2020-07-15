@@ -1,8 +1,10 @@
 <script>
   import ProgressLabels from '../common/progress/progressLabels'
+  import ContentIcon from '../common/icons/ContentIcon'
   export default {
     components: {
-      'progress-labels': ProgressLabels
+      'progress-labels': ProgressLabels,
+      ContentIcon
     },
     props: {
       visible: {
@@ -38,7 +40,7 @@
             }"
             class="img-subtext cutscene-icon vertical-grid-divider"
           >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCutscene.svg">
+            <content-icon icon="cutscene" />
             <span>Cutscenes</span>
           </div>
           <div
@@ -48,7 +50,10 @@
             }"
             class="img-subtext cinematic-icon"
           >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCinematic.svg">
+            <content-icon
+              icon="cinematic"
+              style="width: 28px;"
+            />
             <span>Cinematics</span>
           </div>
           <div
@@ -58,7 +63,10 @@
             }"
             class="img-subtext concept-icon vertical-grid-divider"
           >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconInteractive.svg">
+            <content-icon
+              icon="interactive"
+              style="width: 28px;"
+            />
             <span>Concept Checks</span>
           </div>
           <div
@@ -68,7 +76,7 @@
             }"
             class="img-subtext practice-icon"
           >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconPracticeLevel.svg">
+            <content-icon icon="practicelvl" />
             <span>Practice Levels</span>
           </div>
           <div
@@ -78,7 +86,10 @@
             }"
             class="img-subtext challenge-icon vertical-grid-divider"
           >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconChallengeLevel.svg">
+            <content-icon
+              icon="challengelvl"
+              style="width: 22px;"
+            />
             <span>Challenge Levels</span>
           </div>
           <div
@@ -88,7 +99,10 @@
             }"
             class="img-subtext capstone-icon"
           >
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCapstoneLevel.svg">
+            <content-icon
+              icon="capstone"
+              style="width: 22px;"
+            />
             <span>Capstone Levels</span>
           </div>
           <div class="intro-title"><h3>Intro</h3></div>
@@ -109,6 +123,7 @@
 .guidelines-nav {
   height: 71px;
   max-height: 71px;
+  min-width: 1260px;
 
   display: flex;
   flex-direction: row;
@@ -168,6 +183,7 @@
 
 .grid-container {
   width: 100%;
+  max-width: 700px;
 
   display: grid;
   grid-template-rows: 22px 47px;
@@ -254,6 +270,7 @@
   justify-content: center;
   align-items: center;
 
+  cursor: pointer;
   box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 3px 0px 8px rgba(0, 0, 0, 0.15);
 
   &:hover {
