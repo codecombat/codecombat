@@ -21,7 +21,7 @@
 
 <template>
   <div>
-    <label>Select Unit</label>
+    <label>Select Chapter</label>
     <select @change="onChange($event)">
       <option
         v-for="course in courses"
@@ -47,13 +47,16 @@ div {
   label {
     @include font-p-4-paragraph-smallest-gray;
     font-size: 11px;
-    margin-bottom: -3px;
+    margin-bottom: -2px;
   }
   select {
     @include font-p-2-paragraph-medium-gray;
     font-size: 14px;
     line-height: 20px;
     width: 170px;
+
+    border: 1px solid #379B8D;
+    padding: 4px 0;
   }
 }
 </style>
