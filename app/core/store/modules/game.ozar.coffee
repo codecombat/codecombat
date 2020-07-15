@@ -17,6 +17,7 @@ module.exports = {
     tutorial: []
     tutorialActive: false
     codeBankOpen: false
+    clickedUpdateCapstoneCode: false
   }
   mutations: {
     setPlaying: (state, playing) ->
@@ -53,6 +54,8 @@ module.exports = {
       state.tutorialActive = tutorialActive
     setCodeBankOpen: (state, open) ->
       state.codeBankOpen = open
+    setClickedUpdateCapstoneCode: (state, clicked) ->
+      state.clickedUpdateCapstoneCode = clicked
   }
   actions: {
     # Idempotent, will not add the same step twice
@@ -88,11 +91,14 @@ module.exports = {
       )
     toggleCodeBank: ({ commit, rootState }) ->
       commit('setCodeBankOpen', !rootState.game.codeBankOpen)
+    setClickedUpdateCapstoneCode: ({ commit }, clicked) ->
+      commit('setClickedUpdateCapstoneCode', clicked)
   }
   getters: {
     codeBankOpen: (state) -> state.codeBankOpen
     tutorialSteps: (state) -> state.tutorial
     tutorialActive: (state) -> state.tutorialActive
+    clickedUpdateCapstoneCode: (state) -> state.clickedUpdateCapstoneCode
   }
 }
 
