@@ -15,7 +15,7 @@ module.exports = class OAuthAIYouthView extends RootView
 
   initialize: ->
     @logoutRedirectURL = false
-    window.nextURL = window.location.href  #for login redirect
+    window.nextURL = window.location.href.replace('https', 'http')  #for login redirect
     @token = utils.getQueryVariable('token')
     @provider = utils.getQueryVariable('provider')
 
