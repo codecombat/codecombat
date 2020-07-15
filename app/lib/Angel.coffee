@@ -8,6 +8,7 @@ GoalManager = require 'lib/world/GoalManager'
 {sendContactMessage} = require 'core/contact'
 errors = require 'core/errors'
 utils = require 'core/utils'
+store = require('core/store')
 
 reportedLoadErrorAlready = false
 
@@ -302,8 +303,12 @@ module.exports = class Angel extends CocoClass
 
   onStopRealTimePlayback: (e) ->
     # TODO Improve later with GoalManger reworking
-    # Mark the goal completed and prevent the goalmanager being destroying
-    # The game goal should have the certain name
+    # Mark these goals completed and prevent the goalmanager from being destroyed
+    if store.getters['game/clickedUpdateCapstoneCode'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+      # The update button goal is a simple way to ensure that the student presses update to test their code.
+      # After the first time the update button has been pressed, it is in a 'success' state until the page reloads.
+      @work.world.goalManager.setGoalState("has-clicked-update-button", "success")
+
     if @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
       @work.world.goalManager.setGoalState("has-stopped-playing-game", "success")
       @work.world.endWorld(true, 0)

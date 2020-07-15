@@ -1474,6 +1474,10 @@ class PlayLevelView extends RootView {
       this.goalManager.setGoalState('has-stopped-playing-game', 'success')
     }
 
+    if (store.getters['game/clickedUpdateCapstoneCode'] && this.goalManager.goalStates['has-clicked-update-button']) {
+      this.goalManager.setGoalState('has-clicked-update-button', 'success')
+    }
+
     this.updateAetherIsRunning = false
 
     if (!this.$el.hasClass('real-time')) {
@@ -1674,6 +1678,7 @@ class PlayLevelView extends RootView {
   }
 
   updateAetherRunning (e) {
+    store.dispatch('game/setClickedUpdateCapstoneCode', true)
     this.updateAetherIsRunning = true
   }
 
