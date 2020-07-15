@@ -10,7 +10,7 @@
 
   const projectionData = {
     levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage',
-    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation'
+    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,screenshot'
   }
 
   export default {
@@ -48,8 +48,13 @@
         return (this.gameContent[this.selectedCourseId] || {}).capstone || {}
       },
       exemplarProjectUrl () {
-        return ''
-        // return this.capstoneLevel.exemplarProjectUrl // TODO update after schema is updated
+        return Object.values(this.selectedCourse.modules || {}).find((m) => m.exemplarProjectUrl)?.exemplarProjectUrl || ''
+      },
+      exemplarCodeUrl () {
+        return Object.values(this.selectedCourse.modules || {}).find((m) => m.exemplarCodeUrl)?.exemplarCodeUrl || ''
+      },
+      projectRubricUrl () {
+        return Object.values(this.selectedCourse.modules || {}).find((m) => m.projectRubricUrl)?.projectRubricUrl || ''
       }
     },
 
@@ -108,19 +113,21 @@
       :title="capstoneLevel.displayName"
       :course-name="selectedCourse.name"
       :exemplar-project-url="exemplarProjectUrl"
+      :exemplar-code-url="exemplarCodeUrl"
+      :project-rubric-url="projectRubricUrl"
     />
     <div
-      class="container"
+      class="capstone-container"
     >
       <capstone-details-container
         :key="selectedCourseId+'-capstone-details'"
-        class="col-md-5"
+        class="capstone-details"
         :capstone-level="capstoneLevel"
         :course="selectedCourse"
       />
       <capstone-sessions-container
         :key="selectedCourseId+'-capstone-sessions'"
-        class="col-md-7"
+        class="capstone-sessions"
         :capstone-level="capstoneLevel"
         :level-sessions-by-user="levelSessionsMapByUser"
         :members="classroomMembers"
@@ -130,7 +137,20 @@
 </template>
 
 <style lang="scss" scoped>
-.container {
-  width: 100%;
+.capstone-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0px 30px;
+}
+
+.capstone-details {
+  width: 30%;
+  margin-right: 60px;
+}
+
+.capstone-sessions {
+  width: 70%;
 }
 </style>

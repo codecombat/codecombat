@@ -109,11 +109,6 @@
 <template>
   <div>
     <div class="header">
-      <dropdown
-        label-text="Sort By"
-        class="dropdown"
-        :options="sortOptions"
-      />
       <progress-labels class="progress-labels" />
     </div>
     <student-row

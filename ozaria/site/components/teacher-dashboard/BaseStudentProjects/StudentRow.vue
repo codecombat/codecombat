@@ -82,7 +82,7 @@
           :status="status"
         />
         <progress-dot v-else />
-        <span> {{ studentName }} </span>
+        <span class="margin-left"> {{ studentName }} </span>
       </div>
       <div class="student-sub-div">
         <div
@@ -94,7 +94,7 @@
             class="project-icon"
             :src="'/images/ozaria/teachers/dashboard/svg_icons/'+viewProjectIconName+'.svg'"
           >
-          <span class="margin-right bottom-align"> View Project </span>
+          <span class="bottom-align view-project-text"> View Project </span>
         </div>
         <div
           v-tooltip.top="{
@@ -149,7 +149,7 @@
   background: #FFFFFF;
   border: 0.5px solid #E6E6E6;
   box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 3px 0px 8px rgba(0, 0, 0, 0.15);
-  padding-left: 5px;
+  padding: 15px;
   display: inline-block;
   width: 100%;
   @include font-p-4-paragraph-smallest-gray;
@@ -166,11 +166,16 @@
 .view-project {
   cursor: pointer;
   color: $twilight;
+  margin-right: 20px;
 }
 
 .view-project.inactive {
   cursor: default;
   color: #ADADAD;
+}
+
+.view-project-text {
+  margin-left: -10px;
 }
 
 .arrow-toggle {
@@ -182,6 +187,7 @@
   align-items: center;
 
   &:not(.inactive) {
+    cursor: pointer;
     box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 3px 0px 8px rgba(0, 0, 0, 0.15);
     &:hover {
       background: #FFFFFF;
@@ -201,8 +207,8 @@
   box-sizing: border-box;
   border-bottom: unset;
   border-right: unset;
-  width: 9px;
-  height: 9px;
+  width: 12px;
+  height: 12px;
 }
 
 .arrow-up {
@@ -219,6 +225,10 @@
 
 .margin-top {
   margin-top: 10px;
+}
+
+.margin-left {
+  margin-left: 5px;
 }
 
 .bottom-align {
