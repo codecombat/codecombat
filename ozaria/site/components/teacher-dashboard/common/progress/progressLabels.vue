@@ -14,7 +14,7 @@
 </script>
 
 <template>
-  <div class="spacer">
+  <div class="progress-labels">
     <div class="img-subtext">
       <div class="dot-border"><div class="dot green-dot"></div></div>
       <span>Complete</span>
@@ -36,7 +36,9 @@
         popover-class="teacher-dashboard-tooltip lighter-p large-width"
         trigger="hover"
       >
+        <!-- Triggers the tooltip -->
         <icon-help />
+        <!-- The tooltip -->
         <template slot="popover">
           <div>
             <h3 style="margin-bottom: 15px;">Support Learning</h3>
@@ -71,13 +73,14 @@
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
-.spacer {
+.progress-labels {
   // ensure spacers are equal size
-  flex: 1 1 0px;
+  flex: 0.5 0.5 0px;
 
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 
   & > div:not(.grid-container) {
     width: 58px;
@@ -103,6 +106,8 @@
 .dot-border {
   width: 22px;
   height: 22px;
+
+  margin-bottom: 6px;
 
   display: flex;
   justify-content: center;

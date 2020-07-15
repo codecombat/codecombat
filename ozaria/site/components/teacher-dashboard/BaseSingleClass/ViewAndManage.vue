@@ -45,7 +45,7 @@
     <div class="title-card">
       <span>View Options</span>
     </div>
-    <div class="spacer">
+    <div class="spacer align-section-left">
       <dropdown
         label-text="Sort By"
         class="dropdowns"
@@ -54,38 +54,45 @@
         @change="changeSortBy"
       />
       <!-- TODO - enable and use jQuery to scroll. -->
+      <!-- TODO - use the store to send the signal. -->
       <!-- <dropdown label-text="Go To" class="dropdowns" /> -->
     </div>
     <div class="title-card">
       <span style="width: 59px">Manage Class</span>
     </div>
     <div class="spacer">
-      <primary-button
-        class="primary-btn"
-        @click="$emit('assignContent')"
-      >
-        Assign Content
-      </primary-button>
-      <icon-button-with-text
-        icon-name="IconAddStudents"
-        text="Add Students"
-        @click="$emit('addStudents')"
-      />
-      <icon-button-with-text
-        icon-name="IconRemoveStudents"
-        text="Remove Students"
-        @click="$emit('removeStudents')"
-      />
-      <icon-button-with-text
-        icon-name="IconRemoveStudents"
-        text="Apply Licenses"
-        @click="applyLicenses"
-      />
-      <icon-button-with-text
-        icon-name="IconRemoveStudents"
-        text="Revoke Licenses"
-        @click="revokeLicenses"
-      />
+      <div class="manage-container">
+        <primary-button
+          class="primary-btn"
+          @click="$emit('assignContent')"
+        >
+          Assign Content
+        </primary-button>
+        <icon-button-with-text
+          class="icon-with-text"
+          icon-name="IconAddStudents"
+          text="Add Students"
+          @click="$emit('addStudents')"
+        />
+        <icon-button-with-text
+          class="icon-with-text"
+          icon-name="IconRemoveStudents"
+          text="Remove Students"
+          @click="$emit('removeStudents')"
+        />
+        <icon-button-with-text
+          class="icon-with-text larger-icon"
+          icon-name="IconLicenseApply"
+          text="Apply Licenses"
+          @click="applyLicenses"
+        />
+        <icon-button-with-text
+          class="icon-with-text larger-icon"
+          icon-name="IconLicenseRevoke"
+          text="Revoke Licenses"
+          @click="revokeLicenses"
+        />
+      </div>
     </div>
     <div :class="[arrowVisible ? 'arrow-toggle' : 'arrow-disabled']" @click="clickArrow">
       <transition name="arrow-fade">
@@ -95,6 +102,13 @@
   </div>
 </template>
 
+<style lang="scss">
+  /* Change icon size in license buttons */
+  .btn-icon-text.larger-icon > img {
+    width: 30px;
+  }
+</style>
+
 <style lang="scss" scoped>
   @import "app/styles/bootstrap/variables";
   @import "ozaria/site/styles/common/variables.scss";
@@ -103,6 +117,7 @@
   .guidelines-nav {
     height: 50px;
     max-height: 50px;
+    min-width: 1260px;
 
     display: flex;
     flex-direction: row;
@@ -116,12 +131,29 @@
   }
 
   .spacer {
-    flex: 1 1 0px; // ensure spacers are equal size
+    flex: 1 1 0px;
 
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+  }
+
+  .manage-container {
+    display: flex;
+    min-width: 600px;
+    width: 100%;
+    max-width: 700px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .align-section-left {
+    /* Ensure the first section is half the size. */
+    flex: 0.5 0.5 0px;
+    justify-content: flex-start;
+    justify-content: start;
+    min-width: 390px;
   }
 
   .arrow-icon {
@@ -146,6 +178,7 @@
   }
 
   .arrow-toggle {
+    cursor: pointer;
     &:hover {
       background: #eeeced;
       box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 5px 10px rgba(0, 0, 0, 0.15);
@@ -155,6 +188,8 @@
   .title-card {
     width: 100px;
     height: 100%;
+
+    width: 100px;
 
     display: flex;
     flex-direction: column;
@@ -170,11 +205,16 @@
   }
 
   .dropdowns {
-    margin: 0 8px;
+    margin: 0 8px 0 30px;
   }
 
   .primary-btn {
     padding: 6px 12px;
+  }
+
+  .icon-with-text {
+    width: 96px;
+    margin: 9px;
   }
 
   .arrow-fade-enter-active {

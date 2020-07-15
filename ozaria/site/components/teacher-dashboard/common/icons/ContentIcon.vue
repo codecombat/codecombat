@@ -27,7 +27,7 @@
 </script>
 
 <template>
-  <div class="flex-content">
+  <div class="flex-content" :class="icon">
     <IconCutscene v-if="icon=='cutscene'" />
     <IconCinematic v-if="icon=='cinematic'" />
     <IconCapstone v-if="icon=='capstone'" />
@@ -44,5 +44,17 @@
 
     justify-content: center;
     align-items: center;
+  }
+
+  /*
+    This style is used to ever so slightly
+    balance the icons so they appear the same size.
+  */
+  .capstone, .practicelvl, .challengelvl {
+    padding: 1px;
+  }
+
+  .cutscene {
+    transform: translateX(2px);
   }
 </style>
