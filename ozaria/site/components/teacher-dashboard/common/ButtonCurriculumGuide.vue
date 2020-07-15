@@ -10,20 +10,21 @@
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
 #Curriculum {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Curriculum.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg);
   height: 20px;
-  width: 16px;
+  width: 20px;
   display: inline-block;
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 100% 100%;
 
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 button {
   background-color: $dusk;
   color: $pitch;
-  border-radius: 1px;
+  border-radius: 4px;
   border-width: 0;
   text-shadow: unset;
   font-weight: bold;

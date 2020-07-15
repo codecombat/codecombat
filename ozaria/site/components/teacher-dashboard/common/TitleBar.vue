@@ -70,6 +70,7 @@
       <h1>{{ title }}</h1>
       <class-info-row
         v-if="showClassInfo"
+        class="class-info-row"
         :language="classroomLanguage"
         :num-students="classroomStudentsLength"
         :date-created="classroomCreationDate"
@@ -111,7 +112,6 @@
 
 .btn-margins-height {
   margin: 0 12.5px;
-  height: 35px;
 }
 
 .sub-nav {
@@ -122,14 +122,26 @@
   &:last-child {
     margin-right: -12.5px;
   }
+
   &>h1:first-child {
-    margin-right: 14.5px;
+    margin-right: 4.5px;
+  }
+
+  @media (max-width: 1280px) {
+    .class-info-row {
+      display: none;
+    }
+
+    h1 {
+      max-width: 600px
+    }
   }
 }
 
 .teacher-title-bar {
   height: 60px;
   background-color: white;
+  min-width: 1260px;
 
   display: flex;
   flex-direction: row;
@@ -147,6 +159,10 @@
 
 h1 {
   @include font-h-2-subtitle-twilight;
+  max-width: 290px;
+  overflow-y: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 </style>

@@ -15,6 +15,13 @@
         required: true
       }
     },
+
+    computed: {
+      languageImgSrc () {
+        return `/images/ozaria/teachers/dashboard/png_icons/${this.language}.png`
+      }
+    },
+
     created () {
       if (this.language && !['javascript', 'python'].includes(this.language)) {
         throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.langauge}'`)
@@ -26,7 +33,7 @@
 <template>
   <div class="class-info-row">
     <div class="stats-tab">
-      <img :src="`/images/ozaria/teachers/dashboard/png_icons/${language}.png`" />
+      <img :src="languageImgSrc">
       <span>{{ language[0].toUpperCase() + language.slice(1) }}</span>
     </div>
     <div class="stats-tab">
