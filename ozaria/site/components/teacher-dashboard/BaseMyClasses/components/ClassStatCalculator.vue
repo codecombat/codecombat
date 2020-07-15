@@ -57,8 +57,16 @@
         return this.sortedCourses
           .filter((course) => me.hasCampaignAccess(course))
           .map((course) => {
+            // Splits off the "Chapter 1" part of the name
+            // Expects the course name to have 'Chapter <int>:' structure.
+            const splitName = course.name.split(':')
+            let name = course.name
+            if (splitName.length > 1) {
+              name = splitName[0]
+            }
+
             const result = {
-              name: course.name,
+              name,
               assigned: false,
               progress: 0
             }
