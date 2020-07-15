@@ -1,5 +1,7 @@
 <script>
   import utils from 'core/utils'
+  import { getOzariaAssetUrl } from '../../../common/ozariaUtils'
+
   export default {
     props: {
       capstoneLevel: {
@@ -25,8 +27,11 @@
         return []
       },
       capstoneImage () {
-        return ''
-        // return '/file/<path in s3>' // TODO update from capstone screenshot URL
+        if (this.capstoneLevel.screenshot) {
+          return getOzariaAssetUrl(this.capstoneLevel.screenshot)
+        } else {
+          return ''
+        }
       }
     }
   }
@@ -120,7 +125,10 @@ ul {
   height: 10px;
 }
 
-.capstone-img img {
-  height: 320px;
+.capstone-img {
+  margin: 20px 0px;
+  img {
+    width: 100%;
+  }
 }
 </style>

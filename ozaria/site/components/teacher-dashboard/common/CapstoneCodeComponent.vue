@@ -81,11 +81,11 @@
 
     & > img {
       margin-top: 1px;
-      margin-right: 2px;
+      margin-right: 5px;
     }
 
     .unchecked {
-      margin: 2px 6px 0 0;
+      margin: 2px 10px 0 0;
 
       & > div {
         height: 16px;
@@ -106,7 +106,7 @@
     line-height: 18px;
     color: #656565;
 
-    margin-bottom: 9px;
+    margin-bottom: 5px;
   }
 
   .pushed-left {

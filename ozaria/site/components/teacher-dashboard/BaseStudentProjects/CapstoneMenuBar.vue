@@ -17,19 +17,14 @@
       exemplarProjectUrl: {
         type: String,
         default: ''
-      }
-    },
-    methods: {
-      openProjectRubric () {
-        console.log('open project rubric') // TODO
       },
-      openExemplarCode () {
-        console.log('open exemplar code') // TODO
+      exemplarCodeUrl: {
+        type: String,
+        default: ''
       },
-      openExemplarProject () {
-        if (this.exemplarProjectUrl) {
-          window.open(this.exemplarProjectUrl, '_blank')
-        }
+      projectRubricUrl: {
+        type: String,
+        default: ''
       }
     }
   }
@@ -51,7 +46,7 @@
           }"
 
           icon-name="IconExemplarCode"
-          @click="openExemplarCode"
+          :link="exemplarCodeUrl"
         />
         <icon-button
           v-tooltip.top="{
@@ -59,7 +54,8 @@
             classes: 'dark-teacher-dashboard'
           }"
           icon-name="IconViewProject_Black"
-          @click="openExemplarProject"
+          icon-style="margin-right: -8px; margin-top: -3px;"
+          :link="exemplarProjectUrl"
         />
       </div>
       <div class="project-rubric">
@@ -70,8 +66,8 @@
             classes: 'dark-teacher-dashboard'
           }"
           icon-name="IconRubric"
-          class="project-rubric-icon"
-          @click="openProjectRubric"
+          icon-style="margin-right: -3px;"
+          :link="projectRubricUrl"
         />
       </div>
     </div>
@@ -133,16 +129,19 @@
   align-items: center;
 }
 
-.project-rubric-icon {
+.text-margin {
+  margin: 5px;
+}
+
+</style>
+
+<style lang="scss">
+@import "ozaria/site/styles/common/variables.scss";
+.project-rubric button {
   background-color: $dusk;
   &:hover {
     background-color: $dusk-dark;
     transition: background-color .35s;
   }
 }
-
-.text-margin {
-  margin: 5px;
-}
-
 </style>
