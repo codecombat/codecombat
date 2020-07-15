@@ -55,48 +55,50 @@
 </script>
 
 <template>
-  <div
-    v-if="isVisible"
-    id="curriculum-guide"
-  >
-    <div class="header">
-      <div class="header-icon">
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
-        <h2>Curriculum Guide</h2>
-      </div>
-      <div
-        class="header-right"
-      >
-        <div class="code-language-dropdown">
-          <span class="select-language"> Select Language </span>
-          <select @change="changeLanguage">
-            <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
-            <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> Javascript </option>
-          </select>
+  <transition name="slide">
+    <div
+      v-if="isVisible"
+      id="curriculum-guide"
+    >
+      <div class="header">
+        <div class="header-icon">
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
+          <h2>Curriculum Guide</h2>
         </div>
-        <img
-          class="close-btn"
-          @click="toggleCurriculumGuide"
-          src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg"
+        <div
+          class="header-right"
         >
-      </div>
-    </div>
-
-    <chapter-nav />
-    <chapter-info />
-
-    <div class="fluid-container">
-      <div class="row">
-        <div class="col-md-9">
-          <module-content :module-num="num" v-for="num in moduleNumbers" :key="num"/>
-        </div>
-        <div class="col-md-3">
-          <concepts-covered :concept-list="conceptsCovered" />
-          <csta-standards :csta-list="cstaStandards" />
+          <div class="code-language-dropdown">
+            <span class="select-language"> Select Language </span>
+            <select @change="changeLanguage">
+              <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
+              <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> Javascript </option>
+            </select>
+          </div>
+          <img
+            class="close-btn"
+            @click="toggleCurriculumGuide"
+            src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg"
+          >
         </div>
       </div>
+
+      <chapter-nav />
+      <chapter-info />
+
+      <div class="fluid-container">
+        <div class="row">
+          <div class="col-md-9">
+            <module-content :module-num="num" v-for="num in moduleNumbers" :key="num"/>
+          </div>
+          <div class="col-md-3">
+            <concepts-covered :concept-list="conceptsCovered" />
+            <csta-standards :csta-list="cstaStandards" />
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
@@ -119,6 +121,23 @@
 
     background-color: white;
     box-shadow: -8px 4px 20px rgba(0, 0, 0, 0.25);
+
+     /* For animating the panel sliding in and out. */
+    &.slide-enter-active, &.slide-leave-active {
+      -webkit-transition: right 0.7s ease;
+      -moz-transition: right 0.7s ease;
+      -o-transition: right 0.7s ease;
+      -ms-transition: right 0.7s ease;
+      transition: right 0.7s ease;
+    }
+
+    &.slide-enter, &.slide-leave-to {
+      right: -1116px;
+    }
+
+    &.slide-enter-to, &.slide-leave {
+      right: 0;
+    }
   }
 
   .fluid-container {
