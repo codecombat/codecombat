@@ -136,24 +136,26 @@ export default {
       }
 
       commit('startLoading')
-      // TODO for all pages - refactor the fetching that shouldnt block loading indicator, eg: fetchDataMyLicensesAsync
       try {
         if (componentName === COMPONENT_NAMES.MY_CLASSES_ALL) {
           // My classes page
           await dispatch('fetchDataAllClasses', options)
+          dispatch('fetchDataAllClassesAsync', options) // does not block loading indicator
         } else if (componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE) {
           // Single class progress page
           await dispatch('fetchDataSingleClass', options)
+          dispatch('fetchDataSingleClassAsync', options) // does not block loading indicator
         } else if (componentName === COMPONENT_NAMES.STUDENT_PROJECTS) {
           // Students progress page
           await dispatch('fetchDataStudentProjects', options)
+          dispatch('fetchDataStudentProjectsAsync', options) // does not block loading indicator
         } else if (componentName === COMPONENT_NAMES.MY_LICENSES) {
           // Teacher licenses page
           await dispatch('fetchDataMyLicenses', options)
           dispatch('fetchDataMyLicensesAsync', options) // does not block loading indicator
         } else if (componentName === COMPONENT_NAMES.RESOURCE_HUB) {
           // Resource Hub page
-          await dispatch('fetchDataResourceHub', options)
+          dispatch('fetchDataResourceHubAsync', options) // does not block loading indicator
         }
       } catch (err) {
         console.error('Error in fetching data:', err)
@@ -168,11 +170,17 @@ export default {
     async fetchDataAllClasses ({ state, dispatch, rootGetters }, options = {}) {
       const fetchPromises = []
 
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
+      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
 
-      await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
+      await Promise.all(fetchPromises)
+    },
+
+    // My classes page - without blocking loading indicator
+    async fetchDataAllClassesAsync ({ state, dispatch, rootGetters }, options = {}) {
+      const fetchPromises = []
+
       const classrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
       if (((classrooms || {}).active || []).length > 0) {
         classrooms.active.forEach((classroom) => {
@@ -183,88 +191,58 @@ export default {
         })
       }
 
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
+
       await Promise.all(fetchPromises)
     },
 
     // Single class progress page
     // options.data = { users: '', levelSessions: '' } -> properties needed for these objects, i.e. will be used as `project` in db queries
-    async fetchDataSingleClass ({ state, dispatch, rootGetters }, options = {}) {
+    async fetchDataSingleClass ({ state, dispatch }, options = {}) {
+      const fetchPromises = []
+
+      fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
+      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+
+      options.fetchInteractiveSessions = true
+      fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
+
+      await Promise.all(fetchPromises)
+    },
+
+    // Single class progress page - without blocking loading indicator
+    async fetchDataSingleClassAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
 
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
-      fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
-      await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
-
-      if (!state.classroomId) {
-        console.error('Error in fetching data: classroomId is not set')
-        noty({ text: 'Error in fetching data', type: 'error', layout: 'center', timeout: 2000 })
-        return
-      }
-      const gameContentOptions = {
-        project: _.pick(options.data || {}, 'cinematics', 'interactives', 'cutscenes', 'levels')
-      }
-      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId, options: gameContentOptions }, { root: true }))
-
-      const teacherClassrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
-      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === state.classroomId)
-      if (classroom) {
-        const userOptions = {
-          project: (options.data || {}).users
-        }
-        fetchPromises.push(dispatch('users/fetchClassroomMembers', { classroom, options: userOptions }, { root: true }))
-        const levelSessionOptions = {
-          project: (options.data || {}).levelSessions
-        }
-        fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
-        fetchPromises.push(dispatch('interactives/fetchSessionsForClassroomMembers', classroom, { root: true }))
-      }
 
       await Promise.all(fetchPromises)
     },
 
     // Students progress page
     // options.data = { users: '', levelSessions: '' } -> properties needed for these objects, i.e. will be used as `project` in db queries
-    async fetchDataStudentProjects ({ state, dispatch, rootGetters }, options = {}) {
+    async fetchDataStudentProjects ({ state, dispatch }, options = {}) {
       const fetchPromises = []
 
+      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
+
+      await Promise.all(fetchPromises)
+    },
+
+    // Students progress page - without blocking loading indicator
+    async fetchDataStudentProjectsAsync ({ state, dispatch }, options = {}) {
+      const fetchPromises = []
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
-      await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
-
-      if (!state.classroomId) {
-        console.error('Error in fetching data: classroomId is not set')
-        noty({ text: 'Error in fetching data', type: 'error', layout: 'center', timeout: 2000 })
-        return
-      }
-
-      const gameContentOptions = {
-        project: _.pick(options.data || {}, 'cinematics', 'interactives', 'cutscenes', 'levels')
-      }
-      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId, options: gameContentOptions }, { root: true }))
-
-      const teacherClassrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
-      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === state.classroomId)
-      if (classroom) {
-        const userOptions = {
-          project: (options.data || {}).users
-        }
-        fetchPromises.push(dispatch('users/fetchClassroomMembers', { classroom, options: userOptions }, { root: true }))
-        const levelSessionOptions = {
-          project: (options.data || {}).levelSessions
-        }
-        fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
-      }
-
       await Promise.all(fetchPromises)
     },
 
     // Teacher licenses page
     async fetchDataMyLicenses ({ state, dispatch }, options = {}) {
       const fetchPromises = []
-
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
-      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
 
       await Promise.all(fetchPromises)
@@ -273,6 +251,9 @@ export default {
     // Teacher licenses page - without blocking loading indicator
     async fetchDataMyLicensesAsync ({ state, dispatch, getters }, options = {}) {
       const fetchPromises = []
+
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
 
       const licenses = getters['getActiveLicenses'].concat(getters['getExpiredLicenses'])
       const licenseIds = (licenses || []).map((l) => l._id)
@@ -285,7 +266,7 @@ export default {
     },
 
     // Resource Hub Page
-    async fetchDataResourceHub ({ state, dispatch }, options = {}) {
+    async fetchDataResourceHubAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
@@ -306,6 +287,40 @@ export default {
       sortedCourses.forEach(({ campaignID }) => {
         dispatch('gameContent/fetchGameContentForCampaign', { campaignId: campaignID }, { root: true })
       })
+    },
+
+    // Fetches classroom data for current state.classroomId
+    async fetchClassroomData ({ state, dispatch, rootGetters }, options = {}) {
+      if (!state.classroomId) {
+        console.error('Error in fetching data: classroomId is not set')
+        noty({ text: 'Error in fetching data', type: 'error', layout: 'center', timeout: 2000 })
+        return
+      }
+
+      await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
+
+      const fetchPromises = []
+
+      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId }, { root: true }))
+
+      const teacherClassrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
+      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === state.classroomId)
+      if (classroom) {
+        const userOptions = {
+          project: (options.data || {}).users
+        }
+        fetchPromises.push(dispatch('users/fetchClassroomMembers', { classroom, options: userOptions }, { root: true }))
+        const levelSessionOptions = {
+          project: (options.data || {}).levelSessions
+        }
+        fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+        if (options.fetchInteractiveSessions) {
+          fetchPromises.push(dispatch('interactives/fetchSessionsForClassroomMembers', classroom, { root: true }))
+        }
+      }
+
+      // TODO If classroom already loaded, load it asynchronously without blocking UI, i.e. without `await` to optimize performance
+      await Promise.all(fetchPromises)
     }
   }
 }

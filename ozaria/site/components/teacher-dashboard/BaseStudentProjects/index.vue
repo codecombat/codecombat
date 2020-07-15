@@ -9,8 +9,7 @@
   import CapstoneSessionsContainer from './CapstoneSessionsContainer'
 
   const projectionData = {
-    levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage',
-    levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,screenshot'
+    levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage'
   }
 
   export default {
