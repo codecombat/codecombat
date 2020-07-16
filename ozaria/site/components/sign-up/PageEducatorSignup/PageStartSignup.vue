@@ -23,6 +23,7 @@
     methods: {
       ...mapMutations({
         updateSso: 'teacherSignup/updateSso',
+        updateSignupForm: 'teacherSignup/updateSignupForm',
         updateTrialRequestProperties: 'teacherSignup/updateTrialRequestProperties',
         resetState: 'teacherSignup/resetState'
       }),
@@ -64,6 +65,11 @@
           this.updateSso({
             ssoUsed: 'gplus',
             ssoAttrs: gplusAttrs
+          })
+          this.updateSignupForm({
+            firstName: firstName,
+            lastName: lastName,
+            email: email
           })
           this.updateTrialRequestProperties({
             firstName: firstName,
