@@ -37,8 +37,16 @@
       courses: {
         type: Array,
         default: () => []
+      },
+      allClassesPage: {
+        type: Boolean,
+        default: false
       }
     },
+
+    data: () => ({
+      showNewClassTooltip: !me.get('closedNewTDGetStartedTooltip')
+    }),
 
     computed: {
       classroomCreationDate () {
@@ -59,7 +67,13 @@
     methods: {
       ...mapActions({
         toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
-      })
+      }),
+
+      dismissTooltip () {
+        this.showNewClassTooltip = false
+        me.set('closedNewTDGetStartedTooltip', true)
+        me.save()
+      }
     }
   }
 </script>
@@ -85,18 +99,45 @@
         :selected-course-id="selectedCourseId"
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />
-      <primary-button
-        v-if="!showClassInfo"
-        class="btn-title-padding btn-margins-height"
-        @click="$emit('newClass')"
+      <v-popover
+        popover-class="teacher-dashboard-tooltip lighter-p large-width getting-started-all-classes"
+        trigger="manual"
+        :open="allClassesPage && showNewClassTooltip"
+        :auto-hide="false"
       >
-        Add New Class
-      </primary-button>
-      <button-curriculum-guide
-        class="btn-margins-height"
+        <!-- Trigger Popover -->
+        <div style="display: flex;">
+          <primary-button
+            v-if="!showClassInfo"
+            class="btn-title-padding btn-margins-height"
+            @click="$emit('newClass')"
+          >
+            Add New Class
+          </primary-button>
+          <button-curriculum-guide
+            class="btn-margins-height"
 
-        @click="toggleCurriculumGuide"
-      />
+            @click="toggleCurriculumGuide"
+          />
+        </div>
+        <template slot="popover">
+          <h3 style="margin-bottom: 15px;">Get Started</h3>
+          <p style="margin-bottom: 10px;">
+            <b>Add a New Class</b> to access updated in-game content, and get
+            your students started on playing Chapter 1 for free!
+          </p>
+          <p style="margin-bottom: 20px;">
+            Check out the <b>Curriculum Guide</b> for lesson plans and to learn
+            more about how to structure your class with Ozaria.
+          </p>
+          <a
+            style="text-decoration: underline;"
+            @click="dismissTooltip"
+          >
+            Click to Dismiss
+          </a>
+        </template>
+      </v-popover>
     </div>
   </div>
 </template>

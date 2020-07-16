@@ -248,6 +248,15 @@
   /* Tooltip style overrides */
   .tooltip.teacher-dashboard-tooltip {
 
+    &.getting-started-all-classes {
+      z-index: 500;
+
+      .tooltip-arrow {
+        /* Center the arrow between the two buttons */
+        transform: translateX(-15px);
+      }
+    }
+
     .tooltip-arrow {
       border-color: white;
     }

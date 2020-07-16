@@ -365,6 +365,7 @@ _.extend UserSchema.properties,
   administratingTeachers: c.array {}, c.objectId()
 
   seenNewDashboardModal: { type: 'boolean', description: 'Whether the user has seen the new dashboard onboarding modal? Set to true after the modal is seen and closed by the user' }
+  closedNewTDGetStartedTooltip: { type: 'boolean', description: 'Whether the user has closed the get started tooltip in the new dashboard? Set to true once the user has dismissed the tooltip' }
 
   features:
     type: 'object'
