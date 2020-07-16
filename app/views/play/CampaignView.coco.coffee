@@ -24,9 +24,7 @@ Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 AnnouncementModal = require 'views/play/modal/AnnouncementModal'
 LiveClassroomModal = require 'views/play/modal/LiveClassroomModal'
-codePlay = require('lib/code-play')
 MineModal = require 'views/core/MineModal' # Minecraft modal
-CodePlayCreateAccountModal = require 'views/play/modal/CodePlayCreateAccountModal'
 api = require 'core/api'
 Classroom = require 'models/Classroom'
 Course = require 'models/Course'
@@ -427,10 +425,7 @@ module.exports = class CampaignView extends RootView
     if @campaign and @isRTL utils.i18n(@campaign.attributes, 'fullName')
       @$('.campaign-name').attr('dir', 'rtl')
     if not me.get('hourOfCode') and @terrain
-      if features.codePlay
-        if me.get('anonymous') and me.get('lastLevel') is 'true-names' and me.level() < 5
-          @openModalView new CodePlayCreateAccountModal()
-      else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
+      if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
       not storage.load('sent-parent-email') and not (me.isPremium() or me.isStudent() or me.isTeacher())
         @openModalView new ShareProgressModal()
@@ -511,7 +506,6 @@ module.exports = class CampaignView extends RootView
       context.levels = _.reject context.levels, slug: reject
     if me.freeOnly()
       context.levels = _.reject context.levels, (level) ->
-        return false if features.codePlay and codePlay.canPlay(level.slug)
         return level.requiresSubscription
     if features.brainPop
       context.levels = _.filter context.levels, (level) ->
@@ -565,7 +559,6 @@ module.exports = class CampaignView extends RootView
             levels = _.reject levels, slug: reject
           if me.freeOnly()
             levels = _.reject levels, (level) ->
-              return false if features.codePlay and codePlay.canPlay(level.slug)
               return level.requiresSubscription
           count = @countLevels levels
           campaign.levelsTotal = count.total
@@ -725,7 +718,7 @@ module.exports = class CampaignView extends RootView
 
       level.color = 'rgb(255, 80, 60)'
       unless @isClassroom() or @campaign?.get('type') is 'hoc'
-        level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
+        level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
         level.color = 'rgb(200, 80, 200)' if level.adventurer
 
       level.color = 'rgb(193, 193, 193)' if level.locked
@@ -1022,7 +1015,6 @@ module.exports = class CampaignView extends RootView
       not @requiresSubscription
       level.adventurer
       @levelStatusMap[level.slug]
-      (features.codePlay and codePlay.canPlay(level.slug))
       @campaign.get('type') is 'hoc'
     ])
     if requiresSubscription and not canPlayAnyway
@@ -1452,14 +1444,8 @@ module.exports = class CampaignView extends RootView
       isValidTeacher = me.isTeacher()
       return (isValidStudent or isValidTeacher) and not application.getHocCampaign()
 
-    if features.codePlay and what in ['clans', 'settings']
-      return false
-
     if features.noAuth and what is 'status-line'
       return false
-
-    if what is 'codeplay-ads'
-      return !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds && me.get('role') isnt 'student'
 
     if what is 'promotion'
       return me.finishedAnyLevels() and not features.noAds and not isStudentOrTeacher and me.get('country') is 'united-states' and me.get('preferredLanguage', true) is 'en-US' and new Date() < new Date(2019, 11, 20)
