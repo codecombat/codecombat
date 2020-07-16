@@ -343,10 +343,9 @@ mixin breadcrumbs
                         table.side-by-side
                           tr
                             td
-                              - var codeMaps = view.levelStudentCodeMap[level.get('original')].filter(m => m)
-                              unless codeMaps.length
+                              unless view.levelStudentCodeMap[level.get('original')].length
                                 i.small(data-i18n="teacher.no_code_yet")
-                              each codemap in codeMaps
+                              each codemap in view.levelStudentCodeMap[level.get('original')]
                                 if view.levelProgressMap[level.get('original')] === 'complete'
                                   pre
                                     code(class=langClass)= codemap
@@ -365,16 +364,12 @@ mixin breadcrumbs
                               .small!= marked(solution.description || '')
                           tr
                             td
-                              - var codeMaps = view.levelStudentCodeMap[level.get('original')].filter(m => m)
-                              - var multipleCodes = false
-                              case codeMaps.length
-                                when 0
-                                  i.small(data-i18n="teacher.no_code_yet")
-                                when 2
-                                  - multipleCodes = true
-                              each codemap, index in codeMaps
+                              - var multipleCodes = view.levelStudentCodeMap[level.get('original')].length > 1
+                              unless view.levelStudentCodeMap[level.get('original')].length
+                                i.small(data-i18n="teacher.no_code_yet")
+                              each codemap, index in view.levelStudentCodeMap[level.get('original')]
                                 if multipleCodes
-                                  i.small(data-i18n=index?"teacher.code_blue":"teacher.code_red")
+                                  i.small(data-i18n=index%2?"ladder.ogres":"ladder.humans")
                                 if view.levelProgressMap[level.get('original')] === 'complete'
                                   pre
                                     code(class=langClass)= codemap

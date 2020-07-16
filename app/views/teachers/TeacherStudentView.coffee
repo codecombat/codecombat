@@ -131,10 +131,13 @@ module.exports = class TeacherStudentView extends RootView
     @levelSolutionsMap = @levels.getSolutionsMap([@classroom.get('aceConfig')?.language, 'html'])
     @levelStudentCodeMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
+      @levelStudentCodeMap[session.get('level').original] = @levelStudentCodeMap[session.get('level').original] || []
       # Normal level
-      @levelStudentCodeMap[session.get('level').original] = [session.get('code')?['hero-placeholder']?['plan']]
+      if session.get('code')?['hero-placeholder']?['plan']
+        @levelStudentCodeMap[session.get('level').original].push(session.get('code')?['hero-placeholder']?['plan'])
       # Arena level
-      @levelStudentCodeMap[session.get('level').original].push(session.get('code')?['hero-placeholder-1']?['plan'])
+      if session.get('code')?['hero-placeholder-1']?['plan']
+        @levelStudentCodeMap[session.get('level').original].push(session.get('code')?['hero-placeholder-1']?['plan'])
 
   updateSelectedCourseProgress: (levelSlug) ->
     return unless levelSlug
