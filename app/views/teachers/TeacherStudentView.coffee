@@ -135,8 +135,7 @@ module.exports = class TeacherStudentView extends RootView
       @levelStudentCodeMap[session.get('level').original] = [session.get('code')?['hero-placeholder']?['plan']]
       # Arena level
       @levelStudentCodeMap[session.get('level').original].push(session.get('code')?['hero-placeholder-1']?['plan'])
-    console.log("map:::::::",@levelStudentCodeMap)
-        
+
   updateSelectedCourseProgress: (levelSlug) ->
     return unless levelSlug
     @selectedCourseId = @classroom.get('courses').find((c) => c.levels.find((l) => l.slug is levelSlug))?._id
