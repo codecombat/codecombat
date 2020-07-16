@@ -170,7 +170,7 @@ extractTranspileErrorDetails = (options) ->
       options.hint = error.message
     when 'cpp'
       if error.location
-        options.range = [error.location.start.offset, error.location.end.offset]
+        options.range = [ranges.offsetToPos(error.location.start.offset, code, codePrefix), ranges.offsetToPos(error.location.end.offset, code, codePrefix)]
       else
         console.error "C++ error with no location information:", error
       #options.hint = error.message

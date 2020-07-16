@@ -2,11 +2,13 @@ extends /templates/base-flat.jade
 
 block content
   .container-fluid
-    .row#covid19-banner
+    .row#top-banner
       .row
         .col-xs-12
-          span(data-i18n="new_home.covid19_banner_blurb")
-          a(href="https://blog.codecombat.com/free-full-access-to-codecombat-during-school-closures-to-support-distance-learning", data-i18n="new_home.learn_more_caps", data-event-action="Click: Covid19 Banner")
+          span(data-i18n="new_home.top_banner_blurb")
+          a(href="https://www.seedinvest.com/codecombat?utm_campaign=seedinvestcampaign&utm_medium=landingpage&utm_source=codecombat", data-event-action="Click: SeedInvest Banner")
+            span(data-i18n="new_home.click_here")
+          span.spl(data-i18n="new_home.become_investor")
     .row#jumbotron-container-fluid
       .col-lg-6
         h1.text-white(data-i18n="new_home.slogan")

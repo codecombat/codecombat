@@ -24,3 +24,22 @@ block content
                   tr(style="width:100%")
                     td.problemValue= problem.value
                     td.problemType= problem.type
+
+    if me.isAdmin()
+      div Total number of levels with solutions: #{view.levelsWithSolutionsCount}
+      hr
+      table.table.table-striped#level-table
+        tr
+          th Level Name
+          th Solutions
+        for level in (view.parsedLevels || [])
+          if (level.solutions || []).length != 0
+            tr
+              td(style="width:10%")= level.level.get('name')
+              td
+                table.table-striped.table-hover.problemsTable
+                  for solution in (level.solutions || [])
+                    tr(style="width:100%")
+                      td.problemValue= solution.language
+                      td.problemType
+                        pre= solution.renderedSource
