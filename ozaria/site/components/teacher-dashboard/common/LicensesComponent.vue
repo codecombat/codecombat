@@ -1,6 +1,15 @@
 <script>
   import { mapGetters } from 'vuex'
+  import ModalGetLicenses from '../modals/ModalGetLicenses'
   export default {
+    components: {
+      ModalGetLicenses
+    },
+    data: () => {
+      return {
+        showModalGetLicenses: false
+      }
+    },
     computed: {
       ...mapGetters({
         getLicensesStatsByTeacher: 'prepaids/getLicensesStatsByTeacher'
@@ -29,12 +38,16 @@
       id="license-text"
     >
       <span>No licenses yet</span>
-      <a>Request Licenses</a>
+      <a @click="showModalGetLicenses = true">Request Licenses</a>
     </div>
     <div v-else id="license-text">
       <span>{{ totalUsedLicenses }} out of {{ totalSpots }}</span>
       <span class="licenses-applied">Licenses Applied</span>
     </div>
+    <modal-get-licenses
+      v-if="showModalGetLicenses"
+      @close="showModalGetLicenses = false"
+    />
   </div>
 </template>
 
