@@ -1675,6 +1675,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hoc_blurb3: "activity, download a new teacher lesson plan, and tell your students to log in to play!"
     hoc_button_text: "View Activity"
     no_code_yet: "Student has not written any code for this level yet."
+    code_red: "Human's Code"
+    code_blue: "Ogre's Code"
     open_ended_level: "Open-Ended Level"
     partial_solution: "Partial Solution"
     capstone_solution: "Capstone Solution"

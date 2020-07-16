@@ -343,15 +343,16 @@ mixin breadcrumbs
                         table.side-by-side
                           tr
                             td
-                              if view.levelStudentCodeMap[level.get('original')]
+                              - var codeMaps = view.levelStudentCodeMap[level.get('original')].filter(m => m)
+                              unless codeMaps.length
+                                i.small(data-i18n="teacher.no_code_yet")
+                              each codemap in codeMaps
                                 if view.levelProgressMap[level.get('original')] === 'complete'
                                   pre
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                    code(class=langClass)= codemap
                                 else
                                   pre.incomplete-code
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
-                              else
-                                i.small(data-i18n="teacher.no_code_yet")
+                                    code(class=langClass)= codemap
                             td.project-blurb
                               i.small(data-i18n="teacher.solution_project_blurb")
                     each solution, index in solutions
@@ -364,15 +365,22 @@ mixin breadcrumbs
                               .small!= marked(solution.description || '')
                           tr
                             td
-                              if view.levelStudentCodeMap[level.get('original')]
+                              - var codeMaps = view.levelStudentCodeMap[level.get('original')].filter(m => m)
+                              - var multipleCodes = false
+                              case codeMaps.length
+                                when 0
+                                  i.small(data-i18n="teacher.no_code_yet")
+                                when 2
+                                  - multipleCodes = true
+                              each codemap, index in codeMaps
+                                if multipleCodes
+                                  i.small(data-i18n=index?"teacher.code_blue":"teacher.code_red")
                                 if view.levelProgressMap[level.get('original')] === 'complete'
                                   pre
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                    code(class=langClass)= codemap
                                 else
                                   pre.incomplete-code
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
-                              else
-                                i.small(data-i18n="teacher.no_code_yet")
+                                    code(class=langClass)= codemap
                             td
                               if solutions.length === 1
                                 pre
