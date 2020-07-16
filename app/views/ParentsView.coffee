@@ -11,4 +11,10 @@ module.exports = class ParentView extends RootComponent
   propsData: {}
 
   initialize: ->
-    @propsData = { onReferTeacher: () => @openModalView new ParentReferTeacherModal() }
+    @propsData = {
+      onReferTeacher: () =>
+        if me.showChinaResourceInfo()
+          window.open('https://xuetang.koudashijie.com')
+        else
+          @openModalView new ParentReferTeacherModal()
+    }

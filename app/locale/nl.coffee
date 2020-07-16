@@ -32,6 +32,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_in_box_blurb1: "Elke student erbij te betrekken zodat ze geloven dat coderen voor hen is. "
     classroom_in_box_blurb2: "Elke leraar in staat te stellen zich zeker van zichzelf te voelen wanneer ze lesgeven in programmeren."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
     creativity_rigor_title: "Waar Creativiteit en Structuur Samenkomen"
     creativity_rigor_subtitle1: "Programmeren leuk te maken en real-world-skills te leren"
