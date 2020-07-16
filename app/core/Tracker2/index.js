@@ -76,19 +76,21 @@ export default class Tracker2 extends BaseTracker {
 
 
   async identify (traits = {}) {
-    await this.initializationComplete
+    return;
+    // await this.initializationComplete
 
-    await Promise.all(
-      this.trackers.map(t => t.identify(traits))
-    )
+    // await Promise.all(
+    //   this.trackers.map(t => t.identify(traits))
+    // )
   }
 
   async resetIdentity () {
-    await this.initializationComplete
+    return;
+    // await this.initializationComplete
 
-    await Promise.all(
-      this.trackers.map(t => t.resetIdentity())
-    )
+    // await Promise.all(
+    //   this.trackers.map(t => t.resetIdentity())
+    // )
 
     window.sessionStorage.removeItem(SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY)
   }
