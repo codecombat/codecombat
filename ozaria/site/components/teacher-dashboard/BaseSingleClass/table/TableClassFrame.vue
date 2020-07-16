@@ -137,6 +137,9 @@
 #outer-container {
   position: relative;
 
+  display: flex;
+  justify-content: center;
+
   & .arrow {
     position: absolute;
     top: 36px;
@@ -147,6 +150,8 @@
 #classTableFrame {
   width: calc(100vw - 70px);
   max-height: calc(100vh - 320px);
+  /* Ensures that table never gets too wide. */
+  max-width: 1850px;
   overflow-y: scroll;
   overflow-x: scroll;
   margin: 22px 70px 22px 0;
@@ -195,6 +200,9 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
+
+    /* Ensure that this sits in front of other content. */
+    z-index: 2;
   }
 }
 
