@@ -73,6 +73,10 @@ module.exports = class AuthModal extends ModalView
           forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
           showingError = true
 
+      else if jqxhr.status is 429
+        showingError = true
+        forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.too_many_login_failures'))
+
       if not showingError
         @$('#unknown-error-alert').removeClass('hide')
     )
