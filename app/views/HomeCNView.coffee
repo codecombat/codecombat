@@ -64,7 +64,7 @@ module.exports = class HomeCNView extends RootView
     if me.isTeacher()
       application.router.navigate '/teachers/update-account', trigger: true
     else
-      application.router.navigate '/teachers/quote', trigger: true
+      application.router.navigate '/contact-cn', trigger: true
 
   onClickSetupClass: (e) ->
     @homePageEvent($(e.target).data('event-action'))
