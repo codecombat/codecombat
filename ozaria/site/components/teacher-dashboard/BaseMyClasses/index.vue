@@ -62,7 +62,7 @@
     <secondary-teacher-navigation
       :classrooms="activeClassrooms"
     />
-    <title-bar title="All classes" @newClass="$emit('newClass')" />
+    <title-bar title="All classes" @newClass="$emit('newClass')" :all-classes-page="true" />
     <loading-bar
       :key="loading"
       :loading="loading"
