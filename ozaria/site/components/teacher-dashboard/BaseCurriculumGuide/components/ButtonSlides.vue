@@ -4,12 +4,17 @@
       link: {
         type: String,
         required: true
+      },
+      locked: {
+        type: Boolean,
+        default: false
       }
     }
   }
 </script>
 <template>
   <a
+    v-if="!locked"
     :href="link"
     target="_blank"
     rel="noopener"
@@ -18,6 +23,9 @@
       <div id="IconLessonSlides" /><span>Lesson Slides</span>
     </button>
   </a>
+  <button v-else :disabled="true" class="locked">
+    <div id="IconLessonSlides" /><span>Lesson Slides</span>
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -49,6 +57,10 @@ button {
   padding: 0 15px;
   justify-content: center;
   align-items: center;
+
+  &.locked {
+    background-color: #adadad;
+  }
 }
 
 #IconLessonSlides {

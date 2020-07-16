@@ -48,6 +48,24 @@ export default {
       return state.preferredLanguage
     },
 
+    isPaidTeacher (_state, _getters, _rootState, rootGetters) {
+      const prepaids = rootGetters['prepaids/getPrepaidsByTeacher'](me.get('_id'))
+      if (me.isPaidTeacher()) {
+        return true
+      }
+
+      if (!prepaids) {
+        return false
+      }
+
+      const { pending, empty, available } = prepaids
+      if (pending.length + empty.length + available.length > 0) {
+        return true
+      }
+
+      return me.isPremium()
+    },
+
     /**
      * @returns {object|undefined} avatar schema object or undefined if not defined.
      */

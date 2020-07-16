@@ -1,6 +1,24 @@
+<script>
+  export default {
+    props: {
+      locked: {
+        type: Boolean,
+        default: false
+      }
+    }
+  }
+</script>
+
 <template>
-  <button @click="$emit('click')">
-    <div id="PlayChapter" /><span>Play Chapter</span>
+  <button
+    :class="locked ? 'locked' : null"
+    :disabled="locked"
+    @click="$emit('click')"
+  >
+    <div
+      id="PlayChapter"
+    />
+    <span>Play Chapter</span>
   </button>
 </template>
 
@@ -18,6 +36,10 @@
   background-position: center;
   background-size: 100% 100%;
   margin-right: 7px;
+}
+
+.locked #PlayChapter {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_UnitMapLocked.svg);
 }
 
 button {
@@ -43,5 +65,11 @@ button {
   padding: 0 15px;
   justify-content: center;
   align-items: center;
+
+  &.locked {
+    background: #adadad;
+    cursor: default;
+    color: $pitch;
+  }
 }
 </style>
