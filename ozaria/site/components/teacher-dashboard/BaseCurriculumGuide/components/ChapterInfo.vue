@@ -17,7 +17,8 @@
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
         getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
         getCourseUnitMapUrl: 'baseCurriculumGuide/getCourseUnitMapUrl',
-        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage'
+        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
+        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
       }),
 
       courseShortName () {
@@ -42,14 +43,22 @@
       },
 
       solutionGuideUrl () {
-        if (!this.getCurrentCourse) {
+        if (!this.getCurrentCourse || this.isOnLockedCampaign) {
           return ''
         }
+
         return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}`
       },
 
       playChapterUrl () {
+        if (this.isOnLockedCampaign) {
+          return ''
+        }
         return this.getCourseUnitMapUrl || ''
+      },
+
+      clickedLink () {
+        return !this.isOnLockedCampaign
       }
     },
 
@@ -99,9 +108,33 @@
             />
           </div>
         </div>
-        <div class="btns">
+        <div v-if="!isOnLockedCampaign" class="btns">
           <a :href="playChapterUrl" target="_blank" rel="noreferrer"> <button-play-chapter /> </a>
           <a :href="solutionGuideUrl" target="_blank" rel="noreferrer"> <button-solution-guide /> </a>
+        </div>
+        <div v-else class="btns">
+          <span
+            v-tooltip.top="{
+              content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
+              classes: 'teacher-dashboard-tooltip',
+              autoHide: false
+            }"
+          >
+            <button-play-chapter
+              :locked="isOnLockedCampaign"
+            />
+          </span>
+          <span
+            v-tooltip.top="{
+              content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
+              classes: 'teacher-dashboard-tooltip',
+              autoHide: false
+            }"
+          >
+            <button-solution-guide
+              :locked="isOnLockedCampaign"
+            />
+          </span>
         </div>
       </div>
     </div>
@@ -129,14 +162,14 @@
       align-items: center;
     }
 
-      .time-row {
-    display: flex;
-    flex-direction: row;
+    .time-row {
+      display: flex;
+      flex-direction: row;
 
-    & > img {
-      margin-left: 9px;
+      & > img {
+        margin-left: 9px;
+      }
     }
-  }
 
     h3 {
       @include font-h-4-nav-uppercase-black;
@@ -182,6 +215,11 @@
     .btns {
       display: flex;
       justify-content: space-around;
+
+      &.locked a {
+        cursor: default;
+      }
+
       a {
         text-decoration: none;
       }
@@ -191,4 +229,5 @@
       margin-bottom: 5px;
     }
   }
+
 </style>

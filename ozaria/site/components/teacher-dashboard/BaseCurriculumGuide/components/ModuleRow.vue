@@ -1,5 +1,7 @@
 <script>
   import ContentIcon from '../../common/icons/ContentIcon'
+  import { mapGetters } from 'vuex'
+
   export default {
     components: {
       ContentIcon
@@ -25,6 +27,10 @@
     },
 
     computed: {
+      ...mapGetters({
+        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
+      }),
+
       getContentTypeHeader () {
         switch (this.iconType) {
         case `cutscene`:
@@ -47,7 +53,11 @@
   }
 </script>
 <template>
-  <div class="module-row" @click="$emit('click')">
+  <div
+    class="module-row"
+    :class="isOnLockedCampaign ? 'locked' : null"
+    @click="$emit('click')"
+  >
     <content-icon class="content-icon" :icon="iconType" />
     <p><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
     <p>{{ description }}</p>
@@ -70,9 +80,13 @@
     padding-bottom: 5px;
 
     cursor: pointer;
+
+    &.locked {
+      cursor: default;
+    }
   }
 
-  .module-row:hover {
+  .module-row:hover:not(.locked) {
     border: 1px solid #74C6DF;
   }
 

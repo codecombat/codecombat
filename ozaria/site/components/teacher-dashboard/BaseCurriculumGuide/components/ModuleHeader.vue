@@ -21,7 +21,8 @@
     computed: {
       ...mapGetters({
         getCurrentModuleNames: 'baseCurriculumGuide/getCurrentModuleNames',
-        getCurrentModuleHeadingInfo: 'baseCurriculumGuide/getCurrentModuleHeadingInfo'
+        getCurrentModuleHeadingInfo: 'baseCurriculumGuide/getCurrentModuleHeadingInfo',
+        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
       }),
 
       getModuleInfo () {
@@ -46,6 +47,20 @@
         }
 
         return time.join('')
+      },
+
+      projectRubricTooltipContent () {
+        if (this.isOnLockedCampaign) {
+          return `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`
+        }
+        return `<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>`
+      },
+
+      exemplarProjectTooltipContent () {
+        if (this.isOnLockedCampaign) {
+          return `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`
+        }
+        return `<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>`
       }
     }
   }
@@ -65,29 +80,46 @@
       </div>
     </div>
     <div class="buttons">
-      <button-slides
-        v-if="getModuleInfo.lessonSlidesUrl"
-        :link="getModuleInfo.lessonSlidesUrl"
+      <!-- For this locked tooltip we use a span, as the disabled button doesn't trigger a tooltip. -->
+      <span
         v-tooltip.top="{
-          content: `<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>`,
-          classes: 'teacher-dashboard-tooltip lighter-p'
+          content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
+          classes: 'teacher-dashboard-tooltip lighter-p',
+          trigger: isOnLockedCampaign ? 'hover' : 'manual', // Only trigger if content is locked
+          autoHide: false
         }"
-      />
+      >
+        <button-slides
+          v-if="getModuleInfo.lessonSlidesUrl"
+          :link="getModuleInfo.lessonSlidesUrl"
+          :locked="isOnLockedCampaign"
+          v-tooltip.top="{
+            content: `<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>`,
+            classes: 'teacher-dashboard-tooltip lighter-p'
+          }"
+        />
+      </span>
+
       <button-project-req
         v-if="getModuleInfo.projectRubricUrl"
         :link="getModuleInfo.projectRubricUrl"
+        :locked="isOnLockedCampaign"
         v-tooltip.top="{
-          content: `<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>`,
-          classes: 'teacher-dashboard-tooltip lighter-p'
+          content: projectRubricTooltipContent,
+          classes: 'teacher-dashboard-tooltip lighter-p',
+          autoHide: !isOnLockedCampaign
         }"
       />
+
       <button-exemplar
         v-if="getModuleInfo.exemplarProjectUrl"
         :link="getModuleInfo.exemplarProjectUrl"
+        :locked="isOnLockedCampaign"
 
         v-tooltip.top="{
-          content: `<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>`,
-          classes: 'teacher-dashboard-tooltip lighter-p'
+          content: exemplarProjectTooltipContent,
+          classes: 'teacher-dashboard-tooltip lighter-p',
+          autoHide: !isOnLockedCampaign
         }"
       />
     </div>

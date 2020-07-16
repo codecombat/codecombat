@@ -34,6 +34,12 @@ export default {
       return courses
     },
 
+    isOnLockedCampaign (_state, getters, _rootState, rootGetters) {
+      const course = getters.getCurrentCourse
+      const isPaidTeacher = rootGetters['me/isPaidTeacher']
+      return !(course?.free || isPaidTeacher)
+    },
+
     selectedChapterId (state) {
       return state.selectedCampaignId
     },

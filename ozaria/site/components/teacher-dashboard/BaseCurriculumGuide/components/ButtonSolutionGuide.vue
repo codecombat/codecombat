@@ -1,5 +1,20 @@
+<script>
+  export default {
+    props: {
+      locked: {
+        type: Boolean,
+        default: false
+      }
+    }
+  }
+</script>
+
 <template>
-  <button @click="$emit('click')">
+  <button
+    :class="locked ? 'locked' : null"
+    :disabled="locked"
+    @click="$emit('click')"
+  >
     <div id="IconSolution" /><span>Solution Guide</span>
   </button>
 </template>
@@ -43,5 +58,11 @@ button {
   padding: 0 15px;
   justify-content: center;
   align-items: center;
+
+  &.locked {
+    background: #adadad;
+    cursor: default;
+    color: $pitch;
+  }
 }
 </style>

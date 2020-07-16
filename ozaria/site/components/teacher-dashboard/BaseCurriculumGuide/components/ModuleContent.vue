@@ -21,7 +21,8 @@
         getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
         getContentDescription: 'baseCurriculumGuide/getContentDescription',
-        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage'
+        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
+        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
       }),
 
       getContentTypes () {
@@ -72,7 +73,7 @@
   <div>
     <module-header :module-num="moduleNum" />
 
-    <div class="content-rows">
+    <div v-if="!isOnLockedCampaign" class="content-rows">
       <a
         v-for="{ icon, name, _id, url, description } in getContentTypes"
         :key="_id"
@@ -87,6 +88,15 @@
         />
       </a>
     </div>
+    <div v-else class="content-rows">
+      <module-row
+        v-for="{ icon, name, _id, url, description } in getContentTypes"
+        :key="_id"
+        :icon-type="icon"
+        :display-name="name"
+        :description="description"
+      />
+    </div>
   </div>
 </template>
 
@@ -97,7 +107,8 @@
 
     margin-bottom: 29px;
 
-    & a:nth-child(odd) {
+    // Supports both locked and unlocked views.
+    & a:nth-child(odd), & > div:nth-child(odd) {
       background-color: #f2f2f2;
     }
 

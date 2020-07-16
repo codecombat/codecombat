@@ -63,10 +63,18 @@
       }
     },
 
+    beforeRouteUpdate (to, from, next) {
+      // Ensures we close curriculum guide when navigating between pages in the
+      // teacher dashboard.
+      this.closeCurriculumGuide()
+      next()
+    },
+
     methods: {
       ...mapMutations({
         setClassroomId: 'teacherDashboard/setClassroomId',
-        setTeacherId: 'teacherDashboard/setTeacherId'
+        setTeacherId: 'teacherDashboard/setTeacherId',
+        closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
       }),
 
       updateStoreOnNavigation () {

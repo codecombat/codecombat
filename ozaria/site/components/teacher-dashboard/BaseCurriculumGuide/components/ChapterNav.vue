@@ -8,12 +8,13 @@
       }),
 
       chapterNav () {
-        return (this.chapterNavBar || []).map(({ campaignID }, idx) => {
-          return ({
-            campaignID,
-            heading: `Chapter ${idx + 1}`
+        return (this.chapterNavBar || [])
+          .map(({ campaignID, free }, idx) => {
+            return ({
+              campaignID,
+              heading: `Chapter ${idx + 1}`
+            })
           })
-        })
       }
     },
 
