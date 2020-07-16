@@ -10,9 +10,9 @@ _.extend CourseSchema.properties,
   description: {type: 'string'}
   # duration: {type: 'number', description: 'Approximate hours of content'} # deprecated
   duration: { type: 'object', title: 'Course duration', properties: {
-    total: { type: 'string', title: 'Total time' }
+    total: { type: 'string', title: 'Total class time (overall)' }
     inGame: { type: 'string', title: 'In-game time' }
-    unplugged: { type: 'string', title: 'Unplugged Activites time' }
+    totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip' }
   }}
   pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'} # deprecated
   free: { type: 'boolean' }
@@ -22,7 +22,7 @@ _.extend CourseSchema.properties,
   releasePhase: { enum: ['beta', 'internalRelease', 'released'], description: "How far along the course's development is, determining who sees it." }
   isOzaria: { type: 'boolean', description: 'Is this an ozaria course' } # not used
   shortName: { type: 'string', title: 'Short Name', description: 'Short name to be used on dashboards' }
-  cstaStandards: c.array {title: 'CSTA standards'}, {
+  cstaStandards: c.array {title: 'CSTA standards', description: 'Sample CSTA standards list for display on teacher dashboard curriculum guides'}, {
     type: 'object', title: 'CSTA standard', properties: {
       name: { type: 'string', title: 'Name' }
       description: { type: 'string', title: 'Description' }
@@ -32,9 +32,9 @@ _.extend CourseSchema.properties,
     { type: 'object', title: 'Module', description: 'Relevant for information displayed on curriculum guides in teacher dashboard for each module', properties: {
       number: { type: 'number', title: 'Module number' }
       duration: { type: 'object', title: 'Module duration', properties: {
-        total: { type: 'string', title: 'Total time' }
+        total: { type: 'string', title: 'Total class time (overall)' }
         inGame: { type: 'string', title: 'In-game time' }
-        unplugged: { type: 'string', title: 'Unplugged Activites time' }
+        totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip'}
       }}
       lessonSlidesUrl: c.url { title: 'Lesson Slides URL' }
       exemplarProjectUrl: c.url { title: 'Exemplar Project URL', description: 'Only relevant for capstone module' }

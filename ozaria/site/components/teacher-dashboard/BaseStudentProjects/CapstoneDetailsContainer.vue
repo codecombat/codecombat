@@ -23,9 +23,6 @@
       conceptsCovered () {
         return this.capstoneLevel.concepts
       },
-      cstaStandards () { // TODO update from course
-        return []
-      },
       capstoneImage () {
         if (this.capstoneLevel.screenshot) {
           return getOzariaAssetUrl(this.capstoneLevel.screenshot)
@@ -76,23 +73,6 @@
             src="/images/ozaria/teachers/dashboard/svg_icons/CheckMark.svg"
           >
           {{ $t(`concepts.${concept}`) }}
-        </li>
-      </ul>
-    </div>
-    <div class="csta-standards text">
-      <div class="title">
-        CSTA Standards
-      </div>
-      <ul>
-        <li
-          v-for="csta in cstaStandards"
-          :key="csta"
-        >
-          <img
-            class="check-mark"
-            src="/images/ozaria/teachers/dashboard/svg_icons/CheckMark.svg"
-          >
-          {{ csta }}
         </li>
       </ul>
     </div>

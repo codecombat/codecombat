@@ -37,12 +37,12 @@
       tooltipTimeContent () {
         const time = []
 
-        if (this.getModuleInfo?.duration?.inGame) {
-          time.push(`<p><b>Total Class Time:</b> ${this.getModuleInfo?.duration?.inGame}</p>`)
+        if (this.getModuleInfo?.duration?.totalTimeRange) {
+          time.push(`<p><b>Total Class Time:</b> ${this.getModuleInfo?.duration?.totalTimeRange}</p>`)
         }
 
-        if (this.getModuleInfo?.duration?.unplugged) {
-          time.push(`<p><b>In-Game Play Time:</b> ${this.getModuleInfo?.duration?.unplugged}</p>`)
+        if (this.getModuleInfo?.duration?.inGame) {
+          time.push(`<p><b>In-Game Play Time:</b> ${this.getModuleInfo?.duration?.inGame}</p>`)
         }
 
         return time.join('')
