@@ -32,6 +32,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classroom_in_box_blurb1: "Involucre a todos los estudiantes para que confíen que la programación es para ellos."
     classroom_in_box_blurb2: "Apoderar a cualquier educador para que se sienta seguro al enseñar programación."
     classroom_in_box_blurb3: "Inspirar a todos los líderes escolares para crear un programa de Ciencias de la Computación de clase mundial."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
     creativity_rigor_title: "Donde la creatividad alcanza el rigor"
     creativity_rigor_subtitle1: "Haga que la programación sea divertida y enseñe habilidades del mundo real"
