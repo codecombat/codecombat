@@ -141,9 +141,9 @@
           displayKey="name"
           :isOptional="!formFieldConfig.organization.required"
           :initialValue="organization"
+          :showRequiredError="!$v.organization.required"
           @updateValue="updateValue"
         )
-        span.form-error(v-if="!$v.organization.required") {{ $t(validationMessages.errorRequired.i18n) }}
     .district.form-group.row(v-if="formFieldConfig.district.visible" :class="{ 'has-error': $v.district.$error }")
       .col-xs-10
         nces-search-input(
@@ -154,24 +154,26 @@
           displayKey="district"
           :isOptional="!formFieldConfig.district.required"
           :initialValue="district"
+          :showRequiredError="!$v.district.required"
           @updateValue="updateValue"
         )
-        span.form-error(v-if="!$v.district.required") {{ $t(validationMessages.errorRequired.i18n) }}
     .city.form-group.row(v-if="formFieldConfig.city.visible" :class="{ 'has-error': $v.city.$error }")
       .col-xs-10
-        label.control-label {{ $t("teachers_quote.city") }}
-        span.control-label.optional-text(v-if="!formFieldConfig.city.required") !{' '}({{ $t("signup.optional") }})
+        span.inline-flex-form-label-div
+          span.control-label {{ $t("teachers_quote.city") }}
+            span.control-label.optional-text(v-if="!formFieldConfig.city.required") !{' '}({{ $t("signup.optional") }})
+          span.form-error(v-if="!$v.city.required") {{ $t(validationMessages.errorRequired.i18n) }}
         input#city-input.form-control(name="city" v-model="$v.city.$model" @change="onChangeValue($event)")
-        span.form-error(v-if="!$v.city.required") {{ $t(validationMessages.errorRequired.i18n) }}
     .state.form-group.row(v-if="formFieldConfig.state.visible" :class="{ 'has-error': $v.state.$error }")
       .col-xs-10
-        label.control-label {{ $t("teachers_quote.state") }}
-        span.control-label.optional-text(v-if="!formFieldConfig.state.required") !{' '}({{ $t("signup.optional") }})
+        span.inline-flex-form-label-div
+          span.control-label {{ $t("teachers_quote.state") }}
+            span.control-label.optional-text(v-if="!formFieldConfig.state.required") !{' '}({{ $t("signup.optional") }})
+          span.form-error(v-if="!$v.state.required") {{ $t(validationMessages.errorRequired.i18n) }}
         select#state-input.form-control(name="state" v-model="$v.state.$model" @change="onChangeValue($event)" :class="{ 'placeholder-text': !state }")
           option(selected disabled value="") {{ $t("signup.select_your_state") }}
           option(v-for="state in usaStates" v-bind:value="state.abbreviation")
             | {{ state.abbreviation }}
-        span.form-error(v-if="!$v.state.required") {{ $t(validationMessages.errorRequired.i18n) }}
 </template>
 
 <style lang="sass" scoped>

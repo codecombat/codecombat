@@ -87,17 +87,19 @@
     form.form-container(@submit.prevent="onClickNext")
       .country.form-group.row(:class="{ 'has-error': $v.country.$error }")
         .col-xs-8
-          label.control-label {{ $t("teachers_quote.country") }}
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("teachers_quote.country") }}
+            span.form-error(v-if="!$v.country.required") {{ $t(validationMessages.errorRequired.i18n) }}
           select#country-input.form-control(name="country", v-model="$v.country.$model", @change="onChangeValue($event)")
             option(v-for="country in countriesList" v-bind:value="country") {{ country }}
-          span.form-error(v-if="!$v.country.required") {{ $t(validationMessages.errorRequired.i18n) }}
       .role.form-group.row(:class="{ 'has-error': $v.role.$error }")
         .col-xs-8
-          label.control-label {{ $t("teachers_quote.primary_role_label") }}
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("teachers_quote.primary_role_label") }}
+            span.form-error(v-if="!$v.role.required") {{ $t(validationMessages.errorRequired.i18n) }}
           select#role-input.form-control(name="role", v-model="$v.role.$model", @change="onChangeValue($event)", :class="{ 'placeholder-text': !role }")
             option(disabled selected value="") {{ $t("signup.select_your_role") }}
             option(v-for="role in roleOptions" v-bind:value="role.value") {{ $t(role.i18n) }}
-          span.form-error(v-if="!$v.role.required") {{ $t(validationMessages.errorRequired.i18n) }}
       .buttons.form-group.row
         .col-xs-offset-5
           secondary-button(type="submit", :inactive="!isFormValid") {{ $t("common.next") }}

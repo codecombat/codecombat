@@ -144,8 +144,10 @@
   a
     text-decoration: underline
   .error
+    @include font-p-4-paragraph-smallest-gray
     display: inline-block
-    color: red
+    color: #0170E9
+    padding-left: 20px
   .log-in, .log-in a
     @include font-p-4-paragraph-smallest-gray
 </style>
