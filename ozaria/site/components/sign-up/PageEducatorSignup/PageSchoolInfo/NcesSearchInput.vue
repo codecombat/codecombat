@@ -24,7 +24,7 @@
         type: Boolean,
         default: false
       },
-      showRequired: {
+      showRequiredError: {
         type: Boolean,
         default: false
       },
@@ -106,19 +106,21 @@
 </script>
 
 <template>
-  <div
-    class="nces-search-input-component"
-    :class="{ 'has-error': showRequired && !value }"
-  >
-    <span
-      class="control-label"
-    > {{ label }}
-      <strong v-if="showRequired && !value"> {{ $t("common.required_field") }} </strong>
+  <div class="nces-search-input-component">
+    <span class="inline-flex-form-label-div">
+      <span
+        class="control-label"
+      > {{ label }}
+        <span
+          v-if="isOptional"
+          class="control-label optional-text"
+        >  ({{ $t("signup.optional") }}) </span>
+      </span>
+      <span
+        v-if="showRequiredError"
+        class="form-error"
+      >  {{ $t("form_validation_errors.required") }} </span>
     </span>
-    <span
-      v-if="isOptional"
-      class="control-label optional-text"
-    >  ({{ $t("signup.optional") }}) </span>
     <input
       v-model="value"
       class="form-control"

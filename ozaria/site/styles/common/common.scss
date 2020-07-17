@@ -142,6 +142,12 @@
           color: #ADADAD;
         }
       }
+
+      .inline-flex-form-label-div { // to display label and error on same line (eg: teacher onboarding forms)
+        display: inline-flex;
+        justify-content: space-between;
+        width: 100%;
+      }
     
       .control-label, .control-label-desc {
         @include font-p-3-small-button-text-black;
@@ -156,8 +162,9 @@
       .form-group {
         &.has-error {
           .form-error {
+            @include font-p-4-paragraph-smallest-gray;
             display: inline-block;
-            color: red;
+            color: #0170E9;
           }
         }
       }

@@ -111,14 +111,17 @@
       other-countries-school-form(v-else @validityChange="(val) => this.childFormValid = val")
       .phoneNumber.form-group.row(v-if="formFieldConfig.phoneNumber.visible" :class="{ 'has-error': $v.phoneNumber.$error }")
         .col-xs-10
-          label.control-label {{ $t("teachers_quote.phone_number") }}
-          span.control-label.optional-text(v-if="!formFieldConfig.phoneNumber.required") !{' '}({{ $t("signup.optional") }})
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("teachers_quote.phone_number") }}
+              span.control-label.optional-text(v-if="!formFieldConfig.phoneNumber.required") !{' '}({{ $t("signup.optional") }})
+            span.form-error(v-if="!$v.phoneNumber.required") {{ $t(validationMessages.errorRequired.i18n) }}
           input.phone-input.form-control(name="phoneNumber" v-model="$v.phoneNumber.$model" @change="onChangeValue($event)")
-          span.form-error(v-if="!$v.phoneNumber.required") {{ $t(validationMessages.errorRequired.i18n) }}
       .numStudents.form-group.row(v-if="formFieldConfig.numStudents.visible" :class="{ 'has-error': $v.numStudents.$error }")
         .col-xs-10
-          label.control-label {{ $t("teachers_quote.num_students_help") }}
-          span.control-label.optional-text(v-if="!formFieldConfig.numStudents.required") !{' '}({{ $t("signup.optional") }})
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("teachers_quote.num_students_help") }}
+              span.control-label.optional-text(v-if="!formFieldConfig.numStudents.required") !{' '}({{ $t("signup.optional") }})
+            span.form-error(v-if="!$v.numStudents.required") {{ $t(validationMessages.errorRequired.i18n) }}
           select#numStudents-input.form-control(name="numStudents", v-model="$v.numStudents.$model" @change="onChangeValue($event)" :class="{ 'placeholder-text': !numStudents }")
             option(disabled selected value='') {{ $t("teachers_quote.num_students_default") }}
             option 1-10
@@ -128,7 +131,6 @@
             option 201-500
             option 501-1000
             option 1000+
-          span.form-error(v-if="!$v.numStudents.required") {{ $t(validationMessages.errorRequired.i18n) }}
       .marketingConsent.form-group.row
         .col-xs-10.form-checkbox-input
           input#marketingConsent(name="marketingConsent", type="checkbox", v-model="marketingConsent")

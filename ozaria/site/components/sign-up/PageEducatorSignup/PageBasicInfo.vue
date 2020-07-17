@@ -60,26 +60,30 @@
     form.form-container(@submit.prevent="onClickNext")
       .first-name.form-group.row(:class="{ 'has-error': $v.firstName.$error }")
         .col-xs-8
-          span.control-label {{ $t("general.first_name") }}
-            input#first-name-input.form-control(name="firstName" v-model="$v.firstName.$model" @change="onChangeValue($event)")
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("general.first_name") }}
             span.form-error(v-if="!$v.firstName.required") {{ $t(validationMessages.errorRequired.i18n) }}
+          input#first-name-input.form-control(name="firstName" v-model="$v.firstName.$model" @change="onChangeValue($event)")
       .last-name.form-group.row(:class="{ 'has-error': $v.lastName.$error }")
         .col-xs-8
-          span.control-label {{ $t("general.last_name") }}
-            input#last-name-input.form-control(name="lastName" v-model="$v.lastName.$model" @change="onChangeValue($event)")
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("general.last_name") }}
             span.form-error(v-if="!$v.lastName.required") {{ $t(validationMessages.errorRequired.i18n) }}
+          input#last-name-input.form-control(name="lastName" v-model="$v.lastName.$model" @change="onChangeValue($event)")
       .email.form-group.row(:class="{ 'has-error': $v.email.$error }")
         .col-xs-8
-          span.control-label {{ $t("general.email") }}
-            input#email-input.form-control(name="email" v-model="$v.email.$model" type="email" @change="onChangeValue($event)")
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("general.email") }}
             span.form-error(v-if="!$v.email.required") {{ $t(validationMessages.errorRequired.i18n) }}
             span.form-error(v-if="!$v.email.email") {{ $t(validationMessages.errorInvalidEmail.i18n) }}
             span.form-error(v-else-if="!$v.email.uniqueEmail") {{ $t(validationMessages.errorEmailExists.i18n) }}
+          input#email-input.form-control(name="email" v-model="$v.email.$model" type="email" @change="onChangeValue($event)")
       .password.form-group.row(:class="{ 'has-error': $v.password.$error }")
         .col-xs-8
-          span.control-label {{ $t("general.password") }}
-            input#password-input.form-control(name="password" v-model="$v.password.$model" type="password" @change="onChangeValue($event)")
+          span.inline-flex-form-label-div
+            span.control-label {{ $t("general.password") }}
             span.form-error(v-if="!$v.password.required") {{ $t(validationMessages.errorRequired.i18n) }}
+          input#password-input.form-control(name="password" v-model="$v.password.$model" type="password" @change="onChangeValue($event)")
       .buttons.form-group.row
         .col-xs-offset-5
           secondary-button(type="submit", :inactive="!isFormValid") {{ $t("common.next") }}
