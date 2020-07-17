@@ -1,5 +1,6 @@
 <script>
   import CapstoneCodeComponent from '../../common/CapstoneCodeComponent'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -10,6 +11,16 @@
       panelSessionContent: {
         type: Object,
         required: true
+      }
+    },
+
+    computed: {
+      ...mapGetters({
+        classroomId: 'teacherDashboard/classroomId'
+      }),
+
+      projectURL () {
+        return `/teachers/projects/${this.classroomId}`
       }
     }
   }
@@ -22,7 +33,7 @@
       :capstone-session-code="panelSessionContent.studentCode"
       :capstone-session-language="panelSessionContent.language"
     />
-    <a>View more details on the Student Projects page.</a>
+    <a :href="projectURL">View more details on the Student Projects page.</a>
   </div>
 </template>
 
