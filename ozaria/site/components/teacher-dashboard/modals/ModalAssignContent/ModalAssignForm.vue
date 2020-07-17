@@ -3,6 +3,8 @@
   import SecondaryButton from '../../common/buttons/SecondaryButton'
   import TertiaryButton from '../../common/buttons/TertiaryButton'
 
+  import utils from 'app/core/utils'
+
   export default {
     components: {
       SecondaryButton,
@@ -19,10 +21,14 @@
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
         classroom: 'teacherDashboard/getCurrentClassroom',
-        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
-        selectedStudentIds: 'baseSingleClass/selectedStudentIds'
-      })
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds',
+        courses: 'courses/sorted'
+      }),
+
+      filteredCourses () {
+        return this.courses.filter(({ campaignID }) => !utils.freeCampaignIds.includes(campaignID))
+      }
     },
 
     created () {
@@ -43,7 +49,7 @@
         if (!this.selected) {
           return
         }
-        const course = this.classroomCourses.find((v) => v.name === this.selected)
+        const course = this.courses.find((v) => v.name === this.selected)
 
         await this.assignCourse({ classroom: this.classroom, course, members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)) })
         this.fetchData()
@@ -54,7 +60,7 @@
         if (!this.selected) {
           return
         }
-        const course = this.classroomCourses.find((v) => v.name === this.selected)
+        const course = this.courses.find((v) => v.name === this.selected)
 
         await this.removeCourse({ course, members: this.selectedStudentIds, classroom: this.classroom })
         this.fetchData()
@@ -88,7 +94,7 @@
               Click to Select from Dropdown
             </option>
             <option
-              v-for="course in classroomCourses"
+              v-for="course in filteredCourses"
               :key="course._id"
               :value="course.name"
             >
