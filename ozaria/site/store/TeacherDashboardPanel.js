@@ -100,7 +100,7 @@ export default {
     },
     studentInfo: {
       name: 'Student Name',
-      completedContent: moment().format('MMM D, YYYY H:mm A')
+      completedContent: ''
     },
     selectedProgressKey: undefined,
     conceptCheck: {
@@ -250,6 +250,7 @@ export default {
       Vue.set(state.conceptCheck, 'totalSubmissions', -1)
       Vue.set(state.conceptCheck, 'timeSpent', -1)
       Vue.set(state.conceptCheck, 'classAverage', -1)
+      Vue.set(state.studentInfo, 'completedContent', '')
       state.selectedProgressKey = undefined
       state.panelFooter = {
         icon: undefined,
@@ -450,7 +451,11 @@ export default {
     setPanelSessionContent ({ commit }, { sessionContentObject, header, studentName, dateFirstCompleted }) {
       commit('setPanelSessionContent', sessionContentObject)
       commit('setPanelHeader', header)
-      commit('setStudentInfo', { name: studentName, completedContent: moment(dateFirstCompleted).format('lll') })
+      commit('setStudentInfo', {
+        name: studentName,
+        // Handle undefined dateFirstCompleted for in progress content
+        completedContent: dateFirstCompleted ? moment(dateFirstCompleted).format('lll') : ''
+      })
       commit('openPanel')
     }
   }
