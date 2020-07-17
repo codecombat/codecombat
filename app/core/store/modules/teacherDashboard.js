@@ -42,6 +42,9 @@ export default {
     teacherId (state) {
       return state.teacherId
     },
+    classroomId (state) {
+      return state.classroomId
+    },
     classroom (state, getters) {
       return getters.getActiveClassrooms.find((c) => c._id === state.classroomId) || {}
     },
