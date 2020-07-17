@@ -7,7 +7,7 @@
       },
       completed: {
         type: String,
-        required: true
+        default: ''
       }
     }
   }
@@ -15,7 +15,7 @@
 <template>
   <div id="student-info">
     <p>{{ name }}</p>
-    <span>Completed: {{ completed }}</span>
+    <span v-if="completed">Completed: {{ completed }}</span>
   </div>
 </template>
 
