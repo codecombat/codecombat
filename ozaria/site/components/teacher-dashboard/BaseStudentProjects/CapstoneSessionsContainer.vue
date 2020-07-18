@@ -1,12 +1,11 @@
 <script>
-  import Dropdown from '../common/Dropdown'
   import ProgressLabels from '../common/progress/progressLabels'
   import StudentRow from './StudentRow'
   import { playDevLevel } from 'app/core/urls'
+  import { broadName } from 'models/User'
 
   export default {
     components: {
-      'dropdown': Dropdown,
       'progress-labels': ProgressLabels,
       'student-row': StudentRow
     },
@@ -99,7 +98,7 @@
       },
       studentName () {
         return (member) => {
-          return member.firstName + ' ' + member.lastName
+          return broadName(member)
         }
       }
     }
