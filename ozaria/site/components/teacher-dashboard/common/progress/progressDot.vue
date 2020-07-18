@@ -5,7 +5,14 @@
     props: {
       status: {
         type: String,
-        default: 'assigned'
+        default: 'assigned',
+        validator: value => {
+          const index = ['assigned', 'progress', 'complete', 'unassigned'].indexOf(value)
+          if (index === -1) {
+            console.error(`Got progressDot status value of '${value}'`)
+          }
+          return index !== -1
+        }
       },
 
       border: {

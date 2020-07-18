@@ -50,17 +50,24 @@
         getInteractiveSessionsForClass: 'interactives/getInteractiveSessionsForClass',
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
         gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
-        editingStudent: 'baseSingleClass/currentEditingStudent'
+        editingStudent: 'baseSingleClass/currentEditingStudent',
+        getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass'
       }),
 
       modules () {
-        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
+        const selectedCourseId = this.selectedCourseId
+        const modules = (this.gameContent[selectedCourseId] || {}).modules
 
         if (modules === undefined) {
           return []
         }
 
         const modulesForTable = []
+        const courseInstances = this.getCourseInstancesForClass(this.classroom.ownerID, this.classroom._id)
+        const assignmentMap = new Map()
+        for (const { courseID, members } of courseInstances) {
+          assignmentMap.set(courseID, new Set(members || []))
+        }
 
         // Get the name and content list of a module.
         for (const [moduleNum, moduleContent] of Object.entries(modules)) {
@@ -127,6 +134,13 @@
                 defaultProgressDot.normalizedType = 'practicelvl'
               }
 
+              if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
+                // Return unassigned progress dot if the student isn't in the course-instance.
+                defaultProgressDot.status = "unassigned"
+                return defaultProgressDot
+              }
+
+              // Return default progress dot if the student has not made progress.
               if (studentSessions === undefined) {
                 return defaultProgressDot
               }
