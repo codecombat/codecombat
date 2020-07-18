@@ -111,7 +111,7 @@
               levelOriginalCompletionMap[session.level.original] = session.state
             }
 
-            moduleStatsForTable.studentSessions[student.displayName] = moduleContent.map((content) => {
+            moduleStatsForTable.studentSessions[student._id] = moduleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
               let normalizedOriginal = original || fromIntroLevelOriginal
               const defaultProgressDot = {
@@ -249,7 +249,7 @@
         const students = this.classroomMembers.map(userObj => {
           const isEnrolled = (new User(userObj)).isEnrolled()
           return {
-            displayName: userObj.name,
+            displayName: User.broadName(userObj),
             _id: userObj._id,
             isEnrolled
           }
