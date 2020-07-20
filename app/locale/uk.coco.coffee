@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unknown: "Невідома помилка"
     error: "ПОМИЛКА"
     general_desc: "Щось пішло не так і це, скоріш за все, наша провина. Спробуйте трохи зачекати і після цього перевантажити сторінку, або відвідайте одне з наступних посилань щоб повернутись до програмування!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Рівень"

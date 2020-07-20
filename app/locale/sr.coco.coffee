@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     unknown: "Непозната грешка"
     error: "ГРЕШКА"
     general_desc: "Нешто није у реду и то је вероватно наша грешка. Пробај да мало сачекаш и затим освежи страну или посети један од следећих линкова да би се вратио на програмирање! "
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Ниво"

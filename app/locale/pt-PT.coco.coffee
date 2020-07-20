@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unknown: "Erro Desconhecido"
     error: "ERRO"
     general_desc: "Algo correu mal, e, provavelmente, a culpa é nossa. Tenta esperar um pouco e depois recarregar a página, ou visita uma das ligações seguintes para voltares para a programação!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Nível"

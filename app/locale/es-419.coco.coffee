@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     unknown: "Error desconocido." # {change}
     error: "ERROR"
     general_desc: "Ocurrió un errór, probablemente es tu culpa. Espera un poco y luego refresca la página, o visíta uno de los siguientes enlaces para regresar a programar!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Nivel"

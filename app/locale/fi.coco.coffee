@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     unknown: "Tuntematon virhe." # {change}
     error: "VIRHE"
     general_desc: "Jotain meni pieleen ja se on luultavasti meidän syytämme. Odota hetki ja lataa sivu uudelleen tai katso seuraavat linkit päästäksesi takaisin ohjelmoimaan!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Taso"
