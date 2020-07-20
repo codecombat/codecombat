@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unknown: "Onbekende fout." # {change}
     error: "ERROR"
     general_desc: "Oeps er ging iets mis, en dat ligt waarschijnlijk aan ons. Probeer de pagina straks opnieuw te laden, of klik op een van de volgende links om verder te gaan met programmeren!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"

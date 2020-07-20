@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     unknown: "Lỗi không xác định"
     error: "LỖI"
     general_desc: "Có lỗi xảy ra, và có thể là lỗi do chúng tôi. Hãy cố đợi một lát và tải lại trang, hoặc truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Cấp độ"

@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     unknown: "خطأ غير معروف." # {change}
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
 #  resources:
 #    level: "Level"
