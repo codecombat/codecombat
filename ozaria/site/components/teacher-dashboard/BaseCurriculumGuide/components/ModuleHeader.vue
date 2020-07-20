@@ -69,7 +69,7 @@
   <div class="header">
     <div class="module-header">
       <h3>Module {{ moduleNum }}: {{ getCurrentModuleNames(moduleNum) }}</h3>
-      <div v-if="getModuleTotalTimeInfo !== undefined" class="time-row"><p>Class Time: {{ getModuleTotalTimeInfo }} hour</p>
+      <div v-if="getModuleTotalTimeInfo !== undefined" class="time-row"><p>Class Time: {{ getModuleTotalTimeInfo }}</p>
         <icon-help
           v-if="tooltipTimeContent()"
           v-tooltip.top="{
