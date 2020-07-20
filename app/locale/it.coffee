@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     unknown: "Errore sconosciuto." # {change}
     error: "ERRORE"
     general_desc: "Qualcosa è andato storto, e probabilmente è colpa nostra. Prova ad aspettare un attimo e ricarica la pagina, altrimenti visita uno dei seguenti links per tornare a programmare!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Livello"

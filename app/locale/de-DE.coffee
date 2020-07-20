@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unknown: "Unbekannter Fehler"
     error: "FEHLER"
     general_desc: "Irgendwas lief schief und es ist wahrscheinlich unsere Schuld. Versuche etwas zu warten und die Seite neu zu laden, oder besuche einen der folgenden Links um zurück zum Programmieren zu kommen!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"

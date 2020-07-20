@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     unknown: "Nieznany błąd."
     error: "BŁĄD"
     general_desc: "Coś poszło nie tak, prawdopodobnie to nasza wina. Poczekaj chwilę i spróbuj odświeżyć stronę, albo kliknij któryś z linków, żeby wrócić do programowania!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Poziom"

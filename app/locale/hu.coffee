@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     unknown: "Ismeretlen hiba." # {change}
     error: "HIBA"
     general_desc: "Hiba történt, valószínűleg a mi készülékünkben. Kis idő múlva frissítsd az oldalt vagy válassz az alábbi linkek közül, hogy visszatérj a programozáshoz."
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Szint"

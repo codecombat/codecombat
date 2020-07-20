@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     unknown: "Erreur inconnue"
     error: "ERREUR"
     general_desc: "Quelque chose a mal tourné, et c'est probablement de notre faute. Essayez d'attendre un peu puis de rafraîchir la page, ou visitez l'un des liens suivants pour revenir à la programmation !"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Niveau"

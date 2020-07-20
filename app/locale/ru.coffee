@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unknown: "Неизвестная ошибка."
     error: "ОШИБКА"
     general_desc: "Что-то пошло не так, и скорее всего это наша вина. Попробуйте немного подождать и обновить страницу, или посетите одну из ссылок ниже, чтобы вернуться к программированию!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Уровень"
