@@ -282,8 +282,6 @@ setupQuickBailToMainHTML = (app) ->
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
 
-      if req.headers.host is 'cp.codecombat.com'
-        features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
       if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie\.com/.test(req.get('host'))
         features.china = true
         if template is 'home.html'
