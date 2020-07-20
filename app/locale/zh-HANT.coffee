@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unknown: "未知錯誤。"
     error: "錯誤"
     general_desc: "發生了某些錯誤，它很有可能是我們造成的。 請試著等待一小段時間然後再刷新這個頁面，或是進入下方的其中一個連結以回到編程頁面!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "等級"

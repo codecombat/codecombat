@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     unknown: "Error Desconegut"
     error: "ERROR"
     general_desc: "Alguna cosa ha anat malament, i és probable que sigui culpa nostra. Mira d'esperar una mica i després recarrega la plana, o visita un dels enllaços següents per tornar a programar!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Nivell"

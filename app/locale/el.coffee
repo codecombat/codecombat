@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     unknown: "Άγνωστο Σφάλμα"
     error: "Σφάλμα"
     general_desc: "Κάτι πήγε στραβά, και ίσως είναι λάθος μας. Δοκιμάστε να περιμένετε λίγο και στη συνέχεια να ανανεώσετε τη σελίδα ή επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Επίπεδο"

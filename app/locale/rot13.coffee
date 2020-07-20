@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unknown: "Haxabja Reebe"
     error: "REEBE"
     general_desc: "Fbzrguvat jrag jebat, naq vg’f cebonoyl bhe snhyg. Gel jnvgvat n ovg naq gura erserfuvat gur cntr, be ivfvg bar bs gur sbyybjvat yvaxf gb trg onpx gb cebtenzzvat!"
+    too_many_login_failures: "Gurer unir orra gbb znal hafhpprffshy ybtva nggrzcgf.  Cyrnfr gel ntnva yngre."
 
   resources:
     level: "Yriry"

@@ -2513,6 +2513,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     unknown: "Kesalahan tidak diketahui"
     error: "KESALAHAN"
     general_desc: "Ada yang salah, dan mungkin itu salah kami. Coba tunggu sebentar lalu muat ulang halaman, atau kunjungi salah satu tautan dibawah untuk kembali ke pemrograman!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"
