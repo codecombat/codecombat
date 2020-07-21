@@ -661,6 +661,7 @@
     ul {
         margin: 0;
         padding: 0;
+        padding-left: 20px;
 
         font-style: normal;
         font-weight: 300;
@@ -676,8 +677,8 @@
         color: #1FBAB4;
         font-weight: bold;
         display: inline-block;
-        margin-left: -20px;
-        margin-right: 10px
+        margin-left: -18px;
+        margin-right: 11px
     }
 
     .container-background {
