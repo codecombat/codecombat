@@ -6,6 +6,8 @@ export const DEFAULT_USER_TRAITS_TO_REPORT = [
   'dateCreated'
 ]
 
+export const DEFAULT_TRACKER_INIT_TIMEOUT = 12000;
+
 export function extractDefaultUserTraits(me) {
   return DEFAULT_USER_TRAITS_TO_REPORT.reduce((obj, key) => {
     const meAttr = me[key]
@@ -41,6 +43,8 @@ export default class BaseTracker {
     try {
       this.loggingEnabled = (new URLSearchParams(window.location.search)).has(TRACKER_LOGGING_ENABLED_QUERY_PARAM)
     } catch (e) {}
+
+    this.trackerInitTimeout = DEFAULT_TRACKER_INIT_TIMEOUT;
   }
 
   async identify (traits = {}) {}
@@ -95,7 +99,15 @@ export default class BaseTracker {
 
     this.isInitializing = true
 
-    await this._initializeTracker()
+    const initTimeout = new Promise((resolve, reject) => {
+      setTimeout(() => reject('Tracker init timeout'), this.trackerInitTimeout)
+    })
+
+    try {
+      await Promise.race([initTimeout, this._initializeTracker()])
+    } catch (e) {
+      this.onInitializeFail(e)
+    }
 
     return this.initializationComplete
   }
@@ -120,8 +132,12 @@ export default class BaseTracker {
     const finishInitialization = (result) => {
       this.isInitialized = result
 
-      delete this.onInitializeSuccess
-      delete this.onInitializeFail
+      // We only want to resolve / reject the init promise once during the initialization flow.  Because some trackers
+      // do not support reporting "failures" we need to support timeouts that can result in race conditions in some
+      // situations.  In these situations we use the first success / fail callback to determine the tracker state and
+      // we change the callbacks to noops to prevent later calls from changing the init state.
+      this.onInitializeSuccess = () => {}
+      this.onInitializeFail = () => {}
     }
 
     this.initializationCompletePromise = new Promise((resolve, reject) => {

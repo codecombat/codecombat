@@ -100,7 +100,7 @@ export default class DriftTracker extends BaseTracker {
 
   get onPlayPage () {
     const { route } = this.store.state
-    return (route.path || '').indexOf('/play/') === 0
+    return (route.path || '').indexOf('/play') === 0
   }
 
   get isChatEnabled () {
