@@ -6,6 +6,10 @@
         type: Boolean,
         default: false
       },
+      inProgress: {
+        type: Boolean,
+        default: false
+      },
       text: {
         type: String,
         required: true,
@@ -26,7 +30,7 @@
   <div class="google-classroom-button">
     <div
       class="link-google-classroom"
-      :class="{ disabled: inactive }"
+      :class="{ disabled: inactive || inProgress }"
       @click="onClick"
     >
       <img

@@ -1271,6 +1271,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
     invite_by_email: "Invite by Email"
     invite_modal_sub_title: "Separate each email address by a line break or commas"
+    no_new_students_imported: "No new students imported"
+    error_in_importing_classrooms: "Error in importing classrooms"
+    error_in_importing_students: "Error in importing students"
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"

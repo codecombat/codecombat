@@ -25,7 +25,8 @@
       classGrades: [],
       googleClassId: '',
       googleClassrooms: null,
-      isGoogleClassroomForm: false
+      isGoogleClassroomForm: false,
+      googleSyncInProgress: false
     }),
     validations: {
       className: {
@@ -102,6 +103,7 @@
         }
       },
       async linkGoogleClassroom () {
+        this.googleSyncInProgress = true
         await new Promise((resolve, reject) =>
           application.gplusHandler.loadAPI({
             success: resolve,
@@ -119,8 +121,9 @@
             this.isGoogleClassroomForm = true
           })
           .catch((e) => {
-            noty({ text: 'Error in importing classrooms', layout: 'topCenter', type: 'error', timeout: 2000 })
+            noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
           })
+        this.googleSyncInProgress = false
       }
     }
   })
@@ -134,6 +137,7 @@
     >
       <button-google-classroom
         :inactive="googleClassroomDisabled"
+        :in-progress="googleSyncInProgress"
         text="Link Google Classroom"
         @click="linkGoogleClassroom"
       />

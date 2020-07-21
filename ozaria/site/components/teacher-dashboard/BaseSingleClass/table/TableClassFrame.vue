@@ -4,6 +4,7 @@
    * TODO: Connect to a Vuex store.
    */
 
+  import { mapGetters } from 'vuex'
   import TableModuleHeader from './TableModuleHeader'
   import TableModuleGrid from './TableModuleGrid'
   import TableStudentList from './TableStudentList'
@@ -32,6 +33,12 @@
       isTouchingRight: false,
       isTouchingLeft: false
     }),
+
+    computed: {
+      ...mapGetters({
+        selectedStudentIds: 'baseSingleClass/selectedStudentIds'
+      })
+    },
 
     watch: {
       // Use this to trigger attaching the scroll callback
@@ -86,7 +93,7 @@
             <div class="allStudents">
               <input
                 type="checkbox"
-
+                :checked="selectedStudentIds.length > 0 && selectedStudentIds.length === students.length"
                 @change="e => $emit('toggle-all-students', e)"
               >
               <p>All Students</p>

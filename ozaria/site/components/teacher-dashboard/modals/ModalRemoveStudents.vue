@@ -1,5 +1,5 @@
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions, mapMutations } from 'vuex'
   import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import TertiaryButton from '../common/buttons/TertiaryButton'
@@ -33,8 +33,12 @@
       ...mapActions({
         removeMembersFromClassroom: 'classrooms/removeMembersFromClassroom'
       }),
+      ...mapMutations({
+        clearSelectedStudents: 'baseSingleClass/clearSelectedStudents'
+      }),
       async removeStudents () {
         await this.removeMembersFromClassroom({ classroom: this.classroom, memberIds: this.selectedStudentIds })
+        this.clearSelectedStudents()
         this.$emit('close')
       }
     }
