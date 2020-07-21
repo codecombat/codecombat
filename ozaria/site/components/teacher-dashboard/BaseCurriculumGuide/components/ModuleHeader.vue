@@ -81,16 +81,24 @@
     </div>
     <div class="buttons">
       <!-- For this locked tooltip we use a span, as the disabled button doesn't trigger a tooltip. -->
-      <span
-        v-tooltip.top="{
-          content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
-          classes: 'teacher-dashboard-tooltip lighter-p',
-          trigger: isOnLockedCampaign ? 'hover' : 'manual', // Only trigger if content is locked
-          autoHide: false
-        }"
+      <template
+        v-if="getModuleInfo.lessonSlidesUrl"
       >
+        <span
+          v-if="isOnLockedCampaign"
+          v-tooltip.top="{
+            content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
+            classes: 'teacher-dashboard-tooltip lighter-p',
+            autoHide: false
+          }"
+        >
         <button-slides
-          v-if="getModuleInfo.lessonSlidesUrl"
+            :link="getModuleInfo.lessonSlidesUrl"
+            :locked="true"
+          />
+        </span>
+        <button-slides
+          v-else
           :link="getModuleInfo.lessonSlidesUrl"
           :locked="isOnLockedCampaign"
           v-tooltip.top="{
@@ -98,7 +106,7 @@
             classes: 'teacher-dashboard-tooltip lighter-p'
           }"
         />
-      </span>
+      </template>
 
       <button-project-req
         v-if="getModuleInfo.projectRubricUrl"
