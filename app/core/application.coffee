@@ -47,8 +47,6 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
-#    if features.codePlay and me.isAnonymous()
-#      document.location.href = '//lenovogamestate.com/login/'
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()

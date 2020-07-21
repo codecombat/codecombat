@@ -1,6 +1,3 @@
-if features.codePlay
-  img#codeplay-powered-by-banner(src="/images/common/codeplay/CodePlay.png")
-  
 if showAmazonLogo
   img#amazon-level-logo(src="/images/pages/play/amazon_horz_lockup.png")
 
@@ -12,8 +9,6 @@ if showAmazonLogo
 .spell-tool-buttons
   .btn.btn-small.btn-illustrated.btn-warning.reload-code(data-i18n="[title]play_level.tome_reload_method")
     .glyphicon.glyphicon-repeat
-    if !features.codePlay
-      span.spl(data-i18n="play_level.restart")
 
   if me.level() >= 15
    .btn.btn-small.btn-illustrated.fullscreen-code(title=maximizeShortcutVerbose)
