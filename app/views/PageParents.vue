@@ -484,6 +484,12 @@
       BackboneModalHarness,
     },
 
+    metaInfo: {
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+      ]
+    },
+
     data: () => ({
       SubscribeModal,
       subscribeModalOpen: false
