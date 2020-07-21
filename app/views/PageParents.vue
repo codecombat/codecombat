@@ -25,24 +25,26 @@
         <div class="container-background gray-1-background">
             <div class="container">
                 <div class="row title-row">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1>{{ $t('parents_landing_2.live_classes') }}</h1>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1>{{ $t('parents_landing_2.live_classes') }}</h1>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <hr />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr />
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h3>{{ $t('parents_landing_2.learn_with_instructor') }}</h3>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3>{{ $t('parents_landing_2.learn_with_instructor') }}</h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h4 class="live-classes-offered">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4 class="live-classes-offered">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,19 +138,21 @@
         <section id="premium" class="container-background coco-premium">
             <div class="container">
                 <div class="row title-row">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1>{{ $t('parents_landing_2.codecombat_premium') }}</h1>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1>{{ $t('parents_landing_2.codecombat_premium') }}</h1>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <hr />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr />
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h3>{{ $t('parents_landing_2.learn_at_own_pace') }}</h3>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3>{{ $t('parents_landing_2.learn_at_own_pace') }}</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -197,19 +201,21 @@
 
         <div class="container trailer">
             <div class="row title-row">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2>{{ $t('parents_landing_2.not_sure_kid') }}</h2>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2>{{ $t('parents_landing_2.not_sure_kid') }}</h2>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <hr />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr />
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3>{{ $t('parents_landing_2.share_trailer') }}</h3>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>{{ $t('parents_landing_2.share_trailer') }}</h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -424,14 +430,16 @@
         <div class="container-background gray-2-background testimonials">
             <div class="container">
                 <div class="row title-row">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h2>{{ $t('parents_landing_2.quotes_title') }}</h2>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h2>{{ $t('parents_landing_2.quotes_title') }}</h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <hr />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr />
+                            </div>
                         </div>
                     </div>
                 </div>
