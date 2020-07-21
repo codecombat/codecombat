@@ -53,11 +53,12 @@ module.exports = {
     fetchJson("/db/classroom/#{classroomID}/game-content", options)
 
   inviteMembers: ({classroomID, emails, recaptchaResponseToken}, options={}) ->
-    options.data ?= {}
-    options.data.emails = emails
-    options.data.recaptchaResponseToken = recaptchaResponseToken
     fetchJson("/db/classroom/#{classroomID}/invite-members",  _.assign({}, options, {
-      method: 'POST'
+      method: 'POST',
+      json: {
+        emails: emails
+        recaptchaResponseToken: recaptchaResponseToken
+      }
     }))
 
   removeMember: ({classroomID, userId}, options={}) ->

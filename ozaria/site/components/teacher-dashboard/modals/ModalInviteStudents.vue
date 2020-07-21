@@ -31,6 +31,8 @@
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js')
       document.head.appendChild(recaptchaScript)
+
+      window.recaptchaCallback = this.recaptchaCallback.bind(this)
     },
     methods: {
       recaptchaCallback (token) {
@@ -78,7 +80,7 @@
         <div
           class="col-xs-12 g-recaptcha"
           :data-sitekey="recaptchaSiteKey"
-          :data-callback="recaptchaCallback"
+          data-callback="recaptchaCallback"
         />
       </div>
       <div class="form-group row buttons">
