@@ -2,6 +2,7 @@
   import IconHelp from '../../common/icons/IconHelp'
   import ButtonPlayChapter from './ButtonPlayChapter'
   import ButtonSolutionGuide from './ButtonSolutionGuide'
+  import { getOzariaAssetUrl } from 'ozaria/site/common/ozariaUtils'
 
   import { mapGetters } from 'vuex'
 
@@ -38,8 +39,10 @@
       },
 
       getCourseThumbnail () {
-        // Use backup image if content screenshot missing.
-        return this.getCurrentCourse?.screenshot || `/images/ozaria/teachers/dashboard/png_img/TempChapter1PlaceholderArt.png`
+        if (this.getCurrentCourse?.screenshot) {
+          return getOzariaAssetUrl(this.getCurrentCourse.screenshot)
+        }
+        return ''
       },
 
       solutionGuideUrl () {
