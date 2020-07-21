@@ -72,7 +72,7 @@ module.exports = {
       const importedClassroomsNames = importedClassrooms.map((c) => {
         return { id: c.id, name: c.name }
       })
-     
+
       const classrooms = me.get('googleClassrooms') || []
       let mergedClassrooms = []
       importedClassroomsNames.forEach((imported) => {
@@ -126,7 +126,10 @@ module.exports = {
       
       const createdStudents = signupStudentsResult.filter((s) => !s.isError)
       const signupErrors = signupStudentsResult.filter((s) => s.isError && s.errorID != 'student-account-exists')
-      const existingStudents = signupStudentsResult.filter((s) => s.errorID == 'student-account-exists').map((s) => s.error)  // error contains the user object here
+      const existingStudents = signupStudentsResult
+        .filter((s) => s.errorID == 'student-account-exists') // TODO update error id to 'account-exists' since it might contain teacher/individual accounts also
+        .map((s) => s.error) // error contains the user object here
+        .filter((s) => s.role === 'student') // filter only student accounts, discard existing individual/teacher accounts
 
       console.debug("Students created:", createdStudents)
         
@@ -142,9 +145,13 @@ module.exports = {
         noty ( {text: classroomNewMembers.length+' Students imported.', layout: 'topCenter', timeout: 3000, type: 'success' })
         return classroomNewMembers
       }
-      else {
-        console.error("No new students imported. Error:", signupStudentsResult)
+      else if (signupErrors.length > 0) {
+        console.error("No new students imported. Error:", signupErrors)
         return Promise.reject('No new students imported')
+      }
+      else {
+        noty({ text: $.i18n.t('teachers.no_new_students_imported'), layout: 'topCenter', type: 'success', timeout: 3000 })
+        return []
       }
     }
     catch (err) {

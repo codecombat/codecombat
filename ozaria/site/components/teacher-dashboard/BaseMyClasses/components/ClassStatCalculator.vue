@@ -15,11 +15,6 @@
       }
     },
 
-    data: () => ({
-      // Maps the course Id to the levels associated.
-      courseLevelsMap: new Map()
-    }),
-
     computed: {
       ...mapGetters({
         levelSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
@@ -44,6 +39,26 @@
           classroomCreated: this.classroomCreationDate,
           archived: this.classroomState.archived
         }
+      },
+
+      // Maps the course Id to the levels associated.
+      courseLevelsMap () {
+        const map = new Map()
+        const courseInstanceCourses = new Set()
+        const courseInstances = this.getCourseInstancesForClass(this.classroomState.ownerID, this.classroomState._id)
+
+        for (const { courseID } of courseInstances) {
+          courseInstanceCourses.add(courseID)
+        }
+
+        for (const course of this.classroomState.courses) {
+          if (!courseInstanceCourses.has(course._id)) {
+            continue
+          }
+          map.set(course._id, { levels: course.levels })
+        }
+
+        return map
       },
       /**
        * TODO: Migrate this to be a background stats calculation.
@@ -99,22 +114,6 @@
 
             return result
           })
-      }
-    },
-
-    created () {
-      const courseInstanceCourses = new Set()
-      const courseInstances = this.getCourseInstancesForClass(this.classroomState.ownerID, this.classroomState._id)
-
-      for (const { courseID } of courseInstances) {
-        courseInstanceCourses.add(courseID)
-      }
-
-      for (const course of this.classroomState.courses) {
-        if (!courseInstanceCourses.has(course._id)) {
-          continue
-        }
-        this.courseLevelsMap.set(course._id, { levels: course.levels })
       }
     }
   }

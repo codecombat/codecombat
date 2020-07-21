@@ -13,7 +13,8 @@
     },
     data: () => {
       return {
-        showInviteStudentsModal: false
+        showInviteStudentsModal: false,
+        googleSyncInProgress: false
       }
     },
     computed: {
@@ -43,6 +44,7 @@
     },
     methods: {
       async syncGoogleClassroom () {
+        this.googleSyncInProgress = true
         try {
           await new Promise((resolve, reject) =>
             application.gplusHandler.loadAPI({
@@ -61,9 +63,10 @@
           }
           this.$emit('close')
         } catch (e) {
-          console.log(e)
-          noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
+          console.error(e)
+          noty({ text: $.i18n.t('teachers.error_in_importing_students'), layout: 'topCenter', type: 'error', timeout: 2000 })
         }
+        this.googleSyncInProgress = false
       }
     }
   })
@@ -79,6 +82,7 @@
       :classroom-code="classroom.codeCamel"
       :classroom="classroom"
       :show-google-classroom="showGoogleClassroom"
+      :google-sync-in-progress="googleSyncInProgress"
       @inviteStudents="showInviteStudentsModal = true"
       @syncGoogleClassroom="syncGoogleClassroom"
       @done="$emit('close')"

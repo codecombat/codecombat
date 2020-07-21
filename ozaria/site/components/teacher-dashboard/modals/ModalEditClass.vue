@@ -1,5 +1,5 @@
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import TertiaryButton from '../common/buttons/TertiaryButton'
@@ -26,6 +26,9 @@
     },
 
     computed: {
+      ...mapGetters({
+        getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom'
+      }),
       classroomName () {
         return (this.classroom || {}).name
       },
@@ -43,7 +46,8 @@
 
     methods: {
       ...mapActions({
-        updateClassroom: 'classrooms/updateClassroom'
+        updateClassroom: 'classrooms/updateClassroom',
+        fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers'
       }),
       archiveClass () {
         noty({
@@ -64,6 +68,9 @@
       },
       unarchiveClass () {
         this.updateClassroom({ classroom: this.classroom, updates: { archived: false } })
+        if (!this.getSessionsMapForClassroom(this.classroom._id)) {
+          this.fetchClassroomSessions({ classroom: this.classroom })
+        }
         this.$emit('close')
       },
       saveClass () {

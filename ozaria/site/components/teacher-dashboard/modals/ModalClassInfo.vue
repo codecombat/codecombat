@@ -19,6 +19,10 @@
         default: '',
         required: true
       },
+      googleSyncInProgress: {
+        type: Boolean,
+        default: false
+      },
       classroom: {
         type: Object,
         default: () => {}
@@ -56,6 +60,7 @@
     >
       <button-google-classroom
         text="Sync Google Classroom"
+        :in-progress="googleSyncInProgress"
         @click="$emit('syncGoogleClassroom')"
       />
       <modal-divider />

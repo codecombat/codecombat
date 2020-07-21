@@ -199,37 +199,36 @@ export default {
         })
     },
     // Removes members from classroom and updates the vuex state for classroom
-    removeMembersFromClassroom: ({ rootGetters, commit, dispatch }, options) => {
+    removeMembersFromClassroom: async ({ rootGetters, commit, dispatch }, options) => {
       const memberIds = options.memberIds
       const classroom = options.classroom
       const courseInstances = rootGetters['courseInstances/getCourseInstancesForClass'](classroom.ownerID, classroom._id) || []
 
       const removePromises = []
       memberIds.forEach((mId) => {
-        const ciId = (courseInstances.filter((ci) => ci.members.includes(mId)) || []).map((ci) => ci._id)
-        if (ciId.length > 0) {
-          removePromises.push(courseInstancesApi.removeMember(ciId, { memberId: mId }).then(() => {
-            classroomsApi.removeMember({ classroomID: classroom._id, userId: mId }).then(() => {
-              dispatch('fetchClassroomsForTeacher', classroom.ownerID)
-              commit('removeMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: [mId] })
-            })
-          }))
-        } else {
-          removePromises.push(classroomsApi.removeMember({ classroomID: classroom._id, userId: mId }).then(() => {
-            dispatch('fetchClassroomsForTeacher', classroom.ownerID)
-            commit('removeMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: [mId] })
-          }))
-        }
+        const ciIds = (courseInstances
+          .filter((ci) => ci.members.includes(mId)) || [])
+          .map((ci) => ci._id)
+        ciIds.forEach((ciId) => {
+          removePromises.push(courseInstancesApi.removeMember(ciId, { memberId: mId }))
+        })
+        removePromises.push(classroomsApi.removeMember({ classroomID: classroom._id, userId: mId }))
       })
-      return Promise.all(removePromises)
+      await Promise.all(removePromises).then(() => {
+        dispatch('fetchClassroomsForTeacher', classroom.ownerID)
+        commit('removeMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: memberIds })
+      })
     },
     // Adds members to classroom and updates the vuex state for classroom
-    addMembersToClassroom: async ({ commit }, options) => {
+    addMembersToClassroom: async ({ commit, dispatch }, options) => {
       const members = options.members || []
       const memberIds = members.map((m) => m._id)
       const classroom = options.classroom
       await classroomsApi.addMembers({ classroomID: classroom._id, members: members })
       commit('addMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: memberIds })
+      // Load students' details and course instances
+      dispatch('users/fetchClassroomMembers', { classroom }, { root: true })
+      dispatch('courseInstances/fetchCourseInstancesForTeacher', classroom.ownerID, { root: true })
     },
     // Updates the classroom and its vuex state
     updateClassroom: async ({ commit }, options) => {
