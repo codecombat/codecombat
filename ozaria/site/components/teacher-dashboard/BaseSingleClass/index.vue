@@ -274,6 +274,9 @@
         // The student array is a dependency for other functions, and needs to be ordered prior
         // to other calculations occuring.
         if (this.sortMethod === 'Name') {
+          students.sort((a, b) => {
+            return a.displayName.localeCompare(b.displayName)
+          })
           return students
         } else {
           const originalsInModule = Object.values(modules).flat().map(({ fromIntroLevelOriginal, original }) => fromIntroLevelOriginal || original)
