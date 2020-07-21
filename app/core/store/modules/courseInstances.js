@@ -142,7 +142,9 @@ export default {
           // Not able to assign to this prepaid.
           continue
         }
-        for (let i = 0; i < Math.min(unenrolledStudents.length, prepaid.openSpots()); i++) {
+
+        const availableLicenses = Math.min(unenrolledStudents.length, prepaid.openSpots())
+        for (let i = 0; i < availableLicenses; i++) {
           const user = unenrolledStudents.pop()
           requests.push(prepaid.redeem(user.get('_id')))
         }
