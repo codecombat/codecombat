@@ -105,7 +105,8 @@ export default {
         if (!content) {
           return ''
         }
-        return content?.description || (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || ''
+
+        return (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || content?.description || ''
       }
     },
 
