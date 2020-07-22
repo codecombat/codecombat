@@ -485,11 +485,18 @@
   import { mapActions, mapState, mapGetters } from 'vuex'
 
   import SubscribeModal from 'views/core/SubscribeModal'
-  import BackboneModalHarness from './common/BackboneModalHarness'
+  import BackboneModalHarness from '../../common/BackboneModalHarness'
 
   export default {
     components: {
       BackboneModalHarness,
+    },
+
+    props: {
+      type: {
+        type: String,
+        required: true,
+      }
     },
 
     metaInfo: {
