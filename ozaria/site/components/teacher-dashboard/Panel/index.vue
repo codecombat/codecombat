@@ -67,11 +67,7 @@
     methods: {
       ...mapMutations({
         togglePanel: 'teacherDashboardPanel/togglePanel'
-      }),
-
-      navigateToContent () {
-        window.application.router.navigate(this.panelFooter.url, { trigger: true })
-      }
+      })
     }
   }
 </script>
@@ -122,9 +118,12 @@
         class="content-icon"
         :icon="panelFooter.icon"
       />
-      <p @click="navigateToContent">
+      <a
+        :href="panelFooter.url"
+        target="_blank"
+      >
         {{ footerLinkText }}
-      </p>
+      </a>
     </div>
   </div>
 </template>
@@ -193,7 +192,7 @@
     justify-content: center;
     align-items: center;
 
-    p {
+    a {
       font-family: Work Sans;
       font-style: normal;
       font-weight: normal;

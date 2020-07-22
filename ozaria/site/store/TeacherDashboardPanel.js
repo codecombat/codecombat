@@ -282,15 +282,13 @@ export default {
       const moduleContent = modules[moduleNum]
       const content = moduleContent.find(({ _id }) => _id === contentId);
 
-      const { introContent, ozariaType, original, fromIntroLevelOriginal, type, introLevelSlug } = content
+      const { introContent, ozariaType, original, fromIntroLevelOriginal, type } = content
 
       let icon, url
 
       if (!ozariaType) {
         icon = type
-        // Bug: Whenever a slug changes which is rare it involves updating existing classrooms to avoid this bug.
-        //      However if a classroom is out of sync with slugs this url can lead to a 404.
-        url = `/play/intro/${introLevelSlug}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}&intro-content=${introContent || 0}`
+        url = `/play/intro/${fromIntroLevelOriginal}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}&intro-content=${introContent || 0}&original=true`
       } else if (ozariaType) {
         if (ozariaType === 'practice') {
           icon = 'practicelvl'
@@ -299,7 +297,7 @@ export default {
         } else if (ozariaType === 'challenge') {
           icon = 'challengelvl'
         }
-        url = `/play/level/${introLevelSlug}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}`
+        url = `/play/level/${contentId}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}`
       }
 
       if (!url || !icon) {
