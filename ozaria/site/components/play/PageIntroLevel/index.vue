@@ -81,7 +81,13 @@
         this.codeLanguage = this.codeLanguage || utils.getQueryVariable('codeLanguage')
         this.courseId = this.courseId || utils.getQueryVariable('course')
         try {
-          this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
+          // Fetch by original to avoid bugs due to level renaming, keeping getByIdOrSlug for now to avoid regressions
+          // TODO eventually change all references to send 'original' id instead of 'idOrSlug'
+          if (utils.getQueryVariable('original')) {
+            this.introLevelData = await api.levels.getByOriginal(this.introLevelIdOrSlug) // this.introLevelIdOrSlug is expected to be the 'original' id in this case
+          } else {
+            this.introLevelData = await api.levels.getByIdOrSlug(this.introLevelIdOrSlug)
+          }
           if (me.isSessionless()) { // not saving progress/session for teachers
             // TODO: why do we need this.language, instead of setting this.codeLanguage to default if necessary?
             this.language = this.codeLanguage || defaultCodeLanguage
@@ -91,7 +97,7 @@
               course: this.courseId,
               codeLanguage: this.codeLanguage || defaultCodeLanguage // used for non-classroom anonymous users
             }
-            this.introLevelSession = await api.levels.upsertSession(this.introLevelIdOrSlug, sessionOptions)
+            this.introLevelSession = await api.levels.upsertSession(this.introLevelData._id, sessionOptions)
             this.language = this.introLevelSession.codeLanguage
           }
 
