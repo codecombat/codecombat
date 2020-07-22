@@ -4,8 +4,8 @@ import LegacyTracker from './LegacyTracker'
 import BaseTracker from './BaseTracker'
 import GoogleAnalyticsTracker from './GoogleAnalyticsTracker'
 import DriftTracker from './DriftTracker'
-import ProofTracker from './ProofTracker'
 import FullStoryTracker from './FullStoryTracker'
+import GoogleOptimizeTracker from './GoogleOptimizeTracker'
 
 const SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY = 'coco.tracker.identifiedAtSessionStart'
 const SESSION_STORAGE_IDENTIFY_ON_NEXT_PAGE_LOAD = 'coco.tracker.identifyOnNextPageLoad'
@@ -32,16 +32,16 @@ export default class Tracker2 extends BaseTracker {
     this.segmentTracker = new SegmentTracker(this.store)
     // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
     this.driftTracker = new DriftTracker(this.store)
-    this.proofTracker = new ProofTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
+    this.googleOptimizeTracker = new GoogleOptimizeTracker();
 
     this.trackers = [
       this.legacyTracker,
       // this.googleAnalyticsTracker,
       this.driftTracker,
       this.segmentTracker,
-      this.proofTracker,
-      this.fullStoryTracker
+      this.fullStoryTracker,
+      this.googleOptimizeTracker
     ]
   }
 
