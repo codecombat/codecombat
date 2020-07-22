@@ -6,6 +6,7 @@
   import LoadingBar from '../common/LoadingBar'
   import ClassStatCalculator from './components/ClassStatCalculator'
   import ModalEditClass from '../modals/ModalEditClass'
+  import moment from 'moment'
 
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_ALL,
@@ -29,7 +30,23 @@
         loading: 'teacherDashboard/getLoadingState',
         activeClassrooms: 'teacherDashboard/getActiveClassrooms',
         archivedClassrooms: 'teacherDashboard/getArchivedClassrooms'
-      })
+      }),
+
+      sortedActiveClasses () {
+        const classrooms = [...this.activeClassrooms]
+        classrooms.sort((a, b) =>
+          moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
+        )
+        return classrooms
+      },
+
+      sortedArchivedClassrooms () {
+        const classrooms = [...this.archivedClassrooms]
+        classrooms.sort((a, b) =>
+          moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
+        )
+        return classrooms
+      }
     },
 
     mounted () {
@@ -69,7 +86,7 @@
     />
 
     <class-stat-calculator
-      v-for="clas in activeClassrooms"
+      v-for="clas in sortedActiveClasses"
       :key="clas._id"
       :classroom-state="clas"
       @clickTeacherArchiveModalButton="openEditModal(clas)"
@@ -81,7 +98,7 @@
       </div>
 
       <class-stat-calculator
-        v-for="clas in archivedClassrooms"
+        v-for="clas in sortedArchivedClassrooms"
         :key="clas._id"
         :classroom-state="clas"
         @clickTeacherArchiveModalButton="openEditModal(clas)"
