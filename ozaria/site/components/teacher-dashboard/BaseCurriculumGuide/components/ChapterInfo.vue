@@ -50,7 +50,7 @@
           return ''
         }
 
-        return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}`
+        return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
       },
 
       playChapterUrl () {

@@ -33,6 +33,13 @@ module.exports = class TeacherCourseSolutionView extends RootView
       title +=  " " + utils.capitalLanguages[@language]
     title
 
+  showTeacherLegacyNav: ->
+    # HACK: Hack to support legacy solution page with page from new teacher dashboard.
+    #       Once new dashboard is released we can remove this check.
+    if utils.getQueryVariables()?['from-new-dashboard']
+      return false
+    return true
+
   initialize: (options, @courseID, @language) ->
     if me.isTeacher() or me.isAdmin()
       @prettyLanguage = @camelCaseLanguage(@language)
