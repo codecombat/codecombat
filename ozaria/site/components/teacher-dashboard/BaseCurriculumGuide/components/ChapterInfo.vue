@@ -70,7 +70,7 @@
         const time = []
 
         if (this.getCurrentCourse?.duration?.totalTimeRange) {
-          time.push(`<p><b>Total Class Time:</b> ${this.getCurrentCourse?.duration?.totalTimeRange}</p>`)
+          time.push(`<p><b>Class Time (Range):</b> ${this.getCurrentCourse?.duration?.totalTimeRange}</p>`)
         }
 
         if (this.getCurrentCourse?.duration?.inGame) {
