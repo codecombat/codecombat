@@ -6,6 +6,7 @@ import GoogleAnalyticsTracker from './GoogleAnalyticsTracker'
 import DriftTracker from './DriftTracker'
 import FullStoryTracker from './FullStoryTracker'
 import GoogleOptimizeTracker from './GoogleOptimizeTracker'
+import FacebookPixelTracker from './FacebookPixelTracker'
 
 const SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY = 'coco.tracker.identifiedAtSessionStart'
 const SESSION_STORAGE_IDENTIFY_ON_NEXT_PAGE_LOAD = 'coco.tracker.identifyOnNextPageLoad'
@@ -34,6 +35,7 @@ export default class Tracker2 extends BaseTracker {
     this.driftTracker = new DriftTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
     this.googleOptimizeTracker = new GoogleOptimizeTracker();
+    this.facebookPixelTracker = new FacebookPixelTracker(this.store)
 
     this.trackers = [
       this.legacyTracker,
@@ -41,7 +43,8 @@ export default class Tracker2 extends BaseTracker {
       this.driftTracker,
       this.segmentTracker,
       this.fullStoryTracker,
-      this.googleOptimizeTracker
+      this.googleOptimizeTracker,
+      this.facebookPixelTracker
     ]
   }
 
