@@ -39,7 +39,7 @@
         const time = []
 
         if (this.getModuleInfo?.duration?.totalTimeRange) {
-          time.push(`<p><b>Total Class Time:</b> ${this.getModuleInfo?.duration?.totalTimeRange}</p>`)
+          time.push(`<p><b>Class Time (Range):</b> ${this.getModuleInfo?.duration?.totalTimeRange}</p>`)
         }
 
         if (this.getModuleInfo?.duration?.inGame) {
