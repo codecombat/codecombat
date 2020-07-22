@@ -72,11 +72,11 @@ mixin accountLinks
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else
                         a.text-p(href="/about", data-i18n="nav.about")
-                    li
-                      if document.location.href.search('/parents') >= 0
-                        a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
-                      else
-                        a.text-p(href="/parents", data-i18n="nav.parent")
+                    -// li
+                    -//   if document.location.href.search('/parents') >= 0
+                    -//     a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
+                    -//   else
+                    -//     a.text-p(href="/parents", data-i18n="nav.parent")
                     li
                       if document.location.href.search('/impact') >= 0
                         a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
@@ -165,8 +165,8 @@ mixin accountLinks
                         if !me.isStudent()
                           li
                             a(href="/contact-cn", data-i18n="nav.contact")
-                        li
-                          a(href="/parents", data-i18n="nav.parent")
+                        -// li
+                        -//   a(href="/parents", data-i18n="nav.parent")
                         li
                           a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
                     .col-lg-3
@@ -226,8 +226,8 @@ mixin accountLinks
                         if me.isTeacher(true)
                           li
                             a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                        li
-                          a(href="/parents", data-i18n="nav.parent")
+                        -// li
+                        -//   a(href="/parents", data-i18n="nav.parent")
                         li
                           a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                     .col-lg-3
