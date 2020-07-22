@@ -17,6 +17,7 @@
       email: '',
       licensesNeeded: null,
       message: '',
+      state: '',
       sendingInProgress: false
     }),
     validations: {
@@ -52,6 +53,8 @@
         this.name = me.get('name')
       }
 
+      this.state = props.state
+
       this.email = me.get('email') || props.email
 
       this.message = `Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.
@@ -71,6 +74,7 @@
         if (this.isFormValid) {
           const sendObject = {
             country: me.get('country'),
+            state: this.state,
             name: this.name,
             email: this.email,
             licensesNeeded: this.licensesNeeded,
@@ -81,10 +85,11 @@
             await contact.send({ data: sendObject })
             this.sendingInProgress = false
             window.location.href = '#license-request'
+            noty({ text: 'Message sent!', type: 'success', layout: 'center', timeout: 2000 })
             this.$emit('close')
           } catch (e) {
             this.sendingInProgress = false
-            noty({ text: 'Couldnt send the message', type: 'error', layout: 'center' })
+            noty({ text: 'Couldnt send the message', type: 'error', layout: 'center', timeout: 2000 })
           }
         }
       }
