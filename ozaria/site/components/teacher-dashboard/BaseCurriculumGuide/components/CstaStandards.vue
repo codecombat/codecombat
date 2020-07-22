@@ -1,4 +1,5 @@
 <script>
+  import ButtonResourceIcon from '../../BaseResourceHub/components/ButtonResourceIcon'
   export default {
     props: {
       cstaList: {
@@ -6,6 +7,9 @@
         required: false,
         default: () => ([])
       }
+    },
+    components: {
+      ButtonResourceIcon
     },
     computed: {
       shouldShow () {
@@ -17,8 +21,11 @@
 
 <template>
   <div v-if="shouldShow">
-    <h3>CSTA Standards</h3>
-    <p>Designed to align to the following CSTA Standards:</p>
+    <h3>Standards Alignment</h3>
+    <div class="flex">
+      <button-resource-icon icon="PDF" label="CSTA Standards Alignment"/>
+    </div>
+    <p>A sample of the standards covered in this Chapter:</p>
     <ul>
       <li
         v-for="{ name, description } in cstaList"
@@ -52,5 +59,22 @@
     line-height: 13px;
     text-align: left;
     margin-bottom: 6px
+  }
+
+  p {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 15px;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    .resource-icon {
+      margin: 10px 10px;
+    }
   }
 </style>
