@@ -266,9 +266,30 @@ export default {
       }
       return state.selectedProgressKey
     },
+
     panelFooter ( state ) {
       return state.panelFooter
-    }
+    },
+
+    isOpen (state) {
+      return state.open
+    },
+
+    panelHeader (state) {
+      return state.panelHeader
+    },
+
+    studentInfo (state) {
+      return state.studentInfo
+    },
+
+    conceptCheck (state) {
+      return state.conceptCheck
+    },
+
+    panelSessionContent (state) {
+      return state.panelSessionContent
+    },
   },
 
   actions: {
