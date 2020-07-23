@@ -3043,6 +3043,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
