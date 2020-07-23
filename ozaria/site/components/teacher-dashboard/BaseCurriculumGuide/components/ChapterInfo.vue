@@ -84,8 +84,7 @@
 </script>
 <template>
   <div id="chapter-info">
-    <div class="img-container">
-      <img class="img-responsive" :src="getCourseThumbnail">
+    <div class="img-container" :style="{'--chapterImage': `url(${getCourseThumbnail})`}">
     </div>
     <div class="info-container">
       <h3>{{ courseShortName }}</h3>
@@ -163,6 +162,12 @@
 
       display: flex;
       align-items: center;
+
+      background-image: var(--chapterImage);
+
+      background-position: center;
+      background-size: auto 100%;
+      background-repeat: no-repeat;
     }
 
     .time-row {

@@ -59,7 +59,7 @@
     @click="$emit('click')"
   >
     <content-icon class="content-icon" :icon="iconType" />
-    <p><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
+    <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
     <p>{{ description }}</p>
   </div>
 </template>
@@ -88,6 +88,11 @@
 
   .module-row:hover:not(.locked) {
     border: 1px solid #74C6DF;
+  }
+
+  .content-heading {
+    /* Prevents wrapping of the title leading to strange spacing. */
+    flex-shrink: 0;
   }
 
   .content-icon {
