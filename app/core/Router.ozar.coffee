@@ -173,7 +173,7 @@ module.exports = class CocoRouter extends Backbone.Router
       hocImg.src = 'https://code.org/api/hour/begin_codecombat_ozaria.png'
       if queryString
         queryString = '&' + queryString
-      @navigate("/play/chapter-1-up-the-mountain?hour_of_code=true#{queryString}", { trigger: true })
+      @navigate("/play/chapter-1-sky-mountain?hour_of_code=true#{queryString}", { trigger: true })
 
     'home': go('HomeView')
 
