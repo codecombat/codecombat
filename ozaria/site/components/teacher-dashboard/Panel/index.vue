@@ -1,6 +1,6 @@
 <script>
   import TeacherDashboardPanel from '../../../store/TeacherDashboardPanel'
-  import { mapState, mapMutations, mapGetters } from 'vuex'
+  import { mapMutations, mapGetters } from 'vuex'
 
   import StudentInfo from './components/StudentInfo'
   import ConceptCheckInfo from './components/ConceptCheckInfo'
@@ -24,16 +24,13 @@
     },
 
     computed: {
-      ...mapState({
-        isOpen: state => state.teacherDashboardPanel.open,
-        panelHeader: state => state.teacherDashboardPanel.panelHeader,
-        studentInfo: state => state.teacherDashboardPanel.studentInfo,
-        conceptCheck: state => state.teacherDashboardPanel.conceptCheck,
-        panelSessionContent: state => state.teacherDashboardPanel.panelSessionContent
-      }),
-
       ...mapGetters({
-        panelFooter: 'teacherDashboardPanel/panelFooter'
+        panelFooter: 'teacherDashboardPanel/panelFooter',
+        isOpen: 'teacherDashboardPanel/isOpen',
+        panelHeader: 'teacherDashboardPanel/panelHeader',
+        studentInfo: 'teacherDashboardPanel/studentInfo',
+        conceptCheck: 'teacherDashboardPanel/conceptCheck',
+        panelSessionContent: 'teacherDashboardPanel/panelSessionContent'
       }),
 
       footerLinkText () {
@@ -134,7 +131,7 @@
   @import "app/styles/ozaria/_ozaria-style-params.scss";
 
   #panel {
-    height: 698px;
+    height: 100vh;
 
     position: fixed;
     right: 0;
