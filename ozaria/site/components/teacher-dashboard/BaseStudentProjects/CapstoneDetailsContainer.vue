@@ -23,7 +23,7 @@
       conceptsCovered () {
         return this.capstoneLevel.concepts
       },
-      capstoneImage () {
+      capstoneImageUrl () {
         if (this.capstoneLevel.screenshot) {
           return getOzariaAssetUrl(this.capstoneLevel.screenshot)
         } else {
@@ -36,9 +36,10 @@
 
 <template>
   <div>
-    <div class="capstone-img">
-      <img :src="capstoneImage">
-    </div>
+    <div
+      class="capstone-img"
+      :style="{'--capstoneImage': `url(${capstoneImageUrl})`}"
+    />
     <div class="description text">
       {{ capstoneLevel.description }}
     </div>
@@ -106,9 +107,18 @@ ul {
 }
 
 .capstone-img {
+  max-width: 508px;
+  width: 100%;
   margin: 20px 0px;
-  img {
-    width: 100%;
-  }
+  padding-top: 63%;  /* (img-height / img-width * container-width) = (320 / 508 * 100) (https://stackoverflow.com/a/22211990) */
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+
+  background-image: var(--capstoneImage);
+  background-position: center;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
 }
 </style>
