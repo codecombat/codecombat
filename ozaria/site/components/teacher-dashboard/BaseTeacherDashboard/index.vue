@@ -27,6 +27,7 @@
       // TODO: move the logic to open/close modals to teacherDashboard store instead of driving by events,
       // as it might grow a lot and become hard to maintain.
       return {
+        showRestrictedDiv: false,
         showNewClassModal: false,
         showAssignContentModal: false,
         showAddStudentsModal: false,
@@ -49,7 +50,12 @@
     },
 
     created () {
-      this.updateStoreOnNavigation()
+      if (!me.isTeacher()) { // TODO Restrict this from Router itself similar to how `RestrictedToTeachersView` works
+        this.showRestrictedDiv = true
+      } else {
+        this.showRestrictedDiv = false
+        this.updateStoreOnNavigation()
+      }
     },
 
     destroyed () {
@@ -94,7 +100,11 @@
 </script>
 
 <template>
-  <div>
+  <div class="restricted-div" v-if="showRestrictedDiv">
+    <h5> {{ $t('teacher.access_restricted') }} </h5>
+    <p> {{ $t('teacher.teacher_account_required') }} </p>
+  </div>
+  <div v-else>
     <base-curriculum-guide />
     <panel />
     <router-view
@@ -125,6 +135,16 @@
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.restricted-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 100px;
+}
+</style>
 
 <style lang="scss">
   /* Default tooltip styles so they work. */
