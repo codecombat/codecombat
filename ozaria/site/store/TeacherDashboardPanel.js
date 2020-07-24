@@ -209,9 +209,6 @@ export default {
   },
 
   mutations: {
-    togglePanel (state) {
-      state.open = !state.open
-    },
     openPanel (state) {
       state.open = true
     },
@@ -261,9 +258,6 @@ export default {
 
   getters: {
     selectedProgressKey ( state ) {
-      if (!state.open) {
-        return undefined
-      }
       return state.selectedProgressKey
     },
 
