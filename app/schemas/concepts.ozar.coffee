@@ -4,6 +4,8 @@ concepts = [
   # Ozaria CH1
   {concept: 'objects', name: 'Objects', description: '', automatic: false}
   {concept: 'methods', name: 'Methods', description: '', automatic: false}
+  {concept: 'game_design', name: 'Game Design', description: '', automatic: false}
+  {concept: 'problem_solving', name: 'Problem Solving', description: '', automatic: false}
 
   # Ozaria CH2
   {concept: 'basic_syntax', name: 'Basic Syntax', description: 'Using programming language rules.', automatic: true, tagger: '*'}
