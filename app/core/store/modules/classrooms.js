@@ -226,9 +226,8 @@ export default {
       const classroom = options.classroom
       await classroomsApi.addMembers({ classroomID: classroom._id, members: members })
       commit('addMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: memberIds })
-      // Load students' details and course instances
-      dispatch('users/fetchClassroomMembers', { classroom }, { root: true })
-      dispatch('courseInstances/fetchCourseInstancesForTeacher', classroom.ownerID, { root: true })
+      // Load classroom data
+      dispatch('baseSingleClass/fetchData', {}, { root: true })
     },
     // Updates the classroom and its vuex state
     updateClassroom: async ({ commit }, options) => {

@@ -77,8 +77,8 @@ export default {
       commit('clearSelectedStudents')
     },
 
-    fetchData ({ dispatch }) {
-      dispatch('teacherDashboard/fetchData', { componentName: COMPONENT_NAMES.MY_CLASSES_SINGLE, options: { data: projectionData } }, { root: true })
+    fetchData ({ dispatch }, options) {
+      dispatch('teacherDashboard/fetchData', { componentName: COMPONENT_NAMES.MY_CLASSES_SINGLE, options: _.assign({ data: projectionData }, options) }, { root: true })
     },
 
     async applyLicenses ({ state, rootGetters, dispatch, getters }) {

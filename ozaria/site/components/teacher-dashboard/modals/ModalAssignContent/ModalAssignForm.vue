@@ -21,6 +21,7 @@
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
         classroom: 'teacherDashboard/getCurrentClassroom',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
         selectedStudentIds: 'baseSingleClass/selectedStudentIds',
         courses: 'courses/sorted'
@@ -52,7 +53,11 @@
         const course = this.courses.find((v) => v.name === this.selected)
 
         await this.assignCourse({ classroom: this.classroom, course, members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)) })
-        this.fetchData()
+        if (this.classroomCourses.find((c) => c._id === course._id)) {
+          this.fetchData()
+        } else {
+          this.fetchData({ forceGameContentFetch: true }) // new course that didnt exist when classroom was created
+        }
         this.$emit('close')
       },
 
