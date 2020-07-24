@@ -45,7 +45,8 @@
         toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
       }),
       ...mapMutations({
-        setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage'
+        setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage',
+        closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
       }),
       changeLanguage(e) {
         this.setSelectedLanguage(e.target.value)
@@ -55,50 +56,59 @@
 </script>
 
 <template>
-  <transition name="slide">
+  <div>
+    <transition name="slide">
+      <div
+        v-if="isVisible"
+        id="curriculum-guide"
+      >
+        <div class="header">
+          <div class="header-icon">
+            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
+            <h2>Curriculum Guide</h2>
+          </div>
+          <div
+            class="header-right"
+          >
+            <div class="code-language-dropdown">
+              <span class="select-language"> Select Language </span>
+              <select @change="changeLanguage">
+                <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
+                <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> Javascript </option>
+              </select>
+            </div>
+            <img
+              class="close-btn"
+              @click="toggleCurriculumGuide"
+              src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg"
+            >
+          </div>
+        </div>
+
+        <chapter-nav />
+        <chapter-info />
+
+        <div class="fluid-container">
+          <div class="row">
+            <div class="col-md-9">
+              <module-content :module-num="num" v-for="num in moduleNumbers" :key="num"/>
+            </div>
+            <div class="col-md-3">
+              <concepts-covered :concept-list="conceptsCovered" />
+              <csta-standards :csta-list="cstaStandards" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
     <div
       v-if="isVisible"
-      id="curriculum-guide"
+      class="clickable-hide-area"
+
+      @click="closeCurriculumGuide"
     >
-      <div class="header">
-        <div class="header-icon">
-          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
-          <h2>Curriculum Guide</h2>
-        </div>
-        <div
-          class="header-right"
-        >
-          <div class="code-language-dropdown">
-            <span class="select-language"> Select Language </span>
-            <select @change="changeLanguage">
-              <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
-              <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> Javascript </option>
-            </select>
-          </div>
-          <img
-            class="close-btn"
-            @click="toggleCurriculumGuide"
-            src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg"
-          >
-        </div>
-      </div>
-
-      <chapter-nav />
-      <chapter-info />
-
-      <div class="fluid-container">
-        <div class="row">
-          <div class="col-md-9">
-            <module-content :module-num="num" v-for="num in moduleNumbers" :key="num"/>
-          </div>
-          <div class="col-md-3">
-            <concepts-covered :concept-list="conceptsCovered" />
-            <csta-standards :csta-list="cstaStandards" />
-          </div>
-        </div>
-      </div>
     </div>
-  </transition>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -207,5 +217,16 @@
       margin-left: 30px;
       padding: 10px;
     }
+  }
+
+  .clickable-hide-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    /* Sets this under the curriculum guide and over everything else */
+    z-index: 1100;
   }
 </style>
