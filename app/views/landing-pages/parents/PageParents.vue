@@ -396,6 +396,8 @@
   import PageParentsSectionPremium from './PageParentsSectionPremium'
   import PageParentsJumbotron from './PageParentsJumbotron'
 
+  const DRIFT_LIVE_CLASSES_INTERACTION_ID = 161673
+
   export default {
     components: {
       PageParentsSectionPremium,
@@ -423,6 +425,25 @@
       }
     },
 
+    mounted () {
+      window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+
+      if (this.type === 'thank-you') {
+        application.tracker.trackEvent('CodeCombat live class booked', {}, [ 'facebook' ])
+
+        noty({
+          text: this.$t('parents_landing_2.live_class_booked_thank_you'),
+          layout: 'topCenter',
+          type: 'success',
+          timeout: 10000
+        })
+      }
+    },
+
+    beforeDestroy () {
+      window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    },
+
     methods: {
       onCtaClicked (e) {
         if (e && e.preventDefault) {
@@ -430,14 +451,20 @@
         }
 
         if (this.type === 'parents' || this.type === 'sales') {
-          window.drift.api.startInteraction({ interactionId: 161673 });
-        } else if (this.type === 'self-serve') {
+          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID });
+        } else if (this.type === 'self-serve' || this.type === 'thank-you') {
           window.location  = 'https://codecombat.timetap.com';
         } else {
           console.error('Unknown CTA type on parents page')
         }
+      },
+
+      onDriftMeetingBooked (e) {
+        if (e.interactionId === DRIFT_LIVE_CLASSES_INTERACTION_ID) {
+          application.tracker.trackEvent('Live classes welcome call scheduled', {}, [ 'facebook' ])
+        }
       }
-    }
+    },
   }
 </script>
 
