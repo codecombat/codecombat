@@ -63,8 +63,14 @@
 
     methods: {
       ...mapMutations({
-        togglePanel: 'teacherDashboardPanel/togglePanel'
-      })
+        closePanel: 'teacherDashboardPanel/closePanel',
+        setSelectedProgressKey: 'teacherDashboardPanel/setSelectedProgressKey'
+      }),
+
+      handleClosePanel () {
+        this.closePanel()
+        this.setSelectedProgressKey(undefined)
+      }
     }
   }
 </script>
@@ -75,7 +81,7 @@
       <h3>{{ panelHeader }}</h3>
       <div
         class="close-btn"
-        @click="togglePanel"
+        @click="handleClosePanel"
       >
         <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg">
       </div>
