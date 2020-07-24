@@ -304,7 +304,7 @@ export default {
 
       const fetchPromises = []
 
-      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId }, { root: true }))
+      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId, options }, { root: true }))
 
       const teacherClassrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
       const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === state.classroomId)

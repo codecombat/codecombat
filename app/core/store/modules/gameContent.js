@@ -84,7 +84,7 @@ export default {
 
   actions: {
     fetchGameContentForClassoom: ({ commit, state }, { classroomId, options = {} }) => {
-      if (state.gameContent.byClassroom[classroomId]) {
+      if (state.gameContent.byClassroom[classroomId] && !options.forceGameContentFetch) {
         return Promise.resolve()
       }
       commit('toggleLoadingForClassroom', classroomId)
