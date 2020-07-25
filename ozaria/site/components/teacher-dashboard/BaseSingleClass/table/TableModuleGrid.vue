@@ -5,6 +5,7 @@
  * turns into our table.
  */
   import ProgressDot from '../../common/progress/progressDot'
+  import { mapGetters } from 'vuex'
   export default {
     components: {
       ProgressDot
@@ -16,6 +17,10 @@
       }
     },
     computed: {
+      ...mapGetters({
+        selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey'
+      }),
+
       cols () {
         return Object.values(this.studentSessions)[0]?.length || 0
       },
@@ -56,7 +61,12 @@
   <div class="moduleGrid" :style="cssVariables">
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div :class="cellClass(index)" v-for="({ status, flag, clickHandler, selectedKey }, index) of allStudentSessionsLinear" :key="selectedKey">
-      <ProgressDot :status="status" :border="getFlag(flag)" :click-progress-handler="clickHandler" :selectedKey="selectedKey" />
+      <ProgressDot
+        :status="status"
+        :border="getFlag(flag)"
+        :click-progress-handler="clickHandler"
+        :click-state="selectedProgressKey && selectedProgressKey === selectedKey"
+      />
     </div>
   </div>
 </template>

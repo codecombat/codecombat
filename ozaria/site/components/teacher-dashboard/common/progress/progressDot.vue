@@ -1,6 +1,4 @@
 <script>
-  import { mapGetters } from 'vuex'
-
   export default {
     props: {
       status: {
@@ -29,22 +27,12 @@
         type: Function,
         required: false,
         default: undefined
-      },
-
-      selectedKey: {
-        type: String,
-        required: false,
-        default: undefined
       }
     },
 
     computed: {
-      ...mapGetters({
-        selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey'
-      }),
-
       isClicked () {
-        return (this.selectedProgressKey && this.selectedProgressKey === this.selectedKey) || this.clickState
+        return this.clickState || false
       },
 
       dotClass () {
