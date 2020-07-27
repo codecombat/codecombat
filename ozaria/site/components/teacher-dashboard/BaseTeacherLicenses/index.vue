@@ -78,7 +78,7 @@
 </script>
 
 <template>
-  <div>
+  <div id="base-licenses">
     <secondary-teacher-navigation
       :classrooms="activeClassrooms"
     />
@@ -117,3 +117,9 @@
     />
   </div>
 </template>
+
+<style scoped>
+#base-licenses {
+  margin-bottom: -50px;
+}
+</style>

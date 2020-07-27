@@ -24,8 +24,8 @@
           <li class="list-item"> Clicking the “Apply Licenses” button </li>
         </ul>
       </div>
-      <div class="gif">
-        <img src="/images/ozaria/teachers/dashboard/my_licenses/apply_licenses_gif.jpg">
+      <div class="apply-licenses-img">
+        <img src="/images/ozaria/teachers/dashboard/my_licenses/apply_licenses.png">
       </div>
       <div class="buttons">
         <router-link to="/teachers/classes">
@@ -66,8 +66,14 @@
   margin: 5px 0px;
 }
 
-.gif {
+.apply-licenses-img {
   margin-bottom: 70px;
+  margin-top: 30px;
+  width: 535px;
+  height: 210px;
+  img {
+    width: 100%;
+  }
 }
 
 .buttons {
