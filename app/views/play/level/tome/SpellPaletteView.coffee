@@ -130,7 +130,7 @@ module.exports = class SpellPaletteView extends CocoView
         @$el.find("#palette-tab-properties").append t.el
         t.render()
 
-      if doc.type is "snippet" and @level.get('type') is 'game-dev'
+      if doc.type is "snippet" and (@level.get('type') is 'game-dev' or @level.get('slug') in ['battle-of-red-cliffs'])
         t = new SpellPaletteEntryView doc: doc, thang: @thang, isSnippet: true, shortenize: true, language: @options.language, level: @options.level
         @$el.find("#palette-tab-snippets").append t.el
         t.render()
@@ -315,7 +315,7 @@ module.exports = class SpellPaletteView extends CocoView
           console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propsByItem, 'with item', item
           doc ?= prop
         if doc
-          if doc.type in ['spawnable', 'event', 'handler', 'property'] or (doc.type is 'snippet' and @level.get('type') is 'game-dev')
+          if doc.type in ['spawnable', 'event', 'handler', 'property'] or (doc.type is 'snippet' and (@level.get('type') is 'game-dev' and @level.get('slug') in ['battle-of-red-cliffs']))
             @deferredDocs[doc.name] = doc
           else
             @entries.push @addEntry(doc, @shortenize, owner is 'snippets', item, propIndex > 0)
