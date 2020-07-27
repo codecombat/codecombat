@@ -3046,6 +3046,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     subscribe_error_already_subscribed: "Lbh'ir nyernql fvtarq hc sbe n Cerzvhz nppbhag."
     start_free_trial_today: "Fgneg serr gevny gbqnl"
     live_classes_title: "Yvir pbqvat pynffrf sebz PbqrPbzong!"
+    live_class_booked_thank_you: "Lbhe yvir pynff unf orra obbxrq, gunax lbh!"
 
   parent_modal:
     refer_teacher: "Ersre Grnpure"
