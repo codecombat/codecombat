@@ -38,7 +38,7 @@ const createjs = require('lib/createjs-parts')
 const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
 const ProblemAlertView = require('./tome/ProblemAlertView')
 const TomeView = require('./tome/TomeView')
-const HUDView = require('./LevelHUDView')
+const LevelHUDView = require('./LevelHUDView')
 const LevelDialogueView = require('./LevelDialogueView')
 const ControlBarView = require('./ControlBarView')
 const LevelPlaybackView = require('./LevelPlaybackView')
@@ -60,6 +60,7 @@ const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
 const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
 const TutorialPlayView = require('./TutorialPlayView').default
+const ThangTypeHUDComponent = require('./ThangTypeHUDComponent').default
 
 require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -650,12 +651,24 @@ class PlayLevelView extends RootView {
     if (!this.level.isType('web-dev', 'game-dev') && !goldInDuelStatsView) {
       this.insertSubView(new GoldView({}))
     }
+
+    const HUDThangTypeList = this.world.frames[0]?.thangStateMap?.['Hero Placeholder']?.thang?.HUDThangTypeList
+    if (Array.isArray(HUDThangTypeList)) {
+      new ThangTypeHUDComponent({
+        el: this.$el.find('#thangtype-hud-view')[0],
+        propsData: {
+          thangTypes: this.supermodel.getModels(ThangType),
+          initialHUDThangTypeList: HUDThangTypeList
+        }
+      })
+    }
+
     if (this.level.isType('game-dev')) {
       this.insertSubView(new GameDevTrackView({}))
       this.$('#game-dev-track-view').addClass('hide')
     }
     if (!this.level.isType('web-dev')) {
-      this.insertSubView(new HUDView({ level: this.level }))
+      this.insertSubView(new LevelHUDView({ level: this.level }))
     }
     this.insertSubView(new TutorialPlayView({
       level: this.level
