@@ -128,8 +128,8 @@
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
 .license-card {
-  width: 300px;
-  height: 300px;
+  width: auto;
+  height: auto;
 }
 
 .license-info {
@@ -137,8 +137,8 @@
   box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 3px 0px 8px rgba(0, 0, 0, 0.15);
   border-radius: 24px 24px 0px 0px;
   width: 300px;
-  height: 186px;
-  padding: 10px;
+  height: auto;
+  padding: 30px;
 
   &.expired {
     background: #6D8392;

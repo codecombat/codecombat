@@ -111,6 +111,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  margin-top: 3px;
 }
 
 .side-bar-title {
@@ -125,6 +126,7 @@
 
 .pdf-btn {
   align-self: center;
+  margin: 10px 0px;
 }
 
 .get-licenses-btn {
@@ -136,19 +138,18 @@
 
 .license-cards {
   width: 80%;
+  padding: 30px 0px;
 }
 
 .active-licenses, .expired-licenses {
-  margin-left: 20px;
+  margin: 0px 20px 30px 20px;
   span {
     @include font-h-5-button-text-black;
     color: $twilight;
     text-align: left;
-    margin-top: 10px;
   }
 }
 .card  {
   margin: 10px;
-  width: auto;
 }
 </style>
