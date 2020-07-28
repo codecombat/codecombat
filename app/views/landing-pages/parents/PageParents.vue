@@ -70,7 +70,10 @@
                                     <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                                 </div>
 
-                                <button @click="onCtaClicked">
+                                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/jPlOQTv7JXIJ" class="button">
+                                    {{ $t('parents_landing_2.choose_plan') }}
+                                </a>
+                                <button v-else @click="onCtaClicked">
                                     {{ $t('parents_landing_2.choose_plan') }}
                                 </button>
 
@@ -97,7 +100,10 @@
                                 </div>
 
 
-                                <button @click="onCtaClicked">
+                                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button">
+                                    {{ $t('parents_landing_2.choose_plan') }}
+                                </a>
+                                <button v-else @click="onCtaClicked">
                                     {{ $t('parents_landing_2.choose_plan') }}
                                 </button>
 
@@ -713,10 +719,14 @@
         margin: 21px;
     }
 
-    .pricing-pane button {
+    .pricing-pane button, .pricing-pane .button {
         margin-bottom: 30px;
         width: 50%;
         max-width: 250px;
+    }
+
+    .pricing-pane .button {
+        text-decoration: none;
     }
 
     .pricing-pane-content ul {
