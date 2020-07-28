@@ -47,7 +47,11 @@
         const courseInstanceCourses = new Set()
         const courseInstances = this.getCourseInstancesForClass(this.classroomState.ownerID, this.classroomState._id)
 
-        for (const { courseID } of courseInstances) {
+        for (const { courseID, members } of courseInstances) {
+          // We don't want to show course instances if there aren't any students assigned.
+          if (!Array.isArray(members) || members.length === 0) {
+            continue
+          }
           courseInstanceCourses.add(courseID)
         }
 
