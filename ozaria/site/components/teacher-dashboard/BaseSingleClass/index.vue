@@ -326,6 +326,7 @@
 
     beforeRouteLeave (to, from, next) {
       this.closePanel()
+      this.clearSelectedStudents()
       next()
     },
 
