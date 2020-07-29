@@ -103,8 +103,8 @@ module.exports = class PollModal extends ModalView
 
         # For code quest modal
         btn.one('click', () =>
-          # TODO: Replace with production poll id once it is ready.
-          if @poll.id is "5f2058074cbd8c19861848fc"
+          if @poll.id is "5f21e48ec22bdf002922cd8c"
+            # Id of codequest poll
             btn.prop('disabled', true);
             @trigger('trigger-codequest-modal')
         )
