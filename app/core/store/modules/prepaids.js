@@ -282,7 +282,10 @@ export default {
         promises.push(new Promise((resolve, reject) =>
           prepaid.revoke(student, {
             success: resolve,
-            error: reject
+            error: () => {
+              console.error(`Didn't revoke this license`)
+              resolve()
+            }
           })
         ))
       }
