@@ -121,7 +121,15 @@
           </div>
         </div>
         <div v-if="!isOnLockedCampaign" class="btns">
-          <a :href="playChapterUrl" target="_blank" rel="noreferrer"> <button-play-chapter @click.native="trackEvent('Curriculum Guide: Play Chapter Clicked')"/> </a>
+          <a :href="playChapterUrl" target="_blank" rel="noreferrer">
+            <button-play-chapter
+              @click.native="trackEvent('Curriculum Guide: Play Chapter Clicked')"
+              v-tooltip.top="{
+                content: `<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>`,
+                classes: 'teacher-dashboard-tooltip lighter-p'
+              }"
+            />
+          </a>
           <a :href="solutionGuideUrl" target="_blank" rel="noreferrer"> <button-solution-guide @click.native="trackEvent('Curriculum Guide: Solution Guide Clicked')" /> </a>
         </div>
         <div v-else class="btns">
