@@ -278,11 +278,10 @@ export function internationalizeLevelType(type, withLevelSuffix, withProjectSuff
     type = 'practice'
   }
   let key = 'play_level.level_type_' + type;
-  if (withLevelSuffix){
-    key += '_level'
-  }
-  if (withProjectSuffix){
+  if (withProjectSuffix && type === 'capstone') {
     key += '_project'
+  } else if (withLevelSuffix){
+    key += '_level'
   }
   return $.i18n.t(key)
 }
@@ -304,6 +303,7 @@ export function internationalizeContentType(type){
   }
 }
 
+// OLD TEACHER DASHBOARD
 // Returns the display label for levels of type practice/challenge/intro/cutscene/capstone
 // For cutscene levels, its name is determined from introContent which should contain the cutscene name.
 export function getLevelDisplayNameWithLabel (level) {
@@ -322,6 +322,7 @@ export function getLevelDisplayNameWithLabel (level) {
   return internationalizeLevelType(contentType) + ': ' + levelName
 }
 
+// OLD TEACHER DASHBOARD
 // Only for cinematics/interactives
 export function getIntroContentNameWithLabel (introContent) {
   if (!introContent) {
@@ -330,5 +331,32 @@ export function getIntroContentNameWithLabel (introContent) {
   const displayName = introContent.displayName || '...'
   if (introContent.type) {
     return internationalizeContentType(introContent.type) + ': ' + displayName
+  }
+}
+
+// Used for new teacher dashboard, contentData is the list-item returned by game-content APIs
+// i.e. levels broken down into practice/cinematics/interactives etc
+// `withLevelSuffix` will append 'Level' to the names for practice/capstone/challenge levels
+// `withProjectSuffix` will append 'Project' to the capstone name
+export function getGameContentDisplayNameWithType (contentData, withLevelSuffix = true, withProjectSuffix = false) {
+  if (!contentData) {
+    return
+  }
+  const contentName = i18n(contentData, 'displayName') || i18n(contentData, 'name')
+  const contentType = getGameContentDisplayType(contentData.ozariaType || contentData.type, withLevelSuffix, withProjectSuffix)
+  return `${contentType}: ${contentName}`
+}
+
+// `withLevelSuffix` will append 'Level' to the names for practice/capstone/challenge levels
+// `withProjectSuffix` will append 'Project' to the capstone name
+export function getGameContentDisplayType (contentType, withLevelSuffix = true, withProjectSuffix = false) {
+  if (contentType.startsWith('practice')) {
+    return internationalizeLevelType('practice', withLevelSuffix, withProjectSuffix)
+  } else if (contentType.startsWith('capstone')) {
+    return internationalizeLevelType('capstone', withLevelSuffix, withProjectSuffix)
+  } else if (contentType.startsWith('challenge')) {
+    return internationalizeLevelType('challenge', withLevelSuffix, withProjectSuffix)
+  } else {
+    return internationalizeContentType(contentType)
   }
 }
