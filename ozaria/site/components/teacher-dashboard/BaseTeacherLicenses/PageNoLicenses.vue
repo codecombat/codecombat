@@ -5,6 +5,13 @@
     components: {
       PrimaryButton,
       LicensesCarouselContainer
+    },
+    methods: {
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+        }
+      }
     }
   }
 </script>
@@ -22,6 +29,7 @@
           <primary-button
             class="get-licenses-btn"
             @click="$emit('getLicenses')"
+            @click.native="trackEvent('My Licenses: Get Licenses Clicked #1')"
           >
             {{ $t("no_licenses_page.get_licenses") }}
           </primary-button>
@@ -78,6 +86,7 @@
         <primary-button
           class="get-licenses-btn"
           @click="$emit('getLicenses')"
+          @click.native="trackEvent('My Licenses: Get Licenses Clicked #2')"
         >
           {{ $t("no_licenses_page.get_licenses") }}
         </primary-button>

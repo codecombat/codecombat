@@ -41,6 +41,20 @@
         }
         return this.currentSelectedClassroom
       }
+    },
+
+    methods: {
+      trackEvent (e) {
+        const eventName = e.target.dataset['action']
+        const eventLabel = e.target.dataset['label']
+        if (eventName) {
+          if (eventLabel) {
+            window.tracker?.trackEvent(eventName, { category: 'Teachers', label: eventLabel })
+          } else {
+            window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+          }
+        }
+      }
     }
   }
 </script>
@@ -73,7 +87,7 @@
         aria-labelledby="ClassesDropdown"
       >
         <li :class="allClassesSelected ? 'selected': null">
-          <router-link tag="a" to="/teachers" class="dropdown-item underline-item">ALL CLASSES</router-link>
+          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked">ALL CLASSES</router-link>
         </li>
         <li
           v-for="classroom in classrooms"
@@ -84,6 +98,9 @@
             tag="a"
             :to="`/teachers/classes/${classroom._id}`"
             class="dropdown-item"
+            @click.native="trackEvent"
+            data-action="Track Progress: Nav Clicked"
+            :data-label="$route.path"
           >
             {{ classroom.name }}
           </router-link>
@@ -119,14 +136,16 @@
           <router-link
             :to="`/teachers/projects/${classroom._id}`"
             class="dropdown-item"
+            @click.native="trackEvent"
+            data-action="Student Projects: Nav Clicked"
           >
             {{ classroom.name }}
           </router-link>
         </li>
       </ul>
     </li>
-    <li><router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected }"><div id="IconLicense" />My Licenses</router-link></li>
-    <li><router-link to="/teachers/resources" id="ResourceAnchor" :class="{ 'current-route': resourceHubSelected }"><div id="IconResourceHub" />Resource Hub</router-link></li>
+    <li><router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected } " @click.native="trackEvent" data-action="My Licenses: Nav Clicked"><div id="IconLicense" />My Licenses</router-link></li>
+    <li><router-link to="/teachers/resources" id="ResourceAnchor" :class="{ 'current-route': resourceHubSelected }" @click.native="trackEvent" data-action="Resource Hub: Nav Clicked"><div id="IconResourceHub" />Resource Hub</router-link></li>
   </ul>
 </template>
 

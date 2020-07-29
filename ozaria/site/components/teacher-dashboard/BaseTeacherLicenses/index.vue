@@ -48,7 +48,7 @@
 
     mounted () {
       this.setTeacherId(me.get('_id'))
-      this.fetchData({ componentName: this.$options.name })
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'My Licenses: Loaded' } })
     },
 
     destroyed () {
@@ -67,9 +67,11 @@
         this.showModalGetLicenses = true
       },
       applyLicenses () {
+        window.tracker?.trackEvent('My Licenses: Apply Licenses Clicked', { category: 'Teachers' })
         this.showModalApplyLicenses = true
       },
       shareLicenses (prepaid) {
+        window.tracker?.trackEvent('My Licenses: Share Licenses Clicked', { category: 'Teachers' })
         this.showModalShareLicenses = true
         this.sharePrepaid = prepaid
       }

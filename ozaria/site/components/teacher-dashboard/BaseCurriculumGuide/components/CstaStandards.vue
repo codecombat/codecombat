@@ -23,7 +23,7 @@
   <div v-if="shouldShow">
     <h3>Standards Alignment</h3>
     <div class="flex">
-      <button-resource-icon icon="PDF" label="CSTA Standards Alignment"/>
+      <button-resource-icon icon="PDF" label="CSTA Standards Alignment" from="Curriculum Guide"/>
     </div>
     <p>A sample of the standards covered in this Chapter:</p>
     <ul>

@@ -13,6 +13,22 @@
       return {
         videoId: '662aa9aebd3abee032a3a908fe8d58cf' // cloudflare id, TODO: Update to new video id, using 1fh video for now
       }
+    },
+
+    methods: {
+      trackEvent(eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+        }
+      },
+      onClose() {
+        this.trackEvent('Welcome Video: Modal Closed')
+        this.$emit('close')
+      },
+      onClickResourceHub () {
+        this.trackEvent('Welcome Video: Modal Clicked Resource Hub')
+        this.$emit('close')
+      }
     }
   })
 </script>
@@ -20,18 +36,20 @@
 <template>
   <base-modal-teacher-dashboard
     title="Welcome to the new Ozaria Teacher Dashboard"
-    @close="$emit('close')"
+    @close="onClose"
   >
     <div class="onboarding-video-modal">
-      <span class="sub-title"> Watch this brief video for best practices and tips on how to make the most of your dashboard. You can always re-watch it in the <a href="/teachers/resources" @click="$emit('close')"> Resource Hub. </a> </span>
+      <span class="sub-title"> Watch this brief video for best practices and tips on how to make the most of your dashboard. You can always re-watch it in the <a href="/teachers/resources" @click="onClickResourceHub"> Resource Hub. </a> </span>
       <div class="video">
         <base-cloudflare-video
           :video-cloudflare-id="videoId"
+          @completed="trackEvent('Welcome Video: Completed')"
+          @loaded="trackEvent('Welcome Video: Loaded')"
         />
       </div>
       <div class="buttons">
         <secondary-button
-          @click="$emit('close')"
+          @click="onClose"
         >
           {{ $t("common.done") }}
         </secondary-button>

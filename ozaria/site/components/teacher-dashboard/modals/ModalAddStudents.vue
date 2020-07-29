@@ -44,6 +44,7 @@
     },
     methods: {
       async syncGoogleClassroom () {
+        window.tracker?.trackEvent('Add Students: Sync Google Classroom Clicked', { category: 'Teachers' })
         this.googleSyncInProgress = true
         try {
           await new Promise((resolve, reject) =>
@@ -61,6 +62,7 @@
           if (importedMembers.length > 0) {
             console.debug('Students imported to classroom:', importedMembers)
           }
+          window.tracker?.trackEvent('Add Students: Sync Google Classroom Successful', { category: 'Teachers' })
           this.$emit('close')
         } catch (e) {
           console.error(e)
@@ -83,6 +85,7 @@
       :classroom="classroom"
       :show-google-classroom="showGoogleClassroom"
       :google-sync-in-progress="googleSyncInProgress"
+      from="ModalAddStudents"
       @inviteStudents="showInviteStudentsModal = true"
       @syncGoogleClassroom="syncGoogleClassroom"
       @done="$emit('close')"
@@ -91,6 +94,7 @@
       v-if="showInviteStudentsModal"
       :classroom-code="classroom.codeCamel"
       :classroom-id="classroom._id"
+      from="ModalAddStudents"
       @back="showInviteStudentsModal = false"
       @done="$emit('close')"
     />

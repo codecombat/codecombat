@@ -27,6 +27,10 @@
         getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage'
       }),
 
+      courseName () {
+        return this.getCurrentCourse?.name || ''
+      },
+
       conceptsCovered () {
         return this.getCurrentCourse?.concepts || []
       },
@@ -49,6 +53,7 @@
         closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
       }),
       changeLanguage(e) {
+        window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: 'Teachers', label: this.courseName })
         this.setSelectedLanguage(e.target.value)
       }
     }

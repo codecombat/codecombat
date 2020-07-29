@@ -52,7 +52,7 @@
 
     mounted () {
       this.setTeacherId(me.get('_id'))
-      this.fetchData({ componentName: this.$options.name })
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'All Classes: Loaded' } })
     },
 
     destroyed () {

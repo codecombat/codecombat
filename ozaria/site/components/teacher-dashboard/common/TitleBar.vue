@@ -73,6 +73,16 @@
         this.showNewClassTooltip = false
         me.set('closedNewTDGetStartedTooltip', true)
         me.save()
+      },
+
+      clickNewClass () {
+        window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
+        this.$emit('newClass')
+      },
+
+      clickCurriculumGuide () {
+        window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'Teachers', label: this.$route.path })
+        this.toggleCurriculumGuide()
       }
     }
   }
@@ -110,14 +120,14 @@
           <primary-button
             v-if="!showClassInfo"
             class="btn-title-padding btn-margins-height"
-            @click="$emit('newClass')"
+            @click="clickNewClass"
           >
             Add New Class
           </primary-button>
           <button-curriculum-guide
             class="btn-margins-height"
 
-            @click="toggleCurriculumGuide"
+            @click="clickCurriculumGuide"
           />
         </div>
         <template slot="popover">

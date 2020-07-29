@@ -70,6 +70,10 @@
       handleClosePanel () {
         this.closePanel()
         this.setSelectedProgressKey(undefined)
+      },
+
+      clickFooterLink () {
+        window.tracker?.trackEvent('Track Progress: Progress Modal Footer Link Clicked', { category: 'Teachers', label: this.panelFooter.icon })
       }
     }
   }
@@ -124,6 +128,7 @@
       <a
         :href="panelFooter.url"
         target="_blank"
+        @click="clickFooterLink"
       >
         {{ footerLinkText }}
       </a>

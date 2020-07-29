@@ -69,6 +69,8 @@
       },
       async onClickDone () {
         if (this.isFormValid) {
+          const eventLabel = this.isGoogleClassroomForm ? 'Google classroom' : 'Manual'
+          window.tracker?.trackEvent('Add New Class: Create Clicked', { category: 'Teachers', label: eventLabel })
           const classOptions = {
             aceConfig: {
               language: this.classLanguage
@@ -95,6 +97,7 @@
                   noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
                 })
             }
+            window.tracker?.trackEvent('Add New Class: Create Successful', { category: 'Teachers', label: eventLabel })
             this.$emit('done', classroom)
           } catch (e) {
             console.error(e)
@@ -103,6 +106,7 @@
         }
       },
       async linkGoogleClassroom () {
+        window.tracker?.trackEvent('Add New Class: Link Google Classroom Clicked', { category: 'Teachers' })
         this.googleSyncInProgress = true
         await new Promise((resolve, reject) =>
           application.gplusHandler.loadAPI({
@@ -119,6 +123,7 @@
           .then(() => {
             this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
             this.isGoogleClassroomForm = true
+            window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
           })
           .catch((e) => {
             noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })

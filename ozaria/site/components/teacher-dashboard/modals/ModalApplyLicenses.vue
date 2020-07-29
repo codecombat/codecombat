@@ -6,6 +6,13 @@
     components: {
       BaseModalTeacherDashboard,
       SecondaryButton
+    },
+    methods: {
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+        }
+      }
     }
   })
 </script>
@@ -28,8 +35,13 @@
         <img src="/images/ozaria/teachers/dashboard/my_licenses/apply_licenses.png">
       </div>
       <div class="buttons">
-        <router-link to="/teachers/classes">
-          <secondary-button>
+        <router-link
+          tag="a"
+          to="/teachers/classes"
+        >
+          <secondary-button
+            @click.native="trackEvent('My Licenses: Go to My Classes Clicked from Apply Licenses Modal')"
+          >
             {{ $t("new_home.go_to_my_classes") }}
           </secondary-button>
         </router-link>

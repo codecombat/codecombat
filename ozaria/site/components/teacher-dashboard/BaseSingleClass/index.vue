@@ -308,14 +308,14 @@
     watch: {
       classroomId (newId) {
         this.setClassroomId(newId)
-        this.fetchData()
+        this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
       }
     },
 
     mounted () {
       this.setTeacherId(me.get('_id'))
       this.setClassroomId(this.classroomId)
-      this.fetchData()
+      this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
     },
 
     beforeRouteUpdate (to, from, next) {

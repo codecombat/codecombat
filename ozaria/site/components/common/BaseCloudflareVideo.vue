@@ -47,6 +47,7 @@
           video.muted = !this.soundOn
           video.addEventListener('ended', () => this.onCompleted())
         }
+        this.$emit('loaded')
       },
 
       onCompleted () {

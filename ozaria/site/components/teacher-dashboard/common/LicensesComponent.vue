@@ -26,6 +26,12 @@
       totalSpots () {
         return this.getLicensesStatsByTeacher(this.teacherId).totalSpots
       }
+    },
+    methods: {
+      clickRequestLicenses () {
+        window.tracker?.trackEvent('Request Licenses Clicked', { category: 'Teachers', label: `${this.$route.path}` })
+        this.showModalGetLicenses = true
+      }
     }
   }
 </script>
@@ -38,7 +44,7 @@
       id="license-text"
     >
       <span>No licenses yet</span>
-      <a @click="showModalGetLicenses = true">Request Licenses</a>
+      <a @click="clickRequestLicenses">Request Licenses</a>
     </div>
     <div v-else id="license-text">
       <span>{{ totalUsedLicenses }} out of {{ totalSpots }}</span>

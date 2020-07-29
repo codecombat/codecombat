@@ -52,6 +52,7 @@
     <modal-class-info
       v-if="showClassInfoModal"
       :classroom-code="classroomInfo.codeCamel"
+      from="ModalNewClass"
       @inviteStudents="showInviteStudentsModal = true"
       @done="$emit('close')"
     />
@@ -59,6 +60,7 @@
       v-if="showInviteStudentsModal && classroomInfo"
       :classroom-code="classroomInfo.codeCamel"
       :classroom-id="classroomInfo._id"
+      from="ModalNewClass"
       @back="showInviteStudentsModal = false"
       @done="$emit('close')"
     />
