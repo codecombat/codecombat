@@ -27,6 +27,11 @@
         type: Function,
         required: false,
         default: undefined
+      },
+
+      contentType: {
+        type: String,
+        default: null
       }
     },
 
@@ -60,7 +65,18 @@
     methods: {
       clickHandler () {
         if (typeof this.clickProgressHandler === 'function') {
+          this.trackEvent()
           this.clickProgressHandler()
+        }
+      },
+
+      trackEvent () {
+        if (this.contentType) {
+          let eventLabel = this.contentType
+          if (this.border === 'red') {
+            eventLabel += ' alert'
+          }
+          window.tracker?.trackEvent('Track Progress: Progress Dot Clicked', { category: 'Teachers', label: eventLabel })
         }
       }
     }

@@ -72,6 +72,7 @@
       },
       async onClickSubmit () {
         if (this.isFormValid) {
+          window.tracker?.trackEvent('Get Licenses Modal: Submit Clicked', { category: 'Teachers' })
           const sendObject = {
             country: me.get('country'),
             state: this.state,
@@ -85,6 +86,7 @@
             await contact.send({ data: sendObject })
             this.sendingInProgress = false
             window.location.href = '#license-request'
+            window.tracker?.trackEvent('Get Licenses Modal: Submit Success', { category: 'Teachers' })
             noty({ text: 'Message sent!', type: 'success', layout: 'center', timeout: 2000 })
             this.$emit('close')
           } catch (e) {

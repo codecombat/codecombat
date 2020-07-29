@@ -4,7 +4,8 @@
     computed: {
       ...mapGetters({
         chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
-        selectedChapterId: 'baseCurriculumGuide/selectedChapterId'
+        selectedChapterId: 'baseCurriculumGuide/selectedChapterId',
+        getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
       }),
 
       chapterNav () {
@@ -15,7 +16,11 @@
               heading: `Chapter ${idx + 1}`
             })
           })
-      }
+      },
+
+      courseName () {
+        return this.getCurrentCourse?.name || ''
+      },
     },
 
     methods: {
@@ -28,6 +33,11 @@
           selected: this.selectedChapterId === campaignID,
           'chapter-btn': true
         }
+      },
+
+      clickChapterNav (campaignID) {
+        this.clickChapterHeading(campaignID)
+        window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: 'Teachers', label: this.courseName })
       }
     }
   }
@@ -40,7 +50,7 @@
       :key="campaignID"
       :class="classForButton(campaignID)"
 
-      @click="() => clickChapterHeading(campaignID)"
+      @click="() => clickChapterNav(campaignID)"
     >
       <div class="chapter-pill">
         {{ heading }}

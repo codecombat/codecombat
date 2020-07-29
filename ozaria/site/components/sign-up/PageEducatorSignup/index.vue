@@ -72,6 +72,7 @@
         return application.router.navigate('/', { trigger: true })
       }
       this.$store.registerModule('teacherSignup', TeacherSignupStoreModule)
+      window.tracker?.trackEvent('Teachers Sign-up page Loaded', { category: 'Onboarding' })
       this.navigateToView(this.firstView)
     },
 
@@ -99,6 +100,7 @@
         if (!Object.keys(viewData).includes(view)) {
           throw new Error(`View '${view}' isn't registered or doesn't exist.`)
         }
+        window.tracker?.trackEvent(`Teachers clicked Next on '${view}'`, { category: 'Onboarding' })
         if (view === BASICINFO) {
           this.navigateToView(ROLEINFO)
         } else if (view === ROLEINFO) {
@@ -157,6 +159,7 @@
       },
 
       finishLogin () {
+        window.tracker?.trackEvent('Teachers Signup Success', { category: 'Onboarding' })
         application.router.navigate('/teachers/classes', { trigger: true })
         window.location.reload()
       },
@@ -166,6 +169,7 @@
       },
 
       openSignInModal () {
+        window.tracker?.trackEvent('Teachers Login Clicked from sign-up page', { category: 'Onboarding' })
         this.signInModal = true
       },
 

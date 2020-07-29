@@ -26,6 +26,13 @@
         type: String,
         default: ''
       }
+    },
+    methods: {
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.courseName })
+        }
+      }
     }
   }
 </script>
@@ -47,6 +54,7 @@
 
           icon-name="IconExemplarCode"
           :link="exemplarCodeUrl"
+          @click.native="trackEvent('Student Projects: View Annotated Code Clicked')"
         />
         <icon-button
           v-tooltip.top="{
@@ -56,6 +64,7 @@
           icon-name="IconViewProject_Black"
           icon-style="margin-right: -8px; margin-top: -3px;"
           :link="exemplarProjectUrl"
+          @click.native="trackEvent('Student Projects: View Exemplar Project Clicked')"
         />
       </div>
       <div class="project-rubric">
@@ -68,6 +77,7 @@
           icon-name="IconRubric"
           icon-style="margin-right: -3px;"
           :link="projectRubricUrl"
+          @click.native="trackEvent('Student Projects: View Project Rubric Clicked')"
         />
       </div>
     </div>

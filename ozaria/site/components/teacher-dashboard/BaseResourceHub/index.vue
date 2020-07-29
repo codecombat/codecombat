@@ -24,7 +24,7 @@
 
     mounted () {
       this.setTeacherId(me.get('_id'))
-      this.fetchData({ componentName: this.$options.name })
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
     },
 
     destroyed () {
@@ -38,7 +38,12 @@
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
         setTeacherId: 'teacherDashboard/setTeacherId'
-      })
+      }),
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+        }
+      }
     }
   }
 </script>
@@ -69,7 +74,7 @@
 
         <h4>Contact</h4>
         <div class="contact-icon">
-          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg" /><a href="mailto:support@codecombat.com">support@codecombat.com</a>
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg" /><a href="mailto:support@codecombat.com" @click="trackEvent('Resource Hub: Support Email Clicked')">support@codecombat.com</a>
         </div>
       </div>
 

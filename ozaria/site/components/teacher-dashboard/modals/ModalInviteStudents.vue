@@ -18,6 +18,10 @@
         type: String,
         default: '',
         required: true
+      },
+      from: {
+        type: String,
+        default: null
       }
     },
     data: () => {
@@ -39,6 +43,7 @@
         this.recaptchaResponseToken = token
       },
       async sendInvitation () {
+        window.tracker?.trackEvent('Invite Modal: Done Clicked', { category: 'Teachers', label: this.from })
         let emailList = this.emails.split(/[,\n]/)
         emailList = emailList.map((e) => e.trim()).filter((e) => e.length > 0)
         if (emailList.length === 0) {
@@ -53,11 +58,16 @@
         } else {
           try {
             await inviteMembers({ classroomID: this.classroomId, emails: emailList, recaptchaResponseToken: this.recaptchaResponseToken })
+            window.tracker?.trackEvent('Invite Modal: Done Successful', { category: 'Teachers', label: this.from })
           } catch (e) {
             noty({ type: 'error', text: 'Error in sending invites', layout: 'topCenter', timeout: 2000 })
           }
           this.$emit('done')
         }
+      },
+      clickBack () {
+        window.tracker?.trackEvent('Invite Modal: Back Clicked', { category: 'Teachers', label: this.from })
+        this.$emit('back')
       }
     }
   })
@@ -86,7 +96,7 @@
       <div class="form-group row buttons">
         <div class="col-xs-12">
           <tertiary-button
-            @click="$emit('back')"
+            @click="clickBack"
           >
             {{ $t("common.back") }}
           </tertiary-button>

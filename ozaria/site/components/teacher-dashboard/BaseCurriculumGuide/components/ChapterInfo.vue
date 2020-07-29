@@ -22,6 +22,10 @@
         isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
       }),
 
+      courseName () {
+        return this.getCurrentCourse?.name || ''
+      },
+
       courseShortName () {
         return this.getCurrentCourse?.shortName || this.getCurrentCourse?.name || ''
       },
@@ -78,6 +82,12 @@
         }
 
         return time.join('')
+      },
+
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.courseName })
+        }
       }
     }
   }
@@ -111,8 +121,8 @@
           </div>
         </div>
         <div v-if="!isOnLockedCampaign" class="btns">
-          <a :href="playChapterUrl" target="_blank" rel="noreferrer"> <button-play-chapter /> </a>
-          <a :href="solutionGuideUrl" target="_blank" rel="noreferrer"> <button-solution-guide /> </a>
+          <a :href="playChapterUrl" target="_blank" rel="noreferrer"> <button-play-chapter @click.native="trackEvent('Curriculum Guide: Play Chapter Clicked')"/> </a>
+          <a :href="solutionGuideUrl" target="_blank" rel="noreferrer"> <button-solution-guide @click.native="trackEvent('Curriculum Guide: Solution Guide Clicked')" /> </a>
         </div>
         <div v-else class="btns">
           <span

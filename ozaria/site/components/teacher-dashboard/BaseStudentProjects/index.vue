@@ -60,14 +60,14 @@
     watch: {
       classroomId (newId) {
         this.setClassroomId(newId)
-        this.fetchData({ componentName: this.$options.name, options: { data: projectionData } })
+        this.fetchData({ componentName: this.$options.name, options: { data: projectionData, loadedEventName: 'Student Projects: Loaded' } })
       }
     },
 
     mounted () {
       this.setTeacherId(me.get('_id'))
       this.setClassroomId(this.classroomId)
-      this.fetchData({ componentName: this.$options.name, options: { data: projectionData } })
+      this.fetchData({ componentName: this.$options.name, options: { data: projectionData, loadedEventName: 'Student Projects: Loaded' } })
     },
 
     destroyed () {

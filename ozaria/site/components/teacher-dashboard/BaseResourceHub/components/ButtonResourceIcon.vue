@@ -10,6 +10,14 @@
         type: String,
         required: false,
         default: ''
+      },
+      link: {
+        type: String,
+        default: null
+      },
+      from: {
+        type: String,
+        default: 'Resource Hub'
       }
     },
     computed: {
@@ -19,13 +27,26 @@
           '--backgroundImageHover': `url(/images/ozaria/teachers/dashboard/svg_icons/Icon${this.icon}Hover.svg)`
         }
       }
+    },
+    methods: {
+      clickIcon () {
+        const eventName = `Resource Icon Clicked: ${this.label}`
+        window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.from })
+        this.$emit('click')
+      }
     }
   }
 </script>
 
 <template>
   <div class='resource-icon' :style="cssVariables">
-    <div @clik="emit('click')" class='icon'/>
+    <a
+      :href="link"
+      target="_blank"
+      @click="clickIcon"
+    >
+      <div class='icon'/>
+    </a>
     <p v-if="label !== ''">{{ label }}</p>
   </div>
 </template>

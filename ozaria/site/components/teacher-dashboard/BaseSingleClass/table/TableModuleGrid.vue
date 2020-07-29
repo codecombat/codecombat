@@ -60,12 +60,13 @@
 <template>
   <div class="moduleGrid" :style="cssVariables">
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
-    <div :class="cellClass(index)" v-for="({ status, flag, clickHandler, selectedKey }, index) of allStudentSessionsLinear" :key="selectedKey">
+    <div :class="cellClass(index)" v-for="({ status, flag, clickHandler, selectedKey, normalizedType }, index) of allStudentSessionsLinear" :key="selectedKey">
       <ProgressDot
         :status="status"
         :border="getFlag(flag)"
         :click-progress-handler="clickHandler"
         :click-state="selectedProgressKey && selectedProgressKey === selectedKey"
+        :content-type="normalizedType"
       />
     </div>
   </div>

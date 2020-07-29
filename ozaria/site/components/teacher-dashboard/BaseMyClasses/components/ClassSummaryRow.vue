@@ -31,6 +31,13 @@
         type: Boolean,
         default: false
       }
+    },
+    methods: {
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+        }
+      }
     }
   }
 </script>
@@ -46,6 +53,7 @@
         tag="a"
         :to="`/teachers/classes/${classId}`"
         class="flex-row clickable"
+        @click.native="trackEvent('All Classes: Class Card Clicked')"
       >
         <h2 class="padding-left"> {{ classroomName }} </h2>
         <class-info-row

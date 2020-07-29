@@ -16,6 +16,10 @@
       moduleNum: {
         required: true,
         type: String
+      },
+      courseName: {
+        type: String,
+        default: null
       }
     },
     computed: {
@@ -61,6 +65,12 @@
           return `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`
         }
         return `<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>`
+      },
+
+      trackEvent (eventName) {
+        if (!this.isOnLockedCampaign && eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.courseName })
+        }
       }
     }
   }
@@ -101,6 +111,7 @@
           v-else
           :link="getModuleInfo.lessonSlidesUrl"
           :locked="isOnLockedCampaign"
+          @click.native="trackEvent('Curriculum Guide: Lesson Slides Clicked')"
           v-tooltip.top="{
             content: `<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>`,
             classes: 'teacher-dashboard-tooltip lighter-p'
@@ -112,6 +123,7 @@
         v-if="getModuleInfo.projectRubricUrl"
         :link="getModuleInfo.projectRubricUrl"
         :locked="isOnLockedCampaign"
+        @click.native="trackEvent('Curriculum Guide: Project Rubric Clicked')"
         v-tooltip.top="{
           content: projectRubricTooltipContent,
           classes: 'teacher-dashboard-tooltip lighter-p',
@@ -123,7 +135,7 @@
         v-if="getModuleInfo.exemplarProjectUrl"
         :link="getModuleInfo.exemplarProjectUrl"
         :locked="isOnLockedCampaign"
-
+        @click.native="trackEvent('Curriculum Guide: Exemplar Project Clicked')"
         v-tooltip.top="{
           content: exemplarProjectTooltipContent,
           classes: 'teacher-dashboard-tooltip lighter-p',

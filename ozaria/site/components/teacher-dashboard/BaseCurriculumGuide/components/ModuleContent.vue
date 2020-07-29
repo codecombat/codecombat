@@ -25,6 +25,10 @@
         isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
       }),
 
+      courseName () {
+        return this.getCurrentCourse?.name || ''
+      },
+
       getContentTypes () {
         return (this.getModuleInfo?.[this.moduleNum] || []).map(({
           name,
@@ -66,12 +70,23 @@
           }
         })
       }
+    },
+
+    methods: {
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.courseName })
+        }
+      }
     }
   }
 </script>
 <template>
   <div>
-    <module-header :module-num="moduleNum" />
+    <module-header
+      :module-num="moduleNum"
+      :course-name="courseName"
+    />
 
     <div v-if="!isOnLockedCampaign" class="content-rows">
       <a
@@ -85,6 +100,7 @@
           :icon-type="icon"
           :display-name="name"
           :description="description"
+          @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
         />
       </a>
     </div>

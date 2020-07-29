@@ -31,6 +31,13 @@
       ...mapGetters({
         getUserById: 'users/getUserById'
       })
+    },
+    methods: {
+      trackEvent (eventName) {
+        if (eventName) {
+          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+        }
+      }
     }
   }
 </script>
@@ -46,6 +53,7 @@
         class="pdf-btn"
         icon="PDF"
         label="Licenses How-To Guide"
+        from="My Licenses"
       />
       <div class="side-bar-text">
         Need more licenses? We'll help you build a solution that meets your needs.
@@ -53,6 +61,7 @@
       <primary-button
         class="get-licenses-btn"
         @click="$emit('getLicenses')"
+        @click.native="trackEvent('My Licenses: Get More Licenses Clicked')"
       >
         {{ $t("courses.get_enrollments") }}
       </primary-button>

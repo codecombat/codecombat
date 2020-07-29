@@ -165,6 +165,9 @@ export default {
         noty({ text: 'Error in fetching data', type: 'error', layout: 'topCenter', timeout: 2000 })
       } finally {
         commit('stopLoading')
+        if (options.loadedEventName) { // should be set for tracking the loaded event for dashboard pages
+          window.tracker?.trackEvent(options.loadedEventName, { category: 'Teachers' })
+        }
       }
     },
 
