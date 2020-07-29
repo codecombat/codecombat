@@ -1,6 +1,7 @@
 <script>
   import ContentIcon from '../../common/icons/ContentIcon'
   import { mapGetters } from 'vuex'
+  import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 
   export default {
     components: {
@@ -32,20 +33,9 @@
       }),
 
       getContentTypeHeader () {
-        switch (this.iconType) {
-        case `cutscene`:
-          return 'Cutscene'
-        case `cinematic`:
-          return `Cinematic`
-        case `capstone`:
-          return `Capstone`
-        case `interactive`:
-          return `Concept Check`
-        case `practicelvl`:
-          return `Practice Level`
-        case `challengelvl`:
-          return `Challenge Level`
-        default:
+        if (this.iconType) {
+          return getGameContentDisplayType(this.iconType, true, true)
+        } else {
           return ``
         }
       }

@@ -10,6 +10,7 @@
   import InsertCode from './components/InsertCode'
   import DraggableStatementCompletion from './components/DraggableStatementCompletion'
   import ContentIcon from '../common/icons/ContentIcon'
+  import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 
   export default {
     components: {
@@ -34,20 +35,9 @@
       }),
 
       footerLinkText () {
-        switch (this.panelFooter.icon) {
-        case `cutscene`:
-          return 'View Cutscene'
-        case `cinematic`:
-          return `View Cinematic`
-        case `capstone`:
-          return `View Capstone`
-        case `interactive`:
-          return `View Concept Check`
-        case `practicelvl`:
-          return `View Practice Level`
-        case `challengelvl`:
-          return `View Challenge Level`
-        default:
+        if (this.panelFooter?.icon) {
+          return `View ${getGameContentDisplayType(this.panelFooter.icon)}`
+        } else {
           return ``
         }
       }

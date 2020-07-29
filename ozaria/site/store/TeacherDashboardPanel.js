@@ -1,6 +1,7 @@
 import moment from 'moment'
 import utils from 'app/core/utils'
 import Level from '../../../app/models/Level.coffee'
+import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
 
 export const PRACTICE_LEVEL = 'PRACTICE_LEVEL'
 export const CAPSTONE_LEVEL = 'CAPSTONE_LEVEL'
@@ -321,7 +322,6 @@ export default {
 
       let normalizedOriginal = original || fromIntroLevelOriginal
 
-      const moduleDisplayName = `${$.i18n.t(`teacher.module${moduleNum}`)}${utils.courseModules[selectedCourseId][moduleNum]}`
       if (content === undefined) {
         throw new Error(`Couldn't find module content.`)
       }
@@ -330,6 +330,8 @@ export default {
       commit('setPanelFooter', { url, icon })
       commit('setSelectedProgressKey', `${student._id}_${content._id}`)
       commit('setLearningGoal', (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || '')
+
+      const panelHeader = `Module ${moduleNum} | ${getGameContentDisplayNameWithType(content)}`
 
       if (['hero', 'course', undefined].includes(content.type)) {
         // For practice levels and challenge levels
@@ -343,7 +345,7 @@ export default {
           .find((s) => !s.testOnly)
 
           dispatch('setPanelSessionContent', {
-          header: moduleDisplayName,
+          header: panelHeader,
           studentName: student.displayName,
           dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
           sessionContentObject: practiceLevelData({
@@ -366,7 +368,7 @@ export default {
           .map(([goalId, _]) => goalId) || [])
 
         dispatch('setPanelSessionContent', {
-          header: moduleDisplayName,
+          header: panelHeader,
           studentName: student.displayName,
           dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
           sessionContentObject: capstoneLevelData({
@@ -389,7 +391,7 @@ export default {
           const elementsMap = new Map(content.draggableStatementCompletionData.elements.map((element) => [element.elementId, element]))
 
           dispatch('setPanelSessionContent', {
-            header: moduleDisplayName,
+            header: panelHeader,
             studentName: student.displayName,
             dateFirstCompleted: firstSolution.dateFirstCompleted,
             sessionContentObject: draggableStatementCompletionData({
@@ -413,7 +415,7 @@ export default {
           const elementsMap = new Map(interactiveData.elements.map((element) => [element.elementId, element]))
 
           dispatch('setPanelSessionContent', {
-            header: moduleDisplayName,
+            header: panelHeader,
             studentName: student.displayName,
             dateFirstCompleted: firstSolution.dateFirstCompleted,
             sessionContentObject: draggableOrderingData({
@@ -438,7 +440,7 @@ export default {
           const elementsMap = new Map(interactiveData.choices.map((element) => [element.choiceId, element]))
 
           dispatch('setPanelSessionContent', {
-            header: moduleDisplayName,
+            header: panelHeader,
             studentName: student.displayName,
             dateFirstCompleted: firstSolution.dateFirstCompleted,
             sessionContentObject: insertCodeData({
