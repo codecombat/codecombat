@@ -24,6 +24,7 @@ Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 AnnouncementModal = require 'views/play/modal/AnnouncementModal'
 LiveClassroomModal = require 'views/play/modal/LiveClassroomModal'
+Codequest2020Modal = require 'views/play/modal/Codequest2020Modal'
 MineModal = require 'views/core/MineModal' # Minecraft modal
 api = require 'core/api'
 Classroom = require 'models/Classroom'
@@ -1275,6 +1276,8 @@ module.exports = class CampaignView extends RootView
       @loadPoll('/db/poll/' + nextPollId, true)
     pollModal.once 'trigger-show-live-classes', () =>
       @openModalView new LiveClassroomModal
+    pollModal.once 'trigger-codequest-modal', () =>
+      @openModalView new Codequest2020Modal
 
   onClickPremiumButton: (e) ->
     @openModalView new SubscribeModal()
