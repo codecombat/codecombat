@@ -8,7 +8,3 @@ module.exports = class LiveClassroomModal extends ModalView
 
   events:
     'click #close-modal': 'hide'
-    'mouseup #live-codecombat-link': 'onClickLiveClassesLink'
-  
-  onClickLiveClassesLink: ->
-    window.tracker?.trackEvent 'Click Live Classes link', label: 'live-classes-link'
