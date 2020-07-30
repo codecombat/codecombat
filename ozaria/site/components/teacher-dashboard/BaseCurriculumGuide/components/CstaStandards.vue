@@ -1,5 +1,6 @@
 <script>
   import ButtonResourceIcon from '../../BaseResourceHub/components/ButtonResourceIcon'
+  import { resourceHubLinks } from '../../common/constants.js'
   export default {
     props: {
       cstaList: {
@@ -14,6 +15,9 @@
     computed: {
       shouldShow () {
         return this.cstaList?.length > 0
+      },
+      cstaResourceData () {
+        return resourceHubLinks.csta
       }
     }
   }
@@ -23,7 +27,12 @@
   <div v-if="shouldShow">
     <h3>Standards Alignment</h3>
     <div class="flex">
-      <button-resource-icon icon="PDF" label="CSTA Standards Alignment" from="Curriculum Guide"/>
+      <button-resource-icon
+        :icon="cstaResourceData.icon"
+        :label="cstaResourceData.label"
+        :link="cstaResourceData.link"
+        from="Curriculum Guide"
+      />
     </div>
     <p>A sample of the standards covered in this Chapter:</p>
     <ul>

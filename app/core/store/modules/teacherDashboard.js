@@ -274,6 +274,7 @@ export default {
     // Resource Hub Page
     async fetchDataResourceHubAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
       await Promise.all(fetchPromises)

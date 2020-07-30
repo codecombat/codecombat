@@ -102,13 +102,15 @@
             autoHide: false
           }"
         >
-        <button-slides
+          <button-slides
+            class="margin-right"
             :link="getModuleInfo.lessonSlidesUrl"
             :locked="true"
           />
         </span>
         <button-slides
           v-else
+          class="margin-right"
           :link="getModuleInfo.lessonSlidesUrl"
           :locked="isOnLockedCampaign"
           @click.native="trackEvent('Curriculum Guide: Lesson Slides Clicked')"
@@ -121,6 +123,7 @@
 
       <button-project-req
         v-if="getModuleInfo.projectRubricUrl"
+        class="margin-right"
         :link="getModuleInfo.projectRubricUrl"
         :locked="isOnLockedCampaign"
         @click.native="trackEvent('Curriculum Guide: Project Rubric Clicked')"
@@ -133,6 +136,7 @@
 
       <button-exemplar
         v-if="getModuleInfo.exemplarProjectUrl"
+        class="margin-right"
         :link="getModuleInfo.exemplarProjectUrl"
         :locked="isOnLockedCampaign"
         @click.native="trackEvent('Curriculum Guide: Exemplar Project Clicked')"
@@ -170,6 +174,9 @@
       flex: 2 2 auto;
       display: flex;
       align-items: center;
+      .margin-right {
+        margin-right: 15px;
+      }
     }
   }
 

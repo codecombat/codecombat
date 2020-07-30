@@ -35,7 +35,6 @@
   div {
     display: inline-block;
     padding: 0px 5px;
-    margin: 0 15px;
 
     border-radius: 4px;
     background-color: #f7d047;
