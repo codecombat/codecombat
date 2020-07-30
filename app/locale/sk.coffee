@@ -789,6 +789,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    content: "Amazing! We just launched live online classes."
 #    link: "Ready to get ahead on your coding?"
 
+#  code_quest:
+#    great: "Great!"
+#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+#    link: "Click here to register and learn more"
+
   play_game_dev_level:
     created_by: "Vytvoril{{name}}"
 #    created_during_hoc: "Created during Hour of Code"
