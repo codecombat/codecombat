@@ -1,7 +1,8 @@
 extends /templates/base-flat.jade
 
 block page_nav
-  include ../courses/teacher-dashboard-nav.jade
+  if view.showTeacherLegacyNav()
+    include ../courses/teacher-dashboard-nav.jade
 
 block content
 
@@ -53,10 +54,14 @@ block content
             span(data-i18n="teacher.hoc_additional_contact")
           | .  
 
-    span.backlink
-      a(href='/teachers/resources')
-        span= '< '
-        span(data-i18n="teacher.back_to_resource_hub")
+    if view.showTeacherLegacyNav()
+      span.backlink
+        a(href='/teachers/resources')
+          span= '< '
+          span(data-i18n="teacher.back_to_resource_hub")
+    else
+      //- Create space when the backlink is missing.
+      div(style="height: 40px;")
     if view.loadingData
       .comingsoon
         h4(style="text-align:center")

@@ -4,6 +4,7 @@
   import PrimaryButton from '../common/buttons/PrimaryButton'
   import { mapGetters } from 'vuex'
   import ButtonResourceIcon from '../BaseResourceHub/components/ButtonResourceIcon'
+  import { resourceHubLinks } from '../common/constants.js'
 
   export default {
     components: {
@@ -30,7 +31,10 @@
     computed: {
       ...mapGetters({
         getUserById: 'users/getUserById'
-      })
+      }),
+      howToLicensesResourceData () {
+        return resourceHubLinks.howToLicenses
+      }
     },
     methods: {
       trackEvent (eventName) {
@@ -51,8 +55,9 @@
       </div>
       <button-resource-icon
         class="pdf-btn"
-        icon="PDF"
-        label="Licenses How-To Guide"
+        :icon="howToLicensesResourceData.icon"
+        :label="howToLicensesResourceData.label"
+        :link="howToLicensesResourceData.link"
         from="My Licenses"
       />
       <div class="side-bar-text">

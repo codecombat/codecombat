@@ -1,10 +1,11 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES } from '../common/constants.js'
+  import { COMPONENT_NAMES, resourceHubLinks } from '../common/constants.js'
   import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
   import TitleBar from '../common/TitleBar'
   import LoadingBar from '../common/LoadingBar'
   import ButtonResourceIcon from './components/ButtonResourceIcon'
+  import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 
   export default {
     name: COMPONENT_NAMES.RESOURCE_HUB,
@@ -12,14 +13,27 @@
       'secondary-teacher-navigation': SecondaryTeacherNavigation,
       'title-bar': TitleBar,
       'loading-bar': LoadingBar,
-      ButtonResourceIcon
+      ButtonResourceIcon,
+      ModalOnboardingVideo
+    },
+
+    data () {
+      return {
+        showVideoModal: false
+      }
     },
 
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
         activeClassrooms: 'teacherDashboard/getActiveClassrooms'
-      })
+      }),
+      gettingStartedLinks () {
+        return Object.values(resourceHubLinks).filter((r) => r.resourceHubSection === 'gettingStarted').sort((a, b) => (a.label > b.label) ? 1 : -1)
+      },
+      educatorResourcesLinks () {
+        return Object.values(resourceHubLinks).filter((r) => r.resourceHubSection === 'educatorResources').sort((a, b) => (a.label > b.label) ? 1 : -1)
+      }
     },
 
     mounted () {
@@ -43,6 +57,12 @@
         if (eventName) {
           window.tracker?.trackEvent(eventName, { category: 'Teachers' })
         }
+      },
+      openVideoModal () {
+        this.showVideoModal = true
+      },
+      closeVideoModal () {
+        this.showVideoModal = false
       }
     }
   }
@@ -62,7 +82,10 @@
       :loading="loading"
     />
 
-    <!-- Resource hub is hard coded -->
+    <modal-onboarding-video
+      v-if="showVideoModal"
+      @close="closeVideoModal"
+    />
 
     <div class='flex-container'>
       <div class="aside">
@@ -81,18 +104,25 @@
       <div class="resource-hub">
         <h4 id="getting-started">Getting Started</h4>
         <div class="resource-contents-row">
-          <button-resource-icon icon="Video" label="Test PDF label"/>
-          <button-resource-icon icon="PDF" label="Placeholder"/>
-          <button-resource-icon icon="PDF" label="Placeholder"/>
-          <button-resource-icon icon="FAQ" label="Frequently Asked Questions"/>
+          <button-resource-icon
+            v-for="resourceHubLink in gettingStartedLinks" 
+            :key="resourceHubLink.label"
+            :icon="resourceHubLink.icon"
+            :label="resourceHubLink.label"
+            :link="resourceHubLink.link"
+            @click="() => { if (resourceHubLink.label === 'Dashboard Tutorial') { openVideoModal() } }"
+          />
         </div>
 
         <h4 id="educator-resources">Educator Resources</h4>
         <div class="resource-contents-row">
-          <button-resource-icon icon="Video" label="Test PDF label"/>
-          <button-resource-icon icon="PDF" label="Placeholder"/>
-          <button-resource-icon icon="PDF" label="Placeholder"/>
-          <button-resource-icon icon="FAQ" label="Frequently Asked Questions"/>
+          <button-resource-icon
+            v-for="resourceHubLink in educatorResourcesLinks" 
+            :key="resourceHubLink.label"
+            :icon="resourceHubLink.icon"
+            :label="resourceHubLink.label"
+            :link="resourceHubLink.link"
+          />
         </div>
       </div>
     </div>

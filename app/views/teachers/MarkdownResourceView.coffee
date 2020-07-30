@@ -48,6 +48,12 @@ module.exports = class MarkdownResourceView extends RootView
   onClickPrint: ->
     window.tracker?.trackEvent 'Teachers Click Print Resource', { category: 'Teachers', label: @name }
 
+  showTeacherLegacyNav: ->
+    # Hack to hide legacy dashboard navigation from faq page
+    if @name is 'faq'
+      return false
+    return true
+
   afterRender: ->
     super()
     @$el.find('pre>code').each ->
