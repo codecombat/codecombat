@@ -86,8 +86,7 @@ Application = {
     @tracker = new Tracker(store)
     window.tracker = @tracker
     locale.load(me.get('preferredLanguage', true))
-      .then => console.log('skip tracker in china')
-                # @tracker.initialize()
+      .then => @tracker.initialize()
       .catch((e) => console.error('Tracker initialization failed', e))
 
     if me.useSocialSignOn()

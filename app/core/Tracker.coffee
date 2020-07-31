@@ -160,7 +160,7 @@ module.exports = class Tracker extends CocoClass
     properties[key] = value for key, value of @explicitTraits if @explicitTraits?
     console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
 
-    # api.analyticsLogEvents.post({event, properties})
+    api.analyticsLogEvents.post({event, properties})
 
   trackTiming: (duration, category, variable, label) ->
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings

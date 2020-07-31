@@ -44,7 +44,7 @@ They `screen`s are:
   confirmation: When an account has been successfully created, this view shows them their info and
     links them to a landing page based on their account type.
 
-NOTE: BasicInfoView's two children (SingleSignOn...View) inherit from it.
+NOTE: BasicInfoView\'s two children (SingleSignOn...View) inherit from it.
 This allows them to have the same form-handling logic, but different templates.
 ###
 

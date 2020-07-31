@@ -32,8 +32,7 @@ export default class Tracker2 extends BaseTracker {
     this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
     this.segmentTracker = new SegmentTracker(this.store)
     // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
-    // this.driftTracker = new DriftTracker(this.store)
-    // this.proofTracker = new ProofTracker(this.store)
+    this.driftTracker = new DriftTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
     this.googleOptimizeTracker = new GoogleOptimizeTracker();
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
@@ -41,7 +40,7 @@ export default class Tracker2 extends BaseTracker {
     this.trackers = [
       this.legacyTracker,
       // this.googleAnalyticsTracker,
-      // this.driftTracker,
+      this.driftTracker,
       this.segmentTracker,
       this.fullStoryTracker,
       this.googleOptimizeTracker,
@@ -86,21 +85,27 @@ export default class Tracker2 extends BaseTracker {
 
 
   async identify (traits = {}) {
-    return;
-    // await this.initializationComplete
+    try {
+      await this.initializationComplete
 
-    // await Promise.all(
-    //   this.trackers.map(t => t.identify(traits))
-    // )
+      await allSettled(
+        this.trackers.map(t => t.identify(traits))
+      )
+    } catch (e) {
+      this.log('identify call failed', e)
+    }
   }
 
   async resetIdentity () {
-    return;
-    // await this.initializationComplete
+    try  {
+      await this.initializationComplete
 
-    // await Promise.all(
-    //   this.trackers.map(t => t.resetIdentity())
-    // )
+      await allSettled(
+        this.trackers.map(t => t.resetIdentity())
+      )
+    } catch (e) {
+      this.log('resetIdentity call failed', e)
+    }
 
     window.sessionStorage.removeItem(SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY)
   }
@@ -142,7 +147,7 @@ export default class Tracker2 extends BaseTracker {
   }
 
   get drift () {
-    // return this.driftTracker.drift
+    return this.driftTracker.drift
   }
 
   identifyAfterNextPageLoad () {
