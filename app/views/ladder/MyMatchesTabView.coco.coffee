@@ -86,8 +86,7 @@ module.exports = class MyMatchesTabView extends CocoView
           name = opponentUser?.name
           name ||= opponentUser.firstName + ' ' + opponentUser.lastName if opponentUser?.firstName
           name ||= "Anonymous #{opponent.userID.substr(18)}" if opponentUser
-          unless name
-            console.log 'found', nameMap[opponent.userID], 'for', opponent.userID, "http://codecombat.com/db/user/#{opponent.userID}"
+          name ||= opponent.name
           name ||= '<bad match data>'
           if name.length > 21
             name = name.substr(0, 18) + '...'
