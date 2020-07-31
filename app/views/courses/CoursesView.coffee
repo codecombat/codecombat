@@ -129,8 +129,8 @@ module.exports = class CoursesView extends RootView
         @render()
       @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
 
-    if features.china and @classrooms.find {id: '5d0082964ebb960059fc40b2'}
-      if new Date() >= new Date(2019, 5, 19, 12) && new Date() <= new Date(2019, 5, 25, 0)
+    if features.china and (@classrooms.find({id: '5f245089b2b044014e38ea9e'}) or @classrooms.find({id: '5f23c633a14c9100276c7f88'}))
+      if new Date() >= new Date(2020, 7, 1, 0) && new Date() <= new Date(2020, 8, 1, 0)
         if window.serverConfig?.currentTournament
           @showTournament = true
         else
@@ -310,17 +310,19 @@ module.exports = class CoursesView extends RootView
       if /^zh/.test me.get('preferredLanguage', true)
         [
           {
-            name: '魔力冲刺'
-            id: 'magic-rush'
-            image: '/file/db/level/5b3c9e7259cae7002f0a3980/magic-rush-zh-HANS.jpg'
+            name: '赤壁之战'
+            id: 'battle-of-red-cliff'
+            url: 'battle-of-red-cliffs/course/5f24508ab2b044014e38eaa0'
+            image: '/images/pages/courses/battle-of-red-cliff.png'
           }
         ]
       else
         [
           {
-            name: 'Magic Rush'
-            id: 'magic-rush'
-            image: '/file/db/level/5b3c9e7259cae7002f0a3980/magic-rush.jpg'
+            name: 'Battle of Red Cliff'
+            id: 'battle-of-red-cliff'
+            url: 'battle-of-red-cliffs/course/5f24508ab2b044014e38eaa0'
+            image: '/images/pages/courses/battle-of-red-cliff.png'
           }
         ]
     else
