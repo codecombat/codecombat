@@ -15,8 +15,9 @@ mixin accountLinks
   if serverSession && serverSession.amActually
     li
       a.account-dropdown-item#nav-stop-spying-button Stop Spying
-  li
-    a.account-dropdown-item#logout-button(data-i18n="login.log_out")
+  if !features.codePlay
+    li
+      a.account-dropdown-item#logout-button(data-i18n="login.log_out")
 
 .style-flat
   block header
@@ -147,20 +148,16 @@ mixin accountLinks
 
   block footer
     if !me.hideFooter()
-      #footer.small
-        .container
-          .row
-            if me.showChinaResourceInfo()
-              .col-lg-12
-                .row
-                  .col-lg-3
-                    h3(data-i18n="nav.general")
-                    ul.list-unstyled
-                      li
-                        a(href="/about", data-i18n="nav.about")
-                      //li
-                      //  a(href="/about#careers", data-i18n="nav.careers")
-                      if !me.isStudent()
+      .container-fluid
+        #footer.small
+          .container
+            .row
+              if me.showChinaResourceInfo()
+                .col-lg-12
+                  .row
+                    .col-lg-3
+                      h3(data-i18n="nav.general")
+                      ul.list-unstyled
                         li
                           a(href="/about", data-i18n="nav.about")
                         //li
@@ -259,44 +256,24 @@ mixin accountLinks
                       h3(data-i18n="nav.get_involved")
                       ul.list-unstyled
                         li
-                          - var faqURL = "/teachers/resources/faq";
-                          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-                          -     faqURL = "/teachers/resources/faq-nl-NL";
-                          - if (me.get('preferredLanguage') == 'he')
-                          -     faqURL = "/teachers/resources/faq-HE";
-                          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-                          -     faqURL = "/teachers/resources/faq-pt-BR";
-                          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-                          -     faqURL = "/teachers/resources/faq-zh-HANS";
-                          a(href=faqURL, data-i18n="teacher.educator_faq")
+                          a(href='/community', data-i18n="nav.community")
                         li
-                          a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
                         li
-                          a(href="/apcsp", data-i18n="nav.apcsp")
-                        li
-                          a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                  .col-lg-3
-                    h3(data-i18n="nav.get_involved")
-                    ul.list-unstyled
-                      li
-                        a(href='/community', data-i18n="nav.community")
-                      li
-                        a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
-                      li
-                        a(href="https://github.com/codecombat/codecombat") GitHub
-                      if !me.isStudent() && me.showForumLink()
-                        li
-                          a(href=view.forumLink(), data-i18n="nav.forum")
-                  .col-lg-3
-                    if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
-                      h3(data-i18n="nav.follow_us")
-                      div.social-buttons
-                        a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
-                          img(src="/images/pages/base/youtube_symbol_button.png", width="40")
-                        a(href="https://twitter.com/codecombat", target="_blank")
-                          img(src="/images/pages/base/twitter_logo_btn.png", width="40")
-                        a(href="https://www.facebook.com/codecombat", target="_blank")
-                          img(src="/images/pages/base/facebook_logo_btn.png", width="40")
+                          a(href="https://github.com/codecombat/codecombat") GitHub
+                        if !me.isStudent() && me.showForumLink()
+                          li
+                            a(href=view.forumLink(), data-i18n="nav.forum")
+                    .col-lg-3
+                      if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
+                        h3(data-i18n="nav.follow_us")
+                        div.social-buttons
+                          a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
+                            img(src="/images/pages/base/youtube_symbol_button.png", width="40")
+                          a(href="https://twitter.com/codecombat", target="_blank")
+                            img(src="/images/pages/base/twitter_logo_btn.png", width="40")
+                          a(href="https://www.facebook.com/codecombat", target="_blank")
+                            img(src="/images/pages/base/facebook_logo_btn.png", width="40")
 
       #final-footer(dir="ltr")
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
@@ -314,5 +291,4 @@ mixin accountLinks
               span='京公网安备 11010802031936号'
 
           a.small(href="/legal") Terms of Service
-          a.small(href="/privacy") Privacy 
-  
+          a.small(href="/privacy") Privacy
