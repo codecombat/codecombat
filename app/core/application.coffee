@@ -23,6 +23,7 @@ preventBackspace = (event) ->
     console.debug "Prevented keystroke", key, event
     event.preventDefault()
 
+
 elementAcceptsKeystrokes = (el) ->
   # http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back
   el ?= document.activeElement
@@ -87,7 +88,8 @@ Application = {
     @tracker = new Tracker(store)
     window.tracker = @tracker
     locale.load(me.get('preferredLanguage', true))
-      .then => @tracker.initialize()
+      .then => console.log('skip tracker in china')
+                # @tracker.initialize()
       .catch((e) => console.error('Tracker initialization failed', e))
 
     if me.useSocialSignOn()
