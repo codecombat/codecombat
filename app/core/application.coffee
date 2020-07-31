@@ -48,8 +48,6 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
-#    if features.codePlay and me.isAnonymous()
-#      document.location.href = '//lenovogamestate.com/login/'
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
@@ -135,7 +133,6 @@ Application = {
 
   featureMode: {
     useChina: -> api.admin.setFeatureMode('china').then(-> document.location.reload())
-    useCodePlay: -> api.admin.setFeatureMode('code-play').then(-> document.location.reload())
     usePicoCtf: -> api.admin.setFeatureMode('pico-ctf').then(-> document.location.reload())
     useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())

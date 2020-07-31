@@ -176,12 +176,6 @@ setupFeaturesMiddleware = (app) ->
       features.brainPop = true
       features.noAds = true
 
-    if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
-      features.freeOnly = true
-      features.campaignSlugs = ['dungeon', 'forest', 'desert']
-      features.playViewsOnly = true
-      features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
-
     if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
       features.freeOnly = true
@@ -288,8 +282,6 @@ setupQuickBailToMainHTML = (app) ->
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
 
-      if req.headers.host is 'cp.codecombat.com'
-        features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
       if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie\.com/.test(req.get('host'))
         features.china = true
         if template is 'home.html'

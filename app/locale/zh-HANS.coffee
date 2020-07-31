@@ -8,6 +8,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     built_for_teachers_title: "赋能编程教师的专业课程体系"
     built_for_teachers_blurb: "扣哒世界提供专业、丰富的编程教案和教学活动设计、大数据教学管理平台和学生知识评估体系，可以帮助无计算机专业背景的教师轻松掌握Python, C++, JavaScript等代码编程入门和进阶阶段教学。扣哒世界和著名师资培训中心共同设置“扣哒名师奖”，培养中小学阶段编程和人工智能专业师资。"
 #    become_investor: "to become an investor in CodeCombat"
+    built_for_teachers_title: "赋能编程教师的专业课程体系"
+    built_for_teachers_blurb: "扣哒世界提供专业、丰富的编程教案和教学活动设计、大数据教学管理平台和学生知识评估体系，可以帮助无计算机专业背景的教师轻松掌握Python, C++, JavaScript等代码编程入门和进阶阶段教学。扣哒世界和著名师资培训中心共同设置“扣哒名师奖”，培养中小学阶段编程和人工智能专业师资。"
     built_for_teachers_subtitle1: "计算机科学"
     built_for_teachers_subblurb1: "从我们免费的计算机科学入门课程开始，学生将掌握基础核心编程概念，例如 while/for 循环，函数和算法。"
     built_for_teachers_subtitle2: "游戏开发"
@@ -85,7 +87,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     quotes_quote3: "CodeCombat 是教授学生编写真实代码的最佳途径。我的丈夫是一名软件工程师，他测试了我所有的计算机科学备选课程，CodeCombat 是他的首选。"
     quotes_quote4: "学生们的反馈非常积极，我们正在构建围绕 CodeCombat 的计算机科学课程。寓教于乐，真正让学生参与其中。再接再厉，CodeCombat！"
     see_example: "查看示例"
-    slogan: "AP认证世界名校编程平台" # {change}
+    slogan: "AP认证世界名校编程平台"
     teach_cs1_free: "免费教授计算机科学入门"
     teachers_love_codecombat_title: "教师们喜欢CodeCombat"
     teachers_love_codecombat_blurb1: "反馈学生们喜欢使用 CodeCombat 来学习编程"
@@ -116,7 +118,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     accessible_to: "提供给"
     everyone: "每个人"
     democratizing: "我们的核心理念是普及编程学习。每个人都应该有机会学习编程。"
-    forgot_learning: "我觉得他们甚至忘了自己在学东西。" # {change}
+    forgot_learning: "我觉得他们甚至忘了自己在学东西。"
     wanted_to_do: "编写代码是我一直想做的事情。我从没想过我能在学校学习它。"
     builds_concepts_up: "我喜欢 CodeCombat 的产品概念。这个游戏逻辑很容易理解，学习的过程十分快乐。"
     why_games: "为什么与游戏互动来学习编程很重要？"
@@ -145,10 +147,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     setup_a_class: "配置班级"
     have_an_account: "已有账号？"
     logged_in_as: "登录："
-    computer_science: "适合全年龄段的计算机科学课程" # {change}
+    computer_science: "适合全年龄段的计算机科学课程"
     ffa: "对所有学生免费"
     coming_soon: "即将推出！"
-    courses_available_in: "课程可使用以下编程语言：JavaScript，Python，还有Java（即将推出！）" # {change}
+    courses_available_in: "课程可使用以下编程语言：JavaScript，Python，还有Java（即将推出！）"
     boast: "难度层层递进，复杂到可以吸引高级游戏玩家和程序员。"
     winning: "RPG游戏互动和编程学习的完美结合，使得教育充满乐趣。"
     run_class: "管理课堂的所有工具都可在此找到，无需专业背景。"
@@ -2516,6 +2518,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unknown: "未知错误"
     error: "错误"
     general_desc: "出了点问题，估计是我们的错。请您稍后刷新页面，或者点击下面的链接继续编程！"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "等级"
@@ -3045,6 +3048,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
   parent_modal:
     refer_teacher: "指导老师"

@@ -32,6 +32,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_in_box_blurb1: "Вовлеките каждого ученика, чтобы он поверил, что кодирование для них."
     classroom_in_box_blurb2: "Дайте возможность любому преподавателю чувствовать себя уверенно при обучении кодированию."
     classroom_in_box_blurb3: "Вдохновите всех школьных лидеров создать программу компьютерных наук мирового класса."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
     creativity_rigor_title: "Где творчество встречается со строгостью"
     creativity_rigor_subtitle1: "Занимайтесь программированием и обучайтесь реальным навыкам"
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unknown: "Неизвестная ошибка."
     error: "ОШИБКА"
     general_desc: "Что-то пошло не так, и скорее всего это наша вина. Попробуйте немного подождать и обновить страницу, или посетите одну из ссылок ниже, чтобы вернуться к программированию!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Уровень"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
   parent_modal:
     refer_teacher: "Уведомить учителя"

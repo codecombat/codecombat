@@ -791,6 +791,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content: "Amazing! We just launched live online classes."
     link: "Ready to get ahead on your coding?"
 
+  code_quest:
+    great: "Great!"
+    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+    link: "Click here to register and learn more"
+    global_tournament: "Global Tournament"
+    register: "Register"
+    date: "Aug 1 - Aug 31"
+
   play_game_dev_level:
     created_by: "Created by {{name}}"
     created_during_hoc: "Created during Hour of Code"
@@ -2515,6 +2523,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unknown: "Unknown Error"
     error: "ERROR"
     general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"
@@ -3045,6 +3054,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     grade: "Grade"
     subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
     subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+    start_free_trial_today: "Start free trial today"
+    live_classes_title: "Live coding classes from CodeCombat!"
+    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
   parent_modal:
     refer_teacher: "Refer Teacher"

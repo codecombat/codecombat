@@ -68,7 +68,6 @@ module.exports = class Tracker extends CocoClass
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
     ga? 'send', 'pageview', url
-    ga?('codeplay.send', 'pageview', url) if features.codePlay
     window.snowplow 'trackPageView'
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
@@ -96,7 +95,6 @@ module.exports = class Tracker extends CocoClass
         console.error(e)
 
       ga? 'send', gaFieldObject
-      ga? 'codeplay.send', gaFieldObject if features.codePlay
 
   trackSnowplow: (event, properties) =>
     return if @shouldBlockAllTracking()

@@ -32,6 +32,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     unknown: "Άγνωστο Σφάλμα"
     error: "Σφάλμα"
     general_desc: "Κάτι πήγε στραβά, και ίσως είναι λάθος μας. Δοκιμάστε να περιμένετε λίγο και στη συνέχεια να ανανεώσετε τη σελίδα ή επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Επίπεδο"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
