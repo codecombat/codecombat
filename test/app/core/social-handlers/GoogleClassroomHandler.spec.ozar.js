@@ -248,13 +248,13 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
 
       try {
         await GoogleClassroomHandler.importStudentsToClassroom(classroomWithNewMembers)
-        done.fail(new Error("This should not have been called"))
-      }
-      catch (err) {
         expect(api.users.signupFromGoogleClassroom).toHaveBeenCalled()
         expect(api.users.signupFromGoogleClassroom.calls.count()).toEqual(gcStudents.length)
         expect(api.classrooms.addMembers).not.toHaveBeenCalled()
         done()
+      }
+      catch (err) {
+        done.fail(new Error("This should not have been called"))
       }
     });
 
