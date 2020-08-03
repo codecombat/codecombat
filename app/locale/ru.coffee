@@ -48,7 +48,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     featured_partners_blurb3: "Лучший выбор для обучения"
     featured_partners_blurb4: "Code.org Официальный партнер"
     featured_partners_blurb5: "Официальный член CsForAll"
-    featured_partners_blurb6: "Час активного партнерского программирования"
+    featured_partners_blurb6: "Партнер Hour of Code"
     for_leaders_title: "Для лидеров школы"
     for_leaders_blurb: "Комплексная стандартизированная компьютерная программа"
     for_leaders_subtitle1: "Простое внедрение"
