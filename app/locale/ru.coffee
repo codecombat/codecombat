@@ -3056,7 +3056,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     custom_message: "Я только что нашел CodeCombat и подумал, что это будет отличная программа для вашего класса! Это платформа для обучения информатике с учебной программой, соответствующей образовательным стандартам..\n\nКомпьютерная грамотность очень важна, и я думаю, что это был бы отличный способ привлечь учеников к обучению программированию."
     send: "Отправить"
 
-#  hoc_2018:
+  hoc_2018:
 #    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
     step_1: "Шаг 1: Посмотрите обзор"
@@ -3085,14 +3085,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
-#  hoc_2018_interstitial:
+  hoc_2018_interstitial:
 #    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
     student: "Я ученик"
     ready_to_code: "Я готов программировать!"
 
-#  hoc_2018_completion:
+  hoc_2018_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
     copy: "Копировать URL"
@@ -3136,7 +3136,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
-#  browser_recommendation:
+  browser_recommendation:
     title: "CodeCombat наилучшим образом работает через Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Скачать Chrome"
