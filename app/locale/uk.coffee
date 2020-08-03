@@ -617,7 +617,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     reload_title: "Перезавантажити весь код?"
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
-#    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
+    restart_really: "Чи впевнені ви, що хочете перезапустити цей рівень? Весь ваш сирець буде втрачено."
     restart_confirm: "Так, перезавантажити"
     test_level: "Протестувати рівень"
     victory: "Перемога"
