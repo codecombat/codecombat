@@ -1,7 +1,7 @@
 /*!
  * jaba
  * 
- * Compiled: Wed Jun 05 2019 00:20:24 GMT-0700 (PDT)
+ * Compiled: Wed Oct 30 2019 20:06:05 GMT-0700 (PDT)
  * Target  : web (umd)
  * Profile : modern
  * Version : 0d3b993-dirty
@@ -211,6 +211,12 @@ function skope(node) {
 				methods.pop();
 				popScope();
 				return;
+			case "LambdaExpression":
+			case "Function":
+				methods.push(node);
+				next(node.body);
+				methods.pop();
+				return;
 			case "FieldDeclaration":
 				for ( let frag of node.fragments ) {
 					scope[frag.name.identifier] = {node: node, type: node.type, kind: "ClassFeature"}
@@ -314,12 +320,12 @@ function skope(node) {
 
 
 
-function transpile(code) {
-	let iast = parser.parse(code);
+function transpile(code, options) {
+	let iast = parser.parse(code, options);
 	skope(iast);
 	let r = transform(iast)
 	//let src = generate(r).code;
-	//console.log(src);
+	//console.log("CODE", src);
 
 	//r = require('babylon').parse(generate(r).code, {plugins: ['flow', 'classProperties', 'decorators']}).program;
 
@@ -520,6 +526,7 @@ module.exports = {
 	JavaCast,
 	javaifyEngine
 }
+
 
 /***/ }),
 /* 7 */

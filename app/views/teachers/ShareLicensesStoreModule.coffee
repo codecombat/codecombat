@@ -30,6 +30,8 @@ module.exports = ShareLicensesStoreModule =
         firstName: user.firstName
         lastName: user.lastName
       })
+    revokeTeacher: (state, joinerID) ->
+      state._prepaid.joiners = _.filter state._prepaid.joiners, (j) -> j._id != joinerID
     setError: (state, error) ->
       state.error = error
     clearData: (state) ->
@@ -49,6 +51,11 @@ module.exports = ShareLicensesStoreModule =
       api.users.getByEmail({ email }).then (user) =>
         api.prepaids.addJoiner({prepaidID: state._prepaid._id, userID: user._id}).then =>
           commit('addTeacher', user)
+      .catch (error) =>
+        commit('setError', translateError(error.responseJSON or error))
+    revokeTeacher: ({commit, state}, input) ->
+      api.prepaids.revokeJoiner(input).then =>
+        commit('revokeTeacher', input.userID)
       .catch (error) =>
         commit('setError', translateError(error.responseJSON or error))
   getters:

@@ -96,6 +96,10 @@ block content
               br
               h3(data-i18n="courses.my_classes")
 
+              if view.allCompleted
+                p.alert.alert-success
+                  span(data-i18n="courses.ask_next_course")
+
               for classroom in view.classrooms.models
                 hr.class-break
                 - var justAdded = classroom.id === view.classroomJustAdded;
@@ -107,7 +111,8 @@ block content
                 div(class=classroomClass).rtl-allowed
                   h5(dir="auto")
                     span.spr= classroom.get('name')
-                    span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
+                    - var languageMap = {javascript: 'Javascript', python: 'Python', cpp: 'C++'}
+                    span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
                   p
                     span(data-i18n="courses.teacher")
                     span :

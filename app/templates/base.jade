@@ -19,7 +19,8 @@ block header
             a(href="/play", data-i18n="common.play")
             if me.showForumLink()
               a(href=view.forumLink(), data-i18n="nav.forum")
-          a(href='/community', data-i18n="nav.community")
+          if me.showOpenResourceLink()
+            a(href='/community', data-i18n="nav.community")
 
           if me.get('anonymous') === false
             span.dropdown
@@ -52,9 +53,8 @@ block header
                 if serverSession && serverSession.amActually
                   li
                     a#nav-stop-spying-button Stop Spying
-                if !features.codePlay
-                  li
-                    a#logout-button(data-i18n="login.log_out")
+                li
+                  a#logout-button(data-i18n="login.log_out")
 
           else
             button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
@@ -75,13 +75,15 @@ block footer
 
     #footer-links(class=features.playViewsOnly ? 'hide' : '')
       a(href="/about", data-i18n="nav.about")
-      if !me.isStudent()
+      if me.isTeacher(true)
         a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-      a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
-      a(href='https://jobs.lever.co/codecombat', tabindex=-1, data-i18n="nav.careers")
+      if me.showOpenResourceLink()
+        a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
+        a(href='https://jobs.lever.co/codecombat', tabindex=-1, data-i18n="nav.careers")
       a(href='/legal', tabindex=-1, data-i18n="nav.legal")
       a(href='/privacy', tabindex=-1, data-i18n="nav.privacy")
-      a(href='/contribute', tabindex=-1, data-i18n="nav.contribute")
+      if me.showOpenResourceLink()
+        a(href='/contribute', tabindex=-1, data-i18n="nav.contribute")
       if !me.isStudent()
         a(href='/play/ladder', tabindex=-1, data-i18n="game_menu.multiplayer_tab")
       if me.isAdmin()

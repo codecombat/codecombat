@@ -18,8 +18,17 @@ CocoClass = require 'core/CocoClass'
 Clan = require 'models/Clan'
 CourseInstance = require 'models/CourseInstance'
 Course = require 'models/Course'
+Mandate = require 'models/Mandate'
 
 HIGHEST_SCORE = 1000000
+
+STOP_CHECK_TOURNAMENT_CLOSE = 0  # tournament ended
+KEEP_CHECK_TOURNAMENT_CLOSE = 1  # tournament not begin
+STOP_CHECK_TOURNAMENT_OPEN = 2  # none tournament only level
+KEEP_CHECK_TOURNAMENT_OPEN = 3  # tournament running
+
+TOURNAMENT_OPEN = [2, 3]
+STOP_CHECK_TOURNAMENT = [0, 2]
 
 class LevelSessionsCollection extends CocoCollection
   url: ''
@@ -48,9 +57,6 @@ module.exports = class LadderView extends RootView
     if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
       @leagueID = @leagueType = null
 
-    if features.china and @levelID == 'magic-rush'
-      @checkForTournamentEnd()
-
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
       @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
@@ -64,26 +70,68 @@ module.exports = class LadderView extends RootView
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
     @winners = require('./tournament_results')[@levelID]
 
-    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000}[@levelID]
+    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000, 'battle-of-red-cliffs': 1598918400000}[@levelID]
       @tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
-    if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000}[@levelID]
+    if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000, 'battle-of-red-cliffs': 1596295800000}[@levelID]
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
     @displayTabContent = 'display: block'
 
+    @calcTimeOffset()
+    @mandate = @supermodel.loadModel(new Mandate()).model
+
     @loadLeague()
     @urls = require('core/urls')
 
-  checkForTournamentEnd: =>
-    return if @destroyed
-    return false if me.isAdmin()
-    $.get '/db/mandate', (data) =>
-      return if @destroyed
-      if data?[0]?.currentTournament isnt 'magic-rush'
-        @tournamentEnd = true
-        @displayTabContent = 'display: none'
+    if features.china
+      @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
+
+  calcTimeOffset: ->
+    $.ajax
+      type: 'HEAD'
+      success: (result, status, xhr) =>
+        @timeOffset = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
+
+  checkTournamentEnd: ->
+    return unless @timeOffset
+    return unless @mandate.loaded
+    return unless @level.loaded
+    return if (@leagueID and not @league.loaded)
+    mandate = @mandate.get('0')
+
+    tournamentState = STOP_CHECK_TOURNAMENT_OPEN
+
+    if mandate
+      tournamentState = @getTournamentState mandate, @courseInstance?.id, @level.get('slug'), @timeOffset
+      if tournamentState in TOURNAMENT_OPEN
+        if @tournamentEnd
+          @tournamentEnd = false
+          @render()
       else
-        setTimeout @checkForTournamentEnd, 60 * 1000
+        unless @tournamentEnd or me.isAdmin()
+          @tournamentEnd = true
+          @render()
+    if tournamentState in STOP_CHECK_TOURNAMENT
+      clearInterval @checkTournamentEndInterval
+
+  getTournamentState: (mandate, courseInstanceID, levelSlug, timeOffset) ->
+    tournament = _.find mandate.currentTournament or [], (t) ->
+      t.courseInstanceID is courseInstanceID and t.level is levelSlug
+    if tournament
+      currentTime = (Date.now() + timeOffset) / 1000
+      console.log "Current time:", new Date(currentTime * 1000)
+      if currentTime < tournament.startAt
+        delta = tournament.startAt - currentTime
+        console.log "Tournament will start at: #{new Date(tournament.startAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+        return KEEP_CHECK_TOURNAMENT_CLOSE
+      else if currentTime > tournament.endAt
+        console.log "Tournament ended at: #{new Date(tournament.endAt * 1000)}"
+        return STOP_CHECK_TOURNAMENT_CLOSE
+      delta = tournament.endAt - currentTime
+      console.log "Tournament will end at: #{new Date(tournament.endAt * 1000)}, Time left: #{parseInt(delta / 60 / 60) }:#{parseInt(delta / 60) % 60}:#{parseInt(delta) % 60}"
+      return KEEP_CHECK_TOURNAMENT_OPEN
+    else
+      return if levelSlug in (mandate.tournamentOnlyLevels or []) then STOP_CHECK_TOURNAMENT_CLOSE else STOP_CHECK_TOURNAMENT_OPEN
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'
@@ -175,4 +223,6 @@ module.exports = class LadderView extends RootView
 
   destroy: ->
     clearInterval @refreshInterval
+    if @checkTournamentEndInterval
+      clearInterval @checkTournamentEndInterval
     super()

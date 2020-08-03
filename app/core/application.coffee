@@ -4,7 +4,7 @@ GitHubHandler = require 'core/social-handlers/GitHubHandler'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 storage = require 'core/storage'
-Tracker = require 'core/Tracker'
+Tracker = require('core/Tracker2').default
 CocoModel = require 'models/CocoModel'
 api = require 'core/api'
 
@@ -47,14 +47,17 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
-#    if features.codePlay and me.isAnonymous()
-#      document.location.href = '//lenovogamestate.com/login/'
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
 
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
+
+    routerSync = require('vuex-router-sync')
+    vueRouter = require('app/core/vueRouter').default()
+    routerSync.sync(store, vueRouter)
+
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
@@ -78,14 +81,17 @@ Application = {
     $('body').addClass 'picoctf' if window.serverConfig.picoCTF
     if $.browser.msie and parseInt($.browser.version) is 10
       $("html").addClass("ie10")
-    @tracker = new Tracker()
+
+    @tracker = new Tracker(store)
+    window.tracker = @tracker
+    locale.load(me.get('preferredLanguage', true))
+      .then => @tracker.initialize()
+      .catch((e) => console.error('Tracker initialization failed', e))
+
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
       @githubHandler = new GitHubHandler()
-    locale.load(me.get('preferredLanguage', true)).then =>
-      @tracker.promptForCookieConsent()
-    preferredLanguage = me.get('preferredLanguage') or 'en'
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
@@ -125,7 +131,6 @@ Application = {
 
   featureMode: {
     useChina: -> api.admin.setFeatureMode('china').then(-> document.location.reload())
-    useCodePlay: -> api.admin.setFeatureMode('code-play').then(-> document.location.reload())
     usePicoCtf: -> api.admin.setFeatureMode('pico-ctf').then(-> document.location.reload())
     useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())

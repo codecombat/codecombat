@@ -22,6 +22,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     @classroom = options.classroom or new Classroom()
     @googleClassrooms = me.get('googleClassrooms') || []
     @isGoogleClassroom = false
+    @enableCpp = me.enableCpp()
 
   afterRender: ->
     super()
