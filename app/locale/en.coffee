@@ -4,6 +4,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     meta_og_url: "https://codecombat.com"
+    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Computer Science"
@@ -30,7 +31,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
     classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
     classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
+    classroom_in_box_blurb4: "" # only for koudashijie.com
+    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
+    click_here: "Click here"
     creativity_rigor_title: "Where Creativity Meets Rigor"
     creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
     creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -87,6 +90,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
+    top_banner_blurb: "New: join our mission!"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -95,7 +99,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     im_a_teacher: "I'm a Teacher"
     im_a_student: "I'm a Student"
     learn_more: "Learn more"
-    learn_more_caps: "Learn More"
     classroom_in_a_box: "A classroom in-a-box for teaching computer science."
     codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
     our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even for teachers with little to no prior programming experience."
@@ -786,6 +789,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     content: "Amazing! We just launched live online classes."
     link: "Ready to get ahead on your coding?"
 
+  code_quest:
+    great: "Great!"
+    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+    link: "Click here to register and learn more"
+    global_tournament: "Global Tournament"
+    register: "Register"
+    date: "Aug 1 - Aug 31"
+
   play_game_dev_level:
     created_by: "Created by {{name}}"
     created_during_hoc: "Created during Hour of Code"
@@ -1119,6 +1130,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...and our open-source community"
+    bryukh_title: "Senior Gameplay Developer"
+    bryukh_blurb: "Constructs puzzles"
     community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
     community_description_3: "CodeCombat is a"
     community_description_link_2: "community project"
@@ -2508,6 +2521,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unknown: "Unknown Error"
     error: "ERROR"
     general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"
@@ -3038,6 +3052,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     grade: "Grade"
     subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
     subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+    start_free_trial_today: "Start free trial today"
+    live_classes_title: "Live coding classes from CodeCombat!"
+    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
   parent_modal:
     refer_teacher: "Refer Teacher"

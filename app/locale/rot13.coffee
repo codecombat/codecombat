@@ -4,6 +4,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     meta_keywords: "PbqrPbzong, clguba, wninfpevcg, Pbqvat Tnzrf"
     meta_description: "Yrnea glcrq pbqr guebhtu n cebtenzzvat tnzr. Yrnea Clguba, WninFpevcg, naq UGZY nf lbh fbyir chmmyrf naq yrnea gb znxr lbhe bja pbqvat tnzrf naq jrofvgrf."
     meta_og_url: "uggcf://pbqrpbzong.pbz"
+    become_investor: "gb orpbzr na vairfgbe va PbqrPbzong"
     built_for_teachers_title: "N Pbqvat Tnzr Ohvyg jvgu Grnpuref va Zvaq"
     built_for_teachers_blurb: "Grnpuvat xvqf gb pbqr pna bsgra srry birejuryzvat. PbqrPbzong urycf nyy rqhpngbef grnpu fghqragf ubj gb pbqr va rvgure WninFpevcg be Clguba, gjb bs gur zbfg cbchyne cebtenzzvat ynathntrf. Jvgu n pbzcerurafvir pheevphyhz gung vapyhqrf fvk pbzchgre fpvrapr havgf naq ervasbeprf yrneavat guebhtu cebwrpg-onfrq tnzr qrirybczrag naq jro qrirybczrag havgf, xvqf jvyy cebterff ba n wbhearl sebz onfvp flagnk gb erphefvba!"
     built_for_teachers_subtitle1: "Pbzchgre Fpvrapr"
@@ -30,7 +31,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     classroom_in_box_blurb1: "Ratntr rirel fghqrag fb gung gurl oryvrir pbqvat vf sbe gurz."
     classroom_in_box_blurb2: "Rzcbjre nal rqhpngbe gb srry pbasvqrag jura grnpuvat pbqvat."
     classroom_in_box_blurb3: "Vafcver nyy fpubby yrnqref gb perngr n jbeyq-pynff pbzchgre fpvrapr cebtenz."
-    covid19_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!"
+    classroom_in_box_blurb4: "" # bayl sbe xbhqnfuvwvr.pbz
+    covid19_banner_blurb: "Jr ner bssrevat serr npprff gb bhe shyy pheevphyhz gb rqhpngbef naq fpubbyf nssrpgrq ol fpubby pybfherf."
+    click_here: "Pyvpx urer"
     creativity_rigor_title: "Jurer Perngvivgl Zrrgf Evtbe"
     creativity_rigor_subtitle1: "Znxr pbqvat sha naq grnpu erny-jbeyq fxvyyf"
     creativity_rigor_blurb1: "Fghqragf glcr erny Clguba naq WninFpevcg juvyr cynlvat tnzrf gung rapbhentr gevny-naq-reebe, pevgvpny guvaxvat, naq perngvivgl. Fghqragf gura nccyl gur pbqvat fxvyyf gurl’ir yrnearq ol qrirybcvat gurve bja tnzrf naq jrofvgrf va cebwrpg-onfrq pbhefrf."
@@ -87,6 +90,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
+    top_banner_blurb: "Arj: wbva bhe zvffvba!"
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -95,7 +99,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     im_a_teacher: "V'z n Grnpure"
     im_a_student: "V'z n Fghqrag"
     learn_more: "Yrnea zber"
-    learn_more_caps: "Yrnea Zber"
     classroom_in_a_box: "N pynffebbz va-n-obk sbe grnpuvat pbzchgre fpvrapr."
     codecombat_is: "PbqrPbzong vf n cyngsbez <fgebat>sbe fghqragf</fgebat> gb yrnea pbzchgre fpvrapr juvyr cynlvat guebhtu n erny tnzr."
     our_courses: "Bhe pbhefrf unir orra fcrpvsvpnyyl cynlgrfgrq <fgebat>gb rkpry va gur pynffebbz</fgebat>, rira sbe grnpuref jvgu yvggyr gb ab cevbe cebtenzzvat rkcrevrapr."
@@ -1119,6 +1122,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"
     community_title: "...naq bhe bcra-fbhepr pbzzhavgl"
+    bryukh_title: "Fravbe Tnzrcynl Qrirybcre"
+    bryukh_blurb: "Pbafgehpgf chmmyrf"
     community_subtitle: "Bire 500 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
     community_description_3: "PbqrPbzong vf n"
     community_description_link_2: "pbzzhavgl cebwrpg"
@@ -2508,6 +2513,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unknown: "Haxabja Reebe"
     error: "REEBE"
     general_desc: "Fbzrguvat jrag jebat, naq vg’f cebonoyl bhe snhyg. Gel jnvgvat n ovg naq gura erserfuvat gur cntr, be ivfvg bar bs gur sbyybjvat yvaxf gb trg onpx gb cebtenzzvat!"
+    too_many_login_failures: "Gurer unir orra gbb znal hafhpprffshy ybtva nggrzcgf.  Cyrnfr gel ntnva yngre."
 
   resources:
     level: "Yriry"
@@ -3038,6 +3044,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     grade: "Tenqr"
     subscribe_error_user_type: "Ybbxf yvxr lbh'ir nyernql fvtarq hc sbe na nppbhag. Vs lbh'er vagrerfgrq va PbqrPbzong Cerzvhz, cyrnfr pbagnpg hf ng grnz@pbqrpbzong.pbz."
     subscribe_error_already_subscribed: "Lbh'ir nyernql fvtarq hc sbe n Cerzvhz nppbhag."
+    start_free_trial_today: "Fgneg serr gevny gbqnl"
+    live_classes_title: "Yvir pbqvat pynffrf sebz PbqrPbzong!"
+    live_class_booked_thank_you: "Lbhe yvir pynff unf orra obbxrq, gunax lbh!"
 
   parent_modal:
     refer_teacher: "Ersre Grnpure"

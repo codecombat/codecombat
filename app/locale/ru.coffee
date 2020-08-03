@@ -7,6 +7,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     meta_og_url: "https://codecombat.com"
     built_for_teachers_title: "Игра для програмированния, созданная с учителями в уме"
     built_for_teachers_blurb: "Обучение детей программированию часто может быть ошеломляющим. CodeCombat помогает всем преподавателям учить студентов программировать на JavaScript или Python, двух самых популярных языках программирования. Благодаря всеобъемлющему учебному плану, который включает в себя шесть блоков информатики и способствует обучению посредством основанных на проектах блоков разработки игр и веб-разработки, дети будут продвигаться по пути от основного синтаксиса к рекурсии!"
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_subtitle1: "Информатика"
     built_for_teachers_subblurb1: "Начиная с бесплатного курса «Введение в информатику», студенты осваивают основные понятия кодирования, такие как циклы while/for, функции и алгоритмы."
     built_for_teachers_subtitle2: "Разработка игр"
@@ -31,7 +32,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_in_box_blurb1: "Вовлеките каждого ученика, чтобы он поверил, что кодирование для них."
     classroom_in_box_blurb2: "Дайте возможность любому преподавателю чувствовать себя уверенно при обучении кодированию."
     classroom_in_box_blurb3: "Вдохновите всех школьных лидеров создать программу компьютерных наук мирового класса."
-    covid19_banner_blurb: "Где творчество встречается со строгостью."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
+#    click_here: "Click here"
     creativity_rigor_title: "Где творчество встречается со строгостью"
     creativity_rigor_subtitle1: "Занимайтесь программированием и обучайтесь реальным навыкам"
     creativity_rigor_blurb1: "Учащиеся пишут на настоящем Python и JavaScript, играя в игры, которые поощряют метод проб и ошибок, критическое мышление и творческий подход. Затем студенты применяют приобретенные навыки кодирования, разрабатывая свои собственные игры и веб-сайты на курсах, основанных на проектах."
@@ -88,6 +91,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teachers_love_codecombat_blurb2: "Рекомендую CodeCombat всем учителмя информатики"
     teachers_love_codecombat_blurb3: "Скажите, что CodeCombat помогает им поддерживать способности учащихся решать проблемы"
     teachers_love_codecombat_subblurb: "В партнерстве с McREL International, лидером в области основанного на исследованиях руководства и оценки образовательных технологий."
+#    top_banner_blurb: "New: join our mission!"
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
@@ -1119,6 +1123,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...и наше open-source сообщество"
+#    bryukh_title: "Senior Gameplay Developer"
+#    bryukh_blurb: "Constructs puzzles"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"
     community_description_link_2: "проект сообщества"
@@ -2508,6 +2514,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unknown: "Неизвестная ошибка."
     error: "ОШИБКА"
     general_desc: "Что-то пошло не так, и скорее всего это наша вина. Попробуйте немного подождать и обновить страницу, или посетите одну из ссылок ниже, чтобы вернуться к программированию!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Уровень"
@@ -3037,6 +3044,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
   parent_modal:
     refer_teacher: "Уведомить учителя"

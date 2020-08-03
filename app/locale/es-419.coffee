@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Aprende a esciribir código a través de un juego de programación. Aprende Python, JavaScript y HTML mientras resuelves rompecabezas y aprendes a hacer tus propios juegos de código y páginas web."
 #    meta_og_url: "https://codecombat.com"
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Un Juego de programación construido teniendo en cuenta a los maestros."
     built_for_teachers_blurb: "Enseñar a los niños a programar puede ser abrumador. CodeCombat ayuda a todos los educadores a enseñar a los estudiantes cómo programar en JavaScript o Python, dos de los lenguajes de programación más populares. Con un plan de estudios comprensivo que incluye seis unidades de Ciencias de la Computación, y refuerza el aprendizaje a través de unidades en el desarrollo de juegos y desarrollo web basados en proyectos, los niños progresarán en un viaje desde la sintaxis básica hasta la recursión!"
     built_for_teachers_subtitle1: "Ciencias de la Computación"
@@ -31,7 +32,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classroom_in_box_blurb1: "Involucre a todos los estudiantes para que confíen que la programación es para ellos."
     classroom_in_box_blurb2: "Apoderar a cualquier educador para que se sienta seguro al enseñar programación."
     classroom_in_box_blurb3: "Inspirar a todos los líderes escolares para crear un programa de Ciencias de la Computación de clase mundial."
-#    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
+#    click_here: "Click here"
     creativity_rigor_title: "Donde la creatividad alcanza el rigor"
     creativity_rigor_subtitle1: "Haga que la programación sea divertida y enseñe habilidades del mundo real"
     creativity_rigor_blurb1: "Los estudiantes escriben Python y JavaScript real mientras juegan juegos que fomentan el ensayo y error, el pensamiento crítico y la creatividad. Luego, los estudiantes aplican las habilidades de programación que han aprendido al desarrollar sus propios juegos y sitios web en cursos basados en proyectos."
@@ -88,6 +91,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teachers_love_codecombat_blurb2: "Recomendarían CodeCombat a otros maestros de Ciencias de la Computación"
     teachers_love_codecombat_blurb3: "Dicen que CodeCombat los ayuda a mejorar las habilidades de resolución de problemas de sus estudiantes"
     teachers_love_codecombat_subblurb: "En asociación con McREL International, líder en orientación basada en investigación y evaluaciones de tecnología educativa."
+#    top_banner_blurb: "New: join our mission!"
     try_the_game: "Prueba el juego"
     classroom_edition: "Versión para el aula:"
     learn_to_code: "Aprende a programar:"
@@ -96,7 +100,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     im_a_teacher: "Soy un Maestro"
     im_a_student: "Soy un Estudiante"
     learn_more: "Aprender más"
-#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Un aula prediseñada para enseñar Ciencias de la Computación."
     codecombat_is: "CodeCombat es una plataforma para que los estudiantes aprendan Ciencias de la Computación mientras están jugando un juego de verdad." # {change}
     our_courses: "Nuestros cursos fueron probados especificamente para destacarse en el aula, incluso con maestros con poca o ninguna experiencia previa en programación." # {change}
@@ -1119,6 +1122,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
     community_title: "...y nuestra comunidad open-source"
+#    bryukh_title: "Senior Gameplay Developer"
+#    bryukh_blurb: "Constructs puzzles"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
     community_description_3: "CodeCombat es un"
     community_description_link_2: "proyecto comunitario"
@@ -2508,6 +2513,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     unknown: "Error desconocido." # {change}
     error: "ERROR"
     general_desc: "Ocurrió un errór, probablemente es tu culpa. Espera un poco y luego refresca la página, o visíta uno de los siguientes enlaces para regresar a programar!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Nivel"
@@ -3037,6 +3043,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

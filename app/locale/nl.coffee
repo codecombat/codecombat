@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Leer code typen via een programmeerspel. Leer Python, JavaScript en HTML terwijl je puzzels oplost en leer je eigen coderingsspellen en websites maken."
 #    meta_og_url: "https://codecombat.com"
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Een Codeerspel Gemaakt met Leraren in Gedachten"
     built_for_teachers_blurb: "Kinderen leren programmeren kan vaak overweldigend aanvoelen. CodeCombat helpt alle docenten om leerlingen te leren coderen in JavaScript of Python, twee van de meest populaire programmeertalen. Met een uitgebreid curriculum dat zes computerwetenschap-eenheden omvat en het leren versterkt door projectgebaseerde spelontwikkeling en webontwikkelingsunits, zullen kinderen vooruitgang boeken op een reis van basissyntaxis naar recursie! "
     built_for_teachers_subtitle1: "Computerwetenschap"
@@ -31,7 +32,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_in_box_blurb1: "Elke student erbij te betrekken zodat ze geloven dat coderen voor hen is. "
     classroom_in_box_blurb2: "Elke leraar in staat te stellen zich zeker van zichzelf te voelen wanneer ze lesgeven in programmeren."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-#    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
+#    click_here: "Click here"
     creativity_rigor_title: "Waar Creativiteit en Structuur Samenkomen"
     creativity_rigor_subtitle1: "Programmeren leuk te maken en real-world-skills te leren"
     creativity_rigor_blurb1: "Studenten typen echte Python en JavaScript terwijl ze games spelen die trial-en-error aanmoedigen, kritisch denken, en creativiteit. Studenten passen dan de programmeerskills toe die ze hebben geleerd, door hun eigen games en websites te ontwerpen in projectgebaseerde cursussen."
@@ -88,6 +91,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teachers_love_codecombat_blurb2: "Zouden CodeCombat aanraden aan andere informatica-docenten"
     teachers_love_codecombat_blurb3: "Zeggen dat CodeCombat hen helpt om de probleemoplossende vaardigheden van studenten te ondersteunen"
     teachers_love_codecombat_subblurb: "In samenwerking met McREL International, een leider in op onderzoek gebaseerde begeleiding en evaluaties van educatieve technologie."
+#    top_banner_blurb: "New: join our mission!"
     try_the_game: "Probeer de game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -96,7 +100,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
     learn_more: "Lees verder"
-#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Kant-en-klare programmeerlessen."
     codecombat_is: "CodeCombat is een platform waarmee leerlingen spelenderwijs leren programmeren."
     our_courses: "Onze lessen zijn ontwikkeld voor een klasomgeving en kan meteen worden gebruikt, zelfs door leraren zonder programmeerervaring."
@@ -1119,6 +1122,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     community_title: "...en onze open-source gemeenschap"
+#    bryukh_title: "Senior Gameplay Developer"
+#    bryukh_blurb: "Constructs puzzles"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"
@@ -2508,6 +2513,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unknown: "Onbekende fout." # {change}
     error: "ERROR"
     general_desc: "Oeps er ging iets mis, en dat ligt waarschijnlijk aan ons. Probeer de pagina straks opnieuw te laden, of klik op een van de volgende links om verder te gaan met programmeren!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"
@@ -3037,6 +3043,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
   parent_modal:
     refer_teacher: "Verwijs de leraar door"

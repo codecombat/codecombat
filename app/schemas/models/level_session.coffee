@@ -159,27 +159,27 @@ _.extend LevelSessionSchema.properties,
 
   codeLanguage:
     type: 'string'
-    
+
   codeConcepts:
     type: 'array'
     items:
-      type: 'string'    
+      type: 'string'
 
   playtime:
     type: 'number'
     title: 'Playtime'
     description: 'The total playtime on this session in seconds'
-    
+
   hintTime:
     type: 'number'
     title: 'Hint Time'
     description: 'The total time hints viewed in seconds'
-    
+
   timesCodeRun:
     type: 'number'
     title: 'Times Code Run'
     description: 'The total times the code has been run'
-    
+
   timesAutocompleteUsed:
     type: 'number'
     title: 'Times Autocomplete Used'
@@ -339,6 +339,13 @@ _.extend LevelSessionSchema.properties,
     type: 'object'
     title: 'Key Value DB'
     description: 'Simplified key-value database for game-dev levels'
+
+  source: c.object {},
+    id: c.objectId({})
+    name:
+      type: 'string'
+      title: 'Level session source'
+      description: 'Source of the level session, if present level session was added from an external source'
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    meta_og_url: "https://codecombat.com"
+#    become_investor: "to become an investor in CodeCombat"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -31,7 +32,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-#    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
+#    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -88,6 +91,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
+#    top_banner_blurb: "New: join our mission!"
 #    try_the_game: "Try the game"
     classroom_edition: "Phiên bản Lớp học:"
     learn_to_code: "Học lập trình:"
@@ -96,7 +100,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     im_a_teacher: "Tôi là Giáo viên"
     im_a_student: "Tôi là Học viên"
     learn_more: "Tìm hiểu thêm"
-#    learn_more_caps: "Learn More"
     classroom_in_a_box: "Một lớp học đặc biệt dành cho bộ môn công nghệ thông tin."
     codecombat_is: "CodeCombat là nền tảng <strong>giúp cho học sinh</strong> tiếp cận với bộ môn công nghệ thông tin bằng cách chơi game."
     our_courses: "Các khóa học của chúng tôi đã được thử nghiệm để <strong>triển khai trong các lớp học</strong>, thậm chí được sử dụng bởi các giáo viên có ít hoặc không có kinh nghiệm lập trình."
@@ -1119,6 +1122,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...và cộng đồng mã nguồn mở của chúng tôi"
+#    bryukh_title: "Senior Gameplay Developer"
+#    bryukh_blurb: "Constructs puzzles"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
@@ -2508,6 +2513,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     unknown: "Lỗi không xác định"
     error: "LỖI"
     general_desc: "Có lỗi xảy ra, và có thể là lỗi do chúng tôi. Hãy cố đợi một lát và tải lại trang, hoặc truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Cấp độ"
@@ -3037,6 +3043,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

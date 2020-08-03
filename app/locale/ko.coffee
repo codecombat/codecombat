@@ -5,6 +5,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "프로그래밍 게임을 통해 타이핑된 코드를 배우십시오. 퍼즐을 풀면서 Python, JavaScript 및 HTML을 배우고 자신만의 코딩 게임 및 웹 사이트를 만드는 방법을 배우십시오."
 #    meta_og_url: "https://codecombat.com"
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "선생님들의 마음을 생각한 코딩 게임"
     built_for_teachers_blurb: "아이들에게 코드를 가르치는 것은 종종 어렵게 느껴질 수 있습니다. CodeCombat은 모든 교육자가 학생들에게 가장 인기 있는 프로그래밍 언어 중 하나인 JavaScript 또는 Python으로 코드를 짤수있는 방법을 가르칠 수 있도록 도와줍니다. 6개의 컴퓨터 사이언스 유닛과 프로젝트기반 게임 개발 및 웹 개발 유닛들을 통해 학습을 증진시키는 종합적인 교육과정을 통하여, 아이들은 기본 구문을 시작으로 재구성으로의 여정을 진행할 것입니다!"
     built_for_teachers_subtitle1: "컴퓨터 사이언스 (Computer Science)"
@@ -31,7 +32,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     classroom_in_box_blurb1: "모든 학생들이 코딩이 자신 스스로를 위한 것이라고 생각하게 합니다."
     classroom_in_box_blurb2: "선생님이 코딩을 가르칠 때 자신감을 갖도록 합니다."
     classroom_in_box_blurb3: "모든 학교 지도자들에게 세계적인 수준의 컴퓨터 공학 프로그램을 만들게 수 있게 영감을 줍니다."
-#    covid19_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
+#    click_here: "Click here"
     creativity_rigor_title: "창의력이 활력과 만나는 곳"
     creativity_rigor_subtitle1: "코딩을 더욱 재미있게 만들고 실제 기술을 가르칩니다."
     creativity_rigor_blurb1: "학생들은 실제 Python과 JavaScript를 입력하면서 시행착오, 비판적 사고, 창의성을 장려하는 게임을 합니다. 그런 다음 학생들은 프로젝트 기반 과정에 자신의 게임과 웹사이트를 개발하여 배운 코딩 기술을 적용합니다."
@@ -88,6 +91,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     teachers_love_codecombat_blurb2: "CodeCombat을 다른 컴퓨터 공학 선생님들에게 추천합니다."
     teachers_love_codecombat_blurb3: "CodeCombat이 학생들의 문제 해결 능력을 지원하는 데 도움이 된다고 말합니다."
     teachers_love_codecombat_subblurb: "In partnership with McREL International, 교육 기술에 대한 연구 기반 지도 및 평가의 선두 주자입니다."
+#    top_banner_blurb: "New: join our mission!"
     try_the_game: "게임해보기"
 #    classroom_edition: "Classroom Edition:"
     learn_to_code: "코딩 배우기:"
@@ -96,7 +100,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     im_a_teacher: "선생님입니다"
     im_a_student: "학생입니다"
     learn_more: "더 알아보기"
-#    learn_more_caps: "Learn More"
     classroom_in_a_box: "컴퓨터 공학을 가르치기 위한 상자 안의 교실입니다."
     codecombat_is: "CodeCombat은 <strong>학생들이</strong> 실제 게임을 하면서 컴퓨터 공학을 배울 수 있는 플랫폼입니다"
     our_courses: "저희 강좌는 프로그래밍 경험이 거의 없거나 아예 없는 선생님들까지도 <strong>교실에서 좋은 성적</strong>을 내기 위해 테스트 플레이를 해 왔습니다."
@@ -1119,6 +1122,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
     community_title: "...그리고 저희의 오픈소스 커뮤니티"
+    bryukh_title: "게임플레이 개발자"
+    bryukh_blurb: "퍼즐 구성자"
     community_subtitle: "500명이 넘는 Contributor분들이 CodeCombat 개발을 도와주고 계십니다, 매주 새로운 분들이 저희 프로젝트에 참여해주시고 계십니다!!"
     community_description_3: "CodeCombat 은"
     community_description_link_2: "커뮤니티 프로젝트입니다"
@@ -2508,6 +2513,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     unknown: "알 수 없는 에러 발생" # {change}
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "레벨"
@@ -3037,6 +3043,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

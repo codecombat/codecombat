@@ -64,6 +64,9 @@ module.exports = class AuthModal extends ModalView
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
           showingError = true
+      else if jqxhr.status is 429
+        showingError = true
+        forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.too_many_login_failures'))
 
       if not showingError
         @$('#unknown-error-alert').removeClass('hide')

@@ -209,6 +209,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'parents': go('core/SingletonAppVueComponentView')
+    'live-classes': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
