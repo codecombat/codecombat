@@ -2,7 +2,7 @@
   .modal-content
 
     img(src="/images/pages/play/modal/choosehero-background.png", draggable="false")#play-heroes-background
-    
+
     h1(data-i18n="choose_hero.choose_hero")
 
     div#gems-count-container
@@ -28,13 +28,13 @@
             .hero-stats.rtl-allowed(dir="auto")
               h2= hero.name
               .hero-description= hero.description
-              
+
               .hero-stat-row
                 .stat-label(data-i18n='leaderboard.difficulty')
                 .stat-value.hero-status-value(data-i18n=hero.class == 'ranger' ? 'general.medium' : (hero.class == 'wizard' ? 'general.hard' : 'general.easy'))
-              
+
               .hero-stat-row
-                .stat-label(data-i18n='editor.level_components_type')  
+                .stat-label(data-i18n='editor.level_components_type')
                 .stat-value(data-i18n='general.' +hero.class)
 
               .hero-stat-row
@@ -52,7 +52,7 @@
                     .stat-value
                       .stat-progress
                         .stat-progress-bar(style="width: " + (parseInt(hero.stats[stat].relative * 100)) + "%")
-      
+
       a.left(role="button", data-slide="prev", href="#hero-carousel")
         span.glyphicon.glyphicon-play
       a.right(role="button", data-slide="next", href="#hero-carousel")
@@ -74,7 +74,7 @@
               span.spl(data-i18n="inventory.restricted_title") Restricted
             span.spr(data-i18n="choose_hero.restricted_to_certain_heroes") Only certain heroes can play this level.
           button.btn.disabled.btn-illustrated#restricted-hero-button(data-i18n="inventory.restricted_title") Restricted
-  
+
         else if visibleHero.purchasable
           #hero-footer-text-background
             .image-block
@@ -89,7 +89,7 @@
             - }
             span= visibleHero.get('gems')
             span.gem.gem-20
-  
+
         else if visibleHero.locked
           #hero-footer-text-background
             .image-block
@@ -99,27 +99,16 @@
             span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
           button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
             span.spr(data-i18n="subscribe.subscribe_title") Subscribe
-  
-        else if visibleHero.loaded 
-          if !me.isStudent() 
+
+        else if visibleHero.loaded
+          if !me.isStudent()
             #hero-footer-text-background
               .image-block
                 img(src= "/images/pages/play/modal/language-selector-background.png")
             .form
-              .form-group.select-group             
+              .form-group.select-group
                 span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
                 select#option-code-language(name="code-language")
                   for option in codeLanguages
-                    option(value=option.id, selected=codeLanguage === option.id)= option.name               
+                    option(value=option.id, selected=codeLanguage === option.id)= option.name
           a#confirm-button(data-i18n=confirmButtonI18N)
-
-    if !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds
-      a(href="https://lenovogamestate.com/pages/products/")
-        - var url = "/images/common/codeplay/NA_ChooseHeroPage_Yoga520_800x90.png"
-        if me.isFromUk()
-          - url = "/images/common/codeplay/UK_ChooseHeroPage_Yoga510_800x90.png"
-        if me.setToGerman()
-          - url = "/images/common/codeplay/DE_ChooseHeroPage_Ideapad710s_800x90_DE.png"
-        if me.setToSpanish()
-          - url = "/images/common/codeplay/MX_ChooseHeroPage_YogaBook_800x90_MX.png"
-        img#codeplay-choose-hero-ad(src=url)

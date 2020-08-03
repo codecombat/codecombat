@@ -47,14 +47,17 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
-#    if features.codePlay and me.isAnonymous()
-#      document.location.href = '//lenovogamestate.com/login/'
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
 
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
+
+    routerSync = require('vuex-router-sync')
+    vueRouter = require('app/core/vueRouter').default()
+    routerSync.sync(store, vueRouter)
+
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
@@ -128,7 +131,6 @@ Application = {
 
   featureMode: {
     useChina: -> api.admin.setFeatureMode('china').then(-> document.location.reload())
-    useCodePlay: -> api.admin.setFeatureMode('code-play').then(-> document.location.reload())
     usePicoCtf: -> api.admin.setFeatureMode('pico-ctf').then(-> document.location.reload())
     useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())

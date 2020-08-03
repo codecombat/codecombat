@@ -10,6 +10,7 @@ function getNamespaceData (namespace) {
 }
 
 function setNamespaceData(namespace, data) {
+  const namespaceKey = getKeyForNamespace(namespace)
   window.sessionStorage.setItem(namespaceKey, JSON.stringify(data || []))
 }
 

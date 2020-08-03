@@ -3,21 +3,29 @@ const userSchema = require('schemas/models/user')
 const api = require('core/api')
 const utils = require('core/utils')
 
-const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, userSchema.default[key] || null])))
+const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, null])))
 
 export default {
   namespaced: true,
   state: _.cloneDeep(emptyUser),
 
   getters: {
+    isInGodMode (state) {
+      return ((state || {}).permissions || []).indexOf('godmode') > -1
+    },
+
     isAnonymous (state) { return state.anonymous === true },
 
     isStudent (state) {
-      return (state != null ? state.role : undefined) === 'student'
+      return (state || {}).role === 'student'
     },
 
     isTeacher (state) {
-      return (state != null ? state.role : undefined) === 'teacher'
+      return (state || {}).role === 'teacher'
+    },
+
+    isParent (state) {
+      return (state || {}).role === 'parent'
     },
 
     forumLink (state) {
@@ -43,7 +51,7 @@ export default {
     },
 
     preferredLocale (state) {
-      return state.preferredLanguage
+      return state.preferredLanguage || 'en-US'
     },
 
     inEU (state) {
@@ -52,6 +60,30 @@ export default {
       }
 
       return utils.inEU(state.country)
+    },
+
+    isSmokeTestUser (state) {
+      return utils.isSmokeTestEmail(state.email)
+    },
+
+    hasSubscription (state) {
+      if (state.payPal && state.payPal.billingAgreementID) {
+        return true
+      }
+
+      if (state.stripe && (state.stripe.sponsorID || state.stripe.subscriptionID || state.stripe.free === true)) {
+        return true
+      }
+
+      if (state.stripe && typeof state.stripe.free === 'string') {
+        return new Date() < new Date(state.stripe.free)
+      }
+
+      return false
+    },
+
+    isPremium (state, getters) {
+      return getters.isAdmin || getters.hasSubscription || getters.isInGodMode
     }
   },
 

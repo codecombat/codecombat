@@ -2,7 +2,6 @@
 SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
-loadSegmentIo = require('core/services/segment')
 api = require('core/api')
 
 experiments = require('core/experiments')
@@ -22,7 +21,6 @@ module.exports = class Tracker extends CocoClass
     @initialized = true
     @trackReferrers()
     @identify() # Needs supermodel to exist first
-    @updateRole() if me.get('role')
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -59,13 +57,7 @@ module.exports = class Tracker extends CocoClass
     @trackEventInternal('Identify', {id: me.id, traits})
     return unless @shouldTrackExternalEvents()
 
-    if me.isTeacher(true) and @segmentLoaded and not me.get('unsubscribedFromMarketingEmails')
-      traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
-
-      # TODO remove intercom config once it's disabled in segment
-      analytics.identify me.id, traits, { Intercom: { hideDefaultLauncher: true } }
-
-  trackPageView: (includeIntegrations=[]) ->
+  trackPageView: (includeIntegrations = []) ->
     name = Backbone.history.getFragment()
     url = "/#{name}"
 
@@ -76,20 +68,7 @@ module.exports = class Tracker extends CocoClass
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
     ga? 'send', 'pageview', url
-    ga?('codeplay.send', 'pageview', url) if features.codePlay
     window.snowplow 'trackPageView'
-
-    if me.isTeacher(true) and @segmentLoaded
-      options = {}
-      if includeIntegrations?.length
-        options.integrations = All: false
-        for integration in includeIntegrations
-          options.integrations[integration] = true
-
-      # TODO remove config once it's disabled in segment
-      options.Intercom = { hideDefaultLauncher: true }
-
-      analytics.page url, {}, options
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
@@ -116,16 +95,6 @@ module.exports = class Tracker extends CocoClass
         console.error(e)
 
       ga? 'send', gaFieldObject
-      ga? 'codeplay.send', gaFieldObject if features.codePlay
-
-    if me.isTeacher(true) and @segmentLoaded
-      options = {}
-      if includeIntegrations
-        # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
-        options.integrations = All: false
-        for integration in includeIntegrations
-          options.integrations[integration] = true
-      analytics?.track action, {}, options
 
   trackSnowplow: (event, properties) =>
     return if @shouldBlockAllTracking()
@@ -199,23 +168,6 @@ module.exports = class Tracker extends CocoClass
     console.log 'Would track timing event:', arguments if debugAnalytics
     if @shouldTrackExternalEvents()
       ga? 'send', 'timing', category, variable, duration, label
-
-  updateRole: ->
-    return if me.isAdmin() or @shouldBlockAllTracking()
-    return unless me.isTeacher(true)
-    loadSegmentIo()
-    .then =>
-      @segmentLoaded = true and me.useSocialSignOn()
-      @identify()
-    #analytics.page()  # It looks like we don't want to call this here because it somehow already gets called once in addition to this.
-    # TODO: record any events and pageviews that have built up before we knew we were a teacher.
-
-  updateTrialRequestData: (attrs) ->
-    return if @shouldBlockAllTracking()
-    loadSegmentIo()
-    .then =>
-      @segmentLoaded = true and me.useSocialSignOn()
-      @identify(attrs)
 
   shouldBlockAllTracking: ->
     doNotTrack = (navigator?.doNotTrack or window?.doNotTrack) and not (navigator?.doNotTrack is 'unspecified' or window?.doNotTrack is 'unspecified')

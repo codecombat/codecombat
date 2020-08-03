@@ -409,7 +409,8 @@ module.exports = class User extends CocoModel
     options.url = '/auth/logout'
     FB?.logout?()
     options.success ?= ->
-      window.application.tracker.resetIdentity().then =>
+      window.application.tracker.identifyAfterNextPageLoad()
+      window.application.tracker.resetIdentity().finally =>
         location = _.result(window.currentView, 'logoutRedirectURL')
         if location
           window.location = location
@@ -459,10 +460,11 @@ module.exports = class User extends CocoModel
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
     return jqxhr
 
-  fetchGPlusUser: (gplusID, options={}) ->
+  fetchGPlusUser: (gplusID, email, options={}) ->
     options.data ?= {}
     options.data.gplusID = gplusID
     options.data.gplusAccessToken = application.gplusHandler.token()
+    options.data.email = email
     @fetch(options)
 
   loginGPlusUser: (gplusID, options={}) ->
@@ -611,10 +613,10 @@ module.exports = class User extends CocoModel
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
-  showCourseProgressControl: -> features?.china ? false
   enableCpp: -> features?.china ? false
   useQiyukf: -> features?.china ? false
-  useChinaOzaria: -> features?.china ? false
+  useChinaServices: -> features?.china ? false
+  useGeneralArticle: -> not (features?.china ? false)
 
   # Special flag to detect whether we're temporarily showing static html while loading full site
   showingStaticPagesWhileLoading: -> false
