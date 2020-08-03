@@ -54,16 +54,6 @@ module.exports = class AuthModal extends ModalView
     res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
-    .then(=>
-      return application.tracker.identify()
-    )
-    .then(=>
-      application.tracker.identifyAfterNextPageLoad()
-      if window.nextURL
-        window.location.href = window.nextURL
-      else
-        loginNavigate(@subModalContinue)
-    )
     .catch((jqxhr) =>
       showingError = false
       if jqxhr.status is 401
@@ -74,9 +64,22 @@ module.exports = class AuthModal extends ModalView
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
           showingError = true
+      else if jqxhr.status is 429
+        showingError = true
+        forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.too_many_login_failures'))
 
       if not showingError
         @$('#unknown-error-alert').removeClass('hide')
+    )
+    .then(=>
+      application.tracker.identifyAfterNextPageLoad()
+      return application.tracker.identify()
+    )
+    .finally(=>
+      if window.nextURL
+        window.location.href = window.nextURL
+      else
+        loginNavigate(@subModalContinue)
     )
 
 
@@ -98,7 +101,7 @@ module.exports = class AuthModal extends ModalView
                 me.loginGPlusUser(gplusAttrs.gplusID, {
                   success: =>
                     application.tracker.identifyAfterNextPageLoad()
-                    application.tracker.identify().then(=>
+                    application.tracker.identify().finally(=>
                       loginNavigate(@subModalContinue)
                     )
                   error: @onGPlusLoginError
@@ -112,7 +115,7 @@ module.exports = class AuthModal extends ModalView
                         data: { merge: true, email: gplusAttrs.email }
                         success: =>
                           application.tracker.identifyAfterNextPageLoad()
-                          application.tracker.identify().then(=>
+                          application.tracker.identify().finally(=>
                             loginNavigate(@subModalContinue)
                           )
                         error: @onGPlusLoginError

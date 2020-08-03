@@ -1,48 +1,30 @@
 <template>
     <div>
-        <div class="jumbotron">
-            <div class="row">
-                <div class="col-lg-5 col-md-6">
-                    <h1>{{ $t('parents_landing_2.splash_title') }}</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-5">
-                    <a href="#" class="full-width button" @click="openDriftWelcomeCallPlaybook">
-                        {{ $t('parents_landing_2.learn_with_instructor') }}
-                    </a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-5">
-                    <a href="#premium" class="full-width button">
-                        {{ $t('parents_landing_2.learn_at_own_pace') }}
-                    </a>
-                </div>
-            </div>
-        </div>
+        <page-parents-jumbotron :type="type" @cta-clicked="onCtaClicked" />
 
         <div class="container-background gray-1-background">
             <div class="container">
                 <div class="row title-row">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1>{{ $t('parents_landing_2.live_classes') }}</h1>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1>{{ $t('parents_landing_2.live_classes') }}</h1>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <hr />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr />
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h3>{{ $t('parents_landing_2.learn_with_instructor') }}</h3>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3>{{ $t('parents_landing_2.learn_with_instructor') }}</h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h4 class="no-margin">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4 class="live-classes-offered">{{ $t('parents_landing_2.live_classes_offered' )}}</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,7 +46,7 @@
                             <li>{{ $t('parents_landing_2.live_class_details_5') }}</li>
                         </ul>
 
-                        <button class="default-top-spacing" @click="openDriftWelcomeCallPlaybook">
+                        <button class="default-top-spacing" @click="onCtaClicked">
                             {{ $t('parents_landing_2.try_free_class') }}
                         </button>
                     </div>
@@ -88,7 +70,10 @@
                                     <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                                 </div>
 
-                                <button @click="openDriftWelcomeCallPlaybook">
+                                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/jPlOQTv7JXIJ" class="button">
+                                    {{ $t('parents_landing_2.choose_plan') }}
+                                </a>
+                                <button v-else @click="onCtaClicked">
                                     {{ $t('parents_landing_2.choose_plan') }}
                                 </button>
 
@@ -115,7 +100,10 @@
                                 </div>
 
 
-                                <button @click="openDriftWelcomeCallPlaybook">
+                                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button">
+                                    {{ $t('parents_landing_2.choose_plan') }}
+                                </a>
+                                <button v-else @click="onCtaClicked">
                                     {{ $t('parents_landing_2.choose_plan') }}
                                 </button>
 
@@ -133,12 +121,14 @@
             </div>
         </div>
 
-        <section id="premium" class="container-background coco-premium">
-            <div class="container">
-                <div class="row title-row">
+        <page-parents-section-premium v-if="showPremium" />
+
+        <div class="container trailer">
+            <div class="row title-row">
+                <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1>{{ $t('parents_landing_2.codecombat_premium') }}</h1>
+                            <h2>{{ $t('parents_landing_2.not_sure_kid') }}</h2>
                         </div>
                     </div>
                     <div class="row">
@@ -148,68 +138,8 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <h3>{{ $t('parents_landing_2.learn_at_own_pace') }}</h3>
+                            <h3>{{ $t('parents_landing_2.share_trailer') }}</h3>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12 character-images">
-                        <img srcset="/images/pages/parents/characters@1x.png 1x,
-                                     /images/pages/parents/characters@2x.png 2x,
-                                     /images/pages/parents/characters@3x.png 3x"
-                             src="/images/pages/parents/characters@1x.png"
-                        />
-                    </div>
-                </div>
-
-                <div class="row premium-pricing">
-                    <div class="col-lg-3 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ basicSubAmount }}{{ $t('parents_landing_2.per_month') }}</h5>
-                        <h6>{{ $t('parents_landing_2.monthly_sub') }}</h6>
-
-                        <button @click="subscribeBasic">{{ $t('parents_landing_2.buy_now') }}</button>
-                    </div>
-                    <div class="col-lg-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ lifetimeSubAmount }}</h5>
-                        <h6>{{ $t('parents_landing_2.lifetime_access') }}</h6>
-
-                        <button @click="subscribeLifetime">{{ $t('parents_landing_2.buy_now') }}</button>
-                    </div>
-                </div>
-
-                <div class="row premium-details">
-                    <div class="col-lg-10 col-lg-offset-1">
-                        <h5>{{ $t('parents_landing_2.premium_details_title') }}</h5>
-                        <ul>
-                            <li>{{ $t('parents_landing_2.premium_details_1') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_2') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_3') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_4') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_5') }}</li>
-                        </ul>
-
-                        <div class="buy-now-note">{{ $t('parents_landing_2.premium_need_help') }}</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="container trailer">
-            <div class="row title-row">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2>{{ $t('parents_landing_2.not_sure_kid') }}</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <hr />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3>{{ $t('parents_landing_2.share_trailer') }}</h3>
                     </div>
                 </div>
             </div>
@@ -274,7 +204,7 @@
 
                 <div class="row">
                     <div class="col-lg-12 buy-now-row">
-                        <button @click="openDriftWelcomeCallPlaybook">
+                        <button @click="onCtaClicked">
                             {{ $t('parents_landing_2.book_first_class') }}
                         </button>
                     </div>
@@ -334,7 +264,7 @@
 
                 <div class="row">
                     <div class="col-lg-12 buy-now-row">
-                        <button @click="openDriftWelcomeCallPlaybook">
+                        <button @click="onCtaClicked">
                             {{ $t('parents_landing_2.book_first_class')}}
                         </button>
                     </div>
@@ -416,7 +346,7 @@
 
             <div class="row buy-now-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button @click="openPremiumSubscribeModal">{{ $t('parents_landing_2.get_started') }}</button>
+                    <button @click="onCtaClicked">{{ $t('parents_landing_2.get_started') }}</button>
                 </div>
             </div>
         </div>
@@ -424,14 +354,16 @@
         <div class="container-background gray-2-background testimonials">
             <div class="container">
                 <div class="row title-row">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h2>{{ $t('parents_landing_2.quotes_title') }}</h2>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h2>{{ $t('parents_landing_2.quotes_title') }}</h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <hr />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -463,111 +395,87 @@
                 </div>
             </div>
         </div>
-
-        <backbone-modal-harness
-                ref="subscribeModal"
-                :modal-view="SubscribeModal"
-                :open="subscribeModalOpen"
-                @close="subscribeModalClosed"
-        />
     </div>
 </template>
 
 <script>
-  import { mapActions, mapState, mapGetters } from 'vuex'
+  import PageParentsSectionPremium from './PageParentsSectionPremium'
+  import PageParentsJumbotron from './PageParentsJumbotron'
 
-  import SubscribeModal from 'views/core/SubscribeModal'
-  import BackboneModalHarness from './common/BackboneModalHarness'
+  const DRIFT_LIVE_CLASSES_INTERACTION_ID = 161673
 
   export default {
     components: {
-      BackboneModalHarness,
+      PageParentsSectionPremium,
+      PageParentsJumbotron
     },
 
-    data: () => ({
-      SubscribeModal,
-      subscribeModalOpen: false
-    }),
-
-    computed: {
-      ...mapState('products', {
-        productsLoading: (s) => s.loading.products,
-      }),
-
-      ...mapGetters('products', [
-        'basicSubscriptionForCurrentUser',
-        'lifetimeSubscriptionForCurrentUser'
-      ]),
-
-      basicSubAmount () {
-        const sub = this.basicSubscriptionForCurrentUser
-        return (sub) ? sub.amount / 100 : 0
+    props: {
+      type: {
+        type: String,
+        default: 'self-serve'
       },
 
-      lifetimeSubAmount() {
-        const sub = this.lifetimeSubscriptionForCurrentUser
-        return (sub) ? sub.amount / 100: 0
+      showPremium: {
+        type: Boolean,
+        default: true
       }
     },
 
-    methods: {
-      openDriftWelcomeCallPlaybook (e) {
-        e.preventDefault();
-        window.drift.api.startInteraction({ interactionId: 161673 });
-      },
-
-      subscribeModalClosed() {
-        this.subscribeModalOpen = false
-      },
-
-      ...mapActions({
-        loadProducts: 'products/loadProducts'
-      }),
-
-      openPremiumSubscribeModal () {
-        this.subscribeModalOpen = true
-      },
-
-      /**
-       * This method references the SubscribeModal instance via the backbone modal
-       * harness component.  This is a hack to manually advance the modal to the next step
-       * so that the user does not need to click subscribe twice.
-       *
-       * The modal fires a "shown" event when it is visible, at which point it is ready to
-       * be used.  Once it is ready to be used we manually trigger the proper subscribe flow
-       * by grabbing a reference to the SubscribeModal instance and calling the method that
-       * is normally called by the onclick listener.
-       */
-      subscribeBasic () {
-        this.$refs.subscribeModal.$once('shown', () => {
-          const modal = this.$refs.subscribeModal.$data.modalViewInstance
-          modal.onClickPurchaseButton()
-        })
-
-        this.openPremiumSubscribeModal()
-      },
-
-      /**
-       * See subscribeBasic comments
-       */
-      subscribeLifetime () {
-        this.$refs.subscribeModal.$once('shown', () => {
-          const modal = this.$refs.subscribeModal.$data.modalViewInstance
-          modal.onClickStripeLifetimeButton()
-        })
-
-        this.openPremiumSubscribeModal()
-      },
+    metaInfo () {
+      return {
+        title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
+        meta: [
+          { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+        ]
+      }
     },
 
     mounted () {
-      this.loadProducts()
-    }
+      window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+
+      if (this.type === 'thank-you') {
+        application.tracker.trackEvent('CodeCombat live class booked', {}, [ 'facebook' ])
+
+        noty({
+          text: this.$t('parents_landing_2.live_class_booked_thank_you'),
+          layout: 'topCenter',
+          type: 'success',
+          timeout: 10000
+        })
+      }
+    },
+
+    beforeDestroy () {
+      window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    },
+
+    methods: {
+      onCtaClicked (e) {
+        if (e && e.preventDefault) {
+          e.preventDefault();
+        }
+
+        if (this.type === 'parents' || this.type === 'sales') {
+          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID });
+        } else if (this.type === 'self-serve' || this.type === 'thank-you') {
+          window.location  = 'https://codecombat.timetap.com';
+        } else {
+          console.error('Unknown CTA type on parents page')
+        }
+      },
+
+      onDriftMeetingBooked (e) {
+        if (e.interactionId === DRIFT_LIVE_CLASSES_INTERACTION_ID) {
+          application.tracker.trackEvent('Live classes welcome call scheduled', {}, [ 'facebook' ])
+        }
+      }
+    },
   }
 </script>
 
 <style scoped>
-    h1 {
+    ::v-deep h1 {
         font-size: 46px;
         font-style: normal;
         font-weight: bold;
@@ -576,7 +484,7 @@
         color: #0E4C60;
     }
 
-    button, .button {
+    ::v-deep button, ::v-deep .button {
         padding: 13px;
 
         display: block;
@@ -595,7 +503,7 @@
         border: 0 none;
     }
 
-    button:hover, .button:hover {
+    ::v-deep button:hover, ::v-deep .button:hover {
         background-color: #2DCEC8;
         transition: background-color .35s;
 
@@ -603,17 +511,18 @@
         border: 0 none;
     }
 
-    button.full-width, .button.full-width {
+    ::v-deep button.full-width, ::v-deep .button.full-width {
         width: 100%;
     }
 
-    button.default-top-spacing {
+    ::v-deep button.default-top-spacing {
         margin-top: 30px;
     }
 
-    ul {
+    ::v-deep ul {
         margin: 0;
         padding: 0;
+        padding-left: 20px;
 
         font-style: normal;
         font-weight: 300;
@@ -624,44 +533,17 @@
         list-style: none;
     }
 
-    ul li::before {
+    ::v-deep ul li::before {
         content: "\2022";
         color: #1FBAB4;
         font-weight: bold;
         display: inline-block;
-        margin-left: -20px;
-        margin-right: 10px
+        margin-left: -18px;
+        margin-right: 11px
     }
 
-    .container-background {
+    ::v-deep .container-background {
         padding-top: 60px;
-    }
-
-    .jumbotron {
-        padding: 70px;
-        margin-bottom: 0;
-        min-height: 580px;
-
-        background-image: url("/images/pages/parents/jumbotron@1x.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-
-    }
-
-    .jumbotron h1 {
-        margin-bottom: 10px;
-    }
-
-    .jumbotron .button {
-        margin-top: 30px;
-        max-width: 320px;
-    }
-
-    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-        .jumbotron {
-            background-image: url("/images/pages/parents/jumbotron@2x.png");
-        }
     }
 
     .row.equal-height {
@@ -690,16 +572,16 @@
         color: #1FBAB4;
     }
 
-    .title-row {
+    ::v-deep .title-row {
         text-align: center;
     }
 
-    .title-row.add-spacing {
+    ::v-deep .title-row.add-spacing {
         margin-top: 60px;
         margin-bottom: 40px;
     }
 
-    .title-row hr {
+    ::v-deep .title-row hr {
         height: 5px;
         width: 150px;
         background-color: #FF6978;
@@ -707,11 +589,7 @@
         border: 0 none;
     }
 
-    .title-row .no-margin {
-        margin: 0;
-    }
-
-    .title-row h2 {
+    ::v-deep .title-row h2 {
         font-family: Arvo, serif;
         font-style: normal;
         font-weight: bold;
@@ -720,7 +598,7 @@
         color: #0E4C60;
     }
 
-    .title-row h3 {
+    ::v-deep .title-row h3 {
         font-family: "Open Sans", sans-serif;
         font-style: normal;
         font-weight: normal;
@@ -730,7 +608,7 @@
         color: #000;
     }
 
-    .title-row h4 {
+    ::v-deep .title-row h4 {
         font-weight: bold;
         font-size: 24px;
         line-height: 33px;
@@ -748,7 +626,7 @@
         max-width: 655px
     }
 
-    .live-class-details {
+    .live-class-details, .live-classes-offered {
         margin-top: 30px;
     }
 
@@ -841,99 +719,18 @@
         margin: 21px;
     }
 
-    .pricing-pane button {
+    .pricing-pane button, .pricing-pane .button {
         margin-bottom: 30px;
         width: 50%;
         max-width: 250px;
     }
 
+    .pricing-pane .button {
+        text-decoration: none;
+    }
+
     .pricing-pane-content ul {
         align-self: flex-end;
-    }
-
-    .coco-premium {
-        background-color: #0E4C60;
-        color: #FFF;
-    }
-
-    .coco-premium .title-row h1 {
-        color: #1FBAB4;
-    }
-
-    .coco-premium .title-row h3 {
-        color: #FFF;
-    }
-
-    .coco-premium .character-images img {
-        margin: 40px auto 20px;
-
-        width: 100%;
-        max-width: 676px;
-        display: block;
-    }
-
-    .coco-premium h5 {
-        font-family: Open Sans, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 33px;
-
-        text-align: center;
-
-        color: #FFFFFF;
-    }
-
-    .coco-premium ul li {
-        font-style: normal;
-        font-weight: 300;
-        font-size: 18px;
-        line-height: 25px;
-        color: #FFF;
-    }
-
-    .coco-premium .premium-pricing {
-        color: #1FBAB4;
-        text-align: center;
-    }
-
-    .coco-premium .premium-pricing h5, .coco-premium .premium-pricing h6 {
-        font-family: Open Sans, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        text-align: center;
-
-        color: #1FBAB4;
-    }
-
-    .coco-premium .premium-pricing h5 {
-        font-size: 36px;
-        line-height: 49px;
-    }
-
-    .coco-premium .premium-pricing h6 {
-        font-size: 24px;
-        line-height: 33px;
-    }
-
-    .coco-premium .premium-pricing button {
-        margin-top: 15px;
-        width: 100%;
-        margin-bottom: 52px;
-    }
-
-    .coco-premium .buy-now-note {
-        margin-top: 35px;
-        margin-bottom: 60px;
-
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 19px;
-
-        text-align: center;
-
-        color: #FFFFFF;
     }
 
     .trailer {
