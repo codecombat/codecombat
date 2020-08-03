@@ -957,7 +957,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #  avatar_selection:
 #    pick_an_avatar: "Pick an avatar that will represent you as a player"
 
-#  premium_features:
+  premium_features:
     get_premium: "Hol dir<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Werde ein Meister-Programmierer, indem du heute abonnierst!"
     paypal_redirect: "Du wirst zu PayPal weitergeleitet, um das Abo abzuschließen."
