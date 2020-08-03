@@ -3092,7 +3092,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     student: "Я ученик"
     ready_to_code: "Я готов программировать!"
 
-#  hoc_2018_completion:
+  hoc_2018_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
     copy: "Копировать URL"
@@ -3136,7 +3136,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
-#  browser_recommendation:
+  browser_recommendation:
     title: "CodeCombat наилучшим образом работает через Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Скачать Chrome"
