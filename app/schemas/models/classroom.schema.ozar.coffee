@@ -1,5 +1,7 @@
 c = require './../schemas'
 
+CampaignSchema = require './campaign.schema'
+
 ClassroomSchema = c.object {title: 'Classroom', required: ['name']}
 c.extendNamedProperties ClassroomSchema  # name first
 
@@ -41,7 +43,7 @@ _.extend ClassroomSchema.properties,
       slug: {type: 'string'}
       position: c.point2d()
 
-      # properties relevant for ozaria campaigns 
+      # properties relevant for ozaria campaigns
       nextLevels: {
         type: 'object'
         description: 'object containing next levels original id and their details'
@@ -65,6 +67,7 @@ _.extend ClassroomSchema.properties,
       ozariaType: c.shortString()
       introContent: c.array()
     }
+    campaign: CampaignSchema
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
   grades: c.array { title: 'Class Grades' }, { type: 'string', enum: ['elementary','middle','high'] }
