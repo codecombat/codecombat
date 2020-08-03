@@ -4,11 +4,10 @@
       | Teaching AP <sup>®</sup> Computer Science Principles?
     h2.text-center We’ve got you covered.
 
-    #endorsement
-      img#ap-provider-badge(src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png")
-      div CodeCombat is recognized by the College Board as an endorsed provider of curriculum and professional development for AP<sup>®</sup> Computer Science Principles (AP CSP). This endorsement affirms that all components of CodeCombat‘s offerings are aligned to the AP Curriculum Framework standards and the AP CSP assessment. Using an endorsed provider affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s AP Course Audit, and officially recognized professional development that prepares teachers to teach AP CSP.
+    p#registered
+      i CodeCombat is no longer recognized by the College Board as an endorsed provider of curriculum and professional development for AP<sup>®</sup> Computer Science Principles (AP CSP).  It was previously endorsed for the 2019-2020 school year.
 
-    p Are you teaching AP<sup>®</sup> Computer Science Principles at your high school for the 2019-2020 school year? CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.
+    p CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.
 
     p AP<sup>®</sup> Computer Science Principles spotlights how computing is changing the world, and provides ample opportunity for students from all backgrounds to connect abstract concepts to real-world implications of the field. Teachers can use our AP<sup>®</sup> CSP Curriculum and Professional Development Hub as their primary resource for teaching the course and preparing students for the AP<sup>®</sup> exam.
 
@@ -21,7 +20,7 @@
       li Guidance on all aspects of the course, including the AP<sup>®</sup> CSP Performance Tasks and how to utilize practice opportunities to set your students up for success.
       li Real, typed code in either JavaScript or Python to support your students’ creativity.
 
-    p We are currently accepting teachers for our summer professional development cohort in preparation for the 2018-2019 school year. Request access to our curriculum to learn more.
+    p Request access to our curriculum to learn more.
 
     .text-center
       button.btn.btn-primary.btn-lg.text-center(
@@ -49,7 +48,7 @@
                 input#email.form-control(type="email" v-model="email" autocomplete="email")
               nces-search-input(@navSearchChoose="onChooseSchool", :initialValue="organization", label="School", @updateValue="onUpdateSchoolValue")
               .form-group
-                label(for="num-apcsp-students") Estimated # of AP<sup>®</sup> CSP students for 2018-2019 school year
+                label(for="num-apcsp-students") Estimated # of AP<sup>®</sup> CSP students
                 input#num-apcsp-students.form-control(type="number", v-model="numAPCSPStudents")
               .form-group
                 label Are you currently teaching or have you taught an AP<sup>®</sup> CSP course in the past?
@@ -60,16 +59,6 @@
                 .radio-inline
                   label
                     input(type="radio", name="currentlyTeaching" value="no", v-model="currentlyTeaching" v-bind:value="false")
-                    | No
-              .form-group
-                label Will you be teaching AP<sup>®</sup> CSP in the 2019-2020 school year? 
-                .radio-inline
-                  label
-                    input(type="radio", name="willTeachNextYear" value="yes", v-model="willTeachNextYear" v-bind:value="true")
-                    | Yes
-                .radio-inline
-                  label
-                    input(type="radio", name="willTeachNextYear" value="no", v-model="willTeachNextYear" v-bind:value="false")
                     | No
               .form-group
                 label(for="apcsp-experience") Which AP<sup>®</sup> CSP resources have you used in the past? 
@@ -112,7 +101,6 @@
     p#registered
       i AP<sup>®</sup> and Advanced Placement<sup>®</sup> are registered trademarks of the College Board. Used with permission.
 
-
 </template>
 
 <script lang="coffee">
@@ -137,7 +125,6 @@
       hasPrepaids: '',
       state: 'entering' # or 'sending', 'sent'
       currentlyTeaching: null
-      willTeachNextYear: null
     }
     
     components: {
@@ -169,7 +156,7 @@
       
     computed:
       submitButtonDisabled: ->
-        not _.every([@email, @name, @organization, @willTeachNextYear?, @currentlyTeaching?, @numAPCSPStudents])
+        not _.every([@email, @name, @organization, @currentlyTeaching?, @numAPCSPStudents])
 
     created: ->
       api.trialRequests.getOwn().then((trialRequests) =>

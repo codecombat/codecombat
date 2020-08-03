@@ -1,4 +1,4 @@
-import BaseTracker from './BaseTracker'
+import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 export function loadProof () {
   /* eslint-disable */
@@ -30,6 +30,8 @@ export default class ProofTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
+    this.watchForDisableAllTrackingChanges(this.store)
+
     if (!this.enabled) {
       return this.onInitializeSuccess()
     }
@@ -41,20 +43,19 @@ export default class ProofTracker extends BaseTracker {
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
     const { me } = this.store.state
 
-    // TODO determine what traits we want to send for all user types
-    proofx.identify(me._id)
+    proofx.identify(me._id, extractDefaultUserTraits(me))
   }
 
   async trackPageView (includeIntegrations = []) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -64,7 +65,7 @@ export default class ProofTracker extends BaseTracker {
   async trackEvent (action, properties = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
@@ -74,7 +75,7 @@ export default class ProofTracker extends BaseTracker {
   async resetIdentity () {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
