@@ -1,5 +1,4 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
-
   new_home:
     title: "CodeCombat - Игры с програмированнием для изучения Python и Java Script"
     meta_keywords: "CodeCombat, Python, Javascript, Игры с програмированнием"
@@ -100,7 +99,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     im_a_teacher: "Я учитель"
     im_a_student: "Я ученик"
     learn_more: "Узнать больше"
-    learn_more_caps: "Узнать больше"
     classroom_in_a_box: "Готовый учебный кабинет из коробки для обучения информатике."
     codecombat_is: "CodeCombat – это платформа <strong>для учеников</strong>, чтобы изучать информатику во время игры."
     our_courses: "Наши курсы были тщательно проработаны, чтобы <strong>качественно обучать</strong>, даже если учителя не имеют особого опыта в программировании."
