@@ -851,7 +851,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     unequip: "Nenaudoti"
     warrior_only: "Tik Kariui"
     ranger_only: "Tik Lankininkui"
-    wizard_only: "Tik Magui
+    wizard_only: "Tik Magui"
 
   buy_gems:
     few_gems: "Sauja deimantų"
