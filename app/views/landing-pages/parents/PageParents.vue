@@ -464,7 +464,7 @@
           window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID });
         } else if (this.type === 'self-serve' || this.type === 'thank-you') {
           await ctaEventPromise
-          window.location  = 'https://codecombat.timetap.com?utm_campaign=timetap_live_classes&utm_source=codecombat&utm_medium=landing_page'
+          window.location  = 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=landingpage'
         } else {
           console.error('Unknown CTA type on parents page')
         }
