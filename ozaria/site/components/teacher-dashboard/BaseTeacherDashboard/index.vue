@@ -65,7 +65,7 @@
 
     metaInfo () {
       return {
-        title: 'ADMIN ONLY - Teacher Dashboard'
+        title: 'Ozaria - Teacher Dashboard'
       }
     },
 
