@@ -1629,7 +1629,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     view_ranking: "просмотреть рейтинг"
     ranking_position: "Позиция"
     ranking_players: "Игроки"
-    ranking_completed_leves: "Завершённые уровни
+    ranking_completed_leves: "Завершённые уровни"
     challenge: "Испытание:"
     challenge_level: "Уровень сложности:"
     status: "Статус:"
