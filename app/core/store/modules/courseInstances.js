@@ -9,10 +9,12 @@ export default {
 
   state: {
     loading: {
-      byTeacher: {}
+      byTeacher: {},
+      byId: {}
     },
 
-    courseInstancesByTeacher: {}
+    courseInstancesByTeacher: {},
+    courseInstanceById: {}
   },
 
   getters: {
@@ -33,8 +35,21 @@ export default {
       Vue.set(state.loading.byTeacher, teacherId, loading)
     },
 
+    toggleIdLoading: (state, id) => {
+      let loading = true
+      if (state.loading.byId[id]) {
+        loading = false
+      }
+
+      Vue.set(state.loading.byId, id, loading)
+    },
+
     setCourseInstancesForTeacher: (state, { teacherId, instances }) => {
       Vue.set(state.courseInstancesByTeacher, teacherId, instances)
+    },
+
+    setCourseInstanceForId: (state, { id, instance }) => {
+      Vue.set(state.courseInstanceById, id, instance)
     },
 
     addCourseInstancesForTeacher: (state, { teacherId, instances }) => {
@@ -61,6 +76,25 @@ export default {
         })
         .catch((e) => noty({ text: 'Fetch course instances failure: ' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleTeacherLoading', teacherId))
+    },
+
+    fetchCourseInstancesForId: ({ commit }, id) => {
+      commit('toggleIdLoading', id)
+
+      return courseInstancesApi
+        .get(id)
+        .then(res => {
+          if (res) {
+            commit('setCourseInstancesForId', {
+              id,
+              instance: res
+            })
+          } else {
+            throw new Error('Unexpected response from course instances by id API.')
+          }
+        })
+      .catch((e) => noty({ text: 'Fetch course instances failure: ' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+      .finally(() => commit('toggleIdLoading', id))
     },
 
     async assignCourse ({ rootGetters, state }, { course, members, classroom }) {

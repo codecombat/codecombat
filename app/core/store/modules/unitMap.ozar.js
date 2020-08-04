@@ -25,10 +25,11 @@ export default {
       2. position, nextLevels, first, campaignPage from the classroom snapshot, if does not exist then from campaign snapshot
       4. any other data from the campaign snapshot, but if doesnt exist in campaign any more then use the data in classroom snapshot
       */
-    buildLevelsData: async ({ commit, rootGetters, dispatch }, { campaignHandle, courseInstanceId }) => { // campaignHandle necessary
+    buildLevelsData: async ({ commit, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
+      await dispatch('campaigns/fetch', { campaignHandle, courseInstanceId, courseId }, { root: true })
+      const campaignData = rootGetters['campaigns/getCampaignData']({ campaignHandle, courseInstanceId, courseId })
+
       let levels = {}
-      await dispatch('campaigns/fetch', campaignHandle, { root: true })
-      const campaignData = rootGetters['campaigns/getCampaignData'](campaignHandle)
       if (!courseInstanceId) {
         levels = campaignData.levels
       } else {

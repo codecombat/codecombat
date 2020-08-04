@@ -40,16 +40,16 @@ export default {
     },
 
     getMapUrl (state, _getters, _rootState, rootGetters) {
-      const campaignId = rootGetters['campaigns/getCurrentCampaignId']
       const courseInstanceId = state.currentCourseInstanceId
       const courseId = state.currentCourseId
-      if (!campaignId) {
+      const campaign = rootGetters['campaigns/getCampaignData']({ courseInstanceId, courseId })
+      if (!campaign) {
         return undefined
       }
       const url = urls.courseWorldMap({
         courseId: courseId,
         courseInstanceId: courseInstanceId,
-        campaignId: campaignId,
+        campaignId: campaign.slug,
         codeLanguage: utils.getQueryVariable('codeLanguage')
       })
       return url

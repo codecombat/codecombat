@@ -30,10 +30,10 @@ module.exports =
     queryParams['course-instance'] = encodeURIComponent(courseInstanceId) if courseInstanceId
     queryParams['campaign-page'] = encodeURIComponent(campaignPage) if campaignPage
     queryParams['codeLanguage'] = encodeURIComponent(codeLanguage) if codeLanguage
-    
+
     queryString = $.param(queryParams)
     if queryString
-      url += "?#{queryString}" 
+      url += "?#{queryString}"
     return url
 
   courseRanking: ({course, courseInstance}) ->

@@ -65,7 +65,7 @@
 
     computed: {
       ...mapGetters({
-        campaignDataByIdOrSlug: 'campaigns/getCampaignData',
+        getCampaignData: 'campaigns/getCampaignData',
         currentLevelsList: 'unitMap/getCurrentLevelsList'
       }),
 
@@ -168,8 +168,7 @@
       }),
 
       ...mapMutations({
-        setUnitMapUrlDetails: 'layoutChrome/setUnitMapUrlDetails',
-        setCurrentCampaignId: 'campaigns/setCurrentCampaignId'
+        setUnitMapUrlDetails: 'layoutChrome/setUnitMapUrlDetails'
       }),
 
       playAmbientSound () {
@@ -211,8 +210,16 @@
       },
 
       async loadCampaign () {
-        await this.fetchCampaign(this.campaign)
-        this.campaignData = this.campaignDataByIdOrSlug(this.campaign)
+        await this.fetchCampaign({
+          campaignHandle: this.campaign,
+          courseInstanceId: this.computedCourseInstanceId,
+          courseId: this.computedCourseId
+        })
+        this.campaignData = this.getCampaignData({
+          campaignHandle: this.campaign,
+          courseInstanceId: this.computedCourseInstanceId,
+          courseId: this.computedCourseId
+        })
 
         if (!me.hasCampaignAccess(this.campaignData)) {
           alert('You must obtain a student license to access this page.')
@@ -224,13 +231,12 @@
         try {
           this.dataLoaded = false
           // Set current campaign id and unit map URL details for acodus chrome
-          this.setCurrentCampaignId(this.campaign)
           this.setUnitMapUrlDetails({ courseId: this.computedCourseId, courseInstanceId: this.computedCourseInstanceId })
 
           if (this.computedCourseInstanceId) {
             await this.buildClassroomLevelMap()
           }
-          await this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId })
+          await this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
           this.levels = this.currentLevelsList
           if (!me.isTeacher()) {
             this.levelSessions = await api.users.getLevelSessions({ userID: me.get('_id') })

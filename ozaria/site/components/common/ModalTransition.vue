@@ -13,10 +13,6 @@
       ModalCharCustomization
     },
     props: {
-      campaignHandle: {
-        type: String,
-        required: true
-      },
       currentLevel: {
         type: Object,
         required: true
@@ -61,7 +57,8 @@
     computed: {
       ...mapGetters({
         levelsList: 'unitMap/getCurrentLevelsList',
-        userLocale: 'me/preferredLocale'
+        userLocale: 'me/preferredLocale',
+        campaignData: 'campaigns/getCampaignData'
       }),
       shareModal () {
         return !me.isSessionless() && (this.showShareModal || this.editCapstoneLevelData)
@@ -112,9 +109,9 @@
       }
     },
     async mounted () {
-      if (!this.campaignHandle || !this.currentLevel) {
+      if (!this.currentLevel) {
         // TODO handle_error_ozaria
-        console.error('Campaign handle and level data are required for victory modal')
+        console.error('Level data are required for victory modal')
         return noty({ text: 'Error in victory screen', layout: 'topCenter', type: 'error', timeout: 2000 })
       }
 
@@ -139,7 +136,8 @@
         buildLevelsData: 'unitMap/buildLevelsData'
       }),
       async getNextLevelLink () {
-        await this.buildLevelsData({ campaignHandle: this.campaignHandle, courseInstanceId: this.courseInstanceId })
+        const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
+        await this.buildLevelsData({ campaignHandle, courseInstanceId: this.courseInstanceId, courseId: this.courseId })
         const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
         this.isFirstLevel = currentLevelData.first
         let currentLevelStage
@@ -163,7 +161,7 @@
           const urlOptions = {
             courseId: this.courseId,
             courseInstanceId: this.courseInstanceId,
-            campaignId: this.campaignHandle,
+            campaignId: campaignHandle,
             codeLanguage: this.codeLanguage
           }
           this.nextLevelLink = urls.courseWorldMap(urlOptions)
