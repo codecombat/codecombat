@@ -125,6 +125,7 @@
         <span class="caret" />
       </a>
       <ul
+        v-if="classrooms.length > 0"
         class="dropdown-menu"
         aria-labelledby="ProjectsDropdown"
       >
@@ -141,6 +142,17 @@
           >
             {{ classroom.name }}
           </router-link>
+        </li>
+      </ul>
+      <ul
+        v-else
+        class="dropdown-menu"
+        aria-labelledby="ProjectsDropdown"
+      >
+        <li>
+          <a class="dropdown-item disabled-item">
+            No classes yet
+          </a>
         </li>
       </ul>
     </li>
@@ -286,6 +298,10 @@
 
     li .underline-item {
       border-bottom: 1px solid #ddd;
+    }
+    li .disabled-item {
+      color: #979797;
+      cursor: default;
     }
   }
 }

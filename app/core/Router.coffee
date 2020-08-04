@@ -3,13 +3,12 @@ locale = require 'locale/locale'
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
-# This can be wrapped around existing route functions, and will proxy the route
-# to the vue router if the new teacher dashboard session is set.
-# Admins can activate this from the /admin route.
+# This can be wrapped around existing route functions,
+# to restrict the new teacher dashboard only for admins (using flag newTeacherDashboardActive)
 teacherProxyRoute = (originalRoute) -> ->
-  if sessionStorage.getItem('newTeacherDashboardActive') == 'active'
-    return go('core/SingletonAppVueComponentView').apply(@, arguments)
-  originalRoute.apply(@, arguments)
+  # if sessionStorage.getItem('newTeacherDashboardActive') == 'active'
+  return go('core/SingletonAppVueComponentView').apply(@, arguments)
+  # originalRoute.apply(@, arguments)
 
 redirect = (path) -> ->
   delete window.alreadyLoadedView

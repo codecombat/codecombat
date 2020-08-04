@@ -97,7 +97,7 @@
 
         <h4>Contact</h4>
         <div class="contact-icon">
-          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg" /><a href="mailto:support@codecombat.com" @click="trackEvent('Resource Hub: Support Email Clicked')">support@codecombat.com</a>
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg" /><a href="mailto:support@ozaria.com" @click="trackEvent('Resource Hub: Support Email Clicked')">support@ozaria.com</a>
         </div>
       </div>
 

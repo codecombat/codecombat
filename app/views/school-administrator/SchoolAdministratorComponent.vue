@@ -1,9 +1,11 @@
 <style scoped>
+.container {
+  margin-top: 30px;
+}
 </style>
 
 <template>
     <div>
-        <raw-pug-component :pug="teacherDashboardNavTemplate"></raw-pug-component>
         <div class="container">
             <router-view></router-view>
         </div>
@@ -13,20 +15,11 @@
 <script>
     import { mapGetters } from 'vuex'
 
-    import RawPugComponent from 'app/views/common/RawPugComponent'
-    import teacherDashboardNavTemplate from 'templates/courses/teacher-dashboard-nav.jade'
-
     export default {
       metaInfo: function () {
         return {
           title: this.$t('school_administrator.title')
         }
-      },
-
-      data: () => ({ teacherDashboardNavTemplate }),
-
-      components: {
-        'raw-pug-component': RawPugComponent
       },
 
       created: function () {

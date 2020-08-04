@@ -92,7 +92,7 @@ module.exports = class CreateAccountModal extends ModalView
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
       when 'teacher'
         startSignupTracking()
-        @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' })
+        @navigateToTeacherOnboarding()
       # else, default value of screen is used, i.e. 'choose-account-type'
     if @signupState.get('screen') is 'segment-check' and not @signupState.get('path') is 'student' and not @segmentCheckRequiredInCountry()
       @signupState.set screen: 'basic-info'
@@ -103,8 +103,7 @@ module.exports = class CreateAccountModal extends ModalView
       'choose-path': (path) ->
         if path is 'teacher'
           startSignupTracking()
-          window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers' # This is a legacy event name
-          @signupState.set { path, screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }
+          @navigateToTeacherOnboarding()
         else
           if path is 'student'
             window.tracker?.trackEvent 'CreateAccountModal Student Path Clicked', category: 'Students'
@@ -187,6 +186,12 @@ module.exports = class CreateAccountModal extends ModalView
         window.location.reload()
 
     store.registerModule('modal', TeacherSignupStoreModule)
+
+  navigateToTeacherOnboarding: ->
+    if (window.location.pathname == '/sign-up/educator')
+      @hide()
+    else
+      application.router.navigate('/sign-up/educator', {trigger: true})
 
   afterRender: ->
     target = @$el.find('#teacher-signup-component')

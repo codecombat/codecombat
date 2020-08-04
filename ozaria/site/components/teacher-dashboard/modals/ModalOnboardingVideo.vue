@@ -11,7 +11,7 @@
     },
     data: () => {
       return {
-        videoId: '662aa9aebd3abee032a3a908fe8d58cf' // cloudflare id, TODO: Update to new video id, using 1fh video for now
+        videoId: '6bdb17fb1056574c7c02d026d195cd92'  // cloudflare id
       }
     },
 

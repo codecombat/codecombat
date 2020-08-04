@@ -65,10 +65,7 @@
     },
 
     mounted () {
-      // TODO remove test env check when ready for production
-      const isTestEnv = document.location.href.search('staging|next|localhost') >= 0
-      if (!me.isAnonymous() || !isTestEnv) {
-        alert('Can access this page only in the test environment, as an anonymous user')
+      if (!me.isAnonymous()) {
         return application.router.navigate('/', { trigger: true })
       }
       this.$store.registerModule('teacherSignup', TeacherSignupStoreModule)
@@ -160,8 +157,7 @@
 
       finishLogin () {
         window.tracker?.trackEvent('Teachers Signup Success', { category: 'Onboarding' })
-        application.router.navigate('/teachers/classes', { trigger: true })
-        window.location.reload()
+        window.location.replace('/teachers/classes')
       },
 
       isSchoolInfoForm (view) {

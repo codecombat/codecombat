@@ -16,7 +16,7 @@ export const EDUCATOR_ROLES = {
     i18n: 'teachers_quote.tech_coordinator'
   },
   CURR_SPEC_ADV: {
-    value: 'Curriculum Specialist/Advisor',
+    value: 'Advisor',
     i18n: 'teachers_quote.advisor'
   },
   SUPERIN: {
