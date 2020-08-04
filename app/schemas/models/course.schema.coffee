@@ -37,6 +37,7 @@ _.extend CourseSchema.properties,
         totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip'}
       }}
       lessonSlidesUrl: c.url { title: 'Lesson Slides URL' }
+      # TODO remove these after changing the curr guides and projects page to read from capstone level
       exemplarProjectUrl: c.url { title: 'Exemplar Project URL', description: 'Only relevant for capstone module' }
       exemplarCodeUrl: c.url { title: 'Exemplar Code URL', description: 'Only relevant for capstone module' }
       projectRubricUrl: c.url { title: 'Project Rubric URL', description: 'Only relevant for capstone module' }
