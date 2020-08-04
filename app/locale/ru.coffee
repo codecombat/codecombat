@@ -447,7 +447,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   common:
     default_title: "CodeCombat - Кодирование игр для изучения Python и JavaScript"
-    default_meta_description: "Изучите набранный код через программирование игры. Изучайте Python, JavaScript и HTML, решая головоломки, и учитесь создавать собственные игры и сайты для написания кода.
+    default_meta_description: "Изучите набранный код через программирование игры. Изучайте Python, JavaScript и HTML, решая головоломки, и учитесь создавать собственные игры и сайты для написания кода."
     back: "Вернуться" # When used as an action verb, like "Navigate backward"
     coming_soon: "Скоро!"
     continue: "Продолжить" # When used as an action verb, like "Continue forward"
@@ -1125,7 +1125,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     claire_title: "Помощник руководителя"
     bobby_title: "Игровой дизайнер"
     brian_title: "Старший менеджер игрового дизайна"
-    andrew_title: "Программист"    stephanie_title: "Специалист службы поддержки"
+    andrew_title: "Программист"
+    stephanie_title: "Специалист службы поддержки"
     rob_title: "Представитель по развитию продаж"
     shubhangi_title: "Старший инженер-программист"
     retrostyle_title: "Иллюстрации"
