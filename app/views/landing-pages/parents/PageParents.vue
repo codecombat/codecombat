@@ -402,7 +402,7 @@
   import PageParentsSectionPremium from './PageParentsSectionPremium'
   import PageParentsJumbotron from './PageParentsJumbotron'
 
-  const DRIFT_LIVE_CLASSES_INTERACTION_ID = 161673
+  const DRIFT_LIVE_CLASSES_INTERACTION_ID = 214809
 
   export default {
     components: {
@@ -451,15 +451,20 @@
     },
 
     methods: {
-      onCtaClicked (e) {
+      async onCtaClicked (e) {
         if (e && e.preventDefault) {
-          e.preventDefault();
+          e.preventDefault()
         }
+
+        const ctaEventPromise = application.tracker.trackEvent(
+            (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked'
+        )
 
         if (this.type === 'parents' || this.type === 'sales') {
           window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID });
         } else if (this.type === 'self-serve' || this.type === 'thank-you') {
-          window.location  = 'https://codecombat.timetap.com';
+          await ctaEventPromise
+          window.location  = 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=landingpage'
         } else {
           console.error('Unknown CTA type on parents page')
         }
