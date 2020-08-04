@@ -7,7 +7,8 @@ export default {
   state: {
     loading: {
       byClassroom: {},
-      byTeacher: {}
+      byTeacher: {},
+      byCourseInstanceId: {}
     },
 
     classrooms: {
@@ -17,7 +18,8 @@ export default {
       //     active: [],
       //     archived: []
       //  }
-      byTeacher: {} // used for teacher dashboard, TODO combine byClassroom/byTeacher?
+      byTeacher: {}, // used for teacher dashboard, TODO combine byClassroom/byTeacher?
+      byCourseInstanceId: {}
     }
   },
 
@@ -35,6 +37,14 @@ export default {
         state.loading.byClassroom,
         classroomID,
         !state.loading.byClassroom[classroomID]
+      )
+    },
+
+    toggleLoadingForCourseInstanceId: (state, courseInstanceId) => {
+      Vue.set(
+        state.loading.byCourseInstanceId,
+        courseInstanceId,
+        !state.loading.byCourseInstanceId[courseInstanceId]
       )
     },
 
@@ -77,6 +87,10 @@ export default {
 
     addClassroomForId: (state, { classroomID, classroom }) => {
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
+    },
+
+    addClassroomForCourseInstanceId: (state, { courseInstanceId, classroom }) => {
+      Vue.set(state.classrooms.byCourseInstanceId, courseInstanceId, classroom)
     },
 
     addMembersForClassroom: (state, { teacherId, classroomId, memberIds }) => {
@@ -141,6 +155,9 @@ export default {
     getClassroomsByTeacher: (state) => (id) => {
       return state.classrooms.byTeacher[id]
     },
+    getClassroomByCourseInstanceId: (state) => (id) => {
+      return state.classrooms.byCourseInstanceId[id]
+    },
     getActiveClassroomsByTeacher: (state) => (id) => {
       return (state.classrooms.byTeacher[id] || {}).active
     },
@@ -183,6 +200,23 @@ export default {
         })
         .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForClassroom', classroomID))
+    },
+    fetchClassroomForCourseInstanceId: ({ commit }, courseInstanceId) => {
+      commit('toggleLoadingForCourseInstanceId', courseInstanceId)
+
+      return classroomsApi.fetchByCourseInstanceId(courseInstanceId)
+      .then(res =>  {
+        if (res) {
+          commit('addClassroomForCourseInstanceId', {
+            courseInstanceId,
+            classroom: res
+          })
+        } else {
+          throw new Error('Unexpected response from fetchByCourseInstanceId classroom API.')
+        }
+      })
+      .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+      .finally(() => commit('toggleLoadingForCourseInstanceId', courseInstanceId))
     },
     createClassroom: ({ commit }, options) => {
       return classroomsApi.post(options)

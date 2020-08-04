@@ -125,13 +125,13 @@ module.exports = class CourseVictoryModal extends ModalView
     @levelSessions?.add(@session)
 
     # get next level for ozaria course, no nextAssessment for ozaria courses
-    if utils.orderedCourseIDs.includes(@courseID) 
-      @getNextLevelOzaria().then (level) => 
+    if utils.orderedCourseIDs.includes(@courseID)
+      @getNextLevelOzaria().then (level) =>
         @nextLevel.set(level)
         @loadViews()
     else
       @loadViews()
-  
+
   loadViews: ->
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id

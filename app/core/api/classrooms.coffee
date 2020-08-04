@@ -42,6 +42,11 @@ module.exports = {
       method: 'GET'
     })
 
+  fetchByCourseInstanceId: (courseInstanceId) ->
+    fetchJson("/db/classroom?courseInstanceId=#{courseInstanceId}", {
+      method: 'GET'
+    })
+
   # classDetails = { aceConfig: {language: ''}, name: ''}
   post: (classDetails, options={}) ->
     fetchJson("/db/classroom",  _.assign({}, options, {

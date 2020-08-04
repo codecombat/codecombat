@@ -93,6 +93,7 @@ module.exports = class TeacherCoursesView extends RootView
     language = form.find('.language-select').val() or 'javascript'
     window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
 
+    # Because we don't know what classroom to match this with, this may have outdated campaign caching:
     campaignLevels = @campaigns.get(@courses.get(courseID).get('campaignID')).getLevels() || []
     if campaignLevels.find((l) => l.get('slug') == levelSlug)?.get('type') == 'intro'
       url = "/play/intro/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}&intro-content=#{introIndex}"

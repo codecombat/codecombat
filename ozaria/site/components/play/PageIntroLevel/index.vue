@@ -7,7 +7,7 @@
   import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
   import utils from 'core/utils'
   import modalTransition from 'ozaria/site/components/common/ModalTransition'
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapGetters } from 'vuex'
   import { log } from 'ozaria/site/common/logger'
 
   export default Vue.extend({
@@ -69,8 +69,10 @@
     },
     methods: {
       ...mapMutations({
-        setUnitMapUrlDetails: 'layoutChrome/setUnitMapUrlDetails',
-        setCurrentCampaignId: 'campaigns/setCurrentCampaignId'
+        setUnitMapUrlDetails: 'layoutChrome/setUnitMapUrlDetails'
+      }),
+      ...mapGetters({
+        getCampaignData: 'campaigns/getCampaignData'
       }),
       loadIntroLevel: async function () {
         this.dataLoaded = false
@@ -103,7 +105,8 @@
 
           this.introContent = this.introLevelData.introContent
           // Set current campaign id and unit map URL details for acodus chrome
-          this.setCurrentCampaignId(this.introLevelData.campaign)
+          const campaign = this.getCampaignData({ courseInstanceId: this.courseInstanceId })
+          this.campaignId = campaign?._id || this.introLevelData.campaign
           this.setUnitMapUrlDetails({ courseId: this.courseId, courseInstanceId: this.courseInstanceId })
         } catch (err) {
           console.error('Error in creating data for intro level', err)
@@ -268,7 +271,7 @@
     />
     <modal-transition
       v-if="showVictoryModal"
-      :campaign-handle="introLevelData.campaign"
+      :campaign-handle="campaignId"
       :current-level="introLevelData"
       :course-id="courseId"
       :course-instance-id="courseInstanceId"
