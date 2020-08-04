@@ -21,7 +21,7 @@
         return learningGoals
       },
       conceptsCovered () {
-        return this.capstoneLevel.concepts
+        return this.course.concepts || []
       },
       capstoneImageUrl () {
         if (this.capstoneLevel.screenshot) {

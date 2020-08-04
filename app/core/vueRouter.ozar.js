@@ -90,17 +90,7 @@ export default function getVueRouter () {
             { path: 'projects/:classroomId', component: BaseStudentProjects, props: true },
             { path: 'licenses', component: BaseTeacherLicenses },
             { path: 'resources', component: BaseResourceHub }
-          ],
-          beforeEnter: (_to, _from, next) => {
-            // Prevent users with an active vue router from accessing the new teacher
-            // teacher dashboard.
-            if (window.sessionStorage.getItem('newTeacherDashboardActive') === 'active') {
-              next()
-            } else {
-              // Cancel navigation.
-              next(false)
-            }
-          }
+          ]
         },
         {
           path: '/cinematicplaceholder/:levelSlug?',
