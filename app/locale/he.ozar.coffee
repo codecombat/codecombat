@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unknown: "שגיאה לא ידועה"
     error: "שגיאה"
     general_desc: "משהו השתבש, וזה כנראה באשמתנו. נסו להמתין מעט ולאחר מכן לרענן את הדף. לחלופין, בקרו באחד הקישורים שלהלן כדי לחזור לתכנות!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "שלב"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    functions_parameters: "Parameters"
 #    functions_multiple_parameters: "Multiple Parameters"
     game_ai: "AI משחק"
+#    game_design: "Game Design"
     game_goals: "יעדי משחק"
     game_spawn: "הופעה במשחק"
     graphics: "גרפיקה"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    nesting: "Nesting"
     object_literals: "ליטרלים של אובייקט"
     parameters: "פרמטרים"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
     property_access: "גישה למאפיינים"

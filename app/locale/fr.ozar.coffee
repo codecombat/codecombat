@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     unknown: "Erreur inconnue"
     error: "ERREUR"
     general_desc: "Quelque chose a mal tourné, et c'est probablement de notre faute. Essayez d'attendre un peu puis de rafraîchir la page, ou visitez l'un des liens suivants pour revenir à la programmation !"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Niveau"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     functions_parameters: "Paramètres"
     functions_multiple_parameters: "Paramètres multiples"
     game_ai: "IA du jeu"
+#    game_design: "Game Design"
     game_goals: "Objectifs du jeu"
     game_spawn: "Point de départ du jeu"
     graphics: "Graphiques"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    nesting: "Nesting"
     object_literals: "Objets littéraux"
     parameters: "Paramètres"
+#    problem_solving: "Problem Solving"
     programs: "Programmes"
     properties: "Propriétés"
     property_access: "Accès aux propriétés"

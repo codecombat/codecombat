@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unknown: "Unbekannter Fehler"
     error: "FEHLER"
     general_desc: "Irgendwas lief schief und es ist wahrscheinlich unsere Schuld. Versuche etwas zu warten und die Seite neu zu laden, oder besuche einen der folgenden Links um zurück zum Programmieren zu kommen!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     functions_parameters: "Parameter"
     functions_multiple_parameters: "Mehrfache Parameter"
     game_ai: "Spiel-KI"
+#    game_design: "Game Design"
     game_goals: "Spielziele"
     game_spawn: "Spielspawn"
     graphics: "Graphiken"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    nesting: "Nesting"
     object_literals: "Objekt Literale"
     parameters: "Parameter"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
     property_access: "Zugriff auf Eigenschaften"

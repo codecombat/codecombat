@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unknown: "Onbekende fout." # {change}
     error: "ERROR"
     general_desc: "Oeps er ging iets mis, en dat ligt waarschijnlijk aan ons. Probeer de pagina straks opnieuw te laden, of klik op een van de volgende links om verder te gaan met programmeren!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Level"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     functions_parameters: "Parameters"
     functions_multiple_parameters: "Meerdere Parameters"
     game_ai: "Spel AI"
+#    game_design: "Game Design"
     game_goals: "Spel Goals"
     game_spawn: "Spel Spawn"
     graphics: "Graphics"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    nesting: "Nesting"
     object_literals: "Letterlijke Objecten"
     parameters: "Parameters"
+#    problem_solving: "Problem Solving"
     programs: "Programma's"
     properties: "Eigenschappen"
     property_access: "Eigenschappen Uitlezen"

@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     unknown: "Άγνωστο Σφάλμα"
     error: "Σφάλμα"
     general_desc: "Κάτι πήγε στραβά, και ίσως είναι λάθος μας. Δοκιμάστε να περιμένετε λίγο και στη συνέχεια να ανανεώσετε τη σελίδα ή επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Επίπεδο"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     functions_parameters: "Παράμετροι"
     functions_multiple_parameters: "Πολλαπλοί Παράμετροι"
     game_ai: "Τεχνητή Νοημοσύνη Παιχνιδιού"
+#    game_design: "Game Design"
     game_goals: "Στόχοι Παιχνιδιού"
     game_spawn: "Σημείο Γέννησης Παιχνιδιού"
     graphics: "Γραφικά"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    nesting: "Nesting"
     object_literals: "Κυριολεκτικά Αντικείμενα"
     parameters: "Παράμετροι"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
     property_access: "Πρόσβαση σε Ιδιότητες"

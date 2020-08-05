@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     unknown: "Error Desconegut"
     error: "ERROR"
     general_desc: "Alguna cosa ha anat malament, i és probable que sigui culpa nostra. Mira d'esperar una mica i després recarrega la plana, o visita un dels enllaços següents per tornar a programar!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Nivell"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     functions_parameters: "Paràmetres"
     functions_multiple_parameters: "Paràmetres múltiples"
     game_ai: "Joc AI"
+#    game_design: "Game Design"
     game_goals: "Objectius del Joc"
     game_spawn: "Generador del Joc"
     graphics: "Gràfics"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    nesting: "Nesting"
     object_literals: "Objectes Literals"
     parameters: "Paràmetres"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
     property_access: "Accés a Propietats"
