@@ -15,7 +15,7 @@ module.exports = class HintsState extends Backbone.Model
     docs = @level.get('documentation') ? {}
     general = _.filter (_.find(articles, (article) -> article.get('original') is doc.original)?.attributes for doc in docs.generalArticles or [])
     specific = docs.specificArticles or []
-    hints = (docs.hintsB or docs.hints or []).concat(specific).concat(general)
+    hints = (docs.hintsB or docs.hints or []).concat(specific).concat(if me.useGeneralArticle() then general else [])
     hints = _.sortBy hints, (doc) ->
       return -1 if doc.name is 'Intro'
       return 0
