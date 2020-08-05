@@ -837,7 +837,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     code_length: "الأسطر البرمجيه"
 #    score_display: "__scoreType__: __score__"
 
-#  inventory:
+  inventory:
     equipped_item: "مستخدم"
     required_purchase_title: "مطلوب"
     available_item: "متاح"
