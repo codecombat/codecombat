@@ -35,10 +35,10 @@ exports.me =
   showChinaVideo: -> false
   getHomePageTestGroup: -> undefined
   showForumLink: -> true
-  showGithubLink: -> true
-  showChinaICPinfo: -> false
   showChinaResourceInfo: -> false
   hideDiplomatModal: -> false
+  showOpenResourceLink: -> true
+  useStripe: -> true
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'

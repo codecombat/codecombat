@@ -93,6 +93,21 @@
       float: unset
       margin: 0 auto
 
+    #top-banner
+      background-color: #1FBAB4
+      padding: 10px 0px
+      text-align: center
+      color: #0E4C60
+      .row
+        max-width: 1170px
+        float: unset
+        margin: 0 auto
+        padding: 0px
+      a
+        margin-left: 10px
+        color: #FFFFFF
+        text-decoration: underline
+
     #jumbotron-container-fluid
       background-image: url("/images/pages/home/jumbotron.png")
       background-size: cover
@@ -119,24 +134,34 @@
             color: $gray
 
     #game-based
-      padding: 62px 75px
-      max-width: 1170px
-      margin: 0 auto
-      @media (max-width: $screen-md-min)
-        text-align: center
-        flex-direction: column-reverse
-        .game-based-image
-          margin-bottom: 45px
-
-      .play-btn
-        margin-bottom: 0
-
-      .game-based-image
-        display: inline-block
-        max-width: 600px
+      background-color: #F7F9F9
+      .row
+        padding: 40px 0 25px 0
+      .tile-shadow
+        background-color: #FFFFFF
+        box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
+        padding: 37px 40px
+        height: 100%
+        @media (max-width: $screen-lg-min)
+          margin-bottom: 15px
+        p
+          font-size: 20px
+          line-height: 28px
+          letter-spacing: 0.83px
+          margin: 0 0 25px
         img
-          max-height: 364px
-          width: 100%
+          max-height: 275px
+          @media (max-width: $screen-md-min)
+            width: 390px
+          @media (max-width: $screen-xs-min)
+            margin: auto
+            width: 100%
+        h2
+          line-height: 32px
+          letter-spacing: 0.66px
+          margin: 27px auto 10px
+        h3
+          margin: 10px auto 15px
 
     #classroom-in-box-row
       padding: 62px 40px
@@ -573,6 +598,39 @@
           position: absolute
           top: 145px
           width: 100%
+
+  .codequest-banner-container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+    .codequest-banner
+      margin: 54px 64px 30px
+      border-radius: 8px
+      padding: 10px
+
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+      background-color: #1FBAB4
+      max-width: 300px
+
+      img
+        max-width: 100%
+
+      a.register
+        color: white
+        background-color: #0E4C60
+
+      p
+        color: white
+        font-size: 14px
+
+      p.tournament
+        font-size: 24px
 
 body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
   #home-view

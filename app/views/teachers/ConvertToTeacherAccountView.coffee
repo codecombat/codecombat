@@ -8,6 +8,9 @@ errors = require 'core/errors'
 User = require 'models/User'
 ConfirmModal = require 'views/core/ConfirmModal'
 algolia = require 'core/services/algolia'
+countryList = require('country-list')()
+UsaStates = require('usa-states').UsaStates
+State = require 'models/State'
 
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
@@ -23,8 +26,9 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     'click #logout-link': -> me.logout()
     'change input[name="city"]': 'invalidateNCES'
     'change input[name="state"]': 'invalidateNCES'
+    'change select[name="state"]': 'invalidateNCES'
     'change input[name="district"]': 'invalidateNCES'
-    'change input[name="country"]': 'invalidateNCES'
+    'change select[name="country"]': 'onChangeCountry'
 
   initialize: ->
     if me.isAnonymous()
@@ -34,7 +38,16 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
+    @countries = countryList.getNames()
+    @usaStates = new UsaStates().states
+    @usaStatesAbbreviations = new UsaStates().arrayOf('abbreviations')
     window.tracker?.trackEvent 'Teachers Convert Account Loaded', category: 'Teachers', ['Mixpanel']
+    @state = new State {
+      showUsaStateDropdown: true
+      stateValue: null
+    }
+    @listenTo @state, 'change:showUsaStateDropdown', -> @renderSelectors('.state')
+    @listenTo @state, 'change:stateValue', -> @renderSelectors('.state')
 
   onLeaveMessage: ->
     if @formChanged
@@ -43,6 +56,22 @@ module.exports = class ConvertToTeacherAccountView extends RootView
   invalidateNCES: ->
     for key in SCHOOL_NCES_KEYS
       @$('input[name="nces_' + key + '"]').val ''
+
+  onChangeCountry: (e) ->
+    @invalidateNCES()
+
+    stateElem = @$('select[name="state"]')
+    if @$('[name="state"]').prop('nodeName') == 'INPUT'
+      stateElem = @$('input[name="state"]')
+    stateVal = stateElem.val()
+    @state.set({stateValue: stateVal})
+
+    if e.target.value == 'United States' 
+      @state.set({showUsaStateDropdown: true})
+      if !@usaStatesAbbreviations.includes(stateVal)
+        @state.set({stateValue: ''})
+    else
+      @state.set({showUsaStateDropdown: false})
 
   onLoaded: ->
     if @trialRequests.size() and me.isTeacher()
@@ -80,7 +109,10 @@ module.exports = class ConvertToTeacherAccountView extends RootView
       @$('input[name="district"]').val suggestion.district
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
-      @$('input[name="country"]').val 'USA'
+      @$('select[name="state"]').val suggestion.state
+      @$('select[name="country"]').val 'United States'
+      @state.set({showUsaStateDropdown: true})
+      @state.set({stateValue: suggestion.state})
       for key in SCHOOL_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeForm()
@@ -101,7 +133,10 @@ module.exports = class ConvertToTeacherAccountView extends RootView
       @$('input[name="organization"]').val '' # TODO: does not persist on tabbing: back to school, back to district
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
-      @$('input[name="country"]').val 'USA'
+      @$('select[name="state"]').val suggestion.state
+      @$('select[name="country"]').val 'United States'
+      @state.set({showUsaStateDropdown: true})
+      @state.set({stateValue: suggestion.state})
       for key in DISTRICT_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeForm()

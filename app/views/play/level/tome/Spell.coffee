@@ -82,8 +82,7 @@ module.exports = class Spell
         }
       """
     if @language is 'cpp' and not @languages[@language]
-      # TODO: do some transforms here to handle most common sample code differences between JavaScript and C++
-      @languages.cpp = @languages.javascript
+      @languages.cpp = utils.translatejs2cpp @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
