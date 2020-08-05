@@ -1271,6 +1271,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     class_code_desc: "Fghqragf pna ragre guvf pbqr jura gurl fvta hc ng jjj.bmnevn.pbz"
     invite_by_email: "Vaivgr ol Rznvy"
     invite_modal_sub_title: "Frcnengr rnpu rznvy nqqerff ol n yvar oernx be pbzznf"
+    no_new_students_imported: "Ab arj fghqragf vzcbegrq"
+    error_in_importing_classrooms: "Reebe va vzcbegvat pynffebbzf"
+    error_in_importing_students: "Reebe va vzcbegvat fghqragf"
 
   no_licenses_page:
     are_your_students_ready: "Ner lbhe fghqragf rkpvgrq naq ernql gb yrnea zber?"
@@ -2604,6 +2607,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unknown: "Haxabja Reebe"
     error: "REEBE"
     general_desc: "Fbzrguvat jrag jebat, naq vg’f cebonoyl bhe snhyg. Gel jnvgvat n ovg naq gura erserfuvat gur cntr, be ivfvg bar bs gur sbyybjvat yvaxf gb trg onpx gb cebtenzzvat!"
+    too_many_login_failures: "Gurer unir orra gbb znal hafhpprffshy ybtva nggrzcgf.  Cyrnfr gel ntnva yngre."
 
   resources:
     level: "Yriry"
@@ -2671,6 +2675,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     functions_parameters: "Cnenzrgref"
     functions_multiple_parameters: "Zhygvcyr Cnenzrgref"
     game_ai: "Tnzr NV"
+    game_design: "Tnzr Qrfvta"
     game_goals: "Tnzr Tbnyf"
     game_spawn: "Tnzr Fcnja"
     graphics: "Tencuvpf"
@@ -2702,6 +2707,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     nesting: "Arfgrq Ybbcf naq Pbaqvgvbanyf"
     object_literals: "Bowrpg Yvgrenyf"
     parameters: "Cnenzrgref"
+    problem_solving: "Ceboyrz Fbyivat"
     programs: "Cebtenzf"
     properties: "Cebcregvrf"
     property_access: "Npprffvat Cebcregvrf"

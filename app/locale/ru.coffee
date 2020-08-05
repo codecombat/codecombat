@@ -1271,6 +1271,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2604,6 +2607,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unknown: "Неизвестная ошибка."
     error: "ОШИБКА"
     general_desc: "Что-то пошло не так, и скорее всего это наша вина. Попробуйте немного подождать и обновить страницу, или посетите одну из ссылок ниже, чтобы вернуться к программированию!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Уровень"
@@ -2671,6 +2675,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     functions_parameters: "Параметры"
     functions_multiple_parameters: "Несколько параметров"
     game_ai: "Игровой ИИ"
+#    game_design: "Game Design"
     game_goals: "Цели игры"
     game_spawn: "Генерация игры"
     graphics: "Графика"
@@ -2702,6 +2707,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    nesting: "Nesting"
     object_literals: "Литералы объектов"
     parameters: "Параметры"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
     property_access: "Доступ к свойствам"

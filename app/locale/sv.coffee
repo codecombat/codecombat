@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     unknown: "Okänt fel"
 #    error: "ERROR"
     general_desc: "Något gick fel, och det är antagligen vårt fel. Prova vänta en stund och ladda om sidan, eller besök en av följande länkar för att gå tillbaka till programmeringen!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
 #  resources:
 #    level: "Level"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    functions_parameters: "Parameters"
 #    functions_multiple_parameters: "Multiple Parameters"
 #    game_ai: "Game AI"
+#    game_design: "Game Design"
 #    game_goals: "Game Goals"
 #    game_spawn: "Game Spawn"
 #    graphics: "Graphics"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    nesting: "Nesting"
 #    object_literals: "Object Literals"
 #    parameters: "Parameters"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
 #    property_access: "Accessing Properties"

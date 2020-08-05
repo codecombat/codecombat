@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     unknown: "Непозната грешка"
     error: "ГРЕШКА"
     general_desc: "Нешто није у реду и то је вероватно наша грешка. Пробај да мало сачекаш и затим освежи страну или посети један од следећих линкова да би се вратио на програмирање! "
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Ниво"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     functions_parameters: "Параметри"
     functions_multiple_parameters: "Више параметара"
     game_ai: "Вештачка интелигенција игре"
+#    game_design: "Game Design"
     game_goals: "Циљеви игре"
     game_spawn: "Скуп игре"
     graphics: "Графика"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    nesting: "Nesting"
     object_literals: "Објекат литерали"
     parameters: "Параметри"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
     property_access: "Приступ карактеристикама"

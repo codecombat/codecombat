@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unknown: "Невідома помилка"
     error: "ПОМИЛКА"
     general_desc: "Щось пішло не так і це, скоріш за все, наша провина. Спробуйте трохи зачекати і після цього перевантажити сторінку, або відвідайте одне з наступних посилань щоб повернутись до програмування!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Рівень"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    functions_parameters: "Parameters"
 #    functions_multiple_parameters: "Multiple Parameters"
     game_ai: "Штучний інтелект"
+#    game_design: "Game Design"
     game_goals: "Цілі гри"
     game_spawn: "Зародження гри"
     graphics: "Графіка"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    nesting: "Nesting"
     object_literals: "Літерали об'єктів"
     parameters: "Параметри"
+#    problem_solving: "Problem Solving"
 #    programs: "Programs"
 #    properties: "Properties"
     property_access: "Властивості доступу"

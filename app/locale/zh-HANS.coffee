@@ -1269,6 +1269,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    class_code_desc: "Students can enter this code when they sign up at www.ozaria.com"
 #    invite_by_email: "Invite by Email"
 #    invite_modal_sub_title: "Separate each email address by a line break or commas"
+#    no_new_students_imported: "No new students imported"
+#    error_in_importing_classrooms: "Error in importing classrooms"
+#    error_in_importing_students: "Error in importing students"
 
 #  no_licenses_page:
 #    are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -2602,6 +2605,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unknown: "未知错误"
     error: "错误"
     general_desc: "出了点问题，估计是我们的错。请您稍后刷新页面，或者点击下面的链接继续编程！"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "等级"
@@ -2669,6 +2673,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     functions_parameters: "参数"
     functions_multiple_parameters: "多个参数"
     game_ai: "游戏AI"
+#    game_design: "Game Design"
     game_goals: "游戏目标"
     game_spawn: "游戏生成"
     graphics: "图形"
@@ -2700,6 +2705,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     nesting: "嵌套"
     object_literals: "对象字面量"
     parameters: "形参"
+#    problem_solving: "Problem Solving"
     programs: "程序"
     properties: "属性"
     property_access: "获取属性"
