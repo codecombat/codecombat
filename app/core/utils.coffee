@@ -135,7 +135,7 @@ courseAcronyms[courseIDs.CHAPTER_ONE_REVISION_PLAYTEST] = 'CH1P'
 # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
 courseModules = {}
 courseModules[courseIDs.CHAPTER_ONE] = {
-  '1': 'Objects and Methods'
+  '1': 'Introduction to Coding'
 }
 courseModules[courseIDs.CHAPTER_TWO] = {
   '1': 'Algorithms and Syntax',
