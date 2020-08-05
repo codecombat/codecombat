@@ -1,5 +1,4 @@
 module.exports = nativeDescription: "العربية", englishDescription: "Arabic", translation:
-
   new_home:
     title: "كودكومبات - العاب برمجة لتعليم بايثون و جافا سكريبت"
     meta_keywords: "كودكومبات, بايثون, جافا سكريبت, العاب برمجة"
@@ -100,7 +99,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     im_a_teacher: "انا معلم"
     im_a_student: "انا طالب"
     learn_more: "اعرف المزيد"
-    learn_more_caps: "اعرف المزيد"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even for teachers with little to no prior programming experience."
@@ -821,7 +819,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     multiplayer_caption: "العب مع الاصدقاء!"
     auth_caption: "أحفظ ما وصلت اليه."
 
-#  leaderboard:
+  leaderboard:
     view_other_solutions: "عرض المتصدرين"
     scores: "النتائج"
     top_players: "أفضل اللاعبين حسب"
