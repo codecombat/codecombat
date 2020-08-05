@@ -28,6 +28,7 @@ module.exports = class HomeView extends RootView
     'click .setup-class-btn': 'onClickSetupClass'
     'click .my-classes-btn': 'onClickTrackEvent'
     'click .my-courses-btn': 'onClickTrackEvent'
+    'click .try-ozaria': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
 
   initialize: (options) ->
@@ -48,7 +49,6 @@ module.exports = class HomeView extends RootView
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
-
     ]
 
   onLoaded: ->

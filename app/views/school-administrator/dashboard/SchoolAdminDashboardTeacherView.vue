@@ -9,7 +9,7 @@
         <div v-if="!loading">
             <breadcrumbs :links="breadcrumbs"></breadcrumbs>
             <!-- TODO apply i18n to possessive -->
-            <h3 class="title">{{ teacher.firstName }} {{ teacher.lastName }}'s {{ $t('courses.classes') }}</h3>
+            <h3 class="title">{{ broadName(teacher) }}'s {{ $t('courses.classes') }}</h3>
 
             <div class="teacher-class-list">
                 <teacher-class-list :activeClassrooms="activeClassrooms"></teacher-class-list>
@@ -24,6 +24,7 @@
   import LoadingProgress from 'app/views/core/LoadingProgress'
   import TeacherClassListView from 'app/views/teachers/classes/TeacherClassListView'
   import Breadcrumbs from '../../common/BreadcrumbComponent'
+  import User from '../../../models/User'
 
   export default {
     components: {
@@ -88,17 +89,20 @@
             href: '/school-administrator',
             i18n: 'school_administrator.my_teachers'
           }, {
-            text: this.teacher.firstName ? `${this.teacher.firstName} ${this.teacher.lastName}` : this.teacher.name
+            text: User.broadName(this.teacher)
           }]
         }
       }
     ),
 
-    methods: mapActions({
-      fetchCourses: 'courses/fetch',
-      fetchTeacher: 'users/fetchUserById',
-      fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher',
-      fetchCourseInstancesForTeacher: 'courseInstances/fetchCourseInstancesForTeacher'
-    }),
+    methods: {
+      broadName: User.broadName,
+      ...mapActions({
+        fetchCourses: 'courses/fetch',
+        fetchTeacher: 'users/fetchUserById',
+        fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher',
+        fetchCourseInstancesForTeacher: 'courseInstances/fetchCourseInstancesForTeacher'
+      })
+    },
   }
 </script>

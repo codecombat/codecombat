@@ -8,7 +8,8 @@ errors = require 'core/errors'
 User = require 'models/User'
 algolia = require 'core/services/algolia'
 State = require 'models/State'
-loadSegment = require('core/services/segment')
+countryList = require('country-list')()
+UsaStates = require('usa-states').UsaStates
 
 
 SIGNUP_REDIRECT = '/teachers/classes'
@@ -27,8 +28,9 @@ module.exports = class CreateTeacherAccountView extends RootView
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
     'change input[name="city"]': 'invalidateNCES'
     'change input[name="state"]': 'invalidateNCES'
+    'change select[name="state"]': 'invalidateNCES'
     'change input[name="district"]': 'invalidateNCES'
-    'change input[name="country"]': 'invalidateNCES'
+    'change select[name="country"]': 'onChangeCountry'
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
 
@@ -47,11 +49,17 @@ module.exports = class CreateTeacherAccountView extends RootView
       checkNameValue: null
       checkNamePromise: null
       authModalInitialValues: {}
+      showUsaStateDropdown: true
+      stateValue: null
     }
+    @countries = countryList.getNames()
+    @usaStates = new UsaStates().states
+    @usaStatesAbbreviations = new UsaStates().arrayOf('abbreviations')
     @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
     @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
-    loadSegment() unless @segmentLoaded
+    @listenTo @state, 'change:showUsaStateDropdown', -> @renderSelectors('.state')
+    @listenTo @state, 'change:stateValue', -> @renderSelectors('.state')
 
   onLeaveMessage: ->
     if @formChanged
@@ -70,6 +78,22 @@ module.exports = class CreateTeacherAccountView extends RootView
   invalidateNCES: ->
     for key in SCHOOL_NCES_KEYS
       @$('input[name="nces_' + key + '"]').val ''
+
+  onChangeCountry: (e) ->
+    @invalidateNCES()
+
+    stateElem = @$('select[name="state"]')
+    if @$('[name="state"]').prop('nodeName') == 'INPUT'
+      stateElem = @$('input[name="state"]')
+    stateVal = stateElem.val()
+    @state.set({stateValue: stateVal})
+
+    if e.target.value == 'United States'
+      @state.set({showUsaStateDropdown: true})
+      if !@usaStatesAbbreviations.includes(stateVal)
+        @state.set({stateValue: ''})
+    else
+      @state.set({showUsaStateDropdown: false})
 
   afterRender: ->
     super()
@@ -102,7 +126,10 @@ module.exports = class CreateTeacherAccountView extends RootView
       @$('input[name="district"]').val(suggestion.district).trigger('input').trigger('blur')
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
-      @$('input[name="country"]').val 'USA'
+      @$('select[name="state"]').val suggestion.state
+      @$('select[name="country"]').val 'United States'
+      @state.set({showUsaStateDropdown: true})
+      @state.set({stateValue: suggestion.state})
       for key in SCHOOL_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeForm()
@@ -123,7 +150,10 @@ module.exports = class CreateTeacherAccountView extends RootView
       @$('input[name="organization"]').val('').trigger('input').trigger('blur')
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
-      @$('input[name="country"]').val 'USA'
+      @$('select[name="state"]').val suggestion.state
+      @$('select[name="country"]').val 'United States'
+      @state.set({showUsaStateDropdown: true})
+      @state.set({stateValue: suggestion.state})
       for key in DISTRICT_NCES_KEYS
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeForm()
@@ -219,7 +249,7 @@ module.exports = class CreateTeacherAccountView extends RootView
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
-    
+
     Promise.resolve()
     .then =>
       attrs = _.pick(forms.formToObject(@$('form')), 'role', 'firstName', 'lastName')
@@ -238,7 +268,7 @@ module.exports = class CreateTeacherAccountView extends RootView
         throw new Error('Could not save user')
       @trigger 'update-settings'
       return jqxhr
-      
+
     .then =>
       { name, email } = forms.formToObject(@$('form'))
       if @gplusAttrs
@@ -256,17 +286,40 @@ module.exports = class CreateTeacherAccountView extends RootView
       return jqxhr
 
     .then =>
-      trialRequestIntercomData = _.pick @trialRequest.attributes.properties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
-      trialRequestIntercomData.educationLevel_elementary = _.contains @trialRequest.attributes.properties.educationLevel, "Elementary"
-      trialRequestIntercomData.educationLevel_middle = _.contains @trialRequest.attributes.properties.educationLevel, "Middle"
-      trialRequestIntercomData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
-      trialRequestIntercomData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
-      application.tracker.updateTrialRequestData trialRequestIntercomData
-      
+      trialRequestIdentifyData = _.pick @trialRequest.attributes.properties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
+      trialRequestIdentifyData.educationLevel_elementary = _.contains @trialRequest.attributes.properties.educationLevel, "Elementary"
+      trialRequestIdentifyData.educationLevel_middle = _.contains @trialRequest.attributes.properties.educationLevel, "Middle"
+      trialRequestIdentifyData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
+      trialRequestIdentifyData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
+
+      application.tracker.identifyAfterNextPageLoad()
+      return window.application.tracker.identify trialRequestIdentifyData
+
+    .then =>
+      trackerCalls = []
+
+      loginMethod = 'CodeCombat'
+      if @gplusAttrs
+        loginMethod = 'GPlus'
+        trackerCalls.push(
+          window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
+        )
+      else if @facebookAttrs
+        loginMethod = 'Facebook'
+        trackerCalls.push(
+          window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
+        )
+
+      trackerCalls.push(
+        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+      )
+
+      return Promise.all(trackerCalls).catch(->)
+
     .then =>
       application.router.navigate(SIGNUP_REDIRECT, { trigger: true })
       application.router.reload()
-      
+
     .then =>
       @trigger 'on-trial-request-submit-complete'
 
@@ -285,7 +338,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       else
         errors.showNotyNetworkError(arguments...)
       @$('#create-account-btn').text('Submit').attr('disabled', false)
-    
+
 
   # GPlus signup
 
@@ -302,7 +355,7 @@ module.exports = class CreateTeacherAccountView extends RootView
             application.gplusHandler.loadPerson({
               success: (@gplusAttrs) =>
                 existingUser = new User()
-                existingUser.fetchGPlusUser(@gplusAttrs.gplusID, {
+                existingUser.fetchGPlusUser(@gplusAttrs.gplusID, @gplusAttrs.email, {
                   error: (user, jqxhr) =>
                     if jqxhr.status is 404
                       @onGPlusConnected()
@@ -417,10 +470,10 @@ module.exports = class CreateTeacherAccountView extends RootView
   onChangeEmail: (e) ->
     @updateAuthModalInitialValues { email: @$(e.currentTarget).val() }
     @checkEmail()
-    
+
   checkEmail: ->
     email = @$('[name="email"]').val()
-    
+
     if not _.isEmpty(email) and email is @state.get('checkEmailValue')
       return @state.get('checkEmailPromise')
 
@@ -431,11 +484,11 @@ module.exports = class CreateTeacherAccountView extends RootView
         checkEmailPromise: null
       })
       return Promise.resolve()
-      
+
     @state.set({
       checkEmailState: 'checking'
       checkEmailValue: email
-      
+
       checkEmailPromise: (User.checkEmailExists(email)
       .then ({exists}) =>
         return unless email is @$('[name="email"]').val()
@@ -449,7 +502,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       )
     })
     return @state.get('checkEmailPromise')
-    
+
 
 formSchema = {
   type: 'object'

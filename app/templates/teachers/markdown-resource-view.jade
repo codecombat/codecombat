@@ -68,7 +68,7 @@ block content
     else
       .print
         .btn.btn-md.btn-navy
-          a(href='javascript:window.print()')
+          a.print-btn(href='javascript:window.print()')
             span.glyphicon.glyphicon-print &#160;
             span(data-i18n="teacher.print_guide")
       .lesson-plans.rtl-allowed(id=view.name, dir="auto")!=view.content
