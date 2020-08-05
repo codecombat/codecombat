@@ -3,6 +3,8 @@
 module.exports.teamDataFromLevel = (level) ->
   alliedSystem = _.find level.get('systems', true), (value) -> value.config?.teams?
   teamNames = (teamName for teamName, teamConfig of alliedSystem.config.teams when teamConfig.playable)
+  if teamNames[0] is 'ogres' and teamNames[1] is 'humans'
+    teamNames = ['humans', 'ogres']  # Make sure they're in the right order, since our other code is frail to the ordering
   teamConfigs = alliedSystem.config.teams
 
   teams = []
