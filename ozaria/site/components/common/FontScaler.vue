@@ -38,6 +38,7 @@
 <style scoped>
     .fit {
         display: inline-block;
-        white-space: nowrap;
+        /* Override the fitty style that breaks titles on smaller screens */
+        white-space: normal !important;
     }
 </style>
