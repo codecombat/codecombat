@@ -55,6 +55,10 @@
       changeLanguage(e) {
         window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: 'Teachers', label: this.courseName })
         this.setSelectedLanguage(e.target.value)
+      },
+      isCapstoneModule (moduleNum) {
+        // Assuming that last module is the capstone module, TODO store `isCapstoneModule` with module details in the course schema.
+        return moduleNum === this.moduleNumbers[this.moduleNumbers.length-1]
       }
     }
   }
@@ -96,7 +100,11 @@
         <div class="fluid-container">
           <div class="row">
             <div class="col-md-9">
-              <module-content :module-num="num" v-for="num in moduleNumbers" :key="num"/>
+              <module-content
+                v-for="num in moduleNumbers"
+                :key="num"
+                :module-num="num"
+                :is-capstone="isCapstoneModule(num)"/>
             </div>
             <div class="col-md-3">
               <concepts-covered :concept-list="conceptsCovered" />

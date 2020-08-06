@@ -20,12 +20,17 @@
       courseName: {
         type: String,
         default: null
+      },
+      isCapstone: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
       ...mapGetters({
         getCurrentModuleNames: 'baseCurriculumGuide/getCurrentModuleNames',
         getCurrentModuleHeadingInfo: 'baseCurriculumGuide/getCurrentModuleHeadingInfo',
+        getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
         isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
       }),
 
@@ -122,9 +127,9 @@
       </template>
 
       <button-project-req
-        v-if="getModuleInfo.projectRubricUrl"
+        v-if="isCapstone"
         class="margin-right"
-        :link="getModuleInfo.projectRubricUrl"
+        :link="getCapstoneInfo.projectRubricUrl"
         :locked="isOnLockedCampaign"
         @click.native="trackEvent('Curriculum Guide: Project Rubric Clicked')"
         v-tooltip.top="{
@@ -135,9 +140,9 @@
       />
 
       <button-exemplar
-        v-if="getModuleInfo.exemplarProjectUrl"
+        v-if="isCapstone"
         class="margin-right"
-        :link="getModuleInfo.exemplarProjectUrl"
+        :link="getCapstoneInfo.exemplarProjectUrl"
         :locked="isOnLockedCampaign"
         @click.native="trackEvent('Curriculum Guide: Exemplar Project Clicked')"
         v-tooltip.top="{

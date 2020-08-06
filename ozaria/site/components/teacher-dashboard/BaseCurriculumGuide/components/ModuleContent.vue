@@ -13,6 +13,10 @@
       moduleNum: {
         required: true,
         type: String
+      },
+      isCapstone: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -86,6 +90,7 @@
     <module-header
       :module-num="moduleNum"
       :course-name="courseName"
+      :is-capstone="isCapstone"
     />
 
     <div v-if="!isOnLockedCampaign" class="content-rows">
