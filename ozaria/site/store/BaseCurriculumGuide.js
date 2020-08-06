@@ -55,7 +55,7 @@ export default {
 
     getCapstoneInfo (_state, getters, _rootState, rootGetters) {
       const gameContent = rootGetters['gameContent/getContentForCampaign'](getters.selectedChapterId)
-      return gameContent?.capstone
+      return gameContent?.capstone || {}
     },
 
     getModuleInfo (_state, getters, _rootState, rootGetters) {

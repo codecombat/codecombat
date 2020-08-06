@@ -9,7 +9,7 @@ const defaultProjections = {
   cinematics: '_id,i18n,name,slug,displayName,description',
   interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation,draggableOrderingData,insertCodeData,draggableStatementCompletionData,defaultArtAsset,promptText',
   cutscenes: '_id,i18n,name,slug,displayName,description',
-  levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,thangs,screenshot'
+  levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,thangs,screenshot,exemplarProjectUrl,exemplarCodeUrl,projectRubricUrl'
 }
 
 export default {

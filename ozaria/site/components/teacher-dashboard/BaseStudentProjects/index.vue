@@ -47,13 +47,13 @@
         return (this.gameContent[this.selectedCourseId] || {}).capstone || {}
       },
       exemplarProjectUrl () {
-        return Object.values(this.selectedCourse.modules || {}).find((m) => m.exemplarProjectUrl)?.exemplarProjectUrl || ''
+        return this.capstoneLevel.exemplarProjectUrl || ''
       },
       exemplarCodeUrl () {
-        return Object.values(this.selectedCourse.modules || {}).find((m) => m.exemplarCodeUrl)?.exemplarCodeUrl || ''
+        return this.capstoneLevel.exemplarCodeUrl || ''
       },
       projectRubricUrl () {
-        return Object.values(this.selectedCourse.modules || {}).find((m) => m.projectRubricUrl)?.projectRubricUrl || ''
+        return this.capstoneLevel.projectRubricUrl || ''
       }
     },
 
